@@ -6,11 +6,12 @@ const cors = require('cors');
 const userRouter = require('./routes/userRouter')
 const app = express();
 const dotenv = require('dotenv');
+const morgan = require('morgan');
 
 
 const PORT = process.env.PORT || 3000;
 
-//Connecting our database
+// Connecting our database
 mongoose.connect(process.env.DB_CONNECT)
   .then(() => {
     console.log('MongoDB connected...');
@@ -20,14 +21,15 @@ app.use(bp.json());
 app.use(cookieParser());
 app.use(bp.urlencoded({extended: true}))
 
-const corsOptions = {
-  origin: 'http://localhost:3000',
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'Access-Control-Allow-Credentials']
-};
+// const corsOptions = {
+//   origin: 'http://localhost:3000',
+//   credentials: true,
+//   methods: ['GET', 'POST', 'PUT', 'DELETE'],
+//   allowedHeaders: ['Content-Type', 'Authorization', 'Access-Control-Allow-Credentials']
+// };
 
-app.use(cors(corsOptions));
+app.use(cors());
+app.use(morgan("tiny"));
 app.use('', userRouter);
 
 app.listen(PORT, () => {

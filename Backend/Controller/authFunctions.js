@@ -2,6 +2,48 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require ('dotenv').config()
 const Employee = require("../Database/employee");
+const client = require("../Database/client");
+const TempPassClient = require("../Database/TempPassClient");
+
+/* client register */
+const clientRegister = async(req, res) => {
+  try {
+    console.log(req.body); 
+    const newClient = new client({
+      ...req.body, 
+    });
+    await newClient.save();
+    console.log(newClient);
+    return res.status(201).json(newClient);
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+}
+
+/* recruiter checking client detail */
+const getAllClientDetails = async(req, res) => {
+  try{
+    const clients = await client.find();
+    return res.status(200).json(clients);
+  }catch(err){
+    return res.status(500).json({ error: err.message });
+  }
+}
+
+//create client with temp password
+const createClient = async(req, res) => {
+  try {
+    console.log(req.body);
+    const newTempPassClient = new TempPassClient({
+        ...req.body, 
+      });
+      await newTempPassClient.save();
+      console.log(newTempPassClient);
+      return res.status(201).json(newTempPassClient);
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+}
 
 /**
  * @DESC To register the employee
@@ -173,5 +215,8 @@ module.exports = {
   checkRole,
   employeeLogin,
    employeeSignup,
-   jwtauth
+   jwtauth,
+   clientRegister,
+   getAllClientDetails,
+   createClient,
 };

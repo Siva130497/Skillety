@@ -5,12 +5,24 @@ const {
   checkRole,
   employeeSignup,
   jwtauth,
+  clientRegister,
+  getAllClientDetails,
+  createClient,
 } = require("../Controller/authFunctions");
 
 // Client Registeration Route
-router.post("/register-Client", (req, res) => {
-  employeeSignup(req.body, "Client", res);
-});
+router.post("/register-Client", clientRegister);
+
+// recruiter route for client detail
+router.get("/client-Detail", getAllClientDetails)
+
+// Client Registeration Route
+router.post("/tempPass-Client", createClient);
+
+// router.post("/register-Client", async(req, res) => {
+//     clientRegister(req.body, res);
+//   // employeeSignup(req.body, "Client", res);
+// });
 
 //Candidate Registration Route
 router.post("/register-Candidate", async (req, res) => {
