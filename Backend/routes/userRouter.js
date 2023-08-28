@@ -8,6 +8,9 @@ const {
   clientRegister,
   getAllClientDetails,
   createClient,
+  getAllClient,
+  finalClientRegister,
+  candidateReg,
 } = require("../Controller/authFunctions");
 
 // Client Registeration Route
@@ -18,6 +21,15 @@ router.get("/client-Detail", getAllClientDetails)
 
 // Client Registeration Route
 router.post("/tempPass-Client", createClient);
+
+// recruiter route for client detail
+router.get("/clientWithUrl-Detail", getAllClient);
+
+// client register after setup new password
+router.post("/finalRegister-Client", finalClientRegister);
+
+// candidate register 
+router.post("/candidate-reg", candidateReg);
 
 // router.post("/register-Client", async(req, res) => {
 //     clientRegister(req.body, res);

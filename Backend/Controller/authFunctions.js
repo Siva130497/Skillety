@@ -3,14 +3,24 @@ const jwt = require("jsonwebtoken");
 require ('dotenv').config()
 const Employee = require("../Database/employee");
 const client = require("../Database/client");
-const TempPassClient = require("../Database/TempPassClient");
+const nodemailer = require('nodemailer');
+const TempClient = require("../Database/TempClient");
+const finalClient = require("../Database/finalClient");
+const candidate = require("../Database/candidate");
+
 
 /* client register */
 const clientRegister = async(req, res) => {
   try {
-    console.log(req.body); 
+    console.log(req.body);
+    const {email} = req.body;
+    const clientAvailable = await client.findOne({email});
+    if(clientAvailable){
+      return res.status(404).json({message: "User already registered"});
+    }
     const newClient = new client({
-      ...req.body, 
+      ...req.body,
+      role:"Client", 
     });
     await newClient.save();
     console.log(newClient);
@@ -33,13 +43,92 @@ const getAllClientDetails = async(req, res) => {
 //create client with temp password
 const createClient = async(req, res) => {
   try {
-    console.log(req.body);
-    const newTempPassClient = new TempPassClient({
-        ...req.body, 
+      console.log(req.body);
+      const newTempClient = new TempClient({
+          ...req.body,
+          role:"Client", 
+        });
+      await newTempClient.save();
+      console.log(newTempClient);
+      res.status(201).json(newTempClient);
+
+      const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: 'demoemail1322@gmail.com',
+          pass: 'znsdgrmwzskpatwz'
+        }
       });
-      await newTempPassClient.save();
-      console.log(newTempPassClient);
-      return res.status(201).json(newTempPassClient);
+      
+      const mailOptions = {
+        from: 'demoemail1322@gmail.com',
+        to: `${newTempClient.email}`,
+        subject: 'Mail from SKILLITY!',
+        text: 'Your temperary url and temporary password!',
+        html: `<p>Temporary URL: ${newTempClient.url}</p><p>Temporary Password: ${newTempClient.tempPassword}</p>`
+      };
+      
+      transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+          console.log(error);
+        } else {
+          console.log('Email sent: ' + info.response);
+        }
+      });
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+}
+
+/* fetch the client after uuid add */
+const getAllClient = async(req, res) => {
+  try{
+    const tempClient = await TempClient.find();
+    console.log(tempClient);
+    return res.status(200).json(tempClient);
+  }catch(err){
+    console.log(err);
+    return res.status(500).json({ error: err.message });
+  }
+}
+
+/* client register after setup new password */
+const finalClientRegister = async(req, res) => {
+  try {
+    console.log(req.body);
+    const hashPassword = await bcrypt.hash(req.body.password, 12);
+    console.log(hashPassword);
+    const updatedClient = new finalClient({
+      ...req.body,
+      password: hashPassword, 
+    });
+    await updatedClient.save();
+    console.log(updatedClient);
+    const {name, email, role} = req.body;
+    const updatedEmployee = new Employee({
+      name,
+      email,
+      role,
+      password:hashPassword,
+    });
+    await updatedEmployee.save();
+    console.log(updatedEmployee);
+    return res.status(201).json({updatedClient, updatedEmployee});
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+}
+
+/* candidate register */
+const candidateReg = async(req, res) => {
+  try {
+    console.log(req.body);
+    const newCandidate = new candidate({
+      ...req.body, 
+    });
+    await newCandidate.save();
+    console.log(newCandidate);
+    return res.status(201).json(newCandidate);
   } catch (err) {
     return res.status(500).json({ error: err.message });
   }
@@ -91,13 +180,14 @@ const employeeSignup = async (req, role, res) => {
  * @DESC To Login the employee 
  */
 const employeeLogin = async (req, role, res) => {
-  let { name, password } = req;
-  console.log(name, password);
+  let { email, password } = req;
+  console.log(role);
+  console.log(email, password);
   // First Check if the name is in the database
-  const employee = await Employee.findOne({ name });
+  const employee = await Employee.findOne({ email });
   if (!employee) {
     return res.status(404).json({
-      message: "Employee name is not found. Invalid login credentials.",
+      message: "Employee is not found. Invalid login credentials.",
     });
   }
   // We will check the role
@@ -142,7 +232,7 @@ const employeeLogin = async (req, role, res) => {
     });
   } else {
     return res.status(403).json({
-      message: "Incorrect username or password."
+      message: "Incorrect password."
     });
   }
 };
@@ -219,4 +309,7 @@ module.exports = {
    clientRegister,
    getAllClientDetails,
    createClient,
+   getAllClient,
+   finalClientRegister,
+   candidateReg,
 };

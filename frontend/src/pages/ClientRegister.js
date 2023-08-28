@@ -14,7 +14,7 @@ const ClientRegister = () => {
         count:"",
         text:"",
     })
-
+    
     const handleInputChange = (event) => {
         const {name, value} = event.target;
         setcredentials({...credentials, [name]: value});
@@ -22,9 +22,6 @@ const ClientRegister = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        if (!credentials.name || !credentials.phone || !credentials.email || !credentials.companyName || !credentials.industry || !credentials.count || !credentials.text ){
-            return
-        }
         registerUser(credentials);
         navigate("/packages");
     }

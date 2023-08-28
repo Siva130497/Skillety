@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-
+import { v4 as uuidv4} from "uuid";
 
 
 const ClientDetail = () => {
@@ -44,7 +44,11 @@ const ClientDetail = () => {
     }
 
     const handleGeneratePassword = (id) => {
-            
+        
+        const baseUrl = "http://localhost:3000/";
+        const token = uuidv4();
+        const tempUrl = baseUrl+token;
+
         const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=[]{}|;:,.<>?';
         let password = '';
           
@@ -52,13 +56,16 @@ const ClientDetail = () => {
             const randomIndex = Math.floor(Math.random() * charset.length);
             password += charset[randomIndex];
         }
+        console.log(tempUrl);
         console.log(password);
         for (const client of clientDetail) {
             if(client._id === id){
-                client.password = password;
+                client.tempPassword = password;
                 client._id = undefined;
+                client.url = tempUrl;
+                client.id = token;
                 console.log(client);
-                createClient(client)
+                createClient(client);
             }
           }
     };

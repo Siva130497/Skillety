@@ -1,6 +1,6 @@
 const { Schema, model } = require("mongoose");
 
-const TempPassClient = new Schema(
+const finalClient = new Schema(
   {
     name: {
       type: String,
@@ -34,12 +34,16 @@ const TempPassClient = new Schema(
         type: String,
         required: true
     },
-    url: {
-        type: String,
-        required: false
+    id: {
+      type: String,
+      required: true
     },
+    role: {
+      type: String,
+      required: true
+  },
   },
   { timestamps: true }
 );
 
-module.exports = model("TempPassClient", TempPassClient);
+module.exports = model("FinalClient", finalClient);
