@@ -1,12 +1,13 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-require ('dotenv').config()
-const Employee = require("../Database/employee");
+require ('dotenv').config();
 const client = require("../Database/client");
 const nodemailer = require('nodemailer');
 const TempClient = require("../Database/TempClient");
 const finalClient = require("../Database/finalClient");
 const candidate = require("../Database/candidate");
+const employee = require("../Database/employee");
+const resume = require("../Database/resume");
 
 
 /* client register */
@@ -41,44 +42,46 @@ const getAllClientDetails = async(req, res) => {
 }
 
 //create client with temp password
-const createClient = async(req, res) => {
+const createClient = async (req, res) => {
   try {
-      console.log(req.body);
-      const newTempClient = new TempClient({
-          ...req.body,
-          role:"Client", 
-        });
-      await newTempClient.save();
-      console.log(newTempClient);
-      res.status(201).json(newTempClient);
+    console.log(req.body);
+    const newTempClient = new TempClient({
+      ...req.body,
+      role: "Client",
+    });
+    await newTempClient.save();
+    console.log(newTempClient);
 
-      const transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-          user: 'demoemail1322@gmail.com',
-          pass: 'znsdgrmwzskpatwz'
-        }
-      });
-      
-      const mailOptions = {
-        from: 'demoemail1322@gmail.com',
-        to: `${newTempClient.email}`,
-        subject: 'Mail from SKILLITY!',
-        text: 'Your temperary url and temporary password!',
-        html: `<p>Temporary URL: ${newTempClient.url}</p><p>Temporary Password: ${newTempClient.tempPassword}</p>`
-      };
-      
-      transporter.sendMail(mailOptions, function(error, info){
-        if (error) {
-          console.log(error);
-        } else {
-          console.log('Email sent: ' + info.response);
-        }
-      });
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: 'demoemail1322@gmail.com',
+        pass: 'znsdgrmwzskpatwz'
+      }
+    });
+
+    const mailOptions = {
+      from: 'demoemail1322@gmail.com',
+      to: `${newTempClient.email}`,
+      subject: 'Mail from SKILLITY!',
+      text: 'Your temporary url and temporary password!',
+      html: `<p>Temporary URL: ${newTempClient.url}</p><p>Temporary Password: ${newTempClient.tempPassword}</p>`
+    };
+
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+        return res.status(500).json({ error: error.message, newTempClient });
+      } else {
+        console.log('Email sent: ' + info.response);
+        res.status(201).json({ newTempClient, emailSent: true });
+      }
+    });
   } catch (err) {
     return res.status(500).json({ error: err.message });
   }
-}
+};
+
 
 /* fetch the client after uuid add */
 const getAllClient = async(req, res) => {
@@ -104,8 +107,9 @@ const finalClientRegister = async(req, res) => {
     });
     await updatedClient.save();
     console.log(updatedClient);
-    const {name, email, role} = req.body;
-    const updatedEmployee = new Employee({
+    const {name, email, role, id} = req.body;
+    const updatedEmployee = new employee({
+      id,   
       name,
       email,
       role,
@@ -123,12 +127,48 @@ const finalClientRegister = async(req, res) => {
 const candidateReg = async(req, res) => {
   try {
     console.log(req.body);
+    const {email} = req.body; 
+    const candidateAvailable = await candidate.findOne({email});
+    if(candidateAvailable){
+      return res.status(404).json({message: "User already registered"});
+    }
     const newCandidate = new candidate({
       ...req.body, 
     });
     await newCandidate.save();
     console.log(newCandidate);
     return res.status(201).json(newCandidate);
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+}
+
+
+/* get all candidate details*/
+const getAllCandidateDetail = async (req, res) => {
+  try {
+    const allCandidates = await candidate.find();
+    const allCandidatesResume = await resume.find();
+
+    const resumeDict = {}; 
+    allCandidatesResume.forEach(resume => {
+      resumeDict[resume.id] = resume._doc;
+    });
+
+    const allCandidatesDetail = await Promise.all(allCandidates.map(async cand => {
+      const matchingResume = resumeDict[cand.id];
+
+      if (matchingResume) {
+        const candidateData = { ...cand._doc };
+        const resumeData = { ...matchingResume };
+
+        return { ...candidateData, ...resumeData };
+      } else {
+        return { ...cand._doc };
+      }
+    }));
+
+    return res.status(200).json(allCandidatesDetail);
   } catch (err) {
     return res.status(500).json({ error: err.message });
   }
@@ -184,37 +224,38 @@ const employeeLogin = async (req, role, res) => {
   console.log(role);
   console.log(email, password);
   // First Check if the name is in the database
-  const employee = await Employee.findOne({ email });
-  if (!employee) {
+  const Employee = await employee.findOne({ email });
+  console.log(Employee);
+  if (!Employee) {
     return res.status(404).json({
       message: "Employee is not found. Invalid login credentials.",
     });
   }
   // We will check the role
-  if (employee.role !== role) {
+  if (Employee.role !== role) {
     return res.status(403).json({
       message: "Please make sure you are logging in from the right portal.",
     });
   }
   // That means user is existing and trying to signin fro the right portal
   // Now check for the password
-  let isMatch = await bcrypt.compare(password, employee.password);
+  let isMatch = await bcrypt.compare(password, Employee.password);
   if (isMatch) {
     // Sign in the token and issue it to the user
     let token = jwt.sign(
       {
-        role: employee.role,
-        name: employee.name,
-        email: employee.email
+        role: Employee.role,
+        name: Employee.name,
+        email: Employee.email
       },
       process.env.APP_SECRET,
       { expiresIn: "3 days" }
     );
 
     let result = {
-      name: employee.name,
-      role: employee.role,
-      email: employee.email,
+      name: Employee.name,
+      role: Employee.role,
+      email: Employee.email,
       //token: `Bearer ${token}`,
       expiresIn: 168
     };
@@ -312,4 +353,5 @@ module.exports = {
    getAllClient,
    finalClientRegister,
    candidateReg,
+   getAllCandidateDetail,
 };

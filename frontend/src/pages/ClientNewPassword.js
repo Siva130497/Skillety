@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import axios from 'axios';
 
 const ClientNewPassword = () => {
     const {id} = useParams();
@@ -13,10 +14,8 @@ const ClientNewPassword = () => {
     const [passwordError, setPasswordError] = useState('');
     const getAllClient = async() => {
         try{
-            const res = await fetch(`http://localhost:5002/clientWithUrl-Detail`,{
-                method:"GET"
-            });
-            const result = await res.json();
+            const response = await axios.get(`http://localhost:5002/clientWithUrl-Detail`);
+            const result = response.data;
             if(!result.error){
                 for (const client of result) {
                     if(client.id === id){
@@ -36,14 +35,12 @@ const ClientNewPassword = () => {
 
     const finalClientDetail = async(userData) => {
         try{
-            const res = await fetch(`http://localhost:5002/finalRegister-Client`, {
-                method: "POST",
+            const response = await axios.post(`http://localhost:5002/finalRegister-Client`, userData, {
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(userData)
             })
-            const result = await res.json();
+            const result = response.data;
             if (!result.error) {
                 console.log(result);
                 navigate("/client-login");
@@ -68,6 +65,7 @@ const ClientNewPassword = () => {
     const handleSubmit = (event) => {
         event.preventDefault();
         if (credentials.newPassword.length <8){
+            alert("Password must be atleast 8 characters long")
             return
         }
         if((newClient.tempPassword === credentials.tempPassword) && (credentials.newPassword === credentials.confirmPassword)){
@@ -75,7 +73,10 @@ const ClientNewPassword = () => {
             updatedClient.password = credentials.newPassword;
             console.log(updatedClient);
             finalClientDetail(updatedClient);
-        }else return
+        }else {
+            alert("Temporary password incorrect or new password doesn't match with confirm password")
+            return
+        }
     }
   return (
             <>
@@ -121,7 +122,7 @@ const ClientNewPassword = () => {
                         Confirm Password
                     </label>
                     <input 
-                    type="text" 
+                    type="password" 
                     className="form-control" 
                     id="confirmPasswordInput"  
                     name="confirmPassword" 

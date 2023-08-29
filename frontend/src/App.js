@@ -8,6 +8,7 @@ import ClientDetail from './pages/ClientDetail';
 import ClientNewPassword from './pages/ClientNewPassword';
 import ClientLogin from './pages/ClientLogin';
 import CandidateRegister from './pages/CandidateRegister';
+import ClientDashboard from './pages/ClientDashboard';
 
 
 
@@ -26,6 +27,7 @@ function App() {
               <Route path=':id' element={<ClientNewPassword />}/>
               <Route path='/candiate-register' element={<CandidateRegister />}/>
               <Route path='/client-login' element={<ClientLogin />}/>
+              <Route path='/client-dashboard' element={<ClientDashboard />}/>
             </Routes>
           </Layout>
         </AuthContextProvider>

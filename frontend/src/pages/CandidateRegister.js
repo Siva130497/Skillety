@@ -242,6 +242,7 @@ const CandidateRegister = () => {
                             onChange={handleFileChange}
                             required
                         />
+                            {resume ? resume.name : 'No file chosen'}
                     </div> 
                 </>
             )

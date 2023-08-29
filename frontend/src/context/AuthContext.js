@@ -1,75 +1,75 @@
 import { createContext} from "react";
 import { useNavigate } from "react-router-dom";
+import axios from 'axios';
 
 const AuthContext = createContext();
 
 export const AuthContextProvider = ({children}) => {
     const navigate = useNavigate();
     //register user
-    const registerUser = async(userData) => {
-        try{
-            const res = await fetch(`http://localhost:5002/register-Client`, {
-                method: "POST",
+    const registerUser = async (userData) => {
+        try {
+            const response = await axios.post('http://localhost:5002/register-Client', userData, {
                 headers: {
-                    "Content-Type": "application/json",
+                    'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({...userData})
-            })
-            const result = await res.json();
+            });
+    
+            const result = response.data;
+    
             if (!result.error) {
                 console.log(result);
-                navigate("/client-dashboard");
-            }else{
+            } else {
                 console.log(result);
             }
-        }catch (err){
-            console.log(err);
+        } catch (error) {
+            console.log(error);
         }
-    }
+    };
 
     //client login request
-    const loginClient = async(userData) => {
-
-            try{
-                const res = await fetch(`http://localhost:5002/login-Client`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({...userData})
-                })
-                const result = await res.json();
-                if(!result.error){
-                    console.log(result);
-                }else{
-                    console.log(result); 
-                }
-            }catch (err){
-                console.log(err);
+    const loginClient = async (userData) => {
+        try {
+            const response = await axios.post('http://localhost:5002/login-Client', userData, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+    
+            const result = response.data;
+    
+            if (!result.error) {
+                console.log(result);
+                navigate('/client-dashboard'); 
+            } else {
+                console.log(result);
             }
-    }
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     //candidate register
-    const candidateReg = async(userData) => {
-
-        try{
-            const res = await fetch(`http://localhost:5002/candidate-reg`, {
-                method: "POST",
+    const candidateReg = async (userData) => {
+        try {
+            const response = await axios.post('http://localhost:5002/candidate-reg', userData, {
                 headers: {
-                    "Content-Type": "application/json",
+                    'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(userData)
-            })
-            const result = await res.json();
-            if(!result.error){
+            });
+
+            const result = response.data;
+
+            if (!result.error) {
                 console.log(result);
-            }else{
-                console.log(result); 
+            } else {
+                console.log(result);
             }
-        }catch (err){
-            console.log(err);
+        } catch (error) {
+            console.log(error);
         }
-}
+    };
+
 
 
     return<AuthContext.Provider value={{registerUser, loginClient, candidateReg}}>

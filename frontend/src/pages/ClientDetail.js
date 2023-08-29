@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import { v4 as uuidv4} from "uuid";
-
+import axios from 'axios';
 
 const ClientDetail = () => {
     const [clientDetail, setClientDetail] = useState([]);
+    const [clientWithTempPass, setClientWithTempPass] = useState([]);
+    const [emailStatus, setEmailStatus] = useState(true);
+    const [emailMsg, setEmailMsg] = useState("");
+    const [commonEmails, setCommonEmails] = useState([]);
     const getAllClientDetails = async() => {
         try{
-            const res = await fetch(`http://localhost:5002/client-Detail`,{
-                method:"GET"
-            });
-            const result = await res.json();
+            const response = await axios.get(`http://localhost:5002/client-Detail`);
+            const result = response.data;
             if(!result.error){
                 setClientDetail(result);
             }else{
@@ -19,29 +21,62 @@ const ClientDetail = () => {
             console.log(err);
         }
     }
-    useEffect(()=>{
-        getAllClientDetails();
-    },[]);
 
-    const createClient = async(userData) => {
+    const getAllClient = async() => {
         try{
-            const res = await fetch(`http://localhost:5002/tempPass-Client`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({...userData})
-            })
-            const result = await res.json();
-            if (!result.error) {
-                console.log(result);
+            const response = await axios.get(`http://localhost:5002/clientWithUrl-Detail`);
+            const result = response.data;
+            if(!result.error){
+                setClientWithTempPass(result);
             }else{
                 console.log(result);
             }
-        }catch (err){
+        }catch(err){
             console.log(err);
         }
     }
+    useEffect(()=>{
+        getAllClientDetails();
+        getAllClient();
+    },[]);
+
+    const createClient = async (userData) => {
+        try {
+            const response = await axios.post('http://localhost:5002/tempPass-Client', userData, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+    
+            const result = response.data;
+    
+            if (!result.error) {
+                console.log(result);
+    
+                // Access emailSent status
+                if (result.emailSent) {
+                    console.log('Email has been sent successfully.');
+                    setEmailStatus(false);
+                    setEmailMsg("Email has been sent successfully.")
+                } else {
+                    console.log('Email sending failed.');
+                }
+            } else {
+                console.log(result);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+    
+
+    const handleCheckForEmailStatus =() => {
+        const newCommonEmails = clientDetail
+        .filter(obj1 => clientWithTempPass.some(obj2 => obj2.email === obj1.email))
+        .map(obj => obj.email);
+        setCommonEmails(newCommonEmails);
+    }
+    
 
     const handleGeneratePassword = (id) => {
         
@@ -67,7 +102,7 @@ const ClientDetail = () => {
                 console.log(client);
                 createClient(client);
             }
-          }
+        }
     };
 
   return (
@@ -78,6 +113,7 @@ const ClientDetail = () => {
                 {clientDetail.length === 0 ? <h3>No Client Created Yet</h3> 
                 :<>
                     <p>Total Clients: <strong>{clientDetail.length}</strong></p>
+                    <button type="button" className="btn btn-warning my-3" onClick={handleCheckForEmailStatus}>Checking the email status</button>
                     <table className="table table-hover">
                         <thead>
                             <tr className='table-dark'>
@@ -88,6 +124,7 @@ const ClientDetail = () => {
                                 <th scope="col">Industry</th>
                                 <th scope="col">Headcount</th>
                                 <th scope="col">From where did you learn about Skillety?</th>
+                                <th scope="col">Email Status</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -100,6 +137,7 @@ const ClientDetail = () => {
                                             <td>{client.industry}</td>
                                             <td>{client.count}</td>
                                             <td>{client.text}</td>
+                                            <td>{commonEmails.includes(client.email) ? "Email already sent" : emailStatus ? "Email still not sent" : emailMsg}</td>
                                         </tr>
                                 })}
                         </tbody>
