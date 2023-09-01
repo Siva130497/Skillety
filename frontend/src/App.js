@@ -9,6 +9,8 @@ import ClientNewPassword from './pages/ClientNewPassword';
 import ClientLogin from './pages/ClientLogin';
 import CandidateRegister from './pages/CandidateRegister';
 import ClientDashboard from './pages/ClientDashboard';
+import Chat from './pages/Chat';
+import PageNotFound from './pages/PageNotFound';
 
 
 
