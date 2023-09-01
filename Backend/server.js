@@ -14,7 +14,24 @@ const resume = require('./Database/resume');
 // const fs = require('fs');
 // const path = require('path');
 // const mammoth = require('mammoth'); // For handling Word documents
+const http = require('http');
+const {Server} = require('socket.io');
 
+app.use(cors());
+app.use(morgan("tiny"));
+app.use(bp.json());
+app.use(cookieParser());
+app.use(bp.urlencoded({extended: true}))
+app.use('', userRouter);
+
+const server = http.createServer(app);
+
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST"],
+  },
+});
 
 const PORT = process.env.PORT || 3000;
 
@@ -24,10 +41,6 @@ mongoose.connect(process.env.DB_CONNECT)
     console.log('MongoDB connected...');
   })
 
-app.use(bp.json());
-app.use(cookieParser());
-app.use(bp.urlencoded({extended: true}))
-
 // const corsOptions = {
 //   origin: 'http://localhost:3000',
 //   credentials: true,
@@ -35,9 +48,15 @@ app.use(bp.urlencoded({extended: true}))
 //   allowedHeaders: ['Content-Type', 'Authorization', 'Access-Control-Allow-Credentials']
 // };
 
-app.use(cors());
-app.use(morgan("tiny"));
-app.use('', userRouter);
+io.on('connection', (socket) => {
+  console.log(`A user connected: ${socket.id}`);
+
+  socket.on('send_message', (data) => {
+    console.log(data.message);
+    socket.broadcast.emit("receive_message", data);
+  });
+
+});
 
 const storage = multer.diskStorage({
   destination: function(req, file, cb) {
@@ -128,7 +147,6 @@ app.post('/upload', upload.single('file'), (req, res) => {
 // });
 
 
-
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`Server started on port ${PORT}`);
 });

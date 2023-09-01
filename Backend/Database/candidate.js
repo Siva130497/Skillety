@@ -56,7 +56,6 @@ const candidateSchema = new Schema(
     },
     selectedDate: {
         type: String,
-        required: true
     },
     skills: {
         type: Array,
@@ -65,6 +64,9 @@ const candidateSchema = new Schema(
     id: {
         type: String,
         required: true
+    },
+    checkbox: {
+        type: Boolean,
     }
     },
     { timestamps: true }

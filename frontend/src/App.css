@@ -11,3 +11,55 @@
     color: #fff;
   }
   
+
+/* Chat container */
+.chat-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Remove bullet points from unordered list */
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Individual message styles */
+.message {
+  margin: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 16px;
+  max-width: 70%; /* Limit message width */
+  word-wrap: break-word;
+}
+
+/* Sender message */
+.sender {
+  background-color: #3498db; /* Blue */
+  color: white;
+  align-self: flex-end;
+  text-align: right; /* Align sender messages to the right */
+}
+
+/* Receiver message */
+.receiver {
+  background-color: #e0e0e0; /* Light gray */
+  color: #333;
+  align-self: flex-start;
+  text-align: left; /* Align receiver messages to the left */
+}
+
+/* Send button style */
+button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #3498db; /* Blue */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}

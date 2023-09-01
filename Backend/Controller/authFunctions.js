@@ -159,10 +159,22 @@ const getAllCandidateDetail = async (req, res) => {
       const matchingResume = resumeDict[cand.id];
 
       if (matchingResume) {
-        const candidateData = { ...cand._doc };
-        const resumeData = { ...matchingResume };
+        if(cand.selectedDate.length > 1){
+          // const selectedDateStr = cand.selectedDate;
+        // const selectedDay = parseInt(selectedDateStr.split("/")[0], 10);
+        // const dayDifference = currentDay - selectedDay;
+          const dayDifference = 10;
+          const candidateData = { ...cand._doc };
+          const resumeData = { ...matchingResume };
 
-        return { ...candidateData, ...resumeData };
+          return { ...candidateData, ...resumeData, dayDifference };
+        }
+        else{
+          const candidateData = { ...cand._doc };
+          const resumeData = { ...matchingResume };
+
+          return { ...candidateData, ...resumeData};
+        }
       } else {
         return { ...cand._doc };
       }

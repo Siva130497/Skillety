@@ -25,6 +25,8 @@ const CandidateRegister = () => {
         year: "", 
         education: "",
         profileHeadline: "",
+        college:"",
+        checkbox: false,
     };
     const [credentials, setCredentials] = useState(initialCredentials);
     
@@ -41,15 +43,25 @@ const CandidateRegister = () => {
     };
 
     const handleInputChange = (event) => {
-        const { name, value } = event.target;
-        setCredentials((prevCredentials) => ({
-            ...prevCredentials,
-            [name]: value,
-        }));
+        const { name, value, type, checked } = event.target;
+    
+        if (type === "checkbox") {
+            setCredentials((prevCredentials) => ({
+                ...prevCredentials,
+                checkbox: checked,
+            }));
+        } else {
+            setCredentials((prevCredentials) => ({
+                ...prevCredentials,
+                [name]: value,
+            }));
+        }
+    
         if (name === "year" || name === "month") {
             setSkillError("");
         }
     };
+    
 
     const handleFileChange = (event) => {
         const selectedFile = event.target.files[0];
@@ -94,7 +106,7 @@ const CandidateRegister = () => {
     const handleNext = () => {
         let isValid = true;
         if (step === 1) {
-          if (credentials.days === "" || selectedDate === null || credentials.firstName === "" || credentials.lastName === "" || credentials.phone === "" || credentials.email === "" || !resume) {
+          if (credentials.days === "" || credentials.firstName === "" || credentials.lastName === "" || credentials.phone === "" || credentials.email === "" || !resume) {
             isValid = false;
           }
         }
@@ -149,6 +161,18 @@ const CandidateRegister = () => {
                             <option value="More than 30 days">More than 30 days</option>
                         </select>
                     </div>
+                    <div className="form-check form-switch">
+                        <input
+                            className="form-check-input"
+                            type="checkbox"
+                            checked={credentials.checkbox}
+                            onChange={handleInputChange}
+                            disabled={credentials.days !== "0 to 7 days"}
+                        />
+                        <label className="form-check-label" htmlFor="flexSwitchCheckChecked">
+                            Imediate joiner
+                        </label>
+                    </div>
                     <div>
                         <label 
                             htmlFor="days" 
@@ -156,9 +180,10 @@ const CandidateRegister = () => {
                                 What is your last working day?
                         </label>
                         <DatePicker
-                        selected={selectedDate}
-                        onChange={handleDateChange}
-                        dateFormat="dd/MM/yyyy" 
+                            selected={selectedDate}
+                            onChange={handleDateChange}
+                            dateFormat="dd/MM/yyyy"
+                            disabled={credentials.days === "0 to 7 days" && credentials.checkbox}
                         />
                     </div>
                     <div className="form-group">
