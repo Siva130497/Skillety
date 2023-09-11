@@ -1,5 +1,6 @@
 import React from 'react'
 import './Home.css'
+import './Home-responsive.css'
 
 const Home = () => {
 
@@ -387,7 +388,7 @@ const Home = () => {
           </div>
           <div className="candidate--slider-area">
             <div className="row">
-              <div className="col-12 col-lg-4">
+              <div className="col-12 col-lg-4 col-md-6">
                 <article className='candidate--card'>
                   <div className="candidate--profile-area">
                     <img src="assets/img/home-images/candidate-profile.png"
@@ -441,7 +442,7 @@ const Home = () => {
                   <div className="candidate-blob"></div>
                 </article>
               </div>
-              <div className="col-12 col-lg-4">
+              <div className="col-12 col-lg-4 col-md-6">
                 <article className='candidate--card'>
                   <div className="candidate--profile-area">
                     <img src="assets/img/home-images/candidate-profile.png"
@@ -495,7 +496,7 @@ const Home = () => {
                   <div className="candidate-blob"></div>
                 </article>
               </div>
-              <div className="col-12 col-lg-4">
+              <div className="col-12 col-lg-4 col-md-6">
                 <article className='candidate--card'>
                   <div className="candidate--profile-area">
                     <img src="assets/img/home-images/candidate-profile.png"

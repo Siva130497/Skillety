@@ -1,0 +1,21 @@
+@media (max-width:991.5px){
+    .home--about-toparea{
+        gap: 20px;
+    }
+    .home--about-para{
+        width: 100%;
+    }
+    .home--about-headarea .service--heading{
+        font-size: 48px;
+    }
+    .home--service-para{
+        width: 100%;
+    }
+    .rpo--card-learnmore{
+        margin-top: 15px;
+    }
+    .home--about-headarea .candidate--heading{
+        font-size: 48px;
+        line-height: 1.3;
+    }
+}
