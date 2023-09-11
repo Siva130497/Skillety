@@ -10,6 +10,11 @@
     "aos": "^2.3.4",
     "axios": "^1.4.0",
     "bootstrap": "^5.3.1",
+    "bootstrap-icons": "^1.10.5",
+    "boxicons": "^2.1.4",
+    "glightbox": "^3.2.0",
+    "isotope-layout": "^3.0.6",
+    "jquery": "^3.7.1",
     "primereact": "^9.6.2",
     "react": "^18.2.0",
     "react-datepicker": "^4.16.0",
@@ -17,9 +22,11 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.15.0",
     "react-scripts": "5.0.1",
+    "remixicon": "^3.5.0",
     "socket.io-client": "^4.7.2",
     "swiper": "^10.2.0",
     "uuid": "^9.0.0",
+    "waypoints": "^4.0.1",
     "web-vitals": "^2.1.0"
   },
   "scripts": {
@@ -47,6 +54,8 @@
     ]
   },
   "devDependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@types/aos": "^3.0.4",
+    "@types/bootstrap": "^5.2.6"
   }
 }

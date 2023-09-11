@@ -53,16 +53,16 @@ ul {
 }
 
 /* Send button style */
-button {
+/* button {
   margin-top: 10px;
   padding: 10px 20px;
-  background-color: #3498db; /* Blue */
+  background-color: #3498db;
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   font-size: 16px;
-}
+} */
 
 .message-name {
   font-weight: bold;
