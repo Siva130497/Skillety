@@ -22,8 +22,12 @@ const candidateSchema = new Schema(
         type: String,
         required: true
     },
-    designation: {
+    password: {
         type: String,
+        required: true
+    },
+    designation: {
+        type: Array,
         required: true
     },
     companyName: {

@@ -1,9 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+// import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
 
 const ClientDashboard = () => {
   const [candidateDetail, setCandidateDetail] = useState([]);
   const [filteredCandidates, setFilteredCandidates] = useState([]);
+  const [searchInput, setSearchInput] = useState("");
+  const [jobRoleArray, setjobRoleArray] = useState([])
+  const [filteredJobRoles, setFilteredJobRoles] = useState([]);
+
+  // const docs = [
+  //   { uri: require("../../")}, 
+  // ];
 
   const getAllCandidateDetail = async () => {
     try {
@@ -23,7 +31,17 @@ const ClientDashboard = () => {
 
   useEffect(() => {
     getAllCandidateDetail();
+    // getAllJobRoles();
   }, []);
+
+  const getAllJobRoles = async ()=>{
+    try{
+        const res = await axios.get("http://localhost:5002/designations");
+        setjobRoleArray(res.data);
+    }catch(err){
+        console.log(err);
+    }
+  }
 
   const handleInputChange = (event) => {
     
@@ -54,8 +72,44 @@ const ClientDashboard = () => {
   };
   
 
+  // const handleFileDownload = async () => {
+  //   const id = 'cd821158-f4ac-4a42-bf5f-b2ce6846bf77';
+  //   try {
+  //     const response = await axios.get(`http://localhost:5002/download/${id}`, {
+  //       responseType: 'arraybuffer', // Ensure response is treated as binary data
+  //     });
+  
+  //     const result = response.data;
+  
+  //     if (!result.error) {
+  //       const blob = new Blob([result], { type: 'application/pdf' });
+  //       const url = window.URL.createObjectURL(blob);
+  //     } else {
+  //       console.log(result);
+  //     }
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
+  
+
+  const handleJobRoleSearch = (e) => {
+    const inputValue = e.target.value;
+    setSearchInput(inputValue);
+    if(inputValue.length > 0){
+        const jobRoles = jobRoleArray.filter((obj) => {
+            return obj.designation.toLowerCase().includes(inputValue.toLowerCase());
+        });
+        if(jobRoles.length > 0){
+            setFilteredJobRoles(jobRoles);
+        }
+    } else {
+        setFilteredJobRoles([]);
+    }
+  }
+
   return (
-    <div>
+            <div>
                 <h1>Dash Board</h1>
                 <hr className="my-4" />
                 
@@ -95,8 +149,65 @@ const ClientDashboard = () => {
                   </table>
                     }
                 </>     
-                }  
+                }
+                {/* <DocViewer documents={docs} pluginRenderers={DocViewerRenderers} /> */}
+                {/* <button onClick={handleFileDownload}>Download File</button> */}
+                <h3>Job Posting</h3>
+
+                <div className="form-group">
+                  <label 
+                  htmlFor="jobRoleInput" 
+                  className="form-label mt-4">
+                    Job Role
+                  </label>
+                  {selectedDesignations.map(selectDesignation => (
+                      <span className="badge bg-success mx-2" 
+                                key={selectDesignation}
+                                onClick={()=>handleDeselectDesignation(selectDesignation)}
+                                >{selectDesignation}</span>
+                            ))}
+                  <input 
+                  type='text' 
+                  name='searchInput' 
+                  id='searchInput' 
+                  className='form-control my-2' 
+                  placeholder='Search job role...' 
+                  value={searchInput}
+                  onChange={handleJobRoleSearch}
+                  />
+                            {filteredDesignation.length > 0 &&
+                                filteredDesignation.map((filterDesignation)=>{
+                                    return <div key={filterDesignation._id} onClick={()=>handleDesignationClick(filterDesignation.designation)}>{filterDesignation.designation}</div> 
+                                })
+                            }
+                            <input
+                            className="form-check-input"
+                            type="checkbox"
+                            checked={isCheckedDesignation}
+                            onChange={()=>setIsCheckedDesignation(!isCheckedDesignation)}
+                            />
+                            <label className="form-check-label" htmlFor="flexSwitchCheckChecked">
+                                If your searched designation not in the list, please enable the checkbox & type manually...
+                            </label>
+                            <input 
+                             type='text' 
+                            name='manualDesignationInput' 
+                            id='manualDesignationInput' 
+                            className='form-control my-2' 
+                            placeholder='Enter your designation...'
+                            value={newDesignation}
+                            onChange={(e)=>setNewDesignation(e.target.value)}
+                            disabled = {!isCheckedDesignation}
+                            />
+                            <button 
+                            type="button" 
+                            className="btn btn-primary btn-sm"
+                            onClick={handleManualDesignation}
+                            disabled = {!isCheckedDesignation}
+                            >add manually entered designation</button>
+                        </div>
             </div>
+            
   );
 }
 

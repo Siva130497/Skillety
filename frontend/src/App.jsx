@@ -9,7 +9,9 @@ import ClientNewPassword from './pages/ClientNewPassword/ClientNewPassword';
 import ClientLogin from './pages/ClientLogin/ClientLogin';
 import CandidateRegister from './pages/CandidateRegister/CandidateRegister';
 import ClientDashboard from './pages/ClientDashboard/ClientDashboard';
-import Chat from './pages/Chat/Chat';
+// import Chat from './pages/Chat/Chat';
+// import LiveChat from './pages/Chat/LiveChat';
+import PDFViewer from './pages/pdfViewer';
 
 
 function App() {
@@ -19,13 +21,15 @@ function App() {
       <Layout>
         <Routes>
           <Route path='/' element={<Home />} />
+          <Route path='/pdf' element={<PDFViewer />} />
+          {/* <Route path='/live-chat' element={<LiveChat />} /> */}
           <Route path='/client-register' element={<ClientRegister />} />
           <Route path='/packages' element={<Packages />} />
           <Route path='/client-detail' element={<ClientDetail />} />
           <Route path='/candiate-register' element={<CandidateRegister />} />
           <Route path='/client-login' element={<ClientLogin />} />
           <Route path='/client-dashboard' element={<ClientDashboard />} />
-          <Route path='/chat' element={<Chat />} />
+          {/* <Route path='/client-recruiter-chat' element={<Chat />} /> */}
           <Route path='/:id' element={<ClientNewPassword />} />
         </Routes>
       </Layout>

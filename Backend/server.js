@@ -3,19 +3,25 @@ const bp = require('body-parser');
 const cookieParser = require('cookie-parser')
 const mongoose = require('mongoose');
 const cors = require('cors');
-const userRouter = require('./routes/userRouter')
+const userRouter = require('./routes/userRouter');
+const conversationRouter = require('./routes/conversation');
+const messageRouter = require('./routes/messages');
+const skillsRouter = require('./routes/skills');
+const designationsRouter = require('./routes/designations');
 const app = express();
 const dotenv = require('dotenv');
 const morgan = require('morgan');
 const multer = require('multer');
 const resume = require('./Database/resume');
+const validateToken = require('./middleware/employeeAuth');
+// const file = require('./Database/file');
 // const cv = require('./Database/cv');
 //converting base64 to pdf
 // const fs = require('fs');
 // const path = require('path');
 // const mammoth = require('mammoth'); // For handling Word documents
 const http = require('http');
-const {Server} = require('socket.io');
+// const {Server} = require('socket.io');
 
 app.use(cors());
 app.use(morgan("tiny"));
@@ -23,15 +29,19 @@ app.use(bp.json());
 app.use(cookieParser());
 app.use(bp.urlencoded({extended: true}))
 app.use('', userRouter);
+app.use('', conversationRouter);
+app.use('', messageRouter);
+app.use('', skillsRouter);
+app.use('', designationsRouter);
 
 const server = http.createServer(app);
 
-const io = new Server(server, {
-  cors: {
-    origin: "http://localhost:3000",
-    methods: ["GET", "POST"],
-  },
-});
+// const io = new Server(server, {
+//   cors: {
+//     origin: "http://localhost:3000",
+//     methods: ["GET", "POST"],
+//   },
+// });
 
 const PORT = process.env.PORT || 3000;
 
@@ -48,15 +58,43 @@ mongoose.connect(process.env.DB_CONNECT)
 //   allowedHeaders: ['Content-Type', 'Authorization', 'Access-Control-Allow-Credentials']
 // };
 
-io.on('connection', (socket) => {
-  console.log(`A user connected: ${socket.id}`);
+// io.on('connection', (socket) => {
+//   socket.on('join_room', (user) => {
+//     // Join a room based on the user's role
+//     socket.join(`${user.role}Room`);
+//     console.log(`A user connected: ${user.id}, Name: ${user.name}, Role:${user.role}`);
+//   });
 
-  socket.on('send_message', (data) => {
-    console.log(data.message);
-    socket.broadcast.emit("receive_message", data);
-  });
+//   socket.on('send_message', (data) => {
+//     // Broadcast the message to the appropriate room
+//     socket.to(`${data.senderRole}Room`).emit('receive_message', data);
+//   });
 
-});
+//   socket.on('disconnect', () => {
+//     // Handle user disconnect
+//     // You may want to remove them from their respective rooms
+//   });
+// });
+
+
+// app.get('/clientRecruiterChat', validateToken, (req, res) => {
+//   try {
+//     // Notify the client that they have connected
+//     io.to(req.user.id).emit('join_room', req.user);
+
+//     // Send an HTTP response to acknowledge the request (not related to WebSocket)
+//     res.status(200).json({ message: 'WebSocket connection initiated', user: req.user });
+//   } catch (err) {
+//     return res.status(500).json({ error: err.message });
+//   }
+// });
+
+
+// io.on("connection", (socket)=>{
+//   console.log("a user connected.");
+  
+// })
+
 
 const storage = multer.diskStorage({
   destination: function(req, file, cb) {
@@ -81,6 +119,35 @@ app.post('/upload', upload.single('file'), (req, res) => {
   .then(result => res.json(result))
   .catch(err => console.log(err))
 })
+
+// const storage = multer.memoryStorage();
+// const upload = multer({ storage });
+
+// app.post('/upload', upload.single('file'), async (req, res) => {
+//   const { originalname, buffer } = req.file;
+//   const resume = new file({
+//     id:req.body.id,
+//     filename: originalname,
+//     data: buffer,
+//   });
+//   await resume.save();
+//   console.log(resume);
+//   res.json('File uploaded successfully');
+// });
+
+// app.get('/download/:id', async (req, res) => {
+//   const { id } = req.params;
+//   console.log(id);
+//   const resume = await file.findOne({ id });
+
+//   if (resume) {
+//     // res.setHeader('Content-Type', 'application/pdf');
+//     res.status(200).json(resume.data);
+//     console.log(resume.data);
+//   } else {
+//     res.status(404).send('File not found');
+//   }
+// });
 
 
 // Configure multer for file upload
@@ -144,6 +211,18 @@ app.post('/upload', upload.single('file'), (req, res) => {
 //     console.error(error);
 //     res.status(500).json('An error occurred.');
 //   }
+// });
+
+// Serve the PDF file from a specific folder
+// app.use('/public/files', express.static(path.join(__dirname, 'resume')));
+
+// Create an API endpoint to retrieve the PDF
+// app.get('/api/getpdf', (req, res) => {
+//   // You might want to add authentication/authorization logic here
+//   const pdfFilePath = path.join(__dirname, 'public/files', 'Skillety Client Packages.pdf');
+
+//   res.sendFile(pdfFilePath);
+
 // });
 
 

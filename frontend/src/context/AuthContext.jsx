@@ -40,6 +40,7 @@ export const AuthContextProvider = ({children}) => {
     
             if (!result.error) {
                 console.log(result);
+                localStorage.setItem("clientToken", result.accessToken);
                 navigate('/client-dashboard'); 
             } else {
                 console.log(result);
@@ -70,9 +71,45 @@ export const AuthContextProvider = ({children}) => {
         }
     };
 
+    //post new skill
+    const postOtherSkills = async(skills) => {
+        try{
+            const res = await axios.post("http://localhost:5002/skills", skills, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            const result = res.data;
+            if (!result.error) {
+                console.log(result);
+            } else {
+                console.log(result);
+            }
+        }catch(err){
+            console.log(err);
+        }
+    }
 
+    //post new designation
+    const postOtherDesignation = async(designation) => {
+        try{
+            const res = await axios.post("http://localhost:5002/designations", designation, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            const result = res.data;
+            if (!result.error) {
+                console.log(result);
+            } else {
+                console.log(result);
+            }
+        }catch(err){
+            console.log(err);
+        }
+    }
 
-    return<AuthContext.Provider value={{registerUser, loginClient, candidateReg}}>
+    return<AuthContext.Provider value={{registerUser, loginClient, candidateReg, postOtherSkills, postOtherDesignation}}>
             {children}
         </AuthContext.Provider>
 }

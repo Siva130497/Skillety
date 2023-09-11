@@ -102,6 +102,7 @@ const ClientNewPassword = () => {
                                 name="tempPassword"
                                 value={credentials.tempPassword}
                                 onChange={handleInputChange}
+                                onPaste={(e)=>e.preventDefault()}
                                 placeholder="Enter your given temporary password"
                                 required />
                         </div>
@@ -118,6 +119,7 @@ const ClientNewPassword = () => {
                                 name="newPassword"
                                 value={credentials.newPassword}
                                 onChange={handleInputChange}
+                                onPaste={(e)=>e.preventDefault()}
                                 placeholder="Enter your new password"
                                 required />
                             {passwordError && <p>{passwordError}</p>}
@@ -135,6 +137,7 @@ const ClientNewPassword = () => {
                                 name="confirmPassword"
                                 value={credentials.confirmPassword}
                                 onChange={handleInputChange}
+                                onPaste={(e)=>e.preventDefault()}
                                 placeholder="Re-enter your new password"
                                 required />
                         </div>
