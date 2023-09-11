@@ -1,6 +1,5 @@
 const router = require("express").Router();
 const {
-  employeeAuth,
   employeeLogin,
   checkRole,
   employeeSignup,
@@ -65,35 +64,35 @@ router.post("/login-Candidate", async (req, res) => {
   await employeeLogin(req.body, "Candidate", res);
 });
 
-//Client protected route
-router.get(
-  "/Client-protected",
-  employeeAuth,
-  checkRole(["Client"]),
-  async (req, res) => {
-    return res.json(`welcome ${req.body.name}`);
-  }
-);
+// //Client protected route
+// router.get(
+//   "/Client-protected",
+//   employeeAuth,
+//   checkRole(["Client"]),
+//   async (req, res) => {
+//     return res.json(`welcome ${req.body.name}`);
+//   }
+// );
 
-//Candidate protected route
-router.get(
-  "/Candidate-protected",
-  employeeAuth,
-  checkRole(["Candidate"]),
-  async (req, res) => {
-    return res.json(`welcome ${req.body.name}`);
-  }
-);
+// //Candidate protected route
+// router.get(
+//   "/Candidate-protected",
+//   employeeAuth,
+//   checkRole(["Candidate"]),
+//   async (req, res) => {
+//     return res.json(`welcome ${req.body.name}`);
+//   }
+// );
 
 //Recruiter protected route
-router.get(
-  "/Recruiter-protected",
-  employeeAuth,
-  checkRole(["Recruiter"]),
-  async (req, res) => {
-    return res.json(`welcome ${req.body.name}`);
-  }
-);
+// router.get(
+//   "/Recruiter-protected",
+//   employeeAuth,
+//   checkRole(["Recruiter"]),
+//   async (req, res) => {
+//     return res.json(`welcome ${req.body.name}`);
+//   }
+// );
 
 router.post("/protected", jwtauth, (req, res) => {
   res.status(200).send("Here's the info you requested ");

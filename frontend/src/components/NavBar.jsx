@@ -12,12 +12,25 @@ const NavBar = ({title = "SKILLETY"}) => {
                         <ul className="navbar-nav ms-auto">
                                     <li className="nav-item">
                                         <div className="btn-group" role="group" aria-label="Button group with nested dropdown">
+                                            <button type="button" className="btn btn-primary">Recruiter</button>
+                                            <div className="btn-group" role="group">
+                                                <button id="btnGroupDrop1" type="button" className="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                                            <div className="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                                    <Link to = "/client-detail" className="dropdown-item" >Client Details</Link>
+                                                    <Link to = "/client-recruiter-chat" className="dropdown-item" >Live Chat</Link>
+                                            </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li className="nav-item">
+                                        <div className="btn-group" role="group" aria-label="Button group with nested dropdown">
                                             <button type="button" className="btn btn-primary">Client</button>
                                             <div className="btn-group" role="group">
                                                 <button id="btnGroupDrop1" type="button" className="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
                                             <div className="dropdown-menu" aria-labelledby="btnGroupDrop1">
                                                     <Link to = "/client-register" className="dropdown-item" >Register</Link>
                                                     <Link to = "/client-login"className="dropdown-item" >Login</Link>
+                                                    <Link to = "/client-recruiter-chat"className="dropdown-item" >Live Chat</Link>
                                             </div>
                                             </div>
                                         </div>
@@ -33,7 +46,7 @@ const NavBar = ({title = "SKILLETY"}) => {
                                             </div>
                                             </div>
                                         </div>
-                                    </li> 
+                                    </li>
                         </ul>
                     </div>
                 </div>

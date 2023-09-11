@@ -1,25 +1,40 @@
-import React, { useState, useContext} from 'react';
+import React, { useState, useContext, useEffect} from 'react';
 import AuthContext from '../../context/AuthContext';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import axios from 'axios';
 import { v4 as uuidv4} from "uuid";
 
+
 const CandidateRegister = () => {
     const [step, setStep] = useState(1);
-    const {candidateReg} = useContext(AuthContext);
+    const {candidateReg, postOtherSkills, postOtherDesignation} = useContext(AuthContext);
+    const [skillArray, setSkillArray] = useState([]);
+    const [designationArray, setDesignationArray] = useState([])
     const [selectedDate, setSelectedDate] = useState(null);
     const [selectedSkills, setSelectedSkills] = useState([]);
+    const [selectedDesignations, setSelectedDesignations] = useState([]);
     const [dateString, setDateString] = useState("");
-    const [resume, setResume] = useState();
+    const [resume, setResume] = useState([]);
+    const [searchInput, setSearchInput] = useState("");
+    const [filteredSkills, setFilteredSkills] = useState([]);
+    const [filteredDesignation, setFilteredDesignation] = useState([]);
     const [skillError, setSkillError] = useState("");
+    const [isCheckedDesignation, setIsCheckedDesignation] = useState(false);
+    const [isCheckedSkill, setIsCheckedSkill] = useState(false);
+    const [newSkill, setNewSkill] = useState("");
+    const [newDesignation, setNewDesignation] = useState("");
+    const [otherSkill, setOtherSkill] = useState([]);
+    const [otherDesignation, setOtherDesignation] = useState([]);
+
     const initialCredentials = {
         days: "",
         firstName: "",
         lastName: "",
         phone: "",
         email: "",
-        designation: "",
+        password: "",
+        confirmPassword: "",
         companyName: "",
         location: "",
         year: "", 
@@ -29,10 +44,33 @@ const CandidateRegister = () => {
         checkbox: false,
     };
     const [credentials, setCredentials] = useState(initialCredentials);
-    
-    const skills = ['Skill 1', 'Skill 2', 'Skill 3', 'skill 4', 'skill 5', 'Skill 6', 'Skill 7', 'Skill 8', 'skill 9', 'skill 10', 'skill 11', 'skill 12', 'skill 13'];
     const totalMonths = parseInt(credentials.year*12) + parseInt(credentials.month);
+    const maxSkillNum = totalMonths <= 24 ? 6 : totalMonths <= 48 ? 8 : totalMonths <= 96 ? 10 : 12;
+    
+    const getAllSkills = async ()=>{
+        try{
+            const res = await axios.get("http://localhost:5002/skills");
+            setSkillArray(res.data);
+        }catch(err){
+            console.log(err);
+        }
+    }
 
+    const getAllDesignations = async ()=>{
+        try{
+            const res = await axios.get("http://localhost:5002/designations");
+            setDesignationArray(res.data);
+        }catch(err){
+            console.log(err);
+        }
+    }
+    
+    useEffect(()=>{
+        getAllSkills();
+        getAllDesignations();
+    },[])
+    
+    
     const handleDateChange = date => {
         setSelectedDate(date);
 
@@ -68,20 +106,89 @@ const CandidateRegister = () => {
         setResume(selectedFile);
     };
     
+    const handleSkillSearch = (e) => {
+        const inputValue = e.target.value;
+        setSearchInput(inputValue);
+        if(inputValue.length > 0){
+            const candidateSkills = skillArray.filter((obj) => {
+                return obj.skill.toLowerCase().includes(inputValue.toLowerCase());
+            });
+            if(candidateSkills.length > 0){
+                setFilteredSkills(candidateSkills);
+            }
+        } else {
+            setFilteredSkills([]);
+        }
+    }
+
+    const handleDesignationSearch = (e) => {
+        const inputValue = e.target.value;
+        setSearchInput(inputValue);
+        if(inputValue.length > 0){
+            const candidateDesignation = designationArray.filter((obj) => {
+                return obj.designation.toLowerCase().includes(inputValue.toLowerCase());
+            });
+            if(candidateDesignation.length > 0){
+                setFilteredDesignation(candidateDesignation);
+            }
+        } else {
+            setFilteredDesignation([]);
+        }
+    }
+    
     const handleSkillClick = (skill) => {
-        const maxSkillNum = totalMonths <= 24 ? 6 : totalMonths <= 48 ? 8 : totalMonths <= 96 ? 10 : 12;
         if(totalMonths > 0){
             if (selectedSkills.includes(skill)) {
-                setSelectedSkills(selectedSkills.filter(selectedSkill => selectedSkill !== skill));
-              } else {
+                setSelectedSkills([...selectedSkills]);
+                setSearchInput("");
+                setFilteredSkills([]);
+            } else {
                     selectedSkills.length === maxSkillNum && alert(`You can select max of ${maxSkillNum} skills`)
-                  if(selectedSkills.length < maxSkillNum){
+                    setSearchInput("");
+                    setFilteredSkills([]);
+                    if(selectedSkills.length < maxSkillNum){
                       setSelectedSkills([...selectedSkills, skill]);
-                  } 
-              }
+                      setSearchInput("");
+                      setFilteredSkills([]);
+                    } 
+            }
         }else{
             setSkillError("Please enter the experience first...")
         }
+    }
+
+    const handleDesignationClick = (designation) => {
+        setSelectedDesignations([designation]);
+        setSearchInput("");
+        setFilteredDesignation([]);
+    }
+
+    const handleDeselect = (skill) => {
+        setSelectedSkills(selectedSkills.filter(selectedSkill => selectedSkill !== skill));
+        setOtherSkill(otherSkill.filter(other => other !== skill));
+    }
+
+    const handleDeselectDesignation = (designation) => {
+        setSelectedDesignations(selectedDesignations.filter(selectedDesignation => selectedDesignation !== designation));
+        setOtherDesignation(otherDesignation.filter(other => other !== designation));
+    }
+
+    const handleManualSkill = () => {
+        setSearchInput("");
+        selectedSkills.length === maxSkillNum && alert(`You can select max of ${maxSkillNum} skills`);
+        setNewSkill("");
+        if(selectedSkills.length < maxSkillNum){
+            setOtherSkill([...otherSkill, newSkill]);
+            setSelectedSkills([...selectedSkills, newSkill]);
+            setNewSkill("");
+        }
+    }
+
+    const handleManualDesignation = () => {
+        setSearchInput("");
+        setOtherDesignation([newDesignation]);
+        setSelectedDesignations([newDesignation]);
+        setNewDesignation("");
     }
 
     const handleSubmit = (event) => {
@@ -92,12 +199,16 @@ const CandidateRegister = () => {
         formData.append('id', id);
         const updatedCredentials = {
             ...credentials,
+            confirmPassword:undefined,
             selectedDate: dateString,
             skills:selectedSkills,
+            designation:selectedDesignations,
             id:id,
         };
         console.log(updatedCredentials);
         candidateReg(updatedCredentials);
+        postOtherSkills.length > 0 && postOtherSkills(otherSkill);
+        postOtherDesignation.length > 0 && postOtherDesignation(otherDesignation);
         axios.post('http://localhost:5002/upload', formData)
         .then(res => console.log(res))
         .catch(err => console.log(err));
@@ -106,13 +217,14 @@ const CandidateRegister = () => {
     const handleNext = () => {
         let isValid = true;
         if (step === 1) {
-          if (credentials.days === "" || credentials.firstName === "" || credentials.lastName === "" || credentials.phone === "" || credentials.email === "" || !resume) {
+          if (credentials.days === "" || credentials.firstName === "" || credentials.lastName === "" || credentials.phone === "" || credentials.email === "" || credentials.password === "" || credentials.confirmPassword === "" || credentials.password !== credentials.confirmPassword || !resume) {
+            credentials.password !== credentials.confirmPassword && alert("Please check that both password and confirm password are same")
             isValid = false;
           }
         }
         if (step === 2) {
             const minSkillNum = totalMonths <= 24 ? 4 : totalMonths <= 48 ? 6 : totalMonths <= 96 ? 8 : 10;
-          if (credentials.designation === "" || credentials.companyName === "" || credentials.location === "" || credentials.year === "" || credentials.month === "" || selectedSkills.length === 0 || credentials.education === "" || credentials.college === "" || selectedSkills.length < minSkillNum) {
+          if (selectedDesignations.length === 0 || credentials.companyName === "" || credentials.location === "" || credentials.year === "" || credentials.month === "" || selectedSkills.length === 0 || credentials.education === "" || credentials.college === "" || selectedSkills.length < minSkillNum) {
             selectedSkills.length < minSkillNum && alert(`Please select atleast ${minSkillNum} skills`)
             isValid = false;
           }
@@ -251,6 +363,40 @@ const CandidateRegister = () => {
                         placeholder="email@example.com"
                         required/>
                     </div>
+                    <div className="form-group">
+                        <label 
+                        htmlFor="passwordInput" 
+                        className="form-label mt-4">
+                            Password
+                        </label>
+                        <input 
+                        type="password" 
+                        className="form-control" 
+                        id="passwordInput"  
+                        name="password" 
+                        value={credentials.password}
+                        onChange={handleInputChange}
+                        onPaste={(e)=>e.preventDefault()}
+                        placeholder="Enter your password"
+                        required/>
+                    </div>
+                    <div className="form-group">
+                        <label 
+                        htmlFor="confirmPasswordInput" 
+                        className="form-label mt-4">
+                            Confirm Password
+                        </label>
+                        <input 
+                        type="password" 
+                        className="form-control" 
+                        id="confirmPasswordInput"  
+                        name="confirmPassword" 
+                        value={credentials.confirmPassword}
+                        onChange={handleInputChange}
+                        onPaste={(e)=>e.preventDefault()}
+                        placeholder="Enter your confirm password"
+                        required/>
+                    </div>
                     <div>
                         <label 
                         htmlFor="resume" 
@@ -266,7 +412,7 @@ const CandidateRegister = () => {
                             onChange={handleFileChange}
                             required
                         />
-                            {resume ? resume.name : 'No file chosen'}
+                        {resume ? resume.name : 'No file chosen'}
                     </div> 
                 </>
             )
@@ -279,15 +425,51 @@ const CandidateRegister = () => {
                             className="form-label mt-4">
                                 Current Role/Designation
                             </label>
+                            {selectedDesignations.map(selectDesignation => (
+                                <span className="badge bg-success mx-2" 
+                                key={selectDesignation}
+                                onClick={()=>handleDeselectDesignation(selectDesignation)}
+                                >{selectDesignation}</span>
+                            ))}
                             <input 
-                            type="text" 
-                            className="form-control" 
-                            id="designationInput"  
-                            name="designation" 
-                            value={credentials.designation}
-                            onChange={handleInputChange}
-                            placeholder="Enter your current role/designation"
-                            required/>
+                            type='text' 
+                            name='searchInput' 
+                            id='searchInput' 
+                            className='form-control my-2' 
+                            placeholder='Search designation...' 
+                            value={searchInput}
+                            onChange={handleDesignationSearch}
+                            />
+                            {filteredDesignation.length > 0 &&
+                                filteredDesignation.map((filterDesignation)=>{
+                                    return <div key={filterDesignation._id} onClick={()=>handleDesignationClick(filterDesignation.designation)}>{filterDesignation.designation}</div> 
+                                })
+                            }
+                            <input
+                            className="form-check-input"
+                            type="checkbox"
+                            checked={isCheckedDesignation}
+                            onChange={()=>setIsCheckedDesignation(!isCheckedDesignation)}
+                            />
+                            <label className="form-check-label" htmlFor="flexSwitchCheckChecked">
+                                If your searched designation not in the list, please enable the checkbox & type manually...
+                            </label>
+                            <input 
+                             type='text' 
+                            name='manualDesignationInput' 
+                            id='manualDesignationInput' 
+                            className='form-control my-2' 
+                            placeholder='Enter your designation...'
+                            value={newDesignation}
+                            onChange={(e)=>setNewDesignation(e.target.value)}
+                            disabled = {!isCheckedDesignation}
+                            />
+                            <button 
+                            type="button" 
+                            className="btn btn-primary btn-sm"
+                            onClick={handleManualDesignation}
+                            disabled = {!isCheckedDesignation}
+                            >add manually entered designation</button>
                         </div> 
                         <div className="form-group">
                             <label 
@@ -351,17 +533,53 @@ const CandidateRegister = () => {
                             htmlFor="skillInput" 
                             className="form-label mt-4">
                                 Skills 
-                            </label><br />
-                            {skills.map(skill => (
-                                <span
-                                key={skill}
-                                className={`skill-tag ${selectedSkills.includes(skill) ? 'selected' : ''}`}
-                                onClick={() => handleSkillClick(skill)}
-                                >
-                                {skill}
-                                </span>
+                            </label>
+                            {selectedSkills.map(selectSkill => (
+                                <span className="badge rounded-pill bg-info mx-2" 
+                                key={selectSkill}
+                                onClick={()=>handleDeselect(selectSkill)}
+                                >{selectSkill}</span>
                             ))}
+                            <input 
+                            type='text' 
+                            name='searchInput' 
+                            id='searchInput' 
+                            className='form-control my-2' 
+                            placeholder='Search Skills' 
+                            value={searchInput}
+                            onChange={handleSkillSearch}
+                            />
                             {skillError && <p>{skillError}</p>}
+                            {filteredSkills.length > 0 &&
+                                filteredSkills.map((filterSkill)=>{
+                                    return <div key={filterSkill._id} onClick={()=>handleSkillClick(filterSkill.skill)}>{filterSkill.skill}</div> 
+                                })
+                            }
+                            <input
+                            className="form-check-input"
+                            type="checkbox"
+                            checked={isCheckedSkill}
+                            onChange={()=>setIsCheckedSkill(!isCheckedSkill)}
+                            />
+                            <label className="form-check-label" htmlFor="flexSwitchCheckChecked">
+                                If your searched skill not in the list, please enable the checkbox & type manually...
+                            </label>
+                            <input 
+                            type='text' 
+                            name='manualSkillInput' 
+                            id='manualSkillInput' 
+                            className='form-control my-2' 
+                            placeholder='Enter your skills...'
+                            value={newSkill}
+                            onChange={(e)=>setNewSkill(e.target.value)}
+                            disabled={!isCheckedSkill}
+                            />
+                            <button 
+                            type="button" 
+                            className="btn btn-primary btn-sm"
+                            onClick={handleManualSkill}
+                            disabled={!isCheckedSkill}
+                            >add manually entered skill</button>
                         </div>
                         <div className="form-group">
                             <label 

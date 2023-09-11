@@ -127,13 +127,15 @@ const finalClientRegister = async(req, res) => {
 const candidateReg = async(req, res) => {
   try {
     console.log(req.body);
-    const {email} = req.body; 
+    const {email, password} = req.body; 
     const candidateAvailable = await candidate.findOne({email});
     if(candidateAvailable){
       return res.status(404).json({message: "User already registered"});
     }
+    const hashPassword = await bcrypt.hash(password, 12);
     const newCandidate = new candidate({
-      ...req.body, 
+      ...req.body,
+      password:hashPassword,
     });
     await newCandidate.save();
     console.log(newCandidate);
@@ -256,6 +258,7 @@ const employeeLogin = async (req, role, res) => {
     // Sign in the token and issue it to the user
     let token = jwt.sign(
       {
+        id: Employee.id,
         role: Employee.role,
         name: Employee.name,
         email: Employee.email
@@ -268,19 +271,19 @@ const employeeLogin = async (req, role, res) => {
       name: Employee.name,
       role: Employee.role,
       email: Employee.email,
-      //token: `Bearer ${token}`,
       expiresIn: 168
     };
     // const date = new Date();
     // date.setHours(date.getHours() + 5);
     // res.setHeader('set-Cookie', `jwt=${token}; Expires=${date}; HttpOnly`)
-    res.status(200).cookie('jwt', token, {
-      expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
-      secure: false,
-      httpOnly: true
-    });
+    // res.status(200).cookie('jwt', token, {
+    //   expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
+    //   secure: false,
+    //   httpOnly: true
+    // });
     return res.json({
       ...result,
+      accessToken:token,
       message: "You are now logged in."
     });
   } else {
@@ -295,28 +298,26 @@ const validateEmployeename = async name => {
   return employee ? false : true;
 };
 
-/**
- * @DESC Verify JWT
- */
 
-const employeeAuth =   (req, res, next) => {
-  const authHeader = req.headers['authorization'];
-  console.log(process.env.APP_SECRET);
-  if (!authHeader) return res.sendStatus(403);
-  console.log(authHeader); // Bearer token
-  const token = authHeader.split(' ')[1];
-  jwt.verify(
-      token,
-      process.env.APP_SECRET,
-      (err, decoded) => {
-          console.log('verifying');
-          if (err) return res.sendStatus(403); //invalid token     
-          console.log(decoded);
-          next();
-    },
+// const employeeAuth =   (req, res, next) => {
+//   const authHeader = req.headers['authorization'];
+//   console.log(process.env.APP_SECRET);
+//   if (!authHeader) return res.sendStatus(403);
+//   console.log(authHeader); // Bearer token
+//   const token = authHeader.split(' ')[1];
+//   jwt.verify(
+//       token,
+//       process.env.APP_SECRET,
+//       (err, decoded) => {
+//           console.log('verifying');
+//           if (err) return res.sendStatus(403); //invalid token     
+//           console.log(decoded);
+//           req.user = decoded;
+//           next();
+//     },
       
-  );
-}
+//   );
+// }
 
 /**
  * @DESC Check Role Middleware
@@ -354,7 +355,6 @@ const jwtauth = (req, res, next) => {
 }
 
 module.exports = {
-  employeeAuth,
   checkRole,
   employeeLogin,
    employeeSignup,

@@ -63,3 +63,11 @@ button {
   cursor: pointer;
   font-size: 16px;
 }
+
+.message-name {
+  font-weight: bold;
+}
+
+.message-text {
+  margin-top: 5px; /* Add spacing between name and message */
+}
