@@ -203,10 +203,29 @@ const jobPosting = async(req, res) => {
 
 /* get all job details */
 const getAllJobDetail = async(req, res) => {
-  try{
+  try {
+    const array2 = [
+      { skills: ['html', 'css', 'javascript'] },
+    ];
     const jobDetails = await jobDetail.find();
-    res.status(200).json(jobDetails);
-  }catch(err){
+
+    const calculateMatchPercentage = (skills1, skills2) => {
+      const matchingSkills = skills2.filter(skill => skills1.includes(skill));
+      return (matchingSkills.length / skills1.length) * 100;
+    }
+    
+    const comparisonResults = jobDetails.map(obj => {
+      const percentage = calculateMatchPercentage(obj.skills, array2[0].skills);
+      return { 
+        jobRole: obj.jobRole[0], 
+        jobCategory: obj.jobCategory, 
+        percentage 
+      };
+    }).filter(obj => obj.percentage > 0); 
+    
+    res.status(200).json(comparisonResults);
+  
+  } catch(err) {
     res.status(500).json({error: err.message})
   }
 }
