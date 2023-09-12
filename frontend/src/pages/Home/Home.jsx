@@ -1,5 +1,6 @@
 import React from 'react'
 import './Home.css'
+import './Home-responsive.css'
 
 const Home = () => {
 
@@ -45,7 +46,7 @@ const Home = () => {
               </div>
             </div>
             <div className="col-12 col-lg-5 col-md-12 home--right-cover">
-              <div>
+              <div className='home--blob-img-area'>
                 <div className="home--img-area">
                   <img src="assets/img/home-images/header-image.png"
                     className='home--img' alt="" />
@@ -90,7 +91,7 @@ const Home = () => {
               <h4 className='about--heading'><span>Skillety</span> simply means <span>“Skill at Will”.</span></h4>
             </div>
             <div className='home--know-more-area'>
-              <a href="#" className='home--know-more'>
+              <a href="/about-us" className='home--know-more'>
                 <div className='home--know-more-btn'>Know more
                 </div>
                 <div className='home--know-more-arrow'>
@@ -387,7 +388,7 @@ const Home = () => {
           </div>
           <div className="candidate--slider-area">
             <div className="row">
-              <div className="col-12 col-lg-4">
+              <div className="col-12 col-lg-4 col-md-12">
                 <article className='candidate--card'>
                   <div className="candidate--profile-area">
                     <img src="assets/img/home-images/candidate-profile.png"
@@ -441,7 +442,7 @@ const Home = () => {
                   <div className="candidate-blob"></div>
                 </article>
               </div>
-              <div className="col-12 col-lg-4">
+              <div className="col-12 col-lg-4 col-md-12">
                 <article className='candidate--card'>
                   <div className="candidate--profile-area">
                     <img src="assets/img/home-images/candidate-profile.png"
@@ -495,7 +496,7 @@ const Home = () => {
                   <div className="candidate-blob"></div>
                 </article>
               </div>
-              <div className="col-12 col-lg-4">
+              <div className="col-12 col-lg-4 col-md-12">
                 <article className='candidate--card'>
                   <div className="candidate--profile-area">
                     <img src="assets/img/home-images/candidate-profile.png"

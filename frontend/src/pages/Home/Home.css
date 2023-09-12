@@ -5,7 +5,13 @@
 .home--bg {
     border-radius: 48px;
     background: #714F36;
-    padding: 0px 36px 20px 36px;
+    padding: 0px 36px 40px 36px;
+    position: relative;
+    overflow: hidden;
+}
+.home--blob-img-area{
+    position: relative;
+    overflow: visible;
 }
 
 .home--head h5 {
@@ -17,11 +23,11 @@
 }
 
 .home--left-cover {
-    padding-top: 200px;
+    padding-top: 250px;
 }
 
 .home--right-cover {
-    padding-top: 130px;
+    padding-top: 150px;
 }
 
 .home--head h6 {
@@ -165,19 +171,23 @@
 
 .home--img-area {
     position: relative;
+    display: flex;
+    justify-content: center;
 }
 
 .home--img {
-    width: 90%;
-    height: 100%;
+    width: 600px;
+    /* height: 500px; */
     object-fit: contain;
+    z-index: 1;
+    position: relative;
 }
 
 .bubble--img1 {
     position: absolute;
     object-fit: contain;
     bottom: -55px;
-    right: 340px;
+    left: 280px;
 }
 
 .bubble--img2 {
@@ -190,21 +200,21 @@
 .bubble--img3 {
     position: absolute;
     object-fit: contain;
-    bottom: 0px;
-    right: 318px;
+    bottom: -5px;
+    left: 355px;
 }
 
 .bubble--img4 {
     position: absolute;
     object-fit: contain;
-    bottom: -40px;
+    bottom: -32px;
     right: 286px;
 }
 
 .bubble--img5 {
     position: absolute;
     object-fit: contain;
-    bottom: -10px;
+    bottom: 0px;
     right: 475px;
 }
 
@@ -212,18 +222,19 @@
     position: absolute;
     object-fit: contain;
     bottom: 255px;
-    right: 564px;
+    left: 70px;
 }
 
 .bubble--img7 {
     position: absolute;
     object-fit: contain;
     bottom: 135px;
-    right: 25px;
+    right: 20px;
 }
 
 .home--card-area {
-    margin-top: 70px;
+    margin-top: 80px;
+    overflow: hidden;
 }
 
 .home--card {
@@ -233,7 +244,7 @@
     transition: ease-in-out 0.8s;
     cursor: pointer;
     z-index: 1;
-    box-shadow: 5px 5px 20px #00000037;
+    /* box-shadow: 5px 5px 20px #00000037; */
 }
 
 .home--card::after {
@@ -252,7 +263,7 @@
 
 .home--card:hover::after {
     visibility: visible;
-    transform: scale(130) translateY(2px);
+    transform: scale(140) translateY(2px);
 }
 
 .home--card:hover .home--sub-des p {
@@ -358,6 +369,7 @@
     font-weight: 400 !important;
     text-transform: uppercase;
     line-height: 1.5em;
+    text-wrap: balance;
 }
 
 .home--about-headarea .candidate--heading {
@@ -499,6 +511,14 @@
     border-radius: 48px;
     background-color: #F9C833;
     padding: 44px 56px;
+    --dot-bg1: #F9C833;
+    --dot-color1: #c9a22f;
+    --dot-size1: 1.6px;
+    --dot-space1: 30px;
+    background:
+        linear-gradient(90deg, var(--dot-bg1) calc(var(--dot-space1) - var(--dot-size1)), transparent 1%) center / var(--dot-space1) var(--dot-space1),
+        linear-gradient(var(--dot-bg1) calc(var(--dot-space1) - var(--dot-size1)), transparent 1%) center / var(--dot-space1) var(--dot-space1),
+        var(--dot-color1) !important;
 }
 
 .home--service-card {
@@ -1220,7 +1240,7 @@
 }
 
 .testimonial--card-lg {
-    border-radius: 48px;
+    border-radius: 48px 48px 85px 48px;
     padding: 30px 30px 50px 30px;
     background-color: #F9C833;
     overflow: hidden;
@@ -1364,7 +1384,7 @@
 }
 
 .testimonial--card-sm {
-    border-radius: 30px;
+    border-radius: 30px 30px 36px 30px;
     padding: 20px 30px;
     height: 48%;
     overflow: hidden;
@@ -1492,6 +1512,7 @@
     flex-direction: column;
     align-items: center;
     margin-bottom: 20px;
+    transition: ease-in-out 0.8s;
 }
 
 .connect--article-content {
@@ -1745,10 +1766,12 @@
     0% {
         transform: translateX(-120vh);
     }
+
     100% {
         transform: translateX(120vh);
     }
 }
+
 /* .container-section{
     padding-left: 50px;
     padding-right: 50px;
