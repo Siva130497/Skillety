@@ -11,6 +11,8 @@ const {
   finalClientRegister,
   candidateReg,
   getAllCandidateDetail,
+  jobPosting,
+  getAllJobDetail,
 } = require("../Controller/authFunctions");
 
 // Client Registeration Route
@@ -43,6 +45,12 @@ router.post("/register-Candidate", async (req, res) => {
 
 //get all candidate detail
 router.get("/candidate-Detail", getAllCandidateDetail)
+
+//post job detail 
+router.post("/job-detail", jobPosting)
+
+//get all job details
+router.get("/job-Detail", getAllJobDetail)
 
 //Recruiter Registration route
 router.post("/register-Recruiter", async (req, res) => {

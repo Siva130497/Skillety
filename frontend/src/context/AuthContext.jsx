@@ -1,4 +1,4 @@
-import { createContext} from "react";
+import { createContext, useState} from "react";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 
@@ -6,6 +6,8 @@ const AuthContext = createContext();
 
 export const AuthContextProvider = ({children}) => {
     const navigate = useNavigate();
+    const [jobPosted, setJobPosted] = useState(false);
+
     //register user
     const registerUser = async (userData) => {
         try {
@@ -109,7 +111,26 @@ export const AuthContextProvider = ({children}) => {
         }
     }
 
-    return<AuthContext.Provider value={{registerUser, loginClient, candidateReg, postOtherSkills, postOtherDesignation}}>
+    const jobPosting = async(jobdetail) => {
+        try{
+            const res = await axios.post("http://localhost:5002/job-detail", jobdetail, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            const result = res.data;
+            if (!result.error) {
+                console.log(result);
+                setJobPosted(true);
+            } else {
+                console.log(result);
+            }
+        }catch(err){
+            console.log(err);
+        }
+    }
+
+    return<AuthContext.Provider value={{registerUser, loginClient, candidateReg, postOtherSkills, postOtherDesignation, jobPosting, jobPosted, setJobPosted}}>
             {children}
         </AuthContext.Provider>
 }

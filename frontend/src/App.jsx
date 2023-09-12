@@ -12,6 +12,7 @@ import ClientDashboard from './pages/ClientDashboard/ClientDashboard';
 // import Chat from './pages/Chat/Chat';
 // import LiveChat from './pages/Chat/LiveChat';
 import PDFViewer from './pages/pdfViewer';
+import CandidateDashboard from './pages/CandidateDashboard/CandidateDashboard';
 
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
           <Route path='/candiate-register' element={<CandidateRegister />} />
           <Route path='/client-login' element={<ClientLogin />} />
           <Route path='/client-dashboard' element={<ClientDashboard />} />
+          <Route path='/candidate-dashboard' element={<CandidateDashboard />} />
           {/* <Route path='/client-recruiter-chat' element={<Chat />} /> */}
           <Route path='/:id' element={<ClientNewPassword />} />
         </Routes>

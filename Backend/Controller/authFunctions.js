@@ -8,7 +8,7 @@ const finalClient = require("../Database/finalClient");
 const candidate = require("../Database/candidate");
 const employee = require("../Database/employee");
 const resume = require("../Database/resume");
-
+const jobDetail = require("../Database/jobDetail");
 
 /* client register */
 const clientRegister = async(req, res) => {
@@ -188,6 +188,30 @@ const getAllCandidateDetail = async (req, res) => {
   }
 }
 
+const jobPosting = async(req, res) => {
+  try{
+    const newJobDetail = new jobDetail({
+      ...req.body,
+    });
+    await newJobDetail.save();
+    console.log(newJobDetail);
+    return res.status(201).json(newJobDetail);
+  }catch(err){
+    return res.status(500).json({ error: err.message })
+  }
+}
+
+/* get all job details */
+const getAllJobDetail = async(req, res) => {
+  try{
+    const jobDetails = await jobDetail.find();
+    res.status(200).json(jobDetails);
+  }catch(err){
+    res.status(500).json({error: err.message})
+  }
+}
+
+
 /**
  * @DESC To register the employee
  */
@@ -366,4 +390,6 @@ module.exports = {
    finalClientRegister,
    candidateReg,
    getAllCandidateDetail,
+   jobPosting,
+   getAllJobDetail,
 };

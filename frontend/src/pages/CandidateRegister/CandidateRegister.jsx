@@ -16,7 +16,8 @@ const CandidateRegister = () => {
     const [selectedDesignations, setSelectedDesignations] = useState([]);
     const [dateString, setDateString] = useState("");
     const [resume, setResume] = useState([]);
-    const [searchInput, setSearchInput] = useState("");
+    const [searchDesignationInput, setSearchDesignationInput] = useState("");
+    const [searchSkillInput, setSearchSkillInput] = useState("");
     const [filteredSkills, setFilteredSkills] = useState([]);
     const [filteredDesignation, setFilteredDesignation] = useState([]);
     const [skillError, setSkillError] = useState("");
@@ -37,7 +38,8 @@ const CandidateRegister = () => {
         confirmPassword: "",
         companyName: "",
         location: "",
-        year: "", 
+        year: "",
+        month:"",
         education: "",
         profileHeadline: "",
         college:"",
@@ -108,7 +110,7 @@ const CandidateRegister = () => {
     
     const handleSkillSearch = (e) => {
         const inputValue = e.target.value;
-        setSearchInput(inputValue);
+        setSearchSkillInput(inputValue);
         if(inputValue.length > 0){
             const candidateSkills = skillArray.filter((obj) => {
                 return obj.skill.toLowerCase().includes(inputValue.toLowerCase());
@@ -123,7 +125,7 @@ const CandidateRegister = () => {
 
     const handleDesignationSearch = (e) => {
         const inputValue = e.target.value;
-        setSearchInput(inputValue);
+        setSearchDesignationInput(inputValue);
         if(inputValue.length > 0){
             const candidateDesignation = designationArray.filter((obj) => {
                 return obj.designation.toLowerCase().includes(inputValue.toLowerCase());
@@ -140,26 +142,28 @@ const CandidateRegister = () => {
         if(totalMonths > 0){
             if (selectedSkills.includes(skill)) {
                 setSelectedSkills([...selectedSkills]);
-                setSearchInput("");
+                setSearchSkillInput("");
                 setFilteredSkills([]);
             } else {
                     selectedSkills.length === maxSkillNum && alert(`You can select max of ${maxSkillNum} skills`)
-                    setSearchInput("");
+                    setSearchSkillInput("");
                     setFilteredSkills([]);
                     if(selectedSkills.length < maxSkillNum){
                       setSelectedSkills([...selectedSkills, skill]);
-                      setSearchInput("");
+                      setSearchSkillInput("");
                       setFilteredSkills([]);
                     } 
             }
         }else{
-            setSkillError("Please enter the experience first...")
+            setSkillError("Please enter the experience first...");
+            setSearchSkillInput("");
+            setFilteredSkills([]);
         }
     }
 
     const handleDesignationClick = (designation) => {
         setSelectedDesignations([designation]);
-        setSearchInput("");
+        setSearchDesignationInput("");
         setFilteredDesignation([]);
     }
 
@@ -174,22 +178,36 @@ const CandidateRegister = () => {
     }
 
     const handleManualSkill = () => {
-        setSearchInput("");
-        selectedSkills.length === maxSkillNum && alert(`You can select max of ${maxSkillNum} skills`);
-        setNewSkill("");
-        if(selectedSkills.length < maxSkillNum){
-            setOtherSkill([...otherSkill, newSkill]);
-            setSelectedSkills([...selectedSkills, newSkill]);
-            setNewSkill("");
+        setSearchSkillInput("");
+        if (selectedSkills.length === maxSkillNum){
+          alert(`You can select max of ${maxSkillNum} skills`);
+          setNewSkill("");
         }
-    }
+        if(selectedSkills.length < maxSkillNum){
+          const foundObject = skillArray.find(item => item.skill.toLowerCase() === newSkill.toLowerCase());
+          if (foundObject) {
+          alert(`Skill "${newSkill}" already in list, please search...`);
+          setNewSkill("");
+          } else {
+          setOtherSkill([...otherSkill, newSkill]);
+          setSelectedSkills([...selectedSkills, newSkill]);
+          setNewSkill("");
+          }
+        }
+      }
 
-    const handleManualDesignation = () => {
-        setSearchInput("");
-        setOtherDesignation([newDesignation]);
-        setSelectedDesignations([newDesignation]);
-        setNewDesignation("");
-    }
+      const handleManualDesignation = () => {
+        setSearchDesignationInput("");
+        const foundObject = designationArray.find(item => item.designation.toLowerCase() === newDesignation.toLowerCase());
+        if (foundObject) {
+          alert(`Designation "${newDesignation}" already in list, please search...`);
+          setNewDesignation("");
+        } else {
+          setOtherDesignation([newDesignation]);
+          setSelectedDesignations([newDesignation]);
+          setNewDesignation("");
+        }
+      }
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -207,8 +225,8 @@ const CandidateRegister = () => {
         };
         console.log(updatedCredentials);
         candidateReg(updatedCredentials);
-        postOtherSkills.length > 0 && postOtherSkills(otherSkill);
-        postOtherDesignation.length > 0 && postOtherDesignation(otherDesignation);
+        otherSkill.length > 0 && postOtherSkills(otherSkill);
+        otherDesignation.length > 0 && postOtherDesignation(otherDesignation);
         axios.post('http://localhost:5002/upload', formData)
         .then(res => console.log(res))
         .catch(err => console.log(err));
@@ -433,11 +451,11 @@ const CandidateRegister = () => {
                             ))}
                             <input 
                             type='text' 
-                            name='searchInput' 
-                            id='searchInput' 
+                            name='searchDesignationInput' 
+                            id='searchDesignationInput' 
                             className='form-control my-2' 
                             placeholder='Search designation...' 
-                            value={searchInput}
+                            value={searchDesignationInput}
                             onChange={handleDesignationSearch}
                             />
                             {filteredDesignation.length > 0 &&
@@ -542,11 +560,11 @@ const CandidateRegister = () => {
                             ))}
                             <input 
                             type='text' 
-                            name='searchInput' 
-                            id='searchInput' 
+                            name='searchSkillInput' 
+                            id='searchSkillInput' 
                             className='form-control my-2' 
                             placeholder='Search Skills' 
-                            value={searchInput}
+                            value={searchSkillInput}
                             onChange={handleSkillSearch}
                             />
                             {skillError && <p>{skillError}</p>}
