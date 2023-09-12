@@ -1,21 +1,535 @@
-@media (max-width:991.5px){
-    .home--about-toparea{
+@media (max-width:991.5px) {
+    .home--about-toparea {
         gap: 20px;
     }
-    .home--about-para{
+
+    .home--about-para {
         width: 100%;
     }
-    .home--about-headarea .service--heading{
+
+    .home--about-headarea .service--heading {
         font-size: 48px;
     }
-    .home--service-para{
+
+    .home--service-para {
         width: 100%;
     }
-    .rpo--card-learnmore{
+
+    .rpo--card-learnmore {
         margin-top: 15px;
     }
-    .home--about-headarea .candidate--heading{
+
+    .home--about-headarea .candidate--heading {
         font-size: 48px;
         line-height: 1.3;
+    }
+
+    .testimonial--card-lg {
+        margin-bottom: 1.5rem;
+    }
+
+    .testimonial--card-sm {
+        height: 80%;
+    }
+
+    .testimonial--section {
+        overflow: visible;
+        padding-bottom: 32%;
+    }
+
+    .contact--article {
+        flex-direction: row;
+        justify-content: space-around;
+    }
+
+    .connect--title {
+        margin-top: 0;
+    }
+
+    .connect--article-content {
+        align-items: flex-end;
+    }
+
+    .connect--desc-area p {
+        text-align: right;
+    }
+
+    .contact--article {
+        margin-bottom: 30px;
+        margin-top: 30px;
+        border: 2px solid #5c3b2f;
+        border-radius: 48px;
+        border-bottom: 5px solid #5c3b2f;
+        padding: 50px 0;
+    }
+
+    .connect--img-area {
+        border-radius: 48px;
+    }
+
+    .contact--article:hover {
+        background-color: #F9C833;
+    }
+
+    .connect--btn::after {
+        background-color: #fff;
+    }
+
+    .connect--btn-sub:hover svg path {
+        stroke: #FFF;
+    }
+
+    .connect--content-area {
+        margin-top: 50px;
+    }
+
+    .home--card-area {
+        margin-top: 120px;
+    }
+
+    .home--right-cover {
+        padding-top: 100px;
+    }
+
+    .bubble--img1 {
+        bottom: -55px;
+        left: 260px;
+    }
+
+    .bubble--img3 {
+        bottom: -8px;
+        left: 345px;
+    }
+
+    .bubble--img4 {
+        bottom: -32px;
+    }
+
+    .bubble--img5 {
+        bottom: 0;
+    }
+
+    .bubble--img7 {
+        right: 0;
+    }
+
+    .home--card {
+        height: 230px;
+    }
+
+    .home--left-cover {
+        padding-top: 200px;
+    }
+
+    /* .candidate--profile-area{
+        flex-direction: column;
+        text-align: center;
+    } */
+    /* .candidate--arrow-icon {
+        display: none;
+    } */
+    .candidate--slider-area {
+        padding: 0 10%;
+    }
+}
+
+@media (max-width:500px) {
+    .container-section {
+        padding: 0;
+    }
+
+    .home--bg {
+        padding: 0px 20px 40px 20px;
+    }
+
+    .home--head h5 {
+        font-size: 22px;
+        line-height: normal;
+    }
+
+    .home--head h6 {
+        margin-top: 35px;
+        font-size: 15px;
+    }
+
+    .home--search-area .home--search-box {
+        padding: 12px 15px 12px 60px;
+        font-size: 18px;
+    }
+
+    .home--search-area .home--search-btn {
+        padding: 8px 55px;
+        font-size: 20px;
+    }
+
+    .home--search-area .home--search-icon {
+        margin-top: -43px;
+        font-size: 22px;
+    }
+
+    .home--popular-btn {
+        padding: 9px 20px;
+        font-size: 12px;
+        margin: 0px 15px 15px 0;
+    }
+
+    .home--right-cover {
+        padding-top: 30px;
+    }
+
+    .home--img {
+        width: 300px;
+    }
+
+    .bubble--img1,
+    .bubble--img2,
+    .bubble--img3,
+    .bubble--img4,
+    .bubble--img5,
+    .bubble--img6,
+    .bubble--img7 {
+        display: none;
+    }
+
+    .home--card-area {
+        margin-top: 40px;
+    }
+
+    .card--imgicon-area .card--text {
+        font-size: 18px;
+    }
+
+    .home--about-section {
+        padding-top: 60px !important;
+        padding-bottom: 40px !important;
+    }
+
+    .home--sub-des p {
+        font-size: 15px !important;
+    }
+
+    .home--about-headarea h6 {
+        font-size: 13px !important;
+    }
+
+    .home--about-headarea .about--heading,
+    .home--about-headarea .rpo--heading,
+    .home--about-headarea .client--heading {
+        margin-top: 12px;
+        font-size: 30px !important;
+    }
+
+    .home--know-more-btn {
+        padding: 8px 30px;
+        font-size: 19px;
+    }
+
+    .home--know-more-arrow {
+        padding: 10px 13px;
+    }
+
+    .home--know-more-arrow .knowmore--arrow {
+        width: 18px;
+        height: 18px;
+    }
+
+    .home--about-para {
+        margin-top: 40px !important;
+    }
+
+    .home--about-para p {
+        font-size: 18px !important;
+        line-height: normal !important;
+    }
+
+    .home--service-section {
+        padding: 0;
+    }
+
+    .home--about-headarea .service--heading {
+        margin-top: 10px;
+        font-size: 30px;
+    }
+
+    .home--service-para {
+        margin: 30px 0;
+    }
+
+    .home--service-para p {
+        font-size: 18px !important;
+        line-height: normal !important;
+    }
+
+    .home--services-slider-area {
+        padding: 25px !important;
+    }
+
+    .home--service-card {
+        padding: 25px;
+        flex-direction: column;
+    }
+
+    .service--arrow-area .service--arrow-img {
+        width: 30px;
+    }
+
+    .service--card-headarea {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .service--card-headarea h3 {
+        font-size: 30px;
+        font-weight: 500;
+    }
+
+    .service--card-headarea .sourcing-icon {
+        width: 60px;
+        height: 60px;
+    }
+
+    .service--content-area .service--content {
+        font-size: 18px;
+    }
+
+    .service--know-more-btn {
+        padding: 13px 40px;
+        font-size: 19px;
+    }
+
+    .service--know-more-arrow {
+        padding: 15px;
+    }
+
+    .service--know-more {
+        align-items: center;
+    }
+
+    .service-know-morearea {
+        float: none;
+        display: flex;
+        justify-content: center;
+    }
+
+    .home--rpo-section {
+        padding-top: 60px;
+    }
+
+    .rpo--para-area p {
+        font-size: 18px !important;
+        line-height: normal !important;
+    }
+
+    .rpo--para-area {
+        margin: 30px 0 30px 0 !important;
+        width: 100% !important;
+    }
+
+    .rpo--card-heading h4 {
+        font-size: 30px;
+    }
+
+    .rpo--content-card {
+        padding: 30px 0px 30px 0px !important;
+    }
+
+    .rpo--card-desc p {
+        margin-top: 8px;
+        font-size: 18px !important;
+        line-height: normal !important;
+    }
+
+    .rpo--know-more-btn {
+        font-size: 20px;
+        padding: 12px 40px;
+    }
+
+    .rpo--know-more {
+        align-items: center;
+    }
+
+    .rpo--know-more-arrow {
+        padding: 15px;
+    }
+
+    .candidate--section {
+        padding-top: 60px;
+    }
+
+    .home--about-headarea .candidate--heading {
+        font-size: 30px !important;
+        line-height: normal;
+    }
+
+    .candidate--slider-area {
+        margin-top: 80px;
+    }
+
+    .candidate--slider-area {
+        padding: 0 !important;
+    }
+
+    .candidate--profile-area {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .candidate--arrow-icon {
+        width: 40px;
+        height: 40px;
+    }
+
+    .candidate--arrow-icon img {
+        width: 20px;
+    }
+
+    .canidate--profile-img {
+        width: 100px;
+        height: 100px;
+    }
+    .candidate--skill h6{
+        font-size: 15px;
+    }
+    .candidate--skill h2 {
+        font-size: 48px;
+    }
+
+    .clients--section,
+    .testimonial--section {
+        padding-top: 0;
+    }
+
+    .clients--img-area {
+        margin-top: 30px;
+    }
+
+    .testimonial--card-area {
+        margin-top: 60px;
+    }
+
+    .testimonial--profile-area {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .testimonial--profile h5 {
+        font-size: 30px;
+    }
+
+    .testimonial--profile p {
+        width: 100%;
+        text-align: center;
+    }
+
+    .testimonial--content-area {
+        margin-top: 25px;
+        width: 100%;
+    }
+
+    .testimonial--content-area p {
+        font-size: 18px !important;
+        line-height: normal !important;
+        padding-bottom: 10px;
+    }
+
+    .testimonial--card-lg {
+        padding: 25px;
+        border-radius: 50px !important;
+    }
+
+    .testimonial--arrow-area {
+        position: relative !important;
+        width: 80px;
+        height: 80px;
+        outline-width: 8px !important;
+        float: right;
+    }
+
+    .testimonial--arrow-area svg {
+        width: 40px !important;
+        height: 40px !important;
+    }
+
+    .testimonial-sm--profile-area {
+        flex-direction: column;
+    }
+
+    .testimonial--card-sm {
+        padding: 25px;
+    }
+
+    .testimonial--sm-profile-img {
+        width: 90px;
+        height: 90px;
+    }
+
+    .testimonial-sm--profile p {
+        width: 80%;
+    }
+
+    .testimonial--card-sm.test--card-bg1:hover,
+    .testimonial--card-sm.test--card-bg2:hover{
+        background-position: center !important;
+    }
+    .testimonial--card-sm {
+        height: auto !important;
+    }
+
+    .connect--section {
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+
+    .testimonial--section {
+        padding-bottom: 60px !important;
+    }
+
+    .connect--content-area {
+        margin-top: 20px;
+    }
+
+    .contact--article {
+        flex-direction: column !important;
+    }
+
+    .connect--title h4 {
+        font-size: 30px;
+    }
+
+    .connect--article-content {
+        margin-top: 15px;
+        align-items: center !important;
+    }
+
+    .connect--desc-area {
+        height: auto !important;
+    }
+
+    .connect--btn-area {
+        margin-top: 10px !important;
+    }
+
+    .connect--desc-area p {
+        text-align: center !important;
+    }
+
+    .register--section {
+        padding: 60px 0;
+    }
+
+    .register--card {
+        height: 150px;
+    }
+
+    .register--card .register--text {
+        font-size: 40px;
+    }
+
+    .register-arrow-area svg {
+        right: 15px;
+        top: 15px;
+        width: 30px;
+        height: 30px;
     }
 }
