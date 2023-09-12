@@ -4,6 +4,7 @@ import Layout from './components/Layout';
 import ClientRegister from "./pages/ClientRegister/ClientRegister";
 import Packages from './pages/Packages/Packages';
 import Home from './pages/Home/Home';
+import About from './pages/AboutUs/About';
 import ClientDetail from './pages/ClientDetail/ClientDetail';
 import ClientNewPassword from './pages/ClientNewPassword/ClientNewPassword';
 import ClientLogin from './pages/ClientLogin/ClientLogin';
@@ -22,6 +23,7 @@ function App() {
       <Layout>
         <Routes>
           <Route path='/' element={<Home />} />
+          <Route path='/about-us' element={<About />} />
           <Route path='/pdf' element={<PDFViewer />} />
           {/* <Route path='/live-chat' element={<LiveChat />} /> */}
           <Route path='/client-register' element={<ClientRegister />} />

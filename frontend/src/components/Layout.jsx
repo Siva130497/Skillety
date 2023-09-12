@@ -1,7 +1,59 @@
 import React from 'react'
 import NavBar from './NavBar'
+// import ReactDOM from 'react-dom';
+import { useEffect } from 'react';
+import $ from 'jquery';
+
+// import './main.js'
 
 const Layout = ({ navBar = true, children }) => {
+  useEffect(() => {
+    const select = (el, all = false) => {
+      if (all) {
+        return $(el);
+      } else {
+        return $(el).first();
+      }
+    };
+    
+
+    const preloader = document.querySelector('#preloader');
+    if (preloader) {
+      window.addEventListener('load', () => {
+        preloader.remove();
+      });
+    }
+
+    window.addEventListener('load', () => {
+      if (window.location.hash) {
+        const element = document.querySelector(window.location.hash);
+        if (element) {
+          element.scrollIntoView();
+        }
+      }
+    });
+
+    $(document).on('click', '.scrollto', function (e) {
+      e.preventDefault();
+      let navbar = $('#navbar');
+      if (navbar.hasClass('navbar-mobile')) {
+        navbar.removeClass('navbar-mobile');
+        let navbarToggle = $('.mobile-nav-toggle');
+        navbarToggle.toggleClass('bi-list');
+        navbarToggle.toggleClass('bi-x');
+      }
+      let target = $(this).attr('href');
+      if (target) {
+        $('html, body').animate({
+          scrollTop: $(target).offset().top
+        }, 1000);
+      }
+    });
+
+
+
+  }, []);
+
   return (
     <>
       {navBar && <NavBar />}
@@ -50,7 +102,7 @@ const Layout = ({ navBar = true, children }) => {
             </div>
           </div>
         </div>
-        <div className="container-xxl">
+        <div className="container-fluid footer--link-container">
           <div className="footer--link-section">
             <div className="row">
               <div className="col-12 col-lg-6">
@@ -305,7 +357,7 @@ const Layout = ({ navBar = true, children }) => {
           SKILLETY
         </div>
         <div className="sub--footer">
-          <div className="container-xl">
+          <div className="container-fluid">
             <div className="sub--footer-content">
               <span className='footer--copyright'>© 2023 - Skillety Technologies Private Limited, All Rights Reserved.</span>
               <div className='footer--bottom-credit-area'>
@@ -323,4 +375,6 @@ const Layout = ({ navBar = true, children }) => {
   )
 }
 
+
+// ReactDOM.render(<App />, document.getElementById('root'));
 export default Layout;

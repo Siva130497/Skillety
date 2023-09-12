@@ -548,10 +548,24 @@ code {
 /* for footer */
 .footer--section {
   overflow: hidden;
-  background-color: #714F36;
+  /* background-color: #714F36; */
   padding-top: 56px;
   padding-bottom: 0;
   position: relative;
+  --dot-bg1: #714F36;
+  --dot-color1: #85714b;
+  --dot-size1: 1.6px;
+  --dot-space1: 30px;
+  background:
+    linear-gradient(90deg, var(--dot-bg1) calc(var(--dot-space1) - var(--dot-size1)), transparent 1%) center / var(--dot-space1) var(--dot-space1),
+    linear-gradient(var(--dot-bg1) calc(var(--dot-space1) - var(--dot-size1)), transparent 1%) center / var(--dot-space1) var(--dot-space1),
+    var(--dot-color1) !important;
+}
+
+.footer--link-container,
+.sub--footer-content {
+  padding-left: 8% !important;
+  padding-right: 8% !important;
 }
 
 .footer--email-form-section {
@@ -568,17 +582,20 @@ code {
   border-bottom: #F9C833 8px solid;
   box-shadow: 0px 8px 20px #2424242c;
 }
-.footer--email-form-card:hover{
+
+.footer--email-form-card:hover {
   border-color: #5C3B2E;
   background-color: #ffffffae;
   transform: translateY(-8px);
   box-shadow: 0px 8px 25px #ffffff3c;
 }
-.footer--email-form-card:hover .footer--logo{
+
+.footer--email-form-card:hover .footer--logo {
   filter: drop-shadow(0px 0px 20px #F9C833);
   transform: scale(0.97);
 }
-.footer--email-form-card:hover .footer--email-left .footer--email-head{
+
+.footer--email-form-card:hover .footer--email-left .footer--email-head {
   text-shadow: 2px 2px 2px #F9C833;
 }
 
@@ -623,9 +640,11 @@ code {
 .footer--sub-btn-area {
   margin-top: 29px;
 }
-.footer--sub-btn-area{
+
+.footer--sub-btn-area {
   display: flex;
 }
+
 .footer--sub-btn-sub {
   overflow: hidden;
   z-index: 1;
@@ -718,13 +737,17 @@ code {
 }
 
 .footer--link-area .footer--link-head {
-  color: #FFF;
+  color: #F9C833;
   font-size: 20px;
   font-weight: 600;
 }
 
 .footer--link-area .footer--links {
   margin-top: 18px;
+}
+
+.footer--link-area .footer--links ul {
+  padding-left: 0 !important;
 }
 
 .footer--links ul li {
@@ -766,6 +789,7 @@ code {
   justify-content: center;
   align-items: center;
   position: relative;
+  transition: ease-in-out 0.5s;
 }
 
 .footer--social-icon-area .footer--social-icon {
@@ -773,6 +797,7 @@ code {
   font-size: 31px;
   margin: 0;
   padding: 0;
+  transition: ease-in-out 0.5s;
 }
 
 .footer--social-icon-area .footer--social-icon.footer-twitter {
@@ -786,6 +811,7 @@ code {
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: ease-in-out 0.5s;
 }
 
 .footer--social-area .footer--social-link {
@@ -808,6 +834,15 @@ code {
 
 .footer--social-area .footer--social-link:hover {
   color: #F9C833;
+}
+
+.footer--social-area:hover .footer--social-icon-area {
+  transform: scale(1.06);
+  background-color: #FFF !important;
+}
+
+.footer--social-area:hover .footer--social-icon-area .footer--social-icon.footer-twitter {
+  color: #fff;
 }
 
 .footer--link-section2 {
@@ -866,6 +901,13 @@ code {
 
 /* for footer responsive */
 @media (max-width:991.5px) {
+
+  .footer--link-container,
+  .sub--footer-content {
+    padding-left: 2% !important;
+    padding-right: 2% !important;
+  }
+
   .footer--quick-link-area {
     display: flex;
     justify-content: center;
@@ -883,28 +925,116 @@ code {
     flex-direction: column;
     gap: 15px;
   }
-  .footer--bottom-text-area{
+
+  .footer--bottom-text-area {
     padding-top: 50px;
   }
-  .footer--link-section2{
+
+  .footer--link-section2 {
     padding-bottom: 80px;
   }
-  .footer--custom-row{
+
+  .footer--custom-row {
     flex-direction: column-reverse;
   }
-  .footer--email-left .footer--email-head{
+
+  .footer--email-left .footer--email-head {
     margin-top: 50px;
     text-align: center;
     font-size: 60px;
   }
-  .footer--email-left .footer--email-desc{
+
+  .footer--email-left .footer--email-desc {
     text-align: center;
   }
-  .footer--email-left .footer--email-input{
+
+  .footer--email-left .footer--email-input {
     width: 100%;
   }
-  .footer--sub-btn-area{
+
+  .footer--sub-btn-area {
     justify-content: center;
+  }
+}
+
+@media (max-width:500px) {
+  .footer--email-form-section {
+    padding: 0 !important;
+  }
+
+  .footer--logo {
+    width: 200px;
+    height: 200px;
+  }
+
+  .footer--email-form-card {
+    padding: 40px 30px !important;
+  }
+
+  .footer--email-left .footer--email-head {
+    margin-top: 30px !important;
+    font-size: 30px !important;
+  }
+
+  .footer--email-left .footer--email-desc {
+    margin-top: 30px !important;
+    font-size: 18px !important;
+  }
+
+  .footer--email-left .footer--email-input {
+    padding: 15px 30px;
+  }
+
+  .footer--sub-btn-sub {
+    align-items: center;
+  }
+
+  .footer--sub-btn {
+    padding: 12px 49px;
+  }
+
+  .footer--btn-arrow-area {
+    padding: 15px;
+  }
+
+  .footer--btn-arrow-area svg {
+    width: 23px;
+    height: 23px;
+  }
+
+  .footer--link-section {
+    padding-top: 60px !important;
+    padding-left: 8%;
+    padding-right: 8%;
+  }
+  .footer--quick-link-area{
+    justify-content: flex-start;
+  }
+  .footer--link-area{
+    margin-bottom: 30px;
+  }
+  .footer--social-section{
+    flex-direction: column;
+  }
+  .footer--social-section{
+    margin-top: 0;
+    gap: 20px;
+  }
+  .footer--link-section2{
+    padding-bottom: 0px !important;
+    padding-left: 8%;
+    padding-right: 8%;
+  }
+  .sub--footer{
+    padding: 20px 0;
+    text-align: center;
+  }
+  .sub--footer-content .footer--copyright,
+  .footer--bottom-credit-area .footer--cerdit{
+    font-size: 15px !important;
+  }
+  .footer--bottom-credit-area .prodigit--logo{
+    width: 120px;
   }
 }
 
@@ -915,7 +1045,20 @@ code {
 body {
   font-family: "Poppins" !important;
   color: #444444;
+  -webkit-font-smoothing: antialiased;
+  /* background-image: url(/public/assets/img/pattern-bg.png) !important; */
+  /* background-blend-mode:exclusion; */
+  /* background-size: contain !important; */
+  /* background-color: #ffffff !important; */
   /* background-color: #0c3c53 !important; */
+  --dot-bg: rgb(255, 255, 255);
+  --dot-color: #f9c7338b;
+  --dot-size: 1.6px;
+  --dot-space: 30px;
+  background:
+    linear-gradient(90deg, var(--dot-bg) calc(var(--dot-space) - var(--dot-size)), transparent 1%) center / var(--dot-space) var(--dot-space),
+    linear-gradient(var(--dot-bg) calc(var(--dot-space) - var(--dot-size)), transparent 1%) center / var(--dot-space) var(--dot-space),
+    var(--dot-color) !important;
 }
 
 a {
