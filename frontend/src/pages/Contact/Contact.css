@@ -1,0 +1,339 @@
+.contact--section {
+    margin-top: 27px;
+}
+
+.con--where-section {
+    padding-top: 98px;
+}
+
+.con--where-container {
+    padding: 0 36px;
+}
+
+.con--where-heading-area .con--where-heading {
+    color: #714F36;
+    font-size: 64px;
+    font-weight: 400;
+    line-height: 100%;
+    text-transform: uppercase;
+}
+
+.con--where-desc-area {
+    padding-top: 52px;
+    width: 60%;
+}
+
+.con--where-desc-area .con--where-desc {
+    color: #5C3B2E;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: normal;
+    text-transform: capitalize;
+    margin-bottom: 0;
+}
+
+.con-where-content-area {
+    padding: 63px 20px;
+}
+
+.custom-border-top {
+    border-top: 1px solid #714F36;
+}
+
+.custom-border-right {
+    border-right: 1px solid #714F36;
+}
+
+.custom-border-bottom {
+    border-bottom: 1px solid #714F36;
+}
+
+.con--map-container {
+    padding: 40px 50px;
+}
+
+.con--map-container .con--location-heading {
+    color: #714F36;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: normal;
+    text-transform: capitalize;
+}
+
+.con--map-area {
+    /* overflow: hidden; */
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.con--map-area .con--map-img {
+    width: 90%;
+    object-fit: contain;
+}
+
+.con--map-pointer {
+    border-radius: 50%;
+    width: 10px;
+    bottom: 14%;
+    left: 33.5%;
+    height: 10px;
+    flex-shrink: 0;
+    position: absolute;
+    background-color: #fff;
+    -webkit-animation: pulse502 2s infinite;
+    animation: pulse502 1.5s infinite;
+
+}
+
+@keyframes pulse502 {
+    0% {
+        box-shadow: 0 0 0 0 #ffffff57;
+    }
+
+    70% {
+        box-shadow: 0 0 0 12px rgb(218 103 68 / 0%);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgb(218 103 68 / 0%);
+    }
+}
+
+.con--map-link-img-area {
+    background: #FFF;
+    box-shadow: 0px 4px 17px 0px rgba(0, 0, 0, 0.10);
+    width: 50%;
+    height: 23%;
+    flex-shrink: 0;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    right: 0;
+    top: -20px;
+}
+
+.con--map-link-img-area .con--map-link-img-sub {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.con--map-link-img-area .con--map-link-img {
+    width: 95%;
+    height: 90%;
+    flex-shrink: 0;
+    object-fit: contain;
+}
+
+.con--content-area {
+    padding: 47px 35px;
+}
+
+.con--content {
+    margin-bottom: 60px;
+}
+
+.con--icon-area {
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    background-color: #F9C833;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+}
+
+.con--icon-area .con--icon {
+    width: 35px;
+}
+
+.con--content .con--loaction,
+.con--content .con--phone-no,
+.con--content .con--mail {
+    margin-top: 45px;
+}
+
+.con--content .con--loaction a {
+    color: #5C3B2E !important;
+    font-size: 20px !important;
+    font-weight: 400 !important;
+    line-height: normal !important;
+    text-transform: capitalize;
+    text-decoration: none;
+}
+
+.con--content .con--phone-no a {
+    color: #5C3B2E !important;
+    font-size: 48px !important;
+    font-weight: 300 !important;
+    line-height: normal !important;
+    text-transform: capitalize;
+    text-decoration: none;
+}
+
+.con--content .con--mail a {
+    color: #5C3B2E !important;
+    font-size: 48px !important;
+    font-weight: 300 !important;
+    line-height: normal !important;
+    text-transform: capitalize;
+    text-decoration: none;
+}
+
+.con--note-section {
+    padding-top: 96px;
+    padding-bottom: 110px;
+}
+
+.con--note-form-area {
+    margin-top: 60px;
+    position: relative;
+}
+
+.con--form-group {
+    position: relative;
+    margin-bottom: 80px;
+}
+
+.con--note-form-area .con--form-input {
+    outline: none;
+    width: 100%;
+    padding: 22px 0;
+    border: none;
+    border-bottom: 1px solid #714F36;
+    color: #5C3B2E;
+    font-size: 18px !important;
+    font-weight: 400;
+    line-height: normal;
+    transition: border-color 0.5s, box-shadow 0.5s;
+}
+
+.con--note-form-area .con--form-label {
+    color: #5C3B2E;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: normal;
+    text-transform: capitalize;
+    transition: ease-in-out 0.8s;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    pointer-events: none;
+    transition: top 0.5s, font-size 0.5s, color 0.5s;
+}
+
+.con--note-form-area .con--form-label span {
+    color: red;
+}
+
+/* .con--form-input:focus+.con--form-label {
+    top: -1px;
+} */
+.con--form-input:not(:placeholder-shown) + .con--form-label,
+.con--form-input:focus + .con--form-label {
+    top: -1px;
+}
+.con--note-form-area .con--form-input::placeholder {
+    opacity: 0;
+    font-size: 18px;
+    color: #a99790;
+    transition: opacity 0.5s;
+}
+
+.con--note-form-area .con--form-input:focus::placeholder {
+    opacity: 1;
+}
+
+.custom-padding-right {
+    padding-right: 40px;
+}
+
+.custom-padding-left {
+    padding-left: 40px;
+}
+
+.con--form-btn-area {
+    padding-top: 30px;
+    display: flex;
+    justify-content: center;
+    /* align-items: center; */
+}
+
+.con--form-btn-sub {
+    overflow: hidden;
+    z-index: 1;
+    display: flex;
+    transition: ease-in-out 0.5s;
+    outline: none;
+    border: none;
+    background-color: transparent;
+}
+
+.con--form-btn {
+    font-size: 24px;
+    font-weight: 500;
+    border-radius: 48px;
+    background-color: #714F36;
+    padding: 18px 100px;
+    color: #FFF;
+    position: relative;
+    z-index: 1;
+    background-repeat: no-repeat;
+    overflow: hidden !important;
+    transition: ease-in-out 0.5s;
+}
+
+.con--form-btn::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    transition: 0.8s ease-in-out;
+    background-color: #F9C833;
+    border-radius: 30px;
+    visibility: hidden;
+    height: 10px;
+    width: 10px;
+    z-index: -1;
+}
+
+.con--form-btn:hover::after {
+    visibility: visible;
+    transform: scale(150) translateX(2px);
+}
+
+.con--form-btn:hover {
+    color: #714F36 !important;
+}
+
+.con--form-btn-sub:hover svg {
+    transform: rotate(45deg);
+}
+
+.con--form-btn-sub:hover svg path {
+    stroke: #F9C833;
+}
+
+.con--form-arrow-area {
+    border-radius: 50%;
+    background-color: #714F36;
+    padding: 22px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: ease-in-out 0.8s;
+}
+
+.con--form-arrow-area svg,
+.con--form-arrow-area svg path {
+    transition: ease-in-out 0.8s;
+}

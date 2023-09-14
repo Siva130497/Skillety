@@ -62,7 +62,7 @@ const NavBar = ({ title = "SKILLETY" }) => {
                     </div>
                 </div>
 
-                <nav id="navbar" className="navbar">
+                <nav id="navbar" className="navbar navbar-expand-lg">
                     <ul>
                         <li><a className="nav-link scrollto active" href="/">Home</a></li>
                         <li><a className="nav-link scrollto" href="/about-us">About Us</a></li>

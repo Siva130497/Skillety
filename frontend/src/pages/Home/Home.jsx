@@ -114,87 +114,87 @@ const Home = () => {
             <div className="home--service-para">
               <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
             </div>
-            <div className="home--services-slider-area">
-              <div className="row">
-                <div className="col-12 col-lg-7">
-                  <article className='home--service-card'>
-                    <div className="service--arrow-area">
-                      <img src="assets/img/home-images/arrow-L.png" className='service--arrow-img' alt="" />
+          </div>
+          <div className="home--services-slider-area">
+            <div className="row">
+              <div className="col-12 col-lg-7">
+                <article className='home--service-card'>
+                  <div className="service--arrow-area">
+                    <img src="assets/img/home-images/arrow-L.png" className='service--arrow-img' alt="" />
+                  </div>
+                  <div className="service--content-area">
+                    <div className="service--card-headarea">
+                      <h3>Sourcing</h3>
+                      <img src="assets/img/home-images/sourcing-icon.png" className='sourcing-icon' alt="" />
                     </div>
-                    <div className="service--content-area">
-                      <div className="service--card-headarea">
-                        <h3>Sourcing</h3>
-                        <img src="assets/img/home-images/sourcing-icon.png" className='sourcing-icon' alt="" />
-                      </div>
-                      <p className='service--content'>
-                        Search for Immediate Joiner CVs from 3 buckets - 7 days, 15 days & 30 days joiners. Also Post Jobs and publish it on 172 partner job-boards & social media platforms, in just one click.
-                      </p>
-                      <div className='service-know-morearea'>
-                        <a href="#" className='service--know-more'>
-                          <div className='service--know-more-btn'>Know more
-                          </div>
-                          <div className='service--know-more-arrow'>
-                            <img src="assets/img/home-images/arrow-dark.png" className='knowmore--arrow' alt="" />
-                          </div>
-                        </a>
-                      </div>
+                    <p className='service--content'>
+                      Search for Immediate Joiner CVs from 3 buckets - 7 days, 15 days & 30 days joiners. Also Post Jobs and publish it on 172 partner job-boards & social media platforms, in just one click.
+                    </p>
+                    <div className='service-know-morearea'>
+                      <a href="#" className='service--know-more'>
+                        <div className='service--know-more-btn'>Know more
+                        </div>
+                        <div className='service--know-more-arrow'>
+                          <img src="assets/img/home-images/arrow-dark.png" className='knowmore--arrow' alt="" />
+                        </div>
+                      </a>
                     </div>
-                  </article>
-                </div>
+                  </div>
+                </article>
               </div>
-              <div className="row mt-5">
-                <div className="col-12 col-lg-7 offset-lg-5">
-                  <article className='home--service-card'>
-                    <div className="service--arrow-area">
-                      <img src="assets/img/home-images/arrow-L.png" className='service--arrow-img' alt="" />
+            </div>
+            <div className="row mt-5">
+              <div className="col-12 col-lg-7 offset-lg-5">
+                <article className='home--service-card'>
+                  <div className="service--arrow-area">
+                    <img src="assets/img/home-images/arrow-L.png" className='service--arrow-img' alt="" />
+                  </div>
+                  <div className="service--content-area">
+                    <div className="service--card-headarea">
+                      <h3>SCREENING</h3>
+                      <img src="assets/img/home-images/screening.png" className='screening-icon' alt="" />
                     </div>
-                    <div className="service--content-area">
-                      <div className="service--card-headarea">
-                        <h3>SCREENING</h3>
-                        <img src="assets/img/home-images/screening.png" className='screening-icon' alt="" />
-                      </div>
-                      <p className='service--content'>
-                        Check the candidates' interest and availability by initiating a Telephonic Screening of all the CVs, simultaneously. Our powerful AI tool can call upto 5000 candidates in 10 minutes.
-                      </p>
-                      <div className='service-know-morearea'>
-                        <a href="#" className='service--know-more'>
-                          <div className='service--know-more-btn'>Know more
-                          </div>
-                          <div className='service--know-more-arrow'>
-                            <img src="assets/img/home-images/arrow-dark.png" className='knowmore--arrow' alt="" />
-                          </div>
-                        </a>
-                      </div>
+                    <p className='service--content'>
+                      Check the candidates' interest and availability by initiating a Telephonic Screening of all the CVs, simultaneously. Our powerful AI tool can call upto 5000 candidates in 10 minutes.
+                    </p>
+                    <div className='service-know-morearea'>
+                      <a href="#" className='service--know-more'>
+                        <div className='service--know-more-btn'>Know more
+                        </div>
+                        <div className='service--know-more-arrow'>
+                          <img src="assets/img/home-images/arrow-dark.png" className='knowmore--arrow' alt="" />
+                        </div>
+                      </a>
                     </div>
-                  </article>
-                </div>
+                  </div>
+                </article>
               </div>
-              <div className="row mt-5">
-                <div className="col-12 col-lg-7">
-                  <article className='home--service-card'>
-                    <div className="service--arrow-area">
-                      <img src="assets/img/home-images/arrow-L.png" className='service--arrow-img' alt="" />
+            </div>
+            <div className="row mt-5">
+              <div className="col-12 col-lg-7">
+                <article className='home--service-card'>
+                  <div className="service--arrow-area">
+                    <img src="assets/img/home-images/arrow-L.png" className='service--arrow-img' alt="" />
+                  </div>
+                  <div className="service--content-area">
+                    <div className="service--card-headarea">
+                      <h3>ASSESSMENT</h3>
+                      <img src="assets/img/home-images/assesment.png" className='sourcing-icon' alt="" />
                     </div>
-                    <div className="service--content-area">
-                      <div className="service--card-headarea">
-                        <h3>ASSESSMENT</h3>
-                        <img src="assets/img/home-images/assesment.png" className='sourcing-icon' alt="" />
-                      </div>
-                      <p className='service--content'>
-                        Send Technical Assessment test links to multiple candidates, simultaneously. The Test Report comes with a comprehensive analysis of their aptitude, knowledge and proficiency.
-                      </p>
-                      <div className='service-know-morearea'>
-                        <a href="#" className='service--know-more'>
-                          <div className='service--know-more-btn'>Know more
-                          </div>
-                          <div className='service--know-more-arrow'>
-                            <img src="assets/img/home-images/arrow-dark.png" className='knowmore--arrow' alt="" />
-                          </div>
-                        </a>
-                      </div>
+                    <p className='service--content'>
+                      Send Technical Assessment test links to multiple candidates, simultaneously. The Test Report comes with a comprehensive analysis of their aptitude, knowledge and proficiency.
+                    </p>
+                    <div className='service-know-morearea'>
+                      <a href="#" className='service--know-more'>
+                        <div className='service--know-more-btn'>Know more
+                        </div>
+                        <div className='service--know-more-arrow'>
+                          <img src="assets/img/home-images/arrow-dark.png" className='knowmore--arrow' alt="" />
+                        </div>
+                      </a>
                     </div>
-                  </article>
-                </div>
+                  </div>
+                </article>
               </div>
             </div>
           </div>
@@ -248,7 +248,7 @@ const Home = () => {
               </div>
               <div className="col-12 col-lg-3">
                 <div className='rpo--card-learnmore'>
-                  <a href="#" className='rpo--know-more'>
+                  <a href="/rpo" className='rpo--know-more'>
                     <div className='rpo--know-more-btn'>
                       Know more
                     </div>
@@ -317,7 +317,7 @@ const Home = () => {
         <section className='milestone--section'>
           <div className="home--milestone-head-area">
             <div className='home--milestone-headarea'>
-              <h6>Services</h6>
+              <h6>Milestone numbers</h6>
               <h3 className='milestone--heading'>Achieving <span>Milestones</span></h3>
             </div>
             <div className="milestone--slider-area">
@@ -377,7 +377,7 @@ const Home = () => {
               <h4 className='candidate--heading'><span>Connect</span> with Diverse <br /> Professionals and <span>Elevate</span><br /> <span>Your Brand</span></h4>
             </div>
             <div className='home--know-more-area'>
-              <a href="#" className='home--know-more'>
+              <a href="/services" className='home--know-more'>
                 <div className='home--know-more-btn'>More Talents
                 </div>
                 <div className='home--know-more-arrow'>
@@ -680,7 +680,7 @@ const Home = () => {
               <h4 className='candidate--heading'>WHAT THEY SAY ABOUT US</h4>
             </div>
             <div className='home--know-more-area'>
-              <a href="#" className='home--know-more'>
+              <a href="/contact-us" className='home--know-more'>
                 <div className='home--know-more-btn'>Know more
                 </div>
                 <div className='home--know-more-arrow'>
