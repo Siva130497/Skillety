@@ -1,4 +1,38 @@
 @media (max-width:991.5px) {
+    .home--about-section {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .home--service-head-area {
+        padding: 0 20px;
+    }
+
+    .home--rpo-section {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .candidate--section {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .clients--section,
+    .testimonial--section {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .connect--section {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .home--head h5 {
+        line-height: 1.4em;
+    }
+
     .home--about-toparea {
         gap: 20px;
     }
@@ -91,28 +125,6 @@
         padding-top: 100px;
     }
 
-    .bubble--img1 {
-        bottom: -55px;
-        left: 260px;
-    }
-
-    .bubble--img3 {
-        bottom: -8px;
-        left: 345px;
-    }
-
-    .bubble--img4 {
-        bottom: -32px;
-    }
-
-    .bubble--img5 {
-        bottom: 0;
-    }
-
-    .bubble--img7 {
-        right: 0;
-    }
-
     .home--card {
         height: 230px;
     }
@@ -136,6 +148,18 @@
 @media (max-width:500px) {
     .container-section {
         padding: 0;
+    }
+
+    .home--card {
+        height: auto;
+    }
+
+    .card--imgicon-area .card--text {
+        font-size: 20px !important;
+    }
+
+    .card--imgicon-area .card--icon {
+        width: 60px;
     }
 
     .home--bg {
@@ -178,21 +202,23 @@
     }
 
     .home--img {
-        width: 300px;
+        width: 95%;
     }
 
-    .bubble--img1,
     .bubble--img2,
     .bubble--img3,
     .bubble--img4,
     .bubble--img5,
     .bubble--img6,
     .bubble--img7 {
-        display: none;
+        max-width: 3.5%;
+    }
+    .bubble--img1{
+        max-width: 12%;
     }
 
     .home--card-area {
-        margin-top: 40px;
+        margin-top: 60px;
     }
 
     .card--imgicon-area .card--text {
@@ -202,6 +228,12 @@
     .home--about-section {
         padding-top: 60px !important;
         padding-bottom: 40px !important;
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .home--service-head-area {
+        padding: 0;
     }
 
     .home--sub-des p {
@@ -314,6 +346,8 @@
 
     .home--rpo-section {
         padding-top: 60px;
+        padding-left: 0px;
+        padding-right: 0px;
     }
 
     .rpo--para-area p {
@@ -355,6 +389,8 @@
 
     .candidate--section {
         padding-top: 60px;
+        padding-left: 0px;
+        padding-right: 0px;
     }
 
     .home--about-headarea .candidate--heading {
@@ -388,9 +424,11 @@
         width: 100px;
         height: 100px;
     }
-    .candidate--skill h6{
+
+    .candidate--skill h6 {
         font-size: 15px;
     }
+
     .candidate--skill h2 {
         font-size: 48px;
     }
@@ -398,6 +436,8 @@
     .clients--section,
     .testimonial--section {
         padding-top: 0;
+        padding-left: 0px;
+        padding-right: 0px;
     }
 
     .clients--img-area {
@@ -469,15 +509,18 @@
     }
 
     .testimonial--card-sm.test--card-bg1:hover,
-    .testimonial--card-sm.test--card-bg2:hover{
+    .testimonial--card-sm.test--card-bg2:hover {
         background-position: center !important;
     }
+
     .testimonial--card-sm {
         height: auto !important;
     }
 
     .connect--section {
         padding-top: 0;
+        padding-left: 0px;
+        padding-right: 0px;
         padding-bottom: 0;
     }
 

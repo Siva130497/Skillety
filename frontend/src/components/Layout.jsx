@@ -107,7 +107,7 @@ const Layout = ({ navBar = true, children }) => {
             <div className="row">
               <div className="col-12 col-lg-6">
                 <div className="row">
-                  <div className="col-12 col-lg-4 col-md-4 footer--quick-link-area">
+                  <div className="col-12 col-lg-4 col-md-4 col-sm-4 footer--quick-link-area">
                     <div className="footer--link-area">
                       <h6 className='footer--link-head'>
                         For Talent
@@ -130,7 +130,7 @@ const Layout = ({ navBar = true, children }) => {
                       </div>
                     </div>
                   </div>
-                  <div className="col-12 col-lg-4 col-md-4 footer--quick-link-area">
+                  <div className="col-12 col-lg-4 col-md-4 col-sm-4 footer--quick-link-area">
                     <div className="footer--link-area">
                       <h6 className='footer--link-head'>
                         For Employer
@@ -153,7 +153,7 @@ const Layout = ({ navBar = true, children }) => {
                       </div>
                     </div>
                   </div>
-                  <div className="col-12 col-lg-4 col-md-4 footer--quick-link-area">
+                  <div className="col-12 col-lg-4 col-md-4 col-sm-4 footer--quick-link-area">
                     <div className="footer--link-area">
                       <h6 className='footer--link-head'>
                         Our Company
@@ -178,7 +178,7 @@ const Layout = ({ navBar = true, children }) => {
                   </div>
                 </div>
               </div>
-              <div className="col-12 col-lg-6">
+              <div className="col-12 col-lg-6 col-sm-12">
                 <div className="footer--social-section">
                   <div className="footer--social-area">
                     <div className="footer--social-icon-area">
@@ -210,7 +210,7 @@ const Layout = ({ navBar = true, children }) => {
           </div>
           <div className='footer--link-section2'>
             <div className="row">
-              <div className="col-12 col-lg-3 col-md-3 footer--quick-link-area">
+              <div className="col-12 col-lg-3 col-md-6 col-sm-6 footer--quick-link-area">
                 <div className="footer--link-area">
                   <h6 className='footer--link-head pb-4'>
                     Popular Job
@@ -245,7 +245,7 @@ const Layout = ({ navBar = true, children }) => {
                   </div>
                 </div>
               </div>
-              <div className="col-12 col-lg-3 col-md-3 footer--quick-link-area">
+              <div className="col-12 col-lg-3 col-md-6 col-sm-6 footer--quick-link-area">
                 <div className="footer--link-area">
                   <h6 className='footer--link-head pb-4'>
                     Popular Remote job
@@ -280,7 +280,7 @@ const Layout = ({ navBar = true, children }) => {
                   </div>
                 </div>
               </div>
-              <div className="col-12 col-lg-3 col-md-3 footer--quick-link-area">
+              <div className="col-12 col-lg-3 col-md-6 col-sm-6 mt-lg-0 mt-md-5 mt-sm-5 footer--quick-link-area">
                 <div className="footer--link-area">
                   <h6 className='footer--link-head pb-4'>
                     Popular job location
@@ -315,7 +315,7 @@ const Layout = ({ navBar = true, children }) => {
                   </div>
                 </div>
               </div>
-              <div className="col-12 col-lg-3 col-md-3 footer--quick-link-area">
+              <div className="col-12 col-lg-3 col-md-6 col-sm-6 mt-lg-0 mt-md-5 mt-sm-5 footer--quick-link-area">
                 <div className="footer--link-area">
                   <h6 className='footer--link-head pb-4'>
                     Popular Resources

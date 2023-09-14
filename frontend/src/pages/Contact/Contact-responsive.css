@@ -1,0 +1,120 @@
+@media (max-width:991.5px) {
+    .con--where-heading-area .con--where-heading {
+        font-size: 48px;
+    }
+
+    .con--where-desc-area {
+        padding-top: 40px;
+        width: 100%;
+    }
+
+    .custom-border-right,
+    .custom-border-top {
+        border: none !important;
+    }
+
+    .con--map-container {
+        padding: 0px 15px;
+    }
+
+    .con--content-area {
+        padding: 60px 16px 0 16px;
+    }
+
+    .con--content {
+        display: flex;
+        align-items: center;
+        gap: 50px;
+        margin-bottom: 60px;
+    }
+    .con--note-section{
+        padding-top: 0;
+    }
+    .con--form-btn{
+        padding: 18px 60px;
+    }
+    .con--content .con--phone-no a,
+    .con--content .con--mail a{
+        font-size: 35px !important;
+        font-weight: 400 !important;
+    }
+    .con--content .con--loaction, .con--content .con--phone-no, .con--content .con--mail {
+        margin-top: 0;
+    }
+}
+
+@media (max-width:500px) {
+    .con--where-section {
+        padding-top: 60px;
+    }
+    .con--where-container{
+        padding: 0;
+    }
+    .con--where-heading-area .con--where-heading{
+        font-size: 30px;
+    }
+    .con--where-desc-area .con--where-desc{
+        font-size: 18px !important;
+    }
+    .con-where-content-area{
+        padding: 60px 0 30px 0;
+    }
+    .con--map-container{
+        padding: 0;
+    }
+    .con--content{
+        align-items: flex-start;
+        gap: 25px;
+    }
+    .con--icon-area{
+        width: 45px;
+        height: 45px;
+    }
+    .con--icon-area .con--icon{
+        width: 22px;
+    }
+    .con--content .con--loaction a{
+        font-size: 18px !important;
+    }
+    .con--content .con--phone-no a, .con--content .con--mail a{
+        font-size: 18px !important;
+        font-weight: 400 !important;
+    }
+    .con--content .con--loaction, .con--content .con--phone-no, .con--content .con--mail{
+        margin-top: 10px;
+    }
+    .con--content{
+        margin-bottom: 40px;
+    }
+    .con--note-form-area{
+        margin-top: 60px;
+    }
+    .custom-padding-right,
+    .custom-padding-left,
+    .custom-padding-left-right{
+        padding: 0 1.5rem;
+    }
+    .con--form-group{
+        margin-bottom: 60px;
+    }
+    .con--note-form-area .con--form-label{
+        font-size: 18px !important;
+    }
+    .con--note-section{
+        padding-bottom: 60px;
+    }
+    .con--form-btn-area{
+        padding-top: 0;
+    }
+    .con--form-btn{
+        padding: 12px 49px !important;
+        font-size: 20px;
+    }
+    .con--form-arrow-area{
+        padding: 15px;
+    }
+    .con--form-arrow-area svg{
+        width: 23px;
+        height: 23px;
+    }
+}

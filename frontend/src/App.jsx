@@ -5,6 +5,9 @@ import ClientRegister from "./pages/ClientRegister/ClientRegister";
 import Packages from './pages/Packages/Packages';
 import Home from './pages/Home/Home';
 import About from './pages/AboutUs/About';
+import Contact from './pages/Contact/Contact';
+import Services from './pages/Services/Services';
+import RPO from './pages/RPO/RPO';
 import ClientDetail from './pages/ClientDetail/ClientDetail';
 import ClientNewPassword from './pages/ClientNewPassword/ClientNewPassword';
 import ClientLogin from './pages/ClientLogin/ClientLogin';
@@ -23,6 +26,9 @@ function App() {
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/about-us' element={<About />} />
+          <Route path='/contact-us' element={<Contact />} />
+          <Route path='/services' element={<Services />} />
+          <Route path='/rpo' element={<RPO />} />
           <Route path='/pdf' element={<PDFViewer />} />
           {/* <Route path='/live-chat' element={<LiveChat />} /> */}
           <Route path='/client-register' element={<ClientRegister />} />

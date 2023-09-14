@@ -1,0 +1,571 @@
+.about--section {
+    margin-top: 27px;
+}
+
+.about--bg {
+    border-radius: 48px;
+    background: #714F36;
+    padding: 0px 36px 40px 36px;
+    position: relative;
+    overflow: hidden;
+}
+
+.about--left-cover {
+    padding-top: 230px;
+}
+
+.breadcrumb--area {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+}
+
+.breadcrumb--area .breadcrumb--item a,
+.breadcrumb--area .breadcrumb--item p {
+    color: #FFF !important;
+    text-decoration: none;
+    font-size: 16px !important;
+    font-weight: 400 !important;
+    transition: ease-in-out 0.5s;
+}
+
+.breadcrumb--area .breadcrumb--item a:hover {
+    color: #F9C833 !important;
+}
+
+.breadcrumb--area .breadcrumb--item p {
+    margin-bottom: 0 !important;
+}
+
+.breadcrumb--area .breadcrumb--item p::before {
+    content: '';
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    background-color: #fff;
+    margin-right: 5px;
+    vertical-align: middle;
+    margin-top: -4px;
+}
+
+.about--head {
+    margin-top: 42px;
+}
+
+.about--head h2 {
+    color: #FFF !important;
+    font-size: 88px;
+    font-weight: 400;
+    line-height: normal;
+    text-transform: uppercase;
+}
+
+.about--right-cover {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+
+.about--card-area {
+    overflow: hidden;
+}
+
+.about--card {
+    border-radius: 40px;
+    padding: 20px 30px;
+    overflow: hidden;
+    transition: ease-in-out 0.8s;
+    cursor: pointer;
+    z-index: 1;
+    /* box-shadow: 5px 5px 20px #00000037; */
+}
+
+.about--card::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    transition: 0.8s ease-in-out;
+    background-color: #F9C833;
+    border-radius: 30px;
+    visibility: hidden;
+    height: 10px;
+    width: 10px;
+    z-index: -1;
+}
+
+.about--card:hover::after {
+    visibility: visible;
+    transform: scale(200) translateY(2px);
+}
+
+.about--card:hover .home--sub-des p {
+    color: #fff !important;
+    letter-spacing: 0.5px;
+}
+
+.card--imgicon-area {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+}
+
+.card--imgicon-area .card--text {
+    color: #5C3B2E;
+    font-size: 24px;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.card--imgicon-area .card--icon {
+    width: 73px;
+    height: 100%;
+    object-fit: contain;
+    align-items: flex-start;
+}
+
+.about--sub-des {
+    margin-top: 20px;
+    width: 75%;
+}
+
+.about--sub-des p {
+    color: #221205;
+    font-size: 16px !important;
+    font-weight: 300 !important;
+    line-height: 1.4em;
+    transition: ease-in-out 0.8s;
+}
+
+.about--card:hover .about--sub-des p {
+    color: #fff !important;
+    /* letter-spacing: 0.5px; */
+}
+
+.arrow--icon-btn {
+    padding: 15px;
+    border-radius: 50%;
+    background-color: #714F36;
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    border: #5C3B2E 5px solid;
+    box-shadow: inset 0px 0px 10px #2d1f19;
+}
+
+.arrow--icon-btn .arrow--icon {
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+    transition: ease-in-out 0.8s;
+}
+
+.arrow--icon-btn:hover .arrow--icon {
+    transform: rotate(45deg);
+}
+
+.about--desc-section {
+    padding-top: 68px;
+    padding-left: 36px;
+    padding-right: 36px;
+    width: 80%;
+}
+
+.about--desc-section p {
+    color: #5C3B2E;
+    font-size: 20px !important;
+    font-weight: 400;
+    line-height: normal;
+    text-transform: capitalize;
+}
+
+.about--milestone-section {
+    padding-top: 120px;
+    padding-left: 36px;
+    padding-right: 36px;
+}
+
+.about--headingarea h6 {
+    color: #5C3B2E;
+    font-size: 24px !important;
+    font-weight: 400 !important;
+    text-transform: capitalize;
+    margin-bottom: 0px;
+}
+
+.about--headingarea h6::before {
+    content: '';
+    display: inline-block;
+    background-color: #5C3B2E;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-right: 5px;
+    vertical-align: middle;
+}
+
+.about--headingarea .about--milestone-heading {
+    margin-top: 19px;
+    color: #5C3B2E;
+    font-size: 64px !important;
+    font-weight: 400 !important;
+    text-transform: uppercase;
+    line-height: 1.5em;
+    text-wrap: balance;
+}
+
+.about--milestone-heading span {
+    color: #FFF !important;
+    background-color: #5C3B2E;
+    padding: 0px 5px;
+    border-radius: 10px;
+}
+
+.ab--milestone-container {
+    padding: 0 1.5rem;
+}
+
+.about--milestone-cards-area {
+    padding-top: 109px;
+    padding-left: 180px;
+}
+
+.about--milestone-card {
+    border-radius: 41px;
+    position: relative;
+    overflow: hidden;
+    padding: 31px 28px 0 28px;
+    border: 2px solid #5C3B2E;
+    border-bottom: 5px solid #5C3B2E;
+    height: 300px;
+    margin-bottom: 3rem;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    transition: ease-in-out 0.8s;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.about--milestone-card::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    transition: 0.8s ease-in-out;
+    background-color: #5C3B2E;
+    border-radius: 30px;
+    visibility: hidden;
+    height: 10px;
+    width: 10px;
+    z-index: -1;
+}
+
+.about--milestone-card:hover::after {
+    visibility: visible;
+    transform: scale(220) translateY(2px);
+}
+
+.about--milestone-card:hover {
+    border-color: #F9C833;
+    /* background-color: #F9C833; */
+    transform: translateY(-8px);
+    -webkit-animation: pulse500 2s infinite;
+    animation: pulse500 1.5s infinite;
+
+    --dot-bg2: #F9C833;
+    --dot-color2: #c9a22f;
+    --dot-size2: 1.6px;
+    --dot-space2: 30px;
+    background:
+        linear-gradient(90deg, var(--dot-bg2) calc(var(--dot-space2) - var(--dot-size2)), transparent 1%) center / var(--dot-space2) var(--dot-space2),
+        linear-gradient(var(--dot-bg2) calc(var(--dot-space2) - var(--dot-size2)), transparent 1%) center / var(--dot-space2) var(--dot-space2),
+        var(--dot-color2) !important;
+}
+
+@keyframes pulse500 {
+    0% {
+        box-shadow: 0 0 0 0 #f9c7339e;
+    }
+
+    70% {
+        box-shadow: 0 0 0 18px rgb(218 103 68 / 0%);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgb(218 103 68 / 0%);
+    }
+}
+
+.about--milestone-card:hover .ab--milestone-card-right .ab--milestone-title {
+    color: #FFF;
+}
+
+.about--milestone-card:hover .ab--milestone-card-right .ab-milestone-number {
+    color: #F9C833;
+    text-shadow: 5px 5px 5px #3c261e81;
+}
+
+.about--milestone-card:hover .ab--milestone-card-top svg path {
+    stroke: #F9C833;
+}
+
+.about--milestone-card:hover .ab--milestone-card-top svg {
+    transform: translateX(5px);
+}
+
+.ab--milestone-card-right {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    justify-content: space-between;
+    overflow: hidden;
+}
+
+.ab--milestone-card-right .ab--milestone-title {
+    color: #714F36;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: normal;
+    text-transform: capitalize;
+    margin-top: 25px;
+    transition: ease-in-out 0.8s;
+}
+
+.ab--milestone-card-right .ab-milestone-number {
+    color: #714F36;
+    font-size: 96px;
+    font-weight: 400;
+    line-height: normal;
+    text-transform: capitalize;
+    position: relative;
+    letter-spacing: 5px;
+    line-height: 1.3em;
+    transition: ease-in-out 0.8s;
+}
+
+.ab--milestone-card-top svg path,
+.ab--milestone-card-top svg {
+    transition: ease-in-out 0.8s;
+}
+
+.about--weoffer-section {
+    padding-top: 120px;
+    padding-bottom: 120px;
+}
+
+.about--weoffer-container {
+    border-radius: 48px;
+    padding: 46px 73px;
+    --dot-bg1: #F9C833;
+    --dot-color1: #c9a22f;
+    --dot-size1: 1.6px;
+    --dot-space1: 30px;
+    background:
+        linear-gradient(90deg, var(--dot-bg1) calc(var(--dot-space1) - var(--dot-size1)), transparent 1%) center / var(--dot-space1) var(--dot-space1),
+        linear-gradient(var(--dot-bg1) calc(var(--dot-space1) - var(--dot-size1)), transparent 1%) center / var(--dot-space1) var(--dot-space1),
+        var(--dot-color1) !important;
+    background-attachment: fixed !important;
+}
+
+.ab-weoff--top-area {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;
+    /* flex-wrap: wrap; */
+}
+
+.ab-weoff--top-area .ab-weoff---heading {
+    color: #714F36;
+    font-size: 64px;
+    font-weight: 400;
+    line-height: normal;
+    text-transform: uppercase;
+    width: 70%;
+}
+
+.ab--weoff-btn-area-sub {
+    text-decoration: none;
+    overflow: hidden;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    transition: ease-in-out 0.5s;
+    filter: drop-shadow(4px 4px 10px #62626236);
+}
+
+.ab--weoff-btn {
+    border-radius: 48px;
+    background-color: #fff;
+    padding: 18px 40px;
+    color: #714F36;
+    font-size: 24px;
+    font-weight: 500;
+    position: relative;
+    z-index: 1;
+    background-repeat: no-repeat;
+    overflow: hidden !important;
+    transition: ease-in-out 0.5s;
+}
+
+.ab--weoff-btn::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    transition: 0.8s ease-in-out;
+    background-color: #5C3B2E;
+    border-radius: 30px;
+    visibility: hidden;
+    height: 10px;
+    width: 10px;
+    z-index: -1;
+}
+
+.ab--weoff-btn:hover::after {
+    visibility: visible;
+    transform: scale(50) translateX(2px);
+}
+
+.ab--weoff-btn:hover {
+    color: #FFF !important;
+}
+
+.ab--weoff-btn-arrow-area:hover {
+    background-color: #5C3B2E !important;
+}
+
+.ab--weoff-btn-area-sub:hover svg {
+    transform: rotate(45deg);
+}
+
+.ab--weoff-btn-arrow-area:hover svg path {
+    stroke: #fff;
+}
+
+.ab--weoff-btn-arrow-area {
+    border-radius: 50%;
+    background-color: #FFF;
+    padding: 23px;
+    transition: ease-in-out 0.8s;
+}
+
+.ab--weoff-btn-arrow-area svg,
+.ab--weoff-btn-arrow-area svg path {
+    transition: ease-in-out 0.8s;
+}
+
+.ab--weoff-card-area {
+    padding-top: 83px;
+}
+
+.ab-weoff-card {
+    border-radius: 24px;
+    border: 2px solid #714F36;
+    margin-bottom: 23px;
+    padding: 0 56px 0 70px;
+    height: 233px;
+    transition: ease-in-out 0.8s;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.ab-weoff-card::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    transition: 0.8s ease-in-out;
+    background-color: #FFF;
+    border-radius: 30px;
+    visibility: hidden;
+    height: 10px;
+    width: 10px;
+    z-index: -1;
+}
+
+.ab-weoff-card:hover::after {
+    visibility: visible;
+    transform: scale(500) translateX(2px);
+}
+
+.ab-weoff-card:hover {
+    transform: translateY(-5px);
+    -webkit-animation: pulseCard1 1.5s infinite;
+    animation: pulseCard1 1.5s infinite;
+    --dot-bg3: transparent;
+    --dot-color3: #fff;
+    --dot-size3: 1.6px;
+    --dot-space3: 30px;
+    background:
+        linear-gradient(90deg, var(--dot-bg3) calc(var(--dot-space3) - var(--dot-size3)), transparent 1%) center / var(--dot-space3) var(--dot-space3),
+        linear-gradient(var(--dot-bg3) calc(var(--dot-space3) - var(--dot-size3)), transparent 1%) center / var(--dot-space3) var(--dot-space3),
+        var(--dot-color3) !important;
+}
+
+@keyframes pulseCard1 {
+    0% {
+        box-shadow: 0 0 0 0 #ffffff81;
+    }
+
+    70% {
+        box-shadow: 0 0 0 20px rgb(218 103 68 / 0%);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgb(218 103 68 / 0%);
+    }
+}
+
+.ab-weoff-card .ab-weoff-card-arr-num-area {
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+    transition: ease-in-out 0.8s;
+}
+
+.ab-weoff-card-arr-num-area svg {
+    transition: ease-in-out 0.8s;
+}
+
+.ab-weoff-card:hover .ab-weoff-card-arr-num-area svg {
+    transform: rotateZ(-90deg) translateY(20px);
+}
+
+.ab-weoff-card:hover .ab-weoff-card-num {
+    transform: translateY(-30px) translateX(5px);
+}
+
+.ab-weoff-card .ab-weoff-card-num {
+    color: #5C3B2E;
+    font-size: 48px;
+    font-weight: 400;
+    text-transform: uppercase;
+    transition: ease-in-out 0.8s;
+}
+
+.ab-we-off-card-des-area {
+    width: 65%;
+}
+
+.ab-we-off-card-des-area .ab-we-off-card-des {
+    margin-bottom: 0 !important;
+    color: #5C3B2E;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: normal;
+    text-transform: capitalize;
+    transition: ease-in-out 0.8s;
+}

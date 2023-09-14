@@ -9,7 +9,8 @@
     position: relative;
     overflow: hidden;
 }
-.home--blob-img-area{
+
+.home--blob-img-area {
     position: relative;
     overflow: visible;
 }
@@ -176,7 +177,7 @@
 }
 
 .home--img {
-    width: 600px;
+    width: 90%;
     /* height: 500px; */
     object-fit: contain;
     z-index: 1;
@@ -184,52 +185,53 @@
 }
 
 .bubble--img1 {
+    width: auto;
     position: absolute;
     object-fit: contain;
-    bottom: -55px;
-    left: 280px;
+    bottom: -11%;
+    left: 36%;
 }
 
 .bubble--img2 {
     position: absolute;
     object-fit: contain;
-    bottom: -26px;
-    right: 237px;
+    bottom: -7%;
+    right: 41%;
 }
 
 .bubble--img3 {
     position: absolute;
     object-fit: contain;
-    bottom: -5px;
-    left: 355px;
+    bottom: -2%;
+    left: 50%;
 }
 
 .bubble--img4 {
     position: absolute;
     object-fit: contain;
-    bottom: -32px;
-    right: 286px;
+    bottom: -6%;
+    right: 34%;
 }
 
 .bubble--img5 {
     position: absolute;
     object-fit: contain;
-    bottom: 0px;
-    right: 475px;
+    bottom: 0%;
+    left: 26%;
 }
 
 .bubble--img6 {
     position: absolute;
     object-fit: contain;
-    bottom: 255px;
-    left: 70px;
+    top: 40%;
+    left: 6%;
 }
 
 .bubble--img7 {
     position: absolute;
     object-fit: contain;
-    bottom: 135px;
-    right: 20px;
+    top: 67%;
+    right: -1%;
 }
 
 .home--card-area {
@@ -263,12 +265,12 @@
 
 .home--card:hover::after {
     visibility: visible;
-    transform: scale(140) translateY(2px);
+    transform: scale(200) translateY(2px);
 }
 
 .home--card:hover .home--sub-des p {
     color: #fff !important;
-    letter-spacing: 0.5px;
+    /* letter-spacing: 0.5px; */
 }
 
 .card--imgicon-area {
@@ -329,6 +331,8 @@
 /* about-section */
 .home--about-section {
     padding-top: 100px;
+    padding-left: 36px;
+    padding-right: 36px;
 }
 
 .home--about-toparea {
@@ -495,6 +499,10 @@
     text-transform: capitalize;
 }
 
+.home--service-head-area {
+    padding: 0 36px;
+}
+
 .home--service-para {
     margin: 54px 0;
     width: 90%;
@@ -505,6 +513,7 @@
     font-size: 16px;
     font-weight: 400;
     text-transform: capitalize;
+    line-height: normal;
 }
 
 .home--services-slider-area {
@@ -519,6 +528,7 @@
         linear-gradient(90deg, var(--dot-bg1) calc(var(--dot-space1) - var(--dot-size1)), transparent 1%) center / var(--dot-space1) var(--dot-space1),
         linear-gradient(var(--dot-bg1) calc(var(--dot-space1) - var(--dot-size1)), transparent 1%) center / var(--dot-space1) var(--dot-space1),
         var(--dot-color1) !important;
+    background-attachment: fixed !important;
 }
 
 .home--service-card {
@@ -575,10 +585,13 @@
         box-shadow: 0 0 0 0 rgb(218 103 68 / 0%);
     }
 }
-
+.home--service-card:hover .service--arrow-area .service--arrow-img{
+    transform: rotateZ(-90deg);
+}
 .service--arrow-area .service--arrow-img {
     width: 55px;
     object-fit: contain;
+    transition: ease-in-out 0.8s;
 }
 
 .home--service-card {
@@ -698,6 +711,8 @@
 
 .home--rpo-section {
     padding-top: 100px;
+    padding-left: 36px;
+    padding-right: 36px;
 }
 
 .rpo--para-area {
@@ -893,6 +908,8 @@
 
 .candidate--section {
     padding-top: 100px;
+    padding-left: 36px;
+    padding-right: 36px;
 }
 
 .candidate--slider-area {
@@ -1173,6 +1190,8 @@
 
 .clients--section {
     padding-top: 100px;
+    padding-left: 36px;
+    padding-right: 36px;
 }
 
 .clients--img-area {
@@ -1487,6 +1506,8 @@
 
 .connect--section {
     padding-top: 100px;
+    padding-left: 36px;
+    padding-right: 36px;
 }
 
 .connect--content-area {
