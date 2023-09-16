@@ -1,12 +1,13 @@
 import React from 'react'
-import NavBar from './NavBar'
+// import NavBar from './NavBar'
 // import ReactDOM from 'react-dom';
 import { useEffect } from 'react';
 import $ from 'jquery';
+import NewNav from './NewNav';
 
-// import './main.js'
+import './main.js'
 
-const Layout = ({ navBar = true, children }) => {
+const Layout = ({ navBar = false, children }) => {
   useEffect(() => {
     const select = (el, all = false) => {
       if (all) {
@@ -56,7 +57,7 @@ const Layout = ({ navBar = true, children }) => {
 
   return (
     <>
-      {navBar && <NavBar />}
+      {navBar && <NewNav />}
       <div className='container-fluid'>{children}</div>
       {/* <div id="preloader"></div> */}
       <footer className='footer--section'>

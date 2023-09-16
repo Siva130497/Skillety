@@ -71,7 +71,11 @@ const candidateSchema = new Schema(
     },
     checkbox: {
         type: Boolean,
-    }
+    },
+    role: {
+        type: String,
+        required: true
+    },
     },
     { timestamps: true }
 );

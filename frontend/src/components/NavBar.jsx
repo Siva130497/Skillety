@@ -64,9 +64,9 @@ const NavBar = ({ title = "SKILLETY" }) => {
 
                 <nav id="navbar" className="navbar navbar-expand-lg">
                     <ul>
-                        <li><a className="nav-link scrollto active" href="/">Home</a></li>
-                        <li><a className="nav-link scrollto" href="/about-us">About Us</a></li>
-                        <li><a className="nav-link scrollto" href="/talents">Talents</a></li>
+                        <li><div><a href="/" className="nav-link scrollto active">Home</a></div></li>
+                        <li><a href="/about-us" className="nav-link scrollto">About Us</a></li>
+                        <li><a href="/talents" className="nav-link scrollto">Talents</a></li>
                         <li className="dropdown"><a href="#"><span>Services</span> <i className="bi bi-chevron-down"></i></a>
                             <ul>
                                 <li><a href="#">Service 1</a></li>
