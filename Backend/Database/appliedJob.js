@@ -1,8 +1,12 @@
 const { Schema, model } = require("mongoose");
 
-const jobDetailSchema = new Schema(
+const appliedJobSchema = new Schema(
   {
-    id: {
+    jobId: {
+        type: String,
+        required: true
+    },
+    candidateId: {
         type: String,
         required: true
     },
@@ -14,19 +18,15 @@ const jobDetailSchema = new Schema(
         type: Array,
         required: true
     },
-    skills: {
+    jobMandatorySkills: {
         type: Array,
         required: true
     },
-    additionalSkills: {
+    jobAdditionalSkills: {
         type: Array,
     },
-    year: {
-        type: Number,
-        required: true
-    },
-    month: {
-        type: Number,
+    jobExperience: {
+        type: String,
         required: true
     },
     jobCategory: {
@@ -37,8 +37,12 @@ const jobDetailSchema = new Schema(
         type: String,
         required: true
     },
+    percentage: {
+        type: Number,
+        required: true
     },
+},
     { timestamps: true }
 );
 
-module.exports = model("jobDetail", jobDetailSchema);
+module.exports = model("appliedJob", appliedJobSchema);

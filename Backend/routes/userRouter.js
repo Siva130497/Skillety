@@ -12,7 +12,11 @@ const {
   candidateReg,
   getAllCandidateDetail,
   jobPosting,
-  getAllJobDetail,
+  getSkillMatchJobDetail,
+  getOwnPostedjobs,
+  applyingjob,
+  getAppliedjobs,
+  getAppliedOfPostedJobs,
 } = require("../Controller/authFunctions");
 
 // Client Registeration Route
@@ -50,7 +54,19 @@ router.get("/candidate-Detail", getAllCandidateDetail)
 router.post("/job-detail", jobPosting)
 
 //get all job details
-router.get("/job-Detail", getAllJobDetail)
+router.get('/skill-match-job-Detail/:candidateId', getSkillMatchJobDetail)
+
+//get client posted job details
+router.get('/my-posted-jobs/:clientId', getOwnPostedjobs)
+
+//candidate applied for job
+router.post('/job-applying', applyingjob)
+
+//get applied jobs
+router.get('/my-applied-jobs/:candidateId', getAppliedjobs)
+
+//get applied of posted jobs
+router.get('/applied-jobs-of-posted/:clientId', getAppliedOfPostedJobs)
 
 //Recruiter Registration route
 router.post("/register-Recruiter", async (req, res) => {
@@ -60,6 +76,11 @@ router.post("/register-Recruiter", async (req, res) => {
 // Client Login Route
 router.post("/login-Client", async (req, res) => {
   await employeeLogin(req.body, "Client", res);
+});
+
+// Candidate Login Route
+router.post("/login-Candidate", async (req, res) => {
+  await employeeLogin(req.body, "Candidate", res);
 });
 
 // Recruiter Login Route

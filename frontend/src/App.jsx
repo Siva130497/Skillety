@@ -14,6 +14,7 @@ import ClientDashboard from './pages/ClientDashboard/ClientDashboard';
 // import LiveChat from './pages/Chat/LiveChat';
 import PDFViewer from './pages/pdfViewer';
 import CandidateDashboard from './pages/CandidateDashboard/CandidateDashboard';
+import CandidateLogin from './pages/CandidateLogin/CandidateLogin';
 
 
 function App() {
@@ -22,8 +23,8 @@ function App() {
     <AuthContextProvider>
       <Layout>
         <Routes>
-          <Route path='/' element={<Home />} />
-          <Route path='/about-us' element={<About />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/about-us" element={<About />} />
           <Route path='/pdf' element={<PDFViewer />} />
           {/* <Route path='/live-chat' element={<LiveChat />} /> */}
           <Route path='/client-register' element={<ClientRegister />} />
@@ -31,6 +32,7 @@ function App() {
           <Route path='/client-detail' element={<ClientDetail />} />
           <Route path='/candiate-register' element={<CandidateRegister />} />
           <Route path='/client-login' element={<ClientLogin />} />
+          <Route path='/candidate-login' element={<CandidateLogin />} />
           <Route path='/client-dashboard' element={<ClientDashboard />} />
           <Route path='/candidate-dashboard' element={<CandidateDashboard />} />
           {/* <Route path='/client-recruiter-chat' element={<Chat />} /> */}
