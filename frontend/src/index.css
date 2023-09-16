@@ -560,6 +560,7 @@ code {
     linear-gradient(90deg, var(--dot-bg1) calc(var(--dot-space1) - var(--dot-size1)), transparent 1%) center / var(--dot-space1) var(--dot-space1),
     linear-gradient(var(--dot-bg1) calc(var(--dot-space1) - var(--dot-size1)), transparent 1%) center / var(--dot-space1) var(--dot-space1),
     var(--dot-color1) !important;
+    background-attachment: fixed !important;
 }
 
 .footer--link-container,
@@ -737,7 +738,7 @@ code {
 }
 
 .footer--link-area .footer--link-head {
-  color: #F9C833;
+  color: #FFF;
   font-size: 20px;
   font-weight: 600;
 }
@@ -910,15 +911,20 @@ code {
 
   .footer--quick-link-area {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
   }
 
   .footer--social-section {
     margin-top: 50px;
     display: flex;
     justify-content: center;
-    gap: 60px;
+    gap: 50px;
     float: none;
+  }
+
+  .footer--link-section{
+    padding-left: 10%;
+    padding-right: 10%;
   }
 
   .sub--footer-content {
@@ -932,6 +938,8 @@ code {
 
   .footer--link-section2 {
     padding-bottom: 80px;
+    padding-left: 10%;
+    padding-right: 10%;
   }
 
   .footer--custom-row {
@@ -1009,6 +1017,7 @@ code {
   }
   .footer--quick-link-area{
     justify-content: flex-start;
+    margin-bottom: 10px;
   }
   .footer--link-area{
     margin-bottom: 30px;
@@ -1059,6 +1068,7 @@ body {
     linear-gradient(90deg, var(--dot-bg) calc(var(--dot-space) - var(--dot-size)), transparent 1%) center / var(--dot-space) var(--dot-space),
     linear-gradient(var(--dot-bg) calc(var(--dot-space) - var(--dot-size)), transparent 1%) center / var(--dot-space) var(--dot-space),
     var(--dot-color) !important;
+    background-attachment: fixed !important;
 }
 
 a {

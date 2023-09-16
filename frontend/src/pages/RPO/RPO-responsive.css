@@ -1,0 +1,112 @@
+@media (max-width:991.5px) {
+    .rpo--head h2 {
+        line-height: 1.4em;
+        font-size: 60px;
+    }
+
+    .rpo--enter-heading h3 {
+        font-size: 48px;
+    }
+
+    .rpo--enter-desc {
+        margin-top: 30px;
+    }
+
+    .rpo--enter-btn-area,
+    .rpo--pro-btn-area {
+        margin-top: 60px;
+    }
+
+    .rpo--more-btn-area {
+        padding: 90px 0;
+    }
+    .rpo--pro-bg{
+        text-align: left;
+    }
+    .rpo--pro-list-item::after{
+        display: none!important;
+    }
+    .rpo--pro-list-area ul li{
+        list-style: disc !important;
+    }
+    .rpo--pro-btn-area{
+        justify-content: flex-start;
+    }
+    .rpo--pro-list-area .rpo--pro-list-item:hover {
+        transform: translateX(10px);
+    }
+    .rpo--enter-list-area ul,
+    .rpo--pro-list-area ul {
+        padding-left: 20px;
+    }
+}
+
+@media (max-width:500px) {
+    .rpo--head {
+        margin-top: 20px;
+    }
+
+    .rpo--head h2 {
+        line-height: 1.4em;
+        font-size: 35px;
+    }
+
+    .rpo--enter-bg,
+    .rpo--pro-bg {
+        padding: 30px 25px;
+    }
+
+    .rpo--enter-heading h3 {
+        font-size: 30px !important;
+    }
+
+    .rpo--enter-desc p,
+    .rpo--enter-list-area .rpo--enter-list-item,
+    .rpo--pro-list-area .rpo--pro-list-item {
+        font-size: 18px;
+    }
+
+    .rpo--enter-list-area,
+    .rpo--pro-list-area {
+        margin-top: 30px;
+    }
+
+    .rpo--enter-list-area .rpo--enter-list-item,
+    .rpo--pro-list-area .rpo--pro-list-item{
+        line-height: 2rem;
+        margin-bottom: 20px;
+    }
+
+    .rpo--enter-list-item::before {
+        padding-left: 0;
+    }
+
+    .rpo--enter-btn,
+    .rpo--pro-btn {
+        width: 100%;
+        font-size: 20px;
+        padding: 12px 30px;
+        text-align: center;
+    }
+    .rpo--enter-arrow-area,
+    .rpo--pro-area{
+        padding: 14px;
+    }
+    .rpo--enter-arrow-area svg,
+    .rpo--pro-area svg{
+        width: 25px;
+    }
+    .rpo--enter-btn-area, .rpo--pro-btn-area{
+        margin-top: 50px;
+    }
+    .rpo--pro-btn-area{
+        justify-content: center;
+    }
+    .rpo--more-btn-area {
+        padding: 60px 0;
+    }
+    .rpo--more-btn-area .rpo--more-btn{
+        font-size: 20px;
+        padding: 8px 64px;
+    }
+}

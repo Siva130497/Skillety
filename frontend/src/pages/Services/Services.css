@@ -1,0 +1,217 @@
+.service-bg{
+    margin-bottom: 85px;
+}
+.services--section {
+    margin-top: 27px;
+}
+
+.services--head {
+    margin-top: 42px;
+}
+
+.services--head h2 {
+    color: #FFF !important;
+    font-size: 75px;
+    font-weight: 400;
+    line-height: normal;
+    text-transform: uppercase;
+}
+
+.ser--content-section {
+    padding: 0px 36px 120px 36px;
+}
+
+.ser--content-section .ser--content-heading {
+    color: #714F36;
+    font-size: 64px;
+    font-weight: 400;
+    line-height: normal;
+    text-transform: uppercase;
+}
+
+.ser--detail-area {
+    position: relative;
+}
+
+.ser--cont-img-area {
+    position: relative;
+    background-position: center;
+    background-size: cover;
+    overflow: hidden;
+    transition: ease-in-out 1s;
+    background-repeat: no-repeat;
+    cursor: pointer;
+}
+.ser--cont-img-area.img--1{
+    background-image: url(/public/assets/img/service-images/service-img1.jpeg);
+}
+.ser--cont-img-area.img--2{
+    background-image: url(/public/assets/img/service-images/service-img2.png) !important;
+}
+.ser--cont-img-area.img--3{
+    background-image: url(/public/assets/img/service-images/service-img3.png) !important;
+}
+.ser--cont-img-area.img--4{
+    background-position: left;
+    background-image: url(/public/assets/img/service-images/service-img4.png) !important;
+}
+.ser--cont-img-area.img--5{
+    background-image: url(/public/assets/img/service-images/service-img5.png) !important;
+}
+
+.ser--cont-img-area:hover{
+    filter: grayscale(1);
+}
+
+.ser--cont-img-area .ser--cont-img {
+    object-fit: cover;
+    object-position: center;
+    width: 100%;
+    height: 100% !important;
+}
+
+.ser--cont-area-right {
+    text-align: left;
+    padding: 50px 0 50px 40px;
+}
+
+.ser--cont-area-left {
+    text-align: left;
+    padding: 50px 40px 50px 0;
+}
+
+.ser--cont-title {
+    margin-bottom: 0;
+    color: #5C3B2E;
+    font-size: 24px;
+    font-weight: 400;
+    line-height: normal;
+    text-transform: capitalize;
+}
+
+.ser--cont-list-area {
+    margin-top: 47px;
+}
+
+.ser--cont-list-area ul {
+    padding-left: 1.5em;
+}
+
+.ser--cont-list-area .ser--cont-list-item {
+    color: #5C3B2E;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: normal;
+    text-transform: capitalize;
+    margin-bottom: 20px;
+    transition: ease-in-out 0.8s;
+}
+.ser--cont-list-area .ser--cont-list-item:hover{
+    transform: translateX(8px);
+}
+
+.ser--cont-btn-area {
+    margin-top: 60px;
+}
+
+.ser--cont-btn-sub {
+    text-decoration: none;
+    overflow: hidden;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    transition: ease-in-out 0.5s;
+    position: relative;
+}
+
+.ser--cont-btn {
+    border-radius: 48px;
+    background-color: #714F36;
+    padding: 15px 40px;
+    color: #FFF;
+    font-size: 24px;
+    font-weight: 500;
+    position: relative;
+    z-index: 1;
+    background-repeat: no-repeat;
+    overflow: hidden !important;
+    transition: ease-in-out 0.5s;
+}
+
+.ser--cont-btn::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    transition: 0.8s ease-in-out;
+    background-color: #F9C833;
+    border-radius: 30px;
+    visibility: hidden;
+    height: 10px;
+    width: 10px;
+    z-index: -1;
+}
+
+.ser--cont-btn:hover::after {
+    visibility: visible;
+    transform: scale(50) translateX(2px);
+}
+
+.ser--cont-btn:hover {
+    color: #714F36 !important;
+}
+
+.ser--cont-btn-sub:hover svg {
+    transform: rotate(45deg);
+}
+
+.ser--cont-arrow-area {
+    border-radius: 50%;
+    background-color: #714F36;
+    padding: 20px;
+    transition: ease-in-out 0.8s;
+    position: relative;
+}
+
+.ser--cont-arrow-area:hover {
+    background-color: #F9C833;
+}
+
+.ser--cont-arrow-area:hover svg path {
+    stroke: #714F36;
+}
+
+.ser--cont-arrow-area svg,
+.ser--cont-arrow-area svg path {
+    transition: ease-in-out 0.8s;
+}
+.custom-padding-lr{
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.ser--more-btn-area {
+    padding:0 0 120px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ser--more-btn-area .ser--more-btn {
+    text-decoration: none;
+    color: #5C3B2E;
+    font-size: 36px;
+    font-weight: 500;
+    border-radius: 10px;
+    border: 1px solid #5C3B2E;
+    border-bottom: 3px solid #5C3B2E;
+    padding: 5px 64px;
+    position: relative;
+    transition: ease-in-out 0.8s;
+}
+.ser--more-btn-area .ser--more-btn:hover{
+    background-color: #5C3B2E;
+    border-color: #F9C833;
+    color: #fff !important;
+    transform: translateY(-10px);
+}

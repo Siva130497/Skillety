@@ -9,7 +9,8 @@
     position: relative;
     overflow: hidden;
 }
-.home--blob-img-area{
+
+.home--blob-img-area {
     position: relative;
     overflow: visible;
 }
@@ -18,12 +19,12 @@
     color: #FFF;
     font-size: 44px;
     font-weight: 400;
-    line-height: 103.5%;
+    line-height: normal;
     text-transform: capitalize;
 }
 
 .home--left-cover {
-    padding-top: 250px;
+    padding-top: 220px;
 }
 
 .home--right-cover {
@@ -168,7 +169,11 @@
     letter-spacing: 0.5px;
     text-shadow: 1px 2px 5px #ffffff81;
 }
-
+.custom-flex{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
 .home--img-area {
     position: relative;
     display: flex;
@@ -176,7 +181,7 @@
 }
 
 .home--img {
-    width: 600px;
+    width: 90%;
     /* height: 500px; */
     object-fit: contain;
     z-index: 1;
@@ -184,52 +189,53 @@
 }
 
 .bubble--img1 {
+    width: auto;
     position: absolute;
     object-fit: contain;
-    bottom: -55px;
-    left: 280px;
+    bottom: -11%;
+    left: 36%;
 }
 
 .bubble--img2 {
     position: absolute;
     object-fit: contain;
-    bottom: -26px;
-    right: 237px;
+    bottom: -7%;
+    right: 41%;
 }
 
 .bubble--img3 {
     position: absolute;
     object-fit: contain;
-    bottom: -5px;
-    left: 355px;
+    bottom: -2%;
+    left: 50%;
 }
 
 .bubble--img4 {
     position: absolute;
     object-fit: contain;
-    bottom: -32px;
-    right: 286px;
+    bottom: -6%;
+    right: 34%;
 }
 
 .bubble--img5 {
     position: absolute;
     object-fit: contain;
-    bottom: 0px;
-    right: 475px;
+    bottom: 0%;
+    left: 26%;
 }
 
 .bubble--img6 {
     position: absolute;
     object-fit: contain;
-    bottom: 255px;
-    left: 70px;
+    top: 40%;
+    left: 6%;
 }
 
 .bubble--img7 {
     position: absolute;
     object-fit: contain;
-    bottom: 135px;
-    right: 20px;
+    top: 67%;
+    right: -1%;
 }
 
 .home--card-area {
@@ -263,12 +269,12 @@
 
 .home--card:hover::after {
     visibility: visible;
-    transform: scale(140) translateY(2px);
+    transform: scale(200) translateY(2px);
 }
 
 .home--card:hover .home--sub-des p {
     color: #fff !important;
-    letter-spacing: 0.5px;
+    /* letter-spacing: 0.5px; */
 }
 
 .card--imgicon-area {
@@ -329,6 +335,8 @@
 /* about-section */
 .home--about-section {
     padding-top: 100px;
+    padding-left: 36px;
+    padding-right: 36px;
 }
 
 .home--about-toparea {
@@ -495,6 +503,10 @@
     text-transform: capitalize;
 }
 
+.home--service-head-area {
+    padding: 0 36px;
+}
+
 .home--service-para {
     margin: 54px 0;
     width: 90%;
@@ -505,12 +517,13 @@
     font-size: 16px;
     font-weight: 400;
     text-transform: capitalize;
+    line-height: normal;
 }
 
 .home--services-slider-area {
     border-radius: 48px;
     background-color: #F9C833;
-    padding: 44px 56px;
+    padding: 44px 56px 50px 56px;
     --dot-bg1: #F9C833;
     --dot-color1: #c9a22f;
     --dot-size1: 1.6px;
@@ -519,6 +532,7 @@
         linear-gradient(90deg, var(--dot-bg1) calc(var(--dot-space1) - var(--dot-size1)), transparent 1%) center / var(--dot-space1) var(--dot-space1),
         linear-gradient(var(--dot-bg1) calc(var(--dot-space1) - var(--dot-size1)), transparent 1%) center / var(--dot-space1) var(--dot-space1),
         var(--dot-color1) !important;
+    background-attachment: fixed !important;
 }
 
 .home--service-card {
@@ -576,9 +590,14 @@
     }
 }
 
+.home--service-card:hover .service--arrow-area .service--arrow-img {
+    transform: rotateZ(-90deg);
+}
+
 .service--arrow-area .service--arrow-img {
     width: 55px;
     object-fit: contain;
+    transition: ease-in-out 0.8s;
 }
 
 .home--service-card {
@@ -601,10 +620,17 @@
     transition: ease-in-out 0.5s;
 }
 
-.service--card-headarea .sourcing-icon {
+.service--card-headarea .sourcing-icon,
+.service--card-headarea .interview-icon {
     width: 68px;
     object-fit: contain;
 }
+
+.service--card-headarea .verification-icon {
+    width: 80px;
+    object-fit: contain;
+}
+
 
 .service--card-headarea .screening-icon {
     width: 48px;
@@ -698,6 +724,8 @@
 
 .home--rpo-section {
     padding-top: 100px;
+    padding-left: 36px;
+    padding-right: 36px;
 }
 
 .rpo--para-area {
@@ -802,8 +830,16 @@
 
 .milestone--section {
     border-radius: 48px;
-    background-color: #714F36;
-    padding: 70px 60px;
+    padding: 70px 54px 50px 54px;
+    --dot-bg1: #714F36;
+    --dot-color1: #85714b;
+    --dot-size1: 1.6px;
+    --dot-space1: 30px;
+    background:
+        linear-gradient(90deg, var(--dot-bg1) calc(var(--dot-space1) - var(--dot-size1)), transparent 1%) center / var(--dot-space1) var(--dot-space1),
+        linear-gradient(var(--dot-bg1) calc(var(--dot-space1) - var(--dot-size1)), transparent 1%) center / var(--dot-space1) var(--dot-space1),
+        var(--dot-color1) !important;
+    background-attachment: fixed !important;
 }
 
 .home--milestone-headarea h6 {
@@ -841,7 +877,135 @@
     border-radius: 10px;
 }
 
-.milestone--slider-area {
+.home--milestone-container {
+    padding: 0 1.5rem;
+}
+
+.home--milestone-cards-area {
+    padding-top: 109px;
+    padding-left: 120px;
+}
+
+.home--milestone-card {
+    border-radius: 41px;
+    position: relative;
+    overflow: hidden;
+    padding: 31px 28px 0 28px;
+    border: 2px solid #FFF;
+    border-bottom: 5px solid #FFF;
+    height: 300px;
+    margin-bottom: 3rem;
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    transition: ease-in-out 0.8s;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.home--milestone-card::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    transition: 0.8s ease-in-out;
+    background-color: #5C3B2E;
+    border-radius: 30px;
+    visibility: hidden;
+    height: 10px;
+    width: 10px;
+    z-index: -1;
+}
+
+.home--milestone-card:hover::after {
+    visibility: visible;
+    transform: scale(220) translateY(2px);
+}
+
+.home--milestone-card:hover {
+    border-color: #F9C833;
+    /* background-color: #F9C833; */
+    transform: translateY(-8px);
+    -webkit-animation: pulse505 2s infinite;
+    animation: pulse505 1.5s infinite;
+
+    --dot-bg5: #F9C833;
+    --dot-color5: #c9a22f;
+    --dot-size5: 1.6px;
+    --dot-space5: 30px;
+    background:
+        linear-gradient(90deg, var(--dot-bg5) calc(var(--dot-space5) - var(--dot-size5)), transparent 1%) center / var(--dot-space5) var(--dot-space5),
+        linear-gradient(var(--dot-bg5) calc(var(--dot-space5) - var(--dot-size5)), transparent 1%) center / var(--dot-space5) var(--dot-space5),
+        var(--dot-color5) !important;
+}
+
+@keyframes pulse505 {
+    0% {
+        box-shadow: 0 0 0 0 #f9c7339e;
+    }
+
+    70% {
+        box-shadow: 0 0 0 18px rgb(218 103 68 / 0%);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgb(218 103 68 / 0%);
+    }
+}
+
+.home--milestone-card:hover .home--milestone-card-right .home--milestone-title {
+    color: #FFF;
+}
+
+.home--milestone-card:hover .home--milestone-card-right .home-milestone-number {
+    color: #F9C833;
+    text-shadow: 5px 5px 5px #3c261e81;
+}
+
+.home--milestone-card:hover .home--milestone-card-top svg path {
+    stroke: #F9C833;
+}
+
+.home--milestone-card:hover .home--milestone-card-top svg {
+    transform: translateX(5px);
+}
+
+.home--milestone-card-right {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    justify-content: space-between;
+    overflow: hidden;
+}
+
+.home--milestone-card-right .home--milestone-title {
+    color: #FFF;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: normal;
+    text-transform: capitalize;
+    margin-top: 25px;
+    transition: ease-in-out 0.8s;
+}
+
+.home--milestone-card-right .home-milestone-number {
+    color: #FFF;
+    font-size: 96px;
+    font-weight: 400;
+    line-height: normal;
+    text-transform: capitalize;
+    position: relative;
+    letter-spacing: 2px;
+    line-height: 1.3em;
+    transition: ease-in-out 0.8s;
+}
+
+.home--milestone-card-top svg path,
+.home--milestone-card-top svg {
+    transition: ease-in-out 0.8s;
+}
+
+/* .milestone--slider-area {
     margin-top: 100px;
     display: flex;
     gap: 25px;
@@ -851,7 +1015,6 @@
     border-radius: 41px;
     border: solid 2px #fff;
     width: 33.33%;
-    /* height: 300px; */
     padding: 25px 25px 10px 25px;
     position: relative;
 }
@@ -889,10 +1052,12 @@
     font-weight: 300;
     text-transform: capitalize;
     margin-bottom: 0;
-}
+} */
 
 .candidate--section {
     padding-top: 100px;
+    padding-left: 36px;
+    padding-right: 36px;
 }
 
 .candidate--slider-area {
@@ -1173,6 +1338,8 @@
 
 .clients--section {
     padding-top: 100px;
+    padding-left: 36px;
+    padding-right: 36px;
 }
 
 .clients--img-area {
@@ -1487,6 +1654,8 @@
 
 .connect--section {
     padding-top: 100px;
+    padding-left: 36px;
+    padding-right: 36px;
 }
 
 .connect--content-area {
