@@ -26,8 +26,11 @@ function App() {
     <AuthContextProvider>
       <Layout>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about-us" element={<About />} />
+          <Route path='/' element={<Home />} />
+          <Route path='/about-us' element={<About />} />
+          <Route path='/contact-us' element={<Contact />} />
+          <Route path='/services' element={<Services />} />
+          <Route path='/rpo' element={<RPO />} />
           <Route path='/pdf' element={<PDFViewer />} />
           {/* <Route path='/live-chat' element={<LiveChat />} /> */}
           <Route path='/client-register' element={<ClientRegister />} />
