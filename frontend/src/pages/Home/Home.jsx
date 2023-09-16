@@ -1,8 +1,57 @@
 import React from 'react'
+import { useEffect } from 'react';
+import $ from 'jquery';
 import './Home.css'
 import './Home-responsive.css'
 
 const Home = () => {
+  useEffect(() => {
+    // Function to animate the numbers
+    function animateNumber(element, targetNumber) {
+      let currentNumber = 0;
+      const increment = Math.ceil(targetNumber / 100); // Increment step (adjust as needed)
+      const animationDuration = 4000; // Animation duration in milliseconds (adjust as needed)
+
+      const updateNumber = () => {
+        currentNumber += increment;
+        if (currentNumber >= targetNumber) {
+          currentNumber = targetNumber;
+          clearInterval(interval);
+        }
+        element.textContent = `${(currentNumber / 1).toFixed()}+`; // Display as "X.XXM"
+      };
+
+      const interval = setInterval(updateNumber, animationDuration / 100);
+    }
+
+    // Function to handle the intersection observer callback
+    function handleIntersection(entries, observer) {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          // When the section is in view, start the animation for each number
+          const numbers = document.querySelectorAll('.home-milestone-number');
+          numbers.forEach(numberElement => {
+            const targetNumber = parseInt(numberElement.getAttribute('data-target'));
+            animateNumber(numberElement, targetNumber);
+          });
+
+          // Unobserve the section after the animation starts to avoid unnecessary re-runs
+          observer.unobserve(entry.target);
+        }
+      });
+    }
+
+    // Create the Intersection Observer instance
+    const observer = new IntersectionObserver(handleIntersection, {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.5 // Adjust the threshold as needed (0.5 means 50% of the section is visible)
+    });
+
+    // Observe the section
+    const section = document.querySelector('.home--milestone-card');
+    observer.observe(section);
+  }, []);
 
   return (
     // <div className="jumbotron">
@@ -14,6 +63,7 @@ const Home = () => {
     //     Grab your free DEMO in just a few seconds!
     //   </p>    
     // </div>
+
     <div className='home--section'>
       <div className='container-fluid container-section'>
         <div className="home--bg">
@@ -45,7 +95,7 @@ const Home = () => {
                 </div>
               </div>
             </div>
-            <div className="col-12 col-lg-5 col-md-12 home--right-cover">
+            <div className="col-12 col-lg-5 col-md-12 home--right-cover custom-flex">
               <div className='home--blob-img-area'>
                 <div className="home--img-area">
                   <img src="assets/img/home-images/header-image.png"
@@ -58,24 +108,23 @@ const Home = () => {
                   <img src="assets/img/home-images/bubble-4.png" className='bubble--img6' alt="" />
                   <img src="assets/img/home-images/bubble-4.png" className='bubble--img7' alt="" />
                 </div>
-
-                <div className="home--card-area">
-                  <div className="row">
-                    <div className="col-lg-8 col-md-12 offset-lg-4">
-                      <div className="card home--card">
-                        <div className="card--imgicon-area">
-                          <h6 className='card--text'>I want to hire an immediate joiner</h6>
-                          <img src="assets/img/home-images/icon-1.png" className='card--icon' alt="" />
-                        </div>
-                        <div className="home--sub-des">
-                          <p>
-                            Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                          </p>
-                        </div>
-                        <a href='' className="arrow--icon-btn">
-                          <img src="assets/img/home-images/arrow-img.png" className='arrow--icon' alt="" />
-                        </a>
+              </div>
+              <div className="home--card-area">
+                <div className="row">
+                  <div className="col-lg-8 col-md-12 offset-lg-4">
+                    <div className="card home--card">
+                      <div className="card--imgicon-area">
+                        <h6 className='card--text'>I want to hire an immediate joiner</h6>
+                        <img src="assets/img/home-images/icon-1.png" className='card--icon' alt="" />
                       </div>
+                      <div className="home--sub-des">
+                        <p>
+                          Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                        </p>
+                      </div>
+                      <a href='' className="arrow--icon-btn">
+                        <img src="assets/img/home-images/arrow-img.png" className='arrow--icon' alt="" />
+                      </a>
                     </div>
                   </div>
                 </div>
@@ -106,7 +155,7 @@ const Home = () => {
         </section>
 
         <section className='home--service-section'>
-          <div className="home--service-head-area">
+          <div className="home--services-slider-area">
             <div className='home--about-headarea'>
               <h6>Services</h6>
               <h3 className='service--heading'>OUR SERVICES</h3>
@@ -114,8 +163,6 @@ const Home = () => {
             <div className="home--service-para">
               <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
             </div>
-          </div>
-          <div className="home--services-slider-area">
             <div className="row">
               <div className="col-12 col-lg-7">
                 <article className='home--service-card'>
@@ -183,6 +230,60 @@ const Home = () => {
                     </div>
                     <p className='service--content'>
                       Send Technical Assessment test links to multiple candidates, simultaneously. The Test Report comes with a comprehensive analysis of their aptitude, knowledge and proficiency.
+                    </p>
+                    <div className='service-know-morearea'>
+                      <a href="#" className='service--know-more'>
+                        <div className='service--know-more-btn'>Know more
+                        </div>
+                        <div className='service--know-more-arrow'>
+                          <img src="assets/img/home-images/arrow-dark.png" className='knowmore--arrow' alt="" />
+                        </div>
+                      </a>
+                    </div>
+                  </div>
+                </article>
+              </div>
+            </div>
+            <div className="row mt-5">
+              <div className="col-12 col-lg-7 offset-lg-5">
+                <article className='home--service-card'>
+                  <div className="service--arrow-area">
+                    <img src="assets/img/home-images/arrow-L.png" className='service--arrow-img' alt="" />
+                  </div>
+                  <div className="service--content-area">
+                    <div className="service--card-headarea">
+                      <h3>INTERVIEW</h3>
+                      <img src="assets/img/home-images/interview.png" className='interview-icon' alt="" />
+                    </div>
+                    <p className='service--content'>
+                      Do a thorough L1 Interview with a coding round conducted by panels from FAANG companies. The Feedback comes as a comprehensive report along with Playback.
+                    </p>
+                    <div className='service-know-morearea'>
+                      <a href="#" className='service--know-more'>
+                        <div className='service--know-more-btn'>Know more
+                        </div>
+                        <div className='service--know-more-arrow'>
+                          <img src="assets/img/home-images/arrow-dark.png" className='knowmore--arrow' alt="" />
+                        </div>
+                      </a>
+                    </div>
+                  </div>
+                </article>
+              </div>
+            </div>
+            <div className="row mt-5">
+              <div className="col-12 col-lg-7">
+                <article className='home--service-card'>
+                  <div className="service--arrow-area">
+                    <img src="assets/img/home-images/arrow-L.png" className='service--arrow-img' alt="" />
+                  </div>
+                  <div className="service--content-area">
+                    <div className="service--card-headarea">
+                      <h3>VERIFICATION</h3>
+                      <img src="assets/img/home-images/verification.png" className='verification-icon' alt="" />
+                    </div>
+                    <p className='service--content'>
+                      Before releasing the Offer, do a quick sanity check if it's a fake profile or not, with our BGV-Lite services. Also do a 360-degree Background Verification after the candidate joins.
                     </p>
                     <div className='service-know-morearea'>
                       <a href="#" className='service--know-more'>
@@ -320,7 +421,113 @@ const Home = () => {
               <h6>Milestone numbers</h6>
               <h3 className='milestone--heading'>Achieving <span>Milestones</span></h3>
             </div>
-            <div className="milestone--slider-area">
+            <div className="home--milestone-cards-area">
+              <div className="row">
+                <div className="col-12 col-lg-4 col-md-6 ab--milestone-container">
+                  <article className='home--milestone-card'>
+                    <div className="home--milestone-card-top">
+                      <div className="home--milestone--arrow">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="47" height="69" viewBox="0 0 47 69" fill="none">
+                          <path d="M2.06329 0V32.7516C1.61769 37.4304 3.40009 47.4563 11.4209 47.4563C19.4417 47.4563 27.6853 47.4563 30.8045 47.4563H40.162" stroke="#FFF" stroke-width="3" />
+                          <path d="M22.1891 27.665C22.5796 33.9765 27.4558 46.6869 43.8366 47.0367" stroke="#FFF" stroke-width="3" />
+                          <path d="M44.4526 47.0557C38.1429 46.6368 24.9137 49.8495 22.4744 66.0514" stroke="#FFF" stroke-width="3" />
+                        </svg>
+                      </div>
+                    </div>
+                    <div className="home--milestone-card-right">
+                      <h6 className='home--milestone-title'>Total Registered Users</h6>
+                      <h2 className='home-milestone-number' data-target="130">0</h2>
+                    </div>
+                  </article>
+                </div>
+                <div className="col-12 col-lg-4 col-md-6 ab--milestone-container">
+                  <article className='home--milestone-card'>
+                    <div className="home--milestone-card-top">
+                      <div className="home--milestone--arrow">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="47" height="69" viewBox="0 0 47 69" fill="none">
+                          <path d="M2.06329 0V32.7516C1.61769 37.4304 3.40009 47.4563 11.4209 47.4563C19.4417 47.4563 27.6853 47.4563 30.8045 47.4563H40.162" stroke="#FFF" stroke-width="3" />
+                          <path d="M22.1891 27.665C22.5796 33.9765 27.4558 46.6869 43.8366 47.0367" stroke="#FFF" stroke-width="3" />
+                          <path d="M44.4526 47.0557C38.1429 46.6368 24.9137 49.8495 22.4744 66.0514" stroke="#FFF" stroke-width="3" />
+                        </svg>
+                      </div>
+                    </div>
+                    <div className="home--milestone-card-right">
+                      <h6 className='home--milestone-title'>New Registrations per day</h6>
+                      <h2 className='home-milestone-number' data-target="200">0</h2>
+                    </div>
+                  </article>
+                </div>
+                <div className="col-12 col-lg-4 col-md-6 ab--milestone-container">
+                  <article className='home--milestone-card'>
+                    <div className="home--milestone-card-top">
+                      <div className="home--milestone--arrow">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="47" height="69" viewBox="0 0 47 69" fill="none">
+                          <path d="M2.06329 0V32.7516C1.61769 37.4304 3.40009 47.4563 11.4209 47.4563C19.4417 47.4563 27.6853 47.4563 30.8045 47.4563H40.162" stroke="#FFF" stroke-width="3" />
+                          <path d="M22.1891 27.665C22.5796 33.9765 27.4558 46.6869 43.8366 47.0367" stroke="#FFF" stroke-width="3" />
+                          <path d="M44.4526 47.0557C38.1429 46.6368 24.9137 49.8495 22.4744 66.0514" stroke="#FFF" stroke-width="3" />
+                        </svg>
+                      </div>
+                    </div>
+                    <div className="home--milestone-card-right">
+                      <h6 className='home--milestone-title'>Total Clients</h6>
+                      <h2 className='home-milestone-number' data-target="202">0</h2>
+                    </div>
+                  </article>
+                </div>
+                <div className="col-12 col-lg-4 offset-lg-4 col-md-6 ab--milestone-container">
+                  <article className='home--milestone-card'>
+                    <div className="home--milestone-card-top">
+                      <div className="home--milestone--arrow">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="47" height="69" viewBox="0 0 47 69" fill="none">
+                          <path d="M2.06329 0V32.7516C1.61769 37.4304 3.40009 47.4563 11.4209 47.4563C19.4417 47.4563 27.6853 47.4563 30.8045 47.4563H40.162" stroke="#FFF" stroke-width="3" />
+                          <path d="M22.1891 27.665C22.5796 33.9765 27.4558 46.6869 43.8366 47.0367" stroke="#FFF" stroke-width="3" />
+                          <path d="M44.4526 47.0557C38.1429 46.6368 24.9137 49.8495 22.4744 66.0514" stroke="#FFF" stroke-width="3" />
+                        </svg>
+                      </div>
+                    </div>
+                    <div className="home--milestone-card-right">
+                      <h6 className='home--milestone-title'>Total Candidates placed</h6>
+                      <h2 className='home-milestone-number' data-target="147">0</h2>
+                    </div>
+                  </article>
+                </div>
+                <div className="col-12 col-lg-4 col-md-6 ab--milestone-container">
+                  <article className='home--milestone-card'>
+                    <div className="home--milestone-card-top">
+                      <div className="home--milestone--arrow">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="47" height="69" viewBox="0 0 47 69" fill="none">
+                          <path d="M2.06329 0V32.7516C1.61769 37.4304 3.40009 47.4563 11.4209 47.4563C19.4417 47.4563 27.6853 47.4563 30.8045 47.4563H40.162" stroke="#FFF" stroke-width="3" />
+                          <path d="M22.1891 27.665C22.5796 33.9765 27.4558 46.6869 43.8366 47.0367" stroke="#FFF" stroke-width="3" />
+                          <path d="M44.4526 47.0557C38.1429 46.6368 24.9137 49.8495 22.4744 66.0514" stroke="#FFF" stroke-width="3" />
+                        </svg>
+                      </div>
+                    </div>
+                    <div className="home--milestone-card-right">
+                      <h6 className='home--milestone-title'>Offer-to-Joining Conversion rate</h6>
+                      <h2 className='home-milestone-number' data-target="347">0</h2>
+                    </div>
+                  </article>
+                </div>
+                <div className="col-12 col-lg-4 offset-lg-8 col-md-6 ab--milestone-container">
+                  <article className='home--milestone-card'>
+                    <div className="home--milestone-card-top">
+                      <div className="home--milestone--arrow">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="47" height="69" viewBox="0 0 47 69" fill="none">
+                          <path d="M2.06329 0V32.7516C1.61769 37.4304 3.40009 47.4563 11.4209 47.4563C19.4417 47.4563 27.6853 47.4563 30.8045 47.4563H40.162" stroke="#FFF" stroke-width="3" />
+                          <path d="M22.1891 27.665C22.5796 33.9765 27.4558 46.6869 43.8366 47.0367" stroke="#FFF" stroke-width="3" />
+                          <path d="M44.4526 47.0557C38.1429 46.6368 24.9137 49.8495 22.4744 66.0514" stroke="#FFF" stroke-width="3" />
+                        </svg>
+                      </div>
+                    </div>
+                    <div className="home--milestone-card-right">
+                      <h6 className='home--milestone-title'>Placements per Year</h6>
+                      <h2 className='home-milestone-number' data-target="540">0</h2>
+                    </div>
+                  </article>
+                </div>
+              </div>
+            </div>
+            {/* <div className="milestone--slider-area">
               <article className='milestone--card'>
                 <div className='milestone--card-inner'>
                   <div className="milestone--arrow-area">
@@ -366,7 +573,7 @@ const Home = () => {
                   </div>
                 </div>
               </article>
-            </div>
+            </div> */}
           </div>
         </section>
 

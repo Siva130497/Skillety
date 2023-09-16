@@ -232,7 +232,7 @@
 
 .about--milestone-cards-area {
     padding-top: 109px;
-    padding-left: 180px;
+    padding-left: 120px;
 }
 
 .about--milestone-card {
@@ -246,7 +246,7 @@
     margin-bottom: 3rem;
     display: flex;
     flex-direction: row;
-    gap: 20px;
+    gap: 12px;
     transition: ease-in-out 0.8s;
     cursor: pointer;
     z-index: 1;
@@ -344,7 +344,7 @@
     line-height: normal;
     text-transform: capitalize;
     position: relative;
-    letter-spacing: 5px;
+    letter-spacing: 2px;
     line-height: 1.3em;
     transition: ease-in-out 0.8s;
 }

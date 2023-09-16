@@ -50,7 +50,7 @@ const Layout = ({ navBar = true, children }) => {
       }
     });
 
-
+    
 
   }, []);
 
@@ -362,7 +362,7 @@ const Layout = ({ navBar = true, children }) => {
               <span className='footer--copyright'>© 2023 - Skillety Technologies Private Limited, All Rights Reserved.</span>
               <div className='footer--bottom-credit-area'>
                 <span className='footer--cerdit'>Designed & Developed by</span>
-                <a href="">
+                <a href="/https://www.prodigit.in/" target='_blank'>
                   <img src="assets/img/logo/prodigit-logo.png" className='prodigit--logo' alt="" />
                 </a>
               </div>
