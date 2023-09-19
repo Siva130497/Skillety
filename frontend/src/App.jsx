@@ -29,6 +29,8 @@ function App() {
           <Route path='/contact-us' element={<Contact />} />
           <Route path='/services' element={<Services />} />
           <Route path='/rpo' element={<RPO />} />
+          <Route path='/pdf' element={<PDFViewer />} />
+          {/* <Route path='/live-chat' element={<LiveChat />} /> */}
           <Route path='/client-register' element={<ClientRegister />} />
           <Route path='/candiate-register' element={<CandidateRegister />} />
           <Route path='/client-login' element={<ClientLogin />} />
