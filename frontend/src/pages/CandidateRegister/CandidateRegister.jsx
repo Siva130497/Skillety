@@ -4,6 +4,8 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import axios from 'axios';
 import { v4 as uuidv4} from "uuid";
+import NewNavBar from '../../components/NewNavBar';
+import Layout from '../../components/Layout';
 
 
 const CandidateRegister = () => {
@@ -271,6 +273,9 @@ const CandidateRegister = () => {
         case 1:
             return (
                 <>
+                    <div className='container-fluid'>
+
+                    </div>
                     <div className="form-group">
                         <label 
                         htmlFor="days" 
@@ -665,6 +670,8 @@ const CandidateRegister = () => {
 
   return (
     <div>
+        <Layout newNavBarCandidateRegister = {true} />
+        <div className='container-fluid'>
         <h3>Create your account</h3>
         <form onSubmit={handleSubmit}>
         {renderStep()}
@@ -672,6 +679,8 @@ const CandidateRegister = () => {
         {step < 3 && (<button type="button" className="btn btn-outline-info my-3" onClick={handleNext}>Next</button>)}
         {step === 3 && (<input type='submit' value="Register" className='btn btn-primary my-3' />)}
         </form>
+        </div>
+        
     </div>
   );
 };

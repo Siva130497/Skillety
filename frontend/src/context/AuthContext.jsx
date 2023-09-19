@@ -178,6 +178,8 @@ export const AuthContextProvider = ({children}) => {
         }
     }
 
+    
+
     return<AuthContext.Provider value={{registerUser, loginClient, candidateReg, postOtherSkills, postOtherDesignation, jobPosting, jobPosted, setJobPosted, loginCandidate, dashBoard, employeeId, applyingjob, appliedJobStatus, setAppliedJobStatus}}>
             {children}
         </AuthContext.Provider>

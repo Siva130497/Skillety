@@ -1,6 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
 import { AuthContextProvider } from './context/AuthContext';
-import Layout from './components/Layout';
 import ClientRegister from "./pages/ClientRegister/ClientRegister";
 import Packages from './pages/Packages/Packages';
 import Home from './pages/Home/Home';
@@ -24,7 +23,6 @@ function App() {
   
   return (
     <AuthContextProvider>
-      <Layout>
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/about-us' element={<About />} />
@@ -34,17 +32,18 @@ function App() {
           <Route path='/pdf' element={<PDFViewer />} />
           {/* <Route path='/live-chat' element={<LiveChat />} /> */}
           <Route path='/client-register' element={<ClientRegister />} />
-          <Route path='/packages' element={<Packages />} />
-          <Route path='/client-detail' element={<ClientDetail />} />
           <Route path='/candiate-register' element={<CandidateRegister />} />
           <Route path='/client-login' element={<ClientLogin />} />
           <Route path='/candidate-login' element={<CandidateLogin />} />
+          <Route path='/pdf' element={<PDFViewer />} />
+          {/* <Route path='/live-chat' element={<LiveChat />} /> */}
+          <Route path='/packages' element={<Packages />} />
+          <Route path='/client-detail' element={<ClientDetail />} />
           <Route path='/client-dashboard' element={<ClientDashboard />} />
           <Route path='/candidate-dashboard' element={<CandidateDashboard />} />
           {/* <Route path='/client-recruiter-chat' element={<Chat />} /> */}
           <Route path='/:id' element={<ClientNewPassword />} />
         </Routes>
-      </Layout>
     </AuthContextProvider>
   );
 }

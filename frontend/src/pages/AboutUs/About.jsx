@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import $ from 'jquery';
 import './About.css'
 import './About-responsive.css'
+import Layout from '../../components/Layout';
 
 const About = () => {
     useEffect(() => {
@@ -57,7 +58,10 @@ const About = () => {
         // <div>
         //     <h1>Welcome</h1>
         // </div>
-        <div className='about--section'>
+        <>
+        <Layout />
+        <div className='container-fluid'>
+            <div className='about--section'>
             <div className='container-fluid container-section'>
                 <div className="about--bg">
                     <div className="row">
@@ -289,6 +293,9 @@ const About = () => {
                 </div>
             </div>
         </div>
+        </div>
+        </>
+        
     )
 }
 export default About;

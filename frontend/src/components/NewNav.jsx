@@ -33,7 +33,7 @@ const NewNav = () => {
                         <li><Link to="/" className="nav-link">Home</Link></li>
                         <li><Link to="/about-us" className="nav-link">About Us</Link></li>
                         <li><Link to="/talents" className="nav-link">Talents</Link></li>
-                        <li className="dropdown"><Link to="#"><span>Services</span> <i className="bi bi-chevron-down"></i></Link>
+                        <li className="dropdown"><Link to="/services"><span>Services</span> <i className="bi bi-chevron-down"></i></Link>
                             <ul>
                                 <li><Link to="#">Service 1</Link></li>
                                 <li><Link to="#">Service 2</Link></li>
@@ -42,7 +42,7 @@ const NewNav = () => {
                             </ul>
                         </li>
                         <li><Link className="nav-link" to="/rpo">RPO</Link></li>
-                        <li><Link className="nav-link" to="/contact">Contact</Link></li>
+                        <li><Link className="nav-link" to="/contact-us">Contact</Link></li>
                     </ul>
                     <i className="bi bi-list mobile-nav-toggle"></i>
                 </nav>

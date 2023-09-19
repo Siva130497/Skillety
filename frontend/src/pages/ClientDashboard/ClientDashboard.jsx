@@ -3,6 +3,7 @@ import axios from 'axios';
 import { v4 as uuidv4 } from "uuid";
 import AuthContext from '../../context/AuthContext';
 import ClientLogin from '../ClientLogin/ClientLogin';
+import Layout from '../../components/Layout';
 
 const ClientDashboard = () => {
     const {
@@ -365,7 +366,11 @@ const ClientDashboard = () => {
 
     return (
         <div>
+          
+          
           {employeeId ? <>
+            <Layout/>
+            <div className='container-fluid'>
             <h1>Dash Board</h1>
             <hr className="my-4" />
             {candidateDetail.length === 0 ? <h3>No Candidate Yet</h3> 
@@ -460,6 +465,8 @@ const ClientDashboard = () => {
                   <div>Job Role: {selectedPostedJobViewDetail.jobRole[0]}</div>
                   <div>Job Category: {selectedPostedJobViewDetail.jobCategory}</div>
                   <div>Job Mandatory Skills: {selectedPostedJobViewDetail.skills.join(', ')}</div>
+                  <div>Job Description: {selectedPostedJobViewDetail.jobDescription}</div>
+                  <div>Needed Experience:{selectedPostedJobViewDetail.year} years and {selectedPostedJobViewDetail.month} months</div>
                 </>
              }
              <br></br>
@@ -649,7 +656,11 @@ const ClientDashboard = () => {
                </div>
                <input type='submit' value="Post" className='btn btn-primary my-3' />
              </form>
+            </div>
+            
           </> : <ClientLogin />}
+          
+          
             
         </div>
     );

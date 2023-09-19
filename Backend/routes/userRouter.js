@@ -17,6 +17,7 @@ const {
   applyingjob,
   getAppliedjobs,
   getAppliedOfPostedJobs,
+  deleteAppliedJob,
 } = require("../Controller/authFunctions");
 
 // Client Registeration Route
@@ -68,6 +69,10 @@ router.get('/my-applied-jobs/:candidateId', getAppliedjobs)
 //get applied of posted jobs
 router.get('/applied-jobs-of-posted/:clientId', getAppliedOfPostedJobs)
 
+//delete particular job of candidate
+router.delete('/delete-job/:candidateId/:jobId', deleteAppliedJob)
+
+
 //Recruiter Registration route
 router.post("/register-Recruiter", async (req, res) => {
   await employeeSignup(req.body, "Recruiter", res);
@@ -83,15 +88,17 @@ router.post("/login-Candidate", async (req, res) => {
   await employeeLogin(req.body, "Candidate", res);
 });
 
+// Admin Login Route
+router.post("/login-Admin", async (req, res) => {
+  await employeeLogin(req.body, "Admin", res);
+});
+
 // Recruiter Login Route
 router.post("/login-Recruiter", async (req, res) => {
   await employeeLogin(req.body, "Recruiter", res);
 });
 
-// Candidate Login Route
-router.post("/login-Candidate", async (req, res) => {
-  await employeeLogin(req.body, "Candidate", res);
-});
+
 
 // //Client protected route
 // router.get(
