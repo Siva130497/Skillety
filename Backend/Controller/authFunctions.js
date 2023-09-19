@@ -8,7 +8,15 @@ const finalClient = require("../Database/finalClient");
 const candidate = require("../Database/candidate");
 const employee = require("../Database/employee");
 const resume = require("../Database/resume");
+const jobDetail = require("../Database/jobDetail");
+const appliedJob = require("../Database/appliedJob");
 
+// const hash = async() => {
+//   const pass = 'newpassword'
+//   const hash = await bcrypt.hash(pass, 12)
+//   console.log(hash)
+// }
+// hash()
 
 /* client register */
 const clientRegister = async(req, res) => {
@@ -127,7 +135,7 @@ const finalClientRegister = async(req, res) => {
 const candidateReg = async(req, res) => {
   try {
     console.log(req.body);
-    const {email, password} = req.body; 
+    const {firstName, lastName, email, id, password} = req.body; 
     const candidateAvailable = await candidate.findOne({email});
     if(candidateAvailable){
       return res.status(404).json({message: "User already registered"});
@@ -135,11 +143,21 @@ const candidateReg = async(req, res) => {
     const hashPassword = await bcrypt.hash(password, 12);
     const newCandidate = new candidate({
       ...req.body,
+      role: "Candidate",
       password:hashPassword,
     });
     await newCandidate.save();
     console.log(newCandidate);
-    return res.status(201).json(newCandidate);
+    const updatedEmployee = new employee({
+      id,   
+      name: firstName+lastName,
+      email,
+      role: "Candidate",
+      password:hashPassword,
+    });
+    await updatedEmployee.save();
+    console.log(updatedEmployee);
+    return res.status(201).json({newCandidate, updatedEmployee});
   } catch (err) {
     return res.status(500).json({ error: err.message });
   }
@@ -187,6 +205,118 @@ const getAllCandidateDetail = async (req, res) => {
     return res.status(500).json({ error: err.message });
   }
 }
+
+const jobPosting = async(req, res) => {
+  try{
+    const newJobDetail = new jobDetail({
+      ...req.body,
+    });
+    await newJobDetail.save();
+    console.log(newJobDetail);
+    return res.status(201).json(newJobDetail);
+  }catch(err){
+    return res.status(500).json({ error: err.message })
+  }
+}
+
+/* get all job details */
+const getSkillMatchJobDetail = async(req, res) => {
+  try {
+    const id = req.params.candidateId;
+    const candidateDetail = await candidate.findOne({id});
+    const jobDetails = await jobDetail.find();
+
+    const calculateMatchPercentage = (skills1, skills2) => {
+      const matchingSkills = skills2.filter(skill => skills1.includes(skill));
+      return (matchingSkills.length / skills1.length) * 100;
+    }
+    
+    const comparisonResults = jobDetails.map(obj => {
+      const percentage = calculateMatchPercentage(obj.skills, candidateDetail.skills);
+      return {
+        clientId:obj.clientId,
+        jobId: obj.id,
+        jobRole: obj.jobRole[0],
+        jobMandatorySkills:obj.skills,
+        jobAdditionalSkills: obj.additionalSkills,
+        jobExperience:`${obj.year} years and ${obj.month} months`,
+        jobCategory: obj.jobCategory,
+        jobDescription: obj.jobDescription,
+        percentage,
+      };
+    });
+    
+    res.status(200).json(comparisonResults);
+  
+  } catch(err) {
+    res.status(500).json({error: err.message})
+  }
+}
+
+/* get own posted jobs of client */
+const getOwnPostedjobs = async(req, res) => {
+  try{
+    const id = req.params.clientId;
+    const postedJobs = await jobDetail.find({clientId:id});
+    
+    res.status(200).json(postedJobs); 
+  }catch(err) {
+    res.status(500).json({error: err.message})
+  }
+}
+
+/* candidate applying job */
+const applyingjob = async(req, res) => {
+  try{
+    console.log(req.body);
+    const newAppliedJob = new appliedJob({
+      ...req.body,
+    });
+    await newAppliedJob.save();
+    return res.status(201).json(newAppliedJob);
+  }catch(err){
+    res.status(500).json({error: err.message});
+  }
+}
+
+/* get applied jobs */
+const getAppliedjobs = async(req, res) => {
+  try{
+    const id = req.params.candidateId;
+    const appliedJobs = await appliedJob.find({candidateId:id});
+    
+    res.status(200).json(appliedJobs); 
+  }catch(err) {
+    res.status(500).json({error: err.message})
+  }
+}
+
+/* get applied jobs from posted jobs  */
+const getAppliedOfPostedJobs = async(req, res) => {
+  try{
+    const id = req.params.clientId;
+    const appliedOfPostedJobs = await appliedJob.find({clientId:id});
+    
+    res.status(200).json(appliedOfPostedJobs); 
+  }catch(err) {
+    res.status(500).json({error: err.message})
+  }
+}
+
+/* delete particular job */
+const deleteAppliedJob = async(req, res) => {
+  try{
+    const candidateId = req.params.candidateId;
+    const jobId = req.params.jobId;
+    console.log(candidateId, jobId)
+    const deleteAppliedJob = await appliedJob.deleteOne({candidateId:candidateId, jobId:jobId});
+    
+    res.status(200).json(deleteAppliedJob); 
+  }catch(err) {
+    res.status(500).json({error: err.message})
+  }
+}
+
 
 /**
  * @DESC To register the employee
@@ -268,6 +398,7 @@ const employeeLogin = async (req, role, res) => {
     );
 
     let result = {
+      id: Employee.id,
       name: Employee.name,
       role: Employee.role,
       email: Employee.email,
@@ -366,4 +497,11 @@ module.exports = {
    finalClientRegister,
    candidateReg,
    getAllCandidateDetail,
+   jobPosting,
+   getSkillMatchJobDetail,
+   getOwnPostedjobs,
+   applyingjob,
+   getAppliedjobs,
+   getAppliedOfPostedJobs,
+   deleteAppliedJob,
 };
