@@ -10,12 +10,12 @@ const RPO = () => {
     }, []);
 
     return (
-        <div className='rpo--section'>
+        <div className='container-fluid rpo--section'>
             <div className='container-fluid container-section'>
                 <div className="about--bg">
                     <div className="row">
                         <div className="col-12 col-lg-8 col-md-12 about--left-cover">
-                            <div className="breadcrumb--area">
+                            <div className="breadcrumb--area" data-aos="fade-down">
                                 <div className="breadcrumb--item">
                                     <a href="/">Home</a>
                                 </div>
@@ -24,12 +24,12 @@ const RPO = () => {
                                 </div>
                             </div>
                             <div className="rpo--head">
-                                <h2>We enhance client recruitment through comprehensive end-to-end outsourcing</h2>
+                                <h2 data-aos="fade-left">We enhance client recruitment through comprehensive end-to-end outsourcing</h2>
                             </div>
                         </div>
                         <div className="col-12 col-lg-4 col-md-12 about--right-cover">
                             <div className="about--card-area">
-                                <div className="card about--card">
+                                <div className="card about--card" data-aos="fade-right">
                                     <div className="card--imgicon-area">
                                         <h6 className='card--text'>I want to hire an immediate joiner</h6>
                                         <img src="assets/img/home-images/icon-1.png" className='card--icon' alt="" />
@@ -50,21 +50,21 @@ const RPO = () => {
 
                 <div className="rpo--enter-bg">
                     <div className="rpo--enter-heading">
-                        <h3>Enterprise RPO</h3>
+                        <h3 data-aos="fade-up">Enterprise RPO</h3>
                     </div>
                     <div className="rpo--enter-desc">
-                        <p>From requisition to onboarding, Skillety offers recruitment expertise and scalability while being completely aligned with our clients’ culture. Enterprise RPO is a comprehensive, customizable, and scalable recruitment solution, rooted on an exclusivity contract from our clients.</p>
+                        <p data-aos="fade-down">From requisition to onboarding, Skillety offers recruitment expertise and scalability while being completely aligned with our clients’ culture. Enterprise RPO is a comprehensive, customizable, and scalable recruitment solution, rooted on an exclusivity contract from our clients.</p>
                     </div>
                     <div className="rpo--enter-list-area">
                         <ul>
-                            <li className='rpo--enter-list-item'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. </li>
-                            <li className='rpo--enter-list-item'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. </li>
-                            <li className='rpo--enter-list-item'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. </li>
-                            <li className='rpo--enter-list-item'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. </li>
+                            <li className='rpo--enter-list-item' data-aos="fade-left">Lorem Ipsum is simply dummy text of the printing and typesetting industry. </li>
+                            <li className='rpo--enter-list-item' data-aos="fade-left">Lorem Ipsum is simply dummy text of the printing and typesetting industry. </li>
+                            <li className='rpo--enter-list-item' data-aos="fade-left">Lorem Ipsum is simply dummy text of the printing and typesetting industry. </li>
+                            <li className='rpo--enter-list-item' data-aos="fade-left">Lorem Ipsum is simply dummy text of the printing and typesetting industry. </li>
                         </ul>
                     </div>
                     <div className="rpo--enter-btn-area">
-                        <a href="#" className='rpo--enter-btn-sub'>
+                        <a href="#" className='rpo--enter-btn-sub' data-aos="fade-down">
                             <div className='rpo--enter-btn'>
                                 Request a demo
                             </div>
@@ -81,21 +81,21 @@ const RPO = () => {
 
                 <div className="rpo--pro-bg">
                     <div className="rpo--enter-heading">
-                        <h3>Enterprise RPO</h3>
+                        <h3 data-aos="fade-up">Enterprise RPO</h3>
                     </div>
                     <div className="rpo--enter-desc">
-                        <p>From requisition to onboarding, Skillety offers recruitment expertise and scalability while being completely aligned with our clients’ culture. Enterprise RPO is a comprehensive, customizable, and scalable recruitment solution, rooted on an exclusivity contract from our clients.</p>
+                        <p data-aos="fade-down">From requisition to onboarding, Skillety offers recruitment expertise and scalability while being completely aligned with our clients’ culture. Enterprise RPO is a comprehensive, customizable, and scalable recruitment solution, rooted on an exclusivity contract from our clients.</p>
                     </div>
                     <div className="rpo--pro-list-area">
                         <ul>
-                            <li className='rpo--pro-list-item'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. </li>
-                            <li className='rpo--pro-list-item'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. </li>
-                            <li className='rpo--pro-list-item'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. </li>
-                            <li className='rpo--pro-list-item'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. </li>
+                            <li className='rpo--pro-list-item' data-aos="fade-right">Lorem Ipsum is simply dummy text of the printing and typesetting industry. </li>
+                            <li className='rpo--pro-list-item' data-aos="fade-right">Lorem Ipsum is simply dummy text of the printing and typesetting industry. </li>
+                            <li className='rpo--pro-list-item' data-aos="fade-right">Lorem Ipsum is simply dummy text of the printing and typesetting industry. </li>
+                            <li className='rpo--pro-list-item' data-aos="fade-right">Lorem Ipsum is simply dummy text of the printing and typesetting industry. </li>
                         </ul>
                     </div>
                     <div className="rpo--pro-btn-area">
-                        <a href="#" className='rpo--pro-btn-sub'>
+                        <a href="#" className='rpo--pro-btn-sub' data-aos="fade-down">
                             <div className='rpo--pro-btn'>
                                 Request a demo
                             </div>
@@ -112,21 +112,21 @@ const RPO = () => {
 
                 <div className="rpo--enter-bg">
                     <div className="rpo--enter-heading">
-                        <h3>CONTINGENT RPO</h3>
+                        <h3 data-aos="fade-up">CONTINGENT RPO</h3>
                     </div>
                     <div className="rpo--enter-desc">
-                        <p>From requisition to onboarding, Skillety offers recruitment expertise and scalability while being completely aligned with our clients’ culture. Enterprise RPO is a comprehensive, customizable, and scalable recruitment solution, rooted on an exclusivity contract from our clients.</p>
+                        <p data-aos="fade-down">From requisition to onboarding, Skillety offers recruitment expertise and scalability while being completely aligned with our clients’ culture. Enterprise RPO is a comprehensive, customizable, and scalable recruitment solution, rooted on an exclusivity contract from our clients.</p>
                     </div>
                     <div className="rpo--enter-list-area">
                         <ul>
-                            <li className='rpo--enter-list-item'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. </li>
-                            <li className='rpo--enter-list-item'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. </li>
-                            <li className='rpo--enter-list-item'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. </li>
-                            <li className='rpo--enter-list-item'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. </li>
+                            <li className='rpo--enter-list-item' data-aos="fade-left">Lorem Ipsum is simply dummy text of the printing and typesetting industry. </li>
+                            <li className='rpo--enter-list-item' data-aos="fade-left">Lorem Ipsum is simply dummy text of the printing and typesetting industry. </li>
+                            <li className='rpo--enter-list-item' data-aos="fade-left">Lorem Ipsum is simply dummy text of the printing and typesetting industry. </li>
+                            <li className='rpo--enter-list-item' data-aos="fade-left">Lorem Ipsum is simply dummy text of the printing and typesetting industry. </li>
                         </ul>
                     </div>
                     <div className="rpo--enter-btn-area">
-                        <a href="#" className='rpo--enter-btn-sub'>
+                        <a href="#" className='rpo--enter-btn-sub' data-aos="fade-down">
                             <div className='rpo--enter-btn'>
                                 Request a demo
                             </div>
@@ -143,21 +143,21 @@ const RPO = () => {
 
                 <div className="rpo--pro-bg">
                     <div className="rpo--enter-heading">
-                        <h3>RPO-LITE</h3>
+                        <h3 data-aos="fade-up">RPO-LITE</h3>
                     </div>
                     <div className="rpo--enter-desc">
-                        <p>From requisition to onboarding, Skillety offers recruitment expertise and scalability while being completely aligned with our clients’ culture. Enterprise RPO is a comprehensive, customizable, and scalable recruitment solution, rooted on an exclusivity contract from our clients.</p>
+                        <p data-aos="fade-down">From requisition to onboarding, Skillety offers recruitment expertise and scalability while being completely aligned with our clients’ culture. Enterprise RPO is a comprehensive, customizable, and scalable recruitment solution, rooted on an exclusivity contract from our clients.</p>
                     </div>
                     <div className="rpo--pro-list-area">
                         <ul>
-                            <li className='rpo--pro-list-item'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. </li>
-                            <li className='rpo--pro-list-item'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. </li>
-                            <li className='rpo--pro-list-item'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. </li>
-                            <li className='rpo--pro-list-item'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. </li>
+                            <li className='rpo--pro-list-item' data-aos="fade-right">Lorem Ipsum is simply dummy text of the printing and typesetting industry. </li>
+                            <li className='rpo--pro-list-item' data-aos="fade-right">Lorem Ipsum is simply dummy text of the printing and typesetting industry. </li>
+                            <li className='rpo--pro-list-item' data-aos="fade-right">Lorem Ipsum is simply dummy text of the printing and typesetting industry. </li>
+                            <li className='rpo--pro-list-item' data-aos="fade-right">Lorem Ipsum is simply dummy text of the printing and typesetting industry. </li>
                         </ul>
                     </div>
                     <div className="rpo--pro-btn-area">
-                        <a href="#" className='rpo--pro-btn-sub'>
+                        <a href="#" className='rpo--pro-btn-sub' data-aos="fade-down">
                             <div className='rpo--pro-btn'>
                                 Request a demo
                             </div>
@@ -173,7 +173,7 @@ const RPO = () => {
                 </div>
 
                 <div className="rpo--more-btn-area">
-                    <a href="" className='rpo--more-btn'>More...</a>
+                    <a href="" className='rpo--more-btn' data-aos="fade-up">More...</a>
                 </div>
 
             </div>

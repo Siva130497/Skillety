@@ -1,5 +1,6 @@
 .contact--section {
     margin-top: 27px;
+    overflow: hidden !important;
 }
 
 .con--where-section {

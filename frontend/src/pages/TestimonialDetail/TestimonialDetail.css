@@ -1,0 +1,154 @@
+.testimonial-detail-section {
+    margin-top: 150px;
+    padding-top: 60px;
+    overflow: hidden !important;
+}
+
+.testimonial--detail-container {
+    padding-top: 40px;
+}
+
+.test--det-card {
+    position: relative;
+    border-radius: 31px;
+    background: #F9C833;
+    border: 2px solid #F9C833;
+    border-bottom: 5px solid #F9C833;
+    padding: 45px 55px;
+    z-index: 1;
+    overflow: hidden;
+    background-repeat: no-repeat;
+    transition: ease-in-out 0.8s;
+}
+
+.test--det-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: 0.8s ease-in-out;
+    background-color: #5C3B2E;
+    border-radius: 30px;
+    visibility: hidden;
+    height: 10px;
+    width: 10px;
+    z-index: -1;
+}
+
+.test--det-card:hover::after {
+    visibility: visible;
+    transform: scale(500) translateX(2px);
+}
+
+.test--det-card:hover {
+    transform: translateY(-8px);
+}
+
+.test--det-card-top-area {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 50px;
+}
+
+.test--det-card-pro-img {
+    width: 135px;
+    height: 135px;
+    object-fit: cover;
+    object-position: top;
+    border-radius: 50%;
+    flex-shrink: 0;
+    border: 2px solid #5C3B2E;
+    padding: 3px;
+    transition: ease-in-out 0.8s;
+}
+
+.test--det-card:hover .test--det-card-pro-img {
+    border-color: #F9C833;
+    -webkit-animation: pulse600 2s infinite;
+    animation: pulse600 1.5s infinite;
+}
+
+@keyframes pulse600 {
+    0% {
+        box-shadow: 0 0 0 0 #f9c73381;
+    }
+
+    70% {
+        box-shadow: 0 0 0 20px rgb(218 103 68 / 0%);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgb(218 103 68 / 0%);
+    }
+}
+
+.test-det-card-pro-name-area .test-det-card-pro-name {
+    color: #5C3B2E;
+    font-size: 40px;
+    font-weight: 400;
+    line-height: normal;
+    transition: ease-in-out 0.8s;
+}
+
+.test--det-card:hover .test-det-card-pro-name-area .test-det-card-pro-name {
+    color: #fff;
+    letter-spacing: 1px;
+}
+
+.test-det-card-pro-name-area {
+    margin-top: 25px;
+}
+
+.test-det-card-pro-name-area .test-det-card-pro-position {
+    color: #5C3B2E;
+    font-size: 24px;
+    font-weight: 600;
+    line-height: normal;
+    transition: ease-in-out 0.8s;
+}
+
+.test--det-card:hover .test-det-card-pro-name-area .test-det-card-pro-position {
+    color: #F9C833;
+}
+
+.test--det-card-desc-area {
+    margin-top: 65px;
+    padding-right: 30px;
+}
+
+.test--det-card-desc-area .test--det-card-desc {
+    color: #5C3B2E;
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 210%;
+    transition: ease-in-out 0.8s;
+}
+
+.test--det-card:hover .test--det-card-desc-area .test--det-card-desc {
+    color: #fff;
+}
+
+.test--det-slider-btn-area {
+    margin-top: 45px;
+    margin-bottom: 40px;
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.test--more-det-area {
+    margin-top: 80px;
+    margin-bottom: 120px;
+}
+
+.test--more-det-area .test--more-det-heading {
+    color: #714F36;
+    font-size: 48px;
+    font-weight: 500;
+    line-height: normal;
+}
+.more--test-card-area{
+    margin-top: 80px;
+}

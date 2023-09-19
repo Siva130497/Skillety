@@ -1,0 +1,66 @@
+.testimonial--section {
+    margin-top: 150px;
+    padding-top: 60px;
+    overflow: hidden !important;
+}
+
+.testimonial--container {
+    padding-top: 40px;
+}
+
+.testimonial--profile-img.testi--img {
+    width: 135px;
+    height: 135px;
+}
+
+.testimonial--profile.testi--profile-desc p {
+    width: 100%;
+}
+
+.testimonial--arrow-area.testi--arrow-area {
+    width: 135px;
+    height: 135px;
+    outline: 20px solid #fff;
+}
+
+.testimonial--arrow-area.testi--arrow-area svg {
+    width: 50px;
+}
+
+.testimonial--card-lg.testi--card-lg {
+    border-radius: 48px 48px 70px 48px;
+    padding: 30px;
+    height: 550px;
+}
+
+.testimonial--row {
+    margin-bottom: 120px;
+}
+
+.testimonial--card-sm.testi--card-sm {
+    height: 250px;
+}
+
+.testimonial--content-area.testi--content-area {
+    width: 80%;
+    margin-top: 35px;
+    max-height: 300px;
+    overflow-y: scroll;
+    padding-right: 5px;
+}
+
+.testimonial--content-area.testi--content-area::-webkit-scrollbar-track {
+    padding-left: 20px !important;
+    border-radius: 10px;
+    background-color: transparent;
+}
+
+.testimonial--content-area.testi--content-area::-webkit-scrollbar {
+    width: 5px;
+    background-color: transparent;
+}
+
+.testimonial--content-area.testi--content-area::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: #ffd04219;
+}   

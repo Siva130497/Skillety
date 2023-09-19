@@ -1,8 +1,8 @@
 import React from 'react'
-import { Link } from "react-router-dom";
+import { Link, useLocation } from 'react-router-dom';
 
 const NavBar = ({ title = "SKILLETY" }) => {
-
+    const location = useLocation();
     return (
         // <nav className="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
         //     <div className="container-fluid">
@@ -37,8 +37,8 @@ const NavBar = ({ title = "SKILLETY" }) => {
         //         </div>
         //     </div>
         // </nav>
-        <header id="header" className="fixed-top">
-            <div className="container-fluid d-flex align-items-center">
+        <header id="header" className="fixed--top">
+            <div className="container-fluid d-flex align-items-center justify-content-between ps-0 custom-right-nav-padding">
 
                 <div>
                     <div className='logo--area me-auto'>
@@ -51,7 +51,7 @@ const NavBar = ({ title = "SKILLETY" }) => {
                 </div>
                 <div className="switches-container">
                     <input type="radio" id="switchTalent" name="switchPlan" value="Talent" />
-                    <input type="radio" id="switchEmployer" name="switchPlan" value="Employer" checked="checked" />
+                    <input type="radio" id="switchEmployer" name="switchPlan" value="Employer" checked />
                     <label for="switchTalent">Talent</label>
                     <label for="switchEmployer">Employer</label>
                     <div className="switch-wrapper">
@@ -69,7 +69,7 @@ const NavBar = ({ title = "SKILLETY" }) => {
                         <li><a className="nav-link scrollto" href="/talents">Talents</a></li>
                         <li className="dropdown"><a href="#"><span>Services</span> <i className="bi bi-chevron-down"></i></a>
                             <ul>
-                                <li><a href="#">Service 1</a></li>
+                                <li><a href="/services">Service 1</a></li>
                                 {/* <li className="dropdown"><a href="#"><span>Deep Drop Down</span> <i className="bi bi-chevron-right"></i></a>
                                     <ul>
                                         <li><a href="#">Deep Drop Down 1</a></li>
@@ -85,7 +85,7 @@ const NavBar = ({ title = "SKILLETY" }) => {
                             </ul>
                         </li>
                         <li><a className="nav-link   scrollto" href="/rpo">RPO</a></li>
-                        <li><a className="nav-link scrollto" href="/contact">Contact</a></li>
+                        <li><a className="nav-link scrollto" href="/contact-us">Contact</a></li>
                     </ul>
                     <i className="bi bi-list mobile-nav-toggle"></i>
                 </nav>

@@ -57,12 +57,12 @@ const About = () => {
         // <div>
         //     <h1>Welcome</h1>
         // </div>
-        <div className='about--section'>
+        <div className='container-fluid about--section'>
             <div className='container-fluid container-section'>
                 <div className="about--bg">
                     <div className="row">
                         <div className="col-12 col-lg-8 col-md-12 about--left-cover">
-                            <div className="breadcrumb--area">
+                            <div className="breadcrumb--area" data-aos="fade-down">
                                 <div className="breadcrumb--item">
                                     <a href="/">Home</a>
                                 </div>
@@ -71,12 +71,12 @@ const About = () => {
                                 </div>
                             </div>
                             <div className="about--head">
-                                <h2>Skillety simply means
+                                <h2 data-aos="fade-left">Skillety simply means
                                     “Skill at Will”. </h2>
                             </div>
                         </div>
                         <div className="col-12 col-lg-4 col-md-12 about--right-cover">
-                            <div className="about--card-area">
+                            <div className="about--card-area" data-aos="fade-right">
                                 <div className="card about--card">
                                     <div className="card--imgicon-area">
                                         <h6 className='card--text'>I want to hire an immediate joiner</h6>
@@ -96,18 +96,18 @@ const About = () => {
                     </div>
                 </div>
                 <div className='about--desc-section'>
-                    <p>We are a gig-economy based crowdsourcing platform for Freelancers. We have an exclusive vault of Immediate Joiners - guys who can pick up an Offer and Join within 7 days or less. We have curated a group of Technical Interview experts for Clients who face shortage of internal Interview Panels. We help you to move away from the old and soiled hierarchical business structure, and evolve into a 21st Century on-demand, open talent, cross-functional team; with a skilled and passionate workforce who are more engaged, effective & productive. Welcome to Skillety – Your on-demand HR solutions partner.</p>
+                    <p data-aos="fade-left">We are a gig-economy based crowdsourcing platform for Freelancers. We have an exclusive vault of Immediate Joiners - guys who can pick up an Offer and Join within 7 days or less. We have curated a group of Technical Interview experts for Clients who face shortage of internal Interview Panels. We help you to move away from the old and soiled hierarchical business structure, and evolve into a 21st Century on-demand, open talent, cross-functional team; with a skilled and passionate workforce who are more engaged, effective & productive. Welcome to Skillety – Your on-demand HR solutions partner.</p>
                 </div>
 
                 <div className="about--milestone-section">
                     <div className='about--headingarea'>
-                        <h6>Milestone numbers</h6>
-                        <h4 className='about--milestone-heading'>Achieving <span>Milestones</span></h4>
+                        <h6 data-aos="fade-down">Milestone numbers</h6>
+                        <h4 className='about--milestone-heading' data-aos="fade-up">Achieving <span>Milestones</span></h4>
                     </div>
                     <div className="about--milestone-cards-area">
                         <div className="row">
                             <div className="col-12 col-lg-4 col-md-6 ab--milestone-container">
-                                <article className='about--milestone-card'>
+                                <article className='about--milestone-card' data-aos="zoom-out-right">
                                     <div className="ab--milestone-card-top">
                                         <div className="ab--milestone--arrow">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="47" height="69" viewBox="0 0 47 69" fill="none">
@@ -124,7 +124,7 @@ const About = () => {
                                 </article>
                             </div>
                             <div className="col-12 col-lg-4 col-md-6 ab--milestone-container">
-                                <article className='about--milestone-card'>
+                                <article className='about--milestone-card' data-aos="zoom-out-right">
                                     <div className="ab--milestone-card-top">
                                         <div className="ab--milestone--arrow">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="47" height="69" viewBox="0 0 47 69" fill="none">
@@ -141,7 +141,7 @@ const About = () => {
                                 </article>
                             </div>
                             <div className="col-12 col-lg-4 col-md-6 ab--milestone-container">
-                                <article className='about--milestone-card'>
+                                <article className='about--milestone-card' data-aos="zoom-out-right">
                                     <div className="ab--milestone-card-top">
                                         <div className="ab--milestone--arrow">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="47" height="69" viewBox="0 0 47 69" fill="none">
@@ -158,7 +158,7 @@ const About = () => {
                                 </article>
                             </div>
                             <div className="col-12 col-lg-4 offset-lg-4 col-md-6 ab--milestone-container">
-                                <article className='about--milestone-card'>
+                                <article className='about--milestone-card' data-aos="zoom-out-right">
                                     <div className="ab--milestone-card-top">
                                         <div className="ab--milestone--arrow">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="47" height="69" viewBox="0 0 47 69" fill="none">
@@ -175,7 +175,7 @@ const About = () => {
                                 </article>
                             </div>
                             <div className="col-12 col-lg-4 col-md-6 ab--milestone-container">
-                                <article className='about--milestone-card'>
+                                <article className='about--milestone-card' data-aos="zoom-out-right">
                                     <div className="ab--milestone-card-top">
                                         <div className="ab--milestone--arrow">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="47" height="69" viewBox="0 0 47 69" fill="none">
@@ -192,7 +192,7 @@ const About = () => {
                                 </article>
                             </div>
                             <div className="col-12 col-lg-4 offset-lg-8 col-md-6 ab--milestone-container">
-                                <article className='about--milestone-card'>
+                                <article className='about--milestone-card' data-aos="zoom-out-right">
                                     <div className="ab--milestone-card-top">
                                         <div className="ab--milestone--arrow">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="47" height="69" viewBox="0 0 47 69" fill="none">
@@ -215,9 +215,9 @@ const About = () => {
                 <div className="container-fluid container-section about--weoffer-section">
                     <div className="about--weoffer-container">
                         <div className='ab-weoff--top-area'>
-                            <h4 className='ab-weoff---heading'>We offer you 4 advantages, most of all.</h4>
+                            <h4 className='ab-weoff---heading' data-aos="fade-up">We offer you 4 advantages, most of all.</h4>
                             <div className='ab--weoff-btn-area'>
-                                <a href="#" className='ab--weoff-btn-area-sub'>
+                                <a href="#" className='ab--weoff-btn-area-sub' data-aos="fade-right">
                                     <div className='ab--weoff-btn'>Register Now
                                     </div>
                                     <div className='ab--weoff-btn-arrow-area'>
@@ -232,7 +232,7 @@ const About = () => {
                             </div>
                         </div>
                         <div className='ab--weoff-card-area'>
-                            <article className='ab-weoff-card'>
+                            <article className='ab-weoff-card' data-aos="zoom-out-down">
                                 <div className="ab-weoff-card-arr-num-area">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="57" height="83" viewBox="0 0 57 83" fill="none">
                                         <path d="M2.07567 0V39.1595C1.54289 44.7537 3.67402 56.7413 13.2641 56.7413C22.8542 56.7413 32.7106 56.7413 36.4401 56.7413H47.6285" stroke="#5C3B2E" stroke-width="3" />
@@ -245,7 +245,7 @@ const About = () => {
                                     <p className='ab-we-off-card-des'>Flexible staffing options which means that we provide you with skilled Freelancers, Part-timers & Contractors, for your technical & non-technical requirements, almost anytime.</p>
                                 </div>
                             </article>
-                            <article className='ab-weoff-card'>
+                            <article className='ab-weoff-card' data-aos="zoom-out-down">
                                 <div className="ab-weoff-card-arr-num-area">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="57" height="83" viewBox="0 0 57 83" fill="none">
                                         <path d="M2.07567 0V39.1595C1.54289 44.7537 3.67402 56.7413 13.2641 56.7413C22.8542 56.7413 32.7106 56.7413 36.4401 56.7413H47.6285" stroke="#5C3B2E" stroke-width="3" />
@@ -258,7 +258,7 @@ const About = () => {
                                     <p className='ab-we-off-card-des'>Extensive database of highly skilled & passionate professionals, carefully hand-picked from thousands who apply.</p>
                                 </div>
                             </article>
-                            <article className='ab-weoff-card'>
+                            <article className='ab-weoff-card' data-aos="zoom-out-down">
                                 <div className="ab-weoff-card-arr-num-area">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="57" height="83" viewBox="0 0 57 83" fill="none">
                                         <path d="M2.07567 0V39.1595C1.54289 44.7537 3.67402 56.7413 13.2641 56.7413C22.8542 56.7413 32.7106 56.7413 36.4401 56.7413H47.6285" stroke="#5C3B2E" stroke-width="3" />
@@ -271,7 +271,7 @@ const About = () => {
                                     <p className='ab-we-off-card-des'>Absolutely no direct-employment liabilities whatsoever, but still your milestones are achieved on time. Operations never stop.</p>
                                 </div>
                             </article>
-                            <article className='ab-weoff-card'>
+                            <article className='ab-weoff-card' data-aos="zoom-out-down">
                                 <div className="ab-weoff-card-arr-num-area">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="57" height="83" viewBox="0 0 57 83" fill="none">
                                         <path d="M2.07567 0V39.1595C1.54289 44.7537 3.67402 56.7413 13.2641 56.7413C22.8542 56.7413 32.7106 56.7413 36.4401 56.7413H47.6285" stroke="#5C3B2E" stroke-width="3" />
