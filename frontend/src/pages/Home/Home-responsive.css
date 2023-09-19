@@ -14,12 +14,16 @@
     }
 
     .candidate--section {
-        padding-left: 20px;
-        padding-right: 20px;
+        padding-left: 44px;
+        padding-right: 44px;
+    }
+
+    .candidate--skill h2 {
+        font-size: 48px;
     }
 
     .clients--section,
-    .testimonial--section {
+    .home--testimonial-section {
         padding-left: 20px;
         padding-right: 20px;
     }
@@ -63,7 +67,7 @@
         height: 80%;
     }
 
-    .testimonial--section {
+    .home--testimonial-section {
         overflow: visible;
         padding-bottom: 32%;
     }
@@ -130,15 +134,17 @@
         padding-top: 200px;
     }
 
-    /* .candidate--profile-area{
+    .candidate--profile-area {
         flex-direction: column;
         text-align: center;
-    } */
+    }
+
     /* .candidate--arrow-icon {
         display: none;
     } */
     .candidate--slider-area {
-        padding: 0 10%;
+        margin-top: 100px;
+        padding: 0 25px;
     }
 
     .home--services-slider-area {
@@ -175,6 +181,12 @@
 }
 
 @media (max-width:500px) {
+    .home--section{
+        margin-top: 13px;
+    }
+    .home--left-cover {
+        padding-top: 130px;
+    }
     .container-section {
         padding: 0;
     }
@@ -241,6 +253,16 @@
     .bubble--img7 {
         max-width: 3.5%;
     }
+    .home--img.animated,
+    .bubble--img1.animated,
+    .bubble--img2.animated,
+    .bubble--img3.animated,
+    .bubble--img4.animated,
+    .bubble--img5.animated,
+    .bubble--img6.animated,
+    .bubble--img7.animated {
+        animation: none;
+    }
 
     .bubble--img1 {
         max-width: 12%;
@@ -270,7 +292,7 @@
     }
 
     .home--about-headarea h6,
-    .home--milestone-headarea h6{
+    .home--milestone-headarea h6 {
         font-size: 13px !important;
     }
 
@@ -309,7 +331,7 @@
     }
 
     .home--about-headarea .service--heading,
-    .home--milestone-headarea .milestone--heading{
+    .home--milestone-headarea .milestone--heading {
         margin-top: 10px;
         font-size: 30px;
     }
@@ -420,6 +442,10 @@
         padding: 15px;
     }
 
+    .custom--mobile-padding {
+        padding: 0 0.75rem;
+    }
+
     .candidate--section {
         padding-top: 60px;
         padding-left: 0px;
@@ -432,7 +458,13 @@
     }
 
     .candidate--slider-area {
-        margin-top: 80px;
+        margin-top: 60px;
+    }
+
+    .home--slider-btn-area {
+        justify-content: center;
+        margin-top: 40px;
+        margin-bottom: 40px;
     }
 
     .candidate--slider-area {
@@ -462,12 +494,8 @@
         font-size: 15px;
     }
 
-    .candidate--skill h2 {
-        font-size: 48px;
-    }
-
     .clients--section,
-    .testimonial--section {
+    .home--testimonial-section {
         padding-top: 0;
         padding-left: 0px;
         padding-right: 0px;
@@ -557,7 +585,7 @@
         padding-bottom: 0;
     }
 
-    .testimonial--section {
+    .home--testimonial-section {
         padding-bottom: 60px !important;
     }
 
@@ -610,6 +638,7 @@
     }
 
     .milestone--section {
+        margin-top: 0;
         padding: 40px 25px 20px 25px !important;
     }
 
@@ -629,7 +658,7 @@
         transform: translateX(3px);
     }
 
-    .home--milestone-card{
+    .home--milestone-card {
         padding: 25px 20px 0 20px;
     }
 

@@ -1,5 +1,6 @@
 .rpo--section {
     margin-top: 27px;
+    overflow: hidden !important;
 }
 
 .rpo--head {

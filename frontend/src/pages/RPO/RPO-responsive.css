@@ -42,6 +42,9 @@
 }
 
 @media (max-width:500px) {
+    .rpo--section{
+        margin-top: 13px;
+    }
     .rpo--head {
         margin-top: 20px;
     }

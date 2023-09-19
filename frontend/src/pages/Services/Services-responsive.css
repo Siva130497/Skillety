@@ -1,38 +1,49 @@
 @media (max-width:991.5px) {
-    .service-bg{
+    .service-bg {
         margin-bottom: 0;
     }
+
     .services--head h2 {
         line-height: 1.4em;
         font-size: 60px;
     }
-    .ser--content-section .ser--content-heading{
+
+    .ser--content-section .ser--content-heading {
         font-size: 48px;
     }
-    .ser--cont-title{
+
+    .ser--cont-title {
         font-size: 20px;
     }
+
     .ser--cont-area-right,
-    .ser--cont-area-left{
+    .ser--cont-area-left {
         padding: 40px 0;
     }
-    .ser--cont-img-area{
+
+    .ser--cont-img-area {
         height: 500px;
         border-radius: 48px;
     }
+
     .ser--content-section {
         padding: 60px 36px 60px 36px;
         border-bottom: 1px solid #5C3B2E;
     }
-    .ser--more-btn-area{
+
+    .ser--more-btn-area {
         padding: 90px 0;
     }
-    .custom-column-reverse{
+
+    .custom-column-reverse {
         flex-direction: column-reverse;
     }
 }
 
 @media (max-width:500px) {
+    .services--section {
+        margin-top: 13px;
+    }
 
     .ser--cont-btn {
         /* width: 100%; */
@@ -40,7 +51,8 @@
         padding: 12px 30px;
         text-align: center;
     }
-    .ser--cont-btn-sub{
+
+    .ser--cont-btn-sub {
         justify-content: center;
     }
 
@@ -51,38 +63,50 @@
     .ser--cont-arrow-area svg {
         width: 25px;
     }
+
     .services--head {
         margin-top: 20px;
     }
+
     .services--head h2 {
         line-height: 1.4em;
         font-size: 35px;
     }
-    .ser--content-section{
+
+    .ser--content-section {
         padding: 60px 15px;
     }
-    .ser--content-section .ser--content-heading{
+
+    .ser--content-section .ser--content-heading {
         font-size: 30px;
     }
-    .ser--cont-img-area{
+
+    .ser--cont-img-area {
         height: 300px;
     }
+
     .ser--cont-title,
-    .ser--cont-list-area .ser--cont-list-item{
+    .ser--cont-list-area .ser--cont-list-item {
         font-size: 18px;
     }
-    .ser--cont-list-area{
+
+    .ser--cont-list-area {
         margin-top: 30px;
     }
-    .ser--cont-area-right, .ser--cont-area-left{
+
+    .ser--cont-area-right,
+    .ser--cont-area-left {
         padding: 30px 0 0 0;
     }
-    .ser--cont-list-area .ser--cont-list-item{
+
+    .ser--cont-list-area .ser--cont-list-item {
         margin-bottom: 10px;
     }
+
     .ser--more-btn-area {
         padding: 60px 0;
     }
+
     .ser--more-btn-area .ser--more-btn {
         font-size: 20px;
         padding: 8px 64px;

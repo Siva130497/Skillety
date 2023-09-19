@@ -1,0 +1,539 @@
+.talents--section {
+    margin-top: 150px;
+    padding-top: 60px;
+    overflow: hidden !important;
+}
+
+.custom--container {
+    padding: 0 50px;
+}
+.custom--container1 {
+    padding: 0 0 0 50px;
+}
+
+.breadcrumb--area-dark {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    padding-bottom: 60px;
+}
+
+.breadcrumb--area-dark .breadcrumb--item-dark a,
+.breadcrumb--area-dark .breadcrumb--item-dark p {
+    color: #714F36 !important;
+    text-decoration: none;
+    font-size: 16px !important;
+    font-weight: 400 !important;
+    transition: ease-in-out 0.5s;
+}
+
+.breadcrumb--area-dark .breadcrumb--item-dark a:hover {
+    color: #F9C833 !important;
+}
+
+.breadcrumb--area-dark .breadcrumb--item-dark p {
+    margin-bottom: 0 !important;
+}
+
+.breadcrumb--area-dark .breadcrumb--item-dark p::before,
+.breadcrumb--area-dark .breadcrumb--item-dark .sub--bredcrumb-link::before {
+    content: '';
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    background-color: #714F36;
+    margin-right: 5px;
+    vertical-align: middle;
+    margin-top: 0px;
+}
+
+.custom-border-top1 {
+    border-top: 1px solid #714F36;
+}
+
+.custom-border-bottom1 {
+    border-bottom: 1px solid #714F36;
+}
+
+.talent--profile-section {
+    padding-bottom: 90px;
+}
+
+.talent--profile-img-container {
+    padding: 0;
+    background-image: url(/public/assets/img/talents-images/tal-profile.png);
+    background-position-y: top;
+    background-position-x: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    max-height: 100%;
+}
+
+.talent--profile-content-container {
+    padding: 0;
+}
+
+.tal--profile-content-area {
+    padding: 25px 45px 0px 45px;
+}
+
+.tal--profile-content-area .tal--profile-title {
+    color: #714F36;
+    font-size: 48px;
+    font-weight: 500;
+    line-height: normal;
+    margin-bottom: 12px;
+}
+
+.tal--profile-role {
+    background-color: #F9C833;
+    border-radius: 5px;
+    padding: 8px 12px;
+    width: max-content;
+    text-decoration: none;
+    transition: ease-in-out 0.5s;
+}
+
+.tal--profile-role i {
+    color: #5C3B2E !important;
+    margin-right: 8px;
+    font-size: 18px;
+    transition: ease-in-out 0.5s;
+}
+
+.tal--profile-role span {
+    color: #714F36 !important;
+    font-size: 16px;
+    font-weight: 600;
+    transition: ease-in-out 0.5s;
+}
+
+.tal--profile-role:hover {
+    background-color: #714F36;
+}
+
+.tal--profile-role:hover i,
+.tal--profile-role:hover span {
+    color: #FFF !important;
+}
+
+.tal--pro-status-area {
+    position: relative;
+    padding-top: 35px;
+}
+
+.tal--pro-status-area .tal--pro-rate-icon,
+.tal--pro-status-area .tal--pro-location-icon {
+    color: #F9C833;
+    font-size: 20px;
+    margin-right: 8px;
+}
+
+.tal--pro-status-area .tal--pro-rating,
+.tal--pro-status-area .tal--pro-location,
+.tal--pro-status-area .tal--pro-join,
+.tal--pro-status-area .tal--pro-experince {
+    color: #714F36;
+    font-size: 20px;
+    font-weight: 500;
+    text-align: left;
+}
+
+.tal--pro-skill-area {
+    position: relative;
+    padding-top: 15px;
+    display: flex;
+    flex-direction: row;
+    gap: 25px;
+    align-items: center;
+}
+
+.tal--pro-skill-area .tal--pro-skill {
+    color: #714F36;
+    font-size: 36px;
+    font-weight: 500;
+}
+
+.tal--pro-skill-area .tal--pro-skill-per {
+    color: #714F36;
+    font-size: 96px;
+    font-weight: 300;
+}
+
+.tal--pro-desc-area {
+    position: relative;
+}
+
+.tal--pro-desc-area .tal--pro-desc {
+    color: #714F36;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.tal--pro-contact-area {
+    position: relative;
+    padding-top: 10px;
+}
+
+.tal--pro-contact-area .tal--pro-contact-title {
+    color: #714F36;
+    margin-bottom: 10px;
+    font-size: 36px;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.tal--pro-contact-area .tal--pro-contact-detail-title,
+.tal--pro-contact-area .tal--pro-contact-detail {
+    color: #714F36;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: normal;
+    transition: filter 0.5s;
+}
+
+/* .tal--pro-view-btn-area,
+.tal--pro-choose-btn-area {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+} */
+.tal--pro-btn-area {
+    float: right;
+}
+
+.tal--pro-choose-btn-area {
+    padding-top: 12px;
+    padding-bottom: 35px;
+}
+
+.tal--pro-view-btn-area .tal--pro-view-btn {
+    color: #714F36;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: normal;
+    outline: none !important;
+    border: none !important;
+    background-color: transparent !important;
+    transition: ease-in-out 0.5s;
+}
+
+.tal--pro-view-btn-area .tal--pro-view-btn:hover {
+    color: #F9C833;
+}
+
+.blurred {
+    filter: blur(4px);
+    transition: filter 0.5s;
+}
+
+
+
+.talent--more-profile-section .talent--more-profile-title {
+    color: #714F36;
+    font-size: 48px;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.talent--more-profile-slider-area {
+    margin-top: 54px;
+    position: relative;
+}
+
+.talent--profile-card {
+    position: relative;
+    border-radius: 12px;
+    background: #714F36;
+    padding: 25px;
+    /* width: 65%; */
+    /* cursor: pointer; */
+    transition: ease-in-out 0.8s !important;
+    border: 2px solid #fff;
+    border-bottom: 5px #fff solid;
+    z-index: 1;
+    overflow: hidden;
+    /* display: flex;
+    flex-direction: row;
+    gap: 30px;
+    width: 869px; */
+    /* justify-content: space-between; */
+}
+
+.talent--profile-card::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    transition: 0.8s ease-in-out !important;
+    background-color: #ffffff;
+    border-radius: 30px;
+    visibility: hidden;
+    height: 10px;
+    width: 10px;
+    z-index: -1;
+}
+
+.talent--profile-card:hover::after {
+    visibility: visible;
+    transform: scale(300) translateX(2px);
+}
+
+.talent--profile-card:hover {
+    transform: translateY(-8px) !important;
+    border-color: #714F36;
+}
+
+.tal--pro-card-left-area {
+    position: relative;
+}
+
+.tal--pro-card-left-area .tal--pro-card-name {
+    color: #FFF;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: normal;
+    transition: 0.8s ease-in-out;
+}
+
+.talent--profile-card:hover .tal--pro-card-left-area .tal--pro-card-name {
+    color: #714F36;
+    letter-spacing: 1px;
+}
+
+.tal--pro-card-tags {
+    margin-top: 12px;
+    display: flex;
+    gap: 25px;
+    align-items: center;
+}
+
+.tal--pro-card-tags .tal--pro-card-rating i {
+    color: #F9C833;
+    font-size: 20px;
+    margin-right: 5px;
+    transition: 0.8s ease-in-out;
+}
+
+.talent--profile-card:hover .tal--pro-card-tags .tal--pro-card-location i,
+.talent--profile-card:hover .tal--pro-card-tags .tal--pro-card-rating span,
+.talent--profile-card:hover .tal--pro-card-tags .tal--pro-card-exp,
+.talent--profile-card:hover .tal--pro-card-tags .tal--pro-card-location span,
+.talent--profile-card:hover .tal--pro-card-tags .tal--pro-card-role,
+.talent--profile-card:hover .tal--pro-card-desc-area .tal--pro-card-desc-title,
+.talent--profile-card:hover .tal--pro-card-desc-area .tal--pro-card-desc {
+    color: #714F36 !important;
+}
+
+.tal--pro-card-tags .tal--pro-card-location i {
+    color: #FFF;
+    font-size: 20px;
+    margin-right: 5px;
+    transition: 0.8s ease-in-out;
+}
+
+.tal--pro-card-tags .tal--pro-card-rating span,
+.tal--pro-card-tags .tal--pro-card-exp,
+.tal--pro-card-tags .tal--pro-card-location span,
+.tal--pro-card-tags .tal--pro-card-role {
+    color: #FFF;
+    font-size: 16px !important;
+    font-weight: 600 !important;
+    line-height: normal;
+    transition: 0.8s ease-in-out;
+}
+
+.tal--pro-card-desc-area {
+    margin-top: 28px;
+}
+
+.tal--pro-card-desc-area .tal--pro-card-desc-title,
+.tal--pro-card-desc-area .tal--pro-card-desc {
+    color: #FFF !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    line-height: normal;
+    margin-bottom: 10px;
+    transition: 0.8s ease-in-out;
+}
+
+.tal--pro-card-desc-area .tal--pro-card-desc {
+    padding-left: 8px;
+}
+
+.custom-padd-right {
+    padding-right: 0;
+}
+
+.custom-padd-left {
+    padding-left: 0;
+}
+
+.tal--pro-card-right-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.tal--pro-card-right-area .tal--pro-card-profile-img {
+    width: 94px;
+    height: 94px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: top;
+    border: 1px solid #fff;
+    padding: 3px;
+    transition: 0.8s ease-in-out;
+}
+
+.talent--profile-card:hover .tal--pro-card-right-area .tal--pro-card-profile-img {
+    border-color: #714F36;
+    -webkit-animation: pulseProImg 1.5s infinite;
+    animation: pulseProImg 1.5s infinite;
+}
+
+@keyframes pulseProImg {
+    0% {
+        box-shadow: 0 0 0 0 #714f3676;
+    }
+
+    70% {
+        box-shadow: 0 0 0 12px rgb(218 103 68 / 0%);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgb(218 103 68 / 0%);
+    }
+}
+
+.tal--pro-card-ability-area {
+    margin-top: 12px;
+    display: flex;
+    gap: 11px;
+}
+
+.tal--pro-card-ability-area .tal--pro-card-ability {
+    color: #FFF;
+    font-size: 14px;
+    font-weight: 500;
+    transition: 0.8s ease-in-out;
+}
+
+.tal--pro-card-number-area {
+    margin-top: 10px;
+    display: flex;
+    gap: 14px;
+    align-items: center;
+}
+
+.tal--pro-card-number-area .tal--pro-card-percentage,
+.tal--pro-card-number-area .tal--pro-card-days {
+    color: #FFF;
+    font-size: 40px;
+    font-weight: 500;
+    transition: 0.8s ease-in-out;
+}
+
+.talent--profile-card:hover .tal--pro-card-ability-area .tal--pro-card-ability,
+.talent--profile-card:hover .tal--pro-card-number-area .tal--pro-card-percentage,
+.talent--profile-card:hover .tal--pro-card-number-area .tal--pro-card-days {
+    color: #714F36;
+}
+
+.tal--pro-card-number-area .tal--pro-card-days span {
+    font-size: 12px !important;
+}
+
+.tal--pro-card-know-btn-area {
+    margin-top: 10px;
+}
+
+.tal--pro-card-know-btn-area .tal--pro-card-know-btn {
+    text-decoration: none;
+    border-radius: 7px;
+    border: 2px solid #FFF;
+    color: #FFF;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 8px 12px;
+    transition: ease-in-out 0.8s;
+}
+
+.talent--profile-card:hover .tal--pro-card-know-btn-area .tal--pro-card-know-btn {
+    color: #714F36;
+    border-color: #714F36;
+}
+
+.tal--pro-card-know-btn:hover {
+    background-color: #F9C833;
+    color: #714F36;
+}
+
+.tal--pro-slider-btn-area {
+    margin-top: 45px;
+    margin-bottom: 95px;
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0 60px;
+}
+
+.tal--pro-slider-btn-sub {
+    display: flex;
+    gap: 10px;
+}
+
+.tal--pro-slider-btn {
+    position: relative;
+    outline: none !important;
+    border: 1px solid #5C3B2E;
+    border-radius: 50%;
+    flex-shrink: 0;
+    background-color: #fff;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: ease-in-out 0.8s;
+}
+.tal--pro-slider-btn:active .arrow-left,
+.tal--pro-slider-btn:active .arrow-right{
+    scale: 0.8;
+}
+.tal--pro-slider-btn svg path{
+    transition: ease-in-out 0.8s;
+}
+
+.tal--pro-slider-btn .arrow-left {
+    transform: rotate(225deg);
+    transition: ease 0.2s;
+}
+
+.tal--pro-slider-btn .arrow-right {
+    transform: rotate(45deg);
+    transition: ease 0.2s;
+}
+.tal--pro-slider-btn:hover{
+    background-color: #5C3B2E;
+}
+.tal--pro-slider-btn:hover .arrow-left path,
+.tal--pro-slider-btn:hover .arrow-right path{
+    stroke: #fff;
+}
+.swiper {
+    padding: 10px 0;
+}
+/* .swiper-container {
+    transition: transform 1s ease !important;
+} */

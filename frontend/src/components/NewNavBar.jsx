@@ -1,9 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-const NewNavBar = ({clientRegister, candidateRegister, clientLogin}) => {
-  return (
-    <header id="header" className="fixed-top">
+const NewNavBar = ({ clientRegister, candidateRegister, clientLogin }) => {
+    return (
+        <header id="header" className="fixed-top">
             <div className="container-fluid d-flex align-items-center">
 
                 <div>
@@ -15,22 +15,22 @@ const NewNavBar = ({clientRegister, candidateRegister, clientLogin}) => {
                         </div>
                     </div>
                 </div>
-                
+
 
                 <nav id="navbar" className="navbar">
                     <ul>
                         {clientRegister ?
                             <li><Link to="/client-register" className="nav-link">Register</Link></li> :
                             candidateRegister ? <li><Link to="/candiate-register" className="nav-link">Register</Link></li> :
-                            clientLogin ? <li><Link to="/client-login" className="nav-link">Login</Link></li> :
-                            <li><Link to="/candidate-login" className="nav-link">Login</Link></li>
+                                clientLogin ? <li><Link to="/client-login" className="nav-link">Login</Link></li> :
+                                    <li><Link to="/candidate-login" className="nav-link">Login</Link></li>
                         }
-                        
+
                     </ul>
                 </nav>
             </div>
         </header>
-  )
+    )
 }
 
 export default NewNavBar
