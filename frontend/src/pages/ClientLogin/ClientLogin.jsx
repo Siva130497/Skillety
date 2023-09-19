@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react'
 import{Link} from "react-router-dom";
 import AuthContext from '../../context/AuthContext';
 import ClientDashBoard from '../ClientDashboard/ClientDashboard';
+import Layout from '../../components/Layout';
 
 const ClientLogin = () => {
     const {loginClient, dashBoard} = useContext(AuthContext)
@@ -20,6 +21,8 @@ const ClientLogin = () => {
     }
     return (
         <>
+            <Layout newNavBarClientLogin = {true} />
+            <div className='container-fluid'>
             {dashBoard ? <ClientDashBoard /> :
                 <>
                     <h3>Login</h3>
@@ -66,6 +69,8 @@ const ClientLogin = () => {
                     </form>
                 </>
             }
+            </div>
+            
         </>
     )
 }

@@ -2,6 +2,8 @@ import React, { useState, useContext } from 'react'
 import{Link} from "react-router-dom";
 import AuthContext from '../../context/AuthContext';
 import CandidateDashboard from '../CandidateDashboard/CandidateDashboard';
+import NewNavBar from '../../components/NewNavBar';
+import Layout from '../../components/Layout';
 
 const CandidateLogin = () => {
     const {loginCandidate, dashBoard} = useContext(AuthContext)
@@ -20,6 +22,8 @@ const CandidateLogin = () => {
     }
     return (
         <>
+            <Layout newNavBarCandidateLogin = {true} />
+            <div className='container-fluid'>
             {dashBoard ? <CandidateDashboard /> :
                 <>
                     <h3>Login</h3>
@@ -66,6 +70,8 @@ const CandidateLogin = () => {
                     </form>
                 </>
             }
+            </div>
+            
             
         </>
     )

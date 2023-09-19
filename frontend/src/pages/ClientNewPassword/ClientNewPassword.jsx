@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
+import Layout from '../../components/Layout';
 
 const ClientNewPassword = () => {
     const { id } = useParams();
@@ -85,6 +86,8 @@ const ClientNewPassword = () => {
 
     return (
         <>
+            <Layout/>
+            <div className='container-fluid'>
             {status ?
                 <>
                     <h3>Welcome {newClient.name} from {newClient.companyName}</h3>
@@ -150,6 +153,8 @@ const ClientNewPassword = () => {
                     <small>The resource requested could not be found on this server!</small>
                 </>
             }
+            </div>
+            
         </>
     );
 };

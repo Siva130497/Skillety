@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import {useNavigate} from "react-router-dom"
 import AuthContext from '../../context/AuthContext';
+import Layout from '../../components/Layout';
 
 const ClientRegister = () => {
     const navigate = useNavigate();
@@ -27,6 +28,8 @@ const ClientRegister = () => {
     }
   return (
             <>
+                <Layout newNavBarClientRegister={true}/>
+                <div className='container-fluid'>
                 <h3>Create your account</h3>
                 <form onSubmit={handleSubmit}>
                 <div className="form-group">
@@ -148,6 +151,8 @@ const ClientRegister = () => {
                 </div>
                 <input type='submit' value="Register" className='btn btn-primary my-3' />
                 </form>
+                </div>
+                
             </>
         )
 }

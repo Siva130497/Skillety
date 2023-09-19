@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import $ from 'jquery';
 import './Contact.css'
 import './Contact-responsive.css'
+import Layout from '../../components/Layout';
 
 const Contact = () => {
     useEffect(() => {
@@ -10,7 +11,10 @@ const Contact = () => {
     }, []);
 
     return (
-        <div className='contact--section'>
+        <>
+            <Layout/>
+        <div className='container-fluid'>
+            <div className='contact--section'>
             <div className='container-fluid container-section'>
                 <div className="about--bg">
                     <div className="row">
@@ -180,6 +184,10 @@ const Contact = () => {
 
             </div>
         </div>
+        </div>
+        </>
+        
+        
     )
 }
 export default Contact;

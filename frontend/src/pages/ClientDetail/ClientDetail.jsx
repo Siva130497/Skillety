@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { v4 as uuidv4} from "uuid";
 import axios from 'axios';
+import Layout from '../../components/Layout';
 
 const ClientDetail = () => {
     const [clientDetail, setClientDetail] = useState([]);
@@ -107,6 +108,8 @@ const ClientDetail = () => {
 
   return (
             <div>
+                <Layout/>
+                <div className='container-fluid'>
                 <h1>All Client Details</h1>
                 <hr className="my-4" />
                 
@@ -144,6 +147,8 @@ const ClientDetail = () => {
                     </table>
                 </>     
                 }  
+                </div>
+                
             </div>
   )
 }

@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import $ from 'jquery';
 import './RPO.css'
 import './RPO-responsive.css'
+import Layout from '../../components/Layout';
 
 const RPO = () => {
     useEffect(() => {
@@ -10,7 +11,10 @@ const RPO = () => {
     }, []);
 
     return (
-        <div className='rpo--section'>
+        <>
+            <Layout/>
+        <div className='container-fluid'>
+            <div className='rpo--section'>
             <div className='container-fluid container-section'>
                 <div className="about--bg">
                     <div className="row">
@@ -178,6 +182,10 @@ const RPO = () => {
 
             </div>
         </div>
+        </div>
+        </>
+        
+        
     )
 }
 export default RPO;

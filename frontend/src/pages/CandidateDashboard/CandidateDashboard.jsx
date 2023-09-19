@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import axios from 'axios';
 import AuthContext from '../../context/AuthContext';
 import CandidateLogin from '../CandidateLogin/CandidateLogin';
+import Layout from '../../components/Layout';
 
 
 const CandidateDashboard = () => {
@@ -59,7 +60,7 @@ const CandidateDashboard = () => {
         setAppliedJobStatus(false);
       }
     },[appliedJobStatus])
-    
+
     const handleChange = (e) => {
       const { value } = e.target;
       const jobResults = jobDetail.filter((job) => {
@@ -103,16 +104,26 @@ const CandidateDashboard = () => {
       }
     }
 
-    const handleDiscard = (id) => {
-      const updatedAppliedJobViewDetail = appliedJobDetail.filter(appliedJob => appliedJob.jobId !== id);
-      setAppliedJobDetail(updatedAppliedJobViewDetail);
-      const updatedJobViewDetail = {...jobViewDetail, discardStatus: false};  
-      setJobViewDetail(updatedJobViewDetail);
+    const handleDiscard = async(id) => {
+      try {
+        const response = await axios.delete(`http://localhost:5002/delete-job/${employeeId}/${id}`);
+        alert("Job successfully deleted!");
+        console.log(response.data);
+        getAppliedjobs();
+        const updatedJobViewDetail = {...jobViewDetail, discardStatus: false};  
+        if(response.data.deletedCount === 1) {setJobViewDetail(updatedJobViewDetail);}
+      } catch (error) {
+        console.error(error);
+      }
     }
     
   return (
-    <div>
+    <>
+      
+    
       {employeeId ? <>
+        <Layout/>
+        <div className='container-fluid'>
         <h1>Dash board</h1>
         <br></br>
         <h4>Job Category</h4> 
@@ -174,9 +185,13 @@ const CandidateDashboard = () => {
             })}
           </>
         }
+        </div>
+        
       </> : <CandidateLogin/>}
       
-    </div>
+    
+    </>
+    
   )
 }
 

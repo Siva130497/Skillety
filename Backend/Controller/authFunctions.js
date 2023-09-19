@@ -11,6 +11,13 @@ const resume = require("../Database/resume");
 const jobDetail = require("../Database/jobDetail");
 const appliedJob = require("../Database/appliedJob");
 
+// const hash = async() => {
+//   const pass = 'newpassword'
+//   const hash = await bcrypt.hash(pass, 12)
+//   console.log(hash)
+// }
+// hash()
+
 /* client register */
 const clientRegister = async(req, res) => {
   try {
@@ -296,6 +303,20 @@ const getAppliedOfPostedJobs = async(req, res) => {
   }
 }
 
+/* delete particular job */
+const deleteAppliedJob = async(req, res) => {
+  try{
+    const candidateId = req.params.candidateId;
+    const jobId = req.params.jobId;
+    console.log(candidateId, jobId)
+    const deleteAppliedJob = await appliedJob.deleteOne({candidateId:candidateId, jobId:jobId});
+    
+    res.status(200).json(deleteAppliedJob); 
+  }catch(err) {
+    res.status(500).json({error: err.message})
+  }
+}
+
 
 /**
  * @DESC To register the employee
@@ -482,4 +503,5 @@ module.exports = {
    applyingjob,
    getAppliedjobs,
    getAppliedOfPostedJobs,
+   deleteAppliedJob,
 };
