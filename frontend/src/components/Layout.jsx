@@ -226,7 +226,7 @@ const Layout = ({ newNavBarClientRegister, newNavBarClientLogin, newNavBarCandid
       <div class="mouseCursor cursor-inner"></div>
       <div id="preloader"></div>
       <a href="#" class="back-to-top d-flex align-items-center justify-content-center">
-        <i class="bi bi-chevron-up back-to-top-icon"></i>
+        <i class="bi bi-chevron-double-up back-to-top-icon"></i>
       </a>
 
     </>
