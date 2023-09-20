@@ -154,6 +154,44 @@ const Layout = ({ newNavBarClientRegister, newNavBarClientLogin, newNavBarCandid
       }, 300);
     }
 
+    ////////
+    const myCursor = $('.mouseCursor'); // Select elements using jQuery
+
+    if (myCursor.length) {
+      const e = document.querySelector('.cursor-inner');
+      const t = document.querySelector('.cursor-outer');
+      let n, i = 0, o = false;
+
+      // Handle mousemove event
+      window.onmousemove = function (s) {
+        if (!o) {
+          t.style.transform = `translate(${s.clientX}px, ${s.clientY}px)`;
+          e.style.transform = `translate(${s.clientX}px, ${s.clientY}px)`;
+          n = s.clientY;
+          i = s.clientX;
+        }
+      };
+
+      // Handle mouseenter and mouseleave events
+      $('body').on('mouseenter', 'button, a, .cursor-pointer', function () {
+        e.classList.add('cursor-hover');
+        t.classList.add('cursor-hover');
+      });
+
+      $('body').on('mouseleave', 'button, a, .cursor-pointer', function () {
+        if (
+          $(this).is('a, button') &&
+          $(this).closest('.cursor-pointer').length === 0
+        ) {
+          e.classList.remove('cursor-hover');
+          t.classList.remove('cursor-hover');
+        }
+      });
+
+      e.style.visibility = 'visible';
+      t.style.visibility = 'visible';
+    }
+
     ///////
     // $(document).ready(function () {
     //   // Attach a click event handler to the mobile menu toggle icon
@@ -184,6 +222,8 @@ const Layout = ({ newNavBarClientRegister, newNavBarClientLogin, newNavBarCandid
       {newNavBarClientRegister ? <NewNavBar clientLogin={true} /> : newNavBarClientLogin ? <NewNavBar clientRegister={true} /> : newNavBarCandidateLogin ? <NewNavBar candidateRegister={true} /> : newNavBarCandidateRegister ? <NewNavBar /> : <NewNav />}
       {/* <div className='container-fluid'>{children}</div> */}
       {/* <div id="preloader"></div> */}
+      <div class="mouseCursor cursor-outer"></div>
+      <div class="mouseCursor cursor-inner"></div>
       <div id="preloader"></div>
       <a href="#" class="back-to-top d-flex align-items-center justify-content-center">
         <i class="bi bi-chevron-up back-to-top-icon"></i>
