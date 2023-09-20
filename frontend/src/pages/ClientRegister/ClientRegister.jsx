@@ -32,7 +32,51 @@ const ClientRegister = () => {
     }
 
     useEffect(() => {
+        $('.sel').each(function () {
+            $(this).children('select').css('display', 'none');
 
+            var $current = $(this);
+
+            $(this).find('option').each(function (i) {
+                if (i == 0) {
+                    $current.prepend($('<div>', {
+                        class: $current.attr('class').replace(/sel/g, 'sel__box')
+                    }));
+
+                    var placeholder = $(this).text();
+                    $current.prepend($('<span>', {
+                        class: $current.attr('class').replace(/sel/g, 'sel__placeholder'),
+                        text: placeholder,
+                        'data-placeholder': placeholder
+                    }));
+
+                    return;
+                }
+
+                $current.children('div').append($('<span>', {
+                    class: $current.attr('class').replace(/sel/g, 'sel__box__options'),
+                    text: $(this).text()
+                }));
+            });
+        });
+
+        // Toggling the `.active` state on the `.sel`.
+        $('.sel').click(function () {
+            $(this).toggleClass('active');
+        });
+
+        // Toggling the `.selected` state on the options.
+        $('.sel__box__options').click(function () {
+            var txt = $(this).text();
+            var index = $(this).index();
+
+            $(this).siblings('.sel__box__options').removeClass('selected');
+            $(this).addClass('selected');
+
+            var $currentSel = $(this).closest('.sel');
+            $currentSel.children('.sel__placeholder').text(txt);
+            $currentSel.children('select').prop('selectedIndex', index + 1);
+        });
     }, []);
     return (
         // <>
@@ -158,9 +202,9 @@ const ClientRegister = () => {
         //         <input type='submit' value="Register" className='btn btn-primary my-3' />
         //     </form>
         // </>
-        
+
         <>
-            <Layout newNavBarClientRegister={true} />
+            <Layout/>
             <div className='client-register-section'>
                 <div className='container-fluid'>
                     <div className='container-fluid container-section'>
@@ -184,38 +228,35 @@ const ClientRegister = () => {
                             </div>
 
                             <div className="cli--reg-form-area">
-                                <div className="con--note-form-area">
+                                <div className="con--note-form-area" data-aos="fade-up">
                                     <form action="">
                                         <div className="row">
-                                            <div className="col-12 col-lg-6 col-md-6 custom-padding-right">
-                                                <div className='con--form-group custom' data-aos="fade-up">
-                                                    <input type="text" id='full_name' name="full_name" placeholder="Enter you full name" className='con--form-input' required />
-                                                    <label htmlFor="full_name" className='con--form-label'>Your Full Name <span>*</span> </label>
+                                            <div className="col-12 col-lg-6 col-md-6 col-sm-6 custom-padding-right">
+                                                <div className='reg--form-group custom'>
+                                                    <input type="text" id='full_name' name="full_name" placeholder="Enter you full name" className='reg--form-input' required />
+                                                    <label htmlFor="full_name" className='reg--form-label'>Your Full Name</label>
                                                 </div>
                                             </div>
-                                            <div className="col-12 col-lg-6 col-md-6 custom-padding-left">
-                                                <div className='con--form-group' data-aos="fade-up">
-                                                    <input type="text" id='email' name="email" placeholder="Enter you mobile number" className='con--form-input' required />
-                                                    <label htmlFor="email" className='con--form-label'>Mobile Number <span>*</span> </label>
+                                            <div className="col-12 col-lg-6 col-md-6 col-sm-6 custom-padding-left">
+                                                <div className='reg--form-group'>
+                                                    <input type="text" id='email' name="email" placeholder="Enter you mobile number" className='reg--form-input' required />
+                                                    <label htmlFor="email" className='reg--form-label'>Mobile Number</label>
                                                 </div>
                                             </div>
-                                            <div className="col-12 col-lg-6 col-md-6 custom-padding-right">
-                                                <div className='con--form-group' data-aos="fade-up">
-                                                    <input type="text" id='phone_no' name="phone_no" placeholder="Enter you email address" className='con--form-input' required />
-                                                    <label htmlFor="phone_no" className='con--form-label'>Email ID <span>*</span> </label>
+                                            <div className="col-12 col-lg-6 col-md-6 col-sm-6 custom-padding-right">
+                                                <div className='reg--form-group'>
+                                                    <input type="text" id='phone_no' name="phone_no" placeholder="Enter you email address" className='reg--form-input' required />
+                                                    <label htmlFor="phone_no" className='reg--form-label'>Email ID</label>
                                                 </div>
                                             </div>
-                                            <div className="col-12 col-lg-6 col-md-6 custom-padding-left">
-                                                <div className='con--form-group' data-aos="fade-up">
-                                                    <input type="text" id='subject' name="subject" placeholder="Enter the company name" className='con--form-input' required />
-                                                    <label htmlFor="subject" className='con--form-label'>Company Name <span>*</span> </label>
+                                            <div className="col-12 col-lg-6 col-md-6 col-sm-6 custom-padding-left">
+                                                <div className='reg--form-group'>
+                                                    <input type="text" id='subject' name="subject" placeholder="Enter the company name" className='reg--form-input' required />
+                                                    <label htmlFor="subject" className='reg--form-label'>Company Name</label>
                                                 </div>
                                             </div>
-                                            <div className="col-12 col-lg-6 col-md-6 custom-padding-right">
-                                                <div className='con--form-group' data-aos="fade-up">
-                                                    {/* <input type="text" id='phone_no' name="phone_no" placeholder="Enter you phone number" className='con--form-input' required /> */}
-
-                                                    {/* <label htmlFor="phone_no" className='con--form-label'>Email ID <span>*</span> </label> */}
+                                            <div className="col-12 col-lg-6 col-md-8 col-sm-8 custom-padding-right1">
+                                                {/* <div className='reg--form-group' data-aos="fade-up">
                                                     <div className="custom--select-area">
                                                         <label htmlFor="" className='custom--select-label'>Industry</label>
                                                         <select name="" id="" className="custom--select-input">
@@ -225,18 +266,32 @@ const ClientRegister = () => {
                                                             <option value="">Option 4</option>
                                                         </select>
                                                     </div>
+                                                </div> */}
+                                                <div className="custom--select-area" >
+                                                    <label htmlFor="" className='custom--select-label'>Industry</label>
+                                                    <div class="sel sel--black-panther">
+                                                        <i class="bi bi-chevron-down select--toggle"></i>
+                                                        <select name="select-profession" id="select-profession">
+                                                            <option value="" disabled>- Select Here -</option>
+                                                            <option value="hacker">Hacker</option>
+                                                            <option value="gamer">Gamer</option>
+                                                            <option value="developer">Developer</option>
+                                                            <option value="programmer">Programmer</option>
+                                                            <option value="designer">Designer</option>
+                                                        </select>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div className="col-12 col-lg-6 col-md-6 custom-padding-left">
-                                                <div className='con--form-group' data-aos="fade-up">
-                                                    <input type="text" id='subject' name="subject" placeholder="Enter the headcount" className='con--form-input' required />
-                                                    <label htmlFor="subject" className='con--form-label'>Headcount <span>*</span> </label>
+                                            <div className="col-12 col-lg-6 col-md-4 col-sm-4 custom-padding-left">
+                                                <div className='reg--form-group'>
+                                                    <input type="text" id='subject' name="subject" placeholder="Enter the headcount" className='reg--form-input' required />
+                                                    <label htmlFor="subject" className='reg--form-label'>Headcount</label>
                                                 </div>
                                             </div>
-                                            <div className="col-12 col-lg-12 col-md-12 custom-padding-left-right">
-                                                <div className='con--form-group' data-aos="fade-up">
-                                                    <input type="text" id='message' name="message" placeholder="Where did you acquire knowledge about Skillety?" className='con--form-input' />
-                                                    <label htmlFor="message" className='con--form-label'>From where did you learn about Skillety?</label>
+                                            <div className="col-12 col-lg-12 col-md-12 col-sm-12 custom-padding-left-right">
+                                                <div className='reg--form-group'>
+                                                    <input type="text" id='message' name="message" placeholder="Where did you acquire knowledge about Skillety?" className='reg--form-input' />
+                                                    <label htmlFor="message" className='reg--form-label'>From where did you learn about Skillety?</label>
                                                 </div>
                                             </div>
                                         </div>

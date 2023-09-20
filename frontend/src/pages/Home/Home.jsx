@@ -1290,7 +1290,7 @@ const Home = () => {
             </section>
 
             <section className='register--section'>
-              <a href="#">
+              <a href="/client-register">
                 <div className="register--card">
                   <h2 className='register--text' data-aos="fade-down">Register Now</h2>
                   <div className="register-arrow-area">

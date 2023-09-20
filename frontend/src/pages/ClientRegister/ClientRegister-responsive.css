@@ -1,7 +1,99 @@
 @media (max-width:991.5px) {
+    .cli--reg-heading-area .cli--reg-heading {
+        line-height: 2em;
+    }
 
+    .cli--reg-heading-area {
+        margin-top: -40px;
+    }
+
+    .cli--reg-heading-area .cli--reg-sub-heading {
+        margin-top: 40px;
+    }
+
+    .cli--reg-grab {
+        font-size: 28px;
+    }
 }
 
 @media (max-width:500px) {
-    
+    .client-register-section{
+        margin-top: 100px;
+    }
+    .cli--reg-heading-area .cli--reg-heading {
+        font-size: 30px;
+    }
+
+    .cli--reg-heading span {
+        font-size: 60px;
+        line-height: 2rem;
+    }
+
+    .cli--reg-heading-area {
+        margin-top: -10px;
+    }
+
+    .cli--reg-heading-area .cli--reg-sub-heading {
+        font-size: 30px;
+        margin-top: 30px;
+    }
+
+    .cli--reg-grab-area {
+        margin-top: 40px !important;
+    }
+
+    .cli--reg-grab {
+        font-size: 20px;
+    }
+
+    .cli--reg-form-area .reg--form-input,
+    .cli--reg-form-area .reg--form-label {
+        font-size: 18px !important;
+    }
+
+
+    .reg--form-group {
+        margin-bottom: 60px;
+    }
+
+    .custom--select-area {
+        margin-top: 0;
+        margin-bottom: 60px;
+    }
+
+    .reg--form-btn {
+        padding: 12px 49px !important;
+        font-size: 20px;
+    }
+
+    .reg--form-arrow-area {
+        padding: 15px;
+    }
+
+    .reg--form-arrow-area svg {
+        width: 23px;
+        height: 23px;
+    }
+    .cli--reg-form-area{
+        margin-bottom: 60px;
+    }
+    .reg--form-btn-area{
+        padding-top: 20px;
+    }
+    .custom--select-area{
+        flex-direction: column !important;
+        align-items: flex-start !important;
+    }
+    .sel{
+        width: 100%;
+    }
+    .custom--select-area .custom--select-label,
+    .sel__placeholder,
+    .sel__box__options,
+    .sel .select--toggle{
+        font-size: 18px !important;
+    }
+    .sel__placeholder{
+        text-align: left;
+    }
 }

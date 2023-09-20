@@ -72,7 +72,7 @@
 
     .breadcrumb--area-dark .breadcrumb--item-dark a,
     .breadcrumb--area-dark .breadcrumb--item-dark p {
-        font-size: 12px;
+        font-size: 12px !important;
     }
 
     .custom--container {
