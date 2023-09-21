@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const {
-  employeeLogin,
+  userLogin,
   checkRole,
   employeeSignup,
   jwtauth,
@@ -13,11 +13,16 @@ const {
   getAllCandidateDetail,
   jobPosting,
   getSkillMatchJobDetail,
+  getPostedjobs,
   getOwnPostedjobs,
   applyingjob,
   getAppliedjobs,
   getAppliedOfPostedJobs,
   deleteAppliedJob,
+  createRecruiter,
+  deleteRecruiter,
+  getAllRecruiters,
+  getAnIndividualRecruiter,
 } = require("../Controller/authFunctions");
 
 // Client Registeration Route
@@ -58,7 +63,10 @@ router.post("/job-detail", jobPosting)
 router.get('/skill-match-job-Detail/:candidateId', getSkillMatchJobDetail)
 
 //get client posted job details
-router.get('/my-posted-jobs/:clientId', getOwnPostedjobs)
+router.get('/posted-jobs', getPostedjobs)
+
+//get client posted job details
+router.get('/my-posted-jobs/:postedPersonId', getOwnPostedjobs)
 
 //candidate applied for job
 router.post('/job-applying', applyingjob)
@@ -72,33 +80,37 @@ router.get('/applied-jobs-of-posted/:clientId', getAppliedOfPostedJobs)
 //delete particular job of candidate
 router.delete('/delete-job/:candidateId/:jobId', deleteAppliedJob)
 
-
-//Recruiter Registration route
-router.post("/register-Recruiter", async (req, res) => {
-  await employeeSignup(req.body, "Recruiter", res);
-});
+//get an individual recruiter by id
+router.get('/staff/:recruiterId', getAnIndividualRecruiter);
 
 // Client Login Route
 router.post("/login-Client", async (req, res) => {
-  await employeeLogin(req.body, "Client", res);
+  await userLogin(req.body, "Client", res);
 });
 
 // Candidate Login Route
 router.post("/login-Candidate", async (req, res) => {
-  await employeeLogin(req.body, "Candidate", res);
+  await userLogin(req.body, "Candidate", res);
 });
 
 // Admin Login Route
-router.post("/login-Admin", async (req, res) => {
-  await employeeLogin(req.body, "Admin", res);
+router.post("/admin", async (req, res) => {
+  await userLogin(req.body, "Admin", res);
 });
 
-// Recruiter Login Route
-router.post("/login-Recruiter", async (req, res) => {
-  await employeeLogin(req.body, "Recruiter", res);
+// Admin Login Route
+router.post("/staff", async (req, res) => {
+  await userLogin(req.body, "Recruiter", res);
 });
 
+//recruiter create route
+router.post('/recruiter-create', createRecruiter);
 
+//delete particular recruiter route
+router.delete('/delete-recruiter/:recruiterId', deleteRecruiter);
+
+//get all recruiters details
+router.get('/all-recruiters', getAllRecruiters)
 
 // //Client protected route
 // router.get(

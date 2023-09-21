@@ -5,7 +5,7 @@ import ClientDashBoard from '../ClientDashboard/ClientDashboard';
 import Layout from '../../components/Layout';
 
 const ClientLogin = () => {
-    const {loginClient, dashBoard} = useContext(AuthContext)
+    const {loginUser, dashBoard} = useContext(AuthContext)
     const [credentials, setcredentials] = useState({
         email:"",
         password:"",
@@ -16,7 +16,9 @@ const ClientLogin = () => {
     }
     const handleSubmit = (event) => {
         event.preventDefault();
-        loginClient(credentials);
+        const userType = "login-Client"
+        const updatedCredentials = [credentials, userType]
+        loginUser(updatedCredentials);
 
     }
     return (

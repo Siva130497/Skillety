@@ -1,6 +1,6 @@
 const { Schema, model } = require("mongoose");
 
-const EmployeeSchema = new Schema(
+const employeeSchema = new Schema(
   {
     id: {
       type: String,
@@ -16,7 +16,11 @@ const EmployeeSchema = new Schema(
     },
     role: {
       type: String,
-      enum: ["Client", "Candidate", "Recruiter", "Admin"]
+      enum: ["Recruiter", "Admin"]
+    },
+    companyStaff: {
+      type: String,
+      required:true
     },
     password: {
       type: String,
@@ -26,4 +30,4 @@ const EmployeeSchema = new Schema(
   { timestamps: true }
 );
 
-module.exports = model("employee", EmployeeSchema);
+module.exports = model("employee", employeeSchema);

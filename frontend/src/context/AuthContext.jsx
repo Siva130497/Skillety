@@ -9,6 +9,8 @@ export const AuthContextProvider = ({children}) => {
     const [dashBoard, setDashBoard] = useState(false);
     const [employeeId, setEmployeeId] = useState("");
     const [appliedJobStatus, setAppliedJobStatus] = useState(false);
+    const [recruiterCreatedStatus, setRecruiterCreatedStatus] = useState(false);
+    
 
     //register user
     const registerUser = async (userData) => {
@@ -31,10 +33,10 @@ export const AuthContextProvider = ({children}) => {
         }
     };
 
-    //client login request
-    const loginClient = async (userData) => {
+    //user login request
+    const loginUser = async (userData) => {
         try {
-            const response = await axios.post('http://localhost:5002/login-Client', userData, {
+            const response = await axios.post(`http://localhost:5002/${userData[1]}`, userData[0], {
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -53,7 +55,7 @@ export const AuthContextProvider = ({children}) => {
         } catch (error) {
             console.log(error);
         }
-    };
+    }
 
     //candidate register
     const candidateReg = async (userData) => {
@@ -135,29 +137,6 @@ export const AuthContextProvider = ({children}) => {
         }
     }
 
-    //candidate login request
-    const loginCandidate = async (userData) => {
-        try {
-            const response = await axios.post('http://localhost:5002/login-Candidate', userData, {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
-    
-            const result = response.data;
-    
-            if (!result.error) {
-                console.log(result);
-                setDashBoard(true);
-                setEmployeeId(result.id);
-            } else {
-                console.log(result);
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
     //candidate apply for job
     const applyingjob = async(job) => {
         try{
@@ -178,9 +157,30 @@ export const AuthContextProvider = ({children}) => {
         }
     }
 
+    //recruiter create request
+    const createRecruiter = async (userData) => {
+        try {
+            const response = await axios.post('http://localhost:5002/recruiter-create', userData, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+    
+            const result = response.data;
+    
+            if (!result.error) {
+                console.log(result);
+                setRecruiterCreatedStatus(true);
+            } else {
+                console.log(result);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
     
 
-    return<AuthContext.Provider value={{registerUser, loginClient, candidateReg, postOtherSkills, postOtherDesignation, jobPosting, jobPosted, setJobPosted, loginCandidate, dashBoard, employeeId, applyingjob, appliedJobStatus, setAppliedJobStatus}}>
+    return<AuthContext.Provider value={{registerUser, candidateReg, postOtherSkills, postOtherDesignation, jobPosting, jobPosted, setJobPosted, dashBoard, employeeId, applyingjob, appliedJobStatus, setAppliedJobStatus, createRecruiter, setRecruiterCreatedStatus, recruiterCreatedStatus, loginUser}}>
             {children}
         </AuthContext.Provider>
 }

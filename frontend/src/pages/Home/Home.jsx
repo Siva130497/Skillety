@@ -59,6 +59,45 @@ const Home = () => {
     observer.observe(section);
   }, []);
 
+  
+  const handleApiCall = () => {
+    const accessToken = 'CJT85DoAcFM22rKrrQdrGkdWvWNUY_Xf';
+    const key = 'OSCfJPqV1E_PNd3mX0zL9NIg5vkjMTMs5XfQ';
+    const encodedCredentials = btoa(`${accessToken}:${key}`);
+  
+    const data = JSON.stringify({
+      candidates: [
+        {
+          name: "skillety test",
+          email: "test@gmail.com",
+          phoneNo: "0769059433",
+        },
+      ],
+      hiringRoleId: 4427,
+      roundName: "Hands-On",
+    });
+
+    const config = {
+      method: "post",
+      url: "/external-interviews/request",
+      headers: {
+        Authorization: `Basic ${encodedCredentials}`,
+        "Content-Type": "application/json",
+      },
+      data: data,
+    };
+  
+    axios(config)
+      .then(function (response) {
+        console.log(JSON.stringify(response.data));
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+  
+
+
   const breakpoints = {
     320: {
       slidesPerView: 1,
@@ -74,6 +113,7 @@ const Home = () => {
     },
   };
 
+
   return (
     // <div className="jumbotron">
     //   <h1>Hi, Welcome to Skillety!!!</h1>
@@ -86,6 +126,54 @@ const Home = () => {
     // </div>
 
     <>
+
+      <Layout/>
+    <div className='container-fluid'>
+      <button onClick={handleApiCall}>api call</button>
+      <div className='home--section'>
+      <div className='container-fluid container-section'>
+        <div className="home--bg">
+          <div className="row">
+            <div className="col-12 col-lg-7 col-md-12 home--left-cover">
+              <div className="home--head">
+                <h5>
+                  Welcome to the world’s first Recruitment Solutions Integrator, powered by an exclusive job board for Immediate Joiners.
+                </h5>
+                <h6>
+                  Search For Talents
+                </h6>
+              </div>
+              <div className="home--search-area">
+                <input type="text" className='home--search-box form-control' placeholder='Search for skills' />
+                <i class="bi bi-search home--search-icon"></i>
+                <button className='btn home--search-btn'>Search</button>
+              </div>
+              <div className="home--popular-area">
+                <h6>Popular Searches</h6>
+                <div className="popular--btn-area">
+                  <a href="" className='btn home--popular-btn'>UI Designer</a>
+                  <a href="" className='btn home--popular-btn'>Marketing</a>
+                  <a href="" className='btn home--popular-btn'>Finance</a>
+                  <a href="" className='btn home--popular-btn'>IT</a>
+                  <a href="" className='btn home--popular-btn'>Engineering</a>
+                  <a href="" className='btn home--popular-btn'>Sales</a>
+                  <a href="" className='btn home--popular-btn'>Retail</a>
+                </div>
+              </div>
+            </div>
+            <div className="col-12 col-lg-5 col-md-12 home--right-cover custom-flex">
+              <div className='home--blob-img-area'>
+                <div className="home--img-area">
+                  <img src="assets/img/home-images/header-image.png"
+                    className='home--img' alt="" />
+                  <img src="assets/img/home-images/bubble-1.png" className='bubble--img1' alt="" />
+                  <img src="assets/img/home-images/bubble-2.png" className='bubble--img2' alt="" />
+                  <img src="assets/img/home-images/bubble-3.png" className='bubble--img3' alt="" />
+                  <img src="assets/img/home-images/bubble-2.png" className='bubble--img4' alt="" />
+                  <img src="assets/img/home-images/bubble-4.png" className='bubble--img5' alt="" />
+                  <img src="assets/img/home-images/bubble-4.png" className='bubble--img6' alt="" />
+                  <img src="assets/img/home-images/bubble-4.png" className='bubble--img7' alt="" />
+
       <Layout />
       <div>
         <div className='container-fluid home--section'>
@@ -118,6 +206,7 @@ const Home = () => {
                       <a href="" className='btn home--popular-btn' data-aos="fade-up" data-aos-delay="0">Retail</a>
                     </div>
                   </div>
+
                 </div>
                 <div className="col-12 col-lg-5 col-md-12 home--right-cover custom-flex">
                   <div className='home--blob-img-area'>
