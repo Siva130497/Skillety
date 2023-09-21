@@ -1,4 +1,7 @@
 @media (max-width:991.5px) {
+    .about--left-cover {
+        padding-top: 190px;
+    }
     .about--head {
         margin-top: 30px;
     }
@@ -12,9 +15,10 @@
         align-items: center;
     }
 
-    .about--card{
+    .about--card {
         height: 230px;
     }
+
     .about--card-area {
         margin-top: 30px;
     }
@@ -76,6 +80,14 @@
 }
 
 @media (max-width:500px) {
+    .about--section {
+        margin-top: 13px;
+    }
+
+    .about--left-cover {
+        padding-top: 130px;
+    }
+
     .about--bg {
         padding: 0px 20px 40px 20px;
     }
@@ -201,15 +213,18 @@
     .ab-we-off-card-des-area .ab-we-off-card-des {
         font-size: 18px;
     }
-    .ab-weoff-card .ab-weoff-card-num{
+
+    .ab-weoff-card .ab-weoff-card-num {
         font-size: 45px;
     }
+
     .ab-weoff-card {
         flex-direction: column;
         align-items: flex-start;
         height: auto;
     }
-    .ab-we-off-card-des-area{
+
+    .ab-we-off-card-des-area {
         width: 100%;
     }
 }

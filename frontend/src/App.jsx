@@ -7,6 +7,9 @@ import About from './pages/AboutUs/About';
 import Contact from './pages/Contact/Contact';
 import Services from './pages/Services/Services';
 import RPO from './pages/RPO/RPO';
+import Talents from './pages/Talents/Talents';
+import Testimonial from './pages/Testimonial/Testimonial';
+import TestimonialDetail from './pages/TestimonialDetail/TestimonialDetail';
 import ClientDetail from './pages/ClientDetail/ClientDetail';
 import ClientNewPassword from './pages/ClientNewPassword/ClientNewPassword';
 import ClientLogin from './pages/ClientLogin/ClientLogin';
@@ -32,6 +35,9 @@ function App() {
           <Route path='/contact-us' element={<Contact />} />
           <Route path='/services' element={<Services />} />
           <Route path='/rpo' element={<RPO />} />
+          <Route path='/talents' element={<Talents />} />
+          <Route path='/testimonial' element={<Testimonial />} />
+          <Route path='/testimonial-detail' element={<TestimonialDetail />} />
           <Route path='/pdf' element={<PDFViewer />} />
           {/* <Route path='/live-chat' element={<LiveChat />} /> */}
           <Route path='/client-register' element={<ClientRegister />} />

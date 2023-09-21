@@ -1,0 +1,372 @@
+.client-register-section {
+    margin-top: 150px;
+    padding-top: 60px;
+    overflow: hidden !important;
+}
+
+.cli--reg-heading-area .cli--reg-heading {
+    color: #714F36;
+    font-size: 48px;
+    font-weight: 500;
+    line-height: 1.8rem;
+    word-wrap: break-word;
+}
+
+.cli--reg-heading span {
+    color: #714F36;
+    font-size: 96px;
+    font-weight: 500;
+    line-height: 1.8rem;
+}
+
+.cli--reg-heading-area .cli--reg-sub-heading {
+    color: #714F36;
+    font-size: 48px;
+    font-weight: 500;
+    line-height: normal;
+    margin-top: 46px;
+    word-wrap: break-word;
+}
+
+.cli--reg-grab-area {
+    margin-top: 65px !important;
+    display: flex;
+}
+
+.cli--reg-grab {
+    border-radius: 14px;
+    background: #F9C833;
+    padding: 30px 24px;
+    color: #714F36;
+    font-size: 32px;
+    font-weight: 500;
+}
+
+.cli--reg-form-area {
+    /* margin-top: 50px; */
+    margin-bottom: 120px;
+    position: relative;
+}
+
+.custom--select-area {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 8px;
+    background: #F9C833;
+    padding: 10px 20px 20px 20px;
+    margin-top: -10px;
+}
+
+.custom--select-area .custom--select-label {
+    color: #714F36;
+    font-size: 24px;
+    font-weight: 500;
+    transition: ease-in-out 0.8s;
+    pointer-events: none;
+}
+
+.custom--select-input {
+    border: none;
+    border-bottom: #714F36 solid 2px;
+    outline: none;
+    padding-bottom: 5px;
+    width: 70%;
+    color: #714F36;
+    font-size: 24px;
+    font-weight: 500;
+    text-align: center;
+    background-color: transparent;
+}
+
+
+/* //////// */
+
+.reg--form-group {
+    position: relative;
+    margin-bottom: 85px;
+}
+
+.cli--reg-form-area .reg--form-input {
+    outline: none;
+    width: 100%;
+    padding: 13px 0;
+    border: none;
+    border-bottom: 2px solid #714F36;
+    color: #5C3B2E;
+    font-size: 20px !important;
+    font-weight: 400;
+    line-height: normal;
+    transition: border-color 0.5s, box-shadow 0.5s;
+}
+
+.cli--reg-form-area .reg--form-label {
+    color: #714F36;
+    font-size: 24px;
+    font-weight: 500;
+    line-height: normal;
+    text-transform: capitalize;
+    transition: ease-in-out 0.8s;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    pointer-events: none;
+    transition: top 0.5s, font-size 0.5s, color 0.5s;
+}
+
+.cli--reg-form-area .reg--form-label span {
+    color: red;
+}
+
+/* .reg--form-input:focus+.reg--form-label {
+    top: -1px;
+} */
+.reg--form-input:not(:placeholder-shown)+.reg--form-label,
+.reg--form-input:focus+.reg--form-label {
+    top: -8px;
+}
+
+.cli--reg-form-area .reg--form-input::placeholder {
+    opacity: 0;
+    font-size: 18px;
+    color: #a99790;
+    transition: opacity 0.5s;
+}
+
+.cli--reg-form-area .reg--form-input:focus::placeholder {
+    opacity: 1;
+}
+
+.custom-padding-right {
+    padding-right: 40px;
+}
+
+.custom-padding-right1 {
+    padding-right: 20px;
+}
+
+.custom-padding-left {
+    padding-left: 40px;
+}
+
+
+
+
+.reg--form-btn-area {
+    padding-top: 30px;
+
+    /* align-items: center; */
+}
+
+.reg--form-btn-sub {
+    overflow: hidden;
+    z-index: 1;
+    display: flex;
+    transition: ease-in-out 0.5s;
+    outline: none;
+    border: none;
+    background-color: transparent;
+}
+
+.reg--form-btn {
+    font-size: 24px;
+    font-weight: 500;
+    border-radius: 48px;
+    background-color: #714F36;
+    padding: 18px 90px;
+    color: #FFF;
+    position: relative;
+    z-index: 1;
+    background-repeat: no-repeat;
+    overflow: hidden !important;
+    transition: ease-in-out 0.5s;
+}
+
+.reg--form-btn::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    transition: 0.8s ease-in-out;
+    background-color: #F9C833;
+    border-radius: 30px;
+    visibility: hidden;
+    height: 10px;
+    width: 10px;
+    z-index: -1;
+}
+
+.reg--form-btn:hover::after {
+    visibility: visible;
+    transform: scale(150) translateX(2px);
+}
+
+.reg--form-btn:hover {
+    color: #714F36 !important;
+}
+
+.reg--form-btn-sub:hover svg {
+    transform: rotate(45deg);
+}
+
+.reg--form-btn-sub:hover svg path {
+    stroke: #F9C833;
+}
+
+.reg--form-arrow-area {
+    border-radius: 50%;
+    background-color: #714F36;
+    padding: 22px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: ease-in-out 0.8s;
+}
+
+.reg--form-arrow-area svg,
+.reg--form-arrow-area svg path {
+    transition: ease-in-out 0.8s;
+}
+
+
+
+/* /////// */
+.sel {
+    font-size: 24px;
+    display: inline-block;
+    width: 70%;
+    background-color: transparent;
+    position: relative;
+    cursor: pointer;
+}
+
+.sel .select--toggle {
+    position: absolute;
+    font-size: 24px;
+    color: #714F36;
+    right: 20px;
+    top: calc(50% - 0.5em);
+    transition: transform ease-in-out 0.5s;
+}
+
+.sel.active .select--toggle {
+    transform: rotateX(-180deg);
+}
+
+.sel__placeholder {
+    display: block;
+    font-size: 24px;
+    font-weight: 500;
+    color: #714F36;
+    padding: 10px 0;
+    text-align: center;
+    pointer-events: none;
+    user-select: none;
+    visibility: visible;
+}
+
+.sel.active .sel__placeholder {
+    visibility: hidden;
+}
+
+.sel__placeholder::before {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 10px 0;
+    content: attr(data-placeholder);
+    visibility: hidden;
+}
+
+.sel.active .sel__placeholder::before {
+    visibility: visible;
+}
+
+.sel__box {
+    position: absolute;
+    top: calc(100% + 0px);
+    left: -4px;
+    display: none;
+    list-style-type: none;
+    text-align: left;
+    font-size: 20px;
+    background-color: #714f36f0;
+    width: calc(100% + 8px);
+    box-sizing: border-box;
+    backdrop-filter: blur(10px);
+    overflow: hidden;
+    box-shadow: 0px 5px 15px #00000029;
+}
+
+.sel.active .sel__box {
+    display: block;
+    animation: fadeInUp 500ms;
+}
+
+.sel__box__options {
+    display: list-item;
+    font-size: 20px;
+    color: #FFF;
+    padding: 0.5em 1em;
+    user-select: none;
+    transition: ease-in-out 0.5s;
+    
+}
+
+.sel__box__options::after {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    vertical-align: middle;
+    background-color: #F9C833;
+    margin-left: 10px;
+    display: none;
+}
+
+.sel__box__options.selected::after {
+    display: inline-block;
+}
+
+.sel__box__options:hover {
+    background-color: #F9C833;
+    color: #714F36 !important;
+    letter-spacing: 1px;
+    /* transform: translateX(5px); */
+}
+
+/* ----- Select Box Black Panther ----- */
+.sel {
+    border-bottom: 2px solid #714F36;
+}
+
+.sel--black-panther {
+    z-index: 3 !important;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translate3d(0, 20px, 0);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}

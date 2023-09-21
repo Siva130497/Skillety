@@ -1,0 +1,229 @@
+@media (max-width:991.5px) {
+    .custom--container {
+        padding: 0 25px;
+    }
+
+    .custom--container1 {
+        padding: 0 30px;
+    }
+
+    .talent--profile-img-container {
+        height: 700px;
+        /* background-position: center; */
+    }
+
+    .talent--profile-content-container {
+        padding: 0 12px 40px 12px;
+    }
+
+    .tal--profile-content-area {
+        padding: 25px 0;
+    }
+
+    .talent--profile-section {
+        padding-bottom: 60px;
+    }
+
+    .tal--pro-card-tags {
+        flex-wrap: wrap;
+    }
+
+    .tal--pro-card-tags {
+        margin-top: 20px;
+        row-gap: 10px;
+    }
+
+    .tal--pro-card-right-area {
+        justify-content: space-evenly;
+        padding: 15px 0;
+    }
+
+    .tal--pro-card-left-area .tal--pro-card-name {
+        font-size: 25px;
+    }
+
+    .tal--pro-card-ability-area {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .tal--pro-card-right-area .tal--pro-card-profile-img {
+        width: 120px;
+        height: 120px;
+    }
+
+    .tal--pro-card-left-area {
+        border-right: 1px #fff solid;
+    }
+
+    .talent--profile-card {
+        padding: 25px;
+    }
+}
+
+@media (max-width:500px) {
+    .talents--section {
+        margin-top: 100px;
+    }
+
+    .breadcrumb--area-dark {
+        padding-bottom: 40px;
+    }
+
+    .breadcrumb--area-dark .breadcrumb--item-dark a,
+    .breadcrumb--area-dark .breadcrumb--item-dark p {
+        font-size: 12px !important;
+    }
+
+    .custom--container {
+        padding: 0;
+    }
+
+    .custom--container1 {
+        padding: 0 10px;
+    }
+
+    .talent--profile-img-container {
+        width: 92%;
+        height: 400px;
+        margin: auto;
+    }
+
+    .custom-border-top1,
+    .custom-border-bottom1 {
+        border: none;
+    }
+
+    .tal--profile-content-area .tal--profile-title {
+        font-size: 30px;
+    }
+
+    .tal--profile-role span {
+        font-size: 15px;
+    }
+
+    .tal--pro-status-area .tal--pro-rating,
+    .tal--pro-status-area .tal--pro-location,
+    .tal--pro-status-area .tal--pro-join,
+    .tal--pro-status-area .tal--pro-experince {
+        font-size: 18px;
+    }
+
+    .tal--pro-skill-area {
+        justify-content: space-between;
+    }
+
+    .tal--pro-skill-area .tal--pro-skill {
+        font-size: 25px;
+    }
+
+    .tal--pro-skill-area .tal--pro-skill-per {
+        font-size: 58px;
+        font-weight: 400;
+    }
+
+    .tal--pro-desc-area .tal--pro-desc {
+        font-size: 18px;
+    }
+
+    .tal--pro-contact-area .tal--pro-contact-title {
+        font-size: 30px;
+    }
+
+    .tal--pro-contact-area .tal--pro-contact-detail-title,
+    .tal--pro-contact-area .tal--pro-contact-detail {
+        font-size: 18px;
+    }
+
+    .tal--pro-view-btn-area .tal--pro-view-btn {
+        font-size: 18px;
+    }
+
+    .tal--pro-btn-area {
+        float: left;
+    }
+
+    .talent--more-profile-section .talent--more-profile-title {
+        font-size: 30px;
+    }
+
+    .talent--profile-content-container {
+        padding: 0 12px 30px 12px;
+    }
+
+    .talent--profile-section {
+        padding-bottom: 0;
+    }
+
+    .talent--more-profile-section {
+        border-top: 1px solid #5C3B2E;
+        padding-top: 40px;
+        /* padding-bottom: 60px; */
+    }
+
+    .talent--more-profile-slider-area {
+        margin-top: 40px;
+    }
+
+    .tal--pro-card-left-area {
+        border-right: none;
+        padding-top: 20px;
+    }
+
+    .custom-col-reverse {
+        flex-direction: column-reverse;
+    }
+
+    .tal--pro-card-right-area {
+        padding: 20px 0 30px;
+        background-color: #5b3f2b;
+        border: 1px solid #5b3f2b;
+        border-radius: 12px;
+        box-shadow: 0px 5px 10px #835d43d6;
+        transition: ease-in-out 0.8s;
+    }
+
+    .talent--profile-card:hover .tal--pro-card-right-area {
+        background-color: #ddd;
+        border-color: #fff;
+        box-shadow: none;
+    }
+
+    .tal--pro-card-ability-area {
+        flex-direction: row;
+        gap: 15px;
+    }
+
+    .tal--pro-card-tags {
+        flex-direction: column;
+    }
+
+    .tal--pro-card-left-area .tal--pro-card-name {
+        text-align: center;
+    }
+
+    .tal--pro-card-desc-area .tal--pro-card-desc-title,
+    .tal--pro-card-desc-area .tal--pro-card-desc {
+        text-align: center;
+        margin-bottom: 15px;
+    }
+
+    .talent--profile-card {
+        padding: 20px 30px;
+    }
+
+    .tal--pro-slider-btn-area {
+        justify-content: center;
+        margin-bottom: 60px;
+    }
+
+    .tal--pro-slider-btn {
+        width: 50px;
+        height: 50px;
+    }
+
+    .tal--pro-slider-btn svg {
+        width: 20px;
+        height: 20px;
+    }
+}

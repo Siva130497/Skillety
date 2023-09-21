@@ -1,0 +1,9 @@
+@media (max-width:991.5px) {
+
+}
+
+@media (max-width:500px) {
+    .plans--section {
+        margin-top: 100px;
+    }
+}

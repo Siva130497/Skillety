@@ -2,9 +2,9 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 const NewNav = () => {
-  return (
-    <header id="header" className="fixed-top">
-            <div className="container-fluid d-flex align-items-center">
+    return (
+        <header id="header" className="fixed--top">
+            <div className="container-fluid d-flex align-items-center justify-content-between ps-0 custom-right-nav-padding">
 
                 <div>
                     <div className='logo--area me-auto'>
@@ -17,7 +17,7 @@ const NewNav = () => {
                 </div>
                 <div className="switches-container">
                     <input type="radio" id="switchTalent" name="switchPlan" value="Talent" />
-                    <input type="radio" id="switchEmployer" name="switchPlan" value="Employer" checked="checked" />
+                    <input type="radio" id="switchEmployer" name="switchPlan" value="Employer" checked />
                     <label for="switchTalent">Talent</label>
                     <label for="switchEmployer">Employer</label>
                     <div className="switch-wrapper">
@@ -28,28 +28,37 @@ const NewNav = () => {
                     </div>
                 </div>
 
-                <nav id="navbar" className="navbar">
+                <nav id="navbar" className="navbar navbar-expand-lg">
                     <ul>
-                        <li><Link to="/" className="nav-link">Home</Link></li>
-                        <li><Link to="/about-us" className="nav-link">About Us</Link></li>
-                        <li><Link to="/talents" className="nav-link">Talents</Link></li>
-                        <li className="dropdown"><Link to="/services"><span>Services</span> <i className="bi bi-chevron-down"></i></Link>
+                        <li><div><a href="/" className="nav-link scrollto active">Home</a></div></li>
+                        <li><a href="/about-us" className="nav-link scrollto">About Us</a></li>
+                        <li><a href="/talents" className="nav-link scrollto">Talents</a></li>
+                        <li className="dropdown"><a href="#"><span>Services</span> <i className="bi bi-chevron-down"></i></a>
                             <ul>
-                                <li><Link to="#">Service 1</Link></li>
-                                <li><Link to="#">Service 2</Link></li>
-                                <li><Link to="#">Service 3</Link></li>
-                                <li><Link to="#">Service 4</Link></li>
+                                <li><a href="/services">Service 1</a></li>
+                                {/* <li className="dropdown"><a href="#"><span>Deep Drop Down</span> <i className="bi bi-chevron-right"></i></a>
+                                    <ul>
+                                        <li><a href="#">Deep Drop Down 1</a></li>
+                                        <li><a href="#">Deep Drop Down 2</a></li>
+                                        <li><a href="#">Deep Drop Down 3</a></li>
+                                        <li><a href="#">Deep Drop Down 4</a></li>
+                                        <li><a href="#">Deep Drop Down 5</a></li>
+                                    </ul>
+                                </li> */}
+                                <li><a href="#">Service 2</a></li>
+                                <li><a href="#">Service 3</a></li>
+                                <li><a href="#">Service 4</a></li>
                             </ul>
                         </li>
-                        <li><Link className="nav-link" to="/rpo">RPO</Link></li>
-                        <li><Link className="nav-link" to="/contact-us">Contact</Link></li>
+                        <li><a className="nav-link scrollto" href="/rpo">RPO</a></li>
+                        <li><a className="nav-link scrollto" href="/contact-us">Contact</a></li>
                     </ul>
                     <i className="bi bi-list mobile-nav-toggle"></i>
                 </nav>
-                
+
             </div>
         </header>
-  )
+    )
 }
 
 export default NewNav

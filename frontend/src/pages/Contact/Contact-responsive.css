@@ -44,6 +44,9 @@
 }
 
 @media (max-width:500px) {
+    .contact--section{
+        margin-top: 13px;
+    }
     .con--where-section {
         padding-top: 60px;
     }

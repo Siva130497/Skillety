@@ -1,5 +1,6 @@
 .about--section {
     margin-top: 27px;
+    overflow: hidden !important;
 }
 
 .about--bg {
@@ -17,6 +18,7 @@
 .breadcrumb--area {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     align-items: center;
     gap: 12px;
 }
@@ -48,7 +50,7 @@
     background-color: #fff;
     margin-right: 5px;
     vertical-align: middle;
-    margin-top: -4px;
+    margin-top: 0px;
 }
 
 .about--head {
@@ -248,11 +250,11 @@
     flex-direction: row;
     gap: 12px;
     transition: ease-in-out 0.8s;
-    cursor: pointer;
+    /* cursor: pointer; */
     z-index: 1;
 }
 
-.about--milestone-card::after {
+/* .about--milestone-card::after {
     content: "";
     position: absolute;
     left: 0;
@@ -269,23 +271,23 @@
 .about--milestone-card:hover::after {
     visibility: visible;
     transform: scale(220) translateY(2px);
-}
+} */
 
 .about--milestone-card:hover {
-    border-color: #F9C833;
+    /* border-color: #F9C833; */
     /* background-color: #F9C833; */
     transform: translateY(-8px);
-    -webkit-animation: pulse500 2s infinite;
-    animation: pulse500 1.5s infinite;
+    /* -webkit-animation: pulse500 2s infinite;
+    animation: pulse500 1.5s infinite; */
 
-    --dot-bg2: #F9C833;
+    /* --dot-bg2: #F9C833;
     --dot-color2: #c9a22f;
     --dot-size2: 1.6px;
     --dot-space2: 30px;
     background:
         linear-gradient(90deg, var(--dot-bg2) calc(var(--dot-space2) - var(--dot-size2)), transparent 1%) center / var(--dot-space2) var(--dot-space2),
         linear-gradient(var(--dot-bg2) calc(var(--dot-space2) - var(--dot-size2)), transparent 1%) center / var(--dot-space2) var(--dot-space2),
-        var(--dot-color2) !important;
+        var(--dot-color2) !important; */
 }
 
 @keyframes pulse500 {
@@ -302,18 +304,18 @@
     }
 }
 
-.about--milestone-card:hover .ab--milestone-card-right .ab--milestone-title {
+/* .about--milestone-card:hover .ab--milestone-card-right .ab--milestone-title {
     color: #FFF;
 }
 
 .about--milestone-card:hover .ab--milestone-card-right .ab-milestone-number {
     color: #F9C833;
     text-shadow: 5px 5px 5px #3c261e81;
-}
+} */
 
-.about--milestone-card:hover .ab--milestone-card-top svg path {
+/* .about--milestone-card:hover .ab--milestone-card-top svg path {
     stroke: #F9C833;
-}
+} */
 
 .about--milestone-card:hover .ab--milestone-card-top svg {
     transform: translateX(5px);
@@ -471,14 +473,14 @@
     margin-bottom: 23px;
     padding: 0 56px 0 70px;
     height: 233px;
-    transition: ease-in-out 0.8s;
+    transition: ease-in-out 0.8s !important;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
     position: relative;
     overflow: hidden;
-    cursor: pointer;
+    /* cursor: pointer; */
     z-index: 1;
 }
 
@@ -502,7 +504,7 @@
 }
 
 .ab-weoff-card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-5px) !important;
     -webkit-animation: pulseCard1 1.5s infinite;
     animation: pulseCard1 1.5s infinite;
     --dot-bg3: transparent;

@@ -1,0 +1,134 @@
+.plans--section {
+    margin-top: 150px;
+    padding-top: 60px;
+    overflow: hidden !important;
+}
+
+.plans--head-area {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.plans--head-area .plans--heading {
+    color: #714F36;
+    text-align: center;
+    font-size: 64px;
+    font-weight: 400;
+    line-height: normal;
+    text-transform: uppercase;
+    margin-bottom: 30px;
+}
+
+.plans--head-area .plans--sub-head {
+    color: #5C3B2E;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: normal;
+    width: 87%;
+}
+
+.plan--purchase-track-area {
+    margin-top: 87px;
+    margin-bottom: 120px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 13px;
+}
+
+.plan--purchase-track-area .pl--track-circle {
+    position: relative;
+    width: 71px;
+    height: 71px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    border: 2px solid #714F36;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pl--track-circle span {
+    color: #714F36;
+    text-align: center;
+    font-size: 36px;
+    font-weight: 400;
+    text-transform: uppercase;
+    line-height: 0;
+    z-index: 1;
+}
+
+.pl--track-circle-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 25px;
+    position: relative;
+    overflow: visible;
+}
+
+.pl--track-circle-area .pl--track-status {
+    /* margin-top: 25px; */
+    text-align: center;
+    color: #5C3B2E;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: normal;
+    position: absolute;
+    top: 95px;
+    z-index: 3;
+    white-space: nowrap;
+    
+}
+
+.plan--purchase-track-area .pl--track-line {
+    height: 2px;
+    background-color: #714F36;
+}
+
+@media (max-width: 768px) {
+    .pl--track-line {
+        width: 200px;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 992px) {
+    .pl--track-line {
+        width: 200px;
+    }
+}
+
+@media (min-width: 993px) {
+    .pl--track-line {
+        width: 333px;
+    }
+}
+
+.pl--track-line.active {
+    background-color: #F9C833;
+}
+
+.pl--track-circle.active::after {
+    font-family: 'bootstrap-icons' !important;
+    content: "\f272";
+    font-size: 28px;
+    font-weight: 400;
+    line-height: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    background-color: #F9C833;
+    border-radius: 50%;
+    flex-shrink: 0;
+    z-index: 2;
+}
+.packages--area{
+    margin-top: 35px;
+}
