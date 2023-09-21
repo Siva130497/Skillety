@@ -17,7 +17,10 @@ import ClientDashboard from './pages/ClientDashboard/ClientDashboard';
 import PDFViewer from './pages/pdfViewer';
 import CandidateDashboard from './pages/CandidateDashboard/CandidateDashboard';
 import CandidateLogin from './pages/CandidateLogin/CandidateLogin';
-
+import AdminLogin from './pages/AdminLogin/AdminLogin';
+import AdminDashboard from './pages/AdminDashboard/AdminDashboard';
+import RecruiterLogin from './pages/RecruiterLogin/RecruiterLogin';
+import RecruiterDashboard from './pages/RecruiterDashboard/RecruiterDashboard';
 
 function App() {
   
@@ -43,6 +46,10 @@ function App() {
           <Route path='/candidate-dashboard' element={<CandidateDashboard />} />
           {/* <Route path='/client-recruiter-chat' element={<Chat />} /> */}
           <Route path='/:id' element={<ClientNewPassword />} />
+          <Route path='/admin-login' element={<AdminLogin />} />
+          <Route path='/admin-dashboard' element={<AdminDashboard />} />
+          <Route path='/recruiter-login' element={<RecruiterLogin />} />
+          <Route path='/recruiter-dashboard' element={<RecruiterDashboard />} />
         </Routes>
     </AuthContextProvider>
   );

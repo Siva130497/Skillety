@@ -8,7 +8,7 @@ import NewNavBar from './NewNavBar';
 
 import './main.js'
 
-const Layout = ({ newNavBarClientRegister, newNavBarClientLogin, newNavBarCandidateLogin, newNavBarCandidateRegister }) => {
+const Layout = ({ newNavBarClientRegister, newNavBarClientLogin, newNavBarCandidateLogin, newNavBarCandidateRegister, newNavBarAdminLogin, newNavBarRecruiterLogin }) => {
   useEffect(() => {
     const select = (el, all = false) => {
       if (all) {
@@ -58,7 +58,13 @@ const Layout = ({ newNavBarClientRegister, newNavBarClientLogin, newNavBarCandid
 
   return (
     <>
-      {newNavBarClientRegister ? <NewNavBar clientLogin = {true} />: newNavBarClientLogin ? <NewNavBar clientRegister = {true} />: newNavBarCandidateLogin ? <NewNavBar candidateRegister = {true} /> : newNavBarCandidateRegister ? <NewNavBar /> : <NewNav />}
+      {newNavBarClientRegister ? <NewNavBar clientLogin = {true} />: newNavBarClientLogin ? <NewNavBar clientRegister = {true} />: newNavBarCandidateLogin ? <NewNavBar candidateRegister = {true} /> : newNavBarAdminLogin ? <NewNavBar /> : newNavBarRecruiterLogin ? <NewNavBar /> : newNavBarCandidateRegister ? <NewNavBar candidateLogin ={true}/> : <NewNav />}
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
       {/* <div className='container-fluid'>{children}</div> */}
       {/* <div id="preloader"></div> */}
       

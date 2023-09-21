@@ -13,7 +13,7 @@ const CandidateDashboard = () => {
   const [jobViewDetail, setJobViewDetail] = useState([]);
   const [appliedJobDetail, setAppliedJobDetail] = useState([]);
   
-    // console.log(appliedJobDetail);
+  
     const getSkillMatchJobDetail = async() => {
         try {
             const response = await axios.get(`http://localhost:5002/skill-match-job-Detail/${employeeId}`);

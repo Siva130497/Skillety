@@ -23,7 +23,6 @@ const ClientDashboard = () => {
     const [viewPostedJobStatus, setViewPostedJobStatus] = useState(false);
     const [selectedPostedJobViewDetail, setSelectedPostedJobViewDetail] = useState([]);
     const [selectedCandidateArray, setSelectedCandidateArray] = useState([]);
-    const [searchInput, setSearchInput] = useState("");
     const [searchJobRoleInput, setSearchJobRoleInput] = useState("");
     const [searchSkillInput, setSearchSkillInput] = useState("");
     const [jobRoleArray, setjobRoleArray] = useState([])
@@ -193,7 +192,6 @@ const ClientDashboard = () => {
 
     const handleJobRoleSearch = (e) => {
         const inputValue = e.target.value;
-        setSearchInput(inputValue);
         setSearchJobRoleInput(inputValue);
         if(inputValue.length > 0){
             const jobRoles = jobRoleArray.filter((obj) => {
@@ -352,6 +350,7 @@ const ClientDashboard = () => {
           jobRole: selectedJobRoles,
           id: id,
           clientId:employeeId,
+          recruiterId:"this job posted by client"
         };
         const updatedCredentialsWithAdditionalSkills = {
           ...updatedCredentials,
@@ -465,6 +464,9 @@ const ClientDashboard = () => {
                   <div>Job Role: {selectedPostedJobViewDetail.jobRole[0]}</div>
                   <div>Job Category: {selectedPostedJobViewDetail.jobCategory}</div>
                   <div>Job Mandatory Skills: {selectedPostedJobViewDetail.skills.join(', ')}</div>
+                  {selectedPostedJobViewDetail.additionalSkills.length > 0 &&
+                    <div>Job Additional Skills: {selectedPostedJobViewDetail.additionalSkills.join(', ')}</div>
+                  }
                   <div>Job Description: {selectedPostedJobViewDetail.jobDescription}</div>
                   <div>Needed Experience:{selectedPostedJobViewDetail.year} years and {selectedPostedJobViewDetail.month} months</div>
                 </>

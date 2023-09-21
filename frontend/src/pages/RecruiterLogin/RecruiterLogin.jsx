@@ -1,10 +1,9 @@
 import React, { useState, useContext } from 'react'
-import{Link} from "react-router-dom";
 import AuthContext from '../../context/AuthContext';
-import CandidateDashboard from '../CandidateDashboard/CandidateDashboard';
 import Layout from '../../components/Layout';
+import RecruiterDashboard from '../RecruiterDashboard/RecruiterDashboard';
 
-const CandidateLogin = () => {
+const RecruiterLogin = () => {
     const {loginUser, dashBoard} = useContext(AuthContext)
     const [credentials, setcredentials] = useState({
         email:"",
@@ -16,16 +15,16 @@ const CandidateLogin = () => {
     }
     const handleSubmit = (event) => {
         event.preventDefault();
-        const userType = "login-Candidate"
+        const userType = "staff"
         const updatedCredentials = [credentials, userType]
         loginUser(updatedCredentials);
 
     }
     return (
         <>
-            <Layout newNavBarCandidateLogin = {true} />
+            <Layout newNavBarRecruiterLogin = {true} />
             <div className='container-fluid'>
-            {dashBoard ? <CandidateDashboard /> :
+            {dashBoard ? <RecruiterDashboard /> :
                 <>
                     <h3>Login</h3>
 
@@ -64,10 +63,6 @@ const CandidateLogin = () => {
                         required />
                     </div>
                     <input type='submit' value="Login" className='btn btn-primary my-3' />
-                    <p>
-                        Don't have an account ? <Link to = "/candiate-register">Create One</Link>
-                    </p>
-
                     </form>
                 </>
             }
@@ -78,4 +73,4 @@ const CandidateLogin = () => {
     )
 }
 
-export default CandidateLogin;
+export default RecruiterLogin;

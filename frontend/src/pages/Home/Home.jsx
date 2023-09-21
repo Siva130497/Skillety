@@ -55,41 +55,41 @@ const Home = () => {
     observer.observe(section);
   }, []);
   
-  // const handleApiCall = () => {
-  //   const accessToken = 'CJT85DoAcFM22rKrrQdrGkdWvWNUY_Xf';
-  //   const key = 'OSCfJPqV1E_PNd3mX0zL9NIg5vkjMTMs5XfQ';
-  //   const encodedCredentials = btoa(`${accessToken}:${key}`);
+  const handleApiCall = () => {
+    const accessToken = 'CJT85DoAcFM22rKrrQdrGkdWvWNUY_Xf';
+    const key = 'OSCfJPqV1E_PNd3mX0zL9NIg5vkjMTMs5XfQ';
+    const encodedCredentials = btoa(`${accessToken}:${key}`);
   
-  //   const data = JSON.stringify({
-  //     candidate: [
-  //       {
-  //         name: "Piragash",
-  //         email: "Candidate email",
-  //         phoneNo: "candidate phoneNo",
-  //       },
-  //     ],
-  //     hiringRoleId: 9999,
-  //     roundName: "Round name",
-  //   });
+    const data = JSON.stringify({
+      candidates: [
+        {
+          name: "skillety test",
+          email: "test@gmail.com",
+          phoneNo: "0769059433",
+        },
+      ],
+      hiringRoleId: 4427,
+      roundName: "Hands-On",
+    });
 
-  //   const config = {
-  //     method: "post",
-  //     url: "/external-interviews/request",
-  //     headers: {
-  //       Authorization: `Basic ${encodedCredentials}`,
-  //       "Content-Type": "application/json",
-  //     },
-  //     data: data,
-  //   };
+    const config = {
+      method: "post",
+      url: "/external-interviews/request",
+      headers: {
+        Authorization: `Basic ${encodedCredentials}`,
+        "Content-Type": "application/json",
+      },
+      data: data,
+    };
   
-  //   axios(config)
-  //     .then(function (response) {
-  //       console.log(JSON.stringify(response.data));
-  //     })
-  //     .catch(function (error) {
-  //       console.log(error);
-  //     });
-  // }
+    axios(config)
+      .then(function (response) {
+        console.log(JSON.stringify(response.data));
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
   
 
   return (
@@ -105,7 +105,7 @@ const Home = () => {
     <>
       <Layout/>
     <div className='container-fluid'>
-      {/* <button onClick={handleApiCall}>api call</button> */}
+      <button onClick={handleApiCall}>api call</button>
       <div className='home--section'>
       <div className='container-fluid container-section'>
         <div className="home--bg">
