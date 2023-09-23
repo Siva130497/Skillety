@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import Layout from '../../components/Layout';
+import { Footer } from '../../components/Footer';
 
 const ClientNewPassword = () => {
     const { id } = useParams();
@@ -85,11 +86,11 @@ const ClientNewPassword = () => {
     };
 
     return (
-        <>
-            <Layout/>
+        <div>
+            <Layout candidateHome={true}/>
             <div className='container-fluid'>
             {status ?
-                <>
+                <div>
                     <h3>Welcome {newClient.name} from {newClient.companyName}</h3>
                     <form onSubmit={handleSubmit}>
                         <div className="form-group">
@@ -146,16 +147,16 @@ const ClientNewPassword = () => {
                         </div>
                         <input type='submit' value="Submit" className='btn btn-primary my-3' />
                     </form>
-                </>
-                : <>
+                </div>
+                : <div>
                     <h1>404</h1>
                     <p>Not Found</p>
                     <small>The resource requested could not be found on this server!</small>
-                </>
+                </div>
             }
             </div>
-            
-        </>
+            <Footer noFooter={true}/>
+        </div>
     );
 };
 

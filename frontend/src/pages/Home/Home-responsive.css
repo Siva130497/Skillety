@@ -106,7 +106,8 @@
         padding: 15px 30px;
         font-size: 20px;
     }
-    .rpo--know-more-arrow{
+
+    .rpo--know-more-arrow {
         padding: 17px;
     }
 
@@ -162,6 +163,14 @@
         height: 60px;
     }
 
+    .testimonial--content-area {
+        width: 83%;
+    }
+
+    .testimonial-sm--profile p {
+        width: 80%;
+    }
+
     .testimonial--profile h5 {
         font-size: 30px;
     }
@@ -201,21 +210,36 @@
     .home--testimonial-section {
         padding: 60px 36px 50px 36px;
     }
-    .connect--section{
+
+    .connect--section {
         padding-top: 100px;
     }
-    .connect--title h4{
+
+    .connect--title h4 {
         font-size: 30px;
         font-weight: 500;
     }
-    .connect--content-area{
+
+    .connect--content-area {
         margin-top: 100px;
     }
-    .service--know-more-btn{
+
+    .service--know-more-btn {
         font-size: 20px;
     }
-    .service--know-more-arrow{
+
+    .service--know-more-arrow {
         padding: 17px;
+    }
+    .register--card{
+        height: 200px;
+    }
+    .register--card .register--text{
+        font-size: 60px;
+    }
+    .register-arrow-area svg{
+        width: 62px;
+        height: 62px;
     }
 }
 

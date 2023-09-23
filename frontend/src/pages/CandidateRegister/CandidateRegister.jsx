@@ -6,6 +6,7 @@ import axios from 'axios';
 import { v4 as uuidv4} from "uuid";
 import NewNavBar from '../../components/NewNavBar';
 import Layout from '../../components/Layout';
+import { Footer } from '../../components/Footer';
 
 
 const CandidateRegister = () => {
@@ -272,10 +273,8 @@ const CandidateRegister = () => {
         switch (step) {
         case 1:
             return (
-                <>
-                    <div className='container-fluid'>
-
-                    </div>
+                <div>
+                    
                     <div className="form-group">
                         <label 
                         htmlFor="days" 
@@ -437,11 +436,11 @@ const CandidateRegister = () => {
                         />
                         {resume ? resume.name : 'No file chosen'}
                     </div> 
-                </>
+                </div>
             )
         case 2:
             return (
-                <>
+                <div>
                         <div className="form-group">
                             <label 
                             htmlFor="designationInput" 
@@ -640,11 +639,11 @@ const CandidateRegister = () => {
                             placeholder="Enter your college name"
                             required/>
                         </div>
-                </>
+                </div>
             )
         case 3:
             return (
-                <>
+                <div>
                     <div className="form-group">
                         <label 
                         htmlFor="profileHeadlineTextarea" 
@@ -661,7 +660,7 @@ const CandidateRegister = () => {
                         placeholder="Enter your profile headline"
                         required></textarea>
                     </div>
-                </>
+                </div>
             )
         default:
             return null;
@@ -680,7 +679,7 @@ const CandidateRegister = () => {
         {step === 3 && (<input type='submit' value="Register" className='btn btn-primary my-3' />)}
         </form>
         </div>
-        
+        <Footer noFooter={true}/>
     </div>
   );
 };

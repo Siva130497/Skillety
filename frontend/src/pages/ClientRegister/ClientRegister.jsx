@@ -6,6 +6,7 @@ import './ClientRegister.css'
 import './ClientRegister-responsive.css'
 import AuthContext from '../../context/AuthContext';
 import Layout from '../../components/Layout';
+import { Footer } from '../../components/Footer';
 
 const ClientRegister = () => {
     const navigate = useNavigate();
@@ -203,7 +204,7 @@ const ClientRegister = () => {
         //     </form>
         // </>
 
-        <>
+        <div>
             <Layout/>
             <div className='client-register-section'>
                 <div className='container-fluid'>
@@ -316,7 +317,8 @@ const ClientRegister = () => {
                     </div>
                 </div>
             </div>
-        </>
+            <Footer noFooter={true}/>
+        </div>
     )
 }
 

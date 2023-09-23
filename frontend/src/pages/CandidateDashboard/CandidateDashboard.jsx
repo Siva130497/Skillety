@@ -3,6 +3,7 @@ import axios from 'axios';
 import AuthContext from '../../context/AuthContext';
 import CandidateLogin from '../CandidateLogin/CandidateLogin';
 import Layout from '../../components/Layout';
+import { Footer } from '../../components/Footer';
 
 
 const CandidateDashboard = () => {
@@ -13,7 +14,7 @@ const CandidateDashboard = () => {
   const [jobViewDetail, setJobViewDetail] = useState([]);
   const [appliedJobDetail, setAppliedJobDetail] = useState([]);
   
-    // console.log(appliedJobDetail);
+  
     const getSkillMatchJobDetail = async() => {
         try {
             const response = await axios.get(`http://localhost:5002/skill-match-job-Detail/${employeeId}`);
@@ -118,11 +119,8 @@ const CandidateDashboard = () => {
     }
     
   return (
-    <>
-      
-    
-      {employeeId ? <>
-        <Layout/>
+    <div>
+        <Layout candidateHome={true}/>
         <div className='container-fluid'>
         <h1>Dash board</h1>
         <br></br>
@@ -160,7 +158,7 @@ const CandidateDashboard = () => {
         }
         <br></br>
         {filteredJob.length > 0 && jobView && (
-          <>
+          <div>
             <h4>Job Details</h4>
             <div>Job Role: {jobViewDetail.jobRole}</div>
             <div>Mandatory Skills: {jobViewDetail.jobMandatorySkills.join(', ')}</div>
@@ -173,24 +171,21 @@ const CandidateDashboard = () => {
             <div>Percentage matched with your skills: {jobViewDetail.percentage}%</div>
             {!jobViewDetail.discardStatus && <button type="button" className="btn btn-outline-info my-2" onClick={()=>handleApply(jobViewDetail.jobId)}>Apply</button>}
             {jobViewDetail.discardStatus && <button type="button" className="btn btn-outline-info my-2" onClick={()=>handleDiscard(jobViewDetail.jobId)}>Discard</button>}
-          </>
+          </div>
         )}
         <br></br>
         {appliedJobDetail.length > 0 &&
-          <>
+          <div>
             <br></br>
             <h4>Your Applied Jobs</h4>
             {appliedJobDetail.map((appliedJob)=>{
               return <div key={appliedJob.jobId}>{appliedJob.jobRole}</div>
             })}
-          </>
+          </div>
         }
         </div>
-        
-      </> : <CandidateLogin/>}
-      
-    
-    </>
+        <Footer/>
+    </div>
     
   )
 }

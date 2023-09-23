@@ -16,8 +16,13 @@
         width: 125px;
         height: 125px;
     }
-    .testimonial--card-sm.testi--card-sm{
+
+    .testimonial--card-sm.testi--card-sm {
         width: 100%;
+    }
+
+    .testimonial--content-area.testi--content-area {
+        width: 85%;
     }
 }
 

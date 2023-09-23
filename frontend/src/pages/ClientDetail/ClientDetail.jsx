@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { v4 as uuidv4} from "uuid";
 import axios from 'axios';
 import Layout from '../../components/Layout';
+import { Footer } from '../../components/Footer';
 
 const ClientDetail = () => {
     const [clientDetail, setClientDetail] = useState([]);
@@ -108,13 +109,13 @@ const ClientDetail = () => {
 
   return (
             <div>
-                <Layout/>
+                <Layout candidateHome={true}/>
                 <div className='container-fluid'>
                 <h1>All Client Details</h1>
                 <hr className="my-4" />
                 
                 {clientDetail.length === 0 ? <h3>No Client Created Yet</h3> 
-                :<>
+                :<div>
                     <p>Total Clients: <strong>{clientDetail.length}</strong></p>
                     <button type="button" className="btn btn-warning my-3" onClick={handleCheckForEmailStatus}>Checking the email status</button>
                     <table className="table table-hover">
@@ -145,10 +146,10 @@ const ClientDetail = () => {
                                 })}
                         </tbody>
                     </table>
-                </>     
+                </div>     
                 }  
                 </div>
-                
+                <Footer/>
             </div>
   )
 }

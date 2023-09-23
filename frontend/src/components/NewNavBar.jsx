@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-const NewNavBar = ({ clientRegister, candidateRegister, clientLogin }) => {
+const NewNavBar = ({ clientRegister, candidateRegister, clientLogin, candidateLogin }) => {
     return (
         <header id="clientheader" className="fixed--top">
             <div className="container-fluid d-flex align-items-center justify-content-between ps-0 custom-right-nav-padding">
@@ -22,22 +22,25 @@ const NewNavBar = ({ clientRegister, candidateRegister, clientLogin }) => {
                         {clientRegister ?
                             <li><Link to="/client-register" className="nav-link">Register</Link></li> :
                             candidateRegister ? <li><Link to="/candiate-register" className="nav-link">Register</Link></li> :
-                                clientLogin ? <li><Link to="/client-login" className="nav-link">Login</Link></li> :
-                                    <li><Link to="/candidate-login" className="nav-link">Login</Link></li>
+
+                            clientLogin ? <li><Link to="/client-login" className="nav-link">Login</Link></li> :
+                            candidateLogin ? <li><Link to="/candidate-login" className="nav-link">Login</Link></li> : null
+
                         }
 
                     </ul>
                 </nav> */}
 
                 <div className="nav--client-login-btn-area">
-                {clientRegister ?
-                    <Link to="/client-register" className='nav--client-login-btn'>Register</Link> :
-                    candidateRegister ? 
-                    <Link to="/candiate-register" className='nav--client-login-btn'>Register</Link> :
-                    clientLogin ?
-                    <Link to="/client-login" className='nav--client-login-btn'>Login</Link> :
-                    <Link to="/candidate-login" className='nav--client-login-btn'>Login</Link>
-                }
+                    {clientRegister ?
+                        <Link to="/client-signup" className='nav--client-login-btn'>Register</Link> :
+                        candidateRegister ?
+                            <Link to="/candiate-register" className='nav--client-login-btn'>Register</Link> :
+                            clientLogin ?
+                                <Link to="/client-login" className='nav--client-login-btn'>Login</Link> :
+                                candidateLogin ?
+                                    <Link to="/candidate-login" className='nav--client-login-btn'>Login</Link> : null
+                    }
                 </div>
             </div>
         </header>

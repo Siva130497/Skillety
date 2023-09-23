@@ -15,13 +15,17 @@ import ClientNewPassword from './pages/ClientNewPassword/ClientNewPassword';
 import ClientSignup from './pages/ClientSignup/ClientSignup';
 import ClientLogin from './pages/ClientLogin/ClientLogin';
 import CandidateRegister from './pages/CandidateRegister/CandidateRegister';
-import ClientDashboard from './pages/ClientDashboard/ClientDashboard';
 // import Chat from './pages/Chat/Chat';
 // import LiveChat from './pages/Chat/LiveChat';
 import PDFViewer from './pages/pdfViewer';
-import CandidateDashboard from './pages/CandidateDashboard/CandidateDashboard';
 import CandidateLogin from './pages/CandidateLogin/CandidateLogin';
-
+import AdminLogin from './pages/AdminLogin/AdminLogin';
+import RecruiterLogin from './pages/RecruiterLogin/RecruiterLogin';
+import HomeCandidate from './pages/HomeCandidate/HomeCandidate';
+import ClientDashboard from './pages/ClientDashboard/ClientDashboard';
+import CandidateDashboard from './pages/CandidateDashboard/CandidateDashboard';
+import AdminDashboard from './pages/AdminDashboard/AdminDashboard';
+import RecruiterDashboard from './pages/RecruiterDashboard/RecruiterDashboard';
 
 function App() {
   
@@ -29,6 +33,7 @@ function App() {
     <AuthContextProvider>
         <Routes>
           <Route path='/' element={<Home />} />
+          <Route path='/candidate-home' element={<HomeCandidate />} />
           <Route path='/about-us' element={<About />} />
           <Route path='/contact-us' element={<Contact />} />
           <Route path='/services' element={<Services />} />
@@ -47,10 +52,14 @@ function App() {
           {/* <Route path='/live-chat' element={<LiveChat />} /> */}
           <Route path='/packages' element={<Packages />} />
           <Route path='/client-detail' element={<ClientDetail />} />
-          <Route path='/client-dashboard' element={<ClientDashboard />} />
-          <Route path='/candidate-dashboard' element={<CandidateDashboard />} />
           {/* <Route path='/client-recruiter-chat' element={<Chat />} /> */}
           <Route path='/:id' element={<ClientNewPassword />} />
+          <Route path='/admin-login' element={<AdminLogin />} />
+          <Route path='/recruiter-login' element={<RecruiterLogin />} />
+          <Route path='/client-dashboard' element={<ClientDashboard />} />
+          <Route path='/candidate-dashboard' element={<CandidateDashboard />} />
+          <Route path='/admin-dashboard' element={<AdminDashboard />} />
+          <Route path='/recruiter-dashboard' element={<RecruiterDashboard />} />
         </Routes>
     </AuthContextProvider>
   );

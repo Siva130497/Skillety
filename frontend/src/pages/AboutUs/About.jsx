@@ -4,6 +4,7 @@ import $ from 'jquery';
 import './About.css'
 import './About-responsive.css'
 import Layout from '../../components/Layout';
+import { Footer } from '../../components/Footer';
 
 const About = () => {
     useEffect(() => {
@@ -55,7 +56,7 @@ const About = () => {
     }, []);
 
     return (
-        <>
+        <div>
             <Layout />
             <div>
                 <div className='container-fluid about--section'>
@@ -291,7 +292,8 @@ const About = () => {
                     </div>
                 </div>
             </div>
-        </>
+            <Footer/>
+        </div>
 
     )
 }

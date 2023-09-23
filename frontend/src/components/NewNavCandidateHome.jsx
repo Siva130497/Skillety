@@ -1,11 +1,11 @@
-import {useState} from 'react'
+import React from 'react'
 import { useNavigate } from 'react-router-dom';
 
-const NewNav = () => {
+export const NewNavCandidateHome = () => {
     const navigate = useNavigate();
 
-    return (
-        <header id="header" className="fixed--top">
+  return (
+    <header id="header" className="fixed--top">
             <div className="container-fluid d-flex align-items-center justify-content-between ps-0 custom-right-nav-padding">
 
                 <div>
@@ -23,14 +23,14 @@ const NewNav = () => {
                         id="switchTalent"
                         name="switchPlan"
                         value="Talent"
-                        onChange={()=>navigate("/candidate-home")}
+                        checked
                     />
                     <input
                         type="radio"
                         id="switchEmployer"
                         name="switchPlan"
                         value="Employer"
-                        checked
+                        onChange={()=>navigate("/")}
                     />
                     <label htmlFor="switchTalent">Talent</label>
                     <label htmlFor="switchEmployer">Employer</label>
@@ -72,7 +72,5 @@ const NewNav = () => {
 
             </div>
         </header>
-    )
+  )
 }
-
-export default NewNav

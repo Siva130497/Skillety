@@ -1,11 +1,10 @@
 import React, { useState, useContext } from 'react'
-import{Link} from "react-router-dom";
 import AuthContext from '../../context/AuthContext';
-import CandidateDashboard from '../CandidateDashboard/CandidateDashboard';
 import Layout from '../../components/Layout';
+import AdminDashboard from '../AdminDashboard/AdminDashboard';
 import { Footer } from '../../components/Footer';
 
-const CandidateLogin = () => {
+const AdminLogin = () => {
     const {loginUser, dashBoard} = useContext(AuthContext)
     const [credentials, setcredentials] = useState({
         email:"",
@@ -17,14 +16,14 @@ const CandidateLogin = () => {
     }
     const handleSubmit = (event) => {
         event.preventDefault();
-        const userType = "login-Candidate"
+        const userType = "admin"
         const updatedCredentials = [credentials, userType]
         loginUser(updatedCredentials);
 
     }
     return (
                 <div>
-                    <Layout newNavBarCandidateLogin = {true} />
+                    <Layout newNavBarAdminLogin = {true} />
                     <div className='container-fluid'>
                     <h3>Login</h3>
 
@@ -63,10 +62,6 @@ const CandidateLogin = () => {
                         required />
                     </div>
                     <input type='submit' value="Login" className='btn btn-primary my-3' />
-                    <p>
-                        Don't have an account ? <Link to = "/candiate-register">Create One</Link>
-                    </p>
-
                     </form>
                     </div>
                     <Footer noFooter={true}/>
@@ -74,4 +69,4 @@ const CandidateLogin = () => {
     )
 }
 
-export default CandidateLogin;
+export default AdminLogin;

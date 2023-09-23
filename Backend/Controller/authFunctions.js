@@ -6,10 +6,12 @@ const nodemailer = require('nodemailer');
 const TempClient = require("../Database/TempClient");
 const finalClient = require("../Database/finalClient");
 const candidate = require("../Database/candidate");
-const employee = require("../Database/employee");
+const allusers = require("../Database/allUsers");
 const resume = require("../Database/resume");
 const jobDetail = require("../Database/jobDetail");
 const appliedJob = require("../Database/appliedJob");
+const allUsers = require("../Database/allUsers");
+const employee = require("../Database/employee");
 
 // const hash = async() => {
 //   const pass = 'newpassword'
@@ -116,16 +118,16 @@ const finalClientRegister = async(req, res) => {
     await updatedClient.save();
     console.log(updatedClient);
     const {name, email, role, id} = req.body;
-    const updatedEmployee = new employee({
+    const updatedUser = new allUsers({
       id,   
       name,
       email,
       role,
       password:hashPassword,
     });
-    await updatedEmployee.save();
-    console.log(updatedEmployee);
-    return res.status(201).json({updatedClient, updatedEmployee});
+    await updatedUser.save();
+    console.log(updatedUser);
+    return res.status(201).json({updatedClient, updatedUser});
   } catch (err) {
     return res.status(500).json({ error: err.message });
   }
@@ -148,16 +150,16 @@ const candidateReg = async(req, res) => {
     });
     await newCandidate.save();
     console.log(newCandidate);
-    const updatedEmployee = new employee({
+    const updatedUser = new allUsers({
       id,   
-      name: firstName+lastName,
+      name: firstName+" "+lastName,
       email,
       role: "Candidate",
       password:hashPassword,
     });
-    await updatedEmployee.save();
-    console.log(updatedEmployee);
-    return res.status(201).json({newCandidate, updatedEmployee});
+    await updatedUser.save();
+    console.log(updatedUser);
+    return res.status(201).json({newCandidate, updatedUser});
   } catch (err) {
     return res.status(500).json({ error: err.message });
   }
@@ -208,6 +210,7 @@ const getAllCandidateDetail = async (req, res) => {
 
 const jobPosting = async(req, res) => {
   try{
+    console.log(req.body);
     const newJobDetail = new jobDetail({
       ...req.body,
     });
@@ -253,13 +256,29 @@ const getSkillMatchJobDetail = async(req, res) => {
   }
 }
 
-/* get own posted jobs of client */
-const getOwnPostedjobs = async(req, res) => {
+/* get all posted jobs */
+const getPostedjobs = async(req, res) => {
   try{
-    const id = req.params.clientId;
-    const postedJobs = await jobDetail.find({clientId:id});
+    const postedJobs = await jobDetail.find();
     
     res.status(200).json(postedJobs); 
+  }catch(err) {
+    res.status(500).json({error: err.message})
+  }
+}
+
+/* get own posted jobs  */
+const getOwnPostedjobs = async(req, res) => {
+  try{
+    const id = req.params.postedPersonId;
+    const postedJobsByClient = await jobDetail.find({clientId:id});
+    const postedJobsByRecruiter = await jobDetail.find({recruiterId:id});
+    if(postedJobsByClient.length > 0){
+      res.status(200).json(postedJobsByClient);
+    }
+    if(postedJobsByRecruiter.length > 0){
+      res.status(200).json(postedJobsByRecruiter);
+    }
   }catch(err) {
     res.status(500).json({error: err.message})
   }
@@ -311,12 +330,79 @@ const deleteAppliedJob = async(req, res) => {
     console.log(candidateId, jobId)
     const deleteAppliedJob = await appliedJob.deleteOne({candidateId:candidateId, jobId:jobId});
     
-    res.status(200).json(deleteAppliedJob); 
+    res.status(204).json(deleteAppliedJob); 
   }catch(err) {
     res.status(500).json({error: err.message})
   }
 }
 
+/* creating new recruiter */
+const createRecruiter = async(req, res) => {
+  try {
+    console.log(req.body);
+    const {email, password, id, name, } = req.body; 
+    const employeeAvailable = await employee.findOne({email});
+    if(employeeAvailable){
+      return res.status(404).json({message: "employee already registered"});
+    }
+    const hashPassword = await bcrypt.hash(password, 12);
+    const newEmployee = new employee({
+      ...req.body,
+      role:"Recruiter",
+      password:hashPassword,
+    });
+    await newEmployee.save();
+    console.log(newEmployee);
+    const updatedUser = new allUsers({
+      id,
+      name,
+      email,
+      role:"Recruiter",
+      password:hashPassword,
+    });
+    await updatedUser.save();
+    console.log(updatedUser);
+    return res.status(201).json({newEmployee, updatedUser});
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  } 
+}
+
+/* delete particular job */
+const deleteRecruiter = async(req, res) => {
+  try{
+    const recruiterId = req.params.recruiterId;
+    console.log(recruiterId)
+    const deleteRecruiterFromEmployee = await employee.deleteOne({id:recruiterId});
+    const deleteRecruiterFromAllUsers = await allUsers.deleteOne({id:recruiterId});
+    res.status(204).json({deleteRecruiterFromEmployee, deleteRecruiterFromAllUsers}); 
+  }catch(err) {
+    res.status(500).json({error: err.message})
+  }
+}
+
+/* get all recruiters  */
+const getAllRecruiters = async(req, res) => {
+  try{
+    const allRecruiters = await employee.find({role:"Recruiter"});
+    
+    res.status(200).json(allRecruiters); 
+  }catch(err) {
+    res.status(500).json({error: err.message})
+  }
+}
+
+/* get applied jobs from posted jobs  */
+const getAnIndividualRecruiter = async(req, res) => {
+  try{
+    const id = req.params.recruiterId;
+    const recruiter = await employee.findOne({id:id});
+    
+    res.status(200).json(recruiter); 
+  }catch(err) {
+    res.status(500).json({error: err.message})
+  }
+}
 
 /**
  * @DESC To register the employee
@@ -361,47 +447,47 @@ const employeeSignup = async (req, role, res) => {
 };
 
 /**
- * @DESC To Login the employee 
+ * @DESC To Login the user 
  */
-const employeeLogin = async (req, role, res) => {
+const userLogin = async (req, role, res) => {
   let { email, password } = req;
   console.log(role);
   console.log(email, password);
   // First Check if the name is in the database
-  const Employee = await employee.findOne({ email });
-  console.log(Employee);
-  if (!Employee) {
+  const user = await allUsers.findOne({ email });
+  console.log(user);
+  if (!user) {
     return res.status(404).json({
-      message: "Employee is not found. Invalid login credentials.",
+      message: "User is not found. Invalid login credentials.",
     });
   }
   // We will check the role
-  if (Employee.role !== role) {
+  if (user.role !== role) {
     return res.status(403).json({
       message: "Please make sure you are logging in from the right portal.",
     });
   }
   // That means user is existing and trying to signin fro the right portal
   // Now check for the password
-  let isMatch = await bcrypt.compare(password, Employee.password);
+  let isMatch = await bcrypt.compare(password, user.password);
   if (isMatch) {
     // Sign in the token and issue it to the user
     let token = jwt.sign(
       {
-        id: Employee.id,
-        role: Employee.role,
-        name: Employee.name,
-        email: Employee.email
+        id: user.id,
+        role: user.role,
+        name: user.name,
+        email: user.email
       },
       process.env.APP_SECRET,
       { expiresIn: "3 days" }
     );
 
     let result = {
-      id: Employee.id,
-      name: Employee.name,
-      role: Employee.role,
-      email: Employee.email,
+      id: user.id,
+      name: user.name,
+      role: user.role,
+      email: user.email,
       expiresIn: 168
     };
     // const date = new Date();
@@ -486,8 +572,8 @@ const jwtauth = (req, res, next) => {
 }
 
 module.exports = {
-  checkRole,
-  employeeLogin,
+   checkRole,
+   userLogin,
    employeeSignup,
    jwtauth,
    clientRegister,
@@ -499,9 +585,14 @@ module.exports = {
    getAllCandidateDetail,
    jobPosting,
    getSkillMatchJobDetail,
+   getPostedjobs,
    getOwnPostedjobs,
    applyingjob,
    getAppliedjobs,
    getAppliedOfPostedJobs,
    deleteAppliedJob,
+   createRecruiter,
+   deleteRecruiter,
+   getAllRecruiters,
+   getAnIndividualRecruiter,
 };
