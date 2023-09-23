@@ -6,6 +6,7 @@ import $ from 'jquery';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import NewNav from './NewNav';
+import Footer from './Footer.jsx';
 import NewNavBar from './NewNavBar';
 
 
@@ -82,6 +83,21 @@ const Layout = ({ newNavBarClientRegister, newNavBarClientLogin, newNavBarCandid
           selectHeader.addClass('header-scrolled');
         } else {
           selectHeader.removeClass('header-scrolled');
+        }
+      };
+
+      $(window).on('load', headerScrolled);
+      $(window).on('scroll', headerScrolled);
+    }
+
+    /////////
+    const clientheader = $('#clientheader');
+    if (clientheader.length) {
+      const headerScrolled = () => {
+        if ($(window).scrollTop() > 20) {
+          clientheader.addClass('header-scrolled');
+        } else {
+          clientheader.removeClass('header-scrolled');
         }
       };
 
@@ -229,6 +245,7 @@ const Layout = ({ newNavBarClientRegister, newNavBarClientLogin, newNavBarCandid
         <i class="bi bi-chevron-double-up back-to-top-icon"></i>
       </a>
 
+      {/* <Footer/> */}
     </>
 
   )

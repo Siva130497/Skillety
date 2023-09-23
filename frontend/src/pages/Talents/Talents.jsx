@@ -41,6 +41,9 @@ const Talents = () => {
             slidesPerView: 1,
         },
         991: {
+            slidesPerView: 1,
+        },
+        1200: {
             slidesPerView: 1.5,
         },
     };
@@ -110,18 +113,18 @@ const Talents = () => {
                                                 <div className="row">
                                                     <div className="col-12 col-lg-7" data-aos="fade-left">
                                                         <div className="row">
-                                                            <div className="col-5 col-lg-5 col-md-3">
+                                                            <div className="col-5 col-xl-5 col-lg-6 col-md-3">
                                                                 <h5 className="tal--pro-contact-detail-title">Mobile No:</h5>
                                                             </div>
-                                                            <div className="col-7 col-lg-7 col-md-9">
+                                                            <div className="col-7 col-xl-7 col-lg-6 col-md-9">
                                                                 <h5 id='con_detail1' className="tal--pro-contact-detail blurred">+9100000000</h5>
                                                             </div>
                                                         </div>
                                                         <div className="row">
-                                                            <div className="col-5 col-lg-5 col-md-3">
+                                                            <div className="col-5 col-xl-5 col-lg-6 col-md-3">
                                                                 <h5 className="tal--pro-contact-detail-title">Email Id:</h5>
                                                             </div>
-                                                            <div className="col-7 col-lg-7 col-md-9">
+                                                            <div className="col-7 col-xl-7 col-lg-6 col-md-9">
                                                                 <h5 id='con_detail2' className="tal--pro-contact-detail blurred">test@demoin.com</h5>
                                                             </div>
                                                         </div>

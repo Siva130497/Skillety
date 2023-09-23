@@ -18,7 +18,7 @@ const Contact = () => {
                     <div className='container-fluid container-section'>
                         <div className="about--bg">
                             <div className="row">
-                                <div className="col-12 col-lg-8 col-md-12 about--left-cover">
+                                <div className="col-12 col-xl-8 col-lg-12 col-md-12 about--left-cover">
                                     <div className="breadcrumb--area" data-aos="fade-down">
                                         <div className="breadcrumb--item">
                                             <a href="/">Home</a>
@@ -31,7 +31,7 @@ const Contact = () => {
                                         <h2 data-aos="fade-left">It’s Time to Make Skillety Work for You</h2>
                                     </div>
                                 </div>
-                                <div className="col-12 col-lg-4 col-md-12 about--right-cover">
+                                <div className="col-12 col-lg-4 col-lg-6 offset-lg-6 offset-xl-0 col-md-12 about--right-cover">
                                     <div className="about--card-area">
                                         <div className="card about--card" data-aos="fade-right">
                                             <div className="card--imgicon-area">

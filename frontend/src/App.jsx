@@ -12,6 +12,7 @@ import Testimonial from './pages/Testimonial/Testimonial';
 import TestimonialDetail from './pages/TestimonialDetail/TestimonialDetail';
 import ClientDetail from './pages/ClientDetail/ClientDetail';
 import ClientNewPassword from './pages/ClientNewPassword/ClientNewPassword';
+import ClientSignup from './pages/ClientSignup/ClientSignup';
 import ClientLogin from './pages/ClientLogin/ClientLogin';
 import CandidateRegister from './pages/CandidateRegister/CandidateRegister';
 import ClientDashboard from './pages/ClientDashboard/ClientDashboard';
@@ -38,6 +39,7 @@ function App() {
           <Route path='/pdf' element={<PDFViewer />} />
           {/* <Route path='/live-chat' element={<LiveChat />} /> */}
           <Route path='/client-register' element={<ClientRegister />} />
+          <Route path='/client-signup' element={<ClientSignup />} />
           <Route path='/candiate-register' element={<CandidateRegister />} />
           <Route path='/client-login' element={<ClientLogin />} />
           <Route path='/candidate-login' element={<CandidateLogin />} />

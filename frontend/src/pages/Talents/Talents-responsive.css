@@ -1,3 +1,75 @@
+@media screen and (min-width: 992px) and (max-width: 1024px) {
+    .talents--section {
+        margin-top: 130px;
+    }
+
+    .breadcrumb--area-dark {
+        padding-bottom: 50px;
+    }
+
+    .tal--profile-content-area {
+        padding: 25px 30px 0px 30px;
+    }
+
+    .tal--profile-content-area .tal--profile-title {
+        font-size: 45px;
+    }
+
+    .tal--pro-status-area .tal--pro-rating,
+    .tal--pro-status-area .tal--pro-location,
+    .tal--pro-status-area .tal--pro-join,
+    .tal--pro-status-area .tal--pro-experince {
+        font-size: 18px;
+    }
+
+    .tal--pro-skill-area .tal--pro-skill,
+    .tal--pro-contact-area .tal--pro-contact-title {
+        font-size: 30px;
+    }
+
+    .tal--pro-skill-area .tal--pro-skill-per {
+        font-size: 80px;
+    }
+
+    .tal--pro-desc-area .tal--pro-desc {
+        font-size: 18px;
+    }
+
+    .tal--pro-contact-area .tal--pro-contact-detail-title,
+    .tal--pro-contact-area .tal--pro-contact-detail {
+        font-size: 18px;
+    }
+
+    .tal--pro-view-btn-area .tal--pro-view-btn {
+        font-size: 18px;
+    }
+
+    .tal--pro-btn-area {
+        margin-top: 30px;
+    }
+
+    .talent--more-profile-section .talent--more-profile-title {
+        font-size: 45px;
+    }
+
+    .talent--profile-section {
+        padding-bottom: 70px;
+    }
+
+    .custom--container1 {
+        padding: 0 40px 0 40px;
+    }
+
+    .tal--pro-slider-btn {
+        width: 50px;
+        height: 50px;
+    }
+    .tal--pro-slider-btn svg{
+        width: 20px;
+        height: 20px;
+    }
+}
+
 @media (max-width:991.5px) {
     .custom--container {
         padding: 0 25px;

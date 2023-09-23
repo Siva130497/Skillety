@@ -28,7 +28,7 @@ const Testimonial = () => {
 
                             <div className="testimonial--container">
                                 <div className="row testimonial--row">
-                                    <div className="col-12 col-xl-6 pe-xl-4 mb-md-4 mb-lg-0 mb-xl-0">
+                                    <div className="col-12 col-xl-6 col-lg-12 pe-xl-4 mb-md-4 mb-lg-0 mb-xl-0">
                                         <article className="testimonial--card-lg testi--card-lg" data-aos="zoom-out-right">
                                             <div className="testimonial--profile-area">
                                                 <img src="assets/img/home-images/testi-profile.jpeg" className='testimonial--profile-img testi--img' alt="" />
@@ -49,9 +49,9 @@ const Testimonial = () => {
                                             </a>
                                         </article>
                                     </div>
-                                    <div className="col-12 col-xl-6 ps-xl-4">
+                                    <div className="col-12 col-xl-6 col-lg-12 ps-xl-4">
                                         <div className="row">
-                                            <div className="col-12 col-xl-9 col-lg-6 mt-xl-0 mt-lg-4">
+                                            <div className="col-12 col-xl-9 col-lg-6 mt-xl-0 mt-lg-0">
                                                 <article className='testimonial--card-sm testi--card-sm test--card-bg1 mb-md-4' data-aos="zoom-out-left">
                                                     <div className="testimonial-sm--profile-area">
                                                         <img src="assets/img/home-images/testi-profile.jpeg" className='testimonial--sm-profile-img' alt="" />
@@ -135,7 +135,7 @@ const Testimonial = () => {
                                 <div className="row testimonial--row">
                                     <div className="col-12 col-xl-6 pe-xl-4 mb-md-5 mb-lg-0 mb-xl-0">
                                         <div className="row">
-                                            <div className="col-12 col-xl-9 col-lg-6 mt-xl-0 mt-lg-4">
+                                            <div className="col-12 col-xl-9 col-lg-6 mt-xl-0 mt-lg-0">
                                                 <article className='testimonial--card-sm testi--card-sm test--card-bg1 mb-md-4' data-aos="zoom-out-right">
                                                     <div className="testimonial-sm--profile-area">
                                                         <img src="assets/img/home-images/testi-profile.jpeg" className='testimonial--sm-profile-img' alt="" />
@@ -170,7 +170,7 @@ const Testimonial = () => {
                                         </div>
                                     </div>
 
-                                    <div className="col-12 col-xl-6 ps-xl-4 mt-4 mt-md-0">
+                                    <div className="col-12 col-xl-6 ps-xl-4 mt-4 mt-md-0 mt-lg-5 mt-xl-0">
                                         <article className="testimonial--card-lg testi--card-lg" data-aos="zoom-out-left">
                                             <div className="testimonial--profile-area">
                                                 <img src="assets/img/home-images/testi-profile.jpeg" className='testimonial--profile-img testi--img' alt="" />
@@ -217,7 +217,7 @@ const Testimonial = () => {
                                     </div>
                                     <div className="col-12 col-xl-6 ps-xl-4">
                                         <div className="row">
-                                            <div className="col-12 col-xl-9 col-lg-6 mt-xl-0 mt-lg-4" data-aos="zoom-out-left">
+                                            <div className="col-12 col-xl-9 col-lg-6 mt-xl-0 mt-lg-0" data-aos="zoom-out-left">
                                                 <article className='testimonial--card-sm testi--card-sm test--card-bg1 mb-md-4'>
                                                     <div className="testimonial-sm--profile-area">
                                                         <img src="assets/img/home-images/testi-profile.jpeg" className='testimonial--sm-profile-img' alt="" />

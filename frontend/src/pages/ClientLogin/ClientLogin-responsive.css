@@ -1,0 +1,43 @@
+@media screen and (min-width: 992px) and (max-width: 1024px) {
+    .cli--signup-form-area.cli--login-form-area {
+        padding: 80px 30px 0px 0;
+    }
+    .cli--signup-img-area .cli--signup-img.cli--login-img{
+        height: 780px;
+    }
+}
+
+@media (max-width:991.5px) {
+    .cli--signup-form-area.cli--login-form-area {
+        padding: 60px 50px;
+    }
+}
+
+@media (max-width:500px) {
+    .cli--signup-form-area.cli--login-form-area {
+        padding: 40px 10px;
+    }
+
+    .cli--login-remember-checkmark {
+        width: 23px;
+        height: 23px;
+        margin-right: 10px;
+    }
+
+    .cli--login-remember-checkbox input[type="checkbox"]:checked~.cli--login-remember-checkmark:after {
+        top: 3.2px;
+        left: 7.5px;
+        width: 6px;
+        height: 12px;
+    }
+
+    .cli--login-remember-checkbox,
+    .cli--login-forgot-area .cli--login-forgot {
+        font-size: 15px;
+    }
+
+    .cli--login-no-account-area .cli--login-no-account,
+    .cli--login-no-account-area .cli--login-no-account-signup {
+        font-size: 16px;
+    }
+}
