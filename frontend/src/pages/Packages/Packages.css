@@ -32,7 +32,7 @@
 
 .plan--purchase-track-area {
     margin-top: 87px;
-    margin-bottom: 120px;
+    margin-bottom: 20px;
     position: relative;
     display: flex;
     align-items: center;
@@ -82,7 +82,7 @@
     top: 95px;
     z-index: 3;
     white-space: nowrap;
-    
+
 }
 
 .plan--purchase-track-area .pl--track-line {
@@ -129,6 +129,199 @@
     flex-shrink: 0;
     z-index: 2;
 }
-.packages--area{
-    margin-top: 35px;
+
+.packages--area {
+    margin-top: 170px;
+    margin-bottom: 120px;
 }
+
+.pl--package-title-area {
+    text-align: left;
+    position: relative;
+}
+
+.pl--package-title-area .pl--package-img-hidden {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    visibility: hidden;
+}
+
+.pl--package-title-area .pl--package-name-hidden {
+    margin-top: 54px;
+    color: #714F36;
+    font-size: 32px;
+    font-weight: 600;
+    line-height: normal;
+    visibility: hidden;
+}
+
+.pl--package-title-area .pl--package-title {
+    color: #714F36;
+    font-size: 24px;
+    font-weight: 500;
+    margin-top: 54px;
+}
+
+.pl--package-detail-area {
+    position: relative;
+    text-align: center;
+}
+
+.pl--package-detail-area .pl--package-img {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    text-align: center;
+    transition: ease-in-out 0.5s;
+}
+
+.pl--package-detail-area .pl--package-name {
+    margin-top: 54px;
+    color: #714F36;
+    font-size: 32px;
+    font-weight: 600;
+    line-height: normal;
+    text-align: center;
+}
+
+.pl--package-detail-area .pl--package-info {
+    margin-top: 54px;
+    color: #714F36;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 500;
+}
+
+.pl--package-btn-area {
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pl--package-btn-sub {
+    outline: none !important;
+    border: none;
+    background-color: transparent !important;
+    overflow: hidden;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    transition: ease-in-out 0.5s;
+    position: relative;
+}
+
+.pl--package-btn {
+    border-radius: 48px;
+    background-color: #714F36;
+    padding: 13px 45px;
+    color: #FFF;
+    font-size: 24px;
+    font-weight: 500;
+    position: relative;
+    z-index: 1;
+    background-repeat: no-repeat;
+    overflow: hidden !important;
+    transition: ease-in-out 0.5s;
+}
+
+.pl--package-btn::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    transition: 0.8s ease-in-out;
+    background-color: #F9C833;
+    border-radius: 30px;
+    visibility: hidden;
+    height: 10px;
+    width: 10px;
+    z-index: -1;
+}
+
+.pl--package-btn:hover::after {
+    visibility: visible;
+    transform: scale(50) translateX(2px);
+}
+
+.pl--package-btn:hover {
+    color: #714F36 !important;
+}
+
+.pl--package-btn-sub:hover svg {
+    transform: rotate(45deg);
+}
+
+.pl--package-btn-sub:hover .pl--package-arrow-area.prev svg {
+    transform: rotate(225deg);
+}
+
+.pl--package-arrow-area {
+    border-radius: 50%;
+    background-color: #714F36;
+    padding: 17px;
+    transition: ease-in-out 0.8s;
+    position: relative;
+}
+
+.pl--package-arrow-area:hover {
+    background-color: #F9C833;
+}
+
+.pl--package-arrow-area:hover svg path {
+    stroke: #714F36;
+}
+
+.pl--package-arrow-area.prev svg {
+    transform: rotate(270deg);
+}
+
+.pl--package-arrow-area svg,
+.pl--package-arrow-area svg path,
+.pl--package-arrow-area.prev svg,
+.pl--package-arrow-area.prev svg path {
+    transition: ease-in-out 0.8s;
+}
+
+.packages--area .pl--package-desc {
+    margin-top: 90px;
+    color: #5C3B2E;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.tab {
+    overflow: hidden;
+    transition: display 0.5s ease-in-out;
+    display: none;
+}
+
+.active-tab {
+    display: block !important;
+}
+
+.pl--package-mobile-flex .pl--package-mobile-title {
+    display: none;
+}
+
+.pl--package-info-area {
+    padding: 40px 0;
+    border-radius: 48px;
+    transition: ease-in-out 0.5s;
+}
+
+.pl--package-head-area {
+    padding: 40px 0;
+}
+
+.pl--package-info-area:hover {
+    background-color: #F9C833;
+    transform: translateY(5px);
+}
+.hovered{
+    background-color: #F9C833 !important;
+}
+/* .pl--package-btn-area:hover+.pl--package-info-area {
+} */

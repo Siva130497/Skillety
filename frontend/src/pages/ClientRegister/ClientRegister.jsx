@@ -205,7 +205,7 @@ const ClientRegister = () => {
         // </>
 
         <div>
-            <Layout newNavBarClientRegister = {true}/>
+            <Layout/>
             <div className='client-register-section'>
                 <div className='container-fluid'>
                     <div className='container-fluid container-section'>

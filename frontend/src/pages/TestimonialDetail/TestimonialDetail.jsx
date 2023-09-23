@@ -157,7 +157,7 @@ const TestimonialDetail = () => {
                                         <div className="row">
                                             <div className="col-12 col-xl-6 pe-xl-4 mb-md-5 mb-lg-0 mb-xl-0">
                                                 <div className="row">
-                                                    <div className="col-12 col-xl-9 col-lg-6 mt-xl-0 mt-lg-4">
+                                                    <div className="col-12 col-xl-9 col-lg-6 mt-xl-0 mt-lg-0">
                                                         <article className='testimonial--card-sm testi--card-sm test--card-bg1 mb-md-4' data-aos="zoom-out-right">
                                                             <div className="testimonial-sm--profile-area">
                                                                 <img src="assets/img/home-images/testi-profile.jpeg" className='testimonial--sm-profile-img' alt="" />
@@ -192,7 +192,7 @@ const TestimonialDetail = () => {
                                                 </div>
                                             </div>
 
-                                            <div className="col-12 col-xl-6 ps-xl-4 mt-4 mt-md-0">
+                                            <div className="col-12 col-xl-6 ps-xl-4 mt-4 mt-md-0 mt-xl-0 mt-lg-5">
                                                 <article className="testimonial--card-lg testi--card-lg" data-aos="zoom-out-left">
                                                     <div className="testimonial--profile-area">
                                                         <img src="assets/img/home-images/testi-profile.jpeg" className='testimonial--profile-img testi--img' alt="" />

@@ -1,3 +1,39 @@
+@media screen and (min-width: 992px) and (max-width: 1024px) {
+    .testimonial-detail-section {
+        margin-top: 130px;
+    }
+
+    .test--det-card {
+        padding: 30px 40px;
+    }
+
+    .test-det-card-pro-name-area .test-det-card-pro-name {
+        font-size: 30px;
+    }
+
+    .test-det-card-pro-name-area .test-det-card-pro-position,
+    .test--det-card-desc-area .test--det-card-desc {
+        font-size: 20px;
+    }
+
+    .test--det-card-desc-area {
+        margin-top: 50px;
+    }
+
+    .test--more-det-area .test--more-det-heading {
+        font-size: 45px;
+    }
+
+    .test--more-det-area {
+        margin-top: 60px;
+        margin-bottom: 100px;
+    }
+    .more--test-card-area{
+        margin-top: 60px;
+    }
+
+}
+
 @media (max-width:991.5px) {
     .testimonial--detail-container {
         padding-top: 0;
@@ -9,9 +45,10 @@
 }
 
 @media (max-width:500px) {
-    .testimonial-detail-section{
+    .testimonial-detail-section {
         margin-top: 100px;
     }
+
     .test--det-slider-btn-area {
         justify-content: center;
         margin-top: 40px;
@@ -22,36 +59,43 @@
         padding: 30px 25px 25px 25px;
     }
 
-    .test--det-card-top-area{
+    .test--det-card-top-area {
         flex-direction: column;
         gap: 0px;
         text-align: center;
     }
-    .test-det-card-pro-name-area .test-det-card-pro-name{
+
+    .test-det-card-pro-name-area .test-det-card-pro-name {
         font-size: 30px;
         font-weight: 500;
     }
-    .test-det-card-pro-name-area .test-det-card-pro-position{
+
+    .test-det-card-pro-name-area .test-det-card-pro-position {
         font-size: 20px;
         margin-top: 20px;
         font-weight: 500;
     }
-    .test--det-card-desc-area{
+
+    .test--det-card-desc-area {
         margin-top: 30px;
         padding-right: 0;
     }
-    .test--det-card-desc-area .test--det-card-desc{
+
+    .test--det-card-desc-area .test--det-card-desc {
         font-size: 18px;
         text-align: center;
     }
-    .test--more-det-area{
+
+    .test--more-det-area {
         margin-top: 50px;
         margin-bottom: 50px;
     }
-    .test--more-det-area .test--more-det-heading{
+
+    .test--more-det-area .test--more-det-heading {
         font-size: 30px;
     }
-    .more--test-card-area{
+
+    .more--test-card-area {
         margin-top: 50px;
     }
 }

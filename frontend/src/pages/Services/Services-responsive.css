@@ -1,3 +1,52 @@
+@media screen and (min-width: 992px) and (max-width: 1024px) {
+    .services--head h2{
+        font-size: 60px;
+    }
+    .service-bg{
+        margin-bottom: 80px;
+    }
+    .ser--content-section .ser--content-heading{
+        font-size: 45px;
+    }
+    .ser--cont-area-right {
+        text-align: left;
+        padding: 25px 0 50px 25px;
+    }
+    .ser--cont-title{
+        font-size: 20px;
+    }
+    .ser--cont-list-area{
+        margin-top: 40px;
+    }
+    .ser--cont-list-area .ser--cont-list-item{
+        font-size: 18px;
+    }
+    .ser--content-section {
+        padding: 0px 36px 100px 36px;
+    }
+    .ser--cont-img-area.img--1 {
+        background-position: right;
+    }
+    .ser--cont-img-area.img--2 {
+        background-position: left;
+    }
+    .ser--cont-img-area.img--5 {
+        background-position: right;
+    }
+    .ser--more-btn-area{
+        padding: 0 0 100px 0;
+    }
+    .ser--more-btn-area .ser--more-btn {
+        font-size: 30px;
+    }
+    .ser--cont-btn{
+        font-size: 20px;
+    }
+    .ser--cont-arrow-area{
+        padding: 17px;
+    }
+}
+
 @media (max-width:991.5px) {
     .service-bg {
         margin-bottom: 0;
