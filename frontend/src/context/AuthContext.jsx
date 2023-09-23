@@ -6,7 +6,6 @@ const AuthContext = createContext();
 export const AuthContextProvider = ({children}) => {
     
     const [jobPosted, setJobPosted] = useState(false);
-    const [dashBoard, setDashBoard] = useState(false);
     const [employeeId, setEmployeeId] = useState("");
     const [appliedJobStatus, setAppliedJobStatus] = useState(false);
     const [recruiterCreatedStatus, setRecruiterCreatedStatus] = useState(false);
@@ -47,7 +46,6 @@ export const AuthContextProvider = ({children}) => {
             if (!result.error) {
                 console.log(result);
                 // localStorage.setItem("clientToken", result.accessToken);
-                setDashBoard(true);
                 setEmployeeId(result.id);
             } else {
                 console.log(result);
@@ -180,7 +178,7 @@ export const AuthContextProvider = ({children}) => {
     };
     
 
-    return<AuthContext.Provider value={{registerUser, candidateReg, postOtherSkills, postOtherDesignation, jobPosting, jobPosted, setJobPosted, dashBoard, employeeId, applyingjob, appliedJobStatus, setAppliedJobStatus, createRecruiter, setRecruiterCreatedStatus, recruiterCreatedStatus, loginUser}}>
+    return<AuthContext.Provider value={{registerUser, candidateReg, postOtherSkills, postOtherDesignation, jobPosting, jobPosted, setJobPosted, employeeId, applyingjob, appliedJobStatus, setAppliedJobStatus, createRecruiter, setRecruiterCreatedStatus, recruiterCreatedStatus, loginUser}}>
             {children}
         </AuthContext.Provider>
 }

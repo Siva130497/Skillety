@@ -3,6 +3,7 @@ import{Link} from "react-router-dom";
 import AuthContext from '../../context/AuthContext';
 import CandidateDashboard from '../CandidateDashboard/CandidateDashboard';
 import Layout from '../../components/Layout';
+import { Footer } from '../../components/Footer';
 
 const CandidateLogin = () => {
     const {loginUser, dashBoard} = useContext(AuthContext)
@@ -22,11 +23,9 @@ const CandidateLogin = () => {
 
     }
     return (
-        <>
-            <Layout newNavBarCandidateLogin = {true} />
-            <div className='container-fluid'>
-            {dashBoard ? <CandidateDashboard /> :
-                <>
+                <div>
+                    <Layout newNavBarCandidateLogin = {true} />
+                    <div className='container-fluid'>
                     <h3>Login</h3>
 
                     <form onSubmit={handleSubmit}>
@@ -69,12 +68,9 @@ const CandidateLogin = () => {
                     </p>
 
                     </form>
-                </>
-            }
-            </div>
-            
-            
-        </>
+                    </div>
+                    <Footer noFooter={true}/>
+                </div>
     )
 }
 

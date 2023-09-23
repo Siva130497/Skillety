@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 import AuthContext from '../../context/AuthContext';
 import ClientLogin from '../ClientLogin/ClientLogin';
 import Layout from '../../components/Layout';
+import { Footer } from '../../components/Footer';
 
 const ClientDashboard = () => {
     const {
@@ -365,15 +366,12 @@ const ClientDashboard = () => {
 
     return (
         <div>
-          
-          
-          {employeeId ? <>
-            <Layout/>
+            <Layout candidateHome={true}/>
             <div className='container-fluid'>
             <h1>Dash Board</h1>
             <hr className="my-4" />
             {candidateDetail.length === 0 ? <h3>No Candidate Yet</h3> 
-            :<>
+            :<div>
                 <p>Total Candidates: <strong>{candidateDetail.length}</strong></p>
                 <select 
                   className="form-select" 
@@ -407,17 +405,17 @@ const ClientDashboard = () => {
                           <tr key={candidate.id}>
                               <th scope="row" onClick={()=>viewCandidateDetail(candidate.id)}>{candidate.firstName + ' ' + candidate.lastName}</th>
                               <td>{dayDifference}</td>
-                              {nameOfAppliedJobs.length > 0 ? <td>{nameOfAppliedJobs.join(', ')}</td> : <td>still not applied for any jobs</td>}
+                              {nameOfAppliedJobs.length > 0 ? <td>{nameOfAppliedJobs.join(', ')}</td> : <td>still not applied for your posted jobs</td>}
                           </tr>
                       );
                     })}
                   </tbody>
               </table>
                 }
-            </>}
+            </div>}
              <br></br>
              {viewCandidateDetailStatus && filteredCandidates.length > 0 &&
-              <>
+              <div>
                 <h4>Candidate Details</h4>
                 <div>Full Name: {selectedCandidateArray.firstName + ' ' + selectedCandidateArray.lastName}</div>
                 <div>Email: {selectedCandidateArray.email}</div>
@@ -431,11 +429,11 @@ const ClientDashboard = () => {
                 <div>Location: {selectedCandidateArray.location}</div>
                 <div>About him/her: {selectedCandidateArray.profileHeadline}</div>
                 <div>Last Working Day: {selectedCandidateArray.selectedDate}</div>
-              </>
+              </div>
              }
              <br></br>
              {postedJobs.length > 0 &&
-             <>
+             <div>
               <h3>Posted Jobs</h3>
               <table className="table table-hover my-3">
                 <thead>
@@ -456,10 +454,10 @@ const ClientDashboard = () => {
                   })}
                 </tbody>
               </table>
-             </>}
+             </div>}
              <br></br>
              {viewPostedJobStatus && postedJobs.length > 0 &&
-                <>
+                <div>
                   <h4>Job Details</h4>
                   <div>Job Role: {selectedPostedJobViewDetail.jobRole[0]}</div>
                   <div>Job Category: {selectedPostedJobViewDetail.jobCategory}</div>
@@ -469,7 +467,7 @@ const ClientDashboard = () => {
                   }
                   <div>Job Description: {selectedPostedJobViewDetail.jobDescription}</div>
                   <div>Needed Experience:{selectedPostedJobViewDetail.year} years and {selectedPostedJobViewDetail.month} months</div>
-                </>
+                </div>
              }
              <br></br>
              <h3>Job Posting</h3>
@@ -659,11 +657,7 @@ const ClientDashboard = () => {
                <input type='submit' value="Post" className='btn btn-primary my-3' />
              </form>
             </div>
-            
-          </> : <ClientLogin />}
-          
-          
-            
+            <Footer/>
         </div>
     );
 };

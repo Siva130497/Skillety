@@ -4,6 +4,7 @@ import $ from 'jquery';
 import './Testimonial.css'
 import './Testimonial-responsive.css'
 import Layout from '../../components/Layout';
+import { Footer } from '../../components/Footer';
 
 const Testimonial = () => {
     useEffect(() => {
@@ -11,7 +12,7 @@ const Testimonial = () => {
     }, []);
 
     return (
-        <>
+        <div>
             <Layout />
             <div className='testimonial--section'>
                 <div className='container-fluid'>
@@ -259,7 +260,8 @@ const Testimonial = () => {
                     </div>
                 </div>
             </div>
-        </>
+            <Footer/>
+        </div>
     )
 }
 export default Testimonial;

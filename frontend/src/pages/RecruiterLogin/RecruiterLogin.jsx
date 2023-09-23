@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react'
 import AuthContext from '../../context/AuthContext';
 import Layout from '../../components/Layout';
 import RecruiterDashboard from '../RecruiterDashboard/RecruiterDashboard';
+import { Footer } from '../../components/Footer';
 
 const RecruiterLogin = () => {
     const {loginUser, dashBoard} = useContext(AuthContext)
@@ -21,11 +22,9 @@ const RecruiterLogin = () => {
 
     }
     return (
-        <>
-            <Layout newNavBarRecruiterLogin = {true} />
-            <div className='container-fluid'>
-            {dashBoard ? <RecruiterDashboard /> :
-                <>
+                <div>
+                    <Layout newNavBarRecruiterLogin = {true} />
+                    <div className='container-fluid'>
                     <h3>Login</h3>
 
                     <form onSubmit={handleSubmit}>
@@ -64,12 +63,9 @@ const RecruiterLogin = () => {
                     </div>
                     <input type='submit' value="Login" className='btn btn-primary my-3' />
                     </form>
-                </>
-            }
-            </div>
-            
-            
-        </>
+                    </div>
+                    <Footer noFooter={true}/>
+                </div>
     )
 }
 

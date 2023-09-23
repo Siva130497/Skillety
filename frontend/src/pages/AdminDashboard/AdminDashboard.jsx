@@ -5,6 +5,7 @@ import AdminLogin from '../AdminLogin/AdminLogin';
 import Layout from '../../components/Layout';
 import { v4 as uuidv4} from "uuid";
 import axios from 'axios';
+import { Footer } from '../../components/Footer';
 
 const AdminDashboard = () => {
   const {createRecruiter, setRecruiterCreatedStatus, recruiterCreatedStatus, employeeId} = useContext(AuthContext);
@@ -90,14 +91,13 @@ const AdminDashboard = () => {
   }
 
   return (
-    <>
-      {employeeId ? <>
+      <div>
         <Layout/>
         <div className='container-fluid'>
           <h1>Dash board</h1>
           <br></br>
           {allRecruiters.length > 0 &&
-             <>
+             <div>
               <h3>Created company staffs</h3>
               <table className="table table-hover my-3">
                 <thead>
@@ -119,15 +119,15 @@ const AdminDashboard = () => {
                   })}
                 </tbody>
               </table>
-             </>}
+             </div>}
              <br></br>
              {viewRecruiterDetailStatus && allRecruiters.length > 0 &&
-                <>
+                <div>
                   <h4>Company staff Details</h4>
                   <div>Staff name: {selectedRecruiterViewDetail.name}</div>
                   <div>Staff email: {selectedRecruiterViewDetail.email}</div>
                   <div>Staff type: {selectedRecruiterViewDetail.companyStaff}</div>
-                </>
+                </div>
              }
           <br></br>
           <h4>Creating A Company Staff</h4>
@@ -191,8 +191,8 @@ const AdminDashboard = () => {
             <input type='submit' value="Create" className='btn btn-primary my-3' />
           </form>
         </div>
-      </>:<AdminLogin/>}
-    </>
+        <Footer/>
+      </div>
   )
 }
 

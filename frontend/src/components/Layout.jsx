@@ -7,9 +7,10 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import NewNav from './NewNav';
 import NewNavBar from './NewNavBar';
+import { NewNavCandidateHome } from './NewNavCandidateHome';
 
 
-const Layout = ({ newNavBarClientRegister, newNavBarClientLogin, newNavBarCandidateLogin, newNavBarCandidateRegister, newNavBarAdminLogin, newNavBarRecruiterLogin }) => {
+const Layout = ({ newNavBarClientRegister, newNavBarClientLogin, newNavBarCandidateLogin, newNavBarCandidateRegister, newNavBarAdminLogin, newNavBarRecruiterLogin, candidateHome }) => {
   useEffect(() => {
     ///////////
     const select = (el, all = false) => {
@@ -218,16 +219,10 @@ const Layout = ({ newNavBarClientRegister, newNavBarClientLogin, newNavBarCandid
   }, []);
 
   return (
-    <>
+    <div>
 
-      {newNavBarClientRegister ? <NewNavBar clientLogin = {true} />: newNavBarClientLogin ? <NewNavBar clientRegister = {true} />: newNavBarCandidateLogin ? <NewNavBar candidateRegister = {true} /> : newNavBarAdminLogin ? <NewNavBar /> : newNavBarRecruiterLogin ? <NewNavBar /> : newNavBarCandidateRegister ? <NewNavBar candidateLogin ={true}/> : <NewNav />}
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-
+      {newNavBarClientRegister ? <NewNavBar clientLogin = {true} />: newNavBarClientLogin ? <NewNavBar clientRegister = {true} />: newNavBarCandidateLogin ? <NewNavBar candidateRegister = {true} /> : newNavBarAdminLogin ? <NewNavBar /> : newNavBarRecruiterLogin ? <NewNavBar /> : newNavBarCandidateRegister ? <NewNavBar candidateLogin ={true}/> : candidateHome ? <NewNavCandidateHome/> : <NewNav/>}
+      
       {/* <div className='container-fluid'>{children}</div> */}
       {/* <div id="preloader"></div> */}
       <div class="mouseCursor cursor-outer"></div>
@@ -236,8 +231,15 @@ const Layout = ({ newNavBarClientRegister, newNavBarClientLogin, newNavBarCandid
       <a href="#" class="back-to-top d-flex align-items-center justify-content-center">
         <i class="bi bi-chevron-double-up back-to-top-icon"></i>
       </a>
-
-    </>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+    </div>
 
   )
 }

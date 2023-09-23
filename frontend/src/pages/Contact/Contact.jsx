@@ -4,6 +4,7 @@ import $ from 'jquery';
 import './Contact.css'
 import './Contact-responsive.css'
 import Layout from '../../components/Layout';
+import { Footer } from '../../components/Footer';
 
 const Contact = () => {
     useEffect(() => {
@@ -11,7 +12,7 @@ const Contact = () => {
     }, []);
 
     return (
-        <>
+        <div>
             <Layout />
             <div>
                 <div className='container-fluid contact--section'>
@@ -185,7 +186,8 @@ const Contact = () => {
                     </div>
                 </div>
             </div>
-        </>
+            <Footer/>
+        </div>
 
 
     )

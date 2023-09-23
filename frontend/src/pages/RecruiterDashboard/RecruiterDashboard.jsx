@@ -11,6 +11,7 @@ import FinancePage from '../FinancePage/FinancePage';
 import CustomerSupportExecutivePage from '../CustomerSupportExecutivePage/CustomerSupportExecutivePage';
 import DigitalMarketingTeamPage from '../DigitalMarketingTeamPage/DigitalMarketingTeamPage';
 import RMGPage from '../RMGPage/RMGPage';
+import { Footer } from '../../components/Footer';
 
 const RecruiterDashboard = () => {
   const {
@@ -23,11 +24,18 @@ const RecruiterDashboard = () => {
   } = useContext(AuthContext);
 
   const [dashBoard, setDashBoard] = useState(true);
+  const [allCandidateMode, setAllCandidateMode] = useState(false);
   const [allJobMode, setAllJobMode] = useState(false);
   const [postedJobMode, setPostedJobMode] = useState(false);
   const [jobPostingMode, setJobPostingMode] = useState(false);
   const [staff, setStaff] = useState("");
+  const [candidateDetail, setCandidateDetail] = useState([]);
+  const [viewCandidateDetailStatus, setViewCandidateDetailStatus] = useState(false);
+  const [selectedCandidateArray, setSelectedCandidateArray] = useState([]);
+  const [filteredCandidates, setFilteredCandidates] = useState([]);
+  const [filteredMsg, setFilteredMsg] = useState("")
   const [postedJobs, setPostedJobs] = useState([]);
+  const [appliedOfPostedJobs, setAppliedOfPostedJobs] =useState([]);
   const [allJobs, setAllJobs] = useState([]);
   const [viewPostedJobStatus, setViewPostedJobStatus] = useState(false);
   const [viewJobStatus, setViewJobStatus] = useState(false);
@@ -137,13 +145,79 @@ const RecruiterDashboard = () => {
     }
   }
 
+  const getAllCandidateDetail = async () => {
+    try{
+        const response = await axios.get('http://localhost:5002/candidate-Detail');
+        const result = response.data;
+        if (!result.error) {
+            console.log(result);
+            setCandidateDetail(result);
+        } else {
+            console.log(result);
+        }
+    } catch (error) {
+        console.log(error);
+    }
+  };
+
+  const getAppliedOfPostedJobs = async() => {
+    try{
+        const res = await axios.get(`http://localhost:5002/applied-jobs-of-posted/${employeeId}`);
+        const result = res.data;
+        if (!result.error) {
+          console.log(result);
+          setAppliedOfPostedJobs(result);
+        } else {
+          console.log(result);
+        }
+    }catch(err){
+      console.log(err);
+    }
+  }
+
+  const handleApiCall = () => {
+    const accessToken = 'CJT85DoAcFM22rKrrQdrGkdWvWNUY_Xf';
+    const key = 'OSCfJPqV1E_PNd3mX0zL9NIg5vkjMTMs5XfQ';
+    const encodedCredentials = btoa(`${accessToken}:${key}`);
+  
+    const interviewCandidateName = selectedCandidateArray.firstName + ' ' + selectedCandidateArray.lastName;
+    const interviewCandidateEmail = selectedCandidateArray.email;
+    const interviewCandidatePhoneNo = selectedCandidateArray.phone;
+    
+    const data = JSON.stringify({
+      candidates: [
+        {
+          name: interviewCandidateName,
+          email: interviewCandidateEmail,
+          phoneNo: "0"+interviewCandidatePhoneNo,
+        },
+      ],
+      hiringRoleId: 4427,
+      roundName: "Hands-On",
+    });
+
+    const config = {
+      method: "post",
+      url: "/external-interviews/request",
+      headers: {
+        Authorization: `Basic ${encodedCredentials}`,
+        "Content-Type": "application/json",
+      },
+      data: data,
+    };
+  
+    axios(config)
+      .then(function (response) {
+        console.log(JSON.stringify(response.data));
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
   useEffect(()=>{
     if(employeeId){
       getAnIndividualRecruiter();
-      getAllJobRoles();
-      getAllSkills();
-      getOwnPostedjobs();
-      getPostedjobs();
     }
   }, [employeeId]);
 
@@ -161,6 +235,47 @@ const RecruiterDashboard = () => {
       getPostedjobs();
     }
   }, [jobPosted]);
+
+  const viewCandidateDetail = (id) => {
+    setViewCandidateDetailStatus(preViewCandidateStatus => !preViewCandidateStatus);
+    const selectedCandidate = candidateDetail.find(filteredCandidate => filteredCandidate.id === id);
+    setSelectedCandidateArray(selectedCandidate);
+  }
+  
+  const handleInputChange = (event) => {
+    const { value } = event.target;
+    if(value === ""){
+      
+    }
+    const filteredArray = candidateDetail.filter(obj => {
+      setFilteredMsg("");
+      if (obj.dayDifference !== undefined) {
+        const dayDifference = obj.dayDifference - 8;
+        if (value === "7") {
+          return dayDifference > 0 && dayDifference <= 7;
+        } else if (value === "15") {
+          return dayDifference > 7 && dayDifference <= 15;
+        } else if (value === "30") {
+          return dayDifference > 15 && dayDifference <= 30;
+        } else if (value === "moreThan30") {
+          return dayDifference > 30;
+        } else if (value === "imediateJoiner") {
+          return dayDifference === 0;
+        }
+      } else {
+        if (value === "imediateJoiner") {
+          return true; 
+        }
+      }
+      return false;
+    });
+    if(filteredArray.length >0){
+      setFilteredCandidates(filteredArray);
+    }else{
+      setFilteredCandidates([]);
+      setFilteredMsg("No candidates available")
+    }
+  };
 
   const handleViewPosetedJobDetail = (id) => {
     setViewPostedJobStatus(preViewPostedJobStatus=>!preViewPostedJobStatus);
@@ -348,46 +463,154 @@ const RecruiterDashboard = () => {
   };
 
   return (
-    <>
-      {employeeId ? <>
+    <div>
         <Layout/>
         <div className='container-fluid' style={{display: 'flex'}}>
-          <div style={{flex:5.5}}>
+          <div style={{flex:2}}>
             <ul>
-              <li><button onClick={()=>{
+              <li style={{listStyleType:'none'}}><button onClick={()=>{
                 setDashBoard(true);
+                setAllCandidateMode(false);
                 setAllJobMode(false);
                 setPostedJobMode(false);
                 setJobPostingMode(false);
               }}>Dash board</button></li>
-              <li><button onClick={()=>{
+              <li style={{listStyleType:'none'}}><button onClick={()=>{
+                getAllCandidateDetail();
                 setDashBoard(false);
+                setAllCandidateMode(true);
+                setAllJobMode(false);
+                setPostedJobMode(false);
+                setJobPostingMode(false);
+              }}>All Candidates</button></li>
+              <li style={{listStyleType:'none'}}><button onClick={()=>{
+                getPostedjobs();
+                setDashBoard(false);
+                setAllCandidateMode(false);
                 setAllJobMode(true);
                 setPostedJobMode(false);
                 setJobPostingMode(false);
               }}>All Jobs</button></li>
-              <li><button onClick={()=>{
+              <li style={{listStyleType:'none'}}><button onClick={()=>{
+                getOwnPostedjobs();
+                getAppliedOfPostedJobs();
                 setDashBoard(false);
+                setAllCandidateMode(false);
                 setAllJobMode(false);
                 setPostedJobMode(true);
                 setJobPostingMode(false);
               }}>Posted Jobs</button></li>
-              <li><button onClick={()=>{
+              <li style={{listStyleType:'none'}}><button onClick={()=>{
+                getAllJobRoles();
+                getAllSkills();
                 setDashBoard(false);
+                setAllCandidateMode(false);
                 setAllJobMode(false);
                 setPostedJobMode(false);
                 setJobPostingMode(true);
               }}>Job Posting</button></li>
             </ul>
           </div>
-          <div style={{flex:6}}>
-            {dashBoard && <>
+          <div style={{flex:10}}>
+            {dashBoard && <div>
             <h1>Dash Board</h1>
               {staff === "HR" ? <HRPage/> : staff === "Operator" ? <OperatorPage/> : staff === "Finance" ? <FinancePage/> : staff === "Customer support executive" ? <CustomerSupportExecutivePage/> : staff === "digitalmarketing team" ? <DigitalMarketingTeamPage/> : <RMGPage/>}
-            </>}
+            </div>}
+            {allCandidateMode &&
+              <div>
+                { candidateDetail.length > 0 ?
+                  <div>
+                  <p>Total Candidates: <strong>{candidateDetail.length}</strong></p>
+                  {/* <select 
+                  className="form-select" 
+                  onChange={handleInputChange}
+                  >
+                  <option value="">Select available candidates.</option>
+                  <option value="imediateJoiner">Imediate joiners</option>
+                  <option value="7">0 to 7 days</option>
+                  <option value="15">8 to 15 days</option>
+                  <option value="30">16 to 30 days</option>
+                  <option value="moreThan30">More than 30 days</option>
+                  </select> */}
+                  {filteredCandidates.length === 0 &&
+                    <div>
+                      {filteredMsg ? <p>{filteredMsg}</p> : 
+                      <div>
+                      <table className="table table-hover my-3">
+                      <thead>
+                      <tr className='table-dark'>
+                          <th scope="col">Full Name</th>
+                          <th scope="col">Applied Jobs</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      {candidateDetail.map((candidate) => {
+                        const nameOfAppliedJobs = appliedOfPostedJobs
+                        .filter((appliedOfPostedJob) => appliedOfPostedJob.candidateId === candidate.id)
+                        .map((appliedOfPostedJob) => appliedOfPostedJob.jobRole[0]);
+                        return (
+                            <tr key={candidate.id}>
+                                <th scope="row" onClick={()=>viewCandidateDetail(candidate.id)}>{candidate.firstName + ' ' + candidate.lastName}</th>
+                                {nameOfAppliedJobs.length > 0 ? <td>{nameOfAppliedJobs.join(', ')}</td> : <td>still not applied for your posted jobs</td>}
+                            </tr>
+                        );
+                      })}
+                      </tbody>
+                      </table>
+                    </div>
+                    }
+                    </div>
+                  }
+                  {/* {filteredCandidates.length > 0 &&
+                    <div>
+                      <table className="table table-hover my-3">
+                      <thead>
+                      <tr className='table-dark'>
+                          <th scope="col">Full Name</th>
+                          <th scope="col">Available in.. (Days)</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      {filteredCandidates.map((candidate) => {
+                        const dayDifference = candidate.dayDifference !== undefined
+                            ? candidate.dayDifference - 8
+                            : 0;
+                        return (
+                            <tr key={candidate.id}>
+                                <th scope="row" onClick={()=>viewCandidateDetail(candidate.id)}>{candidate.firstName + ' ' + candidate.lastName}</th>
+                                <td>{dayDifference}</td>
+                            </tr>
+                        );
+                      })}
+                      </tbody>
+                    </table>
+                    </div>
+                  } */}
+                  <br></br>
+                  {viewCandidateDetailStatus &&
+                    <div>
+                      <h4>Candidate Details</h4>
+                      <div>Full Name: {selectedCandidateArray.firstName + ' ' + selectedCandidateArray.lastName}</div>
+                      <div>Email: {selectedCandidateArray.email}</div>
+                      <div>Phone No: {selectedCandidateArray.phone}</div>
+                      <div>Current Job Role: {selectedCandidateArray.designation[0]}</div>
+                      <div>Skills: {selectedCandidateArray.skills.join(', ')}</div>
+                      <div>Experience: {`${selectedCandidateArray.year} years and ${selectedCandidateArray.month} months`}</div>
+                      <div>Current/Previous Working/Worked Company Name : {selectedCandidateArray.companyName}</div>
+                      <div>College: {selectedCandidateArray.college}</div>
+                      <div>Education: {selectedCandidateArray.education}</div>
+                      <div>Location: {selectedCandidateArray.location}</div>
+                      <div>About him/her: {selectedCandidateArray.profileHeadline}</div>
+                      <div>Last Working Day: {selectedCandidateArray.selectedDate}</div>
+                      <button type="button" className="btn btn-outline-info my-3" onClick={handleApiCall}>Send the candidate to interview</button>
+                    </div>
+                  }
+                  </div>
+                : <h3>No Candidate Yet</h3>}
+              </div> }
             {allJobs.length > 0 &&
-             <>
-              {allJobMode  &&<>
+             <div>
+              {allJobMode  &&<div>
                 <h2>All Jobs</h2>
                 <table className="table table-hover my-3">
                 <thead>
@@ -405,10 +628,9 @@ const RecruiterDashboard = () => {
                   })}
                 </tbody>
               </table>
-             </>}
-             <br></br>
-             {viewJobStatus && allJobs.length > 0 &&
-                <>
+              <br></br>
+             {viewJobStatus &&
+                <div>
                   <h4>Job Details</h4>
                   <div>Job Role: {selectedJobViewDetail.jobRole[0]}</div>
                   <div>Job Category: {selectedJobViewDetail.jobCategory}</div>
@@ -418,37 +640,36 @@ const RecruiterDashboard = () => {
                   }
                   <div>Job Description: {selectedJobViewDetail.jobDescription}</div>
                   <div>Needed Experience:{selectedJobViewDetail.year} years and {selectedJobViewDetail.month} months</div>
-                </>
+                </div>
              }
-              </>}
+             </div>}
+              </div>}
               {postedJobs.length > 0 &&
-             <>
-              
-              {postedJobMode  &&<>
+             <div>
+              {postedJobMode  &&<div>
                 <h2>Posted Jobs</h2>
                 <table className="table table-hover my-3">
                 <thead>
                     <tr className='table-dark'>
                         <th scope="col">Job Role</th>
-                        {/* <th scope="col">No of applicants</th> */}
+                        <th scope="col">No of applicants</th>
                     </tr>
                 </thead>
                 <tbody>
                 {postedJobs.map((postedJob)=>{
-                    // const numApplicants = appliedOfPostedJobs.filter(appliedOfPostedJob => appliedOfPostedJob.jobId === postedJob.id).length;
+                    const numApplicants = appliedOfPostedJobs.filter(appliedOfPostedJob => appliedOfPostedJob.jobId === postedJob.id).length;
                     return (
                       <tr key={postedJob.id}>
                           <th scope="row" onClick={()=>handleViewPosetedJobDetail(postedJob.id)}>{postedJob.jobRole[0]}</th>
-                          {/* <td>{numApplicants}</td> */}
+                          <td>{numApplicants}</td>
                       </tr>
                     );
                   })}
                 </tbody>
               </table>
-             </>}
-             <br></br>
-             {viewPostedJobStatus && postedJobs.length > 0 &&
-                <>
+              <br></br>
+             {viewPostedJobStatus &&
+                <div>
                   <h4>Job Details</h4>
                   <div>Job Role: {selectedPostedJobViewDetail.jobRole[0]}</div>
                   <div>Job Category: {selectedPostedJobViewDetail.jobCategory}</div>
@@ -458,11 +679,12 @@ const RecruiterDashboard = () => {
                   }
                   <div>Job Description: {selectedPostedJobViewDetail.jobDescription}</div>
                   <div>Needed Experience:{selectedPostedJobViewDetail.year} years and {selectedPostedJobViewDetail.month} months</div>
-                </>
+                </div>
              }
-              </>}
-              {jobPostingMode  &&<>
-                <h2>Job Posting</h2>
+             </div>}
+              </div>}
+              {jobPostingMode  &&<div>
+              <h2>Job Posting</h2>
               <form onSubmit={handleSubmit}>
                <div className="form-group">
                  <label 
@@ -647,11 +869,11 @@ const RecruiterDashboard = () => {
                </div>
                <input type='submit' value="Post" className='btn btn-primary my-3' />
              </form>
-             </>}
+             </div>}
           </div>
         </div>
-          </>:<RecruiterLogin/>}
-    </>
+        <Footer/>
+    </div>
   )
 }
 

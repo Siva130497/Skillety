@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react'
 import AuthContext from '../../context/AuthContext';
 import Layout from '../../components/Layout';
 import AdminDashboard from '../AdminDashboard/AdminDashboard';
+import { Footer } from '../../components/Footer';
 
 const AdminLogin = () => {
     const {loginUser, dashBoard} = useContext(AuthContext)
@@ -21,11 +22,9 @@ const AdminLogin = () => {
 
     }
     return (
-        <>
-            <Layout newNavBarAdminLogin = {true} />
-            <div className='container-fluid'>
-            {dashBoard ? <AdminDashboard /> :
-                <>
+                <div>
+                    <Layout newNavBarAdminLogin = {true} />
+                    <div className='container-fluid'>
                     <h3>Login</h3>
 
                     <form onSubmit={handleSubmit}>
@@ -64,12 +63,9 @@ const AdminLogin = () => {
                     </div>
                     <input type='submit' value="Login" className='btn btn-primary my-3' />
                     </form>
-                </>
-            }
-            </div>
-            
-            
-        </>
+                    </div>
+                    <Footer noFooter={true}/>
+                </div>
     )
 }
 

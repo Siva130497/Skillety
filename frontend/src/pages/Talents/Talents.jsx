@@ -8,6 +8,7 @@ import $ from 'jquery';
 import './Talents.css'
 import './Talents-responsive.css'
 import Layout from '../../components/Layout';
+import { Footer } from '../../components/Footer';
 
 const Talents = () => {
     useEffect(() => {
@@ -46,8 +47,8 @@ const Talents = () => {
     };
 
     return (
-        <>
-            <Layout />
+        <div>
+            <Layout candidateHome={true}/>
             <div className='talents--section'>
                 <div className='container-fluid'>
                     <div className='container-fluid container-section'>
@@ -466,7 +467,8 @@ const Talents = () => {
                     </div>
                 </div>
             </div>
-        </>
+            <Footer/>
+        </div>
     )
 }
 export default Talents;
