@@ -26,13 +26,18 @@ import ClientDashboard from './pages/ClientDashboard/ClientDashboard';
 import CandidateDashboard from './pages/CandidateDashboard/CandidateDashboard';
 import AdminDashboard from './pages/AdminDashboard/AdminDashboard';
 import RecruiterDashboard from './pages/RecruiterDashboard/RecruiterDashboard';
+import Slider from './pages/Slider';
+import { PrimeReactProvider } from 'primereact/api';
+
 
 function App() {
   
   return (
     <AuthContextProvider>
+      <PrimeReactProvider>
         <Routes>
           <Route path='/' element={<Home />} />
+          <Route path='/slider' element={<Slider />} />
           <Route path='/candidate-home' element={<HomeCandidate />} />
           <Route path='/about-us' element={<About />} />
           <Route path='/contact-us' element={<Contact />} />
@@ -61,6 +66,7 @@ function App() {
           <Route path='/admin-dashboard' element={<AdminDashboard />} />
           <Route path='/recruiter-dashboard' element={<RecruiterDashboard />} />
         </Routes>
+      </PrimeReactProvider>
     </AuthContextProvider>
   );
 }

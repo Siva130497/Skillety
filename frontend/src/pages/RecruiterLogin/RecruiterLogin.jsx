@@ -1,11 +1,14 @@
 import React, { useState, useContext } from 'react'
+import { useNavigate } from 'react-router-dom';
 import AuthContext from '../../context/AuthContext';
 import Layout from '../../components/Layout';
 import RecruiterDashboard from '../RecruiterDashboard/RecruiterDashboard';
 import { Footer } from '../../components/Footer';
 
 const RecruiterLogin = () => {
-    const {loginUser, dashBoard} = useContext(AuthContext)
+    const navigate = useNavigate();
+
+    const {loginUser} = useContext(AuthContext)
     const [credentials, setcredentials] = useState({
         email:"",
         password:"",
