@@ -63,7 +63,7 @@ const About = () => {
                     <div className='container-fluid container-section'>
                         <div className="about--bg">
                             <div className="row">
-                                <div className="col-12 col-lg-8 col-md-12 about--left-cover">
+                                <div className="col-12 col-lg-12 col-xl-8 col-md-12 about--left-cover">
                                     <div className="breadcrumb--area" data-aos="fade-down">
                                         <div className="breadcrumb--item">
                                             <a href="/">Home</a>
@@ -77,7 +77,7 @@ const About = () => {
                                             “Skill at Will”. </h2>
                                     </div>
                                 </div>
-                                <div className="col-12 col-lg-4 col-md-12 about--right-cover">
+                                <div className="col-12 col-lg-6 offset-lg-6 offset-xl-0 col-xl-4 col-md-12 about--right-cover">
                                     <div className="about--card-area" data-aos="fade-right">
                                         <div className="card about--card">
                                             <div className="card--imgicon-area">
@@ -108,7 +108,7 @@ const About = () => {
                             </div>
                             <div className="about--milestone-cards-area">
                                 <div className="row">
-                                    <div className="col-12 col-lg-4 col-md-6 ab--milestone-container">
+                                    <div className="col-12 col-lg-6 col-xl-4 col-md-6 ab--milestone-container">
                                         <article className='about--milestone-card' data-aos="zoom-out-right">
                                             <div className="ab--milestone-card-top">
                                                 <div className="ab--milestone--arrow">
@@ -125,7 +125,7 @@ const About = () => {
                                             </div>
                                         </article>
                                     </div>
-                                    <div className="col-12 col-lg-4 col-md-6 ab--milestone-container">
+                                    <div className="col-12 col-lg-6 col-xl-4 col-md-6 ab--milestone-container">
                                         <article className='about--milestone-card' data-aos="zoom-out-right">
                                             <div className="ab--milestone-card-top">
                                                 <div className="ab--milestone--arrow">
@@ -142,7 +142,7 @@ const About = () => {
                                             </div>
                                         </article>
                                     </div>
-                                    <div className="col-12 col-lg-4 col-md-6 ab--milestone-container">
+                                    <div className="col-12 col-lg-6 col-xl-4 col-md-6 ab--milestone-container">
                                         <article className='about--milestone-card' data-aos="zoom-out-right">
                                             <div className="ab--milestone-card-top">
                                                 <div className="ab--milestone--arrow">
@@ -159,7 +159,7 @@ const About = () => {
                                             </div>
                                         </article>
                                     </div>
-                                    <div className="col-12 col-lg-4 offset-lg-4 col-md-6 ab--milestone-container">
+                                    <div className="col-12 col-lg-6 col-xl-4 offset-xl-4 col-md-6 ab--milestone-container">
                                         <article className='about--milestone-card' data-aos="zoom-out-right">
                                             <div className="ab--milestone-card-top">
                                                 <div className="ab--milestone--arrow">
@@ -176,7 +176,7 @@ const About = () => {
                                             </div>
                                         </article>
                                     </div>
-                                    <div className="col-12 col-lg-4 col-md-6 ab--milestone-container">
+                                    <div className="col-12 col-lg-6 col-xl-4 col-md-6 ab--milestone-container">
                                         <article className='about--milestone-card' data-aos="zoom-out-right">
                                             <div className="ab--milestone-card-top">
                                                 <div className="ab--milestone--arrow">
@@ -193,7 +193,7 @@ const About = () => {
                                             </div>
                                         </article>
                                     </div>
-                                    <div className="col-12 col-lg-4 offset-lg-8 col-md-6 ab--milestone-container">
+                                    <div className="col-12 col-lg-6 col-xl-4 offset-xl-8 col-md-6 ab--milestone-container">
                                         <article className='about--milestone-card' data-aos="zoom-out-right">
                                             <div className="ab--milestone-card-top">
                                                 <div className="ab--milestone--arrow">

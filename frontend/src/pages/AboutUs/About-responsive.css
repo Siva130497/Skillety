@@ -1,7 +1,71 @@
+@media screen and (min-width: 992px) and (max-width: 1024px) {
+    .about--left-cover {
+        padding-top: 160px;
+    }
+    .about--card-area {
+        margin-top: 30px;
+    }
+    .about--head h2 {
+        font-size: 60px;
+    }
+
+    .about--head {
+        margin-top: 20px;
+    }
+
+    .about--milestone-section {
+        padding-top: 100px;
+    }
+
+    .about--headingarea h6 {
+        font-size: 20px !important;
+    }
+
+    .about--headingarea .about--milestone-heading {
+        font-size: 45px !important;
+    }
+
+    .about--milestone-cards-area {
+        padding-top: 90px;
+        padding-left: 0px;
+    }
+
+    .about--weoffer-section {
+        padding-top: 100px;
+        padding-bottom: 100px;
+    }
+
+    .about--weoffer-container {
+        padding: 30px 40px;
+    }
+
+    .ab-weoff--top-area .ab-weoff---heading {
+        font-size: 45px;
+    }
+
+    .ab-weoff--top-area {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    .ab--weoff-btn{
+        padding: 15px 40px;
+        font-size: 20px;
+    }
+    .ab--weoff-btn-arrow-area{
+        padding: 17px;
+    }
+    .ab-weoff-card{
+        padding: 0 40px 0 40px;
+    }
+
+}
+
 @media (max-width:991.5px) {
     .about--left-cover {
         padding-top: 190px;
     }
+
     .about--head {
         margin-top: 30px;
     }

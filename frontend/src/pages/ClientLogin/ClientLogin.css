@@ -1,0 +1,148 @@
+.cli--login-with-google-btn-area {
+    margin-top: 27px;
+    position: relative;
+}
+
+.cli--signup-form-area.cli--login-form-area {
+    padding: 200px 120px 0 120px ;
+    position: relative;
+}
+.cli--login-with-google-btn-area .cli--login-with-google-btn {
+    width: 100%;
+    position: relative;
+    border-radius: 0;
+    text-decoration: none;
+    color: #714F36;
+    font-size: 16px;
+    font-weight: 400;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    gap: 20px;
+    border: 1px solid #714F36;
+    transition: ease-in-out 0.5s;
+}
+
+.cli--login-with-google-btn:hover {
+    background-color: #714F36;
+    color: #FFF;
+}
+
+.cli--login-with-google-btn .google-icon {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+}
+
+.cli--login-forgot-remember-area {
+    margin-bottom: 54px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.cli--login-forgot-area .cli--login-forgot {
+    color: #714F36;
+    font-size: 16px;
+    font-weight: 400;
+    text-decoration: underline;
+    transition: ease-in-out 0.5s;
+}
+
+.cli--login-forgot-area .cli--login-forgot:hover {
+    color: #F9C833;
+}
+
+
+
+.cli--login-remember-checkbox {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    cursor: pointer;
+    color: #714F36;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.cli--login-remember-checkbox input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.cli--login-remember-checkmark {
+    position: relative;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    margin-right: 15px;
+    border: 1px solid #714F36;
+    border-radius: 5px;
+    -webkit-transition: ease-in-out 0.5s;
+    transition: ease-in-out 0.5s;
+    outline: none;
+}
+
+.cli--login-remember-checkbox input[type="checkbox"]:checked~.cli--login-remember-checkmark {
+    background-color: #714F36;
+    border-color: #ffffff;
+}
+
+.cli--login-remember-checkbox input[type="checkbox"]:checked~.cli--login-remember-checkmark:after {
+    content: "";
+    position: absolute;
+    top: 5px;
+    left: 10px;
+    width: 7px;
+    height: 14px;
+    border: solid #FFF;
+    border-width: 0 2px 2px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+.cli--login-remember-checkbox input[type="checkbox"]:focus~.cli--login-remember-checkmark {
+    -webkit-box-shadow: 0 0 0 3px #ffd75e4a;
+    box-shadow: 0 0 0 3px #ffd75e4a;
+}
+
+.cli--login-remember-checkbox:hover input[type="checkbox"]~.cli--login-remember-checkmark {
+    border-color: #714F36;
+}
+
+.cli--login-remember-checkbox input[type="checkbox"]:disabled~.cli--login-remember-checkmark {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.cli--login-remember-checkbox input[type="checkbox"]:disabled~.cli--login-remember-checkmark:hover {
+    border-color: #4d4d4d;
+}
+
+.cli--login-no-account-area {
+    margin-top: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cli--login-no-account-area .cli--login-no-account,
+.cli--login-no-account-area .cli--login-no-account-signup {
+    color: #714F36;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 400;
+    text-transform: capitalize;
+    transition: ease-in-out 0.5s;
+    text-decoration: none;
+}
+.cli--login-no-account-area .cli--login-no-account-signup:hover{
+    color: #F9C833;
+}

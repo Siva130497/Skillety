@@ -90,6 +90,21 @@ const Layout = ({ newNavBarClientRegister, newNavBarClientLogin, newNavBarCandid
       $(window).on('scroll', headerScrolled);
     }
 
+    /////////
+    const clientheader = $('#clientheader');
+    if (clientheader.length) {
+      const headerScrolled = () => {
+        if ($(window).scrollTop() > 20) {
+          clientheader.addClass('header-scrolled');
+        } else {
+          clientheader.removeClass('header-scrolled');
+        }
+      };
+
+      $(window).on('load', headerScrolled);
+      $(window).on('scroll', headerScrolled);
+    }
+
     //////////
     const backtotop = $('.back-to-top');
     if (backtotop.length) {
@@ -231,14 +246,6 @@ const Layout = ({ newNavBarClientRegister, newNavBarClientLogin, newNavBarCandid
       <a href="#" class="back-to-top d-flex align-items-center justify-content-center">
         <i class="bi bi-chevron-double-up back-to-top-icon"></i>
       </a>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
     </div>
 
   )

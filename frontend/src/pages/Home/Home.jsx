@@ -76,6 +76,9 @@ const Home = () => {
       slidesPerView: 2,
     },
     991: {
+      slidesPerView: 2.5,
+    },
+    1200: {
       slidesPerView: 3.5,
     },
   };
@@ -145,7 +148,7 @@ const Home = () => {
           <div className='container-fluid container-section'>
             <div className="home--bg">
               <div className="row">
-                <div className="col-12 col-lg-7 col-md-12 home--left-cover">
+                <div className="col-12 col-lg-6 col-xl-7 col-md-12 home--left-cover">
                   <div className="home--head">
                     <h5 data-aos="fade-left" data-aos-delay="200">
                       Welcome to the world’s first Recruitment Solutions Integrator, powered by an exclusive job board for Immediate Joiners.
@@ -173,7 +176,7 @@ const Home = () => {
                   </div>
 
                 </div>
-                <div className="col-12 col-lg-5 col-md-12 home--right-cover custom-flex">
+                <div className="col-12 col-lg-6 col-xl-5 col-md-12 home--right-cover custom-flex">
                   <div className='home--blob-img-area'>
                     <div className="home--img-area">
                       <img src="assets/img/home-images/header-image.png" data-aos="fade" data-aos-delay="300"
@@ -189,7 +192,7 @@ const Home = () => {
                   </div>
                   <div className="home--card-area">
                     <div className="row">
-                      <div className="col-lg-8 col-md-12 offset-lg-4">
+                      <div className="col-xl-8 col-lg-12 col-md-12 offset-xl-4">
                         <div className="card home--card" data-aos="fade-right" data-aos-delay="100">
                           <div className="card--imgicon-area">
                             <h6 className='card--text'>I want to hire an immediate joiner</h6>
@@ -242,7 +245,7 @@ const Home = () => {
                   <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
                 </div>
                 <div className="row">
-                  <div className="col-12 col-lg-7">
+                  <div className="col-12 col-xl-7 col-lg-8">
                     <article className='home--service-card' data-aos="zoom-out-right">
                       <div className="service--arrow-area">
                         <img src="assets/img/home-images/arrow-L.png" className='service--arrow-img' alt="" />
@@ -269,7 +272,7 @@ const Home = () => {
                   </div>
                 </div>
                 <div className="row mt-5">
-                  <div className="col-12 col-lg-7 offset-lg-5">
+                  <div className="col-12 col-xl-7 col-lg-8 offset-xl-5 offset-lg-4">
                     <article className='home--service-card' data-aos="zoom-out-left">
                       <div className="service--arrow-area">
                         <img src="assets/img/home-images/arrow-L.png" className='service--arrow-img' alt="" />
@@ -296,7 +299,7 @@ const Home = () => {
                   </div>
                 </div>
                 <div className="row mt-5">
-                  <div className="col-12 col-lg-7">
+                  <div className="col-12 col-xl-7 col-lg-8">
                     <article className='home--service-card' data-aos="zoom-out-right">
                       <div className="service--arrow-area">
                         <img src="assets/img/home-images/arrow-L.png" className='service--arrow-img' alt="" />
@@ -323,7 +326,7 @@ const Home = () => {
                   </div>
                 </div>
                 <div className="row mt-5">
-                  <div className="col-12 col-lg-7 offset-lg-5">
+                  <div className="col-12 col-xl-7 col-lg-8 offset-xl-5 offset-lg-4">
                     <article className='home--service-card' data-aos="zoom-out-left">
                       <div className="service--arrow-area">
                         <img src="assets/img/home-images/arrow-L.png" className='service--arrow-img' alt="" />
@@ -350,7 +353,7 @@ const Home = () => {
                   </div>
                 </div>
                 <div className="row mt-5">
-                  <div className="col-12 col-lg-7">
+                  <div className="col-12 col-xl-7 col-lg-8">
                     <article className='home--service-card' data-aos="zoom-out-right">
                       <div className="service--arrow-area">
                         <img src="assets/img/home-images/arrow-L.png" className='service--arrow-img' alt="" />
@@ -389,17 +392,17 @@ const Home = () => {
               </div>
               <div className="rpo--content-card">
                 <div className="row align-items-center">
-                  <div className="col-12 col-lg-4">
+                  <div className="col-12 col-xl-4 col-lg-3">
                     <div className='rpo--card-heading'>
                       <h4 data-aos="fade-right">Enterprise RPO</h4>
                     </div>
                   </div>
-                  <div className="col-12 col-lg-5">
+                  <div className="col-12 col-xl-5 col-lg-5">
                     <div className='rpo--card-desc'>
                       <p data-aos="fade">From requisition to onboarding, Skillety offers recruitment expertise and scalability while being completely aligned with our clients’ culture. Enterprise RPO is a comprehensive, customizable, and scalable recruitment solution, rooted on an exclusivity contract from our clients.</p>
                     </div>
                   </div>
-                  <div className="col-12 col-lg-3">
+                  <div className="col-12 col-xl-3 col-lg-4">
                     <div className='rpo--card-learnmore'>
                       <a href="#" className='rpo--know-more' data-aos="fade-left">
                         <div className='rpo--know-more-btn'>
@@ -415,17 +418,17 @@ const Home = () => {
               </div>
               <div className="rpo--content-card">
                 <div className="row align-items-center">
-                  <div className="col-12 col-lg-4">
+                  <div className="col-12 col-xl-4 col-lg-3">
                     <div className='rpo--card-heading'>
                       <h4 data-aos="fade-right">Project RPO</h4>
                     </div>
                   </div>
-                  <div className="col-12 col-lg-5">
+                  <div className="col-12 col-xl-5 col-lg-5">
                     <div className='rpo--card-desc'>
                       <p data-aos="fade">Project RPO is the way to go for companies that have a specific talent acquisition project like recruiting a new team for a new product line, or a new project, or a new facility. Our clients engage our Project RPO services for a talent acquisition need with defined goals within a specific scope and timeline.</p>
                     </div>
                   </div>
-                  <div className="col-12 col-lg-3">
+                  <div className="col-12 col-xl-3 col-lg-4">
                     <div className='rpo--card-learnmore'>
                       <a href="/rpo" className='rpo--know-more' data-aos="fade-left">
                         <div className='rpo--know-more-btn'>
@@ -441,17 +444,17 @@ const Home = () => {
               </div>
               <div className="rpo--content-card">
                 <div className="row align-items-center">
-                  <div className="col-12 col-lg-4">
+                  <div className="col-12 col-xl-4 col-lg-3">
                     <div className='rpo--card-heading'>
                       <h4 data-aos="fade-right">Contingent RPO</h4>
                     </div>
                   </div>
-                  <div className="col-12 col-lg-5">
+                  <div className="col-12 col-xl-5 col-lg-5">
                     <div className='rpo--card-desc'>
                       <p data-aos="fade">Contingent RPO works as an extension of the talent acquisition department and supplies contract labour using recruiters dedicated to our clients. Our recruiters build a unique talent pipeline of contract labour for our clients based on their specific hiring goals.</p>
                     </div>
                   </div>
-                  <div className="col-12 col-lg-3">
+                  <div className="col-12 col-xl-3 col-lg-4">
                     <div className='rpo--card-learnmore'>
                       <a href="#" className='rpo--know-more' data-aos="fade-left">
                         <div className='rpo--know-more-btn'>
@@ -467,17 +470,17 @@ const Home = () => {
               </div>
               <div className="rpo--content-card">
                 <div className="row align-items-center">
-                  <div className="col-12 col-lg-4">
+                  <div className="col-12 col-xl-4 col-lg-3">
                     <div className='rpo--card-heading'>
                       <h4 data-aos="fade-right">RPO-Lite</h4>
                     </div>
                   </div>
-                  <div className="col-12 col-lg-5">
+                  <div className="col-12 col-xl-5 col-lg-5">
                     <div className='rpo--card-desc'>
                       <p data-aos="fade">Best for a test-run before you decide your RPO partner. We take up hiring requirements from one or few projects on exclusivity, and close them in record time, first. The results will determine whether you want to upgrade to an Enterprise RPO (or not), based on solid proof.</p>
                     </div>
                   </div>
-                  <div className="col-12 col-lg-3">
+                  <div className="col-12 col-xl-3 col-lg-4">
                     <div className='rpo--card-learnmore'>
                       <a href="#" className='rpo--know-more' data-aos="fade-left">
                         <div className='rpo--know-more-btn'>
@@ -501,7 +504,7 @@ const Home = () => {
                 </div>
                 <div className="home--milestone-cards-area">
                   <div className="row">
-                    <div className="col-12 col-lg-4 col-md-6 ab--milestone-container">
+                    <div className="col-12 col-xl-4 col-lg-6 col-md-6 ab--milestone-container">
                       <article className='home--milestone-card' data-aos="zoom-out-right">
                         <div className="home--milestone-card-top">
                           <div className="home--milestone--arrow">
@@ -518,7 +521,7 @@ const Home = () => {
                         </div>
                       </article>
                     </div>
-                    <div className="col-12 col-lg-4 col-md-6 ab--milestone-container">
+                    <div className="col-12 col-xl-4 col-lg-6 col-md-6 ab--milestone-container">
                       <article className='home--milestone-card' data-aos="zoom-out-right">
                         <div className="home--milestone-card-top">
                           <div className="home--milestone--arrow">
@@ -535,7 +538,7 @@ const Home = () => {
                         </div>
                       </article>
                     </div>
-                    <div className="col-12 col-lg-4 col-md-6 ab--milestone-container">
+                    <div className="col-12 col-xl-4 col-lg-6 col-md-6 ab--milestone-container">
                       <article className='home--milestone-card' data-aos="zoom-out-right">
                         <div className="home--milestone-card-top">
                           <div className="home--milestone--arrow">
@@ -552,7 +555,7 @@ const Home = () => {
                         </div>
                       </article>
                     </div>
-                    <div className="col-12 col-lg-4 offset-lg-4 col-md-6 ab--milestone-container">
+                    <div className="col-12 col-xl-4 offset-xl-4 col-lg-6 col-md-6 ab--milestone-container">
                       <article className='home--milestone-card' data-aos="zoom-out-right">
                         <div className="home--milestone-card-top">
                           <div className="home--milestone--arrow">
@@ -569,7 +572,7 @@ const Home = () => {
                         </div>
                       </article>
                     </div>
-                    <div className="col-12 col-lg-4 col-md-6 ab--milestone-container">
+                    <div className="col-12 col-xl-4 col-lg-6 col-md-6 ab--milestone-container">
                       <article className='home--milestone-card' data-aos="zoom-out-right">
                         <div className="home--milestone-card-top">
                           <div className="home--milestone--arrow">
@@ -586,7 +589,7 @@ const Home = () => {
                         </div>
                       </article>
                     </div>
-                    <div className="col-12 col-lg-4 offset-lg-8 col-md-6 ab--milestone-container">
+                    <div className="col-12 col-xl-4 offset-xl-8 col-lg-6 col-md-6 ab--milestone-container">
                       <article className='home--milestone-card' data-aos="zoom-out-right">
                         <div className="home--milestone-card-top">
                           <div className="home--milestone--arrow">
@@ -1179,7 +1182,7 @@ const Home = () => {
                   <h4 className='candidate--heading' data-aos="fade-up">WHAT THEY SAY ABOUT US</h4>
                 </div>
                 <div className='home--know-more-area'>
-                  <a href="/contact-us" className='home--know-more' data-aos="fade-right">
+                  <a href="/testimonial" className='home--know-more' data-aos="fade-right">
                     <div className='home--know-more-btn'>Know more
                     </div>
                     <div className='home--know-more-arrow'>
@@ -1190,7 +1193,7 @@ const Home = () => {
               </div>
               <div className="testimonial--card-area">
                 <div className="row">
-                  <div className="col-12 col-lg-7 col-md-12">
+                  <div className="col-12 col-xl-7 col-lg-12 col-md-12">
                     <article className="testimonial--card-lg" data-aos="zoom-out-right">
                       <div className="testimonial--profile-area">
                         <img src="assets/img/home-images/testi-profile.jpeg" className='testimonial--profile-img' alt="" />
@@ -1202,7 +1205,7 @@ const Home = () => {
                       <div className="testimonial--content-area">
                         <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
                       </div>
-                      <a href='' className='testimonial--arrow-area'>
+                      <a href='/testimonial-detail' className='testimonial--arrow-area'>
                         <svg xmlns="http://www.w3.org/2000/svg" width="60" height="65" viewBox="0 0 55 56" fill="none">
                           <path d="M5.25812 7.09628C12.7692 13.4518 32.2979 21.6562 50.3244 3.62964" stroke="white" stroke-width="4" />
                           <path d="M51.0082 2.95734C43.7453 9.59507 33.1137 27.9159 48.69 48.0973" stroke="white" stroke-width="4" />
@@ -1211,7 +1214,7 @@ const Home = () => {
                       </a>
                     </article>
                   </div>
-                  <div className="col-12 col-lg-5 col-md-12">
+                  <div className="col-12 col-xl-5 col-lg-6 col-md-12 custom-flex-row">
                     <article className='testimonial--card-sm test--card-bg1 mb-4' data-aos="zoom-out-left">
                       <div className="testimonial-sm--profile-area">
                         <img src="assets/img/home-images/testi-profile.jpeg" className='testimonial--sm-profile-img' alt="" />

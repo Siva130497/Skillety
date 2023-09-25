@@ -1,3 +1,38 @@
+@media screen and (min-width: 992px) and (max-width: 1024px) {
+    .rpo--head h2{
+        font-size: 60px;
+    }
+    .rpo--enter-heading h3{
+        font-size: 45px;
+    }
+    .rpo--enter-desc,
+    .rpo--enter-list-area{
+        margin-top: 40px;
+    }
+    .rpo--enter-list-area .rpo--enter-list-item,
+    .rpo--pro-list-area .rpo--pro-list-item{
+        font-size: 18px;
+    }
+    .rpo--enter-btn-area,
+    .rpo--pro-btn-area{
+        margin-top: 60px;
+    }
+    .rpo--enter-btn,
+    .rpo--pro-btn{
+        font-size: 20px;
+    }
+    .rpo--enter-arrow-area,
+    .rpo--pro-area{
+        padding: 17px;
+    }
+    .rpo--more-btn-area .rpo--more-btn{
+        font-size: 30px;
+    }
+    .rpo--more-btn-area{
+        padding: 100px 0;
+    }
+}
+
 @media (max-width:991.5px) {
     .rpo--head h2 {
         line-height: 1.4em;

@@ -39,7 +39,7 @@
     background-position: center;
     background-size: cover;
     overflow: hidden;
-    transition: ease-in-out 1s;
+    transition: ease-in-out 1s !important;
     background-repeat: no-repeat;
     cursor: pointer;
 }
