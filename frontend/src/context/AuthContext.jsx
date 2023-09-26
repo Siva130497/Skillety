@@ -1,10 +1,12 @@
 import { createContext, useState} from "react";
 import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 
 const AuthContext = createContext();
 
 export const AuthContextProvider = ({children}) => {
-    
+    const navigate = useNavigate();
+
     const [jobPosted, setJobPosted] = useState(false);
     const [employeeId, setEmployeeId] = useState("");
     const [appliedJobStatus, setAppliedJobStatus] = useState(false);
@@ -47,11 +49,22 @@ export const AuthContextProvider = ({children}) => {
                 console.log(result);
                 // localStorage.setItem("clientToken", result.accessToken);
                 setEmployeeId(result.id);
+                if (userData[1] === "staff") {
+                    navigate("/recruiter-dashboard");
+                } else if (userData[1] === "admin") {
+                    navigate("/admin-dashboard");
+                } else if (userData[1] === "login-Candidate") {
+                    navigate("/candidate-dashboard");
+                } else if (userData[1] === "login-Client") {
+                    navigate("/client-dashboard");
+                }
             } else {
                 console.log(result);
+               
             }
         } catch (error) {
             console.log(error);
+            alert("Invalid login credentials")
         }
     }
 
@@ -178,7 +191,7 @@ export const AuthContextProvider = ({children}) => {
     };
     
 
-    return<AuthContext.Provider value={{registerUser, candidateReg, postOtherSkills, postOtherDesignation, jobPosting, jobPosted, setJobPosted, employeeId, applyingjob, appliedJobStatus, setAppliedJobStatus, createRecruiter, setRecruiterCreatedStatus, recruiterCreatedStatus, loginUser}}>
+    return<AuthContext.Provider value={{registerUser, candidateReg, postOtherSkills, postOtherDesignation, jobPosting, jobPosted, setJobPosted, employeeId, applyingjob, appliedJobStatus, setAppliedJobStatus, createRecruiter, setRecruiterCreatedStatus, recruiterCreatedStatus, loginUser, }}>
             {children}
         </AuthContext.Provider>
 }

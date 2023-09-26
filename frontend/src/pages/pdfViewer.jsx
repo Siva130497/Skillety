@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
 
-
 function PDFViewer() {
   const [pdfUrl, setPdfUrl] = useState();
 

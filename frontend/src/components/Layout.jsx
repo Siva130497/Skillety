@@ -7,10 +7,10 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import NewNav from './NewNav';
 import NewNavBar from './NewNavBar';
-import { NewNavCandidateHome } from './NewNavCandidateHome';
 
 
-const Layout = ({ newNavBarClientRegister, newNavBarClientLogin, newNavBarCandidateLogin, newNavBarCandidateRegister, newNavBarAdminLogin, newNavBarRecruiterLogin, candidateHome }) => {
+
+const Layout = ({ newNavBarClientRegister, newNavBarClientLogin, newNavBarCandidateLogin, newNavBarCandidateRegister, newNavBarAdminLogin, newNavBarRecruiterLogin}) => {
   useEffect(() => {
     ///////////
     const select = (el, all = false) => {
@@ -236,8 +236,8 @@ const Layout = ({ newNavBarClientRegister, newNavBarClientLogin, newNavBarCandid
   return (
     <div>
 
-      {newNavBarClientRegister ? <NewNavBar clientLogin={true} /> : newNavBarClientLogin ? <NewNavBar clientRegister={true} /> : newNavBarCandidateLogin ? <NewNavBar candidateRegister={true} /> : newNavBarAdminLogin ? <NewNavBar /> : newNavBarRecruiterLogin ? <NewNavBar /> : newNavBarCandidateRegister ? <NewNavBar candidateLogin={true} /> : candidateHome ? <NewNavCandidateHome /> : <NewNav />}
-
+      {newNavBarClientRegister ? <NewNavBar clientLogin = {true} />: newNavBarClientLogin ? <NewNavBar clientRegister = {true} />: newNavBarCandidateLogin ? <NewNavBar candidateRegister = {true} /> : newNavBarAdminLogin ? <NewNavBar /> : newNavBarRecruiterLogin ? <NewNavBar /> : newNavBarCandidateRegister ? <NewNavBar candidateLogin ={true}/> : <NewNav/>}
+      
       {/* <div className='container-fluid'>{children}</div> */}
       {/* <div id="preloader"></div> */}
       <div class="mouseCursor cursor-outer"></div>
