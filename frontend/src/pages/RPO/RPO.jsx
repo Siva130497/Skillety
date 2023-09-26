@@ -1,9 +1,10 @@
-import React from 'react'
+import React from 'react';
 import { useEffect } from 'react';
 import $ from 'jquery';
-import './RPO.css'
-import './RPO-responsive.css'
+import './RPO.css';
+import './RPO-responsive.css';
 import Layout from '../../components/Layout';
+import { Footer } from '../../components/Footer';
 
 const RPO = () => {
     useEffect(() => {
@@ -12,7 +13,7 @@ const RPO = () => {
 
     return (
         <>
-            <Layout />
+            <Layout/>
             <div className='container-fluid rpo--section'>
                 <div className='container-fluid container-section'>
                     <div className="about--bg">
@@ -181,6 +182,7 @@ const RPO = () => {
 
                 </div>
             </div>
+            <Footer/>
         </>
 
 

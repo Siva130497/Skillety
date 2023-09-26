@@ -1,8 +1,8 @@
-import React from 'react'
+import React from 'react';
 import { useEffect } from 'react';
 import $ from 'jquery';
-import './Contact.css'
-import './Contact-responsive.css'
+import './Contact.css';
+import './Contact-responsive.css';
 import Layout from '../../components/Layout';
 import { Footer } from '../../components/Footer';
 
@@ -32,7 +32,7 @@ const Contact = () => {
                                         <h2 data-aos="fade-left">It’s Time to Make Skillety Work for You</h2>
                                     </div>
                                 </div>
-                                <div className="col-12 col-lg-4 col-lg-6 offset-lg-6 offset-xl-0 col-md-12 about--right-cover">
+                                <div className="col-12 col-xl-4 col-lg-6 offset-lg-6 offset-xl-0 col-md-12 about--right-cover">
                                     <div className="about--card-area">
                                         <div className="card about--card" data-aos="fade-right">
                                             <div className="card--imgicon-area">

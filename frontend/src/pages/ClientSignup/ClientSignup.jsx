@@ -1,8 +1,8 @@
-import React from 'react'
+import React from 'react';
 import { useEffect } from 'react';
 import $ from 'jquery';
-import './ClientSignup.css'
-import './ClientSignup-responsive.css'
+import './ClientSignup.css';
+import './ClientSignup-responsive.css';
 import Layout from '../../components/Layout';
 
 const ClientSignup = () => {

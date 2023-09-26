@@ -774,7 +774,7 @@
 .footer--links ul li:hover {
   list-style: disc;
   color: #F9C833;
-  transform: translateX(8px);
+  transform: translateX(8px) !important;
 }
 
 .footer--links ul li:hover a {
@@ -901,7 +901,7 @@
 }
 
 .footer--bottom-credit-area .prodigit--logo {
-  width: 200px;
+  width: 180px;
   object-fit: contain;
 }
 
