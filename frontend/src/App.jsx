@@ -8,6 +8,7 @@ import Contact from './pages/Contact/Contact';
 import Services from './pages/Services/Services';
 import RPO from './pages/RPO/RPO';
 import Talents from './pages/Talents/Talents';
+import TalentsProfileSearch from './pages/TalentsProfileSearch/TalentsProfileSearch';
 import Testimonial from './pages/Testimonial/Testimonial';
 import TestimonialDetail from './pages/TestimonialDetail/TestimonialDetail';
 import ClientDetail from './pages/ClientDetail/ClientDetail';
@@ -44,6 +45,7 @@ function App() {
           <Route path='/services' element={<Services />} />
           <Route path='/rpo' element={<RPO />} />
           <Route path='/talents' element={<Talents />} />
+          <Route path='/talent-profile-search' element={<TalentsProfileSearch />} />
           <Route path='/testimonial' element={<Testimonial />} />
           <Route path='/testimonial-detail' element={<TestimonialDetail />} />
           <Route path='/pdf' element={<PDFViewer />} />

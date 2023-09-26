@@ -1,13 +1,14 @@
-import React from 'react'
+import React from 'react';
 import { useEffect } from 'react';
 import $ from 'jquery';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
-import './TestimonialDetail.css'
-import './TestimonialDetail-responsive.css'
+import './TestimonialDetail.css';
+import './TestimonialDetail-responsive.css';
 import Layout from '../../components/Layout';
+import { Footer } from '../../components/Footer';
 
 const TestimonialDetail = () => {
     useEffect(() => {
@@ -16,7 +17,7 @@ const TestimonialDetail = () => {
 
     return (
         <>
-            <Layout />
+            <Layout/>
             <div className='testimonial-detail-section'>
                 <div className='container-fluid'>
                     <div className='container-fluid container-section'>
@@ -221,6 +222,7 @@ const TestimonialDetail = () => {
                     </div>
                 </div>
             </div>
+            <Footer/>
         </>
     )
 }

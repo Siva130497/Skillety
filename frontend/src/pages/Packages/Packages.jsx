@@ -1,9 +1,10 @@
-import React from 'react'
+import React from 'react';
 import { useEffect } from 'react';
 import $ from 'jquery';
-import './Packages.css'
-import './Packages-responsive.css'
-import Layout from '../../components/Layout'
+import './Packages.css';
+import './Packages-responsive.css';
+import Layout from '../../components/Layout';
+import { Footer } from '../../components/Footer';
 
 const Packages = () => {
   useEffect(() => {
@@ -69,7 +70,7 @@ const Packages = () => {
 
   return (
     <>
-      <Layout />
+      <Layout/>
       <div>
         <div className='plans--section'>
           <div className='container-fluid'>
@@ -372,6 +373,7 @@ const Packages = () => {
           </div>
         </div>
       </div>
+      <Footer/>
     </>
 
   )

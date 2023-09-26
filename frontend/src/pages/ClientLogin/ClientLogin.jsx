@@ -1,9 +1,9 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext } from 'react';
 import { Link } from "react-router-dom";
 import { useEffect } from 'react';
 import $ from 'jquery';
-import './ClientLogin.css'
-import './ClientLogin-responsive.css'
+import './ClientLogin.css';
+import './ClientLogin-responsive.css';
 import AuthContext from '../../context/AuthContext';
 import ClientDashBoard from '../ClientDashboard/ClientDashboard';
 import Layout from '../../components/Layout';

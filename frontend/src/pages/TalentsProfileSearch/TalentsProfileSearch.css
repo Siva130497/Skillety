@@ -1,0 +1,575 @@
+.cli--tal-pro-search-section {
+    margin-top: 150px;
+    padding-top: 60px;
+    overflow: hidden !important;
+}
+
+.cli-tal-pro-search-container .cli-tal-pro-search-heading {
+    color: #714F36;
+    font-size: 64px;
+    font-weight: 400;
+    text-transform: uppercase;
+}
+
+.cli-tal-pro-search-container {
+    margin-bottom: 40px;
+}
+
+.row-border-custom {
+    border-top: 1px solid #714F36;
+}
+
+.custom-right-border-col {
+    border-right: 1px solid #714F36;
+}
+
+.cli-tal-pro-search-filter-area {
+    padding: 30px 20px 30px 0px;
+}
+
+.cli-tal-pro-search-filter-area .cli-tal-pro-search-filter {
+    color: #714F36;
+    font-size: 15px;
+    font-weight: 600;
+    text-transform: capitalize;
+    text-align: center;
+    margin-right: 12px;
+}
+
+.cli-tal-pro-search-filter .cli-tal-pro-filter-img {
+    margin-left: 12px;
+    width: 32px;
+}
+
+.cli-tal-pro-search-filter-container {
+    margin-top: 55px;
+}
+
+.cli-tal-pro-search-filter-content {
+    margin-bottom: 30px;
+}
+
+.cli-tal-pro-search-filter-title-area {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.cli-tal-pro-search-filter-title-area .cli-tal-pro-search-filter-title {
+    color: #714F36;
+    font-size: 15px;
+    font-weight: 500;
+    text-transform: capitalize;
+    margin-bottom: 0;
+}
+
+.cl-toggle-switch {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.cl-toggle-switch .cl-toggle--switch-label {
+    color: #B3B3B3;
+    font-size: 14px;
+    font-weight: 400;
+    margin-bottom: 0;
+}
+
+.cl-switch {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+/* Input */
+.cl-switch>input {
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    z-index: -1;
+    position: absolute;
+    right: 4.5px;
+    top: -5.2px;
+    display: block;
+    margin: 0;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    background-color: rgb(0, 0, 0, 0.38);
+    outline: none;
+    opacity: 0;
+    -webkit-transform: scale(1);
+    -ms-transform: scale(1);
+    transform: scale(1);
+    pointer-events: none;
+    -webkit-transition: opacity 0.3s 0.1s, -webkit-transform 0.2s 0.1s;
+    transition: opacity 0.3s 0.1s, -webkit-transform 0.2s 0.1s;
+    transition: opacity 0.3s 0.1s, transform 0.2s 0.1s;
+    transition: opacity 0.3s 0.1s, transform 0.2s 0.1s, -webkit-transform 0.2s 0.1s;
+}
+
+/* Track */
+.cl-switch>span::before {
+    content: "";
+    float: right;
+    display: inline-block;
+    margin: 5px 0 5px 10px;
+    border-radius: 7px;
+    width: 24px;
+    height: 10px;
+    background-color: rgb(0, 0, 0, 0.38);
+    vertical-align: top;
+    -webkit-transition: background-color 0.2s, opacity 0.2s;
+    transition: background-color 0.2s, opacity 0.2s;
+}
+
+/* Thumb */
+.cl-switch>span::after {
+    content: "";
+    position: absolute;
+    top: 2px;
+    right: 11px;
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    background-color: #fff;
+    -webkit-box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+    box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+    -webkit-transition: background-color 0.2s, -webkit-transform 0.2s;
+    transition: background-color 0.2s, -webkit-transform 0.2s;
+    transition: background-color 0.2s, transform 0.2s;
+    transition: background-color 0.2s, transform 0.2s, -webkit-transform 0.2s;
+}
+
+/* Checked */
+.cl-switch>input:checked {
+    right: -10px;
+    background-color: #d0a88e;
+}
+
+.cl-switch>input:checked+span::before {
+    background-color: #c6a085;
+}
+
+.cl-switch>input:checked+span::after {
+    background-color: #714F36;
+    -webkit-transform: translateX(14px);
+    -ms-transform: translateX(14px);
+    transform: translateX(14px);
+}
+
+/* Hover, Focus */
+.cl-switch:hover>input {
+    opacity: 0.04;
+}
+
+.cl-switch>input:focus {
+    opacity: 0.12;
+}
+
+.cl-switch:hover>input:focus {
+    opacity: 0.16;
+}
+
+/* Active */
+.cl-switch>input:active {
+    opacity: 1;
+    -webkit-transform: scale(0);
+    -ms-transform: scale(0);
+    transform: scale(0);
+    -webkit-transition: opacity 0s, -webkit-transform 0s;
+    transition: opacity 0s, -webkit-transform 0s;
+    transition: transform 0s, opacity 0s;
+    transition: transform 0s, opacity 0s, -webkit-transform 0s;
+}
+
+.cl-switch>input:active+span::before {
+    background-color: #8f8f8f;
+}
+
+.cl-switch>input:checked:active+span::before {
+    background-color: #c6a085;
+}
+
+/* Disabled */
+.cl-switch>input:disabled {
+    opacity: 0;
+}
+
+.cl-switch>input:disabled+span::before {
+    background-color: #ddd;
+}
+
+.cl-switch>input:checked:disabled+span::before {
+    background-color: #dcc6b7;
+}
+
+.cl-switch>input:checked:disabled+span::after {
+    background-color: #c6a085;
+}
+
+.cli--tal-pro-filter-input-area {
+    position: relative;
+}
+
+.cli--tal-pro-filter-input-area .cli--tal-pro-filter-input {
+    width: 100%;
+    outline: none !important;
+    position: relative;
+    padding: 12px 10px 12px 50px;
+    font-size: 14px;
+    border-radius: 4px;
+    color: #714F36;
+    border: 1px solid #714F36 !important;
+    background: #FFF;
+    box-shadow: 0px 4px 10px 0px rgba(150, 150, 150, 0.25);
+}
+
+.cli--tal-pro-filter-input-area .cli--tal-pro-filter-search-icon {
+    position: absolute;
+    color: #A5A5A5;
+    font-size: 16px;
+    vertical-align: middle;
+    left: 18px;
+    top: 13px;
+}
+
+.cli--tal-pro-filter-input::placeholder {
+    color: #A5A5A5 !important;
+    font-size: 11px !important;
+    font-weight: 400 !important;
+    vertical-align: middle !important;
+    padding-top: -5px !important;
+}
+
+/* /////// */
+.cli--mark-keyword-area {
+    margin-top: 14px;
+}
+
+.cli--mark-keyword-check-input {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    cursor: pointer;
+    color: #313131;
+    font-size: 10px !important;
+    font-weight: 400;
+}
+
+.cli--mark-keyword-check-input input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.cli--mark-keyword-checkmark {
+    position: relative;
+    display: inline-block;
+    width: 17px;
+    height: 17px;
+    margin-right: 10px;
+    border: 1px solid #898989;
+    border-radius: 2px;
+    -webkit-transition: ease-in-out 0.5s;
+    transition: ease-in-out 0.5s;
+    outline: none;
+    flex-shrink: 0;
+}
+
+.cli--mark-keyword-check-input input[type="checkbox"]:checked~.cli--mark-keyword-checkmark {
+    background-color: #714F36;
+    border-color: #ffffff;
+}
+
+.cli--mark-keyword-check-input input[type="checkbox"]:checked~.cli--mark-keyword-checkmark:after {
+    content: "";
+    position: absolute;
+    top: 2.5px;
+    left: 5.6px;
+    width: 4px;
+    height: 9px;
+    border: solid #FFF;
+    border-width: 0 1.5px 1.5px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+
+.cli--mark-keyword-check-input:hover input[type="checkbox"]~.cli--mark-keyword-checkmark {
+    border-color: #714F36;
+}
+
+.cli--mark-keyword-check-input input[type="checkbox"]:disabled~.cli--mark-keyword-checkmark {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.cli--mark-keyword-check-input input[type="checkbox"]:disabled~.cli--mark-keyword-checkmark:hover {
+    border-color: #4d4d4d;
+}
+
+.cli-tal-pro-exp-input-area {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.cli-tal-pro-exp-input-area .cli-tal-pro-exp-input {
+    width: 100%;
+    outline: none !important;
+    position: relative;
+    padding: 12px 20px;
+    font-size: 14px;
+    border-radius: 4px;
+    color: #714F36;
+    border: 1px solid #714F36 !important;
+    background: #FFF;
+    box-shadow: 0px 4px 10px 0px rgba(150, 150, 150, 0.25);
+}
+
+.cli-tal-pro-exp-input-area input[type="number"]::-webkit-inner-spin-button,
+.cli-tal-pro-exp-input-area input[type="number"]::-webkit-outer-spin-button,
+.cli-tal-pro-exp-input-area input[type="number"] {
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.cli-tal-pro-exp-input::placeholder {
+    color: #A5A5A5 !important;
+    font-size: 11px !important;
+    font-weight: 400 !important;
+    vertical-align: middle !important;
+    padding-top: -5px !important;
+}
+
+.cli-tal-pro-exp-input-area .cli-tal-pro-exp-input-text {
+    color: #714F36;
+    font-size: 14px;
+    font-weight: 400;
+    text-transform: lowercase;
+}
+
+.info-icon {
+    font-size: 18px;
+    vertical-align: middle;
+    color: #714F36;
+}
+
+.info-icon-button {
+    outline: none !important;
+    border: none !important;
+    background: none;
+    cursor: pointer;
+}
+
+.info-icon-area {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.tooltip {
+    display: none;
+    position: absolute;
+    right: -20%;
+    top: -130%;
+    background-color: #714f36d8;
+    text-shadow: 2px 2px 2px #5c5c5c;
+    /* backdrop-filter: blur(1px);
+    -webkit-backdrop-filter: blur(1px); */
+    box-shadow: 0px 4px 10px 0px rgba(150, 150, 150, 0.25);
+    font-size: 12px;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 4px;
+    z-index: 1;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.info-icon-button:hover+.tooltip {
+    display: block;
+    opacity: 1;
+    transform: translateY(-10px);
+}
+
+.cli-tal-pro-search-filter-multi-input-area {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    overflow: hidden;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.cli-tal-pro-search-filter-multi-input-area.active {
+    opacity: 1 !important;
+}
+
+.cli-tal-pro-search-filter-input {
+    width: 100%;
+    outline: none !important;
+    position: relative;
+    padding: 12px 20px;
+    font-size: 14px;
+    border-radius: 4px;
+    color: #714F36;
+    border: 1px solid #714F36 !important;
+    background: #FFF;
+    box-shadow: 0px 4px 10px 0px rgba(150, 150, 150, 0.25);
+    transition: all 0.5s;
+}
+
+.cli-tal-pro-search-filter-input::placeholder {
+    color: #A5A5A5 !important;
+    font-size: 11px !important;
+    font-weight: 400 !important;
+    vertical-align: middle !important;
+    padding-top: -5px !important;
+}
+
+.cli-tal-pro-search-filter-multi-input-area .cli-input-close-icon {
+    margin-left: 12px;
+    color: #313131;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.cli-change--location-area {
+    color: #313131;
+    font-size: 10px;
+    font-weight: 400;
+    margin: 8px 0;
+}
+
+.cli--salary-inputs-area {
+    display: flex;
+    gap: 2px;
+    align-items: center;
+}
+
+.width-45 {
+    width: 45% !important;
+}
+
+.width-70 {
+    width: 70% !important;
+}
+
+.width-30 {
+    width: 30% !important;
+}
+
+.cli-tal-pro-select-input {
+    width: 100%;
+    outline: none !important;
+    position: relative;
+    padding: 12px 5px;
+    font-size: 14px;
+    border-radius: 4px;
+    color: #714F36;
+    border: 1px solid #714F36 !important;
+    background: #FFF;
+    box-shadow: 0px 4px 10px 0px rgba(150, 150, 150, 0.25);
+}
+
+.cli-tal-pro-select-input option:disabled {
+    color: #ababab !important;
+}
+
+.cli-tal-pro-select-input option {
+    background-color: #714F36;
+    color: #fff;
+    transition: ease-in-out 0.5s;
+}
+
+.cli-tal-pro-select-input option:hover {
+    background-color: #FFF !important;
+    color: #714F36 !important;
+}
+
+.cli--tal-pro-search-results-area {
+    padding: 50px 0px 50px 40px;
+    position: relative;
+}
+
+.tal--pro-paginate-btn-area {
+    margin-top: 60px;
+    margin-bottom: 40px;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0;
+}
+
+.tal--pro-paginate-btn-area .tal--pro-total-result-text {
+    color: #714F36;
+    font-size: 16px;
+    font-weight: 400;
+    margin-bottom: 0;
+}
+
+.cli--emploment-detail-area {
+    margin-top: 40px;
+}
+
+.cli--emploment-detail-area .cli--emploment-detail-head {
+    color: #714F36;
+    font-size: 20px;
+    font-weight: 600;
+    text-transform: capitalize;
+    margin-bottom: 23px;
+}
+
+.cli-tal-search-filter-form-group {
+    margin-bottom: 16px;
+}
+
+.cli-tal-search-filter-form-label-area {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.cli-tal-search-filter-form-group .cli-tal-search-filter-form-label {
+    color: #313131;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.cli--tal-search-add-input-area {
+    margin-top: 18px;
+}
+
+.cli--tal-search-add-input-area .cli--tal-search-add-input-button {
+    color: #313131;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    background: none;
+    border: none;
+    outline: none;
+    margin-bottom: 12px;
+}
+
+.cli--tal-search-add-input-button .add-input-icon {
+    color: #313131;
+    margin-right: 12px;
+    font-size: 15px;
+    vertical-align: middle;
+}
+
+.multi-input-container {
+    margin-bottom: 18px;
+}

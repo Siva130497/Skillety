@@ -46,7 +46,7 @@ const NewNav = () => {
                     <ul>
                         <li><div><a href="/" className="nav-link scrollto active">Home</a></div></li>
                         <li><a href="/about-us" className="nav-link scrollto">About Us</a></li>
-                        <li><a href="/talents" className="nav-link scrollto">Talents</a></li>
+                        <li><a href="/talent-profile-search" className="nav-link scrollto">Talents</a></li>
                         <li className="dropdown"><a href="#"><span>Services</span> <i className="bi bi-chevron-down"></i></a>
                             <ul>
                                 <li><a href="/services">Service 1</a></li>
