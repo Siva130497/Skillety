@@ -19,7 +19,7 @@ const AllJobs = () => {
             const result = res.data;
             if (!result.error) {
               console.log(result);
-              setAllJobs(result);
+              setAllJobs(result.reverse());
             } else {
               console.log(result);
             }
@@ -42,11 +42,13 @@ const AllJobs = () => {
               setSearchFilteredJobMsg("No such job found")
             }
           }else{
-            const filteredJobs = allJobs.filter((job)=>job.jobRole[0].toLowerCase().includes(searchJobRoleInput.toLowerCase()));
-            if(filteredJobs.length> 0){
-              setSearchFilteredJobs(filteredJobs);
-            }else{
-              setSearchFilteredJobMsg("No such job found")
+            if(!checkBoxFilteredJobMsg){
+              const filteredJobs = allJobs.filter((job)=>job.jobRole[0].toLowerCase().includes(searchJobRoleInput.toLowerCase()));
+              if(filteredJobs.length> 0){
+                setSearchFilteredJobs(filteredJobs);
+              }else{
+                setSearchFilteredJobMsg("No such job found")
+              }
             }
           }
         }else{
@@ -73,12 +75,14 @@ const AllJobs = () => {
               setSearchFilteredJobMsg("No such job found");
             }
           }else{
-            const filtered = allJobs.filter((job) => updatedFilters.includes(job.jobCategory));
-            setCheckBoxFilteredJobMsg("");
-            if(filtered.length > 0){
-              setCheckBoxFilteredJobs(filtered);
-            }else{
-              setCheckBoxFilteredJobMsg("No such job found");
+            if(!searchFilteredJobMsg){
+              const filtered = allJobs.filter((job) => updatedFilters.includes(job.jobCategory));
+              setCheckBoxFilteredJobMsg("");
+              if(filtered.length > 0){
+                setCheckBoxFilteredJobs(filtered);
+              }else{
+                setCheckBoxFilteredJobMsg("No such job found");
+              }
             }
           }
         }else{
@@ -94,7 +98,7 @@ const AllJobs = () => {
 
       const handleViewJobDetail = (id) => {
         setViewJobStatus(preViewJobStatus=>!preViewJobStatus);
-        const selectedJob = allJobs.reverse().find(job=> job.id === id);
+        const selectedJob = allJobs.find(job=> job.id === id);
         setSelectedJobViewDetail(selectedJob);
       }
 
@@ -144,13 +148,7 @@ const AllJobs = () => {
                       Freelancer
                     </label>
                 </div>
-                {/* <p>Total Jobs: <strong>{ searchFilteredJobMsg ? searchFilteredJobs.length : searchFilteredJobs.length > 0 ? searchFilteredJobs.length : checkBoxFilteredJobMsg ? checkBoxFilteredJobs.length : checkBoxFilteredJobs.length > 0 ? checkBoxFilteredJobs.length : !searchJobRoleInput ? allJobs.length : null }</strong></p> */}
                 <table className="table table-hover my-3">
-                {/* {(searchFilteredJobs.length > 0 || !searchJobRoleInput) && <thead>
-                    <tr className='table-dark'>
-                        <th scope="col">Job Role</th>
-                    </tr>
-                </thead>} */}
                 <tbody>
                 {searchFilteredJobMsg ?
                 <p>{searchFilteredJobMsg}</p>:
@@ -172,8 +170,8 @@ const AllJobs = () => {
                     </tr>
                   );
                 }):
-                !searchJobRoleInput ?
-                allJobs.reverse().map((Job)=>{
+                (!searchJobRoleInput && checkBoxfilters.length === 0) ?
+                allJobs.map((Job)=>{
                     return (
                       <tr key={Job.id}>
                           <th scope="row" onClick={()=>handleViewJobDetail(Job.id)}>{Job.jobRole[0]}</th>

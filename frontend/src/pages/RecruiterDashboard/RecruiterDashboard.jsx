@@ -14,6 +14,7 @@ import AllJobs from '../../components/AllJobs';
 import PostedJobs from '../../components/PostedJobs';
 import JobPosting from '../../components/JobPosting';
 import AllCandidates from '../../components/AllCandidates';
+import AllClients from '../../components/AllClients';
 
 const RecruiterDashboard = () => {
   const {
@@ -21,6 +22,7 @@ const RecruiterDashboard = () => {
   } = useContext(AuthContext);
 
   const [dashBoard, setDashBoard] = useState(true);
+  const [allClientMode, setAllClientMode] = useState(false);
   const [allCandidateMode, setAllCandidateMode] = useState(false);
   const [allJobMode, setAllJobMode] = useState(false);
   const [postedJobMode, setPostedJobMode] = useState(false);
@@ -50,12 +52,13 @@ const RecruiterDashboard = () => {
   
   return (
     <div>
-        <Layout/>
+        {/* <Layout/> */}
         <div className='container-fluid' style={{display: 'flex'}}>
           <div style={{flex:2}}>
             <ul>
               <li style={{listStyleType:'none'}}><button onClick={()=>{
                 setDashBoard(true);
+                setAllClientMode(false);
                 setAllCandidateMode(false);
                 setAllJobMode(false);
                 setPostedJobMode(false);
@@ -63,6 +66,15 @@ const RecruiterDashboard = () => {
               }}>Dash board</button></li>
               <li style={{listStyleType:'none'}}><button onClick={()=>{
                 setDashBoard(false);
+                setAllClientMode(true);
+                setAllCandidateMode(false);
+                setAllJobMode(false);
+                setPostedJobMode(false);
+                setJobPostingMode(false);
+              }}>All Clients</button></li>
+              <li style={{listStyleType:'none'}}><button onClick={()=>{
+                setDashBoard(false);
+                setAllClientMode(false);
                 setAllCandidateMode(true);
                 setAllJobMode(false);
                 setPostedJobMode(false);
@@ -70,6 +82,7 @@ const RecruiterDashboard = () => {
               }}>All Candidates</button></li>
               <li style={{listStyleType:'none'}}><button onClick={()=>{
                 setDashBoard(false);
+                setAllClientMode(false);
                 setAllCandidateMode(false);
                 setAllJobMode(true);
                 setPostedJobMode(false);
@@ -77,6 +90,7 @@ const RecruiterDashboard = () => {
               }}>All Jobs</button></li>
               <li style={{listStyleType:'none'}}><button onClick={()=>{
                 setDashBoard(false);
+                setAllClientMode(false);
                 setAllCandidateMode(false);
                 setAllJobMode(false);
                 setPostedJobMode(true);
@@ -84,6 +98,7 @@ const RecruiterDashboard = () => {
               }}>Posted Jobs</button></li>
               <li style={{listStyleType:'none'}}><button onClick={()=>{
                 setDashBoard(false);
+                setAllClientMode(false);
                 setAllCandidateMode(false);
                 setAllJobMode(false);
                 setPostedJobMode(false);
@@ -96,13 +111,16 @@ const RecruiterDashboard = () => {
             <h1>Dash Board</h1>
               {staff === "HR" ? <HRPage/> : staff === "Operator" ? <OperatorPage/> : staff === "Finance" ? <FinancePage/> : staff === "Customer support executive" ? <CustomerSupportExecutivePage/> : staff === "digitalmarketing team" ? <DigitalMarketingTeamPage/> : staff === "RMG" ? <RMGPage/> : null}
             </div>}
+            {allClientMode && <AllClients/>
+            }
             {allCandidateMode && <AllCandidates/>
             }
             {allJobMode > 0 && <AllJobs/>
             }
             {postedJobMode > 0 && <PostedJobs/>
             }
-            {jobPostingMode  && <JobPosting/>}
+            {jobPostingMode  && <JobPosting/>
+            }
           </div>
         </div>
         <Footer/>
