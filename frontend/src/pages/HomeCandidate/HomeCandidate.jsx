@@ -82,7 +82,7 @@ const HomeCandidate = () => {
       <div className='container-fluid home--section'>
         <div className='container-fluid container-section'>
           <div className="home--bg candidate">
-            <div className="row">
+            <div className="row col-rev-custom">
               <div className="col-12 col-lg-6 col-xl-7 col-md-12 home--left-cover">
                 <div className="home--head candidate">
                   <h4 data-aos="fade-left" data-aos-delay="200">

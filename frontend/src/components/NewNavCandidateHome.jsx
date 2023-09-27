@@ -22,7 +22,7 @@ export const NewNavCandidateHome = () => {
                 <div>
                     <div className='logo--area me-auto'>
                         <div className='logo--subarea'>
-                            <a href="/">
+                            <a href="/candidate-home">
                                 <img className='nav--logo' src="assets/img/logo/skillety-logo-sm.png" alt="" />
                             </a>
                         </div>
@@ -57,10 +57,11 @@ export const NewNavCandidateHome = () => {
                     <ul>
                         <li><div><a href="#" className="nav-link scrollto active">Home</a></div></li>
                         <li><a href="#" className="nav-link scrollto">About Us</a></li>
-                        <li><a href="#" className="nav-link scrollto">Jobs</a></li>
-                        <li><a href="#" className="nav-link scrollto">Companies</a></li>
+                        <li><a href="#" className="nav-link scrollto">Search Jobs</a></li>
+                        {/* <li><a href="#" className="nav-link scrollto">Companies</a></li> */}
                         <li><a href="#" className="nav-link scrollto">Event</a></li>
                         <li><a href="#" className="nav-link scrollto">Contact</a></li>
+                        <li><a href="#" className="nav-link scrollto">Login</a></li>
                     </ul>
                     <i className="bi bi-list mobile-nav-toggle"></i>
                 </nav>
