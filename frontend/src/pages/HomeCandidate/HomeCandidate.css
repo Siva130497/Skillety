@@ -1,0 +1,93 @@
+.home--bg.candidate {
+    background-color: #F9C833;
+}
+
+.home--head.candidate h4 {
+    color: #5C3B2E;
+    font-size: 48px;
+    font-weight: 600;
+}
+
+.home--head.candidate h3 {
+    color: #5C3B2E;
+    font-size: 24px;
+    font-weight: 600;
+}
+.home--head.candidate h6{
+    color: #5C3B2E;
+    font-weight: 500;
+}
+.home--search-area.candidate .home--search-box.candidate:focus {
+    border-color: #714F36;
+    outline: 0;
+    box-shadow: 0 0 0 .25rem #714f3638;
+}
+.home--search-area.candidate .home--search-btn.candidate {
+    color: #FFF;
+    background: #5C3B2E;
+}
+
+.home--search-area.candidate .home--search-btn.candidate:hover {
+    background: #fff !important;
+    color: #5C3B2E !important;
+    -webkit-animation: pulse535 2s infinite;
+    animation: pulse535 1.5s infinite;
+}
+
+@keyframes pulse535 {
+    0% {
+        box-shadow: 0 0 0 0 #714f3638;
+    }
+
+    70% {
+        box-shadow: 0 0 0 10px rgb(218 103 68 / 0%);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgb(218 103 68 / 0%);
+    }
+}
+
+.home--search-area.candidate .home--search-btn.candidate:focus {
+    border-color: #5C3B2E;
+    box-shadow: 0 0 0 .25rem #714f3638;
+}
+
+.home--popular-area.candidate h6 {
+    color: #5C3B2E;
+}
+.home--popular-btn.candidate {
+    border-color: #5C3B2E;
+    color: #5C3B2E !important;
+}
+.home--popular-btn.candidate::after{
+    background-color: #5C3B2E;
+}
+.home--popular-btn.candidate:hover{
+    color: #FFF !important;
+    text-shadow: 1px 2px 5px #1e1e1e56;
+}
+.home--card.candidate::after{
+    background-color: #5C3B2E;
+}
+.home--card.candidate:hover .card--text.candidate{
+    color: #fff !important;
+}
+.arrow--icon-btn.candidate {
+    background-color: #F9C833;
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    border: #5C3B2E 5px solid;
+    box-shadow: inset 0px 0px 10px #94771f;
+    transition: ease-in-out 0.5s;
+}
+.card--icon.candidate{
+    transition: ease-in-out 0.8s;
+}
+.home--card.candidate:hover .card--icon.candidate{
+    filter: invert(1) grayscale(1);
+}
+.home--card.candidate:hover .arrow--icon-btn.candidate {
+    border-color: #FFF;
+}
