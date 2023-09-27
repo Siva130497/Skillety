@@ -1062,7 +1062,7 @@ const HomeCandidate = () => {
                 </div>
               </div>
             </div>
-          </section>
+          </section> */}
 
           <section className='home--testimonial-section'>
             <div className='home--about-toparea'>
@@ -1233,7 +1233,7 @@ const HomeCandidate = () => {
                 </div>
               </div>
             </div>
-          </section> */}
+          </section>
 
           <section className='register--section'>
             <a href="/client-register">
