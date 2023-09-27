@@ -64,7 +64,8 @@ export const AuthContextProvider = ({children}) => {
             }
         } catch (error) {
             console.log(error);
-            alert("Invalid login credentials")
+            alert("Invalid login credentials");
+            window.location.reload();
         }
     }
 

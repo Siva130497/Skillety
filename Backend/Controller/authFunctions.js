@@ -223,38 +223,42 @@ const jobPosting = async(req, res) => {
 }
 
 /* get all job details */
-const getSkillMatchJobDetail = async(req, res) => {
+const getSkillMatchJobDetail = async (req, res) => {
   try {
     const id = req.params.candidateId;
-    const candidateDetail = await candidate.findOne({id});
+    const candidateDetail = await candidate.findOne({ id });
     const jobDetails = await jobDetail.find();
 
     const calculateMatchPercentage = (skills1, skills2) => {
       const matchingSkills = skills2.filter(skill => skills1.includes(skill));
       return (matchingSkills.length / skills1.length) * 100;
     }
-    
+
     const comparisonResults = jobDetails.map(obj => {
       const percentage = calculateMatchPercentage(obj.skills, candidateDetail.skills);
       return {
-        clientId:obj.clientId,
+        clientId: obj.clientId,
+        recruiterId: obj.recruiterId,
         jobId: obj.id,
         jobRole: obj.jobRole[0],
-        jobMandatorySkills:obj.skills,
+        jobMandatorySkills: obj.skills,
         jobAdditionalSkills: obj.additionalSkills,
-        jobExperience:`${obj.year} years and ${obj.month} months`,
+        jobExperience: `${obj.year} years and ${obj.month} months`,
         jobCategory: obj.jobCategory,
         jobDescription: obj.jobDescription,
-        percentage,
+        percentage: Math.round(percentage), 
       };
     });
-    
+
+    comparisonResults.sort((a, b) => b.percentage - a.percentage);
+
     res.status(200).json(comparisonResults);
-  
-  } catch(err) {
-    res.status(500).json({error: err.message})
+
+  } catch (err) {
+    res.status(500).json({ error: err.message })
   }
 }
+
 
 /* get all posted jobs */
 const getPostedjobs = async(req, res) => {
@@ -273,11 +277,12 @@ const getOwnPostedjobs = async(req, res) => {
     const id = req.params.postedPersonId;
     const postedJobsByClient = await jobDetail.find({clientId:id});
     const postedJobsByRecruiter = await jobDetail.find({recruiterId:id});
-    if(postedJobsByClient.length > 0){
+    if (postedJobsByClient.length > 0) {
       res.status(200).json(postedJobsByClient);
-    }
-    if(postedJobsByRecruiter.length > 0){
+    } else if (postedJobsByRecruiter.length > 0) {
       res.status(200).json(postedJobsByRecruiter);
+    } else {
+      res.status(404).json({ message: 'No posted job found' });
     }
   }catch(err) {
     res.status(500).json({error: err.message})
@@ -311,16 +316,26 @@ const getAppliedjobs = async(req, res) => {
 }
 
 /* get applied jobs from posted jobs  */
-const getAppliedOfPostedJobs = async(req, res) => {
-  try{
-    const id = req.params.clientId;
-    const appliedOfPostedJobs = await appliedJob.find({clientId:id});
+const getAppliedOfPostedJobs = async (req, res) => {
+  try {
+    const id = req.params.postedPersonId;
     
-    res.status(200).json(appliedOfPostedJobs); 
-  }catch(err) {
-    res.status(500).json({error: err.message})
+    const appliedOfPostedJobsOfClient = await appliedJob.find({ clientId: id });
+    const appliedOfPostedJobsOfRecruiter = await appliedJob.find({ recruiterId: id });
+
+    if (appliedOfPostedJobsOfClient.length > 0) {
+      res.status(200).json(appliedOfPostedJobsOfClient);
+    } else if (appliedOfPostedJobsOfRecruiter.length > 0) {
+      res.status(200).json(appliedOfPostedJobsOfRecruiter);
+    } else {
+      res.status(404).json({ message: 'No applied jobs found' });
+    }
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 }
+
+
 
 /* delete particular job */
 const deleteAppliedJob = async(req, res) => {

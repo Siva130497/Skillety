@@ -65,7 +65,7 @@ router.get('/skill-match-job-Detail/:candidateId', getSkillMatchJobDetail)
 //get client posted job details
 router.get('/posted-jobs', getPostedjobs)
 
-//get client posted job details
+//get posted job details
 router.get('/my-posted-jobs/:postedPersonId', getOwnPostedjobs)
 
 //candidate applied for job
@@ -75,7 +75,7 @@ router.post('/job-applying', applyingjob)
 router.get('/my-applied-jobs/:candidateId', getAppliedjobs)
 
 //get applied of posted jobs
-router.get('/applied-jobs-of-posted/:clientId', getAppliedOfPostedJobs)
+router.get('/applied-jobs-of-posted/:postedPersonId', getAppliedOfPostedJobs)
 
 //delete particular job of candidate
 router.delete('/delete-job/:candidateId/:jobId', deleteAppliedJob)

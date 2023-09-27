@@ -14,6 +14,10 @@ const appliedJobSchema = new Schema(
         type: String,
         required: true
     },
+    recruiterId: {
+        type: String,
+        required: true
+    },
     jobRole: {
         type: Array,
         required: true

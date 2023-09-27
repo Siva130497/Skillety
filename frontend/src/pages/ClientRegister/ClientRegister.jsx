@@ -7,6 +7,7 @@ import './ClientRegister-responsive.css'
 import AuthContext from '../../context/AuthContext';
 import Layout from '../../components/Layout';
 import { Footer } from '../../components/Footer';
+import GoogleAuth from '../../components/GoogleAuth';
 
 const ClientRegister = () => {
     const navigate = useNavigate();
@@ -39,7 +40,7 @@ const ClientRegister = () => {
             var $current = $(this);
 
             $(this).find('option').each(function (i) {
-                if (i == 0) {
+                if (i === 0) {
                     $current.prepend($('<div>', {
                         class: $current.attr('class').replace(/sel/g, 'sel__box')
                     }));
@@ -230,29 +231,29 @@ const ClientRegister = () => {
 
                             <div className="cli--reg-form-area">
                                 <div className="con--note-form-area" data-aos="fade-up">
-                                    <form action="">
+                                    <form action="" onSubmit={handleSubmit}>
                                         <div className="row">
                                             <div className="col-12 col-lg-6 col-md-6 col-sm-6 custom-padding-right">
                                                 <div className='reg--form-group custom'>
-                                                    <input type="text" id='full_name' name="full_name" placeholder="Enter you full name" className='reg--form-input' required />
+                                                    <input type="text" id='full_name' name="name" value={credentials.name} onChange={handleInputChange} placeholder="Enter your full name" className='reg--form-input' required />
                                                     <label htmlFor="full_name" className='reg--form-label'>Your Full Name</label>
                                                 </div>
                                             </div>
                                             <div className="col-12 col-lg-6 col-md-6 col-sm-6 custom-padding-left">
                                                 <div className='reg--form-group'>
-                                                    <input type="text" id='email' name="email" placeholder="Enter you mobile number" className='reg--form-input' required />
-                                                    <label htmlFor="email" className='reg--form-label'>Mobile Number</label>
+                                                    <input type="text" id='email' name="email" value={credentials.email} onChange={handleInputChange} placeholder="Enter your email address" className='reg--form-input' required />
+                                                    <label htmlFor="email" className='reg--form-label'>Email ID</label>
                                                 </div>
                                             </div>
                                             <div className="col-12 col-lg-6 col-md-6 col-sm-6 custom-padding-right">
                                                 <div className='reg--form-group'>
-                                                    <input type="text" id='phone_no' name="phone_no" placeholder="Enter you email address" className='reg--form-input' required />
-                                                    <label htmlFor="phone_no" className='reg--form-label'>Email ID</label>
+                                                    <input type="text" id='phone_no' name="phone" value={credentials.phone} onChange={handleInputChange} placeholder="Enter your mobile number" className='reg--form-input' required />
+                                                    <label htmlFor="phone_no" className='reg--form-label'>Mobile Number</label>
                                                 </div>
                                             </div>
                                             <div className="col-12 col-lg-6 col-md-6 col-sm-6 custom-padding-left">
                                                 <div className='reg--form-group'>
-                                                    <input type="text" id='subject' name="subject" placeholder="Enter the company name" className='reg--form-input' required />
+                                                    <input type="text" id='subject' name="companyName" value={credentials.companyName} onChange={handleInputChange} placeholder="Enter the company name" className='reg--form-input' required />
                                                     <label htmlFor="subject" className='reg--form-label'>Company Name</label>
                                                 </div>
                                             </div>
@@ -272,7 +273,7 @@ const ClientRegister = () => {
                                                     <label htmlFor="" className='custom--select-label'>Industry</label>
                                                     <div class="sel sel--black-panther">
                                                         <i class="bi bi-chevron-down select--toggle"></i>
-                                                        <select name="select-profession" id="select-profession">
+                                                        <select name="industry" id="select-profession" value={credentials.industry} onChange={handleInputChange}>
                                                             <option value="" disabled>- Select Here -</option>
                                                             <option value="hacker">Hacker</option>
                                                             <option value="gamer">Gamer</option>
@@ -285,13 +286,13 @@ const ClientRegister = () => {
                                             </div>
                                             <div className="col-12 col-lg-6 col-md-4 col-sm-4 custom-padding-left">
                                                 <div className='reg--form-group'>
-                                                    <input type="text" id='subject' name="subject" placeholder="Enter the headcount" className='reg--form-input' required />
+                                                    <input type="text" id='subject' name="count" value={credentials.count} onChange={handleInputChange} placeholder="Enter the headcount" className='reg--form-input' required />
                                                     <label htmlFor="subject" className='reg--form-label'>Headcount</label>
                                                 </div>
                                             </div>
                                             <div className="col-12 col-lg-12 col-md-12 col-sm-12 custom-padding-left-right">
                                                 <div className='reg--form-group'>
-                                                    <input type="text" id='message' name="message" placeholder="Where did you acquire knowledge about Skillety?" className='reg--form-input' />
+                                                    <input type="text" id='message' name="text" value={credentials.text} onChange={handleInputChange} placeholder="Where did you acquire knowledge about Skillety?" className='reg--form-input' />
                                                     <label htmlFor="message" className='reg--form-label'>From where did you learn about Skillety?</label>
                                                 </div>
                                             </div>
@@ -309,6 +310,7 @@ const ClientRegister = () => {
                                                     </svg>
                                                 </div>
                                             </button>
+                                            <GoogleAuth/>
                                         </div>
                                     </form>
                                 </div>

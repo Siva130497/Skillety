@@ -1,16 +1,14 @@
 import React, { useState, useContext } from 'react'
-import { Link } from "react-router-dom";
 import { useEffect } from 'react';
 import $ from 'jquery';
 import './ClientLogin.css'
 import './ClientLogin-responsive.css'
 import AuthContext from '../../context/AuthContext';
-import ClientDashBoard from '../ClientDashboard/ClientDashboard';
 import Layout from '../../components/Layout';
 import { Footer } from '../../components/Footer';
 
 const ClientLogin = () => {
-    const { loginUser, dashBoard } = useContext(AuthContext)
+    const { loginUser } = useContext(AuthContext)
     const [credentials, setcredentials] = useState({
         email: "",
         password: "",
@@ -131,15 +129,15 @@ const ClientLogin = () => {
                                         </a>
                                     </div>
 
-                                    <form action="" className='cli--signup-form'>
+                                    <form action="" className='cli--signup-form' onSubmit={handleSubmit}>
                                         <div className='cli--signup-form-group' data-aos="fade-up">
-                                            <input type="text" id='user_id' name="user_id" placeholder="Enter your User ID" className='cli--signup-form-input' required />
+                                            <input type="email" id='user_id' name="email" placeholder="Enter your User ID" className='cli--signup-form-input' value={credentials.email} onChange = {handleInputChange} required />
                                             <label htmlFor="user_id" className='cli--signup--form-label'>User Id</label>
                                         </div>
 
                                         <div className='cli--signup-form-group' data-aos="fade-up">
                                             <i class="bi bi-eye-slash toggle-eye" id="togglePassword"></i>
-                                            <input type="password" id='password' name="password" placeholder="Enter your password" className='cli--signup-form-input' required />
+                                            <input type="password" id='password' name="password" placeholder="Enter your password" className='cli--signup-form-input'  value = {credentials.password} onChange = {handleInputChange} required />
                                             <label htmlFor="password" className='cli--signup--form-label'>Password</label>
                                         </div>
 

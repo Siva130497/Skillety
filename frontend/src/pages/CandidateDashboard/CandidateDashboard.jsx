@@ -1,18 +1,27 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import axios from 'axios';
 import AuthContext from '../../context/AuthContext';
-import CandidateLogin from '../CandidateLogin/CandidateLogin';
 import Layout from '../../components/Layout';
 import { Footer } from '../../components/Footer';
 
 
 const CandidateDashboard = () => {
   const [jobDetail, setJobDetail] = useState([]);
-  const [filteredJob, setFilteredJob] = useState([]);
-  const {employeeId, applyingjob, appliedJobStatus, setAppliedJobStatus} = useContext(AuthContext);
+  const {employeeId, applyingjob} = useContext(AuthContext);
   const [jobView, setJobView] = useState(false);
   const [jobViewDetail, setJobViewDetail] = useState([]);
   const [appliedJobDetail, setAppliedJobDetail] = useState([]);
+  const [dashBoard, setDashBoard] = useState(true);
+  const [allJobMode, setAllJobMode] = useState(false);
+  const [appliedJobMode, setAppliedJobMode] = useState(false);
+
+  const [checkBoxfilters, setCheckBoxFilters] = useState([]);
+  const [checkBoxFilteredJobs, setCheckBoxFilteredJobs] = useState([]);
+  const [searchFilteredJobs, setSearchFilteredJobs] = useState([]);
+  const [searchFilteredJobMsg, setSearchFilteredJobMsg] = useState("");
+  const [prevSearchFilteredJobs, setPrevSearchFilteredJobs] = useState([]);
+  const [checkBoxFilteredJobMsg, setCheckBoxFilteredJobMsg] = useState("");
+  const [searchJobRoleInput, setSearchJobRoleInput] = useState("");
   
   
     const getSkillMatchJobDetail = async() => {
@@ -47,41 +56,9 @@ const CandidateDashboard = () => {
       }
     }
 
-
-    useEffect(() => {
-      if(employeeId){
-        getSkillMatchJobDetail();
-        getAppliedjobs();
-      }
-    },[employeeId])
-
-    useEffect(()=>{
-      if(appliedJobStatus){
-        getAppliedjobs();
-        setAppliedJobStatus(false);
-      }
-    },[appliedJobStatus])
-
-    const handleChange = (e) => {
-      const { value } = e.target;
-      const jobResults = jobDetail.filter((job) => {
-        if (value === "full time") {
-          return job.jobCategory === value;
-        } else if (value === "part time") {
-          return job.jobCategory === value;
-        } else if (value === "remote") {
-          return job.jobCategory === value;
-        } else if (value === "freelancer") {
-          return job.jobCategory === value;
-        }
-      });
-    
-      setFilteredJob(jobResults);
-    };
-    
     const handleJobClick = (id) => {
       setJobView(prevJobView => !prevJobView);
-      const selectedJob = filteredJob.find(job => job.jobId === id);
+      const selectedJob = jobDetail.find(job => job.jobId === id);
       const alreadyAppliedJob = appliedJobDetail.find(appliedJob => appliedJob.jobId === id);
       if(alreadyAppliedJob){
         const updatedJob = { ...selectedJob, discardStatus: true };
@@ -93,7 +70,7 @@ const CandidateDashboard = () => {
     }
     
     const handleApply = (id) => {
-      const AppliedJob = filteredJob.find(job => job.jobId === id);
+      const AppliedJob = jobDetail.find(job => job.jobId === id);
       const alreadyAppliedJob = appliedJobDetail.find(appliedJob => appliedJob.jobId === AppliedJob.jobId)
       if (alreadyAppliedJob) {
         setAppliedJobDetail([...appliedJobDetail]);
@@ -117,76 +94,217 @@ const CandidateDashboard = () => {
         console.error(error);
       }
     }
+
+    const handleJobSearch = () => {
+      if(searchJobRoleInput){
+        if(checkBoxFilteredJobs.length >0){
+          const filteredJobs = checkBoxFilteredJobs.filter((job)=>job.jobRole.toLowerCase().includes(searchJobRoleInput.toLowerCase()));
+          if(filteredJobs.length> 0){
+            setSearchFilteredJobs(filteredJobs);
+          }else{
+            setSearchFilteredJobMsg("No such job found")
+          }
+        }else{
+          if(!checkBoxFilteredJobMsg){
+            const filteredJobs = jobDetail.filter((job)=>job.jobRole.toLowerCase().includes(searchJobRoleInput.toLowerCase()));
+            if(filteredJobs.length> 0){
+              setSearchFilteredJobs(filteredJobs);
+            }else{
+              setSearchFilteredJobMsg("No such job found")
+            }
+          }
+        }
+      }else{
+        if(checkBoxFilteredJobs.length >0){
+          setSearchFilteredJobs(checkBoxFilteredJobs);
+        }
+        setSearchFilteredJobs(jobDetail);
+      }
+    }
+  
+    const handleCheckboxChange = (category) => {
+      const updatedFilters = checkBoxfilters.includes(category)
+        ? checkBoxfilters.filter((filter) => filter !== category)
+        : [...checkBoxfilters, category];
+      setCheckBoxFilters(updatedFilters);
+      if(updatedFilters.length > 0){
+        if(searchFilteredJobs.length > 0){
+          setSearchFilteredJobMsg("");
+          setPrevSearchFilteredJobs(searchFilteredJobs)
+          const filtered = searchFilteredJobs.filter((job) => updatedFilters.includes(job.jobCategory));
+          if(filtered.length > 0){
+            setSearchFilteredJobs(filtered);
+          }else{
+            setSearchFilteredJobMsg("No such job found");
+          }
+        }else{
+          if(!searchFilteredJobMsg){
+            const filtered = jobDetail.filter((job) => updatedFilters.includes(job.jobCategory));
+            setCheckBoxFilteredJobMsg("");
+            if(filtered.length > 0){
+              setCheckBoxFilteredJobs(filtered);
+            }else{
+              setCheckBoxFilteredJobMsg("No such job found");
+            }
+          }
+        }
+      }else{
+        if(searchFilteredJobs.length > 0){
+          setSearchFilteredJobMsg("");
+          setSearchFilteredJobs(prevSearchFilteredJobs);
+        }else{
+          setCheckBoxFilteredJobMsg("");
+          setCheckBoxFilteredJobs(jobDetail);
+        }
+      }
+    };
+
     
   return (
-    <div>
-        <Layout candidateHome={true}/>
-        <div className='container-fluid'>
-        <h1>Dash board</h1>
-        <br></br>
-        <h4>Job Category</h4> 
-        <select 
-        className="form-select" 
-        onChange={handleChange}
-        >
-          <option value="">Select job category.</option>                    
-          <option value="full time">Full time</option>
-          <option value="part time">Part time</option>
-          <option value="remote">Remote</option>
-          <option value="freelancer">Freelancer</option>
-        </select>
-        <br></br>
-        {filteredJob. length > 0 && 
-          <table className="table table-hover my-3">
-            <thead>
-                <tr className='table-dark'>
-                    <th scope="col">Job Role</th>
-                    <th scope="col">Matched Percentage With Your Skills And Job Role Skills(%)</th>
-                </tr>
-            </thead>
-            <tbody>
-              {filteredJob.map((job)=>{
-                return (
-                  <tr key={job.jobId}>
-                      <th scope="row" onClick={() => handleJobClick(job.jobId)}>{job.jobRole}</th>
-                      <td>{job.percentage}</td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        }
-        <br></br>
-        {filteredJob.length > 0 && jobView && (
-          <div>
-            <h4>Job Details</h4>
-            <div>Job Role: {jobViewDetail.jobRole}</div>
-            <div>Mandatory Skills: {jobViewDetail.jobMandatorySkills.join(', ')}</div>
-            {jobViewDetail.jobAdditionalSkills.length > 0 &&
-              <div>Additional Skills: {jobViewDetail.jobAdditionalSkills.join(', ')}</div>
-            }
-            <div>Experience: {jobViewDetail.jobExperience}</div>
-            <div>Category: {jobViewDetail.jobCategory}</div>
-            <div>Description: {jobViewDetail.jobDescription}</div>
-            <div>Percentage matched with your skills: {jobViewDetail.percentage}%</div>
-            {!jobViewDetail.discardStatus && <button type="button" className="btn btn-outline-info my-2" onClick={()=>handleApply(jobViewDetail.jobId)}>Apply</button>}
-            {jobViewDetail.discardStatus && <button type="button" className="btn btn-outline-info my-2" onClick={()=>handleDiscard(jobViewDetail.jobId)}>Discard</button>}
-          </div>
-        )}
-        <br></br>
-        {appliedJobDetail.length > 0 &&
-          <div>
-            <br></br>
-            <h4>Your Applied Jobs</h4>
-            {appliedJobDetail.map((appliedJob)=>{
-              return <div key={appliedJob.jobId}>{appliedJob.jobRole}</div>
-            })}
-          </div>
-        }
+      <div>
+        {/* <Layout/> */}
+        <div className='container-fluid' style={{display: 'flex'}}>
+              <div style={{flex:2}}>
+                <ul>
+                  <li style={{listStyleType:'none'}}><button onClick={()=>{
+                    setDashBoard(true);
+                    setAppliedJobMode(false);
+                    setAllJobMode(false);
+                  }}>Dash board</button></li>
+                  <li style={{listStyleType:'none'}}><button onClick={()=>{
+                    getSkillMatchJobDetail();
+                    getAppliedjobs();
+                    setDashBoard(false);
+                    setAppliedJobMode(false);
+                    setAllJobMode(true);
+                  }}>All Jobs</button></li>
+                  <li style={{listStyleType:'none'}}><button onClick={()=>{
+                    getAppliedjobs();
+                    setDashBoard(false);
+                    setAppliedJobMode(true);
+                    setAllJobMode(false);
+                  }}>Applied Jobs</button></li>
+                </ul>
+              </div>
+              <div style={{flex:10}}>
+                {dashBoard && <div>
+                <h1>Dash Board</h1>
+                </div>}
+                {allJobMode &&
+                  <div>
+                    <h2>All Jobs</h2>
+                    <input 
+                    type='search' 
+                    name='searchJobRoleInput' 
+                    id='searchJobRoleInput' 
+                    className='form-control me-sm-2' 
+                    placeholder='Search job role...' 
+                    value={searchJobRoleInput}
+                    onChange={(e)=>{
+                      setSearchJobRoleInput(e.target.value);
+                      setSearchFilteredJobs([]);
+                      setSearchFilteredJobMsg("");
+                    }}
+                    />
+                    <button className="btn btn-secondary my-2" type="submit" onClick={handleJobSearch}>Search</button>
+                    <div class="form-check">
+                        <input className="form-check-input" type="checkbox" checked={checkBoxfilters.includes('full time')}
+                        onChange={() => handleCheckboxChange('full time')}/>
+                        <label class="form-check-label" >
+                          Full time
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" checked={checkBoxfilters.includes('part time')}
+                        onChange={() => handleCheckboxChange('part time')}/>
+                        <label class="form-check-label" >
+                          Part time
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input className="form-check-input" type="checkbox" checked={checkBoxfilters.includes('remote')}
+                        onChange={() => handleCheckboxChange('remote')}/>
+                        <label class="form-check-label" >
+                          Remote
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" checked={checkBoxfilters.includes('freelancer')}
+                        onChange={() => handleCheckboxChange('freelancer')}/>
+                        <label class="form-check-label" >
+                          Freelancer
+                        </label>
+                    </div>
+                    <table className="table table-hover my-3">
+                      <tbody>
+                        {searchFilteredJobMsg ?
+                        <p>{searchFilteredJobMsg}</p>:
+                        searchFilteredJobs.length > 0 ?
+                        searchFilteredJobs.map((job)=>{
+                          return (
+                            <tr key={job.jobId}>
+                                <th scope="row" onClick={() => handleJobClick(job.jobId)}>{job.jobRole}</th>
+                                <td>{job.percentage}%</td>
+                            </tr>
+                          );
+                        }):
+                        checkBoxFilteredJobMsg ?
+                        <p>{checkBoxFilteredJobMsg}</p>:
+                        checkBoxFilteredJobs.length > 0 ?
+                        checkBoxFilteredJobs.map((job)=>{
+                          return (
+                            <tr key={job.jobId}>
+                                <th scope="row" onClick={() => handleJobClick(job.jobId)}>{job.jobRole}</th>
+                                <td>{job.percentage}%</td>
+                            </tr>
+                          );
+                        }):
+                        (!searchJobRoleInput && checkBoxfilters.length === 0) ?
+                        jobDetail.map((job)=>{
+                          return (
+                            <tr key={job.jobId}>
+                                <th scope="row" onClick={() => handleJobClick(job.jobId)}>{job.jobRole}</th>
+                                <td>{job.percentage}%</td>
+                            </tr>
+                          );
+                        }):null}
+                      </tbody>
+                    </table>
+                    <br></br>
+                    {jobView && !searchFilteredJobMsg && !checkBoxFilteredJobMsg && (
+                      <div>
+                        <h4>Job Details</h4>
+                        <div>Job Role: {jobViewDetail.jobRole}</div>
+                        <div>Mandatory Skills: {jobViewDetail.jobMandatorySkills.join(', ')}</div>
+                        {jobViewDetail.jobAdditionalSkills.length > 0 &&
+                          <div>Additional Skills: {jobViewDetail.jobAdditionalSkills.join(', ')}</div>
+                        }
+                        <div>Experience: {jobViewDetail.jobExperience}</div>
+                        <div>Category: {jobViewDetail.jobCategory}</div>
+                        <div>Description: {jobViewDetail.jobDescription}</div>
+                        <div>Percentage matched with your skills: {jobViewDetail.percentage}%</div>
+                        {!jobViewDetail.discardStatus && <button type="button" className="btn btn-outline-info my-2" onClick={()=>handleApply(jobViewDetail.jobId)}>Apply</button>}
+                        {jobViewDetail.discardStatus && <button type="button" className="btn btn-outline-info my-2" onClick={()=>handleDiscard(jobViewDetail.jobId)}>Discard</button>}
+                      </div>
+                    )}
+                  </div>
+                }
+                {appliedJobMode &&
+                  <div>
+                    {appliedJobDetail.length > 0 ? 
+                      <div>
+                        <h4>Your Applied Jobs</h4>
+                        {appliedJobDetail.map((appliedJob)=>{
+                          return <div key={appliedJob.jobId}>{appliedJob.jobRole}</div>
+                        })}
+                      </div>
+                    :<p>still not applied for any jobs</p>}
+                  </div>
+                }
+              </div>
         </div>
         <Footer/>
-    </div>
-    
+      </div>
   )
 }
 

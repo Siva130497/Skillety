@@ -13,6 +13,7 @@ const AllCandidates = () => {
   const [filteredMsg, setFilteredMsg] = useState("")
   const [searchInput, setSearchInput] = useState("");
   const [filteredSearchResults, setFilteredSearchResults]= useState([]);
+  const [filteredSearchResultsMsg, setFilteredSearchResultsMsg] = useState("");
 
 
   const getAllCandidateDetail = async () => {
@@ -21,7 +22,7 @@ const AllCandidates = () => {
         const result = response.data;
         if (!result.error) {
             console.log(result);
-            setCandidateDetail(result);
+            setCandidateDetail(result.reverse());
         } else {
             console.log(result);
         }
@@ -127,33 +128,44 @@ const AllCandidates = () => {
 
   const viewCandidateDetail = (id) => {
     setViewCandidateDetailStatus(preViewCandidateStatus => !preViewCandidateStatus);
-    const selectedCandidate = candidateDetail.reverse().find(filteredCandidate => filteredCandidate.id === id);
+    const selectedCandidate = candidateDetail.find(filteredCandidate => filteredCandidate.id === id);
     setSelectedCandidateArray(selectedCandidate);
   }
 
   const handleSkillSearch = () => {
-    const searchSkills = searchInput
-      .split(/[, ]+/)
-      .filter(skill => skill.trim());
-
-    const filtered = candidateDetail.filter(candidate =>
-      searchSkills.every(searchSkill =>
+    const searchResults = searchInput
+      .split(/[,\s]+/) 
+      .filter(result => result.trim());
+  
+    const filteredObjBySkills = candidateDetail.filter(candidate =>
+      searchResults.some(searchResult => 
         candidate.skills.some(skill =>
-          skill.toLowerCase().includes(searchSkill.toLowerCase())
+          skill.toLowerCase().includes(searchResult.toLowerCase())
         )
       )
     );
-    console.log(filtered)
-    setFilteredSearchResults(filtered);
+
+    const filteredObjByDesignation = candidateDetail.filter(candidate =>
+      searchResults.some(searchResult => 
+        candidate.designation[0].toLowerCase().includes(searchResult.toLowerCase())
+      )
+    );
+
+    const mergedResults = [...filteredObjBySkills, ...filteredObjByDesignation];
+    if(mergedResults.length > 0){
+        setFilteredSearchResults(mergedResults);
+    }else{
+        setFilteredSearchResultsMsg("no such candidates found")
+    }
   }
-//   console.log(filteredSearchResults);
+
   
   return (
     <div>
         <div>
                 { candidateDetail.length > 0 ?
                   <div>
-                  <p>Total Candidates: <strong>{candidateDetail.length}</strong></p>
+                  {/* <p>Total Candidates: <strong>{candidateDetail.length}</strong></p> */}
                   {/* <select 
                   className="form-select" 
                   onChange={handleInputChange}
@@ -209,22 +221,33 @@ const AllCandidates = () => {
                   value={searchInput}
                   onChange={(e)=>{
                   setSearchInput(e.target.value);
+                  setFilteredSearchResults([]);
+                  setFilteredSearchResultsMsg("");
                   }}
                   />
                  <button className="btn btn-secondary my-2" type="submit" onClick={handleSkillSearch}>Search</button>
-                  {filteredCandidates.length === 0 &&
                     <div>
                       {filteredMsg ? <p>{filteredMsg}</p> : 
                       <div>
                       <table className="table table-hover my-3">
-                      <thead>
+                      {/* <thead>
                       <tr className='table-dark'>
                           <th scope="col">Full Name</th>
                           <th scope="col">Applied Jobs</th>
                       </tr>
-                      </thead>
+                      </thead> */}
                       <tbody>
-                      {candidateDetail.reverse().map((candidate) => {
+                      {filteredSearchResultsMsg ?
+                      <p>{filteredSearchResultsMsg}</p>:
+                      filteredSearchResults.length > 0 ?
+                       filteredSearchResults.map((candidate)=>{
+                        return(
+                            <tr key={candidate.id}>
+                                <th scope="row" onClick={()=>viewCandidateDetail(candidate.id)}>{candidate.firstName + ' ' + candidate.lastName}</th>
+                            </tr>
+                        )
+                       }) :
+                       !searchInput ? candidateDetail.map((candidate) => {
                         const nameOfAppliedJobs = appliedOfPostedJobs
                         .filter((appliedOfPostedJob) => appliedOfPostedJob.candidateId === candidate.id)
                         .map((appliedOfPostedJob) => appliedOfPostedJob.jobRole[0]);
@@ -234,13 +257,12 @@ const AllCandidates = () => {
                                 {nameOfAppliedJobs.length > 0 ? <td>{nameOfAppliedJobs.join(', ')}</td> : <td>still not applied for your posted jobs</td>}
                             </tr>
                         );
-                      })}
+                      }) : null}
                       </tbody>
                       </table>
                     </div>
                     }
                     </div>
-                  }
                   {/* {filteredCandidates.length > 0 &&
                     <div>
                       <table className="table table-hover my-3">
