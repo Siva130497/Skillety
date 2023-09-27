@@ -1,7 +1,18 @@
-import {useState} from 'react'
+import { useState } from 'react';
+import { useEffect } from 'react';
+import $ from 'jquery';
 import { useNavigate } from 'react-router-dom';
 
 const NewNav = () => {
+    useEffect(() => {
+        $(document).ready(function () {
+            $('.scroll-to-top').click(function () {
+                $('html, body').animate({
+                    scrollTop: 0
+                }, 100); // Adjust the speed (in milliseconds) as needed
+            });
+        });
+    }, []);
     const navigate = useNavigate();
 
     return (
@@ -23,7 +34,7 @@ const NewNav = () => {
                         id="switchTalent"
                         name="switchPlan"
                         value="Talent"
-                        onChange={()=>navigate("/candidate-home")}
+                        onChange={() => navigate("/candidate-home")}
                     />
                     <input
                         type="radio"
@@ -32,21 +43,21 @@ const NewNav = () => {
                         value="Employer"
                         checked
                     />
-                    <label htmlFor="switchTalent">Talent</label>
-                    <label htmlFor="switchEmployer">Employer</label>
+                    <label htmlFor="switchTalent" className='scroll-to-top'>Talent</label>
+                    <label htmlFor="switchEmployer" className='scroll-to-top'>Employer</label>
                     <div className="switch-wrapper">
                         <div className="switch">
-                        <div>Talent</div>
-                        <div>Employer</div>
+                            <div>Talent</div>
+                            <div>Employer</div>
                         </div>
                     </div>
                 </div>
-            
+
                 <nav id="navbar" className="navbar navbar-expand-lg">
                     <ul>
                         <li><div><a href="/" className="nav-link scrollto active">Home</a></div></li>
                         <li><a href="/about-us" className="nav-link scrollto">About Us</a></li>
-                        <li><a href="/talents" className="nav-link scrollto">Talents</a></li>
+                        <li><a href="/talent-profile-search" className="nav-link scrollto">Talents</a></li>
                         <li className="dropdown"><a href="#"><span>Services</span> <i className="bi bi-chevron-down"></i></a>
                             <ul>
                                 <li><a href="/services">Service 1</a></li>

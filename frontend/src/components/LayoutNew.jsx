@@ -222,17 +222,9 @@ const LayoutNew = () => {
         <div class="mouseCursor cursor-outer"></div>
         <div class="mouseCursor cursor-inner"></div>
         <div id="preloader"></div>
-        <a href="#" class="back-to-top d-flex align-items-center justify-content-center">
+        <a href="#" class="back-to-top candidate d-flex align-items-center justify-content-center">
             <i class="bi bi-chevron-double-up back-to-top-icon"></i>
         </a>
-        <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
     </div>
   )
 }

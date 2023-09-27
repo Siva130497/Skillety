@@ -1,12 +1,12 @@
-import React from 'react'
+import React from 'react';
 import { useEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import $ from 'jquery';
-import './Home.css'
-import './Home-responsive.css'
+import './Home.css';
+import './Home-responsive.css';
 import Layout from '../../components/Layout';
 import { Footer } from '../../components/Footer';
 
@@ -96,53 +96,6 @@ const Home = () => {
     // </div>
 
     <div>
-
-      {/* <Layout/>
-    <div className='container-fluid'>
-      <div className='home--section'>
-      <div className='container-fluid container-section'>
-        <div className="home--bg">
-          <div className="row">
-            <div className="col-12 col-lg-7 col-md-12 home--left-cover">
-              <div className="home--head">
-                <h5>
-                  Welcome to the world’s first Recruitment Solutions Integrator, powered by an exclusive job board for Immediate Joiners.
-                </h5>
-                <h6>
-                  Search For Talents
-                </h6>
-              </div>
-              <div className="home--search-area">
-                <input type="text" className='home--search-box form-control' placeholder='Search for skills' />
-                <i class="bi bi-search home--search-icon"></i>
-                <button className='btn home--search-btn'>Search</button>
-              </div>
-              <div className="home--popular-area">
-                <h6>Popular Searches</h6>
-                <div className="popular--btn-area">
-                  <a href="" className='btn home--popular-btn'>UI Designer</a>
-                  <a href="" className='btn home--popular-btn'>Marketing</a>
-                  <a href="" className='btn home--popular-btn'>Finance</a>
-                  <a href="" className='btn home--popular-btn'>IT</a>
-                  <a href="" className='btn home--popular-btn'>Engineering</a>
-                  <a href="" className='btn home--popular-btn'>Sales</a>
-                  <a href="" className='btn home--popular-btn'>Retail</a>
-                </div>
-              </div>
-            </div>
-            <div className="col-12 col-lg-5 col-md-12 home--right-cover custom-flex">
-              <div className='home--blob-img-area'>
-                <div className="home--img-area">
-                  <img src="assets/img/home-images/header-image.png"
-                    className='home--img' alt="" />
-                  <img src="assets/img/home-images/bubble-1.png" className='bubble--img1' alt="" />
-                  <img src="assets/img/home-images/bubble-2.png" className='bubble--img2' alt="" />
-                  <img src="assets/img/home-images/bubble-3.png" className='bubble--img3' alt="" />
-                  <img src="assets/img/home-images/bubble-2.png" className='bubble--img4' alt="" />
-                  <img src="assets/img/home-images/bubble-4.png" className='bubble--img5' alt="" />
-                  <img src="assets/img/home-images/bubble-4.png" className='bubble--img6' alt="" />
-                  <img src="assets/img/home-images/bubble-4.png" className='bubble--img7' alt="" /> */}
-
       <Layout />
         <div className='container-fluid home--section'>
           <div className='container-fluid container-section'>
@@ -259,7 +212,7 @@ const Home = () => {
                           Search for Immediate Joiner CVs from 3 buckets - 7 days, 15 days & 30 days joiners. Also Post Jobs and publish it on 172 partner job-boards & social media platforms, in just one click.
                         </p>
                         <div className='service-know-morearea'>
-                          <a href="#" className='service--know-more'>
+                          <a href="/services" className='service--know-more'>
                             <div className='service--know-more-btn'>Know more
                             </div>
                             <div className='service--know-more-arrow'>
@@ -286,7 +239,7 @@ const Home = () => {
                           Check the candidates' interest and availability by initiating a Telephonic Screening of all the CVs, simultaneously. Our powerful AI tool can call upto 5000 candidates in 10 minutes.
                         </p>
                         <div className='service-know-morearea'>
-                          <a href="#" className='service--know-more'>
+                          <a href="/services" className='service--know-more'>
                             <div className='service--know-more-btn'>Know more
                             </div>
                             <div className='service--know-more-arrow'>
@@ -313,7 +266,7 @@ const Home = () => {
                           Send Technical Assessment test links to multiple candidates, simultaneously. The Test Report comes with a comprehensive analysis of their aptitude, knowledge and proficiency.
                         </p>
                         <div className='service-know-morearea'>
-                          <a href="#" className='service--know-more'>
+                          <a href="/services" className='service--know-more'>
                             <div className='service--know-more-btn'>Know more
                             </div>
                             <div className='service--know-more-arrow'>
@@ -340,7 +293,7 @@ const Home = () => {
                           Do a thorough L1 Interview with a coding round conducted by panels from FAANG companies. The Feedback comes as a comprehensive report along with Playback.
                         </p>
                         <div className='service-know-morearea'>
-                          <a href="#" className='service--know-more'>
+                          <a href="/services" className='service--know-more'>
                             <div className='service--know-more-btn'>Know more
                             </div>
                             <div className='service--know-more-arrow'>
@@ -367,7 +320,7 @@ const Home = () => {
                           Before releasing the Offer, do a quick sanity check if it's a fake profile or not, with our BGV-Lite services. Also do a 360-degree Background Verification after the candidate joins.
                         </p>
                         <div className='service-know-morearea'>
-                          <a href="#" className='service--know-more'>
+                          <a href="/services" className='service--know-more'>
                             <div className='service--know-more-btn'>Know more
                             </div>
                             <div className='service--know-more-arrow'>
@@ -404,7 +357,7 @@ const Home = () => {
                   </div>
                   <div className="col-12 col-xl-3 col-lg-4">
                     <div className='rpo--card-learnmore'>
-                      <a href="#" className='rpo--know-more' data-aos="fade-left">
+                      <a href="/rpo" className='rpo--know-more' data-aos="fade-left">
                         <div className='rpo--know-more-btn'>
                           Know more
                         </div>
@@ -456,7 +409,7 @@ const Home = () => {
                   </div>
                   <div className="col-12 col-xl-3 col-lg-4">
                     <div className='rpo--card-learnmore'>
-                      <a href="#" className='rpo--know-more' data-aos="fade-left">
+                      <a href="/rpo" className='rpo--know-more' data-aos="fade-left">
                         <div className='rpo--know-more-btn'>
                           Know more
                         </div>
@@ -482,7 +435,7 @@ const Home = () => {
                   </div>
                   <div className="col-12 col-xl-3 col-lg-4">
                     <div className='rpo--card-learnmore'>
-                      <a href="#" className='rpo--know-more' data-aos="fade-left">
+                      <a href="/rpo" className='rpo--know-more' data-aos="fade-left">
                         <div className='rpo--know-more-btn'>
                           Know more
                         </div>
@@ -668,7 +621,7 @@ const Home = () => {
                 <h4 className='candidate--heading' data-aos="fade-up"><span>Connect</span> with Diverse <br /> Professionals and <span>Elevate</span><br /> <span>Your Brand</span></h4>
               </div>
               <div className='home--know-more-area'>
-                <a href="/services" className='home--know-more' data-aos="fade-right">
+                <a href="/talent-profile-search" className='home--know-more' data-aos="fade-right">
                   <div className='home--know-more-btn'>More Talents
                   </div>
                   <div className='home--know-more-arrow'>
@@ -749,7 +702,7 @@ const Home = () => {
                       </div>
                     </div>
                   </div>
-                  <a href='' className="candidate--arrow-icon">
+                  <a href='/talents' className="candidate--arrow-icon">
                     <img src="assets/img/home-images/arrow-dark.png" alt="" />
                   </a>
                   <div className="candidate-blob"></div>
@@ -804,7 +757,7 @@ const Home = () => {
                       </div>
                     </div>
                   </div>
-                  <a href='' className="candidate--arrow-icon">
+                  <a href='/talents' className="candidate--arrow-icon">
                     <img src="assets/img/home-images/arrow-dark.png" alt="" />
                   </a>
                   <div className="candidate-blob"></div>
@@ -859,7 +812,7 @@ const Home = () => {
                       </div>
                     </div>
                   </div>
-                  <a href='' className="candidate--arrow-icon">
+                  <a href='/talents' className="candidate--arrow-icon">
                     <img src="assets/img/home-images/arrow-dark.png" alt="" />
                   </a>
                   <div className="candidate-blob"></div>
@@ -914,7 +867,7 @@ const Home = () => {
                       </div>
                     </div>
                   </div>
-                  <a href='' className="candidate--arrow-icon">
+                  <a href='/talents' className="candidate--arrow-icon">
                     <img src="assets/img/home-images/arrow-dark.png" alt="" />
                   </a>
                   <div className="candidate-blob"></div>
@@ -969,7 +922,7 @@ const Home = () => {
                       </div>
                     </div>
                   </div>
-                  <a href='' className="candidate--arrow-icon">
+                  <a href='/talents' className="candidate--arrow-icon">
                     <img src="assets/img/home-images/arrow-dark.png" alt="" />
                   </a>
                   <div className="candidate-blob"></div>
@@ -1024,7 +977,7 @@ const Home = () => {
                       </div>
                     </div>
                   </div>
-                  <a href='' className="candidate--arrow-icon">
+                  <a href='/talents' className="candidate--arrow-icon">
                     <img src="assets/img/home-images/arrow-dark.png" alt="" />
                   </a>
                   <div className="candidate-blob"></div>

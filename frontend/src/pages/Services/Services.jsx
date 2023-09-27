@@ -1,8 +1,8 @@
-import React from 'react'
+import React from 'react';
 import { useEffect } from 'react';
 import $ from 'jquery';
-import './Services.css'
-import './Services-responsive.css'
+import './Services.css';
+import './Services-responsive.css';
 import Layout from '../../components/Layout';
 import { Footer } from '../../components/Footer';
 

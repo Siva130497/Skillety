@@ -54,7 +54,7 @@
     line-height: normal;
     max-width: 724px;
     padding: 15px 15px 15px 60px;
-    transition: ease-in-out 0.5s;
+    transition: ease-in-out 0.8s !important;
 }
 
 .home--search-area .home--search-box:focus {
@@ -369,6 +369,7 @@
     font-size: 24px;
     font-weight: 500;
     line-height: normal;
+    transition: ease-in-out 0.8s;
 }
 
 .card--imgicon-area .card--icon {
@@ -376,6 +377,7 @@
     height: 100%;
     object-fit: contain;
     align-items: flex-start;
+    transition: ease-in-out 0.8s;
 }
 
 .home--sub-des {
@@ -400,6 +402,7 @@
     bottom: 10px;
     border: #5C3B2E 5px solid;
     box-shadow: inset 0px 0px 10px #2d1f19;
+    transition: ease-in-out 0.8s;
 }
 
 .arrow--icon-btn .arrow--icon {

@@ -8,6 +8,7 @@ import Contact from './pages/Contact/Contact';
 import Services from './pages/Services/Services';
 import RPO from './pages/RPO/RPO';
 import Talents from './pages/Talents/Talents';
+import TalentsProfileSearch from './pages/TalentsProfileSearch/TalentsProfileSearch';
 import Testimonial from './pages/Testimonial/Testimonial';
 import TestimonialDetail from './pages/TestimonialDetail/TestimonialDetail';
 import ClientNewPassword from './pages/ClientNewPassword/ClientNewPassword';
@@ -34,6 +35,7 @@ import GoogleAuth from './components/GoogleAuth';
 function App() {
   
   return (
+
       <AuthContextProvider>
         <PrimeReactProvider>
         <GoogleOAuthProvider clientId="844630167314-gr9sc81b599kvna7vhlecf5447ogd9fn.apps.googleusercontent.com">
@@ -69,6 +71,7 @@ function App() {
         </GoogleOAuthProvider>
         </PrimeReactProvider>
       </AuthContextProvider>
+
   );
 }
 

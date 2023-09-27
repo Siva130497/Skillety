@@ -1,12 +1,12 @@
-import React from 'react'
+import React from 'react';
 import { useEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import $ from 'jquery';
-import './Talents.css'
-import './Talents-responsive.css'
+import './Talents.css';
+import './Talents-responsive.css';
 import Layout from '../../components/Layout';
 import { Footer } from '../../components/Footer';
 
@@ -61,7 +61,7 @@ const Talents = () => {
                                     <a href="/">Home</a>
                                 </div>
                                 <div className="breadcrumb--item-dark">
-                                    <a className='sub--bredcrumb-link' href="/talents">Talents profile</a>
+                                    <a className='sub--bredcrumb-link' href="/talent-profile-search">Talents profile</a>
                                 </div>
                                 <div className="breadcrumb--item-dark">
                                     <p>Talents profile Details</p>
@@ -139,7 +139,7 @@ const Talents = () => {
                                                 <button id='toggleBlur' data-aos="fade-right" className='tal--pro-view-btn'>To View/Hire Talents</button>
                                             </div>
                                             <div className="tal--pro-choose-btn-area">
-                                                <a href="#" className='ser--cont-btn-sub' data-aos="fade-right">
+                                                <a href="/packages" className='ser--cont-btn-sub' data-aos="fade-right">
                                                     <div className='ser--cont-btn'>
                                                         Choose a plan
                                                     </div>
@@ -245,7 +245,7 @@ const Talents = () => {
                                                     <h2 className='tal--pro-card-days'>07<span>days</span></h2>
                                                 </div>
                                                 <div className='tal--pro-card-know-btn-area'>
-                                                    <a href="" className='tal--pro-card-know-btn'>Know More</a>
+                                                    <a href="/talents" className='tal--pro-card-know-btn'>Know More</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -310,7 +310,7 @@ const Talents = () => {
                                                     <h2 className='tal--pro-card-days'>07<span>days</span></h2>
                                                 </div>
                                                 <div className='tal--pro-card-know-btn-area'>
-                                                    <a href="" className='tal--pro-card-know-btn'>Know More</a>
+                                                    <a href="/talents" className='tal--pro-card-know-btn'>Know More</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -375,7 +375,7 @@ const Talents = () => {
                                                     <h2 className='tal--pro-card-days'>07<span>days</span></h2>
                                                 </div>
                                                 <div className='tal--pro-card-know-btn-area'>
-                                                    <a href="" className='tal--pro-card-know-btn'>Know More</a>
+                                                    <a href="/talents" className='tal--pro-card-know-btn'>Know More</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -440,7 +440,7 @@ const Talents = () => {
                                                     <h2 className='tal--pro-card-days'>07<span>days</span></h2>
                                                 </div>
                                                 <div className='tal--pro-card-know-btn-area'>
-                                                    <a href="" className='tal--pro-card-know-btn'>Know More</a>
+                                                    <a href="/talents" className='tal--pro-card-know-btn'>Know More</a>
                                                 </div>
                                             </div>
                                         </div>

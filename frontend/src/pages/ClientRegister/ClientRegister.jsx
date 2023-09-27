@@ -2,8 +2,8 @@ import React, { useState, useContext } from 'react';
 import { useNavigate } from "react-router-dom";
 import { useEffect } from 'react';
 import $ from 'jquery';
-import './ClientRegister.css'
-import './ClientRegister-responsive.css'
+import './ClientRegister.css';
+import './ClientRegister-responsive.css';
 import AuthContext from '../../context/AuthContext';
 import Layout from '../../components/Layout';
 import { Footer } from '../../components/Footer';
@@ -319,7 +319,7 @@ const ClientRegister = () => {
                     </div>
                 </div>
             </div>
-            <Footer noFooter={true}/>
+            <Footer/>
         </div>
     )
 }
