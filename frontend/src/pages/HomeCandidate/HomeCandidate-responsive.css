@@ -1,0 +1,21 @@
+@media screen and (min-width: 992px) and (max-width: 1024px) {
+    .home--head.candidate h4 {
+        font-size: 30px;
+    }
+    .home--head.candidate h3{
+        font-size: 20px;
+    }
+}
+
+@media (max-width:991.5px) {
+
+}
+
+@media (max-width:500px) {
+    .home--head.candidate h4 {
+        font-size: 22px;
+    }
+    .home--head.candidate h3{
+        font-size: 15px;
+    }
+}
