@@ -100,7 +100,7 @@ const Home = () => {
         <div className='container-fluid home--section'>
           <div className='container-fluid container-section'>
             <div className="home--bg">
-              <div className="row">
+              <div className="row col-rev-custom">
                 <div className="col-12 col-lg-6 col-xl-7 col-md-12 home--left-cover">
                   <div className="home--head">
                     <h5 data-aos="fade-left" data-aos-delay="200">
@@ -613,7 +613,7 @@ const Home = () => {
           </div>
         </div>
 
-        <section className='custom--mobile-padding'>
+        <section className='custom--mobile-padding overflow-hidden'>
           <div className='candidate--section'>
             <div className='home--about-toparea'>
               <div className='home--about-headarea'>

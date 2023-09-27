@@ -54,7 +54,7 @@ const RPO = () => {
 
                     <div className="rpo--enter-bg">
                         <div className="rpo--enter-heading">
-                            <h3 data-aos="fade-up">Enterprise RPO</h3>
+                            <h3 data-aos="fade-up">ENTERPRISE</h3>
                         </div>
                         <div className="rpo--enter-desc">
                             <p data-aos="fade-down">From requisition to onboarding, Skillety offers recruitment expertise and scalability while being completely aligned with our clients’ culture. Enterprise RPO is a comprehensive, customizable, and scalable recruitment solution, rooted on an exclusivity contract from our clients.</p>
@@ -85,10 +85,10 @@ const RPO = () => {
 
                     <div className="rpo--pro-bg">
                         <div className="rpo--enter-heading">
-                            <h3 data-aos="fade-up">Enterprise RPO</h3>
+                            <h3 data-aos="fade-up">PROJECT</h3>
                         </div>
                         <div className="rpo--enter-desc">
-                            <p data-aos="fade-down">From requisition to onboarding, Skillety offers recruitment expertise and scalability while being completely aligned with our clients’ culture. Enterprise RPO is a comprehensive, customizable, and scalable recruitment solution, rooted on an exclusivity contract from our clients.</p>
+                            <p data-aos="fade-down">Project RPO is the way to go for companies that have a specific talent acquisition project like recruiting a new team for a new product line, or a new project, or a new facility. Our clients engage our Project RPO services for a talent acquisition need with defined goals within a specific scope and timeline.</p>
                         </div>
                         <div className="rpo--pro-list-area">
                             <ul>
@@ -116,10 +116,10 @@ const RPO = () => {
 
                     <div className="rpo--enter-bg">
                         <div className="rpo--enter-heading">
-                            <h3 data-aos="fade-up">CONTINGENT RPO</h3>
+                            <h3 data-aos="fade-up">CONTINGENT</h3>
                         </div>
                         <div className="rpo--enter-desc">
-                            <p data-aos="fade-down">From requisition to onboarding, Skillety offers recruitment expertise and scalability while being completely aligned with our clients’ culture. Enterprise RPO is a comprehensive, customizable, and scalable recruitment solution, rooted on an exclusivity contract from our clients.</p>
+                            <p data-aos="fade-down">Contingent RPO works as an extension of the talent acquisition department and supplies contract staffing solutions using recruiters dedicated to our clients. Our recruiters build a unique talent pipeline of contract labour for our clients based on their specific hiring goals.</p>
                         </div>
                         <div className="rpo--enter-list-area">
                             <ul>
@@ -150,7 +150,7 @@ const RPO = () => {
                             <h3 data-aos="fade-up">RPO-LITE</h3>
                         </div>
                         <div className="rpo--enter-desc">
-                            <p data-aos="fade-down">From requisition to onboarding, Skillety offers recruitment expertise and scalability while being completely aligned with our clients’ culture. Enterprise RPO is a comprehensive, customizable, and scalable recruitment solution, rooted on an exclusivity contract from our clients.</p>
+                            <p data-aos="fade-down">This is specifically designed for companies who would want to test run the RPO model first, and then decide. We take up hiring requirements from one or few projects on exclusivity, and close them in record time, first. The results will determine whether you want to upgrade to an Enterprise RPO (or not), based on solid proof.</p>
                         </div>
                         <div className="rpo--pro-list-area">
                             <ul>

@@ -1149,6 +1149,7 @@
     padding-top: 60px;
     padding-left: 60px;
     padding-right: 60px;
+    overflow: hidden !important;
 }
 
 .candidate--slider-area {

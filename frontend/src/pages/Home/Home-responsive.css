@@ -231,13 +231,16 @@
     .service--know-more-arrow {
         padding: 17px;
     }
-    .register--card{
+
+    .register--card {
         height: 200px;
     }
-    .register--card .register--text{
+
+    .register--card .register--text {
         font-size: 60px;
     }
-    .register-arrow-area svg{
+
+    .register-arrow-area svg {
         width: 62px;
         height: 62px;
     }
@@ -426,12 +429,21 @@
 }
 
 @media (max-width:500px) {
+    .col-rev-custom {
+        flex-direction: column-reverse;
+    }
+
     .home--section {
         margin-top: 13px;
+        overflow: hidden !important;
+    }
+
+    .home--right-cover {
+        padding-top: 130px;
     }
 
     .home--left-cover {
-        padding-top: 130px;
+        padding-top: 40px;
     }
 
     .container-section {
@@ -484,10 +496,6 @@
         margin: 0px 15px 15px 0;
     }
 
-    .home--right-cover {
-        padding-top: 30px;
-    }
-
     .home--img {
         width: 95%;
     }
@@ -501,7 +509,7 @@
         max-width: 3.5%;
     }
 
-    .home--img.animated,
+    /* .home--img.animated,
     .bubble--img1.animated,
     .bubble--img2.animated,
     .bubble--img3.animated,
@@ -510,7 +518,7 @@
     .bubble--img6.animated,
     .bubble--img7.animated {
         animation: none;
-    }
+    } */
 
     .bubble--img1 {
         max-width: 12%;
