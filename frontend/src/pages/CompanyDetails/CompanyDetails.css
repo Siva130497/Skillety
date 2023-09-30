@@ -1,0 +1,268 @@
+.company--detail-section {
+    margin-top: 70px;
+    padding-left: 200px;
+    margin-bottom: 80px;
+    overflow: hidden;
+}
+
+.company--detail-desc-area .company--detail-desc {
+    color: #714F36;
+    font-size: 32px;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.company--detail-vacancy-area {
+    margin-top: 100px;
+}
+
+.company--detail-vacancy-area .company--detail-vacancy-title {
+    color: #5C3B2E;
+    font-size: 64px;
+    font-weight: 400;
+    text-transform: uppercase;
+}
+
+.company--detail-vacancy-container {
+    margin-top: 45px;
+}
+
+.company--detail-vacancy-container .company--detail-vacancy-card {
+    position: relative;
+    overflow: hidden;
+    padding: 70px 40px;
+    margin-bottom: 30px;
+    border-radius: 35px;
+    border: 2px solid #714F36;
+    transition: ease-in-out 0.8s;
+
+}
+
+.company--detail-vacancy-card-arrow-area svg {
+    position: absolute;
+    right: 30px;
+    top: 30px;
+    transition: ease-in-out 0.8s;
+}
+
+.company--detail-vacancy-container .company--detail-vacancy-card:hover {
+    transform: translateY(-8px);
+    border-bottom-width: 5px;
+}
+
+.company--detail-vacancy-container .company--detail-vacancy-card:hover .company--detail-vacancy-card-arrow-area svg {
+    transform: rotate(45deg);
+}
+
+.company--detail-card-toggle-area {
+    align-items: center;
+    cursor: pointer;
+}
+
+.company--detail-card-toggle-detail-area {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.8s ease-in-out;
+}
+
+.company--detail-card-toggle-arrow svg {
+    transition: transform 0.8s ease-in-out;
+}
+
+.company--detail-card-role-area .company--detail-card-role {
+    color: #5C3B2E;
+    font-size: 48px;
+    font-weight: 400;
+    text-transform: capitalize;
+    margin-bottom: 0;
+}
+
+.company--detail-card-role-count-area .company--detail-card-role-count {
+    color: #5C3B2E;
+    font-size: 32px;
+    font-weight: 400;
+    text-transform: lowercase;
+    margin-bottom: 0;
+}
+
+
+.company--detail-card-content-area {
+    margin-top: 10px;
+    padding: 45px 0px 30px 0;
+}
+
+.company--detail-card-row-border {
+    border-top: #714F36 2px solid;
+    border-bottom: #714F36 1px solid;
+}
+
+.company--detail-card-content .company--detail-card-content-title {
+    color: #221205;
+    font-size: 20px;
+    font-weight: 400;
+    text-transform: capitalize;
+    margin-bottom: 8px;
+}
+
+.company--detail-card-content .company--detail-card-content-desc {
+    color: #714F36;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.company--detail-card-desc-area {
+    padding: 50px 0;
+}
+
+.company--detail-card-desc-area .company--detail-card-desc {
+    color: #714F36;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.company--detail-card-sub-head {
+    color: #5C3B2E;
+    font-size: 40px;
+    font-weight: 400;
+    text-transform: capitalize;
+    margin-bottom: 20px;
+}
+
+.company--detail-card-res-section .company--detail-card-res-area {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    padding: 40px 0;
+    border-top: #714F36 1px solid;
+}
+
+.company--detail-card-res-area .company--detail-card-res-number {
+    border-radius: 50%;
+    background-color: #714F36;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 35px;
+    height: 35px;
+    color: #FFF;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.company--detail-card-res-desc-area .company--detail-card-res-desc {
+    color: #714F36;
+    font-size: 16px;
+    font-weight: 400;
+    margin-bottom: 0;
+}
+
+.company--detail-card-per-qua-section {
+    margin-top: 20px;
+}
+
+.company--detail-card-per-qua-section .company--detail-card-per-qua-list {
+    margin-top: 30px;
+}
+
+.company--detail-card-per-qua-section .company--detail-card-per-qua-list ul {
+    padding-left: 0;
+}
+
+.company--detail-card-per-qua-list .company--detail-card-per-qua-list-item {
+    color: #714F36;
+    font-size: 16px;
+    font-weight: 400;
+    margin-bottom: 10px;
+    list-style: none;
+}
+
+.company--detail-card-per-qua-list .company--detail-card-per-qua-list-item::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    background-color: #714F36;
+    vertical-align: middle;
+    margin-right: 15px;
+}
+
+.company--detail-card-apply-btn-area {
+    margin-top: 60px;
+}
+
+.company--detail-card-apply-btn {
+    text-decoration: none;
+    overflow: hidden;
+    z-index: 1;
+    display: flex;
+    transition: ease-in-out 0.5s;
+}
+
+.company--detail-card-apply-btn-sub {
+    border-radius: 48px;
+    background-color: #F9C833;
+    text-align: center;
+    padding: 16px 80px;
+    color: #5C3B2E;
+    font-size: 24px;
+    font-weight: 500;
+    position: relative;
+    z-index: 1;
+    background-repeat: no-repeat;
+    overflow: hidden !important;
+    transition: ease-in-out 0.5s;
+    white-space: nowrap;
+}
+
+.company--detail-card-apply-btn-sub::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    transition: 0.8s ease-in-out;
+    background-color: #714F36;
+    border-radius: 30px;
+    visibility: hidden;
+    height: 10px;
+    width: 10px;
+    z-index: -1;
+}
+
+.company--detail-card-apply-btn-sub:hover::after {
+    visibility: visible;
+    transform: scale(50) translateX(2px);
+}
+
+.company--detail-card-apply-btn-sub:hover {
+    color: #F9C833 !important;
+}
+
+.company--detail-card-apply-btn:hover .company--detail-card-apply-btn-arrow svg {
+    transform: rotate(45deg);
+}
+
+.company--detail-card-apply-btn-arrow {
+    border-radius: 50%;
+    background-color: #F9C833;
+    padding: 20px;
+    transition: ease-in-out 0.8s;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.company--detail-card-apply-btn-arrow:hover {
+    background-color: #714F36;
+}
+
+.company--detail-card-apply-btn-arrow svg,
+.company--detail-card-apply-btn-arrow svg path {
+    transition: ease-in-out 0.8s;
+}
+.company--detail-card-apply-btn-arrow:hover svg path{
+    stroke: #F9C833;
+}

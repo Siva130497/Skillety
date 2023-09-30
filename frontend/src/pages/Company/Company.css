@@ -1,0 +1,259 @@
+.companies--section {
+    margin-top: 110px;
+    margin-bottom: 120px;
+    overflow: hidden !important;
+}
+
+.company--heading {
+    color: #5C3B2E;
+    font-size: 64px;
+    font-weight: 400;
+    text-transform: uppercase;
+}
+
+.company--heading span {
+    color: #FFF !important;
+    background-color: #F9C833;
+    padding: 0 10px;
+    border-radius: 10px;
+}
+
+.company--content-area {
+    margin-top: 110px;
+}
+
+.company--content-row {
+    padding: 20px 0;
+    overflow: hidden;
+}
+
+.custom-row-border-top {
+    border-top: 1px solid #5C3B2E;
+}
+
+.custom-row-border-bottom {
+    border-bottom: 1px solid #5C3B2E;
+}
+
+.company--content-img-area {
+    display: flex;
+    align-items: flex-start;
+}
+
+.company--content-img-area .company--content-img {
+    width: 200px;
+    height: 100px;
+    object-fit: contain;
+}
+
+.company--content-jobs-area .company--content-jobs {
+    color: #5C3B2E;
+    font-size: 24px;
+    font-weight: 400;
+    text-transform: uppercase;
+    overflow: hidden;
+}
+
+.company--content-jobs span {
+    font-weight: 700;
+}
+
+.company--content-desc-area {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+}
+
+.company--content-desc-area .company--content-desc {
+    color: #221205;
+    font-size: 16px;
+    font-weight: 400;
+    text-transform: capitalize;
+}
+
+.company--content-apply-btn {
+    text-decoration: none;
+    overflow: hidden;
+    z-index: 1;
+    display: flex;
+    transition: ease-in-out 0.5s;
+}
+
+.company--content-apply-btn-sub {
+    border-radius: 48px;
+    background-color: #F9C833;
+    padding: 12px 30px;
+    color: #5C3B2E;
+    font-size: 15px;
+    font-weight: 700;
+    position: relative;
+    z-index: 1;
+    background-repeat: no-repeat;
+    overflow: hidden !important;
+    transition: ease-in-out 0.5s;
+    white-space: nowrap;
+}
+
+.company--content-apply-btn-sub::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    transition: 0.8s ease-in-out;
+    background-color: #714F36;
+    border-radius: 30px;
+    visibility: hidden;
+    height: 10px;
+    width: 10px;
+    z-index: -1;
+}
+
+.company--content-apply-btn-sub:hover::after {
+    visibility: visible;
+    transform: scale(50) translateX(2px);
+}
+
+.company--content-apply-btn-sub:hover {
+    color: #F9C833 !important;
+}
+
+.company--content-apply-btn:hover .company--content-apply-arrow svg {
+    transform: rotate(45deg);
+}
+
+.company--content-apply-arrow {
+    border-radius: 50%;
+    background-color: #F9C833;
+    padding: 12px 15px;
+    transition: ease-in-out 0.8s;
+    flex-shrink: 0;
+}
+
+.company--content-apply-arrow:hover {
+    background-color: #714F36;
+}
+
+.company--content-apply-arrow:hover svg path {
+    stroke: #F9C833;
+}
+
+.company--content-apply-arrow svg,
+.company--content-apply-arrow svg path {
+    transition: ease-in-out 0.8s;
+}
+
+.company-demo-card-area {
+    margin-top: 120px;
+}
+
+.company-demo-card-area .company-demo-card {
+    position: relative;
+    overflow: hidden;
+    padding: 40px 50px;
+    border-radius: 48px;
+    --dot-bg-demo: #714F36;
+    --dot-color-demo: #85714b;
+    --dot-size-demo: 1.6px;
+    --dot-space-demo: 30px;
+    background: linear-gradient(90deg, var(--dot-bg-demo) calc(var(--dot-space-demo) - var(--dot-size-demo)), transparent 1%) center / var(--dot-space-demo) var(--dot-space-demo), linear-gradient(var(--dot-bg-demo) calc(var(--dot-space-demo) - var(--dot-size-demo)), transparent 1%) center / var(--dot-space-demo) var(--dot-space-demo), var(--dot-color-demo) !important;
+    background-attachment: fixed !important;
+}
+
+.company-demo-card .company-demo-card-desc-area {
+    width: 50%;
+    margin-bottom: 100px;
+}
+
+.company-demo-card-desc-area .company-demo-card-desc {
+    color: #FFF;
+    font-size: 20px;
+    font-weight: 600;
+    text-transform: capitalize;
+    line-height: normal;
+}
+
+.company-demo-card-bottom-area {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+
+}
+
+.company-demo-card-bottom-area .company-demo-card-title {
+    color: #FFF;
+    font-size: 64px;
+    font-weight: 400;
+    text-transform: uppercase;
+    margin-bottom: 0;
+}
+
+.company-demo-card-btn {
+    text-decoration: none;
+    overflow: hidden;
+    z-index: 1;
+    display: flex;
+    transition: ease-in-out 0.5s;
+}
+
+.company-demo-card-btn-sub {
+    border-radius: 48px;
+    background-color: #F9C833;
+    padding: 16px 80px;
+    color: #5C3B2E;
+    font-size: 24px;
+    font-weight: 500;
+    position: relative;
+    z-index: 1;
+    background-repeat: no-repeat;
+    overflow: hidden !important;
+    transition: ease-in-out 0.5s;
+    white-space: nowrap;
+}
+
+.company-demo-card-btn-sub::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    transition: 0.8s ease-in-out;
+    background-color: #FFF;
+    border-radius: 30px;
+    visibility: hidden;
+    height: 10px;
+    width: 10px;
+    z-index: -1;
+}
+
+.company-demo-card-btn-sub:hover::after {
+    visibility: visible;
+    transform: scale(50) translateX(2px);
+}
+
+.company-demo-card-btn-sub:hover {
+    color: #5C3B2E !important;
+}
+
+.company-demo-card-btn:hover .company-demo-card-btn-arrow svg {
+    transform: rotate(45deg);
+}
+
+.company-demo-card-btn-arrow {
+    border-radius: 50%;
+    background-color: #F9C833;
+    padding: 20px;
+    transition: ease-in-out 0.8s;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.company-demo-card-btn-arrow:hover {
+    background-color: #FFF;
+}
+
+.company-demo-card-btn-arrow svg,
+.company-demo-card-btn-arrow svg path {
+    transition: ease-in-out 0.8s;
+}

@@ -5,6 +5,10 @@ import Packages from './pages/Packages/Packages';
 import Home from './pages/Home/Home';
 import About from './pages/AboutUs/About';
 import Contact from './pages/Contact/Contact';
+import ContactCandidate from './pages/ContactCandidate/ContactCandidate';
+import JobDetail from './pages/JobDetail/JobDetail';
+import Company from './pages/Company/Company';
+import CompanyDetails from './pages/CompanyDetails/CompanyDetails';
 import Services from './pages/Services/Services';
 import RPO from './pages/RPO/RPO';
 import Talents from './pages/Talents/Talents';
@@ -33,11 +37,11 @@ import GoogleAuth from './components/GoogleAuth';
 
 
 function App() {
-  
+
   return (
 
-      <AuthContextProvider>
-        <PrimeReactProvider>
+    <AuthContextProvider>
+      <PrimeReactProvider>
         <GoogleOAuthProvider clientId="844630167314-gr9sc81b599kvna7vhlecf5447ogd9fn.apps.googleusercontent.com">
           <Routes>
             <Route path='/' element={<Home />} />
@@ -48,9 +52,14 @@ function App() {
             <Route path='/contact-us' element={<Contact />} />
             <Route path='/services' element={<Services />} />
             <Route path='/rpo' element={<RPO />} />
+            <Route path='/talents' element={<Talents />} />
             <Route path='/talent-profile-search' element={<TalentsProfileSearch />} />
             <Route path='/testimonial' element={<Testimonial />} />
             <Route path='/testimonial-detail' element={<TestimonialDetail />} />
+            <Route path='/talent-contact-us' element={<ContactCandidate />} />
+            <Route path='/job-detail' element={<JobDetail />} />
+            <Route path='/company' element={<Company />} />
+            <Route path='/company-details' element={<CompanyDetails />} />
             {/* <Route path='/pdf' element={<PDFViewer />} /> */}
             {/* <Route path='/live-chat' element={<LiveChat />} /> */}
             <Route path='/client-register' element={<ClientRegister />} />
@@ -69,8 +78,8 @@ function App() {
             <Route path='/recruiter-dashboard' element={<RecruiterDashboard />} />
           </Routes>
         </GoogleOAuthProvider>
-        </PrimeReactProvider>
-      </AuthContextProvider>
+      </PrimeReactProvider>
+    </AuthContextProvider>
 
   );
 }

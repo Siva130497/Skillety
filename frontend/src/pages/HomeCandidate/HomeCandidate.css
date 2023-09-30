@@ -75,12 +75,8 @@
 }
 .arrow--icon-btn.candidate {
     background-color: #F9C833;
-    position: absolute;
-    right: 10px;
-    bottom: 10px;
     border: #5C3B2E 5px solid;
     box-shadow: inset 0px 0px 10px #94771f;
-    transition: ease-in-out 0.5s;
 }
 .card--icon.candidate{
     transition: ease-in-out 0.8s;
