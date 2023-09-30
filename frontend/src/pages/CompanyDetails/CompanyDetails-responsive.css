@@ -1,0 +1,197 @@
+@media screen and (min-width: 992px) and (max-width: 1024px) {
+    .company--detail-section {
+        margin-top: 60px;
+        padding-left: 120px;
+        margin-bottom: 60px;
+        overflow: hidden;
+    }
+    .company--detail-desc-area .company--detail-desc{
+        font-size: 20px;
+    }
+    .company--detail-vacancy-area{
+        margin-top: 60px;
+    }
+    .company--detail-vacancy-area .company--detail-vacancy-title{
+        font-size: 45px;
+    }
+    .company--detail-vacancy-container .company--detail-vacancy-card{
+        padding: 45px 35px 45px 30px;
+    }
+    .company--detail-card-role-area .company--detail-card-role{
+        font-size: 32px;
+        font-weight: 500;
+    }
+    .company--detail-card-role-count-area .company--detail-card-role-count{
+        font-size: 22px;
+    }
+    .company--detail-vacancy-card-arrow-area svg{
+        top: 25px;
+        right: 25px;
+        width: 30px;
+        height: 30px;
+    }
+    .company--detail-card-toggle-arrow svg{
+        width: 40px;
+    }
+    .company--detail-card-content-area {
+        padding: 35px 0px 20px 0;
+    }
+    .company--detail-card-desc-area{
+        padding: 40px 0;
+    }
+    .company--detail-card-sub-head{
+        font-size: 30px;
+    }
+    .company--detail-card-res-area .company--detail-card-res-number{
+        width: 30px;
+        height: 30px;
+        font-size: 15px;
+    }
+    .company--detail-card-res-section .company--detail-card-res-area{
+        padding: 30px 0;
+    }
+    .company--detail-card-apply-btn-sub{
+        padding: 15px 60px;
+        font-size: 20px;
+    }
+    .company--detail-card-apply-btn-arrow{
+        padding: 17px;
+    }
+    .company--detail-card-apply-btn-arrow svg{
+        width: 25px;
+        height: 25px;
+    }
+}
+
+@media (max-width:991.5px) {
+    .company--detail-section{
+        padding-left: 0;
+    }
+    .company--detail-desc-area .company--detail-desc{
+        font-size: 20px;
+    }
+    .company--detail-section{
+        margin-top: 60px;
+        margin-bottom: 60px;
+    }
+    .company--detail-vacancy-area{
+        margin-top: 80px;
+    }
+    .company--detail-vacancy-area .company--detail-vacancy-title{
+        font-size: 45px;
+        font-weight: 500;
+    }
+    .company--detail-vacancy-container .company--detail-vacancy-card{
+        padding: 55px 30px;
+    }
+    .company--detail-card-role-area .company--detail-card-role{
+        font-size: 35px;
+        font-weight: 500;
+    }
+    .company--detail-card-role-count-area .company--detail-card-role-count{
+        font-size: 23px;
+    }
+    .company--detail-vacancy-card-arrow-area svg{
+        top: 25px;
+        right: 25px;
+        width: 35px;
+        height: 35px;
+    }
+    .company--detail-card-toggle-arrow svg{
+        width: 42px;
+    }
+    .company--detail-card-content-area {
+        margin-top: 10px;
+        padding: 35px 0px 20px 0;
+    }
+    .company--detail-card-desc-area{
+        padding: 40px 0;
+    }
+    .company--detail-card-sub-head{
+        font-size: 35px;
+    }
+    .company--detail-card-res-area .company--detail-card-res-number{
+        width: 32px;
+        height: 32px;
+        font-size: 15px;
+    }
+    .company--detail-card-res-section .company--detail-card-res-area{
+        gap: 30px;
+    }
+}
+
+@media (max-width:500px) {
+    .company--detail-section{
+        margin-top: 40px;
+    }
+    .company--detail-desc-area .company--detail-desc{
+        font-size: 18px;
+    }
+    .company--detail-vacancy-area .company--detail-vacancy-title{
+        font-size: 30px;
+        font-weight: 500;
+    }
+    .company--detail-vacancy-area{
+        margin-top: 60px;
+    }
+    .company--detail-vacancy-container{
+        margin-top: 40px;
+    }
+    .company--detail-vacancy-container .company--detail-vacancy-card{
+        padding: 40px 25px;
+    }
+    .company--detail-card-toggle-arrow svg{
+        width: 40px;
+    }
+    .company--detail-vacancy-card-arrow-area svg{
+        width: 30px;
+        height: 30px;
+    }
+    .company--detail-card-role-area .company--detail-card-role{
+        margin-top: 10px;
+        font-size: 28px;
+    }
+    .company--detail-card-role-count-area .company--detail-card-role-count{
+        font-size: 20px;
+        margin-top: 10px;
+    }
+    .company--detail-card-content-area{
+        margin-top: 20px;
+    }
+    /* .company--detail-card-row-border{
+        border-top-width: 1px;
+    } */
+    .company--detail-card-content .company--detail-card-content-desc{
+        margin-bottom: 30px;
+    }
+    .company--detail-card-content-area{
+        padding: 35px 0px 10px 0;
+    }
+    .company--detail-card-desc-area,
+    .company--detail-card-res-section .company--detail-card-res-area{
+        padding: 35px 0;
+    }
+    .company--detail-card-sub-head{
+        font-size: 28px;
+    }
+    .company--detail-card-res-area .company--detail-card-res-number {
+        width: 30px;
+        height: 30px;
+        font-size: 14px;
+    }
+    .company--detail-card-res-section .company--detail-card-res-area{
+        gap: 25px;
+    }
+    .company--detail-card-apply-btn-sub{
+        padding: 12px 40px;
+        width: 100%;
+        font-size: 20px;
+    }
+    .company--detail-card-apply-btn-arrow{
+        padding: 15px;
+    }
+    .company--detail-card-apply-btn-arrow svg{
+        width: 25px;
+        height: 25px;
+    }
+}

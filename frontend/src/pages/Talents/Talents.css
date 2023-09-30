@@ -95,7 +95,7 @@
     padding: 8px 12px;
     width: max-content;
     text-decoration: none;
-    transition: ease-in-out 0.5s;
+    transition: ease-in-out 0.8s !important;
 }
 
 .tal--profile-role i {
@@ -250,7 +250,7 @@
 .talent--profile-card {
     position: relative;
     border-radius: 12px;
-    background: #714F36;
+    background-color: #714F36;
     padding: 25px;
     /* width: 65%; */
     /* cursor: pointer; */

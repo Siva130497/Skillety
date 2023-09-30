@@ -1,51 +1,51 @@
 import React from 'react';
 import { useEffect } from 'react';
 import $ from 'jquery';
-import './Contact.css';
-import './Contact-responsive.css';
-import Layout from '../../components/Layout';
-import { Footer } from '../../components/Footer';
+import './ContactCandidate.css';
+import './ContactCandidate-responsive.css';
+import { CandidateFooter } from '../../components/CandidateFooter';
+import LayoutNew from '../../components/LayoutNew';
 
-const Contact = () => {
+const ContactCandidate = () => {
     useEffect(() => {
 
     }, []);
 
     return (
         <div>
-            <Layout />
+            <LayoutNew />
             <div>
                 <div className='container-fluid contact--section'>
                     <div className='container-fluid container-section'>
-                        <div className="about--bg">
+                        <div className="about--bg candidate">
                             <div className="row">
                                 <div className="col-12 col-xl-8 col-lg-12 col-md-12 about--left-cover">
-                                    <div className="breadcrumb--area" data-aos="fade-down">
+                                    <div className="breadcrumb--area candidate" data-aos="fade-down">
                                         <div className="breadcrumb--item">
-                                            <a href="/">Home</a>
+                                            <a href="/candidate-home">Home</a>
                                         </div>
                                         <div className="breadcrumb--item">
                                             <p>Contact us</p>
                                         </div>
                                     </div>
-                                    <div className="about--head">
+                                    <div className="about--head candidate">
                                         <h2 data-aos="fade-left">It’s Time to Make Skillety Work for You</h2>
                                     </div>
                                 </div>
                                 <div className="col-12 col-xl-4 col-lg-6 offset-lg-6 offset-xl-0 col-md-12 about--right-cover">
                                     <div className="about--card-area">
-                                        <div className="card about--card" data-aos="fade-right">
+                                        <div className="card about--card candidate" data-aos="fade-right">
                                             <div className="card--imgicon-area">
-                                                <h6 className='card--text'>I want to hire an immediate joiner</h6>
-                                                <img src="assets/img/home-images/icon-1.png" className='card--icon' alt="" />
+                                                <h6 className='card--text candidate'>I am an immediate joiner</h6>
+                                                <img src="assets/img/home-images/clipboard-img.png" className='card--icon candidate' alt="" />
                                             </div>
                                             <div className="about--sub-des">
                                                 <p>
                                                     Lorem Ipsum is simply dummy text of the printing and typesetting industry.
                                                 </p>
                                             </div>
-                                            <a href='' className="arrow--icon-btn">
-                                                <img src="assets/img/home-images/arrow-img.png" className='arrow--icon' alt="" />
+                                            <a href='' className="arrow--icon-btn candidate">
+                                                <img src="assets/img/home-images/arrow-dark.png" className='arrow--icon' alt="" />
                                             </a>
                                         </div>
                                     </div>
@@ -74,7 +74,7 @@ const Contact = () => {
                                                 Location
                                             </h5>
                                             <div className="con--map-area">
-                                                <img src="assets/img/contact-img/map-img.png" loading='lazy' data-aos="zoom-out-right" className='con--map-img' alt="" />
+                                                <img src="assets/img/contact-img/map-img-talent.png" loading='lazy' data-aos="zoom-out-right" className='con--map-img' alt="" />
                                                 <div className='con--map-pointer' data-aos="fade-down" data-aos-delay="300"></div>
                                                 <div className='con--map-link-img-area' data-aos="zoom-out-left">
                                                     <a href="https://goo.gl/maps/SNX17mkAzaY8PVW36" className='con--map-link-img-sub' target='_blank'>
@@ -87,8 +87,8 @@ const Contact = () => {
                                     <div className="col-12 col-lg-5 col-md-12">
                                         <div className="con--content-area">
                                             <div className="con--content">
-                                                <div className="con--icon-area" data-aos="fade-down">
-                                                    <img src="assets/img/contact-img/location.png" className='con--icon' alt="" />
+                                                <div className="con--icon-area candidate" data-aos="fade-down">
+                                                    <img src="assets/img/contact-img/location-white.png" className='con--icon' alt="" />
                                                 </div>
                                                 <div className='con--loaction' data-aos="fade-left">
                                                     <a href="https://goo.gl/maps/SNX17mkAzaY8PVW36" target='_blank'>
@@ -97,16 +97,16 @@ const Contact = () => {
                                                 </div>
                                             </div>
                                             <div className="con--content">
-                                                <div className="con--icon-area" data-aos="fade-down">
-                                                    <img src="assets/img/contact-img/phone-call.png" className='con--icon' alt="" />
+                                                <div className="con--icon-area candidate" data-aos="fade-down">
+                                                    <img src="assets/img/contact-img/phone-call-white.png" className='con--icon' alt="" />
                                                 </div>
                                                 <div className='con--phone-no' data-aos="fade-left">
                                                     <a href="tel:+919966433330" target='_blank'>+91-9966433330</a>
                                                 </div>
                                             </div>
                                             <div className="con--content">
-                                                <div className="con--icon-area" data-aos="fade-down">
-                                                    <img src="assets/img/contact-img/mail.png" className='con--icon' alt="" />
+                                                <div className="con--icon-area candidate" data-aos="fade-down">
+                                                    <img src="assets/img/contact-img/mail-white.png" className='con--icon' alt="" />
                                                 </div>
                                                 <div className='con--mail' data-aos="fade-left">
                                                     <a href="mailto:info@skillety.com" target='_blank'>info@skillety.com</a>
@@ -164,16 +164,16 @@ const Contact = () => {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="con--form-btn-area">
-                                            <button type='submit' className='con--form-btn-sub' data-aos="fade-down">
-                                                <div className='con--form-btn'>
+                                        <div className="con--form-btn-area candidate">
+                                            <button type='submit' className='con--form-btn-sub candidate' data-aos="fade-down">
+                                                <div className='con--form-btn candidate'>
                                                     Send Us Message
                                                 </div>
-                                                <div className='con--form-arrow-area'>
+                                                <div className='con--form-arrow-area candidate'>
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
-                                                        <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="white" stroke-width="2" />
-                                                        <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="white" stroke-width="2" />
-                                                        <path d="M1 26L25.1667 1" stroke="white" stroke-width="2" />
+                                                        <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#714F36" stroke-width="2" />
+                                                        <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#714F36" stroke-width="2" />
+                                                        <path d="M1 26L25.1667 1" stroke="#714F36" stroke-width="2" />
                                                     </svg>
                                                 </div>
                                             </button>
@@ -186,10 +186,10 @@ const Contact = () => {
                     </div>
                 </div>
             </div>
-            <Footer/>
+            <CandidateFooter />
         </div>
 
 
     )
 }
-export default Contact;
+export default ContactCandidate;

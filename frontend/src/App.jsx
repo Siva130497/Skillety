@@ -5,6 +5,10 @@ import Packages from './pages/Packages/Packages';
 import Home from './pages/Home/Home';
 import About from './pages/AboutUs/About';
 import Contact from './pages/Contact/Contact';
+import ContactCandidate from './pages/ContactCandidate/ContactCandidate';
+import JobDetail from './pages/JobDetail/JobDetail';
+import Company from './pages/Company/Company';
+import CompanyDetails from './pages/CompanyDetails/CompanyDetails';
 import Services from './pages/Services/Services';
 import RPO from './pages/RPO/RPO';
 import Talents from './pages/Talents/Talents';
@@ -42,9 +46,13 @@ function App() {
           <Route path='/candidate-home' element={<HomeCandidate />} />
           <Route path='/about-us' element={<About />} />
           <Route path='/contact-us' element={<Contact />} />
+          <Route path='/talent-contact-us' element={<ContactCandidate />} />
           <Route path='/services' element={<Services />} />
           <Route path='/rpo' element={<RPO />} />
           <Route path='/talents' element={<Talents />} />
+          <Route path='/job-detail' element={<JobDetail />} />
+          <Route path='/company' element={<Company />} />
+          <Route path='/company-details' element={<CompanyDetails />} />
           <Route path='/talent-profile-search' element={<TalentsProfileSearch />} />
           <Route path='/testimonial' element={<Testimonial />} />
           <Route path='/testimonial-detail' element={<TestimonialDetail />} />
