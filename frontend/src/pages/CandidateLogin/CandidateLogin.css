@@ -1,0 +1,8 @@
+.cli--create-account-btn-area .cli--create-account-btn.candidate{
+    background-color: #F9C833;
+    color: #714F36;
+}
+.cli--create-account-btn-area .cli--create-account-btn.candidate:hover{
+    background-color: #714F36 !important;
+    color: #F9C833 !important;
+}

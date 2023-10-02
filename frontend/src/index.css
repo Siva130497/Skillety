@@ -1446,6 +1446,15 @@ section {
   padding: 12px 40px;
   transition: ease-in-out 0.5s;
 }
+.nav--client-login-btn-area .nav--client-login-btn.candidate{
+  background-color: #F9C833 !important;
+  color: #714F36 !important;
+}
+
+.nav--client-login-btn-area .nav--client-login-btn.candidate:hover{
+  background-color: #714F36 !important;
+  color: #F9C833 !important;
+}
 
 .nav--client-login-btn-area .nav--client-login-btn:hover {
   background-color: #F9C833;
@@ -1493,9 +1502,18 @@ section {
   flex-shrink: 0;
   border: 2px solid #714F36;
 }
+.nav--logo.candidate {
+  border-radius: 50%;
+  flex-shrink: 0;
+  border: 2px solid #F9C833;
+}
 
 .logo--area.client {
   border-color: #714F36;
+  padding: 2px;
+}
+.logo--area.candidate {
+  border-color: #F9C833;
   padding: 2px;
 }
 
