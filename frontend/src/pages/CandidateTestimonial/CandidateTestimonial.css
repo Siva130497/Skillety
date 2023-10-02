@@ -1,0 +1,26 @@
+.testimonial--card-lg.candidate{
+    background-color: #714F36;
+}
+
+.testimonial--profile.candidate h5,
+.testimonial--profile.candidate p{
+    color: #FFF;
+}
+.testimonial--content-area.candidate p{
+    color: #FFF;
+}
+.testimonial--arrow-area.candidate{
+    background-color: #714F36;
+}
+
+.testimonial--card-lg.candidate:hover{
+    background-color: #F9C833;
+}
+.testimonial--card-lg.candidate:hover .testimonial--profile.candidate h5,
+.testimonial--card-lg.candidate:hover .testimonial--profile.candidate p,
+.testimonial--card-lg.candidate:hover .testimonial--content-area.candidate p{
+    color: #714F36;
+}
+.testi-sm-play-buttonarea.candidate{
+    background-color: #714F36;
+}

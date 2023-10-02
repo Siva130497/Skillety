@@ -61,7 +61,7 @@ export const NewNavCandidateHome = () => {
                         {/* <li><a href="#" className="nav-link scrollto">Companies</a></li> */}
                         <li><a href="#" className="nav-link scrollto">Event</a></li>
                         <li><a href="/talent-contact-us" className="nav-link scrollto">Contact</a></li>
-                        <li><a href="#" className="nav-link scrollto login--btn"><i class='bx bx-log-in-circle login--icon me-2'></i>Login</a></li>
+                        <li><a href="/candidate-login" className="nav-link scrollto login--btn"><i class='bx bx-log-in-circle login--icon me-2'></i>Login</a></li>
                     </ul>
                     <i className="bi bi-list mobile-nav-toggle candidate"></i>
                 </nav>

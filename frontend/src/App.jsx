@@ -14,8 +14,11 @@ import RPO from './pages/RPO/RPO';
 import Talents from './pages/Talents/Talents';
 import TalentsProfileSearch from './pages/TalentsProfileSearch/TalentsProfileSearch';
 import Testimonial from './pages/Testimonial/Testimonial';
+import CandidateTestimonial from './pages/CandidateTestimonial/CandidateTestimonial';
 import TestimonialDetail from './pages/TestimonialDetail/TestimonialDetail';
+import CandidateTestimonialDetail from './pages/CandidateTestimonialDetail/CandidateTestimonialDetail';
 import ClientNewPassword from './pages/ClientNewPassword/ClientNewPassword';
+import CandidateSignup from './pages/CandidateSignup/CandidateSignup';
 import ClientSignup from './pages/ClientSignup/ClientSignup';
 import ClientLogin from './pages/ClientLogin/ClientLogin';
 import CandidateRegister from './pages/CandidateRegister/CandidateRegister';
@@ -55,7 +58,9 @@ function App() {
             <Route path='/talents' element={<Talents />} />
             <Route path='/talent-profile-search' element={<TalentsProfileSearch />} />
             <Route path='/testimonial' element={<Testimonial />} />
+            <Route path='/candidate-testimonial' element={<CandidateTestimonial />} />
             <Route path='/testimonial-detail' element={<TestimonialDetail />} />
+            <Route path='/candidate-testimonial-detail' element={<CandidateTestimonialDetail />} />
             <Route path='/talent-contact-us' element={<ContactCandidate />} />
             <Route path='/job-detail' element={<JobDetail />} />
             <Route path='/company' element={<Company />} />
@@ -64,6 +69,7 @@ function App() {
             {/* <Route path='/live-chat' element={<LiveChat />} /> */}
             <Route path='/client-register' element={<ClientRegister />} />
             <Route path='/client-signup' element={<ClientSignup />} />
+            <Route path='/candidate-signup' element={<CandidateSignup />} />
             <Route path='/candiate-register' element={<CandidateRegister />} />
             <Route path='/client-login' element={<ClientLogin />} />
             <Route path='/candidate-login' element={<CandidateLogin />} />
