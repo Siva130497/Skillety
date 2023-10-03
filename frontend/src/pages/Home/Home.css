@@ -1779,7 +1779,7 @@
     flex-direction: column;
     align-items: center;
     margin-bottom: 20px;
-    transition: ease-in-out 0.8s;
+    transition: ease-in-out 0.8s !important;
 }
 
 .connect--article-content {

@@ -4,6 +4,7 @@ import ClientRegister from "./pages/ClientRegister/ClientRegister";
 import Packages from './pages/Packages/Packages';
 import Home from './pages/Home/Home';
 import About from './pages/AboutUs/About';
+import CandidateAboutUs from './pages/CandidateAboutUs/CandidateAboutUs';
 import Contact from './pages/Contact/Contact';
 import ContactCandidate from './pages/ContactCandidate/ContactCandidate';
 import JobDetail from './pages/JobDetail/JobDetail';
@@ -12,6 +13,8 @@ import CompanyDetails from './pages/CompanyDetails/CompanyDetails';
 import Services from './pages/Services/Services';
 import RPO from './pages/RPO/RPO';
 import Talents from './pages/Talents/Talents';
+import Events from './pages/Events/Events';
+import EventDetails from './pages/EventDetails/EventDetails';
 import TalentsProfileSearch from './pages/TalentsProfileSearch/TalentsProfileSearch';
 import Testimonial from './pages/Testimonial/Testimonial';
 import CandidateTestimonial from './pages/CandidateTestimonial/CandidateTestimonial';
@@ -52,10 +55,13 @@ function App() {
             {/* <Route path='/slider' element={<Slider />} /> */}
             <Route path='/candidate-home' element={<HomeCandidate />} />
             <Route path='/about-us' element={<About />} />
+            <Route path='/candidate-about-us' element={<CandidateAboutUs />} />
             <Route path='/contact-us' element={<Contact />} />
             <Route path='/services' element={<Services />} />
             <Route path='/rpo' element={<RPO />} />
             <Route path='/talents' element={<Talents />} />
+            <Route path='/events' element={<Events />} />
+            <Route path='/event-details' element={<EventDetails />} />
             <Route path='/talent-profile-search' element={<TalentsProfileSearch />} />
             <Route path='/testimonial' element={<Testimonial />} />
             <Route path='/candidate-testimonial' element={<CandidateTestimonial />} />
