@@ -56,10 +56,10 @@ export const NewNavCandidateHome = () => {
                 <nav id="navbar" className="navbar candidate navbar-expand-lg">
                     <ul>
                         <li><div><a href="#" className="nav-link scrollto active">Home</a></div></li>
-                        <li><a href="#" className="nav-link scrollto">About Us</a></li>
+                        <li><a href="/candidate-about-us" className="nav-link scrollto">About Us</a></li>
                         <li><a href="/job-detail" className="nav-link scrollto">Search Jobs</a></li>
                         {/* <li><a href="#" className="nav-link scrollto">Companies</a></li> */}
-                        <li><a href="#" className="nav-link scrollto">Event</a></li>
+                        <li><a href="/events" className="nav-link scrollto">Event</a></li>
                         <li><a href="/talent-contact-us" className="nav-link scrollto">Contact</a></li>
                         <li><a href="/candidate-login" className="nav-link scrollto login--btn"><i class='bx bx-log-in-circle login--icon me-2'></i>Login</a></li>
                     </ul>

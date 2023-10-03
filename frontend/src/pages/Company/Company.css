@@ -147,7 +147,7 @@
     margin-top: 120px;
 }
 
-.company-demo-card-area .company-demo-card {
+.company-demo-card {
     position: relative;
     overflow: hidden;
     padding: 40px 50px;
@@ -209,6 +209,9 @@
     overflow: hidden !important;
     transition: ease-in-out 0.5s;
     white-space: nowrap;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .company-demo-card-btn-sub::after {
