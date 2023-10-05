@@ -1,17 +1,20 @@
-import React, { useState, useContext, useEffect} from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import AuthContext from '../../context/AuthContext';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import axios from 'axios';
-import { v4 as uuidv4} from "uuid";
-import NewNavBar from '../../components/NewNavBar';
-import Layout from '../../components/Layout';
-import { Footer } from '../../components/Footer';
+import { v4 as uuidv4 } from "uuid";
+
+import $ from 'jquery';
+import './CandidateRegister.css';
+import './CandidateRegister-responsive.css';
+import { CandidateFooter } from '../../components/CandidateFooter';
+import LayoutNew from '../../components/LayoutNew';
 
 
 const CandidateRegister = () => {
     const [step, setStep] = useState(1);
-    const {candidateReg, postOtherSkills, postOtherDesignation} = useContext(AuthContext);
+    const { candidateReg, postOtherSkills, postOtherDesignation } = useContext(AuthContext);
     const [skillArray, setSkillArray] = useState([]);
     const [designationArray, setDesignationArray] = useState([])
     const [selectedDate, setSelectedDate] = useState(null);
@@ -42,40 +45,40 @@ const CandidateRegister = () => {
         companyName: "",
         location: "",
         year: "",
-        month:"",
+        month: "",
         education: "",
         profileHeadline: "",
-        college:"",
+        college: "",
         checkbox: false,
     };
     const [credentials, setCredentials] = useState(initialCredentials);
-    const totalMonths = parseInt(credentials.year*12) + parseInt(credentials.month);
+    const totalMonths = parseInt(credentials.year * 12) + parseInt(credentials.month);
     const maxSkillNum = totalMonths <= 24 ? 6 : totalMonths <= 48 ? 8 : totalMonths <= 96 ? 10 : 12;
-    
-    const getAllSkills = async ()=>{
-        try{
+
+    const getAllSkills = async () => {
+        try {
             const res = await axios.get("http://localhost:5002/skills");
             setSkillArray(res.data);
-        }catch(err){
+        } catch (err) {
             console.log(err);
         }
     }
 
-    const getAllDesignations = async ()=>{
-        try{
+    const getAllDesignations = async () => {
+        try {
             const res = await axios.get("http://localhost:5002/designations");
             setDesignationArray(res.data);
-        }catch(err){
+        } catch (err) {
             console.log(err);
         }
     }
-    
-    useEffect(()=>{
+
+    useEffect(() => {
         getAllSkills();
         getAllDesignations();
-    },[])
-    
-    
+    }, [])
+
+
     const handleDateChange = date => {
         setSelectedDate(date);
 
@@ -87,7 +90,7 @@ const CandidateRegister = () => {
 
     const handleInputChange = (event) => {
         const { name, value, type, checked } = event.target;
-    
+
         if (type === "checkbox") {
             setCredentials((prevCredentials) => ({
                 ...prevCredentials,
@@ -99,26 +102,26 @@ const CandidateRegister = () => {
                 [name]: value,
             }));
         }
-    
+
         if (name === "year" || name === "month") {
             setSkillError("");
         }
     };
-    
+
 
     const handleFileChange = (event) => {
         const selectedFile = event.target.files[0];
         setResume(selectedFile);
     };
-    
+
     const handleSkillSearch = (e) => {
         const inputValue = e.target.value;
         setSearchSkillInput(inputValue);
-        if(inputValue.length > 0){
+        if (inputValue.length > 0) {
             const candidateSkills = skillArray.filter((obj) => {
                 return obj.skill.toLowerCase().includes(inputValue.toLowerCase());
             });
-            if(candidateSkills.length > 0){
+            if (candidateSkills.length > 0) {
                 setFilteredSkills(candidateSkills);
             }
         } else {
@@ -129,35 +132,35 @@ const CandidateRegister = () => {
     const handleDesignationSearch = (e) => {
         const inputValue = e.target.value;
         setSearchDesignationInput(inputValue);
-        if(inputValue.length > 0){
+        if (inputValue.length > 0) {
             const candidateDesignation = designationArray.filter((obj) => {
                 return obj.designation.toLowerCase().includes(inputValue.toLowerCase());
             });
-            if(candidateDesignation.length > 0){
+            if (candidateDesignation.length > 0) {
                 setFilteredDesignation(candidateDesignation);
             }
         } else {
             setFilteredDesignation([]);
         }
     }
-    
+
     const handleSkillClick = (skill) => {
-        if(totalMonths > 0){
+        if (totalMonths > 0) {
             if (selectedSkills.includes(skill)) {
                 setSelectedSkills([...selectedSkills]);
                 setSearchSkillInput("");
                 setFilteredSkills([]);
             } else {
-                    selectedSkills.length === maxSkillNum && alert(`You can select max of ${maxSkillNum} skills`)
+                selectedSkills.length === maxSkillNum && alert(`You can select max of ${maxSkillNum} skills`)
+                setSearchSkillInput("");
+                setFilteredSkills([]);
+                if (selectedSkills.length < maxSkillNum) {
+                    setSelectedSkills([...selectedSkills, skill]);
                     setSearchSkillInput("");
                     setFilteredSkills([]);
-                    if(selectedSkills.length < maxSkillNum){
-                      setSelectedSkills([...selectedSkills, skill]);
-                      setSearchSkillInput("");
-                      setFilteredSkills([]);
-                    } 
+                }
             }
-        }else{
+        } else {
             setSkillError("Please enter the experience first...");
             setSearchSkillInput("");
             setFilteredSkills([]);
@@ -182,440 +185,488 @@ const CandidateRegister = () => {
 
     const handleManualSkill = () => {
         setSearchSkillInput("");
-        if (selectedSkills.length === maxSkillNum){
-          alert(`You can select max of ${maxSkillNum} skills`);
-          setNewSkill("");
+        if (selectedSkills.length === maxSkillNum) {
+            alert(`You can select max of ${maxSkillNum} skills`);
+            setNewSkill("");
         }
-        if(selectedSkills.length < maxSkillNum){
-          const foundObject = skillArray.find(item => item.skill.toLowerCase() === newSkill.toLowerCase());
-          if (foundObject) {
-          alert(`Skill "${newSkill}" already in list, please search...`);
-          setNewSkill("");
-          } else {
-          setOtherSkill([...otherSkill, newSkill]);
-          setSelectedSkills([...selectedSkills, newSkill]);
-          setNewSkill("");
-          }
+        if (selectedSkills.length < maxSkillNum) {
+            const foundObject = skillArray.find(item => item.skill.toLowerCase() === newSkill.toLowerCase());
+            if (foundObject) {
+                alert(`Skill "${newSkill}" already in list, please search...`);
+                setNewSkill("");
+            } else {
+                setOtherSkill([...otherSkill, newSkill]);
+                setSelectedSkills([...selectedSkills, newSkill]);
+                setNewSkill("");
+            }
         }
-      }
+    }
 
-      const handleManualDesignation = () => {
+    const handleManualDesignation = () => {
         setSearchDesignationInput("");
         const foundObject = designationArray.find(item => item.designation.toLowerCase() === newDesignation.toLowerCase());
         if (foundObject) {
-          alert(`Designation "${newDesignation}" already in list, please search...`);
-          setNewDesignation("");
+            alert(`Designation "${newDesignation}" already in list, please search...`);
+            setNewDesignation("");
         } else {
-          setOtherDesignation([newDesignation]);
-          setSelectedDesignations([newDesignation]);
-          setNewDesignation("");
+            setOtherDesignation([newDesignation]);
+            setSelectedDesignations([newDesignation]);
+            setNewDesignation("");
         }
-      }
+    }
 
     const handleSubmit = (event) => {
         event.preventDefault();
         const formData = new FormData();
-        const id = uuidv4(); 
+        const id = uuidv4();
         formData.append('file', resume);
         formData.append('id', id);
         const updatedCredentials = {
             ...credentials,
-            confirmPassword:undefined,
+            confirmPassword: undefined,
             selectedDate: dateString,
-            skills:selectedSkills,
-            designation:selectedDesignations,
-            id:id,
+            skills: selectedSkills,
+            designation: selectedDesignations,
+            id: id,
         };
         console.log(updatedCredentials);
         candidateReg(updatedCredentials);
         otherSkill.length > 0 && postOtherSkills(otherSkill);
         otherDesignation.length > 0 && postOtherDesignation(otherDesignation);
         axios.post('http://localhost:5002/upload', formData)
-        .then(res => console.log(res))
-        .catch(err => console.log(err));
+            .then(res => console.log(res))
+            .catch(err => console.log(err));
     };
-    
+
     const handleNext = () => {
         let isValid = true;
         if (step === 1) {
-          if (credentials.days === "" || credentials.firstName === "" || credentials.lastName === "" || credentials.phone === "" || credentials.email === "" || credentials.password === "" || credentials.confirmPassword === "" || credentials.password !== credentials.confirmPassword || !resume) {
-            credentials.password !== credentials.confirmPassword && alert("Please check that both password and confirm password are same")
-            isValid = false;
-          }
+            if (credentials.days === "" || credentials.firstName === "" || credentials.lastName === "" || credentials.phone === "" || credentials.email === "" || credentials.password === "" || credentials.confirmPassword === "" || credentials.password !== credentials.confirmPassword || !resume) {
+                credentials.password !== credentials.confirmPassword && alert("Please check that both password and confirm password are same")
+                isValid = false;
+            }
         }
         if (step === 2) {
             const minSkillNum = totalMonths <= 24 ? 4 : totalMonths <= 48 ? 6 : totalMonths <= 96 ? 8 : 10;
-          if (selectedDesignations.length === 0 || credentials.companyName === "" || credentials.location === "" || credentials.year === "" || credentials.month === "" || selectedSkills.length === 0 || credentials.education === "" || credentials.college === "" || selectedSkills.length < minSkillNum) {
-            selectedSkills.length < minSkillNum && alert(`Please select atleast ${minSkillNum} skills`)
-            isValid = false;
-          }
+            if (selectedDesignations.length === 0 || credentials.companyName === "" || credentials.location === "" || credentials.year === "" || credentials.month === "" || selectedSkills.length === 0 || credentials.education === "" || credentials.college === "" || selectedSkills.length < minSkillNum) {
+                selectedSkills.length < minSkillNum && alert(`Please select atleast ${minSkillNum} skills`)
+                isValid = false;
+            }
         }
         if (step === 3) {
-          if (credentials.profileHeadline === "") {
-            isValid = false;
-          }
+            if (credentials.profileHeadline === "") {
+                isValid = false;
+            }
         }
         if (isValid) {
-          setStep(step + 1);
+            setStep(step + 1);
         } else {
-          alert("Please complete all the required fields before proceeding.");
+            alert("Please complete all the required fields before proceeding.");
         }
-      };
-      
+    };
+
 
     const handleBack = () => {
         if (step > 1) {
-        setStep(step - 1); 
+            setStep(step - 1);
         }
     };
 
     const renderStep = () => {
         switch (step) {
-        case 1:
-            return (
-                <div>
-                    
-                    <div className="form-group">
-                        <label 
-                        htmlFor="days" 
-                        className="form-label mt-4">
-                            In how many days can you Join? 
-                        </label>
-                        <select 
-                        className="form-select" 
-                        id="days"
-                        name="days" 
-                        value = {credentials.days}
-                        onChange={handleInputChange}
-                        required>
-                            <option value="">Please select any one bucket.</option>
-                            <option value="0 to 7 days">0 to 7 days</option>
-                            <option value="8 to 15 days">8 to 15 days </option>
-                            <option value="16 to 30 days">16 to 30 days</option>
-                            <option value="More than 30 days">More than 30 days</option>
-                        </select>
-                    </div>
-                    <div className="form-check form-switch">
-                        <input
-                            className="form-check-input"
-                            type="checkbox"
-                            checked={credentials.checkbox}
-                            onChange={handleInputChange}
-                            disabled={credentials.days !== "0 to 7 days"}
-                        />
-                        <label className="form-check-label" htmlFor="flexSwitchCheckChecked">
-                            Imediate joiner
-                        </label>
-                    </div>
+            case 1:
+                return (
                     <div>
-                        <label 
-                            htmlFor="days" 
-                            className="form-label mt-4">
-                                What is your last working day?
-                        </label>
-                        <DatePicker
-                            selected={selectedDate}
-                            onChange={handleDateChange}
-                            dateFormat="dd/MM/yyyy"
-                            disabled={credentials.days === "0 to 7 days" && credentials.checkbox}
-                        />
-                    </div>
-                    <div className="form-group">
-                        <label 
-                        htmlFor="firstNameInput" 
-                        className="form-label mt-4">
-                            First Name
-                        </label>
-                        <input 
-                        type="text" 
-                        className="form-control" 
-                        id="firstNameInput"  
-                        name="firstName" 
-                        value={credentials.firstName}
-                        onChange={handleInputChange}
-                        placeholder="Enter your first name"
-                        required/>
-                    </div>
-                    <div className="form-group">
-                        <label 
-                        htmlFor="lastNameInput" 
-                        className="form-label mt-4">
-                            Last Name
-                        </label>
-                        <input 
-                        type="text" 
-                        className="form-control" 
-                        id="lastNameInput"  
-                        name="lastName" 
-                        value={credentials.lastName}
-                        onChange={handleInputChange}
-                        placeholder="Enter your last name"
-                        required/>
-                    </div>
-                    <div className="form-group">
-                        <label 
-                        htmlFor="phoneInput" 
-                        className="form-label mt-4">
-                        Mobile Number
-                        </label>
-                        <input 
-                        type="number" 
-                        className="form-control" 
-                        id="phoneInput" 
-                        name="phone" 
-                        value = {credentials.phone} 
-                        onChange = {handleInputChange} 
-                        placeholder="+94 987654321"
-                        required />
-                    </div>
-                    <div className="form-group">
-                        <label 
-                        htmlFor="emailInput" 
-                        className="form-label mt-4">
-                            Email ID
-                        </label>
-                        <input 
-                        type="email" 
-                        className="form-control" 
-                        id="emailInput" 
-                        aria-describedby="emailHelp" 
-                        name="email" 
-                        value={credentials.email}
-                        onChange={handleInputChange}
-                        placeholder="email@example.com"
-                        required/>
-                    </div>
-                    <div className="form-group">
-                        <label 
-                        htmlFor="passwordInput" 
-                        className="form-label mt-4">
-                            Password
-                        </label>
-                        <input 
-                        type="password" 
-                        className="form-control" 
-                        id="passwordInput"  
-                        name="password" 
-                        value={credentials.password}
-                        onChange={handleInputChange}
-                        onPaste={(e)=>e.preventDefault()}
-                        placeholder="Enter your password"
-                        required/>
-                    </div>
-                    <div className="form-group">
-                        <label 
-                        htmlFor="confirmPasswordInput" 
-                        className="form-label mt-4">
-                            Confirm Password
-                        </label>
-                        <input 
-                        type="password" 
-                        className="form-control" 
-                        id="confirmPasswordInput"  
-                        name="confirmPassword" 
-                        value={credentials.confirmPassword}
-                        onChange={handleInputChange}
-                        onPaste={(e)=>e.preventDefault()}
-                        placeholder="Enter your confirm password"
-                        required/>
-                    </div>
-                    <div>
-                        <label 
-                        htmlFor="resume" 
-                        className="form-label mt-4">
-                            Upload your Resume/CV here: UPLOAD here <br />
-                            (Either in .doc/.docx/.pdf format only.)
-                        </label>
-                        <input
-                            className="form-control"
-                            type="file"
-                            id="resume"
-                            accept=".doc,.docx,.pdf"
-                            onChange={handleFileChange}
-                            required
-                        />
-                        {resume ? resume.name : 'No file chosen'}
-                    </div> 
-                </div>
-            )
-        case 2:
-            return (
-                <div>
+                        <div className="cli--reg-heading-area">
+                            <h3 className='cli--reg-heading' data-aos="fade-left">Hi, Welcome to <span>SKILLETY!!!</span></h3>
+                        </div>
+
+                        <div className="cand--reg-form-area">
+                            <div className="row">
+                                <div className="col-12">
+                                    <div className="cand--reg-form-group">
+                                        <label htmlFor="days" className='cand--reg-form-label'>In How many days can you Join? Please select one bucket</label>
+
+                                        <div className="cand--reg-radio-input-group">
+                                            <div className="cand--reg-input-container">
+                                                <input id="day_option_1" className="radio-button" type="radio" name="days" />
+                                                <div className="radio-tile">
+                                                    <label for="day_option_1" className="radio-tile-label">0 to 7 days</label>
+                                                </div>
+                                            </div>
+
+                                            <div className="cand--reg-input-container">
+                                                <input id="day_option_2" className="radio-button" type="radio" name="days" />
+                                                <div className="radio-tile">
+                                                    <label for="day_option_2" className="radio-tile-label">8 to 15 days</label>
+                                                </div>
+                                            </div>
+
+                                            <div className="cand--reg-input-container">
+                                                <input id="day_option_3" className="radio-button" type="radio" name="days" />
+                                                <div className="radio-tile">
+                                                    <label for="day_option_3" className="radio-tile-label">16 to 30 days</label>
+                                                </div>
+                                            </div>
+
+                                            <div className="cand--reg-input-container">
+                                                <input id="day_option_4" className="radio-button" type="radio" name="days" />
+                                                <div className="radio-tile">
+                                                    <label for="day_option_4" className="radio-tile-label">More than 30 days</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <div className="form-group">
-                            <label 
-                            htmlFor="designationInput" 
-                            className="form-label mt-4">
+                            <label
+                                htmlFor="days"
+                                className="form-label mt-4">
+                                In how many days can you Join?
+                            </label>
+                            <select
+                                className="form-select"
+                                id="days"
+                                name="days"
+                                value={credentials.days}
+                                onChange={handleInputChange}
+                                required>
+                                <option value="">Please select any one bucket.</option>
+                                <option value="0 to 7 days">0 to 7 days</option>
+                                <option value="8 to 15 days">8 to 15 days </option>
+                                <option value="16 to 30 days">16 to 30 days</option>
+                                <option value="More than 30 days">More than 30 days</option>
+                            </select>
+                        </div>
+                        <div className="form-check form-switch">
+                            <input
+                                className="form-check-input"
+                                type="checkbox"
+                                checked={credentials.checkbox}
+                                onChange={handleInputChange}
+                                disabled={credentials.days !== "0 to 7 days"}
+                            />
+                            <label className="form-check-label" htmlFor="flexSwitchCheckChecked">
+                                Imediate joiner
+                            </label>
+                        </div>
+                        <div>
+                            <label
+                                htmlFor="days"
+                                className="form-label mt-4">
+                                What is your last working day?
+                            </label>
+                            <DatePicker
+                                selected={selectedDate}
+                                onChange={handleDateChange}
+                                dateFormat="dd/MM/yyyy"
+                                disabled={credentials.days === "0 to 7 days" && credentials.checkbox}
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label
+                                htmlFor="firstNameInput"
+                                className="form-label mt-4">
+                                First Name
+                            </label>
+                            <input
+                                type="text"
+                                className="form-control"
+                                id="firstNameInput"
+                                name="firstName"
+                                value={credentials.firstName}
+                                onChange={handleInputChange}
+                                placeholder="Enter your first name"
+                                required />
+                        </div>
+                        <div className="form-group">
+                            <label
+                                htmlFor="lastNameInput"
+                                className="form-label mt-4">
+                                Last Name
+                            </label>
+                            <input
+                                type="text"
+                                className="form-control"
+                                id="lastNameInput"
+                                name="lastName"
+                                value={credentials.lastName}
+                                onChange={handleInputChange}
+                                placeholder="Enter your last name"
+                                required />
+                        </div>
+                        <div className="form-group">
+                            <label
+                                htmlFor="phoneInput"
+                                className="form-label mt-4">
+                                Mobile Number
+                            </label>
+                            <input
+                                type="number"
+                                className="form-control"
+                                id="phoneInput"
+                                name="phone"
+                                value={credentials.phone}
+                                onChange={handleInputChange}
+                                placeholder="+94 987654321"
+                                required />
+                        </div>
+                        <div className="form-group">
+                            <label
+                                htmlFor="emailInput"
+                                className="form-label mt-4">
+                                Email ID
+                            </label>
+                            <input
+                                type="email"
+                                className="form-control"
+                                id="emailInput"
+                                aria-describedby="emailHelp"
+                                name="email"
+                                value={credentials.email}
+                                onChange={handleInputChange}
+                                placeholder="email@example.com"
+                                required />
+                        </div>
+                        <div className="form-group">
+                            <label
+                                htmlFor="passwordInput"
+                                className="form-label mt-4">
+                                Password
+                            </label>
+                            <input
+                                type="password"
+                                className="form-control"
+                                id="passwordInput"
+                                name="password"
+                                value={credentials.password}
+                                onChange={handleInputChange}
+                                onPaste={(e) => e.preventDefault()}
+                                placeholder="Enter your password"
+                                required />
+                        </div>
+                        <div className="form-group">
+                            <label
+                                htmlFor="confirmPasswordInput"
+                                className="form-label mt-4">
+                                Confirm Password
+                            </label>
+                            <input
+                                type="password"
+                                className="form-control"
+                                id="confirmPasswordInput"
+                                name="confirmPassword"
+                                value={credentials.confirmPassword}
+                                onChange={handleInputChange}
+                                onPaste={(e) => e.preventDefault()}
+                                placeholder="Enter your confirm password"
+                                required />
+                        </div>
+                        <div>
+                            <label
+                                htmlFor="resume"
+                                className="form-label mt-4">
+                                Upload your Resume/CV here: UPLOAD here <br />
+                                (Either in .doc/.docx/.pdf format only.)
+                            </label>
+                            <input
+                                className="form-control"
+                                type="file"
+                                id="resume"
+                                accept=".doc,.docx,.pdf"
+                                onChange={handleFileChange}
+                                required
+                            />
+                            {resume ? resume.name : 'No file chosen'}
+                        </div>
+                    </div>
+                )
+            case 2:
+                return (
+                    <div>
+                        <div className="cli--reg-heading-area">
+                            <h3 className='cli--reg-heading' data-aos="fade-left">Fill it and then press <span>NEXT!!!</span></h3>
+                        </div>
+
+                        <div className="form-group">
+                            <label
+                                htmlFor="designationInput"
+                                className="form-label mt-4">
                                 Current Role/Designation
                             </label>
                             {selectedDesignations.map(selectDesignation => (
-                                <span className="badge bg-success mx-2" 
-                                key={selectDesignation}
-                                onClick={()=>handleDeselectDesignation(selectDesignation)}
+                                <span className="badge bg-success mx-2"
+                                    key={selectDesignation}
+                                    onClick={() => handleDeselectDesignation(selectDesignation)}
                                 >{selectDesignation}</span>
                             ))}
-                            <input 
-                            type='text' 
-                            name='searchDesignationInput' 
-                            id='searchDesignationInput' 
-                            className='form-control my-2' 
-                            placeholder='Search designation...' 
-                            value={searchDesignationInput}
-                            onChange={handleDesignationSearch}
+                            <input
+                                type='text'
+                                name='searchDesignationInput'
+                                id='searchDesignationInput'
+                                className='form-control my-2'
+                                placeholder='Search designation...'
+                                value={searchDesignationInput}
+                                onChange={handleDesignationSearch}
                             />
                             {filteredDesignation.length > 0 &&
-                                filteredDesignation.map((filterDesignation)=>{
-                                    return <div key={filterDesignation._id} onClick={()=>handleDesignationClick(filterDesignation.designation)}>{filterDesignation.designation}</div> 
+                                filteredDesignation.map((filterDesignation) => {
+                                    return <div key={filterDesignation._id} onClick={() => handleDesignationClick(filterDesignation.designation)}>{filterDesignation.designation}</div>
                                 })
                             }
                             <input
-                            className="form-check-input"
-                            type="checkbox"
-                            checked={isCheckedDesignation}
-                            onChange={()=>setIsCheckedDesignation(!isCheckedDesignation)}
+                                className="form-check-input"
+                                type="checkbox"
+                                checked={isCheckedDesignation}
+                                onChange={() => setIsCheckedDesignation(!isCheckedDesignation)}
                             />
                             <label className="form-check-label" htmlFor="flexSwitchCheckChecked">
                                 If your searched designation not in the list, please enable the checkbox & type manually...
                             </label>
-                            <input 
-                             type='text' 
-                            name='manualDesignationInput' 
-                            id='manualDesignationInput' 
-                            className='form-control my-2' 
-                            placeholder='Enter your designation...'
-                            value={newDesignation}
-                            onChange={(e)=>setNewDesignation(e.target.value)}
-                            disabled = {!isCheckedDesignation}
+                            <input
+                                type='text'
+                                name='manualDesignationInput'
+                                id='manualDesignationInput'
+                                className='form-control my-2'
+                                placeholder='Enter your designation...'
+                                value={newDesignation}
+                                onChange={(e) => setNewDesignation(e.target.value)}
+                                disabled={!isCheckedDesignation}
                             />
-                            <button 
-                            type="button" 
-                            className="btn btn-primary btn-sm"
-                            onClick={handleManualDesignation}
-                            disabled = {!isCheckedDesignation}
+                            <button
+                                type="button"
+                                className="btn btn-primary btn-sm"
+                                onClick={handleManualDesignation}
+                                disabled={!isCheckedDesignation}
                             >add manually entered designation</button>
-                        </div> 
+                        </div>
                         <div className="form-group">
-                            <label 
-                            htmlFor="companyNameInput" 
-                            className="form-label mt-4">
+                            <label
+                                htmlFor="companyNameInput"
+                                className="form-label mt-4">
                                 Current Company
                             </label>
-                            <input 
-                            type="text" 
-                            className="form-control" 
-                            id="companyNameInput"  
-                            name="companyName" 
-                            value={credentials.companyName}
-                            onChange={handleInputChange}
-                            placeholder="Enter your current company"
-                            required/>
+                            <input
+                                type="text"
+                                className="form-control"
+                                id="companyNameInput"
+                                name="companyName"
+                                value={credentials.companyName}
+                                onChange={handleInputChange}
+                                placeholder="Enter your current company"
+                                required />
                         </div>
                         <div className="form-group">
-                            <label 
-                            htmlFor="locationInput" 
-                            className="form-label mt-4">
-                                Current Location 
+                            <label
+                                htmlFor="locationInput"
+                                className="form-label mt-4">
+                                Current Location
                             </label>
-                            <input 
-                            type="text" 
-                            className="form-control" 
-                            id="locationInput"  
-                            name="location" 
-                            value={credentials.location}
-                            onChange={handleInputChange}
-                            placeholder="Enter your current location"
-                            required/>
+                            <input
+                                type="text"
+                                className="form-control"
+                                id="locationInput"
+                                name="location"
+                                value={credentials.location}
+                                onChange={handleInputChange}
+                                placeholder="Enter your current location"
+                                required />
                         </div>
                         <div className="form-group">
-                            <label 
-                            htmlFor="experienceInput" 
-                            className="form-label mt-4">
-                                Total Experience 
+                            <label
+                                htmlFor="experienceInput"
+                                className="form-label mt-4">
+                                Total Experience
                             </label>
-                            <input 
-                            type="number" 
-                            className="form-control" 
-                            id="yearInput"  
-                            name="year" 
-                            value={credentials.year}
-                            onChange={handleInputChange}
-                            placeholder="years in number"
+                            <input
+                                type="number"
+                                className="form-control"
+                                id="yearInput"
+                                name="year"
+                                value={credentials.year}
+                                onChange={handleInputChange}
+                                placeholder="years in number"
                             />
-                            <input 
-                            type="number" 
-                            className="form-control" 
-                            id="monthInput"  
-                            name="month" 
-                            value={credentials.month}
-                            onChange={handleInputChange}
-                            placeholder="months in number"
+                            <input
+                                type="number"
+                                className="form-control"
+                                id="monthInput"
+                                name="month"
+                                value={credentials.month}
+                                onChange={handleInputChange}
+                                placeholder="months in number"
                             />
                         </div>
                         <div className='form-group'>
-                            <label 
-                            htmlFor="skillInput" 
-                            className="form-label mt-4">
-                                Skills 
+                            <label
+                                htmlFor="skillInput"
+                                className="form-label mt-4">
+                                Skills
                             </label>
                             {selectedSkills.map(selectSkill => (
-                                <span className="badge rounded-pill bg-info mx-2" 
-                                key={selectSkill}
-                                onClick={()=>handleDeselect(selectSkill)}
+                                <span className="badge rounded-pill bg-info mx-2"
+                                    key={selectSkill}
+                                    onClick={() => handleDeselect(selectSkill)}
                                 >{selectSkill}</span>
                             ))}
-                            <input 
-                            type='text' 
-                            name='searchSkillInput' 
-                            id='searchSkillInput' 
-                            className='form-control my-2' 
-                            placeholder='Search Skills' 
-                            value={searchSkillInput}
-                            onChange={handleSkillSearch}
+                            <input
+                                type='text'
+                                name='searchSkillInput'
+                                id='searchSkillInput'
+                                className='form-control my-2'
+                                placeholder='Search Skills'
+                                value={searchSkillInput}
+                                onChange={handleSkillSearch}
                             />
                             {skillError && <p>{skillError}</p>}
                             {filteredSkills.length > 0 &&
-                                filteredSkills.map((filterSkill)=>{
-                                    return <div key={filterSkill._id} onClick={()=>handleSkillClick(filterSkill.skill)}>{filterSkill.skill}</div> 
+                                filteredSkills.map((filterSkill) => {
+                                    return <div key={filterSkill._id} onClick={() => handleSkillClick(filterSkill.skill)}>{filterSkill.skill}</div>
                                 })
                             }
                             <input
-                            className="form-check-input"
-                            type="checkbox"
-                            checked={isCheckedSkill}
-                            onChange={()=>setIsCheckedSkill(!isCheckedSkill)}
+                                className="form-check-input"
+                                type="checkbox"
+                                checked={isCheckedSkill}
+                                onChange={() => setIsCheckedSkill(!isCheckedSkill)}
                             />
                             <label className="form-check-label" htmlFor="flexSwitchCheckChecked">
                                 If your searched skill not in the list, please enable the checkbox & type manually...
                             </label>
-                            <input 
-                            type='text' 
-                            name='manualSkillInput' 
-                            id='manualSkillInput' 
-                            className='form-control my-2' 
-                            placeholder='Enter your skills...'
-                            value={newSkill}
-                            onChange={(e)=>setNewSkill(e.target.value)}
-                            disabled={!isCheckedSkill}
+                            <input
+                                type='text'
+                                name='manualSkillInput'
+                                id='manualSkillInput'
+                                className='form-control my-2'
+                                placeholder='Enter your skills...'
+                                value={newSkill}
+                                onChange={(e) => setNewSkill(e.target.value)}
+                                disabled={!isCheckedSkill}
                             />
-                            <button 
-                            type="button" 
-                            className="btn btn-primary btn-sm"
-                            onClick={handleManualSkill}
-                            disabled={!isCheckedSkill}
+                            <button
+                                type="button"
+                                className="btn btn-primary btn-sm"
+                                onClick={handleManualSkill}
+                                disabled={!isCheckedSkill}
                             >add manually entered skill</button>
                         </div>
                         <div className="form-group">
-                            <label 
-                            htmlFor="education" 
-                            className="form-label mt-4">
+                            <label
+                                htmlFor="education"
+                                className="form-label mt-4">
                                 Highest Education
                             </label>
-                            <select 
-                            className="form-select" 
-                            id="educationSelect"
-                            name="education" 
-                            value = {credentials.education}
-                            onChange={handleInputChange}
-                            required>
+                            <select
+                                className="form-select"
+                                id="educationSelect"
+                                name="education"
+                                value={credentials.education}
+                                onChange={handleInputChange}
+                                required>
                                 <option value="">Select your highest education</option>
                                 <option value="A">A</option>
                                 <option value="B">B</option>
@@ -624,64 +675,82 @@ const CandidateRegister = () => {
                             </select>
                         </div>
                         <div className="form-group">
-                            <label 
-                            htmlFor="collegeInput" 
-                            className="form-label mt-4">
+                            <label
+                                htmlFor="collegeInput"
+                                className="form-label mt-4">
                                 Name of the College
                             </label>
-                            <input 
-                            type="text" 
-                            className="form-control" 
-                            id="collegeInput"  
-                            name="college" 
-                            value={credentials.college}
-                            onChange={handleInputChange}
-                            placeholder="Enter your college name"
-                            required/>
+                            <input
+                                type="text"
+                                className="form-control"
+                                id="collegeInput"
+                                name="college"
+                                value={credentials.college}
+                                onChange={handleInputChange}
+                                placeholder="Enter your college name"
+                                required />
                         </div>
-                </div>
-            )
-        case 3:
-            return (
-                <div>
-                    <div className="form-group">
-                        <label 
-                        htmlFor="profileHeadlineTextarea" 
-                        className="form-label mt-4">
-                        Profile Headline
-                        </label>
-                        <textarea 
-                        className="form-control" 
-                        id="profileHeadlineTextarea" 
-                        rows="3"
-                        name='profileHeadline'
-                        value={credentials.profileHeadline}
-                        onChange={handleInputChange}
-                        placeholder="Enter your profile headline"
-                        required></textarea>
+                    </div>
+                )
+            case 3:
+                return (
+                    <div>
+                        <div className="cli--reg-heading-area">
+                            <h3 className='cli--reg-heading' data-aos="fade-left">Complete and press <span>SUBMIT!!!</span></h3>
+                        </div>
+
+                        <div className="form-group">
+                            <label
+                                htmlFor="profileHeadlineTextarea"
+                                className="form-label mt-4">
+                                Profile Headline
+                            </label>
+                            <textarea
+                                className="form-control"
+                                id="profileHeadlineTextarea"
+                                rows="3"
+                                name='profileHeadline'
+                                value={credentials.profileHeadline}
+                                onChange={handleInputChange}
+                                placeholder="Enter your profile headline"
+                                required></textarea>
+                        </div>
+                    </div>
+                )
+            default:
+                return null;
+        }
+    };
+
+    return (
+        <div>
+            <LayoutNew />
+            <div className='client-register-section'>
+                <div className='container-fluid'>
+                    <div className='container-fluid container-section'>
+                        <div className="custom--container">
+                            <div className="breadcrumb--area-dark" data-aos="fade-down">
+                                <div className="breadcrumb--item-dark">
+                                    <a href="/candidate-home">Home</a>
+                                </div>
+                                <div className="breadcrumb--item-dark">
+                                    <p>Registration Form</p>
+                                </div>
+                            </div>
+
+                            <form onSubmit={handleSubmit}>
+                                {renderStep()}
+                                {step > 1 && (<button type="button" className="btn btn-outline-info mx-3" onClick={handleBack}>Back</button>)}
+                                {step < 3 && (<button type="button" className="btn btn-outline-info my-3" onClick={handleNext}>Next</button>)}
+                                {step === 3 && (<input type='submit' value="Register" className='btn btn-primary my-3' />)}
+                            </form>
+                        </div>
                     </div>
                 </div>
-            )
-        default:
-            return null;
-        }
-  };
-
-  return (
-    <div>
-        <Layout newNavBarCandidateRegister = {true} />
-        <div className='container-fluid'>
-        <h3>Create your account</h3>
-        <form onSubmit={handleSubmit}>
-        {renderStep()}
-        {step > 1 && (<button type="button" className="btn btn-outline-info mx-3" onClick={handleBack}>Back</button>)}
-        {step < 3 && (<button type="button" className="btn btn-outline-info my-3" onClick={handleNext}>Next</button>)}
-        {step === 3 && (<input type='submit' value="Register" className='btn btn-primary my-3' />)}
-        </form>
+            </div>
+            <CandidateFooter />
         </div>
-        <Footer noFooter={true}/>
-    </div>
-  );
+    );
 };
 
 export default CandidateRegister;
