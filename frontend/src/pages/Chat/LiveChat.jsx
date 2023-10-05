@@ -10,6 +10,7 @@ const LiveChat = () => {
     const [newMessage, setNewMessage] = useState("");
     // const socket = useRef(io("ws://localhost:5002"))
     const id = "1"
+    console.log(messages);
 
     
 

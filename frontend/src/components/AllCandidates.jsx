@@ -1,9 +1,8 @@
 import React, {useEffect, useState, useContext} from 'react'
 import axios from 'axios';
-import AuthContext from '../context/AuthContext';
 
-const AllCandidates = () => {
-    const {employeeId} = useContext(AuthContext);
+
+const AllCandidates = ({employeeId, staffToken, clientToken}) => {
 
   const [candidateDetail, setCandidateDetail] = useState([]);
   const [viewCandidateDetailStatus, setViewCandidateDetailStatus] = useState(false);
@@ -18,7 +17,12 @@ const AllCandidates = () => {
 
   const getAllCandidateDetail = async () => {
     try{
-        const response = await axios.get('http://localhost:5002/candidate-Detail');
+        const response = await axios.get('http://localhost:5002/candidate-Detail', {
+          headers: {
+              Authorization: `Bearer ${staffToken ? staffToken : clientToken}`,
+              Accept: 'application/json'
+          }
+        });
         const result = response.data;
         if (!result.error) {
             console.log(result);
@@ -33,7 +37,12 @@ const AllCandidates = () => {
 
   const getAppliedOfPostedJobs = async() => {
     try{
-        const res = await axios.get(`http://localhost:5002/applied-jobs-of-posted/${employeeId}`);
+        const res = await axios.get(`http://localhost:5002/applied-jobs-of-posted/${employeeId}`, {
+          headers: {
+              Authorization: `Bearer ${staffToken ? staffToken : clientToken}`,
+              Accept: 'application/json'
+          }
+        });
         const result = res.data;
         if (!result.error) {
           console.log(result);

@@ -9,9 +9,11 @@ import './Home.css';
 import './Home-responsive.css';
 import Layout from '../../components/Layout';
 import { Footer } from '../../components/Footer';
+import useTokenRedirect from '../../customhooks/useTokenRedirect';
 
 
 const Home = () => {
+  useTokenRedirect();
   useEffect(() => {
     // Function to animate the numbers
     function animateNumber(element, targetNumber) {
@@ -85,16 +87,6 @@ const Home = () => {
 
 
   return (
-    // <div className="jumbotron">
-    //   <h1>Hi, Welcome to Skillety!!!</h1>
-    //   <hr className="my-4" />
-    //   <p>
-    //     The exclusive Job Board for Immediate Joiners.
-    //     <br />
-    //     Grab your free DEMO in just a few seconds!
-    //   </p>    
-    // </div>
-
     <div>
       <Layout />
         <div className='container-fluid home--section'>

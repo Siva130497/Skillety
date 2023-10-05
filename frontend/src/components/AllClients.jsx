@@ -3,7 +3,7 @@ import { v4 as uuidv4} from "uuid";
 import axios from 'axios';
 
 
-const AllClients = () => {
+const AllClients = ({staffToken}) => {
     const [clientDetail, setClientDetail] = useState([]);
     const [clientWithTempPass, setClientWithTempPass] = useState([]);
     const [emailStatus, setEmailStatus] = useState(true);
@@ -12,7 +12,12 @@ const AllClients = () => {
 
     const getAllClientDetails = async() => {
         try{
-            const response = await axios.get(`http://localhost:5002/client-Detail`);
+            const response = await axios.get(`http://localhost:5002/client-Detail`, {
+                headers: {
+                    Authorization: `Bearer ${staffToken}`,
+                    Accept: 'application/json'
+                }
+              });
             const result = response.data;
             if(!result.error){
                 setClientDetail(result);
@@ -26,7 +31,12 @@ const AllClients = () => {
 
     const getAllClient = async() => {
         try{
-            const response = await axios.get(`http://localhost:5002/clientWithUrl-Detail`);
+            const response = await axios.get(`http://localhost:5002/clientWithUrl-Detail`, {
+                headers: {
+                    Authorization: `Bearer ${staffToken}`,
+                    Accept: 'application/json'
+                }
+              });
             const result = response.data;
             if(!result.error){
                 setClientWithTempPass(result);
@@ -46,6 +56,7 @@ const AllClients = () => {
         try {
             const response = await axios.post('http://localhost:5002/tempPass-Client', userData, {
                 headers: {
+                    Authorization: `Bearer ${staffToken}`,
                     'Content-Type': 'application/json',
                 },
             });

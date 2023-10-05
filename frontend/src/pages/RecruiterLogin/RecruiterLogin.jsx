@@ -1,10 +1,10 @@
 import React, { useState, useContext } from 'react'
 import AuthContext from '../../context/AuthContext';
 import Layout from '../../components/Layout';
-import { Footer } from '../../components/Footer';
+import useTokenRedirect from '../../customhooks/useTokenRedirect';
 
 const RecruiterLogin = () => {
-    
+    useTokenRedirect();
     const {loginUser} = useContext(AuthContext)
     const [credentials, setcredentials] = useState({
         email:"",
@@ -59,12 +59,12 @@ const RecruiterLogin = () => {
                         value = {credentials.password} 
                         onChange = {handleInputChange} 
                         placeholder="Enter your password"
+                        onPaste={(e)=>e.preventDefault()}
                         required />
                     </div>
                     <input type='submit' value="Login" className='btn btn-primary my-3' />
                     </form>
                     </div>
-                    <Footer noFooter={true}/>
                 </div>
     )
 }

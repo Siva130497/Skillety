@@ -6,12 +6,14 @@ const nodemailer = require('nodemailer');
 const TempClient = require("../Database/TempClient");
 const finalClient = require("../Database/finalClient");
 const candidate = require("../Database/candidate");
-const allusers = require("../Database/allUsers");
 const resume = require("../Database/resume");
 const jobDetail = require("../Database/jobDetail");
 const appliedJob = require("../Database/appliedJob");
 const allUsers = require("../Database/allUsers");
 const employee = require("../Database/employee");
+const assignedCandidate = require("../Database/assignedCandidate");
+const clientStaff = require("../Database/clientStaffs");
+const forgotPasswordUser = require("../Database/forgotPasswordUsers");
 
 // const hash = async() => {
 //   const pass = 'newpassword'
@@ -55,8 +57,11 @@ const getAllClientDetails = async(req, res) => {
 const createClient = async (req, res) => {
   try {
     console.log(req.body);
+    const {tempPassword} = req.body;
+    const hashPassword = await bcrypt.hash(tempPassword, 12);
     const newTempClient = new TempClient({
       ...req.body,
+      tempPassword:hashPassword,
       role: "Client",
     });
     await newTempClient.save();
@@ -75,7 +80,7 @@ const createClient = async (req, res) => {
       to: `${newTempClient.email}`,
       subject: 'Mail from SKILLITY!',
       text: 'Your temporary url and temporary password!',
-      html: `<p>Temporary URL: ${newTempClient.url}</p><p>Temporary Password: ${newTempClient.tempPassword}</p>`
+      html: `<p>Temporary URL: ${newTempClient.url}</p><p>Temporary Password: ${tempPassword}</p>`
     };
 
     transporter.sendMail(mailOptions, function (error, info) {
@@ -109,25 +114,64 @@ const getAllClient = async(req, res) => {
 const finalClientRegister = async(req, res) => {
   try {
     console.log(req.body);
-    const hashPassword = await bcrypt.hash(req.body.password, 12);
-    console.log(hashPassword);
-    const updatedClient = new finalClient({
-      ...req.body,
-      password: hashPassword, 
-    });
-    await updatedClient.save();
-    console.log(updatedClient);
-    const {name, email, role, id} = req.body;
-    const updatedUser = new allUsers({
-      id,   
-      name,
-      email,
-      role,
-      password:hashPassword,
-    });
-    await updatedUser.save();
-    console.log(updatedUser);
-    return res.status(201).json({updatedClient, updatedUser});
+    const {tempPassword, userEnterTempPassword, ...rest} = req.body;
+    const isMatch = await bcrypt.compare(userEnterTempPassword, tempPassword);
+    if(isMatch){
+      const hashPassword = await bcrypt.hash(req.body.password, 12);
+      console.log(hashPassword);
+      const updatedClient = new finalClient({
+        ...rest,
+        password: hashPassword, 
+      });
+      await updatedClient.save();
+      console.log(updatedClient);
+      const {name, email, role, id} = req.body;
+      const updatedUser = new allUsers({
+        id,   
+        name,
+        email,
+        role,
+        password:hashPassword,
+      });
+      await updatedUser.save();
+      console.log(updatedUser);
+      return res.status(201).json({updatedClient, updatedUser});
+    }else{
+      return res.status(403).json({
+        message: "Incorrect temporary password."
+      });
+    }
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+}
+
+/* client staff register */
+const clientStaffReg = async(req, res) => {
+  try {
+    console.log(req.body);
+    const numOfAccountsCanBeCreated = 1;
+    const {clientId} = req.body;
+    const createdAccounts = await clientStaff.find({clientId:clientId});
+    if(createdAccounts.length < numOfAccountsCanBeCreated){
+      const {name} = req.body;
+      const clientCreatedStaffAvailable = await clientStaff.findOne({name});
+      if(clientCreatedStaffAvailable){
+        return res.status(404).json({message: "staff already registered"});
+      }
+      const hashPassword = await bcrypt.hash(req.body.password, 12);
+      console.log(hashPassword);
+      const newClientStaff = new clientStaff({
+        ...req.body,
+        role:"Client-staff",
+        password: hashPassword, 
+      });
+      await newClientStaff.save();
+      console.log(newClientStaff);
+      return res.status(201).json(newClientStaff);
+    }else{
+      return res.status(200).json({message:"you reached the limit of creating accounts"});
+    }
   } catch (err) {
     return res.status(500).json({ error: err.message });
   }
@@ -335,8 +379,6 @@ const getAppliedOfPostedJobs = async (req, res) => {
   }
 }
 
-
-
 /* delete particular job */
 const deleteAppliedJob = async(req, res) => {
   try{
@@ -407,13 +449,61 @@ const getAllRecruiters = async(req, res) => {
   }
 }
 
-/* get applied jobs from posted jobs  */
+/* get individual recruiter  */
 const getAnIndividualRecruiter = async(req, res) => {
   try{
     const id = req.params.recruiterId;
     const recruiter = await employee.findOne({id:id});
     
     res.status(200).json(recruiter); 
+  }catch(err) {
+    res.status(500).json({error: err.message})
+  }
+}
+
+/* assign the candidate to a particular job */
+const assigningCandidate = async(req, res) => {
+  try{
+    console.log(req.body);
+    const newAssignedCandidate = new assignedCandidate({
+      ...req.body,
+    });
+    await newAssignedCandidate.save();
+    return res.status(201).json(newAssignedCandidate);
+  }catch(err){
+    res.status(500).json({error: err.message});
+  }
+}
+
+/* get assigned candidates by recruiter */
+const getAssignedCandidates = async(req, res) => {
+  try{
+    const assignedCandidates = await assignedCandidate.find();
+    res.status(200).json(assignedCandidates); 
+  }catch(err) {
+    res.status(500).json({error: err.message})
+  }
+}
+
+/* get applied jobs from posted jobs  */
+const getLoginClientDetail = async(req, res) => {
+  try{
+    const id = req.params.clientId;
+    const client = await finalClient.findOne({id:id});
+    
+    res.status(200).json(client); 
+  }catch(err) {
+    res.status(500).json({error: err.message})
+  }
+}
+
+/* get all client staffs  */
+const getAllClientStaffs = async(req, res) => {
+  try{
+    const id = req.params.clientId;
+    const allClientStaffs = await clientStaff.find({clientId:id});
+    
+    res.status(200).json(allClientStaffs); 
   }catch(err) {
     res.status(500).json({error: err.message})
   }
@@ -461,6 +551,192 @@ const employeeSignup = async (req, role, res) => {
   }
 };
 
+/* forgot password handling*/
+const forgotPassword = async(req, res) => {
+  console.log(req.body);
+  const {email, role} = req.body;
+  try{
+    await forgotPasswordUser.deleteOne({email:email, role:role});
+    const userAlreadyCreated = await allUsers.findOne({email:email, role:role});
+    if(userAlreadyCreated){
+      const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=[]{}|;:,.<>?';
+      let password = '';
+      for (let i = 0; i < 12; i++) {
+        const randomIndex = Math.floor(Math.random() * charset.length);
+          password += charset[randomIndex];
+      }
+      console.log(password);
+      const hashPassword = await bcrypt.hash(password, 12);
+      const userWithTempPass = new forgotPasswordUser({
+        id:userAlreadyCreated.id,
+        name:userAlreadyCreated.name,
+        email:userAlreadyCreated.email,
+        role:userAlreadyCreated.role,
+        tempPassword:hashPassword,
+      });
+      await userWithTempPass.save();
+      console.log(userWithTempPass);
+
+      const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: 'demoemail1322@gmail.com',
+          pass: 'znsdgrmwzskpatwz'
+        }
+      });
+
+      const mailOptions = {
+        from: 'demoemail1322@gmail.com',
+        to: `${userWithTempPass.email}`,
+        subject: 'Mail from SKILLITY!',
+        text: 'Your temporary password!',
+        html: `<p>Temporary Password: ${password}</p>`
+      };
+
+      transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+          console.log(error);
+          return res.status(500).json({ error: error.message, userWithTempPass });
+        } else {
+          console.log('Email sent: ' + info.response);
+          res.status(201).json({ userWithTempPass, emailSent: true });
+        }
+      });
+    }else{
+      return res.status(404).json({
+        message: "user not found!",
+      });
+    }
+  }catch(err) {
+    res.status(500).json({error: err.message})
+  }
+}
+
+/* change the exiting password with new password */
+const newPassword = async(req, res) => {
+  const {id} = req.params;
+  console.log(id);
+  const {tempPassword, password, role} = req.body;
+  console.log(tempPassword, password);
+  try{
+    const user = await forgotPasswordUser.findOne({id:id});
+    if(user){
+      const isMatch = await bcrypt.compare(tempPassword, user.tempPassword);
+      if(isMatch){
+        const hashPassword = await bcrypt.hash(password, 12);
+        console.log(hashPassword);
+        const updatedUser = await allUsers.findOneAndUpdate(
+          { id },
+          { $set: { password: hashPassword } },
+          { new: true }
+        );
+        if (updatedUser) {
+          if(role === "Admin"){
+            const updatedEmployee = await employee.findOneAndUpdate(
+              { id },
+              { $set: { password: hashPassword } },
+              { new: true }
+            );
+            console.log(updatedEmployee);
+          }
+          if(role === "Client"){
+            const updatedClient = await finalClient.findOneAndUpdate(
+              { id },
+              { $set: { password: hashPassword } },
+              { new: true }
+            );
+            console.log(updatedClient);
+          }
+          if(role === "Candidate"){
+            const updatedCandidate = await candidate.findOneAndUpdate(
+              { id },
+              { $set: { password: hashPassword } },
+              { new: true }
+            );
+            console.log(updatedCandidate);
+          }
+          return res.status(200).json({ message: 'Password updated successfully' });
+        }else{
+          return res.status(404).json({ message: 'User not found' });
+        }
+        
+      }else{
+        return res.status(403).json({
+          message: "Incorrect temporary password!"
+        });
+      }
+    }else{
+      return res.status(404).json({
+        message: "user not found!"
+      });
+    }
+  }catch(err) {
+    res.status(500).json({error: err.message})
+  }
+}
+
+/* client-staff login */
+const clientStaffLogin = async (req, role, res) => {
+  let { name, password } = req;
+  console.log(role);
+  console.log(name, password);
+  try{
+    const clientCreatedStaff = await clientStaff.findOne({ name });
+    console.log(clientCreatedStaff);
+    if (!clientCreatedStaff) {
+      return res.status(404).json({
+        message: "client created staff is not found. Invalid login credentials.",
+      });
+    }
+    // We will check the role
+    if (clientCreatedStaff.role !== role) {
+      return res.status(403).json({
+        message: "Please make sure you are logging in from the right portal.",
+      });
+    }
+    // That means user is existing and trying to signin fro the right portal
+    // Now check for the password
+    let isMatch = await bcrypt.compare(password, clientCreatedStaff.password);
+    if (isMatch) {
+      // Sign in the token and issue it to the user
+      let token = jwt.sign(
+        {
+          id: clientCreatedStaff.id,
+          role: clientCreatedStaff.role,
+          name: clientCreatedStaff.name,
+          clientId: clientCreatedStaff.clientId
+        },
+        process.env.APP_SECRET,
+        { expiresIn: "3 days" }
+      );
+
+      let result = {
+        id: clientCreatedStaff.id,
+        name: clientCreatedStaff.name,
+        role: clientCreatedStaff.role,
+        clientId: clientCreatedStaff.clientId,
+        expiresIn: 168
+      };
+      return res
+        .cookie('jwt', token, {
+          httpOnly: true,
+        })
+        .status(200)
+        .json({
+          ...result,
+          accessToken:token,
+          message: "You are now logged in."
+        });
+    } else {
+      return res.status(403).json({
+        message: "Incorrect password."
+      });
+    }
+  }catch(err) {
+    res.status(500).json({error: err.message})
+  }
+};
+
 /**
  * @DESC To Login the user 
  */
@@ -468,60 +744,68 @@ const userLogin = async (req, role, res) => {
   let { email, password } = req;
   console.log(role);
   console.log(email, password);
-  // First Check if the name is in the database
-  const user = await allUsers.findOne({ email });
-  console.log(user);
-  if (!user) {
-    return res.status(404).json({
-      message: "User is not found. Invalid login credentials.",
-    });
-  }
-  // We will check the role
-  if (user.role !== role) {
-    return res.status(403).json({
-      message: "Please make sure you are logging in from the right portal.",
-    });
-  }
-  // That means user is existing and trying to signin fro the right portal
-  // Now check for the password
-  let isMatch = await bcrypt.compare(password, user.password);
-  if (isMatch) {
-    // Sign in the token and issue it to the user
-    let token = jwt.sign(
-      {
-        id: user.id,
-        role: user.role,
-        name: user.name,
-        email: user.email
-      },
-      process.env.APP_SECRET,
-      { expiresIn: "3 days" }
-    );
+  try{
+    const user = await allUsers.findOne({ email });
+    console.log(user);
+    if (!user) {
+      return res.status(404).json({
+        message: "User is not found. Invalid login credentials.",
+      });
+    }
+    // We will check the role
+    if (user.role !== role) {
+      return res.status(403).json({
+        message: "Please make sure you are logging in from the right portal.",
+      });
+    }
+    // That means user is existing and trying to signin fro the right portal
+    // Now check for the password
+    let isMatch = await bcrypt.compare(password, user.password);
+    if (isMatch) {
+      // Sign in the token and issue it to the user
+      let token = jwt.sign(
+        {
+          id: user.id,
+          role: user.role,
+          name: user.name,
+          email: user.email
+        },
+        process.env.APP_SECRET,
+        { expiresIn: "3 days" }
+      );
 
-    let result = {
-      id: user.id,
-      name: user.name,
-      role: user.role,
-      email: user.email,
-      expiresIn: 168
-    };
-    // const date = new Date();
-    // date.setHours(date.getHours() + 5);
-    // res.setHeader('set-Cookie', `jwt=${token}; Expires=${date}; HttpOnly`)
-    // res.status(200).cookie('jwt', token, {
-    //   expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
-    //   secure: false,
-    //   httpOnly: true
-    // });
-    return res.json({
-      ...result,
-      accessToken:token,
-      message: "You are now logged in."
-    });
-  } else {
-    return res.status(403).json({
-      message: "Incorrect password."
-    });
+      let result = {
+        id: user.id,
+        name: user.name,
+        role: user.role,
+        email: user.email,
+        expiresIn: 168
+      };
+      // const date = new Date();
+      // date.setHours(date.getHours() + 5);
+      // res.setHeader('set-Cookie', `jwt=${token}; Expires=${date}; HttpOnly`)
+      // res.status(200).cookie('jwt', token, {
+      //   expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
+      //   secure: false,
+      //   httpOnly: true
+      // });
+      return res
+        .cookie('jwt', token, {
+          httpOnly: true,
+        })
+        .status(200)
+        .json({
+          ...result,
+          accessToken:token,
+          message: "You are now logged in."
+        });
+    } else {
+      return res.status(403).json({
+        message: "Incorrect password."
+      });
+    }
+  }catch(err) {
+    res.status(500).json({error: err.message})
   }
 };
 
@@ -610,4 +894,12 @@ module.exports = {
    deleteRecruiter,
    getAllRecruiters,
    getAnIndividualRecruiter,
+   assigningCandidate,
+   getAssignedCandidates,
+   clientStaffReg,
+   clientStaffLogin,
+   getLoginClientDetail,
+   getAllClientStaffs,
+   forgotPassword,
+   newPassword,
 };

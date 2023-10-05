@@ -1,18 +1,10 @@
 import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import { v4 as uuidv4 } from "uuid";
-import AuthContext from '../context/AuthContext';
 
-const JobPosting = () => {
-    const {
-        employeeId,
-        jobPosting,
-        postOtherSkills,
-        postOtherDesignation,
-        jobPosted,
-        setJobPosted,
-      } = useContext(AuthContext);
 
+const JobPosting = ({employeeId, staffToken, clientToken}) => {
+    const [jobPosted, setJobPosted] = useState(false);
     const [searchJobRoleInput, setSearchJobRoleInput] = useState("");
     const [searchSkillInput, setSearchSkillInput] = useState("");
     const [jobRoleArray, setjobRoleArray] = useState([])
@@ -44,7 +36,12 @@ const JobPosting = () => {
     
     const getAllJobRoles = async () => {
         try{
-            const res = await axios.get("http://localhost:5002/designations");
+            const res = await axios.get("http://localhost:5002/designations", {
+              headers: {
+                  Authorization: `Bearer ${staffToken ? staffToken : clientToken}`,
+                  Accept: 'application/json'
+              }
+            });
             const result = res.data;
             if (!result.error) {
                 console.log(result);
@@ -59,7 +56,12 @@ const JobPosting = () => {
 
     const getAllSkills = async () => {
         try{
-            const res = await axios.get("http://localhost:5002/skills");
+            const res = await axios.get("http://localhost:5002/skills", {
+              headers: {
+                  Authorization: `Bearer ${staffToken ? staffToken : clientToken}`,
+                  Accept: 'application/json'
+              }
+            });
             const result = res.data;
             if (!result.error) {
               console.log(result);
@@ -76,6 +78,68 @@ const JobPosting = () => {
         getAllJobRoles();
         getAllSkills();
     },[]);
+
+    //jobposting
+    const jobPosting = async(jobdetail) => {
+      try{
+          const res = await axios.post("http://localhost:5002/job-detail", jobdetail, {
+              headers: {
+                  Authorization: `Bearer ${staffToken ? staffToken : clientToken}`,
+                  Accept: 'application/json'
+              }
+            });
+          const result = res.data;
+          if (!result.error) {
+              console.log(result);
+              setJobPosted(true);
+          } else {
+              console.log(result);
+          }
+      }catch(err){
+          console.log(err);
+      }
+    }
+
+    //post new skill
+    const postOtherSkills = async(skills) => {
+      try{
+          const res = await axios.post("http://localhost:5002/skills", skills, {
+            headers: {
+                Authorization: `Bearer ${staffToken ? staffToken : clientToken}`,
+                Accept: 'application/json'
+            }
+          });
+          const result = res.data;
+          if (!result.error) {
+              console.log(result);
+          } else {
+              console.log(result);
+          }
+      }catch(err){
+          console.log(err);
+      }
+  }
+
+  //post new designation
+  const postOtherDesignation = async(designation) => {
+      try{
+          const res = await axios.post("http://localhost:5002/designations", designation, {
+            headers: {
+                Authorization: `Bearer ${staffToken ? staffToken : clientToken}`,
+                Accept: 'application/json'
+            }
+          });
+          const result = res.data;
+          if (!result.error) {
+              console.log(result);
+          } else {
+              console.log(result);
+          }
+      }catch(err){
+          console.log(err);
+      }
+  }
+
 
     useEffect(() => {
         if (jobPosted) {
@@ -243,14 +307,15 @@ const JobPosting = () => {
         }
     
         const id = uuidv4();
-    
+        const recruiterId = staffToken ? employeeId : "this job posted by client";
+        const clientId = clientToken ? employeeId : "this job posted by company staff";
         const updatedCredentials = {
           ...credentials,
           skills: selectedSkills,
           jobRole: selectedJobRoles,
           id: id,
-          recruiterId:employeeId,
-          clientId:"this job posted by company staff"
+          recruiterId,
+          clientId,
         };
         const updatedCredentialsWithAdditionalSkills = {
           ...updatedCredentials,

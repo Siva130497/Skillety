@@ -1,13 +1,16 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import axios from 'axios';
-import AuthContext from '../../context/AuthContext';
 import Layout from '../../components/Layout';
 import { Footer } from '../../components/Footer';
+import { useNavigate } from 'react-router-dom';
 
 
 const CandidateDashboard = () => {
+  const candidateToken = localStorage.getItem("candidateToken");
+  const navigate = useNavigate();
+
+  const [candidateId, setCandidateId] = useState("");
   const [jobDetail, setJobDetail] = useState([]);
-  const {employeeId, applyingjob} = useContext(AuthContext);
   const [jobView, setJobView] = useState(false);
   const [jobViewDetail, setJobViewDetail] = useState([]);
   const [appliedJobDetail, setAppliedJobDetail] = useState([]);
@@ -24,9 +27,43 @@ const CandidateDashboard = () => {
   const [searchJobRoleInput, setSearchJobRoleInput] = useState("");
   
   
+  const getProtectedData = async () => {
+    try {
+      const response = await axios.get('http://localhost:5002/protected', {
+        headers: {
+            Authorization: `Bearer ${candidateToken}`,
+            Accept: 'application/json'
+        }
+      });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const id = await getProtectedData();
+        console.log(id);
+        setCandidateId(id);
+      } catch (error) {
+        navigate("/candidate-login")
+      }
+    };
+
+    fetchData();
+  }, []);
+
+
     const getSkillMatchJobDetail = async() => {
         try {
-            const response = await axios.get(`http://localhost:5002/skill-match-job-Detail/${employeeId}`);
+            const response = await axios.get(`http://localhost:5002/skill-match-job-Detail/${candidateId}`, {
+              headers: {
+                  Authorization: `Bearer ${candidateToken}`,
+                  Accept: 'application/json'
+              }
+            });
             const result = response.data;
       
             if (!result.error) {
@@ -43,7 +80,12 @@ const CandidateDashboard = () => {
     //get candidate applied jobs
     const getAppliedjobs = async() => {
       try{
-          const res = await axios.get(`http://localhost:5002/my-applied-jobs/${employeeId}`);
+          const res = await axios.get(`http://localhost:5002/my-applied-jobs/${candidateId}`, {
+            headers: {
+                Authorization: `Bearer ${candidateToken}`,
+                Accept: 'application/json'
+            }
+          });
           const result = res.data;
           if (!result.error) {
             console.log(result);
@@ -55,6 +97,50 @@ const CandidateDashboard = () => {
         console.log(err);
       }
     }
+
+    //candidate apply for job
+    const applyingjob = async(job) => {
+      try{
+          const res = await axios.post('http://localhost:5002/job-applying', job, {
+            headers: {
+                Authorization: `Bearer ${candidateToken}`,
+                Accept: 'application/json'
+            }
+          });
+          const result = res.data;
+          if(!result.error){
+              console.log(result);
+              alert("job applied successfully!");
+              getAppliedjobs();
+              const updatedJobViewDetail = {...jobViewDetail, discardStatus: true} 
+              setJobViewDetail(updatedJobViewDetail);
+          }else {
+              console.log(result);
+          }
+      }catch(err){
+          console.log(err);
+      }
+    }
+
+    //candidate delete the job
+    const deletingjob = async(id) => {
+      try {
+        const response = await axios.delete(`http://localhost:5002/delete-job/${candidateId}/${id}`, {
+          headers: {
+              Authorization: `Bearer ${candidateToken}`,
+              Accept: 'application/json'
+          }
+        });
+        console.log(response);
+        alert("Job successfully deleted!");
+        getAppliedjobs();
+        const updatedJobViewDetail = {...jobViewDetail, discardStatus: false} 
+        setJobViewDetail(updatedJobViewDetail);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
 
     const handleJobClick = (id) => {
       setJobView(prevJobView => !prevJobView);
@@ -75,23 +161,16 @@ const CandidateDashboard = () => {
       if (alreadyAppliedJob) {
         setAppliedJobDetail([...appliedJobDetail]);
       } else {
-        const updatedJobViewDetail = {...jobViewDetail, discardStatus: true} 
-        setJobViewDetail(updatedJobViewDetail);
-        const newAppliedJob = {...AppliedJob, candidateId:employeeId}
+        const newAppliedJob = {...AppliedJob, candidateId:candidateId}
         applyingjob(newAppliedJob);
       }
     }
 
-    const handleDiscard = async(id) => {
-      try {
-        const response = await axios.delete(`http://localhost:5002/delete-job/${employeeId}/${id}`);
-        alert("Job successfully deleted!");
-        console.log(response.data);
-        getAppliedjobs();
-        const updatedJobViewDetail = {...jobViewDetail, discardStatus: false};  
-        if(response.data.deletedCount === 1) {setJobViewDetail(updatedJobViewDetail);}
-      } catch (error) {
-        console.error(error);
+    const handleDiscard = (id) => {
+      const DiscardJob = jobDetail.find(job => job.jobId === id);
+      const availableJob = appliedJobDetail.find(appliedJob => appliedJob.jobId === DiscardJob.jobId);
+      if(availableJob){
+        deletingjob(id);
       }
     }
 
@@ -162,7 +241,7 @@ const CandidateDashboard = () => {
     
   return (
       <div>
-        {/* <Layout/> */}
+        <Layout/>
         <div className='container-fluid' style={{display: 'flex'}}>
               <div style={{flex:2}}>
                 <ul>
@@ -184,6 +263,10 @@ const CandidateDashboard = () => {
                     setAppliedJobMode(true);
                     setAllJobMode(false);
                   }}>Applied Jobs</button></li>
+                  <li style={{listStyleType:'none'}}><button onClick={()=>{
+                    localStorage.removeItem("candidateToken");
+                    window.location.reload();
+                  }}>Logout</button></li>
                 </ul>
               </div>
               <div style={{flex:10}}>

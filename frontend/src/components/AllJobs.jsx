@@ -1,8 +1,12 @@
 import React, { useEffect , useState } from 'react';
 import axios from 'axios';
 
-const AllJobs = () => {
+const AllJobs = ({staffToken, employeeId}) => {
     const [allJobs, setAllJobs] = useState([]);
+    const [candidateDetail, setCandidateDetail] = useState([]);
+    const [assignedCandidates, setAssignedCandidates] = useState([]);
+    const [searchCandidateByName, setSearchCandidateByName] = useState([]);
+    const [searchCandidateByNameMsg, setSearchCandidateByNameMsg] = useState("");
     const [checkBoxfilters, setCheckBoxFilters] = useState([]);
     const [checkBoxFilteredJobs, setCheckBoxFilteredJobs] = useState([]);
     const [viewJobStatus, setViewJobStatus] = useState(false);
@@ -12,10 +16,16 @@ const AllJobs = () => {
     const [prevSearchFilteredJobs, setPrevSearchFilteredJobs] = useState([]);
     const [checkBoxFilteredJobMsg, setCheckBoxFilteredJobMsg] = useState("");
     const [searchJobRoleInput, setSearchJobRoleInput] = useState("");
+    const [searchCandidateInput, setSearchCandidateInput] = useState("");
 
     const getPostedjobs = async() => {
         try{
-            const res = await axios.get(`http://localhost:5002/posted-jobs`);
+            const res = await axios.get(`http://localhost:5002/posted-jobs`, {
+              headers: {
+                  Authorization: `Bearer ${staffToken}`,
+                  Accept: 'application/json'
+              }
+            });
             const result = res.data;
             if (!result.error) {
               console.log(result);
@@ -28,9 +38,92 @@ const AllJobs = () => {
         }
       }
 
+      const getAllCandidateDetail = async () => {
+        try{
+            const response = await axios.get('http://localhost:5002/candidate-Detail', {
+              headers: {
+                  Authorization: `Bearer ${staffToken}`,
+                  Accept: 'application/json'
+              }
+            });
+            const result = response.data;
+            if (!result.error) {
+                console.log(result);
+                setCandidateDetail(result);
+            } else {
+                console.log(result);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+      };
+    
+      const getAssignedCandidates = async() => {
+        try{
+            const res = await axios.get(`http://localhost:5002/assigned-candidates`, {
+              headers: {
+                  Authorization: `Bearer ${staffToken}`,
+                  Accept: 'application/json'
+              }
+            });
+            const result = res.data;
+            if (!result.error) {
+              console.log(result);
+              setAssignedCandidates(result);
+            } else {
+              console.log(result);
+            }
+        }catch(err){
+          console.log(err);
+        }
+      }
+
       useEffect(()=>{
         getPostedjobs();
+        getAllCandidateDetail();
+        getAssignedCandidates();
       },[])
+
+      const getRecruiterNameWhoAssignedCandidate = async(id) => {
+        try{
+            const res = await axios.get(`http://localhost:5002/staff/${id}`, {
+              headers: {
+                  Authorization: `Bearer ${staffToken}`,
+                  Accept: 'application/json'
+              }
+            });
+            const result = res.data;
+            if (!result.error) {
+              console.log(result);
+              alert(`this candidate already assigned to this job by company saff ${result.name}`);
+              setAssignedCandidates([...assignedCandidates]);
+            } else {
+              console.log(result);
+            }
+        }catch(err){
+          console.log(err);
+        }
+      }
+
+      const assigningCandidate = async(candidate) => {
+        try{
+            const res = await axios.post('http://localhost:5002/candidate-assigning', candidate, {
+              headers: {
+                  Authorization: `Bearer ${staffToken}`,
+                  Accept: 'application/json'
+              }
+            });
+            const result = res.data;
+            if(!result.error){
+                console.log(result);
+                alert("candidate assigned successfully!");
+            }else {
+                console.log(result);
+            }
+        }catch(err){
+            console.log(err);
+        }
+      }
 
       const handleJobSearch = () => {
         if(searchJobRoleInput){
@@ -101,7 +194,44 @@ const AllJobs = () => {
         const selectedJob = allJobs.find(job=> job.id === id);
         setSelectedJobViewDetail(selectedJob);
       }
+      
+      const handleCandidateSearch = () => {
+        const searchInput = searchCandidateInput.toLowerCase();
+        const [searchFirstName, searchLastName] = searchInput.split(' ');
+      
+        const filteredCandidates = candidateDetail.filter(candidate => {
+          const firstName = candidate.firstName.toLowerCase();
+          const lastName = candidate.lastName.toLowerCase();
+      
+          if (searchLastName) {
+            return (
+              (firstName.includes(searchFirstName) && lastName.includes(searchLastName)) ||
+              (firstName.includes(searchLastName) && lastName.includes(searchFirstName))
+            );
+          } else {
+            return firstName.includes(searchFirstName) || lastName.includes(searchFirstName);
+          }
+        });
+        if(filteredCandidates.length > 0){
+          setSearchCandidateByName(filteredCandidates);
+        }else{
+          setSearchCandidateByNameMsg("no such candidate by this name")
+        }
+      }
 
+      const handleAssigning = (id) => {
+        const AssignedCandidate = candidateDetail.find(candidate => candidate.id === id);
+        const alreadyAssignedCandidate = assignedCandidates
+          .filter(assignCand => assignCand.id === AssignedCandidate.id)
+          .find(cand => cand.jobId === selectedJobViewDetail.id);
+        if (alreadyAssignedCandidate) {
+          getRecruiterNameWhoAssignedCandidate(alreadyAssignedCandidate.recruiterId);
+        } else {
+          const newAssignedCandidate = {...AssignedCandidate, recruiterId:employeeId, jobId:selectedJobViewDetail.id}
+          assigningCandidate(newAssignedCandidate);
+        }
+      }
+    
   return (
     <div>
               {allJobs.length > 0 ? <div>
@@ -193,6 +323,47 @@ const AllJobs = () => {
                   }
                   <div>Job Description: {selectedJobViewDetail.jobDescription}</div>
                   <div>Needed Experience:{selectedJobViewDetail.year} years and {selectedJobViewDetail.month} months</div>
+                  <div>
+                    Assigned Candidates to this job:
+                    {assignedCandidates
+                      .filter(cand => cand.jobId === selectedJobViewDetail.id)
+                      .map((candidate, index, array) => (
+                        <span key={candidate.id}>
+                          {candidate.firstName + " " + candidate.lastName}
+                          {index !== array.length - 1 ? ',' : ''}
+                        </span>
+                      ))}
+                  </div>
+                  <input 
+                  type='search' 
+                  name='searchCandidate' 
+                  id='searchCandidate' 
+                  className='form-control me-sm-2' 
+                  placeholder='Search candidate by name...' 
+                  value={searchCandidateInput}
+                  onChange={(e)=>{
+                    setSearchCandidateInput(e.target.value);
+                    setSearchCandidateByName([]);
+                    setSearchCandidateByNameMsg("");
+                  }}
+                 />
+                  <button className="btn btn-secondary my-2" type="submit" onClick={handleCandidateSearch}>Search</button>
+                  {searchCandidateInput &&
+                    <table className="table table-hover my-3">
+                      {searchCandidateByName.length > 0  ?
+                        <tbody>
+                          {searchCandidateByName.map(searchedCandidate => {
+                            return (
+                              <tr key={searchedCandidate.id} >
+                                <th>{searchedCandidate.firstName + " " + searchedCandidate.lastName}</th>
+                                <td><span className="badge rounded-pill bg-info" onClick={()=>handleAssigning(searchedCandidate.id)}>Assigned the candidate to the job</span></td>
+                              </tr>)
+                          })}
+                        </tbody> :
+                        <div>{searchCandidateByNameMsg}</div>
+                      }
+                    </table>
+                  }
                 </div>
              }
              </div> : <p>No jobs yet</p>}

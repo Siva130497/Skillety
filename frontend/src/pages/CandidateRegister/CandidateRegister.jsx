@@ -4,9 +4,8 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import axios from 'axios';
 import { v4 as uuidv4} from "uuid";
-import NewNavBar from '../../components/NewNavBar';
 import Layout from '../../components/Layout';
-import { Footer } from '../../components/Footer';
+import GoogleAuth from '../../components/GoogleAuth';
 
 
 const CandidateRegister = () => {
@@ -30,7 +29,8 @@ const CandidateRegister = () => {
     const [newDesignation, setNewDesignation] = useState("");
     const [otherSkill, setOtherSkill] = useState([]);
     const [otherDesignation, setOtherDesignation] = useState([]);
-
+    const [profile, setProfile] = useState([]);
+    
     const initialCredentials = {
         days: "",
         firstName: "",
@@ -49,6 +49,16 @@ const CandidateRegister = () => {
         checkbox: false,
     };
     const [credentials, setCredentials] = useState(initialCredentials);
+    
+    useEffect(()=>{
+        setCredentials((prevCredentials) => ({
+            ...prevCredentials,
+            firstName:profile.family_name ? profile.family_name : "",
+            lastName:profile.given_name ? profile.given_name : "",
+            email:profile.email ? profile.email : "",
+        }));
+    },[profile]);
+
     const totalMonths = parseInt(credentials.year*12) + parseInt(credentials.month);
     const maxSkillNum = totalMonths <= 24 ? 6 : totalMonths <= 48 ? 8 : totalMonths <= 96 ? 10 : 12;
     
@@ -238,8 +248,9 @@ const CandidateRegister = () => {
     const handleNext = () => {
         let isValid = true;
         if (step === 1) {
-          if (credentials.days === "" || credentials.firstName === "" || credentials.lastName === "" || credentials.phone === "" || credentials.email === "" || credentials.password === "" || credentials.confirmPassword === "" || credentials.password !== credentials.confirmPassword || !resume) {
+          if (credentials.days === "" || credentials.firstName === "" || credentials.lastName === "" || credentials.phone === "" || credentials.email === "" || credentials.password === "" || credentials.confirmPassword === "" || credentials.password !== credentials.confirmPassword || !resume || credentials.password.length < 8) {
             credentials.password !== credentials.confirmPassword && alert("Please check that both password and confirm password are same")
+            credentials.password.length < 8 && alert("password must be atleast 8 characters long")
             isValid = false;
           }
         }
@@ -672,6 +683,7 @@ const CandidateRegister = () => {
         <Layout newNavBarCandidateRegister = {true} />
         <div className='container-fluid'>
         <h3>Create your account</h3>
+        <GoogleAuth setProfile={setProfile}/>
         <form onSubmit={handleSubmit}>
         {renderStep()}
         {step > 1 && (<button type="button" className="btn btn-outline-info mx-3" onClick={handleBack}>Back</button>)}
@@ -679,7 +691,6 @@ const CandidateRegister = () => {
         {step === 3 && (<input type='submit' value="Register" className='btn btn-primary my-3' />)}
         </form>
         </div>
-        <Footer noFooter={true}/>
     </div>
   );
 };

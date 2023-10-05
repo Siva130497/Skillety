@@ -1,8 +1,9 @@
 const router = require("express").Router();
 const skill = require('../Database/skill');
+const employeeAuth = require("../middleware/employeeAuth");
 
 //get all skills from db
-router.get("/skills", async(req, res)=>{
+router.get("/skills", employeeAuth, async(req, res)=>{
     try{
         const allSkills = await skill.find();
         res.status(200).json(allSkills);
@@ -12,7 +13,7 @@ router.get("/skills", async(req, res)=>{
 })
 
 //post new skills to db
-router.post("/skills", async (req, res) => {
+router.post("/skills", employeeAuth, async (req, res) => {
     const skillArray = req.body;
     
     try {

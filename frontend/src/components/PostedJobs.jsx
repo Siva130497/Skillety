@@ -2,8 +2,8 @@ import React, { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import AuthContext from '../context/AuthContext';
 
-const PostedJobs = () => {
-    const {employeeId} = useContext(AuthContext);
+const PostedJobs = ({employeeId, staffToken, clientToken}) => {
+    
     const [postedJobs, setPostedJobs] = useState([]);
     const [appliedOfPostedJobs, setAppliedOfPostedJobs] =useState([]);
     const [viewPostedJobStatus, setViewPostedJobStatus] = useState(false);
@@ -18,7 +18,12 @@ const PostedJobs = () => {
 
     const getOwnPostedjobs = async() => {
         try{
-            const res = await axios.get(`http://localhost:5002/my-posted-jobs/${employeeId}`);
+            const res = await axios.get(`http://localhost:5002/my-posted-jobs/${employeeId}`, {
+              headers: {
+                  Authorization: `Bearer ${staffToken ? staffToken : clientToken}`,
+                  Accept: 'application/json'
+              }
+            });
             const result = res.data;
             if (!result.error) {
               console.log(result);
@@ -33,7 +38,12 @@ const PostedJobs = () => {
 
       const getAppliedOfPostedJobs = async() => {
         try{
-            const res = await axios.get(`http://localhost:5002/applied-jobs-of-posted/${employeeId}`);
+            const res = await axios.get(`http://localhost:5002/applied-jobs-of-posted/${employeeId}`, {
+              headers: {
+                  Authorization: `Bearer ${staffToken ? staffToken : clientToken}`,
+                  Accept: 'application/json'
+              }
+            });
             const result = res.data;
             if (!result.error) {
               console.log(result);

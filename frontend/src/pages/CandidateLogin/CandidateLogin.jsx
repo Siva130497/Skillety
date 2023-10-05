@@ -1,12 +1,12 @@
 import React, { useState, useContext } from 'react'
 import{Link} from "react-router-dom";
 import AuthContext from '../../context/AuthContext';
-import CandidateDashboard from '../CandidateDashboard/CandidateDashboard';
 import Layout from '../../components/Layout';
-import { Footer } from '../../components/Footer';
+import useTokenRedirect from '../../customhooks/useTokenRedirect';
 
 const CandidateLogin = () => {
-    const {loginUser, dashBoard} = useContext(AuthContext)
+    useTokenRedirect();
+    const {loginUser} = useContext(AuthContext)
     const [credentials, setcredentials] = useState({
         email:"",
         password:"",
@@ -60,7 +60,11 @@ const CandidateLogin = () => {
                         value = {credentials.password} 
                         onChange = {handleInputChange} 
                         placeholder="Enter your password"
+                        onPaste={(e)=>e.preventDefault()}
                         required />
+                        <div className="cli--login-forgot-area" data-aos="fade-left">
+                            <a href="/forgot-password/Candidate" className='cli--login-forgot'>Forgot Password</a>
+                        </div>
                     </div>
                     <input type='submit' value="Login" className='btn btn-primary my-3' />
                     <p>
@@ -69,7 +73,6 @@ const CandidateLogin = () => {
 
                     </form>
                     </div>
-                    <Footer noFooter={true}/>
                 </div>
     )
 }

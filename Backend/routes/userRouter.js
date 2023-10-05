@@ -23,22 +23,34 @@ const {
   deleteRecruiter,
   getAllRecruiters,
   getAnIndividualRecruiter,
+  assigningCandidate,
+  getAssignedCandidates,
+  clientStaffReg,
+  clientStaffLogin,
+  getLoginClientDetail,
+  getAllClientStaffs,
+  forgotPassword,
+  newPassword,
 } = require("../Controller/authFunctions");
+const employeeAuth = require("../middleware/employeeAuth");
 
 // Client Registeration Route
 router.post("/register-Client", clientRegister);
 
 // recruiter route for client detail
-router.get("/client-Detail", getAllClientDetails)
+router.get("/client-Detail", employeeAuth, getAllClientDetails)
 
 // Client Registeration Route
-router.post("/tempPass-Client", createClient);
+router.post("/tempPass-Client", employeeAuth, createClient);
 
 // recruiter route for client detail
-router.get("/clientWithUrl-Detail", getAllClient);
+router.get("/clientWithUrl-Detail", employeeAuth, getAllClient);
 
 // client register after setup new password
 router.post("/finalRegister-Client", finalClientRegister);
+
+//register client-staff
+router.post("/client-staff-register", employeeAuth, clientStaffReg)
 
 // candidate register 
 router.post("/candidate-reg", candidateReg);
@@ -54,38 +66,70 @@ router.post("/register-Candidate", async (req, res) => {
 });
 
 //get all candidate detail
-router.get("/candidate-Detail", getAllCandidateDetail)
+router.get("/candidate-Detail", employeeAuth, getAllCandidateDetail)
 
 //post job detail 
-router.post("/job-detail", jobPosting)
+router.post("/job-detail", employeeAuth, jobPosting)
 
 //get all job details
-router.get('/skill-match-job-Detail/:candidateId', getSkillMatchJobDetail)
+router.get('/skill-match-job-Detail/:candidateId', employeeAuth, getSkillMatchJobDetail)
 
 //get client posted job details
-router.get('/posted-jobs', getPostedjobs)
+router.get('/posted-jobs', employeeAuth, getPostedjobs)
 
 //get posted job details
-router.get('/my-posted-jobs/:postedPersonId', getOwnPostedjobs)
+router.get('/my-posted-jobs/:postedPersonId', employeeAuth, getOwnPostedjobs)
 
 //candidate applied for job
-router.post('/job-applying', applyingjob)
+router.post('/job-applying', employeeAuth, applyingjob)
 
 //get applied jobs
-router.get('/my-applied-jobs/:candidateId', getAppliedjobs)
+router.get('/my-applied-jobs/:candidateId', employeeAuth, getAppliedjobs)
 
 //get applied of posted jobs
-router.get('/applied-jobs-of-posted/:postedPersonId', getAppliedOfPostedJobs)
+router.get('/applied-jobs-of-posted/:postedPersonId', employeeAuth, getAppliedOfPostedJobs)
 
 //delete particular job of candidate
-router.delete('/delete-job/:candidateId/:jobId', deleteAppliedJob)
+router.delete('/delete-job/:candidateId/:jobId', employeeAuth, deleteAppliedJob)
 
 //get an individual recruiter by id
-router.get('/staff/:recruiterId', getAnIndividualRecruiter);
+router.get('/staff/:recruiterId',employeeAuth, getAnIndividualRecruiter);
+
+//recruiter create route
+router.post('/recruiter-create', employeeAuth, createRecruiter);
+
+//delete particular recruiter route
+router.delete('/delete-recruiter/:recruiterId', employeeAuth, deleteRecruiter);
+
+//get all recruiters details
+router.get('/all-recruiters', employeeAuth, getAllRecruiters);
+
+//assign the candidate to job
+router.post("/candidate-assigning", employeeAuth, assigningCandidate);
+
+//get assigned candidates by recruiter
+router.get("/assigned-candidates", employeeAuth, getAssignedCandidates);
+
+//get particular client
+router.get('/client/:clientId',employeeAuth, getLoginClientDetail);
+
+//get all client staff created by particular client
+router.get('/all-client-staffs/:clientId', employeeAuth, getAllClientStaffs);
+
+//request to temp password for forgot password
+router.post("/forgotpassword", forgotPassword);
+
+//change the existing password with new password
+router.patch("/newpassword/:id", newPassword);
 
 // Client Login Route
 router.post("/login-Client", async (req, res) => {
   await userLogin(req.body, "Client", res);
+});
+
+// Client-staff Login Route
+router.post("/login-Client-staff", async (req, res) => {
+  await clientStaffLogin(req.body, "Client-staff", res);
 });
 
 // Candidate Login Route
@@ -98,19 +142,15 @@ router.post("/admin", async (req, res) => {
   await userLogin(req.body, "Admin", res);
 });
 
-// Admin Login Route
+// Staff Login Route
 router.post("/staff", async (req, res) => {
   await userLogin(req.body, "Recruiter", res);
 });
 
-//recruiter create route
-router.post('/recruiter-create', createRecruiter);
-
-//delete particular recruiter route
-router.delete('/delete-recruiter/:recruiterId', deleteRecruiter);
-
-//get all recruiters details
-router.get('/all-recruiters', getAllRecruiters)
+//protected route
+router.get("/protected", employeeAuth, (req, res) => {
+  return res.json(req.user.id);
+})
 
 // //Client protected route
 // router.get(

@@ -1,9 +1,8 @@
 import React from 'react'
 
-export const Footer = ({ noFooter }) => {
+export const Footer = () => {
   return (
-    <div>
-      {noFooter ? null :
+      
         <footer className='footer--section'>
           <div className="container-fluid">
             <div className="footer--email-form-section">
@@ -315,8 +314,6 @@ export const Footer = ({ noFooter }) => {
             </div>
           </div>
         </footer>
-      }
-    </div>
 
   )
 }

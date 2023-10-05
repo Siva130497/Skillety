@@ -14,6 +14,7 @@ const morgan = require('morgan');
 const multer = require('multer');
 const resume = require('./Database/resume');
 const validateToken = require('./middleware/employeeAuth');
+const jwt = require("jsonwebtoken");
 // const file = require('./Database/file');
 // const cv = require('./Database/cv');
 //converting base64 to pdf
@@ -23,7 +24,14 @@ const validateToken = require('./middleware/employeeAuth');
 const http = require('http');
 // const {Server} = require('socket.io');
 
-app.use(cors());
+const corsOptions = {
+  origin: 'http://localhost:3000',
+  credentials: true,
+  methods: ['GET', 'POST', 'PATCH', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'Access-Control-Allow-Credentials']
+};
+
+app.use(cors(corsOptions));
 app.use(morgan("tiny"));
 app.use(bp.json());
 app.use(cookieParser());
@@ -50,13 +58,6 @@ mongoose.connect(process.env.DB_CONNECT)
   .then(() => {
     console.log('MongoDB connected...');
   })
-
-// const corsOptions = {
-//   origin: 'http://localhost:3000',
-//   credentials: true,
-//   methods: ['GET', 'POST', 'PUT', 'DELETE'],
-//   allowedHeaders: ['Content-Type', 'Authorization', 'Access-Control-Allow-Credentials']
-// };
 
 // io.on('connection', (socket) => {
 //   socket.on('join_room', (user) => {
@@ -94,6 +95,24 @@ mongoose.connect(process.env.DB_CONNECT)
 //   console.log("a user connected.");
   
 // })
+
+// const authorization = (req, res, next) => {
+//   const token = req.cookies.jwt;
+//   if (!token) {
+//     return res.sendStatus(403);
+//   }
+//   try {
+//     const data = jwt.verify(token, process.env.APP_SECRET);
+//     req.userId = data.id;
+//     return next();
+//   } catch {
+//     return res.sendStatus(403);
+//   }
+// };
+
+// app.get("/protected", authorization, (req, res) => {
+//   return res.json({ user: { id: req.userId} });
+// });
 
 
 const storage = multer.diskStorage({

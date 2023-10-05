@@ -1,15 +1,16 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import AuthContext from '../../context/AuthContext';
 import Layout from '../../components/Layout';
-import AdminDashboard from '../AdminDashboard/AdminDashboard';
-import { Footer } from '../../components/Footer';
+import useTokenRedirect from '../../customhooks/useTokenRedirect';
 
 const AdminLogin = () => {
-    const {loginUser, dashBoard} = useContext(AuthContext)
+    useTokenRedirect();
+    const {loginUser} = useContext(AuthContext)
     const [credentials, setcredentials] = useState({
         email:"",
         password:"",
-    })
+    });
+
     const handleInputChange = (event) => {
         const {name, value} = event.target;
         setcredentials({...credentials, [name]:value});
@@ -59,12 +60,15 @@ const AdminLogin = () => {
                         value = {credentials.password} 
                         onChange = {handleInputChange} 
                         placeholder="Enter your password"
+                        onPaste={(e)=>e.preventDefault()}
                         required />
+                        <div className="cli--login-forgot-area" data-aos="fade-left">
+                            <a href="/forgot-password/Admin" className='cli--login-forgot'>Forgot Password</a>
+                        </div>
                     </div>
                     <input type='submit' value="Login" className='btn btn-primary my-3' />
                     </form>
                     </div>
-                    <Footer noFooter={true}/>
                 </div>
     )
 }

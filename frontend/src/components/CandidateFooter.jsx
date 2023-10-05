@@ -1,9 +1,9 @@
 import React from 'react'
 
-export const CandidateFooter = ({ noCandidateFooter }) => {
+export const CandidateFooter = () => {
     return (
         <div>
-            {noCandidateFooter ? null :
+            
                 <footer className='footer--section candidate'>
                     <div className="container-fluid">
                         <div className="footer--email-form-section">
@@ -315,7 +315,7 @@ export const CandidateFooter = ({ noCandidateFooter }) => {
                         </div>
                     </div>
                 </footer>
-            }
+            
         </div>
 
     )

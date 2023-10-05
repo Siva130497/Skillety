@@ -51,7 +51,7 @@ const Talents = () => {
 
     return (
         <div>
-            <Layout candidateHome={true}/>
+            <Layout />
             <div className='talents--section'>
                 <div className='container-fluid'>
                     <div className='container-fluid container-section'>

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import Layout from '../../components/Layout';
-import { Footer } from '../../components/Footer';
 
 const ClientNewPassword = () => {
     const { id } = useParams();
@@ -62,32 +61,30 @@ const ClientNewPassword = () => {
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
-        if (name === "newPassword" && value.length < 8) {
-            setPasswordError('Password must be at least 8 characters long');
-        }
         setCredentials({ ...credentials, [name]: value });
     };
 
     const handleSubmit = (event) => {
         event.preventDefault();
         if (credentials.newPassword.length < 8) {
-            alert("Password must be at least 8 characters long");
+            alert("Password must be atleast 8 characters long");
             return;
         }
-        if ((newClient.tempPassword === credentials.tempPassword) && (credentials.newPassword === credentials.confirmPassword)) {
-            const { tempPassword, url, _id, ...updatedClient } = newClient;
+        if (credentials.newPassword === credentials.confirmPassword) {
+            const { url, _id, ...updatedClient } = newClient;
             updatedClient.password = credentials.newPassword;
+            updatedClient.userEnterTempPassword = credentials.tempPassword;
             console.log(updatedClient);
             finalClientDetail(updatedClient);
         } else {
-            alert("Temporary password incorrect or new password doesn't match with confirm password");
+            alert("new password doesn't match with confirm password");
             return;
         }
     };
 
     return (
         <div>
-            <Layout candidateHome={true}/>
+            <Layout ClientNewPassword = {true}/>
             <div className='container-fluid'>
             {status ?
                 <div>
@@ -155,7 +152,6 @@ const ClientNewPassword = () => {
                 </div>
             }
             </div>
-            <Footer noFooter={true}/>
         </div>
     );
 };

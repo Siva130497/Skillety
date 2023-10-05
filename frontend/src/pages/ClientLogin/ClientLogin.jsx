@@ -1,18 +1,20 @@
-
 import React, { useState, useContext } from 'react';
-import { Link } from "react-router-dom";
-
 import { useEffect } from 'react';
 import $ from 'jquery';
 import './ClientLogin.css';
 import './ClientLogin-responsive.css';
 import AuthContext from '../../context/AuthContext';
 import Layout from '../../components/Layout';
-import { Footer } from '../../components/Footer';
+import useTokenRedirect from '../../customhooks/useTokenRedirect';
+import { useNavigate } from 'react-router-dom';
 
 const ClientLogin = () => {
-    const { loginUser } = useContext(AuthContext)
+    useTokenRedirect();
+    const { loginUser } = useContext(AuthContext);
+    const navigate = useNavigate();
+    const [isClientStaff, setIsClientStaff] = useState(false);
     const [credentials, setcredentials] = useState({
+        name: "",
         email: "",
         password: "",
     })
@@ -20,13 +22,29 @@ const ClientLogin = () => {
         const { name, value } = event.target;
         setcredentials({ ...credentials, [name]: value });
     }
+
     const handleSubmit = (event) => {
         event.preventDefault();
-        const userType = "login-Client"
-        const updatedCredentials = [credentials, userType]
-        loginUser(updatedCredentials);
+        let userType;
+        let updatedCredentials;
 
+        if (isClientStaff) {
+            userType = "login-Client-staff";
+            updatedCredentials = {
+                name: credentials.name,
+                password: credentials.password
+            };
+        } else {
+            userType = "login-Client";
+            updatedCredentials = {
+                email: credentials.email,
+                password: credentials.password
+            };
+        }
+
+        loginUser([updatedCredentials, userType]);
     }
+
     useEffect(() => {
         $(document).ready(function () {
             // Function to toggle password visibility
@@ -65,55 +83,6 @@ const ClientLogin = () => {
 
     return (
         <div>
-            {/* <Layout newNavBarClientLogin = {true} />
-            <div className='container-fluid'>
-            {dashBoard ? <ClientDashBoard /> :
-                <>
-                    <h3>Login</h3>
-
-                <form onSubmit={handleSubmit}>
-                <div className="form-group">
-                    <label 
-                    htmlFor="emailInput" 
-                    className="form-label mt-4">
-                        Email address
-                    </label>
-                    <input 
-                    type="email" 
-                    className="form-control" 
-                    id="emailInput" 
-                    aria-describedby="emailHelp" 
-                    name="email" 
-                    value={credentials.email} 
-                    onChange = {handleInputChange} 
-                    placeholder="example@example.com"
-                    required />
-                </div>
-                <div className="form-group">
-                    <label 
-                    htmlFor="passwordInput" 
-                    className="form-label mt-4">
-                        Password
-                    </label>
-                    <input 
-                    type="password" 
-                    className="form-control" 
-                    id="passwordInput" 
-                    name="password" 
-                    value = {credentials.password} 
-                    onChange = {handleInputChange} 
-                    placeholder="Enter your password"
-                    required />
-                </div>
-                <input type='submit' value="Login" className='btn btn-primary my-3' />
-                <p>
-                    Don't have an account ? <Link to = "/client-register">Create One</Link>
-                </p>
-
-                    </form>
-                </>
-            }
-            </div> */}
             <Layout newNavBarClientLogin={true} />
             <div className='cli--signup-section'>
                 <div className='container-fluid'>
@@ -133,14 +102,44 @@ const ClientLogin = () => {
                                     </div>
 
                                     <form action="" className='cli--signup-form' onSubmit={handleSubmit}>
-                                        <div className='cli--signup-form-group' data-aos="fade-up">
+                                    <div className='cli--login-as-client-staff'>
+                                        <label>
+                                            <input
+                                                type='checkbox'
+                                                checked={isClientStaff}
+                                                onChange={() => setIsClientStaff(!isClientStaff)}
+                                            />
+                                            Login as Client Staff
+                                        </label>
+                                    </div>
+
+                                    {isClientStaff ? (
+                                        <div className='cli--signup-form-group' data-aos='fade-up'  style={{ marginTop: '5%' }}>
+                                            <input
+                                                type='text'
+                                                id='user_name'
+                                                name='name'
+                                                placeholder='Enter your name'
+                                                className='cli--signup-form-input'
+                                                value={credentials.name}
+                                                onChange={handleInputChange}
+                                                required
+                                            />
+                                            <label htmlFor='user_name' className='cli--signup--form-label'>
+                                                Name
+                                            </label>
+                                        </div>
+                                    ) : (
+                                        <div className='cli--signup-form-group' data-aos="fade-up" style={{ marginTop: '5%' }}>
                                             <input type="email" id='user_id' name="email" placeholder="Enter your User ID" className='cli--signup-form-input' value={credentials.email} onChange = {handleInputChange} required />
                                             <label htmlFor="user_id" className='cli--signup--form-label'>User Id</label>
                                         </div>
+                                        )}
+                                        
 
                                         <div className='cli--signup-form-group' data-aos="fade-up">
                                             <i class="bi bi-eye-slash toggle-eye" id="togglePassword"></i>
-                                            <input type="password" id='password' name="password" placeholder="Enter your password" className='cli--signup-form-input'  value = {credentials.password} onChange = {handleInputChange} required />
+                                            <input type="password" id='password' name="password" placeholder="Enter your password" className='cli--signup-form-input'  value = {credentials.password} onChange = {handleInputChange} required onPaste={(e)=>e.preventDefault()}/>
                                             <label htmlFor="password" className='cli--signup--form-label'>Password</label>
                                         </div>
 
@@ -152,9 +151,9 @@ const ClientLogin = () => {
                                                     Remember Details
                                                 </label>
                                             </div>
-                                            <div className="cli--login-forgot-area" data-aos="fade-left">
-                                                <a href="" className='cli--login-forgot'>Forgot Password</a>
-                                            </div>
+                                            {!isClientStaff && <div className="cli--login-forgot-area" data-aos="fade-left">
+                                                <a href="/forgot-password/Client" className='cli--login-forgot'>Forgot Password</a>
+                                            </div>}
                                         </div>
 
                                         <div className="cli--create-account-btn-area" data-aos="fade-up">
@@ -183,7 +182,6 @@ const ClientLogin = () => {
                     </div>
                 </div>
             </div>
-            <Footer noFooter={true} />
         </div>
     )
 }

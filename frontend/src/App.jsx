@@ -15,8 +15,7 @@ import ClientNewPassword from './pages/ClientNewPassword/ClientNewPassword';
 import ClientSignup from './pages/ClientSignup/ClientSignup';
 import ClientLogin from './pages/ClientLogin/ClientLogin';
 import CandidateRegister from './pages/CandidateRegister/CandidateRegister';
-// import Chat from './pages/Chat/Chat';
-// import LiveChat from './pages/Chat/LiveChat';
+import LiveChat from './pages/Chat/LiveChat';
 // import PDFViewer from './pages/pdfViewer';
 import CandidateLogin from './pages/CandidateLogin/CandidateLogin';
 import AdminLogin from './pages/AdminLogin/AdminLogin';
@@ -26,14 +25,16 @@ import ClientDashboard from './pages/ClientDashboard/ClientDashboard';
 import CandidateDashboard from './pages/CandidateDashboard/CandidateDashboard';
 import AdminDashboard from './pages/AdminDashboard/AdminDashboard';
 import RecruiterDashboard from './pages/RecruiterDashboard/RecruiterDashboard';
+import ForgotPassword from './pages/ForgotPassword/ForgotPassword';
 // import Slider from './pages/Slider';
 import { PrimeReactProvider } from 'primereact/api';
 import { GoogleOAuthProvider } from '@react-oauth/google';
-import GoogleAuth from './components/GoogleAuth';
+
+
 
 
 function App() {
-  
+
   return (
 
       <AuthContextProvider>
@@ -41,7 +42,6 @@ function App() {
         <GoogleOAuthProvider clientId="844630167314-gr9sc81b599kvna7vhlecf5447ogd9fn.apps.googleusercontent.com">
           <Routes>
             <Route path='/' element={<Home />} />
-            <Route path='/googleAuth' element={<GoogleAuth />} />
             {/* <Route path='/slider' element={<Slider />} /> */}
             <Route path='/candidate-home' element={<HomeCandidate />} />
             <Route path='/about-us' element={<About />} />
@@ -52,14 +52,13 @@ function App() {
             <Route path='/testimonial' element={<Testimonial />} />
             <Route path='/testimonial-detail' element={<TestimonialDetail />} />
             {/* <Route path='/pdf' element={<PDFViewer />} /> */}
-            {/* <Route path='/live-chat' element={<LiveChat />} /> */}
+            <Route path='/live-chat' element={<LiveChat />} />
             <Route path='/client-register' element={<ClientRegister />} />
             <Route path='/client-signup' element={<ClientSignup />} />
             <Route path='/candiate-register' element={<CandidateRegister />} />
             <Route path='/client-login' element={<ClientLogin />} />
             <Route path='/candidate-login' element={<CandidateLogin />} />
             <Route path='/packages' element={<Packages />} />
-            {/* <Route path='/client-recruiter-chat' element={<Chat />} /> */}
             <Route path='/:id' element={<ClientNewPassword />} />
             <Route path='/admin-login' element={<AdminLogin />} />
             <Route path='/recruiter-login' element={<RecruiterLogin />} />
@@ -67,6 +66,7 @@ function App() {
             <Route path='/candidate-dashboard' element={<CandidateDashboard />} />
             <Route path='/admin-dashboard' element={<AdminDashboard />} />
             <Route path='/recruiter-dashboard' element={<RecruiterDashboard />} />
+            <Route path='/forgot-password/:role' element={<ForgotPassword />} />
           </Routes>
         </GoogleOAuthProvider>
         </PrimeReactProvider>

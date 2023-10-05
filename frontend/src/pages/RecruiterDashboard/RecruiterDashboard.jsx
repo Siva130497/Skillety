@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { useContext} from 'react';
-import AuthContext from '../../context/AuthContext';
 import Layout from '../../components/Layout';
 import axios from 'axios';
 import HRPage from '../HRPage/HRPage';
@@ -15,11 +13,14 @@ import PostedJobs from '../../components/PostedJobs';
 import JobPosting from '../../components/JobPosting';
 import AllCandidates from '../../components/AllCandidates';
 import AllClients from '../../components/AllClients';
+import { useNavigate } from 'react-router-dom';
+
 
 const RecruiterDashboard = () => {
-  const {
-    employeeId,
-  } = useContext(AuthContext);
+  
+  const staffToken = localStorage.getItem("staffToken");
+  const [employeeId, setEmployeeId] = useState("");
+  const navigate = useNavigate();
 
   const [dashBoard, setDashBoard] = useState(true);
   const [allClientMode, setAllClientMode] = useState(false);
@@ -31,7 +32,12 @@ const RecruiterDashboard = () => {
 
   const getAnIndividualRecruiter = async() => {
     try{
-        const res = await axios.get(`http://localhost:5002/staff/${employeeId}`);
+        const res = await axios.get(`http://localhost:5002/staff/${employeeId}`, {
+          headers: {
+              Authorization: `Bearer ${staffToken}`,
+              Accept: 'application/json'
+          }
+        });
         const result = res.data;
         if (!result.error) {
           console.log(result);
@@ -44,15 +50,43 @@ const RecruiterDashboard = () => {
     }
   }
 
+  const getProtectedData = async () => {
+    try {
+      const response = await axios.get('http://localhost:5002/protected', {
+        headers: {
+            Authorization: `Bearer ${staffToken}`,
+            Accept: 'application/json'
+        }
+      });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const id = await getProtectedData();
+        console.log(id);
+        setEmployeeId(id);
+      } catch (error) {
+        navigate("/recruiter-login")
+      }
+    };
+
+    fetchData();
+  }, []);
+
   useEffect(()=>{
     if(employeeId){
       getAnIndividualRecruiter();
     }
-  }, [employeeId]);
+  },[employeeId])
   
   return (
     <div>
-        {/* <Layout/> */}
+        <Layout/>
         <div className='container-fluid' style={{display: 'flex'}}>
           <div style={{flex:2}}>
             <ul>
@@ -104,6 +138,10 @@ const RecruiterDashboard = () => {
                 setPostedJobMode(false);
                 setJobPostingMode(true);
               }}>Job Posting</button></li>
+              <li style={{listStyleType:'none'}}><button onClick={()=>{
+                localStorage.removeItem("recruiterToken");
+                window.location.reload();
+              }}>Logout</button></li>
             </ul>
           </div>
           <div style={{flex:10}}>
@@ -111,15 +149,15 @@ const RecruiterDashboard = () => {
             <h1>Dash Board</h1>
               {staff === "HR" ? <HRPage/> : staff === "Operator" ? <OperatorPage/> : staff === "Finance" ? <FinancePage/> : staff === "Customer support executive" ? <CustomerSupportExecutivePage/> : staff === "digitalmarketing team" ? <DigitalMarketingTeamPage/> : staff === "RMG" ? <RMGPage/> : null}
             </div>}
-            {allClientMode && <AllClients/>
+            {allClientMode && <AllClients staffToken={staffToken}/>
             }
-            {allCandidateMode && <AllCandidates/>
+            {allCandidateMode && <AllCandidates employeeId={employeeId} staffToken={staffToken}/>
             }
-            {allJobMode > 0 && <AllJobs/>
+            {allJobMode > 0 && <AllJobs staffToken={staffToken} employeeId={employeeId}/>
             }
-            {postedJobMode > 0 && <PostedJobs/>
+            {postedJobMode > 0 && <PostedJobs employeeId={employeeId} staffToken={staffToken}/>
             }
-            {jobPostingMode  && <JobPosting/>
+            {jobPostingMode  && <JobPosting employeeId={employeeId} staffToken={staffToken}/>
             }
           </div>
         </div>
