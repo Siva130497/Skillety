@@ -8,8 +8,8 @@
     }
 
     .companies--section {
-        margin-top: 80px;
-        margin-bottom: 80px;
+        padding-top: 80px;
+        padding-bottom: 80px;
     }
 
     .company--content-area {
@@ -50,8 +50,8 @@
 
 @media (max-width:991.5px) {
     .companies--section {
-        margin-top: 80px;
-        margin-bottom: 80px;
+        padding-top: 80px;
+        padding-bottom: 80px;
     }
 
     .company--content-area {
@@ -104,8 +104,8 @@
 
 @media (max-width:500px) {
     .companies--section {
-        margin-top: 60px;
-        margin-bottom: 60px;
+        padding-top: 60px;
+        padding-bottom: 60px;
     }
 
     .company--content-area {
