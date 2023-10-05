@@ -110,7 +110,7 @@ const Events = () => {
                                                     </h6>
                                                 </div>
                                                 <p className='cand--events-card-date'>20th September 2023</p>
-                                                <a href='#' className="cand--events-card-bottom-area">
+                                                <a href='/event-details' className="cand--events-card-bottom-area">
                                                     <span className='cand--event-sys'>SAVE YOUR SPOT</span>
                                                     <span className='cand--events-card-arrow-area'>
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
@@ -134,7 +134,7 @@ const Events = () => {
                                                     </h6>
                                                 </div>
                                                 <p className='cand--events-card-date'>20th September 2023</p>
-                                                <a href='#' className="cand--events-card-bottom-area">
+                                                <a href='/event-details' className="cand--events-card-bottom-area">
                                                     <span className='cand--event-sys'>SAVE YOUR SPOT</span>
                                                     <span className='cand--events-card-arrow-area'>
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
@@ -158,7 +158,7 @@ const Events = () => {
                                                     </h6>
                                                 </div>
                                                 <p className='cand--events-card-date'>20th September 2023</p>
-                                                <a href='#' className="cand--events-card-bottom-area">
+                                                <a href='/event-details' className="cand--events-card-bottom-area">
                                                     <span className='cand--event-sys'>SAVE YOUR SPOT</span>
                                                     <span className='cand--events-card-arrow-area'>
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
@@ -182,7 +182,7 @@ const Events = () => {
                                                     </h6>
                                                 </div>
                                                 <p className='cand--events-card-date'>20th September 2023</p>
-                                                <a href='#' className="cand--events-card-bottom-area">
+                                                <a href='/event-details' className="cand--events-card-bottom-area">
                                                     <span className='cand--event-sys'>SAVE YOUR SPOT</span>
                                                     <span className='cand--events-card-arrow-area'>
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
@@ -206,7 +206,7 @@ const Events = () => {
                                                     </h6>
                                                 </div>
                                                 <p className='cand--events-card-date'>20th September 2023</p>
-                                                <a href='#' className="cand--events-card-bottom-area">
+                                                <a href='/event-details' className="cand--events-card-bottom-area">
                                                     <span className='cand--event-sys'>SAVE YOUR SPOT</span>
                                                     <span className='cand--events-card-arrow-area'>
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
@@ -230,7 +230,7 @@ const Events = () => {
                                                     </h6>
                                                 </div>
                                                 <p className='cand--events-card-date'>20th September 2023</p>
-                                                <a href='#' className="cand--events-card-bottom-area">
+                                                <a href='/event-details' className="cand--events-card-bottom-area">
                                                     <span className='cand--event-sys'>SAVE YOUR SPOT</span>
                                                     <span className='cand--events-card-arrow-area'>
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
@@ -254,7 +254,7 @@ const Events = () => {
                                                     </h6>
                                                 </div>
                                                 <p className='cand--events-card-date'>20th September 2023</p>
-                                                <a href='#' className="cand--events-card-bottom-area">
+                                                <a href='/event-details' className="cand--events-card-bottom-area">
                                                     <span className='cand--event-sys'>SAVE YOUR SPOT</span>
                                                     <span className='cand--events-card-arrow-area'>
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
@@ -278,7 +278,7 @@ const Events = () => {
                                                     </h6>
                                                 </div>
                                                 <p className='cand--events-card-date'>20th September 2023</p>
-                                                <a href='#' className="cand--events-card-bottom-area">
+                                                <a href='/event-details' className="cand--events-card-bottom-area">
                                                     <span className='cand--event-sys'>SAVE YOUR SPOT</span>
                                                     <span className='cand--events-card-arrow-area'>
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
@@ -302,7 +302,7 @@ const Events = () => {
                                                     </h6>
                                                 </div>
                                                 <p className='cand--events-card-date'>20th September 2023</p>
-                                                <a href='#' className="cand--events-card-bottom-area">
+                                                <a href='/event-details' className="cand--events-card-bottom-area">
                                                     <span className='cand--event-sys'>SAVE YOUR SPOT</span>
                                                     <span className='cand--events-card-arrow-area'>
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">

@@ -67,7 +67,7 @@ const Company = () => {
                                     <div className="col-12 col-xl-5 col-lg-5 col-md-12 company--content-desc-area">
                                         <p className='company--content-desc' data-aos="fade-left">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
                                         <div className='company--content-apply-btn-area' data-aos="fade-right">
-                                            <a href="#" className='company--content-apply-btn'>
+                                            <a href="/company-details" className='company--content-apply-btn'>
                                                 <div className='company--content-apply-btn-sub'>
                                                     Apply Now
                                                 </div>
@@ -93,7 +93,7 @@ const Company = () => {
                                     <div className="col-12 col-xl-5 col-lg-5 col-md-12 company--content-desc-area">
                                         <p className='company--content-desc' data-aos="fade-left">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
                                         <div className='company--content-apply-btn-area' data-aos="fade-right">
-                                            <a href="#" className='company--content-apply-btn'>
+                                            <a href="/company-details" className='company--content-apply-btn'>
                                                 <div className='company--content-apply-btn-sub'>
                                                     Apply Now
                                                 </div>
@@ -119,7 +119,7 @@ const Company = () => {
                                     <div className="col-12 col-xl-5 col-lg-5 col-md-12 company--content-desc-area">
                                         <p className='company--content-desc' data-aos="fade-left">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
                                         <div className='company--content-apply-btn-area' data-aos="fade-right">
-                                            <a href="#" className='company--content-apply-btn'>
+                                            <a href="/company-details" className='company--content-apply-btn'>
                                                 <div className='company--content-apply-btn-sub'>
                                                     Apply Now
                                                 </div>
@@ -145,7 +145,7 @@ const Company = () => {
                                     <div className="col-12 col-xl-5 col-lg-5 col-md-12 company--content-desc-area">
                                         <p className='company--content-desc' data-aos="fade-left">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
                                         <div className='company--content-apply-btn-area' data-aos="fade-right">
-                                            <a href="#" className='company--content-apply-btn'>
+                                            <a href="/company-details" className='company--content-apply-btn'>
                                                 <div className='company--content-apply-btn-sub'>
                                                     Apply Now
                                                 </div>
@@ -171,7 +171,7 @@ const Company = () => {
                                     <div className="col-12 col-xl-5 col-lg-5 col-md-12 company--content-desc-area">
                                         <p className='company--content-desc' data-aos="fade-left">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
                                         <div className='company--content-apply-btn-area' data-aos="fade-right">
-                                            <a href="#" className='company--content-apply-btn'>
+                                            <a href="/company-details" className='company--content-apply-btn'>
                                                 <div className='company--content-apply-btn-sub'>
                                                     Apply Now
                                                 </div>
@@ -197,7 +197,7 @@ const Company = () => {
                                     <div className="col-12 col-xl-5 col-lg-5 col-md-12 company--content-desc-area">
                                         <p className='company--content-desc' data-aos="fade-left">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
                                         <div className='company--content-apply-btn-area' data-aos="fade-right">
-                                            <a href="#" className='company--content-apply-btn'>
+                                            <a href="/company-details" className='company--content-apply-btn'>
                                                 <div className='company--content-apply-btn-sub'>
                                                     Apply Now
                                                 </div>
@@ -223,7 +223,7 @@ const Company = () => {
                                     <div className="col-12 col-xl-5 col-lg-5 col-md-12 company--content-desc-area">
                                         <p className='company--content-desc' data-aos="fade-left">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
                                         <div className='company--content-apply-btn-area' data-aos="fade-right">
-                                            <a href="#" className='company--content-apply-btn'>
+                                            <a href="/company-details" className='company--content-apply-btn'>
                                                 <div className='company--content-apply-btn-sub'>
                                                     Apply Now
                                                 </div>
