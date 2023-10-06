@@ -263,6 +263,7 @@
     padding: 10px 0;
     text-align: center;
     pointer-events: none;
+    -webkit-user-select: none;
     user-select: none;
     visibility: visible;
 }
@@ -297,6 +298,7 @@
     background-color: #714f36f0;
     width: calc(100% + 8px);
     box-sizing: border-box;
+    -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
     overflow: hidden;
     box-shadow: 0px 5px 15px #00000029;
@@ -312,6 +314,7 @@
     font-size: 20px;
     color: #FFF;
     padding: 0.5em 1em;
+    -webkit-user-select: none;
     user-select: none;
     transition: ease-in-out 0.5s;
 

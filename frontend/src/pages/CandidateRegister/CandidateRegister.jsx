@@ -3,7 +3,7 @@ import AuthContext from '../../context/AuthContext';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import axios from 'axios';
-import { v4 as uuidv4} from "uuid";
+import { v4 as uuidv4 } from "uuid";
 import $ from 'jquery';
 import './CandidateRegister.css';
 import './CandidateRegister-responsive.css';
@@ -34,7 +34,7 @@ const CandidateRegister = () => {
     const [otherSkill, setOtherSkill] = useState([]);
     const [otherDesignation, setOtherDesignation] = useState([]);
     const [profile, setProfile] = useState([]);
-    
+
     const initialCredentials = {
         days: "",
         firstName: "",
@@ -53,17 +53,17 @@ const CandidateRegister = () => {
         checkbox: false,
     };
     const [credentials, setCredentials] = useState(initialCredentials);
-    
-    useEffect(()=>{
+
+    useEffect(() => {
         setCredentials((prevCredentials) => ({
             ...prevCredentials,
-            firstName:profile.family_name ? profile.family_name : "",
-            lastName:profile.given_name ? profile.given_name : "",
-            email:profile.email ? profile.email : "",
+            firstName: profile.family_name ? profile.family_name : "",
+            lastName: profile.given_name ? profile.given_name : "",
+            email: profile.email ? profile.email : "",
         }));
-    },[profile]);
+    }, [profile]);
 
-    const totalMonths = parseInt(credentials.year*12) + parseInt(credentials.month);
+    const totalMonths = parseInt(credentials.year * 12) + parseInt(credentials.month);
     const maxSkillNum = totalMonths <= 24 ? 6 : totalMonths <= 48 ? 8 : totalMonths <= 96 ? 10 : 12;
 
     const getAllSkills = async () => {
@@ -87,6 +87,12 @@ const CandidateRegister = () => {
     useEffect(() => {
         getAllSkills();
         getAllDesignations();
+
+        $(document).ready(function () {
+            $('#file_upload').on('change', function () {
+                $('#file-chosen').text(this.files[0].name);
+            });
+        });
     }, [])
 
 
@@ -252,11 +258,11 @@ const CandidateRegister = () => {
     const handleNext = () => {
         let isValid = true;
         if (step === 1) {
-          if (credentials.days === "" || credentials.firstName === "" || credentials.lastName === "" || credentials.phone === "" || credentials.email === "" || credentials.password === "" || credentials.confirmPassword === "" || credentials.password !== credentials.confirmPassword || !resume || credentials.password.length < 8) {
-            credentials.password !== credentials.confirmPassword && alert("Please check that both password and confirm password are same")
-            credentials.password.length < 8 && alert("password must be atleast 8 characters long")
-            isValid = false;
-          }
+            if (credentials.days === "" || credentials.firstName === "" || credentials.lastName === "" || credentials.phone === "" || credentials.email === "" || credentials.password === "" || credentials.confirmPassword === "" || credentials.password !== credentials.confirmPassword || !resume || credentials.password.length < 8) {
+                credentials.password !== credentials.confirmPassword && alert("Please check that both password and confirm password are same")
+                credentials.password.length < 8 && alert("password must be atleast 8 characters long")
+                isValid = false;
+            }
         }
         if (step === 2) {
             const minSkillNum = totalMonths <= 24 ? 4 : totalMonths <= 48 ? 6 : totalMonths <= 96 ? 8 : 10;
@@ -292,13 +298,11 @@ const CandidateRegister = () => {
                         <div className="cli--reg-heading-area">
                             <h3 className='cli--reg-heading' data-aos="fade-left">Hi, Welcome to <span>SKILLETY!!!</span></h3>
                         </div>
-
-                        <div className="cand--reg-form-area">
+                        <div className="cand--reg-form-area" data-aos="fade-up">
                             <div className="row">
                                 <div className="col-12">
-                                    <div className="cand--reg-form-group">
-                                        <label htmlFor="days" className='cand--reg-form-label'>In How many days can you Join? Please select one bucket</label>
-
+                                    <div className="cand--reg-form-group cand--reg-custom-padding">
+                                        <label htmlFor="days" className='cand--reg-form-label-custom'>In How many days can you Join? Please select one bucket</label>
                                         <div className="cand--reg-radio-input-group">
                                             <div className="cand--reg-input-container">
                                                 <input id="day_option_1" className="radio-button" type="radio" name="days" />
@@ -328,12 +332,66 @@ const CandidateRegister = () => {
                                                 </div>
                                             </div>
                                         </div>
-
+                                    </div>
+                                </div>
+                                <div className="col-12 col-md-12 col-lg-6 col-xl-6">
+                                    <div className="cand--reg-form-group can--reg-date">
+                                        <label htmlFor="date" className='cand--reg-form-label-custom'>What is your last working day</label>
+                                        <div className="cand--reg-input-group">
+                                            <DatePicker
+                                                selected={selectedDate}
+                                                onChange={handleDateChange}
+                                                dateFormat="dd/MM/yyyy"
+                                                placeholderText='dd/mm/yyyy'
+                                                disabled={credentials.days === "0 to 7 days" && credentials.checkbox}
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="row">
+                                <div className="col-12 col-lg-6 col-md-6 col-sm-6 custom-padding-right">
+                                    <div className='cand--reg-form-group custom'>
+                                        <input type="text" id='first_name' name="first_name" placeholder="Enter your first name" className='cand--reg-form-input' required />
+                                        <label htmlFor="first_name" className='cand--reg-form-label'>First Name</label>
+                                    </div>
+                                </div>
+                                <div className="col-12 col-lg-6 col-md-6 col-sm-6 custom-padding-left">
+                                    <div className='cand--reg-form-group'>
+                                        <input type="text" id='last_name' name="last_name" placeholder="Enter your last name" className='cand--reg-form-input' required />
+                                        <label htmlFor="last_name" className='cand--reg-form-label'>Last Name</label>
+                                    </div>
+                                </div>
+                                <div className="col-12 col-lg-6 col-md-6 col-sm-6 custom-padding-right">
+                                    <div className='cand--reg-form-group'>
+                                        <input type="text" id='mobile_number' name="mobile_number" placeholder="Enter your mobile number" className='cand--reg-form-input' required />
+                                        <label htmlFor="mobile_number" className='cand--reg-form-label'>Mobile Number</label>
+                                    </div>
+                                </div>
+                                <div className="col-12 col-lg-6 col-md-6 col-sm-6 custom-padding-left">
+                                    <div className='cand--reg-form-group'>
+                                        <input type="text" id='email_id' name="email_id" placeholder="Enter your e-mail id" className='cand--reg-form-input' required />
+                                        <label htmlFor="email_id" className='cand--reg-form-label'>Email ID</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="row">
+                                <div className="col-12">
+                                    <div className='cand--reg-form-group cand--reg-custom-padding'>
+                                        <div className="cand--reg-file-upload-area">
+                                            <input type="file" id="file_upload" hidden />
+                                            <label for="file_upload" className='cand--reg-file-upload-label'>
+                                                <i class="bi bi-upload"></i>
+                                                Upload your Resume/CV here</label>
+                                            <span id="file-chosen">No file chosen</span>
+                                            <div className='file--upload-text'>Either in .doc/ docx/.pdf format only</div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
+                        {/* remove after functionality implementation */}
                         <div className="form-group">
                             <label
                                 htmlFor="days"
@@ -495,6 +553,8 @@ const CandidateRegister = () => {
                             />
                             {resume ? resume.name : 'No file chosen'}
                         </div>
+                        {/*  */}
+
                     </div>
                 )
             case 2:
@@ -503,7 +563,76 @@ const CandidateRegister = () => {
                         <div className="cli--reg-heading-area">
                             <h3 className='cli--reg-heading' data-aos="fade-left">Fill it and then press <span>NEXT!!!</span></h3>
                         </div>
+                        <div className="cand--reg-form-area" data-aos="fade-up">
+                            <div className="row">
+                                <div className="col-12 custom-padding-left-right">
+                                    <div className='cand--reg-form-group'>
+                                        <input type="text" id='designation' name="designation" placeholder="Enter your current role/designation" className='cand--reg-form-input' required />
+                                        <label htmlFor="designation" className='cand--reg-form-label'>Current Role/Designation</label>
+                                    </div>
+                                </div>
+                                <div className="col-12 col-lg-6 col-md-6 col-sm-6 custom-padding-right">
+                                    <div className='cand--reg-form-group custom'>
+                                        <input type="text" id='company' name="company" placeholder="Enter your current company" className='cand--reg-form-input' required />
+                                        <label htmlFor="company" className='cand--reg-form-label'>Current Company</label>
+                                    </div>
+                                </div>
+                                <div className="col-12 col-lg-6 col-md-6 col-sm-6 custom-padding-left">
+                                    <div className='cand--reg-form-group'>
+                                        <input type="text" id='location' name="location" placeholder="Enter your current location" className='cand--reg-form-input' required />
+                                        <label htmlFor="location" className='cand--reg-form-label'>Current Loaction</label>
+                                    </div>
+                                </div>
+                                <div className="col-12">
+                                    <div className='cand--reg-form-group cand--reg-custom-padding'>
+                                        <div className="cand--reg-exp-area">
+                                            <label htmlFor="experience" className='cand--reg-form-label-custom'>Total Experience</label>
+                                            <div className="cand--reg-exp-input-flex-area">
+                                                <div className="cand--reg-exp-input-area">
+                                                    <input type="number" id='years' name='years' className='cand--reg-exp-input' />
+                                                    <label htmlFor="years" className='cand--reg-form-label-custom'>Years</label>
+                                                </div>
+                                                <div className="cand--reg-exp-input-area">
+                                                    <input type="number" id='months' name='months' className='cand--reg-exp-input' />
+                                                    <label htmlFor="months" className='cand--reg-form-label-custom'>Months</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="col-12">
+                                    <div className='cand--reg-form-group cand--reg-custom-padding'>
+                                        <div className="cand--reg-form-flex-grp">
+                                            <label htmlFor="skills" className='cand--reg-form-label-custom'>Skills</label>
+                                            <input type="text" id='skills' name='skills' className='cand--reg-flex-input' />
+                                        </div>
+                                        <div className="cand--reg-skills-text">
+                                            Note: These will also be used as the Tags for searching matching jobs for you. So enter all your key skills without fail.
+                                        </div>
+                                    </div>
+                                </div>
 
+                                <div className="col-12">
+                                    <div className='cand--reg-form-group cand--reg-custom-padding'>
+                                        <div className="cand--reg-form-flex-grp">
+                                            <label htmlFor="education" className='cand--reg-form-label-custom'>Highest Education</label>
+                                            <input type="text" id='education' name='education' className='cand--reg-flex-input' />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="col-12">
+                                    <div className='cand--reg-form-group cand--reg-custom-padding'>
+                                        <div className="cand--reg-form-flex-grp">
+                                            <label htmlFor="college_name" className='cand--reg-form-label-custom'>Name of the College</label>
+                                            <input type="text" id='college_name' name='college_name' className='cand--reg-flex-input' />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* remove after functionality implementation */}
                         <div className="form-group">
                             <label
                                 htmlFor="designationInput"
@@ -702,6 +831,8 @@ const CandidateRegister = () => {
                                 placeholder="Enter your college name"
                                 required />
                         </div>
+                        {/*  */}
+
                     </div>
                 )
             case 3:
@@ -710,8 +841,20 @@ const CandidateRegister = () => {
                         <div className="cli--reg-heading-area">
                             <h3 className='cli--reg-heading' data-aos="fade-left">Complete and press <span>SUBMIT!!!</span></h3>
                         </div>
+                        <div className="cand--reg-form-area" data-aos="fade-up">
+                            <div className="row">
+                                <div className="col-12">
+                                    <div className='cand--reg-form-group cand--reg-custom-padding'>
+                                        <label htmlFor="headline" className='cand--reg-form-label-custom'>Profile Headline</label>
+                                        <textarea name="headline" id="headline" placeholder='(Example: I am a Best Employee Award winning embedded engineer with over 5 years  of experience in the software development domain, proficient in tools/skills like NXPT1020, C, RS422, VxWORKS, ST-True Studio, STM32F103C8, Embedded C, EEPROM, WIFI.)' className='cand--reg-lg-input'>
+                                        </textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-                        <div className="form-group">
+                        {/* remove after functionality implementation */}
+                        {/* <div className="form-group">
                             <label
                                 htmlFor="profileHeadlineTextarea"
                                 className="form-label mt-4">
@@ -726,7 +869,9 @@ const CandidateRegister = () => {
                                 onChange={handleInputChange}
                                 placeholder="Enter your profile headline"
                                 required></textarea>
-                        </div>
+                        </div> */}
+                        {/*  */}
+
                     </div>
                 )
             default:
@@ -734,10 +879,10 @@ const CandidateRegister = () => {
         }
     };
 
-  return (
-    <div>
-        <LayoutNew />
-        <div className='client-register-section'>
+    return (
+        <div>
+            <LayoutNew />
+            <div className='client-register-section'>
                 <div className='container-fluid'>
                     <div className='container-fluid container-section'>
                         <div className="custom--container">
@@ -749,20 +894,61 @@ const CandidateRegister = () => {
                                     <p>Registration Form</p>
                                 </div>
                             </div>
-                    <GoogleAuth setProfile={setProfile}/>
-                    <form onSubmit={handleSubmit}>
-                    {renderStep()}
-                    {step > 1 && (<button type="button" className="btn btn-outline-info mx-3" onClick={handleBack}>Back</button>)}
-                    {step < 3 && (<button type="button" className="btn btn-outline-info my-3" onClick={handleNext}>Next</button>)}
-                    {step === 3 && (<input type='submit' value="Register" className='btn btn-primary my-3' />)}
-                    </form>
+                            <GoogleAuth setProfile={setProfile} />
+                            <form onSubmit={handleSubmit} className='cand--reg-form'>
+                                {renderStep()}
+                                <div className='cand--reg-btn-area'>
+                                    {step > 1 && (
+                                        <button type='button' onClick={handleBack} className='reg--form-btn-sub candidate back' data-aos="fade-down">
+                                            <div className='reg--form-arrow-area candidate back'>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
+                                                    <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#714F36" stroke-width="2" />
+                                                    <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#714F36" stroke-width="2" />
+                                                    <path d="M1 26L25.1667 1" stroke="#714F36" stroke-width="2" />
+                                                </svg>
+                                            </div>
+                                            <div className='reg--form-btn candidate back'>
+                                                Back
+                                            </div>
+                                        </button>
+                                    )}
+                                    {step < 3 && (
+                                        <button type='button' onClick={handleNext} className='reg--form-btn-sub candidate next' data-aos="fade-down">
+                                            <div className='reg--form-btn candidate'>
+                                                Next
+                                            </div>
+                                            <div className='reg--form-arrow-area candidate'>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
+                                                    <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#714F36" stroke-width="2" />
+                                                    <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#714F36" stroke-width="2" />
+                                                    <path d="M1 26L25.1667 1" stroke="#714F36" stroke-width="2" />
+                                                </svg>
+                                            </div>
+                                        </button>
+                                    )}
+                                    {step === 3 && (
+                                        <button type='submit' className='reg--form-btn-sub candidate register' data-aos="fade-down">
+                                            <div className='reg--form-btn candidate'>
+                                                Register
+                                            </div>
+                                            <div className='reg--form-arrow-area candidate'>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
+                                                    <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#714F36" stroke-width="2" />
+                                                    <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#714F36" stroke-width="2" />
+                                                    <path d="M1 26L25.1667 1" stroke="#714F36" stroke-width="2" />
+                                                </svg>
+                                            </div>
+                                        </button>
+                                    )}
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
+            <CandidateFooter />
         </div>
-    </div>
-        <CandidateFooter />
-    </div>
-  );
+    );
 };
 
 export default CandidateRegister;

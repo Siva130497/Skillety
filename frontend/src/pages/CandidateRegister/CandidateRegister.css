@@ -1,12 +1,18 @@
 .cand--reg-form-area {
     padding-top: 100px;
-    padding-bottom: 80px;
+    overflow: hidden;
 }
 
-.cand--reg-form-label {
+.cand--reg-form-group {
+    position: relative;
+    margin-bottom: 90px;
+}
+
+.cand--reg-form-label-custom {
     color: #714F36;
     font-size: 24px;
     font-weight: 500;
+    white-space: nowrap;
 }
 
 .cand--reg-radio-input-group {
@@ -65,4 +71,305 @@
 
 .cand--reg-radio-input-group .cand--reg-input-container .radio-button:checked+.radio-tile .radio-tile-label {
     color: #714F36;
+}
+
+.cand--reg-form-group.can--reg-date {
+    display: flex;
+    gap: 20px;
+    align-items: flex-end;
+}
+
+/* customized react datepicker */
+.cand--reg-input-group .react-datepicker-wrapper .react-datepicker__input-container input {
+    text-align: center;
+    border: none;
+    outline: none;
+    border-bottom: #714F36 2px solid;
+    padding: 0px;
+    color: #714F36;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.cand--reg-input-group .react-datepicker__day--selected {
+    background-color: #714F36;
+}
+
+.cand--reg-input-group .react-datepicker__day--keyboard-selected {
+    background-color: #F9C833;
+}
+
+.cand--reg-input-group .react-datepicker__current-month,
+.react-datepicker-time__header,
+.react-datepicker-year-header {
+    color: #714F36;
+}
+
+.cand--reg-input-group .react-datepicker__header {
+    background-color: #F9C833;
+}
+
+.cand--reg-input-group .react-datepicker__year-read-view--down-arrow,
+.react-datepicker__month-read-view--down-arrow,
+.react-datepicker__month-year-read-view--down-arrow,
+.react-datepicker__navigation-icon::before {
+    border-color: #714F36 !important;
+}
+
+.cand--reg-input-group .react-datepicker {
+    border-color: #714F36;
+}
+
+.cand--reg-input-group .react-datepicker-popper[data-placement^=top] .react-datepicker__triangle::before {
+    border-top-color: #714F36;
+}
+
+.cand--reg-input-group .react-datepicker-popper[data-placement^=bottom] .react-datepicker__triangle::before {
+    top: -0.5px;
+    border-bottom-color: #714F36;
+}
+
+.cand--reg-input-group .react-datepicker-popper[data-placement^=bottom] .react-datepicker__triangle::after {
+    border-bottom-color: #F9C833;
+}
+
+.cand--reg-input-group .react-datepicker-wrapper .react-datepicker__input-container input::placeholder {
+    color: #714F36;
+    font-size: 24px;
+    font-weight: 500;
+}
+
+/* ///////////// */
+
+.cand--reg-form-area .cand--reg-form-input {
+    outline: none;
+    width: 100%;
+    padding: 13px 0;
+    border: none;
+    border-bottom: 2px solid #714F36;
+    color: #5C3B2E;
+    font-size: 20px !important;
+    font-weight: 400;
+    line-height: normal;
+    transition: border-color 0.5s, box-shadow 0.5s;
+}
+
+.cand--reg-form-area .cand--reg-form-label {
+    color: #714F36;
+    font-size: 24px;
+    font-weight: 500;
+    line-height: normal;
+    text-transform: capitalize;
+    transition: ease-in-out 0.8s;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    pointer-events: none;
+    transition: top 0.5s, font-size 0.5s, color 0.5s;
+}
+
+.cand--reg-form-area .cand--reg-form-label span {
+    color: red;
+}
+
+/* .cand--reg-form-input:focus+.cand--reg-form-label {
+    top: -1px;
+} */
+.cand--reg-form-input:not(:placeholder-shown)+.cand--reg-form-label,
+.cand--reg-form-input:focus+.cand--reg-form-label {
+    top: -8px;
+}
+
+.cand--reg-form-area .cand--reg-form-input::placeholder {
+    opacity: 0;
+    font-size: 18px;
+    color: #a99790;
+    transition: opacity 0.5s;
+}
+
+.cand--reg-form-area .cand--reg-form-input:focus::placeholder {
+    opacity: 1;
+}
+
+.cand--reg-file-upload-area {
+    position: relative;
+}
+
+.cand--reg-file-upload-label {
+    position: relative;
+    display: flex;
+    align-items: center;
+    border-radius: 8px;
+    border: 2px dashed #714F36;
+    background-color: #F4F4F4;
+    color: #714F36;
+    font-size: 24px;
+    font-weight: 500;
+    padding: 20px 30px;
+    cursor: pointer;
+}
+
+.cand--reg-file-upload-label i {
+    margin-right: 25px;
+    font-size: 40px;
+    vertical-align: middle;
+}
+
+.cand--reg-file-upload-area .file--upload-text {
+    margin-top: 23px;
+    color: rgba(101, 101, 101, 0.65);
+    font-size: 20px;
+    font-weight: 500;
+}
+
+#file-chosen {
+    position: absolute;
+    background-color: #efefef;
+    border-radius: 5px;
+    font-size: 14px;
+    padding: 2px 8px;
+    right: 0;
+    margin-top: 5px;
+    margin-bottom: 15px;
+}
+
+.cand--reg-form {
+    padding-bottom: 90px;
+}
+
+.reg--form-btn.candidate {
+    background-color: #F9C833;
+    color: #714F36;
+}
+
+.reg--form-btn.candidate::after {
+    background-color: #714F36;
+}
+
+.reg--form-btn.candidate:hover {
+    color: #F9C833 !important;
+}
+
+.reg--form-arrow-area.candidate {
+    background-color: #F9C833;
+}
+
+.reg--form-arrow-area.candidate:hover {
+    background-color: #714F36;
+}
+
+.reg--form-arrow-area.candidate:hover svg path {
+    stroke: #F9C833 !important;
+}
+
+.reg--form-btn-sub.candidate:hover .reg--form-arrow-area.candidate svg path {
+    stroke: #714F36;
+}
+
+.reg--form-arrow-area.candidate.back svg {
+    transform: rotate(270deg);
+}
+
+.reg--form-btn-sub.candidate:hover .reg--form-arrow-area.candidate.back svg {
+    transform: rotate(225deg);
+}
+
+.reg--form-btn.candidate.back::after {
+    right: 0 !important;
+    left: auto;
+}
+
+.cand--reg-btn-area {
+    display: flex;
+    justify-content: space-between;
+}
+
+.cand--reg-exp-area {
+    display: flex;
+    gap: 45px;
+    align-items: flex-end;
+}
+
+.cand--reg-exp-input-flex-area {
+    display: flex;
+    gap: 30px;
+    align-items: flex-end;
+}
+
+.cand--reg-exp-input-area {
+    display: flex;
+    gap: 25px;
+    align-items: flex-end;
+}
+
+.cand--reg-exp-input {
+    color: #5C3B2E;
+    font-size: 20px;
+    text-align: center;
+    border: none;
+    border-bottom: 2px solid #714F36;
+    outline: none;
+    font-weight: 400;
+}
+
+.cand--reg-form-flex-grp {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 30px;
+}
+
+.cand--reg-flex-input {
+    color: #5C3B2E;
+    font-size: 20px;
+    border: none;
+    border-bottom: 2px solid #714F36;
+    outline: none;
+    font-weight: 400;
+    width: -webkit-fill-available;
+    padding-bottom: 5px;
+}
+
+.cand--reg-skills-text {
+    padding-top: 35px;
+    color: rgba(101, 101, 101, 0.65);
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.cand--reg-lg-input {
+    color: #5C3B2E;
+    font-size: 20px;
+    border: none;
+    border-bottom: 2px solid #714F36;
+    outline: none;
+    font-weight: 400;
+    width: -webkit-fill-available;
+    padding: 15px 0;
+    margin-top: 30px;
+}
+
+.cand--reg-lg-input::placeholder {
+    color: rgba(101, 101, 101, 0.65);
+    font-size: 20px;
+    font-weight: 500;
+    height: 100%;
+}
+
+.cand--reg-lg-input::-webkit-scrollbar {
+    width: 7px;
+    background-color: transparent !important;
+}
+
+.cand--reg-lg-input::-webkit-scrollbar-track {
+    border-radius: 10px !important;
+    /* box-shadow: none; */
+    background-color: transparent;
+}
+
+.cand--reg-lg-input::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    box-shadow: none;
+    background-color: #5454546a !important;
 }
