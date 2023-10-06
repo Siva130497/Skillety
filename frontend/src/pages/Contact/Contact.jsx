@@ -74,7 +74,7 @@ const Contact = () => {
                                                 Location
                                             </h5>
                                             <div className="con--map-area">
-                                                <img src="assets/img/contact-img/map-img.png" data-aos="zoom-out-right" className='con--map-img' alt="" />
+                                                <img src="assets/img/contact-img/map-img.png" loading='lazy' data-aos="zoom-out-right" className='con--map-img' alt="" />
                                                 <div className='con--map-pointer' data-aos="fade-down" data-aos-delay="300"></div>
                                                 <div className='con--map-link-img-area' data-aos="zoom-out-left">
                                                     <a href="https://goo.gl/maps/SNX17mkAzaY8PVW36" className='con--map-link-img-sub' target='_blank'>

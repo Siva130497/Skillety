@@ -1,0 +1,104 @@
+@media screen and (min-width: 992px) and (max-width: 1024px) {
+    .cand--event-login-card {
+        margin-top: 40px;
+    }
+
+    .cand--events-card-section {
+        padding-top: 40px;
+    }
+
+    .cand--events-card .cand--events-card-title-area {
+        margin-top: 30px;
+        height: 130px;
+    }
+
+    .cand--events-card-title-area .cand--events-card-title,
+    .cand--events-card .cand--events-card-date,
+    .cand--events-card .cand--events-card-bottom-area .cand--event-sys {
+        font-size: 20px;
+    }
+
+    .cand--events-card-arrow-area svg {
+        width: 25px;
+        height: 25px;
+    }
+
+    .cand--events-card {
+        margin-bottom: 60px;
+    }
+}
+
+@media (max-width:991.5px) {
+    .cand--events-card-section {
+        margin-bottom: 100px;
+    }
+
+    .cand--event-login-card {
+        margin-top: 40px;
+        margin-bottom: 40px;
+    }
+
+    .cand--events-card-area {
+        padding: 0 15px;
+    }
+
+    .cand--events-card {
+        margin-bottom: 60px;
+    }
+
+    .cand--events-card .cand--events-card-title-area {
+        margin-top: 30px;
+        height: 130px;
+    }
+
+    .cand--events-card-title-area .cand--events-card-title,
+    .cand--events-card .cand--events-card-date,
+    .cand--events-card .cand--events-card-bottom-area .cand--event-sys {
+        font-size: 20px;
+    }
+
+    .cand--events-card .cand--events-card-img-area {
+        height: 180px;
+    }
+
+    .cand--events-card-img-area .cand--events-card-img {
+        height: 183px;
+    }
+}
+
+@media (max-width:500px) {
+    .cand--event-para-section .cand--event-para{
+        font-size: 18px;
+    }
+    .cand--event-login-card {
+        margin-top: 30px;
+        margin-bottom: 30px;
+    }
+    .cand--events-card-section {
+        overflow: hidden;
+        padding-top: 40px;
+        margin-bottom: 60px;
+    }
+    .cand--events-card-title-area .cand--events-card-title,
+    .cand--events-card .cand--events-card-date,
+    .cand--events-card .cand--events-card-bottom-area .cand--event-sys {
+        font-size: 18px;
+    }
+    .cand--events-card-arrow-area svg {
+        width: 25px;
+        height: 25px;
+    }
+    .cand--events-card .cand--events-card-bottom-area{
+        padding: 35px 25px;
+    }
+    .cand--events-card .cand--events-card-bottom-area .cand--events-card-arrow-area{
+        padding: 12px;
+    }
+    .cand--events-card .cand--events-card-img-area {
+        height: 170px;
+    }
+
+    .cand--events-card-img-area .cand--events-card-img {
+        height: 173px;
+    }
+}

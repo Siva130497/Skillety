@@ -1,0 +1,23 @@
+.test--det-card.candidate{
+    border-color: #714F36;
+    background-color: #714F36;
+}
+.test--det-card.candidate::after{
+    background-color: #F9C833;
+}
+.test-det-card-pro-name-area.candidate .test-det-card-pro-name.candidate,
+.test-det-card-pro-name-area.candidate .test-det-card-pro-position.candidate,
+.test--det-card-desc-area.candidate .test--det-card-desc.candidate{
+    color: #FFF;
+}
+.test--det-card-pro-img.candidate{
+    border-color: #FFF;
+}
+.test--det-card.candidate:hover .test-det-card-pro-name-area.candidate .test-det-card-pro-name.candidate,
+.test--det-card.candidate:hover .test-det-card-pro-name-area.candidate .test-det-card-pro-position.candidate,
+.test--det-card.candidate:hover .test--det-card-desc-area.candidate .test--det-card-desc.candidate{
+    color: #714F36;
+}
+.test--det-card.candidate:hover .test--det-card-pro-img.candidate{
+    border-color: #714F36;
+}

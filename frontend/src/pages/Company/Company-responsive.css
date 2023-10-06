@@ -1,0 +1,187 @@
+@media screen and (min-width: 992px) and (max-width: 1024px) {
+    .company--heading {
+        font-size: 45px;
+    }
+
+    .company--content-img-area .company--content-img {
+        width: 140px;
+    }
+
+    .companies--section {
+        padding-top: 80px;
+        padding-bottom: 80px;
+    }
+
+    .company--content-area {
+        margin-top: 80px;
+    }
+
+    .company--content-jobs-area .company--content-jobs {
+        font-size: 20px;
+    }
+    .company-demo-card-area{
+        margin-top: 100px;
+    }
+    .company-demo-card .company-demo-card-desc-area{
+        width: 80%;
+        margin-bottom: 80px;
+    }
+    .company-demo-card-desc-area .company-demo-card-desc{
+        font-weight: 500;
+    }
+    .company-demo-card-bottom-area .company-demo-card-title{
+        font-size: 45px;
+    }
+    .company-demo-card-btn-sub{
+        padding: 15px 40px;
+        font-size: 20px;
+    }
+    .company-demo-card-btn-arrow{
+        padding: 17px;
+    }
+    .company-demo-card-btn-arrow svg{
+        width: 25px;
+        height: 25px;
+    }
+    .company-demo-card{
+        padding: 35px;
+    }
+}
+
+@media (max-width:991.5px) {
+    .companies--section {
+        padding-top: 80px;
+        padding-bottom: 80px;
+    }
+
+    .company--content-area {
+        margin-top: 80px;
+    }
+
+    .company--heading {
+        font-size: 48px;
+    }
+
+    .company--content-img-area {
+        align-items: center;
+    }
+
+    .company--content-jobs-area {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+    }
+
+    .company--content-desc-area {
+        margin-top: 20px;
+    }
+
+    .company--content-row {
+        padding: 20px 0 25px 0;
+    }
+
+    .company--content-img-area .company--content-img {
+        width: inherit;
+    }
+    .company-demo-card-area{
+        margin-top: 100px;
+    }
+    .company-demo-card .company-demo-card-desc-area{
+        width: 100%;
+    }
+    .company-demo-card-bottom-area{
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 40px;
+    }
+    .company-demo-card-bottom-area .company-demo-card-title{
+        font-size: 48px;
+    }
+    .company-demo-card-btn-area{
+        align-self: flex-end;
+    }
+}
+
+@media (max-width:500px) {
+    .companies--section {
+        padding-top: 60px;
+        padding-bottom: 60px;
+    }
+
+    .company--content-area {
+        margin-top: 60px;
+    }
+
+    .company--heading {
+        font-size: 30px;
+    }
+
+    .custom-row-border-top,
+    .custom-row-border-bottom {
+        border: none;
+    }
+    .company--content-row {
+        padding: 20px 20px;
+        border: 1px solid #5C3B2E;
+        border-radius: 30px;
+        border-bottom-width: 4px;
+        margin: 0px 3px 40px 3px;
+    }
+    .company--content-img-area {
+        align-items: center;
+        justify-content: center;
+        border-bottom: #5C3B2E 1px solid;
+        padding-bottom: 10px;
+    }
+    .company--content-jobs-area {
+        justify-content: center;
+        margin-top: 20px;
+    }
+    .company--content-jobs-area .company--content-jobs{
+        font-size: 20px;
+    }
+    .company--content-img-area .company--content-img {
+        width: 200px;
+    }
+    .company--content-desc-area{
+        border-top: #5C3B2E 1px solid;
+        padding: 20px 0 0 0;
+    }
+    .company-demo-card-area{
+        margin-top: 80px;
+    }
+    .company-demo-card{
+        padding: 30px;
+    }
+    .company-demo-card .company-demo-card-desc-area{
+        margin-bottom: 100px;
+    }
+    .company-demo-card-desc-area .company-demo-card-desc{
+        font-size: 18px;
+        font-weight: 500;
+    }
+    .company-demo-card-btn-area{
+        width: 100%;
+    }
+    .company-demo-card-bottom-area .company-demo-card-title{
+        font-size: 32px;
+    }
+    .company-demo-card-btn-sub{
+        font-size: 20px;
+        padding: 12px 40px;
+        width: 100%;
+    }
+    .company-demo-card-btn-arrow{
+        padding: 15px;
+    }
+    .company-demo-card-btn-arrow svg{
+        width: 25px;
+        height: 25px;
+    }
+    .company-demo-card-btn-area{
+        align-self: center;
+    }
+    .company-demo-card-bottom-area{
+        gap: 30px;
+    }
+}

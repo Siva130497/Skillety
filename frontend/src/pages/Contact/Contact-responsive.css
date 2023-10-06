@@ -10,7 +10,9 @@
     .con--map-area .con--map-img {
         width: 100%;
     }
-
+    .con--map-pointer{
+        left: 32%;
+    }
     .con--icon-area {
         width: 50px;
         height: 50px;
@@ -153,6 +155,10 @@
 
     .con--icon-area .con--icon {
         width: 22px;
+    }
+    .con--map-pointer{
+        width: 8px;
+        height: 8px;
     }
 
     .con--content .con--loaction a {

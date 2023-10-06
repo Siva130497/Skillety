@@ -92,7 +92,7 @@ const Home = () => {
         <div className='container-fluid home--section'>
           <div className='container-fluid container-section'>
             <div className="home--bg">
-              <div className="row">
+              <div className="row col-rev-custom">
                 <div className="col-12 col-lg-6 col-xl-7 col-md-12 home--left-cover">
                   <div className="home--head">
                     <h5 data-aos="fade-left" data-aos-delay="200">
@@ -104,7 +104,7 @@ const Home = () => {
                   </div>
                   <div className="home--search-area">
                     <input type="text" data-aos="fade-down" data-aos-delay="200" className='home--search-box form-control' placeholder='Search for skills' />
-                    <i class="bi bi-search home--search-icon" data-aos="fade-down" data-aos-delay="200"></i>
+                    <i class="bi bi-search home--search-icon" data-aos="zoom-in" data-aos-delay="200"></i>
                     <button className='btn home--search-btn' data-aos="fade-up" data-aos-delay="100">Search</button>
                   </div>
                   <div className="home--popular-area">
@@ -124,7 +124,7 @@ const Home = () => {
                 <div className="col-12 col-lg-6 col-xl-5 col-md-12 home--right-cover custom-flex">
                   <div className='home--blob-img-area'>
                     <div className="home--img-area">
-                      <img src="assets/img/home-images/header-image.png" data-aos="fade" data-aos-delay="300"
+                      <img src="assets/img/home-images/header-image.png" data-aos="fade" data-aos-delay="300" loading='lazy'
                         className='home--img animated' alt="" />
                       <img src="assets/img/home-images/bubble-1.png" className='bubble--img1 animated' alt="" data-aos="fade" data-aos-delay="200" />
                       <img src="assets/img/home-images/bubble-2.png" className='bubble--img2 animated' alt="" data-aos="fade" data-aos-delay="100" />
@@ -605,7 +605,7 @@ const Home = () => {
           </div>
         </div>
 
-        <section className='custom--mobile-padding'>
+        <section className='custom--mobile-padding overflow-hidden'>
           <div className='candidate--section'>
             <div className='home--about-toparea'>
               <div className='home--about-headarea'>

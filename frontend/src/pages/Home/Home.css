@@ -140,7 +140,7 @@
     text-align: center;
     font-size: 16px;
     font-weight: 600;
-    transition: ease-in-out 0.5s !important;
+    transition: ease-in-out 0.8s !important;
     margin: 0px 25px 25px 0;
     overflow: hidden;
 }
@@ -1149,6 +1149,7 @@
     padding-top: 60px;
     padding-left: 60px;
     padding-right: 60px;
+    overflow: hidden !important;
 }
 
 .candidate--slider-area {
@@ -1778,7 +1779,7 @@
     flex-direction: column;
     align-items: center;
     margin-bottom: 20px;
-    transition: ease-in-out 0.8s;
+    transition: ease-in-out 0.8s !important;
 }
 
 .connect--article-content {

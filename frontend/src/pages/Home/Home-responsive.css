@@ -231,13 +231,16 @@
     .service--know-more-arrow {
         padding: 17px;
     }
-    .register--card{
+
+    .register--card {
         height: 200px;
     }
-    .register--card .register--text{
+
+    .register--card .register--text {
         font-size: 60px;
     }
-    .register-arrow-area svg{
+
+    .register-arrow-area svg {
         width: 62px;
         height: 62px;
     }
@@ -423,15 +426,33 @@
         font-size: 75px;
         letter-spacing: normal;
     }
+    .col-rev-custom {
+        flex-direction: column-reverse;
+    }
+    .home--right-cover {
+        padding-top: 200px;
+    }
+    .home--left-cover {
+        padding-top: 80px;
+    }
 }
 
 @media (max-width:500px) {
+    .col-rev-custom {
+        flex-direction: column-reverse;
+    }
+
     .home--section {
         margin-top: 13px;
+        overflow: hidden !important;
+    }
+
+    .home--right-cover {
+        padding-top: 130px;
     }
 
     .home--left-cover {
-        padding-top: 130px;
+        padding-top: 40px;
     }
 
     .container-section {
@@ -464,28 +485,25 @@
     }
 
     .home--search-area .home--search-box {
-        padding: 12px 15px 12px 60px;
-        font-size: 18px;
+        padding: 15px 15px 15px 50px;
+        font-size: 15px;
     }
 
     .home--search-area .home--search-btn {
-        padding: 8px 55px;
+        padding: 10px 55px;
         font-size: 20px;
     }
 
     .home--search-area .home--search-icon {
-        margin-top: -43px;
-        font-size: 22px;
+        margin-top: -40px;
+        font-size: 20px;
+        margin-left: 20px;
     }
 
     .home--popular-btn {
         padding: 9px 20px;
         font-size: 12px;
         margin: 0px 15px 15px 0;
-    }
-
-    .home--right-cover {
-        padding-top: 30px;
     }
 
     .home--img {
@@ -501,7 +519,7 @@
         max-width: 3.5%;
     }
 
-    .home--img.animated,
+    /* .home--img.animated,
     .bubble--img1.animated,
     .bubble--img2.animated,
     .bubble--img3.animated,
@@ -510,7 +528,7 @@
     .bubble--img6.animated,
     .bubble--img7.animated {
         animation: none;
-    }
+    } */
 
     .bubble--img1 {
         max-width: 12%;
@@ -629,8 +647,12 @@
     }
 
     .service--know-more-btn {
-        padding: 13px 40px;
-        font-size: 19px;
+        padding: 13px 30px;
+        font-size: 18px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     .service--know-more-arrow {
@@ -639,6 +661,7 @@
 
     .service--know-more {
         align-items: center;
+        width: 100%;
     }
 
     .service-know-morearea {

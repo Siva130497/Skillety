@@ -14,7 +14,7 @@ export const Footer = () => {
                         Get email updates <br />
                         from SKILLETY
                       </h3>
-                      <p className='footer--email-desc' data-aos="fade-down">
+                      <p className='footer--email-desc' data-aos="fade-right">
                         Enter your email below to sign up for our twice weekly newsletter.
                       </p>
                       <form action="">

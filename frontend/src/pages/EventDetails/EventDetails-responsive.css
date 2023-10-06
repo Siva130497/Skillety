@@ -1,0 +1,118 @@
+@media screen and (min-width: 992px) and (max-width: 1024px) {
+
+    .event--detail-img-area {
+        height: 450px !important;
+    }
+
+    .event--detail-img {
+        height: 455px !important;
+    }
+
+    .event--detail-lable-area {
+        margin: 50px 0 40px 0;
+    }
+
+    .event--detail-lable-area .event--detail-lable {
+        font-size: 22px;
+        font-weight: 500;
+        padding: 8px 40px;
+    }
+
+    .event--detail-title-area .event--detail-title {
+        font-size: 35px;
+        font-weight: 500;
+    }
+
+    .event--detail-location-area i {
+        font-size: 20px;
+        margin-right: 5px;
+    }
+
+    .event--detail-sub-cont {
+        font-size: 18px;
+    }
+
+    .event--detail-date {
+        font-size: 20px;
+    }
+    .event--detail-sub-cont-area{
+        gap: 8px;
+    }
+    .event--detail-desc-area{
+        margin-top: 40px;
+    }
+}
+
+@media (max-width:991.5px) {
+    .event--detail-img-area {
+        height: 500px !important;
+    }
+
+    .event--detail-img {
+        height: 505px !important;
+    }
+    .event--detail-lable-area .event--detail-lable{
+        padding: 10px 50px;
+    }
+    .event--detail-lable-area {
+        margin: 50px 0 40px 0;
+    }
+    .event--detail-title-area{
+        width: 100%;
+    }
+    .event--detail-top-area{
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 40px;
+    }
+    .event--detail-sub-cont-area{
+        flex-direction: row;
+        gap: 40px;
+    }
+}
+
+@media (max-width:500px) {
+    .event--detail-img-area {
+        height: 350px !important;
+    }
+
+    .event--detail-img {
+        height: 355px !important;
+    }
+    .event--detail-lable-area {
+        margin: 40px 0 30px 0;
+    }
+    .event--detail-lable-area .event--detail-lable {
+        font-size: 18px;
+        font-weight: 500;
+        padding: 8px 40px;
+    }
+    .event--detail-title-area .event--detail-title{
+        font-size: 30px;
+        font-weight: 500;
+    }
+    .event--detail-sub-cont-area {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+    }
+    .event--detail-location-area i {
+        font-size: 20px;
+        margin-right: 5px;
+    }
+    .event--detail-sub-cont {
+        font-size: 18px;
+    }
+    .event--detail-date{
+        font-size: 22px;
+    }
+    .event--detail-desc-area{
+        margin-top: 40px;
+    }
+    .event--detail-desc-area .event--detail-desc{
+        font-size: 18px;
+    }
+    .event--detail-btn-area {
+        margin-top: 40px;
+    }
+}

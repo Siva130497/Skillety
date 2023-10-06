@@ -1,0 +1,45 @@
+.about--bg.candidate {
+    background-color: #F9C833;
+}
+
+.breadcrumb--area.candidate .breadcrumb--item a,
+.breadcrumb--area.candidate .breadcrumb--item p {
+    color: #714F36 !important;
+}
+.breadcrumb--area.candidate .breadcrumb--item p::before{
+    background-color: #714F36;
+}
+.about--head.candidate h2{
+    color: #714F36 !important;
+}
+.about--card.candidate::after{
+    background-color: #5C3B2E;
+}
+.about--card.candidate:hover .card--text.candidate{
+    color: #fff !important;
+}
+.about--card.candidate:hover .card--icon.candidate{
+    filter: invert(1) grayscale(1);
+}
+.about--card.candidate:hover .arrow--icon-btn.candidate {
+    border-color: #FFF;
+}
+.con--icon-area.candidate{
+    background-color: #714F36;
+}
+.con--form-btn.candidate{
+    background-color: #F9C833;
+    color: #714F36;
+}
+.con--form-arrow-area.candidate{
+    background-color: #F9C833;
+}
+.con--form-btn.candidate::after{
+    background-color: #714F36;
+}
+.con--form-btn.candidate:hover{
+    color: #F9C833 !important;
+}
+.con--form-btn-sub.candidate:hover svg path{
+    stroke: #714F36;
+}
