@@ -99,9 +99,11 @@
     }
 
     .rpo--card-heading h4 {
-        font-size: 30px;
+        font-size: 25px;
     }
-
+    .rpo--card-learnmore{
+        padding-top: 20px;
+    }
     .rpo--know-more-btn {
         padding: 15px 30px;
         font-size: 20px;
@@ -734,8 +736,8 @@
 
     .home--slider-btn-area {
         justify-content: center;
-        margin-top: 40px;
-        margin-bottom: 40px;
+        padding-top: 40px;
+        padding-bottom: 40px;
     }
 
     .candidate--slider-area {
