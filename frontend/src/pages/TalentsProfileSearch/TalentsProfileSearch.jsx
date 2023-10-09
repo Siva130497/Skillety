@@ -99,6 +99,138 @@ const TalentsProfileSearch = () => {
                     }, 300); // Adjust the time to match your transition duration
                 });
             });
+
+            ///add multi input fields for search keyword
+            $(".cli--tal-search-keyword-add-input-button").click(function () {
+                // Create a new input area
+                var newInputArea = $("<div>", {
+                    class: "cli-tal-pro-search-filter-multi-input-area",
+                });
+
+                // Create an input element
+                var inputElement = $("<input>", {
+                    type: "text",
+                    name: "exclude_keyword",
+                    class: "cli-tal-pro-search-filter-input",
+                    placeholder: "Enter the keyword",
+                });
+
+                // Create a close button
+                var closeButton = $("<i>", {
+                    class: "bi bi-x cli-input-close-icon",
+                });
+
+                // Add the input and close button to the new input area
+                newInputArea.append(inputElement);
+                newInputArea.append(closeButton);
+
+                // Append the new input area to the container
+                $("#container1").append(newInputArea);
+
+                // Use a timeout to trigger the transition after the element is added
+                setTimeout(function () {
+                    newInputArea.addClass("active");
+                }, 10);
+
+                // Handle the close button click event
+                closeButton.click(function () {
+                    // Remove the class to trigger the transition
+                    newInputArea.removeClass("active");
+
+                    // Remove the input area after the transition ends
+                    setTimeout(function () {
+                        newInputArea.remove();
+                    }, 300); // Adjust the time to match your transition duration
+                });
+            });
+
+            ///add multi input fields for search keyword
+            $(".cli--tal-search-skill-add-input-button").click(function () {
+                // Create a new input area
+                var newInputArea = $("<div>", {
+                    class: "cli-tal-pro-search-filter-multi-input-area",
+                });
+
+                // Create an input element
+                var inputElement = $("<input>", {
+                    type: "text",
+                    name: "exclude_skill",
+                    class: "cli-tal-pro-search-filter-input",
+                    placeholder: "Enter the skill",
+                });
+
+                // Create a close button
+                var closeButton = $("<i>", {
+                    class: "bi bi-x cli-input-close-icon",
+                });
+
+                // Add the input and close button to the new input area
+                newInputArea.append(inputElement);
+                newInputArea.append(closeButton);
+
+                // Append the new input area to the container
+                $("#container2").append(newInputArea);
+
+                // Use a timeout to trigger the transition after the element is added
+                setTimeout(function () {
+                    newInputArea.addClass("active");
+                }, 10);
+
+                // Handle the close button click event
+                closeButton.click(function () {
+                    // Remove the class to trigger the transition
+                    newInputArea.removeClass("active");
+
+                    // Remove the input area after the transition ends
+                    setTimeout(function () {
+                        newInputArea.remove();
+                    }, 300); // Adjust the time to match your transition duration
+                });
+            });
+
+            ///add multi input fields for qualification
+            $(".cli--tal-search-qualification-add-input-button").click(function () {
+                // Create a new input area
+                var newInputArea = $("<div>", {
+                    class: "cli-tal-pro-search-filter-multi-input-area",
+                });
+
+                // Create an input element
+                var inputElement = $("<input>", {
+                    type: "text",
+                    name: "qualification",
+                    class: "cli-tal-pro-search-filter-input",
+                    placeholder: "Enter the PPG/Doctorate Qualification",
+                });
+
+                // Create a close button
+                var closeButton = $("<i>", {
+                    class: "bi bi-x cli-input-close-icon",
+                });
+
+                // Add the input and close button to the new input area
+                newInputArea.append(inputElement);
+                newInputArea.append(closeButton);
+
+                // Append the new input area to the container
+                $("#container3").append(newInputArea);
+
+                // Use a timeout to trigger the transition after the element is added
+                setTimeout(function () {
+                    newInputArea.addClass("active");
+                }, 10);
+
+                // Handle the close button click event
+                closeButton.click(function () {
+                    // Remove the class to trigger the transition
+                    newInputArea.removeClass("active");
+
+                    // Remove the input area after the transition ends
+                    setTimeout(function () {
+                        newInputArea.remove();
+                    }, 300); // Adjust the time to match your transition duration
+                });
+            });
         });
     }, []);
 
@@ -127,13 +259,71 @@ const TalentsProfileSearch = () => {
                                 </div>
                             </div>
                             <div className="row row-border-custom">
-                                <div className="col-12 col-lg-3 col-xl-4 col-md-12 custom-right-border-col">
+                                <div className="col-12 col-lg-12 col-xl-4 col-md-12 custom-right-border-col">
                                     <div className="cli-tal-pro-search-filter-area">
                                         <h6 className='cli-tal-pro-search-filter'>
                                             Filters
                                             <img src="assets/img/talent-profile/filter.png" className='cli-tal-pro-filter-img' alt="" />
                                         </h6>
                                         <div className="cli-tal-pro-search-filter-container">
+
+                                            <div className="cli-tal-pro-search-filter-content">
+                                                <div class="cli-tal-pro-search-filter-title-area">
+                                                    <div class='info-icon-area'>
+                                                        <h6 class='cli-tal-pro-search-filter-title'>Notice period / Availability to join</h6>
+                                                        <button class='info-icon-button'>
+                                                            <i class="ri-information-line info-icon"></i>
+                                                        </button>
+                                                        <div class="tooltip">This is the information about the notice period & availability to join.</div>
+                                                    </div>
+                                                </div>
+                                                <div className="tal--search-options-area">
+                                                    <div className="tal--search-option-container">
+                                                        <input id="notice_period_1" className="tal--search-radio" type="radio" name="notice_period" />
+                                                        <div className="tal--search-tile">
+                                                            <label for="notice_period_1" className="tal--search-tile-label pe-2 ps-2">Any</label>
+                                                        </div>
+                                                    </div>
+
+                                                    <div className="tal--search-option-container">
+                                                        <input id="notice_period_2" className="tal--search-radio" type="radio" name="notice_period" />
+                                                        <div className="tal--search-tile">
+                                                            <label for="notice_period_2" className="tal--search-tile-label">0-07 days</label>
+                                                            <i class="bi bi-plus"></i>
+                                                        </div>
+                                                    </div>
+
+                                                    <div className="tal--search-option-container">
+                                                        <input id="notice_period_3" className="tal--search-radio" type="radio" name="notice_period" />
+                                                        <div className="tal--search-tile">
+                                                            <label for="notice_period_3" className="tal--search-tile-label">08 to 15 days</label>
+                                                            <i class="bi bi-plus"></i>
+                                                        </div>
+                                                    </div>
+                                                    <div className="tal--search-option-container">
+                                                        <input id="notice_period_4" className="tal--search-radio" type="radio" name="notice_period" />
+                                                        <div className="tal--search-tile">
+                                                            <label for="notice_period_4" className="tal--search-tile-label">16 to 30 days</label>
+                                                            <i class="bi bi-plus"></i>
+                                                        </div>
+                                                    </div>
+                                                    <div className="tal--search-option-container">
+                                                        <input id="notice_period_5" className="tal--search-radio" type="radio" name="notice_period" />
+                                                        <div className="tal--search-tile">
+                                                            <label for="notice_period_5" className="tal--search-tile-label">beyond 30 days</label>
+                                                            <i class="bi bi-plus"></i>
+                                                        </div>
+                                                    </div>
+                                                    <div className="tal--search-option-container">
+                                                        <input id="notice_period_6" className="tal--search-radio" type="radio" name="notice_period" />
+                                                        <div className="tal--search-tile">
+                                                            <label for="notice_period_6" className="tal--search-tile-label">Currently serving notice Period</label>
+                                                            <i class="bi bi-plus"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                             <div className="cli-tal-pro-search-filter-content">
                                                 <div className="cli-tal-pro-search-filter-title-area">
                                                     <h6 className='cli-tal-pro-search-filter-title'>Keywords</h6>
@@ -156,6 +346,22 @@ const TalentsProfileSearch = () => {
                                                         <span className="cli--mark-keyword-checkmark"></span>
                                                         Mark all keywords as mandatory
                                                     </label>
+                                                </div>
+                                                <div id="container1" className='multi-input-container'>
+                                                    <div className="cli--tal-search-add-input-area mt-3">
+                                                        <button className='cli--tal-search-keyword-add-input-button'>
+                                                            <i class="bi bi-plus add-input-icon"></i>
+                                                            Add Exclude Keywords
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div id="container2" className='multi-input-container'>
+                                                    <div className="cli--tal-search-add-input-area">
+                                                        <button className='cli--tal-search-skill-add-input-button'>
+                                                            <i class="bi bi-plus add-input-icon"></i>
+                                                            Add IT Skills
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </div>
 
@@ -259,7 +465,7 @@ const TalentsProfileSearch = () => {
                                                         <input type="text" name='company' className='cli-tal-pro-search-filter-input' placeholder='Add Company name' />
                                                     </div>
                                                     <div id="container" className='multi-input-container'>
-                                                        <div className="cli--tal-search-add-input-area">
+                                                        <div className="cli--tal-search-add-input-area mt-3">
                                                             <button className='cli--tal-search-add-input-button'>
                                                                 <i class="bi bi-plus add-input-icon"></i>
                                                                 Add Exclude Company
@@ -285,25 +491,238 @@ const TalentsProfileSearch = () => {
                                                 </div>
                                             </div>
 
+                                            <div className="cli--emploment-detail-area">
+                                                <h6 className='cli--emploment-detail-head'>Work Details</h6>
 
-                                            <div class="cli-tal-pro-search-filter-content">
-                                                <div class="cli-tal-pro-search-filter-title-area">
-                                                    <div class='info-icon-area'>
-                                                        <h6 class='cli-tal-pro-search-filter-title'>Notice period / Availability to join</h6>
-                                                        <button class='info-icon-button'>
-                                                            <i class="ri-information-line info-icon"></i>
-                                                        </button>
-                                                        <div class="tooltip">This is the information about the notice period & availability to join.</div>
+
+                                                <div className="cli-tal-search-filter-form-group">
+                                                    <div className="cli-tal-search-filter-form-label-area">
+                                                        <label htmlFor="candidate_seek" className='cli-tal-search-filter-form-label'>Show candidate seeking</label>
+                                                    </div>
+                                                    <div className="row">
+                                                        <div className="col-12 col-xl-6 col-lg-6 col-md-6">
+                                                            <div className="cli-tal-pro-search-filter-input-area">
+                                                                <select name="job_type" id="candidate_seek"
+                                                                    className='cli-tal-pro-search-filter-input cand--seek-select'>
+                                                                    <option value="" disabled selected>Job type</option>
+                                                                    <option value="1">Job type 1</option>
+                                                                    <option value="2">Job type 1</option>
+                                                                    <option value="3">Job type 1</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+                                                        <div className="col-12 col-xl-6 col-lg-6 col-md-6">
+                                                            <div className="cli-tal-pro-search-filter-input-area">
+                                                                <select name="employee_type" id="candidate_seek"
+                                                                    className='cli-tal-pro-search-filter-input cand--seek-select'>
+                                                                    <option value="" disabled selected>Employment type</option>
+                                                                    <option value="1">Employment type 1</option>
+                                                                    <option value="2">Employment type 2</option>
+                                                                    <option value="3">Employment type 3</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div className="cli-tal-search-filter-form-group">
+                                                    <div className="cli-tal-search-filter-form-label-area">
+                                                        <label htmlFor="work_permit" className='cli-tal-search-filter-form-label'>Work permit for</label>
+                                                    </div>
+                                                    <div className="cli-tal-pro-search-filter-input-area">
+                                                        <input type="text" className='cli-tal-pro-search-filter-input' placeholder='Choose Category' />
                                                     </div>
                                                 </div>
                                             </div>
 
+                                            <div className="cli--emploment-detail-area">
+                                                <h6 className='cli--emploment-detail-head'>Display Details</h6>
+
+                                                <div className="cli-tal-pro-search-filter-content">
+                                                    <div className="cli-tal-pro-search-filter-title-area">
+                                                        <h6 className='cli-tal-pro-search-filter-title'>Show</h6>
+                                                    </div>
+
+                                                    <div className="tal--search-options-area">
+                                                        <div className="tal--search-option-container">
+                                                            <input id="all_candidate" className="tal--search-radio" type="radio" name="show" />
+                                                            <div className="tal--search-tile">
+                                                                <label for="all_candidate" className="tal--search-tile-label">All candidates</label>
+                                                            </div>
+                                                        </div>
+
+                                                        <div className="tal--search-option-container">
+                                                            <input id="new_reg" className="tal--search-radio" type="radio" name="show" />
+                                                            <div className="tal--search-tile">
+                                                                <label for="new_reg" className="tal--search-tile-label">New Registrations</label>
+                                                            </div>
+                                                        </div>
+
+                                                        <div className="tal--search-option-container">
+                                                            <input id="recent_activity" className="tal--search-radio" type="radio" name="show" />
+                                                            <div className="tal--search-tile">
+                                                                <label for="recent_activity" className="tal--search-tile-label">Active Recently</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div className="cli-tal-pro-search-filter-content">
+                                                    <div className="cli-tal-pro-search-filter-title-area">
+                                                        <h6 className='cli-tal-pro-search-filter-title'>Show only candidates with </h6>
+                                                    </div>
+
+                                                    <div className="tal--search-options-area">
+                                                        <div className="tal--search-option-container">
+                                                            <input id="ver_mobile" className="tal--search-radio" type="radio" name="show_cand" />
+                                                            <div className="tal--search-tile">
+                                                                <label for="ver_mobile" className="tal--search-tile-label">Verified mobile number</label>
+                                                                <i class="bi bi-plus"></i>
+                                                            </div>
+                                                        </div>
+
+                                                        <div className="tal--search-option-container">
+                                                            <input id="ver_email" className="tal--search-radio" type="radio" name="show_cand" />
+                                                            <div className="tal--search-tile">
+                                                                <label for="ver_email" className="tal--search-tile-label">Verified email ID </label>
+                                                                <i class="bi bi-plus"></i>
+                                                            </div>
+                                                        </div>
+                                                        <div className="tal--search-option-container">
+                                                            <input id="att_resume" className="tal--search-radio" type="radio" name="show_cand" />
+                                                            <div className="tal--search-tile">
+                                                                <label for="att_resume" className="tal--search-tile-label">Attached resume</label>
+                                                                <i class="bi bi-plus"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div className="cli--emploment-detail-area">
+                                                <h6 className='cli--emploment-detail-head'>Education Details</h6>
+
+                                                <div className="cli-tal-pro-search-filter-content">
+                                                    <div className="cli-tal-pro-search-filter-title-area">
+                                                        <h6 className='cli-tal-pro-search-filter-title'>UG Qualification</h6>
+                                                    </div>
+
+                                                    <div className="tal--search-options-area">
+                                                        <div className="tal--search-option-container">
+                                                            <input id="any_ug" className="tal--search-radio" type="radio" name="ug_qualification" />
+                                                            <div className="tal--search-tile">
+                                                                <label for="any_ug" className="tal--search-tile-label">Any UG Qualification</label>
+                                                            </div>
+                                                        </div>
+
+                                                        <div className="tal--search-option-container">
+                                                            <input id="spc_ug" className="tal--search-radio" type="radio" name="ug_qualification" />
+                                                            <div className="tal--search-tile">
+                                                                <label for="spc_ug" className="tal--search-tile-label">Specific UG Qualification</label>
+                                                            </div>
+                                                        </div>
+
+                                                        <div className="tal--search-option-container">
+                                                            <input id="no_ug" className="tal--search-radio" type="radio" name="ug_qualification" />
+                                                            <div className="tal--search-tile">
+                                                                <label for="no_ug" className="tal--search-tile-label">No UG Qualification</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div className="cli-tal-pro-search-filter-content">
+                                                    <div className="cli-tal-pro-search-filter-title-area">
+                                                        <h6 className='cli-tal-pro-search-filter-title'>PG Qualification</h6>
+                                                    </div>
+
+                                                    <div className="tal--search-options-area">
+                                                        <div className="tal--search-option-container">
+                                                            <input id="any_pg" className="tal--search-radio" type="radio" name="pg_qualification" />
+                                                            <div className="tal--search-tile">
+                                                                <label for="any_pg" className="tal--search-tile-label">Any PG Qualification</label>
+                                                            </div>
+                                                        </div>
+
+                                                        <div className="tal--search-option-container">
+                                                            <input id="spc_pg" className="tal--search-radio" type="radio" name="pg_qualification" />
+                                                            <div className="tal--search-tile">
+                                                                <label for="spc_pg" className="tal--search-tile-label">Specific PG Qualification</label>
+                                                            </div>
+                                                        </div>
+
+                                                        <div className="tal--search-option-container">
+                                                            <input id="no_pg" className="tal--search-radio" type="radio" name="pg_qualification" />
+                                                            <div className="tal--search-tile">
+                                                                <label for="no_pg" className="tal--search-tile-label">No PG Qualification</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div id="container3" className='multi-input-container'>
+                                                        <div className="cli--tal-search-add-input-area">
+                                                            <button className='cli--tal-search-qualification-add-input-button'>
+                                                                <i class="bi bi-plus add-input-icon"></i>
+                                                                Add PPG/Doctorate Qualification
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div className='h--line'></div>
+
+                                            <div className="cli--emploment-detail-area">
+                                                <h6 className='cli--emploment-detail-head'>Diversity and Additional Details</h6>
+
+                                                <div className="cli-tal-pro-search-filter-content">
+                                                    <div className="cli-tal-pro-search-filter-title-area">
+                                                        <h6 className='cli-tal-pro-search-filter-title'>Gender</h6>
+                                                    </div>
+
+                                                    <div className="tal--search-options-area">
+                                                        <div className="tal--search-option-container">
+                                                            <input id="all_cand" className="tal--search-radio" type="radio" name="gender" />
+                                                            <div className="tal--search-tile">
+                                                                <label for="all_cand" className="tal--search-tile-label">All candidates</label>
+                                                            </div>
+                                                        </div>
+
+                                                        <div className="tal--search-option-container">
+                                                            <input id="male_cand" className="tal--search-radio" type="radio" name="gender" />
+                                                            <div className="tal--search-tile">
+                                                                <label for="male_cand" className="tal--search-tile-label">Male Candidates</label>
+                                                            </div>
+                                                        </div>
+
+                                                        <div className="tal--search-option-container">
+                                                            <input id="female_cand" className="tal--search-radio" type="radio" name="gender" />
+                                                            <div className="tal--search-tile">
+                                                                <label for="female_cand" className="tal--search-tile-label">Female candidates</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <div className="clear--all_button-area">
+                                                <button className='clear--all_button'>
+                                                    Clear all
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div className="col-12 col-lg-9 col-xl-8 col-md-12">
-                                    <div className="cli--tal-pro-search-results-area">
+                                <div className="col-12 col-lg-12 col-xl-8 col-md-12">
+                                    <div className="tal--pro-search-result-image-area">
+                                        <img src="assets/img/jobs/filter-data-img.png" className='tal--pro-search-result-image' alt="" />
+                                        <h6 className='tal--pro-search-result-title'>Add Filter for the desired search</h6>
+                                    </div>
+                                    {/* <div className="cli--tal-pro-search-results-area">
                                         <article className="talent--profile-card mb-4" data-aos="fade-left">
                                             <div className="row custom-col-reverse">
                                                 <div className="col-12 col-lg-9 col-md-8 tal--pro-card-left-area">
@@ -835,7 +1254,7 @@ const TalentsProfileSearch = () => {
                                                 </button>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> */}
                                 </div>
                             </div>
                         </div>

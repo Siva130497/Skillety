@@ -12,6 +12,7 @@ import Company from './pages/Company/Company';
 import CompanyDetails from './pages/CompanyDetails/CompanyDetails';
 import Services from './pages/Services/Services';
 import RPO from './pages/RPO/RPO';
+import Enquiry from './pages/Enquiry/Enquiry';
 import Talents from './pages/Talents/Talents';
 import Events from './pages/Events/Events';
 import EventDetails from './pages/EventDetails/EventDetails';
@@ -59,6 +60,7 @@ function App() {
             <Route path='/contact-us' element={<Contact />} />
             <Route path='/services' element={<Services />} />
             <Route path='/rpo' element={<RPO />} />
+            <Route path='/enquiry' element={<Enquiry />} />
             <Route path='/talents' element={<Talents />} />
             <Route path='/events' element={<Events />} />
             <Route path='/event-details' element={<EventDetails />} />
