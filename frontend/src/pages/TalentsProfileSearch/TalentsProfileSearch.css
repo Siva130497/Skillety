@@ -406,6 +406,7 @@
     display: flex;
     align-items: center;
     margin-bottom: 20px;
+    margin-top: 15px;
     overflow: hidden;
     opacity: 0;
     transition: opacity 0.5s ease;
@@ -549,10 +550,13 @@
 }
 
 .cli--tal-search-add-input-area {
-    margin-top: 18px;
+    margin-top: 10px;
 }
 
-.cli--tal-search-add-input-area .cli--tal-search-add-input-button {
+.cli--tal-search-add-input-area .cli--tal-search-add-input-button,
+.cli--tal-search-add-input-area .cli--tal-search-keyword-add-input-button,
+.cli--tal-search-add-input-area .cli--tal-search-skill-add-input-button,
+.cli--tal-search-add-input-area .cli--tal-search-qualification-add-input-button {
     color: #313131;
     font-size: 12px;
     font-style: normal;
@@ -560,10 +564,13 @@
     background: none;
     border: none;
     outline: none;
-    margin-bottom: 12px;
+    /* margin-bottom: 12px; */
 }
 
-.cli--tal-search-add-input-button .add-input-icon {
+.cli--tal-search-add-input-button .add-input-icon,
+.cli--tal-search-keyword-add-input-button .add-input-icon,
+.cli--tal-search-skill-add-input-button .add-input-icon,
+.cli--tal-search-qualification-add-input-button .add-input-icon {
     color: #313131;
     margin-right: 12px;
     font-size: 15px;
@@ -571,5 +578,124 @@
 }
 
 .multi-input-container {
-    margin-bottom: 18px;
+    /* margin-bottom: 18px; */
+}
+
+
+
+.tal--search-options-area {
+    padding-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 8px;
+}
+
+.tal--search-options-area .tal--search-option-container {
+    position: relative;
+    height: 46px;
+    width: auto;
+    min-width: max-content;
+    margin-bottom: 15px;
+    /* overflow: hidden; */
+}
+
+.tal--search-options-area .tal--search-option-container .tal--search-radio {
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    cursor: pointer;
+}
+
+.tal--search-options-area .tal--search-option-container .tal--search-tile {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    width: 100%;
+    height: 100%;
+    border-radius: 40px;
+    border: 1px solid #714F36;
+    background: #FFF;
+    box-shadow: 0px 4px 10px 0px rgba(150, 150, 150, 0.25);
+    padding: 0 20px;
+    transition: transform ease-in-out 0.8s;
+}
+
+.tal--search-options-area .tal--search-option-container .tal--search-tile i {
+    color: #313131;
+    font-size: 16px;
+    font-weight: 600;
+    vertical-align: middle;
+    margin-bottom: 0;
+    padding-right: 0;
+    margin-right: 0;
+}
+
+.tal--search-options-area .tal--search-option-container .tal--search-tile-label {
+    text-align: center;
+    white-space: nowrap;
+    color: #313131;
+    font-size: 10px;
+    font-weight: 500;
+}
+
+.tal--search-options-area .tal--search-option-container .tal--search-radio:checked+.tal--search-tile {
+    background-color: #F9C833;
+    transform: scale(1.02, 1.02);
+}
+
+.tal--search-options-area .tal--search-option-container .tal--search-radio:checked+.tal--search-tile .tal--search-tile-label {
+    color: #714F36;
+}
+
+.h--line {
+    border-bottom: 1px solid #000;
+}
+
+.clear--all_button-area {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.clear--all_button-area .clear--all_button {
+    margin-top: 10px;
+    color: #714F36;
+    font-size: 22px;
+    font-weight: 600;
+    outline: none;
+    border: none;
+    background-color: transparent;
+    text-transform: capitalize;
+}
+
+.cli-tal-pro-search-filter-input.cand--seek-select option {
+    background-color: #714F36 !important;
+    color: #FFF !important;
+}
+
+.tal--pro-search-result-image-area {
+    padding-top: 150px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.tal--pro-search-result-image-area .tal--pro-search-result-image {
+    width: 45%;
+    height: 45%;
+    object-fit: contain;
+}
+
+.tal--pro-search-result-image-area .tal--pro-search-result-title {
+    margin-top: 75px;
+    color: #714F36;
+    font-size: 32px;
+    font-weight: 600;
 }
