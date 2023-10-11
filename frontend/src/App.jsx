@@ -37,6 +37,7 @@ import CandidateDashboard from './pages/CandidateDashboard/CandidateDashboard';
 import AdminDashboard from './pages/AdminDashboard/AdminDashboard';
 import RecruiterDashboard from './pages/RecruiterDashboard/RecruiterDashboard';
 import ForgotPassword from './pages/ForgotPassword/ForgotPassword';
+import Verification from './pages/Verification/Verification';
 // import Slider from './pages/Slider';
 import { PrimeReactProvider } from 'primereact/api';
 import { GoogleOAuthProvider } from '@react-oauth/google';
@@ -90,6 +91,7 @@ function App() {
             <Route path='/admin-dashboard' element={<AdminDashboard />} />
             <Route path='/recruiter-dashboard' element={<RecruiterDashboard />} />
             <Route path='/forgot-password/:role' element={<ForgotPassword />} />
+            <Route path='/verification' element={<Verification />} />
           </Routes>
         </GoogleOAuthProvider>
       </PrimeReactProvider>
