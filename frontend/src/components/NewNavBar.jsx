@@ -12,7 +12,7 @@ const NewNavBar = ({ clientRegister, candidateRegister, clientLogin, candidateLo
                         <div className='logo--area client me-auto'>
                             <div className='logo--subarea'>
                                 <a href="/">
-                                    <img className='nav--logo client' src="assets/img/logo/skillety-logo-sm.png" alt="" />
+                                    <img className='nav--logo client' src="../assets/img/logo/skillety-logo-sm.png" alt="" />
                                 </a>
                             </div>
                         </div> :
@@ -20,7 +20,7 @@ const NewNavBar = ({ clientRegister, candidateRegister, clientLogin, candidateLo
                             <div className='logo--area client me-auto'>
                                 <div className='logo--subarea'>
                                     <a href="/">
-                                        <img className='nav--logo client' src="assets/img/logo/skillety-logo-sm.png" alt="" />
+                                        <img className='nav--logo client' src="../assets/img/logo/skillety-logo-sm.png" alt="" />
                                     </a>
                                 </div>
                             </div> :
@@ -28,7 +28,7 @@ const NewNavBar = ({ clientRegister, candidateRegister, clientLogin, candidateLo
                                 <div className='logo--area candidate me-auto'>
                                     <div className='logo--subarea'>
                                         <a href="/candidate-home">
-                                            <img className='nav--logo candidate' src="assets/img/logo/skillety-logo-sm.png" alt="" />
+                                            <img className='nav--logo candidate' src=".//assets/img/logo/skillety-logo-sm.png" alt="" />
                                         </a>
                                     </div>
                                 </div> :
@@ -36,7 +36,7 @@ const NewNavBar = ({ clientRegister, candidateRegister, clientLogin, candidateLo
                                     <div className='logo--area candidate me-auto'>
                                         <div className='logo--subarea'>
                                             <a href="/candidate-home">
-                                                <img className='nav--logo candidate' src="assets/img/logo/skillety-logo-sm.png" alt="" />
+                                                <img className='nav--logo candidate' src=".//assets/img/logo/skillety-logo-sm.png" alt="" />
                                             </a>
                                         </div>
                                     </div> : null
