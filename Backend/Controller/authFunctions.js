@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require ('dotenv').config();
+const { v4: uuidv4 } = require('uuid');
 const client = require("../Database/client");
 const nodemailer = require('nodemailer');
 const TempClient = require("../Database/TempClient");
@@ -14,6 +15,7 @@ const employee = require("../Database/employee");
 const assignedCandidate = require("../Database/assignedCandidate");
 const clientStaff = require("../Database/clientStaffs");
 const forgotPasswordUser = require("../Database/forgotPasswordUsers");
+const eventDetail = require("../Database/eventDetail");
 
 // const hash = async() => {
 //   const pass = 'newpassword'
@@ -26,8 +28,8 @@ const forgotPasswordUser = require("../Database/forgotPasswordUsers");
 const clientRegister = async(req, res) => {
   try {
     console.log(req.body);
-    const {email} = req.body;
-    const clientAvailable = await client.findOne({email});
+    const {email, name} = req.body;
+    const clientAvailable = await client.findOne({ $or: [{ email }, { name }] });
     if(clientAvailable){
       return res.status(404).json({message: "User already registered"});
     }
@@ -100,8 +102,9 @@ const createClient = async (req, res) => {
 
 /* fetch the client after uuid add */
 const getAllClient = async(req, res) => {
+  const {id} = req.params;
   try{
-    const tempClient = await TempClient.find();
+    const tempClient = await TempClient.find({id});
     console.log(tempClient);
     return res.status(200).json(tempClient);
   }catch(err){
@@ -121,6 +124,7 @@ const finalClientRegister = async(req, res) => {
       console.log(hashPassword);
       const updatedClient = new finalClient({
         ...rest,
+        companyId:uuidv4(),
         password: hashPassword, 
       });
       await updatedClient.save();
@@ -150,25 +154,32 @@ const finalClientRegister = async(req, res) => {
 const clientStaffReg = async(req, res) => {
   try {
     console.log(req.body);
-    const numOfAccountsCanBeCreated = 1;
-    const {clientId} = req.body;
-    const createdAccounts = await clientStaff.find({clientId:clientId});
+    const numOfAccountsCanBeCreated = 2;
+    let {companyId,name} = req.body;
+    const createdAccounts = await finalClient.find({companyId});
     if(createdAccounts.length < numOfAccountsCanBeCreated){
-      const {name} = req.body;
-      const clientCreatedStaffAvailable = await clientStaff.findOne({name});
+      const clientCreatedStaffAvailable = await finalClient.findOne({name});
       if(clientCreatedStaffAvailable){
         return res.status(404).json({message: "staff already registered"});
       }
       const hashPassword = await bcrypt.hash(req.body.password, 12);
       console.log(hashPassword);
-      const newClientStaff = new clientStaff({
+      const newClientStaff = new finalClient({
         ...req.body,
-        role:"Client-staff",
         password: hashPassword, 
       });
       await newClientStaff.save();
       console.log(newClientStaff);
-      return res.status(201).json(newClientStaff);
+      const {role, id} = req.body;
+      const updatedUser = new allUsers({
+        id,   
+        name,
+        role,
+        password:hashPassword,
+      });
+      await updatedUser.save();
+      console.log(updatedUser);
+      return res.status(201).json({newClientStaff, updatedUser});
     }else{
       return res.status(200).json({message:"you reached the limit of creating accounts"});
     }
@@ -280,9 +291,7 @@ const getSkillMatchJobDetail = async (req, res) => {
 
     const comparisonResults = jobDetails.map(obj => {
       const percentage = calculateMatchPercentage(obj.skills, candidateDetail.skills);
-      return {
-        clientId: obj.clientId,
-        recruiterId: obj.recruiterId,
+      const result = {
         jobId: obj.id,
         jobRole: obj.jobRole[0],
         jobMandatorySkills: obj.skills,
@@ -292,6 +301,18 @@ const getSkillMatchJobDetail = async (req, res) => {
         jobDescription: obj.jobDescription,
         percentage: Math.round(percentage), 
       };
+
+      if (obj.recruiterId) {
+        result.recruiterId = obj.recruiterId;
+      } else if (obj.clientId) {
+        result.clientId = obj.clientId;
+        result.companyId = obj.companyId;
+      } else if (obj.clientStaffId) {
+        result.clientStaffId = obj.clientStaffId;
+        result.companyId = obj.companyId;
+      }
+
+      return result;
     });
 
     comparisonResults.sort((a, b) => b.percentage - a.percentage);
@@ -302,6 +323,7 @@ const getSkillMatchJobDetail = async (req, res) => {
     res.status(500).json({ error: err.message })
   }
 }
+
 
 
 /* get all posted jobs */
@@ -316,22 +338,27 @@ const getPostedjobs = async(req, res) => {
 }
 
 /* get own posted jobs  */
-const getOwnPostedjobs = async(req, res) => {
-  try{
-    const id = req.params.postedPersonId;
-    const postedJobsByClient = await jobDetail.find({clientId:id});
-    const postedJobsByRecruiter = await jobDetail.find({recruiterId:id});
-    if (postedJobsByClient.length > 0) {
-      res.status(200).json(postedJobsByClient);
-    } else if (postedJobsByRecruiter.length > 0) {
-      res.status(200).json(postedJobsByRecruiter);
+const getOwnPostedjobs = async (req, res) => {
+  try {
+    const id = req.params.id; 
+    
+    const postedJobs = await jobDetail.find({
+      $or: [
+        { companyId: id },
+        { recruiterId: id }
+      ]
+    });
+
+    if (postedJobs.length > 0) {
+      res.status(200).json(postedJobs);
     } else {
       res.status(404).json({ message: 'No posted job found' });
     }
-  }catch(err) {
-    res.status(500).json({error: err.message})
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 }
+
 
 /* candidate applying job */
 const applyingjob = async(req, res) => {
@@ -362,17 +389,19 @@ const getAppliedjobs = async(req, res) => {
 /* get applied jobs from posted jobs  */
 const getAppliedOfPostedJobs = async (req, res) => {
   try {
-    const id = req.params.postedPersonId;
-    
-    const appliedOfPostedJobsOfClient = await appliedJob.find({ clientId: id });
-    const appliedOfPostedJobsOfRecruiter = await appliedJob.find({ recruiterId: id });
+    const id = req.params.id;
+    console.log(id);
+    const appliedOfPostedJobs = await appliedJob.find({
+      $or: [
+        { companyId: id },
+        { recruiterId: id }
+      ]
+    });
 
-    if (appliedOfPostedJobsOfClient.length > 0) {
-      res.status(200).json(appliedOfPostedJobsOfClient);
-    } else if (appliedOfPostedJobsOfRecruiter.length > 0) {
-      res.status(200).json(appliedOfPostedJobsOfRecruiter);
+    if (appliedOfPostedJobs.length > 0) {
+      res.status(200).json(appliedOfPostedJobs);
     } else {
-      res.status(404).json({ message: 'No applied jobs found' });
+      res.status(404).json({ message: 'No applied job found' });
     }
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -453,6 +482,7 @@ const getAllRecruiters = async(req, res) => {
 const getAnIndividualRecruiter = async(req, res) => {
   try{
     const id = req.params.recruiterId;
+    console.log(id);
     const recruiter = await employee.findOne({id:id});
     
     res.status(200).json(recruiter); 
@@ -500,8 +530,8 @@ const getLoginClientDetail = async(req, res) => {
 /* get all client staffs  */
 const getAllClientStaffs = async(req, res) => {
   try{
-    const id = req.params.clientId;
-    const allClientStaffs = await clientStaff.find({clientId:id});
+    const id = req.params.companyId;
+    const allClientStaffs = await finalClient.find({companyId:id, role:"Client-staff"});
     
     res.status(200).json(allClientStaffs); 
   }catch(err) {
@@ -675,77 +705,55 @@ const newPassword = async(req, res) => {
   }
 }
 
-/* client-staff login */
-const clientStaffLogin = async (req, role, res) => {
-  let { name, password } = req;
-  console.log(role);
-  console.log(name, password);
-  try{
-    const clientCreatedStaff = await clientStaff.findOne({ name });
-    console.log(clientCreatedStaff);
-    if (!clientCreatedStaff) {
-      return res.status(404).json({
-        message: "client created staff is not found. Invalid login credentials.",
-      });
-    }
-    // We will check the role
-    if (clientCreatedStaff.role !== role) {
-      return res.status(403).json({
-        message: "Please make sure you are logging in from the right portal.",
-      });
-    }
-    // That means user is existing and trying to signin fro the right portal
-    // Now check for the password
-    let isMatch = await bcrypt.compare(password, clientCreatedStaff.password);
-    if (isMatch) {
-      // Sign in the token and issue it to the user
-      let token = jwt.sign(
-        {
-          id: clientCreatedStaff.id,
-          role: clientCreatedStaff.role,
-          name: clientCreatedStaff.name,
-          clientId: clientCreatedStaff.clientId
-        },
-        process.env.APP_SECRET,
-        { expiresIn: "3 days" }
-      );
-
-      let result = {
-        id: clientCreatedStaff.id,
-        name: clientCreatedStaff.name,
-        role: clientCreatedStaff.role,
-        clientId: clientCreatedStaff.clientId,
-        expiresIn: 168
-      };
-      return res
-        .cookie('jwt', token, {
-          httpOnly: true,
-        })
-        .status(200)
-        .json({
-          ...result,
-          accessToken:token,
-          message: "You are now logged in."
-        });
-    } else {
-      return res.status(403).json({
-        message: "Incorrect password."
-      });
-    }
-  }catch(err) {
-    res.status(500).json({error: err.message})
+/* recruiter event posting */
+const eventPosting = async(req, res) => {
+  console.log(req.body);
+  try {
+    const newEvent = new eventDetail({
+      ...req.body,
+    });
+    await newEvent.save();
+    console.log(newEvent);
+    return res.status(201).json(newEvent);
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
   }
-};
+}
+
+/* get all posted events of recruiters */
+const getAllEvents = async(req, res) => {
+  try{
+    const allEventDetails = await eventDetail.find();
+    console.log(allEventDetails);
+    return res.status(200).json(allEventDetails);
+  }catch(err){
+    return res.status(500).json({ error: err.message });
+  }
+}
+
+/* random password generate */
+const generateRandomPassword = (req, res) => {
+  const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=[]{}|;:,.<>?';
+  let password = '';
+  for (let i = 0; i < 12; i++) {
+    const randomIndex = Math.floor(Math.random() * charset.length);
+    password += charset[randomIndex];
+  }
+  return res.status(200).json(password);
+}
 
 /**
  * @DESC To Login the user 
  */
 const userLogin = async (req, role, res) => {
-  let { email, password } = req;
+  let { userId, password } = req;
   console.log(role);
-  console.log(email, password);
-  try{
-    const user = await allUsers.findOne({ email });
+  console.log(userId, password);
+  try {
+    let user = await allUsers.findOne({ name: userId });
+    if (!user) {
+      user = await allUsers.findOne({ email: userId });
+    }
     console.log(user);
     if (!user) {
       return res.status(404).json({
@@ -753,42 +761,42 @@ const userLogin = async (req, role, res) => {
       });
     }
     // We will check the role
-    if (user.role !== role) {
+    if (!role.includes(user.role)) {
       return res.status(403).json({
         message: "Please make sure you are logging in from the right portal.",
       });
     }
-    // That means user is existing and trying to signin fro the right portal
+    // That means user is existing and trying to sign in from the right portal
     // Now check for the password
     let isMatch = await bcrypt.compare(password, user.password);
     if (isMatch) {
       // Sign in the token and issue it to the user
-      let token = jwt.sign(
-        {
-          id: user.id,
-          role: user.role,
-          name: user.name,
-          email: user.email
-        },
-        process.env.APP_SECRET,
-        { expiresIn: "3 days" }
-      );
+      let payload = {
+        id: user.id,
+        role: user.role,
+        name: user.name,
+      };
 
       let result = {
         id: user.id,
         name: user.name,
         role: user.role,
-        email: user.email,
         expiresIn: 168
       };
-      // const date = new Date();
-      // date.setHours(date.getHours() + 5);
-      // res.setHeader('set-Cookie', `jwt=${token}; Expires=${date}; HttpOnly`)
-      // res.status(200).cookie('jwt', token, {
-      //   expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
-      //   secure: false,
-      //   httpOnly: true
-      // });
+
+      if (role === 'Client-staff') {
+        // No need to include email for Client-staff
+      } else {
+        payload.email = user.email;
+        result.email = user.email;
+      }
+
+      let token = jwt.sign(
+        payload,
+        process.env.APP_SECRET,
+        { expiresIn: "3 days" }
+      );
+
       return res
         .cookie('jwt', token, {
           httpOnly: true,
@@ -796,7 +804,7 @@ const userLogin = async (req, role, res) => {
         .status(200)
         .json({
           ...result,
-          accessToken:token,
+          accessToken: token,
           message: "You are now logged in."
         });
     } else {
@@ -804,10 +812,12 @@ const userLogin = async (req, role, res) => {
         message: "Incorrect password."
       });
     }
-  }catch(err) {
-    res.status(500).json({error: err.message})
+  } catch (err) {
+    res.status(500).json({ error: err.message })
   }
 };
+
+
 
 const validateEmployeename = async name => {
   let employee = await Employee.findOne({ name });
@@ -897,9 +907,11 @@ module.exports = {
    assigningCandidate,
    getAssignedCandidates,
    clientStaffReg,
-   clientStaffLogin,
    getLoginClientDetail,
    getAllClientStaffs,
    forgotPassword,
    newPassword,
+   eventPosting,
+   getAllEvents,
+   generateRandomPassword,
 };

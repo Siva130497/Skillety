@@ -3,10 +3,12 @@ import axios from 'axios';
 import Layout from '../../components/Layout';
 import { Footer } from '../../components/Footer';
 import { useNavigate } from 'react-router-dom';
+import AuthContext from '../../context/AuthContext';
 
 
 const CandidateDashboard = () => {
-  const candidateToken = localStorage.getItem("candidateToken");
+  const candidateToken = JSON.parse(localStorage.getItem("candidateToken"));
+  const {getProtectedData} = useContext(AuthContext);
   const navigate = useNavigate();
 
   const [candidateId, setCandidateId] = useState("");
@@ -26,27 +28,12 @@ const CandidateDashboard = () => {
   const [checkBoxFilteredJobMsg, setCheckBoxFilteredJobMsg] = useState("");
   const [searchJobRoleInput, setSearchJobRoleInput] = useState("");
   
-  
-  const getProtectedData = async () => {
-    try {
-      const response = await axios.get('http://localhost:5002/protected', {
-        headers: {
-            Authorization: `Bearer ${candidateToken}`,
-            Accept: 'application/json'
-        }
-      });
-      return response.data;
-    } catch (error) {
-      throw error;
-    }
-  };
-
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const id = await getProtectedData();
-        console.log(id);
-        setCandidateId(id);
+        const user = await getProtectedData(candidateToken);
+        console.log(user);
+        setCandidateId(user.id);
       } catch (error) {
         navigate("/candidate-login")
       }
@@ -241,7 +228,7 @@ const CandidateDashboard = () => {
     
   return (
       <div>
-        <Layout/>
+        {/* <Layout/> */}
         <div className='container-fluid' style={{display: 'flex'}}>
               <div style={{flex:2}}>
                 <ul>

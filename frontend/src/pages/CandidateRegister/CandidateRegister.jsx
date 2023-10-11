@@ -292,7 +292,7 @@ const CandidateRegister = () => {
                         <div className="cli--reg-heading-area">
                             <h3 className='cli--reg-heading' data-aos="fade-left">Hi, Welcome to <span>SKILLETY!!!</span></h3>
                         </div>
-
+                        <GoogleAuth setProfile={setProfile}/>
                         <div className="cand--reg-form-area">
                             <div className="row">
                                 <div className="col-12">
@@ -301,28 +301,34 @@ const CandidateRegister = () => {
 
                                         <div className="cand--reg-radio-input-group">
                                             <div className="cand--reg-input-container">
-                                                <input id="day_option_1" className="radio-button" type="radio" name="days" />
+                                                <input id="day_option_1" className="radio-button" type="radio" name="days" value="0 to 7 days" onChange={handleInputChange}/>
                                                 <div className="radio-tile">
                                                     <label for="day_option_1" className="radio-tile-label">0 to 7 days</label>
                                                 </div>
                                             </div>
 
                                             <div className="cand--reg-input-container">
-                                                <input id="day_option_2" className="radio-button" type="radio" name="days" />
+                                                <input id="day_option_2" className="radio-button" type="radio" name="days"
+                                                value="8 to 15 days"
+                                                onChange={handleInputChange} />
                                                 <div className="radio-tile">
                                                     <label for="day_option_2" className="radio-tile-label">8 to 15 days</label>
                                                 </div>
                                             </div>
 
                                             <div className="cand--reg-input-container">
-                                                <input id="day_option_3" className="radio-button" type="radio" name="days" />
+                                                <input id="day_option_3" className="radio-button" type="radio" name="days" 
+                                                value="16 to 30 days"
+                                                onChange={handleInputChange}/>
                                                 <div className="radio-tile">
                                                     <label for="day_option_3" className="radio-tile-label">16 to 30 days</label>
                                                 </div>
                                             </div>
 
                                             <div className="cand--reg-input-container">
-                                                <input id="day_option_4" className="radio-button" type="radio" name="days" />
+                                                <input id="day_option_4" className="radio-button" type="radio" name="days"
+                                                value="More than 30 days"
+                                                onChange={handleInputChange} />
                                                 <div className="radio-tile">
                                                     <label for="day_option_4" className="radio-tile-label">More than 30 days</label>
                                                 </div>
@@ -332,27 +338,6 @@ const CandidateRegister = () => {
                                     </div>
                                 </div>
                             </div>
-                        </div>
-
-                        <div className="form-group">
-                            <label
-                                htmlFor="days"
-                                className="form-label mt-4">
-                                In how many days can you Join?
-                            </label>
-                            <select
-                                className="form-select"
-                                id="days"
-                                name="days"
-                                value={credentials.days}
-                                onChange={handleInputChange}
-                                required>
-                                <option value="">Please select any one bucket.</option>
-                                <option value="0 to 7 days">0 to 7 days</option>
-                                <option value="8 to 15 days">8 to 15 days </option>
-                                <option value="16 to 30 days">16 to 30 days</option>
-                                <option value="More than 30 days">More than 30 days</option>
-                            </select>
                         </div>
                         <div className="form-check form-switch">
                             <input
@@ -749,7 +734,6 @@ const CandidateRegister = () => {
                                     <p>Registration Form</p>
                                 </div>
                             </div>
-                    <GoogleAuth setProfile={setProfile}/>
                     <form onSubmit={handleSubmit}>
                     {renderStep()}
                     {step > 1 && (<button type="button" className="btn btn-outline-info mx-3" onClick={handleBack}>Back</button>)}

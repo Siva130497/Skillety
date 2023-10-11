@@ -8,23 +8,8 @@ const NewNavBar = ({ clientRegister, candidateRegister, clientLogin, candidateLo
 
                 <div>
 
-                    {clientRegister ?
-                        <div className='logo--area client me-auto'>
-                            <div className='logo--subarea'>
-                                <a href="/">
-                                    <img className='nav--logo client' src="assets/img/logo/skillety-logo-sm.png" alt="" />
-                                </a>
-                            </div>
-                        </div> :
-                        clientLogin ?
-                            <div className='logo--area client me-auto'>
-                                <div className='logo--subarea'>
-                                    <a href="/">
-                                        <img className='nav--logo client' src="assets/img/logo/skillety-logo-sm.png" alt="" />
-                                    </a>
-                                </div>
-                            </div> :
-                            candidateRegister ?
+                    {
+                            candidateRegister || candidateLogin ?
                                 <div className='logo--area candidate me-auto'>
                                     <div className='logo--subarea'>
                                         <a href="/candidate-home">
@@ -32,14 +17,13 @@ const NewNavBar = ({ clientRegister, candidateRegister, clientLogin, candidateLo
                                         </a>
                                     </div>
                                 </div> :
-                                candidateLogin ?
-                                    <div className='logo--area candidate me-auto'>
-                                        <div className='logo--subarea'>
-                                            <a href="/candidate-home">
-                                                <img className='nav--logo candidate' src="assets/img/logo/skillety-logo-sm.png" alt="" />
-                                            </a>
-                                        </div>
-                                    </div> : null
+                                <div className='logo--area client me-auto'>
+                                <div className='logo--subarea'>
+                                    <a href="/">
+                                        <img className='nav--logo client' src="assets/img/logo/skillety-logo-sm.png" alt="" />
+                                    </a>
+                                </div>
+                            </div>
                     }
                 </div>
 
@@ -60,7 +44,7 @@ const NewNavBar = ({ clientRegister, candidateRegister, clientLogin, candidateLo
 
                 <div className="nav--client-login-btn-area">
                     {clientRegister ?
-                        <Link to="/client-signup" className='nav--client-login-btn'>Register</Link> :
+                        <Link to="/client-register" className='nav--client-login-btn'>Register</Link> :
                         candidateRegister ?
                             <Link to="/candidate-signup" className='nav--client-login-btn candidate'>Register</Link> :
                             clientLogin ?

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Autoplay } from 'swiper/modules';
@@ -9,11 +9,12 @@ import './Home.css';
 import './Home-responsive.css';
 import Layout from '../../components/Layout';
 import { Footer } from '../../components/Footer';
-import useTokenRedirect from '../../customhooks/useTokenRedirect';
+
+
 
 
 const Home = () => {
-  useTokenRedirect();
+  
   useEffect(() => {
     // Function to animate the numbers
     function animateNumber(element, targetNumber) {
@@ -62,11 +63,6 @@ const Home = () => {
     observer.observe(section);
   }, []);
 
-  
- 
-  
-
-
   const breakpoints = {
     320: {
       slidesPerView: 1,
@@ -84,7 +80,6 @@ const Home = () => {
       slidesPerView: 3.5,
     },
   };
-
 
   return (
     <div>

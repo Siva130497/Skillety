@@ -7,7 +7,7 @@ import { Footer } from '../../components/Footer';
 import { useNavigate } from 'react-router-dom';
 
 const AdminDashboard = () => {
-  const adminToken = localStorage.getItem("adminToken");
+  const adminToken = JSON.parse(localStorage.getItem("adminToken"));
   const navigate = useNavigate();
 
   const initialCredentials = {

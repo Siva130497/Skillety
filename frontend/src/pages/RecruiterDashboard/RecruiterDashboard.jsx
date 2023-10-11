@@ -14,11 +14,14 @@ import JobPosting from '../../components/JobPosting';
 import AllCandidates from '../../components/AllCandidates';
 import AllClients from '../../components/AllClients';
 import { useNavigate } from 'react-router-dom';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import { v4 as uuidv4} from "uuid";
 
 
 const RecruiterDashboard = () => {
   
-  const staffToken = localStorage.getItem("staffToken");
+  const staffToken = JSON.parse(localStorage.getItem("staffToken"));
   const [employeeId, setEmployeeId] = useState("");
   const navigate = useNavigate();
 
@@ -28,7 +31,12 @@ const RecruiterDashboard = () => {
   const [allJobMode, setAllJobMode] = useState(false);
   const [postedJobMode, setPostedJobMode] = useState(false);
   const [jobPostingMode, setJobPostingMode] = useState(false);
+  const [eventPostingMode, setEventPostingMode] = useState(false);
   const [staff, setStaff] = useState("");
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [dateString, setDateString] = useState("");
+
+  const [title, setTitle] = useState("");
 
   const getAnIndividualRecruiter = async() => {
     try{
@@ -67,9 +75,9 @@ const RecruiterDashboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const id = await getProtectedData();
-        console.log(id);
-        setEmployeeId(id);
+        const user = await getProtectedData();
+        console.log(user);
+        setEmployeeId(user.id);
       } catch (error) {
         navigate("/recruiter-login")
       }
@@ -82,11 +90,73 @@ const RecruiterDashboard = () => {
     if(employeeId){
       getAnIndividualRecruiter();
     }
-  },[employeeId])
+  },[employeeId]);
+
+  const handleDateChange = date => {
+    setSelectedDate(date);
+
+    if (date) {
+      const day = date.getDate();
+      const month = date.toLocaleString('default', { month: 'long' });
+      const year = date.getFullYear();
+
+      setDateString(`${day}${daySuffix(day)} ${month} ${year}`);
+    }
+  };
+
+  const daySuffix = (day) => {
+    if (day >= 11 && day <= 13) {
+      return "th";
+    }
+    switch (day % 10) {
+      case 1: return "st";
+      case 2: return "nd";
+      case 3: return "rd";
+      default: return "th";
+    }
+  };
+
+  const eventPosting = async (event) => {
+    try {
+        const response = await axios.post('http://localhost:5002/events', event, {
+          headers: {
+              Authorization: `Bearer ${staffToken}`,
+              Accept: 'application/json'
+          }
+        });
+
+        const result = response.data;
+
+        if (!result.error) {
+            console.log(result);
+            alert("new event has been posted");
+            setTitle("");
+            setSelectedDate(null);
+            setDateString("");
+        } else {
+            console.log(result);
+        }
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const id = uuidv4();
+    const event = {
+      id,
+      recruiterId:employeeId,
+      title,
+      date: dateString,
+    };
+    console.log(event);
+    eventPosting(event);
+  }
   
   return (
     <div>
-        <Layout/>
+        {/* <Layout/> */}
         <div className='container-fluid' style={{display: 'flex'}}>
           <div style={{flex:2}}>
             <ul>
@@ -139,7 +209,16 @@ const RecruiterDashboard = () => {
                 setJobPostingMode(true);
               }}>Job Posting</button></li>
               <li style={{listStyleType:'none'}}><button onClick={()=>{
-                localStorage.removeItem("recruiterToken");
+                setDashBoard(false);
+                setAllClientMode(false);
+                setAllCandidateMode(false);
+                setAllJobMode(false);
+                setPostedJobMode(false);
+                setJobPostingMode(false);
+                setEventPostingMode(true);
+              }}>Event Posting</button></li>
+              <li style={{listStyleType:'none'}}><button onClick={()=>{
+                localStorage.removeItem("staffToken");
                 window.location.reload();
               }}>Logout</button></li>
             </ul>
@@ -158,6 +237,39 @@ const RecruiterDashboard = () => {
             {postedJobMode > 0 && <PostedJobs employeeId={employeeId} staffToken={staffToken}/>
             }
             {jobPostingMode  && <JobPosting employeeId={employeeId} staffToken={staffToken}/>
+            }
+            {eventPostingMode &&
+              <form onSubmit={handleSubmit}>
+              <div className="form-group">
+                  <label 
+                  htmlFor="emailInput" 
+                  className="form-label mt-4">
+                      Title
+                  </label>
+                  <input 
+                  type="text" 
+                  className="form-control" 
+                  id="eventTitleInput"  
+                  name="title" 
+                  value={title} 
+                  onChange = {(e)=>setTitle(e.target.value)} 
+                  placeholder="enter event title"
+                  required />
+              </div>
+              <div>
+                <label
+                htmlFor="days"
+                className="form-label mt-4">
+                  Date
+                </label>
+                <DatePicker
+                selected={selectedDate}
+                onChange={handleDateChange}
+                dateFormat="dd/MM/yyyy"
+                />
+              </div>
+              <input type='submit' value="Post" className='btn btn-primary my-3' />
+              </form>
             }
           </div>
         </div>

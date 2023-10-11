@@ -17,7 +17,7 @@ const ClientRegister = () => {
         phone: "",
         email: "",
         companyName: "",
-        industry: "",
+        industry: "developer",
         count: "",
         text: "",
     })
@@ -37,8 +37,9 @@ const ClientRegister = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
+        console.log(credentials);
         registerUser(credentials);
-        navigate("/packages");
+        // navigate("/packages");
     }
 
     useEffect(() => {
@@ -156,9 +157,9 @@ const ClientRegister = () => {
                                                     </div>
                                                 </div> */}
                                                 <div className="custom--select-area" >
-                                                    <label htmlFor="" className='custom--select-label'>Industry</label>
-                                                    <div class="sel sel--black-panther">
-                                                        <i class="bi bi-chevron-down select--toggle"></i>
+                                                    <label htmlFor="select-profession" className='custom--select-label'>Industry</label>
+                                                    <div className="sel sel--black-panther">
+                                                        <i className="bi bi-chevron-down select--toggle"></i>
                                                         <select name="industry" id="select-profession" value={credentials.industry} onChange={handleInputChange}>
                                                             <option value="" disabled>- Select Here -</option>
                                                             <option value="hacker">Hacker</option>

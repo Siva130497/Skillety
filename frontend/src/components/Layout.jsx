@@ -10,7 +10,7 @@ import NewNavBar from './NewNavBar';
 
 
 
-const Layout = ({ newNavBarClientRegister, newNavBarClientLogin, newNavBarCandidateLogin, newNavBarCandidateRegister, newNavBarAdminLogin, newNavBarRecruiterLogin, forgotPassword, ClientNewPassword}) => {
+const Layout = ({ newNavBarClientRegister, newNavBarClientLogin, newNavBarCandidateLogin, newNavBarCandidateRegister, newNavBarAdminLogin, newNavBarRecruiterLogin, forgotPassword, ClientNewPassword,}) => {
   useEffect(() => {
     ///////////
     const select = (el, all = false) => {
@@ -236,7 +236,7 @@ const Layout = ({ newNavBarClientRegister, newNavBarClientLogin, newNavBarCandid
   return (
     <div>
 
-      {newNavBarClientRegister ? <NewNavBar clientLogin = {true} />: newNavBarClientLogin ? <NewNavBar clientRegister = {true} />: newNavBarCandidateLogin ? <NewNavBar candidateRegister = {true} /> : newNavBarAdminLogin ? <NewNavBar /> : newNavBarRecruiterLogin ? <NewNavBar /> : newNavBarCandidateRegister ? <NewNavBar candidateLogin ={true}/> : forgotPassword ? <NewNavBar /> : ClientNewPassword ? <NewNavBar /> : <NewNav/>}
+      {newNavBarClientRegister ? <NewNavBar clientLogin = {true} />: newNavBarClientLogin ? <NewNavBar clientRegister = {true} />: newNavBarCandidateLogin ? <NewNavBar candidateRegister = {true} /> : newNavBarAdminLogin ? <NewNavBar /> : newNavBarRecruiterLogin ? <NewNavBar /> : newNavBarCandidateRegister ? <NewNavBar candidateLogin ={true}/> : forgotPassword ? <NewNavBar /> : ClientNewPassword ? <NewNavBar /> : <NewNav />}
       
       {/* <div className='container-fluid'>{children}</div> */}
       {/* <div id="preloader"></div> */}

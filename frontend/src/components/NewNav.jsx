@@ -1,9 +1,30 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useEffect } from 'react';
 import $ from 'jquery';
 import { useNavigate } from 'react-router-dom';
+import AuthContext from '../context/AuthContext';
 
 const NewNav = () => {
+    const {getProtectedData} = useContext(AuthContext);
+
+    const [userName, setUserName] = useState('');
+
+    const clientToken = JSON.parse(localStorage.getItem('clientToken'));
+
+    useEffect(() => {
+        const fetchData = async () => {
+        try {
+            const userData = await getProtectedData(clientToken);
+            console.log(userData);
+            setUserName(userData.name);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+        fetchData();
+    }, [clientToken]);
+
     useEffect(() => {
         $(document).ready(function () {
             $('.scroll-to-top').click(function () {
@@ -79,7 +100,18 @@ const NewNav = () => {
                         </li>
                         <li><a className="nav-link scrollto" href="/rpo">RPO</a></li>
                         <li><a className="nav-link scrollto" href="/contact-us">Contact</a></li>
-                        <li><a className="nav-link scrollto" href="/client-login">Login</a></li>
+                        {userName ? 
+                            <li className="dropdown"><a href='#'><span>{userName}</span><i className="bi bi-chevron-down"></i></a>
+                                <ul>
+                                    <li><a href="/client-dashboard">Dash Board</a></li>
+                                    <li onClick={()=>{
+                                        localStorage.removeItem("clientToken");
+                                        window.location.reload();
+                                    }}><a href='#'>Logout</a></li>
+                                </ul>
+                            </li> : 
+                            <li><a className="nav-link scrollto" href="/client-login">Login</a></li>
+                        }
                     </ul>
                     <i className="bi bi-list mobile-nav-toggle"></i>
                 </nav>

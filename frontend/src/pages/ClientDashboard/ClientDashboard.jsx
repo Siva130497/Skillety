@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Layout from '../../components/Layout';
 import { Footer } from '../../components/Footer';
 import AllCandidates from '../../components/AllCandidates';
@@ -7,12 +7,14 @@ import JobPosting from '../../components/JobPosting';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { v4 as uuidv4} from "uuid";
+import AuthContext from '../../context/AuthContext';
 
 
 const ClientDashboard = () => {
-    const clientToken = localStorage.getItem("clientToken");
+    const clientToken = JSON.parse(localStorage.getItem("clientToken"));
+    const {getProtectedData} = useContext(AuthContext)
     const [employeeId, setEmployeeId] = useState("");
-    const [clientCompanyName, setClientCompanyName] = useState("");
+    const [loginClientDetail, setLoginClientDetail] = useState([]);
     const navigate = useNavigate();
 
     const [dashBoard, setDashBoard] = useState(true);
@@ -22,25 +24,12 @@ const ClientDashboard = () => {
     const [clientStaffCreatingMode, setClientStaffCreatingMode] = useState(false);
     const [allClientStaffs, setAllClientStaffs] = useState([]);
     const [allClientStaffMode, setAllClientStaffMode] = useState(false);
-
-    const initialCredentials = {
-      name:"",
-    }
-    const [credentials, setcredentials] = useState(initialCredentials);
-
-    const getProtectedData = async () => {
-      try {
-        const response = await axios.get('http://localhost:5002/protected', {
-          headers: {
-              Authorization: `Bearer ${clientToken}`,
-              Accept: 'application/json'
-          }
-        });
-        return response.data;
-      } catch (error) {
-        throw error;
-      }
-    };
+    const [showPassword, setShowPassword] = useState(false);
+  
+    const [credentials, setCredentials] = useState({
+      name: "",
+      password: "",
+    });
 
     const getLoginClientDetail = async() => {
       try{
@@ -53,7 +42,7 @@ const ClientDashboard = () => {
           const result = res.data;
           if (!result.error) {
             console.log(result);
-            setClientCompanyName(result.companyName);
+            setLoginClientDetail(result);
           } else {
             console.log(result);
           }
@@ -65,9 +54,9 @@ const ClientDashboard = () => {
     useEffect(() => {
       const fetchData = async () => {
         try {
-          const id = await getProtectedData();
-          console.log(id);
-          setEmployeeId(id);
+          const user = await getProtectedData(clientToken);
+          console.log(user);
+          setEmployeeId(user.id);
         } catch (error) {
           navigate("/client-login")
         }
@@ -84,7 +73,7 @@ const ClientDashboard = () => {
 
     const getAllClientStaffs = async() => {
       try{
-          const res = await axios.get(`http://localhost:5002/all-client-staffs/${employeeId}`, {
+          const res = await axios.get(`http://localhost:5002/all-client-staffs/${loginClientDetail.companyId}`, {
             headers: {
                 Authorization: `Bearer ${clientToken}`,
                 Accept: 'application/json'
@@ -114,12 +103,13 @@ const ClientDashboard = () => {
 
         const result = response.data;
 
-        if (!result.error) {
+        if (!result.message) {
             console.log(result);
             alert("New client staff has been created successfully!")
-            setcredentials(initialCredentials);
+            setCredentials({name:"", password:""})
         } else {
             console.log(result);
+            setCredentials({name:"", password:""})
         }
     } catch (error) {
         console.log(error);
@@ -128,24 +118,29 @@ const ClientDashboard = () => {
 
     const handleInputChange = (event) => {
       const {name, value} = event.target;
-      setcredentials({...credentials, [name]:value});
+      setCredentials({ ...credentials, [name]: value });
+    }
+
+    const generateRandomPassword = () => {
+      axios.get("http://localhost:5002/random-password")
+        .then(response => {
+          const password = response.data;
+          setCredentials({...credentials, password});
+        })
+        .catch(error => {
+          console.error('Error fetching random password:', error);
+        });
     }
 
     const handleSubmit = (event) => {
       event.preventDefault();
       const id = uuidv4();
-      const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=[]{}|;:,.<>?';
-      let password = '';
-      for (let i = 0; i < 12; i++) {
-        const randomIndex = Math.floor(Math.random() * charset.length);
-          password += charset[randomIndex];
-      }
       const updatedCredentials = {
         ...credentials,
         id,
-        password,
-        companyName:clientCompanyName,
-        clientId:employeeId,
+        companyName:loginClientDetail.companyName,
+        companyId:loginClientDetail.companyId,
+        role:"Client-staff"
       };
       console.log(updatedCredentials);
       createClientStaff(updatedCredentials);
@@ -153,7 +148,7 @@ const ClientDashboard = () => {
 
     return (
         <div>
-            <Layout />
+            {/* <Layout /> */}
             <div className='container-fluid' style={{display: 'flex'}}>
               <div style={{flex:2}}>
                 <ul>
@@ -189,7 +184,7 @@ const ClientDashboard = () => {
                     setAllClientStaffMode(false);
                     setClientStaffCreatingMode(false);
                   }}>Job Posting</button></li>
-                  {clientCompanyName && 
+                  {loginClientDetail.role === "Client" &&  
                     <div>
                       <li style={{listStyleType:'none'}}><button onClick={()=>{
                       setDashBoard(false);
@@ -222,9 +217,9 @@ const ClientDashboard = () => {
                 </div>}
                 {allCandidateMode && <AllCandidates employeeId={employeeId} clientToken={clientToken}/>
                 }
-                {postedJobMode > 0 && <PostedJobs employeeId={employeeId} clientToken={clientToken}/>
+                {postedJobMode > 0 && <PostedJobs companyId={loginClientDetail.companyId} clientToken={clientToken}/>
                 }
-                {jobPostingMode  && <JobPosting employeeId={employeeId} clientToken={clientToken}/>}
+                {jobPostingMode  && <JobPosting companyId={loginClientDetail.companyId} role={loginClientDetail.role} employeeId={employeeId} clientToken={clientToken}/>}
                 {allClientStaffMode &&
                   <div>
                     {allClientStaffs.length > 0 ?
@@ -258,13 +253,26 @@ const ClientDashboard = () => {
                         <input 
                         type="text" 
                         className="form-control" 
-                        id="textInput" 
+                        id="nameInput" 
                         aria-describedby="clientStaffName" 
                         name="name" 
                         value={credentials.name} 
                         onChange = {handleInputChange} 
                         placeholder="enter the client-staff name"
                         required />
+                    </div>
+                    <div className="form-group">
+                      <span className="badge rounded-pill bg-info" onClick={generateRandomPassword}>Create random password</span>
+                        <input 
+                        type={showPassword ? "text" : "password"} 
+                        className="form-control" 
+                        id="passwordInput" 
+                        aria-describedby="clientStaffName" 
+                        name="password" 
+                        value={credentials.password}  
+                        placeholder="create random password"
+                        required />
+                        <span className="badge rounded-pill bg-dark" onClick={()=>setShowPassword(!showPassword)}>{showPassword ? "Hide" : "Show"}</span>
                     </div>
                     <input type='submit' value="Create" className='btn btn-primary my-3' />
                   </form>

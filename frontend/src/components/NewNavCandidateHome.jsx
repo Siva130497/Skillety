@@ -1,9 +1,31 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import { useEffect } from 'react';
 import $ from 'jquery';
 import { useNavigate } from 'react-router-dom';
+import AuthContext from '../context/AuthContext';
 
 export const NewNavCandidateHome = () => {
+
+    const {getProtectedData} = useContext(AuthContext);
+
+    const [userName, setUserName] = useState('');
+
+    const candidateToken = JSON.parse(localStorage.getItem('candidateToken'));
+
+    useEffect(() => {
+        const fetchData = async () => {
+        try {
+            const userData = await getProtectedData(candidateToken);
+            console.log(userData);
+            setUserName(userData.name);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+        fetchData();
+    }, [candidateToken]);
+
     useEffect(() => {
         $(document).ready(function () {
             $('.scroll-to-top').click(function () {
@@ -61,7 +83,18 @@ export const NewNavCandidateHome = () => {
                         {/* <li><a href="#" className="nav-link scrollto">Companies</a></li> */}
                         <li><a href="/events" className="nav-link scrollto">Event</a></li>
                         <li><a href="/talent-contact-us" className="nav-link scrollto">Contact</a></li>
-                        <li><a href="/candidate-login" className="nav-link scrollto login--btn"><i class='bx bx-log-in-circle login--icon me-2'></i>Login</a></li>
+                        {userName ? 
+                            <li className="dropdown"><a href='#'><span>{userName}</span><i className="bi bi-chevron-down"></i></a>
+                                <ul>
+                                    <li><a href="/candidate-dashboard">Dash Board</a></li>
+                                    <li onClick={()=>{
+                                        localStorage.removeItem("candidateToken");
+                                        window.location.reload();
+                                    }}><a href='#'>Logout</a></li>
+                                </ul>
+                            </li> : 
+                            <li><a href="/candidate-login" className="nav-link scrollto login--btn"><i class='bx bx-log-in-circle login--icon me-2'></i>Login</a></li>
+                        }
                     </ul>
                     <i className="bi bi-list mobile-nav-toggle candidate"></i>
                 </nav>

@@ -11,14 +11,15 @@ import useTokenRedirect from '../../customhooks/useTokenRedirect';
 
 const CandidateLogin = () => {
     useTokenRedirect();
-    const {loginUser} = useContext(AuthContext)
+    const {loginUser, errorMsg, setErrorMsg} = useContext(AuthContext)
     const [credentials, setcredentials] = useState({
-        email: "",
+        userId: "",
         password: "",
     })
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         setcredentials({ ...credentials, [name]: value });
+        setErrorMsg("");
     }
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -73,7 +74,7 @@ const CandidateLogin = () => {
                         <div className="row custom-column-reverse">
                             <div className="col-12 col-xl-6 col-lg-6 col-md-12 col-sm-12">
                                 <div className="cli--signup-form-area cli--login-form-area">
-                                    <h5 className="cli--signup-title" data-aos="fade-left">Welcome back Jaden</h5>
+                                    {/* <h5 className="cli--signup-title" data-aos="fade-left">Welcome back Jaden</h5> */}
                                     <h6 className='cli--signup-sub-title' data-aos="fade-right">Welcome back! Plz enter your details</h6>
 
                                     <div className="cli--login-with-google-btn-area">
@@ -129,8 +130,9 @@ const CandidateLogin = () => {
                     </form> */}
 
 <form action="" className='cli--signup-form' onSubmit={handleSubmit}>
+                                <p>{errorMsg && "!!!"+errorMsg}</p>
                                         <div className='cli--signup-form-group' data-aos="fade-up">
-                                            <input type="email" id='user_id' name="email" placeholder="Enter your User ID" className='cli--signup-form-input' value={credentials.email} onChange={handleInputChange} required />
+                                            <input type="text" id='user_id' name="userId" placeholder="Enter your User ID" className='cli--signup-form-input' value={credentials.userId} onChange={handleInputChange} required />
                                             <label htmlFor="user_id" className='cli--signup--form-label'>User Id</label>
                                         </div>
 

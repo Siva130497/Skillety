@@ -12,11 +12,13 @@ const allUsersSchema = new Schema(
     },
     email: {
       type: String,
-      required: true
+      required: function() {
+        return this.role !== 'Client-staff';
+      }
     },
     role: {
       type: String,
-      enum: ["Client", "Candidate", "Recruiter", "Admin"]
+      enum: ["Client", "Candidate", "Recruiter", "Admin", "Client-staff"]
     },
     password: {
       type: String,

@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
-import AuthContext from '../context/AuthContext';
 
-const PostedJobs = ({employeeId, staffToken, clientToken}) => {
+
+const PostedJobs = ({employeeId, staffToken, clientToken, companyId}) => {
     
     const [postedJobs, setPostedJobs] = useState([]);
     const [appliedOfPostedJobs, setAppliedOfPostedJobs] =useState([]);
@@ -18,7 +18,7 @@ const PostedJobs = ({employeeId, staffToken, clientToken}) => {
 
     const getOwnPostedjobs = async() => {
         try{
-            const res = await axios.get(`http://localhost:5002/my-posted-jobs/${employeeId}`, {
+            const res = await axios.get(`http://localhost:5002/my-posted-jobs/${employeeId ? employeeId : companyId}`, {
               headers: {
                   Authorization: `Bearer ${staffToken ? staffToken : clientToken}`,
                   Accept: 'application/json'
@@ -38,7 +38,7 @@ const PostedJobs = ({employeeId, staffToken, clientToken}) => {
 
       const getAppliedOfPostedJobs = async() => {
         try{
-            const res = await axios.get(`http://localhost:5002/applied-jobs-of-posted/${employeeId}`, {
+            const res = await axios.get(`http://localhost:5002/applied-jobs-of-posted/${employeeId ? employeeId : companyId}`, {
               headers: {
                   Authorization: `Bearer ${staffToken ? staffToken : clientToken}`,
                   Accept: 'application/json'

@@ -7,7 +7,6 @@ const ClientNewPassword = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const [newClient, setNewClient] = useState([]);
-    const [status, setStatus] = useState(false);
     const [credentials, setCredentials] = useState({
         tempPassword: "",
         newPassword: "",
@@ -17,17 +16,11 @@ const ClientNewPassword = () => {
 
     const getAllClient = async () => {
         try {
-            const response = await axios.get(`http://localhost:5002/clientWithUrl-Detail`);
+            const response = await axios.get(`http://localhost:5002/clientWithUrl-Detail/${id}`);
             const result = response.data;
             if (!result.error) {
-                for (const client of result) {
-                    if (client.id === id) {
-                        setNewClient(client);
-                        setStatus(true);
-                    }else{
-                        setStatus(false)
-                    }
-                }
+                console.log(result);
+                setNewClient(result);
             } else {
                 console.log(result);
             }
@@ -71,7 +64,7 @@ const ClientNewPassword = () => {
             return;
         }
         if (credentials.newPassword === credentials.confirmPassword) {
-            const { url, _id, ...updatedClient } = newClient;
+            const { url, _id, ...updatedClient } = newClient[0];
             updatedClient.password = credentials.newPassword;
             updatedClient.userEnterTempPassword = credentials.tempPassword;
             console.log(updatedClient);
@@ -86,9 +79,9 @@ const ClientNewPassword = () => {
         <div>
             <Layout ClientNewPassword = {true}/>
             <div className='container-fluid'>
-            {status ?
+            {newClient.length > 0 ?
                 <div>
-                    <h3>Welcome {newClient.name} from {newClient.companyName}</h3>
+                    <h3>Welcome {newClient[0].name} from {newClient[0].companyName}</h3>
                     <form onSubmit={handleSubmit}>
                         <div className="form-group">
                             <label
@@ -103,7 +96,7 @@ const ClientNewPassword = () => {
                                 name="tempPassword"
                                 value={credentials.tempPassword}
                                 onChange={handleInputChange}
-                                onPaste={(e)=>e.preventDefault()}
+                                // onPaste={(e)=>e.preventDefault()}
                                 placeholder="Enter your given temporary password"
                                 required />
                         </div>
@@ -120,7 +113,7 @@ const ClientNewPassword = () => {
                                 name="newPassword"
                                 value={credentials.newPassword}
                                 onChange={handleInputChange}
-                                onPaste={(e)=>e.preventDefault()}
+                                // onPaste={(e)=>e.preventDefault()}
                                 placeholder="Enter your new password"
                                 required />
                             {passwordError && <p>{passwordError}</p>}
@@ -138,7 +131,7 @@ const ClientNewPassword = () => {
                                 name="confirmPassword"
                                 value={credentials.confirmPassword}
                                 onChange={handleInputChange}
-                                onPaste={(e)=>e.preventDefault()}
+                                // onPaste={(e)=>e.preventDefault()}
                                 placeholder="Re-enter your new password"
                                 required />
                         </div>

@@ -7,7 +7,7 @@ const RecruiterLogin = () => {
     useTokenRedirect();
     const {loginUser} = useContext(AuthContext)
     const [credentials, setcredentials] = useState({
-        email:"",
+        userId:"",
         password:"",
     })
     const handleInputChange = (event) => {
@@ -39,8 +39,8 @@ const RecruiterLogin = () => {
                         className="form-control" 
                         id="emailInput" 
                         aria-describedby="emailHelp" 
-                        name="email" 
-                        value={credentials.email} 
+                        name="userId" 
+                        value={credentials.userId} 
                         onChange = {handleInputChange} 
                         placeholder="example@example.com"
                         required />
@@ -59,7 +59,7 @@ const RecruiterLogin = () => {
                         value = {credentials.password} 
                         onChange = {handleInputChange} 
                         placeholder="Enter your password"
-                        onPaste={(e)=>e.preventDefault()}
+                        // onPaste={(e)=>e.preventDefault()}
                         required />
                     </div>
                     <input type='submit' value="Login" className='btn btn-primary my-3' />

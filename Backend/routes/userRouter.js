@@ -26,11 +26,13 @@ const {
   assigningCandidate,
   getAssignedCandidates,
   clientStaffReg,
-  clientStaffLogin,
   getLoginClientDetail,
   getAllClientStaffs,
   forgotPassword,
   newPassword,
+  eventPosting,
+  getAllEvents,
+  generateRandomPassword,
 } = require("../Controller/authFunctions");
 const employeeAuth = require("../middleware/employeeAuth");
 
@@ -44,7 +46,7 @@ router.get("/client-Detail", employeeAuth, getAllClientDetails)
 router.post("/tempPass-Client", employeeAuth, createClient);
 
 // recruiter route for client detail
-router.get("/clientWithUrl-Detail", employeeAuth, getAllClient);
+router.get("/clientWithUrl-Detail/:id", getAllClient);
 
 // client register after setup new password
 router.post("/finalRegister-Client", finalClientRegister);
@@ -78,7 +80,7 @@ router.get('/skill-match-job-Detail/:candidateId', employeeAuth, getSkillMatchJo
 router.get('/posted-jobs', employeeAuth, getPostedjobs)
 
 //get posted job details
-router.get('/my-posted-jobs/:postedPersonId', employeeAuth, getOwnPostedjobs)
+router.get('/my-posted-jobs/:id', employeeAuth, getOwnPostedjobs)
 
 //candidate applied for job
 router.post('/job-applying', employeeAuth, applyingjob)
@@ -87,7 +89,7 @@ router.post('/job-applying', employeeAuth, applyingjob)
 router.get('/my-applied-jobs/:candidateId', employeeAuth, getAppliedjobs)
 
 //get applied of posted jobs
-router.get('/applied-jobs-of-posted/:postedPersonId', employeeAuth, getAppliedOfPostedJobs)
+router.get('/applied-jobs-of-posted/:id', employeeAuth, getAppliedOfPostedJobs)
 
 //delete particular job of candidate
 router.delete('/delete-job/:candidateId/:jobId', employeeAuth, deleteAppliedJob)
@@ -114,7 +116,7 @@ router.get("/assigned-candidates", employeeAuth, getAssignedCandidates);
 router.get('/client/:clientId',employeeAuth, getLoginClientDetail);
 
 //get all client staff created by particular client
-router.get('/all-client-staffs/:clientId', employeeAuth, getAllClientStaffs);
+router.get('/all-client-staffs/:companyId', employeeAuth, getAllClientStaffs);
 
 //request to temp password for forgot password
 router.post("/forgotpassword", forgotPassword);
@@ -122,35 +124,38 @@ router.post("/forgotpassword", forgotPassword);
 //change the existing password with new password
 router.patch("/newpassword/:id", newPassword);
 
-// Client Login Route
-router.post("/login-Client", async (req, res) => {
-  await userLogin(req.body, "Client", res);
-});
+//recruiter event posting endpoint
+router.post("/events", employeeAuth, eventPosting);
 
-// Client-staff Login Route
-router.post("/login-Client-staff", async (req, res) => {
-  await clientStaffLogin(req.body, "Client-staff", res);
+//get all event details of recruiters endpoint
+router.get("/events", getAllEvents);
+
+// Client, Client-staff Login Route
+router.post("/login-Client", async (req, res) => {
+  await userLogin(req.body, ["Client", "Client-staff"], res);
 });
 
 // Candidate Login Route
 router.post("/login-Candidate", async (req, res) => {
-  await userLogin(req.body, "Candidate", res);
+  await userLogin(req.body, ["Candidate"], res);
 });
 
-// Admin Login Route
+// Admin, Recruiter Login Route
 router.post("/admin", async (req, res) => {
-  await userLogin(req.body, "Admin", res);
+  await userLogin(req.body, ["Admin"], res);
 });
 
-// Staff Login Route
 router.post("/staff", async (req, res) => {
-  await userLogin(req.body, "Recruiter", res);
+  await userLogin(req.body, ["Recruiter"], res);
 });
 
 //protected route
 router.get("/protected", employeeAuth, (req, res) => {
-  return res.json(req.user.id);
+  return res.json(req.user);
 })
+
+//generate rondom password
+router.get("/random-password", generateRandomPassword);
 
 // //Client protected route
 // router.get(
