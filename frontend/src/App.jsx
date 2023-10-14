@@ -12,6 +12,7 @@ import Company from './pages/Company/Company';
 import CompanyDetails from './pages/CompanyDetails/CompanyDetails';
 import Services from './pages/Services/Services';
 import RPO from './pages/RPO/RPO';
+import Enquiry from './pages/Enquiry/Enquiry';
 import Talents from './pages/Talents/Talents';
 import Events from './pages/Events/Events';
 import EventDetails from './pages/EventDetails/EventDetails';
@@ -36,6 +37,7 @@ import CandidateDashboard from './pages/CandidateDashboard/CandidateDashboard';
 import AdminDashboard from './pages/AdminDashboard/AdminDashboard';
 import RecruiterDashboard from './pages/RecruiterDashboard/RecruiterDashboard';
 import ForgotPassword from './pages/ForgotPassword/ForgotPassword';
+import Verification from './pages/Verification/Verification';
 // import Slider from './pages/Slider';
 import { PrimeReactProvider } from 'primereact/api';
 import { GoogleOAuthProvider } from '@react-oauth/google';
@@ -59,9 +61,10 @@ function App() {
             <Route path='/contact-us' element={<Contact />} />
             <Route path='/services' element={<Services />} />
             <Route path='/rpo' element={<RPO />} />
+            <Route path='/enquiry' element={<Enquiry />} />
             <Route path='/talents' element={<Talents />} />
             <Route path='/events' element={<Events />} />
-            <Route path='/event-details' element={<EventDetails />} />
+            <Route path='/event-details/:id' element={<EventDetails />} />
             <Route path='/talent-profile-search' element={<TalentsProfileSearch />} />
             <Route path='/testimonial' element={<Testimonial />} />
             <Route path='/candidate-testimonial' element={<CandidateTestimonial />} />
@@ -88,6 +91,7 @@ function App() {
             <Route path='/admin-dashboard' element={<AdminDashboard />} />
             <Route path='/recruiter-dashboard' element={<RecruiterDashboard />} />
             <Route path='/forgot-password/:role' element={<ForgotPassword />} />
+            <Route path='/verification' element={<Verification />} />
           </Routes>
         </GoogleOAuthProvider>
       </PrimeReactProvider>

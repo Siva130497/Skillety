@@ -18,7 +18,7 @@ const forgotPasswordUserSchema = new Schema(
       type: String,
       required: true
     },
-    tempPassword: {
+    verificationCode: {
       type: String,
       required: true
     }

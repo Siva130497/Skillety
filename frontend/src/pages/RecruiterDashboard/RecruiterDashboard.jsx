@@ -32,12 +32,23 @@ const RecruiterDashboard = () => {
   const [postedJobMode, setPostedJobMode] = useState(false);
   const [jobPostingMode, setJobPostingMode] = useState(false);
   const [eventPostingMode, setEventPostingMode] = useState(false);
+  const [contactMessageMode, setContactMessageMode] = useState(false);
+  const [candidateContactMessageMode, setCandidateContactMessageMode] = useState(false);
+  const [contactMsgDetails, setContactMsgDetails] = useState([]);
+  const [candidateContactMsgDetails, setCandidateContactMsgDetails] = useState([]);
   const [staff, setStaff] = useState("");
   const [selectedDate, setSelectedDate] = useState(null);
   const [dateString, setDateString] = useState("");
 
-  const [title, setTitle] = useState("");
+  const [image, setImage] = useState();
+  const InitialEventDetail = {
+    title:"",
+    description:"",
+    location:"",
+  }
+  const [eventDetail, setEventDetail] = useState(InitialEventDetail);
 
+  
   const getAnIndividualRecruiter = async() => {
     try{
         const res = await axios.get(`http://localhost:5002/staff/${employeeId}`, {
@@ -92,6 +103,11 @@ const RecruiterDashboard = () => {
     }
   },[employeeId]);
 
+  const handleInputChange = (event) => {
+    const {name, value} = event.target;
+    setEventDetail({...eventDetail, [name] : value});
+  }
+
   const handleDateChange = date => {
     setSelectedDate(date);
 
@@ -130,7 +146,7 @@ const RecruiterDashboard = () => {
         if (!result.error) {
             console.log(result);
             alert("new event has been posted");
-            setTitle("");
+            setEventDetail(InitialEventDetail);
             setSelectedDate(null);
             setDateString("");
         } else {
@@ -139,19 +155,73 @@ const RecruiterDashboard = () => {
     } catch (error) {
         console.log(error);
     }
-};
+  };
+
+  const getAllContactMessages = async () => {
+    try {
+        const response = await axios.get('http://localhost:5002/contact', {
+          headers: {
+              Authorization: `Bearer ${staffToken}`,
+              Accept: 'application/json'
+          }
+        });
+
+        const result = response.data;
+
+        if (!result.error) {
+            console.log(result);
+            setContactMsgDetails(result);
+        } else {
+            console.log(result);
+        }
+    } catch (error) {
+        console.log(error);
+    }
+  };
+
+  const getAllCandidateContactMessages = async () => {
+    try {
+        const response = await axios.get('http://localhost:5002/candidate-contact', {
+          headers: {
+              Authorization: `Bearer ${staffToken}`,
+              Accept: 'application/json'
+          }
+        });
+
+        const result = response.data;
+
+        if (!result.error) {
+            console.log(result);
+            setCandidateContactMsgDetails(result);
+        } else {
+            console.log(result);
+        }
+    } catch (error) {
+        console.log(error);
+    }
+  };
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const id = uuidv4();
     const event = {
+      ...eventDetail,
       id,
       recruiterId:employeeId,
-      title,
       date: dateString,
     };
     console.log(event);
     eventPosting(event);
+    const formData = new FormData()
+    formData.append('image', image);
+    formData.append('id', id)
+    axios.post("http://localhost:5002/upload-image", formData)
+    .then(res=>{
+      console.log(res);
+      setImage(null);
+    })
+    .catch(err=>console.log(err));
   }
   
   return (
@@ -167,6 +237,9 @@ const RecruiterDashboard = () => {
                 setAllJobMode(false);
                 setPostedJobMode(false);
                 setJobPostingMode(false);
+                setEventPostingMode(false);
+                setContactMessageMode(false);
+                setCandidateContactMessageMode(false);
               }}>Dash board</button></li>
               <li style={{listStyleType:'none'}}><button onClick={()=>{
                 setDashBoard(false);
@@ -175,6 +248,9 @@ const RecruiterDashboard = () => {
                 setAllJobMode(false);
                 setPostedJobMode(false);
                 setJobPostingMode(false);
+                setEventPostingMode(false);
+                setContactMessageMode(false);
+                setCandidateContactMessageMode(false);
               }}>All Clients</button></li>
               <li style={{listStyleType:'none'}}><button onClick={()=>{
                 setDashBoard(false);
@@ -183,6 +259,9 @@ const RecruiterDashboard = () => {
                 setAllJobMode(false);
                 setPostedJobMode(false);
                 setJobPostingMode(false);
+                setEventPostingMode(false);
+                setContactMessageMode(false);
+                setCandidateContactMessageMode(false);
               }}>All Candidates</button></li>
               <li style={{listStyleType:'none'}}><button onClick={()=>{
                 setDashBoard(false);
@@ -191,6 +270,9 @@ const RecruiterDashboard = () => {
                 setAllJobMode(true);
                 setPostedJobMode(false);
                 setJobPostingMode(false);
+                setEventPostingMode(false);
+                setContactMessageMode(false);
+                setCandidateContactMessageMode(false);
               }}>All Jobs</button></li>
               <li style={{listStyleType:'none'}}><button onClick={()=>{
                 setDashBoard(false);
@@ -199,6 +281,9 @@ const RecruiterDashboard = () => {
                 setAllJobMode(false);
                 setPostedJobMode(true);
                 setJobPostingMode(false);
+                setEventPostingMode(false);
+                setContactMessageMode(false);
+                setCandidateContactMessageMode(false);
               }}>Posted Jobs</button></li>
               <li style={{listStyleType:'none'}}><button onClick={()=>{
                 setDashBoard(false);
@@ -207,6 +292,9 @@ const RecruiterDashboard = () => {
                 setAllJobMode(false);
                 setPostedJobMode(false);
                 setJobPostingMode(true);
+                setEventPostingMode(false);
+                setContactMessageMode(false);
+                setCandidateContactMessageMode(false);
               }}>Job Posting</button></li>
               <li style={{listStyleType:'none'}}><button onClick={()=>{
                 setDashBoard(false);
@@ -216,7 +304,33 @@ const RecruiterDashboard = () => {
                 setPostedJobMode(false);
                 setJobPostingMode(false);
                 setEventPostingMode(true);
+                setContactMessageMode(false);
+                setCandidateContactMessageMode(false);
               }}>Event Posting</button></li>
+              <li style={{listStyleType:'none'}}><button onClick={()=>{
+                getAllContactMessages();
+                setDashBoard(false);
+                setAllClientMode(false);
+                setAllCandidateMode(false);
+                setAllJobMode(false);
+                setPostedJobMode(false);
+                setJobPostingMode(false);
+                setEventPostingMode(false);
+                setContactMessageMode(true);
+                setCandidateContactMessageMode(false);
+              }}>Contact Message Details</button></li>
+              <li style={{listStyleType:'none'}}><button onClick={()=>{
+                getAllCandidateContactMessages();
+                setDashBoard(false);
+                setAllClientMode(false);
+                setAllCandidateMode(false);
+                setAllJobMode(false);
+                setPostedJobMode(false);
+                setJobPostingMode(false);
+                setEventPostingMode(false);
+                setContactMessageMode(false);
+                setCandidateContactMessageMode(true);
+              }}>Candidate Contact Message Details</button></li>
               <li style={{listStyleType:'none'}}><button onClick={()=>{
                 localStorage.removeItem("staffToken");
                 window.location.reload();
@@ -242,7 +356,7 @@ const RecruiterDashboard = () => {
               <form onSubmit={handleSubmit}>
               <div className="form-group">
                   <label 
-                  htmlFor="emailInput" 
+                  htmlFor="eventTitleInput" 
                   className="form-label mt-4">
                       Title
                   </label>
@@ -251,9 +365,33 @@ const RecruiterDashboard = () => {
                   className="form-control" 
                   id="eventTitleInput"  
                   name="title" 
-                  value={title} 
-                  onChange = {(e)=>setTitle(e.target.value)} 
+                  value={eventDetail.title} 
+                  onChange = {handleInputChange} 
                   placeholder="enter event title"
+                  required />
+              </div>
+              <div class="form-group">
+                <label htmlForfor="event_description" className="form-label mt-4">Description</label>
+                <textarea className="form-control" id="event_description" rows="3" name="description" 
+                  value={eventDetail.description} 
+                  onChange = {handleInputChange} 
+                  placeholder="enter event description"
+                  required></textarea>
+              </div>
+              <div className="form-group">
+                  <label 
+                  htmlFor="event_location" 
+                  className="form-label mt-4">
+                      Location
+                  </label>
+                  <input 
+                  type="text" 
+                  className="form-control" 
+                  id="eventTitleInput"  
+                  name="location" 
+                  value={eventDetail.location} 
+                  onChange = {handleInputChange} 
+                  placeholder="enter event location"
                   required />
               </div>
               <div>
@@ -268,8 +406,45 @@ const RecruiterDashboard = () => {
                 dateFormat="dd/MM/yyyy"
                 />
               </div>
+              <div>
+                <input type='file' onChange={e=>setImage(e.target.files[0])} />
+              </div>
               <input type='submit' value="Post" className='btn btn-primary my-3' />
               </form>
+            }
+            {contactMessageMode &&
+              <div>
+                {contactMsgDetails.length > 0 ?
+                   contactMsgDetails.map((msg)=>{
+                    return <div key={msg._id}>
+                        <div>FULL NAME: {msg.fullName}</div>
+                        <div>EMAIL: {msg.email}</div>
+                        <div>PHONE NO: {msg.phoneNo}</div>
+                        <div>SUBJECT: {msg.subject}</div>
+                        <div>MESSAGE: {msg.message}</div>
+                        <br></br>
+                    </div>
+                   }):
+                  <p>no contact message details found</p>
+                }
+              </div>
+            }
+            {candidateContactMessageMode &&
+              <div>
+                {candidateContactMsgDetails.length > 0 ?
+                   candidateContactMsgDetails.map((msg)=>{
+                    return <div key={msg._id}>
+                        <div>FULL NAME: {msg.fullName}</div>
+                        <div>EMAIL: {msg.email}</div>
+                        <div>PHONE NO: {msg.phoneNo}</div>
+                        <div>SUBJECT: {msg.subject}</div>
+                        <div>MESSAGE: {msg.message}</div>
+                        <br></br>
+                    </div>
+                   }):
+                  <p>no candidate contact message details found</p>
+                }
+              </div>
             }
           </div>
         </div>

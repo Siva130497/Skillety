@@ -16,7 +16,8 @@ const assignedCandidate = require("../Database/assignedCandidate");
 const clientStaff = require("../Database/clientStaffs");
 const forgotPasswordUser = require("../Database/forgotPasswordUsers");
 const eventDetail = require("../Database/eventDetail");
-
+const contactDetail = require("../Database/contact");
+const contactCandidateDetail = require("../Database/contactCandidate");
 // const hash = async() => {
 //   const pass = 'newpassword'
 //   const hash = await bcrypt.hash(pass, 12)
@@ -102,9 +103,21 @@ const createClient = async (req, res) => {
 
 /* fetch the client after uuid add */
 const getAllClient = async(req, res) => {
+  
+  try{
+    const tempClients = await TempClient.find();
+    console.log(tempClients);
+    return res.status(200).json(tempClients);
+  }catch(err){
+    console.log(err);
+    return res.status(500).json({ error: err.message });
+  }
+}
+
+const getClient = async(req, res) => {
   const {id} = req.params;
   try{
-    const tempClient = await TempClient.find({id});
+    const tempClient = await TempClient.findOne({id});
     console.log(tempClient);
     return res.status(200).json(tempClient);
   }catch(err){
@@ -589,20 +602,20 @@ const forgotPassword = async(req, res) => {
     await forgotPasswordUser.deleteOne({email:email, role:role});
     const userAlreadyCreated = await allUsers.findOne({email:email, role:role});
     if(userAlreadyCreated){
-      const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=[]{}|;:,.<>?';
-      let password = '';
-      for (let i = 0; i < 12; i++) {
+      const charset = '0123456789';
+      let verificationCode = '';
+      for (let i = 0; i < 6; i++) {
         const randomIndex = Math.floor(Math.random() * charset.length);
-          password += charset[randomIndex];
+        verificationCode += charset[randomIndex];
       }
-      console.log(password);
-      const hashPassword = await bcrypt.hash(password, 12);
+      console.log(verificationCode);
+      const hashVerificationCode = await bcrypt.hash(verificationCode, 12);
       const userWithTempPass = new forgotPasswordUser({
         id:userAlreadyCreated.id,
         name:userAlreadyCreated.name,
         email:userAlreadyCreated.email,
         role:userAlreadyCreated.role,
-        tempPassword:hashPassword,
+        verificationCode:hashVerificationCode,
       });
       await userWithTempPass.save();
       console.log(userWithTempPass);
@@ -620,7 +633,7 @@ const forgotPassword = async(req, res) => {
         to: `${userWithTempPass.email}`,
         subject: 'Mail from SKILLITY!',
         text: 'Your temporary password!',
-        html: `<p>Temporary Password: ${password}</p>`
+        html: `<p>Temporary Password: ${verificationCode}</p>`
       };
 
       transporter.sendMail(mailOptions, function (error, info) {
@@ -642,17 +655,34 @@ const forgotPassword = async(req, res) => {
   }
 }
 
+/* verify the user code with db code */
+const verifying = async(req, res) => {
+  const {verificationCode, id} = req.body;
+  console.log(verificationCode, id);
+  try{
+    const user = await forgotPasswordUser.findOne({id});
+    if(user){
+      const isMatch = await bcrypt.compare(verificationCode, user.verificationCode);
+      if(isMatch){
+        return res.status(200).json({ message: 'verification code match' });
+      }else{
+        return res.status(404).json({ message: 'verification code failed!' });
+      }
+    }else{
+      return res.status(404).json({ message: 'User not found' });
+    }
+  }catch(err) {
+    res.status(500).json({error: err.message})
+  }
+}
+
 /* change the exiting password with new password */
 const newPassword = async(req, res) => {
   const {id} = req.params;
   console.log(id);
-  const {tempPassword, password, role} = req.body;
-  console.log(tempPassword, password);
+  const {password, role} = req.body;
+  console.log(password);
   try{
-    const user = await forgotPasswordUser.findOne({id:id});
-    if(user){
-      const isMatch = await bcrypt.compare(tempPassword, user.tempPassword);
-      if(isMatch){
         const hashPassword = await bcrypt.hash(password, 12);
         console.log(hashPassword);
         const updatedUser = await allUsers.findOneAndUpdate(
@@ -689,17 +719,6 @@ const newPassword = async(req, res) => {
         }else{
           return res.status(404).json({ message: 'User not found' });
         }
-        
-      }else{
-        return res.status(403).json({
-          message: "Incorrect temporary password!"
-        });
-      }
-    }else{
-      return res.status(404).json({
-        message: "user not found!"
-      });
-    }
   }catch(err) {
     res.status(500).json({error: err.message})
   }
@@ -726,6 +745,57 @@ const getAllEvents = async(req, res) => {
     const allEventDetails = await eventDetail.find();
     console.log(allEventDetails);
     return res.status(200).json(allEventDetails);
+  }catch(err){
+    return res.status(500).json({ error: err.message });
+  }
+}
+
+/* contact detail posting */
+const contactMessage = async(req, res) => {
+  console.log(req.body);
+  try {
+    const newContactMessage = new contactDetail({
+      ...req.body,
+    });
+    await newContactMessage.save();
+    console.log(newContactMessage);
+    return res.status(201).json(newContactMessage);
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+}
+
+
+const contactMessageCandidate = async(req, res) => {
+  console.log(req.body);
+  try {
+    const newContactMessage = new contactCandidateDetail({
+      ...req.body,
+    });
+    await newContactMessage.save();
+    console.log(newContactMessage);
+    return res.status(201).json(newContactMessage);
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+}
+
+/* get all contact messagess by recruiters */
+const getAllContactMessages = async(req, res) => {
+  try{
+    const allContactMessages = await contactDetail.find();
+    console.log(allContactMessages);
+    return res.status(200).json(allContactMessages);
+  }catch(err){
+    return res.status(500).json({ error: err.message });
+  }
+};
+
+const getAllCandidateContactMessages = async(req, res) => {
+  try{
+    const allContactMessages = await contactCandidateDetail.find();
+    console.log(allContactMessages);
+    return res.status(200).json(allContactMessages);
   }catch(err){
     return res.status(500).json({ error: err.message });
   }
@@ -889,6 +959,7 @@ module.exports = {
    getAllClientDetails,
    createClient,
    getAllClient,
+   getClient,
    finalClientRegister,
    candidateReg,
    getAllCandidateDetail,
@@ -914,4 +985,9 @@ module.exports = {
    eventPosting,
    getAllEvents,
    generateRandomPassword,
+   contactMessage,
+   getAllContactMessages,
+   verifying,
+   contactMessageCandidate,
+   getAllCandidateContactMessages,
 };

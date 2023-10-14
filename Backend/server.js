@@ -13,6 +13,7 @@ const dotenv = require('dotenv');
 const morgan = require('morgan');
 const multer = require('multer');
 const resume = require('./Database/resume');
+const image = require('./Database/image');
 const validateToken = require('./middleware/employeeAuth');
 const jwt = require("jsonwebtoken");
 // const file = require('./Database/file');
@@ -34,6 +35,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(morgan("tiny"));
 app.use(bp.json());
+app.use(express.static('public'))
 app.use(cookieParser());
 app.use(bp.urlencoded({extended: true}))
 app.use('', userRouter);
@@ -137,7 +139,38 @@ app.post('/upload', upload.single('file'), (req, res) => {
   .then((result) => console.log(result))
   .then(result => res.json(result))
   .catch(err => console.log(err))
+});
+
+const storageImg = multer.diskStorage({
+  destination: function(req, file, cb) {
+    return cb(null, "./public/images")
+  },
+  filename: function(req, file, cb) {
+    return cb(null, `${Date.now()}_${file.originalname}`)
+  }
 })
+
+const uploadImg = multer({storage: storageImg})
+app.post('/upload-image', uploadImg.single('image'), (req, res) => {
+  const uploadedId = req.body.id; 
+  console.log("Uploaded ID:", uploadedId);
+  console.log("Uploaded File:", req.file);
+
+  image.create({
+    image: req.file.filename,
+    id: uploadedId,
+  })
+  .then((result) => console.log(result))
+  .then(result => res.json(result))
+  .catch(err => console.log(err)) 
+})
+
+app.get('/event-image', (req, res)=>{
+  image.find()
+  .then(eventImg=>res.json(eventImg))
+  .catch(err=>res.json(err))
+})
+
 
 // const storage = multer.memoryStorage();
 // const upload = multer({ storage });

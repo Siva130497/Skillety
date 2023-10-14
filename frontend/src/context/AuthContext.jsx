@@ -8,6 +8,8 @@ const AuthContext = createContext();
 export const AuthContextProvider = ({children}) => {
     const navigate = useNavigate();
     const [errorMsg, setErrorMsg] = useState("");
+    const [eventDetail, setEventDetail] = useState([]);
+    const [eventImg, setEventImg] = useState();
 
     //register user
     const registerUser = async (userData) => {
@@ -104,7 +106,29 @@ export const AuthContextProvider = ({children}) => {
         }
     };
 
-    return<AuthContext.Provider value={{registerUser, candidateReg, loginUser, getProtectedData, errorMsg, setErrorMsg}}>
+    const getEventDetail = async() => {
+        try{
+            const res = await axios.get(`http://localhost:5002/events`);
+            const result = res.data;
+            if (!result.error) {
+              console.log(result);
+              setEventDetail(result);
+            } else {
+              console.log(result);
+            }
+        }catch(err){
+          console.log(err);
+        }
+    }
+
+    const getEventImg = async() => {
+        axios.get('http://localhost:5002/event-image')
+        .then(res=>setEventImg(res.data))
+        .catch(err=>console.log(err))
+    }
+
+
+    return<AuthContext.Provider value={{registerUser, candidateReg, loginUser, getProtectedData, errorMsg, setErrorMsg, eventDetail, getEventDetail, getEventImg, eventImg}}>
             {children}
         </AuthContext.Provider>
 }

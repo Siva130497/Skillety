@@ -1,33 +1,29 @@
 const { Schema, model } = require("mongoose");
 
-const eventDetailSchema = new Schema(
+const contactCandidateSchema = new Schema(
   {
-    id: {
+    fullName: {
       type: String,
       required: true
     },
-    recruiterId: {
-        type: String,
-        required: true
-      },
-    title: {
+    email: {
       type: String,
       required: true
     },
-    description: {
+    phoneNo: {
+      type: Number,
+      required: true
+    },
+    subject: {
       type: String,
       required: true
     },
-    location: {
+    message: {
       type: String,
       required: true
-    },
-    date: {
-      type: String,
-      required: true
-    },
+    }
   },
   { timestamps: true }
 );
 
-module.exports = model("eventDetail", eventDetailSchema);
+module.exports = model("contactCandidate", contactCandidateSchema);

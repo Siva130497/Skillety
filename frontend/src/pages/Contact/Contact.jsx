@@ -24,6 +24,8 @@ const Contact = () => {
     
             if (!result.error) {
                 console.log(result);
+                alert("your message sent to company")
+                setCredentials(initialCredentials);
             } else {
                 console.log(result);
             }
@@ -49,7 +51,9 @@ const Contact = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
+        console.log(credentials);
         sendMessage(credentials);
+
     }
 
     return (
@@ -182,13 +186,13 @@ const Contact = () => {
                                             </div>
                                             <div className="col-12 col-lg-6 col-md-6 custom-padding-left">
                                                 <div className='con--form-group' data-aos="fade-up">
-                                                    <input type="text" id='email' name="email" value={credentials.email} onChange={handleInputChange} placeholder="Enter you email address" className='con--form-input' required />
+                                                    <input type="email" id='email' name="email" value={credentials.email} onChange={handleInputChange} placeholder="Enter you email address" className='con--form-input' required />
                                                     <label htmlFor="email" className='con--form-label'>E mail <span>*</span> </label>
                                                 </div>
                                             </div>
                                             <div className="col-12 col-lg-6 col-md-6 custom-padding-right">
                                                 <div className='con--form-group' data-aos="fade-up">
-                                                    <input type="text" id='phone_no' name="phoneNo" value={credentials.phoneNo} onChange={handleInputChange} placeholder="Enter you phone number" className='con--form-input' required />
+                                                    <input type="number" id='phone_no' name="phoneNo" value={credentials.phoneNo} onChange={handleInputChange} placeholder="Enter you phone number" className='con--form-input' min="0" required />
                                                     <label htmlFor="phone_no" className='con--form-label'>Phone Number <span>*</span> </label>
                                                 </div>
                                             </div>

@@ -1136,8 +1136,8 @@
     margin-bottom: 0;
 } */
 .home--slider-btn-area {
-    margin-top: 60px;
-    margin-bottom: 0px;
+    padding-top: 60px;
+    padding-bottom: 0px;
     position: relative;
     display: flex;
     justify-content: flex-end;

@@ -9,7 +9,7 @@ const NewNavBar = ({ clientRegister, candidateRegister, clientLogin, candidateLo
                 <div>
 
                     {
-                            candidateRegister || candidateLogin ?
+                            (candidateRegister || candidateLogin) ?
                                 <div className='logo--area candidate me-auto'>
                                     <div className='logo--subarea'>
                                         <a href="/candidate-home">
@@ -18,12 +18,12 @@ const NewNavBar = ({ clientRegister, candidateRegister, clientLogin, candidateLo
                                     </div>
                                 </div> :
                                 <div className='logo--area client me-auto'>
-                                <div className='logo--subarea'>
-                                    <a href="/">
-                                        <img className='nav--logo client' src="assets/img/logo/skillety-logo-sm.png" alt="" />
-                                    </a>
+                                    <div className='logo--subarea'>
+                                        <a href="/">
+                                            <img className='nav--logo client' src="assets/img/logo/skillety-logo-sm.png" alt="" />
+                                        </a>
+                                    </div>
                                 </div>
-                            </div>
                     }
                 </div>
 
@@ -46,7 +46,7 @@ const NewNavBar = ({ clientRegister, candidateRegister, clientLogin, candidateLo
                     {clientRegister ?
                         <Link to="/client-register" className='nav--client-login-btn'>Register</Link> :
                         candidateRegister ?
-                            <Link to="/candidate-signup" className='nav--client-login-btn candidate'>Register</Link> :
+                            <Link to="/candiate-register" className='nav--client-login-btn candidate'>Register</Link> :
                             clientLogin ?
                                 <Link to="/client-login" className='nav--client-login-btn'>Login</Link> :
                                 candidateLogin ?

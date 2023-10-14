@@ -8,6 +8,7 @@ const {
   getAllClientDetails,
   createClient,
   getAllClient,
+  getClient,
   finalClientRegister,
   candidateReg,
   getAllCandidateDetail,
@@ -33,6 +34,11 @@ const {
   eventPosting,
   getAllEvents,
   generateRandomPassword,
+  contactMessage,
+  getAllContactMessages,
+  verifying,
+  contactMessageCandidate,
+  getAllCandidateContactMessages,
 } = require("../Controller/authFunctions");
 const employeeAuth = require("../middleware/employeeAuth");
 
@@ -46,7 +52,9 @@ router.get("/client-Detail", employeeAuth, getAllClientDetails)
 router.post("/tempPass-Client", employeeAuth, createClient);
 
 // recruiter route for client detail
-router.get("/clientWithUrl-Detail/:id", getAllClient);
+router.get("/clientWithUrl-Detail/:id", getClient);
+
+router.get("/clientWithUrl-Detail", getAllClient);
 
 // client register after setup new password
 router.post("/finalRegister-Client", finalClientRegister);
@@ -121,14 +129,27 @@ router.get('/all-client-staffs/:companyId', employeeAuth, getAllClientStaffs);
 //request to temp password for forgot password
 router.post("/forgotpassword", forgotPassword);
 
+//use code verification end point
+router.post("/verification", verifying);
+
 //change the existing password with new password
 router.patch("/newpassword/:id", newPassword);
 
 //recruiter event posting endpoint
 router.post("/events", employeeAuth, eventPosting);
 
+//contact message sending end point
+router.post("/contact",  contactMessage);
+
+router.post("/contact-candidate",  contactMessageCandidate);
+
 //get all event details of recruiters endpoint
 router.get("/events", getAllEvents);
+
+//get all contact details by recruiters endpoint
+router.get("/contact", employeeAuth, getAllContactMessages);
+
+router.get("/candidate-contact", employeeAuth, getAllCandidateContactMessages);
 
 // Client, Client-staff Login Route
 router.post("/login-Client", async (req, res) => {

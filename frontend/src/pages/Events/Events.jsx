@@ -1,33 +1,20 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useEffect } from 'react';
 import $ from 'jquery';
 import './Events.css';
 import './Events-responsive.css';
 import { CandidateFooter } from '../../components/CandidateFooter';
 import LayoutNew from '../../components/LayoutNew';
-import axios from 'axios';
+import AuthContext from '../../context/AuthContext';
 
 const Events = () => {
-    const [eventDetail, setEventDetail] = useState([]);
-    const getEventDetail = async() => {
-        try{
-            const res = await axios.get(`http://localhost:5002/events`);
-            const result = res.data;
-            if (!result.error) {
-              console.log(result);
-              setEventDetail(result);
-            } else {
-              console.log(result);
-            }
-        }catch(err){
-          console.log(err);
-        }
-      }
-
+    const {eventDetail, getEventDetail, getEventImg, eventImg} = useContext(AuthContext);
+    
     useEffect(() => {
         getEventDetail();
+        getEventImg();
     }, []);
-
+    
     return (
         <div>
             <LayoutNew />
@@ -114,14 +101,45 @@ const Events = () => {
                                 </div>
                             </div>
                             <div className="con--where-container">
-                            <div className="cand--events-card-section">
-                                {Array.from({ length: Math.ceil(eventDetail.length / 3) }).map((_, index) => (
-                                    <div className="row" key={index}>
-                                        {eventDetail.slice(index * 3, (index + 1) * 3).map((eve) => (
-                                            <div key={eve.id} className="col-12 col-lg-4 col-xl-4 col-md-4 col-sm-10 offset-sm-1 offset-md-0 offset-lg-0 offset-xl-0 cand--events-card-area" data-aos="fade-up">
-                                                <article className='cand--events-card'>
+                            {eventDetail.length > 0  && 
+                                <div className="cand--events-card-section">
+                                    {Array.from({ length: Math.ceil(eventDetail.length / 3) }).map((_, index) => (
+                                        <div className="row" key={index}>
+                                            {/* {eventDetail.slice(index * 3, (index + 1) * 3).map((eve) => (
+                                                <div key={eve.id} className="col-12 col-lg-4 col-xl-4 col-md-4 col-sm-10 offset-sm-1 offset-md-0 offset-lg-0 offset-xl-0 cand--events-card-area" data-aos="fade-up">
+                                                    <article className='cand--events-card'>
+                                                        
+                                                                <div className="cand--events-card-img-area">
+                                                                    <img src="assets/img/events/event-img.jpg" className='cand--events-card-img' alt="" />
+                                                                </div>
+                                                                <div className="cand--events-card-title-area">
+                                                                    <h6 className='cand--events-card-title'>
+                                                                        {eve.title}
+                                                                    </h6>
+                                                                </div>
+                                                                <p className='cand--events-card-date'>{eve.date}</p>
+                                                                <a href={`/event-details/${eve.id}`} className="cand--events-card-bottom-area">
+                                                                    <span className='cand--event-sys'>SAVE YOUR SPOT</span>
+                                                                    <span className='cand--events-card-arrow-area'>
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
+                                                                            <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#714F36" stroke-width="2" />
+                                                                            <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#714F36" stroke-width="2" />
+                                                                            <path d="M1 26L25.1667 1" stroke="#714F36" stroke-width="2" />
+                                                                        </svg>
+                                                                    </span>
+                                                                </a>
+                                                            </article>
+                                                </div>
+                                            ))} */}
+                                            {eventDetail.slice(index * 3, (index + 1) * 3).map((eve) => {
+                                                const matchingImg = eventImg ? eventImg.find(img => img.id === eve.id) : null;
+                                                const imgSrc = matchingImg ? `http://localhost:5002/images/${matchingImg.image}` : "assets/img/events/event-img.jpg";
+
+                                                return (
+                                                    <div key={eve.id} className="col-12 col-lg-4 col-xl-4 col-md-4 col-sm-10 offset-sm-1 offset-md-0 offset-lg-0 offset-xl-0 cand--events-card-area" data-aos="fade-up">
+                                                        <article className='cand--events-card'>
                                                             <div className="cand--events-card-img-area">
-                                                                <img src="assets/img/events/event-img.jpg" className='cand--events-card-img' alt="" />
+                                                                <img src={imgSrc} className='cand--events-card-img' alt="" />
                                                             </div>
                                                             <div className="cand--events-card-title-area">
                                                                 <h6 className='cand--events-card-title'>
@@ -129,22 +147,24 @@ const Events = () => {
                                                                 </h6>
                                                             </div>
                                                             <p className='cand--events-card-date'>{eve.date}</p>
-                                                            <a href='/event-details' className="cand--events-card-bottom-area">
+                                                            <a href={`/event-details/${eve.id}`} className="cand--events-card-bottom-area">
                                                                 <span className='cand--event-sys'>SAVE YOUR SPOT</span>
                                                                 <span className='cand--events-card-arrow-area'>
                                                                     <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
-                                                                        <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#714F36" stroke-width="2" />
-                                                                        <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#714F36" stroke-width="2" />
-                                                                        <path d="M1 26L25.1667 1" stroke="#714F36" stroke-width="2" />
+                                                                        <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#714F36" strokeWidth="2" />
+                                                                        <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#714F36" strokeWidth="2" />
+                                                                        <path d="M1 26L25.1667 1" stroke="#714F36" strokeWidth="2" />
                                                                     </svg>
                                                                 </span>
                                                             </a>
                                                         </article>
-                                            </div>
-                                        ))}
-                                    </div>
-                                ))}
-                            </div>
+                                                    </div>
+                                                );
+                                            })}
+                                        </div>
+                                    ))}
+                                </div>
+                            }
                             </div>
                         </div>
                     </div>

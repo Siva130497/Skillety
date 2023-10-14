@@ -331,18 +331,18 @@ const Home = () => {
                 <p>We improve the efficiency and effectiveness of the client’s recruitment process by providing an end-to-end outsourcing solution for the recruitment process.</p>
               </div>
               <div className="rpo--content-card">
-                <div className="row align-items-center">
+                <div className="row align-items-xl-center">
                   <div className="col-12 col-xl-4 col-lg-3">
                     <div className='rpo--card-heading'>
                       <h4 data-aos="fade-right">Enterprise RPO</h4>
                     </div>
                   </div>
-                  <div className="col-12 col-xl-5 col-lg-5">
+                  <div className="col-12 col-xl-5 col-lg-9">
                     <div className='rpo--card-desc'>
                       <p data-aos="fade">From requisition to onboarding, Skillety offers recruitment expertise and scalability while being completely aligned with our clients’ culture. Enterprise RPO is a comprehensive, customizable, and scalable recruitment solution, rooted on an exclusivity contract from our clients.</p>
                     </div>
                   </div>
-                  <div className="col-12 col-xl-3 col-lg-4">
+                  <div className="col-12 col-xl-3 col-lg-12">
                     <div className='rpo--card-learnmore'>
                       <a href="/rpo" className='rpo--know-more' data-aos="fade-left">
                         <div className='rpo--know-more-btn'>
@@ -357,18 +357,18 @@ const Home = () => {
                 </div>
               </div>
               <div className="rpo--content-card">
-                <div className="row align-items-center">
+                <div className="row align-items-xl-center">
                   <div className="col-12 col-xl-4 col-lg-3">
                     <div className='rpo--card-heading'>
                       <h4 data-aos="fade-right">Project RPO</h4>
                     </div>
                   </div>
-                  <div className="col-12 col-xl-5 col-lg-5">
+                  <div className="col-12 col-xl-5 col-lg-9">
                     <div className='rpo--card-desc'>
                       <p data-aos="fade">Project RPO is the way to go for companies that have a specific talent acquisition project like recruiting a new team for a new product line, or a new project, or a new facility. Our clients engage our Project RPO services for a talent acquisition need with defined goals within a specific scope and timeline.</p>
                     </div>
                   </div>
-                  <div className="col-12 col-xl-3 col-lg-4">
+                  <div className="col-12 col-xl-3 col-lg-12">
                     <div className='rpo--card-learnmore'>
                       <a href="/rpo" className='rpo--know-more' data-aos="fade-left">
                         <div className='rpo--know-more-btn'>
@@ -383,18 +383,18 @@ const Home = () => {
                 </div>
               </div>
               <div className="rpo--content-card">
-                <div className="row align-items-center">
+                <div className="row align-items-xl-center">
                   <div className="col-12 col-xl-4 col-lg-3">
                     <div className='rpo--card-heading'>
                       <h4 data-aos="fade-right">Contingent RPO</h4>
                     </div>
                   </div>
-                  <div className="col-12 col-xl-5 col-lg-5">
+                  <div className="col-12 col-xl-5 col-lg-9">
                     <div className='rpo--card-desc'>
                       <p data-aos="fade">Contingent RPO works as an extension of the talent acquisition department and supplies contract labour using recruiters dedicated to our clients. Our recruiters build a unique talent pipeline of contract labour for our clients based on their specific hiring goals.</p>
                     </div>
                   </div>
-                  <div className="col-12 col-xl-3 col-lg-4">
+                  <div className="col-12 col-xl-3 col-lg-12">
                     <div className='rpo--card-learnmore'>
                       <a href="/rpo" className='rpo--know-more' data-aos="fade-left">
                         <div className='rpo--know-more-btn'>
@@ -409,18 +409,18 @@ const Home = () => {
                 </div>
               </div>
               <div className="rpo--content-card">
-                <div className="row align-items-center">
+                <div className="row align-items-xl-center">
                   <div className="col-12 col-xl-4 col-lg-3">
                     <div className='rpo--card-heading'>
                       <h4 data-aos="fade-right">RPO-Lite</h4>
                     </div>
                   </div>
-                  <div className="col-12 col-xl-5 col-lg-5">
+                  <div className="col-12 col-xl-5 col-lg-9">
                     <div className='rpo--card-desc'>
                       <p data-aos="fade">Best for a test-run before you decide your RPO partner. We take up hiring requirements from one or few projects on exclusivity, and close them in record time, first. The results will determine whether you want to upgrade to an Enterprise RPO (or not), based on solid proof.</p>
                     </div>
                   </div>
-                  <div className="col-12 col-xl-3 col-lg-4">
+                  <div className="col-12 col-xl-3 col-lg-12">
                     <div className='rpo--card-learnmore'>
                       <a href="/rpo" className='rpo--know-more' data-aos="fade-left">
                         <div className='rpo--know-more-btn'>
