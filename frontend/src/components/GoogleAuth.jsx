@@ -41,7 +41,13 @@ const GoogleAuth = ({setProfile}) => {
 
 
 return (
-    <button onClick={() => login()}>Sign up with Google 🚀 </button>
+    <div className="cli--login-with-google-btn-area">
+                                        <a href="#" className='cli--login-with-google-btn' data-aos="fade-up">
+                                            <img src="assets/img/signup/google-icon.png" className='google-icon' alt="" />
+                                            <span onClick={() => login()}>Sign up with Google</span>
+                                        </a>
+                                    </div>
+    // <button onClick={() => login()}>Sign up with Google 🚀 </button>
 )
 }
 

@@ -1082,7 +1082,7 @@
 }
 
 .client-talent--profile-tab-expand-area.opened {
-    max-height: 100vh;
+    max-height: 500vh;
 }
 
 .client-talent--profile-tab-toggle-area.opened svg {

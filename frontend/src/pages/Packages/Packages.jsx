@@ -1,14 +1,36 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import { useEffect } from 'react';
 import $ from 'jquery';
 import './Packages.css';
 import './Packages-responsive.css';
 import Layout from '../../components/Layout';
 import { Footer } from '../../components/Footer';
+import axios from 'axios';
+import AuthContext from '../../context/AuthContext';
 
-const Packages = () => {
+const Packages = ({companyId}) => {
+  const {getClientChoosenPlan, packageSelectionDetail} = useContext(AuthContext);
+
+  const [packageType, setPackageType] = useState('');
+
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        
+        await getClientChoosenPlan(companyId);
+        
+        if (packageSelectionDetail && packageSelectionDetail.packageType) {
+          setPackageType(packageSelectionDetail.packageType);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
+    fetchData();
+  }, []);
+
+  useEffect(() => {
     $(document).ready(function () {
       // Initial state
       $(".tab").hide();
@@ -92,8 +114,44 @@ const Packages = () => {
       });
     });
 
-
   }, []);
+
+  const buyPackage = (companyId, logins, cvViews, packageType) => {
+    const packageDetail = {
+      id: companyId,
+      packageType:packageType,
+      logins: logins,
+      cvViews: cvViews
+    };
+  
+    return axios.post("http://localhost:5002/client-package-plan", packageDetail);
+  }
+  
+  const handleBuy = (companyId, logins, cvViews, packageType) => {
+    buyPackage(companyId, logins, cvViews, packageType)
+      .then(response => {
+        const result = response.data;
+        console.log(result);
+        console.log(`Successfully bought ${packageType} package`);
+        window.location.reload();
+      })
+      .catch(error => {
+        console.error(`Error buying ${packageType} package`, error);
+      });
+  }
+  
+  const handleBuyStarter = () => {
+    handleBuy(companyId, 2, 20, "Starter");
+  }
+  
+  const handleBuyProfessional = () => {
+    handleBuy(companyId, 3, 30, "Professional");
+  }
+
+  const handleBuyPremium = () => {
+    handleBuy(companyId, 5, 50, "Premium");
+  }
+  
 
   return (
     <>
@@ -177,7 +235,7 @@ const Packages = () => {
                             </div>
                           </div>
                         </div>
-                        <div className="col-12 col-xl-3 col-lg-3 col-md-3 custom-width1">
+                        {packageType !== "Starter" && <div className="col-12 col-xl-3 col-lg-3 col-md-3 custom-width1">
                           <div className="pl--package-detail-area">
                             <div className='pl--package-info-area starter-info-area'>
                               <img src="assets/img/packages/Starter.png" className="pl--package-img" alt="" />
@@ -211,7 +269,7 @@ const Packages = () => {
 
                             <div className="pl--package-btn-area starter-btn-area">
                               <button className='pl--package-btn-sub buy-now'>
-                                <div className='pl--package-btn'>
+                                <div className='pl--package-btn' onClick={handleBuyStarter}>
                                   Buy Now
                                 </div>
                                 <div className='pl--package-arrow-area'>
@@ -224,8 +282,8 @@ const Packages = () => {
                               </button>
                             </div>
                           </div>
-                        </div>
-                        <div className="col-12 col-xl-3 col-lg-3 col-md-3 custom-width1">
+                        </div>}
+                        {packageType !== "Professional" && <div className="col-12 col-xl-3 col-lg-3 col-md-3 custom-width1">
                           <div className="pl--package-detail-area">
                             <div className='pl--package-info-area professional-info-area'>
                               <img src="assets/img/packages/Professional.png" className="pl--package-img" alt="" />
@@ -259,7 +317,7 @@ const Packages = () => {
 
                             <div className="pl--package-btn-area professional-btn-area">
                               <button className='pl--package-btn-sub buy-now'>
-                                <div className='pl--package-btn'>
+                                <div className='pl--package-btn' onClick={handleBuyProfessional}>
                                   Buy Now
                                 </div>
                                 <div className='pl--package-arrow-area'>
@@ -272,8 +330,8 @@ const Packages = () => {
                               </button>
                             </div>
                           </div>
-                        </div>
-                        <div className="col-12 col-xl-3 col-lg-3 col-md-3 custom-width1">
+                        </div>}
+                        {packageType !== "Premium" && <div className="col-12 col-xl-3 col-lg-3 col-md-3 custom-width1">
                           <div className="pl--package-detail-area">
                             <div className='pl--package-info-area premium-info-area'>
                               <img src="assets/img/packages/premium.png" className="pl--package-img" alt="" />
@@ -307,7 +365,7 @@ const Packages = () => {
 
                             <div className="pl--package-btn-area premium-btn-area">
                               <button className='pl--package-btn-sub buy-now'>
-                                <div className='pl--package-btn'>
+                                <div className='pl--package-btn' onClick={handleBuyPremium}>
                                   Buy Now
                                 </div>
                                 <div className='pl--package-arrow-area'>
@@ -320,7 +378,7 @@ const Packages = () => {
                               </button>
                             </div>
                           </div>
-                        </div>
+                        </div>}
                       </div>
 
                       {/* <p className='pl--package-desc part'>*Base unit prices of all inventory heads are fixed and same for all the companies registered in India.</p> */}

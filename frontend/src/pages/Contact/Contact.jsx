@@ -1,15 +1,60 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useEffect } from 'react';
 import $ from 'jquery';
 import './Contact.css';
 import './Contact-responsive.css';
 import Layout from '../../components/Layout';
 import { Footer } from '../../components/Footer';
+import axios from 'axios';
 
 const Contact = () => {
     useEffect(() => {
 
     }, []);
+
+    const sendMessage = async (messageDetail) => {
+        try {
+            const response = await axios.post('http://localhost:5002/contact', messageDetail, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+    
+            const result = response.data;
+    
+            if (!result.error) {
+                console.log(result);
+                alert("your message sent to company")
+                setCredentials(initialCredentials);
+            } else {
+                console.log(result);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const initialCredentials = {
+        fullName:"",
+        email:"",
+        phoneNo:"",
+        subject:"",
+        message:"",
+    }
+
+    const [credentials, setCredentials] = useState(initialCredentials);
+
+    const handleInputChange = (event) => {
+        const {name, value} = event.target;
+        setCredentials({...credentials, [name]:value});
+    }
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        console.log(credentials);
+        sendMessage(credentials);
+
+    }
 
     return (
         <div>
@@ -131,35 +176,35 @@ const Contact = () => {
                                     </p>
                                 </div>
                                 <div className="con--note-form-area">
-                                    <form action="">
+                                    <form action="" onSubmit={handleSubmit}>
                                         <div className="row">
                                             <div className="col-12 col-lg-6 col-md-6 custom-padding-right">
                                                 <div className='con--form-group custom' data-aos="fade-up">
-                                                    <input type="text" id='full_name' name="full_name" placeholder="Enter you full name" className='con--form-input' required />
+                                                    <input type="text" id='full_name' name="fullName" value={credentials.fullName} onChange={handleInputChange} placeholder="Enter your full name" className='con--form-input' required />
                                                     <label htmlFor="full_name" className='con--form-label'>Full Name <span>*</span> </label>
                                                 </div>
                                             </div>
                                             <div className="col-12 col-lg-6 col-md-6 custom-padding-left">
                                                 <div className='con--form-group' data-aos="fade-up">
-                                                    <input type="text" id='email' name="email" placeholder="Enter you email address" className='con--form-input' required />
+                                                    <input type="email" id='email' name="email" value={credentials.email} onChange={handleInputChange} placeholder="Enter you email address" className='con--form-input' required />
                                                     <label htmlFor="email" className='con--form-label'>E mail <span>*</span> </label>
                                                 </div>
                                             </div>
                                             <div className="col-12 col-lg-6 col-md-6 custom-padding-right">
                                                 <div className='con--form-group' data-aos="fade-up">
-                                                    <input type="text" id='phone_no' name="phone_no" placeholder="Enter you phone number" className='con--form-input' required />
+                                                    <input type="number" id='phone_no' name="phoneNo" value={credentials.phoneNo} onChange={handleInputChange} placeholder="Enter you phone number" className='con--form-input' min="0" required />
                                                     <label htmlFor="phone_no" className='con--form-label'>Phone Number <span>*</span> </label>
                                                 </div>
                                             </div>
                                             <div className="col-12 col-lg-6 col-md-6 custom-padding-left">
                                                 <div className='con--form-group' data-aos="fade-up">
-                                                    <input type="text" id='subject' name="subject" placeholder="Enter the subject" className='con--form-input' required />
+                                                    <input type="text" id='subject' name="subject" value={credentials.subject} onChange={handleInputChange} placeholder="Enter the subject" className='con--form-input' required />
                                                     <label htmlFor="subject" className='con--form-label'>Subject <span>*</span> </label>
                                                 </div>
                                             </div>
                                             <div className="col-12 col-lg-12 col-md-12 custom-padding-left-right">
                                                 <div className='con--form-group' data-aos="fade-up">
-                                                    <input type="text" id='message' name="message" placeholder="Enter the message" className='con--form-input' />
+                                                    <input type="text" id='message' name="message" value={credentials.message} onChange={handleInputChange} placeholder="Enter the message" className='con--form-input' />
                                                     <label htmlFor="message" className='con--form-label'>Message</label>
                                                 </div>
                                             </div>

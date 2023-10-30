@@ -10,14 +10,10 @@ const appliedJobSchema = new Schema(
         type: String,
         required: true
     },
-    clientId: {
-        type: String,
-        required: true
-    },
-    recruiterId: {
-        type: String,
-        required: true
-    },
+    clientId: String,  
+    clientStaffId: String,  
+    companyId: String,  
+    recruiterId: String, 
     jobRole: {
         type: Array,
         required: true
@@ -48,5 +44,13 @@ const appliedJobSchema = new Schema(
 },
     { timestamps: true }
 );
+
+appliedJobSchema.pre('save', function(next) {
+  if (!this.clientId && !this.clientStaffId && !this.companyId && !this.recruiterId) {
+    next(new Error('At least one of the following fields is required: clientId, clientStaffId, companyId, recruiterId'));
+  } else {
+    next();
+  }
+});
 
 module.exports = model("appliedJob", appliedJobSchema);
