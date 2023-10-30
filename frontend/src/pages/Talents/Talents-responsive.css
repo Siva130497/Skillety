@@ -1,4 +1,4 @@
-@media screen and (min-width: 992px) and (max-width: 1024px) {
+@media screen and (min-width: 992px) and (max-width: 1367px) {
     .talents--section {
         margin-top: 130px;
     }
@@ -64,9 +64,16 @@
         width: 50px;
         height: 50px;
     }
-    .tal--pro-slider-btn svg{
+
+    .tal--pro-slider-btn svg {
         width: 20px;
         height: 20px;
+    }
+
+
+    .client-talent--profile-image {
+        width: 160px;
+        height: 160px;
     }
 }
 
@@ -105,18 +112,13 @@
         row-gap: 10px;
     }
 
-    .tal--pro-card-right-area {
+    /* .tal--pro-card-right-area {
         justify-content: space-evenly;
         padding: 15px 0;
-    }
+    } */
 
     .tal--pro-card-left-area .tal--pro-card-name {
-        font-size: 25px;
-    }
-
-    .tal--pro-card-ability-area {
-        flex-direction: column;
-        align-items: center;
+        font-size: 22px;
     }
 
     .tal--pro-card-right-area .tal--pro-card-profile-img {
@@ -124,12 +126,46 @@
         height: 120px;
     }
 
-    .tal--pro-card-left-area {
-        border-right: 1px #fff solid;
+    .card-split-line {
+        border-top: 1px #fff solid;
+        margin-bottom: 25px;
     }
 
     .talent--profile-card {
+        flex-direction: column-reverse;
+    }
+
+    .tal--pro-card-right-area {
+        justify-content: center;
         padding: 25px;
+        width: 100%;
+    }
+
+    .tal--pro-card-left-area {
+        width: 100%;
+        padding: 0px 25px 70px 25px !important;
+    }
+
+    .tal--pro-card-right-btn-area {
+        flex-direction: row;
+        bottom: 0;
+        width: 100%;
+        height: 48px;
+    }
+
+    .tal--pro-card-right-cover-area {
+        flex-direction: row;
+        gap: 30px;
+        flex-wrap: wrap;
+    }
+
+    .tal--pro-card-ability-number-area {
+        margin-top: 5px;
+    }
+
+    .tal--pro-card-name-check-container {
+        position: absolute;
+        top: 25px;
     }
 }
 
@@ -238,8 +274,7 @@
     }
 
     .tal--pro-card-left-area {
-        border-right: none;
-        padding-top: 20px;
+        padding: 0px 0px 60px 0px !important;
     }
 
     .custom-col-reverse {
@@ -247,27 +282,25 @@
     }
 
     .tal--pro-card-right-area {
-        padding: 20px 0 30px;
-        background-color: #5b3f2b;
-        border: 1px solid #5b3f2b;
+        padding: 20px 0;
+        background-color: #ffd967;
+        border: 1px solid #FFF;
         border-radius: 12px;
-        box-shadow: 0px 5px 10px #835d43d6;
+        box-shadow: 0px 5px 10px #835d433f;
         transition: ease-in-out 0.8s;
     }
 
-    .talent--profile-card:hover .tal--pro-card-right-area {
+    /* .talent--profile-card:hover .tal--pro-card-right-area {
         background-color: #ddd;
         border-color: #fff;
         box-shadow: none;
-    }
-
-    .tal--pro-card-ability-area {
-        flex-direction: row;
-        gap: 15px;
-    }
+    } */
 
     .tal--pro-card-tags {
         flex-direction: column;
+        border: 1px solid #FFF;
+        border-radius: 12px;
+        padding: 15px 0 5px;
     }
 
     .tal--pro-card-left-area .tal--pro-card-name {
@@ -276,12 +309,12 @@
 
     .tal--pro-card-desc-area .tal--pro-card-desc-title,
     .tal--pro-card-desc-area .tal--pro-card-desc {
-        text-align: center;
+        /* text-align: center; */
         margin-bottom: 15px;
     }
 
     .talent--profile-card {
-        padding: 20px 30px;
+        padding: 20px;
     }
 
     .tal--pro-slider-btn-area {
@@ -297,5 +330,49 @@
     .tal--pro-slider-btn svg {
         width: 20px;
         height: 20px;
+    }
+
+
+    .card-split-line {
+        border-top: none;
+        margin-bottom: 25px;
+    }
+
+    .tal--pro-card-right-cover-area {
+        gap: 20px;
+        flex-direction: column;
+    }
+
+    .tal--pro-card-role-name {
+        margin-bottom: 0;
+    }
+
+    .tal--pro-card-name-check-container {
+        top: 35px;
+        left: 35px;
+    }
+
+    .tal--pro-card-name-area {
+        justify-content: center;
+    }
+
+    .tal--pro-card-profile-img-role-area {
+        gap: 5px;
+    }
+
+    .tal--pro-card-desc-area .tal--pro-card-desc {
+        padding-left: 12px;
+    }
+
+    .tal--pro-card-desc-row {
+        border-bottom: 1px #d9ad26 solid;
+        margin-bottom: 12px;
+    }
+
+    .tal--pro-card-bottom-btn-area {
+        margin-top: 30px;
+        gap: 12px;
+        justify-content: center;
+        flex-wrap: wrap;
     }
 }

@@ -215,7 +215,7 @@ const ForgotPassword = () => {
                             </div>
                             <div className="col-12 col-xl-6 col-lg-6 col-md-12 col-sm-12">
                                 <div className="cli--signup-img-area">
-                                    <img src="../assets/img/signup/signup-img.jpg" loading='lazy' data-aos="fade" data-aos-delay="300" className='cli--signup-img' alt="" />
+                                    <img src="../assets/img/signup/signup-img.webp" loading='lazy' data-aos="fade" data-aos-delay="300" className='cli--signup-img' alt="" />
                                 </div>
                             </div>
                         </div>

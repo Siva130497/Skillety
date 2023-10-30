@@ -77,12 +77,15 @@
 }
 
 .about--card {
-    border-radius: 40px;
+    border-radius: 29px;
     padding: 20px 30px;
     overflow: hidden;
     transition: ease-in-out 0.8s;
     cursor: pointer;
     z-index: 1;
+    background-color: #FFF;
+    border: none;
+    outline: none;
     /* box-shadow: 5px 5px 20px #00000037; */
 }
 
@@ -108,6 +111,9 @@
 .about--card:hover .home--sub-des p {
     color: #fff !important;
     letter-spacing: 0.5px;
+}
+.about--card:hover .arrow--icon-btn .arrow--icon{
+    transform: rotate(45deg);
 }
 
 .card--imgicon-area {
@@ -144,19 +150,30 @@
 }
 
 .about--card:hover .about--sub-des p {
-    color: #fff !important;
+    color: #714F36 !important;
     /* letter-spacing: 0.5px; */
 }
 
 .arrow--icon-btn {
-    padding: 15px;
+    /* padding: 15px; */
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border-radius: 50%;
-    background-color: #714F36;
+    background-color: #ffffff;
     position: absolute;
-    right: 10px;
-    bottom: 10px;
-    border: #5C3B2E 5px solid;
-    box-shadow: inset 0px 0px 10px #2d1f19;
+    right: 0px;
+    bottom: 0px;
+    outline: #714F36 13px solid;
+    transition: ease-in-out 0.8s;
+    border: none;
+    z-index: 5;
+    /* box-shadow: inset 0px 0px 10px #2d1f19; */
+}
+.arrow--icon-btn:hover{
+    background-color: #F9C833;
 }
 
 .arrow--icon-btn .arrow--icon {
@@ -380,7 +397,7 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: baseline;
-    /* flex-wrap: wrap; */
+    flex-wrap: wrap;
 }
 
 .ab-weoff--top-area .ab-weoff---heading {

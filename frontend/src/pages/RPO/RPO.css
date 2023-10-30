@@ -1,5 +1,6 @@
 .rpo--section {
     margin-top: 27px;
+    padding-bottom: 120px;
     overflow: hidden !important;
 }
 
@@ -66,9 +67,9 @@
     transition: ease-in-out 0.8s;
 }
 
-.rpo--enter-list-area .rpo--enter-list-item:hover {
+/* .rpo--enter-list-area .rpo--enter-list-item:hover {
     transform: translateX(10px);
-}
+} */
 
 .rpo--enter-list-item::before {
     content: '';
@@ -179,9 +180,9 @@
     transition: ease-in-out 0.8s;
 }
 
-.rpo--pro-list-area .rpo--pro-list-item:hover {
+/* .rpo--pro-list-area .rpo--pro-list-item:hover {
     transform: translateX(-10px);
-}
+} */
 
 .rpo--pro-list-item::after {
     content: '';

@@ -44,7 +44,7 @@ const RPO = () => {
                                             </p>
                                         </div>
                                         <a href='' className="arrow--icon-btn">
-                                            <img src="assets/img/home-images/arrow-img.png" className='arrow--icon' alt="" />
+                                            <img src="assets/img/home-images/arrow-dark.png" className='arrow--icon' alt="" />
                                         </a>
                                     </div>
                                 </div>
@@ -176,9 +176,9 @@ const RPO = () => {
                         </div>
                     </div>
 
-                    <div className="rpo--more-btn-area">
+                    {/* <div className="rpo--more-btn-area">
                         <a href="" className='rpo--more-btn' data-aos="fade-up">More...</a>
-                    </div>
+                    </div> */}
 
                 </div>
             </div>

@@ -83,10 +83,17 @@
 }
 
 .arrow--icon-btn.candidate {
-    background-color: #F9C833;
-    border: #5C3B2E 5px solid;
-    box-shadow: inset 0px 0px 10px #94771f;
+    background-color: #ffffff;
+    border: none;
+    /* box-shadow: inset 0px 0px 10px #94771f; */
+    outline: 13px #F9C833 solid;
 }
+.home--card.candidate:hover .home--sub-des.candidate p{
+    color: #FFF !important;
+}
+/* .arrow--icon-btn.candidate:hover{
+    background-color: #714F36;
+} */
 
 .card--icon.candidate {
     transition: ease-in-out 0.8s;
@@ -167,6 +174,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
 }
 
 .candidate--section.candidate {

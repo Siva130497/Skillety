@@ -63,6 +63,33 @@ const Packages = () => {
       }, function () {
         $('.premium-info-area').removeClass('hovered');
       });
+
+      //for quantity input
+      $('.sol-price-table-qty-input').val(0);
+
+      $('.sol-price-table-qty-input').on('input', function () {
+        var $input = $(this);
+        var value = parseInt($input.val());
+
+        if (value < 0) {
+          $input.val(0);
+        }
+      });
+
+      $('.sol-price-table-qty-button.decrement').on('click', function () {
+        var $input = $(this).siblings('.sol-price-table-qty-input');
+        var currentValue = parseInt($input.val());
+
+        if (currentValue > 0) {
+          $input.val(currentValue - 1);
+        }
+      });
+
+      $('.sol-price-table-qty-button.increment').on('click', function () {
+        var $input = $(this).siblings('.sol-price-table-qty-input');
+        var currentValue = parseInt($input.val());
+        $input.val(currentValue + 1);
+      });
     });
 
 
@@ -70,7 +97,7 @@ const Packages = () => {
 
   return (
     <>
-      <Layout/>
+      <Layout />
       <div>
         <div className='plans--section'>
           <div className='container-fluid'>
@@ -126,30 +153,26 @@ const Packages = () => {
                           <div className="pl--package-title-area">
                             <div className="pl--package-head-area">
                               <img src="assets/img/packages/Starter.png" className="pl--package-img-hidden" alt="" />
-                              <h5 className="pl--package-name-hidden">Package</h5>
+                              <h5 className="pl--package-name-hidden">SKILLETY PACKAGES</h5>
 
                               <div>
                                 <h6 className='pl--package-title'>CV Views</h6>
                               </div>
 
                               <div>
-                                <h6 className='pl--package-title'>Job Posting</h6>
+                                <h6 className='pl--package-title'>Login IDs</h6>
                               </div>
 
                               <div>
-                                <h6 className='pl--package-title'>Mailers</h6>
+                                <h6 className='pl--package-title'><span className='with-bg'>Total</span></h6>
                               </div>
 
                               <div>
-                                <h6 className='pl--package-title'>Logins</h6>
+                                <h6 className='pl--package-title'><span className='with-bg'>GST</span></h6>
                               </div>
 
                               <div>
-                                <h6 className='pl--package-title'>Validity</h6>
-                              </div>
-
-                              <div>
-                                <h6 className='pl--package-title'>Price</h6>
+                                <h6 className='pl--package-title'>Total Amount</h6>
                               </div>
                             </div>
                           </div>
@@ -162,32 +185,27 @@ const Packages = () => {
 
                               <div className='pl--package-mobile-flex'>
                                 <h6 className='pl--package-mobile-title'>CV Views</h6>
-                                <h6 className='pl--package-info'>3,000</h6>
+                                <h6 className='pl--package-info'>5,000</h6>
                               </div>
 
                               <div className='pl--package-mobile-flex'>
-                                <h6 className='pl--package-mobile-title'>Job Posting</h6>
-                                <h6 className='pl--package-info'>100</h6>
+                                <h6 className='pl--package-mobile-title'>Login IDs</h6>
+                                <h6 className='pl--package-info'>01</h6>
                               </div>
 
                               <div className='pl--package-mobile-flex'>
-                                <h6 className='pl--package-mobile-title'>Mailers</h6>
-                                <h6 className='pl--package-info'>10,000</h6>
+                                <h6 className='pl--package-mobile-title'>Total</h6>
+                                <h6 className='pl--package-info'>25,000</h6>
                               </div>
 
                               <div className='pl--package-mobile-flex'>
-                                <h6 className='pl--package-mobile-title'>Logins</h6>
-                                <h6 className='pl--package-info'>2</h6>
+                                <h6 className='pl--package-mobile-title'>GST</h6>
+                                <h6 className='pl--package-info'>18%</h6>
                               </div>
 
                               <div className='pl--package-mobile-flex'>
-                                <h6 className='pl--package-mobile-title'>Validity</h6>
-                                <h6 className='pl--package-info'>3 Months</h6>
-                              </div>
-
-                              <div className='pl--package-mobile-flex'>
-                                <h6 className='pl--package-mobile-title'>Price</h6>
-                                <h6 className='pl--package-info'>150,000 + GST</h6>
+                                <h6 className='pl--package-mobile-title'>Total Amount</h6>
+                                <h6 className='pl--package-info'>88,500</h6>
                               </div>
                             </div>
 
@@ -211,36 +229,31 @@ const Packages = () => {
                           <div className="pl--package-detail-area">
                             <div className='pl--package-info-area professional-info-area'>
                               <img src="assets/img/packages/Professional.png" className="pl--package-img" alt="" />
-                              <h5 className="pl--package-name">Professional</h5>
+                              <h5 className="pl--package-name">Growth</h5>
 
                               <div className='pl--package-mobile-flex'>
                                 <h6 className='pl--package-mobile-title'>CV Views</h6>
-                                <h6 className='pl--package-info'>6,000</h6>
+                                <h6 className='pl--package-info'>20,000</h6>
                               </div>
 
                               <div className='pl--package-mobile-flex'>
-                                <h6 className='pl--package-mobile-title'>Job Posting</h6>
-                                <h6 className='pl--package-info'>250</h6>
+                                <h6 className='pl--package-mobile-title'>Login IDs</h6>
+                                <h6 className='pl--package-info'>04</h6>
                               </div>
 
                               <div className='pl--package-mobile-flex'>
-                                <h6 className='pl--package-mobile-title'>Mailers</h6>
-                                <h6 className='pl--package-info'>25,000</h6>
+                                <h6 className='pl--package-mobile-title'>Total</h6>
+                                <h6 className='pl--package-info'>75,000</h6>
                               </div>
 
                               <div className='pl--package-mobile-flex'>
-                                <h6 className='pl--package-mobile-title'>Logins</h6>
-                                <h6 className='pl--package-info'>5</h6>
+                                <h6 className='pl--package-mobile-title'>GST</h6>
+                                <h6 className='pl--package-info'>18%</h6>
                               </div>
 
                               <div className='pl--package-mobile-flex'>
-                                <h6 className='pl--package-mobile-title'>Validity</h6>
-                                <h6 className='pl--package-info'>6 Months</h6>
-                              </div>
-
-                              <div className='pl--package-mobile-flex'>
-                                <h6 className='pl--package-mobile-title'>Price</h6>
-                                <h6 className='pl--package-info'>300,000 + GST</h6>
+                                <h6 className='pl--package-mobile-title'>Total Amount</h6>
+                                <h6 className='pl--package-info'>88,500</h6>
                               </div>
                             </div>
 
@@ -264,36 +277,31 @@ const Packages = () => {
                           <div className="pl--package-detail-area">
                             <div className='pl--package-info-area premium-info-area'>
                               <img src="assets/img/packages/premium.png" className="pl--package-img" alt="" />
-                              <h5 className="pl--package-name">Premium</h5>
+                              <h5 className="pl--package-name">Scale</h5>
 
                               <div className='pl--package-mobile-flex'>
                                 <h6 className='pl--package-mobile-title'>CV Views</h6>
-                                <h6 className='pl--package-info'>10,000</h6>
-                              </div>
-
-                              <div className='pl--package-mobile-flex'>
-                                <h6 className='pl--package-mobile-title'>Job Posting</h6>
-                                <h6 className='pl--package-info'>500</h6>
-                              </div>
-
-                              <div className='pl--package-mobile-flex'>
-                                <h6 className='pl--package-mobile-title'>Mailers</h6>
                                 <h6 className='pl--package-info'>50,000</h6>
                               </div>
 
                               <div className='pl--package-mobile-flex'>
-                                <h6 className='pl--package-mobile-title'>Logins</h6>
-                                <h6 className='pl--package-info'>10</h6>
+                                <h6 className='pl--package-mobile-title'>Login IDs</h6>
+                                <h6 className='pl--package-info'>08</h6>
                               </div>
 
                               <div className='pl--package-mobile-flex'>
-                                <h6 className='pl--package-mobile-title'>Validity</h6>
-                                <h6 className='pl--package-info'>12 Months</h6>
+                                <h6 className='pl--package-mobile-title'>Total</h6>
+                                <h6 className='pl--package-info'>1,25,000</h6>
                               </div>
 
                               <div className='pl--package-mobile-flex'>
-                                <h6 className='pl--package-mobile-title'>Price</h6>
-                                <h6 className='pl--package-info'>500,000 + GST</h6>
+                                <h6 className='pl--package-mobile-title'>GST</h6>
+                                <h6 className='pl--package-info'>18%</h6>
+                              </div>
+
+                              <div className='pl--package-mobile-flex'>
+                                <h6 className='pl--package-mobile-title'>Total Amount</h6>
+                                <h6 className='pl--package-info'>88,500</h6>
                               </div>
                             </div>
 
@@ -315,7 +323,7 @@ const Packages = () => {
                         </div>
                       </div>
 
-                      <p className='pl--package-desc part'>*Base unit prices of all inventory heads are fixed and same for all the companies registered in India.</p>
+                      {/* <p className='pl--package-desc part'>*Base unit prices of all inventory heads are fixed and same for all the companies registered in India.</p> */}
                     </div>
 
                     <div className='pl--add-detail-area tab' id="tab2">
@@ -369,11 +377,195 @@ const Packages = () => {
                   </div>
                 </div>
               </div>
+
+
+              <div className="sol-price-container">
+                <div className='term-con-area'>
+                  <p className='term-con'>
+                    By clicking on the Buy Now you are agreeing to the&nbsp;
+                    <a href="#">Terms & Conditions</a>
+                  </p>
+                </div>
+                <div className="sol-price-area">
+                  <h5 className="sol-price-heading">SKILLETY SOLUTIONS PRICES</h5>
+
+                  <div className="table-responsive">
+                    <table className='table sol-price-table'>
+                      <thead>
+                        <tr className='sol-price-table-head-row'>
+                          <th className='sol-price-table-head text-start'>Solutions</th>
+                          <th className='sol-price-table-head text-center'>Unit Price</th>
+                          <th className='sol-price-table-head text-center'>Select Quantity</th>
+                          <th className='sol-price-table-head text-center'>Total Price</th>
+                          <th className='sol-price-table-head text-center'></th>
+                        </tr>
+                      </thead>
+
+                      <tbody>
+                        <tr className='sol-price-table-row'>
+                          <td className='sol-price-table-data first-data text-start'>Assessments</td>
+                          <td className='sol-price-table-data text-center'>250</td>
+                          <td className='sol-price-table-data text-center sol-price-table-qty-area'>
+                            <button className='sol-price-table-qty-button decrement'>-</button>
+                            <input type="number" className='sol-price-table-qty-input' min={0} value={20} />
+                            <button className='sol-price-table-qty-button increment'>+</button>
+                          </td>
+                          <td className='sol-price-table-data price text-center'>5000</td>
+                          <td className='text-center last-data sol-price-buy-now-btn-area'>
+                            <button className='sol-price-buy-now-btn'>
+                              <div className='sol-price-buy-now-btn-sub'>
+                                Buy Now
+                              </div>
+                              <div className='sol-price-buy-now-arrow-area'>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
+                                  <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#714F36" stroke-width="2" />
+                                  <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#714F36" stroke-width="2" />
+                                  <path d="M1 26L25.1667 1" stroke="#714F36" stroke-width="2" />
+                                </svg>
+                              </div>
+                            </button>
+                          </td>
+                        </tr>
+
+                        <tr className='sol-price-table-row'>
+                          <td className='sol-price-table-data first-data text-start'>Interviews (0-8 yrs)</td>
+                          <td className='sol-price-table-data text-center'>1500</td>
+                          <td className='sol-price-table-data text-center sol-price-table-qty-area'>
+                            <button className='sol-price-table-qty-button decrement'>-</button>
+                            <input type="number" className='sol-price-table-qty-input' min={0} />
+                            <button className='sol-price-table-qty-button increment'>+</button>
+                          </td>
+                          <td className='sol-price-table-data price text-center'>5000</td>
+                          <td className='text-center last-data sol-price-buy-now-btn-area'>
+                            <button className='sol-price-buy-now-btn'>
+                              <div className='sol-price-buy-now-btn-sub'>
+                                Buy Now
+                              </div>
+                              <div className='sol-price-buy-now-arrow-area'>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
+                                  <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#714F36" stroke-width="2" />
+                                  <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#714F36" stroke-width="2" />
+                                  <path d="M1 26L25.1667 1" stroke="#714F36" stroke-width="2" />
+                                </svg>
+                              </div>
+                            </button>
+                          </td>
+                        </tr>
+
+                        <tr className='sol-price-table-row'>
+                          <td className='sol-price-table-data first-data text-start'>Interviews (8.1-15 yrs)</td>
+                          <td className='sol-price-table-data text-center'>2000</td>
+                          <td className='sol-price-table-data text-center sol-price-table-qty-area'>
+                            <button className='sol-price-table-qty-button decrement'>-</button>
+                            <input type="number" className='sol-price-table-qty-input' min={0} />
+                            <button className='sol-price-table-qty-button increment'>+</button>
+                          </td>
+                          <td className='sol-price-table-data price text-center'>5000</td>
+                          <td className='text-center last-data sol-price-buy-now-btn-area'>
+                            <button className='sol-price-buy-now-btn'>
+                              <div className='sol-price-buy-now-btn-sub'>
+                                Buy Now
+                              </div>
+                              <div className='sol-price-buy-now-arrow-area'>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
+                                  <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#714F36" stroke-width="2" />
+                                  <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#714F36" stroke-width="2" />
+                                  <path d="M1 26L25.1667 1" stroke="#714F36" stroke-width="2" />
+                                </svg>
+                              </div>
+                            </button>
+                          </td>
+                        </tr>
+
+                        <tr className='sol-price-table-row'>
+                          <td className='sol-price-table-data first-data text-start'>Interviews (>15 yrs)</td>
+                          <td className='sol-price-table-data text-center'>2500</td>
+                          <td className='sol-price-table-data text-center sol-price-table-qty-area'>
+                            <button className='sol-price-table-qty-button decrement'>-</button>
+                            <input type="number" className='sol-price-table-qty-input' min={0} />
+                            <button className='sol-price-table-qty-button increment'>+</button>
+                          </td>
+                          <td className='sol-price-table-data price text-center'>5000</td>
+                          <td className='text-center last-data sol-price-buy-now-btn-area'>
+                            <button className='sol-price-buy-now-btn'>
+                              <div className='sol-price-buy-now-btn-sub'>
+                                Buy Now
+                              </div>
+                              <div className='sol-price-buy-now-arrow-area'>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
+                                  <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#714F36" stroke-width="2" />
+                                  <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#714F36" stroke-width="2" />
+                                  <path d="M1 26L25.1667 1" stroke="#714F36" stroke-width="2" />
+                                </svg>
+                              </div>
+                            </button>
+                          </td>
+                        </tr>
+
+                        <tr className='sol-price-table-row'>
+                          <td className='sol-price-table-data first-data text-start'>BGV Lite</td>
+                          <td className='sol-price-table-data text-center'>1250</td>
+                          <td className='sol-price-table-data text-center sol-price-table-qty-area'>
+                            <button className='sol-price-table-qty-button decrement'>-</button>
+                            <input type="number" className='sol-price-table-qty-input' min={0} />
+                            <button className='sol-price-table-qty-button increment'>+</button>
+                          </td>
+                          <td className='sol-price-table-data price text-center'>5000</td>
+                          <td className='text-center last-data sol-price-buy-now-btn-area'>
+                            <button className='sol-price-buy-now-btn'>
+                              <div className='sol-price-buy-now-btn-sub'>
+                                Buy Now
+                              </div>
+                              <div className='sol-price-buy-now-arrow-area'>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
+                                  <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#714F36" stroke-width="2" />
+                                  <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#714F36" stroke-width="2" />
+                                  <path d="M1 26L25.1667 1" stroke="#714F36" stroke-width="2" />
+                                </svg>
+                              </div>
+                            </button>
+                          </td>
+                        </tr>
+
+                        <tr className='sol-price-table-row'>
+                          <td className='sol-price-table-data first-data text-start'>BGV 360</td>
+                          <td className='sol-price-table-data text-center'>3000</td>
+                          <td className='sol-price-table-data text-center sol-price-table-qty-area'>
+                            <button className='sol-price-table-qty-button decrement'>-</button>
+                            <input type="number" className='sol-price-table-qty-input' min={0} />
+                            <button className='sol-price-table-qty-button increment'>+</button>
+                          </td>
+                          <td className='sol-price-table-data price text-center'>5000</td>
+                          <td className='text-center last-data sol-price-buy-now-btn-area'>
+                            <button className='sol-price-buy-now-btn'>
+                              <div className='sol-price-buy-now-btn-sub'>
+                                Buy Now
+                              </div>
+                              <div className='sol-price-buy-now-arrow-area'>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
+                                  <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#714F36" stroke-width="2" />
+                                  <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#714F36" stroke-width="2" />
+                                  <path d="M1 26L25.1667 1" stroke="#714F36" stroke-width="2" />
+                                </svg>
+                              </div>
+                            </button>
+                          </td>
+                        </tr>
+
+                      </tbody>
+                    </table>
+                  </div>
+
+                  <h6 className='sol-price-information'>
+                    Beyond this, please contact the Sales department.
+                  </h6>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </>
 
   )

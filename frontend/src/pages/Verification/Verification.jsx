@@ -34,7 +34,7 @@ const Verification = () => {
                                                     <input type="number" className='cli--verify-input-box' />
                                                 </div>
                                                 <div className="verify-code-resend-area" data-aos="fade-up">
-                                                    <h6 className='verify-code-resend mb-0'>If you didn’t receive a code, </h6>
+                                                    <h6 className='verify-code-resend mb-0'>If you didn’t receive a code,&nbsp;</h6>
                                                     <button className='verify-code-resend-btn'>Resend</button>
                                                 </div>
                                             </div>
@@ -55,7 +55,7 @@ const Verification = () => {
                             </div>
                             <div className="col-12 col-xl-6 col-lg-6 col-md-12 col-sm-12">
                                 <div className="cli--signup-img-area">
-                                    <img src="../assets/img/signup/signup-img.jpg" loading='lazy' data-aos="fade" data-aos-delay="300" className='cli--signup-img' alt="" />
+                                    <img src="../assets/img/signup/signup-img.webp" loading='lazy' data-aos="fade" data-aos-delay="300" className='cli--signup-img' alt="" />
                                 </div>
                             </div>
                         </div>

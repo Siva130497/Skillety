@@ -1,4 +1,4 @@
-@media screen and (min-width: 992px) and (max-width: 1024px) {
+@media screen and (min-width: 992px) and (max-width: 1367px) {
     .con--where-section {
         padding-top: 80px !important;
     }
@@ -12,9 +12,9 @@
     }
 
     .cand--ab-vis-mis-para {
-        font-size: 45px;
+        font-size: 40px;
         font-weight: 400;
-        margin-bottom: 60px;
+        /* margin-bottom: 60px; */
     }
 
     .cand--ab-vis-mis-card .cand--ab-vis-mis-head {
@@ -22,63 +22,83 @@
     }
 
     .cand--ab-vis-mis-card .cand--ab-vis-mis-desc {
+        font-size: 18px;
         margin-top: 40px;
     }
 }
 
+@media screen and (min-width: 991.98px) and (max-width: 1199.98px) {
+    .cand--ab-vis-mis-para {
+        margin-bottom: 60px;
+    }
+}
+
 @media (max-width:991.5px) {
-    .con--where-section{
+    .con--where-section {
         padding-top: 80px !important;
     }
-    .cand--ab-para-section2{
+
+    .cand--ab-para-section2 {
         margin-top: 60px;
     }
+
     .cand--ab-vis-mis-section {
         margin: 100px 0 80px 0;
     }
+
     .cand--ab-vis-mis-para {
         font-size: 45px;
         font-weight: 400;
         margin-bottom: 60px;
     }
-    .cand--ab-vis-mis-card .cand--ab-vis-mis-desc{
+
+    .cand--ab-vis-mis-card .cand--ab-vis-mis-desc {
         margin-top: 40px;
     }
-    .cand--ab-vis-mis-card{
+
+    .cand--ab-vis-mis-card {
         margin-bottom: 60px;
     }
 }
 
 @media (max-width:500px) {
-    .con--where-section{
+    .con--where-section {
         padding-top: 60px !important;
     }
-    .cand--ab-para{
+
+    .cand--ab-para {
         font-size: 18px;
     }
+
     .cand--ab-para-section2 {
         margin-top: 40px;
     }
+
     .cand--ab-vis-mis-section {
         margin: 50px 0 20px 0;
     }
-    .cand--ab-vis-mis-para{
+
+    .cand--ab-vis-mis-para {
         line-height: 120%;
         font-size: 30px;
         font-weight: 500;
         margin-bottom: 40px;
     }
+
     .cand--ab-vis-mis-card {
-        padding:30px 25px;
+        padding: 30px 25px;
     }
-    .cand--ab-vis-mis-card .cand--ab-vis-mis-head{
+
+    .cand--ab-vis-mis-card .cand--ab-vis-mis-head {
         font-size: 28px;
     }
-    .cand--ab-vis-mis-card .cand--ab-vis-mis-desc{
+
+    .cand--ab-vis-mis-card .cand--ab-vis-mis-desc {
         margin-top: 30px;
         font-size: 18px;
     }
-    .cand--ab-vis-mis-card{
+
+    .cand--ab-vis-mis-card {
         margin-bottom: 40px;
     }
 }

@@ -3,7 +3,6 @@ import React from 'react'
 export const CandidateFooter = () => {
     return (
         <div>
-            
                 <footer className='footer--section candidate'>
                     <div className="container-fluid">
                         <div className="footer--email-form-section">
@@ -59,16 +58,16 @@ export const CandidateFooter = () => {
                                                 </h6>
                                                 <div className="footer--links candidate">
                                                     <ul>
-                                                        <li data-aos="fade-left">
+                                                        <li data-aos="fade">
                                                             <a href="" className='footer--link'>Lorem Ipsum</a>
                                                         </li>
-                                                        <li data-aos="fade-left">
+                                                        <li data-aos="fade">
                                                             <a href="" className='footer--link'>Lorem Ipsum</a>
                                                         </li>
-                                                        <li data-aos="fade-left">
+                                                        <li data-aos="fade">
                                                             <a href="" className='footer--link'>Lorem Ipsum</a>
                                                         </li>
-                                                        <li data-aos="fade-left">
+                                                        <li data-aos="fade">
                                                             <a href="" className='footer--link'>Lorem Ipsum</a>
                                                         </li>
                                                     </ul>
@@ -82,16 +81,16 @@ export const CandidateFooter = () => {
                                                 </h6>
                                                 <div className="footer--links candidate">
                                                     <ul>
-                                                        <li data-aos="fade-left">
+                                                        <li data-aos="fade">
                                                             <a href="" className='footer--link'>Lorem Ipsum</a>
                                                         </li>
-                                                        <li data-aos="fade-left">
+                                                        <li data-aos="fade">
                                                             <a href="" className='footer--link'>Lorem Ipsum</a>
                                                         </li>
-                                                        <li data-aos="fade-left">
+                                                        <li data-aos="fade">
                                                             <a href="" className='footer--link'>Lorem Ipsum</a>
                                                         </li>
-                                                        <li data-aos="fade-left">
+                                                        <li data-aos="fade">
                                                             <a href="" className='footer--link'>Lorem Ipsum</a>
                                                         </li>
                                                     </ul>
@@ -105,16 +104,16 @@ export const CandidateFooter = () => {
                                                 </h6>
                                                 <div className="footer--links candidate">
                                                     <ul>
-                                                        <li data-aos="fade-left">
+                                                        <li data-aos="fade">
                                                             <a href="" className='footer--link'>Lorem Ipsum</a>
                                                         </li>
-                                                        <li data-aos="fade-left">
+                                                        <li data-aos="fade">
                                                             <a href="" className='footer--link'>Lorem Ipsum</a>
                                                         </li>
-                                                        <li data-aos="fade-left">
+                                                        <li data-aos="fade">
                                                             <a href="" className='footer--link'>Lorem Ipsum</a>
                                                         </li>
-                                                        <li data-aos="fade-left">
+                                                        <li data-aos="fade">
                                                             <a href="" className='footer--link'>Lorem Ipsum</a>
                                                         </li>
                                                     </ul>
@@ -126,28 +125,28 @@ export const CandidateFooter = () => {
                                 <div className="col-12 col-lg-4 col-sm-12 col-xl-6">
                                     <div className="footer--social-section">
                                         <div className="footer--social-area">
-                                            <div className="footer--social-icon-area candidate" data-aos="fade-right">
+                                            <div className="footer--social-icon-area candidate" data-aos="fade">
                                                 <i className="ri-facebook-circle-fill footer--social-icon candidate"></i>
                                             </div>
-                                            <a href='' className='footer--social-link candidate' data-aos="fade-left">Facebook</a>
+                                            <a href='' className='footer--social-link candidate' data-aos="fade">Facebook</a>
                                         </div>
                                         <div className="footer--social-area">
-                                            <div className="footer--social-icon-area candidate" data-aos="fade-right">
+                                            <div className="footer--social-icon-area candidate" data-aos="fade">
                                                 <i className="ri-instagram-fill footer--social-icon candidate"></i>
                                             </div>
-                                            <a href='' className='footer--social-link candidate' data-aos="fade-left">Instagram</a>
+                                            <a href='' className='footer--social-link candidate' data-aos="fade">Instagram</a>
                                         </div>
                                         <div className="footer--social-area">
-                                            <div className="footer--social-icon-area candidate" data-aos="fade-right">
+                                            <div className="footer--social-icon-area candidate" data-aos="fade">
                                                 <i className="ri-twitter-x-fill footer--social-icon footer-twitter candidate"></i>
                                             </div>
-                                            <a href='' className='footer--social-link candidate' data-aos="fade-left">Twitter</a>
+                                            <a href='' className='footer--social-link candidate' data-aos="fade">Twitter</a>
                                         </div>
                                         <div className="footer--social-area">
-                                            <div className="footer--social-icon-area candidate" data-aos="fade-right">
+                                            <div className="footer--social-icon-area candidate" data-aos="fade">
                                                 <i className="ri-linkedin-fill footer--social-icon footer-twitter candidate"></i>
                                             </div>
-                                            <a href='' className='footer--social-link candidate' data-aos="fade-left">Linkedin</a>
+                                            <a href='' className='footer--social-link candidate' data-aos="fade">Linkedin</a>
                                         </div>
                                     </div>
                                 </div>
@@ -162,28 +161,28 @@ export const CandidateFooter = () => {
                                         </h6>
                                         <div className="footer--links candidate">
                                             <ul>
-                                                <li data-aos="fade-left">
+                                                <li data-aos="fade">
                                                     <a href="" className='footer--link'>Lorem Ipsum</a>
                                                 </li>
-                                                <li data-aos="fade-left">
+                                                <li data-aos="fade">
                                                     <a href="" className='footer--link'>Lorem Ipsum</a>
                                                 </li>
-                                                <li data-aos="fade-left">
+                                                <li data-aos="fade">
                                                     <a href="" className='footer--link'>Lorem Ipsum</a>
                                                 </li>
-                                                <li data-aos="fade-left">
+                                                <li data-aos="fade">
                                                     <a href="" className='footer--link'>Lorem Ipsum</a>
                                                 </li>
-                                                <li data-aos="fade-left">
+                                                <li data-aos="fade">
                                                     <a href="" className='footer--link'>Lorem Ipsum</a>
                                                 </li>
-                                                <li data-aos="fade-left">
+                                                <li data-aos="fade">
                                                     <a href="" className='footer--link'>Lorem Ipsum</a>
                                                 </li>
-                                                <li data-aos="fade-left">
+                                                <li data-aos="fade">
                                                     <a href="" className='footer--link'>Lorem Ipsum</a>
                                                 </li>
-                                                <li data-aos="fade-left">
+                                                <li data-aos="fade">
                                                     <a href="" className='footer--link'>Lorem Ipsum</a>
                                                 </li>
                                             </ul>
@@ -197,28 +196,28 @@ export const CandidateFooter = () => {
                                         </h6>
                                         <div className="footer--links candidate">
                                             <ul>
-                                                <li data-aos="fade-left">
+                                                <li data-aos="fade">
                                                     <a href="" className='footer--link'>Lorem Ipsum</a>
                                                 </li>
-                                                <li data-aos="fade-left">
+                                                <li data-aos="fade">
                                                     <a href="" className='footer--link'>Lorem Ipsum</a>
                                                 </li>
-                                                <li data-aos="fade-left">
+                                                <li data-aos="fade">
                                                     <a href="" className='footer--link'>Lorem Ipsum</a>
                                                 </li>
-                                                <li data-aos="fade-left">
+                                                <li data-aos="fade">
                                                     <a href="" className='footer--link'>Lorem Ipsum</a>
                                                 </li>
-                                                <li data-aos="fade-left">
+                                                <li data-aos="fade">
                                                     <a href="" className='footer--link'>Lorem Ipsum</a>
                                                 </li>
-                                                <li data-aos="fade-left">
+                                                <li data-aos="fade">
                                                     <a href="" className='footer--link'>Lorem Ipsum</a>
                                                 </li>
-                                                <li data-aos="fade-left">
+                                                <li data-aos="fade">
                                                     <a href="" className='footer--link'>Lorem Ipsum</a>
                                                 </li>
-                                                <li data-aos="fade-left">
+                                                <li data-aos="fade">
                                                     <a href="" className='footer--link'>Lorem Ipsum</a>
                                                 </li>
                                             </ul>
@@ -232,28 +231,28 @@ export const CandidateFooter = () => {
                                         </h6>
                                         <div className="footer--links candidate">
                                             <ul>
-                                                <li data-aos="fade-left">
+                                                <li data-aos="fade">
                                                     <a href="" className='footer--link'>Lorem Ipsum</a>
                                                 </li>
-                                                <li data-aos="fade-left">
+                                                <li data-aos="fade">
                                                     <a href="" className='footer--link'>Lorem Ipsum</a>
                                                 </li>
-                                                <li data-aos="fade-left">
+                                                <li data-aos="fade">
                                                     <a href="" className='footer--link'>Lorem Ipsum</a>
                                                 </li>
-                                                <li data-aos="fade-left">
+                                                <li data-aos="fade">
                                                     <a href="" className='footer--link'>Lorem Ipsum</a>
                                                 </li>
-                                                <li data-aos="fade-left">
+                                                <li data-aos="fade">
                                                     <a href="" className='footer--link'>Lorem Ipsum</a>
                                                 </li>
-                                                <li data-aos="fade-left">
+                                                <li data-aos="fade">
                                                     <a href="" className='footer--link'>Lorem Ipsum</a>
                                                 </li>
-                                                <li data-aos="fade-left">
+                                                <li data-aos="fade">
                                                     <a href="" className='footer--link'>Lorem Ipsum</a>
                                                 </li>
-                                                <li data-aos="fade-left">
+                                                <li data-aos="fade">
                                                     <a href="" className='footer--link'>Lorem Ipsum</a>
                                                 </li>
                                             </ul>
@@ -267,28 +266,28 @@ export const CandidateFooter = () => {
                                         </h6>
                                         <div className="footer--links candidate">
                                             <ul>
-                                                <li data-aos="fade-left">
+                                                <li data-aos="fade">
                                                     <a href="" className='footer--link'>Lorem Ipsum</a>
                                                 </li>
-                                                <li data-aos="fade-left">
+                                                <li data-aos="fade">
                                                     <a href="" className='footer--link'>Lorem Ipsum</a>
                                                 </li>
-                                                <li data-aos="fade-left">
+                                                <li data-aos="fade">
                                                     <a href="" className='footer--link'>Lorem Ipsum</a>
                                                 </li>
-                                                <li data-aos="fade-left">
+                                                <li data-aos="fade">
                                                     <a href="" className='footer--link'>Lorem Ipsum</a>
                                                 </li>
-                                                <li data-aos="fade-left">
+                                                <li data-aos="fade">
                                                     <a href="" className='footer--link'>Lorem Ipsum</a>
                                                 </li>
-                                                <li data-aos="fade-left">
+                                                <li data-aos="fade">
                                                     <a href="" className='footer--link'>Lorem Ipsum</a>
                                                 </li>
-                                                <li data-aos="fade-left">
+                                                <li data-aos="fade">
                                                     <a href="" className='footer--link'>Lorem Ipsum</a>
                                                 </li>
-                                                <li data-aos="fade-left">
+                                                <li data-aos="fade">
                                                     <a href="" className='footer--link'>Lorem Ipsum</a>
                                                 </li>
                                             </ul>

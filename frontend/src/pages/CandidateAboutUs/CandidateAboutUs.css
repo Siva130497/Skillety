@@ -49,3 +49,6 @@
     text-transform: capitalize;
     margin-bottom: 0;
 }
+.about--card.candidate:hover .about--sub-des.candidate p{
+    color: #FFF !important;
+}
