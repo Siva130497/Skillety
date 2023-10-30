@@ -33,7 +33,7 @@ const NewNav = () => {
             $('.scroll-to-top').click(function () {
                 $('html, body').animate({
                     scrollTop: 0
-                }, 100); // Adjust the speed (in milliseconds) as needed
+                }, 100);
             });
         });
     }, []);
@@ -49,7 +49,7 @@ const NewNav = () => {
     };
 
     return (
-        <header id="header" className="fixed--top">
+        <header id="header" className="fixed--top client">
             <div className="container-fluid d-flex align-items-center justify-content-between ps-0 custom-right-nav-padding">
 
                 <div>
@@ -86,7 +86,7 @@ const NewNav = () => {
                     </div>
                 </div>
 
-                <nav id="navbar" className="navbar navbar-expand-lg">
+                <nav id="navbar" className="navbar client navbar-expand-lg">
                     <ul>
                         <li><div><a href="/" className="nav-link scrollto active">Home</a></div></li>
                         <li><a href="/about-us" className="nav-link scrollto">About Us</a></li>
@@ -122,7 +122,7 @@ const NewNav = () => {
                                     }}><a href='#'>Logout</a></li>
                                 </ul>
                             </li> : 
-                            <li><a className="nav-link scrollto" href="/client-login">Login</a></li>
+                            <li><a className="nav-link scrollto login--btn client" href="/client-login"><i class='bx bx-log-in-circle login--icon me-2'></i>Login</a></li>
                         }
                     </ul>
                     <i className="bi bi-list mobile-nav-toggle"></i>

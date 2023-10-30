@@ -6,7 +6,7 @@ import AuthContext from '../context/AuthContext';
 
 export const NewNavCandidateHome = () => {
 
-    const {getProtectedData} = useContext(AuthContext);
+    const { getProtectedData } = useContext(AuthContext);
     const navigate = useNavigate();
 
     const [userName, setUserName] = useState('');
@@ -14,7 +14,7 @@ export const NewNavCandidateHome = () => {
     const candidateToken = JSON.parse(localStorage.getItem('candidateToken'));
 
     useEffect(() => {
-        if(candidateToken){
+        if (candidateToken) {
             const fetchData = async () => {
                 try {
                     const userData = await getProtectedData(candidateToken);
@@ -24,21 +24,21 @@ export const NewNavCandidateHome = () => {
                     console.error(error);
                 }
             };
-    
+
             fetchData();
         }
-        
+
     }, [candidateToken]);
 
     const extractLastName = () => {
         const nameParts = userName.split(' ');
-    
+
         if (nameParts.length > 1) {
-          return nameParts[nameParts.length - 1];
+            return nameParts[nameParts.length - 1];
         } else {
-          return userName; 
+            return userName;
         }
-      };
+    };
 
     useEffect(() => {
         $(document).ready(function () {
@@ -49,7 +49,7 @@ export const NewNavCandidateHome = () => {
             });
         });
     }, []);
-    
+
 
     return (
         <header id="header" className="fixed--top candidate">
@@ -91,22 +91,22 @@ export const NewNavCandidateHome = () => {
 
                 <nav id="navbar" className="navbar candidate navbar-expand-lg">
                     <ul>
-                        <li><div><a href="#" className="nav-link scrollto active">Home</a></div></li>
+                        <li><div><a href="/candidate-home" className="nav-link scrollto active">Home</a></div></li>
                         <li><a href="/candidate-about-us" className="nav-link scrollto">About Us</a></li>
                         <li><a href="/job-detail" className="nav-link scrollto">Search Jobs</a></li>
                         {/* <li><a href="#" className="nav-link scrollto">Companies</a></li> */}
                         <li><a href="/events" className="nav-link scrollto">Event</a></li>
                         <li><a href="/talent-contact-us" className="nav-link scrollto">Contact</a></li>
-                        {userName ? 
+                        {userName ?
                             <li className="dropdown"><a href='#'><span>{extractLastName()}</span><i className="bi bi-chevron-down"></i></a>
                                 <ul>
                                     <li><a href="/candidate-dashboard">Dash Board</a></li>
-                                    <li onClick={()=>{
+                                    <li onClick={() => {
                                         localStorage.removeItem("candidateToken");
                                         window.location.reload();
                                     }}><a href='#'>Logout</a></li>
                                 </ul>
-                            </li> : 
+                            </li> :
                             <li><a href="/candidate-login" className="nav-link scrollto login--btn"><i class='bx bx-log-in-circle login--icon me-2'></i>Login</a></li>
                         }
                     </ul>

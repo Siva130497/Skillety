@@ -1,15 +1,443 @@
-@media screen and (min-width: 992px) and (max-width: 1024px) {
+@media screen and (min-width: 992px) and (max-width: 1367px) {
     .cli--tal-pro-search-section {
         margin-top: 130px;
+    }
+
+    .cli-tal-pro-search-container .cli-tal-pro-search-heading {
+        font-size: 45px;
+        font-weight: 500;
+    }
+
+    .cli-tal-pro-search-filter-area {
+        padding: 30px 15px 30px 0px;
+    }
+
+    .tal--pro-search-result-image-area {
+        padding-bottom: 150px;
+    }
+
+    .cli--tal-pro-search-results-area {
+        padding: 40px 0px 30px 20px;
+    }
+
+    .clear--all_button-area .clear--all_button,
+    .tal--search-submit-btn {
+        /* width: 100%; */
+        font-size: 16px;
+    }
+
+    .cli-tal-pro-recent-search-head-area {
+        gap: 10px;
+    }
+
+    .cli-tal-pro-recent-search-head-area i {
+        font-size: 25px;
+    }
+
+    .cli-tal-pro-recent-search-head {
+        font-size: 20px;
+    }
+
+    .cli-tal-pro-recent-search-btn-area .cli-tal-pro-recent-search-btn {
+        font-size: 15px;
+        font-weight: 500;
+    }
+
+    .cli-tal-pro-recent-search-tags span {
+        font-size: 14px;
+    }
+
+    .cli-tal-pro-recent-search-area {
+        margin-top: 30px;
+    }
+
+    .cli-tal-pro-recent-search-tags {
+        margin-top: 20px;
+    }
+
+    .cli--emploment-detail-head,
+    .cli-tal-pro-search-page-days-selection-area .days-active,
+    .select-box {
+        font-size: 16px;
+    }
+
+    .cli-tal-pro-search-page-btn-area .cli-tal-pro-search-page-btn {
+        padding: 18px 30px;
+    }
+
+    .cli-tal-pro-search-filter-toggle-area {
+        padding: 30px 0px 30px 0px;
+    }
+
+    .cli-tal-pro-exp-input-area.search-results {
+        flex-direction: column;
+    }
+
+    .width-45.search-results {
+        width: 100% !important;
+    }
+
+    .col-width-lg-30 {
+        width: 30% !important;
+    }
+
+    .col-width-lg-70 {
+        width: 70% !important;
+    }
+
+    .tal--pro-card-tags.search {
+        margin-top: 20px;
+        flex-wrap: wrap;
+        row-gap: 10px;
+    }
+
+    .tal--pro-card-tags.search .tal--pro-card-exp,
+    .tal--pro-card-tags.search .tal--pro-card-location span,
+    .tal--pro-card-tags.search .tal--pro-card-role {
+        font-size: 14px !important;
+        font-weight: 600 !important;
+    }
+
+    .tal--pro-card-tags.search .tal--pro-card-location i {
+        vertical-align: middle !important;
+    }
+
+    .tal--pro-card-desc-area.search {
+        margin-top: 20px;
+    }
+
+    .tal--pro-card-desc-area.search .tal--pro-card-desc-title,
+    .tal--pro-card-desc-area.search .tal--pro-card-desc {
+        font-size: 12px !important;
+    }
+
+    .tal--pro-card-bottom-btn-area.search .tal--pro-card-bottom-btn {
+        font-size: 12px !important;
+    }
+
+    .tal--pro-card-left-area.search {
+        width: 65%;
+    }
+
+    .tal--pro-card-right-area.search {
+        width: 35%;
+        padding-right: 60px;
+    }
+
+    .tal--pro-card-right-btn-area.search {
+        width: 40px;
+    }
+
+    .tal--pro-card-right-btn.search img {
+        width: 18px;
+    }
+
+    .tal--pro-card-ability.search {
+        font-size: 12px;
+    }
+
+    .tal--pro-card-days.search,
+    .tal--pro-card-percentage.search {
+        font-size: 37px;
+    }
+
+    .tal--pro-card-right-cover-area.search {
+        gap: 10px;
     }
 }
 
 @media (max-width:991.5px) {
 
+    .custom--container.tal--pro-search {
+        padding: 0px 10px;
+    }
+
+    .cli-tal-pro-search-container .cli-tal-pro-search-heading {
+        font-size: 45px;
+        font-weight: 500;
+    }
+
+    .cli-tal-pro-search-filter-area {
+        padding: 30px 10px 30px 0px;
+    }
+
+    .cli--tal-pro-search-results-area {
+        padding: 40px 0px 40px 20px;
+    }
+
+    .clear--all_button-area .clear--all_button,
+    .tal--search-submit-btn {
+        font-size: 18px;
+        width: 100%;
+    }
+
+    .clear--all_button-area {
+        /* margin-top: 30px; */
+        padding-top: 50px;
+        padding-bottom: 20px;
+    }
+
+    .custom-right-border-col-lg {
+        border-right: 1px solid #714F36;
+    }
+
+    .custom-padding-right-lg {
+        padding-right: 30px;
+    }
+
+    .custom-padding-left-lg {
+        padding-left: 30px;
+    }
+
+    .tal--pro-search-result-image-area {
+        padding-top: 200px;
+        padding-bottom: 150px;
+    }
+
+    .clear--all_button-area {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+    }
+
+    .tal--pro-search-result-image-area .tal--pro-search-result-image {
+        width: 60%;
+        height: 60%;
+    }
+
+    .cli-tal-pro-recent-search-head-area {
+        gap: 10px;
+    }
+
+    .cli-tal-pro-recent-search-head-area i {
+        font-size: 25px;
+    }
+
+    .cli-tal-pro-recent-search-head {
+        font-size: 20px;
+    }
+
+    .cli-tal-pro-recent-search-btn-area .cli-tal-pro-recent-search-btn {
+        font-size: 15px;
+        font-weight: 500;
+    }
+
+    .cli-tal-pro-recent-search-tags span {
+        font-size: 14px;
+    }
+
+    .cli-tal-pro-recent-search-area {
+        margin-top: 30px;
+    }
+
+    .cli-tal-pro-recent-search-tags {
+        margin-top: 20px;
+        padding-bottom: 30px;
+        border-bottom: 1px solid #714F36;
+    }
+
+    .cli-tal-pro-recent-search-section {
+        padding: 30px 0px 30px 10px;
+    }
+
+    .cli-tal-pro-recent-search-btn-area {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .cli--emploment-detail-head,
+    .cli-tal-pro-search-page-days-selection-area .days-active,
+    .select-box {
+        font-size: 16px;
+    }
+
+    .cli-tal-pro-search-page-btn-area .cli-tal-pro-search-page-btn {
+        padding: 18px 30px;
+    }
+
+    .cli-tal-pro-search-filter-toggle-area {
+        padding: 30px 5px 30px 0px;
+    }
+
+    .cli-tal-pro-exp-input-area {
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .width-45 {
+        width: 100% !important;
+    }
+
+    .cli--salary-inputs-area {
+        width: 100%;
+    }
+
+    .cli-tal-pro-exp-input-area.search-page {
+        flex-direction: row;
+        width: 100%;
+    }
+
+    .width-45.search-page {
+        width: 70% !important;
+    }
+
+    .tal--pro-card-right-cover-area.search {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .tal--pro-card-right-area.search {
+        padding: 30px 25px 25px 25px;
+    }
+
+    .tal--pro-card-profile-img-role-area.search {
+        gap: 10px;
+    }
+
+    .tal--pro-card-contact-btn-area.search {
+        flex-direction: row;
+        gap: 5px;
+    }
+
+    .tal--pro-card-contact-btn-area.search .tal--pro-card-contact-btn.search {
+        white-space: nowrap;
+        padding: 0px 27px;
+    }
+
+    .talent--profile-search-page-section,
+    .talent--profile-search-results-section {
+        padding-bottom: 60px;
+    }
 }
 
 @media (max-width:500px) {
     .cli--tal-pro-search-section {
         margin-top: 100px;
+    }
+
+    .cli-tal-pro-search-container .cli-tal-pro-search-heading {
+        font-size: 30px;
+    }
+
+    .cli-tal-pro-search-filter-area {
+        padding: 30px 0px;
+    }
+
+    .custom-right-border-col {
+        border-right: none;
+    }
+
+    .cli-tal-pro-search-filter-container {
+        margin-top: 40px;
+    }
+
+    .width-30 {
+        width: 40% !important;
+    }
+
+    .cli-tal-pro-search-filter-input.cand--seek-select {
+        margin-bottom: 20px;
+    }
+
+    .clear--all_button-area .clear--all_button,
+    .tal--search-submit-btn {
+        width: 100%;
+    }
+
+    .cli--tal-pro-search-results-area {
+        border-top: #714F36 1px solid;
+        padding: 40px 0px;
+    }
+
+    .clear--all_button-area {
+        gap: 20px;
+    }
+
+    .cli--mark-keyword-area {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .cli-tal-pro-exp-input-area {
+        width: 100%;
+    }
+
+    .cli-tal-pro-search-filter-input.location {
+        width: 100%;
+    }
+
+    .cli-tal-pro-search-filter-expand-area .cli-tal-search-filter-form-group {
+        width: 100%;
+    }
+
+    .cli-tal-pro-search-page-btn-area {
+        flex-direction: column;
+        gap: 30px;
+        align-items: stretch;
+    }
+
+    .select-options li {
+        font-size: 15px;
+    }
+
+    .cli-tal-pro-search-page-days-selection-area .days-active,
+    .select-box {
+        font-size: 16px;
+    }
+
+    .cli-tal-pro-recent-search-section {
+        padding: 40px 0px;
+    }
+
+    .cli-tal-pro-recent-search-btn-area {
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .custom-border-top-sm {
+        border-top: #714F36 1px solid;
+    }
+
+    .cli--salary-inputs-area {
+        width: 100%;
+    }
+
+    .cli-tal-pro-exp-input-area.search-page {
+        flex-direction: column;
+    }
+
+    .width-45.search-page {
+        width: 100% !important;
+    }
+
+    .tal--pro-card-contact-btn-area.search {
+        flex-direction: column;
+        gap: 3px;
+    }
+
+    .tal--pro-card-profile-img-role-area.search {
+        gap: 5px;
+    }
+
+    .tal--pro-card-right-cover-area.search {
+        gap: 20px;
+    }
+
+    .talent--profile-search-results-section {
+        padding-bottom: 0px;
+    }
+
+    .talent--profile-search-page-section {
+        padding-bottom: 40px;
+    }
+
+    .tooltip {
+        right: 0;
+        left: 0;
+    }
+    .info-icon-button:hover+.tooltip{
+        transform: translateY(-15px);
     }
 }

@@ -325,10 +325,15 @@
 }
 
 .home--card {
-    border-radius: 40px;
+    border-radius: 29px;
     padding: 20px 30px;
     overflow: hidden;
     transition: ease-in-out 0.8s;
+    background-color: #FFF;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    position: relative;
     /* cursor: pointer; */
     z-index: 1;
     /* box-shadow: 5px 5px 20px #00000037; */
@@ -354,10 +359,12 @@
 }
 
 .home--card:hover .home--sub-des p {
-    color: #fff !important;
+    color: #714F36 !important;
     /* letter-spacing: 0.5px; */
 }
-
+.home--card:hover .arrow--icon{
+    transform: rotate(45deg);
+}
 .card--imgicon-area {
     display: flex;
     justify-content: space-between;
@@ -394,15 +401,20 @@
 }
 
 .arrow--icon-btn {
-    padding: 15px;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border-radius: 50%;
-    background-color: #714F36;
+    background-color: #ffffff;
     position: absolute;
-    right: 10px;
-    bottom: 10px;
-    border: #5C3B2E 5px solid;
-    box-shadow: inset 0px 0px 10px #2d1f19;
+    right: 0px;
+    bottom: 0px;
+    outline: #714F36 13px solid;
     transition: ease-in-out 0.8s;
+    border: none;
+    z-index: 5;
 }
 
 .arrow--icon-btn .arrow--icon {
@@ -1136,13 +1148,11 @@
     margin-bottom: 0;
 } */
 .home--slider-btn-area {
-    padding-top: 60px;
-    padding-bottom: 0px;
     position: relative;
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    padding: 0 60px;
+    padding:60px 60px 0px 60px;
 }
 
 .candidate--section {
@@ -1565,7 +1575,7 @@
     justify-content: center;
     align-items: center;
     position: absolute;
-    outline: 30px solid #fff;
+    outline: 20px solid #fff;
     bottom: 0;
     right: 0;
     transition: ease-in-out 0.8s;

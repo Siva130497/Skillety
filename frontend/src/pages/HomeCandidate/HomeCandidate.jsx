@@ -82,6 +82,9 @@ const HomeCandidate = () => {
       slidesPerView: 2.5,
     },
     1200: {
+      slidesPerView: 2.7,
+    },
+    1400: {
       slidesPerView: 3.5,
     },
   };
@@ -92,7 +95,7 @@ const HomeCandidate = () => {
         <div className='container-fluid container-section'>
           <div className="home--bg candidate">
             <div className="row col-rev-custom">
-              <div className="col-12 col-lg-6 col-xl-7 col-md-12 home--left-cover">
+              <div className="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-7 col-xxl-7 home--left-cover">
                 <div className="home--head candidate">
                   <h4 data-aos="fade-left" data-aos-delay="200">
                     Great opportunities knock only once. We make sure you don’t miss them.
@@ -124,7 +127,7 @@ const HomeCandidate = () => {
                 </div>
 
               </div>
-              <div className="col-12 col-lg-6 col-xl-5 col-md-12 home--right-cover custom-flex">
+              <div className="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-5 col-xxl-5 home--right-cover custom-flex">
                 <div className='home--blob-img-area'>
                   <div className="home--img-area">
                     <img src="assets/img/home-images/candidate-home-img.png" data-aos="fade" data-aos-delay="300" loading='lazy'
@@ -140,7 +143,7 @@ const HomeCandidate = () => {
                 </div>
                 <div className="home--card-area">
                   <div className="row">
-                    <div className="col-xl-8 col-lg-12 col-md-12 offset-xl-4">
+                    <div className="col-xl-9 col-xxl-8 col-lg-12 col-md-12 offset-xl-3 offset-xxl-4">
                       <div className="card home--card candidate" data-aos="fade-right" data-aos-delay="100">
                         <div className="card--imgicon-area">
                           <h6 className='card--text candidate'>I am an immediate joiner</h6>
@@ -796,7 +799,7 @@ const HomeCandidate = () => {
             </div>
             <div className="testimonial--card-area">
               <div className="row">
-                <div className="col-12 col-xl-7 col-lg-12 col-md-12">
+                <div className="col-12 col-xl-12 col-xxl-7 col-lg-12 col-md-12">
                   <article className="testimonial--card-lg candidate" data-aos="zoom-out-right">
                     <div className="testimonial--profile-area">
                       <img src="assets/img/home-images/testi-profile.jpeg" className='testimonial--profile-img' alt="" />
@@ -817,7 +820,7 @@ const HomeCandidate = () => {
                     </a>
                   </article>
                 </div>
-                <div className="col-12 col-xl-5 col-lg-6 col-md-12 custom-flex-row">
+                <div className="col-12 col-xl-12 col-xxl-5 col-lg-6 col-md-12 custom-flex-row">
                   <article className='testimonial--card-sm test--card-bg1 mb-4' data-aos="zoom-out-left">
                     <div className="testimonial-sm--profile-area">
                       <img src="assets/img/home-images/testi-profile.jpeg" className='testimonial--sm-profile-img' alt="" />

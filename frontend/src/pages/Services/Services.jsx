@@ -45,7 +45,7 @@ const Services = () => {
                                                 </p>
                                             </div>
                                             <a href='' className="arrow--icon-btn">
-                                                <img src="assets/img/home-images/arrow-img.png" className='arrow--icon' alt="" />
+                                                <img src="assets/img/home-images/arrow-dark.png" className='arrow--icon' alt="" />
                                             </a>
                                         </div>
                                     </div>
@@ -371,9 +371,9 @@ const Services = () => {
                             </div>
                         </div>
 
-                        <div className="ser--more-btn-area">
+                        {/* <div className="ser--more-btn-area">
                             <a href="" className='ser--more-btn' data-aos="fade-up">More...</a>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </div>

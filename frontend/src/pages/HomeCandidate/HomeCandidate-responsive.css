@@ -1,4 +1,4 @@
-@media screen and (min-width: 992px) and (max-width: 1024px) {
+@media screen and (min-width: 991.98px) and (max-width: 1399.98px) {
     .home--head.candidate h4 {
         font-size: 30px;
     }
@@ -25,9 +25,9 @@
     }
 
     .cand--home-company-title-area {
-        flex-direction: column;
+        /* flex-direction: column;
         align-items: flex-start;
-        gap: 30px;
+        gap: 30px; */
     }
 
     .home--rpo-section.candidate {
@@ -35,7 +35,7 @@
         padding-bottom: 0;
     }
     .cand--job-card .cand--job-card-bottom-area .cand--job-know-more{
-        font-size: 20px;
+        font-size: 24px;
     }
     .cand--job-card-arrow-area svg{
         width: 25px;

@@ -1,10 +1,12 @@
-@media screen and (min-width: 992px) and (max-width: 1024px) {
+@media screen and (min-width: 991.98px) and (max-width: 1399.98px) {
     .about--left-cover {
         padding-top: 160px;
     }
+
     .about--card-area {
         margin-top: 30px;
     }
+
     .about--head h2 {
         font-size: 60px;
     }
@@ -43,22 +45,32 @@
         font-size: 45px;
     }
 
-    .ab-weoff--top-area {
+    /* .ab-weoff--top-area {
         flex-direction: column;
         align-items: flex-start;
         gap: 10px;
-    }
-    .ab--weoff-btn{
+    } */
+
+    .ab--weoff-btn {
         padding: 15px 40px;
         font-size: 20px;
     }
-    .ab--weoff-btn-arrow-area{
+
+    .ab--weoff-btn-arrow-area {
         padding: 17px;
     }
-    .ab-weoff-card{
+
+    .ab-weoff-card {
         padding: 0 40px 0 40px;
     }
 
+    .ab--milestone-card-right .ab-milestone-number {
+        font-size: 86px;
+    }
+
+    .about--milestone-card {
+        height: 280px;
+    }
 }
 
 @media (max-width:991.5px) {

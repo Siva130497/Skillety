@@ -39,7 +39,7 @@ const CandidateAboutUs = () => {
                                                 <h6 className='card--text candidate'>I am an immediate joiner</h6>
                                                 <img src="assets/img/home-images/clipboard-img.png" className='card--icon candidate' alt="" />
                                             </div>
-                                            <div className="about--sub-des">
+                                            <div className="about--sub-des candidate">
                                                 <p>
                                                     Lorem Ipsum is simply dummy text of the printing and typesetting industry.
                                                 </p>

@@ -107,9 +107,9 @@
     margin-bottom: 20px;
     transition: ease-in-out 0.8s;
 }
-.ser--cont-list-area .ser--cont-list-item:hover{
+/* .ser--cont-list-area .ser--cont-list-item:hover{
     transform: translateX(8px);
-}
+} */
 
 .ser--cont-btn-area {
     margin-top: 60px;

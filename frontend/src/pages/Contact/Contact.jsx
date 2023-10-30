@@ -90,7 +90,7 @@ const Contact = () => {
                                                 </p>
                                             </div>
                                             <a href='' className="arrow--icon-btn">
-                                                <img src="assets/img/home-images/arrow-img.png" className='arrow--icon' alt="" />
+                                                <img src="assets/img/home-images/arrow-dark.png" className='arrow--icon' alt="" />
                                             </a>
                                         </div>
                                     </div>

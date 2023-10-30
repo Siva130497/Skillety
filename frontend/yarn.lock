@@ -6549,7 +6549,14 @@ jiti@^1.18.2:
   resolved "https://registry.npmjs.org/jiti/-/jiti-1.19.3.tgz"
   integrity sha512-5eEbBDQT/jF1xg6l36P+mWGGoH9Spuy0PCdSr2dtWRDGC6ph/w9ZCL4lmESW8f8F7MwT3XKescfP0wnZWAKL9w==
 
-jquery@^3.7.1:
+jquery.nicescroll@^3.7.6:
+  version "3.7.6"
+  resolved "https://registry.npmjs.org/jquery.nicescroll/-/jquery.nicescroll-3.7.6.tgz"
+  integrity sha512-H4XOzQDw/fJIFftYGemNDAr9sz52zr35+JEubsTNGrTAtxQra4qnu6UnOe+avEHVPy8HnyoHgIpvPXedGSCfTw==
+  dependencies:
+    jquery ">=1.8.3"
+
+jquery@^3.7.1, jquery@>=1.8.3:
   version "3.7.1"
   resolved "https://registry.npmjs.org/jquery/-/jquery-3.7.1.tgz"
   integrity sha512-m4avr8yL8kmFN8psrbFFFmB/If14iN5o9nw/NgnnM+kybDJpRsAynV2BsfpTYrTRysYUdADVD7CkUUizgkpLfg==
