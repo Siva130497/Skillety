@@ -4,6 +4,7 @@ import Layout from '../../components/Layout';
 import { Footer } from '../../components/Footer';
 import { useNavigate } from 'react-router-dom';
 import AuthContext from '../../context/AuthContext';
+import Chat from '../Chat/Chat';
 
 
 const CandidateDashboard = () => {
@@ -12,6 +13,7 @@ const CandidateDashboard = () => {
   const navigate = useNavigate();
 
   const [candidateId, setCandidateId] = useState("");
+  const [candidateName, setCandidateName] = useState("");
   const [jobDetail, setJobDetail] = useState([]);
   const [jobView, setJobView] = useState(false);
   const [jobViewDetail, setJobViewDetail] = useState([]);
@@ -19,6 +21,7 @@ const CandidateDashboard = () => {
   const [dashBoard, setDashBoard] = useState(true);
   const [allJobMode, setAllJobMode] = useState(false);
   const [appliedJobMode, setAppliedJobMode] = useState(false);
+  const [realTimeChatMode, setRealTimeChatMode] = useState(false);
 
   const [checkBoxfilters, setCheckBoxFilters] = useState([]);
   const [checkBoxFilteredJobs, setCheckBoxFilteredJobs] = useState([]);
@@ -34,6 +37,7 @@ const CandidateDashboard = () => {
         const user = await getProtectedData(candidateToken);
         console.log(user);
         setCandidateId(user.id);
+        setCandidateName(user.name)
       } catch (error) {
         navigate("/candidate-login")
       }
@@ -229,6 +233,7 @@ const CandidateDashboard = () => {
   return (
       <div>
         {/* <Layout/> */}
+        
         <div className='container-fluid' style={{display: 'flex'}}>
               <div style={{flex:2}}>
                 <ul>
@@ -236,6 +241,7 @@ const CandidateDashboard = () => {
                     setDashBoard(true);
                     setAppliedJobMode(false);
                     setAllJobMode(false);
+                    setRealTimeChatMode(false);
                   }}>Dash board</button></li>
                   <li style={{listStyleType:'none'}}><button onClick={()=>{
                     getSkillMatchJobDetail();
@@ -243,13 +249,21 @@ const CandidateDashboard = () => {
                     setDashBoard(false);
                     setAppliedJobMode(false);
                     setAllJobMode(true);
+                    setRealTimeChatMode(false);
                   }}>All Jobs</button></li>
                   <li style={{listStyleType:'none'}}><button onClick={()=>{
                     getAppliedjobs();
                     setDashBoard(false);
                     setAppliedJobMode(true);
                     setAllJobMode(false);
+                    setRealTimeChatMode(false);
                   }}>Applied Jobs</button></li>
+                  <li style={{listStyleType:'none'}}><button onClick={()=>{
+                    setDashBoard(false);
+                    setAppliedJobMode(false);
+                    setAllJobMode(false);
+                    setRealTimeChatMode(true);
+                  }}>Real time chat</button></li>
                   <li style={{listStyleType:'none'}}><button onClick={()=>{
                     localStorage.removeItem("candidateToken");
                     window.location.reload();
@@ -371,9 +385,11 @@ const CandidateDashboard = () => {
                     :<p>still not applied for any jobs</p>}
                   </div>
                 }
+                {realTimeChatMode && <Chat userName={candidateName} candidateToken={candidateToken} userId={candidateId}/>}
               </div>
         </div>
         <Footer/>
+
       </div>
   )
 }

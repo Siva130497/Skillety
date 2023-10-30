@@ -7,7 +7,7 @@ const AdminLogin = () => {
     useTokenRedirect();
     const {loginUser} = useContext(AuthContext)
     const [credentials, setcredentials] = useState({
-        email:"",
+        userId:"",
         password:"",
     });
 
@@ -31,17 +31,17 @@ const AdminLogin = () => {
                     <form onSubmit={handleSubmit}>
                     <div className="form-group">
                         <label 
-                        htmlFor="emailInput" 
+                        htmlFor="userIdInput" 
                         className="form-label mt-4">
-                            Email address
+                            UserId
                         </label>
                         <input 
-                        type="email" 
+                        type="text" 
                         className="form-control" 
-                        id="emailInput" 
+                        id="userIdInput" 
                         aria-describedby="emailHelp" 
-                        name="email" 
-                        value={credentials.email} 
+                        name="userId" 
+                        value={credentials.userId} 
                         onChange = {handleInputChange} 
                         placeholder="example@example.com"
                         required />

@@ -13,7 +13,9 @@ const AdminDashboard = () => {
   const initialCredentials = {
     name:"",
     email:"",
+    phone:"",
     companyStaff:"",
+    password:"",
   }
   const [credentials, setcredentials] = useState(initialCredentials);
   const [allRecruiters, setAllRecruiters] = useState([]);
@@ -23,6 +25,7 @@ const AdminDashboard = () => {
   const [dashBoard, setDashBoard] = useState(true);
   const [allCompanyStaffMode, setAllCompanyStaffMode] = useState(false);
   const [companyStaffCreatingMode, setCompanyStaffCreatingMode] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   
   
   const getProtectedData = async () => {
@@ -124,19 +127,22 @@ const AdminDashboard = () => {
     setcredentials({...credentials, [name]:value});
   }
 
+  const handleGeneratePassword = () => {
+    axios.get('http://localhost:5002/random-password')
+      .then(response => {
+        setcredentials({...credentials, password:response.data});
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  }
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const id = uuidv4();
-    const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=[]{}|;:,.<>?';
-    let password = '';
-    for (let i = 0; i < 12; i++) {
-      const randomIndex = Math.floor(Math.random() * charset.length);
-        password += charset[randomIndex];
-    }
     const updatedCredentials = {
       ...credentials,
       id,
-      password,
     };
     console.log(updatedCredentials);
     createRecruiter(updatedCredentials);
@@ -145,7 +151,7 @@ const AdminDashboard = () => {
   
     return (
       <div>
-        <Layout/>
+        {/* <Layout/> */}
         <div className='container-fluid' style={{display: 'flex'}}>
           <div style={{flex:2}}>
             <ul>
@@ -245,6 +251,23 @@ const AdminDashboard = () => {
                 </div>
                 <div className="form-group">
                   <label 
+                  htmlFor="phoneInput" 
+                  className="form-label mt-4">
+                  Phone no
+                  </label>
+                  <input 
+                  type="number" 
+                  className="form-control" 
+                  id="phoneInput" 
+                  aria-describedby="phone_no" 
+                  name="phone" 
+                  value={credentials.phone} 
+                  onChange = {handleInputChange} 
+                  placeholder="0987654321"
+                  required />
+                </div>
+                <div className="form-group">
+                  <label 
                   htmlFor="companyStaff" 
                   className="form-label mt-4">
                     Type of company staff
@@ -264,6 +287,27 @@ const AdminDashboard = () => {
                     <option value="digitalmarketing team">digitalmarketing team</option>
                     <option value="RMG">RMG</option>
                   </select>
+                </div>
+                <div className="form-group">
+                  <label 
+                  htmlFor="passwordInput" 
+                  className="form-label mt-4">
+                    Password
+                    </label>
+                    <input 
+                    type={showPassword ? 'text' : 'password'} 
+                    className="form-control" 
+                    id="passwordInput" 
+                    aria-describedby="passwordInput" 
+                    name="password" 
+                    value={credentials.password} 
+                    onChange = {handleInputChange} 
+                    placeholder="company staff password"
+                    required />
+                    <span className="badge rounded-pill bg-info" onClick={()=>setShowPassword(!showPassword)}>
+                      {showPassword ? 'hide the password' : 'see the password'}
+                    </span>
+                    <button type="button" className="btn btn-link" onClick={handleGeneratePassword}>Generate Password</button>
                 </div>
                 <input type='submit' value="Create" className='btn btn-primary my-3' />
               </form>

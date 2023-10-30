@@ -13,11 +13,16 @@ const appliedJob = require("../Database/appliedJob");
 const allUsers = require("../Database/allUsers");
 const employee = require("../Database/employee");
 const assignedCandidate = require("../Database/assignedCandidate");
-const clientStaff = require("../Database/clientStaffs");
 const forgotPasswordUser = require("../Database/forgotPasswordUsers");
 const eventDetail = require("../Database/eventDetail");
 const contactDetail = require("../Database/contact");
 const contactCandidateDetail = require("../Database/contactCandidate");
+const clientPackage = require("../Database/clientPackage");
+const viewedCandidate = require("../Database/viewedCandidate");
+const enquiryFormDetail = require("../Database/enquiryFormDetail");
+const candidateChat = require("../Database/candidateChat");
+const roomIdChatDetail = require("../Database/roomIdChatDetail");
+
 // const hash = async() => {
 //   const pass = 'newpassword'
 //   const hash = await bcrypt.hash(pass, 12)
@@ -29,8 +34,8 @@ const contactCandidateDetail = require("../Database/contactCandidate");
 const clientRegister = async(req, res) => {
   try {
     console.log(req.body);
-    const {email, name} = req.body;
-    const clientAvailable = await client.findOne({ $or: [{ email }, { name }] });
+    const {email, name, phone} = req.body;
+    const clientAvailable = await client.findOne({ $or: [{ email }, { name }, {phone}] });
     if(clientAvailable){
       return res.status(404).json({message: "User already registered"});
     }
@@ -58,43 +63,153 @@ const getAllClientDetails = async(req, res) => {
 
 //create client with temp password
 const createClient = async (req, res) => {
+  const {id} = req.params;
+  
   try {
-    console.log(req.body);
-    const {tempPassword} = req.body;
-    const hashPassword = await bcrypt.hash(tempPassword, 12);
-    const newTempClient = new TempClient({
-      ...req.body,
-      tempPassword:hashPassword,
-      role: "Client",
-    });
-    await newTempClient.save();
-    console.log(newTempClient);
+    const neededClient = await client.findById(id);
+    
+    if (neededClient){
+      const { _id, createdAt, updatedAt, __v, ...clientProperties } = neededClient._doc;
+      console.log(clientProperties);
 
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: 'demoemail1322@gmail.com',
-        pass: 'znsdgrmwzskpatwz'
+      const baseUrl = "http://localhost:3000/verification/";
+      const token = uuidv4();
+      const tempUrl = baseUrl + token;
+
+      const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=[]{}|;:,.<>?';
+      let password = '';
+          
+      for (let i = 0; i < 12; i++) {
+          const randomIndex = Math.floor(Math.random() * charset.length);
+          password += charset[randomIndex];
       }
-    });
 
-    const mailOptions = {
-      from: 'demoemail1322@gmail.com',
-      to: `${newTempClient.email}`,
-      subject: 'Mail from SKILLITY!',
-      text: 'Your temporary url and temporary password!',
-      html: `<p>Temporary URL: ${newTempClient.url}</p><p>Temporary Password: ${tempPassword}</p>`
-    };
+      console.log(tempUrl);
+      console.log(password);
 
-    transporter.sendMail(mailOptions, function (error, info) {
-      if (error) {
-        console.log(error);
-        return res.status(500).json({ error: error.message, newTempClient });
-      } else {
-        console.log('Email sent: ' + info.response);
-        res.status(201).json({ newTempClient, emailSent: true });
+      const hashPassword = await bcrypt.hash(password, 12);
+
+      const newTempClient = new TempClient({
+        ...clientProperties, 
+        id: token, 
+        tempPassword: hashPassword, 
+        url: tempUrl 
+      });
+
+      await newTempClient.save();
+      console.log(newTempClient);
+
+      const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: 'demoemail1322@gmail.com',
+          pass: 'znsdgrmwzskpatwz'
+        }
+      });
+
+      const mailOptions = {
+        from: 'demoemail1322@gmail.com',
+        to: `${newTempClient.email}`,
+        subject: 'Mail from SKILLITY!',
+        text: 'We verified your details, use the temporary url and temporary password to create your account',
+        html: `<p>Temporary URL: ${newTempClient.url}</p><p>Temporary Password: ${password}</p>`
+      };
+
+      transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+          console.log(error);
+          return res.status(500).json({ error: error.message, newTempClient });
+        } else {
+          console.log('Email sent: ' + info.response);
+          res.status(201).json({ newTempClient, emailSent: true });
+        }
+      });
+    }else{
+      return res.status(404).json({message: "no client found with the matching id"});
+    }
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+};
+
+/* client_staff create */
+const createClientStaff = async (req, res) => {
+  const {id} = req.params;
+  
+  try {
+    const neededClient = await finalClient.findOne({id});
+    
+    if (neededClient){
+
+      const { companyName, companyId} = neededClient._doc;
+      const packageDetailForCompanyId = await clientPackage.findOne({id:companyId});
+      const createdAccounts = await finalClient.find({companyId});
+      
+      if(createdAccounts.length < packageDetailForCompanyId.logins){
+        const baseUrl = "http://localhost:3000/verification/";
+        const token = uuidv4();
+        const tempUrl = baseUrl + token;
+
+        const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=[]{}|;:,.<>?';
+        let password = '';
+            
+        for (let i = 0; i < 12; i++) {
+            const randomIndex = Math.floor(Math.random() * charset.length);
+            password += charset[randomIndex];
+        }
+
+        console.log(tempUrl);
+        console.log(password);
+
+        const hashPassword = await bcrypt.hash(password, 12);
+
+        const newTempClient = new TempClient({
+          ...req.body,
+          companyName,
+          companyId,
+          id: token, 
+          tempPassword: hashPassword, 
+          url: tempUrl,
+          role:"Client-staff"
+        });
+
+        await newTempClient.save();
+        console.log(newTempClient);
+
+        const transporter = nodemailer.createTransport({
+          service: 'gmail',
+          auth: {
+            user: 'demoemail1322@gmail.com',
+            pass: 'znsdgrmwzskpatwz'
+          }
+        });
+
+        const mailOptions = {
+          from: 'demoemail1322@gmail.com',
+          to: `${newTempClient.email}`,
+          subject: `Mail from ${companyName}!`,
+          text: 'These are your account detail, use the temporary url and temporary password to create your account',
+          html: `<p>Temporary URL: ${newTempClient.url}</p>
+                <p>Temporary Password: ${password}</p>
+                <p>User Name: ${req.body.name}</p>
+                <p>Phone No: ${req.body.phone}</p>`
+        };
+
+        transporter.sendMail(mailOptions, function (error, info) {
+          if (error) {
+            console.log(error);
+            return res.status(500).json({ error: error.message, newTempClient });
+          } else {
+            console.log('Email sent: ' + info.response);
+            res.status(201).json({ newTempClient, emailSent: true });
+          }
+        });
+      }else{
+        return res.status(200).json({message:"you reached the limit of creating accounts"});
       }
-    });
+    }else{
+      return res.status(404).json({message: "no client found with the matching id"});
+    }
   } catch (err) {
     return res.status(500).json({ error: err.message });
   }
@@ -106,7 +221,6 @@ const getAllClient = async(req, res) => {
   
   try{
     const tempClients = await TempClient.find();
-    console.log(tempClients);
     return res.status(200).json(tempClients);
   }catch(err){
     console.log(err);
@@ -126,75 +240,72 @@ const getClient = async(req, res) => {
   }
 }
 
-/* client register after setup new password */
-const finalClientRegister = async(req, res) => {
-  try {
-    console.log(req.body);
-    const {tempPassword, userEnterTempPassword, ...rest} = req.body;
-    const isMatch = await bcrypt.compare(userEnterTempPassword, tempPassword);
-    if(isMatch){
-      const hashPassword = await bcrypt.hash(req.body.password, 12);
-      console.log(hashPassword);
-      const updatedClient = new finalClient({
-        ...rest,
-        companyId:uuidv4(),
-        password: hashPassword, 
-      });
-      await updatedClient.save();
-      console.log(updatedClient);
-      const {name, email, role, id} = req.body;
-      const updatedUser = new allUsers({
-        id,   
-        name,
-        email,
-        role,
-        password:hashPassword,
-      });
-      await updatedUser.save();
-      console.log(updatedUser);
-      return res.status(201).json({updatedClient, updatedUser});
+/* verify the client temp_pass with db temp_pass */
+const verifyTempPassword = async(req, res) => {
+  const {tempPassword, id} = req.body;
+  console.log(tempPassword, id);
+  try{
+    const user = await TempClient.findOne({id});
+    if(user){
+      const isMatch = await bcrypt.compare(tempPassword, user.tempPassword);
+      if(isMatch){
+        return res.status(200).json({ message: 'temporary password match' });
+      }else{
+        return res.status(404).json({ message: 'temporary password failed!' });
+      }
     }else{
-      return res.status(403).json({
-        message: "Incorrect temporary password."
-      });
+      return res.status(404).json({ message: 'User not found' });
     }
-  } catch (err) {
-    return res.status(500).json({ error: err.message });
+  }catch(err) {
+    res.status(500).json({error: err.message})
   }
 }
 
-/* client staff register */
-const clientStaffReg = async(req, res) => {
+/* client register after setup new password */
+const finalClientRegister = async (req, res) => {
+  console.log(req.body);
   try {
-    console.log(req.body);
-    const numOfAccountsCanBeCreated = 2;
-    let {companyId,name} = req.body;
-    const createdAccounts = await finalClient.find({companyId});
-    if(createdAccounts.length < numOfAccountsCanBeCreated){
-      const clientCreatedStaffAvailable = await finalClient.findOne({name});
-      if(clientCreatedStaffAvailable){
-        return res.status(404).json({message: "staff already registered"});
+    const { id, password } = req.body;
+    const user = await TempClient.findOne({ id });
+
+    if (user) {
+      const { _id, tempPassword, url, createdAt, updatedAt, __v, ...tempClientProperties } = user._doc;
+      const hashPassword = await bcrypt.hash(password, 12);
+      
+      let updatedClient; 
+
+      if (tempClientProperties.companyId) {
+        updatedClient = new finalClient({
+          ...tempClientProperties,
+          password: hashPassword
+        });
+      } else {
+        updatedClient = new finalClient({
+          ...tempClientProperties,
+          companyId: uuidv4(),
+          password: hashPassword
+        });
       }
-      const hashPassword = await bcrypt.hash(req.body.password, 12);
-      console.log(hashPassword);
-      const newClientStaff = new finalClient({
-        ...req.body,
-        password: hashPassword, 
-      });
-      await newClientStaff.save();
-      console.log(newClientStaff);
-      const {role, id} = req.body;
+
+      await updatedClient.save();
+      console.log(updatedClient);
+
+      const { name, email, role, id, phone } = tempClientProperties;
       const updatedUser = new allUsers({
-        id,   
+        id,
         name,
+        email,
+        phone,
         role,
-        password:hashPassword,
+        password: hashPassword
       });
+
       await updatedUser.save();
       console.log(updatedUser);
-      return res.status(201).json({newClientStaff, updatedUser});
-    }else{
-      return res.status(200).json({message:"you reached the limit of creating accounts"});
+
+      return res.status(201).json({ updatedClient, updatedUser });
+    } else {
+      return res.status(404).json({ message: 'User not found' });
     }
   } catch (err) {
     return res.status(500).json({ error: err.message });
@@ -205,7 +316,7 @@ const clientStaffReg = async(req, res) => {
 const candidateReg = async(req, res) => {
   try {
     console.log(req.body);
-    const {firstName, lastName, email, id, password} = req.body; 
+    const {firstName, lastName, email, id, password, phone} = req.body; 
     const candidateAvailable = await candidate.findOne({email});
     if(candidateAvailable){
       return res.status(404).json({message: "User already registered"});
@@ -222,6 +333,7 @@ const candidateReg = async(req, res) => {
       id,   
       name: firstName+" "+lastName,
       email,
+      phone,
       role: "Candidate",
       password:hashPassword,
     });
@@ -439,8 +551,9 @@ const deleteAppliedJob = async(req, res) => {
 const createRecruiter = async(req, res) => {
   try {
     console.log(req.body);
-    const {email, password, id, name, } = req.body; 
-    const employeeAvailable = await employee.findOne({email});
+    const {email, password, id, name, phone} = req.body; 
+    const employeeAvailable = await employee.findOne(({ $or: [{ email }, { name }, {phone}] }));
+    console.log(employeeAvailable);
     if(employeeAvailable){
       return res.status(404).json({message: "employee already registered"});
     }
@@ -456,6 +569,7 @@ const createRecruiter = async(req, res) => {
       id,
       name,
       email,
+      phone,
       role:"Recruiter",
       password:hashPassword,
     });
@@ -500,6 +614,17 @@ const getAnIndividualRecruiter = async(req, res) => {
     
     res.status(200).json(recruiter); 
   }catch(err) {
+    res.status(500).json({error: err.message})
+  }
+}
+
+/* get all cse recruiters */
+const getAllCSERecruiters = async(req, res) => {
+  try{
+    const allCSERecruiters = await employee.find({companyStaff:"CSE"});
+    console.log(allCSERecruiters);
+    res.status(200).json(allCSERecruiters);
+  }catch(err){
     res.status(500).json({error: err.message})
   }
 }
@@ -597,10 +722,10 @@ const employeeSignup = async (req, role, res) => {
 /* forgot password handling*/
 const forgotPassword = async(req, res) => {
   console.log(req.body);
-  const {email, role} = req.body;
+  const {email} = req.body;
   try{
-    await forgotPasswordUser.deleteOne({email:email, role:role});
-    const userAlreadyCreated = await allUsers.findOne({email:email, role:role});
+    await forgotPasswordUser.deleteOne({email:email});
+    const userAlreadyCreated = await allUsers.findOne({email:email});
     if(userAlreadyCreated){
       const charset = '0123456789';
       let verificationCode = '';
@@ -614,6 +739,7 @@ const forgotPassword = async(req, res) => {
         id:userAlreadyCreated.id,
         name:userAlreadyCreated.name,
         email:userAlreadyCreated.email,
+        phone:userAlreadyCreated.phone,
         role:userAlreadyCreated.role,
         verificationCode:hashVerificationCode,
       });
@@ -633,7 +759,7 @@ const forgotPassword = async(req, res) => {
         to: `${userWithTempPass.email}`,
         subject: 'Mail from SKILLITY!',
         text: 'Your temporary password!',
-        html: `<p>Temporary Password: ${verificationCode}</p>`
+        html: `<p>Verification Code: ${verificationCode}</p>`
       };
 
       transporter.sendMail(mailOptions, function (error, info) {
@@ -750,6 +876,59 @@ const getAllEvents = async(req, res) => {
   }
 }
 
+/* delete the event by recruiter */
+const deleteEvent = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const deletedEvent = await eventDetail.deleteOne({ id }); 
+    if (deletedEvent.deletedCount === 0) {
+      return res.status(404).json({ error: 'Event not found' });
+    }
+    return res.status(200).json({ message: 'Event deleted successfully' });
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+};
+
+/* get an individual event */
+const anEvent = async(req, res) => {
+  const {id} = req.params;
+  console.log(id);
+  try{
+    const event = await eventDetail.findOne({id});
+    if(event){
+      console.log(event);
+      return res.status(200).json(event);
+    }else{
+      return res.status(404).json({ error: 'Event not found' });
+    }
+  }catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+}
+
+/* change the event detail */
+const changingEvent = async (req, res) => {
+  const { id } = req.params;
+  const eventData = req.body; 
+
+  try {
+    const updatedEvent = await eventDetail.findOneAndUpdate(
+      { id: id }, 
+      eventData,
+      { new: true }
+    );
+
+    if (!updatedEvent) {
+      return res.status(404).json({ message: 'Event not found' });
+    }
+
+    return res.status(200).json({ updatedEvent });
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+}
+
 /* contact detail posting */
 const contactMessage = async(req, res) => {
   console.log(req.body);
@@ -801,6 +980,208 @@ const getAllCandidateContactMessages = async(req, res) => {
   }
 }
 
+/* client_package choosing */
+const clientPackageSelection = async(req, res) => {
+  console.log(req.body);
+  const {id} = req.body;
+  try{
+    await clientPackage.deleteOne({id});
+    const newClientPackage = new clientPackage({
+      ...req.body,
+    });
+    await newClientPackage.save();
+    console.log(newClientPackage);
+    return res.status(201).json(newClientPackage);
+  }catch(err){
+    return res.status(500).json({ error: err.message });
+  }
+}
+
+/* get client with their package plan */
+const getClientChoosenPlan = async(req, res) => {
+  const {id} = req.params;
+  try{
+    const clientWithPackagePlan = await clientPackage.findOne({id});
+    if(clientWithPackagePlan){
+      console.log(clientWithPackagePlan);
+      return res.status(200).json(clientWithPackagePlan);
+    }else{
+      return res.status(404).json({ message: 'no package plan for client' });
+    }
+  }catch(err){
+    return res.status(500).json({ error: err.message });
+  }
+}
+
+/* create client viewed candidate */
+const createViewedCandidate = async(req, res) => {
+  console.log(req.body);
+  try{
+    const clientViewedCandidate = new viewedCandidate({
+      ...req.body,
+    });
+    await clientViewedCandidate.save();
+    console.log(clientViewedCandidate);
+    return res.status(201).json(clientViewedCandidate);
+  }catch(err){
+    return res.status(500).json({ error: err.message });
+  }
+}
+
+/* get viewed candidates by client */
+const getViewedCandidates = async(req, res) => {
+  const {id} = req.params;
+  try{
+    const clientViewedCandidate = await viewedCandidate.find({companyId:id});
+    if(clientViewedCandidate){
+      console.log(clientViewedCandidate);
+      return res.status(200).json(clientViewedCandidate);
+    }else{
+      return res.status(404).json({ message: 'no candidates cv still not viewed' });
+    }
+  }catch(err){
+    return res.status(500).json({ error: err.message });
+  }
+}
+
+/* enquiry form detail posting */
+const postEnquiryFormDetail = async(req, res) => {
+  console.log(req.body);
+  try {
+    const newEnquiryFormDetail = new enquiryFormDetail({
+      ...req.body,
+    });
+    await newEnquiryFormDetail.save();
+    console.log(newEnquiryFormDetail);
+    return res.status(201).json(newEnquiryFormDetail);
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+}
+
+/* get all enquiry form details by recruiters */
+const getEnquiryFormDetails = async(req, res) => {
+  try{
+    const allEnquiryFormDetails = await enquiryFormDetail.find();
+    console.log(allEnquiryFormDetails);
+    return res.status(200).json(allEnquiryFormDetails);
+  }catch(err){
+    return res.status(500).json({ error: err.message });
+  }
+};
+
+/* create a schema for candidate join chat*/
+const candidateChatRoomId = async(req, res) => {
+  console.log(req.body);
+  const {roomId} = req.body;
+  try {
+    const alreadyCandidateWantChat = await candidateChat.findOne({roomId});
+    if(!alreadyCandidateWantChat){
+      const newCandidateChat = new candidateChat({
+        ...req.body,
+      });
+      await newCandidateChat.save();
+      console.log(newCandidateChat);
+      return res.status(201).json(newCandidateChat);
+    }
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+}
+
+/* get all the candidate want chat */
+const getAllCandidateWantChat = async(req, res) => {
+  try {
+    const allCandidatesWantChat = await candidateChat.find();
+
+    const candidatesWithNewMessage = await Promise.all(allCandidatesWantChat.map(async (candidate) => {
+      const lastChatDetail = await roomIdChatDetail.findOne({ roomId: candidate.roomId }).sort({createdAt: -1});
+
+      if (lastChatDetail && lastChatDetail.userId === candidate.roomId) {
+        return { ...candidate.toObject(), newMessage: true };
+      } else {
+        return { ...candidate.toObject(), newMessage: false };
+      }
+    }));
+
+    const sortedCandidates = candidatesWithNewMessage.sort((a, b) => {
+      if (a.newMessage && !b.newMessage) return -1;
+      if (!a.newMessage && b.newMessage) return 1;
+      return 0;
+    });
+
+    console.log(sortedCandidates);
+
+    return res.status(200).json(sortedCandidates);
+  } catch(err) {
+    return res.status(500).json({ error: err.message });
+  }
+};
+
+/* messages of the particular chat room id*/
+const roomIdChatDetailCreate = async(req, res) => {
+  console.log(req.body);
+  try {
+      const newRoomIdChatDetail = new roomIdChatDetail({
+        ...req.body,
+      });
+      await newRoomIdChatDetail.save();
+      console.log(newRoomIdChatDetail);
+      return res.status(201).json(newRoomIdChatDetail);
+    
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+}
+
+/* get all the chat detail for the room id */
+const getAllChatDetailOfRoomId = async(req, res) => {
+  const {id} = req.params;
+  try {
+    const allChatDetailOfRoomId = await roomIdChatDetail.find({ roomId: id });
+    const nonMatchingUserId = allChatDetailOfRoomId.filter(obj => obj.userId !== id);
+    console.log(allChatDetailOfRoomId, nonMatchingUserId);
+    return res.status(200).json({ allChatDetailOfRoomId, nonMatchingUserId });
+  } catch(err) {
+    return res.status(500).json({ error: err.message });
+  }
+};
+
+/* send mail to particular cse with enquiry detail */
+const sendingMailToCSE = async(req, res) => {
+  const {email, enquiryDetail} = req.body;
+  try{
+    const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: 'demoemail1322@gmail.com',
+          pass: 'znsdgrmwzskpatwz'
+        }
+      });
+
+      const mailOptions = {
+        from: 'demoemail1322@gmail.com',
+        to: `${email}`,
+        subject: 'Mail from SKILLITY!',
+        text: 'Enquiry form detail',
+        html: `<p>Enquiry form detail: ${enquiryDetail}</p>`
+      };
+
+      transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+          console.log(error);
+          return res.status(500).json({ error: error.message });
+        } else {
+          console.log('Email sent: ' + info.response);
+          res.status(201).json({ emailSent: true });
+        }
+      });
+  } catch(err) {
+    return res.status(500).json({ error: err.message });
+  }
+}
+
+
 /* random password generate */
 const generateRandomPassword = (req, res) => {
   const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=[]{}|;:,.<>?';
@@ -824,6 +1205,9 @@ const userLogin = async (req, role, res) => {
     if (!user) {
       user = await allUsers.findOne({ email: userId });
     }
+    if (!user) {
+      user = await allUsers.findOne({ phone: userId });
+    }
     console.log(user);
     if (!user) {
       return res.status(404).json({
@@ -845,21 +1229,18 @@ const userLogin = async (req, role, res) => {
         id: user.id,
         role: user.role,
         name: user.name,
+        email:user.email,
+        phone:user.phone
       };
 
       let result = {
         id: user.id,
-        name: user.name,
         role: user.role,
+        name: user.name,
+        email:user.email,
+        phone:user.phone,
         expiresIn: 168
       };
-
-      if (role === 'Client-staff') {
-        // No need to include email for Client-staff
-      } else {
-        payload.email = user.email;
-        result.email = user.email;
-      }
 
       let token = jwt.sign(
         payload,
@@ -958,8 +1339,10 @@ module.exports = {
    clientRegister,
    getAllClientDetails,
    createClient,
+   createClientStaff,
    getAllClient,
    getClient,
+   verifyTempPassword,
    finalClientRegister,
    candidateReg,
    getAllCandidateDetail,
@@ -975,19 +1358,33 @@ module.exports = {
    deleteRecruiter,
    getAllRecruiters,
    getAnIndividualRecruiter,
+   getAllCSERecruiters,
    assigningCandidate,
    getAssignedCandidates,
-   clientStaffReg,
    getLoginClientDetail,
    getAllClientStaffs,
    forgotPassword,
    newPassword,
    eventPosting,
    getAllEvents,
+   deleteEvent,
+   anEvent,
+   changingEvent,
    generateRandomPassword,
    contactMessage,
    getAllContactMessages,
    verifying,
    contactMessageCandidate,
    getAllCandidateContactMessages,
+   clientPackageSelection,
+   getClientChoosenPlan,
+   createViewedCandidate,
+   getViewedCandidates,
+   postEnquiryFormDetail,
+   getEnquiryFormDetails,
+   candidateChatRoomId,
+   getAllCandidateWantChat,
+   roomIdChatDetailCreate,
+   getAllChatDetailOfRoomId,
+   sendingMailToCSE,
 };

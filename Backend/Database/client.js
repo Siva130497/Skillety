@@ -18,7 +18,8 @@ const clientSchema = new Schema(
     },
     phone: {
       type: Number,
-      required: true
+      required: true,
+      unique: true
     },
     count: {
         type: Number,
@@ -34,8 +35,9 @@ const clientSchema = new Schema(
     },
     role: {
       type: String,
-      required: true
-  }
+      required: true,
+      enum: ['Client']
+    }
   },
   { timestamps: true }
 );

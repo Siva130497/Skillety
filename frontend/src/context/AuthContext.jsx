@@ -10,27 +10,7 @@ export const AuthContextProvider = ({children}) => {
     const [errorMsg, setErrorMsg] = useState("");
     const [eventDetail, setEventDetail] = useState([]);
     const [eventImg, setEventImg] = useState();
-
-    //register user
-    const registerUser = async (userData) => {
-        try {
-            const response = await axios.post('http://localhost:5002/register-Client', userData, {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
-    
-            const result = response.data;
-    
-            if (!result.error) {
-                console.log(result);
-            } else {
-                console.log(result);
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    };
+    const [packageSelectionDetail, setPackageSelectionDetail] = useState();
 
     //user login request
     const loginUser = async (userData) => {
@@ -123,12 +103,31 @@ export const AuthContextProvider = ({children}) => {
 
     const getEventImg = async() => {
         axios.get('http://localhost:5002/event-image')
-        .then(res=>setEventImg(res.data))
+        .then(res=>{
+            console.log(res.data)
+            setEventImg(res.data)
+        })
         .catch(err=>console.log(err))
     }
 
+    const getClientChoosenPlan = async(id) => {
+        try{
+            const res = await axios.get(`http://localhost:5002/client-package-plan/${id}`
+            );
+            const result = res.data;
+            if (!result.message) {
+              console.log(result);
+              setPackageSelectionDetail(result);
+            } else {
+              console.log(result);
+            }
+        }catch(err){
+          console.log(err);
+        }
+      }
 
-    return<AuthContext.Provider value={{registerUser, candidateReg, loginUser, getProtectedData, errorMsg, setErrorMsg, eventDetail, getEventDetail, getEventImg, eventImg}}>
+
+    return<AuthContext.Provider value={{candidateReg, loginUser, getProtectedData, errorMsg, setErrorMsg, eventDetail, getEventDetail, getEventImg, eventImg, getClientChoosenPlan, packageSelectionDetail}}>
             {children}
         </AuthContext.Provider>
 }

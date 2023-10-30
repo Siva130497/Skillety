@@ -14,7 +14,7 @@ const ClientNewPassword = () => {
     });
     const [passwordError, setPasswordError] = useState('');
 
-    const getAllClient = async () => {
+    const getClient = async () => {
         try {
             const response = await axios.get(`http://localhost:5002/clientWithUrl-Detail/${id}`);
             const result = response.data;
@@ -30,7 +30,7 @@ const ClientNewPassword = () => {
     };
 
     useEffect(() => {
-        getAllClient();
+        getClient();
     }, []);
 
     const finalClientDetail = async (userData) => {

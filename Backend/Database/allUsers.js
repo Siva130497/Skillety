@@ -4,17 +4,23 @@ const allUsersSchema = new Schema(
   {
     id: {
       type: String,
-      required: true
+      required: true,
+      unique : true
     },
     name: {
       type: String,
-      required: true
+      required: true,
+      unique : true
     },
     email: {
       type: String,
-      required: function() {
-        return this.role !== 'Client-staff';
-      }
+      required: true,
+      unique : true
+    },
+    phone: {
+      type: Number,
+      required: true,
+      unique : true
     },
     role: {
       type: String,

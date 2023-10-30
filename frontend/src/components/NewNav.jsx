@@ -6,23 +6,26 @@ import AuthContext from '../context/AuthContext';
 
 const NewNav = () => {
     const {getProtectedData} = useContext(AuthContext);
+    const navigate = useNavigate();
 
     const [userName, setUserName] = useState('');
 
     const clientToken = JSON.parse(localStorage.getItem('clientToken'));
 
     useEffect(() => {
-        const fetchData = async () => {
-        try {
-            const userData = await getProtectedData(clientToken);
-            console.log(userData);
-            setUserName(userData.name);
-        } catch (error) {
-            console.error(error);
+        if(clientToken){
+            const fetchData = async () => {
+                try {
+                    const userData = await getProtectedData(clientToken);
+                    console.log(userData);
+                    setUserName(userData.name);
+                } catch (error) {
+                    console.error(error);
+                }
+            };
+    
+            fetchData();
         }
-    };
-
-        fetchData();
     }, [clientToken]);
 
     useEffect(() => {
@@ -34,7 +37,16 @@ const NewNav = () => {
             });
         });
     }, []);
-    const navigate = useNavigate();
+    
+    const extractLastName = () => {
+        const nameParts = userName.split(' ');
+    
+        if (nameParts.length > 1) {
+          return nameParts[nameParts.length - 1];
+        } else {
+          return userName; 
+        }
+    };
 
     return (
         <header id="header" className="fixed--top">
@@ -101,7 +113,7 @@ const NewNav = () => {
                         <li><a className="nav-link scrollto" href="/rpo">RPO</a></li>
                         <li><a className="nav-link scrollto" href="/contact-us">Contact</a></li>
                         {userName ? 
-                            <li className="dropdown"><a href='#'><span>{userName}</span><i className="bi bi-chevron-down"></i></a>
+                            <li className="dropdown"><a href='#'><span>{extractLastName()}</span><i className="bi bi-chevron-down"></i></a>
                                 <ul>
                                     <li><a href="/client-dashboard">Dash Board</a></li>
                                     <li onClick={()=>{

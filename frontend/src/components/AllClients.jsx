@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { v4 as uuidv4} from "uuid";
 import axios from 'axios';
 
 
@@ -20,6 +19,7 @@ const AllClients = ({staffToken}) => {
               });
             const result = response.data;
             if(!result.error){
+                console.log(result);
                 setClientDetail(result);
             }else{
                 console.log(result);
@@ -39,6 +39,7 @@ const AllClients = ({staffToken}) => {
               });
             const result = response.data;
             if(!result.error){
+                console.log(result);
                 setClientWithTempPass(result);
             }else{
                 console.log(result);
@@ -47,14 +48,30 @@ const AllClients = ({staffToken}) => {
             console.log(err);
         }
     }
+
+    const handleCheckForEmailStatus = () => {
+        const newCommonEmails = clientDetail
+        .filter(obj1 => clientWithTempPass.some(obj2 => obj2.email === obj1.email))
+        .map(obj => obj.email);
+        setCommonEmails(newCommonEmails);
+    }
+
     useEffect(()=>{
         getAllClientDetails();
         getAllClient();
     },[]);
 
-    const createClient = async (userData) => {
+    useEffect(()=>{
+        if(clientDetail.length>0 && clientWithTempPass.length>0){
+            handleCheckForEmailStatus();
+        }
+    },[clientDetail, clientWithTempPass]);
+
+    
+    const createClient = async (id) => {
+        const userId = {id};
         try {
-            const response = await axios.post('http://localhost:5002/tempPass-Client', userData, {
+            const response = await axios.post(`http://localhost:5002/tempPass-Client/${id}`, userId, {
                 headers: {
                     Authorization: `Bearer ${staffToken}`,
                     'Content-Type': 'application/json',
@@ -82,40 +99,8 @@ const AllClients = ({staffToken}) => {
         }
     };
     
-
-    const handleCheckForEmailStatus =() => {
-        const newCommonEmails = clientDetail
-        .filter(obj1 => clientWithTempPass.some(obj2 => obj2.email === obj1.email))
-        .map(obj => obj.email);
-        setCommonEmails(newCommonEmails);
-    }
-    
-
-    const handleGeneratePassword = (id) => {
-        
-        const baseUrl = "http://localhost:3000/";
-        const token = uuidv4();
-        const tempUrl = baseUrl+token;
-
-        const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=[]{}|;:,.<>?';
-        let password = '';
-          
-        for (let i = 0; i < 12; i++) {
-            const randomIndex = Math.floor(Math.random() * charset.length);
-            password += charset[randomIndex];
-        }
-        console.log(tempUrl);
-        console.log(password);
-        for (const client of clientDetail) {
-            if(client._id === id){
-                client.tempPassword = password;
-                client._id = undefined;
-                client.url = tempUrl;
-                client.id = token;
-                console.log(client);
-                createClient(client);
-            }
-        }
+    const handleGeneratePasswordAndTempUrl = (id) => {
+        createClient(id);
     };
 
   return (
@@ -124,7 +109,6 @@ const AllClients = ({staffToken}) => {
                 {clientDetail.length === 0 ? <h3>No Client Created Yet</h3> 
                 :<div>
                     <p>Total Clients: <strong>{clientDetail.length}</strong></p>
-                    <button type="button" className="btn btn-warning my-3" onClick={handleCheckForEmailStatus}>Checking the email status</button>
                     <table className="table table-hover">
                         <thead>
                             <tr className='table-dark'>
@@ -140,7 +124,7 @@ const AllClients = ({staffToken}) => {
                         </thead>
                         <tbody>
                             {clientDetail.map((client) => {
-                                return <tr key={client._id} onClick={() => handleGeneratePassword(client._id)}>
+                                return <tr key={client._id}>
                                             <th scope="row">{client.name}</th>
                                             <td>{client.phone}</td>
                                             <td>{client.email}</td>
@@ -149,6 +133,7 @@ const AllClients = ({staffToken}) => {
                                             <td>{client.count}</td>
                                             <td>{client.text}</td>
                                             <td>{commonEmails.includes(client.email) ? "Email already sent" : emailStatus ? "Email still not sent" : emailMsg}</td>
+                                            <td><button type="button" className="btn btn-outline-info" onClick={() => handleGeneratePasswordAndTempUrl(client._id)}>Send mail</button></td>
                                         </tr>
                                 })}
                         </tbody>

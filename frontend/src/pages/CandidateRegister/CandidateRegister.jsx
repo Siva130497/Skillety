@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect, useRef } from 'react';
 import AuthContext from '../../context/AuthContext';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -35,6 +35,8 @@ const CandidateRegister = () => {
     const [otherDesignation, setOtherDesignation] = useState([]);
     const [profile, setProfile] = useState([]);
 
+    const fileInputRef = useRef(null);
+
     const initialCredentials = {
         days: "",
         firstName: "",
@@ -54,7 +56,7 @@ const CandidateRegister = () => {
     };
     const [credentials, setCredentials] = useState(initialCredentials);
     console.log(credentials);
-    console.log(resume.name);
+    
     useEffect(() => {
         setCredentials((prevCredentials) => ({
             ...prevCredentials,
@@ -430,10 +432,12 @@ const CandidateRegister = () => {
                                     <div className='cand--reg-form-group cand--reg-custom-padding'>
                                         <div className="cand--reg-file-upload-area">
                                             <input type="file" id="file_upload" accept=".doc,.docx,.pdf"
+                                            ref={fileInputRef}
+                                            style={{ display: 'none' }}
                                             onChange={handleFileChange}
                                             required />
                                             <label for="file_upload" className='cand--reg-file-upload-label'>
-                                                <i class="bi bi-upload"></i>
+                                                <i class="bi bi-upload" onClick={()=>fileInputRef.current.click()}></i>
                                                 Upload your Resume/CV here</label>
                                             <span id="file-chosen">{resume.length > 0 ? resume.name : 'No file chosen'}</span>
                                             <div className='file--upload-text'>Either in .doc/ docx/.pdf format only</div>

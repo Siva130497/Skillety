@@ -110,7 +110,6 @@ const ForgotPassword = () => {
         event.preventDefault();
         updatedCredentials = {
             email: credentials.email,
-            role,
         };
         console.log(updatedCredentials);
         requestTemporaryPassword(updatedCredentials);

@@ -10,9 +10,7 @@ const finalClient = new Schema(
     email: {
       type: String,
       unique : true,
-      required: function() {
-        return this.role === 'Client';
-      }
+      required: true
     },
     industry: {
       type: String,
@@ -22,9 +20,8 @@ const finalClient = new Schema(
     },
     phone: {
       type: Number,
-      required: function() {
-        return this.role === 'Client';
-      }
+      unique : true,
+      required: true
     },
     count: {
         type: Number,
@@ -48,7 +45,8 @@ const finalClient = new Schema(
     },
     id: {
       type: String,
-      required: true
+      required: true,
+      unique : true
     },
     companyId: {
       type: String,

@@ -7,24 +7,38 @@ import AuthContext from '../context/AuthContext';
 export const NewNavCandidateHome = () => {
 
     const {getProtectedData} = useContext(AuthContext);
+    const navigate = useNavigate();
 
     const [userName, setUserName] = useState('');
 
     const candidateToken = JSON.parse(localStorage.getItem('candidateToken'));
 
     useEffect(() => {
-        const fetchData = async () => {
-        try {
-            const userData = await getProtectedData(candidateToken);
-            console.log(userData);
-            setUserName(userData.name);
-        } catch (error) {
-            console.error(error);
+        if(candidateToken){
+            const fetchData = async () => {
+                try {
+                    const userData = await getProtectedData(candidateToken);
+                    console.log(userData);
+                    setUserName(userData.name);
+                } catch (error) {
+                    console.error(error);
+                }
+            };
+    
+            fetchData();
         }
-    };
-
-        fetchData();
+        
     }, [candidateToken]);
+
+    const extractLastName = () => {
+        const nameParts = userName.split(' ');
+    
+        if (nameParts.length > 1) {
+          return nameParts[nameParts.length - 1];
+        } else {
+          return userName; 
+        }
+      };
 
     useEffect(() => {
         $(document).ready(function () {
@@ -35,7 +49,7 @@ export const NewNavCandidateHome = () => {
             });
         });
     }, []);
-    const navigate = useNavigate();
+    
 
     return (
         <header id="header" className="fixed--top candidate">
@@ -84,7 +98,7 @@ export const NewNavCandidateHome = () => {
                         <li><a href="/events" className="nav-link scrollto">Event</a></li>
                         <li><a href="/talent-contact-us" className="nav-link scrollto">Contact</a></li>
                         {userName ? 
-                            <li className="dropdown"><a href='#'><span>{userName}</span><i className="bi bi-chevron-down"></i></a>
+                            <li className="dropdown"><a href='#'><span>{extractLastName()}</span><i className="bi bi-chevron-down"></i></a>
                                 <ul>
                                     <li><a href="/candidate-dashboard">Dash Board</a></li>
                                     <li onClick={()=>{

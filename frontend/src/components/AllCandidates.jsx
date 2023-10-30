@@ -1,9 +1,13 @@
 import React, {useEffect, useState, useContext} from 'react'
 import axios from 'axios';
+import AuthContext from '../context/AuthContext';
 
 
-const AllCandidates = ({employeeId, staffToken, clientToken}) => {
+const AllCandidates = ({employeeId, staffToken, clientToken, companyId}) => {
 
+  const {getClientChoosenPlan, packageSelectionDetail} = useContext(AuthContext);
+
+  const [cvViews, setCvViews] = useState();
   const [candidateDetail, setCandidateDetail] = useState([]);
   const [viewCandidateDetailStatus, setViewCandidateDetailStatus] = useState(false);
   const [selectedCandidateArray, setSelectedCandidateArray] = useState([]);
@@ -13,6 +17,7 @@ const AllCandidates = ({employeeId, staffToken, clientToken}) => {
   const [searchInput, setSearchInput] = useState("");
   const [filteredSearchResults, setFilteredSearchResults]= useState([]);
   const [filteredSearchResultsMsg, setFilteredSearchResultsMsg] = useState("");
+  const [viewedCandidate, setViewedCandidate] = useState([]);
 
 
   const getAllCandidateDetail = async () => {
@@ -37,7 +42,7 @@ const AllCandidates = ({employeeId, staffToken, clientToken}) => {
 
   const getAppliedOfPostedJobs = async() => {
     try{
-        const res = await axios.get(`http://localhost:5002/applied-jobs-of-posted/${employeeId}`, {
+        const res = await axios.get(`http://localhost:5002/applied-jobs-of-posted/${employeeId ? employeeId : companyId}`, {
           headers: {
               Authorization: `Bearer ${staffToken ? staffToken : clientToken}`,
               Accept: 'application/json'
@@ -55,10 +60,51 @@ const AllCandidates = ({employeeId, staffToken, clientToken}) => {
     }
   }
 
+  const getViewedCandidates = async() => {
+    try{
+        const res = await axios.get(`http://localhost:5002/cv-views/${companyId}`, {
+          headers: {
+              Authorization: `Bearer ${clientToken}`,
+              Accept: 'application/json'
+          }
+        });
+        const result = res.data;
+        if (!result.error) {
+          console.log(result);
+          setViewedCandidate(result);
+        } else {
+          console.log(result);
+        }
+    }catch(err){
+      console.log(err);
+    }
+  }
+
+  useEffect(() => {
+    if(companyId){
+      getViewedCandidates();
+      const fetchData = async () => {
+        try {
+          
+          await getClientChoosenPlan(companyId);
+          
+          if (packageSelectionDetail && packageSelectionDetail.cvViews) {
+            setCvViews(packageSelectionDetail.cvViews);
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      };
+  
+      fetchData();
+    }
+  }, []);
+
   useEffect(()=>{
     getAllCandidateDetail();
     getAppliedOfPostedJobs();
   },[]);
+
 
   const handleInputChange = (event) => {
     const { value } = event.target;
@@ -136,9 +182,44 @@ const AllCandidates = ({employeeId, staffToken, clientToken}) => {
   }
 
   const viewCandidateDetail = (id) => {
-    setViewCandidateDetailStatus(preViewCandidateStatus => !preViewCandidateStatus);
-    const selectedCandidate = candidateDetail.find(filteredCandidate => filteredCandidate.id === id);
-    setSelectedCandidateArray(selectedCandidate);
+    if(employeeId){
+      setViewCandidateDetailStatus(preViewCandidateStatus => !preViewCandidateStatus);
+      const selectedCandidate = candidateDetail.find(filteredCandidate => filteredCandidate.id === id);
+      setSelectedCandidateArray(selectedCandidate);
+    }else{
+      const alreadyViewedCandidate = viewedCandidate.find(cand=>cand.candidateId === id)
+      if(alreadyViewedCandidate){
+        setViewCandidateDetailStatus(preViewCandidateStatus => !preViewCandidateStatus);
+        const selectedCandidate = candidateDetail.find(filteredCandidate => filteredCandidate.id === id);
+        setSelectedCandidateArray(selectedCandidate);
+      }else{
+        if(viewedCandidate.length < cvViews){
+          setViewCandidateDetailStatus(preViewCandidateStatus => !preViewCandidateStatus);
+          const selectedCandidate = candidateDetail.find(filteredCandidate => filteredCandidate.id === id);
+          setSelectedCandidateArray(selectedCandidate);
+          const idData = {
+            candidateId:id,
+            companyId,
+          }
+          axios.post("http://localhost:5002/cv-views", idData, {
+            headers: {
+                Authorization: `Bearer ${clientToken}`,
+                Accept: 'application/json'
+            }
+          })
+          .then(response => {
+            const result = response.data;
+            console.log(result);
+            getViewedCandidates();
+          })
+          .catch(error => {
+            console.error(error);
+          })
+        }else{
+          alert("you reached your max cv-views in your plan, upgrade your plan");
+        }
+      }
+    }
   }
 
   const handleSkillSearch = () => {
@@ -250,23 +331,40 @@ const AllCandidates = ({employeeId, staffToken, clientToken}) => {
                       <p>{filteredSearchResultsMsg}</p>:
                       filteredSearchResults.length > 0 ?
                        filteredSearchResults.map((candidate)=>{
+                        const nameOfAppliedJobs = appliedOfPostedJobs
+                        .filter((appliedOfPostedJob) => appliedOfPostedJob.candidateId === candidate.id)
+                        .map((appliedOfPostedJob) => appliedOfPostedJob.jobRole[0]);
+                        const viewedCandidateForThisCandidate = companyId && viewedCandidate.find(cand => cand.candidateId === candidate.id);
                         return(
                             <tr key={candidate.id}>
                                 <th scope="row" onClick={()=>viewCandidateDetail(candidate.id)}>{candidate.firstName + ' ' + candidate.lastName}</th>
+                                {nameOfAppliedJobs.length > 0 ? <td>{nameOfAppliedJobs.join(', ')}</td> : <td>still not applied for your posted jobs</td>}
+                                {viewedCandidateForThisCandidate && <td>viewed</td>}
                             </tr>
                         )
                        }) :
                        !searchInput ? candidateDetail.map((candidate) => {
                         const nameOfAppliedJobs = appliedOfPostedJobs
-                        .filter((appliedOfPostedJob) => appliedOfPostedJob.candidateId === candidate.id)
-                        .map((appliedOfPostedJob) => appliedOfPostedJob.jobRole[0]);
+                          .filter((appliedOfPostedJob) => appliedOfPostedJob.candidateId === candidate.id)
+                          .map((appliedOfPostedJob) => appliedOfPostedJob.jobRole[0]);
+                      
+                        const viewedCandidateForThisCandidate = companyId && viewedCandidate.find(cand => cand.candidateId === candidate.id);
+                      
                         return (
-                            <tr key={candidate.id}>
-                                <th scope="row" onClick={()=>viewCandidateDetail(candidate.id)}>{candidate.firstName + ' ' + candidate.lastName}</th>
-                                {nameOfAppliedJobs.length > 0 ? <td>{nameOfAppliedJobs.join(', ')}</td> : <td>still not applied for your posted jobs</td>}
-                            </tr>
+                          <tr key={candidate.id}>
+                            <th scope="row" onClick={() => viewCandidateDetail(candidate.id)}>
+                              {candidate.firstName + ' ' + candidate.lastName}
+                            </th>
+                            {nameOfAppliedJobs.length > 0 ? (
+                              <td>{nameOfAppliedJobs.join(', ')}</td>
+                            ) : (
+                              <td>still not applied for your posted jobs</td>
+                            )}
+                            {viewedCandidateForThisCandidate && <td>viewed</td>}
+                          </tr>
                         );
-                      }) : null}
+                      })
+                       : null}
                       </tbody>
                       </table>
                     </div>

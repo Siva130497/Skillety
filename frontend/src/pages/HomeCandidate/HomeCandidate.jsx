@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Autoplay } from 'swiper/modules';
@@ -9,8 +9,17 @@ import './HomeCandidate.css';
 import './HomeCandidate-responsive.css';
 import { CandidateFooter } from '../../components/CandidateFooter';
 import LayoutNew from '../../components/LayoutNew';
+import AuthContext from '../../context/AuthContext';
 
 const HomeCandidate = () => {
+
+  const {eventDetail, getEventDetail, getEventImg, eventImg} = useContext(AuthContext);
+    
+    useEffect(() => {
+        getEventDetail();
+        getEventImg();
+    }, []);
+
   useEffect(() => {
     // Function to animate the numbers
     function animateNumber(element, targetNumber) {
@@ -89,6 +98,9 @@ const HomeCandidate = () => {
                     Great opportunities knock only once. We make sure you don’t miss them.
                   </h4>
                   <h3 data-aos="fade-left" data-aos-delay="200">Choose from over 2400+ Jobs.</h3>
+                  <h4 data-aos="fade-left" data-aos-delay="200">
+                  Welcome to the place where you get hired in less than 7 days. Grab your Interview in 24 hours.
+                  </h4>
                   <h6 data-aos="fade-right" data-aos-delay="300">
                     Search For Jobs
                   </h6>
@@ -841,219 +853,254 @@ const HomeCandidate = () => {
         </div>
       </div >
 
-      <section className='custom--mobile-padding candidate cand--home-event-section'>
-        <div className='candidate--section candidate'>
-          <div className='home--about-toparea'>
-            <div className='home--about-headarea'>
-              <h6 data-aos="fade-down">Events</h6>
-              <h4 className='candidate--heading candidate' data-aos="fade-up">Webinars, Job Fairs, <br /> <span>Walk-in Interviews,</span> etc.</h4>
-            </div>
-            <div className='home--know-more-area'>
-              <a href="/events" className='home--know-more candidate' data-aos="fade-right">
-                <div className='home--know-more-btn candidate'>
-                  Know more
-                </div>
-                <div className='home--know-more-arrow candidate'>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
-                    <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#5C3B2E" stroke-width="2" />
-                    <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#5C3B2E" stroke-width="2" />
-                    <path d="M1 26L25.1667 1" stroke="#5C3B2E" stroke-width="2" />
-                  </svg>
-                </div>
-              </a>
+      {eventDetail.length > 0 && 
+        <section className='custom--mobile-padding candidate cand--home-event-section'>
+          <div className='candidate--section candidate'>
+            <div className='home--about-toparea'>
+              <div className='home--about-headarea'>
+                <h6 data-aos="fade-down">Events</h6>
+                <h4 className='candidate--heading candidate' data-aos="fade-up">Webinars, Job Fairs, <br /> <span>Walk-in Interviews,</span> etc.</h4>
+              </div>
+              <div className='home--know-more-area'>
+                <a href="/events" className='home--know-more candidate' data-aos="fade-right">
+                  <div className='home--know-more-btn candidate'>
+                    Know more
+                  </div>
+                  <div className='home--know-more-arrow candidate'>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
+                      <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#5C3B2E" stroke-width="2" />
+                      <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#5C3B2E" stroke-width="2" />
+                      <path d="M1 26L25.1667 1" stroke="#5C3B2E" stroke-width="2" />
+                    </svg>
+                  </div>
+                </a>
+              </div>
             </div>
           </div>
-        </div>
-        <div className="candidate--slider-area" data-aos="fade-left">
-          <Swiper
-            modules={[Navigation, Autoplay]}
-            spaceBetween={10}
-            slidesPerView={3.5}
-            loop={false}
-            speed={1500}
-            navigation={{
-              nextEl: '.swiper-button-next5',
-              prevEl: '.swiper-button-prev5',
-            }}
-            grabCursor={true}
-            breakpoints={breakpoints}
-            onSlideChange={() => console.log('slide change')}
-            onSwiper={(swiper) => console.log(swiper)}
-            autoplay={{
-              delay: 5000,
-              waitForTransition: true,
-              // stopOnLastSlide: false,
-              disableOnInteraction: false,
-            }}
+          <div className="candidate--slider-area" data-aos="fade-left">
+            <Swiper
+              modules={[Navigation, Autoplay]}
+              spaceBetween={10}
+              slidesPerView={3.5}
+              loop={false}
+              speed={1500}
+              navigation={{
+                nextEl: '.swiper-button-next5',
+                prevEl: '.swiper-button-prev5',
+              }}
+              grabCursor={true}
+              breakpoints={breakpoints}
+              onSlideChange={() => console.log('slide change')}
+              onSwiper={(swiper) => console.log(swiper)}
+              autoplay={{
+                delay: 5000,
+                waitForTransition: true,
+                // stopOnLastSlide: false,
+                disableOnInteraction: false,
+              }}
 
-          >
-            <SwiperSlide>
-              <article className='cand--events-card candidate'>
-                <div className="cand--events-card-img-area">
-                  <img src="assets/img/events/event-img.jpg" className='cand--events-card-img' alt="" />
-                </div>
-                <div className="cand--events-card-title-area">
-                  <h6 className='cand--events-card-title'>
-                    Transition your career with AI Advancement
-                  </h6>
-                </div>
-                <p className='cand--events-card-date'>20th September 2023</p>
-                <a href='/event-details' className="cand--events-card-bottom-area">
-                  <span className='cand--event-sys'>SAVE YOUR SPOT</span>
-                  <span className='cand--events-card-arrow-area'>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
-                      <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#714F36" stroke-width="2" />
-                      <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#714F36" stroke-width="2" />
-                      <path d="M1 26L25.1667 1" stroke="#714F36" stroke-width="2" />
-                    </svg>
-                  </span>
-                </a>
-              </article>
-            </SwiperSlide>
+            >
+              {eventDetail.map(eve => {
+                const matchingImg = eventImg ? eventImg.find(img => img.id === eve.id) : null;
+                const imgSrc = matchingImg ? `http://localhost:5002/images/${matchingImg.image}` : "assets/img/events/event-img.jpg";
 
-            <SwiperSlide>
-              <article className='cand--events-card candidate'>
-                <div className="cand--events-card-img-area">
-                  <img src="assets/img/events/event-img.jpg" className='cand--events-card-img' alt="" />
-                </div>
-                <div className="cand--events-card-title-area">
-                  <h6 className='cand--events-card-title'>
-                    Transition your career with AI Advancement
-                  </h6>
-                </div>
-                <p className='cand--events-card-date'>20th September 2023</p>
-                <a href='/event-details' className="cand--events-card-bottom-area">
-                  <span className='cand--event-sys'>SAVE YOUR SPOT</span>
-                  <span className='cand--events-card-arrow-area'>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
-                      <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#714F36" stroke-width="2" />
-                      <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#714F36" stroke-width="2" />
-                      <path d="M1 26L25.1667 1" stroke="#714F36" stroke-width="2" />
-                    </svg>
-                  </span>
-                </a>
-              </article>
-            </SwiperSlide>
+                  return (
+                      <SwiperSlide key={eve.id}>
+                          <article className='cand--events-card candidate'>
+                              <div className="cand--events-card-img-area">
+                                  <img src={imgSrc} className='cand--events-card-img' alt="" />
+                              </div>
+                              <div className="cand--events-card-title-area">
+                                  <h6 className='cand--events-card-title'>
+                                      {eve.title} 
+                                  </h6>
+                              </div>
+                              <p className='cand--events-card-date'>
+                                  {eve.date} 
+                              </p>
+                              <a href={`/event-details/${eve.id}`} className="cand--events-card-bottom-area">
+                                  <span className='cand--event-sys'>SAVE YOUR SPOT</span>
+                                  <span className='cand--events-card-arrow-area'>
+                                      <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
+                                          <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#714F36" strokeWidth="2" />
+                                          <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#714F36" strokeWidth="2" />
+                                          <path d="M1 26L25.1667 1" stroke="#714F36" strokeWidth="2" />
+                                      </svg>
+                                  </span>
+                              </a>
+                          </article>
+                      </SwiperSlide>
+                  );
+              })}
 
-            <SwiperSlide>
-              <article className='cand--events-card candidate'>
-                <div className="cand--events-card-img-area">
-                  <img src="assets/img/events/event-img.jpg" className='cand--events-card-img' alt="" />
-                </div>
-                <div className="cand--events-card-title-area">
-                  <h6 className='cand--events-card-title'>
-                    Transition your career with AI Advancement
-                  </h6>
-                </div>
-                <p className='cand--events-card-date'>20th September 2023</p>
-                <a href='/event-details' className="cand--events-card-bottom-area">
-                  <span className='cand--event-sys'>SAVE YOUR SPOT</span>
-                  <span className='cand--events-card-arrow-area'>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
-                      <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#714F36" stroke-width="2" />
-                      <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#714F36" stroke-width="2" />
-                      <path d="M1 26L25.1667 1" stroke="#714F36" stroke-width="2" />
-                    </svg>
-                  </span>
-                </a>
-              </article>
-            </SwiperSlide>
+              {/* <SwiperSlide>
+                <article className='cand--events-card candidate'>
+                  <div className="cand--events-card-img-area">
+                    <img src="assets/img/events/event-img.jpg" className='cand--events-card-img' alt="" />
+                  </div>
+                  <div className="cand--events-card-title-area">
+                    <h6 className='cand--events-card-title'>
+                      Transition your career with AI Advancement
+                    </h6>
+                  </div>
+                  <p className='cand--events-card-date'>20th September 2023</p>
+                  <a href='/event-details' className="cand--events-card-bottom-area">
+                    <span className='cand--event-sys'>SAVE YOUR SPOT</span>
+                    <span className='cand--events-card-arrow-area'>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
+                        <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#714F36" stroke-width="2" />
+                        <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#714F36" stroke-width="2" />
+                        <path d="M1 26L25.1667 1" stroke="#714F36" stroke-width="2" />
+                      </svg>
+                    </span>
+                  </a>
+                </article>
+              </SwiperSlide>
 
-            <SwiperSlide>
-              <article className='cand--events-card candidate'>
-                <div className="cand--events-card-img-area">
-                  <img src="assets/img/events/event-img.jpg" className='cand--events-card-img' alt="" />
-                </div>
-                <div className="cand--events-card-title-area">
-                  <h6 className='cand--events-card-title'>
-                    Transition your career with AI Advancement
-                  </h6>
-                </div>
-                <p className='cand--events-card-date'>20th September 2023</p>
-                <a href='/event-details' className="cand--events-card-bottom-area">
-                  <span className='cand--event-sys'>SAVE YOUR SPOT</span>
-                  <span className='cand--events-card-arrow-area'>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
-                      <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#714F36" stroke-width="2" />
-                      <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#714F36" stroke-width="2" />
-                      <path d="M1 26L25.1667 1" stroke="#714F36" stroke-width="2" />
-                    </svg>
-                  </span>
-                </a>
-              </article>
-            </SwiperSlide>
+              <SwiperSlide>
+                <article className='cand--events-card candidate'>
+                  <div className="cand--events-card-img-area">
+                    <img src="assets/img/events/event-img.jpg" className='cand--events-card-img' alt="" />
+                  </div>
+                  <div className="cand--events-card-title-area">
+                    <h6 className='cand--events-card-title'>
+                      Transition your career with AI Advancement
+                    </h6>
+                  </div>
+                  <p className='cand--events-card-date'>20th September 2023</p>
+                  <a href='/event-details' className="cand--events-card-bottom-area">
+                    <span className='cand--event-sys'>SAVE YOUR SPOT</span>
+                    <span className='cand--events-card-arrow-area'>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
+                        <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#714F36" stroke-width="2" />
+                        <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#714F36" stroke-width="2" />
+                        <path d="M1 26L25.1667 1" stroke="#714F36" stroke-width="2" />
+                      </svg>
+                    </span>
+                  </a>
+                </article>
+              </SwiperSlide>
 
-            <SwiperSlide>
-              <article className='cand--events-card candidate'>
-                <div className="cand--events-card-img-area">
-                  <img src="assets/img/events/event-img.jpg" className='cand--events-card-img' alt="" />
-                </div>
-                <div className="cand--events-card-title-area">
-                  <h6 className='cand--events-card-title'>
-                    Transition your career with AI Advancement
-                  </h6>
-                </div>
-                <p className='cand--events-card-date'>20th September 2023</p>
-                <a href='/event-details' className="cand--events-card-bottom-area">
-                  <span className='cand--event-sys'>SAVE YOUR SPOT</span>
-                  <span className='cand--events-card-arrow-area'>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
-                      <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#714F36" stroke-width="2" />
-                      <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#714F36" stroke-width="2" />
-                      <path d="M1 26L25.1667 1" stroke="#714F36" stroke-width="2" />
-                    </svg>
-                  </span>
-                </a>
-              </article>
-            </SwiperSlide>
+              <SwiperSlide>
+                <article className='cand--events-card candidate'>
+                  <div className="cand--events-card-img-area">
+                    <img src="assets/img/events/event-img.jpg" className='cand--events-card-img' alt="" />
+                  </div>
+                  <div className="cand--events-card-title-area">
+                    <h6 className='cand--events-card-title'>
+                      Transition your career with AI Advancement
+                    </h6>
+                  </div>
+                  <p className='cand--events-card-date'>20th September 2023</p>
+                  <a href='/event-details' className="cand--events-card-bottom-area">
+                    <span className='cand--event-sys'>SAVE YOUR SPOT</span>
+                    <span className='cand--events-card-arrow-area'>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
+                        <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#714F36" stroke-width="2" />
+                        <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#714F36" stroke-width="2" />
+                        <path d="M1 26L25.1667 1" stroke="#714F36" stroke-width="2" />
+                      </svg>
+                    </span>
+                  </a>
+                </article>
+              </SwiperSlide>
 
-            <SwiperSlide>
-              <article className='cand--events-card candidate'>
-                <div className="cand--events-card-img-area">
-                  <img src="assets/img/events/event-img.jpg" className='cand--events-card-img' alt="" />
-                </div>
-                <div className="cand--events-card-title-area">
-                  <h6 className='cand--events-card-title'>
-                    Transition your career with AI Advancement
-                  </h6>
-                </div>
-                <p className='cand--events-card-date'>20th September 2023</p>
-                <a href='/event-details' className="cand--events-card-bottom-area">
-                  <span className='cand--event-sys'>SAVE YOUR SPOT</span>
-                  <span className='cand--events-card-arrow-area'>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
-                      <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#714F36" stroke-width="2" />
-                      <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#714F36" stroke-width="2" />
-                      <path d="M1 26L25.1667 1" stroke="#714F36" stroke-width="2" />
-                    </svg>
-                  </span>
-                </a>
-              </article>
-            </SwiperSlide>
+              <SwiperSlide>
+                <article className='cand--events-card candidate'>
+                  <div className="cand--events-card-img-area">
+                    <img src="assets/img/events/event-img.jpg" className='cand--events-card-img' alt="" />
+                  </div>
+                  <div className="cand--events-card-title-area">
+                    <h6 className='cand--events-card-title'>
+                      Transition your career with AI Advancement
+                    </h6>
+                  </div>
+                  <p className='cand--events-card-date'>20th September 2023</p>
+                  <a href='/event-details' className="cand--events-card-bottom-area">
+                    <span className='cand--event-sys'>SAVE YOUR SPOT</span>
+                    <span className='cand--events-card-arrow-area'>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
+                        <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#714F36" stroke-width="2" />
+                        <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#714F36" stroke-width="2" />
+                        <path d="M1 26L25.1667 1" stroke="#714F36" stroke-width="2" />
+                      </svg>
+                    </span>
+                  </a>
+                </article>
+              </SwiperSlide>
 
-          </Swiper>
+              <SwiperSlide>
+                <article className='cand--events-card candidate'>
+                  <div className="cand--events-card-img-area">
+                    <img src="assets/img/events/event-img.jpg" className='cand--events-card-img' alt="" />
+                  </div>
+                  <div className="cand--events-card-title-area">
+                    <h6 className='cand--events-card-title'>
+                      Transition your career with AI Advancement
+                    </h6>
+                  </div>
+                  <p className='cand--events-card-date'>20th September 2023</p>
+                  <a href='/event-details' className="cand--events-card-bottom-area">
+                    <span className='cand--event-sys'>SAVE YOUR SPOT</span>
+                    <span className='cand--events-card-arrow-area'>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
+                        <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#714F36" stroke-width="2" />
+                        <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#714F36" stroke-width="2" />
+                        <path d="M1 26L25.1667 1" stroke="#714F36" stroke-width="2" />
+                      </svg>
+                    </span>
+                  </a>
+                </article>
+              </SwiperSlide>
 
-        </div>
+              <SwiperSlide>
+                <article className='cand--events-card candidate'>
+                  <div className="cand--events-card-img-area">
+                    <img src="assets/img/events/event-img.jpg" className='cand--events-card-img' alt="" />
+                  </div>
+                  <div className="cand--events-card-title-area">
+                    <h6 className='cand--events-card-title'>
+                      Transition your career with AI Advancement
+                    </h6>
+                  </div>
+                  <p className='cand--events-card-date'>20th September 2023</p>
+                  <a href='/event-details' className="cand--events-card-bottom-area">
+                    <span className='cand--event-sys'>SAVE YOUR SPOT</span>
+                    <span className='cand--events-card-arrow-area'>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
+                        <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#714F36" stroke-width="2" />
+                        <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#714F36" stroke-width="2" />
+                        <path d="M1 26L25.1667 1" stroke="#714F36" stroke-width="2" />
+                      </svg>
+                    </span>
+                  </a>
+                </article>
+              </SwiperSlide> */}
 
-        <div className="home--slider-btn-area" data-aos="fade-up">
-          <div className='tal--pro-slider-btn-sub'>
-            <button className="tal--pro-slider-btn swiper-button-prev5">
-              <svg className='arrow-left' xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 27 27" fill="none">
-                <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#5C3B2E" stroke-width="2" />
-                <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#5C3B2E" stroke-width="2" />
-                <path d="M1 26L25.1667 1" stroke="#5C3B2E" stroke-width="2" />
-              </svg>
-            </button>
-            <button className="tal--pro-slider-btn swiper-button-next5">
-              <svg className='arrow-right' xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 27 27" fill="none">
-                <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#5C3B2E" stroke-width="2" />
-                <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#5C3B2E" stroke-width="2" />
-                <path d="M1 26L25.1667 1" stroke="#5C3B2E" stroke-width="2" />
-              </svg>
-            </button>
+            </Swiper>
+
           </div>
-        </div>
-      </section>
+
+          <div className="home--slider-btn-area" data-aos="fade-up">
+            <div className='tal--pro-slider-btn-sub'>
+              <button className="tal--pro-slider-btn swiper-button-prev5">
+                <svg className='arrow-left' xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 27 27" fill="none">
+                  <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#5C3B2E" stroke-width="2" />
+                  <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#5C3B2E" stroke-width="2" />
+                  <path d="M1 26L25.1667 1" stroke="#5C3B2E" stroke-width="2" />
+                </svg>
+              </button>
+              <button className="tal--pro-slider-btn swiper-button-next5">
+                <svg className='arrow-right' xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 27 27" fill="none">
+                  <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#5C3B2E" stroke-width="2" />
+                  <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#5C3B2E" stroke-width="2" />
+                  <path d="M1 26L25.1667 1" stroke="#5C3B2E" stroke-width="2" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </section>
+      }
 
       <div className='container-fluid home--section candidate'>
         <div className='container-fluid container-section'>

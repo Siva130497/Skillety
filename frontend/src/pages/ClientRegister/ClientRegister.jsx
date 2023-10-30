@@ -4,24 +4,24 @@ import { useEffect } from 'react';
 import $ from 'jquery';
 import './ClientRegister.css';
 import './ClientRegister-responsive.css';
-import AuthContext from '../../context/AuthContext';
 import Layout from '../../components/Layout';
 import { Footer } from '../../components/Footer';
 import GoogleAuth from '../../components/GoogleAuth';
+import axios from 'axios';
 
 const ClientRegister = () => {
     const navigate = useNavigate();
-    const { registerUser } = useContext(AuthContext);
     const [profile, setProfile] = useState([]);
-    const [credentials, setcredentials] = useState({
+    const initialCredentials = {
         name: "",
         phone: "",
         email: "",
         companyName: "",
-        industry: "",
+        industry: "Developer",
         count: "",
         text: "",
-    })
+    }
+    const [credentials, setcredentials] = useState(initialCredentials)
 
     useEffect(() => {
         setcredentials((prevCredentials) => ({
@@ -29,7 +29,29 @@ const ClientRegister = () => {
             name: profile.name ? profile.name : "",
             email: profile.email ? profile.email : "",
         }));
-    }, [profile])
+    }, [profile]);
+
+    const registerUser = async (userData) => {
+        try {
+            const response = await axios.post('http://localhost:5002/register-Client', userData, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+    
+            const result = response.data;
+    
+            if (!result.error) {
+                console.log(result);
+                alert("your details send for verification, after verification we contact you through your email")
+                setcredentials(initialCredentials);
+            } else {
+                console.log(result);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;

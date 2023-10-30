@@ -4,23 +4,30 @@ const TempClient = new Schema(
   {
     name: {
       type: String,
-      required: true
+      required: true,
+      unique : true
     },
     email: {
       type: String,
-      required: true
+      required: true,
+      unique : true
     },
     industry: {
       type: String,
-      required: true
+      required: function() {
+        return this.role === 'Client';
+      }
     },
     phone: {
       type: Number,
-      required: true
+      required: true,
+      unique : true
     },
     count: {
         type: Number,
-        required: true
+        required: function() {
+          return this.role === 'Client';
+        }
     },
     companyName: {
         type: String,
@@ -28,7 +35,9 @@ const TempClient = new Schema(
     },
     text: {
         type: String,
-        required: true
+        required: function() {
+          return this.role === 'Client';
+        }
     },
     tempPassword: {
         type: String,
@@ -40,12 +49,20 @@ const TempClient = new Schema(
     },
     id: {
       type: String,
+      unique : true,
       required: true
+    },
+    companyId: {
+      type: String,
+      required: function() {
+        return this.role === 'Client-staff';
+      }
     },
     role: {
       type: String,
-      required: true
-  },
+      required: true,
+      enum: ['Client', 'Client-staff']
+    },
   },
   { timestamps: true }
 );
