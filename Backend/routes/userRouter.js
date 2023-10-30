@@ -7,7 +7,10 @@ const {
   clientRegister,
   getAllClientDetails,
   createClient,
+  createClientStaff,
   getAllClient,
+  getClient,
+  verifyTempPassword,
   finalClientRegister,
   candidateReg,
   getAllCandidateDetail,
@@ -23,14 +26,35 @@ const {
   deleteRecruiter,
   getAllRecruiters,
   getAnIndividualRecruiter,
+  getAllCSERecruiters,
   assigningCandidate,
   getAssignedCandidates,
-  clientStaffReg,
-  clientStaffLogin,
   getLoginClientDetail,
   getAllClientStaffs,
   forgotPassword,
   newPassword,
+  eventPosting,
+  getAllEvents,
+  deleteEvent,
+  anEvent,
+  changingEvent,
+  generateRandomPassword,
+  contactMessage,
+  getAllContactMessages,
+  verifying,
+  contactMessageCandidate,
+  getAllCandidateContactMessages,
+  clientPackageSelection,
+  getClientChoosenPlan,
+  createViewedCandidate,
+  getViewedCandidates,
+  postEnquiryFormDetail,
+  getEnquiryFormDetails,
+  candidateChatRoomId,
+  getAllCandidateWantChat,
+  roomIdChatDetailCreate,
+  getAllChatDetailOfRoomId,
+  sendingMailToCSE,
 } = require("../Controller/authFunctions");
 const employeeAuth = require("../middleware/employeeAuth");
 
@@ -41,16 +65,22 @@ router.post("/register-Client", clientRegister);
 router.get("/client-Detail", employeeAuth, getAllClientDetails)
 
 // Client Registeration Route
-router.post("/tempPass-Client", employeeAuth, createClient);
+router.post("/tempPass-Client/:id", employeeAuth, createClient);
+
+//Client_staff create route
+router.post("/tempPass-Client-staff/:id", employeeAuth, createClientStaff);
 
 // recruiter route for client detail
-router.get("/clientWithUrl-Detail", employeeAuth, getAllClient);
+router.get("/clientWithUrl-Detail/:id", getClient);
+
+router.get("/clientWithUrl-Detail", getAllClient);
+
+//verify the temp_pass endpoint
+router.post("/verify-temp-password", verifyTempPassword);
 
 // client register after setup new password
 router.post("/finalRegister-Client", finalClientRegister);
 
-//register client-staff
-router.post("/client-staff-register", employeeAuth, clientStaffReg)
 
 // candidate register 
 router.post("/candidate-reg", candidateReg);
@@ -78,7 +108,7 @@ router.get('/skill-match-job-Detail/:candidateId', employeeAuth, getSkillMatchJo
 router.get('/posted-jobs', employeeAuth, getPostedjobs)
 
 //get posted job details
-router.get('/my-posted-jobs/:postedPersonId', employeeAuth, getOwnPostedjobs)
+router.get('/my-posted-jobs/:id', employeeAuth, getOwnPostedjobs)
 
 //candidate applied for job
 router.post('/job-applying', employeeAuth, applyingjob)
@@ -87,13 +117,16 @@ router.post('/job-applying', employeeAuth, applyingjob)
 router.get('/my-applied-jobs/:candidateId', employeeAuth, getAppliedjobs)
 
 //get applied of posted jobs
-router.get('/applied-jobs-of-posted/:postedPersonId', employeeAuth, getAppliedOfPostedJobs)
+router.get('/applied-jobs-of-posted/:id', employeeAuth, getAppliedOfPostedJobs)
 
 //delete particular job of candidate
 router.delete('/delete-job/:candidateId/:jobId', employeeAuth, deleteAppliedJob)
 
 //get an individual recruiter by id
 router.get('/staff/:recruiterId',employeeAuth, getAnIndividualRecruiter);
+
+//get all cse type recruiters endpoint
+router.get("/staff/cse", getAllCSERecruiters);
 
 //recruiter create route
 router.post('/recruiter-create', employeeAuth, createRecruiter);
@@ -114,43 +147,101 @@ router.get("/assigned-candidates", employeeAuth, getAssignedCandidates);
 router.get('/client/:clientId',employeeAuth, getLoginClientDetail);
 
 //get all client staff created by particular client
-router.get('/all-client-staffs/:clientId', employeeAuth, getAllClientStaffs);
+router.get('/all-client-staffs/:companyId', employeeAuth, getAllClientStaffs);
 
 //request to temp password for forgot password
 router.post("/forgotpassword", forgotPassword);
 
+//use code verification end point
+router.post("/verification", verifying);
+
 //change the existing password with new password
 router.patch("/newpassword/:id", newPassword);
 
-// Client Login Route
-router.post("/login-Client", async (req, res) => {
-  await userLogin(req.body, "Client", res);
-});
+//recruiter event posting endpoint
+router.post("/events", employeeAuth, eventPosting);
 
-// Client-staff Login Route
-router.post("/login-Client-staff", async (req, res) => {
-  await clientStaffLogin(req.body, "Client-staff", res);
+//contact message sending end point
+router.post("/contact",  contactMessage);
+
+router.post("/contact-candidate",  contactMessageCandidate);
+
+//get all event details of recruiters endpoint
+router.get("/events", getAllEvents);
+
+//deleting the created event endpoint for the recruiter
+router.delete("/events/:id", employeeAuth, deleteEvent);
+
+//get an event handling endpoint
+router.get("/event/:id", employeeAuth, anEvent);
+
+//change the event detail endpoint
+router.patch("/event/:id", employeeAuth, changingEvent);
+
+//get all contact details by recruiters endpoint
+router.get("/contact", employeeAuth, getAllContactMessages);
+
+router.get("/candidate-contact", employeeAuth, getAllCandidateContactMessages);
+
+//client package selection endpoint
+router.post("/client-package-plan", clientPackageSelection);
+
+//find the client's package plan endpoint
+router.get("/client-package-plan/:id", getClientChoosenPlan);
+
+//client viewed candidate create end point
+router.post("/cv-views", employeeAuth, createViewedCandidate);
+
+//all viewed candidate by client endpoint
+router.get("/cv-views/:id", employeeAuth, getViewedCandidates);
+
+//enquiry form sending end point
+router.post("/enquiry-form",  postEnquiryFormDetail);
+
+//get all enquiry_form details by recruiters endpoint
+router.get("/enquiry-form", employeeAuth, getEnquiryFormDetails);
+
+//candidate join the chat 
+router.post("/candidate-chat", employeeAuth, candidateChatRoomId);
+
+//get all candidates want chat
+router.get("/candidate-chat", employeeAuth, getAllCandidateWantChat);
+
+//save the detail of the partricular room id chat
+router.post("/roomId-chat", employeeAuth, roomIdChatDetailCreate);
+
+//get all the detail chat of the room id 
+router.get("/roomId-chat/:id", employeeAuth, getAllChatDetailOfRoomId);
+
+//sending mail to cse endpoint
+router.post("/enquiry-form/cse", sendingMailToCSE)
+
+// Client, Client-staff Login Route
+router.post("/login-Client", async (req, res) => {
+  await userLogin(req.body, ["Client", "Client-staff"], res);
 });
 
 // Candidate Login Route
 router.post("/login-Candidate", async (req, res) => {
-  await userLogin(req.body, "Candidate", res);
+  await userLogin(req.body, ["Candidate"], res);
 });
 
-// Admin Login Route
+// Admin, Recruiter Login Route
 router.post("/admin", async (req, res) => {
-  await userLogin(req.body, "Admin", res);
+  await userLogin(req.body, ["Admin"], res);
 });
 
-// Staff Login Route
 router.post("/staff", async (req, res) => {
-  await userLogin(req.body, "Recruiter", res);
+  await userLogin(req.body, ["Recruiter"], res);
 });
 
 //protected route
 router.get("/protected", employeeAuth, (req, res) => {
-  return res.json(req.user.id);
+  return res.json(req.user);
 })
+
+//generate rondom password
+router.get("/random-password", generateRandomPassword);
 
 // //Client protected route
 // router.get(

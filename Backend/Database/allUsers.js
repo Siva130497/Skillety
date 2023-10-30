@@ -4,19 +4,27 @@ const allUsersSchema = new Schema(
   {
     id: {
       type: String,
-      required: true
+      required: true,
+      unique : true
     },
     name: {
       type: String,
-      required: true
+      required: true,
+      unique : true
     },
     email: {
       type: String,
-      required: true
+      required: true,
+      unique : true
+    },
+    phone: {
+      type: Number,
+      required: true,
+      unique : true
     },
     role: {
       type: String,
-      enum: ["Client", "Candidate", "Recruiter", "Admin"]
+      enum: ["Client", "Candidate", "Recruiter", "Admin", "Client-staff"]
     },
     password: {
       type: String,

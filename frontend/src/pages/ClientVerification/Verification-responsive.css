@@ -1,0 +1,27 @@
+@media screen and (min-width: 992px) and (max-width: 1024px) {
+
+}
+
+
+@media (max-width:991.5px) {
+    .verify--input-box-area,
+    .verify-code-resend-area{
+        justify-content: center;
+    }
+    .verify--input-box-area .cli--verify-input-box{
+        width: 90px;
+    }
+}
+
+@media (max-width:500px) {
+    .verify-code-resend-area .verify-code-resend,
+    .verify-code-resend-area .verify-code-resend-btn{
+        font-size: 16px;
+    }
+
+    .verify--input-box-area .cli--verify-input-box{
+        font-size: 18px;
+        padding: 14px;
+        width: 20%;
+    }
+}

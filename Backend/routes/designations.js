@@ -1,9 +1,9 @@
 const router = require("express").Router();
 const designation = require('../Database/designation');
-const employeeAuth = require("../middleware/employeeAuth");
+
 
 //get all designations from db
-router.get("/designations", employeeAuth, async(req, res)=>{
+router.get("/designations", async(req, res)=>{
     try{
         const allDesignation = await designation.find();
         res.status(200).json(allDesignation);
@@ -13,7 +13,7 @@ router.get("/designations", employeeAuth, async(req, res)=>{
 })
 
 //post new designations to db
-router.post("/designations", employeeAuth, async(req, res)=>{
+router.post("/designations", async(req, res)=>{
     const designationArray = req.body;
     
     try {

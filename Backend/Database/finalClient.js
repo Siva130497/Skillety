@@ -4,23 +4,30 @@ const finalClient = new Schema(
   {
     name: {
       type: String,
-      required: true
+      required: true,
+      unique: true
     },
     email: {
       type: String,
+      unique : true,
       required: true
     },
     industry: {
       type: String,
-      required: true
+      required: function() {
+        return this.role === 'Client';
+      }
     },
     phone: {
       type: Number,
+      unique : true,
       required: true
     },
     count: {
         type: Number,
-        required: true
+        required: function() {
+          return this.role === 'Client';
+        }
     },
     companyName: {
         type: String,
@@ -28,7 +35,9 @@ const finalClient = new Schema(
     },
     text: {
         type: String,
-        required: true
+        required: function() {
+          return this.role === 'Client';
+        }
     },
     password: {
         type: String,
@@ -36,11 +45,17 @@ const finalClient = new Schema(
     },
     id: {
       type: String,
+      required: true,
+      unique : true
+    },
+    companyId: {
+      type: String,
       required: true
     },
     role: {
       type: String,
-      required: true
+      required: true,
+      enum: ['Client', 'Client-staff']
   },
   },
   { timestamps: true }

@@ -3,8 +3,8 @@ import axios from 'axios';
 import { v4 as uuidv4 } from "uuid";
 
 
-const JobPosting = ({employeeId, staffToken, clientToken}) => {
-    const [jobPosted, setJobPosted] = useState(false);
+const JobPosting = ({employeeId, staffToken, clientToken, companyId, role}) => {
+  
     const [searchJobRoleInput, setSearchJobRoleInput] = useState("");
     const [searchSkillInput, setSearchSkillInput] = useState("");
     const [jobRoleArray, setjobRoleArray] = useState([])
@@ -91,7 +91,13 @@ const JobPosting = ({employeeId, staffToken, clientToken}) => {
           const result = res.data;
           if (!result.error) {
               console.log(result);
-              setJobPosted(true);
+              alert("Job has been posted successfully!")
+              setCredentials(initialCredentials);
+              setSelectedJobRoles([]);
+              setOtherJobRole([]);
+              setSelectedSkills([]);
+              setAdditionalSkills([]);
+              setOtherSkill([]);
           } else {
               console.log(result);
           }
@@ -139,20 +145,6 @@ const JobPosting = ({employeeId, staffToken, clientToken}) => {
           console.log(err);
       }
   }
-
-
-    useEffect(() => {
-        if (jobPosted) {
-          alert("Job has been posted successfully!")
-          setCredentials(initialCredentials);
-          setSelectedJobRoles([]);
-          setOtherJobRole([]);
-          setSelectedSkills([]);
-          setAdditionalSkills([]);
-          setOtherSkill([]);
-          setJobPosted(false);
-        }
-    }, [jobPosted]);
 
     const handleJobRoleSearch = (e) => {
         const inputValue = e.target.value;
@@ -307,16 +299,22 @@ const JobPosting = ({employeeId, staffToken, clientToken}) => {
         }
     
         const id = uuidv4();
-        const recruiterId = staffToken ? employeeId : "this job posted by client";
-        const clientId = clientToken ? employeeId : "this job posted by company staff";
         const updatedCredentials = {
           ...credentials,
           skills: selectedSkills,
           jobRole: selectedJobRoles,
-          id: id,
-          recruiterId,
-          clientId,
+          id,
+          role,
         };
+        if(role === "Recruiter"){
+          updatedCredentials.recruiterId = employeeId;
+        }else if(role === "Client"){
+          updatedCredentials.clientId = employeeId;
+          updatedCredentials.companyId = companyId;
+        }else{
+          updatedCredentials.clientStaffId = employeeId;
+          updatedCredentials.companyId = companyId;
+        }
         const updatedCredentialsWithAdditionalSkills = {
           ...updatedCredentials,
           additionalSkill:additionalSkills,

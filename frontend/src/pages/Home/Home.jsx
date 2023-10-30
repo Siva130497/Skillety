@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Autoplay } from 'swiper/modules';
@@ -9,11 +9,12 @@ import './Home.css';
 import './Home-responsive.css';
 import Layout from '../../components/Layout';
 import { Footer } from '../../components/Footer';
-import useTokenRedirect from '../../customhooks/useTokenRedirect';
+
+
 
 
 const Home = () => {
-  useTokenRedirect();
+  
   useEffect(() => {
     // Function to animate the numbers
     function animateNumber(element, targetNumber) {
@@ -62,11 +63,6 @@ const Home = () => {
     observer.observe(section);
   }, []);
 
-  
- 
-  
-
-
   const breakpoints = {
     320: {
       slidesPerView: 1,
@@ -85,7 +81,6 @@ const Home = () => {
     },
   };
 
-
   return (
     <div>
       <Layout />
@@ -95,8 +90,11 @@ const Home = () => {
               <div className="row col-rev-custom">
                 <div className="col-12 col-lg-6 col-xl-7 col-md-12 home--left-cover">
                   <div className="home--head">
-                    <h5 data-aos="fade-left" data-aos-delay="200">
+                    {/* <h5 data-aos="fade-left" data-aos-delay="200">
                       Welcome to the world’s first Recruitment Solutions Integrator, powered by an exclusive job board for Immediate Joiners.
+                    </h5> */}
+                    <h5 data-aos="fade-left" data-aos-delay="200">
+                    Welcome to our AI-driven job portal for Immediate Joiners - Talent that can Join you within 7 days or less.
                     </h5>
                     <h6 data-aos="fade-right" data-aos-delay="300">
                       Search For Talents
@@ -176,7 +174,8 @@ const Home = () => {
                 </div>
               </div>
               <div className="home--about-para" data-aos="fade-left" data-aos-delay="100">
-                <p>We are a gig-economy based crowdsourcing platform for Freelancers. We have an exclusive vault of Immediate Joiners - guys who can pick up an Offer and Join within 7 days or less. We have curated a group of Technical Interview experts for Clients who face shortage of internal Interview Panels. We help you to move away from the old and soiled hierarchical business structure, and evolve into a 21st Century on-demand, open talent, cross-functional team; with a skilled and passionate workforce who are more engaged, effective & productive. Welcome to Skillety – Your on-demand HR solutions partner.</p>
+                {/* <p>We are a gig-economy based crowdsourcing platform for Freelancers. We have an exclusive vault of Immediate Joiners - guys who can pick up an Offer and Join within 7 days or less. We have curated a group of Technical Interview experts for Clients who face shortage of internal Interview Panels. We help you to move away from the old and soiled hierarchical business structure, and evolve into a 21st Century on-demand, open talent, cross-functional team; with a skilled and passionate workforce who are more engaged, effective & productive. Welcome to Skillety – Your on-demand HR solutions partner.</p> */}
+                <p>Skillety is an AI-driven job portal for Immediate Joiners - candidates who can pick up a job offer and join in less than 7 days, 15 days or 30 days. We deliver an inimitable combination of Speed, Quality & Convenience through our comprehensive suite of diverse hiring solutions like Sourcing, Posting, Assessment, Interview, Onboarding & Verification – all seamlessly integrated into one place. The combined power of our AI-driven platform and the extensive experience of our formidable team, makes us an end-to-end recruitment powerhouse - your perfect RPO partner.</p>
               </div>
             </section>
 
@@ -187,7 +186,7 @@ const Home = () => {
                   <h3 className='service--heading' data-aos="fade-up">OUR SERVICES</h3>
                 </div>
                 <div className="home--service-para" data-aos="fade-left" data-aos-delay="100">
-                  <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
+                  <p>What makes us unique is the combination of a Job Portal for Immediate Joiners coupled with a comprehensive suite of diverse hiring solutions, including Sourcing, Screening, Assessments, Interviews, Verification, and Onboarding, all thoughtfully integrated into a single platform. This reduces the TAT for a new hire by an impressive 30-50%. Our pay-as-you-go model offers our clients with a simple billing and performance evaluation process, focused solely on end results. As an end-to-end recruitment powerhouse, Skillety is your ideal RPO partner, dedicated to optimizing your recruitment journey.</p>
                 </div>
                 <div className="row">
                   <div className="col-12 col-xl-7 col-lg-8">
@@ -197,11 +196,14 @@ const Home = () => {
                       </div>
                       <div className="service--content-area">
                         <div className="service--card-headarea">
-                          <h3>Sourcing</h3>
+                          <h3>CV SOURCING</h3>
                           <img src="assets/img/home-images/sourcing-icon.png" className='sourcing-icon' alt="" />
                         </div>
-                        <p className='service--content'>
+                        {/* <p className='service--content'>
                           Search for Immediate Joiner CVs from 3 buckets - 7 days, 15 days & 30 days joiners. Also Post Jobs and publish it on 172 partner job-boards & social media platforms, in just one click.
+                        </p> */}
+                        <p className='service--content'>
+                        Search for Candidates with any skill and experience, from any sector and location through seamless filter options. Search for Immediate Joiner CVs from 3 buckets - 7 days, 15 days & 30 days joiners.
                         </p>
                         <div className='service-know-morearea'>
                           <a href="/services" className='service--know-more'>
@@ -216,7 +218,7 @@ const Home = () => {
                     </article>
                   </div>
                 </div>
-                <div className="row mt-5">
+                {/* <div className="row mt-5">
                   <div className="col-12 col-xl-7 col-lg-8 offset-xl-5 offset-lg-4">
                     <article className='home--service-card' data-aos="zoom-out-left">
                       <div className="service--arrow-area">
@@ -242,6 +244,33 @@ const Home = () => {
                       </div>
                     </article>
                   </div>
+                </div> */}
+                <div className="row mt-5">
+                  <div className="col-12 col-xl-7 col-lg-8 offset-xl-5 offset-lg-4">
+                    <article className='home--service-card' data-aos="zoom-out-left">
+                      <div className="service--arrow-area">
+                        <img src="assets/img/home-images/arrow-L.png" className='service--arrow-img' alt="" />
+                      </div>
+                      <div className="service--content-area">
+                        <div className="service--card-headarea">
+                          <h3>JOB POSTING</h3>
+                          <img src="assets/img/home-images/screening.png" className='screening-icon' alt="" />
+                        </div>
+                        <p className='service--content'>
+                        Post multiple Jobs easily and publish it on 172 partner job-boards & social media platforms, in just one click. CVs would flow in from all sides into your Dashboard and Inbox.
+                        </p>
+                        <div className='service-know-morearea'>
+                          <a href="/services" className='service--know-more'>
+                            <div className='service--know-more-btn'>Know more
+                            </div>
+                            <div className='service--know-more-arrow'>
+                              <img src="assets/img/home-images/arrow-dark.png" className='knowmore--arrow' alt="" />
+                            </div>
+                          </a>
+                        </div>
+                      </div>
+                    </article>
+                  </div>
                 </div>
                 <div className="row mt-5">
                   <div className="col-12 col-xl-7 col-lg-8">
@@ -251,7 +280,7 @@ const Home = () => {
                       </div>
                       <div className="service--content-area">
                         <div className="service--card-headarea">
-                          <h3>ASSESSMENT</h3>
+                          <h3>SKILL ASSESSMENT</h3>
                           <img src="assets/img/home-images/assesment.png" className='sourcing-icon' alt="" />
                         </div>
                         <p className='service--content'>
@@ -278,11 +307,14 @@ const Home = () => {
                       </div>
                       <div className="service--content-area">
                         <div className="service--card-headarea">
-                          <h3>INTERVIEW</h3>
+                          <h3>INTERVIEW-AS-A-SERVICE</h3>
                           <img src="assets/img/home-images/interview.png" className='interview-icon' alt="" />
                         </div>
-                        <p className='service--content'>
+                        {/* <p className='service--content'>
                           Do a thorough L1 Interview with a coding round conducted by panels from FAANG companies. The Feedback comes as a comprehensive report along with Playback.
+                        </p> */}
+                        <p className='service--content'>
+                        Get instant access to the Interview Outsourcing services of Skillety. Do thorough L1 Interviews with a coding round conducted by panels from FAANG companies. The Feedback comes as a comprehensive report along with the playback of the video interview.
                         </p>
                         <div className='service-know-morearea'>
                           <a href="/services" className='service--know-more'>
@@ -305,11 +337,41 @@ const Home = () => {
                       </div>
                       <div className="service--content-area">
                         <div className="service--card-headarea">
-                          <h3>VERIFICATION</h3>
+                          <h3>ONBOARDING PROCESS</h3>
                           <img src="assets/img/home-images/verification.png" className='verification-icon' alt="" />
                         </div>
                         <p className='service--content'>
+                        Covers the collection and re-evaluation of all necessary documents of an Employee who has joined. Basic information, Job Details, Work and Reporting details, Compensation & Benefits, Statutory documents, Educational Certificates, etc.
+                        </p>
+                        <div className='service-know-morearea'>
+                          <a href="/services" className='service--know-more'>
+                            <div className='service--know-more-btn'>Know more
+                            </div>
+                            <div className='service--know-more-arrow'>
+                              <img src="assets/img/home-images/arrow-dark.png" className='knowmore--arrow' alt="" />
+                            </div>
+                          </a>
+                        </div>
+                      </div>
+                    </article>
+                  </div>
+                </div>
+                <div className="row mt-5">
+                  <div className="col-12 col-xl-7 col-lg-8 offset-xl-5 offset-lg-4">
+                    <article className='home--service-card' data-aos="zoom-out-left">
+                      <div className="service--arrow-area">
+                        <img src="assets/img/home-images/arrow-L.png" className='service--arrow-img' alt="" />
+                      </div>
+                      <div className="service--content-area">
+                        <div className="service--card-headarea">
+                          <h3>BACKGROUND VERIFICATION</h3>
+                          <img src="assets/img/home-images/interview.png" className='interview-icon' alt="" />
+                        </div>
+                        {/* <p className='service--content'>
                           Before releasing the Offer, do a quick sanity check if it's a fake profile or not, with our BGV-Lite services. Also do a 360-degree Background Verification after the candidate joins.
+                        </p> */}
+                        <p className='service--content'>
+                        Before releasing the Offer, do a quick sanity check if it's a fake profile or not, with our BGV-Lite services. Also do a detailed 360-degree Background Verification after the candidate joins – all from the Skillety platform.
                         </p>
                         <div className='service-know-morearea'>
                           <a href="/services" className='service--know-more'>
@@ -333,7 +395,8 @@ const Home = () => {
                 <h4 className='rpo--heading' data-aos="fade-up"><span>We enhance</span> client <span>recruitment</span> through <br /> comprehensive <span>end-to-end outsourcing</span></h4>
               </div>
               <div className="rpo--para-area" data-aos="fade-left">
-                <p>We improve the efficiency and effectiveness of the client’s recruitment process by providing an end-to-end outsourcing solution for the recruitment process.</p>
+                {/* <p>We improve the efficiency and effectiveness of the client’s recruitment process by providing an end-to-end outsourcing solution for the recruitment process.</p> */}
+                <p>Recruitment Process Outsourcing is a specialty of Skillety, where we, an external solution provider, acts as a company's internal recruitment function for a portion or all of its jobs. Typically our Client Success Managers (resource implants) are deployed to the client's business premises on a fully or partially outsourced basis. We manage the entire recruiting/hiring process from job profiling through the onboarding of new hires, including staff, technology, methods, and reporting. Skillety’s highly customised and automated RPO process will tremendously improve a client's time-to-hire, increase the quality of the candidate pool, provide verifiable metrics, reduce costs, and improve employee retention and governmental compliance.</p>
               </div>
               <div className="rpo--content-card">
                 <div className="row align-items-xl-center">
@@ -422,7 +485,8 @@ const Home = () => {
                   </div>
                   <div className="col-12 col-xl-5 col-lg-9">
                     <div className='rpo--card-desc'>
-                      <p data-aos="fade">Best for a test-run before you decide your RPO partner. We take up hiring requirements from one or few projects on exclusivity, and close them in record time, first. The results will determine whether you want to upgrade to an Enterprise RPO (or not), based on solid proof.</p>
+                      {/* <p data-aos="fade">Best for a test-run before you decide your RPO partner. We take up hiring requirements from one or few projects on exclusivity, and close them in record time, first. The results will determine whether you want to upgrade to an Enterprise RPO (or not), based on solid proof.</p> */}
+                      <p data-aos="fade">This is specifically designed for companies who would want to test run the RPO model first, and then decide. We take up hiring requirements from one or few projects on exclusivity, and close them in record time, first. The results will determine whether you want to upgrade to an Enterprise RPO (or not), based on solid proof.</p>
                     </div>
                   </div>
                   <div className="col-12 col-xl-3 col-lg-12">
@@ -462,7 +526,7 @@ const Home = () => {
                         </div>
                         <div className="home--milestone-card-right">
                           <h6 className='home--milestone-title'>Total Registered Users</h6>
-                          <h2 className='home-milestone-number' data-target="130">0</h2>
+                          <h2 className='home-milestone-number' data-target="210,000">0</h2>
                         </div>
                       </article>
                     </div>
@@ -479,7 +543,7 @@ const Home = () => {
                         </div>
                         <div className="home--milestone-card-right">
                           <h6 className='home--milestone-title'>New Registrations per day</h6>
-                          <h2 className='home-milestone-number' data-target="200">0</h2>
+                          <h2 className='home-milestone-number' data-target="450">0</h2>
                         </div>
                       </article>
                     </div>
@@ -495,8 +559,8 @@ const Home = () => {
                           </div>
                         </div>
                         <div className="home--milestone-card-right">
-                          <h6 className='home--milestone-title'>Total Clients</h6>
-                          <h2 className='home-milestone-number' data-target="202">0</h2>
+                          <h6 className='home--milestone-title'>Total Enterprise Clients</h6>
+                          <h2 className='home-milestone-number' data-target="140">0</h2>
                         </div>
                       </article>
                     </div>
@@ -513,7 +577,7 @@ const Home = () => {
                         </div>
                         <div className="home--milestone-card-right">
                           <h6 className='home--milestone-title'>Total Candidates placed</h6>
-                          <h2 className='home-milestone-number' data-target="147">0</h2>
+                          <h2 className='home-milestone-number' data-target="1600">0</h2>
                         </div>
                       </article>
                     </div>

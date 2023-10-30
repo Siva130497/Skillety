@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Layout from '../../components/Layout';
 import { Footer } from '../../components/Footer';
 import AllCandidates from '../../components/AllCandidates';
@@ -7,12 +7,15 @@ import JobPosting from '../../components/JobPosting';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { v4 as uuidv4} from "uuid";
+import AuthContext from '../../context/AuthContext';
+import Packages from '../Packages/Packages';
 
 
 const ClientDashboard = () => {
-    const clientToken = localStorage.getItem("clientToken");
+    const clientToken = JSON.parse(localStorage.getItem("clientToken"));
+    const {getProtectedData, getClientChoosenPlan, packageSelectionDetail} = useContext(AuthContext);
     const [employeeId, setEmployeeId] = useState("");
-    const [clientCompanyName, setClientCompanyName] = useState("");
+    const [loginClientDetail, setLoginClientDetail] = useState([]);
     const navigate = useNavigate();
 
     const [dashBoard, setDashBoard] = useState(true);
@@ -22,26 +25,16 @@ const ClientDashboard = () => {
     const [clientStaffCreatingMode, setClientStaffCreatingMode] = useState(false);
     const [allClientStaffs, setAllClientStaffs] = useState([]);
     const [allClientStaffMode, setAllClientStaffMode] = useState(false);
+    const [packagePlanMode, setPackagePlanMode] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
 
     const initialCredentials = {
-      name:"",
+      name: "",
+      email: "",
+      phone:"",
     }
-    const [credentials, setcredentials] = useState(initialCredentials);
-
-    const getProtectedData = async () => {
-      try {
-        const response = await axios.get('http://localhost:5002/protected', {
-          headers: {
-              Authorization: `Bearer ${clientToken}`,
-              Accept: 'application/json'
-          }
-        });
-        return response.data;
-      } catch (error) {
-        throw error;
-      }
-    };
-
+    const [credentials, setCredentials] = useState(initialCredentials);
+    
     const getLoginClientDetail = async() => {
       try{
           const res = await axios.get(`http://localhost:5002/client/${employeeId}`, {
@@ -53,7 +46,7 @@ const ClientDashboard = () => {
           const result = res.data;
           if (!result.error) {
             console.log(result);
-            setClientCompanyName(result.companyName);
+            setLoginClientDetail(result);
           } else {
             console.log(result);
           }
@@ -61,13 +54,13 @@ const ClientDashboard = () => {
         console.log(err);
       }
     }
-  
+
     useEffect(() => {
       const fetchData = async () => {
         try {
-          const id = await getProtectedData();
-          console.log(id);
-          setEmployeeId(id);
+          const user = await getProtectedData(clientToken);
+          console.log(user);
+          setEmployeeId(user.id);
         } catch (error) {
           navigate("/client-login")
         }
@@ -79,12 +72,20 @@ const ClientDashboard = () => {
     useEffect(()=>{
       if(employeeId){
         getLoginClientDetail();
+        getClientChoosenPlan(loginClientDetail.companyId);
       }
     },[employeeId]);
 
+    useEffect(()=>{
+      if(loginClientDetail){
+        getClientChoosenPlan(loginClientDetail.companyId);
+      }
+    },[loginClientDetail]);
+
+
     const getAllClientStaffs = async() => {
       try{
-          const res = await axios.get(`http://localhost:5002/all-client-staffs/${employeeId}`, {
+          const res = await axios.get(`http://localhost:5002/all-client-staffs/${loginClientDetail.companyId}`, {
             headers: {
                 Authorization: `Bearer ${clientToken}`,
                 Accept: 'application/json'
@@ -105,7 +106,7 @@ const ClientDashboard = () => {
     //client staff create request
   const createClientStaff = async (userData) => {
     try {
-        const response = await axios.post('http://localhost:5002/client-staff-register', userData, {
+        const response = await axios.post(`http://localhost:5002/tempPass-Client-staff/${employeeId}`, userData, {
             headers: {
                 Authorization: `Bearer ${clientToken}`,
                 Accept: 'application/json'
@@ -114,12 +115,18 @@ const ClientDashboard = () => {
 
         const result = response.data;
 
-        if (!result.error) {
+        if (!result.message) {
             console.log(result);
-            alert("New client staff has been created successfully!")
-            setcredentials(initialCredentials);
+            if (result.emailSent) {
+              alert("New client staff has been created successfully!")
+              setCredentials(initialCredentials)
+          } else {
+              console.log('Email sending failed.');
+          }
         } else {
             console.log(result);
+            alert("you reached the limit of creating accounts, upgrade your plan")
+            setCredentials(initialCredentials);
         }
     } catch (error) {
         console.log(error);
@@ -128,24 +135,13 @@ const ClientDashboard = () => {
 
     const handleInputChange = (event) => {
       const {name, value} = event.target;
-      setcredentials({...credentials, [name]:value});
+      setCredentials({ ...credentials, [name]: value });
     }
 
     const handleSubmit = (event) => {
       event.preventDefault();
-      const id = uuidv4();
-      const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=[]{}|;:,.<>?';
-      let password = '';
-      for (let i = 0; i < 12; i++) {
-        const randomIndex = Math.floor(Math.random() * charset.length);
-          password += charset[randomIndex];
-      }
       const updatedCredentials = {
         ...credentials,
-        id,
-        password,
-        companyName:clientCompanyName,
-        clientId:employeeId,
       };
       console.log(updatedCredentials);
       createClientStaff(updatedCredentials);
@@ -153,8 +149,9 @@ const ClientDashboard = () => {
 
     return (
         <div>
-            <Layout />
-            <div className='container-fluid' style={{display: 'flex'}}>
+            {/* <Layout /> */}
+
+            {packageSelectionDetail ? <div className='container-fluid' style={{display: 'flex'}}>
               <div style={{flex:2}}>
                 <ul>
                   <li style={{listStyleType:'none'}}><button onClick={()=>{
@@ -164,6 +161,7 @@ const ClientDashboard = () => {
                     setJobPostingMode(false);
                     setAllClientStaffMode(false);
                     setClientStaffCreatingMode(false);
+                    packagePlanMode(false);
                   }}>Dash board</button></li>
                   <li style={{listStyleType:'none'}}><button onClick={()=>{
                     setDashBoard(false);
@@ -172,6 +170,7 @@ const ClientDashboard = () => {
                     setJobPostingMode(false);
                     setAllClientStaffMode(false);
                     setClientStaffCreatingMode(false);
+                    setPackagePlanMode(false);
                   }}>All Candidates</button></li>
                   <li style={{listStyleType:'none'}}><button onClick={()=>{
                     setDashBoard(false);
@@ -180,6 +179,7 @@ const ClientDashboard = () => {
                     setJobPostingMode(false);
                     setAllClientStaffMode(false);
                     setClientStaffCreatingMode(false);
+                    setPackagePlanMode(false);
                   }}>Posted Jobs</button></li>
                   <li style={{listStyleType:'none'}}><button onClick={()=>{
                     setDashBoard(false);
@@ -188,8 +188,9 @@ const ClientDashboard = () => {
                     setJobPostingMode(true);
                     setAllClientStaffMode(false);
                     setClientStaffCreatingMode(false);
+                    setPackagePlanMode(false);
                   }}>Job Posting</button></li>
-                  {clientCompanyName && 
+                  {loginClientDetail.role === "Client" &&  
                     <div>
                       <li style={{listStyleType:'none'}}><button onClick={()=>{
                       setDashBoard(false);
@@ -198,6 +199,7 @@ const ClientDashboard = () => {
                       setPostedJobMode(false);
                       setJobPostingMode(false);
                       setClientStaffCreatingMode(true);
+                      setPackagePlanMode(false);
                       }}>Client Staff Creating</button></li>
                       <li style={{listStyleType:'none'}}><button onClick={()=>{
                       getAllClientStaffs();
@@ -207,7 +209,17 @@ const ClientDashboard = () => {
                       setPostedJobMode(false);
                       setJobPostingMode(false);
                       setClientStaffCreatingMode(false);
+                      setPackagePlanMode(false);
                       }}>All Client Staffs</button></li>
+                      <li style={{listStyleType:'none'}}><button onClick={()=>{
+                      setDashBoard(false);
+                      setAllClientStaffMode(false);
+                      setAllCandidateMode(false);
+                      setPostedJobMode(false);
+                      setJobPostingMode(false);
+                      setClientStaffCreatingMode(false);
+                      setPackagePlanMode(true);
+                      }}>Upgrade the current plan</button></li>
                     </div>
                   }
                   <li style={{listStyleType:'none'}}><button onClick={()=>{
@@ -220,11 +232,11 @@ const ClientDashboard = () => {
                 {dashBoard && <div>
                 <h1>Dash Board</h1>
                 </div>}
-                {allCandidateMode && <AllCandidates employeeId={employeeId} clientToken={clientToken}/>
+                {allCandidateMode && <AllCandidates companyId={loginClientDetail.companyId} clientToken={clientToken}/>
                 }
-                {postedJobMode > 0 && <PostedJobs employeeId={employeeId} clientToken={clientToken}/>
+                {postedJobMode > 0 && <PostedJobs companyId={loginClientDetail.companyId} clientToken={clientToken}/>
                 }
-                {jobPostingMode  && <JobPosting employeeId={employeeId} clientToken={clientToken}/>}
+                {jobPostingMode  && <JobPosting companyId={loginClientDetail.companyId} role={loginClientDetail.role} employeeId={employeeId} clientToken={clientToken}/>}
                 {allClientStaffMode &&
                   <div>
                     {allClientStaffs.length > 0 ?
@@ -258,7 +270,7 @@ const ClientDashboard = () => {
                         <input 
                         type="text" 
                         className="form-control" 
-                        id="textInput" 
+                        id="nameInput" 
                         aria-describedby="clientStaffName" 
                         name="name" 
                         value={credentials.name} 
@@ -266,12 +278,51 @@ const ClientDashboard = () => {
                         placeholder="enter the client-staff name"
                         required />
                     </div>
+                    <div className="form-group">
+                      <label 
+                      htmlFor="emailInput" 
+                      className="form-label mt-4">
+                        Client Staff Email
+                        </label>
+                        <input 
+                        type="email" 
+                        className="form-control" 
+                        id="emailInput" 
+                        aria-describedby="clientStaffEmail" 
+                        name="email" 
+                        value={credentials.email} 
+                        onChange = {handleInputChange} 
+                        placeholder="enter the client-staff email"
+                        required />
+                    </div>
+                    <div className="form-group">
+                      <label 
+                      htmlFor="phoneNoInput" 
+                      className="form-label mt-4">
+                        Client Staff Phone No
+                        </label>
+                        <input 
+                        type="number" 
+                        className="form-control" 
+                        id="phoneNoInput" 
+                        aria-describedby="clientStaffPhoneNo" 
+                        name="phone" 
+                        value={credentials.phone} 
+                        onChange = {handleInputChange}
+                        min="0"
+                        placeholder="enter the client-staff phoneNo"
+                        required />
+                    </div>
                     <input type='submit' value="Create" className='btn btn-primary my-3' />
                   </form>
                 </div>
                 }
+                {packagePlanMode &&
+                  <Packages companyId={loginClientDetail.companyId}/>
+                }
               </div>
-            </div>
+            </div> : <Packages companyId={loginClientDetail.companyId}/>}
+
             <Footer/>
         </div>
     );

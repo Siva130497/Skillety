@@ -13,6 +13,7 @@ const dotenv = require('dotenv');
 const morgan = require('morgan');
 const multer = require('multer');
 const resume = require('./Database/resume');
+const image = require('./Database/image');
 const validateToken = require('./middleware/employeeAuth');
 const jwt = require("jsonwebtoken");
 // const file = require('./Database/file');
@@ -22,7 +23,9 @@ const jwt = require("jsonwebtoken");
 // const path = require('path');
 // const mammoth = require('mammoth'); // For handling Word documents
 const http = require('http');
-// const {Server} = require('socket.io');
+const employeeAuth = require('./middleware/employeeAuth');
+const {Server} = require('socket.io');
+
 
 const corsOptions = {
   origin: 'http://localhost:3000',
@@ -34,6 +37,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(morgan("tiny"));
 app.use(bp.json());
+app.use(express.static('public'))
 app.use(cookieParser());
 app.use(bp.urlencoded({extended: true}))
 app.use('', userRouter);
@@ -44,12 +48,12 @@ app.use('', designationsRouter);
 
 const server = http.createServer(app);
 
-// const io = new Server(server, {
-//   cors: {
-//     origin: "http://localhost:3000",
-//     methods: ["GET", "POST"],
-//   },
-// });
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST"],
+  },
+});
 
 const PORT = process.env.PORT || 3000;
 
@@ -59,23 +63,35 @@ mongoose.connect(process.env.DB_CONNECT)
     console.log('MongoDB connected...');
   })
 
-// io.on('connection', (socket) => {
-//   socket.on('join_room', (user) => {
-//     // Join a room based on the user's role
-//     socket.join(`${user.role}Room`);
-//     console.log(`A user connected: ${user.id}, Name: ${user.name}, Role:${user.role}`);
-//   });
+io.on('connection', (socket) => {
 
-//   socket.on('send_message', (data) => {
-//     // Broadcast the message to the appropriate room
-//     socket.to(`${data.senderRole}Room`).emit('receive_message', data);
-//   });
+  console.log(`user connected: ${socket.id}`);
+  // socket.on('join_room', (user) => {
+  //   // Join a room based on the user's role
+  //   socket.join(`${user.role}Room`);
+  //   console.log(`A user connected: ${user.id}, Name: ${user.name}, Role:${user.role}`);
+  // });
 
-//   socket.on('disconnect', () => {
-//     // Handle user disconnect
-//     // You may want to remove them from their respective rooms
-//   });
-// });
+  // socket.on('send_message', (data) => {
+  //   // Broadcast the message to the appropriate room
+  //   socket.to(`${data.senderRole}Room`).emit('receive_message', data);
+  // });
+
+  socket.on('join_room', (data) => {
+    socket.join(data);
+    console.log(`user with id: ${socket.id} joined room: ${data}`)
+  });
+
+  socket.on('send_message', (data) => {
+    console.log(data);
+    socket.to(data.roomId).emit('receive_message', data);
+  });
+
+  socket.on('disconnect', () => {
+    console.log("user disconnect", socket.id);
+  });
+
+});
 
 
 // app.get('/clientRecruiterChat', validateToken, (req, res) => {
@@ -137,7 +153,87 @@ app.post('/upload', upload.single('file'), (req, res) => {
   .then((result) => console.log(result))
   .then(result => res.json(result))
   .catch(err => console.log(err))
+});
+
+const storageImg = multer.diskStorage({
+  destination: function(req, file, cb) {
+    return cb(null, "./public/images")
+  },
+  filename: function(req, file, cb) {
+    return cb(null, `${Date.now()}_${file.originalname}`)
+  }
 })
+
+const uploadImg = multer({storage: storageImg})
+app.post('/upload-image', employeeAuth, uploadImg.single('image'), (req, res) => {
+  const uploadedId = req.body.id; 
+  console.log("Uploaded ID:", uploadedId);
+  console.log("Uploaded File:", req.file);
+
+  image.create({
+    image: req.file.filename,
+    id: uploadedId,
+  })
+  .then((result) => console.log(result))
+  .then(result => res.json(result))
+  .catch(err => console.log(err)) 
+})
+
+app.get('/event-image', (req, res)=>{
+  image.find()
+  .then(eventImg=>res.json(eventImg))
+  .catch(err=>res.json(err))
+});
+
+app.get('/event-image/:id', (req, res)=>{
+  const {id} = req.params;
+  image.findOne({id})
+  .then(eventImg=>res.json(eventImg))
+  .catch(err=>res.json(err))
+});
+
+app.delete('/event-image-delete/:id', employeeAuth, (req, res) => {
+  const { id } = req.params;
+
+  image.findOneAndDelete({ id }) 
+    .then(deletedImage => {
+      if (!deletedImage) {
+        return res.status(404).json({ message: 'Image not found' });
+      }
+      res.status(200).json({ message: 'Image deleted successfully' });
+    })
+    .catch(err => {
+      res.status(500).json({ message: 'Internal Server Error', error: err });
+    });
+});
+
+app.patch('/update-image/:id', employeeAuth, uploadImg.single('image'), (req, res) => {
+  const uploadedId = req.params.id;
+  const newImageFilename = req.file.filename;
+
+  // Find the existing image by ID
+  image.findOneAndUpdate(
+    { id: uploadedId },
+    { $set: { image: newImageFilename } },
+    { new: true },
+    (err, updatedImage) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).json({ error: 'Internal Server Error' });
+      }
+
+      if (!updatedImage) {
+        return res.status(404).json({ error: 'Image not found' });
+      }
+
+      console.log('Updated Image:', updatedImage);
+
+      res.json(updatedImage);
+    }
+  );
+});
+
+
 
 // const storage = multer.memoryStorage();
 // const upload = multer({ storage });

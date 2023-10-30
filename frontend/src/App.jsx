@@ -1,3 +1,21 @@
+import './index.css';
+import './custom.css';
+// // import './components/main.js';
+import 'aos/dist/aos.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap-icons/font/bootstrap-icons.css';
+import 'boxicons/css/boxicons.min.css';
+import 'glightbox/dist/css/glightbox.min.css';
+import 'remixicon/fonts/remixicon.css';
+// // import 'swiper/swiper-bundle.min.css';
+
+import 'aos/dist/aos.js';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import 'glightbox/dist/js/glightbox.min.js';
+import 'isotope-layout/dist/isotope.pkgd.min.js';
+// // import 'swiper/swiper-bundle.min.js';
+import 'waypoints/lib/noframework.waypoints.js';
+
 import { Route, Routes } from 'react-router-dom';
 import { AuthContextProvider } from './context/AuthContext';
 import ClientRegister from "./pages/ClientRegister/ClientRegister";
@@ -21,7 +39,6 @@ import Testimonial from './pages/Testimonial/Testimonial';
 import CandidateTestimonial from './pages/CandidateTestimonial/CandidateTestimonial';
 import TestimonialDetail from './pages/TestimonialDetail/TestimonialDetail';
 import CandidateTestimonialDetail from './pages/CandidateTestimonialDetail/CandidateTestimonialDetail';
-import ClientNewPassword from './pages/ClientNewPassword/ClientNewPassword';
 import CandidateSignup from './pages/CandidateSignup/CandidateSignup';
 import ClientSignup from './pages/ClientSignup/ClientSignup';
 import ClientLogin from './pages/ClientLogin/ClientLogin';
@@ -32,15 +49,16 @@ import CandidateLogin from './pages/CandidateLogin/CandidateLogin';
 import AdminLogin from './pages/AdminLogin/AdminLogin';
 import RecruiterLogin from './pages/RecruiterLogin/RecruiterLogin';
 import HomeCandidate from './pages/HomeCandidate/HomeCandidate';
-import ClientDashboard from './pages/ClientDashboard/ClientDashboard';
-import CandidateDashboard from './pages/CandidateDashboard/CandidateDashboard';
-import AdminDashboard from './pages/AdminDashboard/AdminDashboard';
-import RecruiterDashboard from './pages/RecruiterDashboard/RecruiterDashboard';
+// import ClientDashboard from './pages/ClientDashboard/ClientDashboard';
+// import CandidateDashboard from './pages/CandidateDashboard/CandidateDashboard';
+// import AdminDashboard from './pages/AdminDashboard/AdminDashboard';
+// import RecruiterDashboard from './pages/RecruiterDashboard/RecruiterDashboard';
 import ForgotPassword from './pages/ForgotPassword/ForgotPassword';
-import Verification from './pages/Verification/Verification';
 // import Slider from './pages/Slider';
 import { PrimeReactProvider } from 'primereact/api';
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import ClientVerification from './pages/ClientVerification/ClientVerification';
+import Chat from './pages/Chat/Chat';
 
 
 
@@ -64,7 +82,7 @@ function App() {
             <Route path='/enquiry' element={<Enquiry />} />
             <Route path='/talents' element={<Talents />} />
             <Route path='/events' element={<Events />} />
-            <Route path='/event-details' element={<EventDetails />} />
+            <Route path='/event-details/:id' element={<EventDetails />} />
             <Route path='/talent-profile-search' element={<TalentsProfileSearch />} />
             <Route path='/testimonial' element={<Testimonial />} />
             <Route path='/candidate-testimonial' element={<CandidateTestimonial />} />
@@ -76,6 +94,7 @@ function App() {
             <Route path='/company-details' element={<CompanyDetails />} />
             {/* <Route path='/pdf' element={<PDFViewer />} /> */}
             <Route path='/live-chat' element={<LiveChat />} />
+            <Route path='/real-time-chat' element={<Chat />} />
             <Route path='/client-register' element={<ClientRegister />} />
             <Route path='/client-signup' element={<ClientSignup />} />
             <Route path='/candidate-signup' element={<CandidateSignup />} />
@@ -83,15 +102,14 @@ function App() {
             <Route path='/client-login' element={<ClientLogin />} />
             <Route path='/candidate-login' element={<CandidateLogin />} />
             <Route path='/packages' element={<Packages />} />
-            <Route path='/:id' element={<ClientNewPassword />} />
+            <Route path='verification/:id' element={<ClientVerification />} />
             <Route path='/admin-login' element={<AdminLogin />} />
             <Route path='/recruiter-login' element={<RecruiterLogin />} />
-            <Route path='/client-dashboard' element={<ClientDashboard />} />
+            {/* <Route path='/client-dashboard' element={<ClientDashboard />} />
             <Route path='/candidate-dashboard' element={<CandidateDashboard />} />
             <Route path='/admin-dashboard' element={<AdminDashboard />} />
-            <Route path='/recruiter-dashboard' element={<RecruiterDashboard />} />
+            <Route path='/recruiter-dashboard' element={<RecruiterDashboard />} /> */}
             <Route path='/forgot-password/:role' element={<ForgotPassword />} />
-            <Route path='/verification' element={<Verification />} />
           </Routes>
         </GoogleOAuthProvider>
       </PrimeReactProvider>

@@ -55,13 +55,19 @@ const CandidateAboutUs = () => {
                         <div className='con--where-section'>
                             <div className="con--where-container">
                                 <div className="cand--ab-para-section">
-                                    <p className='cand--ab-para' data-aos="fade-up">
+                                    {/* <p className='cand--ab-para' data-aos="fade-up">
                                         Skillety is an AI-driven job portal designed for people who want to find a job quickly. We have an exclusive vault for Immediate Joiners - those who can start working in 7, 15, or 30 days. If you're seeking a job that matches your skills and salary expectations, you're in the right spot. We're partners with over 140 top companies, offering you a choice of more than 2400 active jobs.
+                                    </p> */}
+                                    <p className='cand--ab-para' data-aos="fade-up">
+                                    Skillety is the world’s first exclusive Job Portal for Immediate Joiners - those who can pick up a Job Offer and Join within 7, 15, or 30 days. If you're looking to land a good job and fast - you're in the right spot. We are a sector agnostic portal and provide you with a wide variety of exciting Jobs, everyday.
                                     </p>
                                 </div>
                                 <div className="cand--ab-para-section2" data-aos="fade-up">
-                                    <p className='cand--ab-para'>
+                                    {/* <p className='cand--ab-para'>
                                         Take control of your job search with our Self-Service Portal. You can edit your profile, apply for as many matching jobs as you want, check your application status, manage interviews, upload important documents, connect with the recruiter anytime and much more. Right now, we're welcoming over 850 new registrations every day, with a consistent growth rate of 15 to 20% each month. Our technology and teams are dedicated to providing speed and accuracy around the clock.
+                                    </p> */}
+                                    <p className='cand--ab-para'>
+                                    Take control of your job search with our Self-Service Portal. You can edit your profile, apply for as many matching jobs as you want, check your application status, manage interviews, upload important documents, connect with the recruiter anytime and much more. Right now, we're welcoming over 450 new registrations every day, with a consistent growth rate of over 20% each month. Our technology and teams are dedicated to providing speed and accuracy around the clock.
                                     </p>
                                 </div>
 
