@@ -1,20 +1,3 @@
-import './index.css';
-import './custom.css';
-// // import './components/main.js';
-import 'aos/dist/aos.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap-icons/font/bootstrap-icons.css';
-import 'boxicons/css/boxicons.min.css';
-import 'glightbox/dist/css/glightbox.min.css';
-import 'remixicon/fonts/remixicon.css';
-// // import 'swiper/swiper-bundle.min.css';
-
-import 'aos/dist/aos.js';
-import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import 'glightbox/dist/js/glightbox.min.js';
-import 'isotope-layout/dist/isotope.pkgd.min.js';
-// // import 'swiper/swiper-bundle.min.js';
-import 'waypoints/lib/noframework.waypoints.js';
 
 import { Route, Routes } from 'react-router-dom';
 import { AuthContextProvider } from './context/AuthContext';
@@ -49,18 +32,16 @@ import CandidateLogin from './pages/CandidateLogin/CandidateLogin';
 import AdminLogin from './pages/AdminLogin/AdminLogin';
 import RecruiterLogin from './pages/RecruiterLogin/RecruiterLogin';
 import HomeCandidate from './pages/HomeCandidate/HomeCandidate';
-// import ClientDashboard from './pages/ClientDashboard/ClientDashboard';
-// import CandidateDashboard from './pages/CandidateDashboard/CandidateDashboard';
-// import AdminDashboard from './pages/AdminDashboard/AdminDashboard';
-// import RecruiterDashboard from './pages/RecruiterDashboard/RecruiterDashboard';
-import ForgotPassword from './pages/ForgotPassword/ForgotPassword';
 // import Slider from './pages/Slider';
 import { PrimeReactProvider } from 'primereact/api';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import ClientVerification from './pages/ClientVerification/ClientVerification';
 import Chat from './pages/Chat/Chat';
-
-
+import ClientDashboard from './pages/ClientDashboard/ClientDashboard';
+import CandidateDashboard from './pages/CandidateDashboard/CandidateDashboard';
+import AdminDashboard from './pages/AdminDashboard/AdminDashboard';
+import RecruiterDashboard from './pages/RecruiterDashboard/RecruiterDashboard';
+import ForgotPassword from './pages/ForgotPassword/ForgotPassword';
 
 
 function App() {
@@ -105,11 +86,12 @@ function App() {
             <Route path='verification/:id' element={<ClientVerification />} />
             <Route path='/admin-login' element={<AdminLogin />} />
             <Route path='/recruiter-login' element={<RecruiterLogin />} />
-            {/* <Route path='/client-dashboard' element={<ClientDashboard />} />
+            <Route path='/forgot-password/:role' element={<ForgotPassword />} />
+            <Route path='/client-dashboard' element={<ClientDashboard />} />
             <Route path='/candidate-dashboard' element={<CandidateDashboard />} />
             <Route path='/admin-dashboard' element={<AdminDashboard />} />
-            <Route path='/recruiter-dashboard' element={<RecruiterDashboard />} /> */}
-            <Route path='/forgot-password/:role' element={<ForgotPassword />} />
+            <Route path='/recruiter-dashboard' element={<RecruiterDashboard />} />
+
           </Routes>
         </GoogleOAuthProvider>
       </PrimeReactProvider>
