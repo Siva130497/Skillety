@@ -126,7 +126,7 @@ router.delete('/delete-job/:candidateId/:jobId', employeeAuth, deleteAppliedJob)
 router.get('/staff/:recruiterId',employeeAuth, getAnIndividualRecruiter);
 
 //get all cse type recruiters endpoint
-router.get("/staff/cse", getAllCSERecruiters);
+router.get('/staff-cse', getAllCSERecruiters);
 
 //recruiter create route
 router.post('/recruiter-create', employeeAuth, createRecruiter);
