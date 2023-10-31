@@ -28,7 +28,7 @@ const {Server} = require('socket.io');
 
 
 const corsOptions = {
-  origin: 'http://localhost:3000',
+  origin: 'https://skillety-site.netlify.app',
   credentials: true,
   methods: ['GET', 'POST', 'PATCH', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization', 'Access-Control-Allow-Credentials']
@@ -50,7 +50,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: "https://skillety-site.netlify.app",
     methods: ["GET", "POST"],
   },
 });
