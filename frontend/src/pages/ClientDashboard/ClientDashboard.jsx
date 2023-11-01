@@ -37,7 +37,7 @@ const ClientDashboard = () => {
     
     const getLoginClientDetail = async() => {
       try{
-          const res = await axios.get(`http://localhost:5002/client/${employeeId}`, {
+          const res = await axios.get(`https://skillety.onrender.com/client/${employeeId}`, {
             headers: {
                 Authorization: `Bearer ${clientToken}`,
                 Accept: 'application/json'
@@ -85,7 +85,7 @@ const ClientDashboard = () => {
 
     const getAllClientStaffs = async() => {
       try{
-          const res = await axios.get(`http://localhost:5002/all-client-staffs/${loginClientDetail.companyId}`, {
+          const res = await axios.get(`https://skillety.onrender.com/all-client-staffs/${loginClientDetail.companyId}`, {
             headers: {
                 Authorization: `Bearer ${clientToken}`,
                 Accept: 'application/json'
@@ -106,7 +106,7 @@ const ClientDashboard = () => {
     //client staff create request
   const createClientStaff = async (userData) => {
     try {
-        const response = await axios.post(`http://localhost:5002/tempPass-Client-staff/${employeeId}`, userData, {
+        const response = await axios.post(`https://skillety.onrender.com/tempPass-Client-staff/${employeeId}`, userData, {
             headers: {
                 Authorization: `Bearer ${clientToken}`,
                 Accept: 'application/json'

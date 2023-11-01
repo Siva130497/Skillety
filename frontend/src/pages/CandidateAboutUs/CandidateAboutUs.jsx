@@ -13,7 +13,7 @@ const CandidateAboutUs = () => {
 
     return (
         <div>
-            <LayoutNew />
+            <LayoutNew aboutUs={true}/>
             <div>
                 <div className='container-fluid contact--section'>
                     <div className='container-fluid container-section'>
@@ -46,7 +46,7 @@ const CandidateAboutUs = () => {
                                             </div>
                                             <a href='' className="arrow--icon-btn candidate">
                                                 <img src="assets/img/home-images/arrow-dark.png" className='arrow--icon' alt="" />
-                                            </a>
+                                            </a> 
                                         </div>
                                     </div>
                                 </div>

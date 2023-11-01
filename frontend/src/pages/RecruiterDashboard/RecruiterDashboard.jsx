@@ -45,7 +45,7 @@ const RecruiterDashboard = () => {
   
   const getAnIndividualRecruiter = async() => {
     try{
-        const res = await axios.get(`http://localhost:5002/staff/${employeeId}`, {
+        const res = await axios.get(`https://skillety.onrender.com/staff/${employeeId}`, {
           headers: {
               Authorization: `Bearer ${staffToken}`,
               Accept: 'application/json'
@@ -66,7 +66,7 @@ const RecruiterDashboard = () => {
 
   const getProtectedData = async () => {
     try {
-      const response = await axios.get('http://localhost:5002/protected', {
+      const response = await axios.get('https://skillety.onrender.com/protected', {
         headers: {
             Authorization: `Bearer ${staffToken}`,
             Accept: 'application/json'
@@ -100,7 +100,7 @@ const RecruiterDashboard = () => {
 
   const getAllContactMessages = async () => {
     try {
-        const response = await axios.get('http://localhost:5002/contact', {
+        const response = await axios.get('https://skillety.onrender.com/contact', {
           headers: {
               Authorization: `Bearer ${staffToken}`,
               Accept: 'application/json'
@@ -122,7 +122,7 @@ const RecruiterDashboard = () => {
 
   const getAllCandidateContactMessages = async () => {
     try {
-        const response = await axios.get('http://localhost:5002/candidate-contact', {
+        const response = await axios.get('https://skillety.onrender.com/candidate-contact', {
           headers: {
               Authorization: `Bearer ${staffToken}`,
               Accept: 'application/json'
@@ -144,7 +144,7 @@ const RecruiterDashboard = () => {
 
   const getAllEnquiryForms = async () => {
     try {
-        const response = await axios.get('http://localhost:5002/enquiry-form', {
+        const response = await axios.get('https://skillety.onrender.com/enquiry-form', {
           headers: {
               Authorization: `Bearer ${staffToken}`,
               Accept: 'application/json'

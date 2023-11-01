@@ -34,12 +34,12 @@ const Testimonial = () => {
                                             <div className="testimonial--profile-area">
                                                 <img src="assets/img/home-images/testi-profile.jpeg" className='testimonial--profile-img testi--img' alt="" />
                                                 <div className="testimonial--profile testi--profile-desc">
-                                                    <h5>KAVITHA KATKAM</h5>
-                                                    <p>Senior Manager Talent Acquisition, IVY Software Development Services Pvt. Ltd.</p>
+                                                    <h5>MR. KEERTHI RANNORE</h5>
+                                                    <p>General Manager – HR, Sonata Software Ltd.</p>
                                                 </div>
                                             </div>
                                             <div className="testimonial--content-area testi--content-area">
-                                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
+                                                <p>We have been working with Skillety team from past few months, their responsiveness and customer focus is phenomenal. Team’s business acumen and technology understanding has helped to turn around things quickly. Excellent demonstration of consistency and partnership.</p>
                                             </div>
                                             <a href='' className='testimonial--arrow-area testi--arrow-area'>
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="60" height="65" viewBox="0 0 55 56" fill="none">
@@ -95,11 +95,11 @@ const Testimonial = () => {
                                                 <img src="assets/img/home-images/testi-profile.jpeg" className='testimonial--profile-img testi--img' alt="" />
                                                 <div className="testimonial--profile testi--profile-desc">
                                                     <h5>KAVITHA KATKAM</h5>
-                                                    <p>Senior Manager Talent Acquisition, IVY Software Development Services Pvt. Ltd.</p>
+                                                    <p>Senior Manager - Talent Acquisition, IVY Software Development Services Pvt. Ltd.</p>
                                                 </div>
                                             </div>
                                             <div className="testimonial--content-area testi--content-area">
-                                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
+                                                <p>We have been working with Skillety for over a year now. They are attentive to details and excellent in getting immediate joiners to the team. I would strongly recommend Skillety to any organisation.</p>
                                             </div>
                                             <a href='' className='testimonial--arrow-area testi--arrow-area'>
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="60" height="65" viewBox="0 0 55 56" fill="none">
@@ -115,12 +115,12 @@ const Testimonial = () => {
                                             <div className="testimonial--profile-area">
                                                 <img src="assets/img/home-images/testi-profile.jpeg" className='testimonial--profile-img testi--img' alt="" />
                                                 <div className="testimonial--profile testi--profile-desc">
-                                                    <h5>KAVITHA KATKAM</h5>
-                                                    <p>Senior Manager Talent Acquisition, IVY Software Development Services Pvt. Ltd.</p>
+                                                    <h5>RAVINDRANATH BARREY</h5>
+                                                    <p>Manager - Talent Acquisition, CYIENT Ltd.</p>
                                                 </div>
                                             </div>
                                             <div className="testimonial--content-area testi--content-area">
-                                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
+                                                <p>Team Skillety, Thank you so much to everyone on the team for getting our latest project Phixxxx(HPM) completed not only ahead of schedule but under budget. I appreciate the cooperative spirit and the attention to detail that enabled us to close all positions and streamline the entire process in order to achieve success and meet our goals. I couldn't be more thrilled to work with such a terrific group of people, and I'm looking forward to work with you on our next project!</p>
                                             </div>
                                             <a href='' className='testimonial--arrow-area testi--arrow-area'>
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="60" height="65" viewBox="0 0 55 56" fill="none">
@@ -176,12 +176,12 @@ const Testimonial = () => {
                                             <div className="testimonial--profile-area">
                                                 <img src="assets/img/home-images/testi-profile.jpeg" className='testimonial--profile-img testi--img' alt="" />
                                                 <div className="testimonial--profile testi--profile-desc">
-                                                    <h5>KAVITHA KATKAM</h5>
-                                                    <p>Senior Manager Talent Acquisition, IVY Software Development Services Pvt. Ltd.</p>
+                                                    <h5>HEMANT CHAKRAVORTY, SR</h5>
+                                                    <p>Talent Acquisition Partner - Human Resources, Interactions India LLP.</p>
                                                 </div>
                                             </div>
                                             <div className="testimonial--content-area testi--content-area">
-                                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
+                                                <p>Over the past several months, we've worked with Skillety on different Tech Engineering requirements. Each time, they were successful in assisting us to explore the market and secure the right person for Interactions India LLP. The assigned team that we worked with from Skillety were thoughtful and did a thorough job of gathering information about the role and organisation before they began the search. They also managed the search in such an organised and efficient way, that the whole process looked easier than I thought. I find the Skillety professional, diligent and productive and wish them all the success in the future.</p>
                                             </div>
                                             <a href='' className='testimonial--arrow-area testi--arrow-area'>
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="60" height="65" viewBox="0 0 55 56" fill="none">
@@ -200,12 +200,12 @@ const Testimonial = () => {
                                             <div className="testimonial--profile-area">
                                                 <img src="assets/img/home-images/testi-profile.jpeg" className='testimonial--profile-img testi--img' alt="" />
                                                 <div className="testimonial--profile testi--profile-desc">
-                                                    <h5>KAVITHA KATKAM</h5>
-                                                    <p>Senior Manager Talent Acquisition, IVY Software Development Services Pvt. Ltd.</p>
+                                                    <h5>UMA NAGESWARA RAO G</h5>
+                                                    <p>Senior HR – Talent Acquisition, CYIENT Ltd.</p>
                                                 </div>
                                             </div>
                                             <div className="testimonial--content-area testi--content-area">
-                                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
+                                                <p>Hi Skillety Team, Thank you very much for your hard work on closing all positions of Malxxxx Panxxxxxx Project. I know how much effort it took to align with requirements and close them within the stipulated time frame. Your accomplishment shows your co-workers the importance of determination and collaboration. We are proud of your achievement, and we are sure there are more to come in upcoming years. Please convey our wishes to all of your teammates who helped us in closing the MP project. Congratulations from all of us at Cyient!</p>
                                             </div>
                                             <a href='' className='testimonial--arrow-area testi--arrow-area'>
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="60" height="65" viewBox="0 0 55 56" fill="none">

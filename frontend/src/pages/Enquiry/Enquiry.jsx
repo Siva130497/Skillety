@@ -78,23 +78,20 @@ const Enquiry = () => {
         });
     }, []);
 
-    // useEffect(()=>{
-    //     if(CSEChoosing){
-    //         axios.get("http:localhost:5002/staff/cse", {
-    //             headers: {
-    //                 'Content-Type': 'application/json',
-    //             },
-    //         })
-    //         .then((res)=>{
-    //             console.log(res.data);
-    //             setCSERecruiters(res.data)
-    //         })
-    //     }
-    // }, [CSEChoosing])
+    useEffect(()=>{
+        if(CSEChoosing){
+            axios.get('https://skillety.onrender.com/staff-cse')
+            .then((res)=>{
+                console.log(res.data);
+                setCSERecruiters(res.data)
+            })
+            .catch((err)=>console.log(err))
+        }
+    }, [CSEChoosing])
 
     const enquiryFormDetails = async (detail) => {
         try {
-            const response = await axios.post('http://localhost:5002/enquiry-form', detail, {
+            const response = await axios.post('https://skillety.onrender.com/enquiry-form', detail, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -141,29 +138,29 @@ const Enquiry = () => {
         enquiryFormDetails(updatedCredentials);
     };
 
-    // const handleMailSending = (email) => {
-    //     const enquiryDetail = {
-    //         ...credentials,
-    //         deadline: dateString,
-    //     };
-    //     axios.post("http://localhost:5002/enquiry-form/cse", {email, enquiryDetail}, {
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //         },
-    //     })
-    //     .then((res)=>{
-    //         console.log(res.data);
-    //         if(res.data.emailSent){
-    //             alert(`Your “RPO model“ is all set. Our CSE will contact you within 24 hours. Thank you and welcome onboard!!!
-    //             `)
-    //         }
-    //     })
-    //     .catch(err=>console.log(err))
-    // }
+    const handleMailSending = (email) => {
+        const enquiryDetail = {
+            ...credentials,
+            deadline: dateString,
+        };
+        axios.post("https://skillety.onrender.com/enquiry-form/cse", {email, enquiryDetail}, {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+        .then((res)=>{
+            console.log(res.data);
+            if(res.data.emailSent){
+                alert(`Your “RPO model“ is all set. Our CSE will contact you within 24 hours. Thank you and welcome onboard!!!
+                `)
+            }
+        })
+        .catch(err=>console.log(err))
+    }
 
     return (
-        <div>
-            <Layout />
+        <>
+            {/* <Layout /> */}
             {CSEChoosing ? <div >
                 {CSERecruiters.length > 0 && <table className="table table-hover">
                 <tbody>
@@ -173,7 +170,7 @@ const Enquiry = () => {
                                                 }}>
                                                     <th scope="row">{CSE.name}</th>
                                                      <th scope="col"><button type="button" className="btn btn-outline-info" 
-                                                    //  onClick={()=>handleMailSending(CSE.email)}
+                                                     onClick={()=>handleMailSending(CSE.email)}
                                                      >Contact Me</button></th>
                                                 </tr>
                                         })}
@@ -353,7 +350,7 @@ const Enquiry = () => {
             </div>}
 
             <Footer />
-        </div>
+        </>
     )
 }
 

@@ -14,7 +14,7 @@ const Contact = () => {
 
     const sendMessage = async (messageDetail) => {
         try {
-            const response = await axios.post('http://localhost:5002/contact', messageDetail, {
+            const response = await axios.post('https://skillety.onrender.com/contact', messageDetail, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -58,7 +58,7 @@ const Contact = () => {
 
     return (
         <div>
-            <Layout />
+            <Layout contact={true}/>
             <div>
                 <div className='container-fluid contact--section'>
                     <div className='container-fluid container-section'>

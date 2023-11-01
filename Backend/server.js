@@ -25,6 +25,7 @@ const jwt = require("jsonwebtoken");
 const http = require('http');
 const employeeAuth = require('./middleware/employeeAuth');
 const {Server} = require('socket.io');
+const roomIdChatDetail = require('./Database/roomIdChatDetail');
 
 
 const corsOptions = {
@@ -232,6 +233,19 @@ app.patch('/update-image/:id', employeeAuth, uploadImg.single('image'), (req, re
     }
   );
 });
+
+// app.delete("/del", async (req, res) => {
+//   const id = "bb508b2f-b368-4e7e-a5d7-8faaea783add"; 
+//   try {
+//     const deletedDocs = await roomIdChatDetail.deleteMany({ roomId: id });
+
+//     res.status(200).json({
+//       message: `Deleted ${deletedDocs.deletedCount} documents`,
+//     });
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// });
 
 
 

@@ -237,7 +237,7 @@ const TalentsProfileSearch = () => {
 
     return (
         <div>
-            <Layout />
+            <Layout searchCV={true}/>
             <div className='cli--tal-pro-search-section'>
                 <div className='container-fluid'>
                     <div className='container-fluid container-section'>

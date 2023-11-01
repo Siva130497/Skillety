@@ -62,12 +62,12 @@ const TestimonialDetail = () => {
                                                 <div className="test--det-card-top-area">
                                                     <img src="assets/img/home-images/testi-profile.jpeg" className='test--det-card-pro-img' alt="" />
                                                     <div className='test-det-card-pro-name-area'>
-                                                        <h3 className='test-det-card-pro-name'>KAVITHA KATKAM</h3>
-                                                        <h6 className='test-det-card-pro-position'>Senior Manager Talent Acquisition, IVY Software Development Services Pvt. Ltd.</h6>
+                                                        <h3 className='test-det-card-pro-name'>MR. KEERTHI RANNORE</h3>
+                                                        <h6 className='test-det-card-pro-position'>General Manager – HR, Sonata Software Ltd.</h6>
                                                     </div>
                                                 </div>
                                                 <div className="test--det-card-desc-area">
-                                                    <p className='test--det-card-desc'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
+                                                    <p className='test--det-card-desc'>We have been working with Skillety team from past few months, their responsiveness and customer focus is phenomenal. Team’s business acumen and technology understanding has helped to turn around things quickly. Excellent demonstration of consistency and partnership.</p>
                                                 </div>
                                             </article>
                                         </SwiperSlide>
@@ -82,7 +82,7 @@ const TestimonialDetail = () => {
                                                     </div>
                                                 </div>
                                                 <div className="test--det-card-desc-area">
-                                                    <p className='test--det-card-desc'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
+                                                    <p className='test--det-card-desc'>We have been working with Skillety for over a year now. They are attentive to details and excellent in getting immediate joiners to the team. I would strongly recommend Skillety to any organisation.</p>
                                                 </div>
                                             </article>
                                         </SwiperSlide>
@@ -92,12 +92,12 @@ const TestimonialDetail = () => {
                                                 <div className="test--det-card-top-area">
                                                     <img src="assets/img/home-images/testi-profile.jpeg" className='test--det-card-pro-img' alt="" />
                                                     <div className='test-det-card-pro-name-area'>
-                                                        <h3 className='test-det-card-pro-name'>KAVITHA KATKAM</h3>
-                                                        <h6 className='test-det-card-pro-position'>Senior Manager Talent Acquisition, IVY Software Development Services Pvt. Ltd.</h6>
+                                                        <h3 className='test-det-card-pro-name'>RAVINDRANATH BARREY</h3>
+                                                        <h6 className='test-det-card-pro-position'>Manager - Talent Acquisition, CYIENT Ltd.</h6>
                                                     </div>
                                                 </div>
                                                 <div className="test--det-card-desc-area">
-                                                    <p className='test--det-card-desc'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
+                                                    <p className='test--det-card-desc'>Team Skillety, Thank you so much to everyone on the team for getting our latest project Phixxxx(HPM) completed not only ahead of schedule but under budget. I appreciate the cooperative spirit and the attention to detail that enabled us to close all positions and streamline the entire process in order to achieve success and meet our goals. I couldn't be more thrilled to work with such a terrific group of people, and I'm looking forward to work with you on our next project!</p>
                                                 </div>
                                             </article>
                                         </SwiperSlide>
@@ -107,12 +107,12 @@ const TestimonialDetail = () => {
                                                 <div className="test--det-card-top-area">
                                                     <img src="assets/img/home-images/testi-profile.jpeg" className='test--det-card-pro-img' alt="" />
                                                     <div className='test-det-card-pro-name-area'>
-                                                        <h3 className='test-det-card-pro-name'>KAVITHA KATKAM</h3>
-                                                        <h6 className='test-det-card-pro-position'>Senior Manager Talent Acquisition, IVY Software Development Services Pvt. Ltd.</h6>
+                                                        <h3 className='test-det-card-pro-name'>HEMANT CHAKRAVORTY, SR</h3>
+                                                        <h6 className='test-det-card-pro-position'>Talent Acquisition Partner - Human Resources, Interactions India LLP.</h6>
                                                     </div>
                                                 </div>
                                                 <div className="test--det-card-desc-area">
-                                                    <p className='test--det-card-desc'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
+                                                    <p className='test--det-card-desc'>LOver the past several months, we've worked with Skillety on different Tech Engineering requirements. Each time, they were successful in assisting us to explore the market and secure the right person for Interactions India LLP. The assigned team that we worked with from Skillety were thoughtful and did a thorough job of gathering information about the role and organisation before they began the search. They also managed the search in such an organised and efficient way, that the whole process looked easier than I thought. I find the Skillety professional, diligent and productive and wish them all the success in the future.</p>
                                                 </div>
                                             </article>
                                         </SwiperSlide>
@@ -122,12 +122,12 @@ const TestimonialDetail = () => {
                                                 <div className="test--det-card-top-area">
                                                     <img src="assets/img/home-images/testi-profile.jpeg" className='test--det-card-pro-img' alt="" />
                                                     <div className='test-det-card-pro-name-area'>
-                                                        <h3 className='test-det-card-pro-name'>KAVITHA KATKAM</h3>
-                                                        <h6 className='test-det-card-pro-position'>Senior Manager Talent Acquisition, IVY Software Development Services Pvt. Ltd.</h6>
+                                                        <h3 className='test-det-card-pro-name'>UMA NAGESWARA RAO G</h3>
+                                                        <h6 className='test-det-card-pro-position'>Senior HR – Talent Acquisition, CYIENT Ltd.</h6>
                                                     </div>
                                                 </div>
                                                 <div className="test--det-card-desc-area">
-                                                    <p className='test--det-card-desc'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
+                                                    <p className='test--det-card-desc'>Hi Skillety Team, Thank you very much for your hard work on closing all positions of Malxxxx Panxxxxxx Project. I know how much effort it took to align with requirements and close them within the stipulated time frame. Your accomplishment shows your co-workers the importance of determination and collaboration. We are proud of your achievement, and we are sure there are more to come in upcoming years. Please convey our wishes to all of your teammates who helped us in closing the MP project. Congratulations from all of us at Cyient!</p>
                                                 </div>
                                             </article>
                                         </SwiperSlide>

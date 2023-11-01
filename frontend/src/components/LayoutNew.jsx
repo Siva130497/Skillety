@@ -5,7 +5,7 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { NewNavCandidateHome } from './NewNavCandidateHome';
 
-const LayoutNew = () => {
+const LayoutNew = ({home, aboutUs, searchJob, events, contact}) => {
 
     useEffect(() => {
         ///////////
@@ -217,7 +217,7 @@ const LayoutNew = () => {
 
   return (
     <div>
-        <NewNavCandidateHome/>
+        <NewNavCandidateHome homeActive={home} aboutUsActive={aboutUs} searchJobActive={searchJob} eventsActive={events} contactActive={contact}/>
         {/* <div id="preloader"></div> */}
         <div class="mouseCursor cursor-outer"></div>
         <div class="mouseCursor cursor-inner"></div>

@@ -83,7 +83,7 @@ const Home = () => {
 
   return (
     <div>
-      <Layout />
+      <Layout home={true}/>
         <div className='container-fluid home--section'>
           <div className='container-fluid container-section'>
             <div className="home--bg">
