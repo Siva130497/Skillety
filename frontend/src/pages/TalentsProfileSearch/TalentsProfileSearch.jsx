@@ -1,12 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useEffect } from 'react';
 import $ from 'jquery';
 import './TalentsProfileSearch.css';
 import './TalentsProfileSearch-responsive.css';
 import Layout from '../../components/Layout';
 import { Footer } from '../../components/Footer';
+import axios from 'axios';
 
 const TalentsProfileSearch = () => {
+    const [candidateDetail, setCandidateDetail] = useState([]);
+    const [searchInput, setSearchInput] = useState("");
+    const [filteredSearchResults, setFilteredSearchResults]= useState([]);
+    const [filteredSearchResultsMsg, setFilteredSearchResultsMsg] = useState("");
+    const [searchResult, setSearchResult] = useState(false);
+
     useEffect(() => {
         $(document).ready(function () {
             ////change the toggle text and color
@@ -413,6 +420,56 @@ const TalentsProfileSearch = () => {
         });
     }, []);
 
+    const getAllCandidateDetail = async () => {
+        try{
+            const response = await axios.get('http://localhost:5002/candidate-Detail', {
+              headers: {
+                  Accept: 'application/json'
+              }
+            });
+            const result = response.data;
+            if (!result.error) {
+                console.log(result);
+                setCandidateDetail(result.reverse());
+            } else {
+                console.log(result);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+      };
+
+      useEffect(()=>{
+        getAllCandidateDetail();
+      },[]);
+    
+      const handleSkillSearch = () => {
+        setSearchResult(true);
+        const searchResults = searchInput
+          .split(/[,\s]+/) 
+          .filter(result => result.trim());
+      
+        const filteredObjBySkills = candidateDetail.filter(candidate =>
+          searchResults.some(searchResult => 
+            candidate.skills.some(skill =>
+              skill.toLowerCase().includes(searchResult.toLowerCase())
+            )
+          )
+        );
+    
+        const filteredObjByDesignation = candidateDetail.filter(candidate =>
+          searchResults.some(searchResult => 
+            candidate.designation[0].toLowerCase().includes(searchResult.toLowerCase())
+          )
+        );
+    
+        const mergedResults = [...filteredObjBySkills, ...filteredObjByDesignation];
+        if(mergedResults.length > 0){
+            setFilteredSearchResults(mergedResults);
+        }else{
+            setFilteredSearchResultsMsg("no such candidates found")
+        }
+      }
 
     return (
         <div>
@@ -431,7 +488,7 @@ const TalentsProfileSearch = () => {
                             </div>
 
                             {/* Search page section start */}
-                            <div className='talent--profile-search-page-section'>
+                            {!searchResult ? <div className='talent--profile-search-page-section'>
                                 <div className="cli-tal-pro-search-container">
                                     <div className="row">
                                         <div className="col-12 col-lg-12 col-xl-3 col-md-12">
@@ -518,7 +575,14 @@ const TalentsProfileSearch = () => {
                                                             </div>
                                                         </div>
                                                         <div className="cli--tal-pro-filter-input-area">
-                                                            <input type="text" className='cli--tal-pro-filter-input' placeholder='Enter keywords like skills, designation' />
+                                                            <input type="text" className='cli--tal-pro-filter-input' placeholder='Enter keywords like skills, designation' 
+                                                            value={searchInput}
+                                                            onChange={(e)=>{
+                                                            setSearchInput(e.target.value);
+                                                            setFilteredSearchResults([]);
+                                                            setFilteredSearchResultsMsg("");
+                                                            }}
+                                                            />
                                                             <i className="bi bi-search cli--tal-pro-filter-search-icon"></i>
                                                         </div>
 
@@ -708,7 +772,7 @@ const TalentsProfileSearch = () => {
                                                         </div>
                                                     </div>
 
-                                                    <button className="cli-tal-pro-search-page-btn">
+                                                    <button className="cli-tal-pro-search-page-btn" onClick={handleSkillSearch}>
                                                         Search Candidates
                                                     </button>
                                                 </div>
@@ -768,11 +832,8 @@ const TalentsProfileSearch = () => {
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            {/* Search page section end */}
-
-
-                            {/* Search results page section start */}
+                            </div> :
+                            
                             <div className='talent--profile-search-results-section'>
                                 <div className="cli-tal-pro-search-container">
                                     <div className="row">
@@ -781,6 +842,9 @@ const TalentsProfileSearch = () => {
                                         </div>
                                     </div>
                                 </div>
+                                <button className='clear--all_button' onClick={()=>setSearchResult(false)}>
+                                                            Back to Search
+                                </button>
                                 <div className="row row-border-custom">
                                     <div className="col-12 col-lg-4 col-xl-3 col-md-4 custom-right-border-col ps-lg-0 ps-md-1 col-width-lg-30">
                                         <div className="cli-tal-pro-search-filter-area">
@@ -1349,7 +1413,134 @@ const TalentsProfileSearch = () => {
                                         <h6 className='tal--pro-search-result-title' data-aos="fade-up">Add Filter for the desired search</h6>
                                     </div> */}
                                         <div className="cli--tal-pro-search-results-area">
-                                            <article className="talent--profile-card search" data-aos="fade-left">
+                                        {filteredSearchResultsMsg ?
+                                            <p>{filteredSearchResultsMsg}</p>:
+                                            filteredSearchResults.length > 0 ?
+                                            filteredSearchResults.map((candidate)=>{
+                                                return(
+                                                    <article className="talent--profile-card search" data-aos="fade-left" key={candidate.id}>
+                                                    <div className="tal--pro-card-left-area search">
+                                                        <div className='card-split-line'></div>
+                                                        <div className="tal--pro-card-name-area">
+                                                            <label className="tal--pro-card-name-check-container">
+                                                                <input type="checkbox" />
+                                                                <div className="tal--pro-card-name-checkmark"></div>
+                                                            </label>
+                                                            <h6 className='tal--pro-card-name'>{candidate.firstName + ' ' + candidate.lastName}</h6>
+                                                        </div>
+                                                        <div className="tal--pro-card-tags search">
+                                                            <h6 className='tal--pro-card-exp'>
+                                                                Experience : 6 Yrs
+                                                            </h6>
+                                                            <h6 className='tal--pro-card-exp'>
+                                                                9.5 LPA
+                                                            </h6>
+                                                            <h6 className='tal--pro-card-location'>
+                                                                <i class="bx bxs-map"></i>
+                                                                <span>Hyderabad</span>
+                                                            </h6>
+                                                            <h6 className='tal--pro-card-role'>
+                                                                Frontend Developer
+                                                            </h6>
+                                                        </div>
+                                                        <div className="tal--pro-card-desc-area search">
+                                                            <div className="row tal--pro-card-desc-row">
+                                                                <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
+                                                                    <h6 className='tal--pro-card-desc-title'>Previous&nbsp;:</h6>
+                                                                </div>
+                                                                <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
+                                                                    <p className='tal--pro-card-desc'>Junior Frontend Developer at Cognizant</p>
+                                                                </div>
+                                                            </div>
+                                                            <div className="row tal--pro-card-desc-row">
+                                                                <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
+                                                                    <h6 className='tal--pro-card-desc-title'>Education&nbsp;:</h6>
+                                                                </div>
+                                                                <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
+                                                                    <p className='tal--pro-card-desc'>Bsc Delhi University 2019</p>
+                                                                </div>
+                                                            </div>
+                                                            <div className="row tal--pro-card-desc-row">
+                                                                <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
+                                                                    <h6 className='tal--pro-card-desc-title'>Preferred Location&nbsp;:</h6>
+                                                                </div>
+                                                                <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
+                                                                    <p className='tal--pro-card-desc'>Hyderabad, Kolkata, Chennai</p>
+                                                                </div>
+                                                            </div>
+                                                            <div className="row tal--pro-card-desc-row">
+                                                                <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
+                                                                    <h6 className='tal--pro-card-desc-title'>KeySkill&nbsp;:</h6>
+                                                                </div>
+                                                                <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
+                                                                    <p className='tal--pro-card-desc'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore</p>
+                                                                </div>
+                                                            </div>
+                                                            <div className="row tal--pro-card-desc-row">
+                                                                <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
+                                                                    <h6 className='tal--pro-card-desc-title'>May also Know&nbsp;:</h6>
+                                                                </div>
+                                                                <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
+                                                                    <p className='tal--pro-card-desc'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed </p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div className="tal--pro-card-bottom-btn-area search">
+                                                            <button className='tal--pro-card-bottom-btn'>
+                                                                <span>897 </span>Similar Profile
+                                                            </button>
+                                                            <span className='horizon--ln'>|</span>
+                                                            <button className='tal--pro-card-bottom-btn'>Comment</button>
+                                                            <span className='horizon--ln'>|</span>
+                                                            <button className='tal--pro-card-bottom-btn'>
+                                                                <i class="bi bi-bookmark"></i>Save
+                                                            </button>
+                                                        </div>
+                                                    </div>
+    
+                                                    <div className="tal--pro-card-right-area search">
+                                                        <div className="tal--pro-card-right-cover-area search">
+                                                            <div className='tal--pro-card-profile-img-role-area search'>
+                                                                <img src="assets/img/talents-images/profile-img.png" className='tal--pro-card-profile-img' alt="" />
+                                                                <p className='tal--pro-card-role-name'>Frontend Developer (Css,html)</p>
+                                                            </div>
+                                                            <div className="tal--pro-card-contact-btn-area search">
+                                                                <button className='tal--pro-card-contact-btn search'>View Phone Number</button>
+                                                                <button className='tal--pro-card-contact-btn search'>
+                                                                    <img src="assets/img/talent-profile/call.png" alt="" />
+                                                                    Call Candidate
+                                                                </button>
+                                                            </div>
+                                                            <div className="tal--pro-card-ability-number-area">
+                                                                <div className="tal--pro-card-ability-number-left">
+                                                                    <h6 className='tal--pro-card-ability search'>Skill matched</h6>
+                                                                    <h2 className='tal--pro-card-percentage search'>90%</h2>
+                                                                </div>
+                                                                <div className="tal--pro-card-ability-number-right">
+                                                                    <h6 className='tal--pro-card-ability search'>Can join in</h6>
+                                                                    <h2 className='tal--pro-card-days search'>07<span>days</span></h2>
+                                                                </div>
+                                                            </div>
+    
+                                                        </div>
+                                                        <div className="tal--pro-card-right-btn-area search">
+                                                            <button className='tal--pro-card-right-btn search'>
+                                                                <img src="assets/img/talent-profile/document.png" alt="" />
+                                                            </button>
+                                                            <button className='tal--pro-card-right-btn search'>
+                                                                <img src="assets/img/talent-profile/arrow.png" alt="" />
+                                                            </button>
+                                                            <button className='tal--pro-card-right-btn search'>
+                                                                <img src="assets/img/talent-profile/email.png" alt="" />
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    </article>
+                                                )
+                                            }) : null}
+                                            
+
+                                            {/* <article className="talent--profile-card search" data-aos="fade-left">
                                                 <div className="tal--pro-card-left-area search">
                                                     <div className='card-split-line'></div>
                                                     <div className="tal--pro-card-name-area">
@@ -1704,126 +1895,7 @@ const TalentsProfileSearch = () => {
                                                         </button>
                                                     </div>
                                                 </div>
-                                            </article>
-
-                                            <article className="talent--profile-card search" data-aos="fade-left">
-                                                <div className="tal--pro-card-left-area search">
-                                                    <div className='card-split-line'></div>
-                                                    <div className="tal--pro-card-name-area">
-                                                        <label className="tal--pro-card-name-check-container">
-                                                            <input type="checkbox" />
-                                                            <div className="tal--pro-card-name-checkmark"></div>
-                                                        </label>
-                                                        <h6 className='tal--pro-card-name'>Adam Woods</h6>
-                                                    </div>
-                                                    <div className="tal--pro-card-tags search">
-                                                        <h6 className='tal--pro-card-exp'>
-                                                            Experience : 6 Yrs
-                                                        </h6>
-                                                        <h6 className='tal--pro-card-exp'>
-                                                            9.5 LPA
-                                                        </h6>
-                                                        <h6 className='tal--pro-card-location'>
-                                                            <i class="bx bxs-map"></i>
-                                                            <span>Hyderabad</span>
-                                                        </h6>
-                                                        <h6 className='tal--pro-card-role'>
-                                                            Frontend Developer
-                                                        </h6>
-                                                    </div>
-                                                    <div className="tal--pro-card-desc-area search">
-                                                        <div className="row tal--pro-card-desc-row">
-                                                            <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
-                                                                <h6 className='tal--pro-card-desc-title'>Previous&nbsp;:</h6>
-                                                            </div>
-                                                            <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
-                                                                <p className='tal--pro-card-desc'>Junior Frontend Developer at Cognizant</p>
-                                                            </div>
-                                                        </div>
-                                                        <div className="row tal--pro-card-desc-row">
-                                                            <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
-                                                                <h6 className='tal--pro-card-desc-title'>Education&nbsp;:</h6>
-                                                            </div>
-                                                            <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
-                                                                <p className='tal--pro-card-desc'>Bsc Delhi University 2019</p>
-                                                            </div>
-                                                        </div>
-                                                        <div className="row tal--pro-card-desc-row">
-                                                            <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
-                                                                <h6 className='tal--pro-card-desc-title'>Preferred Location&nbsp;:</h6>
-                                                            </div>
-                                                            <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
-                                                                <p className='tal--pro-card-desc'>Hyderabad, Kolkata, Chennai</p>
-                                                            </div>
-                                                        </div>
-                                                        <div className="row tal--pro-card-desc-row">
-                                                            <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
-                                                                <h6 className='tal--pro-card-desc-title'>KeySkill&nbsp;:</h6>
-                                                            </div>
-                                                            <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
-                                                                <p className='tal--pro-card-desc'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore</p>
-                                                            </div>
-                                                        </div>
-                                                        <div className="row tal--pro-card-desc-row">
-                                                            <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
-                                                                <h6 className='tal--pro-card-desc-title'>May also Know&nbsp;:</h6>
-                                                            </div>
-                                                            <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
-                                                                <p className='tal--pro-card-desc'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed </p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div className="tal--pro-card-bottom-btn-area search">
-                                                        <button className='tal--pro-card-bottom-btn'>
-                                                            <span>897 </span>Similar Profile
-                                                        </button>
-                                                        <span className='horizon--ln'>|</span>
-                                                        <button className='tal--pro-card-bottom-btn'>Comment</button>
-                                                        <span className='horizon--ln'>|</span>
-                                                        <button className='tal--pro-card-bottom-btn'>
-                                                            <i class="bi bi-bookmark"></i>Save
-                                                        </button>
-                                                    </div>
-                                                </div>
-
-                                                <div className="tal--pro-card-right-area search">
-                                                    <div className="tal--pro-card-right-cover-area search">
-                                                        <div className='tal--pro-card-profile-img-role-area search'>
-                                                            <img src="assets/img/talents-images/profile-img.png" className='tal--pro-card-profile-img' alt="" />
-                                                            <p className='tal--pro-card-role-name'>Frontend Developer (Css,html)</p>
-                                                        </div>
-                                                        <div className="tal--pro-card-contact-btn-area search">
-                                                            <button className='tal--pro-card-contact-btn search'>View Phone Number</button>
-                                                            <button className='tal--pro-card-contact-btn search'>
-                                                                <img src="assets/img/talent-profile/call.png" alt="" />
-                                                                Call Candidate
-                                                            </button>
-                                                        </div>
-                                                        <div className="tal--pro-card-ability-number-area">
-                                                            <div className="tal--pro-card-ability-number-left">
-                                                                <h6 className='tal--pro-card-ability search'>Skill matched</h6>
-                                                                <h2 className='tal--pro-card-percentage search'>90%</h2>
-                                                            </div>
-                                                            <div className="tal--pro-card-ability-number-right">
-                                                                <h6 className='tal--pro-card-ability search'>Can join in</h6>
-                                                                <h2 className='tal--pro-card-days search'>07<span>days</span></h2>
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-                                                    <div className="tal--pro-card-right-btn-area search">
-                                                        <button className='tal--pro-card-right-btn search'>
-                                                            <img src="assets/img/talent-profile/document.png" alt="" />
-                                                        </button>
-                                                        <button className='tal--pro-card-right-btn search'>
-                                                            <img src="assets/img/talent-profile/arrow.png" alt="" />
-                                                        </button>
-                                                        <button className='tal--pro-card-right-btn search'>
-                                                            <img src="assets/img/talent-profile/email.png" alt="" />
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </article>
+                                            </article> */}
 
 
                                             <div className="tal--pro-paginate-btn-area" data-aos="fade-up">
@@ -1848,7 +1920,7 @@ const TalentsProfileSearch = () => {
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div>}
                             {/* Search results page section end */}
                         </div>
                     </div>
