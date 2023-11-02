@@ -1164,7 +1164,17 @@ const sendingMailToCSE = async(req, res) => {
         to: `${email}`,
         subject: 'Mail from SKILLITY!',
         text: 'Enquiry form detail',
-        html: `<p>Enquiry form detail: ${enquiryDetail}</p>`
+        html: `<h4>Enquiry form detail</h4>
+        <p>Full Name: ${enquiryDetail.fullName}</p>
+        <p>Mobile Number: ${enquiryDetail.phoneNo}</p>
+        <p>Email ID: ${enquiryDetail.email}</p>
+        <p>Company Name: ${enquiryDetail.companyName}</p>
+        <p>Designation: ${enquiryDetail.designation}</p>
+        <p>Location: ${enquiryDetail.location}</p>
+        <p>Which RPO model do you want to opt for?: ${enquiryDetail.rpoModel}</p>
+        <p>How many positions are open to be outsourced?: ${enquiryDetail.positionCount}</p>
+        <p>Tentative deadline to close these positions ?: ${enquiryDetail.deadline}</p>
+        <p>Would you like our dedicated Account Manager to work from your premises or our premises?: ${enquiryDetail.premisesType}</p>`
       };
 
       transporter.sendMail(mailOptions, function (error, info) {
