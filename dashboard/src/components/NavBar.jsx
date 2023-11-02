@@ -34,51 +34,142 @@ const NavBar = () => {
               className="nav-link notification-toggle nav-link-lg notify-btn">
               <i data-feather="bell" className="bell"></i>
             </a>
-            {/* <div className="dropdown-menu dropdown-list dropdown-menu-right pullDown">
-              <div className="dropdown-header">
-                Notifications
-                <div className="float-right">
-                  <a href="#">Mark All As Read</a>
+            <div className="dropdown-menu dropdown-list dropdown-menu-right pullDown notification-dropdown">
+              <div className="notification-dropdown-header">
+                <div className="notification-dropdown-head">
+                  Notification&nbsp;<span>(2)</span>
                 </div>
-              </div>
-              <div className="dropdown-list-content dropdown-list-icons">
-                <a href="#" className="dropdown-item dropdown-item-unread"> <span
-                  className="dropdown-item-icon bg-primary text-white"> <i className="fas
-												fa-code"></i>
-                </span> <span className="dropdown-item-desc"> Template update is
-                  available now! <span className="time">2 Min
-                    Ago</span>
-                  </span>
-                </a> <a href="#" className="dropdown-item"> <span className="dropdown-item-icon bg-info text-white"> <i className="far
-												fa-user"></i>
-                </span> <span className="dropdown-item-desc"> <b>You</b> and <b>Dedik
-                  Sugiharto</b> are now friends <span className="time">10 Hours
-                    Ago</span>
-                  </span>
-                </a> <a href="#" className="dropdown-item"> <span className="dropdown-item-icon bg-success text-white"> <i
-                  className="fas
-												fa-check"></i>
-                </span> <span className="dropdown-item-desc"> <b>Kusnaedi</b> has
-                  moved task <b>Fix bug header</b> to <b>Done</b> <span className="time">12
-                    Hours
-                    Ago</span>
-                  </span>
-                </a> <a href="#" className="dropdown-item"> <span className="dropdown-item-icon bg-danger text-white"> <i
-                  className="fas fa-exclamation-triangle"></i>
-                </span> <span className="dropdown-item-desc"> Low disk space. Let's
-                  clean it! <span className="time">17 Hours Ago</span>
-                  </span>
-                </a> <a href="#" className="dropdown-item"> <span className="dropdown-item-icon bg-info text-white"> <i className="fas
-												fa-bell"></i>
-                </span> <span className="dropdown-item-desc"> Welcome to Otika
-                  template! <span className="time">Yesterday</span>
-                  </span>
+                <a href="#" className='notify-settings-btn'>
+                  <i class="bi bi-gear-fill"></i>
                 </a>
               </div>
-              <div className="dropdown-footer text-center">
-                <a href="#">View All <i className="fas fa-chevron-right"></i></a>
+              <div className="notification-dropdown-content-area">
+                <div className="notification-dropdown-content">
+                  <div className="notification-dropdown-content-left">
+                    <div className="noti-drpdwn-img-area">
+                      {/* <img src="assets/img/layout/user-img.png" className='noti-drpdwn-img' alt="" /> */}
+                      <i class="bi bi-person"></i>
+                    </div>
+                    <div className="dropdown-notification-item">
+                      Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
+                    </div>
+                  </div>
+                  <div className="notification-dropdown-content-right">
+                    <div className="drpdwn-notify-time">
+                      Now
+                    </div>
+                  </div>
+                </div>
+
+                <div className="notification-dropdown-content">
+                  <div className="notification-dropdown-content-left">
+                    <div className="noti-drpdwn-img-area">
+                      {/* <img src="assets/img/layout/user-img.png" className='noti-drpdwn-img' alt="" /> */}
+                      <i class="bi bi-person"></i>
+                    </div>
+                    <div className="dropdown-notification-item">
+                      Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
+                    </div>
+                  </div>
+                  <div className="notification-dropdown-content-right">
+                    <div className="drpdwn-notify-time">
+                      Now
+                    </div>
+                  </div>
+                </div>
+
+                <div className="notification-dropdown-content">
+                  <div className="notification-dropdown-content-left">
+                    <div className="noti-drpdwn-img-area">
+                      {/* <img src="assets/img/layout/user-img.png" className='noti-drpdwn-img' alt="" /> */}
+                      <i class="bi bi-person"></i>
+                    </div>
+                    <div className="dropdown-notification-item">
+                      Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
+                    </div>
+                  </div>
+                  <div className="notification-dropdown-content-right">
+                    <div className="drpdwn-notify-time">
+                      Now
+                    </div>
+                  </div>
+                </div>
+
+                <div className="notification-dropdown-content">
+                  <div className="notification-dropdown-content-left">
+                    <div className="noti-drpdwn-img-area">
+                      {/* <img src="assets/img/layout/user-img.png" className='noti-drpdwn-img' alt="" /> */}
+                      <i class="bi bi-person"></i>
+                    </div>
+                    <div className="dropdown-notification-item">
+                      Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
+                    </div>
+                  </div>
+                  <div className="notification-dropdown-content-right">
+                    <div className="drpdwn-notify-time">
+                      Now
+                    </div>
+                  </div>
+                </div>
+
+                <div className="notification-dropdown-content">
+                  <div className="notification-dropdown-content-left">
+                    <div className="noti-drpdwn-img-area">
+                      {/* <img src="assets/img/layout/user-img.png" className='noti-drpdwn-img' alt="" /> */}
+                      <i class="bi bi-person"></i>
+                    </div>
+                    <div className="dropdown-notification-item">
+                      Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
+                    </div>
+                  </div>
+                  <div className="notification-dropdown-content-right">
+                    <div className="drpdwn-notify-time">
+                      Now
+                    </div>
+                  </div>
+                </div>
+
+                <div className="notification-dropdown-content">
+                  <div className="notification-dropdown-content-left">
+                    <div className="noti-drpdwn-img-area">
+                      {/* <img src="assets/img/layout/user-img.png" className='noti-drpdwn-img' alt="" /> */}
+                      <i class="bi bi-person"></i>
+                    </div>
+                    <div className="dropdown-notification-item">
+                      Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
+                    </div>
+                  </div>
+                  <div className="notification-dropdown-content-right">
+                    <div className="drpdwn-notify-time">
+                      Now
+                    </div>
+                  </div>
+                </div>
+
+                <div className="notification-dropdown-content">
+                  <div className="notification-dropdown-content-left">
+                    <div className="noti-drpdwn-img-area">
+                      {/* <img src="assets/img/layout/user-img.png" className='noti-drpdwn-img' alt="" /> */}
+                      <i class="bi bi-person"></i>
+                    </div>
+                    <div className="dropdown-notification-item">
+                      Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
+                    </div>
+                  </div>
+                  <div className="notification-dropdown-content-right">
+                    <div className="drpdwn-notify-time">
+                      Now
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div> */}
+
+              <div className="dropdown-footer notification-dropdown-footer text-center">
+                <a href="#" className='drp-dwn-view-all-btn'>View All
+                  <i class="bi bi-chevron-right ml-3"></i>
+                </a>
+              </div>
+            </div>
           </li>
 
           <li className="dropdown">
@@ -90,20 +181,33 @@ const NavBar = () => {
                 className="user-img-radious-style" />
               <span className="d-sm-none d-lg-inline-block"></span>
             </a>
-            {/* <div className="dropdown-menu dropdown-menu-right pullDown">
-              <div className="dropdown-title">Hello Sarah Smith</div>
-              <a href="profile.html" className="dropdown-item has-icon"> <i className="far
-										fa-user"></i> Profile
-              </a> <a href="timeline.html" className="dropdown-item has-icon"> <i className="fas fa-bolt"></i>
-                Activities
-              </a> <a href="#" className="dropdown-item has-icon"> <i className="fas fa-cog"></i>
-                Settings
+            <div className="dropdown-menu dropdown-menu-right pullDown profile-dropdown-menu">
+              <div className="dropdown-top-area">
+                <img src="assets/img/layout/user-img.png" className='dropdown-user-img' alt="" />
+                <div className='dropdown-user-detail-area'>
+                  <div className="dropdown-user-name">Raquel Harrison</div>
+                  <div className="dropdown-user-role">UX Designer, India</div>
+                </div>
+              </div>
+              <a href="#" className="dropdown-view-pro-btn">
+                View Profile
               </a>
-              <div className="dropdown-divider"></div>
-              <a href="auth-login.html" className="dropdown-item has-icon text-danger"> <i className="fas fa-sign-out-alt"></i>
-                Logout
-              </a>
-            </div> */}
+              <div className="dropdown-btn-link-area">
+                <a href="#" className="dropdown-acc-btn">
+                  <i class="bi bi-person-fill mr-3"></i>
+                  Account
+                </a>
+                <a href="#" className="dropdown-sub-btn">
+                  <i class="bi bi-gear mr-3"></i>
+                  Settings
+                </a>
+
+                <a href="#" className="dropdown-logout-btn">
+                  <i class="bi bi-box-arrow-right mr-3"></i>
+                  Log Out
+                </a>
+              </div>
+            </div>
           </li>
         </ul>
       </nav>

@@ -6018,8 +6018,8 @@ a.badge-dark:focus {
     height: 1rem;
     overflow: hidden;
     font-size: .75rem;
-    background-color: #e9ecef;
-    border-radius: .25rem
+    background-color: #D9D9D9;
+    border-radius: 10px;
 }
 
 .progress-bar {
@@ -6702,7 +6702,7 @@ a.close.disabled {
     align-items: center;
     -ms-flex-pack: end;
     -webkit-box-pack: end;
-    justify-content: flex-end;
+    justify-content: flex-start;
     padding: 1rem;
     border-top: 1px solid #dee2e6;
     border-bottom-right-radius: .3rem;
