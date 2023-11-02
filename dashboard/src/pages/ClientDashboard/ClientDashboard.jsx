@@ -5,6 +5,10 @@ import './ClientDashboard.css';
 import './ClientDashboard-responsive.css';
 import $ from 'jquery';
 
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Pagination, Autoplay } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/pagination';
 
 import {
   Chart as ChartJS,
@@ -19,7 +23,6 @@ import {
 } from 'chart.js';
 
 import { Line } from 'react-chartjs-2';
-import faker from 'faker';
 
 
 ChartJS.register(
@@ -76,24 +79,46 @@ const options = {
       display: true,
     },
   },
-  
+
 };
 
 const ClientDashboard = () => {
 
   useEffect(() => {
     $(document).ready(function () {
-      // Hide the hidden-row by default
+      //for dashboard summary view
       $('.hidden-row').hide();
 
-      // Add a click event to the button
       $('.dash-num-count-more-btn').click(function () {
-        // Toggle the visibility of hidden-row with a smooth transition
         $('.hidden-row').slideToggle('slow');
-        // Hide the button after clicking
         $(this).hide();
       });
+
+      //for tooltip
+      $('[data-toggle="tooltip"]').tooltip();
+
+      //for copy invitaion link
+      $(".video-link-copy-btn").click(function () {
+        var videoLinkInput = $("#video-link");
+        videoLinkInput.select();
+
+        try {
+          document.execCommand("copy");
+          $(".video-link-copy-btn i").removeClass("bi-copy").addClass("bi-check-lg");
+          $(".video-link-copy-btn").attr("title", "Copied");
+        } catch (err) {
+          console.error("Copy failed:", err);
+        }
+
+        setTimeout(function () {
+          $(".video-link-copy-btn i").removeClass("bi-check-lg").addClass("bi-copy");
+          $(".video-link-copy-btn").attr("title", "Copy");
+        }, 2000);
+      });
     });
+
+
+
   }, []);
 
   return (
@@ -216,278 +241,489 @@ const ClientDashboard = () => {
                   </div>
                 </div>
 
-                <div className="dash-table-section">
-                  <div className="dash-table-area">
-                    <div className="dash-table-top-area">
-                      <div className="dash-table-title">
-                      Upcoming Interviews
-                      </div>
-                      <a href='#' className="dash-table-see-all-btn">See all</a>
-                    </div>
-
-                  </div>
-                </div>
-
-
-                {/* <div class="row">
+                <div class="row">
                   <div class="col-12">
-                    <div class="card">
-                      <div class="card-header">
-                        <h4>Assign Task Table</h4>
-                        <div class="card-header-form">
-                          <form>
-                            <div class="input-group">
-                              <input type="text" class="form-control" placeholder="Search" />
-                              <div class="input-group-btn">
-                                <button class="btn btn-primary"><i class="fas fa-search"></i></button>
-                              </div>
-                            </div>
-                          </form>
+                    <div className="dash-table-section">
+                      <div className="dash-table-area">
+                        <div className="dash-table-top-area">
+                          <div className="dash-table-title">
+                            Upcoming Interviews
+                          </div>
+                          <a href='#' className="dash-table-see-all-btn">See all</a>
                         </div>
-                      </div>
-                      <div class="card-body p-0">
-                        <div class="table-responsive">
-                          <table class="table table-striped">
-                            <tr>
-                              <th class="text-center">
-                                <div class="custom-checkbox custom-checkbox-table custom-control">
-                                  <input type="checkbox" data-checkboxes="mygroup" data-checkbox-role="dad"
-                                    class="custom-control-input" id="checkbox-all" />
-                                  <label for="checkbox-all" class="custom-control-label">&nbsp;</label>
-                                </div>
-                              </th>
-                              <th>Task Name</th>
-                              <th>Members</th>
-                              <th>Task Status</th>
-                              <th>Assigh Date</th>
-                              <th>Due Date</th>
-                              <th>Priority</th>
-                              <th>Action</th>
-                            </tr>
-                            <tr>
-                              <td class="p-0 text-center">
-                                <div class="custom-checkbox custom-control">
-                                  <input type="checkbox" data-checkboxes="mygroup" class="custom-control-input"
-                                    id="checkbox-1" />
-                                  <label for="checkbox-1" class="custom-control-label">&nbsp;</label>
-                                </div>
-                              </td>
-                              <td>Create a mobile app</td>
-                              <td class="text-truncate">
-                                <ul class="list-unstyled order-list m-b-0 m-b-0">
-                                  <li class="team-member team-member-sm"><img class="rounded-circle"
-                                    src="assets/img/users/user-8.png" alt="user" data-toggle="tooltip" title=""
-                                    data-original-title="Wildan Ahdian" /></li>
-                                  <li class="team-member team-member-sm"><img class="rounded-circle"
-                                    src="assets/img/users/user-9.png" alt="user" data-toggle="tooltip" title=""
-                                    data-original-title="John Deo" /></li>
-                                  <li class="team-member team-member-sm"><img class="rounded-circle"
-                                    src="assets/img/users/user-10.png" alt="user" data-toggle="tooltip" title=""
-                                    data-original-title="Sarah Smith" /></li>
-                                  <li class="avatar avatar-sm"><span class="badge badge-primary">+4</span></li>
-                                </ul>
-                              </td>
-                              <td class="align-middle">
-                                <div class="progress-text">50%</div>
-                                <div class="progress" data-height="6">
-                                  <div class="progress-bar bg-success" data-width="50%"></div>
-                                </div>
-                              </td>
-                              <td>2018-01-20</td>
-                              <td>2019-05-28</td>
+                        <div class="table-responsive dash-table-container mt-4">
+                          <table class="table table-striped table-hover dash-table">
+                            <tr className='dash-table-row'>
                               <td>
-                                <div class="badge badge-success">Low</div>
+                                <img src="assets/img/home/table-img-1.png" className='dash-table-avatar-img' alt="" />
                               </td>
-                              <td><a href="#" class="btn btn-outline-primary">Detail</a></td>
+                              <td className='dash-table-data'>Prodigit</td>
+                              <td className='dash-table-sub-data text-center'>5pm-5:30pm</td>
+                              <td className='dash-table-sub-data text-center'>1st Aug, 2023</td>
+                              <td className='dash-table-sub-data text-center'>UXUI Designer</td>
+                              <td className='text-right dash-table-view-btn-area'>
+                                <button className='dash-table-view-btn'
+                                  data-toggle="modal" data-target="#upcomingEventModal">View</button>
+                              </td>
                             </tr>
-                            <tr>
-                              <td class="p-0 text-center">
-                                <div class="custom-checkbox custom-control">
-                                  <input type="checkbox" data-checkboxes="mygroup" class="custom-control-input"
-                                    id="checkbox-2" />
-                                  <label for="checkbox-2" class="custom-control-label">&nbsp;</label>
-                                </div>
-                              </td>
-                              <td>Redesign homepage</td>
-                              <td class="text-truncate">
-                                <ul class="list-unstyled order-list m-b-0 m-b-0">
-                                  <li class="team-member team-member-sm"><img class="rounded-circle"
-                                    src="assets/img/users/user-1.png" alt="user" data-toggle="tooltip" title=""
-                                    data-original-title="Wildan Ahdian" /></li>
-                                  <li class="team-member team-member-sm"><img class="rounded-circle"
-                                    src="assets/img/users/user-2.png" alt="user" data-toggle="tooltip" title=""
-                                    data-original-title="John Deo" /></li>
-                                  <li class="avatar avatar-sm"><span class="badge badge-primary">+2</span></li>
-                                </ul>
-                              </td>
-                              <td class="align-middle">
-                                <div class="progress-text">40%</div>
-                                <div class="progress" data-height="6">
-                                  <div class="progress-bar bg-danger" data-width="40%"></div>
-                                </div>
-                              </td>
-                              <td>2017-07-14</td>
-                              <td>2018-07-21</td>
+
+                            <tr className='dash-table-row'>
                               <td>
-                                <div class="badge badge-danger">High</div>
+                                <img src="assets/img/home/table-img-4.png" className='dash-table-avatar-img' alt="" />
                               </td>
-                              <td><a href="#" class="btn btn-outline-primary">Detail</a></td>
+                              <td className='dash-table-data'>Iris</td>
+                              <td className='dash-table-sub-data text-center'>5pm-5:30pm</td>
+                              <td className='dash-table-sub-data text-center'>1st Aug, 2023</td>
+                              <td className='dash-table-sub-data text-center'>UXUI Designer</td>
+                              <td className='text-right dash-table-view-btn-area'>
+                                <button className='dash-table-view-btn'
+                                  data-toggle="modal" data-target="#upcomingEventModal">View</button>
+                              </td>
                             </tr>
-                            <tr>
-                              <td class="p-0 text-center">
-                                <div class="custom-checkbox custom-control">
-                                  <input type="checkbox" data-checkboxes="mygroup" class="custom-control-input"
-                                    id="checkbox-3" />
-                                  <label for="checkbox-3" class="custom-control-label">&nbsp;</label>
-                                </div>
-                              </td>
-                              <td>Backup database</td>
-                              <td class="text-truncate">
-                                <ul class="list-unstyled order-list m-b-0 m-b-0">
-                                  <li class="team-member team-member-sm"><img class="rounded-circle"
-                                    src="assets/img/users/user-3.png" alt="user" data-toggle="tooltip" title=""
-                                    data-original-title="Wildan Ahdian" /></li>
-                                  <li class="team-member team-member-sm"><img class="rounded-circle"
-                                    src="assets/img/users/user-4.png" alt="user" data-toggle="tooltip" title=""
-                                    data-original-title="John Deo" /></li>
-                                  <li class="team-member team-member-sm"><img class="rounded-circle"
-                                    src="assets/img/users/user-5.png" alt="user" data-toggle="tooltip" title=""
-                                    data-original-title="Sarah Smith" /></li>
-                                  <li class="avatar avatar-sm"><span class="badge badge-primary">+3</span></li>
-                                </ul>
-                              </td>
-                              <td class="align-middle">
-                                <div class="progress-text">55%</div>
-                                <div class="progress" data-height="6">
-                                  <div class="progress-bar bg-purple" data-width="55%"></div>
-                                </div>
-                              </td>
-                              <td>2019-07-25</td>
-                              <td>2019-08-17</td>
+
+                            <tr className='dash-table-row'>
                               <td>
-                                <div class="badge badge-info">Average</div>
+                                <img src="assets/img/home/table-img-2.png" className='dash-table-avatar-img' alt="" />
                               </td>
-                              <td><a href="#" class="btn btn-outline-primary">Detail</a></td>
+                              <td className='dash-table-data'>Huawei</td>
+                              <td className='dash-table-sub-data text-center'>5pm-5:30pm</td>
+                              <td className='dash-table-sub-data text-center'>1st Aug, 2023</td>
+                              <td className='dash-table-sub-data text-center'>UXUI Designer</td>
+                              <td className='text-right dash-table-view-btn-area'>
+                                <button className='dash-table-view-btn'
+                                  data-toggle="modal" data-target="#upcomingEventModal">View</button>
+                              </td>
                             </tr>
-                            <tr>
-                              <td class="p-0 text-center">
-                                <div class="custom-checkbox custom-control">
-                                  <input type="checkbox" data-checkboxes="mygroup" class="custom-control-input"
-                                    id="checkbox-4" />
-                                  <label for="checkbox-4" class="custom-control-label">&nbsp;</label>
-                                </div>
-                              </td>
-                              <td>Android App</td>
-                              <td class="text-truncate">
-                                <ul class="list-unstyled order-list m-b-0 m-b-0">
-                                  <li class="team-member team-member-sm"><img class="rounded-circle"
-                                    src="assets/img/users/user-7.png" alt="user" data-toggle="tooltip" title=""
-                                    data-original-title="John Deo" /></li>
-                                  <li class="team-member team-member-sm"><img class="rounded-circle"
-                                    src="assets/img/users/user-8.png" alt="user" data-toggle="tooltip" title=""
-                                    data-original-title="Sarah Smith" /></li>
-                                  <li class="avatar avatar-sm"><span class="badge badge-primary">+4</span></li>
-                                </ul>
-                              </td>
-                              <td class="align-middle">
-                                <div class="progress-text">70%</div>
-                                <div class="progress" data-height="6">
-                                  <div class="progress-bar" data-width="70%"></div>
-                                </div>
-                              </td>
-                              <td>2018-04-15</td>
-                              <td>2019-07-19</td>
+
+                            <tr className='dash-table-row'>
                               <td>
-                                <div class="badge badge-success">Low</div>
+                                <img src="assets/img/home/table-img-3.png" className='dash-table-avatar-img' alt="" />
                               </td>
-                              <td><a href="#" class="btn btn-outline-primary">Detail</a></td>
+                              <td className='dash-table-data'>Happiest Minds</td>
+                              <td className='dash-table-sub-data text-center'>5pm-5:30pm</td>
+                              <td className='dash-table-sub-data text-center'>1st Aug, 2023</td>
+                              <td className='dash-table-sub-data text-center'>UXUI Designer</td>
+                              <td className='text-right dash-table-view-btn-area'>
+                                <button className='dash-table-view-btn'
+                                  data-toggle="modal" data-target="#upcomingEventModal">View</button>
+                              </td>
                             </tr>
-                            <tr>
-                              <td class="p-0 text-center">
-                                <div class="custom-checkbox custom-control">
-                                  <input type="checkbox" data-checkboxes="mygroup" class="custom-control-input"
-                                    id="checkbox-5" />
-                                  <label for="checkbox-5" class="custom-control-label">&nbsp;</label>
-                                </div>
-                              </td>
-                              <td>Logo Design</td>
-                              <td class="text-truncate">
-                                <ul class="list-unstyled order-list m-b-0 m-b-0">
-                                  <li class="team-member team-member-sm"><img class="rounded-circle"
-                                    src="assets/img/users/user-9.png" alt="user" data-toggle="tooltip" title=""
-                                    data-original-title="Wildan Ahdian" /></li>
-                                  <li class="team-member team-member-sm"><img class="rounded-circle"
-                                    src="assets/img/users/user-10.png" alt="user" data-toggle="tooltip" title=""
-                                    data-original-title="John Deo" /></li>
-                                  <li class="team-member team-member-sm"><img class="rounded-circle"
-                                    src="assets/img/users/user-2.png" alt="user" data-toggle="tooltip" title=""
-                                    data-original-title="Sarah Smith" /></li>
-                                  <li class="avatar avatar-sm"><span class="badge badge-primary">+2</span></li>
-                                </ul>
-                              </td>
-                              <td class="align-middle">
-                                <div class="progress-text">45%</div>
-                                <div class="progress" data-height="6">
-                                  <div class="progress-bar bg-cyan" data-width="45%"></div>
-                                </div>
-                              </td>
-                              <td>2017-02-24</td>
-                              <td>2018-09-06</td>
+
+                            <tr className='dash-table-row'>
                               <td>
-                                <div class="badge badge-danger">High</div>
+                                <img src="assets/img/home/table-img-1.png" className='dash-table-avatar-img' alt="" />
                               </td>
-                              <td><a href="#" class="btn btn-outline-primary">Detail</a></td>
-                            </tr>
-                            <tr>
-                              <td class="p-0 text-center">
-                                <div class="custom-checkbox custom-control">
-                                  <input type="checkbox" data-checkboxes="mygroup" class="custom-control-input"
-                                    id="checkbox-6" />
-                                  <label for="checkbox-6" class="custom-control-label">&nbsp;</label>
-                                </div>
+                              <td className='dash-table-data'>Prodigit</td>
+                              <td className='dash-table-sub-data text-center'>5pm-5:30pm</td>
+                              <td className='dash-table-sub-data text-center'>1st Aug, 2023</td>
+                              <td className='dash-table-sub-data text-center'>UXUI Designer</td>
+                              <td className='text-right dash-table-view-btn-area'>
+                                <button className='dash-table-view-btn'
+                                  data-toggle="modal" data-target="#upcomingEventModal">View</button>
                               </td>
-                              <td>Ecommerce website</td>
-                              <td class="text-truncate">
-                                <ul class="list-unstyled order-list m-b-0 m-b-0">
-                                  <li class="team-member team-member-sm"><img class="rounded-circle"
-                                    src="assets/img/users/user-8.png" alt="user" data-toggle="tooltip" title=""
-                                    data-original-title="Wildan Ahdian" /></li>
-                                  <li class="team-member team-member-sm"><img class="rounded-circle"
-                                    src="assets/img/users/user-9.png" alt="user" data-toggle="tooltip" title=""
-                                    data-original-title="John Deo" /></li>
-                                  <li class="team-member team-member-sm"><img class="rounded-circle"
-                                    src="assets/img/users/user-10.png" alt="user" data-toggle="tooltip" title=""
-                                    data-original-title="Sarah Smith" /></li>
-                                  <li class="avatar avatar-sm"><span class="badge badge-primary">+4</span></li>
-                                </ul>
-                              </td>
-                              <td class="align-middle">
-                                <div class="progress-text">30%</div>
-                                <div class="progress" data-height="6">
-                                  <div class="progress-bar bg-orange" data-width="30%"></div>
-                                </div>
-                              </td>
-                              <td>2018-01-20</td>
-                              <td>2019-05-28</td>
-                              <td>
-                                <div class="badge badge-info">Average</div>
-                              </td>
-                              <td><a href="#" class="btn btn-outline-primary">Detail</a></td>
                             </tr>
                           </table>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div> */}
+                </div>
+
+                <div class="row">
+                  <div class="col-12">
+                    <div className="dash-table-section">
+                      <div className="dash-table-area">
+                        <div className="dash-table-top-area">
+                          <div className="dash-table-title">
+                            Job Applied
+                          </div>
+                          <a href='#' className="dash-table-see-all-btn">See all</a>
+                        </div>
+                        <div class="table-responsive mt-4">
+                          <table class="table table-striped table-hover dash-table">
+                            <tr className='dash-table-row'>
+                              <td>
+                                <img src="assets/img/home/table-img-1.png" className='dash-table-avatar-img' alt="" />
+                              </td>
+                              <td className='dash-table-data'>
+                                Lead Analyst <br />
+                                <span className='dash-table-sub'>Prodigit</span>
+                              </td>
+                              <td className='dash-table-data1 text-center'>Marketing & Communication</td>
+                              <td className='dash-table-data1 text-center'>Full-time</td>
+                              <td className='dash-table-data1 text-center'>Screening</td>
+                              <td className='text-center dash-table-view-btn-area'>
+                                <button className='dash-table-eye-view-btn'
+                                  data-toggle="modal" data-target="">
+                                  <i class="bi bi-eye-fill"></i>
+                                </button>
+                              </td>
+                            </tr>
+
+                            <tr className='dash-table-row'>
+                              <td>
+                                <img src="assets/img/home/table-img-4.png" className='dash-table-avatar-img' alt="" />
+                              </td>
+                              <td className='dash-table-data'>
+                                Lead Analyst <br />
+                                <span className='dash-table-sub'>Prodigit</span>
+                              </td>
+                              <td className='dash-table-data1 text-center'>Marketing & Communication</td>
+                              <td className='dash-table-data1 text-center'>Full-time</td>
+                              <td className='dash-table-data1 text-center'>Applied</td>
+                              <td className='text-center dash-table-view-btn-area'>
+                                <button className='dash-table-eye-view-btn'
+                                  data-toggle="modal" data-target="">
+                                  <i class="bi bi-eye-fill"></i>
+                                </button>
+                              </td>
+                            </tr>
+
+                            <tr className='dash-table-row'>
+                              <td>
+                                <img src="assets/img/home/table-img-2.png" className='dash-table-avatar-img' alt="" />
+                              </td>
+                              <td className='dash-table-data'>
+                                Lead Analyst <br />
+                                <span className='dash-table-sub'>Prodigit</span>
+                              </td>
+                              <td className='dash-table-data1 text-center'>Marketing & Communication</td>
+                              <td className='dash-table-data1 text-center'>Full-time</td>
+                              <td className='dash-table-data1 text-center'>Interview</td>
+                              <td className='text-center dash-table-view-btn-area'>
+                                <button className='dash-table-eye-view-btn'
+                                  data-toggle="modal" data-target="">
+                                  <i class="bi bi-eye-fill"></i>
+                                </button>
+                              </td>
+                            </tr>
+
+                            <tr className='dash-table-row'>
+                              <td>
+                                <img src="assets/img/home/table-img-3.png" className='dash-table-avatar-img' alt="" />
+                              </td>
+                              <td className='dash-table-data'>
+                                Lead Analyst <br />
+                                <span className='dash-table-sub'>Prodigit</span>
+                              </td>
+                              <td className='dash-table-data1 text-center'>Marketing & Communication</td>
+                              <td className='dash-table-data1 text-center'>Full-time</td>
+                              <td className='dash-table-data1 text-center'>Screening</td>
+                              <td className='text-center dash-table-view-btn-area'>
+                                <button className='dash-table-eye-view-btn'
+                                  data-toggle="modal" data-target="">
+                                  <i class="bi bi-eye-fill"></i>
+                                </button>
+                              </td>
+                            </tr>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-12">
+                    <div className="dash-table-section">
+                      <div className="dash-table-area">
+                        <div className="dash-table-top-area">
+                          <div className="dash-table-title">
+                            Similar Jobs
+                          </div>
+                          <a href='#' className="dash-table-see-all-btn">See all</a>
+                        </div>
+                        <div class="table-responsive mt-4">
+                          <table class="table table-striped table-hover dash-table">
+                            <tr className='dash-table-row'>
+                              <td>
+                                <img src="assets/img/home/table-img-1.png" className='dash-table-avatar-img' alt="" />
+                              </td>
+                              <td className='dash-table-data'>
+                                Lead Analyst <br />
+                                <span className='dash-table-sub'>Prodigit</span>
+                              </td>
+                              <td className='dash-table-data1 text-center'>Marketing & Communication</td>
+                              <td className='dash-table-data1 text-center'>Full-time</td>
+                              <td className='dash-table-data1 text-center'>0-4yrs</td>
+                              <td className='text-center dash-table-view-btn-area'>
+                                <button className='dash-table-eye-view-btn'
+                                  data-toggle="modal" data-target="">
+                                  <i class="bi bi-eye-fill"></i>
+                                </button>
+                              </td>
+                            </tr>
+
+                            <tr className='dash-table-row'>
+                              <td>
+                                <img src="assets/img/home/table-img-4.png" className='dash-table-avatar-img' alt="" />
+                              </td>
+                              <td className='dash-table-data'>
+                                Lead Analyst <br />
+                                <span className='dash-table-sub'>Prodigit</span>
+                              </td>
+                              <td className='dash-table-data1 text-center'>Marketing & Communication</td>
+                              <td className='dash-table-data1 text-center'>Full-time</td>
+                              <td className='dash-table-data1 text-center'>5-8yrs</td>
+                              <td className='text-center dash-table-view-btn-area'>
+                                <button className='dash-table-eye-view-btn'
+                                  data-toggle="modal" data-target="">
+                                  <i class="bi bi-eye-fill"></i>
+                                </button>
+                              </td>
+                            </tr>
+
+                            <tr className='dash-table-row'>
+                              <td>
+                                <img src="assets/img/home/table-img-2.png" className='dash-table-avatar-img' alt="" />
+                              </td>
+                              <td className='dash-table-data'>
+                                Lead Analyst <br />
+                                <span className='dash-table-sub'>Prodigit</span>
+                              </td>
+                              <td className='dash-table-data1 text-center'>Marketing & Communication</td>
+                              <td className='dash-table-data1 text-center'>Full-time</td>
+                              <td className='dash-table-data1 text-center'>0-1yrs</td>
+                              <td className='text-center dash-table-view-btn-area'>
+                                <button className='dash-table-eye-view-btn'
+                                  data-toggle="modal" data-target="">
+                                  <i class="bi bi-eye-fill"></i>
+                                </button>
+                              </td>
+                            </tr>
+
+                            <tr className='dash-table-row'>
+                              <td>
+                                <img src="assets/img/home/table-img-3.png" className='dash-table-avatar-img' alt="" />
+                              </td>
+                              <td className='dash-table-data'>
+                                Lead Analyst <br />
+                                <span className='dash-table-sub'>Prodigit</span>
+                              </td>
+                              <td className='dash-table-data1 text-center'>Marketing & Communication</td>
+                              <td className='dash-table-data1 text-center'>Full-time</td>
+                              <td className='dash-table-data1 text-center'>3-5yrs</td>
+                              <td className='text-center dash-table-view-btn-area'>
+                                <button className='dash-table-eye-view-btn'
+                                  data-toggle="modal" data-target="">
+                                  <i class="bi bi-eye-fill"></i>
+                                </button>
+                              </td>
+                            </tr>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
 
               </div>
             </div>
 
+            {/* event view modal here */}
+            <div className="modal fade bd-example-modal-xl" id="upcomingEventModal" tabindex="-1" role="dialog"
+              aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+              <div className="modal-dialog modal-dialog-centered modal-xl" role="document">
+                <div className="modal-content upcoming-event-modal">
+                  <div className="modal-header upcoming-event-modal-header">
+                    <h5 className="modal-title upcoming-event-modal-title" id="exampleModalCenterTitle">Upcoming Interview Detail</h5>
+                    <a href='##' type="button" className="close custom-close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">
+                        <i class="bi bi-x"></i>
+                      </span>
+                    </a>
+                  </div>
+                  <div className="modal-body upcoming-event-modal-body">
+                    <div className="model--sub-head">
+                      Mindtree
+                    </div>
+                    <div className="upcoming-event-date-section">
+                      <div className="upcoming-event-calendar">
+                        <div className="upcoming-event-calendar-header">
+                          <div className="upcoming-event-cal-month">Sept</div>
+                        </div>
+                        <div className="upcoming-event-calendar-body">
+                          <div className="upcoming-event-cal-date">15</div>
+                          <div className="cal-date-devider"></div>
+                        </div>
+                        <div className="upcoming-event-calendar-footer">
+                          <div className="upcoming-event-cal-day">Monday</div>
+                        </div>
+                      </div>
+
+                      <div className="upcoming-event-detail-area">
+                        <div className="upcoming-event-detail-name">
+                          Mindtree UX Design Job
+                        </div>
+                        <div className="upcoming-event-detail">
+                          Date :&nbsp;<span>15th Monday 2023</span>
+                        </div>
+                        <div className="upcoming-event-detail">
+                          Time :&nbsp;<span>04:00 PM- 04:30 PM Indian Standard Time</span>
+                        </div>
+                        <div className="upcoming-event-detail">
+                          Type :&nbsp;<span>Video</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="upcoming-event-modal-devider"></div>
+
+                    <div className="upcoming-event-video-detail-section">
+                      <div className="upcoming-event-video-title">
+                        Join with the video link:
+                      </div>
+                      <div className="upcoming-event-video-link-area">
+                        <input type="text" className='upcoming-event-video-link' id="video-link" readOnly
+                          value={"https://meet.google.com/irrrrvvvjshs-gwstfstrfs-ywgyw"} />
+                        <div className="video-link-copy-btn-area">
+                          <button className='video-link-copy-btn'>
+                            <i class="bi bi-copy"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="modal-footer upcoming-event-modal-footer bg-whitesmoke br">
+                    <button type="button" className="event-accept-btn">Accept Invitation</button>
+                    <button type="button" className="decline-btn" data-dismiss="modal">Decline</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {/*  */}
 
             <div className="dash-right-panel">
               <div className="dash-right-panel-content">
+                <div className="dash-hire-slider-area">
+                  <Swiper
+                    modules={[Pagination, Autoplay]}
+                    spaceBetween={10}
+                    slidesPerView={1}
+                    loop={false}
+                    speed={1500}
+                    pagination={{ clickable: true }}
+                    grabCursor={true}
+                    onSlideChange={() => console.log('slide change')}
+                    onSwiper={(swiper) => console.log(swiper)}
+                    autoplay={{
+                      delay: 5000,
+                      waitForTransition: true,
+                      // stopOnLastSlide: false,
+                      disableOnInteraction: false,
+                    }}
 
+                  >
+                    <SwiperSlide>
+                      <div className="dash-hire-slider">
+                        <img src="assets/img/home/event.png"
+                          className='dash-hire-event-img' alt="" />
+                        <div className="dash-hire-event-title">
+                          Check the latest hiring events
+                        </div>
+                        <button className='dash-hire-event-btn'>
+                          Check Events
+                        </button>
+                      </div>
+                    </SwiperSlide>
+
+                    <SwiperSlide>
+                      <div className="dash-hire-slider">
+                        <img src="assets/img/home/event.png"
+                          className='dash-hire-event-img' alt="" />
+                        <div className="dash-hire-event-title">
+                          Check the latest hiring events
+                        </div>
+                        <button className='dash-hire-event-btn'>
+                          Check Events
+                        </button>
+                      </div>
+                    </SwiperSlide>
+
+                    <SwiperSlide>
+                      <div className="dash-hire-slider">
+                        <img src="assets/img/home/event.png"
+                          className='dash-hire-event-img' alt="" />
+                        <div className="dash-hire-event-title">
+                          Check the latest hiring events
+                        </div>
+                        <button className='dash-hire-event-btn'>
+                          Check Events
+                        </button>
+                      </div>
+                    </SwiperSlide>
+                    
+                  </Swiper>
+                </div>
+
+                <div className="dash-right-milestone-section">
+                  <div className="dash-right-milestone-head">Milestones</div>
+                  <div className="dash-right-milestone-sub-head">Status of their application</div>
+                  <div className="dash-right-percentage-area">
+                    <div className="dash-right-percentage-top-area">
+                      <div className="dash-right-percentage-title">screening</div>
+                      <div className="dash-right-percentage">88%</div>
+                    </div>
+                    <div className="dash-right-percentage-progress-area">
+                      <div class="progress" data-height="10">
+                        <div class="progress-bar dash-right-progress-bar" data-width="88%"></div>
+                      </div>
+                    </div>
+                    <div className="dash-right-percentage-bottom-area">
+                      <div className="dash-right-percentage-sub-text">Lorem Ipsum</div>
+                      <div className="dash-right-percentage-sub-text">50,000</div>
+                    </div>
+                  </div>
+
+                  <div className="dash-right-percentage-area">
+                    <div className="dash-right-percentage-top-area">
+                      <div className="dash-right-percentage-title">Interview</div>
+                      <div className="dash-right-percentage">74%</div>
+                    </div>
+                    <div className="dash-right-percentage-progress-area">
+                      <div class="progress" data-height="10">
+                        <div class="progress-bar dash-right-progress-bar" data-width="74%"></div>
+                      </div>
+                    </div>
+                    <div className="dash-right-percentage-bottom-area">
+                      <div className="dash-right-percentage-sub-text">Lorem Ipsum</div>
+                      <div className="dash-right-percentage-sub-text">80,000</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="dash-right-notify-section">
+                  <div className="dash-right-notify-head-area">
+                    <div className="dash-right-notify-head">Recent Notification</div>
+                    <a href='#' className="dash-table-see-all-btn">See all</a>
+                  </div>
+                  <div className="dash-right-notify-area">
+                    <div className="dash-right-notify-content">
+                      <div className="dash-right-notify-content-left">
+                        <img src="assets/img/home/table-img-2.png"
+                          className='dash-right-notify-img' alt="" />
+                        <div className="dash-right-notify-content-title">Prodigit</div>
+                        <div className="dash-right-notify-content-title-sub">viewed your profile</div>
+                      </div>
+                      <div className="dash-right-notify-content-right">
+                        <div className="dash-right-notify-content-title-sub">20min ago</div>
+                      </div>
+                    </div>
+
+                    <div className="dash-right-notify-content">
+                      <div className="dash-right-notify-content-left">
+                        <img src="assets/img/home/table-img-2.png"
+                          className='dash-right-notify-img' alt="" />
+                        <div className="dash-right-notify-content-title">Iris</div>
+                        <div className="dash-right-notify-content-title-sub">Shortlisted you for inteview</div>
+                      </div>
+                      <div className="dash-right-notify-content-right">
+                        <div className="dash-right-notify-content-title-sub">50min ago</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
 

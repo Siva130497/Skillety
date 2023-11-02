@@ -5,7 +5,7 @@ import './App.css';
 function App() {
   return (
     <Routes>
-      <Route path='/client-dashboard' element={<ClientDashboard />} />
+      <Route path='/' element={<ClientDashboard />} />
     </Routes>
   );
 }

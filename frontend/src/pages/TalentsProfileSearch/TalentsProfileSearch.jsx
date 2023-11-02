@@ -566,13 +566,13 @@ const TalentsProfileSearch = () => {
                                                     <div className="cli-tal-pro-search-filter-content">
                                                         <div className="cli-tal-pro-search-filter-title-area">
                                                             <h6 className='cli-tal-pro-search-filter-title'>Keywords</h6>
-                                                            <div class="cl-toggle-switch">
+                                                            {/* <div class="cl-toggle-switch">
                                                                 <label class="cl-switch">
                                                                     <input type="checkbox" className="toggleSwitch" />
                                                                     <span></span>
                                                                 </label>
                                                                 <h6 className='cl-toggle--switch-label'>Boolean Off</h6>
-                                                            </div>
+                                                            </div> */}
                                                         </div>
                                                         <div className="cli--tal-pro-filter-input-area">
                                                             <input type="text" className='cli--tal-pro-filter-input' placeholder='Enter keywords like skills, designation' 
@@ -713,13 +713,13 @@ const TalentsProfileSearch = () => {
                                                             <div className="cli-tal-search-filter-form-group">
                                                                 <div className="cli-tal-search-filter-form-label-area">
                                                                     <label htmlFor="company" className='cli-tal-search-filter-form-label'>Company</label>
-                                                                    <div class="cl-toggle-switch">
+                                                                    {/* <div class="cl-toggle-switch">
                                                                         <label class="cl-switch">
                                                                             <input type="checkbox" id="toggletoSwitch1" />
                                                                             <span></span>
                                                                         </label>
                                                                         <h6 className='cl-toggle--switch-label' id="labelText1">Boolean Off</h6>
-                                                                    </div>
+                                                                    </div> */}
                                                                 </div>
                                                                 <div className="cli-tal-pro-search-filter-input-area">
                                                                     <input type="text" name='company' className='cli-tal-pro-search-filter-input' placeholder='Add Company name' />
@@ -737,13 +737,13 @@ const TalentsProfileSearch = () => {
                                                             <div className="cli-tal-search-filter-form-group">
                                                                 <div className="cli-tal-search-filter-form-label-area">
                                                                     <label htmlFor="designation" className='cli-tal-search-filter-form-label'>Designation</label>
-                                                                    <div class="cl-toggle-switch">
+                                                                    {/* <div class="cl-toggle-switch">
                                                                         <label class="cl-switch">
                                                                             <input type="checkbox" id="toggletoSwitch2" />
                                                                             <span></span>
                                                                         </label>
                                                                         <h6 className='cl-toggle--switch-label' id="labelText2">Boolean Off</h6>
-                                                                    </div>
+                                                                    </div> */}
                                                                 </div>
                                                                 <div className="cli-tal-pro-search-filter-input-area">
                                                                     <input type="text" name='designation' className='cli-tal-pro-search-filter-input' placeholder='Add designation' />
@@ -932,13 +932,13 @@ const TalentsProfileSearch = () => {
                                                     </div>
                                                     <div className="cli-tal-pro-search-filter-expand-area">
                                                         <div className='expand-area-padding'>
-                                                            <div class="cl-toggle-switch">
+                                                            {/* <div class="cl-toggle-switch">
                                                                 <label class="cl-switch">
                                                                     <input type="checkbox" className="toggleSwitch" />
                                                                     <span></span>
                                                                 </label>
                                                                 <h6 className='cl-toggle--switch-label'>Boolean Off</h6>
-                                                            </div>
+                                                            </div> */}
 
                                                             <div className="cli--tal-pro-filter-input-area">
                                                                 <input type="text" className='cli--tal-pro-filter-input' placeholder='Enter keywords like skills, designation' />
@@ -1104,13 +1104,13 @@ const TalentsProfileSearch = () => {
                                                     </div>
                                                     <div className="cli-tal-pro-search-filter-expand-area">
                                                         <div className='expand-area-padding'>
-                                                            <div class="cl-toggle-switch">
+                                                            {/* <div class="cl-toggle-switch">
                                                                 <label class="cl-switch">
                                                                     <input type="checkbox" className="toggleSwitch" />
                                                                     <span></span>
                                                                 </label>
                                                                 <h6 className='cl-toggle--switch-label'>Boolean Off</h6>
-                                                            </div>
+                                                            </div> */}
                                                             <div className="cli-tal-pro-search-filter-input-area">
                                                                 <input type="text" name='company' className='cli-tal-pro-search-filter-input' placeholder='Add Company name' />
                                                             </div>
@@ -1136,13 +1136,13 @@ const TalentsProfileSearch = () => {
                                                     </div>
                                                     <div className="cli-tal-pro-search-filter-expand-area">
                                                         <div className='expand-area-padding'>
-                                                            <div class="cl-toggle-switch">
+                                                            {/* <div class="cl-toggle-switch">
                                                                 <label class="cl-switch">
                                                                     <input type="checkbox" className="toggleSwitch" />
                                                                     <span></span>
                                                                 </label>
                                                                 <h6 className='cl-toggle--switch-label'>Boolean Off</h6>
-                                                            </div>
+                                                            </div> */}
                                                             <div className="cli-tal-pro-search-filter-input-area">
                                                                 <input type="text" name='designation' className='cli-tal-pro-search-filter-input' placeholder='Add designation' />
                                                             </div>
