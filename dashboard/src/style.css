@@ -5085,8 +5085,8 @@ h6 .badge {
 }
 
 .navbar .nav-link.nav-link-lg .feather {
-    width: 20px;
-    height: 20px;
+    width: 25px;
+    height: 25px;
     stroke: currentColor;
     stroke-width: 2;
     stroke-linecap: round;
@@ -5364,9 +5364,12 @@ h6 .badge {
 }
 
 .dropdown-menu {
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
     border: none;
-    width: 200px
+    width: 350px;
+    border-radius: 8px !important;
+    background: #FFF;
+    box-shadow: -2px 0px 18px -1px rgba(0, 0, 0, 0.25);
+    
 }
 
 .dropdown-menu.show {
@@ -5413,7 +5416,7 @@ a.dropdown-item.active {
 }
 
 .dropdown-list {
-    width: 300px;
+    width: 500px;
     padding: 0
 }
 
@@ -5656,8 +5659,8 @@ a.dropdown-item.active {
 }
 
 .progress {
-    -webkit-box-shadow: 0 0.4rem 0.6rem rgba(0, 0, 0, 0.15);
-    box-shadow: 0 0.4rem 0.6rem rgba(0, 0, 0, 0.15)
+    /* -webkit-box-shadow: 0 0.4rem 0.6rem rgba(0, 0, 0, 0.15);
+    box-shadow: 0 0.4rem 0.6rem rgba(0, 0, 0, 0.15) */
 }
 
 .progress.progress-xs {
@@ -6996,6 +6999,7 @@ body.layout-3 .main-footer {
     padding-left: 370px;
     padding-right: 20px;
     padding-top: 80px;
+    padding-bottom: 60px;
     width: 100%;
     position: relative;
     background-color: #F0F0F0;
@@ -10782,7 +10786,7 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
     width: 60px;
     height: 60px;
     bottom: -59px;
-    left: 0px;
+    left: -1px;
     border-radius: 50%;
     box-shadow: -20px -20px 0 #FFF;
     z-index: 880;
@@ -10923,7 +10927,7 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
 }
 
 .theme-white .navbar .nav-link .feather {
-    color: #555556
+    color: #714F36;
 }
 
 .theme-white .navbar .form-inline .form-control {
