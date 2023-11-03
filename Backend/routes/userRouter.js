@@ -105,7 +105,7 @@ router.post("/job-detail", employeeAuth, jobPosting)
 router.get('/skill-match-job-Detail/:candidateId', employeeAuth, getSkillMatchJobDetail)
 
 //get client posted job details
-router.get('/posted-jobs', employeeAuth, getPostedjobs)
+router.get('/posted-jobs', getPostedjobs)
 
 //get posted job details
 router.get('/my-posted-jobs/:id', employeeAuth, getOwnPostedjobs)
@@ -126,7 +126,7 @@ router.delete('/delete-job/:candidateId/:jobId', employeeAuth, deleteAppliedJob)
 router.get('/staff/:recruiterId',employeeAuth, getAnIndividualRecruiter);
 
 //get all cse type recruiters endpoint
-router.get("/staff/cse", getAllCSERecruiters);
+router.get('/staff-cse', getAllCSERecruiters);
 
 //recruiter create route
 router.post('/recruiter-create', employeeAuth, createRecruiter);

@@ -42,7 +42,7 @@ const Sidebar = () => {
               <a href="/my-application" className="nav-link"><i data-feather="file-text"></i><span>My Application</span></a>
             </li>
             <li className="dropdown" id="search_jobs">
-              <a href="search-jobs" className="nav-link"><i data-feather="briefcase"></i><span>Search Jobs</span></a>
+              <a href="/search-jobs" className="nav-link"><i data-feather="briefcase"></i><span>Search Jobs</span></a>
             </li>
             <li className="dropdown" id="favourite_jobs">
               <a href="/favourite-jobs" className="nav-link"><i data-feather="heart"></i><span>Favourite Jobs</span></a>

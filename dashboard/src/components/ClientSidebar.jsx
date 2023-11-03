@@ -10,7 +10,7 @@ const ClientSidebar = () => {
 
             if (path === '/client-dashboard') {
                 $('#client_dashboard').addClass('active');
-            } else if (path === '/search-candidate') {
+            } else if (path === '/talent-profile-search') {
                 $('#search_candidate').addClass('active');
             } else if (path === '/manage-application') {
                 $('#manage_application').addClass('active');
@@ -38,7 +38,7 @@ const ClientSidebar = () => {
             <div className="main-sidebar client sidebar-style-2">
                 <aside id="sidebar-wrapper">
                     <div className="sidebar-brand">
-                        <a href="/client-dashboard"> <img alt="image" src="assets/img/logo/skillety-logo.png" className="header-logo" /> <span
+                        <a href="/client-dashboard/"> <img alt="image" src="../assets/img/logo/skillety-logo.png" className="header-logo" /> <span
                             className="logo-name">Skillety</span>
                         </a>
                     </div>
@@ -48,7 +48,7 @@ const ClientSidebar = () => {
                             <a href="/client-dashboard" className="nav-link"><i data-feather="home"></i><span>Dashboard</span></a>
                         </li>
                         <li className="dropdown" id='search_candidate'>
-                            <a href="/search-candidate" className="nav-link"><i data-feather="search"></i><span>Search Candidates</span></a>
+                            <a href="/talent-profile-search" className="nav-link"><i data-feather="search"></i><span>Search Candidates</span></a>
                         </li>
                         <li className="dropdown" id='manage_application'>
                             <a href="/manage-application" className="nav-link"><i data-feather="file"></i><span>Manage Applications</span></a>
@@ -82,7 +82,7 @@ const ClientSidebar = () => {
                     </ul>
 
                     <div className='live-chat-area'>
-                        <img src="assets/img/home/upgrade-img.png" className='live-chat-img' alt="" />
+                        <img src="../assets/img/home/upgrade-img.png" className='live-chat-img' alt="" />
                         <div className="live-chat-text">
                             Upgrade to Pro <br />
                             for Premium Features

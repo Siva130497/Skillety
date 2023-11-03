@@ -4,7 +4,7 @@ import $ from 'jquery';
 import { useNavigate } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
 
-const NewNav = () => {
+const NewNav = ({homeActive, aboutUsActive, searchCVActive, serviceActive, RPOActive, contactActive}) => {
     const {getProtectedData} = useContext(AuthContext);
     const navigate = useNavigate();
 
@@ -56,7 +56,7 @@ const NewNav = () => {
                     <div className='logo--area me-auto'>
                         <div className='logo--subarea'>
                             <a href="/">
-                                <img className='nav--logo' src="assets/img/logo/skillety-logo-sm.png" alt="" />
+                                <img className='nav--logo' src="../assets/img/logo/skillety-logo-sm.png" alt="" />
                             </a>
                         </div>
                     </div>
@@ -88,10 +88,10 @@ const NewNav = () => {
 
                 <nav id="navbar" className="navbar client navbar-expand-lg">
                     <ul>
-                        <li><div><a href="/" className="nav-link scrollto active">Home</a></div></li>
-                        <li><a href="/about-us" className="nav-link scrollto">About Us</a></li>
-                        <li><a href="/talent-profile-search" className="nav-link scrollto">Search CV</a></li>
-                        <li className="dropdown"><a href="/services"><span>Services</span> <i className="bi bi-chevron-down"></i></a>
+                        <li><div><a href="/" className={homeActive ? "nav-link scrollto active" : "nav-link scrollto"}>Home</a></div></li>
+                        <li><a href="/about-us" className={aboutUsActive ? "nav-link scrollto active" : "nav-link scrollto"}>About Us</a></li>
+                        <li><a href="/talent-profile-search" className={searchCVActive ? "nav-link scrollto active" : "nav-link scrollto"}>Search CV</a></li>
+                        <li className="dropdown"><a href="/services" className={serviceActive ? "nav-link scrollto active" : "nav-link scrollto"}><span>Services</span> <i className="bi bi-chevron-down"></i></a>
                             <ul>
                                 <li><a href="/services">CV Sourcing</a></li>
                                 {/* <li className="dropdown"><a href="#"><span>Deep Drop Down</span> <i className="bi bi-chevron-right"></i></a>
@@ -110,12 +110,12 @@ const NewNav = () => {
                                 <li><a href="/services">Background Verification</a></li>
                             </ul>
                         </li>
-                        <li><a className="nav-link scrollto" href="/rpo">RPO</a></li>
-                        <li><a className="nav-link scrollto" href="/contact-us">Contact</a></li>
+                        <li><a className={RPOActive ? "nav-link scrollto active" : "nav-link scrollto"} href="/rpo">RPO</a></li>
+                        <li><a className={contactActive ? "nav-link scrollto active" : "nav-link scrollto"} href="/contact-us">Contact</a></li>
                         {userName ? 
                             <li className="dropdown"><a href='#'><span>{extractLastName()}</span><i className="bi bi-chevron-down"></i></a>
                                 <ul>
-                                    <li><a href="/client-dashboard">Dash Board</a></li>
+                                    <li><a href={`http://localhost:3001/client-dashboard`}>Dash Board</a></li>
                                     <li onClick={()=>{
                                         localStorage.removeItem("clientToken");
                                         window.location.reload();

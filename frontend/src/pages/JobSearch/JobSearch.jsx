@@ -6,8 +6,20 @@ import './JobSearch-responsive.css';
 import LayoutNew from '../../components/LayoutNew';
 import { CandidateFooter } from '../../components/CandidateFooter';
 import { Slider } from "primereact/slider";
+import axios from 'axios';
 
 const JobSearch = () => {
+    const [allJobs, setAllJobs] = useState([]);
+    const [searchResult, setSearchResult] = useState(false);
+    const [filteredSearchResults, setFilteredSearchResults]= useState([]);
+    const [filteredSearchResultsMsg, setFilteredSearchResultsMsg] = useState("");
+    const [checkBoxfilters, setCheckBoxFilters] = useState([]);
+    const [checkBoxJobTitle, setCheckBoxJobTitle] = useState([]);
+    const [filters, setFilters] = useState({
+        searchInput:"",
+        minExperience:"",
+        maxExperience:"",
+    })
 
     useEffect(() => {
         $(document).ready(function () {
@@ -118,11 +130,99 @@ const JobSearch = () => {
                 });
             });
         });
-    }, []);
+    }, [searchResult]);
+
+    const getPostedjobs = async() => {
+        try{
+            const res = await axios.get(`http://localhost:5002/posted-jobs`, {
+              headers: {
+                  Accept: 'application/json'
+              }
+            });
+            const result = res.data;
+            if (!result.error) {
+              console.log(result);
+              setAllJobs(result.reverse());
+            } else {
+              console.log(result);
+            }
+        }catch(err){
+          console.log(err);
+        }
+      }
+
+      useEffect(()=>{
+        getPostedjobs();
+      },[])
+
+      const handleSkillSearch = () => {
+        if(filters.searchInput || checkBoxfilters.length > 0 || (filters.maxExperience && filters.maxExperience) || checkBoxJobTitle.length > 0){
+            setFilteredSearchResultsMsg("")
+            setSearchResult(true)
+            const filteredResults = allJobs
+                .filter(job => {
+                if (filters.searchInput) { 
+                    return ((job.skills
+                    .map(skill => skill.toLowerCase()) 
+                    .includes(filters.searchInput.toLowerCase())) || 
+                    (job.jobRole[0].toLowerCase().includes(filters.searchInput.toLowerCase()))) 
+                }
+                return true;
+                })
+                .filter(job => {
+                    if (checkBoxfilters.length > 0) {
+                        return checkBoxfilters.includes(job.jobCategory);
+                    }
+                    return true;
+                })
+                .filter(job => {
+                    if (filters.minExperience && filters.maxExperience) {
+                        return (job.month >= filters.minExperience && job.month <= filters.     maxExperience) ||(job.year >= filters.minExperience && job.year <= filters.maxExperience)
+                    }
+                    return true;
+                })
+                .filter(job => {
+                    if (checkBoxJobTitle.length > 0) {
+                        return checkBoxJobTitle.includes(job.jobRole[0]);
+                    }
+                    return true;
+                })
+                // .filter(candidate => {
+                //     if (filters.location) {
+                //         return candidate.location.toLowerCase() === filters.location.toLowerCase();
+                //     }
+                //     return true;
+                // })
+            
+            console.log(filteredResults)
+            if(filteredResults.length > 0){
+                setFilteredSearchResults(filteredResults);
+            }else{
+                setFilteredSearchResultsMsg("no such candidates found")
+            }
+        }else{
+            alert("select atleast one filter")
+        }
+    };
+
+    const handleCheckboxChange = (category) => {
+        const updatedFilters = checkBoxfilters.includes(category)
+          ? checkBoxfilters.filter((filter) => filter !== category)
+          : [...checkBoxfilters, category];
+        setCheckBoxFilters(updatedFilters);
+    };
+
+    const handleCheckboxJobTitleChange = (category) => {
+        const updatedFilters = checkBoxJobTitle.includes(category)
+          ? checkBoxJobTitle.filter((filter) => filter !== category)
+          : [...checkBoxJobTitle, category];
+        setCheckBoxJobTitle(updatedFilters);
+    };
+    
 
     return (
         <div>
-            <LayoutNew />
+            <LayoutNew searchJob={true}/>
             <div className='cli--tal-pro-search-section'>
                 <div className='container-fluid'>
                     <div className='container-fluid container-section'>
@@ -136,7 +236,7 @@ const JobSearch = () => {
                                 </div>
                             </div>
 
-                            <div className='talent--profile-search-page-section'>
+                            {!searchResult ? <div className='talent--profile-search-page-section'>
                                 <div className="cli-tal-pro-search-container">
                                     <div className="row">
                                         <div className="col-12 col-lg-12 col-xl-12 col-md-12">
@@ -190,7 +290,9 @@ const JobSearch = () => {
                                                             </div> */}
                                                         </div>
                                                         <div className="cli--tal-pro-filter-input-area">
-                                                            <input type="text" className='cli--tal-pro-filter-input' placeholder='Enter keywords like skills, designation' />
+                                                            <input type="text" className='cli--tal-pro-filter-input' placeholder='Enter keywords like skills, designation' 
+                                                            value={filters.searchInput}
+                                                            onChange={(e)=>setFilters({...filters, searchInput:e.target.value})}/>
                                                             <i className="bi bi-search cli--tal-pro-filter-search-icon"></i>
                                                         </div>
 
@@ -216,23 +318,26 @@ const JobSearch = () => {
                                                         <div className="job-search-check-area">
                                                             <div className="cli--mark-keyword-area job">
                                                                 <label className="cli--mark-keyword-check-input jobs">
-                                                                    <input type="checkbox" />
+                                                                    <input type="checkbox" checked={checkBoxfilters.includes('full time')}
+                                                                    onChange={() => handleCheckboxChange('full time')}/>
                                                                     <span className="cli--mark-keyword-checkmark"></span>
-                                                                    Work from office
+                                                                    Full time
                                                                 </label>
                                                             </div>
                                                             <div className="cli--mark-keyword-area job">
                                                                 <label className="cli--mark-keyword-check-input jobs">
-                                                                    <input type="checkbox" />
+                                                                    <input type="checkbox" checked={checkBoxfilters.includes('part time')}
+                                                                    onChange={() => handleCheckboxChange('part time')}/>
                                                                     <span className="cli--mark-keyword-checkmark"></span>
-                                                                    Remote
+                                                                    Part time
                                                                 </label>
                                                             </div>
                                                             <div className="cli--mark-keyword-area job">
                                                                 <label className="cli--mark-keyword-check-input jobs">
-                                                                    <input type="checkbox" />
+                                                                    <input type="checkbox" checked={checkBoxfilters.includes('freelancer')}
+                                                                    onChange={() => handleCheckboxChange('freelancer')}/>
                                                                     <span className="cli--mark-keyword-checkmark"></span>
-                                                                    Hybrid
+                                                                    freelancer
                                                                 </label>
                                                             </div>
                                                         </div>
@@ -248,10 +353,12 @@ const JobSearch = () => {
                                                     </div>
                                                     <div className="cli-tal-pro-search-filter-expand-area">
                                                         <div className="cli-tal-pro-exp-input-area search-results">
-                                                            <input type="number" className='cli-tal-pro-exp-input text-center numeric-input' placeholder='Min Experience' />
+                                                            <input type="number" className='cli-tal-pro-exp-input text-center numeric-input' placeholder='Min Experience' value={filters.minExperience}
+                                                            onChange={(e)=>setFilters({...filters, minExperience:e.target.value})}/>
                                                             <span className='cli-tal-pro-exp-input-text'>to</span>
-                                                            <input type="number" className='cli-tal-pro-exp-input text-center numeric-input' placeholder='Max Experience' />
-                                                            <span className='cli-tal-pro-exp-input-text'>years</span>
+                                                            <input type="number" className='cli-tal-pro-exp-input text-center numeric-input' placeholder='Max Experience' value={filters.maxExperience}
+                                                            onChange={(e)=>setFilters({...filters, maxExperience:e.target.value})}/>
+                                                            <span className='cli-tal-pro-exp-input-text'>months/years</span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -265,14 +372,18 @@ const JobSearch = () => {
                                                     </div>
                                                     <div className="cli-tal-pro-search-filter-expand-area">
                                                         <div className="job-search-multi-check-area">
-                                                            <div className="cli--mark-keyword-area job">
-                                                                <label className="cli--mark-keyword-check-input jobs">
-                                                                    <input type="checkbox" />
-                                                                    <span className="cli--mark-keyword-checkmark"></span>
-                                                                    UX,Design & Archie.........(82)
-                                                                </label>
-                                                            </div>
-                                                            <div className="cli--mark-keyword-area job">
+                                                            {allJobs.map((job)=>{
+                                                                return <div                              className="cli--mark-keyword-area job">
+                                                                        <label className="cli--mark-keyword-check-input jobs">
+                                                                            <input type="checkbox" checked={checkBoxJobTitle.includes(job.jobRole[0])}
+                                                                            onChange={() => handleCheckboxJobTitleChange(job.jobRole[0])}/>
+                                                                            <span className="cli--mark-keyword-checkmark"></span>
+                                                                            {job.jobRole[0]}
+                                                                        </label>
+                                                                </div>
+                                                            })}
+                                                            
+                                                            {/* <div className="cli--mark-keyword-area job">
                                                                 <label className="cli--mark-keyword-check-input jobs">
                                                                     <input type="checkbox" />
                                                                     <span className="cli--mark-keyword-checkmark"></span>
@@ -329,7 +440,7 @@ const JobSearch = () => {
                                                                     <span className="cli--mark-keyword-checkmark"></span>
                                                                     UX,Design & Archie.........(82)
                                                                 </label>
-                                                            </div>
+                                                            </div> */}
                                                             <button className="jobs-view-more-btn">
                                                                 <span>View more</span>
                                                             </button>
@@ -531,6 +642,9 @@ const JobSearch = () => {
                                                     <button className='clear--all_button'>
                                                         Clear all
                                                     </button>
+                                                    <button className="tal--search-submit-btn dash" onClick={handleSkillSearch}>
+                                                                Search Jobs
+                                                    </button>
                                                 </div>
                                             </div>
 
@@ -545,7 +659,7 @@ const JobSearch = () => {
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> :
 
                             <div className='talent--profile-search-results-section'>
                                 <div className="cli-tal-pro-search-container">
@@ -559,7 +673,7 @@ const JobSearch = () => {
                                     </div>
                                 </div>
 
-                                <button class="pl--package-btn-sub previous back-to-search-btn" data-aos="fade-left">
+                                <button class="pl--package-btn-sub previous back-to-search-btn" data-aos="fade-left" onClick={()=>setSearchResult(false)}>
                                     <div class="pl--package-arrow-area prev">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 27 27" fill="none">
                                             <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="white" stroke-width="2"></path>
@@ -947,11 +1061,15 @@ const JobSearch = () => {
                                         <h6 className='tal--pro-search-result-title' data-aos="fade-up">Add Filter for the desired search</h6>
                                     </div> */}
                                         <div className="cli--tal-pro-search-results-area">
-
-                                            <article className='job--detail-card' data-aos="fade-left">
+                                        {filteredSearchResultsMsg ?
+                                            <p>{filteredSearchResultsMsg}</p>:
+                                            filteredSearchResults.length > 0 ?
+                                            filteredSearchResults.map((job)=>{
+                                                return(
+                                                    <article className='job--detail-card' data-aos="fade-left">
                                                 <div className="job--detail-card-top-area job">
                                                     <div>
-                                                        <h5 className='job--detail-card-role'>UX Designer</h5>
+                                                        <h5 className='job--detail-card-role'>{job.jobRole[0]}</h5>
                                                         <div className="job--detail-card-review-area">
                                                             <div className="job--detail-card-review">Happiest Minds</div>
                                                             <div className='job--detail-card-rating'>
@@ -967,7 +1085,7 @@ const JobSearch = () => {
                                                         <div className="job--detail-card-location-area">
                                                             <div className="job--detail-card-experience">
                                                                 <i class='bx bx-briefcase'></i>
-                                                                <span>0-4 Yrs</span>
+                                                                <span>{job.year > 0 ? job.year+ 'years' : "" + job.month > 0 ? job.month+ 'months' : ""}</span>
                                                             </div>
                                                             <div className="job--detail-card-experience">
                                                                 <i class='bx bx-rupee'></i>
@@ -984,25 +1102,23 @@ const JobSearch = () => {
                                                     </div>
                                                 </div>
                                                 <div className="job--detail-card-desc-area">
-                                                    <p className='job--detail-card-desc'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's </p>
-                                                    <p className='job--detail-card-desc'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's </p>
+                                                    <p className='job--detail-card-desc'>{job.jobDescription}</p>
                                                 </div>
                                                 <div className="job--detail-card-bottom-area">
                                                     <div className='job--detail-card-tags-area'>
-                                                        <div className="job--detail-card-tag">UX,Design & Archietect</div>
-                                                        <div className="job--detail-card-tag">UX,Design & Archietect</div>
-                                                        <div className="job--detail-card-tag">UX,Design & Archietect</div>
-                                                        <div className="job--detail-card-tag">UX,Design & Archietect</div>
-                                                        <div className="job--detail-card-tag">UX,Design & Archietect</div>
+                                                        {job.skills.map((skill, index)=>{
+                                                            return <div className="job--detail-card-tag" key={index}>{skill}</div>
+                                                        })}
                                                     </div>
                                                     <div className="job--detail-card-know-more-btn-area">
                                                         <a href="#" className='job--detail-card-know-more-btn'>Know more</a>
                                                     </div>
                                                 </div>
-                                            </article>
-
+                                                    </article>
+                                                )
+                                            }) : null}
                                             <div className="tal--pro-paginate-btn-area" data-aos="fade-up">
-                                                <h6 className='tal--pro-total-result-text'>Total Items : <span>08</span></h6>
+                                                <h6 className='tal--pro-total-result-text'>Total Items : <span>{filteredSearchResults.length}</span></h6>
                                                 <div className='tal--pro-slider-btn-sub'>
                                                     <button className="tal--pro-slider-btn">
                                                         <svg className='arrow-left' xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 27 27" fill="none">
@@ -1023,7 +1139,7 @@ const JobSearch = () => {
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div>}
                         </div>
                     </div>
                 </div>

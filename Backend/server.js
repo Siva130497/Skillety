@@ -28,11 +28,12 @@ const {Server} = require('socket.io');
 
 
 const corsOptions = {
-  origin: 'http://localhost:3000',
+  origin: ['http://localhost:3000', 'http://localhost:3001'],
   credentials: true,
   methods: ['GET', 'POST', 'PATCH', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization', 'Access-Control-Allow-Credentials']
 };
+
 
 app.use(cors(corsOptions));
 app.use(morgan("tiny"));

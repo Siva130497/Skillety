@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useEffect } from 'react';
 import $ from 'jquery';
 import './TalentsProfileSearch.css';
@@ -6,13 +6,29 @@ import './TalentsProfileSearch-responsive.css';
 import Layout from '../../components/Layout';
 import { Footer } from '../../components/Footer';
 import axios from 'axios';
+import AuthContext from '../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const TalentsProfileSearch = () => {
+    const clientToken = JSON.parse(localStorage.getItem("clientToken"));
+    const {getProtectedData, getClientChoosenPlan, packageSelectionDetail} = useContext(AuthContext);
+    const [employeeId, setEmployeeId] = useState("");
+    const [loginClientDetail, setLoginClientDetail] = useState([]);
+    const [cvViews, setCvViews] = useState();
     const [candidateDetail, setCandidateDetail] = useState([]);
-    const [searchInput, setSearchInput] = useState("");
     const [filteredSearchResults, setFilteredSearchResults]= useState([]);
     const [filteredSearchResultsMsg, setFilteredSearchResultsMsg] = useState("");
     const [searchResult, setSearchResult] = useState(false);
+    const [viewedCandidate, setViewedCandidate] = useState([]);
+    
+    const [filters, setFilters] = useState({
+        searchInput:"",
+        minExperience:"",
+        maxExperience:"",
+        location:"",
+    })
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         $(document).ready(function () {
@@ -418,7 +434,7 @@ const TalentsProfileSearch = () => {
             });
             ////
         });
-    }, []);
+    }, [searchResult]);
 
     const getAllCandidateDetail = async () => {
         try{
@@ -439,41 +455,243 @@ const TalentsProfileSearch = () => {
         }
       };
 
-      useEffect(()=>{
+    useEffect(()=>{
         getAllCandidateDetail();
       },[]);
-    
-      const handleSkillSearch = () => {
-        setSearchResult(true);
-        const searchResults = searchInput
-          .split(/[,\s]+/) 
-          .filter(result => result.trim());
+
+    const getLoginClientDetail = async() => {
+        try{
+            const res = await axios.get(`http://localhost:5002/client/${employeeId}`, {
+              headers: {
+                  Authorization: `Bearer ${clientToken}`,
+                  Accept: 'application/json'
+              }
+            });
+            const result = res.data;
+            if (!result.error) {
+              console.log(result);
+              setLoginClientDetail(result);
+            } else {
+              console.log(result);
+            }
+        }catch(err){
+          console.log(err);
+        }
+      }
+
+      const getViewedCandidates = async() => {
+        try{
+            const res = await axios.get(`http://localhost:5002/cv-views/${loginClientDetail.companyId}`, {
+              headers: {
+                  Authorization: `Bearer ${clientToken}`,
+                  Accept: 'application/json'
+              }
+            });
+            const result = res.data;
+            if (!result.error) {
+              console.log(result);
+              setViewedCandidate(result);
+            } else {
+              console.log(result);
+            }
+        }catch(err){
+          console.log(err);
+        }
+      }
+
+      useEffect(() => {
+            if(clientToken){
+                const fetchData = async () => {
+                    try {
+                    const user = await getProtectedData(clientToken);
+                    console.log(user);
+                    setEmployeeId(user.id);
+                    } catch (error) {
+                    console.log(error);
+                    }
+                };
+            
+                fetchData();
+            }
+        }, [clientToken]);
+
+      useEffect(()=>{
+        if(employeeId){
+          getLoginClientDetail();
+        }
+      },[employeeId]);
+
+      useEffect(() => {
+        if(loginClientDetail.companyId){
+          getViewedCandidates();
+          const fetchData = async () => {
+            try {
+              
+              await getClientChoosenPlan(loginClientDetail.companyId);
+              
+              if (packageSelectionDetail && packageSelectionDetail.cvViews) {
+                setCvViews(packageSelectionDetail.cvViews);
+              }
+            } catch (error) {
+              console.error(error);
+            }
+          };
       
-        const filteredObjBySkills = candidateDetail.filter(candidate =>
-          searchResults.some(searchResult => 
-            candidate.skills.some(skill =>
-              skill.toLowerCase().includes(searchResult.toLowerCase())
-            )
-          )
-        );
-    
-        const filteredObjByDesignation = candidateDetail.filter(candidate =>
-          searchResults.some(searchResult => 
-            candidate.designation[0].toLowerCase().includes(searchResult.toLowerCase())
-          )
-        );
-    
-        const mergedResults = [...filteredObjBySkills, ...filteredObjByDesignation];
-        if(mergedResults.length > 0){
-            setFilteredSearchResults(mergedResults);
+          fetchData();
+        }
+      }, [loginClientDetail]);
+      console.log(filters)
+    const handleSkillSearch = () => {
+        if(filters.searchInput || filters.location || (filters.minExperience && filters.maxExperience)){
+            setFilteredSearchResultsMsg("")
+            setSearchResult(true)
+            const filteredResults = candidateDetail
+                .filter(candidate => {
+                if (filters.searchInput) { 
+                    return ((candidate.skills
+                    .map(skill => skill.toLowerCase()) 
+                    .includes(filters.searchInput.toLowerCase())) || 
+                    (candidate.designation[0].toLowerCase().includes(filters.searchInput.toLowerCase()))) 
+                }
+                return true;
+                })
+                .filter(candidate => {
+                    if (filters.minExperience && filters.maxExperience) {
+                        return (candidate.month >= filters.minExperience && candidate.month <= filters.     maxExperience) ||(candidate.year >= filters.minExperience && candidate.year <= filters.maxExperience)
+                    }
+                    return true;
+                })
+                .filter(candidate => {
+                    if (filters.location) {
+                        return candidate.location.toLowerCase() === filters.location.toLowerCase();
+                    }
+                    return true;
+                })
+            
+            console.log(filteredResults)
+            if(filteredResults.length > 0){
+                setFilteredSearchResults(filteredResults);
+            }else{
+                setFilteredSearchResultsMsg("no such candidates found")
+            }
         }else{
-            setFilteredSearchResultsMsg("no such candidates found")
+            alert("select atleast one filter")
+        }
+    };
+      
+        
+        
+      
+      
+      
+    //   const handleSkillSearch = () => {
+    //     setSearchResult(true);
+    
+    //     const searchResults = searchInput
+    //       .split(/[,\s]+/) 
+    //       .filter(result => result.trim());
+      
+    //     const filteredObjBySkills = candidateDetail.filter(candidate =>
+    //       searchResults.some(searchResult => 
+    //         candidate.skills.some(skill =>
+    //           skill.toLowerCase().includes(searchResult.toLowerCase())
+    //         )
+    //       )
+    //     );
+    
+    //     const filteredObjByDesignation = candidateDetail.filter(candidate =>
+    //       searchResults.some(searchResult => 
+    //         candidate.designation[0].toLowerCase().includes(searchResult.toLowerCase())
+    //       )
+    //     );
+
+    //     const mergedResults = [...filteredObjBySkills, ...filteredObjByDesignation];
+
+    //     const filteredObjByExperienceMonth = candidateDetail.filter(candidate =>
+    //         candidate.month >= minExperienceMonth &&
+    //         candidate.month <= maxExperienceMonth
+    //     );
+
+    //     const filteredObjByExperienceYear = candidateDetail.filter(candidate =>
+    //         candidate.year >= minExperienceYear &&
+    //         candidate.year <= maxExperienceYear
+    //     );
+
+        
+    //     const filteredObjByLocation = candidateDetail.filter(candidate =>
+    //         candidate.location.toLowerCase().includes(location.toLowerCase())
+    //     );
+
+
+        
+    //     // if(mergedResults.length > 0){
+    //     //     setFilteredSearchResults(mergedResults);
+    //     // }else{
+
+    //     //     setFilteredSearchResultsMsg("no such candidates found")
+    //     // }
+    //   }
+
+      const viewCandidateDetail = (id) => {
+        if(packageSelectionDetail){
+            if(viewCandidateDetail.length > 0){
+                const alreadyViewedCandidate = viewedCandidate.find(cand=>cand.candidateId === id)
+                if(alreadyViewedCandidate){
+                    navigate(`/talents/${id}`);
+                }else{
+                    if(viewedCandidate.length < cvViews){
+                        const idData = {
+                            candidateId:id,
+                            companyId:loginClientDetail.companyId,
+                        }
+                        axios.post("http://localhost:5002/cv-views", idData, {
+                            headers: {
+                                Authorization: `Bearer ${clientToken}`,
+                                Accept: 'application/json'
+                            }
+                        })
+                        .then(response => {
+                            const result = response.data;
+                            console.log(result);
+                            getViewedCandidates();
+                            navigate(`/talents/${id}`);
+                        })
+                        .catch(error => {
+                            console.error(error);
+                        })
+                    }else{
+                        alert("you reached your max cv-views in your plan, upgrade your plan");
+                    }
+                }
+            }else{
+                const idData = {
+                    candidateId:id,
+                    companyId:loginClientDetail.companyId,
+                  }
+                  axios.post("http://localhost:5002/cv-views", idData, {
+                    headers: {
+                        Authorization: `Bearer ${clientToken}`,
+                        Accept: 'application/json'
+                    }
+                  })
+                  .then(response => {
+                    const result = response.data;
+                    console.log(result);
+                    getViewedCandidates();
+                    navigate(`/talents/${id}`);
+                  })
+                  .catch(error => {
+                    console.error(error);
+                  })
+            }
+        }else{
+            alert("buy a package plan to view cv detail")
         }
       }
 
     return (
         <div>
-            <Layout />
+            <Layout searchCV={true}/>
             <div className='cli--tal-pro-search-section'>
                 <div className='container-fluid'>
                     <div className='container-fluid container-section'>
@@ -577,12 +795,8 @@ const TalentsProfileSearch = () => {
                                                         </div>
                                                         <div className="cli--tal-pro-filter-input-area">
                                                             <input type="text" className='cli--tal-pro-filter-input' placeholder='Enter keywords like skills, designation' 
-                                                            value={searchInput}
-                                                            onChange={(e)=>{
-                                                            setSearchInput(e.target.value);
-                                                            setFilteredSearchResults([]);
-                                                            setFilteredSearchResultsMsg("");
-                                                            }}
+                                                            value={filters.searchInput}
+                                                            onChange={(e)=>setFilters({...filters, searchInput:e.target.value})}
                                                             />
                                                             <i className="bi bi-search cli--tal-pro-filter-search-icon"></i>
                                                         </div>
@@ -623,10 +837,12 @@ const TalentsProfileSearch = () => {
                                                             <h6 className='cli-tal-pro-search-filter-title'>Experience</h6>
                                                         </div>
                                                         <div className="cli-tal-pro-exp-input-area search-page">
-                                                            <input type="number" className='cli-tal-pro-exp-input text-center numeric-input' placeholder='Min Experience' />
+                                                            <input type="number" className='cli-tal-pro-exp-input text-center numeric-input' placeholder='Min Experience' value={filters.minExperience}
+                                                            onChange={(e)=>setFilters({...filters, minExperience:e.target.value})}/>
                                                             <span className='cli-tal-pro-exp-input-text'>to</span>
-                                                            <input type="number" className='cli-tal-pro-exp-input text-center numeric-input' placeholder='Max Experience' />
-                                                            <span className='cli-tal-pro-exp-input-text'>years</span>
+                                                            <input type="number" className='cli-tal-pro-exp-input text-center numeric-input' placeholder='Max Experience' value={filters.maxExperience}
+                                                            onChange={(e)=>setFilters({...filters, maxExperience:e.target.value})}/>
+                                                            <span className='cli-tal-pro-exp-input-text'>months/years</span>
                                                         </div>
                                                     </div>
 
@@ -635,7 +851,8 @@ const TalentsProfileSearch = () => {
                                                             <h6 className='cli-tal-pro-search-filter-title'>Current location of candidate</h6>
                                                         </div>
                                                         <div className="cli-tal-pro-search-filter-input-area">
-                                                            <input type="text" className='cli-tal-pro-search-filter-input location' placeholder='Add location' />
+                                                            <input type="text" className='cli-tal-pro-search-filter-input location' placeholder='Add location' value={filters.location}
+                                                            onChange={(e)=>setFilters({...filters, location:e.target.value})}/>
                                                         </div>
                                                         <div className="cli--mark-keyword-area search-results">
                                                             <label className="cli--mark-keyword-check-input">
@@ -865,8 +1082,16 @@ const TalentsProfileSearch = () => {
                                         </div>
                                     </div>
                                 </div>
-                                <button className='clear--all_button' onClick={()=>setSearchResult(false)}>
-                                                            Back to Search
+                                <button class="pl--package-btn-sub previous back-to-search-btn" data-aos="fade-left" onClick={()=>setSearchResult(false)}>
+                                    <div class="pl--package-arrow-area prev">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 27 27" fill="none">
+                                            <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="white" stroke-width="2"></path>
+                                            <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="white" stroke-width="2"></path>
+                                            <path d="M1 26L25.1667 1" stroke="white" stroke-width="2"></path>
+                                        </svg>
+                                    </div>
+                                    <div class="pl--package-btn job">Back to Search
+                                    </div>
                                 </button>
                                 <div className="row row-border-custom">
                                     <div className="col-12 col-lg-4 col-xl-3 col-md-4 custom-right-border-col ps-lg-0 ps-md-1 col-width-lg-30">
@@ -1440,30 +1665,31 @@ const TalentsProfileSearch = () => {
                                             <p>{filteredSearchResultsMsg}</p>:
                                             filteredSearchResults.length > 0 ?
                                             filteredSearchResults.map((candidate)=>{
+                                                const viewedCandidateForThisCandidate = loginClientDetail.companyId &&viewedCandidate.find(cand => cand.candidateId === candidate.id);
                                                 return(
-                                                    <article className="talent--profile-card search" data-aos="fade-left" key={candidate.id}>
+                                                    <article className="talent--profile-card search" data-aos="fade-left" key={candidate.id} onClick={()=>viewCandidateDetail(candidate.id)}>
                                                     <div className="tal--pro-card-left-area search">
                                                         <div className='card-split-line'></div>
                                                         <div className="tal--pro-card-name-area">
                                                             <label className="tal--pro-card-name-check-container">
-                                                                <input type="checkbox" />
+                                                                <input type="checkbox" checked={viewedCandidateForThisCandidate ? true : false} onChange={(e)=>e.preventDefault()}/>
                                                                 <div className="tal--pro-card-name-checkmark"></div>
                                                             </label>
                                                             <h6 className='tal--pro-card-name'>{candidate.firstName + ' ' + candidate.lastName}</h6>
                                                         </div>
                                                         <div className="tal--pro-card-tags search">
                                                             <h6 className='tal--pro-card-exp'>
-                                                                Experience : 6 Yrs
+                                                                Experience : {candidate.year > 0 ? candidate.year+ 'years' : "" + candidate.month > 0 ? candidate.month+ 'months' : ""}
                                                             </h6>
                                                             <h6 className='tal--pro-card-exp'>
                                                                 9.5 LPA
                                                             </h6>
                                                             <h6 className='tal--pro-card-location'>
                                                                 <i class="bx bxs-map"></i>
-                                                                <span>Hyderabad</span>
+                                                                <span>{candidate.location}</span>
                                                             </h6>
                                                             <h6 className='tal--pro-card-role'>
-                                                                Frontend Developer
+                                                            {candidate.designation[0]}
                                                             </h6>
                                                         </div>
                                                         <div className="tal--pro-card-desc-area search">
@@ -1472,7 +1698,7 @@ const TalentsProfileSearch = () => {
                                                                     <h6 className='tal--pro-card-desc-title'>Previous&nbsp;:</h6>
                                                                 </div>
                                                                 <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
-                                                                    <p className='tal--pro-card-desc'>Junior Frontend Developer at Cognizant</p>
+                                                                    <p className='tal--pro-card-desc'>{candidate.designation[0] + " " + "at" + " " + candidate.companyName}</p>
                                                                 </div>
                                                             </div>
                                                             <div className="row tal--pro-card-desc-row">
@@ -1480,7 +1706,7 @@ const TalentsProfileSearch = () => {
                                                                     <h6 className='tal--pro-card-desc-title'>Education&nbsp;:</h6>
                                                                 </div>
                                                                 <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
-                                                                    <p className='tal--pro-card-desc'>Bsc Delhi University 2019</p>
+                                                                    <p className='tal--pro-card-desc'>{candidate.college}</p>
                                                                 </div>
                                                             </div>
                                                             <div className="row tal--pro-card-desc-row">
@@ -1496,7 +1722,7 @@ const TalentsProfileSearch = () => {
                                                                     <h6 className='tal--pro-card-desc-title'>KeySkill&nbsp;:</h6>
                                                                 </div>
                                                                 <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
-                                                                    <p className='tal--pro-card-desc'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore</p>
+                                                                    <p className='tal--pro-card-desc'>{candidate.skills.join(", ")}</p>
                                                                 </div>
                                                             </div>
                                                             <div className="row tal--pro-card-desc-row">
@@ -1922,7 +2148,7 @@ const TalentsProfileSearch = () => {
 
 
                                             <div className="tal--pro-paginate-btn-area" data-aos="fade-up">
-                                                <h6 className='tal--pro-total-result-text'>Total Items : <span>08</span></h6>
+                                                <h6 className='tal--pro-total-result-text'>Total Items : <span>{filteredSearchResults.length}</span></h6>
                                                 <div className='tal--pro-slider-btn-sub'>
                                                     <button className="tal--pro-slider-btn">
                                                         <svg className='arrow-left' xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 27 27" fill="none">

@@ -13,7 +13,7 @@ const CandidateAboutUs = () => {
 
     return (
         <div>
-            <LayoutNew />
+            <LayoutNew aboutUs={true}/>
             <div>
                 <div className='container-fluid contact--section'>
                     <div className='container-fluid container-section'>

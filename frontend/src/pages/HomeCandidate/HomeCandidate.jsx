@@ -10,14 +10,37 @@ import './HomeCandidate-responsive.css';
 import { CandidateFooter } from '../../components/CandidateFooter';
 import LayoutNew from '../../components/LayoutNew';
 import AuthContext from '../../context/AuthContext';
+import axios from 'axios'
+import { useState } from 'react';
 
 const HomeCandidate = () => {
 
   const {eventDetail, getEventDetail, getEventImg, eventImg} = useContext(AuthContext);
+  const [allJobs, setAllJobs] = useState([]);
+
+  const getPostedjobs = async() => {
+    try{
+        const res = await axios.get(`http://localhost:5002/posted-jobs`, {
+          headers: {
+              Accept: 'application/json'
+          }
+        });
+        const result = res.data;
+        if (!result.error) {
+          console.log(result);
+          setAllJobs(result.reverse());
+        } else {
+          console.log(result);
+        }
+    }catch(err){
+      console.log(err);
+    }
+  }
     
     useEffect(() => {
         getEventDetail();
         getEventImg();
+        getPostedjobs();
     }, []);
 
   useEffect(() => {
@@ -90,7 +113,7 @@ const HomeCandidate = () => {
   };
   return (
     <div>
-      <LayoutNew />
+      <LayoutNew home={true}/>
       <div className='container-fluid home--section'>
         <div className='container-fluid container-section'>
           <div className="home--bg candidate">
@@ -510,47 +533,52 @@ const HomeCandidate = () => {
             }}
 
           >
-            <SwiperSlide>
-              <article className='cand--job-card'>
-                <div className="cand--job-card-role-area">
-                  <div className="cand--job-card-role-icon-area">
-                    <i class="bi bi-file-earmark-code-fill"></i>
-                  </div>
-                  <div className="cand--job-card-role">
-                    Frontend Developer
-                  </div>
-                </div>
-                <div className="cand--job-card-logo-loc-area">
-                  <img src="assets/img/companies/company-1.png" className='cand--job-card-logo' alt="" />
-                  <div className="cand--job-card-loc-area">
-                    <div className="cand--job-card-location">
-                      <i className='bx bxs-map'></i>
-                      Hyderabad
+            {allJobs.map((job)=>{
+              return(
+                <SwiperSlide key={job.id}>
+                  <article className='cand--job-card'>
+                    <div className="cand--job-card-role-area">
+                      <div className="cand--job-card-role-icon-area">
+                        <i class="bi bi-file-earmark-code-fill"></i>
+                      </div>
+                      <div className="cand--job-card-role">
+                        {job.jobRole[0]}
+                      </div>
                     </div>
-                    <div className="cand--job-card-job-type">
-                      Full-time
+                    <div className="cand--job-card-logo-loc-area">
+                      <img src="assets/img/companies/company-1.png" className='cand--job-card-logo' alt="" />
+                      <div className="cand--job-card-loc-area">
+                        <div className="cand--job-card-location">
+                          <i className='bx bxs-map'></i>
+                          {job.location}
+                        </div>
+                        <div className="cand--job-card-job-type">
+                          {job.jobCategory}
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
-                <div className="cand--job-card-desc-area">
-                  <p className='cand--job-card-desc'>
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
-                  </p>
-                </div>
-                <a href='/job-detail' className="cand--job-card-bottom-area">
-                  <span className='cand--job-know-more'>KNOW MORE</span>
-                  <span className='cand--job-card-arrow-area'>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
-                      <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#714F36" stroke-width="2" />
-                      <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#714F36" stroke-width="2" />
-                      <path d="M1 26L25.1667 1" stroke="#714F36" stroke-width="2" />
-                    </svg>
-                  </span>
-                </a>
-              </article>
-            </SwiperSlide>
+                    <div className="cand--job-card-desc-area">
+                      <p className='cand--job-card-desc'>
+                        {job.jobDescription}
+                      </p>
+                    </div>
+                    <a href={`/job-detail/${job.id}`} className="cand--job-card-bottom-area">
+                      <span className='cand--job-know-more'>KNOW MORE</span>
+                      <span className='cand--job-card-arrow-area'>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
+                          <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#714F36" stroke-width="2" />
+                          <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#714F36" stroke-width="2" />
+                          <path d="M1 26L25.1667 1" stroke="#714F36" stroke-width="2" />
+                        </svg>
+                      </span>
+                    </a>
+                  </article>
+                </SwiperSlide>
+              )
+            })}
+            
 
-            <SwiperSlide>
+            {/* <SwiperSlide>
               <article className='cand--job-card'>
                 <div className="cand--job-card-role-area">
                   <div className="cand--job-card-role-icon-area">
@@ -748,7 +776,7 @@ const HomeCandidate = () => {
                   </span>
                 </a>
               </article>
-            </SwiperSlide>
+            </SwiperSlide> */}
 
           </Swiper>
 

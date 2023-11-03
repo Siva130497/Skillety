@@ -96,7 +96,7 @@ const AllCandidates = ({employeeId, staffToken, clientToken, companyId}) => {
         }
       };
   
-      fetchData();
+      fetchData()
     }
   }, []);
 

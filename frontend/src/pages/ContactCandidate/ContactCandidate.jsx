@@ -58,7 +58,7 @@ const ContactCandidate = () => {
 
     return (
         <div>
-            <LayoutNew />
+            <LayoutNew contact={true}/>
             <div>
                 <div className='container-fluid contact--section'>
                     <div className='container-fluid container-section'>

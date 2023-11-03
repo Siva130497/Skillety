@@ -13,7 +13,7 @@ const Services = () => {
 
     return (
         <div>
-            <Layout />
+            <Layout service={true}/>
             <div>
                 <div className='container-fluid services--section'>
                     <div className='container-fluid container-section'>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Autoplay } from 'swiper/modules';
@@ -9,8 +9,15 @@ import './Talents.css';
 import './Talents-responsive.css';
 import Layout from '../../components/Layout';
 import { Footer } from '../../components/Footer';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
 
 const Talents = () => {
+    const {id} = useParams();
+
+    const [candidateDetail, setCandidateDetail] = useState();
+    const [allCandDetail, setAllCandDetail] = useState([]);
+
     useEffect(() => {
 
         $(document).ready(function () {
@@ -89,7 +96,32 @@ const Talents = () => {
         });
 
 
-    }, []);
+    }, [candidateDetail]);
+
+    const getAllCandidateDetail = async () => {
+        try{
+            const response = await axios.get('http://localhost:5002/candidate-Detail', {
+              headers: {
+                  Accept: 'application/json'
+              }
+            });
+            const result = response.data;
+            if (!result.error) {
+                console.log(result);
+                setAllCandDetail(result.reverse())
+                const candidate = result.find(cand=>cand.id === id)
+                setCandidateDetail(candidate);
+            } else {
+                console.log(result);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+      };
+
+    useEffect(()=>{
+        getAllCandidateDetail();
+    },[]);
 
     const breakpoints = {
         320: {
@@ -111,6 +143,7 @@ const Talents = () => {
 
     return (
         <div>
+            {candidateDetail ? <div>
             <Layout />
             <div className='talents--section'>
                 <div className='container-fluid'>
@@ -131,17 +164,17 @@ const Talents = () => {
                             <div className="talent--profile-section">
                                 <div className="talent--profile-container">
                                     <div className="client-talent--profile-detail-area">
-                                        <img src="assets/img/talents-images/tal-profile.png" className='client-talent--profile-image' alt="" />
+                                        <img src="../assets/img/talents-images/tal-profile.png" className='client-talent--profile-image' alt="" />
                                         <div className='client-talent--profile-content-area'>
-                                            <h4 className='client-talent--profile-name'>Raquel Harrison</h4>
+                                            <h4 className='client-talent--profile-name'>{candidateDetail.firstName+ " " +candidateDetail.lastName}</h4>
                                             <div className="client-talent--profile-tags-area">
-                                                <div className='client-talent--profile-tag'>Experience : 6 Yrs</div>
+                                                <div className='client-talent--profile-tag'>Experience : {candidateDetail.year > 0 ? candidateDetail.year+ 'years' : "" + candidateDetail.month > 0 ? candidateDetail.month+ 'months' : ""}</div>
                                                 <div className='client-talent--profile-tag'>9.5 LPA</div>
                                                 <div className='client-talent--profile-tag'>
                                                     <i class="bx bxs-map"></i>
-                                                    Hyderabad
+                                                    {candidateDetail.location}
                                                 </div>
-                                                <div className='client-talent--profile-tag'>Frontend Developer</div>
+                                                <div className='client-talent--profile-tag'>{candidateDetail.designation[0]}</div>
                                             </div>
                                             <div className="client-talent--profile-desc-area mt-4">
                                                 <div className="row">
@@ -551,7 +584,133 @@ const Talents = () => {
                                 }}
 
                             >
-                                <SwiperSlide>
+                                {allCandDetail.map((cand)=>{
+                                    return(
+                                        <SwiperSlide>
+                                            <article className="talent--profile-card" data-aos="fade-left">
+                                                <div className="tal--pro-card-left-area">
+                                                    <div className='card-split-line'></div>
+                                                    <div className="tal--pro-card-name-area">
+                                                        <label className="tal--pro-card-name-check-container">
+                                                            <input type="checkbox" />
+                                                            <div className="tal--pro-card-name-checkmark"></div>
+                                                        </label>
+                                                        <h6 className='tal--pro-card-name'>{cand.firstName+ " " +cand.lastName}</h6>
+                                                    </div>
+                                                    <div className="tal--pro-card-tags">
+                                                        <h6 className='tal--pro-card-exp'>
+                                                            Experience : {cand.year > 0 ? cand.year+ 'years' : "" + cand.month > 0 ? cand.month+ 'months' : ""}
+                                                        </h6>
+                                                        <h6 className='tal--pro-card-exp'>
+                                                            9.5 LPA
+                                                        </h6>
+                                                        <h6 className='tal--pro-card-location'>
+                                                            <i class="bx bxs-map"></i>
+                                                            <span>{cand.location}</span>
+                                                        </h6>
+                                                        <h6 className='tal--pro-card-role'>
+                                                            {cand.designation[0]}
+                                                        </h6>
+                                                    </div>
+                                                    <div className="tal--pro-card-desc-area">
+                                                        <div className="row tal--pro-card-desc-row">
+                                                            <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
+                                                                <h6 className='tal--pro-card-desc-title'>Previous&nbsp;:</h6>
+                                                            </div>
+                                                            <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
+                                                                <p className='tal--pro-card-desc'>Junior Frontend Developer at Cognizant</p>
+                                                            </div>
+                                                        </div>
+                                                        <div className="row tal--pro-card-desc-row">
+                                                            <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
+                                                                <h6 className='tal--pro-card-desc-title'>Education&nbsp;:</h6>
+                                                            </div>
+                                                            <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
+                                                                <p className='tal--pro-card-desc'>{cand.education}</p>
+                                                            </div>
+                                                        </div>
+                                                        <div className="row tal--pro-card-desc-row">
+                                                            <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
+                                                                <h6 className='tal--pro-card-desc-title'>Preferred Location&nbsp;:</h6>
+                                                            </div>
+                                                            <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
+                                                                <p className='tal--pro-card-desc'>Hyderabad, Kolkata, Chennai</p>
+                                                            </div>
+                                                        </div>
+                                                        <div className="row tal--pro-card-desc-row">
+                                                            <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
+                                                                <h6 className='tal--pro-card-desc-title'>KeySkill&nbsp;:</h6>
+                                                            </div>
+                                                            <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
+                                                                <p className='tal--pro-card-desc'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore</p>
+                                                            </div>
+                                                        </div>
+                                                        <div className="row tal--pro-card-desc-row">
+                                                            <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
+                                                                <h6 className='tal--pro-card-desc-title'>May also Know&nbsp;:</h6>
+                                                            </div>
+                                                            <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
+                                                                <p className='tal--pro-card-desc'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div className="tal--pro-card-bottom-btn-area">
+                                                        <button className='tal--pro-card-bottom-btn'>
+                                                            <span>897 </span>Similar Profile
+                                                        </button>
+                                                        <span className='horizon--ln'>|</span>
+                                                        <button className='tal--pro-card-bottom-btn'>Comment</button>
+                                                        <span className='horizon--ln'>|</span>
+                                                        <button className='tal--pro-card-bottom-btn'>
+                                                            <i class="bi bi-bookmark"></i>Save
+                                                        </button>
+                                                    </div>
+                                                </div>
+
+                                                <div className="tal--pro-card-right-area">
+                                                    <div className="tal--pro-card-right-cover-area">
+                                                        <div className='tal--pro-card-profile-img-role-area'>
+                                                            <img src="../assets/img/talents-images/profile-img.png" className='tal--pro-card-profile-img' alt="" />
+                                                            <p className='tal--pro-card-role-name'>Frontend Developer (Css,html)</p>
+                                                        </div>
+                                                        <div className="tal--pro-card-contact-btn-area">
+                                                            <button className='tal--pro-card-contact-btn'>View Phone Number</button>
+                                                            <button className='tal--pro-card-contact-btn'>
+                                                                <img src="../assets/img/talent-profile/call.png" alt="" />
+                                                                Call Candidate
+                                                            </button>
+                                                        </div>
+                                                        <div className="tal--pro-card-ability-number-area">
+                                                            <div className="tal--pro-card-ability-number-left">
+                                                                <h6 className='tal--pro-card-ability'>Skill matched</h6>
+                                                                <h2 className='tal--pro-card-percentage'>90%</h2>
+                                                            </div>
+                                                            <div className="tal--pro-card-ability-number-right">
+                                                                <h6 className='tal--pro-card-ability'>Can join in</h6>
+                                                                <h2 className='tal--pro-card-days'>07<span>days</span></h2>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <div className="tal--pro-card-right-btn-area">
+                                                        <button className='tal--pro-card-right-btn'>
+                                                            <img src="assets/img/talent-profile/document.png" alt="" />
+                                                        </button>
+                                                        <button className='tal--pro-card-right-btn'>
+                                                            <img src="assets/img/talent-profile/arrow.png" alt="" />
+                                                        </button>
+                                                        <button className='tal--pro-card-right-btn'>
+                                                            <img src="assets/img/talent-profile/email.png" alt="" />
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </article>
+                                        </SwiperSlide>
+                                    )
+                                })}
+                                
+
+                                {/* <SwiperSlide>
                                     <article className="talent--profile-card" data-aos="fade-left">
                                         <div className="tal--pro-card-left-area">
                                             <div className='card-split-line'></div>
@@ -912,128 +1071,7 @@ const Talents = () => {
                                             </div>
                                         </div>
                                     </article>
-                                </SwiperSlide>
-
-                                <SwiperSlide>
-                                    <article className="talent--profile-card" data-aos="fade-left">
-                                        <div className="tal--pro-card-left-area">
-                                            <div className='card-split-line'></div>
-                                            <div className="tal--pro-card-name-area">
-                                                <label className="tal--pro-card-name-check-container">
-                                                    <input type="checkbox" />
-                                                    <div className="tal--pro-card-name-checkmark"></div>
-                                                </label>
-                                                <h6 className='tal--pro-card-name'>Adam Woods</h6>
-                                            </div>
-                                            <div className="tal--pro-card-tags">
-                                                <h6 className='tal--pro-card-exp'>
-                                                    Experience : 6 Yrs
-                                                </h6>
-                                                <h6 className='tal--pro-card-exp'>
-                                                    9.5 LPA
-                                                </h6>
-                                                <h6 className='tal--pro-card-location'>
-                                                    <i class="bx bxs-map"></i>
-                                                    <span>Hyderabad</span>
-                                                </h6>
-                                                <h6 className='tal--pro-card-role'>
-                                                    Frontend Developer
-                                                </h6>
-                                            </div>
-                                            <div className="tal--pro-card-desc-area">
-                                                <div className="row tal--pro-card-desc-row">
-                                                    <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
-                                                        <h6 className='tal--pro-card-desc-title'>Previous&nbsp;:</h6>
-                                                    </div>
-                                                    <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
-                                                        <p className='tal--pro-card-desc'>Junior Frontend Developer at Cognizant</p>
-                                                    </div>
-                                                </div>
-                                                <div className="row tal--pro-card-desc-row">
-                                                    <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
-                                                        <h6 className='tal--pro-card-desc-title'>Education&nbsp;:</h6>
-                                                    </div>
-                                                    <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
-                                                        <p className='tal--pro-card-desc'>Bsc Delhi University 2019</p>
-                                                    </div>
-                                                </div>
-                                                <div className="row tal--pro-card-desc-row">
-                                                    <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
-                                                        <h6 className='tal--pro-card-desc-title'>Preferred Location&nbsp;:</h6>
-                                                    </div>
-                                                    <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
-                                                        <p className='tal--pro-card-desc'>Hyderabad, Kolkata, Chennai</p>
-                                                    </div>
-                                                </div>
-                                                <div className="row tal--pro-card-desc-row">
-                                                    <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
-                                                        <h6 className='tal--pro-card-desc-title'>KeySkill&nbsp;:</h6>
-                                                    </div>
-                                                    <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
-                                                        <p className='tal--pro-card-desc'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore</p>
-                                                    </div>
-                                                </div>
-                                                <div className="row tal--pro-card-desc-row">
-                                                    <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
-                                                        <h6 className='tal--pro-card-desc-title'>May also Know&nbsp;:</h6>
-                                                    </div>
-                                                    <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
-                                                        <p className='tal--pro-card-desc'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="tal--pro-card-bottom-btn-area">
-                                                <button className='tal--pro-card-bottom-btn'>
-                                                    <span>897 </span>Similar Profile
-                                                </button>
-                                                <span className='horizon--ln'>|</span>
-                                                <button className='tal--pro-card-bottom-btn'>Comment</button>
-                                                <span className='horizon--ln'>|</span>
-                                                <button className='tal--pro-card-bottom-btn'>
-                                                    <i class="bi bi-bookmark"></i>Save
-                                                </button>
-                                            </div>
-                                        </div>
-
-                                        <div className="tal--pro-card-right-area">
-                                            <div className="tal--pro-card-right-cover-area">
-                                                <div className='tal--pro-card-profile-img-role-area'>
-                                                    <img src="assets/img/talents-images/profile-img.png" className='tal--pro-card-profile-img' alt="" />
-                                                    <p className='tal--pro-card-role-name'>Frontend Developer (Css,html)</p>
-                                                </div>
-                                                <div className="tal--pro-card-contact-btn-area">
-                                                    <button className='tal--pro-card-contact-btn'>View Phone Number</button>
-                                                    <button className='tal--pro-card-contact-btn'>
-                                                        <img src="assets/img/talent-profile/call.png" alt="" />
-                                                        Call Candidate
-                                                    </button>
-                                                </div>
-                                                <div className="tal--pro-card-ability-number-area">
-                                                    <div className="tal--pro-card-ability-number-left">
-                                                        <h6 className='tal--pro-card-ability'>Skill matched</h6>
-                                                        <h2 className='tal--pro-card-percentage'>90%</h2>
-                                                    </div>
-                                                    <div className="tal--pro-card-ability-number-right">
-                                                        <h6 className='tal--pro-card-ability'>Can join in</h6>
-                                                        <h2 className='tal--pro-card-days'>07<span>days</span></h2>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                            <div className="tal--pro-card-right-btn-area">
-                                                <button className='tal--pro-card-right-btn'>
-                                                    <img src="assets/img/talent-profile/document.png" alt="" />
-                                                </button>
-                                                <button className='tal--pro-card-right-btn'>
-                                                    <img src="assets/img/talent-profile/arrow.png" alt="" />
-                                                </button>
-                                                <button className='tal--pro-card-right-btn'>
-                                                    <img src="assets/img/talent-profile/email.png" alt="" />
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </article>
-                                </SwiperSlide>
+                                </SwiperSlide> */}
                             </Swiper>
                         </div>
 
@@ -1059,6 +1097,12 @@ const Talents = () => {
                 </div>
             </div>
             <Footer />
+            </div> : 
+            <div>
+            <h1>404</h1>
+            <p>Not Found</p>
+            <small>The resource requested could not be found on this server!</small>
+        </div>}
         </div>
     )
 }

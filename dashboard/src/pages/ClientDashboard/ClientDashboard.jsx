@@ -103,8 +103,7 @@ const ClientDashboard = () => {
         <div>
             <div class="main-wrapper main-wrapper-1">
                 <div class="navbar-bg"></div>
-
-                <ClientLayout />
+                <ClientLayout dashBoard={true}/>
 
                 <div class="main-content">
                     <section class="section">
@@ -560,7 +559,7 @@ const ClientDashboard = () => {
 
                                     <div className="dash-hire-slider">
                                         <div className="dash-hire-head">For Tele Screening Calls</div>
-                                        <img src="assets/img/home/resume.png"
+                                        <img src="../assets/img/home/resume.png"
                                             className='dash-hire-event-img' alt="" />
                                         <div className="dash-hire-event-title">
                                             After Search add your selected <br />Resume/CVs to tele Screening Calls
@@ -577,7 +576,7 @@ const ClientDashboard = () => {
 
                                     <div className="dash-hire-slider">
                                         <div className="dash-hire-head">For Technical Interview</div>
-                                        <img src="assets/img/home/interview.png"
+                                        <img src="../assets/img/home/interview.png"
                                             className='dash-hire-event-img' alt="" />
                                         <div className="dash-hire-event-title">
                                             After Search add your selected <br />Resume/CVs to tele Screening Calls
@@ -594,7 +593,7 @@ const ClientDashboard = () => {
 
                                     <div className="dash-hire-slider">
                                         <div className="dash-hire-head">Solution from us</div>
-                                        <img src="assets/img/home/knowledge.png"
+                                        <img src="../assets/img/home/knowledge.png"
                                             className='dash-hire-event-img' alt="" />
                                         <div className="dash-hire-event-title">
                                             State your problem and get a Solution

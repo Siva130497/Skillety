@@ -1,6 +1,43 @@
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom';
+import AuthContext from '../context/AuthContext';
 
 const ClientNavBar = () => {
+
+  const {getProtectedData} = useContext(AuthContext);
+  const navigate = useNavigate();
+  const {token} = useParams()
+  localStorage.setItem("clientToken",  JSON.stringify(token))
+
+    const [userName, setUserName] = useState('');
+
+
+    useEffect(() => {
+        if(token){
+            const fetchData = async () => {
+                try {
+                    const userData = await getProtectedData(token);
+                    console.log(userData);
+                    setUserName(userData.name);
+                } catch (error) {
+                    console.log(error)
+                }
+            };
+    
+            fetchData();
+        }
+    }, [token]);
+
+    const extractLastName = () => {
+      const nameParts = userName.split(' ');
+  
+      if (nameParts.length > 1) {
+        return nameParts[nameParts.length - 1];
+      } else {
+        return userName; 
+      }
+  };
+
   return (
     <div>
       <nav className="navbar navbar-expand-lg main-navbar sticky">
@@ -177,15 +214,15 @@ const ClientNavBar = () => {
               className="nav-user--btn client nav-link dropdown-toggle nav-link-lg nav-link-user">
               Company Profile
               <i class="bi bi-caret-down-fill"></i>
-              <img alt="image" src="assets/img/layout/company-img.png"
+              <img alt="image" src="../assets/img/layout/company-img.png"
                 className="user-img-radious-style" />
               <span className="d-sm-none d-lg-inline-block"></span>
             </a>
             <div className="dropdown-menu dropdown-menu-right pullDown profile-dropdown-menu">
               <div className="dropdown-top-area">
-                <img src="assets/img/layout/company-img.png" className='dropdown-user-img' alt="" />
+                <img src="../assets/img/layout/company-img.png" className='dropdown-user-img' alt="" />
                 <div className='dropdown-user-detail-area'>
-                  <div className="dropdown-user-name">Raquel Harrison</div>
+                  <div className="dropdown-user-name">{extractLastName()}</div>
                   <div className="dropdown-user-role">UX Designer, India</div>
                 </div>
               </div>
@@ -202,7 +239,7 @@ const ClientNavBar = () => {
                   Settings
                 </a>
 
-                <a href="#" className="dropdown-logout-btn">
+                <a href="http://localhost:3000/client-login" className="dropdown-logout-btn" >
                   <i class="bi bi-box-arrow-right mr-3"></i>
                   Log Out
                 </a>
