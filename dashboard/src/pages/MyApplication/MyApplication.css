@@ -1,0 +1,215 @@
+.my-app-section {
+    padding: 25px 0;
+}
+
+.admin-component-name {
+    color: #714F36;
+    text-align: center;
+    font-size: 30px;
+    font-weight: 600;
+    padding-top: 30px;
+}
+
+.admin-lg-table-section {
+    padding-top: 30px;
+}
+
+.head-row {
+    background-color: #F9C833;
+    border-radius: 6px !important;
+}
+
+.head-row th {
+    padding: 15px 20px !important;
+}
+
+.dash-table-head {
+    color: #714F36 !important;
+    font-size: 16px !important;
+    font-weight: 500 !important;
+}
+
+.admin-lg-table .head-row th:first-child {
+    border-top-left-radius: 10px !important;
+}
+
+.admin-lg-table .head-row th:last-child {
+    border-top-right-radius: 10px !important;
+}
+
+.admin-lg-table-area {
+    border-radius: 16px !important;
+    background-color: #FFF;
+    padding: 10px;
+}
+
+.dash-table-row.custom td {
+    padding: 35px 20px !important;
+}
+
+.application-btn {
+    background-color: transparent;
+    border: none;
+    outline: none;
+}
+
+.application-btn:focus,
+.application-btn:active {
+    border: none;
+    outline: none;
+}
+
+.application-status-area {
+    position: relative;
+}
+
+.app-status-line {
+    border-bottom: 2px dashed #714F36;
+    position: relative;
+    width: 100%;
+}
+
+.app-status-point {
+    position: absolute;
+    background-color: #F4F4F4;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    top: -9px;
+    border: 2px solid #F4F4F4;
+}
+
+.app-status-point.point1 {
+    left: 0%;
+}
+
+.app-status-point.point2 {
+    left: 30%;
+}
+
+.app-status-point.point3 {
+    right: 30%;
+}
+
+.app-status-point.point4 {
+    right: 0%;
+}
+
+.app-status-point.finished {
+    background-color: #FEF0C4;
+}
+
+.app-status-point.active {
+    background-color: #F9C833;
+}
+
+.app-status-point::after {
+    font-family: "Poppins";
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 28px;
+    color: #714F36;
+    font-size: 11px;
+    font-weight: 500;
+}
+
+.app-status-point.point1::after {
+    content: "Screening";
+
+}
+
+.app-status-point.point2::after {
+    content: "Interview";
+}
+
+.app-status-point.point3::after {
+    content: "Offer";
+}
+
+.app-status-point.point4::after {
+    content: "Joining";
+}
+
+.app-status-point.active::before {
+    content: "\f3e8";
+    font-family: 'bootstrap-icons' !important;
+    display: inline-block;
+    position: absolute;
+    font-size: 18px;
+    color: #714F36;
+    left: 0;
+    right: 0;
+    top: -30px;
+}
+
+.table-pagination-area {
+    padding-top: 40px;
+}
+
+.pagination-btn-area {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.pag-prev-btn,
+.pag-next-btn {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    transition: all 0.1s;
+}
+
+.pag-prev-btn:active,
+.pag-next-btn:active {
+    transform: scale(0.88);
+}
+
+.pag-prev-btn i,
+.pag-next-btn i {
+    color: #0F75C5;
+    font-size: 28px;
+}
+
+.pag-prev-btn:focus,
+.pag-prev-btn:active,
+.pag-next-btn:focus,
+.pag-next-btn:active {
+    border: none;
+    outline: none;
+}
+
+.pag-page span {
+    font-size: 18px;
+    font-weight: 500;
+    color: #000;
+}
+
+.view-application-btn-area {
+    padding-top: 30px;
+}
+
+.view-application-btn-area .view-app-btn {
+    color: #0F75C5 !important;
+    text-align: center;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    text-decoration: none;
+}
+
+.view-application-btn-area .view-app-btn svg {
+    transition: ease-in-out 0.3s;
+}
+
+.view-application-btn-area .view-app-btn:hover {
+    color: #000 !important;
+}
+
+.view-application-btn-area .view-app-btn:hover svg {
+    transform: translateX(5px);
+}

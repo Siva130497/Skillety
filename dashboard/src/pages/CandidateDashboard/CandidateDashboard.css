@@ -37,7 +37,7 @@
 
 
 .dash-main-area {
-    padding-top: 20px;
+    padding-top: 25px;
 }
 
 .top-nav-area {
@@ -49,9 +49,10 @@
 
 .current-page-name-area .current-page-name {
     color: #714F36;
-    font-size: 32px;
+    font-size: 28px;
     font-weight: 600;
     margin-bottom: 0;
+    white-space: nowrap;
 }
 
 .current-page-name-area .sub--head {
@@ -59,6 +60,7 @@
     font-size: 16px;
     font-weight: 400;
     margin-bottom: 0;
+    white-space: nowrap;
 }
 
 .admin-search-area {
