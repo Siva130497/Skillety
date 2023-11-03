@@ -444,7 +444,7 @@
 
 .home--about-headarea h6 {
     color: #5C3B2E;
-    font-size: 24px !important;
+    font-size: 20px !important;
     font-weight: 400 !important;
     text-transform: capitalize;
     margin-bottom: 0px;
@@ -465,29 +465,29 @@
 .home--about-headarea .about--heading,
 .home--about-headarea .rpo--heading,
 .home--about-headarea .client--heading {
-    margin-top: 19px;
+    margin-top: 10px;
     color: #5C3B2E;
     font-size: 48px !important;
-    font-weight: 400 !important;
+    font-weight: 450 !important;
     text-transform: uppercase;
     line-height: 1.5em;
     text-wrap: balance;
 }
 
 .home--about-headarea .candidate--heading {
-    margin-top: 15px;
+    margin-top: 10px;
     color: #5C3B2E;
-    font-size: 64px;
-    font-weight: 400;
+    font-size: 48px;
+    font-weight: 450;
     text-transform: uppercase;
     /* width: 50%; */
 }
 
 .home--about-headarea .service--heading {
-    margin-top: 0px;
+    margin-top: 10px;
     color: #5C3B2E;
-    font-size: 64px;
-    font-weight: 400;
+    font-size: 48px;
+    font-weight: 450;
     text-transform: uppercase;
 }
 
@@ -939,7 +939,7 @@
 
 .home--milestone-headarea h6 {
     color: #FFF;
-    font-size: 24px !important;
+    font-size: 20px !important;
     font-weight: 400 !important;
     text-transform: capitalize;
     margin-bottom: 0px;
@@ -960,8 +960,8 @@
 .home--milestone-headarea .milestone--heading {
     margin-top: 10px;
     color: #FFF;
-    font-size: 64px;
-    font-weight: 400;
+    font-size: 48px;
+    font-weight: 450;
     text-transform: uppercase;
 }
 

@@ -13,8 +13,8 @@
 
 .con--where-heading-area .con--where-heading {
     color: #714F36;
-    font-size: 64px;
-    font-weight: 400;
+    font-size: 48px;
+    font-weight: 450;
     line-height: 100%;
     text-transform: uppercase;
 }
@@ -172,7 +172,7 @@
 
 .con--content .con--phone-no a {
     color: #5C3B2E !important;
-    font-size: 48px !important;
+    font-size: 45px !important;
     font-weight: 300 !important;
     line-height: normal !important;
     text-transform: capitalize;
@@ -181,7 +181,7 @@
 
 .con--content .con--mail a {
     color: #5C3B2E !important;
-    font-size: 48px !important;
+    font-size: 45px !important;
     font-weight: 300 !important;
     line-height: normal !important;
     text-transform: capitalize;
@@ -189,7 +189,7 @@
 }
 
 .con--note-section {
-    padding-top: 96px;
+    padding-top: 60px;
     padding-bottom: 110px;
 }
 

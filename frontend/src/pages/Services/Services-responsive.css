@@ -1,4 +1,4 @@
-@media screen and (min-width: 992px) and (max-width: 1367px) {
+@media screen and (min-width: 992px) and (max-width: 1399px) {
     .services--head h2{
         font-size: 60px;
     }
@@ -87,6 +87,9 @@
     .custom-column-reverse {
         flex-direction: column-reverse;
     }
+    .service-par{
+        padding: 60px 36px 0px 36px;
+    }
 }
 
 @media (max-width:500px) {
@@ -159,5 +162,12 @@
     .ser--more-btn-area .ser--more-btn {
         font-size: 20px;
         padding: 8px 64px;
+    }
+    .service-par{
+        padding: 60px 15px 0px 15px;
+    }
+
+    .service-par p{
+        font-size: 18px;
     }
 }

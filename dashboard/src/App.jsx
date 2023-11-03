@@ -1,11 +1,13 @@
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
- import ClientDashboard from './pages/ClientDashboard/ClientDashboard';
+import CandidateDashboard from './pages/CandidateDashboard/CandidateDashboard';
+import ClientDashboard from './pages/ClientDashboard/ClientDashboard';
 
 function App() {
   return (
     <Routes>
-      <Route path='/' element={<ClientDashboard />} />
+      <Route path='/' element={<CandidateDashboard />} />
+      <Route path='/client-dashboard' element={<ClientDashboard />} />
     </Routes>
   );
 }

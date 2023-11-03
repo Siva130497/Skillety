@@ -14,8 +14,8 @@
 .plans--head-area .plans--heading {
     color: #714F36;
     text-align: center;
-    font-size: 64px;
-    font-weight: 400;
+    font-size: 48px;
+    font-weight: 500;
     line-height: normal;
     text-transform: uppercase;
     margin-bottom: 30px;
@@ -141,8 +141,8 @@
 }
 
 .pl--package-title-area .pl--package-img-hidden {
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
     object-fit: contain;
     visibility: hidden;
 }
@@ -185,8 +185,8 @@
 }
 
 .pl--package-detail-area .pl--package-img {
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
     object-fit: contain;
     text-align: center;
     transition: ease-in-out 0.5s;
@@ -367,14 +367,14 @@
 .sol-price-heading {
     color: #714F36;
     text-align: center;
-    font-size: 64px;
-    font-weight: 400;
+    font-size: 48px;
+    font-weight: 500;
     text-transform: uppercase;
     margin-bottom: 0;
 }
 
 .sol-price-table {
-    margin-top: 50px;
+    margin-top: 30px;
 }
 
 
@@ -631,8 +631,9 @@
     font-weight: 400;
     line-height: normal;
 }
+
 .term-con-area {
-    padding:0px 30px 70px 30px;
+    padding: 0px 30px 70px 30px;
 }
 
 .term-con a {

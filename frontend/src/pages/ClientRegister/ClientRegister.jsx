@@ -38,9 +38,9 @@ const ClientRegister = () => {
                     'Content-Type': 'application/json',
                 },
             });
-    
+
             const result = response.data;
-    
+
             if (!result.error) {
                 console.log(result);
                 alert("your details send for verification, after verification we contact you through your email")
@@ -137,8 +137,10 @@ const ClientRegister = () => {
                                 <h5 className="cli--reg-grab" data-aos="fade-up">Grab your free DEMO in just a few seconds!</h5>
                             </div>
 
-                            <GoogleAuth setProfile={setProfile} />
-
+                            <div className='login--with-g-area'>
+                                <GoogleAuth setProfile={setProfile} />
+                            </div>
+                            
                             <div className="cli--reg-form-area">
                                 <div className="con--note-form-area" data-aos="fade-up">
                                     <form action="" onSubmit={handleSubmit}>
