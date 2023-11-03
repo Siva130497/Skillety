@@ -113,10 +113,10 @@ const ClientDashboard = () => {
                                 <div className="top-nav-area">
                                     <div className="current-page-name-area">
                                         <h4 className='current-page-name'>Dashboard</h4>
-                                        <p className='sub--head'>Welcome to Skillety !!!</p>
+                                        {/* <p className='sub--head'>Welcome to Skillety !!!</p> */}
                                     </div>
 
-                                    <div className="admin-search-area">
+                                    {/* <div className="admin-search-area">
                                         <form action="">
                                             <div className="admin-search-input-area">
                                                 <input type="text" placeholder='Search for Cvs/Resume'
@@ -127,47 +127,47 @@ const ClientDashboard = () => {
                                                 </button>
                                             </div>
                                         </form>
-                                    </div>
+                                    </div> */}
                                 </div>
 
                                 <div className="dash-num-count-section">
                                     <div className="row">
                                         <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
                                             <div className="dash-num-count-area">
-                                                <p className='dash-num-title'>Job Posted</p>
+                                                <p className='dash-num-title'>Job <br /> Posted</p>
                                                 <h4 className='dash-num-count'>14</h4>
                                             </div>
                                         </div>
 
                                         <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
                                             <div className="dash-num-count-area">
-                                                <p className='dash-num-title'>Unread Applications</p>
+                                                <p className='dash-num-title'>Unread <br /> Applications</p>
                                                 <h4 className='dash-num-count'>04</h4>
                                             </div>
                                         </div>
 
                                         <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
                                             <div className="dash-num-count-area">
-                                                <p className='dash-num-title'>Upcoming Interview</p>
+                                                <p className='dash-num-title'>Upcoming <br /> Interview</p>
                                                 <h4 className='dash-num-count'>08</h4>
                                             </div>
                                         </div>
 
                                         <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
                                             <div className="dash-num-count-area">
-                                                <p className='dash-num-title'>New Notification</p>
+                                                <p className='dash-num-title'>New <br /> Notification</p>
                                                 <h4 className='dash-num-count'>28</h4>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <button className="dash-num-count-more-btn" id="showHiddenRow">
+                                    {/* <button className="dash-num-count-more-btn" id="showHiddenRow">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="30" height="8" viewBox="0 0 30 8" fill="none">
                                             <circle cx="4" cy="4" r="4" fill="#714F36" />
                                             <circle cx="15" cy="4" r="4" fill="#714F36" />
                                             <circle cx="26" cy="4" r="4" fill="#714F36" />
                                         </svg>
-                                    </button>
+                                    </button> */}
 
                                     <div className='hidden-row'>
                                         <div className="through-line"></div>
@@ -222,7 +222,7 @@ const ClientDashboard = () => {
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-12 col-xl-6 pr-2">
+                                    <div class="col-12 col-xl-12 pr-2">
                                         <div className="dash-table-section">
                                             <div className="dash-table-area">
                                                 <div className="dash-table-top-area">
@@ -283,7 +283,7 @@ const ClientDashboard = () => {
                                         </div>
                                     </div>
 
-                                    <div class="col-12 col-xl-6 pl-2">
+                                    <div class="col-12 col-xl-12 pl-2">
                                         <div className="dash-table-section">
                                             <div className="dash-table-area">
                                                 <div className="dash-table-top-area">
@@ -480,9 +480,9 @@ const ClientDashboard = () => {
                                                 <div class="table-responsive mt-4">
                                                     <table class="table table-striped table-hover dash-table">
                                                         <tr className='dash-table-row'>
-                                                            <td>
+                                                            {/* <td>
                                                                 <img src="assets/img/home/javascript.png" className='dash-table-avatar-img client' alt="" />
-                                                            </td>
+                                                            </td> */}
                                                             <td className='dash-table-data1'>
                                                                 Java Developer
                                                             </td>
@@ -496,9 +496,9 @@ const ClientDashboard = () => {
                                                         </tr>
 
                                                         <tr className='dash-table-row'>
-                                                            <td>
+                                                            {/* <td>
                                                                 <img src="assets/img/home/design.png" className='dash-table-avatar-img client' alt="" />
-                                                            </td>
+                                                            </td> */}
                                                             <td className='dash-table-data1'>
                                                                 Ui UX Designer
                                                             </td>
@@ -512,9 +512,9 @@ const ClientDashboard = () => {
                                                         </tr>
 
                                                         <tr className='dash-table-row'>
-                                                            <td>
+                                                            {/* <td>
                                                                 <img src="assets/img/home/computer.png" className='dash-table-avatar-img client' alt="" />
-                                                            </td>
+                                                            </td> */}
                                                             <td className='dash-table-data1'>
                                                                 Full Stack Developer
                                                             </td>
@@ -528,9 +528,9 @@ const ClientDashboard = () => {
                                                         </tr>
 
                                                         <tr className='dash-table-row'>
-                                                            <td>
+                                                            {/* <td>
                                                                 <img src="assets/img/home/manager.png" className='dash-table-avatar-img client' alt="" />
-                                                            </td>
+                                                            </td> */}
                                                             <td className='dash-table-data1'>
                                                                 Senior Manager
                                                             </td>
