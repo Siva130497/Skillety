@@ -8,7 +8,7 @@ import MyApplication from './pages/MyApplication/MyApplication';
 import SettingsCandidate from './pages/SettingsCandidate/SettingsCandidate';
 import SettingsClient from './pages/SettingsClient/SettingsClient';
 import JobSearch from './pages/JobSearch/JobSearch';
-
+import ManageJobs from './pages/ManageJobs/ManageJobs';
 
 
 function App() {
@@ -22,6 +22,7 @@ function App() {
         <Route path='/search-jobs' element={<JobSearch />} />
       <Route path='/settings' element={<SettingsCandidate />} />
       <Route path='/client-settings' element={<SettingsClient />} />
+      <Route path='/manage-job' element={<ManageJobs />} />
       </Routes>
     </AuthContextProvider>
   );
