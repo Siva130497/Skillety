@@ -34,7 +34,7 @@ const MyApplication = () => {
                 <div class="main-content">
                     <section class="section">
                         <div className="my-app-section">
-                            <div className="top-nav-area">
+                            {/* <div className="top-nav-area">
                                 <div className="current-page-name-area">
                                     <h4 className='current-page-name'>My Application</h4>
                                 </div>
@@ -51,9 +51,9 @@ const MyApplication = () => {
                                         </div>
                                     </form>
                                 </div>
-                            </div>
+                            </div> */}
 
-                            <div className="dash-num-count-section">
+                            {/* <div className="dash-num-count-section">
                                 <div className="row">
                                     <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
                                         <div className="dash-num-count-area">
@@ -124,7 +124,7 @@ const MyApplication = () => {
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> */}
 
                             <div className="admin-component-name">
                                 My Applications

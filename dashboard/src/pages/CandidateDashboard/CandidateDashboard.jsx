@@ -136,10 +136,10 @@ const ClientDashboard = () => {
                 <div className="top-nav-area">
                   <div className="current-page-name-area">
                     <h4 className='current-page-name'>Dashboard</h4>
-                    <p className='sub--head'>Welcome to Skillety !!!</p>
+                    {/* <p className='sub--head'>Welcome to Skillety !!!</p> */}
                   </div>
 
-                  <div className="admin-search-area">
+                  {/* <div className="admin-search-area">
                     <form action="">
                       <div className="admin-search-input-area">
                         <input type="text" placeholder='Search for Job/title/Keywords'
@@ -150,47 +150,47 @@ const ClientDashboard = () => {
                         </button>
                       </div>
                     </form>
-                  </div>
+                  </div> */}
                 </div>
 
                 <div className="dash-num-count-section">
                   <div className="row">
                     <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
                       <div className="dash-num-count-area">
-                        <p className='dash-num-title'>Jobs Applied</p>
+                        <p className='dash-num-title'>Jobs <br /> Applied</p>
                         <h4 className='dash-num-count'>14</h4>
                       </div>
                     </div>
 
                     <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
                       <div className="dash-num-count-area">
-                        <p className='dash-num-title'>Upcoming Interviews</p>
+                        <p className='dash-num-title'>Upcoming <br /> Interviews</p>
                         <h4 className='dash-num-count'>04</h4>
                       </div>
                     </div>
 
                     <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
                       <div className="dash-num-count-area">
-                        <p className='dash-num-title'>New matched Jobs</p>
+                        <p className='dash-num-title'>New <br /> matched Jobs</p>
                         <h4 className='dash-num-count'>08</h4>
                       </div>
                     </div>
 
                     <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
                       <div className="dash-num-count-area">
-                        <p className='dash-num-title'>New Notification</p>
+                        <p className='dash-num-title'>New <br /> Notification</p>
                         <h4 className='dash-num-count'>28</h4>
                       </div>
                     </div>
                   </div>
 
-                  <button className="dash-num-count-more-btn" id="showHiddenRow">
+                  {/* <button className="dash-num-count-more-btn" id="showHiddenRow">
                     <svg xmlns="http://www.w3.org/2000/svg" width="30" height="8" viewBox="0 0 30 8" fill="none">
                       <circle cx="4" cy="4" r="4" fill="#714F36" />
                       <circle cx="15" cy="4" r="4" fill="#714F36" />
                       <circle cx="26" cy="4" r="4" fill="#714F36" />
                     </svg>
-                  </button>
+                  </button> */}
 
                   <div className='hidden-row'>
                     <div className="through-line"></div>
