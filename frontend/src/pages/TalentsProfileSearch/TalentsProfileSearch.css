@@ -8,8 +8,8 @@
 
 .cli-tal-pro-search-container .cli-tal-pro-search-heading {
     color: #714F36;
-    font-size: 64px;
-    font-weight: 400;
+    font-size: 48px;
+    font-weight: 450;
     text-transform: uppercase;
 }
 
@@ -39,7 +39,8 @@
     justify-content: center;
     gap: 15px;
 }
-.cli-tal-pro-search-filter-head-area.search-results .cli-tal-pro-search-filter{
+
+.cli-tal-pro-search-filter-head-area.search-results .cli-tal-pro-search-filter {
     font-size: 16px;
 }
 
@@ -914,8 +915,6 @@
     transform: rotateX(180deg);
 }
 
-
-
 .cli-tal-pro-recent-search-section {
     padding: 30px 0px 40px 18px;
     position: relative;
@@ -925,6 +924,7 @@
     display: inline-flex;
     gap: 18px;
     align-items: center;
+    margin-bottom: 45px;
 }
 
 .cli-tal-pro-recent-search-head-area i {
@@ -939,7 +939,7 @@
 }
 
 .cli-tal-pro-recent-search-area {
-    margin-top: 45px;
+    margin-bottom: 45px;
 }
 
 .cli-tal-pro-recent-search-btn-area {
@@ -953,7 +953,7 @@
     border: none;
     outline: none;
     color: #1863B9;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 400;
     margin: 0;
     padding: 0;
@@ -965,20 +965,44 @@
 }
 
 .cli-tal-pro-recent-search-tags {
-    margin-top: 30px;
-    padding-bottom: 20px;
+    margin-top: 20px;
+    padding-bottom: 10px;
 }
 
 .cli-tal-pro-recent-search-tags span {
     color: #2B2B2B;
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 400;
 }
 
 .expand-area-padding {
     padding-bottom: 40px;
 }
+
 .talent--profile-search-page-section,
-.talent--profile-search-results-section{
+.talent--profile-search-results-section {
     padding-bottom: 80px;
+}
+
+.cli-tal-pro-recent-search-container {
+    max-height: 600px;
+    padding-right: 15px;
+    overflow-y: scroll;
+}
+
+.cli-tal-pro-recent-search-container::-webkit-scrollbar {
+    width: 8px;
+    background-color: #F5F5F5;
+}
+
+.cli-tal-pro-recent-search-container::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.166);
+    background-color: #bcbcbcd3;
+}
+
+.cli-tal-pro-recent-search-container::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.203);
+    border-radius: 10px;
+    background-color: transparent;
 }

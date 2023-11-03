@@ -9,6 +9,7 @@ import CandidateAboutUs from './pages/CandidateAboutUs/CandidateAboutUs';
 import Contact from './pages/Contact/Contact';
 import ContactCandidate from './pages/ContactCandidate/ContactCandidate';
 import JobDetail from './pages/JobDetail/JobDetail';
+import JobSearch from './pages/JobSearch/JobSearch';
 import Company from './pages/Company/Company';
 import CompanyDetails from './pages/CompanyDetails/CompanyDetails';
 import Services from './pages/Services/Services';
@@ -71,6 +72,7 @@ function App() {
             <Route path='/candidate-testimonial-detail' element={<CandidateTestimonialDetail />} />
             <Route path='/talent-contact-us' element={<ContactCandidate />} />
             <Route path='/job-detail' element={<JobDetail />} />
+            <Route path='/job-search' element={<JobSearch />} />
             <Route path='/company' element={<Company />} />
             <Route path='/company-details' element={<CompanyDetails />} />
             {/* <Route path='/pdf' element={<PDFViewer />} /> */}

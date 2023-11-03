@@ -198,7 +198,7 @@ const NavBar = () => {
                   Account
                 </a>
                 <a href="#" className="dropdown-sub-btn">
-                  <i class="bi bi-gear mr-3"></i>
+                  <i class="bi bi-gear-fill mr-3"></i>
                   Settings
                 </a>
 

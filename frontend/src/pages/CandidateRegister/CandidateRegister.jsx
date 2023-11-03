@@ -56,7 +56,7 @@ const CandidateRegister = () => {
     };
     const [credentials, setCredentials] = useState(initialCredentials);
     console.log(credentials);
-    
+
     useEffect(() => {
         setCredentials((prevCredentials) => ({
             ...prevCredentials,
@@ -301,7 +301,9 @@ const CandidateRegister = () => {
                         <div className="cli--reg-heading-area">
                             <h3 className='cli--reg-heading' data-aos="fade-left">Hi, Welcome to <span>SKILLETY!!!</span></h3>
                         </div>
-                        <GoogleAuth setProfile={setProfile}/>
+                        <div className='login--with-g-area'>
+                            <GoogleAuth setProfile={setProfile} />
+                        </div>
                         <div className="cand--reg-form-area" data-aos="fade-up">
                             <div className="row">
                                 <div className="col-12">
@@ -317,17 +319,17 @@ const CandidateRegister = () => {
 
                                             <div className="cand--reg-input-container">
                                                 <input id="day_option_2" className="radio-button" type="radio" name="days"
-                                                value="8 to 15 days"
-                                                onChange={handleInputChange} />
+                                                    value="8 to 15 days"
+                                                    onChange={handleInputChange} />
                                                 <div className="radio-tile">
                                                     <label for="day_option_2" className="radio-tile-label">8 to 15 days</label>
                                                 </div>
                                             </div>
 
                                             <div className="cand--reg-input-container">
-                                                <input id="day_option_3" className="radio-button" type="radio" name="days" 
-                                                value="16 to 30 days"
-                                                onChange={handleInputChange} />
+                                                <input id="day_option_3" className="radio-button" type="radio" name="days"
+                                                    value="16 to 30 days"
+                                                    onChange={handleInputChange} />
                                                 <div className="radio-tile">
                                                     <label for="day_option_3" className="radio-tile-label">16 to 30 days</label>
                                                 </div>
@@ -335,8 +337,8 @@ const CandidateRegister = () => {
 
                                             <div className="cand--reg-input-container">
                                                 <input id="day_option_4" className="radio-button" type="radio" name="days"
-                                                value="More than 30 days"
-                                                onChange={handleInputChange} />
+                                                    value="More than 30 days"
+                                                    onChange={handleInputChange} />
                                                 <div className="radio-tile">
                                                     <label for="day_option_4" className="radio-tile-label">More than 30 days</label>
                                                 </div>
@@ -374,55 +376,55 @@ const CandidateRegister = () => {
                             <div className="row">
                                 <div className="col-12 col-lg-6 col-md-6 col-sm-6 custom-padding-right">
                                     <div className='cand--reg-form-group custom'>
-                                        <input type="text" id='first_name' name="firstName" 
-                                        value={credentials.firstName}
-                                        onChange={handleInputChange}
-                                        placeholder="Enter your first name" className='cand--reg-form-input' required />
+                                        <input type="text" id='first_name' name="firstName"
+                                            value={credentials.firstName}
+                                            onChange={handleInputChange}
+                                            placeholder="Enter your first name" className='cand--reg-form-input' required />
                                         <label htmlFor="first_name" className='cand--reg-form-label'>First Name</label>
                                     </div>
                                 </div>
                                 <div className="col-12 col-lg-6 col-md-6 col-sm-6 custom-padding-left">
                                     <div className='cand--reg-form-group'>
-                                        <input type="text" id='last_name' name="lastName" 
-                                        value={credentials.lastName}
-                                        onChange={handleInputChange}
-                                        placeholder="Enter your last name" className='cand--reg-form-input' required />
+                                        <input type="text" id='last_name' name="lastName"
+                                            value={credentials.lastName}
+                                            onChange={handleInputChange}
+                                            placeholder="Enter your last name" className='cand--reg-form-input' required />
                                         <label htmlFor="last_name" className='cand--reg-form-label'>Last Name</label>
                                     </div>
                                 </div>
                                 <div className="col-12 col-lg-6 col-md-6 col-sm-6 custom-padding-right">
                                     <div className='cand--reg-form-group'>
                                         <input type="number" id='mobile_number' name="phone"
-                                        value={credentials.phone}
-                                        onChange={handleInputChange} placeholder="Enter your mobile number" className='cand--reg-form-input' min="0" required />
+                                            value={credentials.phone}
+                                            onChange={handleInputChange} placeholder="Enter your mobile number" className='cand--reg-form-input' min="0" required />
                                         <label htmlFor="mobile_number" className='cand--reg-form-label'>Mobile Number</label>
                                     </div>
                                 </div>
                                 <div className="col-12 col-lg-6 col-md-6 col-sm-6 custom-padding-left">
                                     <div className='cand--reg-form-group'>
                                         <input type="email" id='email_id' name="email"
-                                        value={credentials.email}
-                                        onChange={handleInputChange} placeholder="Enter your e-mail id" className='cand--reg-form-input' required />
+                                            value={credentials.email}
+                                            onChange={handleInputChange} placeholder="Enter your e-mail id" className='cand--reg-form-input' required />
                                         <label htmlFor="email_id" className='cand--reg-form-label'>Email ID</label>
                                     </div>
                                 </div>
                                 <div className="col-12 col-lg-6 col-md-6 col-sm-6 custom-padding-right">
                                     <div className='cand--reg-form-group'>
                                         <input type="password" id='password' name="password"
-                                        value={credentials.password}
-                                        onChange={handleInputChange}
-                                        onPaste={(e) => e.preventDefault()}
-                                        placeholder="Enter your password" className='cand--reg-form-input' required />
+                                            value={credentials.password}
+                                            onChange={handleInputChange}
+                                            onPaste={(e) => e.preventDefault()}
+                                            placeholder="Enter your password" className='cand--reg-form-input' required />
                                         <label htmlFor="password" className='cand--reg-form-label'>Password</label>
                                     </div>
                                 </div>
                                 <div className="col-12 col-lg-6 col-md-6 col-sm-6 custom-padding-left">
                                     <div className='cand--reg-form-group'>
                                         <input type="password" id='confirm_password' name="confirmPassword"
-                                        value={credentials.confirmPassword}
-                                        onChange={handleInputChange}
-                                        onPaste={(e) => e.preventDefault()}
-                                        placeholder="Enter your confirmPassword" className='cand--reg-form-input' required />
+                                            value={credentials.confirmPassword}
+                                            onChange={handleInputChange}
+                                            onPaste={(e) => e.preventDefault()}
+                                            placeholder="Enter your confirmPassword" className='cand--reg-form-input' required />
                                         <label htmlFor="confirm_password" className='cand--reg-form-label'>Confirm Password</label>
                                     </div>
                                 </div>
@@ -432,12 +434,12 @@ const CandidateRegister = () => {
                                     <div className='cand--reg-form-group cand--reg-custom-padding'>
                                         <div className="cand--reg-file-upload-area">
                                             <input type="file" id="file_upload" accept=".doc,.docx,.pdf"
-                                            ref={fileInputRef}
-                                            style={{ display: 'none' }}
-                                            onChange={handleFileChange}
-                                            required />
+                                                ref={fileInputRef}
+                                                style={{ display: 'none' }}
+                                                onChange={handleFileChange}
+                                                required />
                                             <label for="file_upload" className='cand--reg-file-upload-label'>
-                                                <i class="bi bi-upload" onClick={()=>fileInputRef.current.click()}></i>
+                                                <i class="bi bi-upload" onClick={() => fileInputRef.current.click()}></i>
                                                 Upload your Resume/CV here</label>
                                             <span id="file-chosen">{resume.length > 0 ? resume.name : 'No file chosen'}</span>
                                             <div className='file--upload-text'>Either in .doc/ docx/.pdf format only</div>
@@ -466,20 +468,20 @@ const CandidateRegister = () => {
                                             >{selectDesignation}</span>
                                         ))}
                                         <input type="text" name='searchDesignationInput'
-                                        id='searchDesignationInput'
-                                        placeholder='Search designation...'
-                                        value={searchDesignationInput}
-                                        onChange={handleDesignationSearch}className='cand--reg-form-input' />
+                                            id='searchDesignationInput'
+                                            placeholder='Search designation...'
+                                            value={searchDesignationInput}
+                                            onChange={handleDesignationSearch} className='cand--reg-form-input' />
                                         {filteredDesignation.length > 0 &&
                                             filteredDesignation.map((filterDesignation) => {
                                                 return <div key={filterDesignation._id} onClick={() => handleDesignationClick(filterDesignation.designation)}>{filterDesignation.designation}</div>
                                             })
                                         }
                                         <input
-                                        className="form-check-input"
-                                        type="checkbox"
-                                        checked={isCheckedDesignation}
-                                        onChange={() => setIsCheckedDesignation(!isCheckedDesignation)}
+                                            className="form-check-input"
+                                            type="checkbox"
+                                            checked={isCheckedDesignation}
+                                            onChange={() => setIsCheckedDesignation(!isCheckedDesignation)}
                                         />
                                         <label className="form-check-label" htmlFor="flexSwitchCheckChecked">
                                             If your searched designation not in the list, please enable the checkbox & type manually...
@@ -505,16 +507,16 @@ const CandidateRegister = () => {
                                 <div className="col-12 col-lg-6 col-md-6 col-sm-6 custom-padding-right">
                                     <div className='cand--reg-form-group custom'>
                                         <input type="text" id='company' name="companyName"
-                                        value={credentials.companyName}
-                                        onChange={handleInputChange} placeholder="Enter your current company" className='cand--reg-form-input' required />
+                                            value={credentials.companyName}
+                                            onChange={handleInputChange} placeholder="Enter your current company" className='cand--reg-form-input' required />
                                         <label htmlFor="company" className='cand--reg-form-label'>Current Company</label>
                                     </div>
                                 </div>
                                 <div className="col-12 col-lg-6 col-md-6 col-sm-6 custom-padding-left">
                                     <div className='cand--reg-form-group'>
                                         <input type="text" id='location' name="location"
-                                        value={credentials.location}
-                                        onChange={handleInputChange} placeholder="Enter your current location" className='cand--reg-form-input' required />
+                                            value={credentials.location}
+                                            onChange={handleInputChange} placeholder="Enter your current location" className='cand--reg-form-input' required />
                                         <label htmlFor="location" className='cand--reg-form-label'>Current Loaction</label>
                                     </div>
                                 </div>
@@ -525,14 +527,14 @@ const CandidateRegister = () => {
                                             <div className="cand--reg-exp-input-flex-area">
                                                 <div className="cand--reg-exp-input-area">
                                                     <input type="number" id='years' name="year"
-                                                    value={credentials.year}
-                                                    onChange={handleInputChange} className='cand--reg-exp-input' min="0"/>
+                                                        value={credentials.year}
+                                                        onChange={handleInputChange} className='cand--reg-exp-input' min="0" />
                                                     <label htmlFor="years" className='cand--reg-form-label-custom'>Years</label>
                                                 </div>
                                                 <div className="cand--reg-exp-input-area">
                                                     <input type="number" id='months' name="month"
-                                                    value={credentials.month}
-                                                    onChange={handleInputChange} className='cand--reg-exp-input' min="0"/>
+                                                        value={credentials.month}
+                                                        onChange={handleInputChange} className='cand--reg-exp-input' min="0" />
                                                     <label htmlFor="months" className='cand--reg-form-label-custom'>Months</label>
                                                 </div>
                                             </div>
@@ -549,10 +551,10 @@ const CandidateRegister = () => {
                                                     onClick={() => handleDeselect(selectSkill)}
                                                 >{selectSkill}</span>
                                             ))}
-                                            <input type="text" id='skills' name='skills' 
-                                            value={searchSkillInput}
-                                            onChange={handleSkillSearch}
-                                            className='cand--reg-flex-input' />
+                                            <input type="text" id='skills' name='skills'
+                                                value={searchSkillInput}
+                                                onChange={handleSkillSearch}
+                                                className='cand--reg-flex-input' />
                                             {skillError && <p>{skillError}</p>}
                                             {filteredSkills.length > 0 &&
                                                 filteredSkills.map((filterSkill) => {
@@ -618,8 +620,8 @@ const CandidateRegister = () => {
                                         <div className="cand--reg-form-flex-grp">
                                             <label htmlFor="college_name" className='cand--reg-form-label-custom'>Name of the College</label>
                                             <input type="text" id='college_name' name="college"
-                                            value={credentials.college}
-                                            onChange={handleInputChange} className='cand--reg-flex-input' />
+                                                value={credentials.college}
+                                                onChange={handleInputChange} className='cand--reg-flex-input' />
                                         </div>
                                     </div>
                                 </div>
@@ -639,8 +641,8 @@ const CandidateRegister = () => {
                                     <div className='cand--reg-form-group cand--reg-custom-padding'>
                                         <label htmlFor="headline" className='cand--reg-form-label-custom'>Profile Headline</label>
                                         <textarea name='profileHeadline'
-                                        value={credentials.profileHeadline}
-                                        onChange={handleInputChange} id="headline" placeholder='(Example: I am a Best Employee Award winning embedded engineer with over 5 years  of experience in the software development domain, proficient in tools/skills like NXPT1020, C, RS422, VxWORKS, ST-True Studio, STM32F103C8, Embedded C, EEPROM, WIFI.)' className='cand--reg-lg-input'>
+                                            value={credentials.profileHeadline}
+                                            onChange={handleInputChange} id="headline" placeholder='(Example: I am a Best Employee Award winning embedded engineer with over 5 years  of experience in the software development domain, proficient in tools/skills like NXPT1020, C, RS422, VxWORKS, ST-True Studio, STM32F103C8, Embedded C, EEPROM, WIFI.)' className='cand--reg-lg-input'>
                                         </textarea>
                                     </div>
                                 </div>

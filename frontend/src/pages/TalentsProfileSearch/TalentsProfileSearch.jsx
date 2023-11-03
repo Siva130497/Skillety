@@ -488,10 +488,11 @@ const TalentsProfileSearch = () => {
                             </div>
 
                             {/* Search page section start */}
-                            {!searchResult ? <div className='talent--profile-search-page-section'>
+                            {!searchResult ? 
+                            <div className='talent--profile-search-page-section'>
                                 <div className="cli-tal-pro-search-container">
                                     <div className="row">
-                                        <div className="col-12 col-lg-12 col-xl-3 col-md-12">
+                                        <div className="col-12 col-lg-12 col-xl-6 col-md-12">
                                             <h4 className='cli-tal-pro-search-heading'>Search Page</h4>
                                         </div>
                                     </div>
@@ -819,6 +820,26 @@ const TalentsProfileSearch = () => {
                                                     </div>
                                                 </div>
 
+                                                <div className="cli-tal-pro-recent-search-area">
+                                                    <div className="cli-tal-pro-recent-search-btn-area">
+                                                        <button className='cli-tal-pro-recent-search-btn'>Fill this search</button>
+                                                        <button className='cli-tal-pro-recent-search-btn'>Search profile</button>
+                                                    </div>
+                                                    <div className="cli-tal-pro-recent-search-tags">
+                                                        <span>azure, Azure Devops | .NET, MVC, C#, Angualr, sql, cloud, aws | 9-12 years | Bangalore/Bengaluru,....</span>
+                                                    </div>
+                                                </div>
+
+                                                <div className="cli-tal-pro-recent-search-area">
+                                                    <div className="cli-tal-pro-recent-search-btn-area">
+                                                        <button className='cli-tal-pro-recent-search-btn'>Fill this search</button>
+                                                        <button className='cli-tal-pro-recent-search-btn'>Search profile</button>
+                                                    </div>
+                                                    <div className="cli-tal-pro-recent-search-tags">
+                                                        <span>azure, Azure Devops | .NET, MVC, C#, Angualr, sql, cloud, aws | 9-12 years | Bangalore/Bengaluru,....</span>
+                                                    </div>
+                                                </div>
+                                                
                                                 <div className="cli-tal-pro-recent-search-area">
                                                     <div className="cli-tal-pro-recent-search-btn-area">
                                                         <button className='cli-tal-pro-recent-search-btn'>Fill this search</button>

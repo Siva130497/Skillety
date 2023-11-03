@@ -6,22 +6,22 @@
 
 .cli--reg-heading-area .cli--reg-heading {
     color: #714F36;
-    font-size: 48px;
+    font-size: 40px;
     font-weight: 500;
-    line-height: 1.8rem;
+    line-height: 0.2rem;
     word-wrap: break-word;
 }
 
 .cli--reg-heading span {
     color: #714F36;
-    font-size: 96px;
+    font-size: 80px;
     font-weight: 500;
     line-height: 1.8rem;
 }
 
 .cli--reg-heading-area .cli--reg-sub-heading {
     color: #714F36;
-    font-size: 48px;
+    font-size: 40px;
     font-weight: 500;
     line-height: normal;
     margin-top: 46px;
@@ -373,4 +373,7 @@
     to {
         opacity: 0;
     }
+}
+.login--with-g-area{
+    padding: 60px 0 20px 0;
 }

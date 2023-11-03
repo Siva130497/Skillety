@@ -6,12 +6,21 @@
     color: #5C3B2E;
     font-size: 48px;
     font-weight: 600;
+    line-height: normal;
+}
+
+.home--head.candidate h5 {
+    color: #5C3B2E;
+    font-size: 35px;
+    font-weight: 600;
+    line-height: normal;
 }
 
 .home--head.candidate h3 {
     color: #5C3B2E;
     font-size: 24px;
     font-weight: 600;
+    margin: 20px 0;
 }
 
 .home--head.candidate h6 {
@@ -88,9 +97,11 @@
     /* box-shadow: inset 0px 0px 10px #94771f; */
     outline: 13px #F9C833 solid;
 }
-.home--card.candidate:hover .home--sub-des.candidate p{
+
+.home--card.candidate:hover .home--sub-des.candidate p {
     color: #FFF !important;
 }
+
 /* .arrow--icon-btn.candidate:hover{
     background-color: #714F36;
 } */
@@ -379,16 +390,19 @@
     border-color: #5C3B2E;
 }
 
-.register--card.candidate::after{
+.register--card.candidate::after {
     background-color: #F9C833;
 }
+
 .register--card.candidate::before {
     background-color: #f9c733b2;
 }
-.register--card.candidate:hover .register--text.candidate{
+
+.register--card.candidate:hover .register--text.candidate {
     color: #5C3B2E !important;
     text-shadow: 2px 2px 8px #ffffff62;
 }
+
 .register--card.candidate:hover .register-arrow-area.candidate svg path {
     stroke: #5C3B2E;
 }

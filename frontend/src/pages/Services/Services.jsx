@@ -53,6 +53,11 @@ const Services = () => {
                             </div>
                         </div>
 
+                        <div className="service-par">
+                            <p>What makes us unique is that - Skillety is the world's first Digital-RPO platform, offering a comprehensive suite of diverse hiring solutions, including Sourcing, Screening, Assessments, Interviews, Verification, and Onboarding, all thoughtfully integrated into a single platform. We are powered by our exclusive Job-board for Immediate Joiners – guys who can Join within 7 days or less, reducing the TAT for a new hire by an impressive 30-50%. Our pay-as-you-go model offers our clients with a simple billing and performance evaluation process, focused solely on end results. As an end-to-end recruitment powerhouse, Skillety is your ideal RPO partner, dedicated to optimizing your recruitment journey.
+                            </p>
+                        </div>
+
                         <div className="ser--content-section">
                             <h3 className='ser--content-heading' data-aos="fade-up">CV Sourcing</h3>
                             <div className="ser--detail-area">
@@ -265,13 +270,12 @@ const Services = () => {
                             </div>
                         </div>
 
-                        <div className="ser--content-section">
+                        {/* <div className="ser--content-section">
                             <h3 className='ser--content-heading' data-aos="fade-up">ONBOARDING PROCESS</h3>
                             <div className="ser--detail-area">
                                 <div className="row custom-border-bottom custom-border-top">
                                     <div className="col-12 col-lg-7 col-md-12 custom-border-right ser--cont-img-area img--5" data-aos="fade" data-aos-delay="200">
                                         <div className="ser--cont-sub-img-area">
-                                            {/* <img src="assets/img/service-images/service-img1.png" className='ser--cont-img' alt="" /> */}
                                         </div>
                                     </div>
                                     <div className="col-12 col-lg-5 col-md-12 custom-padding-lr">
@@ -316,9 +320,9 @@ const Services = () => {
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
 
-                        <div className="ser--content-section">
+                        {/* <div className="ser--content-section">
                             <h3 className='ser--content-heading' data-aos="fade-up">BACKGROUND VERIFICATION</h3>
                             <div className="ser--detail-area">
                                 <div className="row custom-border-bottom custom-border-top custom-column-reverse">
@@ -364,12 +368,11 @@ const Services = () => {
                                     </div>
                                     <div className="col-12 col-lg-7 col-md-12 custom-border-right ser--cont-img-area img--4" data-aos="fade" data-aos-delay="200">
                                         <div className="ser--cont-sub-img-area">
-                                            {/* <img src="assets/img/service-images/service-img1.png" className='ser--cont-img' alt="" /> */}
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
 
                         {/* <div className="ser--more-btn-area">
                             <a href="" className='ser--more-btn' data-aos="fade-up">More...</a>

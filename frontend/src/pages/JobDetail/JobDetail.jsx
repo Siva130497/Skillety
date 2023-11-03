@@ -76,20 +76,20 @@ const JobDetail = () => {
                                                 <i class="bi bi-file-earmark-code-fill"></i>
                                                 <span>Frontend Developer</span>
                                             </a>
-                                            <div className="job--detail-location-area" data-aos="fade-up">
+                                            <div className="job--detail-location-area" data-aos="fade">
                                                 <div>
                                                     <i class="bx bxs-map job--detail-location-icon"></i>
                                                     <span className='job--detail-location'>Hyderabad</span>
                                                 </div>
                                                 <div className='job--detail-experience'>Experience :&nbsp;<span>5- 9 Yrs</span></div>
                                             </div>
-                                            <div className='job--detail-job-type' data-aos="fade-up">Job type :&nbsp;<span>Full Time</span></div>
+                                            <div className='job--detail-job-type' data-aos="fade">Job type :&nbsp;<span>Full Time</span></div>
 
                                             <div className="job--detail-desc-area">
-                                                <p className='job--detail-desc' data-aos="fade-left">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's </p>
+                                                <p className='job--detail-desc' data-aos="fade">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's </p>
                                             </div>
                                             <div className="job--detail-skills-area">
-                                                <h6 className='job--detail-skill-title' data-aos="fade-up">Skills Required :</h6>
+                                                <h6 className='job--detail-skill-title' data-aos="fade">Skills Required :</h6>
                                                 <div className='job--detail-skills-list'>
                                                     <ul>
                                                         <li className='job--detail-skills-list-item' data-aos="fade-left">Lorem Ipsum is simply dummy text</li>
@@ -101,11 +101,11 @@ const JobDetail = () => {
                                                 </div>
                                             </div>
                                             <div className="job--detail-desc-area2">
-                                                <p className='job--detail-desc' data-aos="fade-left">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's </p>
+                                                <p className='job--detail-desc' data-aos="fade">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's </p>
                                             </div>
 
                                             <div className="job--detail-apply-btn-area">
-                                                <a href="#" className='ser--cont-btn-sub candidate' data-aos="fade-down">
+                                                <a href="#" className='ser--cont-btn-sub candidate' data-aos="fade-left">
                                                     <div className='ser--cont-btn candidate'>
                                                         Apply for this Job
                                                     </div>

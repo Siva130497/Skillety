@@ -101,9 +101,9 @@ const HomeCandidate = () => {
                     Great opportunities knock only once. We make sure you don’t miss them.
                   </h4>
                   <h3 data-aos="fade-left" data-aos-delay="200">Choose from over 2400+ Jobs.</h3>
-                  <h4 data-aos="fade-left" data-aos-delay="200">
+                  <h5 data-aos="fade-left" data-aos-delay="200">
                   Welcome to the place where you get hired in less than 7 days. Grab your Interview in 24 hours.
-                  </h4>
+                  </h5>
                   <h6 data-aos="fade-right" data-aos-delay="300">
                     Search For Jobs
                   </h6>

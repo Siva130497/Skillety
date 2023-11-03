@@ -1,10 +1,12 @@
 @media screen and (min-width: 991.98px) and (max-width: 1399.98px) {
     .home--head.candidate h4 {
-        font-size: 30px;
+        font-size: 35px;
     }
-
+    .home--head.candidate h5 {
+        font-size: 25px;
+    }
     .home--head.candidate h3 {
-        font-size: 20px;
+        font-size: 18px;
     }
 
     .home--know-more-arrow.candidate svg {
@@ -96,6 +98,11 @@
 @media (max-width:500px) {
     .home--head.candidate h4 {
         font-size: 22px;
+    }
+
+    .home--head.candidate h5 {
+        font-size: 22px;
+        font-weight: 500;
     }
 
     .home--head.candidate h3 {
