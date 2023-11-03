@@ -13,7 +13,7 @@ const RPO = () => {
 
     return (
         <>
-            <Layout/>
+            <Layout RPO={true}/>
             <div className='container-fluid rpo--section'>
                 <div className='container-fluid container-section'>
                     <div className="about--bg">

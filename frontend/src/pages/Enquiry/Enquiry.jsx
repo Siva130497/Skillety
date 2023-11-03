@@ -80,7 +80,7 @@ const Enquiry = () => {
 
     useEffect(()=>{
         if(CSEChoosing){
-            axios.get('https://skillety.onrender.com/staff-cse')
+            axios.get('http://localhost:5002/staff-cse')
             .then((res)=>{
                 console.log(res.data);
                 setCSERecruiters(res.data)
@@ -143,7 +143,7 @@ const Enquiry = () => {
             ...credentials,
             deadline: dateString,
         };
-        axios.post("http://skillety.onrender.com/enquiry-form/cse", {email, enquiryDetail}, {
+        axios.post("http://localhost:5002/enquiry-form/cse", {email, enquiryDetail}, {
             headers: {
                 'Content-Type': 'application/json',
             },

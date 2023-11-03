@@ -56,7 +56,7 @@ const Events = ({ staffToken }) => {
         <>
             {editingEventId ? <EventPosting editingEventId={editingEventId} staffToken={staffToken} /> :
                 <>
-                    {!staffToken && <LayoutNew />}
+                    {!staffToken && <LayoutNew events={true}/>}
                     <>
                         <div className='container-fluid contact--section'>
                             <div className='container-fluid container-section'>

@@ -26,7 +26,7 @@ const ClientDashboard = () => {
     const [allClientStaffs, setAllClientStaffs] = useState([]);
     const [allClientStaffMode, setAllClientStaffMode] = useState(false);
     const [packagePlanMode, setPackagePlanMode] = useState(false);
-    const [showPassword, setShowPassword] = useState(false);
+    
 
     const initialCredentials = {
       name: "",

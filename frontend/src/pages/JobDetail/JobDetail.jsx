@@ -34,7 +34,7 @@ const JobDetail = () => {
 
     return (
         <div>
-            <LayoutNew />
+            <LayoutNew searchJob={true}/>
             <div className='talents--section'>
                 <div className='container-fluid'>
                     <div className='container-fluid container-section'>

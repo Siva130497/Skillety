@@ -90,7 +90,7 @@ const HomeCandidate = () => {
   };
   return (
     <div>
-      <LayoutNew />
+      <LayoutNew home={true}/>
       <div className='container-fluid home--section'>
         <div className='container-fluid container-section'>
           <div className="home--bg candidate">
