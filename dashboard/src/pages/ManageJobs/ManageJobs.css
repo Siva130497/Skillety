@@ -1,0 +1,83 @@
+.application-btn.with-modal span {
+    color: #0F75C5;
+    text-decoration: underline;
+}
+
+.man-job-status-btn {
+    border: none;
+    outline: none;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 10px 0;
+    transition: ease-in-out 0.5s;
+}
+
+.man-job-status-btn:focus,
+.man-job-status-btn:active {
+    border: none;
+    outline: none;
+}
+
+.man-job-status-btn.theme-info {
+    color: #0F75C5;
+    background-color: #EAFCFF;
+}
+
+.man-job-status-btn.theme-info:hover {
+    color: #EAFCFF;
+    background-color: #0F75C5;
+}
+
+.man-job-status-btn.theme-warning {
+    color: #714F36;
+    background-color: #FFF1C8;
+}
+
+.man-job-status-btn.theme-warning:hover {
+    color: #FFF1C8;
+    background-color: #714F36;
+}
+
+.man-job-status-btn.theme-success {
+    color: #00994d;
+    background-color: #e1ffeb;
+}
+
+.man-job-status-btn.theme-success:hover {
+    color: #e1ffeb;
+    background-color: #00994d;
+}
+
+.delete-btn {
+    border: none;
+    outline: none;
+    background-color: transparent;
+}
+
+.delete-btn i {
+    color: #D40303;
+    font-size: 21px;
+}
+
+.delete-btn:focus,
+.delete-btn:active {
+    border: none;
+    outline: none;
+}
+.dash-table-row.client td{
+    padding: 20px 15px !important;
+}
+
+.dash-table-row.man-job th{
+    font-weight: 600 !important;
+    padding: 20px 15px !important;
+}
+.dash-table-row.man-job{
+    border-bottom: none !important;
+}
