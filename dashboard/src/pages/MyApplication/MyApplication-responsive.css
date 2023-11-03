@@ -1,0 +1,13 @@
+@media screen and (min-width: 992px) and (max-width: 1367px) {
+
+}
+
+@media (max-width:991.5px) {
+.application-status-data{
+    width: 100%;
+}
+}
+
+@media (max-width:500px) {
+
+}

@@ -123,13 +123,13 @@ const ClientDashboard = () => {
 
   return (
     <div>
-      <div class="main-wrapper main-wrapper-1">
-        <div class="navbar-bg"></div>
+      <div className="main-wrapper main-wrapper-1">
+        <div className="navbar-bg"></div>
 
         <Layout />
 
-        <div class="main-content">
-          <section class="section">
+        <div className="main-content">
+          <section className="section">
             <div className="dash-section">
               <div className="dash-main-area">
 
@@ -244,8 +244,8 @@ const ClientDashboard = () => {
                   </div>
                 </div>
 
-                <div class="row">
-                  <div class="col-12">
+                <div className="row">
+                  <div className="col-12">
                     <div className="dash-table-section">
                       <div className="dash-table-area">
                         <div className="dash-table-top-area">
@@ -254,8 +254,8 @@ const ClientDashboard = () => {
                           </div>
                           <a href='#' className="dash-table-see-all-btn">See all</a>
                         </div>
-                        <div class="table-responsive dash-table-container mt-4">
-                          <table class="table table-striped table-hover dash-table">
+                        <div className="table-responsive dash-table-container mt-4">
+                          <table className="table table-striped table-hover dash-table">
                             <tr className='dash-table-row'>
                               <td>
                                 <img src="assets/img/home/table-img-1.png" className='dash-table-avatar-img' alt="" />
