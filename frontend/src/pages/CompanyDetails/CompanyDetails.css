@@ -1,5 +1,5 @@
 .company--detail-section {
-    margin-top: 70px;
+    margin-top: 60px;
     padding-left: 200px;
     margin-bottom: 80px;
     overflow: hidden;
@@ -7,19 +7,19 @@
 
 .company--detail-desc-area .company--detail-desc {
     color: #714F36;
-    font-size: 32px;
+    font-size: 25px;
     font-weight: 400;
     line-height: normal;
 }
 
 .company--detail-vacancy-area {
-    margin-top: 100px;
+    margin-top: 80px;
 }
 
 .company--detail-vacancy-area .company--detail-vacancy-title {
     color: #5C3B2E;
-    font-size: 64px;
-    font-weight: 400;
+    font-size: 48px;
+    font-weight: 450;
     text-transform: uppercase;
 }
 
@@ -71,7 +71,7 @@
 
 .company--detail-card-role-area .company--detail-card-role {
     color: #5C3B2E;
-    font-size: 48px;
+    font-size: 45px;
     font-weight: 400;
     text-transform: capitalize;
     margin-bottom: 0;

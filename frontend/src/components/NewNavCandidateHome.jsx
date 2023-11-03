@@ -59,7 +59,7 @@ export const NewNavCandidateHome = ({homeActive, aboutUsActive, searchJobActive,
                     <div className='logo--area me-auto'>
                         <div className='logo--subarea'>
                             <a href="/candidate-home">
-                                <img className='nav--logo' src="assets/img/logo/skillety-logo-sm.png" alt="" />
+                                <img className='nav--logo' src="../assets/img/logo/skillety-logo-sm.png" alt="" />
                             </a>
                         </div>
                     </div>
@@ -93,14 +93,14 @@ export const NewNavCandidateHome = ({homeActive, aboutUsActive, searchJobActive,
                     <ul>
                         <li><div><a href="/candidate-home" className={homeActive ? "nav-link scrollto active" : "nav-link scrollto"}>Home</a></div></li>
                         <li><a href="/candidate-about-us" className={aboutUsActive ? "nav-link scrollto active" : "nav-link scrollto"}>About Us</a></li>
-                        <li><a href="/job-detail" className={searchJobActive ? "nav-link scrollto active" : "nav-link scrollto"}>Search Jobs</a></li>
+                        <li><a href="/job-search" className={searchJobActive ? "nav-link scrollto active" : "nav-link scrollto"}>Search Jobs</a></li>
                         {/* <li><a href="#" className="nav-link scrollto">Companies</a></li> */}
                         <li><a href="/events" className={eventsActive ? "nav-link scrollto active" : "nav-link scrollto"}>Event</a></li>
                         <li><a href="/talent-contact-us" className={contactActive ? "nav-link scrollto active" : "nav-link scrollto"}>Contact</a></li>
                         {userName ?
                             <li className="dropdown"><a href='#'><span>{extractLastName()}</span><i className="bi bi-chevron-down"></i></a>
                                 <ul>
-                                    <li><a href="/candidate-dashboard">Dash Board</a></li>
+                                    <li><a href="http://localhost:3001">Dash Board</a></li>
                                     <li onClick={() => {
                                         localStorage.removeItem("candidateToken");
                                         window.location.reload();

@@ -7,6 +7,7 @@ import Layout from '../../components/Layout';
 import { Footer } from '../../components/Footer';
 import axios from 'axios';
 import AuthContext from '../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const TalentsProfileSearch = () => {
     const clientToken = JSON.parse(localStorage.getItem("clientToken"));
@@ -20,13 +21,14 @@ const TalentsProfileSearch = () => {
     const [searchResult, setSearchResult] = useState(false);
     const [viewedCandidate, setViewedCandidate] = useState([]);
     
-
     const [filters, setFilters] = useState({
         searchInput:"",
         minExperience:"",
         maxExperience:"",
         location:"",
     })
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         $(document).ready(function () {
@@ -635,10 +637,9 @@ const TalentsProfileSearch = () => {
             if(viewCandidateDetail.length > 0){
                 const alreadyViewedCandidate = viewedCandidate.find(cand=>cand.candidateId === id)
                 if(alreadyViewedCandidate){
-
+                    navigate(`/talents/${id}`);
                 }else{
                     if(viewedCandidate.length < cvViews){
-                    
                         const idData = {
                             candidateId:id,
                             companyId:loginClientDetail.companyId,
@@ -653,6 +654,7 @@ const TalentsProfileSearch = () => {
                             const result = response.data;
                             console.log(result);
                             getViewedCandidates();
+                            navigate(`/talents/${id}`);
                         })
                         .catch(error => {
                             console.error(error);
@@ -676,6 +678,7 @@ const TalentsProfileSearch = () => {
                     const result = response.data;
                     console.log(result);
                     getViewedCandidates();
+                    navigate(`/talents/${id}`);
                   })
                   .catch(error => {
                     console.error(error);
@@ -703,10 +706,11 @@ const TalentsProfileSearch = () => {
                             </div>
 
                             {/* Search page section start */}
-                            {!searchResult ? <div className='talent--profile-search-page-section'>
+                            {!searchResult ? 
+                            <div className='talent--profile-search-page-section'>
                                 <div className="cli-tal-pro-search-container">
                                     <div className="row">
-                                        <div className="col-12 col-lg-12 col-xl-3 col-md-12">
+                                        <div className="col-12 col-lg-12 col-xl-6 col-md-12">
                                             <h4 className='cli-tal-pro-search-heading'>Search Page</h4>
                                         </div>
                                     </div>
@@ -1042,6 +1046,26 @@ const TalentsProfileSearch = () => {
                                                         <span>azure, Azure Devops | .NET, MVC, C#, Angualr, sql, cloud, aws | 9-12 years | Bangalore/Bengaluru,....</span>
                                                     </div>
                                                 </div>
+
+                                                <div className="cli-tal-pro-recent-search-area">
+                                                    <div className="cli-tal-pro-recent-search-btn-area">
+                                                        <button className='cli-tal-pro-recent-search-btn'>Fill this search</button>
+                                                        <button className='cli-tal-pro-recent-search-btn'>Search profile</button>
+                                                    </div>
+                                                    <div className="cli-tal-pro-recent-search-tags">
+                                                        <span>azure, Azure Devops | .NET, MVC, C#, Angualr, sql, cloud, aws | 9-12 years | Bangalore/Bengaluru,....</span>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div className="cli-tal-pro-recent-search-area">
+                                                    <div className="cli-tal-pro-recent-search-btn-area">
+                                                        <button className='cli-tal-pro-recent-search-btn'>Fill this search</button>
+                                                        <button className='cli-tal-pro-recent-search-btn'>Search profile</button>
+                                                    </div>
+                                                    <div className="cli-tal-pro-recent-search-tags">
+                                                        <span>azure, Azure Devops | .NET, MVC, C#, Angualr, sql, cloud, aws | 9-12 years | Bangalore/Bengaluru,....</span>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -1058,8 +1082,16 @@ const TalentsProfileSearch = () => {
                                         </div>
                                     </div>
                                 </div>
-                                <button className='clear--all_button' onClick={()=>setSearchResult(false)}>
-                                                            Back to Search
+                                <button class="pl--package-btn-sub previous back-to-search-btn" data-aos="fade-left" onClick={()=>setSearchResult(false)}>
+                                    <div class="pl--package-arrow-area prev">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 27 27" fill="none">
+                                            <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="white" stroke-width="2"></path>
+                                            <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="white" stroke-width="2"></path>
+                                            <path d="M1 26L25.1667 1" stroke="white" stroke-width="2"></path>
+                                        </svg>
+                                    </div>
+                                    <div class="pl--package-btn job">Back to Search
+                                    </div>
                                 </button>
                                 <div className="row row-border-custom">
                                     <div className="col-12 col-lg-4 col-xl-3 col-md-4 custom-right-border-col ps-lg-0 ps-md-1 col-width-lg-30">
@@ -2116,7 +2148,7 @@ const TalentsProfileSearch = () => {
 
 
                                             <div className="tal--pro-paginate-btn-area" data-aos="fade-up">
-                                                <h6 className='tal--pro-total-result-text'>Total Items : <span>08</span></h6>
+                                                <h6 className='tal--pro-total-result-text'>Total Items : <span>{filteredSearchResults.length}</span></h6>
                                                 <div className='tal--pro-slider-btn-sub'>
                                                     <button className="tal--pro-slider-btn">
                                                         <svg className='arrow-left' xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 27 27" fill="none">

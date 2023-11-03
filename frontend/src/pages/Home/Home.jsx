@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Autoplay } from 'swiper/modules';
 import 'swiper/css';
@@ -9,11 +9,13 @@ import './Home.css';
 import './Home-responsive.css';
 import Layout from '../../components/Layout';
 import { Footer } from '../../components/Footer';
+import axios from 'axios';
 
 
 
 
 const Home = () => {
+  const [candidateDetail, setCandidateDetail] = useState([]);
   
   useEffect(() => {
     // Function to animate the numbers
@@ -62,6 +64,29 @@ const Home = () => {
     const section = document.querySelector('.home--milestone-card');
     observer.observe(section);
   }, []);
+
+  const getAllCandidateDetail = async () => {
+    try{
+        const response = await axios.get('http://localhost:5002/candidate-Detail', {
+          headers: {
+              Accept: 'application/json'
+          }
+        });
+        const result = response.data;
+        if (!result.error) {
+            console.log(result);
+            setCandidateDetail(result.reverse());
+        } else {
+            console.log(result);
+        }
+    } catch (error) {
+        console.log(error);
+    }
+  };
+
+  useEffect(()=>{
+      getAllCandidateDetail();
+    },[]);
 
   const breakpoints = {
     320: {
@@ -710,7 +735,67 @@ const Home = () => {
               }}
 
             >
-              <SwiperSlide>
+              {candidateDetail.map((candidate)=>{
+                return(
+                  <SwiperSlide>
+                  <article className='candidate--card'>
+                    <div className="candidate--profile-area">
+                      <img src="assets/img/home-images/candidate-profile.png"
+                        className='canidate--profile-img' alt="" />
+                      <div className='candidate--name-area'>
+                        <h6>{candidate.firstName + ' ' + candidate.lastName}</h6>
+                        <div className='candidate--role'>
+                          <i class="bi bi-file-earmark-code-fill"></i>
+                          <span>{candidate.designation[0]}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className='candidate--content-area'>
+                      <div className="candidate--top-left">
+                        <div className="candidate--rate-area">
+                          <i class="ri-star-fill"></i>
+                          <span className='candidate--rating'>4.5</span>
+                        </div>
+                        <h6 className='candidate--exp'>Experience :{candidate.year > 0 ? candidate.year+ 'years' : "" + candidate.month > 0 ? candidate.month+ 'months' : ""}</h6>
+                      </div>
+                      <div className="candidate--top-right">
+                        <div className="candidate--rate-area">
+                          <i class='bx bxs-map map-icon'></i>
+                          <span className='candidate--rating'>{candidate.location}</span>
+                        </div>
+                        <h6 className='candidate--exp'>Immediate Joiner</h6>
+                      </div>
+                    </div>
+                    <div className="candidate--desc-area">
+                      <p>{candidate.profileHeadline}</p>
+                    </div>
+                    <div className="candidate--skills-area">
+                      <div className="row">
+                        <div className="col-6 col-border-1">
+                          <div className="candidate--skill">
+                            <h6>Skill matched</h6>
+                            <h2>90%</h2>
+                          </div>
+                        </div>
+                        <div className="col-6">
+                          <div className="candidate--skill">
+                            <h6>Can join in</h6>
+                            <h2>07<span>days</span></h2>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <a href={`/talents/${candidate.id}`} className="candidate--arrow-icon">
+                      <img src="assets/img/home-images/arrow-dark.png" alt="" />
+                    </a>
+                    <div className="candidate-blob"></div>
+                  </article>
+                  </SwiperSlide>
+                )
+              })}
+              
+
+              {/* <SwiperSlide>
                 <article className='candidate--card'>
                   <div className="candidate--profile-area">
                     <img src="assets/img/home-images/candidate-profile.png"
@@ -983,62 +1068,7 @@ const Home = () => {
                   </a>
                   <div className="candidate-blob"></div>
                 </article>
-              </SwiperSlide>
-
-              <SwiperSlide>
-                <article className='candidate--card'>
-                  <div className="candidate--profile-area">
-                    <img src="assets/img/home-images/candidate-profile.png"
-                      className='canidate--profile-img' alt="" />
-                    <div className='candidate--name-area'>
-                      <h6>Raquel Harrison</h6>
-                      <div className='candidate--role'>
-                        <i class="bi bi-file-earmark-code-fill"></i>
-                        <span>Frontend Developer</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className='candidate--content-area'>
-                    <div className="candidate--top-left">
-                      <div className="candidate--rate-area">
-                        <i class="ri-star-fill"></i>
-                        <span className='candidate--rating'>4.5</span>
-                      </div>
-                      <h6 className='candidate--exp'>Experience : 5 Yrs</h6>
-                    </div>
-                    <div className="candidate--top-right">
-                      <div className="candidate--rate-area">
-                        <i class='bx bxs-map map-icon'></i>
-                        <span className='candidate--rating'>Hyderabad</span>
-                      </div>
-                      <h6 className='candidate--exp'>Immediate Joiner</h6>
-                    </div>
-                  </div>
-                  <div className="candidate--desc-area">
-                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's </p>
-                  </div>
-                  <div className="candidate--skills-area">
-                    <div className="row">
-                      <div className="col-6 col-border-1">
-                        <div className="candidate--skill">
-                          <h6>Skill matched</h6>
-                          <h2>90%</h2>
-                        </div>
-                      </div>
-                      <div className="col-6">
-                        <div className="candidate--skill">
-                          <h6>Can join in</h6>
-                          <h2>07<span>days</span></h2>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <a href='/talents' className="candidate--arrow-icon">
-                    <img src="assets/img/home-images/arrow-dark.png" alt="" />
-                  </a>
-                  <div className="candidate-blob"></div>
-                </article>
-              </SwiperSlide>
+              </SwiperSlide> */}
 
             </Swiper>
 

@@ -4902,7 +4902,7 @@ h6 .badge {
 
 .navbar {
     height: 80px;
-    left: 349px;
+    left: 310px;
     right: 0;
     position: absolute;
     z-index: 890;
@@ -5079,7 +5079,7 @@ h6 .badge {
 }
 
 .navbar .nav-link.nav-link-lg i {
-    margin-left: 0 !important;
+    margin-left: 10px !important;
     font-size: 18px;
     line-height: 32px
 }
@@ -5760,7 +5760,7 @@ a.dropdown-item.active {
 }
 
 body {
-    background-color: #f6f6f6;
+    background-color: #f0f0f0;
     font-size: 14px;
     font-family: "Poppins";
     color: #6c757d
@@ -6239,18 +6239,18 @@ pre {
     position: fixed;
     top: 0;
     height: 100%;
-    width: 350px;
+    width: 310px;
     background-color: #fff !important;
     z-index: 880;
     left: 0;
-    padding: 0 35px;
+    padding: 0 25px;
 }
 
 .main-sidebar,
 .navbar,
 .main-content,
 .main-footer {
-    transition: all 0.5s
+    /* transition: all 0.5s */
 }
 
 body.sidebar-gone .main-sidebar {
@@ -6426,7 +6426,7 @@ body.sidebar-gone .main-sidebar {
 
 .sidebar-mini .main-content,
 .sidebar-mini .main-footer {
-    padding-left: 90px
+    padding-left: 85px
 }
 
 .sidebar-mini .main-sidebar .sidebar-menu li a .feather {
@@ -6698,7 +6698,12 @@ body.layout-3 .main-footer {
 
 .main-sidebar .sidebar-brand a .header-logo {
     height: 60px;
-    padding-right: 15px;
+    margin: 0 10px;
+    border: 1px solid #714F36;
+    outline: 1px solid #714F36;
+    outline-offset: 2px;
+    border-radius: 50%;
+    flex-shrink: 0;
 }
 
 /* cyrillic-ext */
@@ -6824,7 +6829,7 @@ body.layout-3 .main-footer {
 
 .main-sidebar .sidebar-menu li {
     display: block;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
 }
 
 .main-sidebar .sidebar-menu li.menu-header {
@@ -6899,11 +6904,15 @@ body.layout-3 .main-footer {
 .main-sidebar .sidebar-menu li a .feather {
     height: 30px;
     width: 30px;
-    margin-right: 19px;
+    margin-right: 15px;
     text-align: center;
     /* fill: #fff2cc; */
     color: #F9C833;
     filter: drop-shadow(2px 4px 6px #FFF);
+}
+
+.main-sidebar.client .sidebar-menu.client li a .feather {
+    color: #714F36 !important;
 }
 
 .main-sidebar .sidebar-menu li a span {
@@ -6996,7 +7005,7 @@ body.layout-3 .main-footer {
 }
 
 .main-content {
-    padding-left: 370px;
+    padding-left: 330px;
     padding-right: 20px;
     padding-top: 80px;
     padding-bottom: 60px;
@@ -7006,7 +7015,7 @@ body.layout-3 .main-footer {
 }
 
 .main-footer {
-    padding: 20px 30px 20px 280px;
+    padding: 18px 30px 18px 330px;
     margin-top: 40px;
     color: #98a6ad;
     border-top: 1px solid #e3eaef;
@@ -7015,7 +7024,8 @@ body.layout-3 .main-footer {
     font-weight: 600;
     text-transform: uppercase;
     font-size: 11px;
-    width: 100%
+    width: 100%;
+    position: absolute;
 }
 
 .main-footer .footer-left {

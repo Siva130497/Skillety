@@ -105,7 +105,7 @@ router.post("/job-detail", employeeAuth, jobPosting)
 router.get('/skill-match-job-Detail/:candidateId', employeeAuth, getSkillMatchJobDetail)
 
 //get client posted job details
-router.get('/posted-jobs', employeeAuth, getPostedjobs)
+router.get('/posted-jobs', getPostedjobs)
 
 //get posted job details
 router.get('/my-posted-jobs/:id', employeeAuth, getOwnPostedjobs)

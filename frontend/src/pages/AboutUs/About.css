@@ -59,7 +59,7 @@
 
 .about--head h2 {
     color: #FFF !important;
-    font-size: 88px;
+    font-size: 64px;
     font-weight: 400;
     line-height: normal;
     text-transform: uppercase;
@@ -210,7 +210,7 @@
 
 .about--headingarea h6 {
     color: #5C3B2E;
-    font-size: 24px !important;
+    font-size: 20px !important;
     font-weight: 400 !important;
     text-transform: capitalize;
     margin-bottom: 0px;
@@ -229,10 +229,10 @@
 }
 
 .about--headingarea .about--milestone-heading {
-    margin-top: 19px;
+    margin-top: 10px;
     color: #5C3B2E;
-    font-size: 64px !important;
-    font-weight: 400 !important;
+    font-size: 48px !important;
+    font-weight: 450 !important;
     text-transform: uppercase;
     line-height: 1.5em;
     text-wrap: balance;
@@ -402,8 +402,8 @@
 
 .ab-weoff--top-area .ab-weoff---heading {
     color: #714F36;
-    font-size: 64px;
-    font-weight: 400;
+    font-size: 48px;
+    font-weight: 450;
     line-height: normal;
     text-transform: uppercase;
     width: 70%;

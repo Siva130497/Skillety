@@ -56,7 +56,7 @@ const NewNav = ({homeActive, aboutUsActive, searchCVActive, serviceActive, RPOAc
                     <div className='logo--area me-auto'>
                         <div className='logo--subarea'>
                             <a href="/">
-                                <img className='nav--logo' src="assets/img/logo/skillety-logo-sm.png" alt="" />
+                                <img className='nav--logo' src="../assets/img/logo/skillety-logo-sm.png" alt="" />
                             </a>
                         </div>
                     </div>
@@ -115,7 +115,7 @@ const NewNav = ({homeActive, aboutUsActive, searchCVActive, serviceActive, RPOAc
                         {userName ? 
                             <li className="dropdown"><a href='#'><span>{extractLastName()}</span><i className="bi bi-chevron-down"></i></a>
                                 <ul>
-                                    <li><a href="http://localhost:3001/client-dashboard">Dash Board</a></li>
+                                    <li><a href={`http://localhost:3001/client-dashboard/${clientToken}`}>Dash Board</a></li>
                                     <li onClick={()=>{
                                         localStorage.removeItem("clientToken");
                                         window.location.reload();

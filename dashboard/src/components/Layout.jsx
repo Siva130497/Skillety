@@ -2,14 +2,9 @@ import React from 'react'
 import { useEffect } from 'react';
 import $ from 'jquery';
 import 'jquery.nicescroll';
-import AOS from 'aos';
 import NavBar from './NavBar'
 import Sidebar from './Sidebar'
-import 'aos/dist/aos.css';
 import feather from 'feather-icons';
-import 'bootstrap-icons/font/bootstrap-icons.css';
-// import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 const Layout = () => {
 
@@ -747,14 +742,6 @@ const Layout = () => {
 
       <Sidebar />
 
-
-
-      {/* <footer className="main-footer">
-          <div className="footer-left">
-            <a href="templateshub.net">Templateshub</a>
-          </div>
-          <div className="footer-right"></div>
-        </footer> */}
       {/* </div> */}
     </div>
   )
