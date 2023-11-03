@@ -642,8 +642,8 @@ const JobSearch = () => {
                                                     <button className='clear--all_button'>
                                                         Clear all
                                                     </button>
-                                                    <button className="cli-tal-pro-search-page-btn" onClick={handleSkillSearch}>
-                                                        Search Jobs
+                                                    <button className="tal--search-submit-btn dash" onClick={handleSkillSearch}>
+                                                                Search Jobs
                                                     </button>
                                                 </div>
                                             </div>

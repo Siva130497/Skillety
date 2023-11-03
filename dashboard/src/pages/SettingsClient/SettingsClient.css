@@ -1,0 +1,105 @@
+.company-logo-name-area {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.company-logo-area {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    background-color: #D9D9D9;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.company-logo {
+    width: 85px;
+    height: 85px;
+    object-fit: contain;
+    border-radius: 50%;
+    flex-shrink: 0;
+    background-color: #714F36;
+}
+
+.company-name {
+    color: #714F36;
+    font-size: 23px;
+    font-weight: 700;
+}
+
+
+.upload-label {
+    cursor: pointer;
+}
+
+#imageUpload {
+    display: none;
+}
+
+#updateButton {
+    display: none;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    font-size: 15px;
+    color: #1394DF;
+    font-weight: 600;
+    margin-top: 5px;
+    padding: 0;
+}
+
+#updateButton:focus,
+#updateButton:active {
+    border: none;
+    outline: none;
+}
+
+.com-detail-edit-btn {
+    background-color: transparent;
+    border: none;
+    outline: none;
+
+}
+
+.com-detail-edit-btn i {
+    color: #1394DF;
+    font-size: 16px;
+}
+
+.com-detail-edit-btn:focus,
+.com-detail-edit-btn:active {
+    border: none;
+    outline: none;
+}
+
+.change-text-area {
+    margin: 25px 0 15px 0;
+    display: none;
+}
+
+.change-text-area.expanded {
+    display: block;
+}
+
+.com-detail-edit-btn.expanded i {
+    color: red !important;
+    font-size: 25px;
+    vertical-align: middle;
+}
+.perks-content{
+    padding-top: 10px;
+    padding-left: 18px;
+}
+.perks-list-item {
+    padding-top: 10px !important;
+    color: #714F36 !important;
+    font-size: 15px !important;
+    font-weight: 400 !important;
+    margin-bottom: 5px;
+    list-style: disc;
+}

@@ -1,0 +1,181 @@
+.settings-section {
+    padding: 40px 0;
+}
+
+.setting-head {
+    font-size: 25px !important;
+    font-weight: 600 !important;
+    color: #714F36 !important;
+    padding-bottom: 20px;
+}
+
+.settings-area {
+    padding: 30px 20px;
+}
+
+.setting-head i {
+    vertical-align: middle;
+    color: #F9C833;
+    font-size: 25px;
+    padding-left: 15px;
+}
+
+.nav-pills .nav-item .nav-link {
+    color: #714F36 !important;
+    font-size: 18px !important;
+    font-weight: 400 !important;
+    padding: 12px 35px !important;
+    border-radius: 10px 10px 0 0 !important;
+}
+
+.nav-pills .nav-item .nav-link.active {
+    background-color: #F9C833 !important;
+    box-shadow: none !important;
+    font-weight: 700 !important;
+}
+
+.nav-pills .nav-item .nav-link:hover {
+    background-color: #f9c8462b;
+}
+
+.settings-tab-content {
+    border-top: 2px solid #714F36;
+    padding: 30px 0 0 0;
+}
+
+.setting-content {
+    padding-bottom: 40px;
+}
+
+.setting-content .setting-title {
+    color: #714F36;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.setting-content .setting-sub {
+    color: #714F36;
+    font-size: 16px;
+    font-weight: 400;
+    padding-top: 10px;
+}
+
+.setting-name {
+    color: #714F36;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.setting-value {
+    padding-top: 10px;
+    color: #714F36;
+    font-size: 15px;
+    font-weight: 400;
+}
+
+.setting-change-btn {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    color: #1394DF;
+    font-size: 15px;
+    font-weight: 500;
+    padding-top: 10px;
+    padding-left: 0;
+    transition: ease-in-out 0.5s;
+}
+
+.setting-change-btn:hover {
+    color: #0083ce !important;
+}
+
+.setting-change-btn:focus,
+.setting-change-btn:active {
+    border: none;
+    outline: none;
+}
+
+.change-input-area {
+    margin: 25px 0 15px 0;
+    display: none;
+}
+
+
+.change-setting-input {
+    border: 1px solid #714F36;
+    border-radius: 6px;
+    outline: none;
+    padding: 10px 15px;
+    width: 100%;
+    font-size: 15px;
+    position: relative;
+}
+
+.setting-update-btn {
+    background-color: #714F36;
+    border-radius: 6px;
+    color: #F9C833;
+    padding: 10px 15px;
+    font-size: 15px;
+    transition: ease-in-out 0.5s;
+    outline: none;
+    border: none;
+}
+
+.setting-update-btn::placeholder {
+    color: #c7c7c7 !important;
+    font-size: 15px !important;
+}
+
+.setting-update-btn:hover {
+    background-color: #F9C833;
+    color: #714F36;
+}
+
+.setting-update-btn:focus,
+.setting-update-btn:active {
+    border: none;
+    outline: none;
+}
+
+.gap-10 {
+    gap: 10px !important;
+}
+
+.setting-value.password {
+    font-size: 50px;
+    padding: 0 0 15px 0;
+}
+
+.change-input-area .show-btn {
+    color: #000;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    position: absolute;
+    top: 12px;
+    right: 30px;
+    cursor: pointer;
+    transition: ease-in-out 0.5s;
+    padding: 0;
+}
+
+.change-input-area .show-btn:focus,
+.change-input-area .show-btn:active {
+    border: none;
+    outline: none;
+}
+
+.change-input-area i:hover {
+    color: #0083ce !important;
+}
+
+.selected-value {
+    background-color: #007BFF;
+    color: #fff;
+    border-radius: 5px;
+    padding: 3px 8px;
+    margin-right: 5px;
+    cursor: pointer;
+}

@@ -699,18 +699,17 @@ const TalentsProfileSearch = () => {
             
                 <div class="main-content">
                     <section class="section">
-                        <div className='cli--tal-pro-search-section'>
-                            <div className='container-fluid'>
+                        <div className='cli--tal-pro-search-section pt-5'>
                                 <div className='container-fluid container-section'>
                                     <div className="custom--container tal--pro-search">
-                                        <div className="breadcrumb--area-dark" data-aos="fade-down">
+                                        {/* <div className="breadcrumb--area-dark" data-aos="fade-down">
                                             <div className="breadcrumb--item-dark">
                                                 <a href="/">Home</a>
                                             </div>
                                             <div className="breadcrumb--item-dark">
                                                 <p>Search Talent</p>
                                             </div>
-                                        </div>
+                                        </div> */}
 
                                         {/* Search page section start */}
                                         {!searchResult ? 
@@ -1089,7 +1088,7 @@ const TalentsProfileSearch = () => {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <button class="pl--package-btn-sub previous back-to-search-btn" data-aos="fade-left" onClick={()=>setSearchResult(false)}>
+                                            <button class="pl--package-btn-sub previous back-to-search-btn pb-5" onClick={()=>setSearchResult(false)}>
                                                 <div class="pl--package-arrow-area prev">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 27 27" fill="none">
                                                         <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="white" stroke-width="2"></path>
@@ -1101,7 +1100,7 @@ const TalentsProfileSearch = () => {
                                                 </div>
                                             </button>
                                             <div className="row row-border-custom">
-                                                <div className="col-12 col-lg-4 col-xl-3 col-md-4 custom-right-border-col ps-lg-0 ps-md-1 col-width-lg-30">
+                                                <div className="col-12 col-lg-4 col-xl-4 col-md-4 custom-right-border-col ps-lg-0 ps-md-1 col-width-lg-30">
                                                     <div className="cli-tal-pro-search-filter-area">
                                                         <div className="cli-tal-pro-search-filter-head-area search-results">
                                                             <h6 className='cli-tal-pro-search-filter mb-0'>Filters</h6>
@@ -1662,7 +1661,7 @@ const TalentsProfileSearch = () => {
                                                     </div>
                                                 </div>
 
-                                                <div className="col-12 col-lg-8 col-xl-9 col-md-8 pe-lg-0 pe-md-1 col-width-lg-70">
+                                                <div className="col-12 col-lg-8 col-xl-8 col-md-8 pe-lg-0 pe-md-1 col-width-lg-70">
                                                     {/* <div className="tal--pro-search-result-image-area">
                                                     <img src="assets/img/jobs/filter-data-img.png" className='tal--pro-search-result-image' alt="" data-aos="fade"  />
                                                     <h6 className='tal--pro-search-result-title' data-aos="fade-up">Add Filter for the desired search</h6>
@@ -1674,7 +1673,7 @@ const TalentsProfileSearch = () => {
                                                         filteredSearchResults.map((candidate)=>{
                                                             const viewedCandidateForThisCandidate = loginClientDetail.companyId &&viewedCandidate.find(cand => cand.candidateId === candidate.id);
                                                             return(
-                                                                <article className="talent--profile-card search" data-aos="fade-left" key={candidate.id} onClick={()=>viewCandidateDetail(candidate.id)}>
+                                                                <article className="talent--profile-card search" key={candidate.id} onClick={()=>viewCandidateDetail(candidate.id)}>
                                                                 <div className="tal--pro-card-left-area search">
                                                                     <div className='card-split-line'></div>
                                                                     <div className="tal--pro-card-name-area">
@@ -1757,7 +1756,7 @@ const TalentsProfileSearch = () => {
                                                                 <div className="tal--pro-card-right-area search">
                                                                     <div className="tal--pro-card-right-cover-area search">
                                                                         <div className='tal--pro-card-profile-img-role-area search'>
-                                                                            <img src="assets/img/talents-images/profile-img.png" className='tal--pro-card-profile-img' alt="" />
+                                                                            <img src="../assets/img/talents-images/profile-img.png" className='tal--pro-card-profile-img' alt="" />
                                                                             <p className='tal--pro-card-role-name'>Frontend Developer (Css,html)</p>
                                                                         </div>
                                                                         <div className="tal--pro-card-contact-btn-area search">
@@ -2180,7 +2179,6 @@ const TalentsProfileSearch = () => {
                                         {/* Search results page section end */}
                                     </div>
                                 </div>
-                            </div>
                         </div>
                     </section>
                 </div>
