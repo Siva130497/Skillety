@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import { useEffect } from 'react';
 import ClientLayout from '../../components/ClientLayout';
 import Footer from '../../components/Footer';
@@ -23,6 +23,9 @@ import {
 } from 'chart.js';
 
 import { Line } from 'react-chartjs-2';
+import { useNavigate, useParams } from 'react-router-dom';
+import axios from 'axios';
+import AuthContext from '../../context/AuthContext';
 
 
 ChartJS.register(
@@ -83,6 +86,18 @@ const options = {
 };
 
 const ClientDashboard = () => {
+    const {token} = useParams();
+    const navigate = useNavigate();
+    const {getProtectedData} = useContext(AuthContext);
+    const [employeeId, setEmployeeId] = useState("");
+    const [loginClientDetail, setLoginClientDetail] = useState([]);
+    const [candidateDetail, setCandidateDetail] = useState([]);
+    const [postedJobs, setPostedJobs] = useState([]);
+    const [appliedOfPostedJobs, setAppliedOfPostedJobs] =useState([]);
+
+    useEffect(()=>{
+       localStorage.setItem("clientToken", JSON.stringify(token));
+    },[token])
 
     useEffect(() => {
         $(document).ready(function () {
@@ -99,11 +114,120 @@ const ClientDashboard = () => {
         });
     }, []);
 
+    useEffect(() => {
+        if(token){
+            const fetchData = async () => {
+                try {
+                const user = await getProtectedData(token);
+                console.log(user);
+                setEmployeeId(user.id);
+                } catch (error) {
+                console.log(error);
+                
+                }
+            };
+        
+            fetchData();
+        }
+    }, [token]);
+
+    const getLoginClientDetail = async() => {
+        try{
+            const res = await axios.get(`http://localhost:5002/client/${employeeId}`, {
+              headers: {
+                  Authorization: `Bearer ${token}`,
+                  Accept: 'application/json'
+              }
+            });
+            const result = res.data;
+            if (!result.error) {
+              console.log(result);
+              setLoginClientDetail(result);
+            } else {
+              console.log(result);
+            }
+        }catch(err){
+          console.log(err);
+        }
+      }
+
+      useEffect(()=>{
+        if(employeeId){
+          getLoginClientDetail();
+        }
+      },[employeeId]);
+
+    const getAllCandidateDetail = async () => {
+        try{
+            const response = await axios.get('http://localhost:5002/candidate-Detail', {
+              headers: {
+                  Accept: 'application/json'
+              }
+            });
+            const result = response.data;
+            if (!result.error) {
+                console.log(result);
+                setCandidateDetail(result.reverse());
+            } else {
+                console.log(result);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+      };
+      
+
+    const getOwnPostedjobs = async() => {
+        try{
+            const res = await axios.get(`http://localhost:5002/my-posted-jobs/${loginClientDetail.companyId}`, {
+              headers: {
+                  Authorization: `Bearer ${token}`,
+                  Accept: 'application/json'
+              }
+            });
+            const result = res.data;
+            if (!result.error) {
+              console.log(result);
+              setPostedJobs(result);
+            } else {
+              console.log(result);
+            }
+        }catch(err){
+          console.log(err);
+        }
+      }
+
+      const getAppliedOfPostedJobs = async() => {
+        try{
+            const res = await axios.get(`http://localhost:5002/applied-jobs-of-posted/${loginClientDetail.companyId}`, {
+              headers: {
+                  Authorization: `Bearer ${token}`,
+                  Accept: 'application/json'
+              }
+            });
+            const result = res.data;
+            if (!result.error) {
+              console.log(result);
+              setAppliedOfPostedJobs(result.reverse());
+            } else {
+              console.log(result);
+            }
+        }catch(err){
+          console.log(err);
+        }
+      }
+
+    useEffect(()=>{
+        getAllCandidateDetail();
+        getOwnPostedjobs();
+        getAppliedOfPostedJobs();
+      },[loginClientDetail]);
+
     return (
         <div>
             <div class="main-wrapper main-wrapper-1">
                 <div class="navbar-bg"></div>
-                <ClientLayout dashBoard={true}/>
+                <ClientLayout />
 
                 <div class="main-content">
                     <section class="section">
@@ -293,8 +417,41 @@ const ClientDashboard = () => {
                                                     <a href='#' className="dash-table-see-all-btn">See all</a>
                                                 </div>
                                                 <div class="table-responsive dash-table-container client mt-4">
+                                                    
                                                     <table class="table table-striped table-hover dash-table">
-                                                        <tr className='dash-table-row'>
+                                                    {candidateDetail.map((cand, index) => (
+                                                        <tr className='dash-table-row' key={index}>
+                                                            <td>
+                                                                <img src="../assets/img/layout/user-img.png" className='dash-table-avatar-img' alt="" />
+                                                            </td>
+                                                            <td className='dash-table-sub client'>
+                                                            {cand.firstName + ' ' + cand.lastName}<br />
+                                                                <span className='dash-table-sub-data'>{cand.date}</span>
+                                                            </td>
+                                                            <td className='dash-table-sub-data'>{cand.profileHeadline}</td>
+                                                            <td className='text-right dash-table-view-btn-area'>
+                                                                <button className='dash-table-view-btn client' data-toggle="modal">View CV</button>
+                                                            </td>
+                                                        </tr>
+                                                        ))}
+                                                    
+                                                        {/* <tr className='dash-table-row'>
+                                                            <td>
+                                                                <img src="../assets/img/layout/user-img.png" className='dash-table-avatar-img' alt="" />
+                                                            </td>
+                                                            <td className='dash-table-sub client'>
+                                                                Candidate 1<br />
+                                                                <span className='dash-table-sub-data'>1st Aug, 2023, 08:33pm</span>
+                                                            </td>
+                                                            <td className='dash-table-sub-data'>Lorem Ipsum is simply dummy text .......</td>
+                                                            <td className='text-right dash-table-view-btn-area'>
+                                                                <button className='dash-table-view-btn client'
+                                                                    data-toggle="modal">View CV
+                                                                </button>
+                                                            </td>
+                                                        </tr> */}
+
+                                                        {/* <tr className='dash-table-row'>
                                                             <td>
                                                                 <img src="assets/img/layout/user-img.png" className='dash-table-avatar-img' alt="" />
                                                             </td>
@@ -372,23 +529,7 @@ const ClientDashboard = () => {
                                                                     data-toggle="modal">View CV
                                                                 </button>
                                                             </td>
-                                                        </tr>
-
-                                                        <tr className='dash-table-row'>
-                                                            <td>
-                                                                <img src="assets/img/layout/user-img.png" className='dash-table-avatar-img' alt="" />
-                                                            </td>
-                                                            <td className='dash-table-sub client'>
-                                                                Candidate 1<br />
-                                                                <span className='dash-table-sub-data'>1st Aug, 2023, 08:33pm</span>
-                                                            </td>
-                                                            <td className='dash-table-sub-data'>Lorem Ipsum is simply dummy text .......</td>
-                                                            <td className='text-right dash-table-view-btn-area'>
-                                                                <button className='dash-table-view-btn client'
-                                                                    data-toggle="modal">View CV
-                                                                </button>
-                                                            </td>
-                                                        </tr>
+                                                        </tr> */}
 
                                                     </table>
                                                 </div>
@@ -478,71 +619,34 @@ const ClientDashboard = () => {
                                                     <a href='#' className="dash-table-see-all-btn">See all</a>
                                                 </div>
                                                 <div class="table-responsive mt-4">
-                                                    <table class="table table-striped table-hover dash-table">
-                                                        <tr className='dash-table-row'>
+                                                <table className="table table-striped table-hover dash-table">
+                                                {postedJobs.map((job) => {
+                                                    const numApplicants = appliedOfPostedJobs.filter(appliedOfPostedJob => appliedOfPostedJob.jobId === job.id).length;
+
+                                                    return (
+                                                        <tr className='dash-table-row' key={job.id}>
                                                             {/* <td>
                                                                 <img src="assets/img/home/javascript.png" className='dash-table-avatar-img client' alt="" />
                                                             </td> */}
                                                             <td className='dash-table-data1'>
-                                                                Java Developer
+                                                                {job.jobRole[0]}
                                                             </td>
                                                             <td className='dash-table-data1 text-center'>2024-06-12</td>
-                                                            <td className='dash-table-data1 text-center'>245 <br />
-                                                                No of Applications</td>
-                                                            <td className='dash-table-data1 text-center'>10 <br />
-                                                                Positions</td>
-                                                            <td className='dash-table-data1 text-center'>3 Min- 4 Max <br />
-                                                                Experience</td>
-                                                        </tr>
-
-                                                        <tr className='dash-table-row'>
-                                                            {/* <td>
-                                                                <img src="assets/img/home/design.png" className='dash-table-avatar-img client' alt="" />
-                                                            </td> */}
-                                                            <td className='dash-table-data1'>
-                                                                Ui UX Designer
+                                                            <td className='dash-table-data1 text-center'>
+                                                                {numApplicants} <br />
+                                                                No of Applications
                                                             </td>
-                                                            <td className='dash-table-data1 text-center'>2024-06-12</td>
-                                                            <td className='dash-table-data1 text-center'>245 <br />
-                                                                No of Applications</td>
                                                             <td className='dash-table-data1 text-center'>10 <br />
-                                                                Positions</td>
-                                                            <td className='dash-table-data1 text-center'>3 Min- 4 Max <br />
-                                                                Experience</td>
-                                                        </tr>
-
-                                                        <tr className='dash-table-row'>
-                                                            {/* <td>
-                                                                <img src="assets/img/home/computer.png" className='dash-table-avatar-img client' alt="" />
-                                                            </td> */}
-                                                            <td className='dash-table-data1'>
-                                                                Full Stack Developer
+                                                                Positions
                                                             </td>
-                                                            <td className='dash-table-data1 text-center'>2024-06-12</td>
-                                                            <td className='dash-table-data1 text-center'>245 <br />
-                                                                No of Applications</td>
-                                                            <td className='dash-table-data1 text-center'>10 <br />
-                                                                Positions</td>
-                                                            <td className='dash-table-data1 text-center'>3 Min- 4 Max <br />
-                                                                Experience</td>
-                                                        </tr>
-
-                                                        <tr className='dash-table-row'>
-                                                            {/* <td>
-                                                                <img src="assets/img/home/manager.png" className='dash-table-avatar-img client' alt="" />
-                                                            </td> */}
-                                                            <td className='dash-table-data1'>
-                                                                Senior Manager
+                                                            <td className='dash-table-data1 text-center'>
+                                                                {job.year > 0 ? job.year + ' years' : ""} {job.month > 0 ? job.month + ' months' : ""} <br />
+                                                                Experience
                                                             </td>
-                                                            <td className='dash-table-data1 text-center'>2024-06-12</td>
-                                                            <td className='dash-table-data1 text-center'>245 <br />
-                                                                No of Applications</td>
-                                                            <td className='dash-table-data1 text-center'>10 <br />
-                                                                Positions</td>
-                                                            <td className='dash-table-data1 text-center'>3 Min- 4 Max <br />
-                                                                Experience</td>
                                                         </tr>
-                                                    </table>
+                                                    );
+                                                })}
+                                            </table>
                                                 </div>
                                             </div>
                                         </div>

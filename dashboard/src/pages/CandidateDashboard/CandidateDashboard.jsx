@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import { useEffect } from 'react';
 import Layout from '../../components/Layout';
 import Footer from '../../components/Footer';
@@ -23,6 +23,9 @@ import {
 } from 'chart.js';
 
 import { Line } from 'react-chartjs-2';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
+import AuthContext from '../../context/AuthContext';
 
 
 ChartJS.register(
@@ -83,6 +86,15 @@ const options = {
 };
 
 const ClientDashboard = () => {
+  const {token} = useParams();
+  const {getProtectedData} = useContext(AuthContext);
+  const [candidateId, setCandidateId] = useState("");
+  const [jobDetail, setJobDetail] = useState([]);
+  const [appliedJobDetail, setAppliedJobDetail] = useState([]);
+
+  useEffect(()=>{
+    localStorage.setItem("candidateToken", JSON.stringify(token));
+  },[token])
 
   useEffect(() => {
     $(document).ready(function () {
@@ -120,6 +132,71 @@ const ClientDashboard = () => {
 
 
   }, []);
+
+  useEffect(() => {
+    if(token){
+        const fetchData = async () => {
+            try {
+            const user = await getProtectedData(token);
+            console.log(user);
+            setCandidateId(user.id);
+            } catch (error) {
+            console.log(error);
+            
+            }
+        };
+    
+        fetchData();
+    }
+}, [token]);
+
+const getSkillMatchJobDetail = async() => {
+  try {
+      const response = await axios.get(`http://localhost:5002/skill-match-job-Detail/${candidateId}`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+            Accept: 'application/json'
+        }
+      });
+      const result = response.data;
+
+      if (!result.error) {
+        console.log(result);
+        setJobDetail(result);
+      } else {
+        console.log(result);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+};
+
+  const getAppliedjobs = async() => {
+    try{
+        const res = await axios.get(`http://localhost:5002/my-applied-jobs/${candidateId}`, {
+          headers: {
+              Authorization: `Bearer ${token}`,
+              Accept: 'application/json'
+          }
+        });
+        const result = res.data;
+        if (!result.error) {
+          console.log(result);
+          setAppliedJobDetail(result);
+        } else {
+          console.log(result);
+        }
+    }catch(err){
+      console.log(err);
+    }
+  }
+
+  useEffect(()=>{
+    if(candidateId){
+      getAppliedjobs();
+      getSkillMatchJobDetail();
+    }
+  },[candidateId])
 
   return (
     <div>
@@ -344,16 +421,17 @@ const ClientDashboard = () => {
                         </div>
                         <div class="table-responsive mt-4">
                           <table class="table table-striped table-hover dash-table">
-                            <tr className='dash-table-row'>
+                            {appliedJobDetail.map((job)=>(
+                              <tr className='dash-table-row'>
                               <td>
                                 <img src="assets/img/home/table-img-1.png" className='dash-table-avatar-img' alt="" />
                               </td>
                               <td className='dash-table-data'>
-                                Lead Analyst <br />
-                                <span className='dash-table-sub'>Prodigit</span>
+                                {job.jobRole[0]} <br />
+                                <span className='dash-table-sub'>{job.companyName}</span>
                               </td>
                               <td className='dash-table-data1 text-center'>Marketing & Communication</td>
-                              <td className='dash-table-data1 text-center'>Full-time</td>
+                              <td className='dash-table-data1 text-center'>{job.jobCategory}</td>
                               <td className='dash-table-data1 text-center'>Screening</td>
                               <td className='text-center dash-table-view-btn-area'>
                                 <button className='dash-table-eye-view-btn'
@@ -361,64 +439,8 @@ const ClientDashboard = () => {
                                   <i class="bi bi-eye-fill"></i>
                                 </button>
                               </td>
-                            </tr>
-
-                            <tr className='dash-table-row'>
-                              <td>
-                                <img src="assets/img/home/table-img-4.png" className='dash-table-avatar-img' alt="" />
-                              </td>
-                              <td className='dash-table-data'>
-                                Lead Analyst <br />
-                                <span className='dash-table-sub'>Prodigit</span>
-                              </td>
-                              <td className='dash-table-data1 text-center'>Marketing & Communication</td>
-                              <td className='dash-table-data1 text-center'>Full-time</td>
-                              <td className='dash-table-data1 text-center'>Applied</td>
-                              <td className='text-center dash-table-view-btn-area'>
-                                <button className='dash-table-eye-view-btn'
-                                  data-toggle="modal" data-target="">
-                                  <i class="bi bi-eye-fill"></i>
-                                </button>
-                              </td>
-                            </tr>
-
-                            <tr className='dash-table-row'>
-                              <td>
-                                <img src="assets/img/home/table-img-2.png" className='dash-table-avatar-img' alt="" />
-                              </td>
-                              <td className='dash-table-data'>
-                                Lead Analyst <br />
-                                <span className='dash-table-sub'>Prodigit</span>
-                              </td>
-                              <td className='dash-table-data1 text-center'>Marketing & Communication</td>
-                              <td className='dash-table-data1 text-center'>Full-time</td>
-                              <td className='dash-table-data1 text-center'>Interview</td>
-                              <td className='text-center dash-table-view-btn-area'>
-                                <button className='dash-table-eye-view-btn'
-                                  data-toggle="modal" data-target="">
-                                  <i class="bi bi-eye-fill"></i>
-                                </button>
-                              </td>
-                            </tr>
-
-                            <tr className='dash-table-row'>
-                              <td>
-                                <img src="assets/img/home/table-img-3.png" className='dash-table-avatar-img' alt="" />
-                              </td>
-                              <td className='dash-table-data'>
-                                Lead Analyst <br />
-                                <span className='dash-table-sub'>Prodigit</span>
-                              </td>
-                              <td className='dash-table-data1 text-center'>Marketing & Communication</td>
-                              <td className='dash-table-data1 text-center'>Full-time</td>
-                              <td className='dash-table-data1 text-center'>Screening</td>
-                              <td className='text-center dash-table-view-btn-area'>
-                                <button className='dash-table-eye-view-btn'
-                                  data-toggle="modal" data-target="">
-                                  <i class="bi bi-eye-fill"></i>
-                                </button>
-                              </td>
-                            </tr>
+                              </tr>
+                            ))}
                           </table>
                         </div>
                       </div>
@@ -438,81 +460,26 @@ const ClientDashboard = () => {
                         </div>
                         <div class="table-responsive mt-4">
                           <table class="table table-striped table-hover dash-table">
-                            <tr className='dash-table-row'>
+                            {jobDetail.map(job=>(
+                              <tr className='dash-table-row'>
                               <td>
                                 <img src="assets/img/home/table-img-1.png" className='dash-table-avatar-img' alt="" />
                               </td>
                               <td className='dash-table-data'>
-                                Lead Analyst <br />
+                                {job.jobRole} <br />
                                 <span className='dash-table-sub'>Prodigit</span>
                               </td>
                               <td className='dash-table-data1 text-center'>Marketing & Communication</td>
-                              <td className='dash-table-data1 text-center'>Full-time</td>
-                              <td className='dash-table-data1 text-center'>0-4yrs</td>
+                              <td className='dash-table-data1 text-center'>{job.jobCategory}</td>
+                              <td className='dash-table-data1 text-center'>{job.jobExperience}</td>
                               <td className='text-center dash-table-view-btn-area'>
                                 <button className='dash-table-eye-view-btn'
                                   data-toggle="modal" data-target="">
                                   <i class="bi bi-eye-fill"></i>
                                 </button>
                               </td>
-                            </tr>
-
-                            <tr className='dash-table-row'>
-                              <td>
-                                <img src="assets/img/home/table-img-4.png" className='dash-table-avatar-img' alt="" />
-                              </td>
-                              <td className='dash-table-data'>
-                                Lead Analyst <br />
-                                <span className='dash-table-sub'>Prodigit</span>
-                              </td>
-                              <td className='dash-table-data1 text-center'>Marketing & Communication</td>
-                              <td className='dash-table-data1 text-center'>Full-time</td>
-                              <td className='dash-table-data1 text-center'>5-8yrs</td>
-                              <td className='text-center dash-table-view-btn-area'>
-                                <button className='dash-table-eye-view-btn'
-                                  data-toggle="modal" data-target="">
-                                  <i class="bi bi-eye-fill"></i>
-                                </button>
-                              </td>
-                            </tr>
-
-                            <tr className='dash-table-row'>
-                              <td>
-                                <img src="assets/img/home/table-img-2.png" className='dash-table-avatar-img' alt="" />
-                              </td>
-                              <td className='dash-table-data'>
-                                Lead Analyst <br />
-                                <span className='dash-table-sub'>Prodigit</span>
-                              </td>
-                              <td className='dash-table-data1 text-center'>Marketing & Communication</td>
-                              <td className='dash-table-data1 text-center'>Full-time</td>
-                              <td className='dash-table-data1 text-center'>0-1yrs</td>
-                              <td className='text-center dash-table-view-btn-area'>
-                                <button className='dash-table-eye-view-btn'
-                                  data-toggle="modal" data-target="">
-                                  <i class="bi bi-eye-fill"></i>
-                                </button>
-                              </td>
-                            </tr>
-
-                            <tr className='dash-table-row'>
-                              <td>
-                                <img src="assets/img/home/table-img-3.png" className='dash-table-avatar-img' alt="" />
-                              </td>
-                              <td className='dash-table-data'>
-                                Lead Analyst <br />
-                                <span className='dash-table-sub'>Prodigit</span>
-                              </td>
-                              <td className='dash-table-data1 text-center'>Marketing & Communication</td>
-                              <td className='dash-table-data1 text-center'>Full-time</td>
-                              <td className='dash-table-data1 text-center'>3-5yrs</td>
-                              <td className='text-center dash-table-view-btn-area'>
-                                <button className='dash-table-eye-view-btn'
-                                  data-toggle="modal" data-target="">
-                                  <i class="bi bi-eye-fill"></i>
-                                </button>
-                              </td>
-                            </tr>
+                              </tr>
+                            ))}
                           </table>
                         </div>
                       </div>

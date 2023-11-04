@@ -10,7 +10,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import AuthContext from '../../context/AuthContext';
 
 const TalentsProfileSearch = () => {
-    const {clientToken} = useParams();
+    const [clientToken, setClientToken] = useState("");
     
     const {getProtectedData, getClientChoosenPlan, packageSelectionDetail} = useContext(AuthContext);
     const [employeeId, setEmployeeId] = useState("");
@@ -30,6 +30,10 @@ const TalentsProfileSearch = () => {
     })
 
     const navigate = useNavigate();
+
+    useEffect(()=>{
+        setClientToken(JSON.parse(localStorage.getItem('clientToken')))
+    },[clientToken])
 
     useEffect(() => {
         $(document).ready(function () {
@@ -695,7 +699,7 @@ const TalentsProfileSearch = () => {
         <div>
             <div class="main-wrapper main-wrapper-1">
                 <div class="navbar-bg"></div>
-                <ClientLayout searchCv={true}/>
+                <ClientLayout />
             
                 <div class="main-content">
                     <section class="section">

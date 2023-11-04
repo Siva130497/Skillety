@@ -22,6 +22,7 @@ const {
   getAppliedjobs,
   getAppliedOfPostedJobs,
   deleteAppliedJob,
+  deletingPostedJob,
   createRecruiter,
   deleteRecruiter,
   getAllRecruiters,
@@ -55,6 +56,12 @@ const {
   roomIdChatDetailCreate,
   getAllChatDetailOfRoomId,
   sendingMailToCSE,
+  updatingClientEmail,
+  updatingClientPhone,
+  updatingClientPassword,
+  updatingCandidateEmail,
+  updatingCandidatePhone,
+  updatingCandidatePassword,
 } = require("../Controller/authFunctions");
 const employeeAuth = require("../middleware/employeeAuth");
 
@@ -121,6 +128,9 @@ router.get('/applied-jobs-of-posted/:id', employeeAuth, getAppliedOfPostedJobs)
 
 //delete particular job of candidate
 router.delete('/delete-job/:candidateId/:jobId', employeeAuth, deleteAppliedJob)
+
+//delete posted job 
+router.delete('/delete-job/:jobId', employeeAuth, deletingPostedJob)
 
 //get an individual recruiter by id
 router.get('/staff/:recruiterId',employeeAuth, getAnIndividualRecruiter);
@@ -215,6 +225,20 @@ router.get("/roomId-chat/:id", employeeAuth, getAllChatDetailOfRoomId);
 
 //sending mail to cse endpoint
 router.post("/enquiry-form/cse", sendingMailToCSE)
+
+//updating client information
+router.patch("/update-client-email", updatingClientEmail);
+
+router.patch("/update-client-phone", updatingClientPhone);
+
+router.patch("/update-client-password", updatingClientPassword);
+
+//updating candidate information
+router.patch("/update-candidate-email", updatingCandidateEmail);
+
+router.patch("/update-candidate-phone", updatingCandidatePhone);
+
+router.patch("/update-candidate-password", updatingCandidatePassword);
 
 // Client, Client-staff Login Route
 router.post("/login-Client", async (req, res) => {

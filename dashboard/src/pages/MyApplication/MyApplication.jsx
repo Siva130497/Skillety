@@ -1,12 +1,18 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import { useEffect } from 'react';
 import Layout from '../../components/Layout';
 import Footer from '../../components/Footer';
 import './MyApplication.css';
 import './MyApplication-responsive.css';
 import $ from 'jquery';
+import AuthContext from '../../context/AuthContext';
+import axios from 'axios';
 
 const MyApplication = () => {
+    const [candidateToken, setCandidateToken] = useState("");
+    const [candidateId, setCandidateId] = useState("");
+    const [appliedJobDetail, setAppliedJobDetail] = useState([]);
+    const {getProtectedData} = useContext(AuthContext);
 
     useEffect(() => {
         $(document).ready(function () {
@@ -23,6 +29,54 @@ const MyApplication = () => {
         });
 
     }, []);
+
+    useEffect(()=>{
+        setCandidateToken(JSON.parse(localStorage.getItem('candidateToken')))
+    },[candidateToken])
+
+    useEffect(() => {
+        if(candidateToken){
+            const fetchData = async () => {
+                try {
+                const user = await getProtectedData(candidateToken);
+                console.log(user);
+                setCandidateId(user.id);
+                } catch (error) {
+                console.log(error);
+                
+                }
+            };
+        
+            fetchData();
+        }
+    }, [candidateToken]);
+
+    const getAppliedjobs = async() => {
+        try{
+            const res = await axios.get(`http://localhost:5002/my-applied-jobs/${candidateId}`, {
+              headers: {
+                  Authorization: `Bearer ${candidateToken}`,
+                  Accept: 'application/json'
+              }
+            });
+            const result = res.data;
+            if (!result.error) {
+              console.log(result);
+              setAppliedJobDetail(result);
+            } else {
+              console.log(result);
+            }
+        }catch(err){
+          console.log(err);
+        }
+      }
+    
+      useEffect(()=>{
+        if(candidateId){
+          getAppliedjobs();
+        }
+      },[candidateId])
+    
 
     return (
         <div>
@@ -144,10 +198,11 @@ const MyApplication = () => {
                                                 </tr>
 
                                                 {/* table data */}
-                                                <tr className='dash-table-row custom'>
+                                                {appliedJobDetail.map(job=>(
+                                                    <tr className='dash-table-row custom'>
                                                     <td className='dash-table-data1'>Mindtree</td>
                                                     <td className='dash-table-data1'>
-                                                        UI/UX Designer Job &nbsp;&nbsp;
+                                                        {job.jobRole[0]} &nbsp;&nbsp;
                                                         <a href="#">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="15" height="14" viewBox="0 0 15 14" fill="none">
                                                                 <path d="M7.96815 3.39453H2C1.44771 3.39453 1 3.84225 1 4.39453V11.9951C1 12.5474 1.44772 12.9951 2 12.9951H10.8006C11.3529 12.9951 11.8006 12.5474 11.8006 11.9951V8.34966" stroke="#1394DF" stroke-linecap="round" />
@@ -155,7 +210,7 @@ const MyApplication = () => {
                                                             </svg>
                                                         </a>
                                                     </td>
-                                                    <td className='dash-table-data1'>03 Aug’ 23</td>
+                                                    <td className='dash-table-data1'>{`${new Date(job.createdAt).getFullYear() % 100}/${new Date(job.createdAt).getMonth().toString().padStart(2, '0')}/${new Date(job.createdAt).getDate().toString().padStart(2, '0')}`}</td>
                                                     <td className='text-center application-status-data'>
                                                         <div className="application-status-area">
                                                             <div className="app-status-line"></div>
@@ -181,438 +236,8 @@ const MyApplication = () => {
                                                             </svg>
                                                         </button>
                                                     </td>
-                                                </tr>
-
-                                                <tr className='dash-table-row custom'>
-                                                    <td className='dash-table-data1'>Victous</td>
-                                                    <td className='dash-table-data1'>
-                                                        UI/UX Designer Job &nbsp;&nbsp;
-                                                        <a href="#">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="14" viewBox="0 0 15 14" fill="none">
-                                                                <path d="M7.96815 3.39453H2C1.44771 3.39453 1 3.84225 1 4.39453V11.9951C1 12.5474 1.44772 12.9951 2 12.9951H10.8006C11.3529 12.9951 11.8006 12.5474 11.8006 11.9951V8.34966" stroke="#1394DF" stroke-linecap="round" />
-                                                                <path d="M4.91191 9.40359C4.71604 9.59825 4.71507 9.91483 4.90972 10.1107C5.10438 10.3066 5.42096 10.3075 5.61683 10.1129L4.91191 9.40359ZM14.5778 1.0006C14.5786 0.724458 14.3555 0.49991 14.0793 0.499058L9.57935 0.485168C9.3032 0.484316 9.07866 0.707482 9.0778 0.983623C9.07695 1.25976 9.30012 1.48431 9.57626 1.48516L13.5762 1.49751L13.5639 5.49749C13.563 5.77363 13.7862 5.99818 14.0623 5.99903C14.3385 5.99988 14.563 5.77672 14.5639 5.50058L14.5778 1.0006ZM5.61683 10.1129L14.4302 1.3537L13.7253 0.644412L4.91191 9.40359L5.61683 10.1129Z" fill="#1394DF" />
-                                                            </svg>
-                                                        </a>
-                                                    </td>
-                                                    <td className='dash-table-data1'>03 Aug’ 23</td>
-                                                    <td className='text-center application-status-data'>
-                                                        <div className="application-status-area">
-                                                            <div className="app-status-line"></div>
-
-                                                            {/* for Screening */}
-                                                            <div className="app-status-point point1 finished"></div>
-
-                                                            {/* for Interview */}
-                                                            <div className="app-status-point point2 active"></div>
-
-                                                            {/* for Offer */}
-                                                            <div className="app-status-point point3"></div>
-
-                                                            {/* for Joining */}
-                                                            <div className="app-status-point point4"></div>
-                                                        </div>
-                                                    </td>
-                                                    <td className='text-center'>
-                                                        <button className='application-btn'>
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-file-earmark-text-fill" viewBox="0 0 16 16">
-                                                                <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM4.5 9a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 1 0-1h4a.5.5 0 0 1 0 1h-4z"
-                                                                    fill='#0879bc' />
-                                                            </svg>
-                                                        </button>
-                                                    </td>
-                                                </tr>
-
-                                                <tr className='dash-table-row custom'>
-                                                    <td className='dash-table-data1'>Blueseas</td>
-                                                    <td className='dash-table-data1'>
-                                                        UI/UX Designer Job &nbsp;&nbsp;
-                                                        <a href="#">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="14" viewBox="0 0 15 14" fill="none">
-                                                                <path d="M7.96815 3.39453H2C1.44771 3.39453 1 3.84225 1 4.39453V11.9951C1 12.5474 1.44772 12.9951 2 12.9951H10.8006C11.3529 12.9951 11.8006 12.5474 11.8006 11.9951V8.34966" stroke="#1394DF" stroke-linecap="round" />
-                                                                <path d="M4.91191 9.40359C4.71604 9.59825 4.71507 9.91483 4.90972 10.1107C5.10438 10.3066 5.42096 10.3075 5.61683 10.1129L4.91191 9.40359ZM14.5778 1.0006C14.5786 0.724458 14.3555 0.49991 14.0793 0.499058L9.57935 0.485168C9.3032 0.484316 9.07866 0.707482 9.0778 0.983623C9.07695 1.25976 9.30012 1.48431 9.57626 1.48516L13.5762 1.49751L13.5639 5.49749C13.563 5.77363 13.7862 5.99818 14.0623 5.99903C14.3385 5.99988 14.563 5.77672 14.5639 5.50058L14.5778 1.0006ZM5.61683 10.1129L14.4302 1.3537L13.7253 0.644412L4.91191 9.40359L5.61683 10.1129Z" fill="#1394DF" />
-                                                            </svg>
-                                                        </a>
-                                                    </td>
-                                                    <td className='dash-table-data1'>03 Aug’ 23</td>
-                                                    <td className='text-center application-status-data'>
-                                                        <div className="application-status-area">
-                                                            <div className="app-status-line"></div>
-
-                                                            {/* for Screening */}
-                                                            <div className="app-status-point point1 finished"></div>
-
-                                                            {/* for Interview */}
-                                                            <div className="app-status-point point2 active"></div>
-
-                                                            {/* for Offer */}
-                                                            <div className="app-status-point point3"></div>
-
-                                                            {/* for Joining */}
-                                                            <div className="app-status-point point4"></div>
-                                                        </div>
-                                                    </td>
-                                                    <td className='text-center'>
-                                                        <button className='application-btn'>
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-file-earmark-text-fill" viewBox="0 0 16 16">
-                                                                <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM4.5 9a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 1 0-1h4a.5.5 0 0 1 0 1h-4z"
-                                                                    fill='#0879bc' />
-                                                            </svg>
-                                                        </button>
-                                                    </td>
-                                                </tr>
-
-                                                <tr className='dash-table-row custom'>
-                                                    <td className='dash-table-data1'>PayPal</td>
-                                                    <td className='dash-table-data1'>
-                                                        UI/UX Designer Job &nbsp;&nbsp;
-                                                        <a href="#">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="14" viewBox="0 0 15 14" fill="none">
-                                                                <path d="M7.96815 3.39453H2C1.44771 3.39453 1 3.84225 1 4.39453V11.9951C1 12.5474 1.44772 12.9951 2 12.9951H10.8006C11.3529 12.9951 11.8006 12.5474 11.8006 11.9951V8.34966" stroke="#1394DF" stroke-linecap="round" />
-                                                                <path d="M4.91191 9.40359C4.71604 9.59825 4.71507 9.91483 4.90972 10.1107C5.10438 10.3066 5.42096 10.3075 5.61683 10.1129L4.91191 9.40359ZM14.5778 1.0006C14.5786 0.724458 14.3555 0.49991 14.0793 0.499058L9.57935 0.485168C9.3032 0.484316 9.07866 0.707482 9.0778 0.983623C9.07695 1.25976 9.30012 1.48431 9.57626 1.48516L13.5762 1.49751L13.5639 5.49749C13.563 5.77363 13.7862 5.99818 14.0623 5.99903C14.3385 5.99988 14.563 5.77672 14.5639 5.50058L14.5778 1.0006ZM5.61683 10.1129L14.4302 1.3537L13.7253 0.644412L4.91191 9.40359L5.61683 10.1129Z" fill="#1394DF" />
-                                                            </svg>
-                                                        </a>
-                                                    </td>
-                                                    <td className='dash-table-data1'>03 Aug’ 23</td>
-                                                    <td className='text-center application-status-data'>
-                                                        <div className="application-status-area">
-                                                            <div className="app-status-line"></div>
-
-                                                            {/* for Screening */}
-                                                            <div className="app-status-point point1 finished"></div>
-
-                                                            {/* for Interview */}
-                                                            <div className="app-status-point point2 active"></div>
-
-                                                            {/* for Offer */}
-                                                            <div className="app-status-point point3"></div>
-
-                                                            {/* for Joining */}
-                                                            <div className="app-status-point point4"></div>
-                                                        </div>
-                                                    </td>
-                                                    <td className='text-center'>
-                                                        <button className='application-btn'>
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-file-earmark-text-fill" viewBox="0 0 16 16">
-                                                                <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM4.5 9a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 1 0-1h4a.5.5 0 0 1 0 1h-4z"
-                                                                    fill='#0879bc' />
-                                                            </svg>
-                                                        </button>
-                                                    </td>
-                                                </tr>
-
-                                                <tr className='dash-table-row custom'>
-                                                    <td className='dash-table-data1'>Microsoft</td>
-                                                    <td className='dash-table-data1'>
-                                                        UI/UX Designer Job &nbsp;&nbsp;
-                                                        <a href="#">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="14" viewBox="0 0 15 14" fill="none">
-                                                                <path d="M7.96815 3.39453H2C1.44771 3.39453 1 3.84225 1 4.39453V11.9951C1 12.5474 1.44772 12.9951 2 12.9951H10.8006C11.3529 12.9951 11.8006 12.5474 11.8006 11.9951V8.34966" stroke="#1394DF" stroke-linecap="round" />
-                                                                <path d="M4.91191 9.40359C4.71604 9.59825 4.71507 9.91483 4.90972 10.1107C5.10438 10.3066 5.42096 10.3075 5.61683 10.1129L4.91191 9.40359ZM14.5778 1.0006C14.5786 0.724458 14.3555 0.49991 14.0793 0.499058L9.57935 0.485168C9.3032 0.484316 9.07866 0.707482 9.0778 0.983623C9.07695 1.25976 9.30012 1.48431 9.57626 1.48516L13.5762 1.49751L13.5639 5.49749C13.563 5.77363 13.7862 5.99818 14.0623 5.99903C14.3385 5.99988 14.563 5.77672 14.5639 5.50058L14.5778 1.0006ZM5.61683 10.1129L14.4302 1.3537L13.7253 0.644412L4.91191 9.40359L5.61683 10.1129Z" fill="#1394DF" />
-                                                            </svg>
-                                                        </a>
-                                                    </td>
-                                                    <td className='dash-table-data1'>03 Aug’ 23</td>
-                                                    <td className='text-center application-status-data'>
-                                                        <div className="application-status-area">
-                                                            <div className="app-status-line"></div>
-
-                                                            {/* for Screening */}
-                                                            <div className="app-status-point point1 finished"></div>
-
-                                                            {/* for Interview */}
-                                                            <div className="app-status-point point2 active"></div>
-
-                                                            {/* for Offer */}
-                                                            <div className="app-status-point point3"></div>
-
-                                                            {/* for Joining */}
-                                                            <div className="app-status-point point4"></div>
-                                                        </div>
-                                                    </td>
-                                                    <td className='text-center'>
-                                                        <button className='application-btn'>
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-file-earmark-text-fill" viewBox="0 0 16 16">
-                                                                <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM4.5 9a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 1 0-1h4a.5.5 0 0 1 0 1h-4z"
-                                                                    fill='#0879bc' />
-                                                            </svg>
-                                                        </button>
-                                                    </td>
-                                                </tr>
-
-                                                <tr className='dash-table-row custom'>
-                                                    <td className='dash-table-data1'>Google</td>
-                                                    <td className='dash-table-data1'>
-                                                        UI/UX Designer Job &nbsp;&nbsp;
-                                                        <a href="#">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="14" viewBox="0 0 15 14" fill="none">
-                                                                <path d="M7.96815 3.39453H2C1.44771 3.39453 1 3.84225 1 4.39453V11.9951C1 12.5474 1.44772 12.9951 2 12.9951H10.8006C11.3529 12.9951 11.8006 12.5474 11.8006 11.9951V8.34966" stroke="#1394DF" stroke-linecap="round" />
-                                                                <path d="M4.91191 9.40359C4.71604 9.59825 4.71507 9.91483 4.90972 10.1107C5.10438 10.3066 5.42096 10.3075 5.61683 10.1129L4.91191 9.40359ZM14.5778 1.0006C14.5786 0.724458 14.3555 0.49991 14.0793 0.499058L9.57935 0.485168C9.3032 0.484316 9.07866 0.707482 9.0778 0.983623C9.07695 1.25976 9.30012 1.48431 9.57626 1.48516L13.5762 1.49751L13.5639 5.49749C13.563 5.77363 13.7862 5.99818 14.0623 5.99903C14.3385 5.99988 14.563 5.77672 14.5639 5.50058L14.5778 1.0006ZM5.61683 10.1129L14.4302 1.3537L13.7253 0.644412L4.91191 9.40359L5.61683 10.1129Z" fill="#1394DF" />
-                                                            </svg>
-                                                        </a>
-                                                    </td>
-                                                    <td className='dash-table-data1'>03 Aug’ 23</td>
-                                                    <td className='text-center application-status-data'>
-                                                        <div className="application-status-area">
-                                                            <div className="app-status-line"></div>
-
-                                                            {/* for Screening */}
-                                                            <div className="app-status-point point1 finished"></div>
-
-                                                            {/* for Interview */}
-                                                            <div className="app-status-point point2 active"></div>
-
-                                                            {/* for Offer */}
-                                                            <div className="app-status-point point3"></div>
-
-                                                            {/* for Joining */}
-                                                            <div className="app-status-point point4"></div>
-                                                        </div>
-                                                    </td>
-                                                    <td className='text-center'>
-                                                        <button className='application-btn'>
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-file-earmark-text-fill" viewBox="0 0 16 16">
-                                                                <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM4.5 9a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 1 0-1h4a.5.5 0 0 1 0 1h-4z"
-                                                                    fill='#0879bc' />
-                                                            </svg>
-                                                        </button>
-                                                    </td>
-                                                </tr>
-
-                                                <tr className='dash-table-row custom'>
-                                                    <td className='dash-table-data1'>Reddit</td>
-                                                    <td className='dash-table-data1'>
-                                                        UI/UX Designer Job &nbsp;&nbsp;
-                                                        <a href="#">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="14" viewBox="0 0 15 14" fill="none">
-                                                                <path d="M7.96815 3.39453H2C1.44771 3.39453 1 3.84225 1 4.39453V11.9951C1 12.5474 1.44772 12.9951 2 12.9951H10.8006C11.3529 12.9951 11.8006 12.5474 11.8006 11.9951V8.34966" stroke="#1394DF" stroke-linecap="round" />
-                                                                <path d="M4.91191 9.40359C4.71604 9.59825 4.71507 9.91483 4.90972 10.1107C5.10438 10.3066 5.42096 10.3075 5.61683 10.1129L4.91191 9.40359ZM14.5778 1.0006C14.5786 0.724458 14.3555 0.49991 14.0793 0.499058L9.57935 0.485168C9.3032 0.484316 9.07866 0.707482 9.0778 0.983623C9.07695 1.25976 9.30012 1.48431 9.57626 1.48516L13.5762 1.49751L13.5639 5.49749C13.563 5.77363 13.7862 5.99818 14.0623 5.99903C14.3385 5.99988 14.563 5.77672 14.5639 5.50058L14.5778 1.0006ZM5.61683 10.1129L14.4302 1.3537L13.7253 0.644412L4.91191 9.40359L5.61683 10.1129Z" fill="#1394DF" />
-                                                            </svg>
-                                                        </a>
-                                                    </td>
-                                                    <td className='dash-table-data1'>03 Aug’ 23</td>
-                                                    <td className='text-center application-status-data'>
-                                                        <div className="application-status-area">
-                                                            <div className="app-status-line"></div>
-
-                                                            {/* for Screening */}
-                                                            <div className="app-status-point point1 finished"></div>
-
-                                                            {/* for Interview */}
-                                                            <div className="app-status-point point2 active"></div>
-
-                                                            {/* for Offer */}
-                                                            <div className="app-status-point point3"></div>
-
-                                                            {/* for Joining */}
-                                                            <div className="app-status-point point4"></div>
-                                                        </div>
-                                                    </td>
-                                                    <td className='text-center'>
-                                                        <button className='application-btn'>
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-file-earmark-text-fill" viewBox="0 0 16 16">
-                                                                <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM4.5 9a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 1 0-1h4a.5.5 0 0 1 0 1h-4z"
-                                                                    fill='#0879bc' />
-                                                            </svg>
-                                                        </button>
-                                                    </td>
-                                                </tr>
-
-                                                <tr className='dash-table-row custom'>
-                                                    <td className='dash-table-data1'>Apple</td>
-                                                    <td className='dash-table-data1'>
-                                                        UI/UX Designer Job &nbsp;&nbsp;
-                                                        <a href="#">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="14" viewBox="0 0 15 14" fill="none">
-                                                                <path d="M7.96815 3.39453H2C1.44771 3.39453 1 3.84225 1 4.39453V11.9951C1 12.5474 1.44772 12.9951 2 12.9951H10.8006C11.3529 12.9951 11.8006 12.5474 11.8006 11.9951V8.34966" stroke="#1394DF" stroke-linecap="round" />
-                                                                <path d="M4.91191 9.40359C4.71604 9.59825 4.71507 9.91483 4.90972 10.1107C5.10438 10.3066 5.42096 10.3075 5.61683 10.1129L4.91191 9.40359ZM14.5778 1.0006C14.5786 0.724458 14.3555 0.49991 14.0793 0.499058L9.57935 0.485168C9.3032 0.484316 9.07866 0.707482 9.0778 0.983623C9.07695 1.25976 9.30012 1.48431 9.57626 1.48516L13.5762 1.49751L13.5639 5.49749C13.563 5.77363 13.7862 5.99818 14.0623 5.99903C14.3385 5.99988 14.563 5.77672 14.5639 5.50058L14.5778 1.0006ZM5.61683 10.1129L14.4302 1.3537L13.7253 0.644412L4.91191 9.40359L5.61683 10.1129Z" fill="#1394DF" />
-                                                            </svg>
-                                                        </a>
-                                                    </td>
-                                                    <td className='dash-table-data1'>03 Aug’ 23</td>
-                                                    <td className='text-center application-status-data'>
-                                                        <div className="application-status-area">
-                                                            <div className="app-status-line"></div>
-
-                                                            {/* for Screening */}
-                                                            <div className="app-status-point point1 finished"></div>
-
-                                                            {/* for Interview */}
-                                                            <div className="app-status-point point2 active"></div>
-
-                                                            {/* for Offer */}
-                                                            <div className="app-status-point point3"></div>
-
-                                                            {/* for Joining */}
-                                                            <div className="app-status-point point4"></div>
-                                                        </div>
-                                                    </td>
-                                                    <td className='text-center'>
-                                                        <button className='application-btn'>
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-file-earmark-text-fill" viewBox="0 0 16 16">
-                                                                <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM4.5 9a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 1 0-1h4a.5.5 0 0 1 0 1h-4z"
-                                                                    fill='#0879bc' />
-                                                            </svg>
-                                                        </button>
-                                                    </td>
-                                                </tr>
-
-                                                <tr className='dash-table-row custom'>
-                                                    <td className='dash-table-data1'>HP</td>
-                                                    <td className='dash-table-data1'>
-                                                        UI/UX Designer Job &nbsp;&nbsp;
-                                                        <a href="#">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="14" viewBox="0 0 15 14" fill="none">
-                                                                <path d="M7.96815 3.39453H2C1.44771 3.39453 1 3.84225 1 4.39453V11.9951C1 12.5474 1.44772 12.9951 2 12.9951H10.8006C11.3529 12.9951 11.8006 12.5474 11.8006 11.9951V8.34966" stroke="#1394DF" stroke-linecap="round" />
-                                                                <path d="M4.91191 9.40359C4.71604 9.59825 4.71507 9.91483 4.90972 10.1107C5.10438 10.3066 5.42096 10.3075 5.61683 10.1129L4.91191 9.40359ZM14.5778 1.0006C14.5786 0.724458 14.3555 0.49991 14.0793 0.499058L9.57935 0.485168C9.3032 0.484316 9.07866 0.707482 9.0778 0.983623C9.07695 1.25976 9.30012 1.48431 9.57626 1.48516L13.5762 1.49751L13.5639 5.49749C13.563 5.77363 13.7862 5.99818 14.0623 5.99903C14.3385 5.99988 14.563 5.77672 14.5639 5.50058L14.5778 1.0006ZM5.61683 10.1129L14.4302 1.3537L13.7253 0.644412L4.91191 9.40359L5.61683 10.1129Z" fill="#1394DF" />
-                                                            </svg>
-                                                        </a>
-                                                    </td>
-                                                    <td className='dash-table-data1'>03 Aug’ 23</td>
-                                                    <td className='text-center application-status-data'>
-                                                        <div className="application-status-area">
-                                                            <div className="app-status-line"></div>
-
-                                                            {/* for Screening */}
-                                                            <div className="app-status-point point1 finished"></div>
-
-                                                            {/* for Interview */}
-                                                            <div className="app-status-point point2 active"></div>
-
-                                                            {/* for Offer */}
-                                                            <div className="app-status-point point3"></div>
-
-                                                            {/* for Joining */}
-                                                            <div className="app-status-point point4"></div>
-                                                        </div>
-                                                    </td>
-                                                    <td className='text-center'>
-                                                        <button className='application-btn'>
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-file-earmark-text-fill" viewBox="0 0 16 16">
-                                                                <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM4.5 9a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 1 0-1h4a.5.5 0 0 1 0 1h-4z"
-                                                                    fill='#0879bc' />
-                                                            </svg>
-                                                        </button>
-                                                    </td>
-                                                </tr>
-
-                                                <tr className='dash-table-row custom'>
-                                                    <td className='dash-table-data1'>Amazon</td>
-                                                    <td className='dash-table-data1'>
-                                                        UI/UX Designer Job &nbsp;&nbsp;
-                                                        <a href="#">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="14" viewBox="0 0 15 14" fill="none">
-                                                                <path d="M7.96815 3.39453H2C1.44771 3.39453 1 3.84225 1 4.39453V11.9951C1 12.5474 1.44772 12.9951 2 12.9951H10.8006C11.3529 12.9951 11.8006 12.5474 11.8006 11.9951V8.34966" stroke="#1394DF" stroke-linecap="round" />
-                                                                <path d="M4.91191 9.40359C4.71604 9.59825 4.71507 9.91483 4.90972 10.1107C5.10438 10.3066 5.42096 10.3075 5.61683 10.1129L4.91191 9.40359ZM14.5778 1.0006C14.5786 0.724458 14.3555 0.49991 14.0793 0.499058L9.57935 0.485168C9.3032 0.484316 9.07866 0.707482 9.0778 0.983623C9.07695 1.25976 9.30012 1.48431 9.57626 1.48516L13.5762 1.49751L13.5639 5.49749C13.563 5.77363 13.7862 5.99818 14.0623 5.99903C14.3385 5.99988 14.563 5.77672 14.5639 5.50058L14.5778 1.0006ZM5.61683 10.1129L14.4302 1.3537L13.7253 0.644412L4.91191 9.40359L5.61683 10.1129Z" fill="#1394DF" />
-                                                            </svg>
-                                                        </a>
-                                                    </td>
-                                                    <td className='dash-table-data1'>03 Aug’ 23</td>
-                                                    <td className='text-center application-status-data'>
-                                                        <div className="application-status-area">
-                                                            <div className="app-status-line"></div>
-
-                                                            {/* for Screening */}
-                                                            <div className="app-status-point point1 finished"></div>
-
-                                                            {/* for Interview */}
-                                                            <div className="app-status-point point2 active"></div>
-
-                                                            {/* for Offer */}
-                                                            <div className="app-status-point point3"></div>
-
-                                                            {/* for Joining */}
-                                                            <div className="app-status-point point4"></div>
-                                                        </div>
-                                                    </td>
-                                                    <td className='text-center'>
-                                                        <button className='application-btn'>
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-file-earmark-text-fill" viewBox="0 0 16 16">
-                                                                <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM4.5 9a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 1 0-1h4a.5.5 0 0 1 0 1h-4z"
-                                                                    fill='#0879bc' />
-                                                            </svg>
-                                                        </button>
-                                                    </td>
-                                                </tr>
-
-                                                <tr className='dash-table-row custom'>
-                                                    <td className='dash-table-data1'>TATA</td>
-                                                    <td className='dash-table-data1'>
-                                                        UI/UX Designer Job &nbsp;&nbsp;
-                                                        <a href="#">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="14" viewBox="0 0 15 14" fill="none">
-                                                                <path d="M7.96815 3.39453H2C1.44771 3.39453 1 3.84225 1 4.39453V11.9951C1 12.5474 1.44772 12.9951 2 12.9951H10.8006C11.3529 12.9951 11.8006 12.5474 11.8006 11.9951V8.34966" stroke="#1394DF" stroke-linecap="round" />
-                                                                <path d="M4.91191 9.40359C4.71604 9.59825 4.71507 9.91483 4.90972 10.1107C5.10438 10.3066 5.42096 10.3075 5.61683 10.1129L4.91191 9.40359ZM14.5778 1.0006C14.5786 0.724458 14.3555 0.49991 14.0793 0.499058L9.57935 0.485168C9.3032 0.484316 9.07866 0.707482 9.0778 0.983623C9.07695 1.25976 9.30012 1.48431 9.57626 1.48516L13.5762 1.49751L13.5639 5.49749C13.563 5.77363 13.7862 5.99818 14.0623 5.99903C14.3385 5.99988 14.563 5.77672 14.5639 5.50058L14.5778 1.0006ZM5.61683 10.1129L14.4302 1.3537L13.7253 0.644412L4.91191 9.40359L5.61683 10.1129Z" fill="#1394DF" />
-                                                            </svg>
-                                                        </a>
-                                                    </td>
-                                                    <td className='dash-table-data1'>03 Aug’ 23</td>
-                                                    <td className='text-center application-status-data'>
-                                                        <div className="application-status-area">
-                                                            <div className="app-status-line"></div>
-
-                                                            {/* for Screening */}
-                                                            <div className="app-status-point point1 finished"></div>
-
-                                                            {/* for Interview */}
-                                                            <div className="app-status-point point2 active"></div>
-
-                                                            {/* for Offer */}
-                                                            <div className="app-status-point point3"></div>
-
-                                                            {/* for Joining */}
-                                                            <div className="app-status-point point4"></div>
-                                                        </div>
-                                                    </td>
-                                                    <td className='text-center'>
-                                                        <button className='application-btn'>
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-file-earmark-text-fill" viewBox="0 0 16 16">
-                                                                <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM4.5 9a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 1 0-1h4a.5.5 0 0 1 0 1h-4z"
-                                                                    fill='#0879bc' />
-                                                            </svg>
-                                                        </button>
-                                                    </td>
-                                                </tr>
-
-                                                <tr className='dash-table-row custom'>
-                                                    <td className='dash-table-data1'>Accenture</td>
-                                                    <td className='dash-table-data1'>
-                                                        UI/UX Designer Job &nbsp;&nbsp;
-                                                        <a href="#">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="14" viewBox="0 0 15 14" fill="none">
-                                                                <path d="M7.96815 3.39453H2C1.44771 3.39453 1 3.84225 1 4.39453V11.9951C1 12.5474 1.44772 12.9951 2 12.9951H10.8006C11.3529 12.9951 11.8006 12.5474 11.8006 11.9951V8.34966" stroke="#1394DF" stroke-linecap="round" />
-                                                                <path d="M4.91191 9.40359C4.71604 9.59825 4.71507 9.91483 4.90972 10.1107C5.10438 10.3066 5.42096 10.3075 5.61683 10.1129L4.91191 9.40359ZM14.5778 1.0006C14.5786 0.724458 14.3555 0.49991 14.0793 0.499058L9.57935 0.485168C9.3032 0.484316 9.07866 0.707482 9.0778 0.983623C9.07695 1.25976 9.30012 1.48431 9.57626 1.48516L13.5762 1.49751L13.5639 5.49749C13.563 5.77363 13.7862 5.99818 14.0623 5.99903C14.3385 5.99988 14.563 5.77672 14.5639 5.50058L14.5778 1.0006ZM5.61683 10.1129L14.4302 1.3537L13.7253 0.644412L4.91191 9.40359L5.61683 10.1129Z" fill="#1394DF" />
-                                                            </svg>
-                                                        </a>
-                                                    </td>
-                                                    <td className='dash-table-data1'>03 Aug’ 23</td>
-                                                    <td className='text-center application-status-data'>
-                                                        <div className="application-status-area">
-                                                            <div className="app-status-line"></div>
-
-                                                            {/* for Screening */}
-                                                            <div className="app-status-point point1 finished"></div>
-
-                                                            {/* for Interview */}
-                                                            <div className="app-status-point point2 active"></div>
-
-                                                            {/* for Offer */}
-                                                            <div className="app-status-point point3"></div>
-
-                                                            {/* for Joining */}
-                                                            <div className="app-status-point point4"></div>
-                                                        </div>
-                                                    </td>
-                                                    <td className='text-center'>
-                                                        <button className='application-btn'>
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-file-earmark-text-fill" viewBox="0 0 16 16">
-                                                                <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM4.5 9a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 1 0-1h4a.5.5 0 0 1 0 1h-4z"
-                                                                    fill='#0879bc' />
-                                                            </svg>
-                                                        </button>
-                                                    </td>
-                                                </tr>
-
-
+                                                    </tr>
+                                                ))}
                                             </table>
                                         </div>
 

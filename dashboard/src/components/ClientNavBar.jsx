@@ -3,14 +3,16 @@ import { useNavigate, useParams } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
 
 const ClientNavBar = () => {
-
+  const [token, setToken] = useState("");
   const {getProtectedData} = useContext(AuthContext);
   const navigate = useNavigate();
-  const {token} = useParams()
-  localStorage.setItem("clientToken",  JSON.stringify(token))
-
+  
     const [userName, setUserName] = useState('');
 
+    useEffect(()=>{
+      setToken(JSON.parse(localStorage.getItem('clientToken')))
+    },[token])
+    
 
     useEffect(() => {
         if(token){

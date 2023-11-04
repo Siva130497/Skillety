@@ -1,13 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useEffect } from 'react';
 import $ from 'jquery';
 
 const Sidebar = () => {
+  const [candidateToken, setCandidateToken] = useState("");
+
+    useEffect(()=>{
+        setCandidateToken(JSON.parse(localStorage.getItem('candidateToken')))
+    },[candidateToken])
+
   useEffect(() => {
     $(document).ready(function () {
       var path = window.location.pathname;
 
-      if (path === '/') {
+      if (path === '/:token') {
         $('#dashboard').addClass('active');
       } else if (path === '/my-application') {
         $('#my_application').addClass('active');
@@ -36,7 +42,7 @@ const Sidebar = () => {
           <ul className="sidebar-menu">
             {/* <li className="menu-header">Main</li> */}
             <li className="dropdown" id="dashboard">
-              <a href="/" className="nav-link"><i data-feather="home"></i><span>Dashboard</span></a>
+              <a href={`/${candidateToken}`} className="nav-link"><i data-feather="home"></i><span>Dashboard</span></a>
             </li>
             <li className="dropdown" id="my_application">
               <a href="/my-application" className="nav-link"><i data-feather="file-text"></i><span>My Application</span></a>

@@ -547,6 +547,18 @@ const deleteAppliedJob = async(req, res) => {
   }
 }
 
+/* delete posted job */
+const deletingPostedJob = async(req, res) => {
+  try{
+    const jobId = req.params.jobId;
+    const deletedPostedJob = await jobDetail.deleteOne({id:jobId});
+    
+    res.status(204).json(deletedPostedJob); 
+  }catch(err) {
+    res.status(500).json({error: err.message})
+  }
+}
+
 /* creating new recruiter */
 const createRecruiter = async(req, res) => {
   try {
@@ -1191,6 +1203,150 @@ const sendingMailToCSE = async(req, res) => {
   }
 }
 
+/* update the client information */
+const updatingClientEmail = async (req, res) => {
+  const { id, email } = req.body;
+
+  try {
+    const allUsersDoc = await allUsers.findOneAndUpdate(
+      { id: id },
+      { email: email },
+      { new: true }
+    );
+    const finalClientDoc = await finalClient.findOneAndUpdate(
+      { id: id },
+      { email: email },
+      { new: true }
+    );
+    res.status(200).json({ allUsersDoc, finalClientDoc });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: 'Internal Server Error' });
+  }
+};
+
+const updatingClientPhone = async (req, res) => {
+  const { id, phone } = req.body;
+
+  try {
+    const allUsersDoc = await allUsers.findOneAndUpdate(
+      { id: id },
+      { phone: phone },
+      { new: true }
+    );
+    const finalClientDoc = await finalClient.findOneAndUpdate(
+      { id: id },
+      { phone: phone },
+      { new: true }
+    );
+    res.status(200).json({ allUsersDoc, finalClientDoc });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: 'Internal Server Error' });
+  }
+};
+
+const updatingClientPassword = async (req, res) => {
+  const { id, currentPassword, newPassword } = req.body;
+  try {
+    const user = await allUsers.findOne({ id: id });
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    const passwordMatch = await bcrypt.compare(currentPassword, user.password);
+    if (!passwordMatch) {
+      return res.status(401).json({ error: 'Password does not match' });
+    }
+    const hashPassword = await bcrypt.hash(newPassword, 12);
+    const allUsersDoc = await allUsers.findOneAndUpdate(
+      { id: id },
+      { password: hashPassword },
+      { new: true }
+    );
+    const finalClientDoc = await finalClient.findOneAndUpdate(
+      { id: id },
+      { password: hashPassword },
+      { new: true }
+    );
+    res.status(200).json({ allUsersDoc, finalClientDoc });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: 'Internal Server Error' });
+  }
+};
+
+/* update the candidate information */
+const updatingCandidateEmail = async (req, res) => {
+  const { id, email } = req.body;
+
+  try {
+    const allUsersDoc = await allUsers.findOneAndUpdate(
+      { id: id },
+      { email: email },
+      { new: true }
+    );
+    const finalCandidateDoc = await candidate.findOneAndUpdate(
+      { id: id },
+      { email: email },
+      { new: true }
+    );
+    res.status(200).json({ allUsersDoc, finalCandidateDoc });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: 'Internal Server Error' });
+  }
+};
+
+const updatingCandidatePhone = async (req, res) => {
+  const { id, phone } = req.body;
+
+  try {
+    const allUsersDoc = await allUsers.findOneAndUpdate(
+      { id: id },
+      { phone: phone },
+      { new: true }
+    );
+    const finalCandidateDoc = await candidate.findOneAndUpdate(
+      { id: id },
+      { phone: phone },
+      { new: true }
+    );
+    res.status(200).json({ allUsersDoc, finalCandidateDoc });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: 'Internal Server Error' });
+  }
+};
+
+const updatingCandidatePassword = async (req, res) => {
+  const { id, currentPassword, newPassword } = req.body;
+  try {
+    const user = await allUsers.findOne({ id: id });
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    const passwordMatch = await bcrypt.compare(currentPassword, user.password);
+    if (!passwordMatch) {
+      return res.status(401).json({ error: 'Password does not match' });
+    }
+    const hashPassword = await bcrypt.hash(newPassword, 12);
+    const allUsersDoc = await allUsers.findOneAndUpdate(
+      { id: id },
+      { password: hashPassword },
+      { new: true }
+    );
+    const finalCandidateDoc = await candidate.findOneAndUpdate(
+      { id: id },
+      { password: hashPassword },
+      { new: true }
+    );
+    res.status(200).json({ allUsersDoc, finalCandidateDoc });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: 'Internal Server Error' });
+  }
+};
+
 
 /* random password generate */
 const generateRandomPassword = (req, res) => {
@@ -1364,6 +1520,7 @@ module.exports = {
    getAppliedjobs,
    getAppliedOfPostedJobs,
    deleteAppliedJob,
+   deletingPostedJob,
    createRecruiter,
    deleteRecruiter,
    getAllRecruiters,
@@ -1397,4 +1554,11 @@ module.exports = {
    roomIdChatDetailCreate,
    getAllChatDetailOfRoomId,
    sendingMailToCSE,
+   updatingClientEmail,
+   updatingClientPhone,
+   updatingClientPassword,
+   updatingCandidateEmail,
+   updatingCandidatePhone,
+   updatingCandidatePassword,
+
 };
