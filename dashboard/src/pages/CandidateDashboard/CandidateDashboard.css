@@ -1,6 +1,9 @@
 .dash-section {
     padding-right: 350px;
 }
+.dash-section.candidate{
+    padding-right: 0;
+}
 
 .dash-right-panel {
     background-color: #FFF;

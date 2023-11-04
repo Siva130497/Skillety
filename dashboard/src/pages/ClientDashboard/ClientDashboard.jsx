@@ -103,7 +103,7 @@ const ClientDashboard = () => {
         <div>
             <div class="main-wrapper main-wrapper-1">
                 <div class="navbar-bg"></div>
-                <ClientLayout dashBoard={true}/>
+                <ClientLayout dashBoard={true} />
 
                 <div class="main-content">
                     <section class="section">
@@ -473,7 +473,7 @@ const ClientDashboard = () => {
                                             <div className="dash-table-area">
                                                 <div className="dash-table-top-area">
                                                     <div className="dash-table-title">
-                                                        Active Jobs
+                                                        Posted Jobs
                                                     </div>
                                                     <a href='#' className="dash-table-see-all-btn">See all</a>
                                                 </div>

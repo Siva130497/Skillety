@@ -44,9 +44,9 @@ const Sidebar = () => {
             <li className="dropdown" id="search_jobs">
               <a href="/search-jobs" className="nav-link"><i data-feather="briefcase"></i><span>Search Jobs</span></a>
             </li>
-            <li className="dropdown" id="favourite_jobs">
+            {/* <li className="dropdown" id="favourite_jobs">
               <a href="/favourite-jobs" className="nav-link"><i data-feather="heart"></i><span>Favourite Jobs</span></a>
-            </li>
+            </li> */}
 
             <div className='hr-line'></div>
 
