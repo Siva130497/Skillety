@@ -100,7 +100,7 @@ export const NewNavCandidateHome = ({homeActive, aboutUsActive, searchJobActive,
                         {userName ?
                             <li className="dropdown"><a href='#'><span>{extractLastName()}</span><i className="bi bi-chevron-down"></i></a>
                                 <ul>
-                                    <li><a href="http://localhost:3001">Dash Board</a></li>
+                                    <li><a href={`http://localhost:3000/${candidateToken}`}>Dash Board</a></li>
                                     <li onClick={() => {
                                         localStorage.removeItem("candidateToken");
                                         window.location.reload();

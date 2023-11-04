@@ -1,6 +1,42 @@
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
+import AuthContext from '../context/AuthContext';
 
 const NavBar = () => {
+  const [token, setToken] = useState("");
+  const {getProtectedData} = useContext(AuthContext);
+
+  const [userName, setUserName] = useState('');
+
+    useEffect(()=>{
+      setToken(JSON.parse(localStorage.getItem('candidateToken')))
+    },[token])
+    
+    useEffect(() => {
+        if(token){
+            const fetchData = async () => {
+                try {
+                    const userData = await getProtectedData(token);
+                    console.log(userData);
+                    setUserName(userData.name);
+                } catch (error) {
+                    console.log(error)
+                }
+            };
+    
+            fetchData();
+        }
+    }, [token]);
+
+    const extractLastName = () => {
+      const nameParts = userName.split(' ');
+  
+      if (nameParts.length > 1) {
+        return nameParts[nameParts.length - 1];
+      } else {
+        return userName; 
+      }
+  };
+
   return (
     <div>
       <nav className="navbar navbar-expand-lg main-navbar sticky">
@@ -185,7 +221,7 @@ const NavBar = () => {
               <div className="dropdown-top-area">
                 <img src="assets/img/layout/user-img.png" className='dropdown-user-img' alt="" />
                 <div className='dropdown-user-detail-area'>
-                  <div className="dropdown-user-name">Raquel Harrison</div>
+                  <div className="dropdown-user-name">{extractLastName()}</div>
                   <div className="dropdown-user-role">UX Designer, India</div>
                 </div>
               </div>

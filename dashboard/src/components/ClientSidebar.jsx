@@ -1,14 +1,19 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useEffect } from 'react';
 import $ from 'jquery';
 
 const ClientSidebar = () => {
+    const [clientToken, setClientToken] = useState("");
+
+    useEffect(()=>{
+        setClientToken(JSON.parse(localStorage.getItem('clientToken')))
+    },[clientToken])
 
     useEffect(() => {
         $(document).ready(function () {
             var path = window.location.pathname;
 
-            if (path === '/client-dashboard') {
+            if (path === `/client-dashboard/${clientToken}`) {
                 $('#client_dashboard').addClass('active');
             } else if (path === '/talent-profile-search') {
                 $('#search_candidate').addClass('active');
@@ -45,7 +50,7 @@ const ClientSidebar = () => {
                     <ul className="sidebar-menu client">
                         {/* <li className="menu-header">Main</li> */}
                         <li className="dropdown" id='client_dashboard'>
-                            <a href="/client-dashboard" className="nav-link"><i data-feather="home"></i><span>Dashboard</span></a>
+                            <a href={`/client-dashboard/${clientToken}`} className="nav-link"><i data-feather="home"></i><span>Dashboard</span></a>
                         </li>
                         <li className="dropdown" id='search_candidate'>
                             <a href="/talent-profile-search" className="nav-link"><i data-feather="search"></i><span>Search Candidates</span></a>

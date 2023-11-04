@@ -10,9 +10,9 @@ import { useNavigate, useParams } from 'react-router-dom';
 import AuthContext from '../../context/AuthContext';
 
 const TalentsProfileSearch = () => {
-    const { clientToken } = useParams();
-
-    const { getProtectedData, getClientChoosenPlan, packageSelectionDetail } = useContext(AuthContext);
+    const [clientToken, setClientToken] = useState("");
+    
+    const {getProtectedData, getClientChoosenPlan, packageSelectionDetail} = useContext(AuthContext);
     const [employeeId, setEmployeeId] = useState("");
     const [loginClientDetail, setLoginClientDetail] = useState([]);
     const [cvViews, setCvViews] = useState();
@@ -30,6 +30,10 @@ const TalentsProfileSearch = () => {
     })
 
     const navigate = useNavigate();
+
+    useEffect(()=>{
+        setClientToken(JSON.parse(localStorage.getItem('clientToken')))
+    },[clientToken])
 
     useEffect(() => {
         $(document).ready(function () {
@@ -695,8 +699,8 @@ const TalentsProfileSearch = () => {
         <div>
             <div class="main-wrapper main-wrapper-1">
                 <div class="navbar-bg"></div>
-                <ClientLayout searchCv={true} />
-
+                <ClientLayout />
+            
                 <div class="main-content">
                     <section class="section">
                         <div className='cli--tal-pro-search-section pt-5'>

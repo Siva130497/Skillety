@@ -6,7 +6,7 @@ import ClientNavBar from './ClientNavBar'
 import ClientSidebar from './ClientSidebar'
 import feather from 'feather-icons';
 
-const ClientLayout = ({dashBoard, searchCv}) => {
+const ClientLayout = () => {
 
     useEffect(() => {
         $(window).on("load", function () {
@@ -740,7 +740,7 @@ const ClientLayout = ({dashBoard, searchCv}) => {
         <div class="navbar-bg"></div> */}
             <ClientNavBar />
 
-            <ClientSidebar dashBoard={dashBoard} searchCv={searchCv}/>
+            <ClientSidebar />
 
 
 
