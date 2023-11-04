@@ -8,8 +8,8 @@
 
 .cli-tal-pro-search-container .cli-tal-pro-search-heading {
     color: #714F36;
-    font-size: 48px;
-    font-weight: 450;
+    font-size: 28px;
+    font-weight: 600;
     text-transform: uppercase;
 }
 
@@ -26,7 +26,7 @@
 }
 
 .cli-tal-pro-search-filter-area {
-    padding: 30px 20px 30px 0px;
+    padding: 30px 10px 30px 0px;
 }
 
 .cli-tal-pro-search-filter-head-area {
@@ -677,6 +677,7 @@
     color: #313131;
     font-size: 10px;
     font-weight: 500;
+    margin-bottom: 0;
 }
 
 .tal--search-options-area .tal--search-option-container .tal--search-radio:checked+.tal--search-tile {
@@ -705,7 +706,7 @@
     color: #714F36;
     border-radius: 40px;
     border: 1px solid #714F36;
-    font-size: 22px;
+    font-size: 18px;
     font-weight: 500;
     outline: none;
     background-color: transparent;
@@ -722,7 +723,7 @@
 
 .tal--search-submit-btn {
     color: #FFF;
-    font-size: 22px;
+    font-size: 18px;
     font-weight: 500;
     background-color: #714F36;
     border: 1px solid #714F36;
@@ -730,6 +731,12 @@
     border-radius: 40px;
     padding: 8px 30px;
     transition: ease-in-out 0.8s;
+}
+.tal--search-submit-btn:focus,
+.tal--search-submit-btn:active,
+.clear--all_button-area .clear--all_button:focus,
+.clear--all_button-area .clear--all_button:active{
+    outline: none;
 }
 
 .tal--search-submit-btn:hover {
@@ -780,12 +787,12 @@
     justify-content: space-between;
     align-items: center;
     cursor: pointer;
-    padding: 40px 15px 40px 0px;
+    padding: 30px 15px 30px 0px;
 }
 
 .cli--emploment-detail-head {
     color: #714F36;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 600;
     text-transform: capitalize;
     margin-bottom: 0px;
@@ -835,9 +842,10 @@
 
 .cli-tal-pro-search-page-days-selection-area .days-active {
     color: #9F9F9F;
-    font-size: 20px;
+    font-size: 16px;
     font-weight: 400;
     text-transform: capitalize;
+    white-space: nowrap;
 }
 
 .cli-tal-pro-search-page-btn-area .cli-tal-pro-search-page-btn {
@@ -846,7 +854,7 @@
     border-radius: 16px;
     background-color: #714F36;
     border: 1px solid #714F36;
-    padding: 25px 40px;
+    padding: 20px 40px;
     color: #FFF;
     font-size: 16px;
     font-weight: 700;
@@ -861,6 +869,12 @@
 /* /////for custom selection */
 .custom-select {
     position: relative;
+    background-color: transparent;
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    appearance: none !important;
+    border: none;
+    background: none;
 }
 
 .select-box {
@@ -935,12 +949,12 @@
 
 .cli-tal-pro-recent-search-head {
     color: #714F36;
-    font-size: 32px;
+    font-size: 25px;
     font-weight: 600;
 }
 
 .cli-tal-pro-recent-search-area {
-    margin-bottom: 45px;
+    margin-bottom: 35px;
 }
 
 .cli-tal-pro-recent-search-btn-area {
@@ -954,7 +968,7 @@
     border: none;
     outline: none;
     color: #1863B9;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 400;
     margin: 0;
     padding: 0;
@@ -972,7 +986,7 @@
 
 .cli-tal-pro-recent-search-tags span {
     color: #2B2B2B;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 400;
 }
 
@@ -982,7 +996,7 @@
 
 .talent--profile-search-page-section,
 .talent--profile-search-results-section {
-    padding-bottom: 80px;
+    padding-bottom: 40px;
 }
 
 .cli-tal-pro-recent-search-container {

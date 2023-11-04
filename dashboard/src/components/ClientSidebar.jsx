@@ -13,7 +13,7 @@ const ClientSidebar = () => {
         $(document).ready(function () {
             var path = window.location.pathname;
 
-            if (path === '/client-dashboard/:token') {
+            if (path === `/client-dashboard/${clientToken}`) {
                 $('#client_dashboard').addClass('active');
             } else if (path === '/talent-profile-search') {
                 $('#search_candidate').addClass('active');

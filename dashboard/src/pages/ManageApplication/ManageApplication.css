@@ -1,0 +1,40 @@
+.dash-table-row.man-app {
+    border-bottom: none;
+    background-color: #714F36;
+}
+
+.dash-table-row.man-app th {
+    color: #FFF !important;
+    font-weight: 600 !important;
+    padding: 25px 15px !important;
+}
+
+.dash-table-row.man-app th:first-child {
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+
+.dash-table-row.man-app th:last-child {
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+.man-app-title-area {
+    padding: 10px 0 20px 0;
+}
+
+.man-app-title {
+    font-size: 22px !important;
+    color: #714F36 !important;
+    font-weight: 600 !important;
+}
+
+.man-app-sub-title {
+    padding-top: 5px;
+    font-size: 16px !important;
+    color: #714F36 !important;
+    font-weight: 400 !important;
+}
+.admin-lg-table-area.man-app{
+    padding: 15px;
+}

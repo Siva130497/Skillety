@@ -231,7 +231,7 @@ const ClientDashboard = () => {
 
                 <div class="main-content">
                     <section class="section">
-                        <div className="dash-section">
+                        <div className="dash-section candidate">
                             <div className="dash-main-area">
 
                                 <div className="top-nav-area">
@@ -258,28 +258,28 @@ const ClientDashboard = () => {
                                     <div className="row">
                                         <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
                                             <div className="dash-num-count-area">
-                                                <p className='dash-num-title'>Job <br /> Posted</p>
+                                                <p className='dash-num-title'>Job Posted</p>
                                                 <h4 className='dash-num-count'>14</h4>
                                             </div>
                                         </div>
 
                                         <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
                                             <div className="dash-num-count-area">
-                                                <p className='dash-num-title'>Unread <br /> Applications</p>
+                                                <p className='dash-num-title'>Unread Applications</p>
                                                 <h4 className='dash-num-count'>04</h4>
                                             </div>
                                         </div>
 
                                         <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
                                             <div className="dash-num-count-area">
-                                                <p className='dash-num-title'>Upcoming <br /> Interview</p>
+                                                <p className='dash-num-title'>Upcoming Interview</p>
                                                 <h4 className='dash-num-count'>08</h4>
                                             </div>
                                         </div>
 
                                         <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
                                             <div className="dash-num-count-area">
-                                                <p className='dash-num-title'>New <br /> Notification</p>
+                                                <p className='dash-num-title'>New Notification</p>
                                                 <h4 className='dash-num-count'>28</h4>
                                             </div>
                                         </div>
@@ -346,7 +346,7 @@ const ClientDashboard = () => {
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-12 col-xl-12 pr-2">
+                                    <div class="col-12 col-xl-6 pr-2">
                                         <div className="dash-table-section">
                                             <div className="dash-table-area">
                                                 <div className="dash-table-top-area">
@@ -407,7 +407,7 @@ const ClientDashboard = () => {
                                         </div>
                                     </div>
 
-                                    <div class="col-12 col-xl-12 pl-2">
+                                    <div class="col-12 col-xl-6 pl-2">
                                         <div className="dash-table-section">
                                             <div className="dash-table-area">
                                                 <div className="dash-table-top-area">
@@ -614,7 +614,7 @@ const ClientDashboard = () => {
                                             <div className="dash-table-area">
                                                 <div className="dash-table-top-area">
                                                     <div className="dash-table-title">
-                                                        Active Jobs
+                                                        Posted Jobs
                                                     </div>
                                                     <a href='#' className="dash-table-see-all-btn">See all</a>
                                                 </div>
@@ -657,7 +657,7 @@ const ClientDashboard = () => {
                             </div>
                         </div>
 
-                        <div className="dash-right-panel">
+                        {/* <div className="dash-right-panel">
                             <div className="dash-right-panel-content">
                                 <div className="dash-hire-slider-area">
 
@@ -710,7 +710,7 @@ const ClientDashboard = () => {
                                 </div>
 
                             </div>
-                        </div>
+                        </div> */}
                     </section>
                 </div>
                 <Footer />

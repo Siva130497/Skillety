@@ -147,7 +147,7 @@ const ManageJobs = () => {
                                                     <th className='dash-table-head'>Total Jobs</th>
                                                     <th className='dash-table-head text-center'>DOA</th>
                                                     <th className='dash-table-head text-center'>No of total <br />Applicants</th>
-                                                    <th className='dash-table-head text-center'>No of <br /> Positions</th>
+                                                    <th className='dash-table-head text-center'>Posted by <br /> Who?</th>
                                                     <th className='dash-table-head text-center'>Status</th>
                                                     <th className='text-center'></th>
                                                 </tr>

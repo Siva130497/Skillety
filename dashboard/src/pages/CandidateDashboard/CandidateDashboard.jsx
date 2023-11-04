@@ -207,7 +207,7 @@ const getSkillMatchJobDetail = async() => {
 
         <div className="main-content">
           <section className="section">
-            <div className="dash-section">
+            <div className="dash-section candidate">
               <div className="dash-main-area">
 
                 <div className="top-nav-area">
@@ -234,28 +234,28 @@ const getSkillMatchJobDetail = async() => {
                   <div className="row">
                     <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
                       <div className="dash-num-count-area">
-                        <p className='dash-num-title'>Jobs <br /> Applied</p>
+                        <p className='dash-num-title'>Jobs Applied</p>
                         <h4 className='dash-num-count'>14</h4>
                       </div>
                     </div>
 
                     <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
                       <div className="dash-num-count-area">
-                        <p className='dash-num-title'>Upcoming <br /> Interviews</p>
+                        <p className='dash-num-title'>Upcoming Interviews</p>
                         <h4 className='dash-num-count'>04</h4>
                       </div>
                     </div>
 
                     <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
                       <div className="dash-num-count-area">
-                        <p className='dash-num-title'>New <br /> matched Jobs</p>
+                        <p className='dash-num-title'>New matched Jobs</p>
                         <h4 className='dash-num-count'>08</h4>
                       </div>
                     </div>
 
                     <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
                       <div className="dash-num-count-area">
-                        <p className='dash-num-title'>New <br /> Notification</p>
+                        <p className='dash-num-title'>New Notification</p>
                         <h4 className='dash-num-count'>28</h4>
                       </div>
                     </div>
@@ -454,7 +454,7 @@ const getSkillMatchJobDetail = async() => {
                       <div className="dash-table-area">
                         <div className="dash-table-top-area">
                           <div className="dash-table-title">
-                            Similar Jobs
+                            Latest Jobs
                           </div>
                           <a href='#' className="dash-table-see-all-btn">See all</a>
                         </div>
@@ -564,7 +564,7 @@ const getSkillMatchJobDetail = async() => {
             </div>
             {/*  */}
 
-            <div className="dash-right-panel">
+            {/* <div className="dash-right-panel">
               <div className="dash-right-panel-content">
                 <div className="dash-hire-slider-area">
                   <Swiper
@@ -695,7 +695,7 @@ const getSkillMatchJobDetail = async() => {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
 
 
           </section>
