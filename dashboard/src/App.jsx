@@ -10,6 +10,7 @@ import SettingsClient from './pages/SettingsClient/SettingsClient';
 import JobSearch from './pages/JobSearch/JobSearch';
 import ManageJobs from './pages/ManageJobs/ManageJobs';
 import JobPosting from './pages/JobPosting/JobPosting';
+import ManageApplication from './pages/ManageApplication/ManageApplication';
 
 
 function App() {
@@ -21,10 +22,11 @@ function App() {
         <Route path='/talent-profile-search' element={<TalentsProfileSearch />} />
         <Route path='/my-application' element={<MyApplication />} />
         <Route path='/search-jobs' element={<JobSearch />} />
-      <Route path='/settings' element={<SettingsCandidate />} />
-      <Route path='/client-settings' element={<SettingsClient />} />
-      <Route path='/manage-job' element={<ManageJobs />} />
-      <Route path='/post-job' element={<JobPosting />} />
+        <Route path='/settings' element={<SettingsCandidate />} />
+        <Route path='/client-settings' element={<SettingsClient />} />
+        <Route path='/manage-job' element={<ManageJobs />} />
+        <Route path='/post-job' element={<JobPosting />} />
+        <Route path='/manage-application' element={<ManageApplication />} />
       </Routes>
     </AuthContextProvider>
   );
