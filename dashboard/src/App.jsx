@@ -9,6 +9,7 @@ import SettingsCandidate from './pages/SettingsCandidate/SettingsCandidate';
 import SettingsClient from './pages/SettingsClient/SettingsClient';
 import JobSearch from './pages/JobSearch/JobSearch';
 import ManageJobs from './pages/ManageJobs/ManageJobs';
+import JobPosting from './pages/JobPosting/JobPosting';
 
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
       <Route path='/settings' element={<SettingsCandidate />} />
       <Route path='/client-settings' element={<SettingsClient />} />
       <Route path='/manage-job' element={<ManageJobs />} />
+      <Route path='/post-job' element={<JobPosting />} />
       </Routes>
     </AuthContextProvider>
   );
