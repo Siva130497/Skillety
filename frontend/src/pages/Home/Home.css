@@ -708,8 +708,8 @@
 
 .service--card-headarea h3 {
     color: #5C3B2E;
-    font-size: 48px;
-    font-weight: 400;
+    font-size: 40px;
+    font-weight: 500;
     text-transform: uppercase;
     transition: ease-in-out 0.5s;
 }
@@ -1824,8 +1824,8 @@
 .connect--title h4 {
     color: #5C3B2E;
     /* text-align: center; */
-    font-size: 48px;
-    font-weight: 400;
+    font-size: 40px;
+    font-weight: 500;
     text-transform: uppercase;
 }
 

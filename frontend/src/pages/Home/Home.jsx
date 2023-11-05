@@ -1105,109 +1105,109 @@ const Home = () => {
                   <div className="col-6 col-lg-2 col-md-4">
                     <div className="client--img-container" data-aos="flip-up">
                       <img src="assets/img/home-images/client-4.png" className='client--img' alt="" />
-                      <div className='client--img-blob'></div>
+                      {/* <div className='client--img-blob'></div> */}
                     </div>
                   </div>
                   <div className="col-6 col-lg-2 col-md-4">
                     <div className="client--img-container" data-aos="flip-up">
                       <img src="assets/img/home-images/client-3.png" className='client--img' alt="" />
-                      <div className='client--img-blob'></div>
+                      {/* <div className='client--img-blob'></div> */}
                     </div>
                   </div>
                   <div className="col-6 col-lg-2 col-md-4">
                     <div className="client--img-container" data-aos="flip-up">
                       <img src="assets/img/home-images/client-2.png" className='client--img' alt="" />
-                      <div className='client--img-blob'></div>
+                      {/* <div className='client--img-blob'></div> */}
                     </div>
                   </div>
                   <div className="col-6 col-lg-2 col-md-4">
                     <div className="client--img-container" data-aos="flip-up">
                       <img src="assets/img/home-images/client-1.png" className='client--img' alt="" />
-                      <div className='client--img-blob'></div>
+                      {/* <div className='client--img-blob'></div> */}
                     </div>
                   </div>
                   <div className="col-6 col-lg-2 col-md-4">
                     <div className="client--img-container" data-aos="flip-up">
                       <img src="assets/img/home-images/client-4.png" className='client--img' alt="" />
-                      <div className='client--img-blob'></div>
+                      {/* <div className='client--img-blob'></div> */}
                     </div>
                   </div>
                   <div className="col-6 col-lg-2 col-md-4">
                     <div className="client--img-container" data-aos="flip-up">
                       <img src="assets/img/home-images/client-3.png" className='client--img' alt="" />
-                      <div className='client--img-blob'></div>
+                      {/* <div className='client--img-blob'></div> */}
                     </div>
                   </div>
                   <div className="col-6 col-lg-2 col-md-4">
                     <div className="client--img-container" data-aos="flip-up">
                       <img src="assets/img/home-images/client-1.png" className='client--img' alt="" />
-                      <div className='client--img-blob'></div>
+                      {/* <div className='client--img-blob'></div> */}
                     </div>
                   </div>
                   <div className="col-6 col-lg-2 col-md-4">
                     <div className="client--img-container" data-aos="flip-up">
                       <img src="assets/img/home-images/client-2.png" className='client--img' alt="" />
-                      <div className='client--img-blob'></div>
+                      {/* <div className='client--img-blob'></div> */}
                     </div>
                   </div>
                   <div className="col-6 col-lg-2 col-md-4">
                     <div className="client--img-container" data-aos="flip-up">
                       <img src="assets/img/home-images/client-1.png" className='client--img' alt="" />
-                      <div className='client--img-blob'></div>
+                      {/* <div className='client--img-blob'></div> */}
                     </div>
                   </div>
                   <div className="col-6 col-lg-2 col-md-4">
                     <div className="client--img-container" data-aos="flip-up">
                       <img src="assets/img/home-images/client-4.png" className='client--img' alt="" />
-                      <div className='client--img-blob'></div>
+                      {/* <div className='client--img-blob'></div> */}
                     </div>
                   </div>
                   <div className="col-6 col-lg-2 col-md-4">
                     <div className="client--img-container" data-aos="flip-up">
                       <img src="assets/img/home-images/client-3.png" className='client--img' alt="" />
-                      <div className='client--img-blob'></div>
+                      {/* <div className='client--img-blob'></div> */}
                     </div>
                   </div>
                   <div className="col-6 col-lg-2 col-md-4">
                     <div className="client--img-container" data-aos="flip-up">
                       <img src="assets/img/home-images/client-2.png" className='client--img' alt="" />
-                      <div className='client--img-blob'></div>
+                      {/* <div className='client--img-blob'></div> */}
                     </div>
                   </div>
                   <div className="col-6 col-lg-2 col-md-4">
                     <div className="client--img-container" data-aos="flip-up">
                       <img src="assets/img/home-images/client-4.png" className='client--img' alt="" />
-                      <div className='client--img-blob'></div>
+                      {/* <div className='client--img-blob'></div> */}
                     </div>
                   </div>
                   <div className="col-6 col-lg-2 col-md-4">
                     <div className="client--img-container" data-aos="flip-up">
                       <img src="assets/img/home-images/client-3.png" className='client--img' alt="" />
-                      <div className='client--img-blob'></div>
+                      {/* <div className='client--img-blob'></div> */}
                     </div>
                   </div>
                   <div className="col-6 col-lg-2 col-md-4">
                     <div className="client--img-container" data-aos="flip-up">
                       <img src="assets/img/home-images/client-2.png" className='client--img' alt="" />
-                      <div className='client--img-blob'></div>
+                      {/* <div className='client--img-blob'></div> */}
                     </div>
                   </div>
                   <div className="col-6 col-lg-2 col-md-4">
                     <div className="client--img-container" data-aos="flip-up">
                       <img src="assets/img/home-images/client-1.png" className='client--img' alt="" />
-                      <div className='client--img-blob'></div>
+                      {/* <div className='client--img-blob'></div> */}
                     </div>
                   </div>
                   <div className="col-6 col-lg-2 col-md-4">
                     <div className="client--img-container" data-aos="flip-up">
                       <img src="assets/img/home-images/client-4.png" className='client--img' alt="" />
-                      <div className='client--img-blob'></div>
+                      {/* <div className='client--img-blob'></div> */}
                     </div>
                   </div>
                   <div className="col-6 col-lg-2 col-md-4">
                     <div className="client--img-container" data-aos="flip-up">
                       <img src="assets/img/home-images/client-3.png" className='client--img' alt="" />
-                      <div className='client--img-blob'></div>
+                      {/* <div className='client--img-blob'></div> */}
                     </div>
                   </div>
                 </div>

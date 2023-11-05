@@ -148,7 +148,7 @@ const SettingsClient = () => {
                                                 <div className='setting-value'>Raquelharrisogwss@gmail,com</div>
                                                 <div className="change-input-area">
                                                     <div className="row">
-                                                        <div className="col-12 col-xl-4 col-lg-4 col-md-6 d-flex align-items-center gap-10">
+                                                        <div className="col-12 col-xl-5 col-lg-5 col-md-6 d-flex align-items-center gap-10">
                                                             <input type="email" className='change-setting-input' placeholder='Change Email' />
                                                             <button className='setting-update-btn'>Update</button>
                                                         </div>
@@ -162,7 +162,7 @@ const SettingsClient = () => {
                                                 <div className='setting-value'>+91 9087654321</div>
                                                 <div className="change-input-area">
                                                     <div className="row">
-                                                        <div className="col-12 col-xl-4 col-lg-4 col-md-6 d-flex align-items-center gap-10">
+                                                        <div className="col-12 col-xl-5 col-lg-5 col-md-6 d-flex align-items-center gap-10">
                                                             <input type="number" className='change-setting-input' placeholder='Change Mobile Number' />
                                                             <button className='setting-update-btn'>Update</button>
                                                         </div>
@@ -176,7 +176,7 @@ const SettingsClient = () => {
                                                 <div className='setting-value password'>Password</div>
                                                 <div className="change-input-area">
                                                     <div className="row">
-                                                        <div className="col-12 col-xl-4 col-lg-4 col-md-6">
+                                                        <div className="col-12 col-xl-5 col-lg-5 col-md-6">
                                                             <input type="password" className='change-setting-input' placeholder='Current Password' />
                                                             <button class="show-btn">
                                                                 <i class="bi bi-eye-slash"></i>
@@ -184,7 +184,7 @@ const SettingsClient = () => {
                                                         </div>
                                                     </div>
                                                     <div className="row mt-3">
-                                                        <div className="col-12 col-xl-4 col-lg-4 col-md-6">
+                                                        <div className="col-12 col-xl-5 col-lg-5 col-md-6">
                                                             <input type="password" className='change-setting-input' placeholder='New Password' id="new-password" />
                                                             <button class="show-btn">
                                                                 <i class="bi bi-eye-slash"></i>
@@ -192,7 +192,7 @@ const SettingsClient = () => {
                                                         </div>
                                                     </div>
                                                     <div className="row mt-3">
-                                                        <div className="col-12 col-xl-4 col-lg-4 col-md-6">
+                                                        <div className="col-12 col-xl-5 col-lg-5 col-md-6">
                                                             <input type="password" className='change-setting-input' placeholder='Confirm Password' id="confirm-password" />
                                                             <button class="show-btn">
                                                                 <i class="bi bi-eye-slash"></i>
@@ -254,7 +254,7 @@ const SettingsClient = () => {
                                                 <div className='setting-value'>https/mindtree.com</div>
                                                 <div className="change-input-area">
                                                     <div className="row">
-                                                        <div className="col-12 col-xl-4 col-lg-4 col-md-6 d-flex align-items-center gap-10">
+                                                        <div className="col-12 col-xl-5 col-lg-5 col-md-6 d-flex align-items-center gap-10">
                                                             <input type="email" className='change-setting-input' placeholder='Change Website' />
                                                             <button className='setting-update-btn'>Update</button>
                                                         </div>
@@ -298,7 +298,7 @@ const SettingsClient = () => {
                                                 <div className='setting-value'>https/mindtree.com</div>
                                                 <div className="change-input-area">
                                                     <div className="row">
-                                                        <div className="col-12 col-xl-4 col-lg-4 col-md-6 d-flex align-items-center gap-10">
+                                                        <div className="col-12 col-xl-5 col-lg-5 col-md-6 d-flex align-items-center gap-10">
                                                             <input type="email" className='change-setting-input' placeholder='Change Website' />
                                                             <button className='setting-update-btn'>Update</button>
                                                         </div>
@@ -312,7 +312,7 @@ const SettingsClient = () => {
                                                 <div className='setting-value'>https/mindtree.com</div>
                                                 <div className="change-input-area">
                                                     <div className="row">
-                                                        <div className="col-12 col-xl-4 col-lg-4 col-md-6 d-flex align-items-center gap-10">
+                                                        <div className="col-12 col-xl-5 col-lg-5 col-md-6 d-flex align-items-center gap-10">
                                                             <input type="email" className='change-setting-input' placeholder='Change Website' />
                                                             <button className='setting-update-btn'>Update</button>
                                                         </div>
@@ -326,7 +326,7 @@ const SettingsClient = () => {
                                                 <div className='setting-value'>https/mindtree.com</div>
                                                 <div className="change-input-area">
                                                     <div className="row">
-                                                        <div className="col-12 col-xl-4 col-lg-4 col-md-6 d-flex align-items-center gap-10">
+                                                        <div className="col-12 col-xl-5 col-lg-5 col-md-6 d-flex align-items-center gap-10">
                                                             <input type="email" className='change-setting-input' placeholder='Change Website' />
                                                             <button className='setting-update-btn'>Update</button>
                                                         </div>

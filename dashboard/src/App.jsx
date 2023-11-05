@@ -11,6 +11,7 @@ import JobSearch from './pages/JobSearch/JobSearch';
 import ManageJobs from './pages/ManageJobs/ManageJobs';
 import JobPosting from './pages/JobPosting/JobPosting';
 import ManageApplication from './pages/ManageApplication/ManageApplication';
+import CandidateProfile from './pages/CandidateProfile/CandidateProfile';
 
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
         <Route path='/manage-job' element={<ManageJobs />} />
         <Route path='/post-job' element={<JobPosting />} />
         <Route path='/manage-application' element={<ManageApplication />} />
+        <Route path='/candidate-profile' element={<CandidateProfile />} />
       </Routes>
     </AuthContextProvider>
   );

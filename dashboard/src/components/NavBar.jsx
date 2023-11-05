@@ -189,7 +189,7 @@ const NavBar = () => {
                   <div className="dropdown-user-role">UX Designer, India</div>
                 </div>
               </div>
-              <a href="#" className="dropdown-view-pro-btn">
+              <a href="/candidate-profile" className="dropdown-view-pro-btn">
                 View Profile
               </a>
               <div className="dropdown-btn-link-area">

@@ -91,9 +91,9 @@ const NewNav = ({homeActive, aboutUsActive, searchCVActive, serviceActive, RPOAc
                         <li><div><a href="/" className={homeActive ? "nav-link scrollto active" : "nav-link scrollto"}>Home</a></div></li>
                         <li><a href="/about-us" className={aboutUsActive ? "nav-link scrollto active" : "nav-link scrollto"}>About Us</a></li>
                         <li><a href="/talent-profile-search" className={searchCVActive ? "nav-link scrollto active" : "nav-link scrollto"}>Search CV</a></li>
-                        <li className="dropdown"><a href="/services" className={serviceActive ? "nav-link scrollto active" : "nav-link scrollto"}><span>Services</span> <i className="bi bi-chevron-down"></i></a>
+                        <li className="dropdown"><a href="#" className={serviceActive ? "nav-link scrollto active" : "nav-link scrollto"}><span>Services</span> <i className="bi bi-chevron-down"></i></a>
                             <ul>
-                                <li><a href="/services">CV Sourcing</a></li>
+                                <li><a href="/cv-sourcing">CV Sourcing</a></li>
                                 {/* <li className="dropdown"><a href="#"><span>Deep Drop Down</span> <i className="bi bi-chevron-right"></i></a>
                                     <ul>
                                         <li><a href="#">Deep Drop Down 1</a></li>
@@ -103,11 +103,11 @@ const NewNav = ({homeActive, aboutUsActive, searchCVActive, serviceActive, RPOAc
                                         <li><a href="#">Deep Drop Down 5</a></li>
                                     </ul>
                                 </li> */}
-                                <li><a href="/services">Job Posting</a></li>
-                                <li><a href="/services">Skill Assessment</a></li>
-                                <li><a href="/services">Interview as a Service</a></li>
-                                <li><a href="/services">Onboarding Process</a></li>
-                                <li><a href="/services">Background Verification</a></li>
+                                <li><a href="/job-posting">Job Posting</a></li>
+                                <li><a href="/skill-assessment">Skill Assessment</a></li>
+                                <li><a href="/interview-as-a-service">Interview as a Service</a></li>
+                                <li><a href="/onboarding-process">Onboarding Process</a></li>
+                                <li><a href="/background-verification">Background Verification</a></li>
                             </ul>
                         </li>
                         <li><a className={RPOActive ? "nav-link scrollto active" : "nav-link scrollto"} href="/rpo">RPO</a></li>

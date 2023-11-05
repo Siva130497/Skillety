@@ -1,0 +1,731 @@
+.candidate-prrofile-section {
+    padding: 50px 15px;
+}
+
+.profile-head-area {
+    margin-bottom: 40px;
+}
+
+.profile-head {
+    font-size: 25px !important;
+    font-weight: 600 !important;
+    color: #714F36 !important;
+}
+
+.profile-card {
+    position: relative;
+    padding: 22px;
+    border-radius: 16px;
+    background-color: #FFF;
+    margin-bottom: 20px;
+}
+
+.card-flex-area {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.card-right-area {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.profile-det-image-area {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 50px;
+}
+
+.profile-det-image-container {
+    position: relative;
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    border: 3px solid #E7E7F1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.profile-det-image {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    object-fit: cover;
+    overflow: hidden;
+}
+
+.prof-img-btn {
+    background-color: transparent;
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    border: none;
+    outline: none;
+    z-index: 2;
+}
+
+.prof-img-btn .edit-icon {
+    color: #714F36;
+    transition: ease-in-out 0.5s;
+    font-size: 18px;
+}
+
+.prof-img-btn:hover .edit-icon {
+    color: #000 !important;
+}
+
+.prof-img-btn:focus,
+.prof-img-btn:active,
+.image-view-btn:focus,
+.image-view-btn:active {
+    border: none;
+    outline: none;
+}
+
+.image-view-area {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    background-color: #0000006e;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    transition: opacity ease-in-out 0.5s;
+    opacity: 0;
+}
+
+.image-view-btn {
+    border: none;
+    outline: none;
+    background-color: transparent;
+    margin: 0;
+    padding: 0;
+    transition: all 0.5s;
+}
+
+.image-view-btn:hover {
+    transform: scale(1.15);
+}
+
+.image-view-btn .img-view-icon {
+    color: #FFF;
+    font-size: 20px;
+}
+
+.profile-det-image-container:hover .image-view-area {
+    opacity: 1;
+}
+
+.profile--name-edit-section {
+    margin-bottom: 8px;
+}
+
+.profile--name-area {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.profile--name-area .profile--name {
+    color: #714F36;
+    font-size: 23px;
+    font-weight: 600;
+    outline: none;
+}
+
+.profile--name-area .profile--name-edit-icon {
+    color: #714F36;
+    font-size: 18px;
+}
+
+.profile--name-edit-btn {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    margin: 0;
+    padding: 0;
+}
+
+.profile--name-edit-btn:focus,
+.profile--name-edit-btn:active {
+    border: none;
+    outline: none;
+}
+
+.profile-update-status {
+    color: #714F36;
+    font-size: 15px;
+    font-weight: 400;
+}
+
+.profile-name-edit-input-area {
+    margin: 12px 0 16px 0;
+    display: none;
+}
+
+.prof-page-divider {
+    border-bottom: 1px solid #714F36;
+    margin: 20px 0;
+}
+
+.profile-name-edit-input-area.expanded {
+    display: block;
+}
+
+.profile--name-edit-btn.expanded i {
+    color: red !important;
+    font-size: 25px;
+    vertical-align: middle;
+}
+
+.prof-more-det-section {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 40px;
+    transition: all 0.5s;
+}
+
+.prof-more-det-area {
+    margin-bottom: 15px;
+}
+
+.prof-more-det {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.prof-more-det i {
+    color: #000;
+    font-size: 17px;
+}
+
+.prof-more-det-title {
+    font-size: 14px;
+    color: #714F36;
+    font-weight: 500;
+}
+
+.prof-more-det-edit-btn {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    color: #714F36;
+    font-weight: 500;
+    font-size: 14px;
+    margin: 0;
+    padding: 0;
+    transition: ease-in-out 0.5s;
+}
+
+.prof-more-det-edit-btn:hover {
+    color: #000 !important;
+}
+
+.prof-more-det-edit-btn:focus,
+.prof-more-det-edit-btn:active {
+    border: none;
+    outline: none;
+}
+
+.prof-more-det-input-area {
+    margin: 12px 0;
+    display: none;
+}
+
+.change-setting-input.more-det,
+.setting-update-btn-more-det {
+    font-size: 13px !important;
+}
+
+.prof-more-det-edit-btn.expanded {
+    color: red;
+}
+
+.prof-more-det-edit-btn.expanded:hover {
+    color: rgb(229, 0, 0) !important;
+}
+
+.prof-more-det-line {
+    display: block;
+    border-right: 1px solid #714F36;
+    height: 100%;
+}
+
+/* 
+.prof-more-det-left-area {
+    border-right: 1px solid #714F36;
+    padding-right: 50px;
+}
+
+.prof-more-det-right-area {
+    padding-left: 50px;
+} */
+.card-left-area {
+    border-radius: 22px;
+    background-color: #FFF3D0;
+    padding: 20px;
+}
+
+.missing-det-content-area {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 60px;
+    margin-bottom: 20px;
+}
+
+.missing-det-content {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+}
+
+.missing-det-icon-area {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background-color: #FFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.missing-det-icon-area i {
+    color: #000;
+    font-size: 20px;
+}
+
+.missing-det-add-btn {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    margin: 0;
+    padding: 0;
+    color: #714F36;
+    font-size: 15px;
+    font-weight: 500;
+    transition: ease-in-out 0.5s;
+}
+
+.missing-det-add-btn:hover {
+    color: #000 !important;
+}
+
+.missing-det-add-btn:focus,
+.missing-det-add-btn:active {
+    border: none;
+    outline: none;
+}
+
+.missing-det-text {
+    color: #714F36;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.missing-det-percentage-area {
+    position: relative;
+    background-color: #FFF;
+    border-radius: 50px;
+    padding: 4px 15px;
+}
+
+.missing-det-percentage-area svg {
+    vertical-align: text-bottom !important;
+}
+
+.missing-det-percentage-area .missing-det-percentage {
+    color: #2CAC21;
+    font-size: 13px;
+    font-weight: 500;
+    padding-left: 5px;
+    vertical-align: -webkit-baseline-middle;
+}
+
+.missing-det-btn-area {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.missing-det-btn {
+    color: #714F36;
+    border-radius: 8px;
+    background-color: #F9C833;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 10px 40px;
+    margin: 0;
+    transition: ease-in-out 0.5s;
+}
+
+.missing-det-btn:hover {
+    background-color: #714F36 !important;
+    color: #F9C833 !important;
+}
+
+.missing-det-btn:focus,
+.missing-det-btn:active {
+    border: none;
+    outline: none;
+}
+
+.profile-side-card {
+    position: sticky;
+    top: 30px;
+    padding: 40px 30px;
+    border-radius: 16px;
+    background-color: #FFF;
+    margin-bottom: 20px;
+}
+
+.quick-link-head {
+    font-size: 20px;
+    font-weight: 600;
+    color: #714F36;
+    margin-bottom: 45px;
+}
+
+.pro-quick-link {
+    text-decoration: none;
+    color: #714F36 !important;
+    font-size: 17px !important;
+    font-weight: 600 !important;
+    transition: ease-in-out 0.5s;
+}
+
+.pro-quick-link:hover {
+    color: #000 !important;
+}
+
+.pro-quick-link-content {
+    margin-bottom: 35px !important;
+}
+
+.pro-quick-link i {
+    color: #1394DF;
+    font-size: 15px;
+    vertical-align: middle;
+    margin-left: 10px;
+    transition: opacity ease-in-out 0.3s;
+    opacity: 0;
+}
+
+.pro-quick-link:hover i {
+    opacity: 1;
+}
+
+.profile-content-card {
+    position: relative;
+    padding: 25px;
+    border-radius: 16px;
+    background-color: #FFF;
+    margin-bottom: 20px;
+}
+
+.profile-content-title {
+    color: #714F36;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.profile-content-sub-title {
+    font-size: 14px;
+    color: #714F36;
+    font-weight: 400;
+    margin-top: 8px;
+}
+
+.profile-content-top-area {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.profile-content-edit-btn,
+.profile-content-more-inputs-edit-btn {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    color: #1394DF;
+    font-size: 15px;
+    font-weight: 600;
+    margin: 0;
+    padding: 0;
+    transition: ease-in-out 0.5s;
+}
+
+.personal-det-add-btn {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    color: #1394DF;
+    font-size: 15px;
+    font-weight: 400;
+    margin: 0;
+    padding: 0;
+    transition: ease-in-out 0.5s;
+}
+
+.profile-content-edit-btn:hover,
+.profile-content-more-inputs-edit-btn:hover,
+.personal-det-add-btn:hover {
+    color: #000 !important;
+}
+
+.profile-content-edit-btn:focus,
+.profile-content-edit-btn:active,
+.profile-content-more-inputs-edit-btn:focus,
+.profile-content-more-inputs-edit-btn:active,
+.personal-det-add-btn:focus,
+.personal-det-add-btn:active {
+    border: none;
+    outline: none;
+}
+
+.profile-content-area {
+    margin-top: 25px;
+}
+
+.profile-content {
+    color: #714F36;
+    font-weight: 400;
+    font-size: 15px;
+}
+
+.profile-content-input-area {
+    margin: 25px 0;
+    display: none;
+}
+
+.profile-content-edit-btn.expanded,
+.profile-content-more-inputs-edit-btn.expanded,
+.personal-det-add-btn.expanded {
+    color: red !important;
+}
+
+.profile-content-edit-btn.expanded:hover,
+.profile-content-more-inputs-edit-btn.expanded:hover,
+.personal-det-add-btn.expanded:hov20 {
+    color: #d40000 !important;
+}
+
+.more-inputs-section {
+    margin-top: 40px;
+}
+
+.more-inputs-btn-area {
+    margin: 30px 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.profile-content-more-input-area {
+    padding-bottom: 10px;
+    display: none;
+}
+
+.more-inputs-text {
+    font-size: 15px;
+    color: #714F36;
+    font-weight: 600;
+}
+
+.more-inputs-area.with-border {
+    border-bottom: 1px solid #714F36;
+}
+
+.personal-detail-section {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.personal-det-add-input-area {
+    display: none;
+    margin-bottom: 40px;
+}
+
+.profile-action-btn-area {
+    /* margin-top: 40px; */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.view-cv-btn {
+    border-radius: 8px;
+    border: 1px solid #000;
+    background-color: #FFF3D0;
+    color: #714F36;
+    font-weight: 600;
+    font-size: 16px;
+    margin: 0;
+    padding: 10px 45px;
+    transition: ease-in-out 0.5s;
+    outline: none;
+}
+
+.view-cv-btn:hover {
+    background-color: #714F36;
+    color: #FFF3D0;
+}
+
+.download-cv-btn {
+    border-radius: 8px;
+    border: none;
+    background-color: #F9C833;
+    color: #714F36;
+    font-weight: 600;
+    font-size: 16px;
+    margin: 0;
+    padding: 10px 45px;
+    transition: ease-in-out 0.5s;
+    outline: none;
+}
+
+.download-cv-btn:hover {
+    background-color: #714F36;
+    color: #F9C833;
+}
+
+.view-cv-btn:hover .view-cv-icon {
+    color: #FFF3D0;
+}
+
+.download-cv-btn:hover .download-cv-icon {
+    color: #F9C833;
+}
+
+.view-cv-btn .view-cv-icon,
+.download-cv-btn .download-cv-icon {
+    color: #714F36;
+    font-size: 20px;
+    margin-right: 15px;
+    vertical-align: middle;
+    transition: ease-in-out 0.5s;
+}
+
+.view-cv-btn:focus,
+.view-cv-btn:active,
+.download-cv-btn:focus,
+.download-cv-btn:active {
+    outline: none;
+}
+
+.main-footer.no-sidebar {
+    padding: 18px 30px !important;
+}
+
+.prof-page-file-upload-area {
+    position: relative;
+    margin: 30px 0 40px 0;
+}
+
+.prof-page-file-upload-label {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    border: 2px dashed #714F36;
+    background-color: #FFF3D0;
+    color: #714F36;
+    font-size: 15px;
+    font-weight: 500;
+    padding: 20px 30px;
+    cursor: pointer;
+}
+
+.file-upload-btn {
+    border-radius: 50px;
+    padding: 5px 15px;
+    border: 1px solid #714F36;
+}
+
+#file-chosen {
+    position: absolute;
+    background-color: #efefef;
+    border-radius: 5px;
+    font-size: 11px;
+    padding: 2px 8px;
+    right: 0;
+    margin-top: 0px;
+    margin-bottom: 15px;
+}
+
+.file-upload-btn-area {
+    position: absolute;
+    left: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.clear-file-btn {
+    background-color: #ffdada;
+    color: #d40000;
+    font-size: 15px;
+    font-weight: 600;
+    border: #d40000 1px solid;
+    border-radius: 50px;
+    padding: 3px 15px;
+    outline: none;
+    transition: ease-in-out 0.5s;
+    display: none;
+}
+
+.clear-file-btn i {
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+.clear-file-btn:hover {
+    background-color: #d40000 !important;
+    color: #ffd2d2 !important;
+}
+
+.clear-file-btn:focus,
+.clear-file-btn:active,
+.save-file-btn:focus,
+.save-file-btn:active {
+    outline: none;
+}
+
+.save-file-btn {
+    margin: 0;
+    color: #1394DF;
+    font-size: 15px;
+    font-weight: 600;
+    background-color: #dbf2ff;
+    outline: none;
+    border: 1px solid #1394DF;
+    border-radius: 50px;
+    padding: 3px 15px;
+    transition: ease-in-out 0.5s;
+    display: none;
+}
+
+.save-file-btn:hover {
+    color: #dbf2ff !important;
+    background-color: #1394DF !important;
+}
+
+.save-file-btn i {
+    vertical-align: middle;
+    margin-right: 5px;
+}
