@@ -18,8 +18,8 @@ function App() {
   return (
     <AuthContextProvider>
       <Routes>
-        <Route path='/' element={<CandidateDashboard />} />
-        <Route path='/client-dashboard' element={<ClientDashboard />} />
+        <Route path='/:token' element={<CandidateDashboard />} />
+        <Route path='/client-dashboard/:token' element={<ClientDashboard />} />
         <Route path='/talent-profile-search' element={<TalentsProfileSearch />} />
         <Route path='/my-application' element={<MyApplication />} />
         <Route path='/search-jobs' element={<JobSearch />} />
