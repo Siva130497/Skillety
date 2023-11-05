@@ -95,6 +95,14 @@
     outline: none;
 }
 
+.setting-change-btn.expanded {
+    color: red;
+}
+
+.setting-change-btn.expanded:hover {
+    color: #d40000 !important;
+}
+
 .change-input-area {
     margin: 25px 0 15px 0;
     display: none;

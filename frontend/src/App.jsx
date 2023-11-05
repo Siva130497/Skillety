@@ -12,7 +12,15 @@ import JobDetail from './pages/JobDetail/JobDetail';
 import JobSearch from './pages/JobSearch/JobSearch';
 import Company from './pages/Company/Company';
 import CompanyDetails from './pages/CompanyDetails/CompanyDetails';
+
 import Services from './pages/Services/Services';
+import ServicesCVSourcing from './pages/Services/ServicesCVSourcing';
+import ServicesJobPosting from './pages/Services/ServicesJobPosting';
+import ServicesSkillAssessment from './pages/Services/ServicesSkillAssessment';
+import ServicesInterviewService from './pages/Services/ServicesInterviewService';
+import ServicesOnboardingProcess from './pages/Services/ServicesOnboardingProcess';
+import ServicesBackgroundVerification from './pages/Services/ServicesBackgroundVerification';
+
 import RPO from './pages/RPO/RPO';
 import Enquiry from './pages/Enquiry/Enquiry';
 import Talents from './pages/Talents/Talents';
@@ -59,7 +67,15 @@ function App() {
             <Route path='/about-us' element={<About />} />
             <Route path='/candidate-about-us' element={<CandidateAboutUs />} />
             <Route path='/contact-us' element={<Contact />} />
+
             <Route path='/services' element={<Services />} />
+            <Route path='/cv-sourcing' element={<ServicesCVSourcing />} />
+            <Route path='/job-posting' element={<ServicesJobPosting />} />
+            <Route path='/skill-assessment' element={<ServicesSkillAssessment />} />
+            <Route path='/interview-as-a-service' element={<ServicesInterviewService />} />
+            <Route path='/onboarding-process' element={<ServicesOnboardingProcess />} />
+            <Route path='/background-verification' element={<ServicesBackgroundVerification />} />
+
             <Route path='/rpo' element={<RPO />} />
             <Route path='/enquiry' element={<Enquiry />} />
             <Route path='/talents/:id' element={<Talents />} />

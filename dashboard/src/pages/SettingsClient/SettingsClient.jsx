@@ -10,16 +10,16 @@ import axios from 'axios';
 
 const SettingsClient = () => {
     const [clientToken, setClientToken] = useState("");
-    const {getProtectedData} = useContext(AuthContext);
+    const { getProtectedData } = useContext(AuthContext);
     const [employeeId, setEmployeeId] = useState("");
     const [loginClientDetail, setLoginClientDetail] = useState([]);
 
     const [userInfo, setUserInfo] = useState({
-        email:"",
-        phone:"",
-        currentPassword:"",
-        newPassword:"",
-        confirmPassword:"",
+        email: "",
+        phone: "",
+        currentPassword: "",
+        newPassword: "",
+        confirmPassword: "",
     })
 
     useEffect(() => {
@@ -29,9 +29,11 @@ const SettingsClient = () => {
                 var type = $(this).data("type");
                 if ($changeInputArea.is(":visible")) {
                     $changeInputArea.slideUp();
+                    $(this).removeClass("expanded");
                     $(this).text("Change " + type);
                 } else {
                     $changeInputArea.slideDown();
+                    $(this).addClass("expanded");
                     $(this).text("Cancel");
                 }
             });
@@ -120,115 +122,115 @@ const SettingsClient = () => {
 
     }, []);
 
-    useEffect(()=>{
+    useEffect(() => {
         setClientToken(JSON.parse(localStorage.getItem('clientToken')))
-    },[clientToken])
+    }, [clientToken])
 
     useEffect(() => {
-        if(clientToken){
+        if (clientToken) {
             const fetchData = async () => {
                 try {
-                const user = await getProtectedData(clientToken);
-                console.log(user);
-                setEmployeeId(user.id);
+                    const user = await getProtectedData(clientToken);
+                    console.log(user);
+                    setEmployeeId(user.id);
                 } catch (error) {
-                console.log(error);
+                    console.log(error);
                 }
             };
-        
+
             fetchData();
         }
     }, [clientToken]);
 
-    const getLoginClientDetail = async() => {
-        try{
+    const getLoginClientDetail = async () => {
+        try {
             const res = await axios.get(`http://localhost:5002/client/${employeeId}`, {
-              headers: {
-                  Authorization: `Bearer ${clientToken}`,
-                  Accept: 'application/json'
-              }
+                headers: {
+                    Authorization: `Bearer ${clientToken}`,
+                    Accept: 'application/json'
+                }
             });
             const result = res.data;
             if (!result.error) {
-              console.log(result);
-              setLoginClientDetail(result);
+                console.log(result);
+                setLoginClientDetail(result);
             } else {
-              console.log(result);
+                console.log(result);
             }
-        }catch(err){
-          console.log(err);
+        } catch (err) {
+            console.log(err);
         }
-      }
+    }
 
-      useEffect(()=>{
-        if(employeeId){
-          getLoginClientDetail();
+    useEffect(() => {
+        if (employeeId) {
+            getLoginClientDetail();
         }
-      },[employeeId]);
+    }, [employeeId]);
 
-      const handleEmailUpdate = () => {
+    const handleEmailUpdate = () => {
         const userData = {
-            id:loginClientDetail.id,
-            email:userInfo.email,
+            id: loginClientDetail.id,
+            email: userInfo.email,
         }
         axios.patch("http://localhost:5002/update-client-email", userData, {
             headers: {
                 Authorization: `Bearer ${clientToken}`,
                 Accept: 'application/json'
             }
-          })
-          .then(res=>{
-            console.log(res.data)
-            if(!res.data.error){
-                alert("email updated")
-                setUserInfo({...userInfo, email:""})
-            }
+        })
+            .then(res => {
+                console.log(res.data)
+                if (!res.data.error) {
+                    alert("email updated")
+                    setUserInfo({ ...userInfo, email: "" })
+                }
             })
-          .catch(err=>console.log(err))
-      }
+            .catch(err => console.log(err))
+    }
 
-      const handlePhoneUpdate = () => {
+    const handlePhoneUpdate = () => {
         const userData = {
-            id:loginClientDetail.id,
-            phone:userInfo.phone,
+            id: loginClientDetail.id,
+            phone: userInfo.phone,
         }
         axios.patch("http://localhost:5002/update-client-phone", userData, {
             headers: {
                 Authorization: `Bearer ${clientToken}`,
                 Accept: 'application/json'
             }
-          })
-          .then(res=>{
-            console.log(res.data)
-            if(!res.data.error){
-                alert("phone no updated")
-                setUserInfo({...userInfo, phone:""})
-            }
+        })
+            .then(res => {
+                console.log(res.data)
+                if (!res.data.error) {
+                    alert("phone no updated")
+                    setUserInfo({ ...userInfo, phone: "" })
+                }
             })
-          .catch(err=>console.log(err))
-      }
+            .catch(err => console.log(err))
+    }
 
-      const handlePasswordUpdate = () => {
+    const handlePasswordUpdate = () => {
         const userData = {
-            id:loginClientDetail.id,
-            currentPassword:userInfo.currentPassword,
-            newPassword:userInfo.newPassword,
+            id: loginClientDetail.id,
+            currentPassword: userInfo.currentPassword,
+            newPassword: userInfo.newPassword,
         }
         axios.patch("http://localhost:5002/update-client-password", userData, {
             headers: {
                 Authorization: `Bearer ${clientToken}`,
                 Accept: 'application/json'
             }
-          })
-          .then(res=>{
-            console.log(res.data)
-            if(!res.data.error){
-                alert("password updated")
-                setUserInfo({...userInfo, currentPassword:"", newPassword:"", confirmPassword:""})
-            }
+        })
+            .then(res => {
+                console.log(res.data)
+                if (!res.data.error) {
+                    alert("password updated")
+                    setUserInfo({ ...userInfo, currentPassword: "", newPassword: "", confirmPassword: "" })
+                }
             })
-          .catch(err=>console.log(err))
-      }
+            .catch(err => console.log(err))
+    }
 
     return (
         <div>
@@ -272,9 +274,9 @@ const SettingsClient = () => {
                                                 <div className='setting-value'>{loginClientDetail.email}</div>
                                                 <div className="change-input-area">
                                                     <div className="row">
-                                                        <div className="col-12 col-xl-4 col-lg-4 col-md-6 d-flex align-items-center gap-10">
-                                                            <input type="email" className='change-setting-input' placeholder='Change Email' 
-                                                            onChange={(e)=>setUserInfo({...userInfo, email:e.target.value})}/>
+                                                        <div className="col-12 col-xl-5 col-lg-5 col-md-6 d-flex align-items-center gap-10">
+                                                            <input type="email" className='change-setting-input' placeholder='Change Email'
+                                                                onChange={(e) => setUserInfo({ ...userInfo, email: e.target.value })} />
                                                             <button className='setting-update-btn' onClick={handleEmailUpdate}>Update</button>
                                                         </div>
                                                     </div>
@@ -287,8 +289,8 @@ const SettingsClient = () => {
                                                 <div className='setting-value'>{loginClientDetail.phone}</div>
                                                 <div className="change-input-area">
                                                     <div className="row">
-                                                        <div className="col-12 col-xl-4 col-lg-4 col-md-6 d-flex align-items-center gap-10">
-                                                            <input type="number" className='change-setting-input' placeholder='Change Mobile Number' onChange={(e)=>setUserInfo({...userInfo, phone:e.target.value})} />
+                                                        <div className="col-12 col-xl-5 col-lg-5 col-md-6 d-flex align-items-center gap-10">
+                                                            <input type="number" className='change-setting-input' placeholder='Change Mobile Number' onChange={(e) => setUserInfo({ ...userInfo, phone: e.target.value })} />
                                                             <button className='setting-update-btn' onClick={handlePhoneUpdate}>Update</button>
                                                         </div>
                                                     </div>
@@ -301,24 +303,24 @@ const SettingsClient = () => {
                                                 <div className='setting-value password'>Password</div>
                                                 <div className="change-input-area">
                                                     <div className="row">
-                                                        <div className="col-12 col-xl-4 col-lg-4 col-md-6">
-                                                            <input type="password" className='change-setting-input' placeholder='Current Password' onChange={(e)=>setUserInfo({...userInfo, currentPassword:e.target.value})}/>
+                                                        <div className="col-12 col-xl-5 col-lg-5 col-md-6">
+                                                            <input type="password" className='change-setting-input' placeholder='Current Password' onChange={(e) => setUserInfo({ ...userInfo, currentPassword: e.target.value })} />
                                                             <button class="show-btn">
                                                                 <i class="bi bi-eye-slash"></i>
                                                             </button>
                                                         </div>
                                                     </div>
                                                     <div className="row mt-3">
-                                                        <div className="col-12 col-xl-4 col-lg-4 col-md-6">
-                                                            <input type="password" className='change-setting-input' placeholder='New Password' id="new-password" onChange={(e)=>setUserInfo({...userInfo, newPassword:e.target.value})}/>
+                                                        <div className="col-12 col-xl-5 col-lg-5 col-md-6">
+                                                            <input type="password" className='change-setting-input' placeholder='New Password' id="new-password" onChange={(e) => setUserInfo({ ...userInfo, newPassword: e.target.value })} />
                                                             <button class="show-btn">
                                                                 <i class="bi bi-eye-slash"></i>
                                                             </button>
                                                         </div>
                                                     </div>
                                                     <div className="row mt-3">
-                                                        <div className="col-12 col-xl-4 col-lg-4 col-md-6">
-                                                            <input type="password" className='change-setting-input' placeholder='Confirm Password' id="confirm-password" onChange={(e)=>setUserInfo({...userInfo, confirmPassword:e.target.value})}/>
+                                                        <div className="col-12 col-xl-5 col-lg-5 col-md-6">
+                                                            <input type="password" className='change-setting-input' placeholder='Confirm Password' id="confirm-password" onChange={(e) => setUserInfo({ ...userInfo, confirmPassword: e.target.value })} />
                                                             <button class="show-btn">
                                                                 <i class="bi bi-eye-slash"></i>
                                                             </button>
@@ -379,7 +381,7 @@ const SettingsClient = () => {
                                                 <div className='setting-value'>https/mindtree.com</div>
                                                 <div className="change-input-area">
                                                     <div className="row">
-                                                        <div className="col-12 col-xl-4 col-lg-4 col-md-6 d-flex align-items-center gap-10">
+                                                        <div className="col-12 col-xl-5 col-lg-5 col-md-6 d-flex align-items-center gap-10">
                                                             <input type="email" className='change-setting-input' placeholder='Change Website' />
                                                             <button className='setting-update-btn'>Update</button>
                                                         </div>
@@ -423,7 +425,7 @@ const SettingsClient = () => {
                                                 <div className='setting-value'>https/mindtree.com</div>
                                                 <div className="change-input-area">
                                                     <div className="row">
-                                                        <div className="col-12 col-xl-4 col-lg-4 col-md-6 d-flex align-items-center gap-10">
+                                                        <div className="col-12 col-xl-5 col-lg-5 col-md-6 d-flex align-items-center gap-10">
                                                             <input type="email" className='change-setting-input' placeholder='Change Website' />
                                                             <button className='setting-update-btn'>Update</button>
                                                         </div>
@@ -437,7 +439,7 @@ const SettingsClient = () => {
                                                 <div className='setting-value'>https/mindtree.com</div>
                                                 <div className="change-input-area">
                                                     <div className="row">
-                                                        <div className="col-12 col-xl-4 col-lg-4 col-md-6 d-flex align-items-center gap-10">
+                                                        <div className="col-12 col-xl-5 col-lg-5 col-md-6 d-flex align-items-center gap-10">
                                                             <input type="email" className='change-setting-input' placeholder='Change Website' />
                                                             <button className='setting-update-btn'>Update</button>
                                                         </div>
@@ -451,7 +453,7 @@ const SettingsClient = () => {
                                                 <div className='setting-value'>https/mindtree.com</div>
                                                 <div className="change-input-area">
                                                     <div className="row">
-                                                        <div className="col-12 col-xl-4 col-lg-4 col-md-6 d-flex align-items-center gap-10">
+                                                        <div className="col-12 col-xl-5 col-lg-5 col-md-6 d-flex align-items-center gap-10">
                                                             <input type="email" className='change-setting-input' placeholder='Change Website' />
                                                             <button className='setting-update-btn'>Update</button>
                                                         </div>

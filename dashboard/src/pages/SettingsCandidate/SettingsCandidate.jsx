@@ -10,16 +10,16 @@ import axios from 'axios';
 
 const SettingsCandidate = () => {
     const [candidateToken, setCandidateToken] = useState("");
-    const {getProtectedData} = useContext(AuthContext);
+    const { getProtectedData } = useContext(AuthContext);
     const [candidateId, setCandidateId] = useState("");
     const [candidateDetail, setCandidateDetail] = useState([]);
-    
+
     const [userInfo, setUserInfo] = useState({
-        email:"",
-        phone:"",
-        currentPassword:"",
-        newPassword:"",
-        confirmPassword:"",
+        email: "",
+        phone: "",
+        currentPassword: "",
+        newPassword: "",
+        confirmPassword: "",
     })
 
     useEffect(() => {
@@ -29,9 +29,11 @@ const SettingsCandidate = () => {
                 var type = $(this).data("type");
                 if ($changeInputArea.is(":visible")) {
                     $changeInputArea.slideUp();
+                    $(this).removeClass("expanded");
                     $(this).text("Change " + type);
                 } else {
                     $changeInputArea.slideDown();
+                    $(this).addClass("expanded");
                     $(this).text("Cancel");
                 }
             });
@@ -78,37 +80,37 @@ const SettingsCandidate = () => {
 
     }, []);
 
-    useEffect(()=>{
+    useEffect(() => {
         setCandidateToken(JSON.parse(localStorage.getItem('candidateToken')))
-    },[candidateToken])
+    }, [candidateToken])
 
     useEffect(() => {
-        if(candidateToken){
+        if (candidateToken) {
             const fetchData = async () => {
                 try {
-                const user = await getProtectedData(candidateToken);
-                console.log(user);
-                setCandidateId(user.id);
+                    const user = await getProtectedData(candidateToken);
+                    console.log(user);
+                    setCandidateId(user.id);
                 } catch (error) {
-                console.log(error);
+                    console.log(error);
                 }
             };
-        
+
             fetchData();
         }
     }, [candidateToken]);
 
     const getAllCandidateDetail = async () => {
-        try{
+        try {
             const response = await axios.get('http://localhost:5002/candidate-Detail', {
-              headers: {
-                  Accept: 'application/json'
-              }
+                headers: {
+                    Accept: 'application/json'
+                }
             });
             const result = response.data;
             if (!result.error) {
                 console.log(result);
-                const candidate = result.find(cand=>cand.id === candidateId)
+                const candidate = result.find(cand => cand.id === candidateId)
                 setCandidateDetail(candidate);
             } else {
                 console.log(result);
@@ -116,78 +118,78 @@ const SettingsCandidate = () => {
         } catch (error) {
             console.log(error);
         }
-      };
+    };
 
-    useEffect(()=>{
-        if(candidateId){
+    useEffect(() => {
+        if (candidateId) {
             getAllCandidateDetail();
         }
-      },[candidateId]);
-      
+    }, [candidateId]);
 
-      const handleEmailUpdate = () => {
+
+    const handleEmailUpdate = () => {
         const userData = {
-            id:candidateDetail.id,
-            email:userInfo.email,
+            id: candidateDetail.id,
+            email: userInfo.email,
         }
         axios.patch("http://localhost:5002/update-candidate-email", userData, {
             headers: {
                 Authorization: `Bearer ${candidateToken}`,
                 Accept: 'application/json'
             }
-          })
-          .then(res=>{
-            console.log(res.data)
-            if(!res.data.error){
-                alert("email updated")
-                setUserInfo({...userInfo, email:""})
-            }
+        })
+            .then(res => {
+                console.log(res.data)
+                if (!res.data.error) {
+                    alert("email updated")
+                    setUserInfo({ ...userInfo, email: "" })
+                }
             })
-          .catch(err=>console.log(err))
-      }
+            .catch(err => console.log(err))
+    }
 
-      const handlePhoneUpdate = () => {
+    const handlePhoneUpdate = () => {
         const userData = {
-            id:candidateDetail.id,
-            phone:userInfo.phone,
+            id: candidateDetail.id,
+            phone: userInfo.phone,
         }
         axios.patch("http://localhost:5002/update-candidate-phone", userData, {
             headers: {
                 Authorization: `Bearer ${candidateToken}`,
                 Accept: 'application/json'
             }
-          })
-          .then(res=>{
-            console.log(res.data)
-            if(!res.data.error){
-                alert("phone no updated")
-                setUserInfo({...userInfo, phone:""})
-            }
+        })
+            .then(res => {
+                console.log(res.data)
+                if (!res.data.error) {
+                    alert("phone no updated")
+                    setUserInfo({ ...userInfo, phone: "" })
+                }
             })
-          .catch(err=>console.log(err))
-      }
+            .catch(err => console.log(err))
+    }
 
-      const handlePasswordUpdate = () => {
+    const handlePasswordUpdate = () => {
         const userData = {
-            id:candidateDetail.id,
-            currentPassword:userInfo.currentPassword,
-            newPassword:userInfo.newPassword,
+            id: candidateDetail.id,
+            currentPassword: userInfo.currentPassword,
+            newPassword: userInfo.newPassword,
         }
         axios.patch("http://localhost:5002/update-candidate-password", userData, {
             headers: {
                 Authorization: `Bearer ${candidateToken}`,
                 Accept: 'application/json'
             }
-          })
-          .then(res=>{
-            console.log(res.data)
-            if(!res.data.error){
-                alert("password updated")
-                setUserInfo({...userInfo, currentPassword:"", newPassword:"", confirmPassword:""})
-            }
+        })
+            .then(res => {
+                console.log(res.data)
+                if (!res.data.error) {
+                    alert("password updated")
+                    setUserInfo({ ...userInfo, currentPassword: "", newPassword: "", confirmPassword: "" })
+                }
             })
-          .catch(err=>console.log(err))
-      }
+            .catch(err => console.log(err))
+    }
 
     return (
         <div>
@@ -231,8 +233,8 @@ const SettingsCandidate = () => {
                                                 <div className='setting-value'>{candidateDetail.email}</div>
                                                 <div className="change-input-area">
                                                     <div className="row">
-                                                        <div className="col-12 col-xl-4 col-lg-4 col-md-6 d-flex align-items-center gap-10">
-                                                            <input type="email" className='change-setting-input' placeholder='Change Email' onChange={(e)=>setUserInfo({...userInfo, email:e.target.value})}/>
+                                                        <div className="col-12 col-xl-5 col-lg-5 col-md-6 d-flex align-items-center gap-10">
+                                                            <input type="email" className='change-setting-input' placeholder='Change Email' onChange={(e) => setUserInfo({ ...userInfo, email: e.target.value })} />
                                                             <button className='setting-update-btn' onClick={handleEmailUpdate}>Update</button>
                                                         </div>
                                                     </div>
@@ -245,8 +247,8 @@ const SettingsCandidate = () => {
                                                 <div className='setting-value'>{candidateDetail.phone}</div>
                                                 <div className="change-input-area">
                                                     <div className="row">
-                                                        <div className="col-12 col-xl-4 col-lg-4 col-md-6 d-flex align-items-center gap-10">
-                                                            <input type="number" className='change-setting-input' placeholder='Change Mobile Number' onChange={(e)=>setUserInfo({...userInfo, phone:e.target.value})}/>
+                                                        <div className="col-12 col-xl-5 col-lg-5 col-md-6 d-flex align-items-center gap-10">
+                                                            <input type="number" className='change-setting-input' placeholder='Change Mobile Number' onChange={(e) => setUserInfo({ ...userInfo, phone: e.target.value })} />
                                                             <button className='setting-update-btn' onClick={handlePhoneUpdate}>Update</button>
                                                         </div>
                                                     </div>
@@ -259,24 +261,24 @@ const SettingsCandidate = () => {
                                                 <div className='setting-value password'>Password</div>
                                                 <div className="change-input-area">
                                                     <div className="row">
-                                                        <div className="col-12 col-xl-4 col-lg-4 col-md-6">
-                                                            <input type="password" className='change-setting-input' placeholder='Current Password' onChange={(e)=>setUserInfo({...userInfo, currentPassword:e.target.value})}/>
+                                                        <div className="col-12 col-xl-5 col-lg-5 col-md-6">
+                                                            <input type="password" className='change-setting-input' placeholder='Current Password' onChange={(e) => setUserInfo({ ...userInfo, currentPassword: e.target.value })} />
                                                             <button class="show-btn">
                                                                 <i class="bi bi-eye-slash"></i>
                                                             </button>
                                                         </div>
                                                     </div>
                                                     <div className="row mt-3">
-                                                        <div className="col-12 col-xl-4 col-lg-4 col-md-6">
-                                                            <input type="password" className='change-setting-input' placeholder='New Password' id="new-password" onChange={(e)=>setUserInfo({...userInfo, newPassword:e.target.value})}/>
+                                                        <div className="col-12 col-xl-5 col-lg-5 col-md-6">
+                                                            <input type="password" className='change-setting-input' placeholder='New Password' id="new-password" onChange={(e) => setUserInfo({ ...userInfo, newPassword: e.target.value })} />
                                                             <button class="show-btn">
                                                                 <i class="bi bi-eye-slash"></i>
                                                             </button>
                                                         </div>
                                                     </div>
                                                     <div className="row mt-3">
-                                                        <div className="col-12 col-xl-4 col-lg-4 col-md-6">
-                                                            <input type="password" className='change-setting-input' placeholder='Confirm Password' id="confirm-password" onChange={(e)=>setUserInfo({...userInfo, confirmPassword:e.target.value})}/>
+                                                        <div className="col-12 col-xl-5 col-lg-5 col-md-6">
+                                                            <input type="password" className='change-setting-input' placeholder='Confirm Password' id="confirm-password" onChange={(e) => setUserInfo({ ...userInfo, confirmPassword: e.target.value })} />
                                                             <button class="show-btn">
                                                                 <i class="bi bi-eye-slash"></i>
                                                             </button>
@@ -316,7 +318,7 @@ const SettingsCandidate = () => {
                                                 </div>
                                                 <div className="change-input-area">
                                                     <div className="row">
-                                                        <div className="col-12 col-xl-5 col-lg-5 col-md-6 d-flex align-items-center gap-10">
+                                                        <div className="col-12 col-xl-6 col-lg-6 col-md-6 d-flex align-items-center gap-10">
                                                             <input type="number" className='change-setting-input text-center' placeholder='Min' />
                                                             <span>-</span>
                                                             <input type="number" className='change-setting-input text-center' placeholder='Max' />
