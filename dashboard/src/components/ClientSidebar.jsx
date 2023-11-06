@@ -74,11 +74,11 @@ const ClientSidebar = () => {
 
                         {/* <li className="dropdown" id='reports'>
                             <a href="/reports" className="nav-link"><i data-feather="file-text"></i><span>Reports</span></a>
-                        </li>
+                        </li> */}
                         <li className="dropdown" id='invoice_payment'>
                             <a href="/invoice-payment" className="nav-link"><i data-feather="dollar-sign"></i><span>Invoices& Payment</span></a>
                         </li>
-                        <li className="dropdown" id='contact_support'>
+                        {/* <li className="dropdown" id='contact_support'>
                             <a href="/contact-support" className="nav-link"><i data-feather="phone"></i><span>Contact Support</span></a>
                         </li>
                         <li className="dropdown" id='client_settings'>
