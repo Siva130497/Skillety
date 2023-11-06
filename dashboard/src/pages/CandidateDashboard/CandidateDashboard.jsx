@@ -87,7 +87,7 @@ const options = {
 
 const ClientDashboard = () => {
   const {token} = useParams();
-  const {getProtectedData} = useContext(AuthContext);
+  const {getProtectedData, getClientImg, clientImg} = useContext(AuthContext);
   const [candidateId, setCandidateId] = useState("");
   const [jobDetail, setJobDetail] = useState([]);
   const [appliedJobDetail, setAppliedJobDetail] = useState([]);
@@ -195,6 +195,7 @@ const getSkillMatchJobDetail = async() => {
     if(candidateId){
       getAppliedjobs();
       getSkillMatchJobDetail();
+      getClientImg();
     }
   },[candidateId])
 
@@ -421,10 +422,13 @@ const getSkillMatchJobDetail = async() => {
                         </div>
                         <div class="table-responsive mt-4">
                           <table class="table table-striped table-hover dash-table">
-                            {appliedJobDetail.map((job)=>(
+                            {appliedJobDetail.map((job)=>{
+                              const matchingImg = clientImg ? clientImg.find(img => img.id === job.companyId) : null;
+                              const imgSrc = matchingImg ? `http://localhost:5002/client_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
+                              return(
                               <tr className='dash-table-row'>
                               <td>
-                                <img src="assets/img/home/table-img-1.png" className='dash-table-avatar-img' alt="" />
+                                <img src={imgSrc} className='dash-table-avatar-img' alt="" />
                               </td>
                               <td className='dash-table-data'>
                                 {job.jobRole[0]} <br />
@@ -440,7 +444,8 @@ const getSkillMatchJobDetail = async() => {
                                 </button>
                               </td>
                               </tr>
-                            ))}
+                              )})
+                            }
                           </table>
                         </div>
                       </div>
@@ -460,10 +465,13 @@ const getSkillMatchJobDetail = async() => {
                         </div>
                         <div class="table-responsive mt-4">
                           <table class="table table-striped table-hover dash-table">
-                            {jobDetail.map(job=>(
+                            {jobDetail.map(job=>{
+                              const matchingImg = clientImg ? clientImg.find(img => img.id === job.companyId) : null;
+                              const imgSrc = matchingImg ? `http://localhost:5002/client_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
+                              return(
                               <tr className='dash-table-row'>
                               <td>
-                                <img src="assets/img/home/table-img-1.png" className='dash-table-avatar-img' alt="" />
+                                <img src={imgSrc} className='dash-table-avatar-img' alt="" />
                               </td>
                               <td className='dash-table-data'>
                                 {job.jobRole} <br />
@@ -479,7 +487,8 @@ const getSkillMatchJobDetail = async() => {
                                 </button>
                               </td>
                               </tr>
-                            ))}
+                              )})
+                            }
                           </table>
                         </div>
                       </div>

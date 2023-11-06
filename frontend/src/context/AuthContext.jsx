@@ -10,6 +10,7 @@ export const AuthContextProvider = ({children}) => {
     const [errorMsg, setErrorMsg] = useState("");
     const [eventDetail, setEventDetail] = useState([]);
     const [eventImg, setEventImg] = useState();
+    const [candidateImg, setCandidateImg] = useState();
     const [packageSelectionDetail, setPackageSelectionDetail] = useState();
 
     //user login request
@@ -110,6 +111,15 @@ export const AuthContextProvider = ({children}) => {
         .catch(err=>console.log(err))
     }
 
+    const getCandidateImg = async() => {
+        axios.get('http://localhost:5002/candidate-image')
+        .then(res=>{
+            console.log(res.data)
+            setCandidateImg(res.data)
+        })
+        .catch(err=>console.log(err))
+    }
+
     const getClientChoosenPlan = async(id) => {
         try{
             const res = await axios.get(`http://localhost:5002/client-package-plan/${id}`
@@ -127,7 +137,7 @@ export const AuthContextProvider = ({children}) => {
       }
 
 
-    return<AuthContext.Provider value={{candidateReg, loginUser, getProtectedData, errorMsg, setErrorMsg, eventDetail, getEventDetail, getEventImg, eventImg, getClientChoosenPlan, packageSelectionDetail}}>
+    return<AuthContext.Provider value={{candidateReg, loginUser, getProtectedData, errorMsg, setErrorMsg, eventDetail, getEventDetail, getEventImg, eventImg, getCandidateImg, candidateImg, getClientChoosenPlan, packageSelectionDetail}}>
             {children}
         </AuthContext.Provider>
 }

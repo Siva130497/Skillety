@@ -13,6 +13,9 @@ const SettingsClient = () => {
     const { getProtectedData } = useContext(AuthContext);
     const [employeeId, setEmployeeId] = useState("");
     const [loginClientDetail, setLoginClientDetail] = useState([]);
+    const [clientImg, setClientImg] = useState();
+    const [clientImgUrl, setClientImgUrl] = useState("");
+    const [image, setImage] = useState();
 
     const [userInfo, setUserInfo] = useState({
         email: "",
@@ -168,6 +171,27 @@ const SettingsClient = () => {
         }
     }, [employeeId]);
 
+    useEffect(() => {
+        if (loginClientDetail.companyId) {
+            axios.get(`http://localhost:5002/client-image/${loginClientDetail.companyId}`)
+              .then(res=>setClientImg(res.data))
+              .catch(err=>console.log(err))
+        }
+    }, [loginClientDetail.companyId]);
+
+    useEffect(() => {
+        if(clientImg){
+          setClientImgUrl(`http://localhost:5002/client_profile/${clientImg.image}`)
+        }
+        
+      }, [clientImg]);
+
+      useEffect(() => {
+        if (image) {
+            setClientImgUrl(URL.createObjectURL(image));
+        }
+      }, [image]);
+
     const handleEmailUpdate = () => {
         const userData = {
             id: loginClientDetail.id,
@@ -232,6 +256,43 @@ const SettingsClient = () => {
             .catch(err => console.log(err))
     }
 
+
+    const handlePhotoUpdate = () => {
+        if(clientImg){
+            const formData = new FormData()
+            formData.append('image', image);
+            axios.patch(`http://localhost:5002/update-client-profile-image/${loginClientDetail.companyId}`, formData, {
+              headers: {
+                  Authorization: `Bearer ${clientToken}`,
+                  Accept: 'application/json'
+              }
+            })
+            .then(res=>{
+              console.log(res);
+              alert("profile photo updated")
+              setImage(null);
+            })
+            .catch(err=>console.log(err));
+        }else{
+            const formData = new FormData()
+            formData.append('image', image);
+            formData.append('id', loginClientDetail.companyId)
+            axios.post("http://localhost:5002/upload-client-profile-image", formData, {
+              headers: {
+                  Authorization: `Bearer ${clientToken}`,
+                  Accept: 'application/json'
+              }
+            })
+            .then(res=>{
+              console.log(res);
+              alert("profile photo updated")
+              setImage(null);
+            })
+            .catch(err=>console.log(err));
+        }
+        
+    }
+
     return (
         <div>
             <div class="main-wrapper main-wrapper-1">
@@ -266,7 +327,21 @@ const SettingsClient = () => {
                                         <div className="tab-pane fade show active" id="Account" role="tabpanel" aria-labelledby="account-tab">
                                             <div className="setting-content">
                                                 <div className='setting-title'>Account Settings</div>
-                                                <div className='setting-sub'>Change your email, mobile number or password</div>
+                                                <div className='setting-sub'>Change your company profile photo, email, mobile number or password</div>
+                                            </div>
+
+                                            <div className="setting-content">
+                                                <div className='setting-name'>Company Profile photo</div>
+                                                <div className='setting-value'><iframe src={clientImgUrl ? clientImgUrl : "../assets/img/talents-images/avatar.jpg"} title="Event Image iframe" ></iframe></div>
+                                                <div className="change-input-area">
+                                                    <div className="row">
+                                                        <div className="col-12 col-xl-5 col-lg-5 col-md-6 d-flex align-items-center gap-10">
+                                                        <input type='file' onChange={e=>setImage(e.target.files[0])} />
+                                                            <button className='setting-update-btn' onClick={handlePhotoUpdate}>Update</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <button className="setting-change-btn" data-type="Email">Change Profile Photo</button>
                                             </div>
 
                                             <div className="setting-content">
@@ -337,9 +412,9 @@ const SettingsClient = () => {
                                             <div className="setting-content">
                                                 <div className="company-logo-name-area">
                                                     <div className="company-logo-area">
-                                                        <input type="file" id="imageUpload" accept="image/*" />
+                                                        {/* <input type="file" id="imageUpload" accept="image/*" /> */}
                                                         <label htmlFor="imageUpload" className="upload-label mb-0">
-                                                            <img src="assets/img/layout/company-img.png" className="company-logo" alt="Company Logo" />
+                                                            <img src={clientImgUrl ? clientImgUrl : "../assets/img/talents-images/avatar.jpg"} className="company-logo" alt="Company Logo" />
                                                         </label>
                                                     </div>
                                                     <div className="company-name-area">

@@ -88,7 +88,7 @@ const options = {
 const ClientDashboard = () => {
     const {token} = useParams();
     const navigate = useNavigate();
-    const {getProtectedData} = useContext(AuthContext);
+    const {getProtectedData, getCandidateImg, candidateImg} = useContext(AuthContext);
     const [employeeId, setEmployeeId] = useState("");
     const [loginClientDetail, setLoginClientDetail] = useState([]);
     const [candidateDetail, setCandidateDetail] = useState([]);
@@ -221,6 +221,7 @@ const ClientDashboard = () => {
         getAllCandidateDetail();
         getOwnPostedjobs();
         getAppliedOfPostedJobs();
+        getCandidateImg();
       },[loginClientDetail]);
 
     return (
@@ -419,10 +420,13 @@ const ClientDashboard = () => {
                                                 <div class="table-responsive dash-table-container client mt-4">
                                                     
                                                     <table class="table table-striped table-hover dash-table">
-                                                    {candidateDetail.map((cand, index) => (
-                                                        <tr className='dash-table-row' key={index}>
+                                                    {candidateDetail.map((cand) => {
+                                                        const matchingImg = candidateImg ? candidateImg.find(img => img.id === cand.id) : null;
+                                                        const imgSrc = matchingImg ? `http://localhost:5002/candidate_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
+                                                        return(
+                                                        <tr className='dash-table-row' key={cand.id}>
                                                             <td>
-                                                                <img src="../assets/img/layout/user-img.png" className='dash-table-avatar-img' alt="" />
+                                                                <img src={imgSrc} className='dash-table-avatar-img' alt="" />
                                                             </td>
                                                             <td className='dash-table-sub client'>
                                                             {cand.firstName + ' ' + cand.lastName}<br />
@@ -433,104 +437,8 @@ const ClientDashboard = () => {
                                                                 <button className='dash-table-view-btn client' data-toggle="modal">View CV</button>
                                                             </td>
                                                         </tr>
-                                                        ))}
-                                                    
-                                                        {/* <tr className='dash-table-row'>
-                                                            <td>
-                                                                <img src="../assets/img/layout/user-img.png" className='dash-table-avatar-img' alt="" />
-                                                            </td>
-                                                            <td className='dash-table-sub client'>
-                                                                Candidate 1<br />
-                                                                <span className='dash-table-sub-data'>1st Aug, 2023, 08:33pm</span>
-                                                            </td>
-                                                            <td className='dash-table-sub-data'>Lorem Ipsum is simply dummy text .......</td>
-                                                            <td className='text-right dash-table-view-btn-area'>
-                                                                <button className='dash-table-view-btn client'
-                                                                    data-toggle="modal">View CV
-                                                                </button>
-                                                            </td>
-                                                        </tr> */}
-
-                                                        {/* <tr className='dash-table-row'>
-                                                            <td>
-                                                                <img src="assets/img/layout/user-img.png" className='dash-table-avatar-img' alt="" />
-                                                            </td>
-                                                            <td className='dash-table-sub client'>
-                                                                Candidate 1<br />
-                                                                <span className='dash-table-sub-data'>1st Aug, 2023, 08:33pm</span>
-                                                            </td>
-                                                            <td className='dash-table-sub-data'>Lorem Ipsum is simply dummy text .......</td>
-                                                            <td className='text-right dash-table-view-btn-area'>
-                                                                <button className='dash-table-view-btn client'
-                                                                    data-toggle="modal">View CV
-                                                                </button>
-                                                            </td>
-                                                        </tr>
-
-                                                        <tr className='dash-table-row'>
-                                                            <td>
-                                                                <img src="assets/img/layout/user-img.png" className='dash-table-avatar-img' alt="" />
-                                                            </td>
-                                                            <td className='dash-table-sub client'>
-                                                                Candidate 1<br />
-                                                                <span className='dash-table-sub-data'>1st Aug, 2023, 08:33pm</span>
-                                                            </td>
-                                                            <td className='dash-table-sub-data'>Lorem Ipsum is simply dummy text .......</td>
-                                                            <td className='text-right dash-table-view-btn-area'>
-                                                                <button className='dash-table-view-btn client'
-                                                                    data-toggle="modal">View CV
-                                                                </button>
-                                                            </td>
-                                                        </tr>
-
-                                                        <tr className='dash-table-row'>
-                                                            <td>
-                                                                <img src="assets/img/layout/user-img.png" className='dash-table-avatar-img' alt="" />
-                                                            </td>
-                                                            <td className='dash-table-sub client'>
-                                                                Candidate 1<br />
-                                                                <span className='dash-table-sub-data'>1st Aug, 2023, 08:33pm</span>
-                                                            </td>
-                                                            <td className='dash-table-sub-data'>Lorem Ipsum is simply dummy text .......</td>
-                                                            <td className='text-right dash-table-view-btn-area'>
-                                                                <button className='dash-table-view-btn client'
-                                                                    data-toggle="modal">View CV
-                                                                </button>
-                                                            </td>
-                                                        </tr>
-
-                                                        <tr className='dash-table-row'>
-                                                            <td>
-                                                                <img src="assets/img/layout/user-img.png" className='dash-table-avatar-img' alt="" />
-                                                            </td>
-                                                            <td className='dash-table-sub client'>
-                                                                Candidate 1<br />
-                                                                <span className='dash-table-sub-data'>1st Aug, 2023, 08:33pm</span>
-                                                            </td>
-                                                            <td className='dash-table-sub-data'>Lorem Ipsum is simply dummy text .......</td>
-                                                            <td className='text-right dash-table-view-btn-area'>
-                                                                <button className='dash-table-view-btn client'
-                                                                    data-toggle="modal">View CV
-                                                                </button>
-                                                            </td>
-                                                        </tr>
-
-                                                        <tr className='dash-table-row'>
-                                                            <td>
-                                                                <img src="assets/img/layout/user-img.png" className='dash-table-avatar-img' alt="" />
-                                                            </td>
-                                                            <td className='dash-table-sub client'>
-                                                                Candidate 1<br />
-                                                                <span className='dash-table-sub-data'>1st Aug, 2023, 08:33pm</span>
-                                                            </td>
-                                                            <td className='dash-table-sub-data'>Lorem Ipsum is simply dummy text .......</td>
-                                                            <td className='text-right dash-table-view-btn-area'>
-                                                                <button className='dash-table-view-btn client'
-                                                                    data-toggle="modal">View CV
-                                                                </button>
-                                                            </td>
-                                                        </tr> */}
-
+                                                        )})
+                                                    }
                                                     </table>
                                                 </div>
                                             </div>

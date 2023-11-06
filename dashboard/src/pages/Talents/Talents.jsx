@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Autoplay } from 'swiper/modules';
@@ -7,16 +7,12 @@ import 'swiper/css/navigation';
 import $ from 'jquery';
 import './Talents.css';
 import './Talents-responsive.css';
-import Layout from '../../components/Layout';
-import { Footer } from '../../components/Footer';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import { useContext } from 'react';
 import AuthContext from '../../context/AuthContext';
 
 const Talents = () => {
     const {id} = useParams();
-
     const {getCandidateImg, candidateImg} = useContext(AuthContext);
     const [candidateDetail, setCandidateDetail] = useState();
     const [allCandDetail, setAllCandDetail] = useState([]);
@@ -122,18 +118,18 @@ const Talents = () => {
             console.log(error);
         }
       };
-      console.log(img)
 
     useEffect(()=>{
         getAllCandidateDetail();
         getCandidateImg();
-    },[]);
+    },[candidateDetail]);
 
     useEffect(()=>{
         const matchingImg = candidateImg ? candidateImg.find(img => img.id === id) : null;
         const imgSrc = matchingImg ? `http://localhost:5002/candidate_profile/${matchingImg.image}` : "assets/img/talents-images/avatar.jpg";
         setImg(imgSrc);
     },[candidateDetail])
+
 
     const breakpoints = {
         320: {
@@ -156,7 +152,7 @@ const Talents = () => {
     return (
         <div>
             {candidateDetail ? <div>
-            <Layout />
+            
             <div className='talents--section'>
                 <div className='container-fluid'>
                     <div className='container-fluid container-section'>
@@ -1108,7 +1104,7 @@ const Talents = () => {
                     </div>
                 </div>
             </div>
-            <Footer />
+            
             </div> : 
             <div>
             <h1>404</h1>

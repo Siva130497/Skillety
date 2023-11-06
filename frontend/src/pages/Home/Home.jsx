@@ -10,13 +10,20 @@ import './Home-responsive.css';
 import Layout from '../../components/Layout';
 import { Footer } from '../../components/Footer';
 import axios from 'axios';
+import AuthContext from '../../context/AuthContext';
 
 
 
 
 const Home = () => {
   const [candidateDetail, setCandidateDetail] = useState([]);
-  
+  const {getCandidateImg, candidateImg} = useContext(AuthContext);
+  const [clientToken, setClientToken] = useState("");
+
+  useEffect(()=>{
+    setClientToken(JSON.parse(localStorage.getItem("clientToken")))
+  },[clientToken])
+
   useEffect(() => {
     // Function to animate the numbers
     function animateNumber(element, targetNumber) {
@@ -86,6 +93,7 @@ const Home = () => {
 
   useEffect(()=>{
       getAllCandidateDetail();
+      getCandidateImg();
     },[]);
 
   const breakpoints = {
@@ -736,11 +744,13 @@ const Home = () => {
 
             >
               {candidateDetail.map((candidate)=>{
+                const matchingImg = candidateImg ? candidateImg.find(img => img.id === candidate.id) : null;
+                const imgSrc = matchingImg ? `http://localhost:5002/candidate_profile/${matchingImg.image}` : "assets/img/talents-images/avatar.jpg";
                 return(
                   <SwiperSlide>
                   <article className='candidate--card'>
                     <div className="candidate--profile-area">
-                      <img src="assets/img/home-images/candidate-profile.png"
+                      <img src={imgSrc}
                         className='canidate--profile-img' alt="" />
                       <div className='candidate--name-area'>
                         <h6>{candidate.firstName + ' ' + candidate.lastName}</h6>
@@ -769,7 +779,7 @@ const Home = () => {
                     <div className="candidate--desc-area">
                       <p>{candidate.profileHeadline}</p>
                     </div>
-                    <div className="candidate--skills-area">
+                    {/* <div className="candidate--skills-area">
                       <div className="row">
                         <div className="col-6 col-border-1">
                           <div className="candidate--skill">
@@ -784,8 +794,8 @@ const Home = () => {
                           </div>
                         </div>
                       </div>
-                    </div>
-                    <a href={`/talents/${candidate.id}`} className="candidate--arrow-icon">
+                    </div> */}
+                    <a href={clientToken ? `/talents/${candidate.id}` : "/client-login"} className="candidate--arrow-icon">
                       <img src="assets/img/home-images/arrow-dark.png" alt="" />
                     </a>
                     <div className="candidate-blob"></div>
