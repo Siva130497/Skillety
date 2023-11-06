@@ -120,6 +120,16 @@ const CandidateProfile = () => {
             $('#clear-file').on('click', function () {
                 clearFileInput();
             });
+
+            $('.pro-quick-link').on('click', function (event) {
+                var target = $($(this).attr('href'));
+                if (target.length) {
+                    event.preventDefault();
+                    $('html, body').animate({
+                        scrollTop: target.offset().top - 20
+                    }, 800);
+                }
+            });
         });
 
     }, []);
