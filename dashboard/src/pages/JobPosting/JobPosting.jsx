@@ -547,7 +547,7 @@ const JobPosting = ({ employeeId, staffToken, clientToken, companyId, role }) =>
               </div>
               <div className="card post-job-card">
                 <div className="post-job-title">Post a Job </div>
-                <div className="post-job-sub-title">Begin from scratch</div>
+                {/* <div className="post-job-sub-title">Begin from scratch</div> */}
 
                 <div className="job-post-form-area">
                   <form action="">
@@ -577,9 +577,9 @@ const JobPosting = ({ employeeId, staffToken, clientToken, companyId, role }) =>
                           <label htmlFor="" className='job-post-form-label'>Key skills<span className='form-required'>*</span></label>
                           <input type="text" className='job-post-form-input'
                             placeholder='Add skills that are crucial for this job' />
-                          <div className='input-sub-text'>
+                          {/* <div className='input-sub-text'>
                             <span>0/200</span>
-                          </div>
+                          </div> */}
                         </div>
                       </div>
                     </div>
@@ -745,7 +745,7 @@ const JobPosting = ({ employeeId, staffToken, clientToken, companyId, role }) =>
                       </div>
                     </div>
 
-                    <div className="row m-b-35">
+                    {/* <div className="row m-b-35">
                       <div className="col-12 col-xl-8">
                         <div className="job-post-form-group">
                           <label htmlFor="" className='job-post-form-label'>Diversity hiring</label>
@@ -758,7 +758,7 @@ const JobPosting = ({ employeeId, staffToken, clientToken, companyId, role }) =>
                           </div>
                         </div>
                       </div>
-                    </div>
+                    </div> */}
 
                     <div className="row m-b-35">
                       <div className="col-12 col-xl-8">
@@ -775,7 +775,7 @@ const JobPosting = ({ employeeId, staffToken, clientToken, companyId, role }) =>
                       </div>
                     </div>
 
-                    <div className="row m-b-35">
+                    {/* <div className="row m-b-35">
                       <div className="col-12 col-xl-8">
                         <div className="job-post-form-group">
                           <label htmlFor="" className='job-post-form-label'>Do you have more than one vacancy for this job?</label>
@@ -851,7 +851,7 @@ const JobPosting = ({ employeeId, staffToken, clientToken, companyId, role }) =>
                           </select>
                         </div>
                       </div>
-                    </div>
+                    </div> */}
 
                   </form>
                 </div>
