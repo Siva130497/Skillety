@@ -47,21 +47,21 @@ const ManageApplication = () => {
                                                     <th className='dash-table-head text-center'>Date Applied</th>
                                                     <th className='dash-table-head text-center'>Location</th>
                                                     <th className='dash-table-head text-center'>Status</th>
-                                                    <th className='text-center'>View CV</th>
+                                                    {/* <th className='text-center'>View CV</th> */}
                                                 </tr>
 
                                                 {/* table data */}
                                                 <tr className='dash-table-row client'>
-                                                    <td className='dash-table-data1 text-center'>258</td>
+                                                    <td className='dash-table-data1 text-center'>1</td>
                                                     <td className='dash-table-data1 text-center'>
-                                                        Ankit Dubey
+                                                        Skillety test
                                                     </td>
                                                     <td className='dash-table-data1 text-center'>
                                                         03 Aug’ 23
                                                     </td>
 
                                                     <td className='dash-table-data1 text-center'>
-                                                        Lorem Ipsum
+                                                        Jaffna
                                                     </td>
 
                                                     <td className='text-center'>
@@ -69,144 +69,144 @@ const ManageApplication = () => {
                                                         {/* <button className='man-job-status-btn theme-warning'>Resumed</button><br /> */}
                                                         {/* <button className='man-job-status-btn theme-success'>Completed</button><br /> */}
                                                     </td>
-                                                    <td className='text-center'>
+                                                    {/* <td className='text-center'>
                                                         <button className='application-btn'>
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-file-earmark-text-fill" viewBox="0 0 16 16">
                                                                 <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM4.5 9a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 1 0-1h4a.5.5 0 0 1 0 1h-4z"
                                                                     fill='#0879bc' />
                                                             </svg>
                                                         </button>
-                                                    </td>
+                                                    </td> */}
                                                 </tr>
 
                                                 <tr className='dash-table-row client'>
-                                                    <td className='dash-table-data1 text-center'>258</td>
+                                                    <td className='dash-table-data1 text-center'>2</td>
                                                     <td className='dash-table-data1 text-center'>
-                                                        Ankit Dubey
+                                                    Skillety test
                                                     </td>
                                                     <td className='dash-table-data1 text-center'>
                                                         03 Aug’ 23
                                                     </td>
 
                                                     <td className='dash-table-data1 text-center'>
-                                                        Lorem Ipsum
+                                                        Jaffna
                                                     </td>
 
                                                     <td className='text-center'>
                                                         <button className='man-job-status-btn theme-warning'>Resumed</button>
                                                     </td>
-                                                    <td className='text-center'>
+                                                    {/* <td className='text-center'>
                                                         <button className='application-btn'>
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-file-earmark-text-fill" viewBox="0 0 16 16">
                                                                 <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM4.5 9a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 1 0-1h4a.5.5 0 0 1 0 1h-4z"
                                                                     fill='#0879bc' />
                                                             </svg>
                                                         </button>
-                                                    </td>
+                                                    </td> */}
                                                 </tr>
 
                                                 <tr className='dash-table-row client'>
-                                                    <td className='dash-table-data1 text-center'>258</td>
+                                                    <td className='dash-table-data1 text-center'>3</td>
                                                     <td className='dash-table-data1 text-center'>
-                                                        Ankit Dubey
+                                                    Skillety test
                                                     </td>
                                                     <td className='dash-table-data1 text-center'>
                                                         03 Aug’ 23
                                                     </td>
 
                                                     <td className='dash-table-data1 text-center'>
-                                                        Lorem Ipsum
+                                                        Jaffna
                                                     </td>
 
                                                     <td className='text-center'>
                                                         <button className='man-job-status-btn theme-success'>Completed</button>
                                                     </td>
-                                                    <td className='text-center'>
+                                                    {/* <td className='text-center'>
                                                         <button className='application-btn'>
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-file-earmark-text-fill" viewBox="0 0 16 16">
                                                                 <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM4.5 9a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 1 0-1h4a.5.5 0 0 1 0 1h-4z"
                                                                     fill='#0879bc' />
                                                             </svg>
                                                         </button>
-                                                    </td>
+                                                    </td> */}
                                                 </tr>
 
                                                 <tr className='dash-table-row client'>
-                                                    <td className='dash-table-data1 text-center'>258</td>
+                                                    <td className='dash-table-data1 text-center'>4</td>
                                                     <td className='dash-table-data1 text-center'>
-                                                        Ankit Dubey
+                                                    Vithurushan
                                                     </td>
                                                     <td className='dash-table-data1 text-center'>
                                                         03 Aug’ 23
                                                     </td>
 
                                                     <td className='dash-table-data1 text-center'>
-                                                        Lorem Ipsum
+                                                        Colombo
                                                     </td>
 
                                                     <td className='text-center'>
                                                         <button className='man-job-status-btn theme-info'>Ongoing</button>
                                                     </td>
-                                                    <td className='text-center'>
+                                                    {/* <td className='text-center'>
                                                         <button className='application-btn'>
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-file-earmark-text-fill" viewBox="0 0 16 16">
                                                                 <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM4.5 9a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 1 0-1h4a.5.5 0 0 1 0 1h-4z"
                                                                     fill='#0879bc' />
                                                             </svg>
                                                         </button>
-                                                    </td>
+                                                    </td> */}
                                                 </tr>
 
                                                 <tr className='dash-table-row client'>
-                                                    <td className='dash-table-data1 text-center'>258</td>
+                                                    <td className='dash-table-data1 text-center'>5</td>
                                                     <td className='dash-table-data1 text-center'>
-                                                        Ankit Dubey
+                                                    Vithurushan
                                                     </td>
                                                     <td className='dash-table-data1 text-center'>
                                                         03 Aug’ 23
                                                     </td>
 
                                                     <td className='dash-table-data1 text-center'>
-                                                        Lorem Ipsum
+                                                        Colombo
                                                     </td>
 
                                                     <td className='text-center'>
                                                         <button className='man-job-status-btn theme-warning'>Resumed</button>
                                                     </td>
-                                                    <td className='text-center'>
+                                                    {/* <td className='text-center'>
                                                         <button className='application-btn'>
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-file-earmark-text-fill" viewBox="0 0 16 16">
                                                                 <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM4.5 9a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 1 0-1h4a.5.5 0 0 1 0 1h-4z"
                                                                     fill='#0879bc' />
                                                             </svg>
                                                         </button>
-                                                    </td>
+                                                    </td> */}
                                                 </tr>
 
                                                 <tr className='dash-table-row client'>
-                                                    <td className='dash-table-data1 text-center'>258</td>
+                                                    <td className='dash-table-data1 text-center'>6</td>
                                                     <td className='dash-table-data1 text-center'>
-                                                        Ankit Dubey
+                                                    Vithurushan
                                                     </td>
                                                     <td className='dash-table-data1 text-center'>
                                                         03 Aug’ 23
                                                     </td>
 
                                                     <td className='dash-table-data1 text-center'>
-                                                        Lorem Ipsum
+                                                        Colombo
                                                     </td>
 
                                                     <td className='text-center'>
                                                         <button className='man-job-status-btn theme-success'>Completed</button>
                                                     </td>
-                                                    <td className='text-center'>
+                                                    {/* <td className='text-center'>
                                                         <button className='application-btn'>
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-file-earmark-text-fill" viewBox="0 0 16 16">
                                                                 <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM4.5 9a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 1 0-1h4a.5.5 0 0 1 0 1h-4z"
                                                                     fill='#0879bc' />
                                                             </svg>
                                                         </button>
-                                                    </td>
+                                                    </td> */}
                                                 </tr>
 
                                             </table>
@@ -257,7 +257,7 @@ const ManageApplication = () => {
                                                     <th className='dash-table-head text-center'>Date Applied</th>
                                                     <th className='dash-table-head text-center'>Location</th>
                                                     <th className='dash-table-head text-center'>Status</th>
-                                                    <th className='text-center'>View CV</th>
+                                                    {/* <th className='text-center'>View CV</th> */}
                                                 </tr>
 
                                                 {/* table data */}
@@ -279,14 +279,14 @@ const ManageApplication = () => {
                                                         {/* <button className='man-job-status-btn theme-warning'>Resumed</button><br /> */}
                                                         {/* <button className='man-job-status-btn theme-success'>Completed</button><br /> */}
                                                     </td>
-                                                    <td className='text-center'>
+                                                    {/* <td className='text-center'>
                                                         <button className='application-btn'>
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-file-earmark-text-fill" viewBox="0 0 16 16">
                                                                 <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM4.5 9a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 1 0-1h4a.5.5 0 0 1 0 1h-4z"
                                                                     fill='#0879bc' />
                                                             </svg>
                                                         </button>
-                                                    </td>
+                                                    </td> */}
                                                 </tr>
 
                                                 <tr className='dash-table-row client'>
@@ -305,14 +305,14 @@ const ManageApplication = () => {
                                                     <td className='text-center'>
                                                         <button className='man-job-status-btn theme-warning'>Resumed</button>
                                                     </td>
-                                                    <td className='text-center'>
+                                                    {/* <td className='text-center'>
                                                         <button className='application-btn'>
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-file-earmark-text-fill" viewBox="0 0 16 16">
                                                                 <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM4.5 9a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 1 0-1h4a.5.5 0 0 1 0 1h-4z"
                                                                     fill='#0879bc' />
                                                             </svg>
                                                         </button>
-                                                    </td>
+                                                    </td> */}
                                                 </tr>
 
                                                 <tr className='dash-table-row client'>
@@ -331,14 +331,14 @@ const ManageApplication = () => {
                                                     <td className='text-center'>
                                                         <button className='man-job-status-btn theme-success'>Completed</button>
                                                     </td>
-                                                    <td className='text-center'>
+                                                    {/* <td className='text-center'>
                                                         <button className='application-btn'>
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-file-earmark-text-fill" viewBox="0 0 16 16">
                                                                 <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM4.5 9a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 1 0-1h4a.5.5 0 0 1 0 1h-4z"
                                                                     fill='#0879bc' />
                                                             </svg>
                                                         </button>
-                                                    </td>
+                                                    </td> */}
                                                 </tr>
 
                                                 <tr className='dash-table-row client'>
@@ -357,14 +357,14 @@ const ManageApplication = () => {
                                                     <td className='text-center'>
                                                         <button className='man-job-status-btn theme-info'>Ongoing</button>
                                                     </td>
-                                                    <td className='text-center'>
+                                                    {/* <td className='text-center'>
                                                         <button className='application-btn'>
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-file-earmark-text-fill" viewBox="0 0 16 16">
                                                                 <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM4.5 9a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 1 0-1h4a.5.5 0 0 1 0 1h-4z"
                                                                     fill='#0879bc' />
                                                             </svg>
                                                         </button>
-                                                    </td>
+                                                    </td> */}
                                                 </tr>
 
                                                 <tr className='dash-table-row client'>
@@ -383,14 +383,14 @@ const ManageApplication = () => {
                                                     <td className='text-center'>
                                                         <button className='man-job-status-btn theme-warning'>Resumed</button>
                                                     </td>
-                                                    <td className='text-center'>
+                                                    {/* <td className='text-center'>
                                                         <button className='application-btn'>
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-file-earmark-text-fill" viewBox="0 0 16 16">
                                                                 <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM4.5 9a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 1 0-1h4a.5.5 0 0 1 0 1h-4z"
                                                                     fill='#0879bc' />
                                                             </svg>
                                                         </button>
-                                                    </td>
+                                                    </td> */}
                                                 </tr>
 
                                                 <tr className='dash-table-row client'>
@@ -409,14 +409,14 @@ const ManageApplication = () => {
                                                     <td className='text-center'>
                                                         <button className='man-job-status-btn theme-success'>Completed</button>
                                                     </td>
-                                                    <td className='text-center'>
+                                                    {/* <td className='text-center'>
                                                         <button className='application-btn'>
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-file-earmark-text-fill" viewBox="0 0 16 16">
                                                                 <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM4.5 9a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 1 0-1h4a.5.5 0 0 1 0 1h-4z"
                                                                     fill='#0879bc' />
                                                             </svg>
                                                         </button>
-                                                    </td>
+                                                    </td> */}
                                                 </tr>
 
                                             </table>

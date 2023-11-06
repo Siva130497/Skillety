@@ -361,46 +361,46 @@ const ClientDashboard = () => {
                                                         <tr className='dash-table-row'>
                                                             <td className='dash-table-sub-data data-nowrap'>05:15 PM</td>
                                                             <td className='dash-table-sub-data'>Lorem Ipsum is simply dummy text of the printing and typesetting ....................</td>
-                                                            <td className='text-right dash-table-view-btn-area'>
+                                                            {/* <td className='text-right dash-table-view-btn-area'>
                                                                 <button className='dash-table-view-btn client'
                                                                     data-toggle="modal">View</button>
-                                                            </td>
+                                                            </td> */}
                                                         </tr>
 
                                                         <tr className='dash-table-row'>
                                                             <td className='dash-table-sub-data data-nowrap'>05:15 PM</td>
                                                             <td className='dash-table-sub-data'>Lorem Ipsum is simply dummy text of the printing and typesetting ....................</td>
-                                                            <td className='text-right dash-table-view-btn-area'>
+                                                            {/* <td className='text-right dash-table-view-btn-area'>
                                                                 <button className='dash-table-view-btn client'
                                                                     data-toggle="modal">View</button>
-                                                            </td>
+                                                            </td> */}
                                                         </tr>
 
                                                         <tr className='dash-table-row'>
                                                             <td className='dash-table-sub-data data-nowrap'>05:15 PM</td>
                                                             <td className='dash-table-sub-data'>Lorem Ipsum is simply dummy text of the printing and typesetting ....................</td>
-                                                            <td className='text-right dash-table-view-btn-area'>
+                                                            {/* <td className='text-right dash-table-view-btn-area'>
                                                                 <button className='dash-table-view-btn client'
                                                                     data-toggle="modal">View</button>
-                                                            </td>
+                                                            </td> */}
                                                         </tr>
 
                                                         <tr className='dash-table-row'>
                                                             <td className='dash-table-sub-data data-nowrap'>05:15 PM</td>
                                                             <td className='dash-table-sub-data'>Lorem Ipsum is simply dummy text of the printing and typesetting ....................</td>
-                                                            <td className='text-right dash-table-view-btn-area'>
+                                                            {/* <td className='text-right dash-table-view-btn-area'>
                                                                 <button className='dash-table-view-btn client'
                                                                     data-toggle="modal">View</button>
-                                                            </td>
+                                                            </td> */}
                                                         </tr>
 
                                                         <tr className='dash-table-row'>
                                                             <td className='dash-table-sub-data data-nowrap'>05:15 PM</td>
                                                             <td className='dash-table-sub-data'>Lorem Ipsum is simply dummy text of the printing and typesetting ....................</td>
-                                                            <td className='text-right dash-table-view-btn-area'>
+                                                            {/* <td className='text-right dash-table-view-btn-area'>
                                                                 <button className='dash-table-view-btn client'
                                                                     data-toggle="modal">View</button>
-                                                            </td>
+                                                            </td> */}
                                                         </tr>
                                                     </table>
                                                 </div>
@@ -433,9 +433,9 @@ const ClientDashboard = () => {
                                                                 <span className='dash-table-sub-data'>{cand.date}</span>
                                                             </td>
                                                             <td className='dash-table-sub-data'>{cand.profileHeadline}</td>
-                                                            <td className='text-right dash-table-view-btn-area'>
+                                                            {/* <td className='text-right dash-table-view-btn-area'>
                                                                 <button className='dash-table-view-btn client' data-toggle="modal">View CV</button>
-                                                            </td>
+                                                            </td> */}
                                                         </tr>
                                                         )})
                                                     }
@@ -446,7 +446,7 @@ const ClientDashboard = () => {
                                     </div>
                                 </div>
 
-                                <div class="row">
+                                {/* <div class="row">
                                     <div class="col-12">
                                         <div className="dash-table-section">
                                             <div className="dash-table-area">
@@ -514,7 +514,7 @@ const ClientDashboard = () => {
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> */}
 
                                 <div class="row">
                                     <div class="col-12">
