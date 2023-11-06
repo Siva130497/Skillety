@@ -1,9 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react'
 import AuthContext from '../context/AuthContext';
+import axios from 'axios';
 
 const NavBar = () => {
   const [token, setToken] = useState("");
   const {getProtectedData} = useContext(AuthContext);
+  const [candidateId, setCandidateId] = useState("");
+  const [candidateImg, setCandidateImg] = useState();
+  const [candidateImgUrl, setCandidateImgUrl] = useState("")
 
   const [userName, setUserName] = useState('');
 
@@ -17,6 +21,7 @@ const NavBar = () => {
                 try {
                     const userData = await getProtectedData(token);
                     console.log(userData);
+                    setCandidateId(userData.id);
                     setUserName(userData.name);
                 } catch (error) {
                     console.log(error)
@@ -26,6 +31,21 @@ const NavBar = () => {
             fetchData();
         }
     }, [token]);
+
+    useEffect(() => {
+      if (candidateId) {
+          axios.get(`http://localhost:5002/candidate-image/${candidateId}`)
+            .then(res=>setCandidateImg(res.data))
+            .catch(err=>console.log(err))
+      }
+  }, [candidateId]);
+
+  useEffect(() => {
+      if(candidateImg){
+        setCandidateImgUrl(`http://localhost:5002/candidate_profile/${candidateImg.image}`)
+      }
+      
+    }, [candidateImg]);
 
     const extractLastName = () => {
       const nameParts = userName.split(' ');
@@ -213,13 +233,13 @@ const NavBar = () => {
               className="nav-user--btn nav-link dropdown-toggle nav-link-lg nav-link-user">
               Profile
               <i class="bi bi-caret-down-fill"></i>
-              <img alt="image" src="assets/img/layout/user-img.png"
+              <img alt="image" src={candidateImgUrl ? candidateImgUrl : "../assets/img/talents-images/avatar.jpg"}
                 className="user-img-radious-style" />
               <span className="d-sm-none d-lg-inline-block"></span>
             </a>
             <div className="dropdown-menu dropdown-menu-right pullDown profile-dropdown-menu">
               <div className="dropdown-top-area">
-                <img src="assets/img/layout/user-img.png" className='dropdown-user-img' alt="" />
+                <img src={candidateImgUrl ? candidateImgUrl : "../assets/img/talents-images/avatar.jpg"} className='dropdown-user-img' alt="" />
                 <div className='dropdown-user-detail-area'>
                   <div className="dropdown-user-name">{extractLastName()}</div>
                   <div className="dropdown-user-role">UX Designer, India</div>

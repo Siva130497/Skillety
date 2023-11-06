@@ -14,6 +14,8 @@ const morgan = require('morgan');
 const multer = require('multer');
 const resume = require('./Database/resume');
 const image = require('./Database/image');
+const candidateProfile = require("./Database/candidateProfile");
+const clientProfile = require("./Database/clientProfile");
 const validateToken = require('./middleware/employeeAuth');
 const jwt = require("jsonwebtoken");
 // const file = require('./Database/file');
@@ -237,6 +239,134 @@ app.patch('/update-image/:id', employeeAuth, uploadImg.single('image'), (req, re
   );
 });
 
+
+//candidate profile photohandling
+const storageCandidateImg = multer.diskStorage({
+  destination: function(req, file, cb) {
+    return cb(null, "./public/candidate_profile")
+  },
+  filename: function(req, file, cb) {
+    return cb(null, `${Date.now()}_${file.originalname}`)
+  }
+})
+
+const uploadCandidateImg = multer({storage: storageCandidateImg})
+app.post('/upload-candidate-profile-image', employeeAuth, uploadCandidateImg.single('image'), (req, res) => {
+  const uploadedId = req.body.id; 
+  console.log("Uploaded ID:", uploadedId);
+  console.log("Uploaded File:", req.file);
+
+  candidateProfile.create({
+    image: req.file.filename,
+    id: uploadedId,
+  })
+  .then((result) => console.log(result))
+  .then(result => res.json(result))
+  .catch(err => console.log(err)) 
+})
+
+app.get('/candidate-image', (req, res)=>{
+  candidateProfile.find()
+  .then(candidateImg=>res.json(candidateImg))
+  .catch(err=>res.json(err))
+});
+
+app.get('/candidate-image/:id', (req, res)=>{
+  const {id} = req.params;
+  candidateProfile.findOne({id})
+  .then(candidateImg=>res.json(candidateImg))
+  .catch(err=>res.json(err))
+});
+
+app.patch('/update-candidate-profile-image/:id', employeeAuth, uploadCandidateImg.single('image'), (req, res) => {
+  const uploadedId = req.params.id;
+  const newImageFilename = req.file.filename;
+
+  // Find the existing image by ID
+  candidateProfile.findOneAndUpdate(
+    { id: uploadedId },
+    { $set: { image: newImageFilename } },
+    { new: true },
+    (err, updatedImage) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).json({ error: 'Internal Server Error' });
+      }
+
+      if (!updatedImage) {
+        return res.status(404).json({ error: 'Image not found' });
+      }
+
+      console.log('Updated Image:', updatedImage);
+
+      res.json(updatedImage);
+    }
+  );
+});
+
+//client company profile photohandling
+const storageClientImg = multer.diskStorage({
+  destination: function(req, file, cb) {
+    return cb(null, "./public/client_profile")
+  },
+  filename: function(req, file, cb) {
+    return cb(null, `${Date.now()}_${file.originalname}`)
+  }
+})
+
+const uploadClientImg = multer({storage: storageClientImg})
+app.post('/upload-client-profile-image', employeeAuth, uploadClientImg.single('image'), (req, res) => {
+  const uploadedId = req.body.id; 
+  console.log("Uploaded ID:", uploadedId);
+  console.log("Uploaded File:", req.file);
+
+  clientProfile.create({
+    image: req.file.filename,
+    id: uploadedId,
+  })
+  .then((result) => console.log(result))
+  .then(result => res.json(result))
+  .catch(err => console.log(err)) 
+})
+
+app.get('/client-image', (req, res)=>{
+  clientProfile.find()
+  .then(clientImg=>res.json(clientImg))
+  .catch(err=>res.json(err))
+});
+
+app.get('/client-image/:id', (req, res)=>{
+  const {id} = req.params;
+  clientProfile.findOne({id})
+  .then(clientImg=>res.json(clientImg))
+  .catch(err=>res.json(err))
+});
+
+app.patch('/update-client-profile-image/:id', employeeAuth, uploadClientImg.single('image'), (req, res) => {
+  const uploadedId = req.params.id;
+  const newImageFilename = req.file.filename;
+
+  // Find the existing image by ID
+  clientProfile.findOneAndUpdate(
+    { id: uploadedId },
+    { $set: { image: newImageFilename } },
+    { new: true },
+    (err, updatedImage) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).json({ error: 'Internal Server Error' });
+      }
+
+      if (!updatedImage) {
+        return res.status(404).json({ error: 'Image not found' });
+      }
+
+      console.log('Updated Image:', updatedImage);
+
+      res.json(updatedImage);
+    }
+  );
+});
 
 
 // const storage = multer.memoryStorage();

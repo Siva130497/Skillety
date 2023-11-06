@@ -1,10 +1,15 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
+import axios from 'axios';
 
 const ClientNavBar = () => {
   const [token, setToken] = useState("");
   const {getProtectedData} = useContext(AuthContext);
+  const [employeeId, setEmployeeId] = useState("");
+  const [loginClientDetail, setLoginClientDetail] = useState("");
+  const [clientImg, setClientImg] = useState();
+  const [clientImgUrl, setClientImgUrl] = useState("")
   const navigate = useNavigate();
   
     const [userName, setUserName] = useState('');
@@ -20,6 +25,7 @@ const ClientNavBar = () => {
                 try {
                     const userData = await getProtectedData(token);
                     console.log(userData);
+                    setEmployeeId(userData.id);
                     setUserName(userData.name);
                 } catch (error) {
                     console.log(error)
@@ -29,6 +35,47 @@ const ClientNavBar = () => {
             fetchData();
         }
     }, [token]);
+
+    const getLoginClientDetail = async () => {
+      try {
+          const res = await axios.get(`http://localhost:5002/client/${employeeId}`, {
+              headers: {
+                  Authorization: `Bearer ${token}`,
+                  Accept: 'application/json'
+              }
+          });
+          const result = res.data;
+          if (!result.error) {
+              console.log(result);
+              setLoginClientDetail(result);
+          } else {
+              console.log(result);
+          }
+      } catch (err) {
+          console.log(err);
+      }
+  }
+
+  useEffect(() => {
+      if (employeeId) {
+          getLoginClientDetail();
+      }
+  }, [employeeId]);
+
+    useEffect(() => {
+      if (loginClientDetail.companyId) {
+          axios.get(`http://localhost:5002/client-image/${loginClientDetail.companyId}`)
+            .then(res=>setClientImg(res.data))
+            .catch(err=>console.log(err))
+      }
+  }, [loginClientDetail.companyId]);
+
+  useEffect(() => {
+      if(clientImg){
+        setClientImgUrl(`http://localhost:5002/client_profile/${clientImg.image}`)
+      }
+      
+    }, [clientImg]);
 
     const extractLastName = () => {
       const nameParts = userName.split(' ');
@@ -216,13 +263,13 @@ const ClientNavBar = () => {
               className="nav-user--btn client nav-link dropdown-toggle nav-link-lg nav-link-user">
               Company Profile
               <i class="bi bi-caret-down-fill"></i>
-              <img alt="image" src="../assets/img/layout/company-img.png"
+              <img alt="image" src={clientImgUrl ? clientImgUrl : "../assets/img/talents-images/avatar.jpg"}
                 className="user-img-radious-style" />
               <span className="d-sm-none d-lg-inline-block"></span>
             </a>
             <div className="dropdown-menu dropdown-menu-right pullDown profile-dropdown-menu">
               <div className="dropdown-top-area">
-                <img src="../assets/img/layout/company-img.png" className='dropdown-user-img' alt="" />
+                <img src={clientImgUrl ? clientImgUrl : "../assets/img/talents-images/avatar.jpg"} className='dropdown-user-img' alt="" />
                 <div className='dropdown-user-detail-area'>
                   <div className="dropdown-user-name">{extractLastName()}</div>
                   <div className="dropdown-user-role">UX Designer, India</div>
