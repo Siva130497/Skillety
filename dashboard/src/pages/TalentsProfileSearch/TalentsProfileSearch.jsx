@@ -12,7 +12,7 @@ import AuthContext from '../../context/AuthContext';
 const TalentsProfileSearch = () => {
     const [clientToken, setClientToken] = useState("");
     
-    const {getProtectedData, getClientChoosenPlan, packageSelectionDetail} = useContext(AuthContext);
+    const {getProtectedData, getClientChoosenPlan, packageSelectionDetail, getCandidateImg, candidateImg} = useContext(AuthContext);
     const [employeeId, setEmployeeId] = useState("");
     const [loginClientDetail, setLoginClientDetail] = useState([]);
     const [cvViews, setCvViews] = useState();
@@ -462,6 +462,7 @@ const TalentsProfileSearch = () => {
 
     useEffect(() => {
         getAllCandidateDetail();
+        getCandidateImg();
     }, []);
 
     const getLoginClientDetail = async () => {
@@ -691,7 +692,8 @@ const TalentsProfileSearch = () => {
                     })
             }
         } else {
-            alert("buy a package plan to view cv detail")
+            alert("login and buy a package plan to view cv detail")
+            navigate("/client-login")
         }
     }
 
@@ -1924,6 +1926,8 @@ const TalentsProfileSearch = () => {
                                                             filteredSearchResults.length > 0 ?
                                                                 filteredSearchResults.map((candidate) => {
                                                                     const viewedCandidateForThisCandidate = loginClientDetail.companyId && viewedCandidate.find(cand => cand.candidateId === candidate.id);
+                                                                    const matchingImg = candidateImg ? candidateImg.find(img => img.id === candidate.id) : null;
+                                                                    const imgSrc = matchingImg ? `http://localhost:5002/candidate_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
                                                                     return (
                                                                         <article className="talent--profile-card search" key={candidate.id} onClick={() => viewCandidateDetail(candidate.id)}>
                                                                             <div className="tal--pro-card-left-area search">
@@ -2008,7 +2012,7 @@ const TalentsProfileSearch = () => {
                                                                             <div className="tal--pro-card-right-area search">
                                                                                 <div className="tal--pro-card-right-cover-area search">
                                                                                     <div className='tal--pro-card-profile-img-role-area search'>
-                                                                                        <img src="../assets/img/talents-images/profile-img.png" className='tal--pro-card-profile-img' alt="" />
+                                                                                        <img src={imgSrc} alt="" />
                                                                                         <p className='tal--pro-card-role-name'>Frontend Developer (Css,html)</p>
                                                                                     </div>
                                                                                     <div className="tal--pro-card-contact-btn-area search">

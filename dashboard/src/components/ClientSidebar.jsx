@@ -66,13 +66,13 @@ const ClientSidebar = () => {
                             <a href="/manage-job" className="nav-link"><i data-feather="sliders"></i><span>Manage Jobs</span></a>
                         </li>
 
-                        <li className="dropdown" id='services'>
+                        {/* <li className="dropdown" id='services'>
                             <a href="/services" className="nav-link"><i data-feather="tool"></i><span>Services</span></a>
-                        </li>
+                        </li> */}
 
                         <div className='hr-line'></div>
 
-                        <li className="dropdown" id='reports'>
+                        {/* <li className="dropdown" id='reports'>
                             <a href="/reports" className="nav-link"><i data-feather="file-text"></i><span>Reports</span></a>
                         </li>
                         <li className="dropdown" id='invoice_payment'>
@@ -83,7 +83,7 @@ const ClientSidebar = () => {
                         </li>
                         <li className="dropdown" id='client_settings'>
                             <a href="/client-settings" className="nav-link"><i data-feather="settings"></i><span>Settings</span></a>
-                        </li>
+                        </li> */}
                     </ul>
 
                     <div className='live-chat-area'>

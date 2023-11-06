@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useEffect } from 'react';
 import $ from 'jquery';
 import './JobSearch.css';
@@ -7,8 +7,10 @@ import Layout from '../../components/Layout';
 import Footer from '../../components/Footer';
 // import { Slider } from "primereact/slider";
 import axios from 'axios';
+import AuthContext from '../../context/AuthContext';
 
 const JobSearch = () => {
+    const {getClientImg, clientImg} = useContext(AuthContext);
     const [allJobs, setAllJobs] = useState([]);
     const [searchResult, setSearchResult] = useState(false);
     const [filteredSearchResults, setFilteredSearchResults]= useState([]);
@@ -153,6 +155,7 @@ const JobSearch = () => {
 
       useEffect(()=>{
         getPostedjobs();
+        getClientImg();
       },[])
 
       const handleSkillSearch = () => {
@@ -1965,13 +1968,15 @@ const JobSearch = () => {
                                                     <p>{filteredSearchResultsMsg}</p>:
                                                     filteredSearchResults.length > 0 ?
                                                     filteredSearchResults.map((job)=>{
+                                                        const matchingImg = clientImg ? clientImg.find(img => img.id === job.companyId) : null;
+                                                        const imgSrc = matchingImg ? `http://localhost:5002/client_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
                                                         return(
-                                                            <article className='job--detail-card'>
+                                                        <article className='job--detail-card'>
                                                         <div className="job--detail-card-top-area job">
                                                             <div>
                                                                 <h5 className='job--detail-card-role'>{job.jobRole[0]}</h5>
                                                                 <div className="job--detail-card-review-area">
-                                                                    <div className="job--detail-card-review">Happiest Minds</div>
+                                                                    <div className="job--detail-card-review">{job.companyName}</div>
                                                                     <div className='job--detail-card-rating'>
                                                                         <i class="ri-star-fill"></i>
                                                                         <span>4.9</span>
@@ -1998,7 +2003,7 @@ const JobSearch = () => {
                                                                 </div>
                                                             </div>
                                                             <div className="job--detail-card-img-area job">
-                                                                <img src="assets/img/companies/company-1.png" className='job--detail-card-img' alt="" />
+                                                                <img src={imgSrc} className='job--detail-card-img' alt="" />
                                                             </div>
                                                         </div>
                                                         <div className="job--detail-card-desc-area">
@@ -2011,7 +2016,7 @@ const JobSearch = () => {
                                                                 })}
                                                             </div>
                                                             <div className="job--detail-card-know-more-btn-area">
-                                                                <a href="#" className='job--detail-card-know-more-btn'>Know more</a>
+                                                                <a href={`/job-detail/${job.id}`} className='job--detail-card-know-more-btn'>Know more</a>
                                                             </div>
                                                         </div>
                                                             </article>
