@@ -1,0 +1,1503 @@
+.cli--tal-pro-search-section {
+    margin-top: 150px;
+    padding-top: 60px;
+    overflow: hidden !important;
+}
+
+
+
+.cli-tal-pro-search-container .cli-tal-pro-search-heading {
+    color: #714F36;
+    font-size: 28px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.cli-tal-pro-search-container {
+    margin-bottom: 40px;
+}
+
+.row-border-custom {
+    border-top: 1px solid #714F36;
+}
+
+.custom-right-border-col {
+    border-right: 1px solid #714F36;
+}
+
+.cli-tal-pro-search-filter-area {
+    padding: 30px 10px 30px 0px;
+}
+
+.cli-tal-pro-search-filter-head-area {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.cli-tal-pro-search-filter-head-area.search-results {
+    justify-content: center;
+    gap: 15px;
+}
+
+.cli-tal-pro-search-filter-head-area.search-results .cli-tal-pro-search-filter {
+    font-size: 16px;
+}
+
+.cli-tal-pro-search-filter-head-area .cli-tal-pro-search-filter {
+    color: #714F36;
+    font-size: 20px;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.cli-tal-pro-search-filter-head-area .cli-tal-pro-filter-img {
+    width: 32px;
+}
+
+.cli-tal-pro-search-filter-container {
+    margin-top: 40px;
+}
+
+.cli-tal-pro-search-filter-content {
+    margin-bottom: 30px;
+}
+
+.cli-tal-pro-search-filter-title-area {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.cli-tal-pro-search-filter-title-area .cli-tal-pro-search-filter-title {
+    color: #714F36;
+    font-size: 15px;
+    font-weight: 500;
+    text-transform: capitalize;
+    margin-bottom: 0;
+}
+
+.cl-toggle-switch {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    justify-content: flex-start;
+    margin-bottom: 10px;
+}
+
+.cl-toggle-switch .cl-toggle--switch-label {
+    color: #B3B3B3;
+    font-size: 14px;
+    font-weight: 400;
+    margin-bottom: 0;
+}
+
+.cl-switch {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+/* Input */
+.cl-switch>input {
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    z-index: -1;
+    position: absolute;
+    right: 4.5px;
+    top: -5.2px;
+    display: block;
+    margin: 0;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    background-color: rgb(0, 0, 0, 0.38);
+    outline: none;
+    opacity: 0;
+    -webkit-transform: scale(1);
+    -ms-transform: scale(1);
+    transform: scale(1);
+    pointer-events: none;
+    -webkit-transition: opacity 0.3s 0.1s, -webkit-transform 0.2s 0.1s;
+    transition: opacity 0.3s 0.1s, -webkit-transform 0.2s 0.1s;
+    transition: opacity 0.3s 0.1s, transform 0.2s 0.1s;
+    transition: opacity 0.3s 0.1s, transform 0.2s 0.1s, -webkit-transform 0.2s 0.1s;
+}
+
+/* Track */
+.cl-switch>span::before {
+    content: "";
+    /* position: relative; */
+    float: right;
+    display: inline-block;
+    margin: 5px 0 5px 10px;
+    border-radius: 7px;
+    width: 24px;
+    height: 10px;
+    background-color: rgb(0, 0, 0, 0.38);
+    vertical-align: top;
+    -webkit-transition: background-color 0.2s, opacity 0.2s;
+    transition: background-color 0.2s, opacity 0.2s;
+}
+
+/* Thumb */
+.cl-switch>span::after {
+    content: "";
+    position: absolute;
+    top: 2px;
+    right: 11px;
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    background-color: #fff;
+    -webkit-box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+    box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+    -webkit-transition: background-color 0.2s, -webkit-transform 0.2s;
+    transition: background-color 0.2s, -webkit-transform 0.2s;
+    transition: background-color 0.2s, transform 0.2s;
+    transition: background-color 0.2s, transform 0.2s, -webkit-transform 0.2s;
+}
+
+/* Checked */
+.cl-switch>input:checked {
+    right: -10px;
+    background-color: #d0a88e;
+}
+
+.cl-switch>input:checked+span::before {
+    background-color: #c6a085;
+}
+
+.cl-switch>input:checked+span::after {
+    background-color: #714F36;
+    -webkit-transform: translateX(14px);
+    -ms-transform: translateX(14px);
+    transform: translateX(14px);
+}
+
+/* Hover, Focus */
+.cl-switch:hover>input {
+    opacity: 0.0;
+}
+
+.cl-switch>input:focus {
+    opacity: 0.0;
+}
+
+.cl-switch:hover>input:focus {
+    opacity: 0.0;
+}
+
+/* Active */
+.cl-switch>input:active {
+    opacity: 0;
+    -webkit-transform: scale(0);
+    -ms-transform: scale(0);
+    transform: scale(0);
+    -webkit-transition: opacity 0s, -webkit-transform 0s;
+    transition: opacity 0s, -webkit-transform 0s;
+    transition: transform 0s, opacity 0s;
+    transition: transform 0s, opacity 0s, -webkit-transform 0s;
+}
+
+.cl-switch>input:active+span::before {
+    background-color: #8f8f8f;
+}
+
+.cl-switch>input:checked:active+span::before {
+    background-color: #c6a085;
+}
+
+/* Disabled */
+.cl-switch>input:disabled {
+    opacity: 0;
+}
+
+.cl-switch>input:disabled+span::before {
+    background-color: #ddd;
+}
+
+.cl-switch>input:checked:disabled+span::before {
+    background-color: #dcc6b7;
+}
+
+.cl-switch>input:checked:disabled+span::after {
+    background-color: #c6a085;
+}
+
+.cli--tal-pro-filter-input-area {
+    position: relative;
+}
+
+.cli--tal-pro-filter-input-area .cli--tal-pro-filter-input {
+    width: 100%;
+    outline: none !important;
+    position: relative;
+    padding: 12px 10px 12px 50px;
+    font-size: 14px;
+    border-radius: 4px;
+    color: #714F36;
+    border: 1px solid #714F36 !important;
+    background: #FFF;
+    box-shadow: 0px 4px 10px 0px rgba(150, 150, 150, 0.25);
+}
+
+.cli--tal-pro-filter-input-area .cli--tal-pro-filter-search-icon {
+    position: absolute;
+    color: #A5A5A5;
+    font-size: 16px;
+    vertical-align: middle;
+    left: 18px;
+    top: 13px;
+}
+
+.cli--tal-pro-filter-input::placeholder {
+    color: #A5A5A5 !important;
+    font-size: 11px !important;
+    font-weight: 400 !important;
+    vertical-align: middle !important;
+    padding-top: -5px !important;
+}
+
+/* /////// */
+.cli--mark-keyword-area {
+    margin-top: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cli--mark-keyword-area.search-results {
+    margin-top: 20px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+}
+
+.cli--mark-keyword-check-input {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    cursor: pointer;
+    color: #313131;
+    font-size: 10px !important;
+    font-weight: 400;
+}
+
+.cli--mark-keyword-check-input input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.cli--mark-keyword-checkmark {
+    position: relative;
+    display: inline-block;
+    width: 17px;
+    height: 17px;
+    margin-right: 10px;
+    border: 1px solid #898989;
+    border-radius: 2px;
+    -webkit-transition: ease-in-out 0.5s;
+    transition: ease-in-out 0.5s;
+    outline: none;
+    flex-shrink: 0;
+}
+
+.cli--mark-keyword-check-input input[type="checkbox"]:checked~.cli--mark-keyword-checkmark {
+    background-color: #714F36;
+    border-color: #ffffff;
+}
+
+.cli--mark-keyword-check-input input[type="checkbox"]:checked~.cli--mark-keyword-checkmark:after {
+    content: "";
+    position: absolute;
+    top: 2.5px;
+    left: 5.6px;
+    width: 4px;
+    height: 9px;
+    border: solid #FFF;
+    border-width: 0 1.5px 1.5px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+
+.cli--mark-keyword-check-input:hover input[type="checkbox"]~.cli--mark-keyword-checkmark {
+    border-color: #714F36;
+}
+
+.cli--mark-keyword-check-input input[type="checkbox"]:disabled~.cli--mark-keyword-checkmark {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.cli--mark-keyword-check-input input[type="checkbox"]:disabled~.cli--mark-keyword-checkmark:hover {
+    border-color: #4d4d4d;
+}
+
+.cli-tal-pro-exp-input-area {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    width: 70%;
+}
+
+.cli-tal-pro-exp-input-area.search-results {
+    width: 100%;
+}
+
+.cli-tal-pro-exp-input-area .cli-tal-pro-exp-input {
+    width: 100%;
+    outline: none !important;
+    position: relative;
+    padding: 12px 20px;
+    font-size: 14px;
+    border-radius: 4px;
+    color: #714F36;
+    border: 1px solid #714F36 !important;
+    background: #FFF;
+    box-shadow: 0px 4px 10px 0px rgba(150, 150, 150, 0.25);
+}
+
+.cli-tal-pro-exp-input-area input[type="number"]::-webkit-inner-spin-button,
+.cli-tal-pro-exp-input-area input[type="number"]::-webkit-outer-spin-button,
+.cli-tal-pro-exp-input-area input[type="number"] {
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.cli-tal-pro-exp-input::placeholder {
+    color: #A5A5A5 !important;
+    font-size: 11px !important;
+    font-weight: 400 !important;
+    vertical-align: middle !important;
+    padding-top: -5px !important;
+}
+
+.cli-tal-pro-exp-input-area .cli-tal-pro-exp-input-text {
+    color: #714F36;
+    font-size: 14px;
+    font-weight: 400;
+    text-transform: lowercase;
+}
+
+.info-icon {
+    font-size: 18px;
+    vertical-align: middle;
+    color: #714F36;
+}
+
+.info-icon-button {
+    outline: none !important;
+    border: none !important;
+    background: none;
+    cursor: pointer;
+}
+
+.info-icon-area {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.tooltip {
+    display: none;
+    position: absolute;
+    right: -20%;
+    top: -130%;
+    background-color: #714f36d8;
+    text-shadow: 2px 2px 2px #5c5c5c;
+    /* backdrop-filter: blur(1px);
+    -webkit-backdrop-filter: blur(1px); */
+    box-shadow: 0px 4px 10px 0px rgba(150, 150, 150, 0.25);
+    font-size: 12px;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 4px;
+    z-index: 1;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.info-icon-button:hover+.tooltip {
+    display: block;
+    opacity: 1;
+    transform: translateY(-10px);
+}
+
+.cli-tal-pro-search-filter-multi-input-area {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    margin-top: 15px;
+    overflow: hidden;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.cli-tal-pro-search-filter-multi-input-area.active {
+    opacity: 1 !important;
+}
+
+.cli-tal-pro-search-filter-input {
+    width: 100%;
+    outline: none !important;
+    position: relative;
+    padding: 12px 20px;
+    font-size: 14px;
+    border-radius: 4px;
+    color: #714F36;
+    border: 1px solid #714F36 !important;
+    background: #FFF;
+    box-shadow: 0px 4px 10px 0px rgba(150, 150, 150, 0.25);
+    transition: all 0.5s;
+}
+
+.cli-tal-pro-search-filter-input::placeholder {
+    color: #A5A5A5 !important;
+    font-size: 11px !important;
+    font-weight: 400 !important;
+    vertical-align: middle !important;
+    padding-top: -5px !important;
+}
+
+.cli-tal-pro-search-filter-input.location {
+    width: 70%;
+}
+
+.cli-tal-pro-search-filter-multi-input-area .cli-input-close-icon {
+    margin-left: 12px;
+    color: #313131;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.cli-change--location-area {
+    color: #313131;
+    font-size: 10px;
+    font-weight: 400;
+    margin: 8px 0;
+}
+
+.cli--salary-inputs-area {
+    display: flex;
+    gap: 2px;
+    align-items: center;
+}
+
+.width-45 {
+    width: 45% !important;
+}
+
+.width-70 {
+    width: 70% !important;
+}
+
+.width-30 {
+    width: 30% !important;
+}
+
+.cli-tal-pro-select-input {
+    width: 100%;
+    outline: none !important;
+    position: relative;
+    padding: 12px 5px;
+    font-size: 14px;
+    border-radius: 4px;
+    color: #714F36;
+    border: 1px solid #714F36 !important;
+    background: #FFF;
+    box-shadow: 0px 4px 10px 0px rgba(150, 150, 150, 0.25);
+}
+
+.cli-tal-pro-select-input option:disabled {
+    color: #ababab !important;
+}
+
+.cli-tal-pro-select-input option {
+    background-color: #714F36;
+    color: #fff;
+    transition: ease-in-out 0.5s;
+}
+
+.cli-tal-pro-select-input option:hover {
+    background-color: #FFF !important;
+    color: #714F36 !important;
+}
+
+.cli--tal-pro-search-results-area {
+    padding: 45px 0px 40px 30px;
+    position: relative;
+}
+
+.tal--pro-paginate-btn-area {
+    margin-top: 60px;
+    margin-bottom: 40px;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0;
+}
+
+.tal--pro-paginate-btn-area .tal--pro-total-result-text {
+    color: #714F36;
+    font-size: 16px;
+    font-weight: 400;
+    margin-bottom: 0;
+}
+
+.cli--emploment-detail-area {
+    margin-top: 40px;
+}
+
+.cli-tal-search-filter-form-group {
+    margin-bottom: 16px;
+}
+
+.cli-tal-search-filter-form-label-area {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.cli-tal-search-filter-form-group .cli-tal-search-filter-form-label {
+    color: #313131;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.cli--tal-search-add-input-area {
+    margin-top: 10px;
+}
+
+.cli--tal-search-add-input-area .cli--tal-search-add-input-button,
+.cli--tal-search-add-input-area .cli--tal-search-keyword-add-input-button,
+.cli--tal-search-add-input-area .cli--tal-search-skill-add-input-button,
+.cli--tal-search-add-input-area .cli--tal-search-qualification-add-input-button,
+.cli--tal-search-add-input-area .cli--tal-search-keyword-add-input-button-search,
+.cli--tal-search-add-input-area .cli--tal-search-skill-add-input-button-search,
+.cli--tal-search-add-input-area .cli--tal-search-add-company-input-button {
+    color: #313131;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    background: none;
+    border: none;
+    outline: none;
+    margin: 0px;
+    padding: 0;
+}
+
+.cli--tal-search-add-input-button .add-input-icon,
+.cli--tal-search-keyword-add-input-button .add-input-icon,
+.cli--tal-search-skill-add-input-button .add-input-icon,
+.cli--tal-search-qualification-add-input-button .add-input-icon,
+.cli--tal-search-keyword-add-input-button-search .add-input-icon,
+.cli--tal-search-skill-add-input-button-search .add-input-icon,
+.cli--tal-search-add-company-input-button .add-input-icon {
+    color: #313131;
+    margin-right: 12px;
+    font-size: 15px;
+    vertical-align: middle;
+}
+
+.multi-input-container {
+    /* margin-bottom: 18px; */
+}
+
+
+
+.tal--search-options-area {
+    padding-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 8px;
+}
+
+.tal--search-options-area .tal--search-option-container {
+    position: relative;
+    height: 46px;
+    width: auto;
+    min-width: max-content;
+    margin-bottom: 15px;
+    /* overflow: hidden; */
+}
+
+.tal--search-options-area .tal--search-option-container .tal--search-radio {
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    cursor: pointer;
+}
+
+.tal--search-options-area .tal--search-option-container .tal--search-tile {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    width: 100%;
+    height: 100%;
+    border-radius: 40px;
+    border: 1px solid #714F36;
+    background: #FFF;
+    box-shadow: 0px 4px 10px 0px rgba(150, 150, 150, 0.25);
+    padding: 0 20px;
+    transition: transform ease-in-out 0.8s;
+}
+
+.tal--search-options-area .tal--search-option-container .tal--search-tile i {
+    color: #313131;
+    font-size: 16px;
+    font-weight: 600;
+    vertical-align: middle;
+    margin-bottom: 0;
+    padding-right: 0;
+    margin-right: 0;
+}
+
+.tal--search-options-area .tal--search-option-container .tal--search-tile-label {
+    text-align: center;
+    white-space: nowrap;
+    color: #313131;
+    font-size: 10px;
+    font-weight: 500;
+    margin-bottom: 0;
+}
+
+.tal--search-options-area .tal--search-option-container .tal--search-radio:checked+.tal--search-tile {
+    background-color: #F9C833;
+    /* transform: scale(1.02, 1.02); */
+}
+
+.tal--search-options-area .tal--search-option-container .tal--search-radio:checked+.tal--search-tile .tal--search-tile-label {
+    color: #714F36;
+}
+
+.h--line {
+    border-bottom: 1px solid #000;
+}
+
+.clear--all_button-area {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* border-top: 1px solid #714F36; */
+}
+
+.clear--all_button-area .clear--all_button {
+    color: #714F36;
+    border-radius: 40px;
+    border: 1px solid #714F36;
+    font-size: 18px;
+    font-weight: 500;
+    outline: none;
+    background-color: transparent;
+    text-transform: capitalize;
+    white-space: nowrap;
+    padding: 8px 30px;
+    transition: ease-in-out 0.8s;
+}
+
+.clear--all_button-area .clear--all_button:hover {
+    background-color: #714F36;
+    color: #FFF;
+}
+
+.tal--search-submit-btn {
+    color: #FFF;
+    font-size: 18px;
+    font-weight: 500;
+    background-color: #714F36;
+    border: 1px solid #714F36;
+    outline: none;
+    border-radius: 40px;
+    padding: 8px 30px;
+    transition: ease-in-out 0.8s;
+}
+.tal--search-submit-btn:focus,
+.tal--search-submit-btn:active,
+.clear--all_button-area .clear--all_button:focus,
+.clear--all_button-area .clear--all_button:active{
+    outline: none;
+}
+
+.tal--search-submit-btn:hover {
+    background-color: transparent !important;
+    color: #714F36 !important;
+}
+
+.cli-tal-pro-search-filter-input.cand--seek-select option {
+    background-color: #714F36 !important;
+    color: #FFF !important;
+}
+
+.tal--pro-search-result-image-area {
+    padding-top: 150px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.tal--pro-search-result-image-area .tal--pro-search-result-image {
+    width: 45%;
+    height: 45%;
+    object-fit: contain;
+}
+
+.tal--pro-search-result-image-area .tal--pro-search-result-title {
+    margin-top: 75px;
+    color: #714F36;
+    font-size: 30px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.talent--profile-card.search {
+    margin-bottom: 40px;
+}
+
+
+/* ///////////////// */
+.cli-tal-pro-search-filter-content-section {
+    border-bottom: #000 1px solid;
+}
+
+.cli-tal-pro-search-filter-toggle-area {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    padding: 30px 15px 30px 0px;
+}
+
+.cli--emploment-detail-head {
+    color: #714F36;
+    font-size: 18px;
+    font-weight: 600;
+    text-transform: capitalize;
+    margin-bottom: 0px;
+}
+
+.cli-tal-pro-search-filter-toggle-area svg {
+    transition: transform 0.8s ease-in-out;
+    flex-shrink: 0;
+}
+
+.cli-tal-pro-search-filter-expand-area {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.8s ease-in-out;
+}
+
+.cli-tal-pro-search-filter-expand-area .cli-tal-search-filter-form-group {
+    width: 70%;
+}
+
+.cli-tal-pro-search-filter-expand-area .cli-tal-search-filter-form-group.search-results {
+    width: 100%;
+}
+
+.cli-tal-pro-search-filter-expand-area.opened {
+    max-height: 100vh;
+}
+
+.cli-tal-pro-search-filter-toggle-area.opened svg {
+    transform: rotateX(180deg);
+}
+
+.cli-tal-pro-search-page-btn-area {
+    display: flex;
+    position: relative;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: -15px;
+    padding-top: 20px;
+}
+
+.cli-tal-pro-search-page-btn-area .cli-tal-pro-search-page-days-selection-area {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.cli-tal-pro-search-page-days-selection-area .days-active {
+    color: #9F9F9F;
+    font-size: 16px;
+    font-weight: 400;
+    text-transform: capitalize;
+    white-space: nowrap;
+}
+
+.cli-tal-pro-search-page-btn-area .cli-tal-pro-search-page-btn {
+    outline: none;
+    border: none;
+    border-radius: 16px;
+    background-color: #714F36;
+    border: 1px solid #714F36;
+    padding: 20px 40px;
+    color: #FFF;
+    font-size: 16px;
+    font-weight: 700;
+    transition: ease-in-out 0.8s;
+}
+
+.cli-tal-pro-search-page-btn-area .cli-tal-pro-search-page-btn:hover {
+    background-color: #FFF;
+    color: #714F36;
+}
+
+/* /////for custom selection */
+.custom-select {
+    position: relative;
+    background-color: transparent;
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    appearance: none !important;
+    border: none;
+    background: none;
+}
+
+.select-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    cursor: pointer;
+    color: #714F36;
+    font-size: 20px;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.select-options {
+    list-style: none;
+    margin-top: 8px;
+    padding: 0;
+    position: absolute;
+    /* width: 100%; */
+    background-color: #714f36de;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    /* border: 1px solid #714F36; */
+    display: none;
+    box-shadow: 2px 5px 10px #07070738;
+}
+
+.select-options li {
+    padding: 8px 10px;
+    white-space: nowrap;
+    cursor: pointer;
+    color: #FFF;
+    font-size: 16px;
+    font-weight: 400;
+    text-transform: capitalize;
+}
+
+.select-options li:hover {
+    background-color: #63442d;
+    color: #F9C833;
+}
+
+.toggle-icon {
+    transition: transform 0.3s ease-in-out;
+}
+
+.select-box .toggle-icon {
+    color: #714F36;
+}
+
+.select-box.active .toggle-icon {
+    transform: rotateX(180deg);
+}
+
+.cli-tal-pro-recent-search-section {
+    padding: 30px 0px 40px 18px;
+    position: relative;
+}
+
+.cli-tal-pro-recent-search-head-area {
+    display: inline-flex;
+    gap: 18px;
+    align-items: center;
+    margin-bottom: 45px;
+}
+
+.cli-tal-pro-recent-search-head-area i {
+    font-size: 30px;
+    color: #714F36;
+}
+
+.cli-tal-pro-recent-search-head {
+    color: #714F36;
+    font-size: 25px;
+    font-weight: 600;
+}
+
+.cli-tal-pro-recent-search-area {
+    margin-bottom: 35px;
+}
+
+.cli-tal-pro-recent-search-btn-area {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.cli-tal-pro-recent-search-btn-area .cli-tal-pro-recent-search-btn {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    color: #1863B9;
+    font-size: 16px;
+    font-weight: 400;
+    margin: 0;
+    padding: 0;
+    transition: ease-in-out 0.5s;
+}
+
+.cli-tal-pro-recent-search-btn-area .cli-tal-pro-recent-search-btn:hover {
+    color: #000;
+}
+
+.cli-tal-pro-recent-search-tags {
+    margin-top: 20px;
+    padding-bottom: 10px;
+}
+
+.cli-tal-pro-recent-search-tags span {
+    color: #2B2B2B;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.expand-area-padding {
+    padding-bottom: 40px;
+}
+
+.talent--profile-search-page-section,
+.talent--profile-search-results-section {
+    padding-bottom: 40px;
+}
+
+.cli-tal-pro-recent-search-container {
+    max-height: 600px;
+    padding-right: 15px;
+    overflow-y: scroll;
+}
+
+.cli-tal-pro-recent-search-container::-webkit-scrollbar {
+    width: 8px;
+    background-color: #F5F5F5;
+}
+
+.cli-tal-pro-recent-search-container::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.166);
+    background-color: #bcbcbcd3;
+}
+
+.cli-tal-pro-recent-search-container::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.203);
+    border-radius: 10px;
+    background-color: transparent;
+}
+
+.talent--profile-card {
+    position: relative;
+    border-radius: 12px;
+    background-color: #F9C833;
+    /* width: 65%; */
+    transition: ease-in-out 0.8s !important;
+    border: 2px solid #fff;
+    z-index: 1;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    /* padding: 25px; */
+    /* cursor: pointer; */
+    /* border-bottom: 5px #fff solid; */
+    /* display: flex;
+    flex-direction: row;
+    gap: 30px;
+    width: 869px; */
+    /* justify-content: space-between; */
+}
+
+/* .talent--profile-card::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    transition: 0.8s ease-in-out !important;
+    background-color: #ffffff;
+    border-radius: 30px;
+    visibility: hidden;
+    height: 10px;
+    width: 10px;
+    z-index: -1;
+}
+
+.talent--profile-card:hover::after {
+    visibility: visible;
+    transform: scale(300) translateX(2px);
+} */
+
+.talent--profile-card:hover {
+    transform: translateY(-8px) !important;
+    /* border-color: #714F36; */
+}
+
+.tal--pro-card-left-area {
+    /* position: relative; */
+    padding: 25px !important;
+    width: 70%;
+}
+
+.tal--pro-card-profile-img-role-area {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.tal--pro-card-name-area {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+}
+
+.tal--pro-card-name-check-container {
+    position: relative;
+    cursor: pointer;
+}
+
+.tal--pro-card-name-check-container input {
+    position: absolute;
+    opacity: 0;
+}
+
+.tal--pro-card-name-checkmark {
+    width: 30px;
+    height: 30px;
+    position: relative;
+    top: 0;
+    left: 0;
+    border: 2px solid #714F36;
+    border-radius: 5px;
+    box-shadow: 1px #323232;
+    background-color: #FFF;
+    transition: all 0.3s;
+}
+
+.tal--pro-card-name-check-container input:checked~.tal--pro-card-name-checkmark {
+    background-color: #714F36;
+}
+
+.tal--pro-card-name-checkmark:after {
+    content: "";
+    width: 7px;
+    height: 15px;
+    position: absolute;
+    top: 4px;
+    left: 9px;
+    display: none;
+    border: solid #FFF;
+    border-width: 0 2.5px 2.5px 0;
+    transform: rotate(45deg);
+}
+
+.tal--pro-card-name-check-container input:checked~.tal--pro-card-name-checkmark:after {
+    display: block;
+}
+
+.tal--pro-card-left-area .tal--pro-card-name {
+    color: #714F36;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: normal;
+    transition: 0.8s ease-in-out;
+    margin-bottom: 0;
+}
+
+.talent--profile-card:hover .tal--pro-card-left-area .tal--pro-card-name {
+    /* color: #714F36; */
+    letter-spacing: 1px;
+}
+
+.tal--pro-card-tags {
+    margin-top: 15px;
+    display: flex;
+    gap: 25px;
+    align-items: center;
+}
+
+.tal--pro-card-tags .tal--pro-card-rating i {
+    color: #F9C833;
+    font-size: 20px;
+    margin-right: 5px;
+    transition: 0.8s ease-in-out;
+}
+
+/* .talent--profile-card:hover .tal--pro-card-tags .tal--pro-card-location i,
+.talent--profile-card:hover .tal--pro-card-tags .tal--pro-card-rating span,
+.talent--profile-card:hover .tal--pro-card-tags .tal--pro-card-exp,
+.talent--profile-card:hover .tal--pro-card-tags .tal--pro-card-location span,
+.talent--profile-card:hover .tal--pro-card-tags .tal--pro-card-role,
+.talent--profile-card:hover .tal--pro-card-desc-area .tal--pro-card-desc-title,
+.talent--profile-card:hover .tal--pro-card-desc-area .tal--pro-card-desc {
+    color: #714F36 !important;
+} */
+
+.tal--pro-card-tags .tal--pro-card-location i {
+    color: #714F36;
+    font-size: 20px;
+    margin-right: 5px;
+    transition: 0.8s ease-in-out;
+}
+
+.tal--pro-card-tags .tal--pro-card-rating span,
+.tal--pro-card-tags .tal--pro-card-exp,
+.tal--pro-card-tags .tal--pro-card-location span,
+.tal--pro-card-tags .tal--pro-card-role {
+    color: #714F36;
+    font-size: 16px !important;
+    font-weight: 500 !important;
+    line-height: normal;
+    transition: 0.8s ease-in-out;
+}
+
+.tal--pro-card-desc-area {
+    margin-top: 28px;
+}
+
+.tal--pro-card-desc-area .tal--pro-card-desc-title,
+.tal--pro-card-desc-area .tal--pro-card-desc {
+    color: #714F36 !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    line-height: normal;
+    margin-bottom: 10px;
+    transition: 0.8s ease-in-out;
+}
+
+.tal--pro-card-bottom-btn-area {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    line-height: 1;
+}
+
+.tal--pro-card-bottom-btn-area .tal--pro-card-bottom-btn {
+    background-color: transparent;
+    margin: 0;
+    padding: 0;
+    outline: none;
+    border: none;
+    color: #0F75C5;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.tal--pro-card-bottom-btn-area .tal--pro-card-bottom-btn i {
+    color: #0F75C5;
+    font-size: 16px;
+    vertical-align: text-top;
+    margin-right: 5px;
+}
+
+.tal--pro-card-bottom-btn-area .horizon--ln {
+    color: #0F75C5;
+    font-size: 20px;
+    font-weight: 200;
+}
+
+.tal--pro-card-desc-area .tal--pro-card-desc {
+    padding-left: 8px;
+}
+
+.custom-padd-right {
+    padding-right: 0;
+}
+
+.custom-padd-left {
+    padding-left: 0;
+}
+
+.tal--pro-card-right-area {
+    width: 30%;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    align-items: center;
+    padding-right: 70px;
+    height: 100%;
+}
+
+.tal--pro-card-right-cover-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.tal--pro-card-right-btn-area {
+    right: 0;
+    width: 48px;
+    flex-shrink: 0;
+    background-color: #714F36;
+    position: absolute;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.tal--pro-card-right-btn {
+    color: #F9C833;
+    font-size: 20px;
+    outline: none;
+    border: none;
+    background-color: transparent;
+    margin: 0;
+    padding: 0;
+}
+
+.tal--pro-card-right-btn img {
+    width: 20px;
+    flex-shrink: 0;
+}
+
+.tal--pro-card-right-area .tal--pro-card-profile-img {
+    width: 90px;
+    height: 90px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: top;
+    border: 1px solid #714F36;
+    padding: 3px;
+    transition: 0.8s ease-in-out;
+}
+
+.talent--profile-card:hover .tal--pro-card-right-area .tal--pro-card-profile-img {
+    /* border-color: #714F36; */
+    -webkit-animation: pulseProImg 1.5s infinite;
+    animation: pulseProImg 1.5s infinite;
+}
+
+@keyframes pulseProImg {
+    0% {
+        box-shadow: 0 0 0 0 #714f3632;
+    }
+
+    70% {
+        box-shadow: 0 0 0 12px rgb(218 103 68 / 0%);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgb(218 103 68 / 0%);
+    }
+}
+
+.tal--pro-card-role-name {
+    margin-top: 10px;
+    color: #714F36;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+.tal--pro-card-contact-btn-area {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.tal--pro-card-contact-btn-area .tal--pro-card-contact-btn {
+    border-radius: 7px;
+    border: 1px solid #714F36;
+    background-color: #714F36;
+    outline: none;
+    border: none;
+    color: #F9C833;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 500;
+    width: 100%;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 25px;
+    transition: ease-in-out 0.8s;
+}
+
+.tal--pro-card-contact-btn-area .tal--pro-card-contact-btn img {
+    width: 18px;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+.tal--pro-card-contact-btn-area .tal--pro-card-contact-btn:hover {
+    background-color: #5b3e29;
+}
+
+.tal--pro-card-ability-number-area {
+    margin-top: 17px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.tal--pro-card-ability-number-left {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.tal--pro-card-ability-number-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.tal--pro-card-ability {
+    color: #714F36;
+    font-size: 14px;
+    font-weight: 500;
+    transition: 0.8s ease-in-out;
+}
+
+.tal--pro-card-percentage,
+.tal--pro-card-days {
+    color: #714F36;
+    font-size: 40px;
+    font-weight: 500;
+    transition: 0.8s ease-in-out;
+    margin-bottom: 0;
+    margin-top: 5px;
+}
+
+.tal--pro-card-days span {
+    font-size: 12px !important;
+}
+
+/* .talent--profile-card:hover .tal--pro-card-ability-area .tal--pro-card-ability,
+.talent--profile-card:hover .tal--pro-card-number-area .tal--pro-card-percentage,
+.talent--profile-card:hover .tal--pro-card-number-area .tal--pro-card-days {
+    color: #714F36;
+} */
+
+
+
+.tal--pro-card-know-btn-area {
+    margin-top: 10px;
+}
+
+.tal--pro-card-know-btn-area .tal--pro-card-know-btn {
+    text-decoration: none;
+    border-radius: 7px;
+    border: 2px solid #FFF;
+    color: #FFF;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 8px 12px;
+    transition: ease-in-out 0.8s;
+}
+
+/* .talent--profile-card:hover .tal--pro-card-know-btn-area .tal--pro-card-know-btn {
+    color: #714F36;
+    border-color: #714F36;
+} */
+
+.tal--pro-card-know-btn:hover {
+    background-color: #F9C833;
+    color: #714F36;
+}
+
+.tal--pro-slider-btn-area {
+    margin-top: 45px;
+    margin-bottom: 95px;
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0 60px;
+}
+
+.tal--pro-slider-btn-sub {
+    display: flex;
+    gap: 10px;
+}
+
+.tal--pro-slider-btn {
+    position: relative;
+    outline: none !important;
+    border: 1px solid #5C3B2E;
+    border-radius: 50%;
+    flex-shrink: 0;
+    background-color: #fff;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: ease-in-out 0.8s;
+}
+
+.tal--pro-slider-btn:active .arrow-left,
+.tal--pro-slider-btn:active .arrow-right {
+    scale: 0.8;
+}
+
+.tal--pro-slider-btn svg path {
+    transition: ease-in-out 0.8s;
+}
+
+.tal--pro-slider-btn .arrow-left {
+    transform: rotate(225deg);
+    transition: ease 0.2s;
+}
+
+.tal--pro-slider-btn .arrow-right {
+    transform: rotate(45deg);
+    transition: ease 0.2s;
+}
+
+.tal--pro-slider-btn:hover {
+    background-color: #5C3B2E;
+}
+
+.tal--pro-slider-btn:hover .arrow-left path,
+.tal--pro-slider-btn:hover .arrow-right path {
+    stroke: #fff;
+}
+
+.swiper {
+    padding: 10px 0;
+}

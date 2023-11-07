@@ -312,6 +312,19 @@ const finalClientRegister = async (req, res) => {
   }
 }
 
+/* get all staff from companyId */
+const getAllStaff = async(req, res) => {
+  const {id} = req.params;
+  try{
+    const allStaff = await finalClient.find({companyId:id});
+    console.log(allStaff);
+    return res.status(200).json(allStaff);
+  }catch(err){
+    console.log(err);
+    return res.status(500).json({ error: err.message });
+  }
+}
+
 /* candidate register */
 const candidateReg = async(req, res) => {
   try {
@@ -461,6 +474,56 @@ const getPostedjobs = async(req, res) => {
     res.status(500).json({error: err.message})
   }
 }
+
+/* get a job  */
+const getJob = async (req, res) => {
+  const {id} = req.params;
+  console.log(id)
+  try {
+    const job = await jobDetail.findOne({ id });
+    if (job) {
+      return res.status(200).json(job);
+    } else {
+      return res.status(404).json({ error: 'Job not found' });
+    }
+
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+}
+
+/* update a job */
+const updateJob = async(req, res) => {
+  const {id} = req.params;
+  
+  try{
+
+    const updatedJobDetail = await jobDetail.findOneAndUpdate(
+      { id },
+      { $set: { 
+        jobRole : req.body.jobRole,
+        skills :  req.body.skills,
+        location :  req.body.location,
+        department :  req.body.department,
+        role: req.body.role,
+        minExperience :  req.body.minExperience,
+        maxExperience :  req.body.maxExperience,
+        jobCategory :  req.body.jobCategory,
+        jobDescription :  req.body.jobDescription,
+        currencyType :  req.body.currencyType,
+        minSalary :  req.body.minSalary,
+        maxSalary :  req.body.maxSalary,
+        industry :  req.body.industry,
+        education :  req.body.education,
+       } },
+      { new: true }
+    );
+    return res.status(200).json(updatedJobDetail);
+  }catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+}
+
 
 /* get own posted jobs  */
 const getOwnPostedjobs = async (req, res) => {
@@ -1508,11 +1571,14 @@ module.exports = {
    createClientStaff,
    getAllClient,
    getClient,
+   getAllStaff,
    verifyTempPassword,
    finalClientRegister,
    candidateReg,
    getAllCandidateDetail,
    jobPosting,
+   getJob,
+   updateJob,
    getSkillMatchJobDetail,
    getPostedjobs,
    getOwnPostedjobs,
