@@ -115,6 +115,10 @@ const Packages = ({ companyId }) => {
         var currentValue = parseInt($input.val());
         $input.val(currentValue + 1);
       });
+
+      $(".pl--package-btn-sub").click(function () {
+        $("html, body").animate({ scrollTop: 0 }, 0);
+      });
     });
 
   }, []);
@@ -280,7 +284,7 @@ const Packages = ({ companyId }) => {
                           <div className="pl--package-detail-area">
                             <div className='pl--package-info-area starter-info-area'>
                               <img src="assets/img/packages/Starter.png" className="pl--package-img" alt="" />
-                              <h5 className="pl--package-name">Starter</h5>
+                              <h5 className="pl--package-name">MICRO</h5>
 
                               <div className='pl--package-mobile-flex'>
                                 <h6 className='pl--package-mobile-title'>CV Views</h6>
@@ -304,27 +308,27 @@ const Packages = ({ companyId }) => {
 
                               <div className='pl--package-mobile-flex'>
                                 <h6 className='pl--package-mobile-title'>Total</h6>
-                                <h6 className='pl--package-info'>27,800</h6>
+                                <h6 className='pl--package-info'>Rs. 27,800</h6>
                               </div>
 
                               <div className='pl--package-mobile-flex'>
                                 <h6 className='pl--package-mobile-title'>Early Bird Discount</h6>
-                                <h6 className='pl--package-info'>0</h6>
+                                <h6 className='pl--package-info'>Rs. 0</h6>
                               </div>
 
                               <div className='pl--package-mobile-flex'>
                                 <h6 className='pl--package-mobile-title'>Discounted Price</h6>
-                                <h6 className='pl--package-info'>27,800</h6>
+                                <h6 className='pl--package-info'>Rs. 27,800</h6>
                               </div>
 
                               <div className='pl--package-mobile-flex'>
                                 <h6 className='pl--package-mobile-title'>GST</h6>
-                                <h6 className='pl--package-info'>5004</h6>
+                                <h6 className='pl--package-info'>Rs. 5,004</h6>
                               </div>
 
                               <div className='pl--package-mobile-flex'>
                                 <h6 className='pl--package-mobile-title'>Total Amount</h6>
-                                <h6 className='pl--package-info'>32,804</h6>
+                                <h6 className='pl--package-info'>Rs. 32,804</h6>
                               </div>
                             </div>
 
@@ -348,7 +352,7 @@ const Packages = ({ companyId }) => {
                           <div className="pl--package-detail-area">
                             <div className='pl--package-info-area professional-info-area'>
                               <img src="assets/img/packages/Professional.png" className="pl--package-img" alt="" />
-                              <h5 className="pl--package-name">Growth</h5>
+                              <h5 className="pl--package-name">SMALL</h5>
 
                               <div className='pl--package-mobile-flex'>
                                 <h6 className='pl--package-mobile-title'>CV Views</h6>
@@ -372,27 +376,27 @@ const Packages = ({ companyId }) => {
 
                               <div className='pl--package-mobile-flex'>
                                 <h6 className='pl--package-mobile-title'>Total</h6>
-                                <h6 className='pl--package-info'>97,000</h6>
+                                <h6 className='pl--package-info'>Rs. 97,000</h6>
                               </div>
 
                               <div className='pl--package-mobile-flex'>
                                 <h6 className='pl--package-mobile-title'>Early Bird Discount</h6>
-                                <h6 className='pl--package-info'>19,400</h6>
+                                <h6 className='pl--package-info'>Rs. 19,400</h6>
                               </div>
 
                               <div className='pl--package-mobile-flex'>
                                 <h6 className='pl--package-mobile-title'>Discounted Price</h6>
-                                <h6 className='pl--package-info'>77,600</h6>
+                                <h6 className='pl--package-info'>Rs. 77,600</h6>
                               </div>
 
                               <div className='pl--package-mobile-flex'>
                                 <h6 className='pl--package-mobile-title'>GST</h6>
-                                <h6 className='pl--package-info'>13,968</h6>
+                                <h6 className='pl--package-info'>Rs. 13,968</h6>
                               </div>
 
                               <div className='pl--package-mobile-flex'>
                                 <h6 className='pl--package-mobile-title'>Total Amount</h6>
-                                <h6 className='pl--package-info'>91,568</h6>
+                                <h6 className='pl--package-info'>Rs. 91,568</h6>
                               </div>
                             </div>
 
@@ -416,7 +420,7 @@ const Packages = ({ companyId }) => {
                           <div className="pl--package-detail-area">
                             <div className='pl--package-info-area premium-info-area'>
                               <img src="assets/img/packages/premium.png" className="pl--package-img" alt="" />
-                              <h5 className="pl--package-name">Scale</h5>
+                              <h5 className="pl--package-name">LARGE</h5>
 
                               <div className='pl--package-mobile-flex'>
                                 <h6 className='pl--package-mobile-title'>CV Views</h6>
@@ -440,27 +444,27 @@ const Packages = ({ companyId }) => {
 
                               <div className='pl--package-mobile-flex'>
                                 <h6 className='pl--package-mobile-title'>Total</h6>
-                                <h6 className='pl--package-info'>195,500</h6>
+                                <h6 className='pl--package-info'>Rs. 195,500</h6>
                               </div>
 
                               <div className='pl--package-mobile-flex'>
                                 <h6 className='pl--package-mobile-title'>Early Bird Discount</h6>
-                                <h6 className='pl--package-info'>58,650</h6>
+                                <h6 className='pl--package-info'>Rs. 58,650</h6>
                               </div>
 
                               <div className='pl--package-mobile-flex'>
                                 <h6 className='pl--package-mobile-title'>Discounted Price</h6>
-                                <h6 className='pl--package-info'>136,850</h6>
+                                <h6 className='pl--package-info'>Rs. 136,850</h6>
                               </div>
 
                               <div className='pl--package-mobile-flex'>
                                 <h6 className='pl--package-mobile-title'>GST</h6>
-                                <h6 className='pl--package-info'>24,633</h6>
+                                <h6 className='pl--package-info'>Rs. 24,633</h6>
                               </div>
 
                               <div className='pl--package-mobile-flex'>
                                 <h6 className='pl--package-mobile-title'>Total Amount</h6>
-                                <h6 className='pl--package-info'>161,483</h6>
+                                <h6 className='pl--package-info'>Rs. 161,483</h6>
                               </div>
                             </div>
 
@@ -495,7 +499,7 @@ const Packages = ({ companyId }) => {
                             </div>
                             <div className="col-6">
                               <div className="pl-package-detail-view-area">
-                                <div className="pl-package-detail-title">Starter</div>
+                                <div className="pl-package-detail-title">MICRO</div>
                                 <button type="button" className="pl-package-detail-view-btn" title='View More Detail..'
                                   data-bs-toggle="modal" data-bs-target="#package_detail_modal">
                                   <i class="bi bi-eye-fill"></i>
@@ -509,7 +513,7 @@ const Packages = ({ companyId }) => {
                               <div className="pl-package-detail-title">Total</div>
                             </div>
                             <div className="col-6">
-                              <div className="pl-package-detail-title">27,800</div>
+                              <div className="pl-package-detail-title">Rs. 27,800</div>
                             </div>
                           </div>
 
@@ -518,7 +522,7 @@ const Packages = ({ companyId }) => {
                               <div className="pl-package-detail-title">Early Bird Discount</div>
                             </div>
                             <div className="col-6">
-                              <div className="pl-package-detail-title">0</div>
+                              <div className="pl-package-detail-title">Rs. 0</div>
                             </div>
                           </div>
 
@@ -527,7 +531,7 @@ const Packages = ({ companyId }) => {
                               <div className="pl-package-detail-title">Discounted Price</div>
                             </div>
                             <div className="col-6">
-                              <div className="pl-package-detail-title">0</div>
+                              <div className="pl-package-detail-title">Rs. 0</div>
                             </div>
                           </div>
 
@@ -536,7 +540,7 @@ const Packages = ({ companyId }) => {
                               <div className="pl-package-detail-title">GST - 18%</div>
                             </div>
                             <div className="col-6">
-                              <div className="pl-package-detail-title">5004</div>
+                              <div className="pl-package-detail-title">Rs. 5,004</div>
                             </div>
                           </div>
 
@@ -545,7 +549,7 @@ const Packages = ({ companyId }) => {
                               <div className="pl-package-detail-title">Total Amount</div>
                             </div>
                             <div className="col-6">
-                              <div className="pl-package-detail-title">32,804</div>
+                              <div className="pl-package-detail-title">Rs. 32,804</div>
                             </div>
                           </div>
                         </div>
@@ -564,7 +568,7 @@ const Packages = ({ companyId }) => {
                           </div>
                         </button>
 
-                        <button className='pl--package-btn-sub next'>
+                        <button className='pl--package-btn-sub next' onClick={showSuccessMessage}>
                           <div className='pl--package-btn'>
                             Proceed to Pay
                           </div>
@@ -580,22 +584,38 @@ const Packages = ({ companyId }) => {
                     </div>
 
                     <div className='pl--pay-area tab' id="tab3">
-                      <h4 className='text-center'>Payment Section</h4>
+                      <div className='pl--payment-section'>
+
+                        {/* if payment was success */}
+                        <div className="pl-payment-area success">
+                          <img src="assets/img/packages/payment-success.png" className='pl-payment-img' alt="" />
+                          <div className="pl-payment-message success">Payment Success..!</div>
+                        </div>
+                        {/*  */}
+
+                        {/* if payment was success */}
+                        {/* <div className="pl-payment-area failed">
+                          <img src="assets/img/packages/payment-failed.png" className='pl-payment-img' alt="" />
+                          <div className="pl-payment-message failed">Payment Failed..!</div>
+                        </div> */}
+                        {/*  */}
+
+                      </div>
                       <div className="pl--package-btn-area">
-                        <button className='pl--package-btn-sub previous'>
-                          <div className='pl--package-arrow-area prev custom-mobile-d-none'>
+                        <button className='pl--package-btn-sub'>
+                          {/* <div className='pl--package-arrow-area prev custom-mobile-d-none'>
                             <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
                               <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="white" stroke-width="2" />
                               <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="white" stroke-width="2" />
                               <path d="M1 26L25.1667 1" stroke="white" stroke-width="2" />
                             </svg>
-                          </div>
+                          </div> */}
                           <div className='pl--package-btn'>
-                            Previous
+                            Done
                           </div>
                         </button>
 
-                        <button className='pl--package-btn-sub next' onClick={showSuccessMessage}>
+                        {/* <button className='pl--package-btn-sub next' onClick={showSuccessMessage}>
                           <div className='pl--package-btn'>
                             Pay
                           </div>
@@ -606,7 +626,7 @@ const Packages = ({ companyId }) => {
                               <path d="M1 26L25.1667 1" stroke="white" stroke-width="2" />
                             </svg>
                           </div>
-                        </button>
+                        </button> */}
                       </div>
                     </div>
                   </div>
@@ -619,7 +639,7 @@ const Packages = ({ companyId }) => {
                   <div className="modal-content pl-pack-det-modal">
                     <div className="modal-header pl-pack-det-modal-header">
                       <h5 className="modal-title pl-pack-det-modal-head" id="exampleModalLabel">
-                        Package : <span>Starter</span>
+                        Package : <span>MICRO</span>
                       </h5>
                       <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
@@ -631,7 +651,7 @@ const Packages = ({ companyId }) => {
                               <tr className='pl-pack-det-table-row-head'>
                                 <th>Includes</th>
                                 <th className='text-center'>Quantity</th>
-                                <th className='text-right'>Price</th>
+                                <th className='text-right'>Price (Rs.)</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -674,7 +694,8 @@ const Packages = ({ companyId }) => {
               </div>
               {/*  */}
 
-              <div className="sol-price-container">
+              {/* skillety solution price area here*/}
+              {/* <div className="sol-price-container">
                 <div className='term-con-area'>
                   <p className='term-con'>
                     By clicking on the Buy Now you are agreeing to the&nbsp;
@@ -689,9 +710,9 @@ const Packages = ({ companyId }) => {
                       <thead>
                         <tr className='sol-price-table-head-row'>
                           <th className='sol-price-table-head text-start'>Solutions</th>
-                          <th className='sol-price-table-head text-center'>Unit Price</th>
+                          <th className='sol-price-table-head text-center'>Unit Price (Rs.)</th>
                           <th className='sol-price-table-head text-center'>Select Quantity</th>
-                          <th className='sol-price-table-head text-center'>Total Price</th>
+                          <th className='sol-price-table-head text-center'>Total Price (Rs.)</th>
                           <th className='sol-price-table-head text-center'></th>
                         </tr>
                       </thead>
@@ -880,7 +901,8 @@ const Packages = ({ companyId }) => {
                     Beyond this, please contact the Sales department.
                   </h6>
                 </div>
-              </div>
+              </div> */}
+              {/*  */}
             </div>
           </div>
         </div>

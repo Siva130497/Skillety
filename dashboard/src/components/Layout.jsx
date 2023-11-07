@@ -5,6 +5,8 @@ import 'jquery.nicescroll';
 import NavBar from './NavBar'
 import Sidebar from './Sidebar'
 import feather from 'feather-icons';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 const Layout = () => {
 
@@ -731,6 +733,12 @@ const Layout = () => {
       feather.replace();
     });
 
+    AOS.init({
+      duration: 1000,
+      easing: "ease-in-out",
+      once: true,
+      mirror: false
+    });
   }, []);
 
   return (
