@@ -763,11 +763,16 @@ const JobPosting = () => {
                             value={searchJobRoleInput}
                             onChange={handleJobRoleSearch}
                             placeholder='Enter a clear & specific title to get better responses' />
-                          {filteredJobRoles.length > 0 &&
-                            filteredJobRoles.map((filterJobRole) => {
-                              return <div className='search-result-data-area'><div className='search-result-data' key={filterJobRole._id} onClick={() => handleJobRoleClick(filterJobRole.designation)}>{filterJobRole.designation}</div></div>
-                            })
-                          }
+
+                          <div className='search-result-data-area'>
+                            {filteredJobRoles.length > 0 &&
+                              filteredJobRoles.map((filterJobRole) => {
+                                return <div className='search-result-data' key={filterJobRole._id} onClick={() => handleJobRoleClick(filterJobRole.designation)}>
+                                  {filterJobRole.designation}
+                                </div>
+                              })
+                            }
+                          </div>
 
                           <div className="job-post-form-chechbox-area">
                             <label className="job-post-form-check-input">
@@ -854,11 +859,16 @@ const JobPosting = () => {
                             <span>0/200</span>
                           </div> */}
                           {/* {skillError && <p>{skillError}</p>} */}
-                          {filteredSkills.length > 0 &&
-                            filteredSkills.map((filterSkill) => {
-                              return <div className='search-result-data-area'><div className='search-result-data' key={filterSkill._id} onClick={() => handleSkillClick(filterSkill.skill)}>{filterSkill.skill}</div></div>
-                            })
-                          }
+
+                          <div className='search-result-data-area'>
+                            {filteredSkills.length > 0 &&
+                              filteredSkills.map((filterSkill) => {
+                                return <div className='search-result-data' key={filterSkill._id} onClick={() => handleSkillClick(filterSkill.skill)}>
+                                  {filterSkill.skill}
+                                </div>
+                              })
+                            }
+                          </div>
 
                           <div className="job-post-form-chechbox-area">
                             <label className="job-post-form-check-input">
@@ -919,11 +929,16 @@ const JobPosting = () => {
                             value={searchDepartmentInput}
                             onChange={handleDepartmentSearch}
                           />
-                          {filteredDepartment.length > 0 &&
-                            filteredDepartment.map((filterDepartment) => {
-                              return <div className='search-result-data-area'><div className='search-result-data' key={filterDepartment._id} onClick={() => handleDepartmentClick(filterDepartment.department)}>{filterDepartment.department}</div></div>
-                            })
-                          }
+
+                          <div className='search-result-data-area'>
+                            {filteredDepartment.length > 0 &&
+                              filteredDepartment.map((filterDepartment) => {
+                                return <div className='search-result-data' key={filterDepartment._id} onClick={() => handleDepartmentClick(filterDepartment.department)}>
+                                  {filterDepartment.department}
+                                </div>
+                              })
+                            }
+                          </div>
 
                         </div>
                       </div>
@@ -945,11 +960,16 @@ const JobPosting = () => {
                             value={searchRoleInput}
                             onChange={handleRoleSearch}
                             placeholder='Enter a clear & specific role to get better responses' />
-                          {filteredRoles.length > 0 &&
-                            filteredRoles.map((filterRole) => {
-                              return <div className='search-result-data-area'><div className='search-result-data' key={filterRole._id} onClick={() => handleRoleClick(filterRole.role)}>{filterRole.role}</div></div>
-                            })
-                          }
+
+                          <div className='search-result-data-area'>
+                            {filteredRoles.length > 0 &&
+                              filteredRoles.map((filterRole) => {
+                                return <div className='search-result-data' key={filterRole._id} onClick={() => handleRoleClick(filterRole.role)}>
+                                  {filterRole.role}
+                                </div>
+                              })
+                            }
+                          </div>
 
                         </div>
                       </div>
@@ -990,12 +1010,16 @@ const JobPosting = () => {
                             value={searchLocationInput}
                             onChange={handleLocationSearch}
                           />
-                          {filteredLocations.length > 0 &&
-                            filteredLocations.map((filterLocation) => {
-                              return <div className='search-result-data-area'><div className='search-result-data' key={filterLocation._id} onClick={() => handleLocationClick(filterLocation.location)}>{filterLocation.location}</div></div>
-                            })
-                          }
-                          
+                          <div className='search-result-data-area'>
+                            {filteredLocations.length > 0 &&
+                              filteredLocations.map((filterLocation) => {
+                                return <div className='search-result-data' key={filterLocation._id} onClick={() => handleLocationClick(filterLocation.location)}>
+                                  {filterLocation.location}
+                                </div>
+                              })
+                            }
+                          </div>
+
                           <div className="job-post-form-chechbox-area">
                             <label className="job-post-form-check-input">
                               <input type="checkbox" />

@@ -25,33 +25,33 @@
 }
 
 .man-job-status-btn.theme-info {
-    color: #0F75C5;
-    background-color: #EAFCFF;
+    color: #0F75C5 !important;
+    background-color: #EAFCFF !important;
 }
 
 .man-job-status-btn.theme-info:hover {
-    color: #EAFCFF;
-    background-color: #0F75C5;
+    color: #EAFCFF !important;
+    background-color: #0F75C5 !important;
 }
 
 .man-job-status-btn.theme-warning {
-    color: #714F36;
-    background-color: #FFF1C8;
+    color: #714F36 !important;
+    background-color: #FFF1C8 !important;
 }
 
 .man-job-status-btn.theme-warning:hover {
-    color: #FFF1C8;
-    background-color: #714F36;
+    color: #FFF1C8 !important;
+    background-color: #714F36 !important;
 }
 
 .man-job-status-btn.theme-success {
-    color: #00994d;
-    background-color: #e1ffeb;
+    color: #00994d !important;
+    background-color: #e1ffeb !important;
 }
 
 .man-job-status-btn.theme-success:hover {
-    color: #e1ffeb;
-    background-color: #00994d;
+    color: #e1ffeb !important;
+    background-color: #00994d !important;
 }
 
 .delete-btn {
@@ -67,6 +67,22 @@
 
 .delete-btn:focus,
 .delete-btn:active {
+    border: none;
+    outline: none;
+}
+.edit-btn {
+    border: none;
+    outline: none;
+    background-color: transparent;
+}
+
+.edit-btn i {
+    color: #0F75C5;
+    font-size: 18px;
+}
+
+.edit-btn:focus,
+.edit-btn:active {
     border: none;
     outline: none;
 }

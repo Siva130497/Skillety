@@ -13,7 +13,7 @@ const Sidebar = () => {
     $(document).ready(function () {
       var path = window.location.pathname;
 
-      if (path === '/:token') {
+      if (path === `/${candidateToken}`) {
         $('#dashboard').addClass('active');
       } else if (path === '/my-application') {
         $('#my_application').addClass('active');
@@ -28,7 +28,7 @@ const Sidebar = () => {
       }
     });
 
-  }, []);
+  }, [candidateToken]);
 
   return (
     <div>

@@ -36,7 +36,7 @@ const ClientSidebar = () => {
             }
         });
 
-    }, []);
+    }, [clientToken]);
 
     return (
         <div>
@@ -80,10 +80,10 @@ const ClientSidebar = () => {
                         </li>
                         {/* <li className="dropdown" id='contact_support'>
                             <a href="/contact-support" className="nav-link"><i data-feather="phone"></i><span>Contact Support</span></a>
-                        </li>
+                        </li> */}
                         <li className="dropdown" id='client_settings'>
                             <a href="/client-settings" className="nav-link"><i data-feather="settings"></i><span>Settings</span></a>
-                        </li> */}
+                        </li>
                     </ul>
 
                     <div className='live-chat-area'>
