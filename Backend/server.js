@@ -8,6 +8,9 @@ const conversationRouter = require('./routes/conversation');
 const messageRouter = require('./routes/messages');
 const skillsRouter = require('./routes/skills');
 const designationsRouter = require('./routes/designations');
+const departmentRouter = require('./routes/departments');
+const locationRouter = require('./routes/location');
+const roleRouter = require('./routes/role');
 const app = express();
 const dotenv = require('dotenv');
 const morgan = require('morgan');
@@ -48,6 +51,9 @@ app.use('', conversationRouter);
 app.use('', messageRouter);
 app.use('', skillsRouter);
 app.use('', designationsRouter);
+app.use('', departmentRouter);
+app.use('', locationRouter);
+app.use('', roleRouter);
 
 const server = http.createServer(app);
 

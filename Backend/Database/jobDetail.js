@@ -38,14 +38,23 @@ const jobDetailSchema = new Schema(
         type: Array,
         required: true
     },
-    additionalSkills: {
+    location: {
         type: Array,
+        required: true
     },
-    year: {
+    department: {
+        type: Array,
+        required: true
+    },
+    role: {
+        type: Array,
+        required: true
+    },
+    minExperience: {
         type: Number,
         required: true
     },
-    month: {
+    maxExperience: {
         type: Number,
         required: true
     },
@@ -54,6 +63,30 @@ const jobDetailSchema = new Schema(
         required: true
     },
     jobDescription: {
+        type: String,
+        required: true
+    },
+    currencyType: {
+        type: String,
+        required: true
+    },
+    minSalary: {
+        type: String,
+        required: true
+    },
+    maxSalary: {
+        type: String,
+        required: true
+    },
+    industry: {
+        type: String,
+        required: true
+    },
+    education: {
+        type: String,
+        required: true
+    },
+    workMode: {
         type: String,
         required: true
     },

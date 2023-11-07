@@ -14,19 +14,26 @@ router.get("/skills",  async(req, res)=>{
 
 //post new skills to db
 router.post("/skills", async (req, res) => {
-    const skillArray = req.body;
-    
-    try {
+  const skillArray = req.body;
+  
+  try {
       const savedSkills = await Promise.all(skillArray.map(async (skillString) => {
-        const postSkill = new skill({ skill: skillString });
-        return await postSkill.save();
+          const lowercaseSkillString = skillString.toLowerCase();
+          const existingSkill = await skill.findOne({ skill: lowercaseSkillString });
+
+          if (existingSkill) {
+              return existingSkill;
+          }
+
+          const postSkill = new skill({ skill: lowercaseSkillString });
+          return await postSkill.save();
       }));
-      
+    
       res.status(200).json(savedSkills);
-    } catch (err) {
+  } catch (err) {
       res.status(500).json(err)
-    }
-  });
+  }
+});
 
 
 module.exports = router;
