@@ -15,6 +15,9 @@ import CandidateProfile from './pages/CandidateProfile/CandidateProfile';
 import Talents from './pages/Talents/Talents';
 import JobDetail from './pages/JobDetail/JobDetail';
 import InvoicePayment from './pages/InvoicePayment/InvoicePayment';
+import PackagePlans from './pages/PackagePlans/PackagePlans';
+
+import JobDetails from './pages/JobDetails/JobDetails';
 
 
 function App() {
@@ -35,6 +38,10 @@ function App() {
         <Route path='/talents/:id' element={<Talents />} />
         <Route path='/job-detail/:id' element={<JobDetail />} />
         <Route path='/invoice-payment' element={<InvoicePayment />} />
+        <Route path='/package-plans' element={<PackagePlans />} />
+
+        <Route path='/job-details' element={<JobDetails />} />
+
       </Routes>
     </AuthContextProvider>
   );

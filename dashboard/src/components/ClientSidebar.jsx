@@ -27,7 +27,7 @@ const ClientSidebar = () => {
                 $('#services').addClass('active');
             } else if (path === '/reports') {
                 $('#reports').addClass('active');
-            } else if (path === '/invoice-payment') {
+            } else if (path === '/invoice-payment' || path === '/package-plans') {
                 $('#invoice_payment').addClass('active');
             } else if (path === '/contact-support') {
                 $('#contact_support').addClass('active');

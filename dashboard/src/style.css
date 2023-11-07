@@ -7234,6 +7234,13 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
     }
 }
 
+@media (max-width:572px) {
+    .main-content{
+        padding-left: 18px;
+        padding-right: 18px;
+    }
+}
+
 .waves-effect {
     position: relative;
     cursor: pointer;
