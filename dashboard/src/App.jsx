@@ -14,6 +14,8 @@ import ManageApplication from './pages/ManageApplication/ManageApplication';
 import CandidateProfile from './pages/CandidateProfile/CandidateProfile';
 import Talents from './pages/Talents/Talents';
 import JobDetail from './pages/JobDetail/JobDetail';
+import AppliedCandidate from './pages/AppliedCandidate/AppliedCandidate';
+import JobEditing from './pages/EditJob/JobEditing';
 
 
 function App() {
@@ -33,6 +35,8 @@ function App() {
         <Route path='/candidate-profile' element={<CandidateProfile />} />
         <Route path='/talents/:id' element={<Talents />} />
         <Route path='/job-detail/:id' element={<JobDetail />} />
+        <Route path='/applied-candidate/:id' element={<AppliedCandidate />} />
+        <Route path='/edit-job/:id' element={<JobEditing />} />
       </Routes>
     </AuthContextProvider>
   );

@@ -10,11 +10,14 @@ const {
   createClientStaff,
   getAllClient,
   getClient,
+  getAllStaff,
   verifyTempPassword,
   finalClientRegister,
   candidateReg,
   getAllCandidateDetail,
   jobPosting,
+  getJob,
+  updateJob,
   getSkillMatchJobDetail,
   getPostedjobs,
   getOwnPostedjobs,
@@ -82,6 +85,9 @@ router.get("/clientWithUrl-Detail/:id", getClient);
 
 router.get("/clientWithUrl-Detail", getAllClient);
 
+//finding all staff detail from particular companyId
+router.get("/all-staff/:id", employeeAuth, getAllStaff);
+
 //verify the temp_pass endpoint
 router.post("/verify-temp-password", verifyTempPassword);
 
@@ -113,6 +119,12 @@ router.get('/skill-match-job-Detail/:candidateId', employeeAuth, getSkillMatchJo
 
 //get client posted job details
 router.get('/posted-jobs', getPostedjobs)
+
+//get a job detail
+router.get('/job/:id', getJob)
+
+//edit the job using id
+router.patch("/job-detail/:id", employeeAuth, updateJob);
 
 //get posted job details
 router.get('/my-posted-jobs/:id', employeeAuth, getOwnPostedjobs)

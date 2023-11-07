@@ -1,20 +1,16 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { v4 as uuidv4 } from "uuid";
 import ClientLayout from '../../components/ClientLayout';
 import Footer from '../../components/Footer';
 import './JobPosting.css';
 import './JobPosting-responsive.css';
 import $ from 'jquery';
-import AuthContext from '../../context/AuthContext';
+import { useParams } from 'react-router-dom';
 
-const JobPosting = () => {
+const JobEditing = () => {
+  const {id} = useParams();
   const [clientToken, setClientToken] = useState("");
-  const {getProtectedData} = useContext(AuthContext);
-
-  const [employeeId, setEmployeeId] = useState("");
-  const [loginClientDetail, setLoginClientDetail] = useState([]);
-
+  
   const [searchJobRoleInput, setSearchJobRoleInput] = useState("");
   const [searchSkillInput, setSearchSkillInput] = useState("");
   const [jobRoleArray, setjobRoleArray] = useState([])
@@ -56,8 +52,52 @@ const JobPosting = () => {
   const [isCheckedSkill, setIsCheckedSkill] = useState(false);
   const [newSkill, setNewSkill] = useState("");
   const [otherSkill, setOtherSkill] = useState([]);
- 
+  const [job, setJob] = useState();
 
+  useEffect(()=>{
+    setClientToken(JSON.parse(localStorage.getItem('clientToken')))
+  },[clientToken])
+
+  useEffect(()=>{
+    if(id){
+      axios.get(`http://localhost:5002/job/${id}`, {
+        headers: {
+          // Authorization: `Bearer ${clientToken}`,
+          Accept: 'application/json'
+        }
+      })
+      .then(res=>{
+        console.log(res.data)
+        setJob(res.data)
+      })
+      .catch(err=>console.log(err))
+    }
+  },[id])
+
+  console.log(job)
+
+  useEffect(()=>{
+    if(job){
+      setSelectedJobRoles(job.jobRole)
+      setSelectedSkills(job.skills)
+      setSelectedDepartment(job.department)
+      setSelectedRoles(job.role)
+      setSelectedLocations(job.location)
+      setCredentials({
+        ...credentials,
+        jobCategory: job.jobCategory,
+        jobDescription:job.jobDescription,
+        minExperience:job.minExperience,
+        maxExperience:job.maxExperience,
+        workMode:job.workMode,
+        currencyType:job.currencyType,
+        minSalary:job.minSalary,
+        maxSalary:job.maxSalary,
+        industry:job.industry,
+        education:job.education,
+      })
+    }
+  },[job])
 
   const getAllJobRoles = async () => {
     try {
@@ -159,30 +199,6 @@ const JobPosting = () => {
     }
   };
 
-  const getLoginClientDetail = async () => {
-    try {
-        const res = await axios.get(`http://localhost:5002/client/${employeeId}`, {
-            headers: {
-                Authorization: `Bearer ${clientToken}`,
-                Accept: 'application/json'
-            }
-        });
-        const result = res.data;
-        if (!result.error) {
-            console.log(result);
-            setLoginClientDetail(result);
-        } else {
-            console.log(result);
-        }
-    } catch (err) {
-        console.log(err);
-    }
-  }
-
-  useEffect(()=>{
-    setClientToken(JSON.parse(localStorage.getItem('clientToken')))
-  },[clientToken])
-
   useEffect(() => {
     getAllJobRoles();
     getAllSkills();
@@ -191,32 +207,10 @@ const JobPosting = () => {
     getAllRoles();
   }, []);
 
-  useEffect(() => {
-    if (clientToken) {
-        const fetchData = async () => {
-            try {
-                const user = await getProtectedData(clientToken);
-                console.log(user);
-                setEmployeeId(user.id);
-            } catch (error) {
-                console.log(error);
-            }
-        };
-
-        fetchData();
-    }
-  }, [clientToken]);
-
-  useEffect(() => {
-      if (employeeId) {
-          getLoginClientDetail();
-      }
-  }, [employeeId]);
-
-  //jobposting
-  const jobPosting = async (jobdetail) => {
+  //jobupdating
+  const jobUpdating = async (jobdetail) => {
     try {
-      const res = await axios.post("http://localhost:5002/job-detail", jobdetail, {
+      const res = await axios.patch(`http://localhost:5002/job-detail/${id}`, jobdetail, {
         headers: {
           Authorization: `Bearer ${clientToken}`,
           Accept: 'application/json'
@@ -225,7 +219,7 @@ const JobPosting = () => {
       const result = res.data;
       if (!result.error) {
         console.log(result);
-        alert("Job has been posted successfully!")
+        alert("Job has been updated successfully!")
         setCredentials(initialCredentials);
         setSelectedJobRoles([]);
         setSelectedDepartment([]);
@@ -310,7 +304,6 @@ const JobPosting = () => {
 
   const handleManualJobRole = () => {
     setSearchJobRoleInput("");
-    setFilteredJobRoles([]);
     const foundObject = jobRoleArray.find(item => item.designation.toLowerCase() === newJobRole.toLowerCase());
     if (foundObject) {
       alert(`Job role "${newJobRole}" already in list, please search...`);
@@ -328,14 +321,6 @@ const JobPosting = () => {
       ...prevCredentials,
       [name]: value,
     }));
-  };
-
-  const handlePaste = (e) => {
-    const pastedText = e.clipboardData.getData('text');
-    setCredentials({
-      ...credentials,
-      jobDescription: pastedText
-    });
   };
 
   const handleSkillSearch = (e) => {
@@ -369,7 +354,6 @@ const JobPosting = () => {
 
   const handleManualSkill = () => {
       setSearchSkillInput("");
-      setFilteredSkills([]);
         const foundObject = skillArray.find(item => item.skill.toLowerCase() === newSkill.toLowerCase());
         if (foundObject) {
           alert(`Skill "${newSkill}" already in list, please search...`);
@@ -497,7 +481,6 @@ const JobPosting = () => {
       return;
     }
 
-    const id = uuidv4();
     const updatedCredentials = {
       ...credentials,
       skills: selectedSkills,
@@ -505,19 +488,11 @@ const JobPosting = () => {
       location:selectedLocations,
       department:selectedDepartment,
       role:selectedRoles,
-      Role:loginClientDetail.role,
-      id,
+
     };
-    if (loginClientDetail.role === "Client") {
-      updatedCredentials.clientId = employeeId;
-      updatedCredentials.companyId = loginClientDetail.companyId;
-    } else {
-      updatedCredentials.clientStaffId = employeeId;
-      updatedCredentials.companyId = loginClientDetail.companyId;
-    }
     
     console.log(updatedCredentials, otherJobRole, otherSkill);
-    jobPosting(updatedCredentials);
+    jobUpdating(updatedCredentials);
     otherSkill.length > 0 && postOtherSkills(otherSkill);
     otherJobRole.length > 0 && postOtherDesignation(otherJobRole);
   };
@@ -803,7 +778,7 @@ const JobPosting = () => {
                             value = {credentials.jobCategory}
                             onChange={handleChange}
                             required>
-                            <option value="" selected disabled>Please select any one job category.</option>
+                            <option value="">Please select any one job category.</option>
                             <option value="full time">Full Time, Permanent</option>
                             <option value="part time">Part Time, Permanent</option>
                             <option value="remote">Remote</option>
@@ -1165,7 +1140,6 @@ const JobPosting = () => {
                             name='jobDescription'
                             value={credentials.jobDescription}
                             onChange={handleChange}
-                            onPaste={handlePaste}
                             placeholder='' id="job-description"
                             required></textarea>
                         </div>
@@ -1254,7 +1228,7 @@ const JobPosting = () => {
                 </div>
               </div>
               <div className="post-job-btn-area">
-                <button className='post-job-btn' onClick={handleSubmit}>Post a Job</button>
+                <button className='post-job-btn' onClick={handleSubmit}>Update a Job</button>
               </div>
             </div>
           </section>
@@ -1265,4 +1239,4 @@ const JobPosting = () => {
   )
 }
 
-export default JobPosting
+export default JobEditing

@@ -1,0 +1,318 @@
+.post-job-section {
+    padding-top: 20px;
+}
+
+.post-job-card {
+    margin-top: 30px;
+    border-radius: 16px !important;
+    background-color: #FFF !important;
+    padding: 30px !important;
+}
+
+.post-job-title {
+    color: #714F36;
+    font-size: 25px;
+    font-weight: 600;
+}
+
+.post-job-sub-title {
+    padding-top: 5px;
+    color: #714F36;
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.job-post-form-area {
+    padding-top: 40px;
+}
+
+.job-post-form-group {
+    /* margin-bottom: 35px; */
+    position: relative;
+}
+
+.job-post-form-label .form-required {
+    color: red;
+    margin-left: 5px;
+}
+
+.job-post-form-label {
+    color: #714F36 !important;
+    font-size: 15px !important;
+    font-weight: 600 !important;
+    margin-bottom: 14px;
+}
+
+.job-post-form-custom-label {
+    color: #714F36 !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    margin-bottom: 14px;
+}
+
+.job-post-form-sub-label {
+    color: #714F36 !important;
+    font-size: 13px !important;
+    font-style: normal !important;
+    font-weight: 400 !important;
+    margin-bottom: 14px !important;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.paste-btn {
+    border: none;
+    outline: none;
+    background-color: transparent;
+    margin: 0;
+    padding: 0;
+    transition: ease-in-out 0.5s;
+    font-size: 13px;
+    color: #1394DF;
+    font-weight: 600;
+}
+
+.paste-btn:focus,
+.paste-btn:active {
+    border: none;
+    outline: none;
+}
+
+.job-post-form-input {
+    outline: none !important;
+    border: 1px solid #714F36 !important;
+    padding: 11px 13px !important;
+    color: #714F36 !important;
+    font-size: 14px !important;
+    font-weight: 400 !important;
+    width: 100%;
+    position: relative;
+}
+
+.job-post-form-input::placeholder {
+    color: rgb(143, 143, 143) !important;
+}
+
+.job-post-form-input:focus,
+.job-post-form-input:active {
+    outline: none !important;
+}
+
+.job-post-form-input.select-input option {
+    background-color: #714F36 !important;
+    color: #FFF !important;
+    font-size: 15px;
+}
+
+.job-post-form-input.select-input {
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    appearance: none !important;
+}
+
+.job-post-form-group i {
+    position: absolute;
+    right: 14px;
+    top: 50px;
+    z-index: 1;
+    color: #714F36;
+    font-weight: 800;
+    pointer-events: none;
+}
+
+.job-post-form-group.with-sub-label i {
+    top: 74px;
+}
+
+.job-post-form-group.without-label i {
+    top: 13px;
+}
+
+.job-post-form-group .input-sub-text {
+    text-align: right;
+    color: #714F36;
+    font-size: 12px;
+    font-weight: 400;
+    padding-top: 10px;
+    position: absolute;
+    right: 0;
+}
+
+.job-post-form-chechbox-area {
+    margin: 10px 0 0 0;
+}
+
+.job-post-form-chechbox-area.with-bg {
+    border-radius: 4px;
+    background: #ffc49854;
+    padding: 10px 15px;
+    margin: 0;
+}
+
+.job-post-form-check-input {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    cursor: pointer;
+    color: #714F36;
+    font-size: 13px !important;
+    font-weight: 400;
+    margin-bottom: 0;
+}
+
+.job-post-form-check-input input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.job-post-form-checkmark {
+    position: relative;
+    display: inline-block;
+    width: 17px;
+    height: 17px;
+    margin-right: 8px;
+    border: 1px solid #898989;
+    border-radius: 3px;
+    -webkit-transition: ease-in-out 0.5s;
+    transition: ease-in-out 0.5s;
+    outline: none;
+    flex-shrink: 0;
+}
+
+.job-post-form-check-input input[type="checkbox"]:checked~.job-post-form-checkmark {
+    background-color: #1394DF;
+    border-color: #ffffff;
+}
+
+.job-post-form-check-input input[type="checkbox"]:checked~.job-post-form-checkmark:after {
+    content: "";
+    position: absolute;
+    top: 2.5px;
+    left: 5.6px;
+    width: 4px;
+    height: 9px;
+    border: solid #FFF;
+    border-width: 0 1.5px 1.5px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+
+.job-post-form-check-input:hover input[type="checkbox"]~.job-post-form-checkmark {
+    border-color: #1394DF;
+}
+
+.job-post-form-check-input input[type="checkbox"]:disabled~.job-post-form-checkmark {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.job-post-form-check-input input[type="checkbox"]:disabled~.job-post-form-checkmark:hover {
+    border-color: #4d4d4d;
+}
+
+.job-post-radio-select-area {
+    margin: 15px 0 35px 0;
+    display: flex;
+    align-items: center;
+    gap: 70px;
+}
+
+.job-post-radio-button {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    gap: 15px;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    margin: 0px;
+    position: relative;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    color: #714F36 !important;
+    font-size: 14px !important;
+    font-weight: 400 !important;
+}
+
+.job-post-radio-button input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+}
+
+.job-post-radio {
+    position: relative;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid #714F36;
+    -webkit-transform: translateZ(-25px);
+    transform: translateZ(-25px);
+    -webkit-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+}
+
+.job-post-radio::before {
+    position: absolute;
+    content: '';
+    width: 12px;
+    height: 12px;
+    top: 2px;
+    left: 2px;
+    border-radius: 50%;
+    background-color: #714F36;
+    opacity: 0;
+    -webkit-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+}
+
+.job-post-radio-button input[type="radio"]:checked+.job-post-radio {
+    -webkit-transform: translateZ(0px);
+    transform: translateZ(0px);
+    background-color: #fff;
+}
+
+.job-post-radio-button input[type="radio"]:checked+.job-post-radio::before {
+    opacity: 1;
+}
+
+.job-post-page-divider {
+    border-bottom: #714F36 1px solid;
+    margin-bottom: 35px;
+}
+
+.post-job-btn-area {
+    margin-top: 40px;
+}
+
+.post-job-btn {
+    border-radius: 6px;
+    background-color: #714F36;
+    outline: none;
+    transition: ease-in-out 0.5s;
+    font-size: 18px !important;
+    font-weight: 600 !important;
+    color: #FFF !important;
+    padding: 10px 40px;
+    border: 1px solid #714F36 !important;
+    margin: 0;
+}
+
+.post-job-btn:hover {
+    background-color: #FFF;
+    color: #714F36 !important;
+}
+
+.post-job-btn:focus,
+.post-job-btn:active {
+    outline: none;
+}

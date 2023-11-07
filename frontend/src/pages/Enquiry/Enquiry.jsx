@@ -160,7 +160,7 @@ const Enquiry = () => {
 
     return (
         <>
-            {/* <Layout /> */}
+            <Layout />
             {CSEChoosing ? <div >
                 {CSERecruiters.length > 0 && <table className="table table-hover">
                 <tbody>

@@ -7,6 +7,7 @@ import './ManageJobs-responsive.css';
 import $ from 'jquery';
 import AuthContext from '../../context/AuthContext';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const ManageJobs = () => {
     const [clientToken, setClientToken] = useState("");
@@ -15,6 +16,9 @@ const ManageJobs = () => {
     const [loginClientDetail, setLoginClientDetail] = useState([]);
     const [postedJobs, setPostedJobs] = useState([]);
     const [appliedOfPostedJobs, setAppliedOfPostedJobs] =useState([]);
+    const [allStaff, setAllStaff] = useState([]);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         $(document).ready(function () {
@@ -108,9 +112,31 @@ const ManageJobs = () => {
         }
       }
 
+      const allStaffFromCompany = async() => {
+        try{
+            const res = await axios.get(`http://localhost:5002/all-staff/${loginClientDetail.companyId}`, {
+              headers: {
+                  Authorization: `Bearer ${clientToken}`,
+                  Accept: 'application/json'
+              }
+            });
+            const result = res.data;
+            if (!result.error) {
+              console.log(result);
+              setAllStaff(result);
+            } else {
+              console.log(result);
+            }
+        }catch(err){
+          console.log(err);
+        }
+      }
+
+
     useEffect(()=>{
         getOwnPostedjobs();
         getAppliedOfPostedJobs();
+        allStaffFromCompany();
       },[loginClientDetail]);
 
     const handleDeleteJob = (id) => {
@@ -155,15 +181,15 @@ const ManageJobs = () => {
                                                 {/* table data */}
                                                 {postedJobs.map((job) => {
                                                 const numApplicants = appliedOfPostedJobs.filter(appliedOfPostedJob => appliedOfPostedJob.jobId === job.id).length;
-
+                                                const staff = allStaff.find(obj => obj.id === (job.clientId || job.clientStaffId));
                                                 return (
                                                     <tr className='dash-table-row client' key={job.id}>
                                                         <td className='dash-table-data1'>{job.jobRole[0]}</td>
                                                         <td className='dash-table-data1 text-center'>
-                                                            {`${new Date(job.createdAt).getFullYear() % 100}/${new Date(job.createdAt).getMonth().toString().padStart(2, '0')}/${new Date(job.createdAt).getDate().toString().padStart(2, '0')}`}
+                                                            {`${new Date(job.createdAt).getDate().toString().padStart(2, '0')}/${(new Date(job.createdAt).getMonth() + 1).toString().padStart(2, '0')}/${new Date(job.createdAt).getFullYear() % 100}`}
                                                         </td>
                                                         <td className='dash-table-data1 text-center'>
-                                                            <button className='application-btn with-modal'>
+                                                            <button className='application-btn with-modal' onClick={()=>navigate(`/applied-candidate/${job.id}`)}>
                                                                 <span>{numApplicants}</span>&nbsp;&nbsp;&nbsp;
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-file-earmark-text-fill" viewBox="0 0 16 16">
                                                                     <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM4.5 9a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 1 0-1h4a.5.5 0 0 1 0 1h-4z" fill='#0879bc' />
@@ -171,8 +197,7 @@ const ManageJobs = () => {
                                                             </button>
                                                         </td>
                                                         <td className='dash-table-data1 text-center'>
-                                                            10 <br />
-                                                            Positions
+                                                            {staff ? staff.name : 'Unknown'}
                                                         </td>
                                                         <td className='text-center'>
                                                             <button className='man-job-status-btn theme-info'>Ongoing</button>
@@ -180,6 +205,11 @@ const ManageJobs = () => {
                                                         <td className='text-center'>
                                                             <button className='delete-btn' onClick={()=>handleDeleteJob(job.id)}>
                                                                 <i className="bi bi-trash"></i>
+                                                            </button>
+                                                        </td>
+                                                        <td className='text-center'>
+                                                            <button className='delete-btn' onClick={()=>navigate(`/edit-job/${job.id}`)}>
+                                                                {/* <i className="bi bi-trash"></i> */}edit
                                                             </button>
                                                         </td>
                                                     </tr>
