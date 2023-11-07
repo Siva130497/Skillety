@@ -1,0 +1,11 @@
+@media screen and (min-width: 992px) and (max-width: 1199.98px) {
+    .manually-add-btn.with-mb {
+        margin-bottom: 35px !important;
+    }
+}
+
+@media (max-width:991.5px) {
+    .manually-add-btn.with-mb {
+        margin-bottom: 35px !important;
+    }
+}
