@@ -124,6 +124,8 @@ const Talents = () => {
         getCandidateImg();
     },[candidateDetail]);
 
+    
+
     useEffect(()=>{
         const matchingImg = candidateImg ? candidateImg.find(img => img.id === id) : null;
         const imgSrc = matchingImg ? `http://localhost:5002/candidate_profile/${matchingImg.image}` : "assets/img/talents-images/avatar.jpg";
