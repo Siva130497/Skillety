@@ -16,6 +16,7 @@ import Talents from './pages/Talents/Talents';
 import JobDetail from './pages/JobDetail/JobDetail';
 import AppliedCandidate from './pages/AppliedCandidate/AppliedCandidate';
 import JobEditing from './pages/EditJob/JobEditing';
+import InvoicePayment from './pages/InvoicePayment/InvoicePayment';
 
 
 function App() {
@@ -37,6 +38,7 @@ function App() {
         <Route path='/job-detail/:id' element={<JobDetail />} />
         <Route path='/applied-candidate/:id' element={<AppliedCandidate />} />
         <Route path='/edit-job/:id' element={<JobEditing />} />
+        <Route path='/invoice-payment' element={<InvoicePayment />} />
       </Routes>
     </AuthContextProvider>
   );

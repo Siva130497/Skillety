@@ -1,9 +1,9 @@
 .cli--tal-pro-search-section {
     margin-top: 150px;
     padding-top: 60px;
-    overflow: hidden !important;
+    padding-bottom: 60px;
+    /* overflow-x: hidden !important; */
 }
-
 
 
 .cli-tal-pro-search-container .cli-tal-pro-search-heading {

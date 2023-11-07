@@ -1,0 +1,75 @@
+.invoice-modal {
+    border-radius: 10px !important;
+    background-color: #FFF !important;
+}
+
+.modal-close-btn {
+    text-decoration: none;
+}
+
+.modal-close-btn i {
+    color: red !important;
+    transition: ease-in-out 0.5s;
+}
+
+.modal-close-btn:hover .close-icon {
+    color: #dc0000;
+    transform: rotate(90deg);
+}
+
+.invoive-modal-title {
+    color: #714F36 !important;
+    font-size: 18px !important;
+    font-weight: 600 !important;
+}
+
+.invoive-modal-footer {
+    border-top: none;
+    justify-content: flex-end !important;
+    border-radius: 0 0 10px 10px !important;
+}
+
+.close-modal-btn {
+    background-color: #ffffff;
+    color: #dc0000 !important;
+    border: 1px solid #dc0000 !important;
+    font-size: 14px !important;
+    transition: ease-in-out 0.5s !important;
+}
+
+.close-modal-btn:hover {
+    background-color: #dc0000 !important;
+    color: #FFF !important;
+}
+
+.invoice-table-area {
+    border-radius: 10px;
+    border: #714F36 1px solid;
+    border-bottom-width: 3px;
+}
+
+.invoice-table {
+    border-radius: 10px;
+    margin-bottom: 0;
+}
+
+.row-of-table-head {
+    background-color: #ffeee1;
+    border-bottom: #714F36 1px solid !important;
+}
+
+.table--head {
+    font-size: 14px !important;
+    font-family: 600 !important;
+    color: #714F36 !important;
+}
+
+.table--data {
+    color: #000 !important;
+    font-size: 14px !important;
+    font-weight: 400 !important;
+}
+
+.row-of-table-row {
+    border-bottom: #714F36 1px solid !important;
+}
