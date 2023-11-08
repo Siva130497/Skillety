@@ -10,7 +10,7 @@ import AuthContext from '../../context/AuthContext';
 
 const JobPosting = () => {
   const [clientToken, setClientToken] = useState("");
-  const {getProtectedData} = useContext(AuthContext);
+  const { getProtectedData } = useContext(AuthContext);
 
   const [employeeId, setEmployeeId] = useState("");
   const [loginClientDetail, setLoginClientDetail] = useState([]);
@@ -41,12 +41,12 @@ const JobPosting = () => {
     maxExperience: "",
     jobCategory: "",
     jobDescription: "",
-    currencyType:"₹",
-    minSalary:"",
-    maxSalary:"",
-    industry:"",
+    currencyType: "₹",
+    minSalary: "",
+    maxSalary: "",
+    industry: "",
     education: "",
-    workMode:"",
+    workMode: "",
   };
 
   const [credentials, setCredentials] = useState(initialCredentials);
@@ -56,7 +56,7 @@ const JobPosting = () => {
   const [isCheckedSkill, setIsCheckedSkill] = useState(false);
   const [newSkill, setNewSkill] = useState("");
   const [otherSkill, setOtherSkill] = useState([]);
- 
+
 
 
   const getAllJobRoles = async () => {
@@ -161,27 +161,27 @@ const JobPosting = () => {
 
   const getLoginClientDetail = async () => {
     try {
-        const res = await axios.get(`http://localhost:5002/client/${employeeId}`, {
-            headers: {
-                Authorization: `Bearer ${clientToken}`,
-                Accept: 'application/json'
-            }
-        });
-        const result = res.data;
-        if (!result.error) {
-            console.log(result);
-            setLoginClientDetail(result);
-        } else {
-            console.log(result);
+      const res = await axios.get(`http://localhost:5002/client/${employeeId}`, {
+        headers: {
+          Authorization: `Bearer ${clientToken}`,
+          Accept: 'application/json'
         }
+      });
+      const result = res.data;
+      if (!result.error) {
+        console.log(result);
+        setLoginClientDetail(result);
+      } else {
+        console.log(result);
+      }
     } catch (err) {
-        console.log(err);
+      console.log(err);
     }
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     setClientToken(JSON.parse(localStorage.getItem('clientToken')))
-  },[clientToken])
+  }, [clientToken])
 
   useEffect(() => {
     getAllJobRoles();
@@ -193,24 +193,24 @@ const JobPosting = () => {
 
   useEffect(() => {
     if (clientToken) {
-        const fetchData = async () => {
-            try {
-                const user = await getProtectedData(clientToken);
-                console.log(user);
-                setEmployeeId(user.id);
-            } catch (error) {
-                console.log(error);
-            }
-        };
+      const fetchData = async () => {
+        try {
+          const user = await getProtectedData(clientToken);
+          console.log(user);
+          setEmployeeId(user.id);
+        } catch (error) {
+          console.log(error);
+        }
+      };
 
-        fetchData();
+      fetchData();
     }
   }, [clientToken]);
 
   useEffect(() => {
-      if (employeeId) {
-          getLoginClientDetail();
-      }
+    if (employeeId) {
+      getLoginClientDetail();
+    }
   }, [employeeId]);
 
   //jobposting
@@ -357,17 +357,17 @@ const JobPosting = () => {
   }
 
   const handleSkillClick = (skill) => {
-    
-      if (selectedSkills.includes(skill)) {
-        setSelectedSkills([...selectedSkills]);
-        setSearchSkillInput("");
-        setFilteredSkills([]);
-  
-      } else {
-        setSelectedSkills([...selectedSkills, skill]);
-        setSearchSkillInput("");
-        setFilteredSkills([]);
-      }
+
+    if (selectedSkills.includes(skill)) {
+      setSelectedSkills([...selectedSkills]);
+      setSearchSkillInput("");
+      setFilteredSkills([]);
+
+    } else {
+      setSelectedSkills([...selectedSkills, skill]);
+      setSearchSkillInput("");
+      setFilteredSkills([]);
+    }
   }
 
   const handleManualSkill = () => {
@@ -399,17 +399,17 @@ const JobPosting = () => {
   const handleDeselectDepartment = (department) => {
     setSelectedDepartment(selectedDepartment.filter(selectedDepartment => selectedDepartment !== department));
   }
-  
+
   const handleDepartmentSearch = (e) => {
     const inputValue = e.target.value;
     setSearchDepartmentInput(inputValue);
-    if(inputValue.length > 0){
-        const Department = departmentArray.filter((obj) => {
-            return obj.department.toLowerCase().includes(inputValue.toLowerCase());
-        });
-        if(Department.length > 0){
-            setFilteredDepartment(Department);
-        }
+    if (inputValue.length > 0) {
+      const Department = departmentArray.filter((obj) => {
+        return obj.department.toLowerCase().includes(inputValue.toLowerCase());
+      });
+      if (Department.length > 0) {
+        setFilteredDepartment(Department);
+      }
     } else {
       setFilteredDepartment([]);
     }
@@ -428,31 +428,31 @@ const JobPosting = () => {
   const handleLocationSearch = (e) => {
     const inputValue = e.target.value;
     setSearchLocationInput(inputValue);
-    if(inputValue.length > 0){
-        const Locations = locationArray.filter((obj) => {
-            return obj.location.toLowerCase().includes(inputValue.toLowerCase());
-        });
-        if(Locations.length > 0){
-            setFilteredLocations(Locations);
-        }
+    if (inputValue.length > 0) {
+      const Locations = locationArray.filter((obj) => {
+        return obj.location.toLowerCase().includes(inputValue.toLowerCase());
+      });
+      if (Locations.length > 0) {
+        setFilteredLocations(Locations);
+      }
     } else {
-        setFilteredLocations([]);
+      setFilteredLocations([]);
     }
   }
 
   const handleLocationClick = (location) => {
-        if (selectedLocations.includes(location)) {
-            setSelectedLocations([...selectedLocations]);
-            setSearchLocationInput("");
-            setFilteredLocations([]);
-        } else if(selectedLocations.length === 3){
-            alert(`You can select max of 3 locations`);
-            
-        } else if(selectedLocations.length < 3){
-            setSelectedLocations([...selectedLocations, location]);
-            setSearchLocationInput("");
-            setFilteredLocations([]);
-        }
+    if (selectedLocations.includes(location)) {
+      setSelectedLocations([...selectedLocations]);
+      setSearchLocationInput("");
+      setFilteredLocations([]);
+    } else if (selectedLocations.length === 3) {
+      alert(`You can select max of 3 locations`);
+
+    } else if (selectedLocations.length < 3) {
+      setSelectedLocations([...selectedLocations, location]);
+      setSearchLocationInput("");
+      setFilteredLocations([]);
+    }
   }
 
   const handleDeselectRole = (role) => {
@@ -462,15 +462,15 @@ const JobPosting = () => {
   const handleRoleSearch = (e) => {
     const inputValue = e.target.value;
     setSearchRoleInput(inputValue);
-    if(inputValue.length > 0){
-        const roles = roleArray.filter((obj) => {
-            return obj.role.toLowerCase().includes(inputValue.toLowerCase());
-        });
-        if(roles.length > 0){
-            setFilteredRoles(roles);
-        }
+    if (inputValue.length > 0) {
+      const roles = roleArray.filter((obj) => {
+        return obj.role.toLowerCase().includes(inputValue.toLowerCase());
+      });
+      if (roles.length > 0) {
+        setFilteredRoles(roles);
+      }
     } else {
-        setFilteredRoles([]);
+      setFilteredRoles([]);
     }
   };
 
@@ -493,10 +493,10 @@ const JobPosting = () => {
       credentials.minSalary === "" ||
       credentials.maxSalary === "" ||
       credentials.industry === "" ||
-      credentials.education  === "" ||
+      credentials.education === "" ||
       selectedSkills.length === 0 ||
       selectedDepartment.length === 0 ||
-      selectedLocations.length === 0 
+      selectedLocations.length === 0
     ) {
       alert("Please fill in all required fields.");
       return;
@@ -507,10 +507,10 @@ const JobPosting = () => {
       ...credentials,
       skills: selectedSkills,
       jobRole: selectedJobRoles,
-      location:selectedLocations,
-      department:selectedDepartment,
-      role:selectedRoles,
-      Role:loginClientDetail.role,
+      location: selectedLocations,
+      department: selectedDepartment,
+      role: selectedRoles,
+      Role: loginClientDetail.role,
       id,
     };
     if (loginClientDetail.role === "Client") {
@@ -520,7 +520,7 @@ const JobPosting = () => {
       updatedCredentials.clientStaffId = employeeId;
       updatedCredentials.companyId = loginClientDetail.companyId;
     }
-    
+
     console.log(updatedCredentials, otherJobRole, otherSkill);
     jobPosting(updatedCredentials);
     otherSkill.length > 0 && postOtherSkills(otherSkill);
@@ -753,59 +753,74 @@ const JobPosting = () => {
                     <div className="row m-b-35">
                       <div className="col-12 col-xl-8">
                         <div className="job-post-form-group">
-                          <label htmlFor="" className='job-post-form-label'>Job title / Designation<span className='form-required'>*</span></label>
-                          {selectedJobRoles.map(selectJobRole => (
-                              <span className="badge bg-success mx-2" 
-                              key={selectJobRole}
-                              onClick={()=>handleDeselectJobRole(selectJobRole)}
-                              >{selectJobRole}</span>
-                          ))}
+
+                          <div className='job-post-form-label-with-badge'>
+                            <label htmlFor="" className='job-post-form-label'>Job title / Designation<span className='form-required'>*</span></label>
+                            {selectedJobRoles.map(selectJobRole => (
+                              <span className="job-post-form-badge"
+                                key={selectJobRole}
+                                onClick={() => handleDeselectJobRole(selectJobRole)}
+                              >{selectJobRole}
+                              </span>
+                            ))}
+                          </div>
+
                           <input type="text" className='job-post-form-input'
-                            name='searchJobRoleInput' 
+                            name='searchJobRoleInput'
                             id='searchJobRoleInput'
                             value={searchJobRoleInput}
                             onChange={handleJobRoleSearch}
                             placeholder='Enter a clear & specific title to get better responses' />
-                          {filteredJobRoles.length > 0 &&
-                              filteredJobRoles.map((filterJobRole)=>{
-                                  return <div key={filterJobRole._id} onClick={()=>handleJobRoleClick(filterJobRole.designation)}>{filterJobRole.designation}</div> 
+
+                          <div className='search-result-data-area'>
+                            {filteredJobRoles.length > 0 &&
+                              filteredJobRoles.map((filterJobRole) => {
+                                return <div className='search-result-data' key={filterJobRole._id} onClick={() => handleJobRoleClick(filterJobRole.designation)}>
+                                  {filterJobRole.designation}
+                                </div>
                               })
-                          }
+                            }
+                          </div>
+
+                          <div className="job-post-form-chechbox-area">
+                            <label className="job-post-form-check-input">
+                              <input
+                                type="checkbox"
+                                checked={isCheckedJobRole}
+                                onChange={() => setIsCheckedJobRole(!isCheckedJobRole)}
+                              />
+                              <span className="job-post-form-checkmark"></span>
+                              If your searched job role not in the list, please enable the checkbox & type manually...
+                            </label>
+                          </div>
+
                           <input
-                          className="form-check-input"
-                          type="checkbox"
-                          checked={isCheckedJobRole}
-                          onChange={()=>setIsCheckedJobRole(!isCheckedJobRole)}
+                            type='text'
+                            name='manualJobRoleInput'
+                            id='manualJobRoleInput'
+                            className='job-post-form-input mt-4'
+                            placeholder='Enter job role...'
+                            value={newJobRole}
+                            onChange={(e) => setNewJobRole(e.target.value)}
+                            disabled={!isCheckedJobRole}
                           />
-                          <label className="form-check-label" htmlFor="flexSwitchCheckChecked">
-                            If your searched job role not in the list, please enable the checkbox & type manually...
-                          </label>
-                          <input 
-                          type='text' 
-                          name='manualJobRoleInput' 
-                          id='manualJobRoleInput' 
-                          className='form-control my-2' 
-                          placeholder='Enter job role...'
-                          value={newJobRole}
-                          onChange={(e)=>setNewJobRole(e.target.value)}
-                          disabled = {!isCheckedJobRole}
-                          />
-                          <button 
-                          type="button" 
-                          className="btn btn-primary btn-sm"
-                          onClick={handleManualJobRole}
-                          disabled = {!isCheckedJobRole}
-                          >add manually entered jobRole</button>
+                          <button
+                            type="button"
+                            className="manually-add-btn with-mb"
+                            onClick={handleManualJobRole}
+                            disabled={!isCheckedJobRole}
+                          >Add manually entered jobRole</button>
                         </div>
                       </div>
+
                       <div className="col-12 col-xl-4">
                         <div className="job-post-form-group">
                           <label htmlFor="" className='job-post-form-label'>Employment Type<span className='form-required'>*</span></label>
                           <i class="bi bi-chevron-down"></i>
                           <select className='job-post-form-input select-input'
                             id="jobCategory"
-                            name="jobCategory" 
-                            value = {credentials.jobCategory}
+                            name="jobCategory"
+                            value={credentials.jobCategory}
                             onChange={handleChange}
                             required>
                             <option value="" selected disabled>Please select any one job category.</option>
@@ -821,13 +836,17 @@ const JobPosting = () => {
                     <div className="row m-b-35">
                       <div className="col-12 col-xl-12">
                         <div className="job-post-form-group">
-                          <label htmlFor="" className='job-post-form-label'>Mandatory Skills<span className='form-required'>*</span></label>
-                          {selectedSkills.map(selectSkill => (
-                            <span className="badge rounded-pill bg-info mx-2" 
-                            key={selectSkill}
-                            onClick={()=>handleDeselect(selectSkill)}
-                            >{selectSkill}</span>
-                          ))}
+
+                          <div className='job-post-form-label-with-badge'>
+                            <label htmlFor="" className='job-post-form-label'>Mandatory Skills<span className='form-required'>*</span></label>
+                            {selectedSkills.map(selectSkill => (
+                              <span className="job-post-form-badge"
+                                key={selectSkill}
+                                onClick={() => handleDeselect(selectSkill)}
+                              >{selectSkill}</span>
+                            ))}
+                          </div>
+
                           {/* <br></br>
                           {additionalSkills.length > 0 &&
                             <label 
@@ -843,7 +862,7 @@ const JobPosting = () => {
                             >{additionalSkill}</span>
                           ))} */}
                           <input type="text" className='job-post-form-input'
-                            name='searchSkillInput' 
+                            name='searchSkillInput'
                             id='searchSkillInput'
                             value={searchSkillInput}
                             onChange={handleSkillSearch}
@@ -852,37 +871,46 @@ const JobPosting = () => {
                             <span>0/200</span>
                           </div> */}
                           {/* {skillError && <p>{skillError}</p>} */}
-                          {filteredSkills.length > 0 &&
-                            filteredSkills.map((filterSkill)=>{
-                              return <div key={filterSkill._id} onClick={()=>handleSkillClick(filterSkill.skill)}>{filterSkill.skill}</div> 
-                            })
-                          }
+
+                          <div className='search-result-data-area'>
+                            {filteredSkills.length > 0 &&
+                              filteredSkills.map((filterSkill) => {
+                                return <div className='search-result-data' key={filterSkill._id} onClick={() => handleSkillClick(filterSkill.skill)}>
+                                  {filterSkill.skill}
+                                </div>
+                              })
+                            }
+                          </div>
+
+                          <div className="job-post-form-chechbox-area">
+                            <label className="job-post-form-check-input">
+                              <input
+                                type="checkbox"
+                                checked={isCheckedSkill}
+                                onChange={() => setIsCheckedSkill(!isCheckedSkill)}
+                              />
+                              <span className="job-post-form-checkmark"></span>
+                              If the searched skill for the particular job role not in the list, please enable the checkbox & type manually...
+                            </label>
+                          </div>
+
                           <input
-                          className="form-check-input"
-                          type="checkbox"
-                          checked={isCheckedSkill}
-                          onChange={()=>setIsCheckedSkill(!isCheckedSkill)}
-                          />
-                          <label className="form-check-label" htmlFor="flexSwitchCheckChecked">
-                            If the searched skill for the particular job role not in the list, please enable the checkbox & type manually...
-                          </label>
-                          <input 
-                            type='text' 
-                            name='manualSkillInput' 
-                            id='manualSkillInput' 
-                            className='form-control my-2' 
+                            type='text'
+                            name='manualSkillInput'
+                            id='manualSkillInput'
+                            className='job-post-form-input mt-4'
                             placeholder='Enter the skills...'
                             value={newSkill}
-                            onChange={(e)=>setNewSkill(e.target.value)}
+                            onChange={(e) => setNewSkill(e.target.value)}
                             disabled={!isCheckedSkill}
-                            />
-                            {/* {skillError && <p>{skillError}</p>} */}
-                            <button 
-                            type="button" 
-                            className="btn btn-primary btn-sm"
+                          />
+                          {/* {skillError && <p>{skillError}</p>} */}
+                          <button
+                            type="button"
+                            className="manually-add-btn"
                             onClick={handleManualSkill}
                             disabled={!isCheckedSkill}
-                            >add manually entered skill for a particular job role</button>
+                          >Add manually entered skill for a particular job role</button>
                         </div>
                       </div>
                     </div>
@@ -890,8 +918,10 @@ const JobPosting = () => {
                     <div className="row m-b-35">
                       <div className="col-12 col-xl-8">
                         <div className="job-post-form-group">
-                          <label htmlFor="" className='job-post-form-label'>Department<span className='form-required'>*</span></label>
-                          {/* <i class="bi bi-chevron-down"></i>
+
+                          <div className='job-post-form-label-with-badge'>
+                            <label htmlFor="" className='job-post-form-label'>Department<span className='form-required'>*</span></label>
+                            {/* <i class="bi bi-chevron-down"></i>
                           <select className='job-post-form-input select-input'
                             name="department" 
                             value = {credentials.department}
@@ -900,43 +930,67 @@ const JobPosting = () => {
                             <option value="Option 1">Option 1</option>
                             <option value="Option 2">Option 2</option>
                           </select> */}
-                          {selectedDepartment.map(selectDepartment => (
-                              <span className="badge bg-success mx-2" 
-                              key={selectDepartment}
-                              onClick={()=>handleDeselectDepartment(selectDepartment)}
+                            {selectedDepartment.map(selectDepartment => (
+                              <span className="job-post-form-badge"
+                                key={selectDepartment}
+                                onClick={() => handleDeselectDepartment(selectDepartment)}
                               >{selectDepartment}</span>
-                          ))}
-                          <input 
-                            type='text'  
-                            className='form-control my-2' 
-                            placeholder='Search department...' 
+                            ))}
+                          </div>
+
+                          <input
+                            type='text'
+                            className='job-post-form-input'
+                            placeholder='Search department...'
                             value={searchDepartmentInput}
                             onChange={handleDepartmentSearch}
-                            />
+                          />
+
+                          <div className='search-result-data-area'>
                             {filteredDepartment.length > 0 &&
-                                filteredDepartment.map((filterDepartment)=>{
-                                    return <div key={filterDepartment._id} onClick={()=>handleDepartmentClick(filterDepartment.department)}>{filterDepartment.department}</div> 
-                                })
+                              filteredDepartment.map((filterDepartment) => {
+                                return <div className='search-result-data' key={filterDepartment._id} onClick={() => handleDepartmentClick(filterDepartment.department)}>
+                                  {filterDepartment.department}
+                                </div>
+                              })
                             }
-      
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="row m-b-35">
+                      <div className="col-12 col-xl-8">
+                        <div className="job-post-form-group">
+
+                          <div className='job-post-form-label-with-badge'>
                             <label htmlFor="" className='job-post-form-label'>Role<span className='form-required'>*</span></label>
                             {selectedRoles.map(selectRole => (
-                              <span className="badge bg-success mx-2" 
-                              key={selectRole}
-                              onClick={()=>handleDeselectRole(selectRole)}
+                              <span className="job-post-form-badge"
+                                key={selectRole}
+                                onClick={() => handleDeselectRole(selectRole)}
                               >{selectRole}</span>
-                          ))}
+                            ))}
+                          </div>
+
                           <input type="text" className='job-post-form-input'
-                            name='searchRoleInput' 
+                            name='searchRoleInput'
                             id='searchRoleInput'
                             value={searchRoleInput}
                             onChange={handleRoleSearch}
                             placeholder='Enter a clear & specific role to get better responses' />
-                          {filteredRoles.length > 0 &&
-                              filteredRoles.map((filterRole)=>{
-                                  return <div key={filterRole._id} onClick={()=>handleRoleClick(filterRole.role)}>{filterRole.role}</div> 
+
+                          <div className='search-result-data-area'>
+                            {filteredRoles.length > 0 &&
+                              filteredRoles.map((filterRole) => {
+                                return <div className='search-result-data' key={filterRole._id} onClick={() => handleRoleClick(filterRole.role)}>
+                                  {filterRole.role}
+                                </div>
                               })
-                          }
+                            }
+                          </div>
+
                         </div>
                       </div>
                     </div>
@@ -948,10 +1002,10 @@ const JobPosting = () => {
                           <div className='job-post-form-sub-label'>Select where the candidate will be working from</div>
                           <i class="bi bi-chevron-down"></i>
                           <select className='job-post-form-input select-input'
-                            name="workMode" 
-                            value = {credentials.workMode}
+                            name="workMode"
+                            value={credentials.workMode}
                             onChange={handleChange}>
-                          <option value="" selected disabled>select the working mode</option>
+                            <option value="" selected disabled>select the working mode</option>
                             <option value="In office" selected>In office</option>
                             <option value="In Home">In Home</option>
                           </select>
@@ -962,25 +1016,34 @@ const JobPosting = () => {
                     <div className="row m-b-35">
                       <div className="col-12 col-xl-8">
                         <div className="job-post-form-group">
-                          <label htmlFor="" className='job-post-form-label'>Job location ( maximum 3 )<span className='form-required'>*</span></label>
-                          {selectedLocations.map(selectLocation => (
-                            <span className="badge rounded-pill bg-info mx-2" 
-                            key={selectLocation}
-                            onClick={()=>handleDeselectLocation(selectLocation)}
-                            >{selectLocation}</span>
-                          ))}
-                          <input 
-                          type='text'  
-                          className='form-control my-2' 
-                          placeholder='Search locations' 
-                          value={searchLocationInput}
-                          onChange={handleLocationSearch}
+
+                          <div className='job-post-form-label-with-badge'>
+                            <label htmlFor="" className='job-post-form-label'>Job location ( maximum 3 )<span className='form-required'>*</span></label>
+                            {selectedLocations.map(selectLocation => (
+                              <span className="job-post-form-badge"
+                                key={selectLocation}
+                                onClick={() => handleDeselectLocation(selectLocation)}
+                              >{selectLocation}</span>
+                            ))}
+                          </div>
+
+                          <input
+                            type='text'
+                            className='job-post-form-input'
+                            placeholder='Search locations'
+                            value={searchLocationInput}
+                            onChange={handleLocationSearch}
                           />
-                          {filteredLocations.length > 0 &&
-                            filteredLocations.map((filterLocation)=>{
-                              return <div key={filterLocation._id} onClick={()=>handleLocationClick(filterLocation.location)}>{filterLocation.location}</div> 
-                            })
-                          }
+                          <div className='search-result-data-area'>
+                            {filteredLocations.length > 0 &&
+                              filteredLocations.map((filterLocation) => {
+                                return <div className='search-result-data' key={filterLocation._id} onClick={() => handleLocationClick(filterLocation.location)}>
+                                  {filterLocation.location}
+                                </div>
+                              })
+                            }
+                          </div>
+
                           <div className="job-post-form-chechbox-area">
                             <label className="job-post-form-check-input">
                               <input type="checkbox" />
@@ -996,7 +1059,7 @@ const JobPosting = () => {
                       <div className="col-12">
                         <label htmlFor="" className='job-post-form-label'>Work experience (years)<span className='form-required'>*</span></label>
                       </div>
-                      <div className="col-12 col-xl-4">
+                      <div className="col-12 col-xl-4 col-lg-6 col-md-6 mb-4 mb-md-0">
                         <div className="job-post-form-group without-label">
                           {/* <i class="bi bi-chevron-down"></i>
                           <select className='job-post-form-input select-input'>
@@ -1005,13 +1068,13 @@ const JobPosting = () => {
                             <option value="">Option 2</option>
                           </select> */}
                           <input type="text" className='job-post-form-input'
-                            name="minExperience" 
+                            name="minExperience"
                             value={credentials.minExperience}
                             onChange={handleChange}
-                            placeholder="minimum experience"/>
+                            placeholder="Minimum experience" />
                         </div>
                       </div>
-                      <div className="col-12 col-xl-4">
+                      <div className="col-12 col-xl-4 col-lg-6 col-md-6">
                         <div className="job-post-form-group without-label">
                           {/* <i class="bi bi-chevron-down"></i>
                           <select className='job-post-form-input select-input'>
@@ -1020,10 +1083,10 @@ const JobPosting = () => {
                             <option value="">Option 2</option>
                           </select> */}
                           <input type="text" className='job-post-form-input'
-                            name="maxExperience" 
+                            name="maxExperience"
                             value={credentials.maxExperience}
                             onChange={handleChange}
-                            placeholder="maximum experience"/>
+                            placeholder="Maximum experience" />
                         </div>
                       </div>
                     </div>
@@ -1033,12 +1096,12 @@ const JobPosting = () => {
                         <label htmlFor="" className='job-post-form-label mb-1'>Annual Salary Range<span className='form-required'>*</span></label>
                         <div className='job-post-form-sub-label'>Enter the salary offered for this job</div>
                       </div>
-                      <div className="col-12 col-xl-2">
+                      <div className="col-4 col-xl-2 col-lg-2 col-md-2">
                         <div className="job-post-form-group without-label">
                           <i class="bi bi-chevron-down"></i>
                           <select className='job-post-form-input select-input text-center'
-                            name="currencyType" 
-                            value = {credentials.currencyType}
+                            name="currencyType"
+                            value={credentials.currencyType}
                             onChange={handleChange}>
                             <option value="₹" selected>₹</option>
                             <option value="$">$</option>
@@ -1047,7 +1110,7 @@ const JobPosting = () => {
                           </select>
                         </div>
                       </div>
-                      <div className="col-12 col-xl-3">
+                      <div className="col-8 col-xl-3 col-lg-5 col-md-5 mb-4 mb-md-0">
                         <div className="job-post-form-group without-label">
                           {/* <i class="bi bi-chevron-down"></i>
                           <select className='job-post-form-input select-input'>
@@ -1056,13 +1119,13 @@ const JobPosting = () => {
                             <option value="">Option 2</option>
                           </select> */}
                           <input type="text" className='job-post-form-input'
-                            name="minSalary" 
+                            name="minSalary"
                             value={credentials.minSalary}
                             onChange={handleChange}
-                            placeholder="min salary"/>
+                            placeholder="Min salary" />
                         </div>
                       </div>
-                      <div className="col-12 col-xl-3">
+                      <div className="col-8 offset-4 offset-md-0 col-xl-3 col-lg-5 col-md-5">
                         <div className="job-post-form-group without-label">
                           {/* <i class="bi bi-chevron-down"></i>
                           <select className='job-post-form-input select-input'>
@@ -1071,10 +1134,10 @@ const JobPosting = () => {
                             <option value="">Option 2</option>
                           </select> */}
                           <input type="text" className='job-post-form-input'
-                            name="maxSalary" 
+                            name="maxSalary"
                             value={credentials.maxSalary}
                             onChange={handleChange}
-                            placeholder="max salary"/>
+                            placeholder="Max salary" />
                         </div>
                       </div>
                       {/* <div className="col-12">
@@ -1094,8 +1157,8 @@ const JobPosting = () => {
                           <label htmlFor="" className='job-post-form-label'>Company industry you are hiring from<span className='form-required'>*</span></label>
                           <i class="bi bi-chevron-down"></i>
                           <select className='job-post-form-input select-input'
-                            name="industry" 
-                            value = {credentials.industry}
+                            name="industry"
+                            value={credentials.industry}
                             onChange={handleChange}>
                             <option value="" selected disabled>Select industry</option>
                             <option value="Information Technology">Information Technology</option>
@@ -1114,8 +1177,8 @@ const JobPosting = () => {
                           <label htmlFor="" className='job-post-form-label'>Educational Qualification<span className='form-required'>*</span></label>
                           <i class="bi bi-chevron-down"></i>
                           <select className='job-post-form-input select-input'
-                            name="education" 
-                            value = {credentials.education}
+                            name="education"
+                            value={credentials.education}
                             onChange={handleChange}>
                             <option value="" selected disabled>Select Educational Qualification</option>
                             <option value="High School Diploma">High School Diploma</option>

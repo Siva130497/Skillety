@@ -5106,6 +5106,9 @@ h6 .badge {
 
 .navbar .nav-link.nav-link-user img {
     width: 56px;
+    height: 56px;
+    object-fit: cover;
+    object-position: top;
 }
 
 .navbar .nav-link.nav-link-user:after {
@@ -7231,6 +7234,13 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
         to {
             opacity: 0.6
         }
+    }
+}
+
+@media (max-width:572px) {
+    .main-content{
+        padding-left: 18px;
+        padding-right: 18px;
     }
 }
 

@@ -271,12 +271,12 @@
 @keyframes up-down2 {
     0% {
         transform: translateY(10px) scale(0.9);
-        
+
     }
 
     100% {
         transform: translateY(-5px) scale(1);
-        
+
     }
 }
 
@@ -362,9 +362,11 @@
     color: #714F36 !important;
     /* letter-spacing: 0.5px; */
 }
-.home--card:hover .arrow--icon{
+
+.home--card:hover .arrow--icon {
     transform: rotate(45deg);
 }
+
 .card--imgicon-area {
     display: flex;
     justify-content: space-between;
@@ -985,14 +987,14 @@
     border-radius: 41px;
     position: relative;
     overflow: hidden;
-    padding: 31px 28px 0 28px;
+    padding: 31px 20px 0 20px;
     border: 2px solid #FFF;
     border-bottom: 5px solid #FFF;
     height: 300px;
     margin-bottom: 3rem;
     display: flex;
     flex-direction: row;
-    gap: 12px;
+    gap: 8px;
     transition: ease-in-out 0.8s;
     /* cursor: pointer; */
     z-index: 1;
@@ -1084,7 +1086,7 @@
 
 .home--milestone-card-right .home-milestone-number {
     color: #FFF;
-    font-size: 96px;
+    font-size: 85px;
     font-weight: 400;
     line-height: normal;
     text-transform: capitalize;
@@ -1152,7 +1154,7 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    padding:60px 60px 0px 60px;
+    padding: 60px 60px 0px 60px;
 }
 
 .candidate--section {

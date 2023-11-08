@@ -127,23 +127,23 @@ const SettingsCandidate = () => {
         if (candidateId) {
             getAllCandidateDetail();
             axios.get(`http://localhost:5002/candidate-image/${candidateId}`)
-              .then(res=>setCandidateImg(res.data))
-              .catch(err=>console.log(err))
+                .then(res => setCandidateImg(res.data))
+                .catch(err => console.log(err))
         }
     }, [candidateId]);
 
     useEffect(() => {
-        if(candidateImg){
-          setCandidateImgUrl(`http://localhost:5002/candidate_profile/${candidateImg.image}`)
+        if (candidateImg) {
+            setCandidateImgUrl(`http://localhost:5002/candidate_profile/${candidateImg.image}`)
         }
-        
-      }, [candidateImg]);
 
-      useEffect(() => {
+    }, [candidateImg]);
+
+    useEffect(() => {
         if (image) {
             setCandidateImgUrl(URL.createObjectURL(image));
         }
-      }, [image]);
+    }, [image]);
 
 
     const handleEmailUpdate = () => {
@@ -212,39 +212,39 @@ const SettingsCandidate = () => {
     }
 
     const handlePhotoUpdate = () => {
-        if(candidateImg){
+        if (candidateImg) {
             const formData = new FormData()
             formData.append('image', image);
             axios.patch(`http://localhost:5002/update-candidate-profile-image/${candidateId}`, formData, {
-              headers: {
-                  Authorization: `Bearer ${candidateToken}`,
-                  Accept: 'application/json'
-              }
+                headers: {
+                    Authorization: `Bearer ${candidateToken}`,
+                    Accept: 'application/json'
+                }
             })
-            .then(res=>{
-              console.log(res);
-              alert("profile photo updated")
-              setImage(null);
-            })
-            .catch(err=>console.log(err));
-        }else{
+                .then(res => {
+                    console.log(res);
+                    alert("profile photo updated")
+                    setImage(null);
+                })
+                .catch(err => console.log(err));
+        } else {
             const formData = new FormData()
             formData.append('image', image);
             formData.append('id', candidateId)
             axios.post("http://localhost:5002/upload-candidate-profile-image", formData, {
-              headers: {
-                  Authorization: `Bearer ${candidateToken}`,
-                  Accept: 'application/json'
-              }
+                headers: {
+                    Authorization: `Bearer ${candidateToken}`,
+                    Accept: 'application/json'
+                }
             })
-            .then(res=>{
-              console.log(res);
-              alert("profile photo updated")
-              setImage(null);
-            })
-            .catch(err=>console.log(err));
+                .then(res => {
+                    console.log(res);
+                    alert("profile photo updated")
+                    setImage(null);
+                })
+                .catch(err => console.log(err));
         }
-        
+
     }
 
     return (
@@ -283,14 +283,16 @@ const SettingsCandidate = () => {
                                                 <div className='setting-title'>Account Settings</div>
                                                 <div className='setting-sub'>Change your profile photo, email, mobile number or password</div>
                                             </div>
-                                            
+
                                             <div className="setting-content">
                                                 <div className='setting-name'>Profile photo</div>
-                                                <div className='setting-value'><iframe src={candidateImgUrl ? candidateImgUrl : "../assets/img/talents-images/avatar.jpg"} title="Event Image iframe" ></iframe></div>
+                                                <div className='image-upload-img-area'>
+                                                    <img src={candidateImgUrl ? candidateImgUrl : "../assets/img/talents-images/avatar.jpg"} className='image-upload-img' alt="" />
+                                                </div>
                                                 <div className="change-input-area">
                                                     <div className="row">
                                                         <div className="col-12 col-xl-5 col-lg-5 col-md-6 d-flex align-items-center gap-10">
-                                                        <input type='file' onChange={e=>setImage(e.target.files[0])} />
+                                                            <input type='file' className='change-setting-input file' onChange={e => setImage(e.target.files[0])} />
                                                             <button className='setting-update-btn' onClick={handlePhotoUpdate}>Update</button>
                                                         </div>
                                                     </div>
