@@ -91,6 +91,7 @@ const ClientDashboard = () => {
   const [candidateId, setCandidateId] = useState("");
   const [jobDetail, setJobDetail] = useState([]);
   const [appliedJobDetail, setAppliedJobDetail] = useState([]);
+  const [allClient, setAllClient] = useState([]);
 
   useEffect(()=>{
     localStorage.setItem("candidateToken", JSON.stringify(token));
@@ -149,6 +150,15 @@ const ClientDashboard = () => {
         fetchData();
     }
 }, [token]);
+
+useEffect(()=>{
+  axios.get("http://localhost:5002/clients")
+  .then(res=>{
+    console.log(res.data)
+    setAllClient(res.data);
+  })
+  .catch(err=>console.log(err))
+},[])
 
 const getSkillMatchJobDetail = async() => {
   try {
@@ -425,6 +435,7 @@ const getSkillMatchJobDetail = async() => {
                             {appliedJobDetail.map((job)=>{
                               const matchingImg = clientImg ? clientImg.find(img => img.id === job.companyId) : null;
                               const imgSrc = matchingImg ? `http://localhost:5002/client_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
+                              const client= allClient.find(obj => obj.companyId === job.companyId);
                               return(
                               <tr className='dash-table-row'>
                               <td>
@@ -432,7 +443,7 @@ const getSkillMatchJobDetail = async() => {
                               </td>
                               <td className='dash-table-data'>
                                 {job.jobRole[0]} <br />
-                                <span className='dash-table-sub'>{job.companyName}</span>
+                                <span className='dash-table-sub'>{client?.companyName}</span>
                               </td>
                               <td className='dash-table-data1 text-center'>Marketing & Communication</td>
                               <td className='dash-table-data1 text-center'>{job.jobCategory}</td>
@@ -468,6 +479,8 @@ const getSkillMatchJobDetail = async() => {
                             {jobDetail.map(job=>{
                               const matchingImg = clientImg ? clientImg.find(img => img.id === job.companyId) : null;
                               const imgSrc = matchingImg ? `http://localhost:5002/client_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
+                              const client= allClient.find(obj => obj.companyId === job.companyId);
+                              
                               return(
                               <tr className='dash-table-row'>
                               <td>
@@ -475,7 +488,7 @@ const getSkillMatchJobDetail = async() => {
                               </td>
                               <td className='dash-table-data'>
                                 {job.jobRole} <br />
-                                <span className='dash-table-sub'>Prodigit</span>
+                                <span className='dash-table-sub'>{client?.companyName}</span>
                               </td>
                               <td className='dash-table-data1 text-center'>Marketing & Communication</td>
                               <td className='dash-table-data1 text-center'>{job.jobCategory}</td>

@@ -94,6 +94,7 @@ const ClientDashboard = () => {
     const [candidateDetail, setCandidateDetail] = useState([]);
     const [postedJobs, setPostedJobs] = useState([]);
     const [appliedOfPostedJobs, setAppliedOfPostedJobs] =useState([]);
+    const [allStaff, setAllStaff] = useState([]);
 
     useEffect(()=>{
        localStorage.setItem("clientToken", JSON.stringify(token));
@@ -217,11 +218,32 @@ const ClientDashboard = () => {
         }
       }
 
+      const allStaffFromCompany = async() => {
+        try{
+            const res = await axios.get(`http://localhost:5002/all-staff/${loginClientDetail.companyId}`, {
+              headers: {
+                  Authorization: `Bearer ${token}`,
+                  Accept: 'application/json'
+              }
+            });
+            const result = res.data;
+            if (!result.error) {
+              console.log(result);
+              setAllStaff(result);
+            } else {
+              console.log(result);
+            }
+        }catch(err){
+          console.log(err);
+        }
+      }
+
     useEffect(()=>{
         getAllCandidateDetail();
         getOwnPostedjobs();
         getAppliedOfPostedJobs();
         getCandidateImg();
+        allStaffFromCompany();
       },[loginClientDetail]);
 
     return (
@@ -530,7 +552,7 @@ const ClientDashboard = () => {
                                                 <table className="table table-striped table-hover dash-table">
                                                 {postedJobs.map((job) => {
                                                     const numApplicants = appliedOfPostedJobs.filter(appliedOfPostedJob => appliedOfPostedJob.jobId === job.id).length;
-
+                                                    const staff = allStaff.find(obj => obj.id === (job.clientId || job.clientStaffId));
                                                     return (
                                                         <tr className='dash-table-row' key={job.id}>
                                                             {/* <td>
@@ -539,16 +561,15 @@ const ClientDashboard = () => {
                                                             <td className='dash-table-data1'>
                                                                 {job.jobRole[0]}
                                                             </td>
-                                                            <td className='dash-table-data1 text-center'>2024-06-12</td>
+                                                            <td className='dash-table-data1 text-center'>{`${new Date(job.createdAt).getDate().toString().padStart(2, '0')}/${(new Date(job.createdAt).getMonth() + 1).toString().padStart(2, '0')}/${new Date(job.createdAt).getFullYear() % 100}`}</td>
                                                             <td className='dash-table-data1 text-center'>
                                                                 {numApplicants} <br />
                                                                 No of Applications
                                                             </td>
-                                                            <td className='dash-table-data1 text-center'>10 <br />
-                                                                Positions
+                                                            <td className='dash-table-data1 text-center'>{staff ? staff.name : 'Unknown'}
                                                             </td>
                                                             <td className='dash-table-data1 text-center'>
-                                                                {job.year > 0 ? job.year + ' years' : ""} {job.month > 0 ? job.month + ' months' : ""} <br />
+                                                                {job.minExperience + "-" + job.maxExperience } <br />
                                                                 Experience
                                                             </td>
                                                         </tr>

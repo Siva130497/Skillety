@@ -309,17 +309,20 @@ const JobPosting = () => {
   }
 
   const handleManualJobRole = () => {
-    setSearchJobRoleInput("");
-    setFilteredJobRoles([]);
-    const foundObject = jobRoleArray.find(item => item.designation.toLowerCase() === newJobRole.toLowerCase());
-    if (foundObject) {
-      alert(`Job role "${newJobRole}" already in list, please search...`);
-      setNewJobRole("");
-    } else {
-      setOtherJobRole([newJobRole]);
-      setSelectedJobRoles([newJobRole]);
-      setNewJobRole("");
+    if(newJobRole !== ""){
+      setSearchJobRoleInput("");
+      setFilteredJobRoles([]);
+      const foundObject = jobRoleArray.find(item => item.designation.toLowerCase() === newJobRole.toLowerCase());
+      if (foundObject) {
+        alert(`Job role "${newJobRole}" already in list, please search...`);
+        setNewJobRole("");
+      } else {
+        setOtherJobRole([newJobRole]);
+        setSelectedJobRoles([newJobRole]);
+        setNewJobRole("");
+      }
     }
+    
   }
 
   const handleChange = (event) => {
@@ -368,22 +371,24 @@ const JobPosting = () => {
   }
 
   const handleManualSkill = () => {
-    setSearchSkillInput("");
-    setFilteredSkills([]);
-    const foundObject = skillArray.find(item => item.skill.toLowerCase() === newSkill.toLowerCase());
-    if (foundObject) {
-      alert(`Skill "${newSkill}" already in list, please search...`);
-    } else {
-      if (selectedSkills.includes(newSkill.toLowerCase())) {
-        setSelectedSkills([...selectedSkills]);
-        setNewSkill("");
-      } else {
-        setOtherSkill([...otherSkill, newSkill]);
-        setSelectedSkills([...selectedSkills, newSkill]);
-        setNewSkill("");
+      if(newSkill !== ""){
+        setSearchSkillInput("");
+        setFilteredSkills([]);
+          const foundObject = skillArray.find(item => item.skill.toLowerCase() === newSkill.toLowerCase());
+          if (foundObject) {
+            alert(`Skill "${newSkill}" already in list, please search...`);
+          } else {
+            if(selectedSkills.includes(newSkill.toLowerCase())){
+              setSelectedSkills([...selectedSkills]);
+              setNewSkill("");
+            }else{
+              setOtherSkill([...otherSkill, newSkill]);
+              setSelectedSkills([...selectedSkills, newSkill]);
+              setNewSkill("");
+            }
+            
+          }
       }
-
-    }
   }
 
   const handleDeselect = (skill) => {
