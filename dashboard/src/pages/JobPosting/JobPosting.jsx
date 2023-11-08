@@ -748,15 +748,18 @@ const JobPosting = () => {
                     <div className="row m-b-35">
                       <div className="col-12 col-xl-8">
                         <div className="job-post-form-group">
-                          <label htmlFor="" className='job-post-form-label'>Job title / Designation<span className='form-required'>*</span></label>
-                          {selectedJobRoles.map(selectJobRole => (
-                            <span className="job-post-form-badge"
-                              key={selectJobRole}
-                              onClick={() => handleDeselectJobRole(selectJobRole)}
-                            >{selectJobRole}
-                            </span>
-                          ))}
-                          <div></div>
+
+                          <div className='job-post-form-label-with-badge'>
+                            <label htmlFor="" className='job-post-form-label'>Job title / Designation<span className='form-required'>*</span></label>
+                            {selectedJobRoles.map(selectJobRole => (
+                              <span className="job-post-form-badge"
+                                key={selectJobRole}
+                                onClick={() => handleDeselectJobRole(selectJobRole)}
+                              >{selectJobRole}
+                              </span>
+                            ))}
+                          </div>
+
                           <input type="text" className='job-post-form-input'
                             name='searchJobRoleInput'
                             id='searchJobRoleInput'
@@ -828,13 +831,17 @@ const JobPosting = () => {
                     <div className="row m-b-35">
                       <div className="col-12 col-xl-12">
                         <div className="job-post-form-group">
-                          <label htmlFor="" className='job-post-form-label'>Mandatory Skills<span className='form-required'>*</span></label>
-                          {selectedSkills.map(selectSkill => (
-                            <span className="job-post-form-badge"
-                              key={selectSkill}
-                              onClick={() => handleDeselect(selectSkill)}
-                            >{selectSkill}</span>
-                          ))}
+
+                          <div className='job-post-form-label-with-badge'>
+                            <label htmlFor="" className='job-post-form-label'>Mandatory Skills<span className='form-required'>*</span></label>
+                            {selectedSkills.map(selectSkill => (
+                              <span className="job-post-form-badge"
+                                key={selectSkill}
+                                onClick={() => handleDeselect(selectSkill)}
+                              >{selectSkill}</span>
+                            ))}
+                          </div>
+
                           {/* <br></br>
                           {additionalSkills.length > 0 &&
                             <label 
@@ -906,8 +913,10 @@ const JobPosting = () => {
                     <div className="row m-b-35">
                       <div className="col-12 col-xl-8">
                         <div className="job-post-form-group">
-                          <label htmlFor="" className='job-post-form-label'>Department<span className='form-required'>*</span></label>
-                          {/* <i class="bi bi-chevron-down"></i>
+
+                          <div className='job-post-form-label-with-badge'>
+                            <label htmlFor="" className='job-post-form-label'>Department<span className='form-required'>*</span></label>
+                            {/* <i class="bi bi-chevron-down"></i>
                           <select className='job-post-form-input select-input'
                             name="department" 
                             value = {credentials.department}
@@ -916,12 +925,14 @@ const JobPosting = () => {
                             <option value="Option 1">Option 1</option>
                             <option value="Option 2">Option 2</option>
                           </select> */}
-                          {selectedDepartment.map(selectDepartment => (
-                            <span className="job-post-form-badge"
-                              key={selectDepartment}
-                              onClick={() => handleDeselectDepartment(selectDepartment)}
-                            >{selectDepartment}</span>
-                          ))}
+                            {selectedDepartment.map(selectDepartment => (
+                              <span className="job-post-form-badge"
+                                key={selectDepartment}
+                                onClick={() => handleDeselectDepartment(selectDepartment)}
+                              >{selectDepartment}</span>
+                            ))}
+                          </div>
+
                           <input
                             type='text'
                             className='job-post-form-input'
@@ -947,13 +958,17 @@ const JobPosting = () => {
                     <div className="row m-b-35">
                       <div className="col-12 col-xl-8">
                         <div className="job-post-form-group">
-                          <label htmlFor="" className='job-post-form-label'>Role<span className='form-required'>*</span></label>
-                          {selectedRoles.map(selectRole => (
-                            <span className="job-post-form-badge"
-                              key={selectRole}
-                              onClick={() => handleDeselectRole(selectRole)}
-                            >{selectRole}</span>
-                          ))}
+
+                          <div className='job-post-form-label-with-badge'>
+                            <label htmlFor="" className='job-post-form-label'>Role<span className='form-required'>*</span></label>
+                            {selectedRoles.map(selectRole => (
+                              <span className="job-post-form-badge"
+                                key={selectRole}
+                                onClick={() => handleDeselectRole(selectRole)}
+                              >{selectRole}</span>
+                            ))}
+                          </div>
+
                           <input type="text" className='job-post-form-input'
                             name='searchRoleInput'
                             id='searchRoleInput'
@@ -996,13 +1011,17 @@ const JobPosting = () => {
                     <div className="row m-b-35">
                       <div className="col-12 col-xl-8">
                         <div className="job-post-form-group">
-                          <label htmlFor="" className='job-post-form-label'>Job location ( maximum 3 )<span className='form-required'>*</span></label>
-                          {selectedLocations.map(selectLocation => (
-                            <span className="job-post-form-badge"
-                              key={selectLocation}
-                              onClick={() => handleDeselectLocation(selectLocation)}
-                            >{selectLocation}</span>
-                          ))}
+
+                          <div className='job-post-form-label-with-badge'>
+                            <label htmlFor="" className='job-post-form-label'>Job location ( maximum 3 )<span className='form-required'>*</span></label>
+                            {selectedLocations.map(selectLocation => (
+                              <span className="job-post-form-badge"
+                                key={selectLocation}
+                                onClick={() => handleDeselectLocation(selectLocation)}
+                              >{selectLocation}</span>
+                            ))}
+                          </div>
+
                           <input
                             type='text'
                             className='job-post-form-input'
@@ -1047,7 +1066,7 @@ const JobPosting = () => {
                             name="minExperience"
                             value={credentials.minExperience}
                             onChange={handleChange}
-                            placeholder="minimum experience" />
+                            placeholder="Minimum experience" />
                         </div>
                       </div>
                       <div className="col-12 col-xl-4 col-lg-6 col-md-6">
@@ -1062,7 +1081,7 @@ const JobPosting = () => {
                             name="maxExperience"
                             value={credentials.maxExperience}
                             onChange={handleChange}
-                            placeholder="maximum experience" />
+                            placeholder="Maximum experience" />
                         </div>
                       </div>
                     </div>
@@ -1098,7 +1117,7 @@ const JobPosting = () => {
                             name="minSalary"
                             value={credentials.minSalary}
                             onChange={handleChange}
-                            placeholder="min salary" />
+                            placeholder="Min salary" />
                         </div>
                       </div>
                       <div className="col-8 offset-4 offset-md-0 col-xl-3 col-lg-5 col-md-5">
@@ -1113,7 +1132,7 @@ const JobPosting = () => {
                             name="maxSalary"
                             value={credentials.maxSalary}
                             onChange={handleChange}
-                            placeholder="max salary" />
+                            placeholder="Max salary" />
                         </div>
                       </div>
                       {/* <div className="col-12">

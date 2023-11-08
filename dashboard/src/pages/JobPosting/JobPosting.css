@@ -160,7 +160,7 @@
     display: flex;
     -webkit-box-align: center;
     -ms-flex-align: center;
-    align-items: center;
+    align-items: flex-start;
     cursor: pointer;
     color: #714F36;
     font-size: 13px !important;
@@ -358,6 +358,21 @@
     cursor: not-allowed;
 }
 
+/* .job-post-form-badge-area {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 15px;
+} */
+.job-post-form-label-with-badge {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    flex-wrap: wrap;
+    row-gap: 0;
+}
+
 .job-post-form-badge {
     color: #FFF;
     background-color: #714F36;
@@ -366,9 +381,10 @@
     border-radius: 50px;
     font-weight: 400;
     padding: 4px 10px 4px 13px;
-    margin: 0 5px 0 10px;
+    margin-bottom: 10px;
     cursor: pointer;
     transition: ease-in-out 0.5s;
+    position: relative;
 }
 
 .job-post-form-badge:hover {

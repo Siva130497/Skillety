@@ -174,23 +174,23 @@ const SettingsClient = () => {
     useEffect(() => {
         if (loginClientDetail.companyId) {
             axios.get(`http://localhost:5002/client-image/${loginClientDetail.companyId}`)
-              .then(res=>setClientImg(res.data))
-              .catch(err=>console.log(err))
+                .then(res => setClientImg(res.data))
+                .catch(err => console.log(err))
         }
     }, [loginClientDetail.companyId]);
 
     useEffect(() => {
-        if(clientImg){
-          setClientImgUrl(`http://localhost:5002/client_profile/${clientImg.image}`)
+        if (clientImg) {
+            setClientImgUrl(`http://localhost:5002/client_profile/${clientImg.image}`)
         }
-        
-      }, [clientImg]);
 
-      useEffect(() => {
+    }, [clientImg]);
+
+    useEffect(() => {
         if (image) {
             setClientImgUrl(URL.createObjectURL(image));
         }
-      }, [image]);
+    }, [image]);
 
     const handleEmailUpdate = () => {
         const userData = {
@@ -258,39 +258,39 @@ const SettingsClient = () => {
 
 
     const handlePhotoUpdate = () => {
-        if(clientImg){
+        if (clientImg) {
             const formData = new FormData()
             formData.append('image', image);
             axios.patch(`http://localhost:5002/update-client-profile-image/${loginClientDetail.companyId}`, formData, {
-              headers: {
-                  Authorization: `Bearer ${clientToken}`,
-                  Accept: 'application/json'
-              }
+                headers: {
+                    Authorization: `Bearer ${clientToken}`,
+                    Accept: 'application/json'
+                }
             })
-            .then(res=>{
-              console.log(res);
-              alert("profile photo updated")
-              setImage(null);
-            })
-            .catch(err=>console.log(err));
-        }else{
+                .then(res => {
+                    console.log(res);
+                    alert("profile photo updated")
+                    setImage(null);
+                })
+                .catch(err => console.log(err));
+        } else {
             const formData = new FormData()
             formData.append('image', image);
             formData.append('id', loginClientDetail.companyId)
             axios.post("http://localhost:5002/upload-client-profile-image", formData, {
-              headers: {
-                  Authorization: `Bearer ${clientToken}`,
-                  Accept: 'application/json'
-              }
+                headers: {
+                    Authorization: `Bearer ${clientToken}`,
+                    Accept: 'application/json'
+                }
             })
-            .then(res=>{
-              console.log(res);
-              alert("profile photo updated")
-              setImage(null);
-            })
-            .catch(err=>console.log(err));
+                .then(res => {
+                    console.log(res);
+                    alert("profile photo updated")
+                    setImage(null);
+                })
+                .catch(err => console.log(err));
         }
-        
+
     }
 
     return (
@@ -332,11 +332,13 @@ const SettingsClient = () => {
 
                                             <div className="setting-content">
                                                 <div className='setting-name'>Company Profile photo</div>
-                                                <div className='setting-value'><iframe src={clientImgUrl ? clientImgUrl : "../assets/img/talents-images/avatar.jpg"} title="Event Image iframe" ></iframe></div>
+                                                <div className='image-upload-img-area'>
+                                                    <img src={clientImgUrl ? clientImgUrl : "../assets/img/talents-images/avatar.jpg"} className='image-upload-img' alt="" />
+                                                </div>
                                                 <div className="change-input-area">
                                                     <div className="row">
                                                         <div className="col-12 col-xl-5 col-lg-5 col-md-6 d-flex align-items-center gap-10">
-                                                        <input type='file' onChange={e=>setImage(e.target.files[0])} />
+                                                            <input type='file' className='change-setting-input file' onChange={e => setImage(e.target.files[0])} />
                                                             <button className='setting-update-btn' onClick={handlePhotoUpdate}>Update</button>
                                                         </div>
                                                     </div>
