@@ -5106,6 +5106,9 @@ h6 .badge {
 
 .navbar .nav-link.nav-link-user img {
     width: 56px;
+    height: 56px;
+    object-fit: cover;
+    object-position: top;
 }
 
 .navbar .nav-link.nav-link-user:after {

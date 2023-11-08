@@ -957,7 +957,11 @@
     }
 
     .home--milestone-card {
-        padding: 25px 20px 0 20px;
+        padding: 25px 25px 0 25px;
+    }
+    .home--milestone-card-right .home-milestone-number {
+        font-size: 80px;
+        letter-spacing: normal;
     }
 
 }
