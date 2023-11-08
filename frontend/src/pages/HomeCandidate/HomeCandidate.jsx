@@ -15,7 +15,7 @@ import { useState } from 'react';
 
 const HomeCandidate = () => {
 
-  const {eventDetail, getEventDetail, getEventImg, eventImg} = useContext(AuthContext);
+  const {eventDetail, getEventDetail, getEventImg, eventImg, getClientImg, clientImg} = useContext(AuthContext);
   const [allJobs, setAllJobs] = useState([]);
 
   const getPostedjobs = async() => {
@@ -534,6 +534,8 @@ const HomeCandidate = () => {
 
           >
             {allJobs.map((job)=>{
+              const matchingImg = clientImg ? clientImg.find(img => img.id === job.companyId) : null;
+              const imgSrc = matchingImg ? `http://localhost:5002/client_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
               return(
                 <SwiperSlide key={job.id}>
                   <article className='cand--job-card'>
@@ -546,7 +548,7 @@ const HomeCandidate = () => {
                       </div>
                     </div>
                     <div className="cand--job-card-logo-loc-area">
-                      <img src="assets/img/companies/company-1.png" className='cand--job-card-logo' alt="" />
+                      <img src={imgSrc} alt="" />
                       <div className="cand--job-card-loc-area">
                         <div className="cand--job-card-location">
                           <i className='bx bxs-map'></i>

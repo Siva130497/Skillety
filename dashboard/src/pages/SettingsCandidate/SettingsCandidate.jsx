@@ -162,6 +162,7 @@ const SettingsCandidate = () => {
                 if (!res.data.error) {
                     alert("email updated")
                     setUserInfo({ ...userInfo, email: "" })
+                    
                 }
             })
             .catch(err => console.log(err))

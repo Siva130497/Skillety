@@ -19,6 +19,7 @@ import JobEditing from './pages/EditJob/JobEditing';
 import InvoicePayment from './pages/InvoicePayment/InvoicePayment';
 
 
+
 function App() {
   return (
     <AuthContextProvider>
@@ -33,12 +34,14 @@ function App() {
         <Route path='/manage-job' element={<ManageJobs />} />
         <Route path='/post-job' element={<JobPosting />} />
         <Route path='/manage-application' element={<ManageApplication />} />
-        <Route path='/candidate-profile' element={<CandidateProfile />} />
+        <Route path='/candidate-profile/:id' element={<CandidateProfile />} />
         <Route path='/talents/:id' element={<Talents />} />
         <Route path='/job-detail/:id' element={<JobDetail />} />
         <Route path='/applied-candidate/:id' element={<AppliedCandidate />} />
         <Route path='/edit-job/:id' element={<JobEditing />} />
         <Route path='/invoice-payment' element={<InvoicePayment />} />
+        
+        
       </Routes>
     </AuthContextProvider>
   );
