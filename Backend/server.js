@@ -167,6 +167,38 @@ app.post('/upload', upload.single('file'), (req, res) => {
   .catch(err => console.log(err))
 });
 
+app.patch('/update-candidate-resume/:id', employeeAuth, upload.single('resume'), (req, res) => {
+  const uploadedId = req.params.id;
+  const newResumeFilename = req.file.filename;
+
+  resume.findOneAndUpdate(
+    { id: uploadedId },
+    { $set: { file: newResumeFilename } },
+    { new: true },
+    (err, updatedResume) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).json({ error: 'Internal Server Error' });
+      }
+
+      if (!updatedResume) {
+        return res.status(404).json({ error: 'Image not found' });
+      }
+
+      console.log('Updated Resume:', updatedResume);
+
+      res.json(updatedResume);
+    }
+  );
+});
+
+app.get('/candidate-resume/:id', (req, res)=>{
+  const {id} = req.params;
+  resume.findOne({id})
+  .then(candidateResume=>res.json(candidateResume))
+  .catch(err=>res.json(err))
+});
+
 const storageImg = multer.diskStorage({
   destination: function(req, file, cb) {
     return cb(null, "./public/images")

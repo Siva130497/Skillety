@@ -325,6 +325,19 @@ const getAllStaff = async(req, res) => {
   }
 }
 
+/* get all client */
+const getAllClients = async(req, res) => {
+  
+  try{
+    const allClient = await finalClient.find();
+    console.log(allClient);
+    return res.status(200).json(allClient);
+  }catch(err){
+    console.log(err);
+    return res.status(500).json({ error: err.message });
+  }
+}
+
 /* candidate register */
 const candidateReg = async(req, res) => {
   try {
@@ -401,6 +414,31 @@ const getAllCandidateDetail = async (req, res) => {
   }
 }
 
+/* get a candidate details*/
+const getCandidateDetail = async (req, res) => {
+  try {
+    const {id} = req.params;
+
+    const cand = await candidate.findOne({id});
+    if (!cand) {
+      return res.status(404).json({ error: "Candidate not found" });
+    }
+
+    const resumeData = await resume.findOne({id});
+
+    if (resumeData) {
+      const dayDifference = 10; 
+      const candidateDetail = { ...cand._doc, ...resumeData._doc, dayDifference };
+      return res.status(200).json(candidateDetail);
+    } else {
+      return res.status(200).json(cand._doc);
+    }
+
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+}
+
 const jobPosting = async(req, res) => {
   try{
     console.log(req.body);
@@ -433,8 +471,7 @@ const getSkillMatchJobDetail = async (req, res) => {
         jobId: obj.id,
         jobRole: obj.jobRole[0],
         jobMandatorySkills: obj.skills,
-        jobAdditionalSkills: obj.additionalSkills,
-        jobExperience: `${obj.year} years and ${obj.month} months`,
+        jobExperience: `${obj.minExperience} - ${obj.maxExperience} years experience`,
         jobCategory: obj.jobCategory,
         jobDescription: obj.jobDescription,
         percentage: Math.round(percentage), 
@@ -1381,6 +1418,125 @@ const updatingCandidatePhone = async (req, res) => {
   }
 };
 
+const updatingCandidateFirstName = async (req, res) => {
+  const { id, firstName } = req.body;
+
+  try {
+    const allUsersDoc = await allUsers.findOne({ id: id });
+
+    if (!allUsersDoc) {
+      return res.status(404).send({ error: 'User not found' });
+    }
+
+    const [currentFirstName, currentLastName] = allUsersDoc.name.split(' ');
+
+    const updatedFirstName = firstName;
+
+    const updatedName = `${updatedFirstName} ${currentLastName}`;
+
+    const updatedAllUsersDoc = await allUsers.findOneAndUpdate(
+      { id: id },
+      { name: updatedName },
+      { new: true }
+    );
+
+    const finalCandidateDoc = await candidate.findOneAndUpdate(
+      { id: id },
+      { firstName: firstName },
+      { new: true }
+    );
+
+    res.status(200).json({ updatedAllUsersDoc, finalCandidateDoc });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: 'Internal Server Error' });
+  }
+};
+
+const updatingCandidateLastName = async (req, res) => {
+  const { id, lastName } = req.body;
+
+  try {
+    const allUsersDoc = await allUsers.findOne({ id: id });
+
+    if (!allUsersDoc) {
+      return res.status(404).send({ error: 'User not found' });
+    }
+
+    const [currentFirstName, currentLastName] = allUsersDoc.name.split(' ');
+
+    const updatedLastName = lastName;
+
+    const updatedName = `${currentFirstName} ${updatedLastName}`;
+
+    const updatedAllUsersDoc = await allUsers.findOneAndUpdate(
+      { id: id },
+      { name: updatedName },
+      { new: true }
+    );
+
+    const finalCandidateDoc = await candidate.findOneAndUpdate(
+      { id: id },
+      { lastName: lastName },
+      { new: true }
+    );
+
+    res.status(200).json({ updatedAllUsersDoc, finalCandidateDoc });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: 'Internal Server Error' });
+  }
+};
+
+const updatingCandidateLocation = async (req, res) => {
+  const { id, location } = req.body;
+
+  try {
+    const finalCandidateDoc = await candidate.findOneAndUpdate(
+      { id: id },
+      { location: location },
+      { new: true }
+    );
+    res.status(200).json({ finalCandidateDoc });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: 'Internal Server Error' });
+  }
+};
+
+
+// const updatingCandidateSkill = async (req, res) => {
+//   const { id, skill } = req.body;
+
+//   try {
+//     const finalCandidateDoc = await candidate.findOneAndUpdate(
+//       { id: id },
+//       { skill: skill },
+//       { new: true }
+//     );
+//     res.status(200).json({ finalCandidateDoc });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).send({ error: 'Internal Server Error' });
+//   }
+// };
+
+const updatingCandidateProfileHeadline = async (req, res) => {
+  const { id, profileHeadline } = req.body;
+
+  try {
+    const finalCandidateDoc = await candidate.findOneAndUpdate(
+      { id: id },
+      { profileHeadline: profileHeadline },
+      { new: true }
+    );
+    res.status(200).json({ finalCandidateDoc });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: 'Internal Server Error' });
+  }
+};
+
 const updatingCandidatePassword = async (req, res) => {
   const { id, currentPassword, newPassword } = req.body;
   try {
@@ -1572,10 +1728,12 @@ module.exports = {
    getAllClient,
    getClient,
    getAllStaff,
+   getAllClients,
    verifyTempPassword,
    finalClientRegister,
    candidateReg,
    getAllCandidateDetail,
+   getCandidateDetail,
    jobPosting,
    getJob,
    updateJob,
@@ -1625,6 +1783,10 @@ module.exports = {
    updatingClientPassword,
    updatingCandidateEmail,
    updatingCandidatePhone,
+   updatingCandidateFirstName,
+   updatingCandidateLastName,
+   updatingCandidateLocation,
+   updatingCandidateProfileHeadline,
    updatingCandidatePassword,
 
 };

@@ -11,10 +11,12 @@ const {
   getAllClient,
   getClient,
   getAllStaff,
+  getAllClients,
   verifyTempPassword,
   finalClientRegister,
   candidateReg,
   getAllCandidateDetail,
+  getCandidateDetail,
   jobPosting,
   getJob,
   updateJob,
@@ -64,6 +66,10 @@ const {
   updatingClientPassword,
   updatingCandidateEmail,
   updatingCandidatePhone,
+  updatingCandidateFirstName,
+  updatingCandidateLastName,
+  updatingCandidateLocation,
+  updatingCandidateProfileHeadline,
   updatingCandidatePassword,
 } = require("../Controller/authFunctions");
 const employeeAuth = require("../middleware/employeeAuth");
@@ -88,6 +94,9 @@ router.get("/clientWithUrl-Detail", getAllClient);
 //finding all staff detail from particular companyId
 router.get("/all-staff/:id", employeeAuth, getAllStaff);
 
+//find all client
+router.get("/clients", getAllClients)
+
 //verify the temp_pass endpoint
 router.post("/verify-temp-password", verifyTempPassword);
 
@@ -109,7 +118,10 @@ router.post("/register-Candidate", async (req, res) => {
 });
 
 //get all candidate detail
-router.get("/candidate-Detail", getAllCandidateDetail)
+router.get("/candidate-Detail", getAllCandidateDetail);
+
+//get a candidate 
+router.get("/candidate/:id", getCandidateDetail);
 
 //post job detail 
 router.post("/job-detail", employeeAuth, jobPosting)
@@ -249,6 +261,14 @@ router.patch("/update-client-password", updatingClientPassword);
 router.patch("/update-candidate-email", updatingCandidateEmail);
 
 router.patch("/update-candidate-phone", updatingCandidatePhone);
+
+router.patch("/update-candidate-first-name", updatingCandidateFirstName);
+
+router.patch("/update-candidate-last-name", updatingCandidateLastName);
+
+router.patch("/update-candidate-location", updatingCandidateLocation);
+
+router.patch("/update-candidate-profileHeadline", updatingCandidateProfileHeadline);
 
 router.patch("/update-candidate-password", updatingCandidatePassword);
 

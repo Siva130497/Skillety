@@ -13,6 +13,8 @@ const MyApplication = () => {
     const [candidateId, setCandidateId] = useState("");
     const [appliedJobDetail, setAppliedJobDetail] = useState([]);
     const {getProtectedData} = useContext(AuthContext);
+    const [allClient, setAllClient] = useState([]);
+
 
     useEffect(() => {
         $(document).ready(function () {
@@ -33,6 +35,16 @@ const MyApplication = () => {
     useEffect(()=>{
         setCandidateToken(JSON.parse(localStorage.getItem('candidateToken')))
     },[candidateToken])
+
+    useEffect(()=>{
+        axios.get("http://localhost:5002/clients")
+        .then(res=>{
+          console.log(res.data)
+          setAllClient(res.data);
+        })
+        .catch(err=>console.log(err))
+      },[])
+      
 
     useEffect(() => {
         if(candidateToken){
@@ -198,10 +210,11 @@ const MyApplication = () => {
                                                 </tr>
 
                                                 {/* table data */}
-                                                {appliedJobDetail.map(job=>(
-                                                    
+                                                {appliedJobDetail.map(job=>{
+                                                    const client= allClient.find(obj => obj.companyId === job.companyId)   
+                                                    return(                  
                                                     <tr className='dash-table-row custom'>
-                                                    <td className='dash-table-data1'>{job.companyName}</td>
+                                                    <td className='dash-table-data1'>{client?.companyName}</td>
                                                     <td className='dash-table-data1'>
                                                         {job.jobRole[0]} &nbsp;&nbsp;
                                                         {/* <a href="#">
@@ -238,7 +251,7 @@ const MyApplication = () => {
                                                         </button>
                                                     </td>
                                                     </tr>
-                                                ))}
+                                                )})}
                                             </table>
                                         </div>
 

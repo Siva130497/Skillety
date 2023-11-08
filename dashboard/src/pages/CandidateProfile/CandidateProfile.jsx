@@ -1,11 +1,32 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useEffect } from 'react';
 import Layout from '../../components/Layout';
 import './CandidateProfile.css';
 import './CandidateProfile-responsive.css';
 import $ from 'jquery';
+import { useNavigate, useParams } from 'react-router-dom';
+import axios from 'axios';
 
 const CandidateProfile = () => {
+    const {id} = useParams();
+    const navigate = useNavigate();
+    const [showViewer, setShowViewer] = useState(false);
+
+    const [candidateToken, setCandidateToken] = useState("");
+
+    const [loginCandidate, setLoginCandidate] = useState();
+    const [candidateImg, setCandidateImg] = useState();
+    const [candidateImgUrl, setCandidateImgUrl] = useState("");
+    const [candidateResumeUrl, setCandidateResumeUrl] = useState("");
+    const [resume, setResume] = useState();
+
+    const [userInfo, setUserInfo] = useState({
+        firstName:"",
+        lastName:"",
+        location:"",
+        skill:"",
+        profileHeadline:"",
+    })
 
     useEffect(() => {
         $(document).ready(function () {
@@ -34,7 +55,7 @@ const CandidateProfile = () => {
                 if ($changeInputArea.is(":visible")) {
                     $changeInputArea.slideUp();
                     $(this).removeClass("expanded");
-                    $(this).text("Add " + type);
+                    $(this).text("Change " + type);
                 } else {
                     $changeInputArea.slideDown();
                     $(this).addClass("expanded");
@@ -50,7 +71,7 @@ const CandidateProfile = () => {
                 if ($changeInputArea.is(":visible")) {
                     $changeInputArea.slideUp();
                     $(this).removeClass("expanded");
-                    $(this).text("Add " + type);
+                    $(this).text("Change " + type);
                 } else {
                     $changeInputArea.slideDown();
                     $(this).addClass("expanded");
@@ -134,6 +155,226 @@ const CandidateProfile = () => {
 
     }, []);
 
+    useEffect(() => {
+        setCandidateToken(JSON.parse(localStorage.getItem('candidateToken')))
+    }, [candidateToken])
+
+    useEffect(()=>{
+        if(id){
+            axios.get(`http://localhost:5002/candidate/${id}`)
+            .then(res=>{
+                console.log(res.data)
+                setLoginCandidate(res.data)
+            })
+            .catch(err=>console.log(err))
+
+            axios.get(`http://localhost:5002/candidate-image/${id}`)
+              .then(res=>setCandidateImg(res.data))
+              .catch(err=>console.log(err))
+
+            axios.get(`http://localhost:5002/candidate-resume/${id}`)
+              .then(res=>setResume(res.data))
+              .catch(err=>console.log(err))
+        }
+    },[id])
+
+    useEffect(() => {
+        if(candidateImg){
+          setCandidateImgUrl(`http://localhost:5002/candidate_profile/${candidateImg.image}`)
+        }
+        
+      }, [candidateImg]);
+
+      useEffect(() => {
+        if(resume){
+          setCandidateResumeUrl(`http://localhost:5002/files/${resume.file}`)
+        }
+        
+      }, [resume]);
+
+      useEffect(() => {
+        if (resume) {
+            // setCandidateResumeUrl(URL.createObjectURL(resume));
+        }
+      }, [resume]);
+
+      
+
+
+      const handleFirstNameUpdate = () => {
+        const userData = {
+            id: id,
+            firstName: userInfo.firstName,
+        }
+        axios.patch("http://localhost:5002/update-candidate-first-name", userData, {
+            headers: {
+                Authorization: `Bearer ${candidateToken}`,
+                Accept: 'application/json'
+            }
+        })
+            .then(res => {
+                console.log(res.data)
+                if (!res.data.error) {
+                    alert("first name updated")
+                    setUserInfo({ ...userInfo, firstName: "" })
+
+                    axios.get(`http://localhost:5002/candidate/${id}`)
+                    .then(res=>{
+                        console.log(res.data)
+                        setLoginCandidate(res.data)
+                    })
+                    .catch(err=>console.log(err))
+                }
+            })
+            .catch(err => console.log(err))
+    }
+
+    const handleLastNameUpdate = () => {
+        const userData = {
+            id: id,
+            lastName: userInfo.lastName,
+        }
+        axios.patch("http://localhost:5002/update-candidate-last-name", userData, {
+            headers: {
+                Authorization: `Bearer ${candidateToken}`,
+                Accept: 'application/json'
+            }
+        })
+            .then(res => {
+                console.log(res.data)
+                if (!res.data.error) {
+                    alert("last name updated")
+                    setUserInfo({ ...userInfo, lastName: "" })
+
+                    axios.get(`http://localhost:5002/candidate/${id}`)
+                    .then(res=>{
+                        console.log(res.data)
+                        setLoginCandidate(res.data)
+                    })
+                    .catch(err=>console.log(err))
+                }
+            })
+            .catch(err => console.log(err))
+    }
+
+    const handleLocationUpdate = () => {
+        const userData = {
+            id: id,
+            location: userInfo.location,
+        }
+        axios.patch("http://localhost:5002/update-candidate-location", userData, {
+            headers: {
+                Authorization: `Bearer ${candidateToken}`,
+                Accept: 'application/json'
+            }
+        })
+            .then(res => {
+                console.log(res.data)
+                if (!res.data.error) {
+                    alert("location updated")
+                    setUserInfo({ ...userInfo, location: "" })
+
+                    axios.get(`http://localhost:5002/candidate/${id}`)
+                    .then(res=>{
+                        console.log(res.data)
+                        setLoginCandidate(res.data)
+                    })
+                    .catch(err=>console.log(err))
+                }
+            })
+            .catch(err => console.log(err))
+    }
+
+    const handleResumeUpdate = () => {
+        if(resume){
+            const formData = new FormData()
+            formData.append('resume', resume);
+            axios.patch(`http://localhost:5002/update-candidate-resume/${id}`, formData, {
+              headers: {
+                  Authorization: `Bearer ${candidateToken}`,
+                  Accept: 'application/json'
+              }
+            })
+            .then(res=>{
+              console.log(res);
+              alert("resume updated")
+              setResume(null);
+            })
+            .catch(err=>console.log(err));
+        }else{
+            const formData = new FormData()
+            formData.append('file', resume);
+            formData.append('id', id)
+            axios.post("http://localhost:5002/upload", formData, {
+              headers: {
+                  Accept: 'application/json'
+              }
+            })
+            .then(res=>{
+              console.log(res);
+              alert("resume updated")
+              setResume(null);
+            })
+            .catch(err=>console.log(err));
+        }
+    }
+
+    // const handleSkillUpdate = () => {
+    //     const userData = {
+    //         id: id,
+    //         skill: userInfo.skill,
+    //     }
+    //     axios.patch("http://localhost:5002/update-candidate-skill", userData, {
+    //         headers: {
+    //             Authorization: `Bearer ${candidateToken}`,
+    //             Accept: 'application/json'
+    //         }
+    //     })
+    //         .then(res => {
+    //             console.log(res.data)
+    //             if (!res.data.error) {
+    //                 alert("location updated")
+    //                 setUserInfo({ ...userInfo, skill: "" })
+
+    //                 axios.get(`http://localhost:5002/candidate/${id}`)
+    //                 .then(res=>{
+    //                     console.log(res.data)
+    //                     setLoginCandidate(res.data)
+    //                 })
+    //                 .catch(err=>console.log(err))
+    //             }
+    //         })
+    //         .catch(err => console.log(err))
+    // }
+
+    const handleProfileHeadlineUpdate = () => {
+        const userData = {
+            id: id,
+            profileHeadline: userInfo.profileHeadline,
+        }
+        axios.patch("http://localhost:5002/update-candidate-profileHeadline", userData, {
+            headers: {
+                Authorization: `Bearer ${candidateToken}`,
+                Accept: 'application/json'
+            }
+        })
+            .then(res => {
+                console.log(res.data)
+                if (!res.data.error) {
+                    alert("profile headline updated")
+                    setUserInfo({ ...userInfo, profileHeadline: "" })
+
+                    axios.get(`http://localhost:5002/candidate/${id}`)
+                    .then(res=>{
+                        console.log(res.data)
+                        setLoginCandidate(res.data)
+                    })
+                    .catch(err=>console.log(err))
+                }
+            })
+            .catch(err => console.log(err))
+    }
+
     return (
         <div>
             {/* <div class="main-wrapper main-wrapper-1"> */}
@@ -153,21 +394,21 @@ const CandidateProfile = () => {
                                         <div className="card-right-area">
                                             <div className="profile-det-image-area">
                                                 <div className="profile-det-image-container">
-                                                    <button className='prof-img-btn'>
+                                                    {/* <button className='prof-img-btn'>
                                                         <i class="bi bi-pencil edit-icon"></i>
-                                                    </button>
+                                                    </button> */}
                                                     <div className="image-view-area">
                                                         <button className='image-view-btn'>
                                                             <i class="bi bi-fullscreen img-view-icon"></i>
                                                         </button>
                                                     </div>
-                                                    <img src="assets/img/layout/user-img.png" className='profile-det-image' alt="" />
+                                                    <img src={candidateImgUrl ? candidateImgUrl : "../assets/img/talents-images/avatar.jpg"} className='profile-det-image' alt="" />
                                                 </div>
                                             </div>
                                             <div className="profile-det-area">
                                                 <div className="profile--name-edit-section">
                                                     <div className="profile--name-area">
-                                                        <div className="profile--name">Raquel Harrison</div>
+                                                        <div className="profile--name">{loginCandidate?.firstName+ " " +loginCandidate?.lastName}</div>
                                                         <button className='profile--name-edit-btn'>
                                                             <i class="bi bi-pencil profile--name-edit-icon"></i>
                                                         </button>
@@ -175,15 +416,30 @@ const CandidateProfile = () => {
                                                     <div className="profile-name-edit-input-area">
                                                         <div className="row">
                                                             <div className="col-12 d-flex align-items-center gap-10">
-                                                                <input type="text" className="change-setting-input" placeholder="Change Profile Name" />
-                                                                <button className="setting-update-btn">Update</button>
+                                                                <input type="text" className="change-setting-input" 
+                                                                value={userInfo.firstName}
+                                                                onChange={(e) => setUserInfo({ ...userInfo, firstName: e.target.value })}
+                                                                placeholder="Change Profile First Name" />
+                                                                <button className="setting-update-btn" onClick={handleFirstNameUpdate}>Update</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div className="profile-name-edit-input-area">
+                                                        <div className="row">
+                                                            <div className="col-12 d-flex align-items-center gap-10">
+                                                                <input type="text" 
+                                                                className="change-setting-input" 
+                                                                value={userInfo.lastName}
+                                                                onChange={(e) => setUserInfo({ ...userInfo, lastName: e.target.value })}
+                                                                placeholder="Change Profile Last Name" />
+                                                                <button className="setting-update-btn" onClick={handleLastNameUpdate}>Update</button>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div className="profile-update-status">
                                                     Profile Last Updated :&nbsp;
-                                                    <span>08 Sept 2023</span>
+                                                    <span>{`${new Date(loginCandidate?.createdAt).getDate().toString().padStart(2, '0')}/${(new Date(loginCandidate?.createdAt).getMonth() + 1).toString().padStart(2, '0')}/${new Date(loginCandidate?.createdAt).getFullYear() % 100}`}</span>
                                                 </div>
                                                 <div className="prof-page-divider"></div>
                                                 <div className="prof-more-det-section">
@@ -191,14 +447,16 @@ const CandidateProfile = () => {
                                                         <div className="prof-more-det-area">
                                                             <div className="prof-more-det">
                                                                 <i class="bi bi-geo-alt"></i>
-                                                                {/* <div className="prof-more-det-title">Location</div> */}
-                                                                <button className="prof-more-det-edit-btn" data-type="location">Add location</button>
+                                                                <div className="prof-more-det-title">{loginCandidate?.location}</div>
+                                                                <button className="prof-more-det-edit-btn" data-type="location">Change Location</button>
                                                             </div>
                                                             <div className="prof-more-det-input-area">
                                                                 <div className="row">
                                                                     <div className="col-12 d-flex align-items-center gap-10">
-                                                                        <input type="text" className="change-setting-input more-det" placeholder="Add Location" />
-                                                                        <button className="setting-update-btn more-det">Add</button>
+                                                                        <input type="text" className="change-setting-input more-det" placeholder="Change Location" 
+                                                                        value={userInfo.location}
+                                                                        onChange={(e) => setUserInfo({ ...userInfo, location: e.target.value })}/>
+                                                                        <button className="setting-update-btn more-det" onClick={handleLocationUpdate}>Update</button>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -207,21 +465,22 @@ const CandidateProfile = () => {
                                                         <div className="prof-more-det-area">
                                                             <div className="prof-more-det">
                                                                 <i class="bi bi-briefcase"></i>
-                                                                <div className="prof-more-det-title">Fresher</div>
+                                                                <div className="prof-more-det-title">{loginCandidate?.designation[0]}</div>
                                                             </div>
                                                         </div>
 
                                                         <div className="prof-more-det-area">
                                                             <div className="prof-more-det">
                                                                 <i class="bi bi-file-earmark-text"></i>
-                                                                {/* <div className="prof-more-det-title">Availability to join</div> */}
-                                                                <button className="prof-more-det-edit-btn" data-type="availability to join">Add availability to join</button>
+                                                                <div className="prof-more-det-title">{loginCandidate?.days}</div>
+                                                                <button className="prof-more-det-edit-btn" data-type="availability to join">Change availability to join</button>
                                                             </div>
                                                             <div className="prof-more-det-input-area">
                                                                 <div className="row">
                                                                     <div className="col-12 d-flex align-items-center gap-10">
-                                                                        <input type="text" className="change-setting-input more-det" placeholder="Add availability to join" />
-                                                                        <button className="setting-update-btn more-det">Add</button>
+                                                                        <input type="text" className="change-setting-input more-det" placeholder="Add availability to join"
+                                                                         />
+                                                                        <button className="setting-update-btn more-det">Update</button>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -234,47 +493,47 @@ const CandidateProfile = () => {
                                                         <div className="prof-more-det-area">
                                                             <div className="prof-more-det">
                                                                 <i class="bi bi-telephone"></i>
-                                                                {/* <div className="prof-more-det-title">Mobile Number</div> */}
-                                                                <button className="prof-more-det-edit-btn" data-type="mobile number">Add mobile number</button>
+                                                                <div className="prof-more-det-title">{loginCandidate?.phone}</div>
+                                                                {/* <button className="prof-more-det-edit-btn" data-type="mobile number">Add mobile number</button> */}
                                                             </div>
-                                                            <div className="prof-more-det-input-area">
+                                                            {/* <div className="prof-more-det-input-area">
                                                                 <div className="row">
                                                                     <div className="col-12 d-flex align-items-center gap-10">
                                                                         <input type="number" className="change-setting-input more-det" placeholder="Add mobile number" />
                                                                         <button className="setting-update-btn more-det">Add</button>
                                                                     </div>
                                                                 </div>
-                                                            </div>
+                                                            </div> */}
                                                         </div>
 
                                                         <div className="prof-more-det-area">
                                                             <div className="prof-more-det">
                                                                 <i class="bi bi-envelope"></i>
-                                                                {/* <div className="prof-more-det-title">Email Address</div> */}
-                                                                <button className="prof-more-det-edit-btn" data-type="your email">Add your email</button>
+                                                                <div className="prof-more-det-title">{loginCandidate?.email}</div>
+                                                                {/* <button className="prof-more-det-edit-btn" data-type="your email">Add your email</button> */}
                                                             </div>
-                                                            <div className="prof-more-det-input-area">
+                                                            {/* <div className="prof-more-det-input-area">
                                                                 <div className="row">
                                                                     <div className="col-12 d-flex align-items-center gap-10">
                                                                         <input type="email" className="change-setting-input more-det" placeholder="Add your email" />
                                                                         <button className="setting-update-btn more-det">Add</button>
                                                                     </div>
                                                                 </div>
-                                                            </div>
+                                                            </div> */}
                                                         </div>
 
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="card-left-area">
+                                        {/* <div className="card-left-area">
                                             <div className="missing-det-content-section">
                                                 <div className="missing-det-content-area">
                                                     <div className="missing-det-content">
                                                         <div className="missing-det-icon-area">
                                                             <i class="bi bi-check-circle"></i>
                                                         </div>
-                                                        {/* <div className="missing-det-text">Verify Mobile Number</div> */}
+                                                        <div className="missing-det-text">Verify Mobile Number</div>
                                                         <button className='missing-det-add-btn'>Verify Mobile Number</button>
                                                     </div>
                                                     <div className="missing-det-percentage-area">
@@ -290,7 +549,7 @@ const CandidateProfile = () => {
                                                         <div className="missing-det-icon-area">
                                                             <i class="bi bi-geo-alt"></i>
                                                         </div>
-                                                        {/* <div className="missing-det-text">Add preferred Location</div> */}
+                                                        <div className="missing-det-text">Add preferred Location</div>
                                                         <button className='missing-det-add-btn'>Add preferred Location</button>
                                                     </div>
                                                     <div className="missing-det-percentage-area">
@@ -306,7 +565,7 @@ const CandidateProfile = () => {
                                                         <div className="missing-det-icon-area">
                                                             <i class="bi bi-file-earmark-text"></i>
                                                         </div>
-                                                        {/* <div className="missing-det-text">Add Resume</div> */}
+                                                        <div className="missing-det-text">Add Resume</div>
                                                         <button className='missing-det-add-btn'>Add Resume</button>
                                                     </div>
                                                     <div className="missing-det-percentage-area">
@@ -321,7 +580,7 @@ const CandidateProfile = () => {
                                             <div className="missing-det-btn-area">
                                                 <button className='missing-det-btn'>Add missing details</button>
                                             </div>
-                                        </div>
+                                        </div> */}
                                     </div>
                                 </div>
                             </div>
@@ -336,18 +595,18 @@ const CandidateProfile = () => {
                                                 <i class="bi bi-arrow-right"></i>
                                             </a>
                                         </div>
-                                        <div className='pro-quick-link-content'>
+                                        {/* <div className='pro-quick-link-content'>
                                             <a href="#Resume_headline" className='pro-quick-link'>Resume Headline
                                                 <i class="bi bi-arrow-right"></i>
                                             </a>
-                                        </div>
+                                        </div> */}
                                         <div className='pro-quick-link-content'>
                                             <a href="#Key_skills" className='pro-quick-link'>Key Skills
                                                 <i class="bi bi-arrow-right"></i>
                                             </a>
                                         </div>
                                         <div className='pro-quick-link-content'>
-                                            <a href="#Employment" className='pro-quick-link'>Employment
+                                            <a href="#Profile headline" className='pro-quick-link'>Profile Headline
                                                 <i class="bi bi-arrow-right"></i>
                                             </a>
                                         </div>
@@ -356,12 +615,12 @@ const CandidateProfile = () => {
                                                 <i class="bi bi-arrow-right"></i>
                                             </a>
                                         </div>
-                                        <div className='pro-quick-link-content'>
+                                        {/* <div className='pro-quick-link-content'>
                                             <a href="#It_skills" className='pro-quick-link'>IT Skills
                                                 <i class="bi bi-arrow-right"></i>
                                             </a>
-                                        </div>
-                                        <div className='pro-quick-link-content'>
+                                        </div> */}
+                                        {/* <div className='pro-quick-link-content'>
                                             <a href="#Project" className='pro-quick-link'>Project
                                                 <i class="bi bi-arrow-right"></i>
                                             </a>
@@ -385,7 +644,7 @@ const CandidateProfile = () => {
                                             <a href="#Personal_details" className='pro-quick-link'>Personal Details
                                                 <i class="bi bi-arrow-right"></i>
                                             </a>
-                                        </div>
+                                        </div> */}
                                         <div className='pro-quick-link-content'>
                                             <a href="#View_Cv" className='pro-quick-link'>View or Download CV
                                                 <i class="bi bi-arrow-right"></i>
@@ -397,21 +656,24 @@ const CandidateProfile = () => {
                             <div className="col-12 col-xl-8 col-lg-8 col-md-8">
                                 <div className="profile-content-card" id='Resume'>
                                     <div className="profile-content-title">Resume</div>
-                                    <div className="profile-content-sub-title">
+                                    {/* <div className="profile-content-sub-title">
                                         Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature
-                                    </div>
+                                    </div> */}
                                     <div className="prof-page-file-upload-area">
                                         <form action="">
+                                        {/* <iframe src={candidateResumeUrl ? candidateResumeUrl : ""} title="Event Image iframe" ></iframe> */}
                                             <input type="file" id="file_upload" accept=".doc,.docx,.pdf"
                                                 style={{ display: 'none' }}
+                                                onChange={e=>setResume(e.target.files[0])}
                                                 required />
                                             <label for="file_upload" className='prof-page-file-upload-label'>
                                                 <span className='file-upload-btn'>
-                                                    Upload resume
+                                                    Update resume
                                                 </span>
                                             </label>
-                                            <span id="file-chosen">No file chosen</span>
-                                            <div className="file-upload-btn-area">
+                                            <span id="file-chosen">{resume?.length > 0 ? resume.name : 'No file chosen'}</span>
+                                            <button className="setting-update-btn more-det" onClick={handleResumeUpdate}>Update</button>
+                                            {/* <div className="file-upload-btn-area">
                                                 <button id="clear-file" className='clear-file-btn'>
                                                     <i class="bi bi-x"></i>Clear File
                                                 </button>
@@ -419,12 +681,12 @@ const CandidateProfile = () => {
                                                     <i class="bi bi-check2"></i>
                                                     Save
                                                 </button>
-                                            </div>
+                                            </div> */}
                                         </form>
                                     </div>
                                 </div>
 
-                                <div className="profile-content-card" id='Resume_headline'>
+                                {/* <div className="profile-content-card" id='Resume_headline'>
                                     <div className="profile-content-top-area">
                                         <div className="profile-content-title">Resume Headline</div>
                                         <button className="profile-content-edit-btn" data-type="Resume headline">Add Resume headline</button>
@@ -442,43 +704,50 @@ const CandidateProfile = () => {
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> */}
 
                                 <div className="profile-content-card" id='Key_skills'>
                                     <div className="profile-content-top-area">
                                         <div className="profile-content-title">Key Skills</div>
-                                        <button className="profile-content-edit-btn" data-type="key skill">Add key skill</button>
+                                        <button className="profile-content-edit-btn" data-type="key skill">Change key skill</button>
                                     </div>
                                     <div className="profile-content-area">
                                         <div className='profile-content'>
-                                            Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature
+                                            {loginCandidate?.skills.join(", ")}
                                         </div>
                                     </div>
                                     <div className="profile-content-input-area">
                                         <div className="row">
                                             <div className="col-12 d-flex align-items-center gap-10">
-                                                <input type="text" className="change-setting-input" placeholder="Add key skill" />
-                                                <button className="setting-update-btn">Add</button>
+                                                <input type="text" className="change-setting-input"
+                                                onChange={(e) => setUserInfo({ ...userInfo, skill: e.target.value })}
+                                                placeholder="Add key skill"
+                                                 />
+                                                <button className="setting-update-btn" 
+                                                // onClick={handleSkillUpdate}
+                                                >Update</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div className="profile-content-card" id='Employment'>
+                                <div className="profile-content-card" id='Profile headline'>
                                     <div className="profile-content-top-area">
-                                        <div className="profile-content-title">Employment</div>
-                                        <button className="profile-content-edit-btn" data-type="Employment">Add Employment</button>
+                                        <div className="profile-content-title">Profile Headline</div>
+                                        <button className="profile-content-edit-btn" data-type="Profile headline">Change Profile Headline</button>
                                     </div>
                                     <div className="profile-content-area">
                                         <div className='profile-content'>
-                                            Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature
+                                            {loginCandidate?.profileHeadline}
                                         </div>
                                     </div>
                                     <div className="profile-content-input-area">
                                         <div className="row">
                                             <div className="col-12 d-flex align-items-center gap-10">
-                                                <input type="text" className="change-setting-input" placeholder="Add Employment" />
-                                                <button className="setting-update-btn">Add</button>
+                                                <input type="text" className="change-setting-input" placeholder="Change profile headline"
+                                                value={userInfo.profileHeadline}
+                                                onChange={(e) => setUserInfo({ ...userInfo, profileHeadline: e.target.value })} />
+                                                <button className="setting-update-btn" onClick={handleProfileHeadlineUpdate}>Update</button>
                                             </div>
                                         </div>
                                     </div>
@@ -491,7 +760,7 @@ const CandidateProfile = () => {
                                     </div>
                                     <div className="profile-content-area">
                                         <div className='profile-content'>
-                                            Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature
+                                            {loginCandidate?.education}
                                         </div>
                                     </div>
                                     <div className="profile-content-input-area">
@@ -502,7 +771,7 @@ const CandidateProfile = () => {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="more-inputs-section">
+                                    {/* <div className="more-inputs-section">
                                         <div className="more-inputs-area">
                                             <div className="more-inputs-btn-area">
                                                 <button className="profile-content-more-inputs-edit-btn" data-type="Education">Add Education</button>
@@ -544,10 +813,10 @@ const CandidateProfile = () => {
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> */}
                                 </div>
 
-                                <div className="profile-content-card" id='It_skills'>
+                                {/* <div className="profile-content-card" id='It_skills'>
                                     <div className="profile-content-top-area">
                                         <div className="profile-content-title">IT Skills</div>
                                         <button className="profile-content-edit-btn" data-type="IT Skills">Add IT Skills</button>
@@ -761,13 +1030,24 @@ const CandidateProfile = () => {
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> */}
 
                                 <div className="profile-action-btn-area" id='View_Cv'>
-                                    <button className='view-cv-btn'>
+                                    <button className='view-cv-btn' onClick={() => {
+                                        window.open(candidateResumeUrl);
+                                    }}>
                                         <i class="bi bi-eye-fill view-cv-icon"></i>
                                         View CV
                                     </button>
+                                    {/* {showViewer && (
+                                        <object
+                                        data={candidateResumeUrl}
+                                        type="application/pdf"
+                                        width="100%"
+                                        height="500px"
+                                        >
+                                        </object>
+                                    )} */}
                                     <button className='download-cv-btn'>
                                         <i class="bi bi-download download-cv-icon"></i>
                                         Download CV
