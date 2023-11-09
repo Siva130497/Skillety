@@ -9,10 +9,11 @@ import './Talents.css';
 import './Talents-responsive.css';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import AuthContext from '../../context/AuthContext';
+
 
 const Talents = () => {
     const {id} = useParams();
+
     const [loginCandidate, setLoginCandidate] = useState();
     const [candidateImg, setCandidateImg] = useState();
     const [candidateImgUrl, setCandidateImgUrl] = useState("");
@@ -22,35 +23,35 @@ const Talents = () => {
     useEffect(() => {
 
         $(document).ready(function () {
-            let isBlurred = true;
+            // let isBlurred = true;
 
-            $("#toggleBlur").click(function () {
-                if (isBlurred) {
-                    $("#con_detail1, #con_detail2").removeClass("blurred");
-                    $(this).text("To Hide/Hire Talents");
-                } else {
-                    $("#con_detail1, #con_detail2").addClass("blurred");
-                    $(this).text("To View/Hire Talents");
-                }
-                isBlurred = !isBlurred;
-            });
+            // $("#toggleBlur").click(function () {
+            //     if (isBlurred) {
+            //         $("#con_detail1, #con_detail2").removeClass("blurred");
+            //         $(this).text("To Hide/Hire Talents");
+            //     } else {
+            //         $("#con_detail1, #con_detail2").addClass("blurred");
+            //         $(this).text("To View/Hire Talents");
+            //     }
+            //     isBlurred = !isBlurred;
+            // });
 
-            // for change the save tag text and color
-            $("#save-button").click(function (e) {
-                e.preventDefault(); // Prevent the form from submitting
+            // // for change the save tag text and color
+            // $("#save-button").click(function (e) {
+            //     e.preventDefault(); // Prevent the form from submitting
 
-                // Toggle the class for the "bi-bookmark" icon
-                var icon = $(this).find("i.bi");
-                icon.toggleClass("bi-bookmark bi-bookmark-fill");
+            //     // Toggle the class for the "bi-bookmark" icon
+            //     var icon = $(this).find("i.bi");
+            //     icon.toggleClass("bi-bookmark bi-bookmark-fill");
 
-                // Change the text based on the class
-                var text = $(this).find(".client-talent--profile-save-text");
-                if (icon.hasClass("bi-bookmark-fill")) {
-                    text.text("Saved");
-                } else {
-                    text.text("Save");
-                }
-            });
+            //     // Change the text based on the class
+            //     var text = $(this).find(".client-talent--profile-save-text");
+            //     if (icon.hasClass("bi-bookmark-fill")) {
+            //         text.text("Saved");
+            //     } else {
+            //         text.text("Save");
+            //     }
+            // });
 
             // for profile tab switch
             $(".client-talent--profile-detail-tab-btn:first").addClass("active");
@@ -97,7 +98,7 @@ const Talents = () => {
         });
 
 
-    }, []);
+    }, [id, loginCandidate]);
 
       useEffect(()=>{
         if(id){
@@ -294,7 +295,7 @@ const Talents = () => {
                                             <div class="client-talent--profile-detail-tab-btn-area">
                                                 <a href="#profileDetail" class="client-talent--profile-detail-tab-btn">Profile Detail</a>
                                                 <a href="#attachedCV" class="client-talent--profile-detail-tab-btn">Attached CV</a>
-                                                
+       
                                             </div>
                                             <div class="client-talent--profile-detail-tab-content-area">
                                                 <div id="profileDetail" class="client-talent--profile-detail-tab-content">
@@ -407,13 +408,13 @@ const Talents = () => {
                                                             </div>
                                                         </div>
 
-                                                        <div className="tal--pro-btn-area">
+                                                        {/* <div className="tal--pro-btn-area">
                                                             <div>
                                                                 <div className="tal--pro-view-btn-area">
-                                                                    <button data-aos="fade-right" className='tal--pro-view-btn'>To View/Hire Talents</button>
+                                                                    <button  className='tal--pro-view-btn'>To View/Hire Talents</button>
                                                                 </div>
                                                                 <div className="tal--pro-choose-btn-area">
-                                                                    <a href="/packages" className='ser--cont-btn-sub' data-aos="fade-right">
+                                                                    <a href="/packages" className='ser--cont-btn-sub' >
                                                                         <div className='ser--cont-btn'>
                                                                             Choose a plan
                                                                         </div>
@@ -427,7 +428,7 @@ const Talents = () => {
                                                                     </a>
                                                                 </div>
                                                             </div>
-                                                        </div>
+                                                        </div> */}
                                                     </div>
                                                 </div>
 
