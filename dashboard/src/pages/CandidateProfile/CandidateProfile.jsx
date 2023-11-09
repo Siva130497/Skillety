@@ -8,7 +8,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 
 const CandidateProfile = () => {
-    const {id} = useParams();
+    const { id } = useParams();
     const navigate = useNavigate();
     const [showViewer, setShowViewer] = useState(false);
 
@@ -21,11 +21,11 @@ const CandidateProfile = () => {
     const [resume, setResume] = useState();
 
     const [userInfo, setUserInfo] = useState({
-        firstName:"",
-        lastName:"",
-        location:"",
-        skill:"",
-        profileHeadline:"",
+        firstName: "",
+        lastName: "",
+        location: "",
+        skill: "",
+        profileHeadline: "",
     })
 
     useEffect(() => {
@@ -51,15 +51,17 @@ const CandidateProfile = () => {
                 var $changeInputSection = $(this).closest(".prof-more-det-area");
                 var $changeInputArea = $changeInputSection.find(".prof-more-det-input-area");
 
-                var type = $(this).data("type");
+                // var type = $(this).data("type");
                 if ($changeInputArea.is(":visible")) {
                     $changeInputArea.slideUp();
                     $(this).removeClass("expanded");
-                    $(this).text("Change " + type);
+                    $(this).find("i").removeClass("bi-x").addClass("bi-pencil");
+                    // $(this).text("Change " + type);
                 } else {
                     $changeInputArea.slideDown();
                     $(this).addClass("expanded");
-                    $(this).text("Cancel");
+                    $(this).find("i").removeClass("bi-pencil").addClass("bi-x");
+                    // $(this).text("Cancel");
                 }
             });
 
@@ -159,49 +161,49 @@ const CandidateProfile = () => {
         setCandidateToken(JSON.parse(localStorage.getItem('candidateToken')))
     }, [candidateToken])
 
-    useEffect(()=>{
-        if(id){
+    useEffect(() => {
+        if (id) {
             axios.get(`http://localhost:5002/candidate/${id}`)
-            .then(res=>{
-                console.log(res.data)
-                setLoginCandidate(res.data)
-            })
-            .catch(err=>console.log(err))
+                .then(res => {
+                    console.log(res.data)
+                    setLoginCandidate(res.data)
+                })
+                .catch(err => console.log(err))
 
             axios.get(`http://localhost:5002/candidate-image/${id}`)
-              .then(res=>setCandidateImg(res.data))
-              .catch(err=>console.log(err))
+                .then(res => setCandidateImg(res.data))
+                .catch(err => console.log(err))
 
             axios.get(`http://localhost:5002/candidate-resume/${id}`)
-              .then(res=>setResume(res.data))
-              .catch(err=>console.log(err))
+                .then(res => setResume(res.data))
+                .catch(err => console.log(err))
         }
-    },[id])
+    }, [id])
 
     useEffect(() => {
-        if(candidateImg){
-          setCandidateImgUrl(`http://localhost:5002/candidate_profile/${candidateImg.image}`)
+        if (candidateImg) {
+            setCandidateImgUrl(`http://localhost:5002/candidate_profile/${candidateImg.image}`)
         }
-        
-      }, [candidateImg]);
 
-      useEffect(() => {
-        if(resume){
-          setCandidateResumeUrl(`http://localhost:5002/files/${resume.file}`)
+    }, [candidateImg]);
+
+    useEffect(() => {
+        if (resume) {
+            setCandidateResumeUrl(`http://localhost:5002/files/${resume.file}`)
         }
-        
-      }, [resume]);
 
-      useEffect(() => {
+    }, [resume]);
+
+    useEffect(() => {
         if (resume) {
             // setCandidateResumeUrl(URL.createObjectURL(resume));
         }
-      }, [resume]);
-
-      
+    }, [resume]);
 
 
-      const handleFirstNameUpdate = () => {
+
+
+    const handleFirstNameUpdate = () => {
         const userData = {
             id: id,
             firstName: userInfo.firstName,
@@ -219,11 +221,11 @@ const CandidateProfile = () => {
                     setUserInfo({ ...userInfo, firstName: "" })
 
                     axios.get(`http://localhost:5002/candidate/${id}`)
-                    .then(res=>{
-                        console.log(res.data)
-                        setLoginCandidate(res.data)
-                    })
-                    .catch(err=>console.log(err))
+                        .then(res => {
+                            console.log(res.data)
+                            setLoginCandidate(res.data)
+                        })
+                        .catch(err => console.log(err))
                 }
             })
             .catch(err => console.log(err))
@@ -247,11 +249,11 @@ const CandidateProfile = () => {
                     setUserInfo({ ...userInfo, lastName: "" })
 
                     axios.get(`http://localhost:5002/candidate/${id}`)
-                    .then(res=>{
-                        console.log(res.data)
-                        setLoginCandidate(res.data)
-                    })
-                    .catch(err=>console.log(err))
+                        .then(res => {
+                            console.log(res.data)
+                            setLoginCandidate(res.data)
+                        })
+                        .catch(err => console.log(err))
                 }
             })
             .catch(err => console.log(err))
@@ -275,47 +277,47 @@ const CandidateProfile = () => {
                     setUserInfo({ ...userInfo, location: "" })
 
                     axios.get(`http://localhost:5002/candidate/${id}`)
-                    .then(res=>{
-                        console.log(res.data)
-                        setLoginCandidate(res.data)
-                    })
-                    .catch(err=>console.log(err))
+                        .then(res => {
+                            console.log(res.data)
+                            setLoginCandidate(res.data)
+                        })
+                        .catch(err => console.log(err))
                 }
             })
             .catch(err => console.log(err))
     }
 
     const handleResumeUpdate = () => {
-        if(resume){
+        if (resume) {
             const formData = new FormData()
             formData.append('resume', resume);
             axios.patch(`http://localhost:5002/update-candidate-resume/${id}`, formData, {
-              headers: {
-                  Authorization: `Bearer ${candidateToken}`,
-                  Accept: 'application/json'
-              }
+                headers: {
+                    Authorization: `Bearer ${candidateToken}`,
+                    Accept: 'application/json'
+                }
             })
-            .then(res=>{
-              console.log(res);
-              alert("resume updated")
-              setResume(null);
-            })
-            .catch(err=>console.log(err));
-        }else{
+                .then(res => {
+                    console.log(res);
+                    alert("resume updated")
+                    setResume(null);
+                })
+                .catch(err => console.log(err));
+        } else {
             const formData = new FormData()
             formData.append('file', resume);
             formData.append('id', id)
             axios.post("http://localhost:5002/upload", formData, {
-              headers: {
-                  Accept: 'application/json'
-              }
+                headers: {
+                    Accept: 'application/json'
+                }
             })
-            .then(res=>{
-              console.log(res);
-              alert("resume updated")
-              setResume(null);
-            })
-            .catch(err=>console.log(err));
+                .then(res => {
+                    console.log(res);
+                    alert("resume updated")
+                    setResume(null);
+                })
+                .catch(err => console.log(err));
         }
     }
 
@@ -365,11 +367,11 @@ const CandidateProfile = () => {
                     setUserInfo({ ...userInfo, profileHeadline: "" })
 
                     axios.get(`http://localhost:5002/candidate/${id}`)
-                    .then(res=>{
-                        console.log(res.data)
-                        setLoginCandidate(res.data)
-                    })
-                    .catch(err=>console.log(err))
+                        .then(res => {
+                            console.log(res.data)
+                            setLoginCandidate(res.data)
+                        })
+                        .catch(err => console.log(err))
                 }
             })
             .catch(err => console.log(err))
@@ -408,7 +410,7 @@ const CandidateProfile = () => {
                                             <div className="profile-det-area">
                                                 <div className="profile--name-edit-section">
                                                     <div className="profile--name-area">
-                                                        <div className="profile--name">{loginCandidate?.firstName+ " " +loginCandidate?.lastName}</div>
+                                                        <div className="profile--name">{loginCandidate?.firstName + " " + loginCandidate?.lastName}</div>
                                                         <button className='profile--name-edit-btn'>
                                                             <i class="bi bi-pencil profile--name-edit-icon"></i>
                                                         </button>
@@ -416,10 +418,10 @@ const CandidateProfile = () => {
                                                     <div className="profile-name-edit-input-area">
                                                         <div className="row">
                                                             <div className="col-12 d-flex align-items-center gap-10">
-                                                                <input type="text" className="change-setting-input" 
-                                                                value={userInfo.firstName}
-                                                                onChange={(e) => setUserInfo({ ...userInfo, firstName: e.target.value })}
-                                                                placeholder="Change Profile First Name" />
+                                                                <input type="text" className="change-setting-input"
+                                                                    value={userInfo.firstName}
+                                                                    onChange={(e) => setUserInfo({ ...userInfo, firstName: e.target.value })}
+                                                                    placeholder="Change Profile First Name" />
                                                                 <button className="setting-update-btn" onClick={handleFirstNameUpdate}>Update</button>
                                                             </div>
                                                         </div>
@@ -427,11 +429,11 @@ const CandidateProfile = () => {
                                                     <div className="profile-name-edit-input-area">
                                                         <div className="row">
                                                             <div className="col-12 d-flex align-items-center gap-10">
-                                                                <input type="text" 
-                                                                className="change-setting-input" 
-                                                                value={userInfo.lastName}
-                                                                onChange={(e) => setUserInfo({ ...userInfo, lastName: e.target.value })}
-                                                                placeholder="Change Profile Last Name" />
+                                                                <input type="text"
+                                                                    className="change-setting-input"
+                                                                    value={userInfo.lastName}
+                                                                    onChange={(e) => setUserInfo({ ...userInfo, lastName: e.target.value })}
+                                                                    placeholder="Change Profile Last Name" />
                                                                 <button className="setting-update-btn" onClick={handleLastNameUpdate}>Update</button>
                                                             </div>
                                                         </div>
@@ -448,14 +450,16 @@ const CandidateProfile = () => {
                                                             <div className="prof-more-det">
                                                                 <i class="bi bi-geo-alt"></i>
                                                                 <div className="prof-more-det-title">{loginCandidate?.location}</div>
-                                                                <button className="prof-more-det-edit-btn" data-type="location">Change Location</button>
+                                                                <button className="prof-more-det-edit-btn">
+                                                                    <i class="bi bi-pencil profile--name-edit-icon"></i>
+                                                                </button>
                                                             </div>
                                                             <div className="prof-more-det-input-area">
                                                                 <div className="row">
                                                                     <div className="col-12 d-flex align-items-center gap-10">
-                                                                        <input type="text" className="change-setting-input more-det" placeholder="Change Location" 
-                                                                        value={userInfo.location}
-                                                                        onChange={(e) => setUserInfo({ ...userInfo, location: e.target.value })}/>
+                                                                        <input type="text" className="change-setting-input more-det" placeholder="Change Location"
+                                                                            value={userInfo.location}
+                                                                            onChange={(e) => setUserInfo({ ...userInfo, location: e.target.value })} />
                                                                         <button className="setting-update-btn more-det" onClick={handleLocationUpdate}>Update</button>
                                                                     </div>
                                                                 </div>
@@ -473,13 +477,15 @@ const CandidateProfile = () => {
                                                             <div className="prof-more-det">
                                                                 <i class="bi bi-file-earmark-text"></i>
                                                                 <div className="prof-more-det-title">{loginCandidate?.days}</div>
-                                                                <button className="prof-more-det-edit-btn" data-type="availability to join">Change availability to join</button>
+                                                                <button className="prof-more-det-edit-btn">
+                                                                    <i class="bi bi-pencil profile--name-edit-icon"></i>
+                                                                </button>
                                                             </div>
                                                             <div className="prof-more-det-input-area">
                                                                 <div className="row">
                                                                     <div className="col-12 d-flex align-items-center gap-10">
                                                                         <input type="text" className="change-setting-input more-det" placeholder="Add availability to join"
-                                                                         />
+                                                                        />
                                                                         <button className="setting-update-btn more-det">Update</button>
                                                                     </div>
                                                                 </div>
@@ -606,7 +612,7 @@ const CandidateProfile = () => {
                                             </a>
                                         </div>
                                         <div className='pro-quick-link-content'>
-                                            <a href="#Profile headline" className='pro-quick-link'>Profile Headline
+                                            <a href="#Profile_headline" className='pro-quick-link'>Profile Headline
                                                 <i class="bi bi-arrow-right"></i>
                                             </a>
                                         </div>
@@ -661,10 +667,10 @@ const CandidateProfile = () => {
                                     </div> */}
                                     <div className="prof-page-file-upload-area">
                                         <form action="">
-                                        {/* <iframe src={candidateResumeUrl ? candidateResumeUrl : ""} title="Event Image iframe" ></iframe> */}
+                                            {/* <iframe src={candidateResumeUrl ? candidateResumeUrl : ""} title="Event Image iframe" ></iframe> */}
                                             <input type="file" id="file_upload" accept=".doc,.docx,.pdf"
                                                 style={{ display: 'none' }}
-                                                onChange={e=>setResume(e.target.files[0])}
+                                                onChange={e => setResume(e.target.files[0])}
                                                 required />
                                             <label for="file_upload" className='prof-page-file-upload-label'>
                                                 <span className='file-upload-btn'>
@@ -720,10 +726,10 @@ const CandidateProfile = () => {
                                         <div className="row">
                                             <div className="col-12 d-flex align-items-center gap-10">
                                                 <input type="text" className="change-setting-input"
-                                                onChange={(e) => setUserInfo({ ...userInfo, skill: e.target.value })}
-                                                placeholder="Add key skill"
-                                                 />
-                                                <button className="setting-update-btn" 
+                                                    onChange={(e) => setUserInfo({ ...userInfo, skill: e.target.value })}
+                                                    placeholder="Add key skill"
+                                                />
+                                                <button className="setting-update-btn"
                                                 // onClick={handleSkillUpdate}
                                                 >Update</button>
                                             </div>
@@ -731,7 +737,7 @@ const CandidateProfile = () => {
                                     </div>
                                 </div>
 
-                                <div className="profile-content-card" id='Profile headline'>
+                                <div className="profile-content-card" id='Profile_headline'>
                                     <div className="profile-content-top-area">
                                         <div className="profile-content-title">Profile Headline</div>
                                         <button className="profile-content-edit-btn" data-type="Profile headline">Change Profile Headline</button>
@@ -745,8 +751,8 @@ const CandidateProfile = () => {
                                         <div className="row">
                                             <div className="col-12 d-flex align-items-center gap-10">
                                                 <input type="text" className="change-setting-input" placeholder="Change profile headline"
-                                                value={userInfo.profileHeadline}
-                                                onChange={(e) => setUserInfo({ ...userInfo, profileHeadline: e.target.value })} />
+                                                    value={userInfo.profileHeadline}
+                                                    onChange={(e) => setUserInfo({ ...userInfo, profileHeadline: e.target.value })} />
                                                 <button className="setting-update-btn" onClick={handleProfileHeadlineUpdate}>Update</button>
                                             </div>
                                         </div>
