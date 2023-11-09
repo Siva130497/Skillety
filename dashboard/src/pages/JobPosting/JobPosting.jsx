@@ -7,6 +7,8 @@ import './JobPosting.css';
 import './JobPosting-responsive.css';
 import $ from 'jquery';
 import AuthContext from '../../context/AuthContext';
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.css';
 
 const JobPosting = () => {
   const [clientToken, setClientToken] = useState("");
@@ -56,6 +58,29 @@ const JobPosting = () => {
   const [isCheckedSkill, setIsCheckedSkill] = useState(false);
   const [newSkill, setNewSkill] = useState("");
   const [otherSkill, setOtherSkill] = useState([]);
+
+  //for show success message for payment
+  function showSuccessMessage(message) {
+    Swal.fire({
+        title: 'Success!',
+        text: message,
+        icon: 'success',
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: 'OK',
+    });
+}
+
+//for show error message for payment
+function showErrorMessage(message) {
+    Swal.fire({
+        title: 'Error!',
+        text: message,
+        icon: 'error',
+        confirmButtonColor: '#d33',
+        confirmButtonText: 'OK',
+    });
+}
+
 
 
 
@@ -225,7 +250,7 @@ const JobPosting = () => {
       const result = res.data;
       if (!result.error) {
         console.log(result);
-        alert("Job has been posted successfully!")
+        showSuccessMessage("Job has been posted successfully!")
         setCredentials(initialCredentials);
         setSelectedJobRoles([]);
         setSelectedDepartment([]);
@@ -239,6 +264,7 @@ const JobPosting = () => {
       }
     } catch (err) {
       console.log(err);
+      showErrorMessage()
     }
   }
 

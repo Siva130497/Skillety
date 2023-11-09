@@ -441,7 +441,7 @@ const AppliedCandidate = () => {
             const result = response.data;
             if (!result.error) {
                 console.log(result);
-                setCandidateDetail(result.reverse());
+                setCandidateDetail(result);
             } else {
                 console.log(result);
             }

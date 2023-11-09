@@ -127,7 +127,7 @@ router.get("/candidate/:id", getCandidateDetail);
 router.post("/job-detail", employeeAuth, jobPosting)
 
 //get all job details
-router.get('/skill-match-job-Detail/:candidateId', employeeAuth, getSkillMatchJobDetail)
+router.get('/skill-match-job-Detail/:candidateId',  getSkillMatchJobDetail)
 
 //get client posted job details
 router.get('/posted-jobs', getPostedjobs)
@@ -142,7 +142,7 @@ router.patch("/job-detail/:id", employeeAuth, updateJob);
 router.get('/my-posted-jobs/:id', employeeAuth, getOwnPostedjobs)
 
 //candidate applied for job
-router.post('/job-applying', employeeAuth, applyingjob)
+router.post('/job-applying',  applyingjob)
 
 //get applied jobs
 router.get('/my-applied-jobs/:candidateId', employeeAuth, getAppliedjobs)

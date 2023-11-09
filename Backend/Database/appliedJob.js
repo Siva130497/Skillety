@@ -22,11 +22,20 @@ const appliedJobSchema = new Schema(
         type: Array,
         required: true
     },
-    jobAdditionalSkills: {
-        type: Array,
-    },
     jobExperience: {
         type: String,
+        required: true
+    },
+    jobLocation: {
+        type: Array,
+        required: true
+    },
+    jobDepartment: {
+        type: Array,
+        required: true
+    },
+    role: {
+        type: Array,
         required: true
     },
     jobCategory: {
@@ -34,6 +43,22 @@ const appliedJobSchema = new Schema(
         required: true
     },
     jobDescription: {
+        type: String,
+        required: true
+    },
+    salary: {
+        type: String,
+        required: true
+    },
+    industry: {
+        type: String,
+        required: true
+    },
+    education: {
+        type: String,
+        required: true
+    },
+    workMode: {
         type: String,
         required: true
     },

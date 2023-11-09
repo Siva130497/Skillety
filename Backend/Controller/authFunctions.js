@@ -469,11 +469,18 @@ const getSkillMatchJobDetail = async (req, res) => {
       const percentage = calculateMatchPercentage(obj.skills, candidateDetail.skills);
       const result = {
         jobId: obj.id,
-        jobRole: obj.jobRole[0],
+        jobRole: obj.jobRole,
         jobMandatorySkills: obj.skills,
+        jobLocation:obj.location,
+        jobDepartment:obj.department,
+        role:obj.role,
         jobExperience: `${obj.minExperience} - ${obj.maxExperience} years experience`,
         jobCategory: obj.jobCategory,
         jobDescription: obj.jobDescription,
+        salary:`${obj.currencyType}${obj.minSalary} - ${obj.currencyType}${obj.maxSalary} `,
+        industry:obj.industry,
+        education:obj.education,
+        workMode:obj.workMode,
         percentage: Math.round(percentage), 
       };
 
@@ -652,8 +659,13 @@ const deletingPostedJob = async(req, res) => {
   try{
     const jobId = req.params.jobId;
     const deletedPostedJob = await jobDetail.deleteOne({id:jobId});
+    const deleteAppliedJob = await appliedJob.deleteOne({jobId:jobId});
+    if(!deleteAppliedJob){
+      res.status(204).json({deletedPostedJob}); 
+    }else{
+      res.status(204).json({deletedPostedJob, deleteAppliedJob}); 
+    }
     
-    res.status(204).json(deletedPostedJob); 
   }catch(err) {
     res.status(500).json({error: err.message})
   }
