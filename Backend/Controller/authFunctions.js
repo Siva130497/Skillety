@@ -536,6 +536,22 @@ const getJob = async (req, res) => {
   }
 }
 
+const getAppliedJobByJobId = async (req, res) => {
+  const {id} = req.params;
+  console.log(id)
+  try {
+    const jobs = await appliedJob.find({ jobId:id });
+    if (jobs) {
+      return res.status(200).json(jobs);
+    } else {
+      return res.status(404).json({ error: 'Jobs not found' });
+    }
+
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+}
+
 /* update a job */
 const updateJob = async(req, res) => {
   const {id} = req.params;
@@ -1748,6 +1764,7 @@ module.exports = {
    getCandidateDetail,
    jobPosting,
    getJob,
+   getAppliedJobByJobId,
    updateJob,
    getSkillMatchJobDetail,
    getPostedjobs,

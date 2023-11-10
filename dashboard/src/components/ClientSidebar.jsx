@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import { useEffect } from 'react';
 import $ from 'jquery';
+import { useNavigate } from 'react-router-dom';
 
 const ClientSidebar = () => {
     const [clientToken, setClientToken] = useState("");
+    const navigate = useNavigate();
 
     useEffect(()=>{
         setClientToken(JSON.parse(localStorage.getItem('clientToken')))
@@ -93,7 +95,7 @@ const ClientSidebar = () => {
                             for Premium Features
                         </div>
 
-                        <button className="live-chat-btn client">Upgrade Package</button>
+                        <button className="live-chat-btn client" onClick={()=>navigate("/package-plans")}>Upgrade Package</button>
                     </div>
                 </aside>
             </div>

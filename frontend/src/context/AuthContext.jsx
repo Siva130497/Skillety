@@ -13,6 +13,7 @@ export const AuthContextProvider = ({children}) => {
     const [candidateImg, setCandidateImg] = useState();
     const [clientImg, setClientImg] = useState();
     const [packageSelectionDetail, setPackageSelectionDetail] = useState();
+   
 
     //user login request
     const loginUser = async (userData) => {
@@ -100,6 +101,7 @@ export const AuthContextProvider = ({children}) => {
             }
         }catch(err){
           console.log(err);
+          
         }
     }
 

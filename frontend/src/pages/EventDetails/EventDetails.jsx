@@ -15,6 +15,8 @@ const CandidateTestimonialDetail = () => {
     const [event, setEvent] = useState([]);
     const [image, setImage] = useState("");
     const [status, setStatus] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const [pageNotFound, setPageNotFound] = useState(false);
     
 
     useEffect(() => {
@@ -26,6 +28,7 @@ const CandidateTestimonialDetail = () => {
         if (eventDetail.length > 0) {
             const foundEvent = eventDetail.find(eve => eve.id === id);
             if (foundEvent) {
+                setLoading(false);
                 setEvent(foundEvent);
     
                 const matchingImg = eventImg ? eventImg.find(img => img.id === foundEvent.id) : null;
@@ -38,18 +41,18 @@ const CandidateTestimonialDetail = () => {
     
                 setStatus(true);
             } else {
-                setStatus(false);
+                setLoading(false)
+                setPageNotFound(true)
             }
-        } else {
-            setStatus(false);
-        }
+        } 
     }, [eventDetail, eventImg, id]);
     
 
     return (
 
         <div>
-            {status ?
+            {loading && <div>Loading...</div>}
+            {status &&
                 <div>
                     <LayoutNew />
                     <div className='testimonial-detail-section'>
@@ -129,13 +132,13 @@ const CandidateTestimonialDetail = () => {
                         </div>
                     </div>
                     <CandidateFooter />
-                </div> :
-                <div>
+                </div> }
+                {pageNotFound && <div>
                     <h1>404</h1>
                     <p>Not Found</p>
                     <small>The resource requested could not be found on this server!</small>
-                </div>
-             }
+                </div>}
+             
         </div>
         
     )
