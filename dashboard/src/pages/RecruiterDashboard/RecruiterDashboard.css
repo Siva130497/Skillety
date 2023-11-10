@@ -1,0 +1,35 @@
+.dash-table-top-area.clients {
+    background-color: #714F36;
+    border-radius: 16px;
+    padding: 20px;
+}
+
+.dash-table-top-area.clients .dash-table-title {
+    color: #FFF;
+}
+
+.dash-table-top-area.clients .dash-table-see-all-btn {
+    color: #F9C833;
+}
+
+.dash-table-top-area.clients .dash-table-see-all-btn:hover {
+    color: #ffffff !important;
+}
+
+.dash-table-top-area.candidates {
+    background-color: #F9C833;
+    border-radius: 16px;
+    padding: 20px;
+}
+
+.dash-table-top-area.candidates .dash-table-title {
+    color: #714F36;
+}
+
+.dash-table-top-area.candidates .dash-table-see-all-btn {
+    color: #714F36;
+}
+
+.dash-table-top-area.candidates .dash-table-see-all-btn:hover {
+    color: #ffffff !important;
+}

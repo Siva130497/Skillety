@@ -13,7 +13,8 @@
 .col-border-right {
     border-right: 1px solid #714F36;
 }
-.custom-border-bottom2{
+
+.custom-border-bottom2 {
     border-bottom: 1px solid #714F36;
 }
 
@@ -54,7 +55,7 @@
 }
 
 .job--detail-content-area {
-    padding:45px 35px 35px 35px;
+    padding: 45px 35px 35px 35px;
 }
 
 .job--detail-location-area {
@@ -79,6 +80,7 @@
     font-size: 20px;
     font-weight: 500;
 }
+
 .job--detail-skills-area .job--detail-skill-title {
     white-space: nowrap;
 }
@@ -272,7 +274,8 @@
     box-shadow: -2px 2px 15px #31313114;
     transition: ease-in-out 0.8s !important;
 }
-.job--detail-card:hover .job--detail-card-img-area{
+
+.job--detail-card:hover .job--detail-card-img-area {
     box-shadow: -2px 2px 15px #3131312e;
 }
 
@@ -291,6 +294,9 @@
     font-size: 14px;
     font-weight: 500;
     margin-bottom: 8px;
+    height: 100px;
+    overflow-y: scroll;
+    padding-right: 10px;
 }
 
 .job--detail-card-bottom-area {
@@ -343,4 +349,21 @@
 .job--detail-card-know-more-btn:hover {
     background-color: #714F36;
     color: #FFF;
+}
+
+.job--detail-card-desc-area .job--detail-card-desc::-webkit-scrollbar {
+    background-color: #F9C833 !important;
+    width: 5px !important;
+}
+
+.job--detail-card-desc-area .job--detail-card-desc::-webkit-scrollbar-thumb {
+    border-radius: 10px !important;
+    -webkit-box-shadow: none;
+    background-color: #ffdc74 !important;
+}
+
+.job--detail-card-desc-area .job--detail-card-desc::-webkit-scrollbar-track {
+    -webkit-box-shadow: none;
+    border-radius: 10px !important;
+    background-color: transparent;
 }
