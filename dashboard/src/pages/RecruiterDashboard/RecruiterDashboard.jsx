@@ -291,7 +291,6 @@ const RecruiterDashboard = () => {
                                         </div>
                                     </div>
                                 </div>
-                                <i class="bi bi-chevron-down"></i>
 
                                 <div class="row">
                                     <div class="col-12">
