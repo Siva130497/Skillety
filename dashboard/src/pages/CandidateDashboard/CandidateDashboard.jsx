@@ -155,7 +155,8 @@ useEffect(()=>{
   axios.get("http://localhost:5002/clients")
   .then(res=>{
     console.log(res.data)
-    setAllClient(res.data);
+    setAllClient(res.data)
+    
   })
   .catch(err=>console.log(err))
 },[])

@@ -5,13 +5,181 @@ import './JobDetails.css';
 import './JobDetails-responsive.css';
 import Layout from '../../components/Layout';
 import Footer from '../../components/Footer';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
+import AuthContext from '../../context/AuthContext';
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.css';
 
 const JobDetails = () => {
+    const {id} = useParams();
+    const [job, setJob] = useState();
+    const [clientCompanyName, setClientCompanyName] = useState("");
+    const [applicants, setApplicants] = useState("");
+    const [candidateToken, setCandidateToken] = useState("");
+    const { getProtectedData, getClientImg, clientImg, } = useContext(AuthContext);
+    const [candidateId, setCandidateId] = useState("");
+    const [companyImg, setCompanyImg] = useState();
+    const [alreadyApplied, setAlreadyApplied] = useState();
 
     useEffect(() => {
         $(document).ready(function () {
         });
     }, []);
+
+    //for show success message for payment
+    function showSuccessMessage(message) {
+        Swal.fire({
+            title: 'Success!',
+            text: message,
+            icon: 'success',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'OK',
+        });
+    }
+
+    //for show error message for payment
+    function showErrorMessage() {
+        Swal.fire({
+            title: 'Error!',
+            text: "An error occured!",
+            icon: 'error',
+            confirmButtonColor: '#d33',
+            confirmButtonText: 'OK',
+        });
+    }
+
+    useEffect(() => {
+        setCandidateToken(JSON.parse(localStorage.getItem('candidateToken')))
+    }, [candidateToken])
+
+    useEffect(() => {
+        if (candidateToken) {
+            const fetchData = async () => {
+                try {
+                    const user = await getProtectedData(candidateToken);
+                    console.log(user);
+                    setCandidateId(user.id);
+                    getClientImg();
+                } catch (error) {
+                    console.log(error);
+                }
+            };
+
+            fetchData();
+        }
+    }, [candidateToken]);
+
+    //get candidate applied jobs
+    const getAppliedjobs = async() => {
+        try{
+            const res = await axios.get(`http://localhost:5002/my-applied-jobs/${candidateId}`, {
+              headers: {
+                  Authorization: `Bearer ${candidateToken}`,
+                  Accept: 'application/json'
+              }
+            });
+            const result = res.data;
+            if (!result.error) {
+              console.log(result);
+              setAlreadyApplied(result.find(appJob=>appJob.jobId === id));
+              
+            } else {
+              console.log(result);
+            }
+        }catch(err){
+          console.log(err);
+        }
+      }
+
+      //candidate apply for job
+    const applyingjob = async(job) => {
+        try{
+            const res = await axios.post('http://localhost:5002/job-applying', job, {
+              headers: {
+                  Authorization: `Bearer ${candidateToken}`,
+                  Accept: 'application/json'
+              }
+            });
+            const result = res.data;
+            if(!result.error){
+                console.log(result);
+                showSuccessMessage("job applied successfully!")
+                getAppliedjobs()
+            }else {
+                console.log(result);
+            }
+        }catch(err){
+            console.log(err);
+            showErrorMessage()
+        }
+      }
+
+      //candidate delete the job
+    const deletingjob = async() => {
+        try {
+          const response = await axios.delete(`http://localhost:5002/delete-job/${candidateId}/${id}`, {
+            headers: {
+                Authorization: `Bearer ${candidateToken}`,
+                Accept: 'application/json'
+            }
+          });
+          console.log(response);
+          showSuccessMessage("Job successfully deleted!")
+          getAppliedjobs();
+        } catch (error) {
+          console.error(error);
+          showErrorMessage()
+        }
+      }
+
+    useEffect(()=>{
+        if(candidateId){
+            getAppliedjobs()
+
+            axios.get(`http://localhost:5002/skill-match-job-Detail/${candidateId}`)
+            .then(res=>{
+                console.log(res.data)
+                setJob(res.data.find(job=>job.jobId === id))
+            })
+            .catch(err=>console.log(err))
+
+            axios.get(`http://localhost:5002/applied-job/${id}`)
+            .then(res=>{
+                console.log(res.data)
+                setApplicants(res.data?.length)
+            })
+            .catch(err=>console.log(err))   
+        }
+        
+    },[candidateId])
+
+    
+
+    useEffect(()=>{
+        if(job){
+            axios.get("http://localhost:5002/clients")
+            .then(res=>{
+            console.log(res.data)
+            setClientCompanyName((res.data.find(cli=>cli.companyId === job.companyId)).companyName)
+            setCompanyImg(clientImg.find(img=>img.id === job.companyId))
+            })
+            .catch(err=>console.log(err))
+        }
+        
+      },[job])
+
+      const handleApply = () => {
+        if (!alreadyApplied) {
+          applyingjob({...job, candidateId:candidateId});
+        }
+      }
+
+      const handleDiscard = () => {
+        if(alreadyApplied){
+          deletingjob();
+        }
+      }
 
     return (
         <div>
@@ -27,62 +195,57 @@ const JobDetails = () => {
                                 Job Details
                             </div>
                             <div className="dash-job-det-section">
-                                <div className='dash-job-det-head'>Opening for UX Designer in Mindtree</div>
+                                <div className='dash-job-det-head'>Opening for {job?.jobRole[0]} in {clientCompanyName}</div>
                                 <div className="dash-job-det-card-area">
                                     <article className='dash-job-det-card'>
                                         <div className="dash-job-det-card-header">
                                             <div className="dash-job-det-card-header-lft">
-                                                <div className="dash-job-det-card-role">UX Designer</div>
+                                                <div className="dash-job-det-card-role">{job?.jobRole[0]}</div>
                                                 <div className="dash-job-det-card-com-area">
-                                                    <div className="dash-job-det-card-com">Happiest Minds</div>
+                                                    <div className="dash-job-det-card-com">{clientCompanyName}</div>
                                                     <div className="dash-job-det-card-det-area">
                                                         <div className="dash-job-det-card-det">
                                                             <i class="bi bi-briefcase-fill"></i>
-                                                            <span>0-4 Yrs</span>
+                                                            <span>{job?.jobExperience}</span>
                                                         </div>
-                                                        <div className="dash-job-det-card-det">
+                                                        {/* <div className="dash-job-det-card-det">
                                                             <span>Not disclosed</span>
-                                                        </div>
+                                                        </div> */}
                                                         <div className="dash-job-det-card-det">
                                                             <i class="bi bi-geo-alt-fill"></i>
-                                                            <span>Hyderabad</span>
+                                                            <span>{job?.jobLocation.join(", ")}</span>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div className="dash-job-det-card-header-rgt">
                                                 <div className="dash-job-det-card-img-area">
-                                                    <img src="assets/img/companies/company-1.png" className='dash-job-det-card-img' alt="" />
+                                                    <img src={companyImg ? `http://localhost:5002/client_profile/${companyImg.image}` : "../assets/img/talents-images/avatar.jpg"} className='dash-job-det-card-img' alt="" />
                                                 </div>
                                             </div>
                                         </div>
                                         <div className="dash-job-det-card-body">
                                             <div className="dash-job-det-card-tags-area">
-                                                <div className="dash-job-det-card-tag">UX,Design & Archietect</div>
-                                                <div className="dash-job-det-card-tag">UX,Design & Archietect</div>
-                                                <div className="dash-job-det-card-tag">UX,Design & Archietect</div>
-                                                <div className="dash-job-det-card-tag">UX,Design & Archietect</div>
-                                                <div className="dash-job-det-card-tag">UX,Design & Archietect</div>
-                                                <div className="dash-job-det-card-tag">UX,Design & Archietect</div>
-                                                <div className="dash-job-det-card-tag">UX,Design & Archietect</div>
-                                                <div className="dash-job-det-card-tag">UX,Design & Archietect</div>
-                                                <div className="dash-job-det-card-tag">UX,Design & Archietect</div>
-                                                <div className="dash-job-det-card-tag">UX,Design & Archietect</div>
+                                                {job?.jobMandatorySkills.map(skill=>{
+                                                    return(
+                                                        <div className="dash-job-det-card-tag">{skill}</div>
+                                                    )
+                                                })}
                                             </div>
-                                            <div className="dash-job-det-card-more-job-btn-area">
+                                            {/* <div className="dash-job-det-card-more-job-btn-area">
                                                 <a href="#" className='dash-job-det-card-more-job-btn'>Search more job like this</a>
-                                            </div>
+                                            </div> */}
                                         </div>
                                         <div className="dash-job-det-card-footer">
                                             <div className="dash-job-det-card-status-area">
-                                                <div className="dash-job-det-card-status with-border-padding">
-                                                    Posted :&nbsp;<span>5 days ago</span>
-                                                </div>
-                                                <div className="dash-job-det-card-status with-border-padding">
+                                                {/* <div className="dash-job-det-card-status with-border-padding">
+                                                    Posted :&nbsp;<span>{`${new Date(job?.createdAt).getDate().toString().padStart(2, '0')}/${(new Date(job?.createdAt).getMonth() + 1).toString().padStart(2, '0')}/${new Date(job?.createdAt).getFullYear() % 100}`}</span>
+                                                </div> */}
+                                                {/* <div className="dash-job-det-card-status with-border-padding">
                                                     Opening :&nbsp;<span>02</span>
-                                                </div>
+                                                </div> */}
                                                 <div className="dash-job-det-card-status">
-                                                    Applicants :&nbsp;<span>624</span>
+                                                    Applicants :&nbsp;<span>{applicants}</span>
                                                 </div>
                                             </div>
                                             <div className="dash-job-det-card-btn-area">
@@ -93,7 +256,9 @@ const JobDetails = () => {
                                                         </path>
                                                     </svg>
                                                 </label>
-                                                <button type='button' className="dash-job-det-card-apply-btn">Apply</button>
+                                                {alreadyApplied ? <button type='button' className="dash-job-det-card-apply-btn"
+                                                onClick={handleDiscard}>Discard</button> : <button type='button' className="dash-job-det-card-apply-btn"
+                                                onClick={handleApply}>Apply</button>}
                                             </div>
                                         </div>
                                     </article>
@@ -101,16 +266,16 @@ const JobDetails = () => {
 
                                 <div className="dash-job-det-content-area">
                                     <div className="job-match-score-area">
-                                        <div className="job-match-score-head">Job match score</div>
+                                        <div className="job-match-score-head">Job match percentage with your skill</div>
                                         <div className="job-match-score-selection-area">
                                             <div className="job-match-score-radio-select-area">
                                                 <label className="job-match-score-radio-button">
-                                                    <input type="radio" name="job-match-score-radio-option" value="Early_Applicant" />
+                                                    {/* <input type="radio" name="job-match-score-radio-option" value="Early_Applicant" /> */}
                                                     <span className="job-match-score-radio"></span>
-                                                    Early Applicant
+                                                    {job?.percentage} %
                                                 </label>
 
-                                                <label className="job-match-score-radio-button">
+                                                {/* <label className="job-match-score-radio-button">
                                                     <input type="radio" name="job-match-score-radio-option" value="Keyskills" />
                                                     <span className="job-match-score-radio"></span>
                                                     Keyskills
@@ -126,7 +291,7 @@ const JobDetails = () => {
                                                     <input type="radio" name="job-match-score-radio-option" value="Work_Experience" />
                                                     <span className="job-match-score-radio"></span>
                                                     Work Experience
-                                                </label>
+                                                </label> */}
                                             </div>
                                         </div>
                                     </div>
@@ -134,7 +299,7 @@ const JobDetails = () => {
                                         <div className="dash-job-desc-area">
                                             <div className="dash-job-desc-head">Job Description</div>
                                             <p className='dash-job-desc'>
-                                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
+                                                {job?.jobDescription}
                                             </p>
                                         </div>
 
@@ -145,18 +310,18 @@ const JobDetails = () => {
                                         <div className="dash-job-desc-area">
                                             <div className="dash-job-desc-head">Education</div>
                                             <p className='dash-job-desc'>
-                                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
+                                                {job?.education}
                                             </p>
                                         </div>
 
                                         <div className="dash-job-desc-area">
                                             <div className="dash-job-desc-head">Prior Experience</div>
                                             <p className='dash-job-desc'>
-                                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
+                                                {job?.jobExperience}
                                             </p>
                                         </div>
 
-                                        <div className="dash-job-desc-area">
+                                        {/* <div className="dash-job-desc-area">
                                             <div className="dash-job-desc-head">Prior Experience</div>
                                             <ul className='mt-2'>
                                                 <li className='dash-job-desc-list-item'>
@@ -184,9 +349,9 @@ const JobDetails = () => {
                                                     Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
                                                 </li>
                                             </ul>
-                                        </div>
+                                        </div> */}
 
-                                        <div className="dash-job-desc-area">
+                                        {/* <div className="dash-job-desc-area">
                                             <div className="dash-job-desc-head">Work you’ll do</div>
                                             <ul className='mt-2'>
                                                 <li className='dash-job-desc-list-item'>
@@ -202,50 +367,50 @@ const JobDetails = () => {
                                                     Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
                                                 </li>
                                             </ul>
-                                        </div>
+                                        </div> */}
                                     </div>
                                     <div className="dash-job-det-info-section">
                                         <div className="dash-job-det-info-area">
                                             <div className="dash-job-det-info">
                                                 Location :&nbsp;
-                                                <span>Pan India</span>
+                                                <span>{job?.jobLocation.join(", ")}</span>
                                             </div>
                                         </div>
                                         <div className="dash-job-det-info-area">
                                             <div className="dash-job-det-info">
                                                 Role :&nbsp;
-                                                <span>UX Designer</span>
+                                                <span>{job?.jobRole[0]}</span>
                                             </div>
                                         </div>
                                         <div className="dash-job-det-info-area">
                                             <div className="dash-job-det-info">
                                                 Industry Type :&nbsp;
-                                                <span>IT Service & Consulting</span>
+                                                <span>{job?.industry}</span>
                                             </div>
                                         </div>
                                         <div className="dash-job-det-info-area">
                                             <div className="dash-job-det-info">
                                                 Department :&nbsp;
-                                                <span>Designing</span>
+                                                <span>{job?.jobDepartment}</span>
                                             </div>
                                         </div>
                                         <div className="dash-job-det-info-area">
                                             <div className="dash-job-det-info">
                                                 Employment Type :&nbsp;
-                                                <span>Fulll time, Permanent</span>
+                                                <span>{job?.jobCategory}</span>
                                             </div>
                                         </div>
                                         <div className="dash-job-det-info-area">
                                             <div className="dash-job-det-info">
                                                 Role Category :&nbsp;
-                                                <span>Other Consulting</span>
+                                                <span>{job?.role}</span>
                                             </div>
                                         </div>
                                         <div className="dash-job-det-info-area">
                                             <div className="dash-job-det-info">
-                                                Education :&nbsp;
+                                                Working Mode :&nbsp;
                                                 <div className='mt-3'>
-                                                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
+                                                    {job?.workMode}
                                                 </div>
                                             </div>
                                         </div>

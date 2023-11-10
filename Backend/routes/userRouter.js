@@ -19,6 +19,7 @@ const {
   getCandidateDetail,
   jobPosting,
   getJob,
+  getAppliedJobByJobId,
   updateJob,
   getSkillMatchJobDetail,
   getPostedjobs,
@@ -134,6 +135,9 @@ router.get('/posted-jobs', getPostedjobs)
 
 //get a job detail
 router.get('/job/:id', getJob)
+
+router.get('/applied-job/:id', getAppliedJobByJobId)
+
 
 //edit the job using id
 router.patch("/job-detail/:id", employeeAuth, updateJob);

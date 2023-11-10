@@ -35,7 +35,7 @@ const Sidebar = () => {
       <div className="main-sidebar sidebar-style-2">
         <aside id="sidebar-wrapper">
           <div className="sidebar-brand">
-            <a href=""> <img alt="image" src="assets/img/logo/skillety-logo.png" className="header-logo" /> <span
+            <a href=""> <img alt="image" src="../assets/img/logo/skillety-logo.png" className="header-logo" /> <span
               className="logo-name">Skillety</span>
             </a>
           </div>
@@ -65,7 +65,7 @@ const Sidebar = () => {
           </ul>
 
           <div className='live-chat-area'>
-            <img src="assets/img/home/live-chat.png" className='live-chat-img' alt="" />
+            <img src="../assets/img/home/live-chat.png" className='live-chat-img' alt="" />
             <div className="live-chat-text">
               Have any query ? <br />
               we are there for you 24*7

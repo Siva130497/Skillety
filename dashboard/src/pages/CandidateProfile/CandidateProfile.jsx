@@ -13,8 +13,7 @@ import 'sweetalert2/dist/sweetalert2.css';
 const CandidateProfile = () => {
     const { id } = useParams();
     const navigate = useNavigate();
-    const [showViewer, setShowViewer] = useState(false);
-
+    
     const [candidateToken, setCandidateToken] = useState("");
 
     const [loginCandidate, setLoginCandidate] = useState();
@@ -485,7 +484,7 @@ const CandidateProfile = () => {
                                                 </div>
                                                 <div className="profile-update-status">
                                                     Profile Last Updated :&nbsp;
-                                                    <span>{`${new Date(loginCandidate?.createdAt).getDate().toString().padStart(2, '0')}/${(new Date(loginCandidate?.createdAt).getMonth() + 1).toString().padStart(2, '0')}/${new Date(loginCandidate?.createdAt).getFullYear() % 100}`}</span>
+                                                    <span>{`${new Date(loginCandidate?.updatedAt).getDate().toString().padStart(2, '0')}/${(new Date(loginCandidate?.updatedAt).getMonth() + 1).toString().padStart(2, '0')}/${new Date(loginCandidate?.updatedAt).getFullYear() % 100}`}</span>
                                                 </div>
                                                 <div className="prof-page-divider"></div>
                                                 <div className="prof-more-det-section">
@@ -1083,9 +1082,7 @@ const CandidateProfile = () => {
                                 </div> */}
 
                                 <div className="profile-action-btn-area" id='View_Cv'>
-                                    <button className='view-cv-btn' onClick={() => {
-                                        window.open(candidateResumeUrl);
-                                    }}>
+                                    <button className='view-cv-btn' >
                                         <i class="bi bi-eye-fill view-cv-icon"></i>
                                         View CV
                                     </button>
@@ -1098,7 +1095,9 @@ const CandidateProfile = () => {
                                         >
                                         </object>
                                     )} */}
-                                    <button className='download-cv-btn'>
+                                    <button className='download-cv-btn' onClick={() => {
+                                        window.open(candidateResumeUrl);
+                                    }}>
                                         <i class="bi bi-download download-cv-icon"></i>
                                         Download CV
                                     </button>
