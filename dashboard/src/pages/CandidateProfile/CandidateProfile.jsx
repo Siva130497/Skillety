@@ -6,6 +6,9 @@ import './CandidateProfile-responsive.css';
 import $ from 'jquery';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.css';
+
 
 const CandidateProfile = () => {
     const { id } = useParams();
@@ -27,6 +30,17 @@ const CandidateProfile = () => {
         skill: "",
         profileHeadline: "",
     })
+
+    useEffect(()=>{
+        setUserInfo({
+            ...userInfo,
+            firstName:loginCandidate?.firstName,
+            lastName:loginCandidate?.lastName,
+            location:loginCandidate?.location,
+            skill:loginCandidate?.skills.join(", "),
+            profileHeadline:loginCandidate?.profileHeadline
+        })
+    },[loginCandidate])
 
     useEffect(() => {
         $(document).ready(function () {
@@ -157,6 +171,30 @@ const CandidateProfile = () => {
 
     }, []);
 
+
+    //for show success message for payment
+    function showSuccessMessage(message) {
+        Swal.fire({
+            title: 'Success!',
+            text: message,
+            icon: 'success',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'OK',
+        });
+    }
+
+    //for show error message for payment
+    function showErrorMessage() {
+        Swal.fire({
+            title: 'Error!',
+            text: "An error occured!",
+            icon: 'error',
+            confirmButtonColor: '#d33',
+            confirmButtonText: 'OK',
+        });
+    }
+
+
     useEffect(() => {
         setCandidateToken(JSON.parse(localStorage.getItem('candidateToken')))
     }, [candidateToken])
@@ -217,18 +255,24 @@ const CandidateProfile = () => {
             .then(res => {
                 console.log(res.data)
                 if (!res.data.error) {
-                    alert("first name updated")
+                    showSuccessMessage("First Name Updated")
                     setUserInfo({ ...userInfo, firstName: "" })
 
                     axios.get(`http://localhost:5002/candidate/${id}`)
-                        .then(res => {
-                            console.log(res.data)
-                            setLoginCandidate(res.data)
-                        })
-                        .catch(err => console.log(err))
+                    .then(res=>{
+                        console.log(res.data)
+                        setLoginCandidate(res.data)
+                    })
+                    .catch(err=>{
+                        console.log(err)
+                        
+                    })
                 }
             })
-            .catch(err => console.log(err))
+            .catch(err => {
+                console.log(err)
+                showErrorMessage()
+            })
     }
 
     const handleLastNameUpdate = () => {
@@ -677,7 +721,7 @@ const CandidateProfile = () => {
                                                     Update resume
                                                 </span>
                                             </label>
-                                            <span id="file-chosen">{resume?.length > 0 ? resume.name : 'No file chosen'}</span>
+                                            {resume?.length > 0 ? <span id="file-chosen">{resume.name}</span> : loginCandidate?.file ? <span id="file-chosen">{loginCandidate?.file}</span> : <span id="file-chosen">no file choosen</span>}
                                             <button className="setting-update-btn more-det" onClick={handleResumeUpdate}>Update</button>
                                             {/* <div className="file-upload-btn-area">
                                                 <button id="clear-file" className='clear-file-btn'>

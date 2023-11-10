@@ -25,6 +25,14 @@ const SettingsClient = () => {
         confirmPassword: "",
     })
 
+    useEffect(()=>{
+        setUserInfo({
+            ...userInfo,
+            email:loginClientDetail?.email,
+            phone:loginClientDetail?.phone,
+        })
+    },[loginClientDetail])
+
     useEffect(() => {
         $(document).ready(function () {
             $(".setting-change-btn").on("click", function () {

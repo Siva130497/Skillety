@@ -6850,21 +6850,22 @@ body.layout-3 .main-footer {
 }
 
 .main-sidebar .sidebar-menu li .menu-toggle:before {
-    content: "\f067";
-    font-family: "Font Awesome\ 5 Free";
+    content: "\f285";
+    font-family: 'bootstrap-icons' !important;
+    color: #714F36;
     position: absolute;
-    font-size: 10px;
-    right: 17px;
+    font-size: 11px;
+    right: 15px;
     transform: scale(1);
     transition: all 0.3s
 }
 
 .main-sidebar .sidebar-menu li .menu-toggle:after {
-    content: "\f068";
-    font-family: "Font Awesome\ 5 Free";
+    content: "\f282";
+    font-family: 'bootstrap-icons' !important;
     position: absolute;
-    font-size: 10px;
-    right: 17px;
+    font-size: 11px;
+    right: 15px;
     transform: scale(0);
     transition: all 0.3s
 }
@@ -6979,10 +6980,10 @@ body.layout-3 .main-footer {
 }
 
 .main-sidebar .sidebar-menu li ul.dropdown-menu li a:before {
-    content: "\f105";
-    font-family: "Font Awesome 5 Free";
+    content: "\f285";
+    font-family: 'bootstrap-icons' !important;
     font-weight: 900;
-    font-size: 12px;
+    font-size: 11px;
     position: absolute;
     transition: 0.5s;
     left: 30px;
@@ -7238,7 +7239,7 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
 }
 
 @media (max-width:572px) {
-    .main-content{
+    .main-content {
         padding-left: 18px;
         padding-right: 18px;
     }
