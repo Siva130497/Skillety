@@ -57,9 +57,9 @@ const ClientSidebar = () => {
                         <li className="dropdown" id='search_candidate'>
                             <a href="/talent-profile-search" className="nav-link"><i data-feather="search"></i><span>Search Candidates</span></a>
                         </li>
-                        <li className="dropdown" id='manage_application'>
+                        {/* <li className="dropdown" id='manage_application'>
                             <a href="/manage-application" className="nav-link"><i data-feather="file"></i><span>Manage Applications</span></a>
-                        </li>
+                        </li> */}
                         <li className="dropdown" id='post_job'>
                             <a href="/post-job" className="nav-link"><i data-feather="briefcase"></i><span>Post a Job</span></a>
                         </li>

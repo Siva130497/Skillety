@@ -20,6 +20,10 @@ import PackagePlans from './pages/PackagePlans/PackagePlans';
 
 import JobDetails from './pages/JobDetails/JobDetails';
 
+////for recruiter
+import RecruiterDashboard from './pages/RecruiterDashboard/RecruiterDashboard';
+
+
 
 function App() {
   return (
@@ -43,6 +47,9 @@ function App() {
         <Route path='/invoice-payment' element={<InvoicePayment />} />
         <Route path='/package-plans' element={<PackagePlans />} />
         <Route path='/job-details' element={<JobDetails />} />
+
+        {/* for recruiter */}
+        <Route path='/recruiter-dashboard' element={<RecruiterDashboard />} />
 
       </Routes>
     </AuthContextProvider>

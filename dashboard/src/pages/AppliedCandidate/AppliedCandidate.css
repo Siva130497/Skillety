@@ -1,0 +1,540 @@
+.dash-talent--profile-card-section {
+    padding: 40px 20px;
+}
+
+.talent--profile-card {
+    position: relative;
+    border-radius: 12px;
+    background-color: #F9C833;
+    /* width: 65%; */
+    transition: ease-in-out 0.8s !important;
+    border: 2px solid #fff;
+    z-index: 1;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    margin-bottom: 30px;
+    /* padding: 25px; */
+    /* cursor: pointer; */
+    /* border-bottom: 5px #fff solid; */
+    /* display: flex;
+    flex-direction: row;
+    gap: 30px;
+    width: 869px; */
+    /* justify-content: space-between; */
+}
+
+/* .talent--profile-card::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    transition: 0.8s ease-in-out !important;
+    background-color: #ffffff;
+    border-radius: 30px;
+    visibility: hidden;
+    height: 10px;
+    width: 10px;
+    z-index: -1;
+}
+
+.talent--profile-card:hover::after {
+    visibility: visible;
+    transform: scale(300) translateX(2px);
+} */
+
+.talent--profile-card:hover {
+    transform: translateY(-8px) !important;
+    /* border-color: #714F36; */
+}
+
+.tal--pro-card-left-area {
+    /* position: relative; */
+    padding: 25px !important;
+    width: 70%;
+}
+
+.tal--pro-card-profile-img-role-area {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.tal--pro-card-name-area {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+}
+
+.tal--pro-card-name-check-container {
+    position: relative;
+    cursor: pointer;
+}
+
+.tal--pro-card-name-check-container input {
+    position: absolute;
+    opacity: 0;
+}
+
+.tal--pro-card-name-checkmark {
+    width: 30px;
+    height: 30px;
+    position: relative;
+    top: 0;
+    left: 0;
+    border: 2px solid #714F36;
+    border-radius: 5px;
+    box-shadow: 1px #323232;
+    background-color: #FFF;
+    transition: all 0.3s;
+}
+
+.tal--pro-card-name-check-container input:checked~.tal--pro-card-name-checkmark {
+    background-color: #714F36;
+}
+
+.tal--pro-card-name-checkmark:after {
+    content: "";
+    width: 7px;
+    height: 15px;
+    position: absolute;
+    top: 4px;
+    left: 9px;
+    display: none;
+    border: solid #FFF;
+    border-width: 0 2.5px 2.5px 0;
+    transform: rotate(45deg);
+}
+
+.tal--pro-card-name-check-container input:checked~.tal--pro-card-name-checkmark:after {
+    display: block;
+}
+
+.tal--pro-card-left-area .tal--pro-card-name {
+    color: #714F36;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: normal;
+    transition: 0.8s ease-in-out;
+    margin-bottom: 0;
+}
+
+.talent--profile-card:hover .tal--pro-card-left-area .tal--pro-card-name {
+    /* color: #714F36; */
+    letter-spacing: 1px;
+}
+
+.tal--pro-card-tags {
+    margin-top: 15px;
+    display: flex;
+    gap: 25px;
+    align-items: center;
+}
+
+.tal--pro-card-tags .tal--pro-card-rating i {
+    color: #F9C833;
+    font-size: 20px;
+    margin-right: 5px;
+    transition: 0.8s ease-in-out;
+}
+
+/* .talent--profile-card:hover .tal--pro-card-tags .tal--pro-card-location i,
+.talent--profile-card:hover .tal--pro-card-tags .tal--pro-card-rating span,
+.talent--profile-card:hover .tal--pro-card-tags .tal--pro-card-exp,
+.talent--profile-card:hover .tal--pro-card-tags .tal--pro-card-location span,
+.talent--profile-card:hover .tal--pro-card-tags .tal--pro-card-role,
+.talent--profile-card:hover .tal--pro-card-desc-area .tal--pro-card-desc-title,
+.talent--profile-card:hover .tal--pro-card-desc-area .tal--pro-card-desc {
+    color: #714F36 !important;
+} */
+
+.tal--pro-card-tags .tal--pro-card-location i {
+    color: #714F36;
+    font-size: 20px;
+    margin-right: 5px;
+    transition: 0.8s ease-in-out;
+}
+
+.tal--pro-card-tags .tal--pro-card-rating span,
+.tal--pro-card-tags .tal--pro-card-exp,
+.tal--pro-card-tags .tal--pro-card-location span,
+.tal--pro-card-tags .tal--pro-card-role {
+    color: #714F36;
+    font-size: 16px !important;
+    font-weight: 500 !important;
+    line-height: normal;
+    transition: 0.8s ease-in-out;
+}
+
+.tal--pro-card-desc-area {
+    margin-top: 28px;
+}
+
+.tal--pro-card-desc-area .tal--pro-card-desc-title,
+.tal--pro-card-desc-area .tal--pro-card-desc {
+    color: #714F36 !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    line-height: normal;
+    margin-bottom: 10px;
+    transition: 0.8s ease-in-out;
+}
+
+.tal--pro-card-bottom-btn-area {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    line-height: 1;
+}
+
+.tal--pro-card-bottom-btn-area .tal--pro-card-bottom-btn {
+    background-color: transparent;
+    margin: 0;
+    padding: 0;
+    outline: none;
+    border: none;
+    color: #0F75C5;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.tal--pro-card-bottom-btn-area .tal--pro-card-bottom-btn i {
+    color: #0F75C5;
+    font-size: 16px;
+    vertical-align: text-top;
+    margin-right: 5px;
+}
+
+.tal--pro-card-bottom-btn-area .horizon--ln {
+    color: #0F75C5;
+    font-size: 20px;
+    font-weight: 200;
+}
+
+.tal--pro-card-desc-area .tal--pro-card-desc {
+    padding-left: 8px;
+}
+
+.custom-padd-right {
+    padding-right: 0;
+}
+
+.custom-padd-left {
+    padding-left: 0;
+}
+
+.tal--pro-card-right-area {
+    width: 30%;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    align-items: center;
+    /* padding-right: 70px; */
+    height: 100%;
+    padding: 20px;
+}
+
+.tal--pro-card-right-cover-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.tal--pro-card-right-btn-area {
+    right: 0;
+    width: 48px;
+    flex-shrink: 0;
+    background-color: #714F36;
+    position: absolute;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+
+}
+
+.tal--pro-card-right-btn {
+    color: #F9C833;
+    font-size: 20px;
+    outline: none;
+    border: none;
+    background-color: transparent;
+    margin: 0;
+    padding: 0;
+}
+
+.tal--pro-card-right-btn:focus,
+.tal--pro-card-right-btn:active {
+    border: none;
+    outline: none;
+}
+
+.tal--pro-card-right-btn img {
+    width: 20px;
+    flex-shrink: 0;
+}
+
+.tal--pro-card-right-area .tal--pro-card-profile-img {
+    width: 90px;
+    height: 90px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: top;
+    border: 1px solid #714F36;
+    padding: 3px;
+    transition: 0.8s ease-in-out;
+}
+
+.talent--profile-card:hover .tal--pro-card-right-area .tal--pro-card-profile-img {
+    /* border-color: #714F36; */
+    -webkit-animation: pulseProImg 1.5s infinite;
+    animation: pulseProImg 1.5s infinite;
+}
+
+@keyframes pulseProImg {
+    0% {
+        box-shadow: 0 0 0 0 #714f3632;
+    }
+
+    70% {
+        box-shadow: 0 0 0 12px rgb(218 103 68 / 0%);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgb(218 103 68 / 0%);
+    }
+}
+
+.tal--pro-card-role-name {
+    margin-top: 10px;
+    color: #714F36;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+.tal--pro-card-contact-btn-area {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    position: relative;
+}
+
+.tal--pro-card-contact-btn-area .tal--pro-card-contact-btn {
+    border-radius: 7px;
+    border: 1px solid #714F36;
+    background-color: #714F36;
+    outline: none;
+    border: none;
+    color: #F9C833;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 500;
+    width: 100%;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 25px;
+    transition: ease-in-out 0.8s;
+    position: relative;
+}
+
+.profile-credits-area {
+    border-radius: 8px;
+    background-color: #5C3B2E;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    -webkit-backdrop-filter: blur(3px);
+    backdrop-filter: blur(3px);
+    z-index: 2;
+    position: absolute;
+    opacity: 0;
+    top: 105%;
+    width: 100%;
+    transition: opacity ease-in-out 0.3s;
+}
+.tal--pro-card-contact-btn-area .tal--pro-card-contact-btn:hover +.profile-credits-area{
+    opacity: 1;
+}
+
+.profile-credits-area .profile-credits-title {
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.profile-credits-area .profile-credits {
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.tal--pro-card-contact-btn-area .tal--pro-card-contact-btn img {
+    width: 18px;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+.tal--pro-card-contact-btn-area .tal--pro-card-contact-btn:hover {
+    background-color: #5b3e29;
+}
+
+.tal--pro-card-ability-number-area {
+    margin-top: 17px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.tal--pro-card-ability-number-left {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.tal--pro-card-ability-number-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.tal--pro-card-ability {
+    color: #714F36;
+    font-size: 14px;
+    font-weight: 500;
+    transition: 0.8s ease-in-out;
+}
+
+.tal--pro-card-percentage,
+.tal--pro-card-days {
+    color: #714F36;
+    font-size: 40px;
+    font-weight: 500;
+    transition: 0.8s ease-in-out;
+    margin-bottom: 0;
+    margin-top: 5px;
+}
+
+.tal--pro-card-days span {
+    font-size: 12px !important;
+}
+
+/* .talent--profile-card:hover .tal--pro-card-ability-area .tal--pro-card-ability,
+.talent--profile-card:hover .tal--pro-card-number-area .tal--pro-card-percentage,
+.talent--profile-card:hover .tal--pro-card-number-area .tal--pro-card-days {
+    color: #714F36;
+} */
+
+
+
+.tal--pro-card-know-btn-area {
+    margin-top: 10px;
+}
+
+.tal--pro-card-know-btn-area .tal--pro-card-know-btn {
+    text-decoration: none;
+    border-radius: 7px;
+    border: 2px solid #FFF;
+    color: #FFF;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 8px 12px;
+    transition: ease-in-out 0.8s;
+}
+
+/* .talent--profile-card:hover .tal--pro-card-know-btn-area .tal--pro-card-know-btn {
+    color: #714F36;
+    border-color: #714F36;
+} */
+
+.tal--pro-card-know-btn:hover {
+    background-color: #F9C833;
+    color: #714F36;
+}
+
+.tal--pro-paginate-btn-area {
+    margin-top: 60px;
+    margin-bottom: 40px;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0;
+}
+
+.tal--pro-paginate-btn-area .tal--pro-total-result-text {
+    color: #714F36;
+    font-size: 15px;
+    font-weight: 400;
+    margin-bottom: 0;
+}
+
+.tal--pro-slider-btn-area {
+    margin-top: 45px;
+    margin-bottom: 95px;
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0 60px;
+}
+
+.tal--pro-slider-btn-sub {
+    display: flex;
+    gap: 10px;
+}
+
+.tal--pro-slider-btn {
+    position: relative;
+    outline: none !important;
+    border: 1px solid #5C3B2E;
+    border-radius: 50%;
+    flex-shrink: 0;
+    background-color: #fff;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: ease-in-out 0.8s;
+}
+
+.tal--pro-slider-btn:active .arrow-left,
+.tal--pro-slider-btn:active .arrow-right {
+    scale: 0.8;
+}
+
+.tal--pro-slider-btn svg path {
+    transition: ease-in-out 0.8s;
+}
+
+.tal--pro-slider-btn .arrow-left {
+    transform: rotate(225deg);
+    transition: ease 0.2s;
+}
+
+.tal--pro-slider-btn .arrow-right {
+    transform: rotate(45deg);
+    transition: ease 0.2s;
+}
+
+.tal--pro-slider-btn:hover {
+    background-color: #5C3B2E;
+}
+
+.tal--pro-slider-btn:hover .arrow-left path,
+.tal--pro-slider-btn:hover .arrow-right path {
+    stroke: #fff;
+}

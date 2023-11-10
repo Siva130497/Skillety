@@ -657,9 +657,9 @@
     z-index: -1;
 }
 
-.home--service-card:hover .service--card-headarea h3 {
+/* .home--service-card:hover .service--card-headarea h3 {
     letter-spacing: 1px;
-}
+} */
 
 .home--service-card:hover::after {
     visibility: visible;

@@ -1,0 +1,143 @@
+@media screen and (min-width: 1199.98px) and (max-width: 1399px) {}
+
+@media screen and (min-width: 991.98px) and (max-width: 1199px) {}
+
+@media (max-width:991.97px) {
+    .card-left-area {
+        width: 100%;
+    }
+
+    .card-flex-area {
+        gap: 20px;
+    }
+
+    .profile-side-card {
+        padding: 20px;
+    }
+
+    .profile-det-image-area {
+        padding: 0 10px 10px 10px;
+    }
+
+    .card-right-area {
+        gap: 20px;
+        width: 100%;
+        justify-content: flex-start;
+        align-items: flex-start;
+    }
+
+    .profile-det-area {
+        width: 100%;
+    }
+
+    .pro-quick-link {
+        font-size: 16px !important;
+    }
+
+    .prof-more-det-section {
+        gap: 10px;
+    }
+}
+
+@media (max-width:500px) {
+    .card-right-area {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .profile-det-image-area {
+        padding: 10px;
+    }
+
+    .prof-more-det-section {
+        flex-direction: column;
+        gap: 0px;
+    }
+
+    .prof-more-det-area {
+        margin-bottom: 20px;
+    }
+
+    .missing-det-content {
+        width: 100%;
+        gap: 10px;
+    }
+
+    .missing-det-content-area {
+        flex-direction: column;
+        gap: 10px;
+        border-bottom: 1px solid #714F36;
+        padding-bottom: 20px;
+        align-items: flex-end;
+    }
+
+    .missing-det-btn {
+        font-size: 15px;
+        padding: 10px;
+        width: 100%;
+    }
+
+    .missing-det-add-btn {
+        font-size: 14px;
+    }
+
+    .profile-content-card {
+        padding: 20px;
+    }
+
+    .candidate-prrofile-section {
+        padding: 25px 5px !important;
+    }
+
+    .profile-head-area {
+        margin-bottom: 20px;
+    }
+
+    #file-chosen {
+        position: relative;
+        display: flex;
+        justify-content: flex-start;
+    }
+
+    .prof-page-file-upload-area {
+        position: relative;
+        margin: 30px 0 20px 0;
+    }
+
+    .profile-content-title {
+        font-size: 18px;
+    }
+
+    .profile-content,
+    .profile-content-edit-btn,
+    .profile-content-more-inputs-edit-btn {
+        font-size: 14px;
+    }
+
+    .profile-content-top-area {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .card-flex-area {
+        gap: 10px;
+    }
+
+    .profile-action-btn-area {
+        border-top: #ffffff 1px solid;
+        padding-top: 20px;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .download-cv-btn,
+    .view-cv-btn {
+        width: 100%;
+    }
+
+    .file-upload-btn {
+        font-size: 12px;
+    }
+}

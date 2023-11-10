@@ -1,8 +1,8 @@
 import React, { useContext, useState } from 'react';
 import { useEffect } from 'react';
 import $ from 'jquery';
-import './TalentsProfileSearch.css';
-import './TalentsProfileSearch-responsive.css';
+import './AppliedCandidate.css';
+import './AppliedCandidate-responsive.css';
 import ClientLayout from '../../components/ClientLayout';
 import Footer from '../../components/Footer';
 import axios from 'axios';
@@ -11,19 +11,19 @@ import AuthContext from '../../context/AuthContext';
 
 const AppliedCandidate = () => {
     const [clientToken, setClientToken] = useState("");
-    const {id} = useParams();
-    const {getProtectedData, getCandidateImg, candidateImg} = useContext(AuthContext);
+    const { id } = useParams();
+    const { getProtectedData, getCandidateImg, candidateImg } = useContext(AuthContext);
     const [employeeId, setEmployeeId] = useState("");
     const [loginClientDetail, setLoginClientDetail] = useState();
     const [candidateDetail, setCandidateDetail] = useState([]);
-    const [selectedJobs, setSelectedJobs] =useState([]);
+    const [selectedJobs, setSelectedJobs] = useState([]);
     const [reqCands, setReqCands] = useState([]);
 
     const navigate = useNavigate();
 
-    useEffect(()=>{
+    useEffect(() => {
         setClientToken(JSON.parse(localStorage.getItem('clientToken')))
-    },[clientToken])
+    }, [clientToken])
 
     useEffect(() => {
         $(document).ready(function () {
@@ -428,6 +428,19 @@ const AppliedCandidate = () => {
                 }
             });
             ////
+
+            $('.tal--pro-card-contact-btn').hover(
+                function () {
+                    // On hover in
+                    var newText = $('.profile-credits-title').text();
+                    $(this).text(newText);
+                },
+                function () {
+                    // On hover out
+                    var originalText = "View Profile"; // Replace with your original text
+                    $(this).text(originalText);
+                }
+            );
         });
     }, []);
 
@@ -475,8 +488,8 @@ const AppliedCandidate = () => {
         }
     }
 
-    const getAppliedOfPostedJobs = async() => {
-        try{
+    const getAppliedOfPostedJobs = async () => {
+        try {
             const res = await axios.get(`http://localhost:5002/applied-jobs-of-posted/${loginClientDetail.companyId}`, {
                 headers: {
                     Authorization: `Bearer ${clientToken}`,
@@ -485,18 +498,18 @@ const AppliedCandidate = () => {
             });
             const result = res.data;
             if (!result.error) {
-              console.log(result);
-              const jobWithDiffCandId = result.filter(jobs=>jobs.jobId === id)
-              console.log(jobWithDiffCandId)
-              setSelectedJobs(jobWithDiffCandId);
+                console.log(result);
+                const jobWithDiffCandId = result.filter(jobs => jobs.jobId === id)
+                console.log(jobWithDiffCandId)
+                setSelectedJobs(jobWithDiffCandId);
             } else {
-              console.log(result);
+                console.log(result);
             }
-        }catch(err){
-          console.log(err);
+        } catch (err) {
+            console.log(err);
         }
-      }
-    
+    }
+
     useEffect(() => {
         if (clientToken) {
             const fetchData = async () => {
@@ -519,193 +532,188 @@ const AppliedCandidate = () => {
         }
     }, [employeeId]);
 
-    useEffect(()=>{
-        if(loginClientDetail){
-            
+    useEffect(() => {
+        if (loginClientDetail) {
+
             getAppliedOfPostedJobs();
         }
-        
-    },[loginClientDetail])
+
+    }, [loginClientDetail])
 
     useEffect(() => {
-        if (selectedJobs && selectedJobs.length > 0) { 
-          const appliedCandIds = selectedJobs.map(job => job.candidateId);
-          console.log(appliedCandIds)
-          const appliedCands = candidateDetail.filter(cand => appliedCandIds.includes(cand.id));
-          setReqCands(appliedCands);
+        if (selectedJobs && selectedJobs.length > 0) {
+            const appliedCandIds = selectedJobs.map(job => job.candidateId);
+            console.log(appliedCandIds)
+            const appliedCands = candidateDetail.filter(cand => appliedCandIds.includes(cand.id));
+            setReqCands(appliedCands);
         }
-      }, [selectedJobs])
+    }, [selectedJobs])
 
-    
+
     return (
         <div>
             <div class="main-wrapper main-wrapper-1">
                 <div class="navbar-bg"></div>
                 <ClientLayout />
-            
+
                 <div class="main-content">
                     <section class="section">
-                        <div className='cli--tal-pro-search-section pt-5'>
-                            <div className='container-fluid container-section'>
-                                <div className="custom--container tal--pro-search">
-                                    
-                                        <div className='talent--profile-search-results-section'>
-                                            
-                                            <div className="row row-border-custom">
-                                                
+                        <div className="my-app-section">
+                            <div className="admin-component-name">
+                                Applicants
+                            </div>
 
-                                                <div className="col-12 col-lg-8 col-xl-8 col-md-8 pe-lg-0 pe-md-1 col-width-lg-70">
-                                                    
-                                                    <div className="cli--tal-pro-search-results-area">
-                                                        {reqCands.map((candidate) => {
-                                                                    const matchingImg = candidateImg ? candidateImg.find(img => img.id === candidate.id) : null;
-                                                                    const imgSrc = matchingImg ? `http://localhost:5002/candidate_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
-                                                                    return (
-                                                                        <article className="talent--profile-card search" key={candidate.id} onClick={()=>navigate(`/talents/${candidate.id}`)}>
-                                                                            <div className="tal--pro-card-left-area search">
-                                                                                <div className='card-split-line'></div>
-                                                                                <div className="tal--pro-card-name-area">
-                                                                                    {/* <label className="tal--pro-card-name-check-container">
-                                                                                        <input type="checkbox" checked={viewedCandidateForThisCandidate ? true : false} onChange={(e) => e.preventDefault()} />
-                                                                                        <div className="tal--pro-card-name-checkmark"></div>
-                                                                                    </label> */}
-                                                                                    <h6 className='tal--pro-card-name'>{candidate.firstName + ' ' + candidate.lastName}</h6>
-                                                                                </div>
-                                                                                <div className="tal--pro-card-tags search">
-                                                                                    <h6 className='tal--pro-card-exp'>
-                                                                                        Experience : {candidate.year > 0 ? candidate.year + 'years' : "" + candidate.month > 0 ? candidate.month + 'months' : ""}
-                                                                                    </h6>
-                                                                                    <h6 className='tal--pro-card-exp'>
-                                                                                        9.5 LPA
-                                                                                    </h6>
-                                                                                    <h6 className='tal--pro-card-location'>
-                                                                                        <i class="bx bxs-map"></i>
-                                                                                        <span>{candidate.location}</span>
-                                                                                    </h6>
-                                                                                    <h6 className='tal--pro-card-role'>
-                                                                                        {candidate.designation[0]}
-                                                                                    </h6>
-                                                                                </div>
-                                                                                <div className="tal--pro-card-desc-area search">
-                                                                                    <div className="row tal--pro-card-desc-row">
-                                                                                        <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
-                                                                                            <h6 className='tal--pro-card-desc-title'>Previous&nbsp;:</h6>
-                                                                                        </div>
-                                                                                        <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
-                                                                                            <p className='tal--pro-card-desc'>{candidate.designation[0] + " " + "at" + " " + candidate.companyName}</p>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div className="row tal--pro-card-desc-row">
-                                                                                        <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
-                                                                                            <h6 className='tal--pro-card-desc-title'>Education&nbsp;:</h6>
-                                                                                        </div>
-                                                                                        <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
-                                                                                            <p className='tal--pro-card-desc'>{candidate.college}</p>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div className="row tal--pro-card-desc-row">
-                                                                                        <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
-                                                                                            <h6 className='tal--pro-card-desc-title'>Preferred Location&nbsp;:</h6>
-                                                                                        </div>
-                                                                                        <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
-                                                                                            <p className='tal--pro-card-desc'>Hyderabad, Kolkata, Chennai</p>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div className="row tal--pro-card-desc-row">
-                                                                                        <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
-                                                                                            <h6 className='tal--pro-card-desc-title'>KeySkill&nbsp;:</h6>
-                                                                                        </div>
-                                                                                        <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
-                                                                                            <p className='tal--pro-card-desc'>{candidate.skills.join(", ")}</p>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div className="row tal--pro-card-desc-row">
-                                                                                        <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
-                                                                                            <h6 className='tal--pro-card-desc-title'>May also Know&nbsp;:</h6>
-                                                                                        </div>
-                                                                                        <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
-                                                                                            <p className='tal--pro-card-desc'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed </p>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div className="tal--pro-card-bottom-btn-area search">
-                                                                                    <button className='tal--pro-card-bottom-btn'>
-                                                                                        <span>897 </span>Similar Profile
-                                                                                    </button>
-                                                                                    <span className='horizon--ln'>|</span>
-                                                                                    <button className='tal--pro-card-bottom-btn'>Comment</button>
-                                                                                    <span className='horizon--ln'>|</span>
-                                                                                    <button className='tal--pro-card-bottom-btn'>
-                                                                                        <i class="bi bi-bookmark"></i>Save
-                                                                                    </button>
-                                                                                </div>
-                                                                            </div>
-
-                                                                            <div className="tal--pro-card-right-area search">
-                                                                                <div className="tal--pro-card-right-cover-area search">
-                                                                                    <div className='tal--pro-card-profile-img-role-area search'>
-                                                                                        <img src={imgSrc} alt="" />
-                                                                                        <p className='tal--pro-card-role-name'>Frontend Developer (Css,html)</p>
-                                                                                    </div>
-                                                                                    <div className="tal--pro-card-contact-btn-area search">
-                                                                                        <button className='tal--pro-card-contact-btn search'>View Phone Number</button>
-                                                                                        <button className='tal--pro-card-contact-btn search'>
-                                                                                            <img src="assets/img/talent-profile/call.png" alt="" />
-                                                                                            Call Candidate
-                                                                                        </button>
-                                                                                    </div>
-                                                                                    <div className="tal--pro-card-ability-number-area">
-                                                                                        <div className="tal--pro-card-ability-number-left">
-                                                                                            <h6 className='tal--pro-card-ability search'>Skill matched</h6>
-                                                                                            <h2 className='tal--pro-card-percentage search'>90%</h2>
-                                                                                        </div>
-                                                                                        <div className="tal--pro-card-ability-number-right">
-                                                                                            <h6 className='tal--pro-card-ability search'>Can join in</h6>
-                                                                                            <h2 className='tal--pro-card-days search'>07<span>days</span></h2>
-                                                                                        </div>
-                                                                                    </div>
-
-                                                                                </div>
-                                                                                <div className="tal--pro-card-right-btn-area search">
-                                                                                    <button className='tal--pro-card-right-btn search'>
-                                                                                        <img src="assets/img/talent-profile/document.png" alt="" />
-                                                                                    </button>
-                                                                                    <button className='tal--pro-card-right-btn search'>
-                                                                                        <img src="assets/img/talent-profile/arrow.png" alt="" />
-                                                                                    </button>
-                                                                                    <button className='tal--pro-card-right-btn search'>
-                                                                                        <img src="assets/img/talent-profile/email.png" alt="" />
-                                                                                    </button>
-                                                                                </div>
-                                                                            </div>
-                                                                        </article>
-                                                                    )
-                                                            }) }
-                                                        <div className="tal--pro-paginate-btn-area" data-aos="fade-up">
-                                                            <h6 className='tal--pro-total-result-text'>Total Items : <span>{reqCands.length}</span></h6>
-                                                            <div className='tal--pro-slider-btn-sub'>
-                                                                <button className="tal--pro-slider-btn">
-                                                                    <svg className='arrow-left' xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 27 27" fill="none">
-                                                                        <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#5C3B2E" stroke-width="2" />
-                                                                        <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#5C3B2E" stroke-width="2" />
-                                                                        <path d="M1 26L25.1667 1" stroke="#5C3B2E" stroke-width="2" />
-                                                                    </svg>
-                                                                </button>
-                                                                <button className="tal--pro-slider-btn">
-                                                                    <svg className='arrow-right' xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 27 27" fill="none">
-                                                                        <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#5C3B2E" stroke-width="2" />
-                                                                        <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#5C3B2E" stroke-width="2" />
-                                                                        <path d="M1 26L25.1667 1" stroke="#5C3B2E" stroke-width="2" />
-                                                                    </svg>
-                                                                </button>
-                                                            </div>
+                            <div className="dash-talent--profile-card-section">
+                                {reqCands.map((candidate) => {
+                                    const matchingImg = candidateImg ? candidateImg.find(img => img.id === candidate.id) : null;
+                                    const imgSrc = matchingImg ? `http://localhost:5002/candidate_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
+                                    return (
+                                        <article className="talent--profile-card" key={candidate.id}>
+                                            <div className="tal--pro-card-left-area">
+                                                <div className='card-split-line'></div>
+                                                <div className="tal--pro-card-name-area">
+                                                    <label className="tal--pro-card-name-check-container">
+                                                        <input type="checkbox" />
+                                                        <div className="tal--pro-card-name-checkmark"></div>
+                                                    </label>
+                                                    <h6 className='tal--pro-card-name'>{candidate.firstName + ' ' + candidate.lastName}</h6>
+                                                </div>
+                                                <div className="tal--pro-card-tags">
+                                                    <h6 className='tal--pro-card-exp'>
+                                                        Experience : {candidate.year > 0 ? candidate.year + 'years' : "" + candidate.month > 0 ? candidate.month + 'months' : ""}
+                                                    </h6>
+                                                    <h6 className='tal--pro-card-exp'>
+                                                        9.5 LPA
+                                                    </h6>
+                                                    <h6 className='tal--pro-card-location'>
+                                                        <i class="bx bxs-map"></i>
+                                                        <span>{candidate.location}</span>
+                                                    </h6>
+                                                    <h6 className='tal--pro-card-role'>
+                                                        {candidate.designation[0]}
+                                                    </h6>
+                                                </div>
+                                                <div className="tal--pro-card-desc-area">
+                                                    <div className="row tal--pro-card-desc-row">
+                                                        <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
+                                                            <h6 className='tal--pro-card-desc-title'>Previous&nbsp;:</h6>
+                                                        </div>
+                                                        <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
+                                                            <p className='tal--pro-card-desc'>{candidate.designation[0] + " " + "at" + " " + candidate.companyName}</p>
+                                                        </div>
+                                                    </div>
+                                                    <div className="row tal--pro-card-desc-row">
+                                                        <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
+                                                            <h6 className='tal--pro-card-desc-title'>Education&nbsp;:</h6>
+                                                        </div>
+                                                        <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
+                                                            <p className='tal--pro-card-desc'>{candidate.college}</p>
+                                                        </div>
+                                                    </div>
+                                                    <div className="row tal--pro-card-desc-row">
+                                                        <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
+                                                            <h6 className='tal--pro-card-desc-title'>Preferred Location&nbsp;:</h6>
+                                                        </div>
+                                                        <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
+                                                            <p className='tal--pro-card-desc'>Hyderabad, Kolkata, Chennai</p>
+                                                        </div>
+                                                    </div>
+                                                    <div className="row tal--pro-card-desc-row">
+                                                        <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
+                                                            <h6 className='tal--pro-card-desc-title'>KeySkill&nbsp;:</h6>
+                                                        </div>
+                                                        <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
+                                                            <p className='tal--pro-card-desc'>{candidate.skills.join(", ")}</p>
+                                                        </div>
+                                                    </div>
+                                                    <div className="row tal--pro-card-desc-row">
+                                                        <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
+                                                            <h6 className='tal--pro-card-desc-title'>May also Know&nbsp;:</h6>
+                                                        </div>
+                                                        <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
+                                                            <p className='tal--pro-card-desc'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed </p>
                                                         </div>
                                                     </div>
                                                 </div>
+                                                {/* <div className="tal--pro-card-bottom-btn-area">
+                                                    <button className='tal--pro-card-bottom-btn'>
+                                                        <span>897 </span>Similar Profile
+                                                    </button>
+                                                    <span className='horizon--ln'>|</span>
+                                                    <button className='tal--pro-card-bottom-btn'>Comment</button>
+                                                    <span className='horizon--ln'>|</span>
+                                                    <button className='tal--pro-card-bottom-btn'>
+                                                        <i class="bi bi-bookmark"></i>Save
+                                                    </button>
+                                                </div> */}
                                             </div>
-                                        </div>
-                                    
+
+                                            <div className="tal--pro-card-right-area">
+                                                <div className="tal--pro-card-right-cover-area">
+                                                    <div className='tal--pro-card-profile-img-role-area'>
+                                                        <img src={imgSrc} className='tal--pro-card-profile-img' alt="" />
+                                                        <p className='tal--pro-card-role-name'>Frontend Developer (Css,html)</p>
+                                                    </div>
+                                                    <div className="tal--pro-card-contact-btn-area">
+                                                        <button className='tal--pro-card-contact-btn' onClick={() => navigate(`/talents/${candidate.id}`)}>View Profile</button>
+                                                        <span className="profile-credits-title">Credits</span>
+                                                        <div className="profile-credits-area">
+                                                            <div className="profile-credits-title">Credits</div>
+                                                            <div className="profile-credits">01</div>
+                                                        </div>
+                                                        {/* <button className='tal--pro-card-contact-btn'>
+                                                            <img src="../assets/img/talent-profile/call.png" alt="" />
+                                                            Call Candidate
+                                                        </button> */}
+                                                    </div>
+                                                    <div className="tal--pro-card-ability-number-area">
+                                                        <div className="tal--pro-card-ability-number-left">
+                                                            <h6 className='tal--pro-card-ability'>Skill matched</h6>
+                                                            <h2 className='tal--pro-card-percentage'>90%</h2>
+                                                        </div>
+                                                        <div className="tal--pro-card-ability-number-right">
+                                                            <h6 className='tal--pro-card-ability'>Can join in</h6>
+                                                            <h2 className='tal--pro-card-days'>07<span>days</span></h2>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                {/* <div className="tal--pro-card-right-btn-area">
+                                                    <button className='tal--pro-card-right-btn'>
+                                                        <img src="../assets/img/talent-profile/document.png" alt="" />
+                                                    </button>
+                                                    <button className='tal--pro-card-right-btn'>
+                                                        <img src="../assets/img/talent-profile/arrow.png" alt="" />
+                                                    </button>
+                                                    <button className='tal--pro-card-right-btn'>
+                                                        <img src="../assets/img/talent-profile/email.png" alt="" />
+                                                    </button>
+                                                </div> */}
+                                            </div>
+                                        </article>
+                                    )
+                                })}
+
+                                <div className="tal--pro-paginate-btn-area">
+                                    <h6 className='tal--pro-total-result-text'>Total Items : <span>{reqCands.length}</span></h6>
+                                    <div className='tal--pro-slider-btn-sub'>
+                                        <button className="tal--pro-slider-btn">
+                                            <svg className='arrow-left' xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 27 27" fill="none">
+                                                <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#5C3B2E" stroke-width="2" />
+                                                <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#5C3B2E" stroke-width="2" />
+                                                <path d="M1 26L25.1667 1" stroke="#5C3B2E" stroke-width="2" />
+                                            </svg>
+                                        </button>
+                                        <button className="tal--pro-slider-btn">
+                                            <svg className='arrow-right' xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 27 27" fill="none">
+                                                <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#5C3B2E" stroke-width="2" />
+                                                <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#5C3B2E" stroke-width="2" />
+                                                <path d="M1 26L25.1667 1" stroke="#5C3B2E" stroke-width="2" />
+                                            </svg>
+                                        </button>
+                                    </div>
                                 </div>
+
                             </div>
                         </div>
                     </section>

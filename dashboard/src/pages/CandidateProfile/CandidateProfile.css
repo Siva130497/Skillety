@@ -24,6 +24,8 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 50px;
+    flex-wrap: wrap;
 }
 
 .card-right-area {
@@ -141,7 +143,7 @@
     outline: none;
 }
 
-.profile--name-area .profile--name-edit-icon {
+.profile--name-edit-icon {
     color: #714F36;
     font-size: 18px;
 }
@@ -181,6 +183,12 @@
 }
 
 .profile--name-edit-btn.expanded i {
+    color: red !important;
+    font-size: 25px;
+    vertical-align: middle;
+}
+
+.prof-more-det-edit-btn.expanded i {
     color: red !important;
     font-size: 25px;
     vertical-align: middle;
@@ -633,7 +641,7 @@
 
 .prof-page-file-upload-area {
     position: relative;
-    margin: 30px 0 40px 0;
+    margin: 30px 0 20px 0;
 }
 
 .prof-page-file-upload-label {
