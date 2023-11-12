@@ -202,7 +202,7 @@ const ClientRegister = () => {
                                                     <label htmlFor="subject" className='reg--form-label'>Headcount</label>
                                                 </div>
                                             </div>
-                                            <div className="col-12 col-lg-12 col-md-12 col-sm-12 custom-padding-left-right">
+                                            <div className="col-12 col-lg-12 col-md-12 col-sm-12 custom-padding-left-right mt-4">
                                                 <div className='reg--form-group'>
                                                     <input type="text" id='message' name="text" value={credentials.text} onChange={handleInputChange} placeholder="Where did you acquire knowledge about Skillety?" className='reg--form-input' />
                                                     <label htmlFor="message" className='reg--form-label'>From where did you learn about Skillety?</label>
