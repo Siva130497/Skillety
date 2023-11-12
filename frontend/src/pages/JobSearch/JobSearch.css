@@ -14,7 +14,7 @@
 .job-search-content-lg p {
     margin-bottom: 0;
     color: #5C3B2E;
-    font-size: 28px;
+    font-size: 24px;
     font-weight: 400;
     text-transform: capitalize;
 }
@@ -72,4 +72,7 @@
 
 .pl--package-btn.job {
     font-size: 20px;
+}
+.job--detail-card.search{
+    margin-bottom: 30px;
 }

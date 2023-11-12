@@ -167,7 +167,7 @@ const Layout = ({ newNavBarClientRegister, newNavBarClientLogin, newNavBarCandid
         preloader.fadeOut('slow', function () {
           preloader.remove();
         });
-      }, 300);
+      }, 500);
     }
 
     ////////

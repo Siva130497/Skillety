@@ -148,7 +148,7 @@ const LayoutNew = ({home, aboutUs, searchJob, events, contact}) => {
             preloader.fadeOut('slow', function () {
               preloader.remove();
             });
-          }, 300);
+          }, 500);
         }
     
         ////////

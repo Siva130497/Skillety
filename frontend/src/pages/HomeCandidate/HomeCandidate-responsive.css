@@ -93,6 +93,9 @@
         overflow: visible;
         padding-bottom: 40%;
     }
+    .cand--job-card-desc-area .slide-down-view{
+        bottom: 145px !important;
+    }
 }
 
 @media (max-width:500px) {
@@ -139,7 +142,7 @@
         padding-top: 25px;
     }
     .cand--job-card-desc-area{
-        height: 250px;
+        height: 245px;
     }
     .cand--job-card-loc-area .cand--job-card-location,
     .cand--job-card-job-type{
@@ -178,5 +181,8 @@
     }
     .register--section.candidate{
         padding: 10px 0 60px 0;
+    }
+    .cand--job-card-desc-area .slide-down-view{
+        bottom: 125px !important;
     }
 }

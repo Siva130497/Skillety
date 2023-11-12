@@ -6,7 +6,7 @@
 
 .cli--reg-heading-area .cli--reg-heading {
     color: #714F36;
-    font-size: 40px;
+    font-size: 30px;
     font-weight: 500;
     line-height: 0.2rem;
     word-wrap: break-word;
@@ -14,14 +14,14 @@
 
 .cli--reg-heading span {
     color: #714F36;
-    font-size: 80px;
+    font-size: 60px;
     font-weight: 500;
     line-height: 1.8rem;
 }
 
 .cli--reg-heading-area .cli--reg-sub-heading {
     color: #714F36;
-    font-size: 40px;
+    font-size: 30px;
     font-weight: 500;
     line-height: normal;
     margin-top: 46px;
@@ -57,14 +57,16 @@
     padding: 10px 20px 20px 20px;
     margin-top: -10px;
     margin-bottom: 50px;
+    gap: 100px;
 }
 
 .custom--select-area .custom--select-label {
     color: #714F36;
-    font-size: 24px;
+    font-size: 20px;
     font-weight: 500;
     transition: ease-in-out 0.8s;
     pointer-events: none;
+    white-space: nowrap;
 }
 
 .custom--select-input {
@@ -85,7 +87,18 @@
 
 .reg--form-group {
     position: relative;
-    margin-bottom: 85px;
+    margin-bottom: 70px;
+}
+
+.reg--form-group input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.reg--form-group input[type="number"] {
+    appearance: none;
+    -moz-appearance: none;
 }
 
 .cli--reg-form-area .reg--form-input {
@@ -95,7 +108,7 @@
     border: none;
     border-bottom: 2px solid #714F36;
     color: #5C3B2E;
-    font-size: 20px !important;
+    font-size: 18px !important;
     font-weight: 400;
     line-height: normal;
     transition: border-color 0.5s, box-shadow 0.5s;
@@ -103,7 +116,7 @@
 
 .cli--reg-form-area .reg--form-label {
     color: #714F36;
-    font-size: 24px;
+    font-size: 20px;
     font-weight: 500;
     line-height: normal;
     text-transform: capitalize;
@@ -114,6 +127,15 @@
     transform: translateY(-50%);
     pointer-events: none;
     transition: top 0.5s, font-size 0.5s, color 0.5s;
+    padding-bottom: 20px;
+}
+
+.reg--form-label-custom {
+    color: #714F36;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: normal;
+    text-transform: capitalize;
 }
 
 .cli--reg-form-area .reg--form-label span {
@@ -130,7 +152,7 @@
 
 .cli--reg-form-area .reg--form-input::placeholder {
     opacity: 0;
-    font-size: 18px;
+    font-size: 17px;
     color: #a99790;
     transition: opacity 0.5s;
 }
@@ -171,8 +193,8 @@
 }
 
 .reg--form-btn {
-    font-size: 24px;
-    font-weight: 500;
+    font-size: 20px;
+    font-weight: 600;
     border-radius: 48px;
     background-color: #714F36;
     padding: 18px 90px;
@@ -218,7 +240,7 @@
 .reg--form-arrow-area {
     border-radius: 50%;
     background-color: #714F36;
-    padding: 22px;
+    padding: 20px;
     flex-shrink: 0;
     display: flex;
     align-items: center;
@@ -235,7 +257,7 @@
 
 /* /////// */
 .sel {
-    font-size: 24px;
+    font-size: 20px;
     display: inline-block;
     width: 70%;
     background-color: transparent;
@@ -245,7 +267,7 @@
 
 .sel .select--toggle {
     position: absolute;
-    font-size: 24px;
+    font-size: 20px;
     color: #714F36;
     right: 20px;
     top: calc(50% - 0.5em);
@@ -258,7 +280,7 @@
 
 .sel__placeholder {
     display: block;
-    font-size: 24px;
+    font-size: 20px;
     font-weight: 500;
     color: #714F36;
     padding: 10px 0;
@@ -328,7 +350,7 @@
     border-radius: 50%;
     flex-shrink: 0;
     vertical-align: middle;
-    background-color: #F9C833;
+    background-color: #714F36;
     margin-left: 10px;
     display: none;
 }
@@ -374,6 +396,7 @@
         opacity: 0;
     }
 }
-.login--with-g-area{
+
+.login--with-g-area {
     padding: 60px 0 20px 0;
 }

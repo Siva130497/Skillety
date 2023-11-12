@@ -95,6 +95,10 @@ const CandidateRegister = () => {
             $('#file_upload').on('change', function () {
                 $('#file-chosen').text(this.files[0].name);
             });
+
+            $(".reg--form-btn-sub").click(function () {
+                $("html, body").animate({ scrollTop: 0 }, 0);
+            });
         });
     }, [])
 
@@ -344,20 +348,23 @@ const CandidateRegister = () => {
                                                 </div>
                                             </div>
                                         </div>
+
+                                        <div className="form-check form-switch imediate-switch">
+                                            <input
+                                                className="form-check-input imediate-switch-input"
+                                                type="checkbox"
+                                                id='imediate_joiner'
+                                                checked={credentials.checkbox}
+                                                onChange={handleInputChange}
+                                                disabled={credentials.days !== "0 to 7 days"}
+                                            />
+                                            <label className="imediate-switch-label" htmlFor="imediate_joiner">
+                                                Imediate joiner
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>
-                                <div className="form-check form-switch">
-                                    <input
-                                        className="form-check-input"
-                                        type="checkbox"
-                                        checked={credentials.checkbox}
-                                        onChange={handleInputChange}
-                                        disabled={credentials.days !== "0 to 7 days"}
-                                    />
-                                    <label className="form-check-label" htmlFor="flexSwitchCheckChecked">
-                                        Imediate joiner
-                                    </label>
-                                </div>
+
                                 <div className="col-12 col-md-12 col-lg-6 col-xl-6">
                                     <div className="cand--reg-form-group can--reg-date">
                                         <label htmlFor="date" className='cand--reg-form-label-custom'>What is your last working day</label>
@@ -458,52 +465,72 @@ const CandidateRegister = () => {
                         </div>
                         <div className="cand--reg-form-area" data-aos="fade-up">
                             <div className="row">
-                                <div className="col-12 custom-padding-left-right">
-                                    <div className='cand--reg-form-group'>
-                                        <label htmlFor="designation" className='cand--reg-form-label'>Current Role/Designation</label>
-                                        {selectedDesignations.map(selectDesignation => (
-                                            <span className="badge bg-success mx-2"
-                                                key={selectDesignation}
-                                                onClick={() => handleDeselectDesignation(selectDesignation)}
-                                            >{selectDesignation}</span>
-                                        ))}
-                                        <input type="text" name='searchDesignationInput'
-                                            id='searchDesignationInput'
-                                            placeholder='Search designation...'
-                                            value={searchDesignationInput}
-                                            onChange={handleDesignationSearch} className='cand--reg-form-input' />
-                                        {filteredDesignation.length > 0 &&
-                                            filteredDesignation.map((filterDesignation) => {
-                                                return <div key={filterDesignation._id} onClick={() => handleDesignationClick(filterDesignation.designation)}>{filterDesignation.designation}</div>
-                                            })
-                                        }
-                                        <input
-                                            className="form-check-input"
-                                            type="checkbox"
-                                            checked={isCheckedDesignation}
-                                            onChange={() => setIsCheckedDesignation(!isCheckedDesignation)}
-                                        />
-                                        <label className="form-check-label" htmlFor="flexSwitchCheckChecked">
-                                            If your searched designation not in the list, please enable the checkbox & type manually...
-                                        </label>
-                                        <input
-                                            type='text'
-                                            name='manualDesignationInput'
-                                            id='manualDesignationInput'
-                                            className='form-control my-2'
-                                            placeholder='Enter your designation...'
-                                            value={newDesignation}
-                                            onChange={(e) => setNewDesignation(e.target.value)}
-                                            disabled={!isCheckedDesignation}
-                                        />
-                                        <button
-                                            type="button"
-                                            className="btn btn-primary btn-sm"
-                                            onClick={handleManualDesignation}
-                                            disabled={!isCheckedDesignation}
-                                        >add manually entered designation</button>
+                                <div className="col-12 col-lg-6 custom-padding-right2">
+                                    <div className='cand--reg-form-group cand--reg-custom-padding'>
+                                        <div className='cand--reg-multi-input-form-group'>
+                                            <input type="text" name='searchDesignationInput'
+                                                id='searchDesignationInput'
+                                                placeholder='Search designation...'
+                                                value={searchDesignationInput}
+                                                onChange={handleDesignationSearch} className='cand--reg-form-input' />
+                                            <label htmlFor="designation" className='cand--reg-form-label'>Current Role/Designation</label>
+                                            <div className='search-result-data-area'>
+                                                {filteredDesignation.length > 0 &&
+                                                    filteredDesignation.map((filterDesignation) => {
+                                                        return <div className='search-result-data' key={filterDesignation._id} onClick={() => handleDesignationClick(filterDesignation.designation)}>
+                                                            {filterDesignation.designation}
+                                                        </div>
+                                                    })
+                                                }
+                                            </div>
+                                        </div>
+                                        <div className='cand-reg-form-badge-area'>
+                                            {selectedDesignations.map(selectDesignation => (
+                                                <span className="cand-reg-form-badge"
+                                                    key={selectDesignation}
+                                                    onClick={() => handleDeselectDesignation(selectDesignation)}
+                                                >{selectDesignation}</span>
+                                            ))}
+                                        </div>
+
+                                        <div className="can-reg-form-chechbox-area">
+                                            <label className="can-reg-form-check-input">
+                                                <input
+                                                    type="checkbox"
+                                                    checked={isCheckedDesignation}
+                                                    onChange={() => setIsCheckedDesignation(!isCheckedDesignation)}
+                                                />
+                                                <span className="can-reg-form-checkmark"></span>
+                                                If your searched designation not in the list, please enable the checkbox & type manually...
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>
+                                <div className="col-12 col-lg-6 custom-padding-left2">
+                                    <div className='cand--reg-form-group cand--reg-custom-padding'>
+                                        <div className='cand--reg-multi-input-form-group'>
+                                            <input
+                                                type='text'
+                                                name='manualDesignationInput'
+                                                id='manualDesignationInput'
+                                                className='cand--reg-form-input'
+                                                placeholder='Enter your designation...'
+                                                value={newDesignation}
+                                                onChange={(e) => setNewDesignation(e.target.value)}
+                                                disabled={!isCheckedDesignation}
+                                            />
+                                            <label htmlFor="manualDesignationInput" className='cand--reg-form-label'>Enter your designation manually</label>
+                                            <button
+                                                type="button"
+                                                className="multi-form-add-btn"
+                                                onClick={handleManualDesignation}
+                                                disabled={!isCheckedDesignation}
+                                            >Add</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="row">
                                 <div className="col-12 col-lg-6 col-md-6 col-sm-6 custom-padding-right">
                                     <div className='cand--reg-form-group custom'>
                                         <input type="text" id='company' name="companyName"
@@ -512,6 +539,7 @@ const CandidateRegister = () => {
                                         <label htmlFor="company" className='cand--reg-form-label'>Current Company</label>
                                     </div>
                                 </div>
+
                                 <div className="col-12 col-lg-6 col-md-6 col-sm-6 custom-padding-left">
                                     <div className='cand--reg-form-group'>
                                         <input type="text" id='location' name="location"
@@ -520,6 +548,7 @@ const CandidateRegister = () => {
                                         <label htmlFor="location" className='cand--reg-form-label'>Current Loaction</label>
                                     </div>
                                 </div>
+
                                 <div className="col-12">
                                     <div className='cand--reg-form-group cand--reg-custom-padding'>
                                         <div className="cand--reg-exp-area">
@@ -541,54 +570,73 @@ const CandidateRegister = () => {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="col-12">
+
+                                <div className="col-12 col-xl-8 custom-padding-right2">
                                     <div className='cand--reg-form-group cand--reg-custom-padding'>
                                         <div className="cand--reg-form-flex-grp">
                                             <label htmlFor="skills" className='cand--reg-form-label-custom'>Skills</label>
+                                            <div className='cand--reg-multi-input-form-group'>
+                                                <input type="text" id='skills' name='skills'
+                                                    value={searchSkillInput}
+                                                    onChange={handleSkillSearch}
+                                                    className='cand--reg-flex-input'
+                                                    placeholder='Enter your skill name to search here' />
+                                                {skillError && <p className='skills-error-text'>{skillError}</p>}
+                                                <div className='search-result-data-area'>
+                                                    {filteredSkills.length > 0 &&
+                                                        filteredSkills.map((filterSkill) => {
+                                                            return <div className='search-result-data' key={filterSkill._id} onClick={() => handleSkillClick(filterSkill.skill)}>{filterSkill.skill}</div>
+                                                        })
+                                                    }
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div className='cand-reg-form-badge-area'>
                                             {selectedSkills.map(selectSkill => (
-                                                <span className="badge rounded-pill bg-info mx-2"
+                                                <span className="cand-reg-form-badge"
                                                     key={selectSkill}
                                                     onClick={() => handleDeselect(selectSkill)}
                                                 >{selectSkill}</span>
                                             ))}
-                                            <input type="text" id='skills' name='skills'
-                                                value={searchSkillInput}
-                                                onChange={handleSkillSearch}
-                                                className='cand--reg-flex-input' />
-                                            {skillError && <p>{skillError}</p>}
-                                            {filteredSkills.length > 0 &&
-                                                filteredSkills.map((filterSkill) => {
-                                                    return <div key={filterSkill._id} onClick={() => handleSkillClick(filterSkill.skill)}>{filterSkill.skill}</div>
-                                                })
-                                            }
-                                            <input
-                                                className="form-check-input"
-                                                type="checkbox"
-                                                checked={isCheckedSkill}
-                                                onChange={() => setIsCheckedSkill(!isCheckedSkill)}
-                                            />
-                                            <label className="form-check-label" htmlFor="flexSwitchCheckChecked">
+                                        </div>
+                                        <div className="can-reg-form-chechbox-area">
+                                            <label className="can-reg-form-check-input">
+                                                <input
+                                                    type="checkbox"
+                                                    checked={isCheckedSkill}
+                                                    onChange={() => setIsCheckedSkill(!isCheckedSkill)}
+                                                />
+                                                <span className="can-reg-form-checkmark"></span>
                                                 If your searched skill not in the list, please enable the checkbox & type manually...
                                             </label>
+                                        </div>
+                                        <div className="cand--reg-skills-text">
+                                            Note: These will also be used as the Tags for searching matching jobs for you. So enter all your key skills without fail.
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="col-12 col-xl-4 custom-padding-left2">
+                                    <div className='cand--reg-form-group cand--reg-custom-padding'>
+                                        <div className='cand--reg-multi-input-form-group'>
                                             <input
                                                 type='text'
                                                 name='manualSkillInput'
                                                 id='manualSkillInput'
-                                                className='form-control my-2'
+                                                className='cand--reg-form-input'
                                                 placeholder='Enter your skills...'
                                                 value={newSkill}
                                                 onChange={(e) => setNewSkill(e.target.value)}
                                                 disabled={!isCheckedSkill}
                                             />
+                                            <label htmlFor="manualDesignationInput" className='cand--reg-form-label'>Enter your skill manually</label>
                                             <button
                                                 type="button"
-                                                className="btn btn-primary btn-sm"
+                                                className="multi-form-add-btn"
                                                 onClick={handleManualSkill}
                                                 disabled={!isCheckedSkill}
-                                            >add manually entered skill</button>
-                                        </div>
-                                        <div className="cand--reg-skills-text">
-                                            Note: These will also be used as the Tags for searching matching jobs for you. So enter all your key skills without fail.
+                                            >Add</button>
                                         </div>
                                     </div>
                                 </div>
@@ -599,13 +647,13 @@ const CandidateRegister = () => {
                                             <label htmlFor="education" className='cand--reg-form-label-custom'>Highest Education</label>
                                             {/* <input type="text" id='education' name='education' className='cand--reg-flex-input' /> */}
                                             <select
-                                                className="form-select"
+                                                className="cand--reg-select-input"
                                                 id="educationSelect"
                                                 name="education"
                                                 value={credentials.education}
                                                 onChange={handleInputChange}
                                                 required>
-                                                <option value="">Select your highest education</option>
+                                                <option value="" selected disabled>Select your highest education</option>
                                                 <option value="A">A</option>
                                                 <option value="B">B</option>
                                                 <option value="C">C</option>

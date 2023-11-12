@@ -1172,12 +1172,13 @@
 .candidate--card {
     border-radius: 20px;
     background-color: #714F36;
-    padding: 30px 23px 23px 23px;
+    padding: 30px 23px 40px 23px;
     position: relative;
     z-index: 1;
     transition: ease-in-out 0.8s;
     /* cursor: pointer; */
     border-bottom: 5px solid #F9C833;
+    overflow: hidden;
 }
 
 .candidate--card:hover {
@@ -1225,9 +1226,13 @@
     border-color: #fff;
 }
 
-.candidate--card:hover .candidate--name-area h6 {
-    letter-spacing: 1px;
+.candidate--card .candidate--name-area h6 {
+    padding-right: 50px !important;
 }
+
+/* .candidate--card:hover .candidate--name-area h6 {
+    letter-spacing: 1px;
+} */
 
 .candidate--card:hover .canidate--profile-img {
     -webkit-animation: pulseimg 1.5s infinite;
@@ -1304,9 +1309,10 @@
 
 .candidate--name-area h6 {
     color: #FFF;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 700;
     transition: ease-in-out 0.8s;
+    /* word-break: break-all; */
 }
 
 .candidate--role {
@@ -1325,7 +1331,7 @@
 
 .candidate--role span {
     color: #714F36;
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 600;
 }
 
@@ -1371,12 +1377,67 @@
 
 .candidate--desc-area {
     margin-top: 26px;
+    height: 130px;
+    overflow-y: scroll;
+    /* padding-right: 10px; */
+    position: relative;
+    /* padding-bottom: 20px; */
+}
+
+
+.candidate--desc-area .slide-down-view {
+    color: #FFF;
+    background-color: #714f36a2;
+    box-shadow: 0px -5px 20px #ffffff3f;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    font-size: 10px;
+    padding: 5px 10px;
+    font-weight: 400;
+    border-radius: 8px;
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: max-content;
+    opacity: 0;
+    transition: opacity ease-in-out 0.5s;
+    height: max-content;
+}
+
+.slide-down-view i {
+    vertical-align: middle;
+}
+
+.candidate--desc-area:hover .slide-down-view {
+    opacity: 1;
+}
+
+.candidate--desc-area::-webkit-scrollbar {
+    width: 5px;
+    background-color: transparent;
+    border-radius: 10px !important;
+}
+
+.candidate--desc-area::-webkit-scrollbar-thumb {
+    border-radius: 10px !important;
+    -webkit-box-shadow: none;
+    background-color: transparent;
+}
+
+.candidate--desc-area::-webkit-scrollbar-track {
+    -webkit-box-shadow: none;
+    border-radius: 10px !important;
+    background-color: transparent;
 }
 
 .candidate--desc-area p {
     color: #FFF;
-    font-size: 16px;
-    font-weight: 500;
+    font-size: 15px;
+    font-weight: 400;
     transition: ease-in-out 0.8s;
 }
 

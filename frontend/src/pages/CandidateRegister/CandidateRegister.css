@@ -1,16 +1,21 @@
 .cand--reg-form-area {
-    padding-top: 60px;
+    padding-top: 80px;
     overflow: hidden;
 }
 
 .cand--reg-form-group {
     position: relative;
-    margin-bottom: 90px;
+    margin-bottom: 60px;
+}
+
+.cand--reg-multi-input-form-group {
+    position: relative;
+    width: 100%;
 }
 
 .cand--reg-form-label-custom {
     color: #714F36;
-    font-size: 24px;
+    font-size: 20px;
     font-weight: 500;
     white-space: nowrap;
 }
@@ -25,8 +30,8 @@
 
 .cand--reg-radio-input-group .cand--reg-input-container {
     position: relative;
-    height: 60px;
-    width: 255px;
+    height: 50px;
+    width: 250px;
     min-width: max-content;
     /* overflow: hidden; */
 }
@@ -40,6 +45,55 @@
     width: 100%;
     margin: 0;
     cursor: pointer;
+}
+
+.imediate-switch {
+    padding: 30px 50px 0;
+}
+
+.imediate-switch-label {
+    color: #714F36;
+    font-size: 18px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.imediate-switch-input {
+    margin-right: 20px;
+    height: 20px;
+    background-color: #ffffff;
+    border-color: #a99790;
+    cursor: pointer;
+    width: 40px !important;
+}
+
+.imediate-switch-input:disabled,
+.imediate-switch-input[disabled] {
+    background-color: #eeeeee !important;
+    border-color: #7e7e7e !important;
+    cursor: not-allowed !important;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill=%27rgba%280, 0, 0, 0.25%29%27/%3e%3c/svg%3e") !important;
+}
+
+.form-check-input:disabled~.imediate-switch-label,
+.form-check-input[disabled]~.imediate-switch-label {
+    cursor: not-allowed;
+    color: #a99790 !important;
+}
+
+.imediate-switch-input:focus {
+    box-shadow: 0 0 0 3px #714f3625 !important;
+    border-color: #a99790;
+}
+
+.form-switch .form-check-input:focus {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill=%27rgba%280, 0, 0, 0.25%29%27/%3e%3c/svg%3e")
+}
+
+.form-check-input.imediate-switch-input:checked {
+    background-color: #F9C833;
+    border-color: #714F36;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3'  fill='%23714F36'%2F%3E%3C%2Fsvg%3E")
 }
 
 .cand--reg-radio-input-group .cand--reg-input-container .radio-tile {
@@ -57,7 +111,7 @@
 .cand--reg-radio-input-group .cand--reg-input-container .radio-tile-label {
     text-align: center;
     color: #714F36;
-    font-size: 24px;
+    font-size: 18px;
     font-weight: 500;
     white-space: nowrap;
 }
@@ -77,6 +131,13 @@
     display: flex;
     gap: 20px;
     align-items: flex-end;
+    flex-wrap: wrap;
+    row-gap: 50px;
+    justify-content: space-between;
+}
+
+.react-datepicker-popper {
+    z-index: 3;
 }
 
 /* customized react datepicker */
@@ -89,6 +150,18 @@
     color: #714F36;
     font-size: 20px;
     font-weight: 500;
+}
+
+.cand--reg-input-group .react-datepicker-wrapper .react-datepicker__input-container input:disabled::placeholder {
+    color: #a5a5a5;
+    background-color: #FFF;
+}
+
+.cand--reg-input-group .react-datepicker-wrapper .react-datepicker__input-container input:disabled {
+    border-color: #a5a5a5;
+    cursor: not-allowed;
+    background-color: #FFF;
+    color: #7e7e7e;
 }
 
 .cand--reg-input-group .react-datepicker__day--selected {
@@ -135,7 +208,7 @@
 
 .cand--reg-input-group .react-datepicker-wrapper .react-datepicker__input-container input::placeholder {
     color: #714F36;
-    font-size: 24px;
+    font-size: 20px;
     font-weight: 500;
 }
 
@@ -148,15 +221,16 @@
     border: none;
     border-bottom: 2px solid #714F36;
     color: #5C3B2E;
-    font-size: 20px !important;
+    font-size: 18px !important;
     font-weight: 400;
     line-height: normal;
     transition: border-color 0.5s, box-shadow 0.5s;
+    position: relative;
 }
 
 .cand--reg-form-area .cand--reg-form-label {
     color: #714F36;
-    font-size: 24px;
+    font-size: 20px;
     font-weight: 500;
     line-height: normal;
     text-transform: capitalize;
@@ -183,7 +257,7 @@
 
 .cand--reg-form-area .cand--reg-form-input::placeholder {
     opacity: 0;
-    font-size: 18px;
+    font-size: 17px;
     color: #a99790;
     transition: opacity 0.5s;
 }
@@ -204,7 +278,7 @@
     border: 2px dashed #714F36;
     background-color: #F4F4F4;
     color: #714F36;
-    font-size: 24px;
+    font-size: 20px;
     font-weight: 500;
     padding: 20px 30px;
     cursor: pointer;
@@ -212,14 +286,14 @@
 
 .cand--reg-file-upload-label i {
     margin-right: 25px;
-    font-size: 40px;
+    font-size: 30px;
     vertical-align: middle;
 }
 
 .cand--reg-file-upload-area .file--upload-text {
     margin-top: 23px;
     color: rgba(101, 101, 101, 0.65);
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 500;
 }
 
@@ -329,12 +403,36 @@
     font-weight: 400;
     width: -webkit-fill-available;
     padding-bottom: 5px;
+    position: relative;
 }
 
-.cand--reg-skills-text {
-    padding-top: 35px;
-    color: rgba(101, 101, 101, 0.65);
+.cand--reg-flex-input::placeholder {
+    font-size: 16px;
+}
+
+.cand--reg-select-input {
+    color: #5C3B2E;
     font-size: 20px;
+    border: none;
+    border-bottom: 2px solid #714F36;
+    outline: none;
+    font-weight: 400;
+    width: -webkit-fill-available;
+    padding-bottom: 5px;
+    position: relative;
+    text-align: left;
+}
+.cand--reg-select-input option{
+    background-color: #714F36 !important;
+    color: #FFF !important;
+}
+.cand--reg-select-input option:disabled{
+    color: #a5a5a5 !important;
+}
+.cand--reg-skills-text {
+    padding-top: 30px;
+    color: rgba(101, 101, 101, 0.65);
+    font-size: 16px;
     font-weight: 500;
 }
 
@@ -352,7 +450,7 @@
 
 .cand--reg-lg-input::placeholder {
     color: rgba(101, 101, 101, 0.65);
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 500;
     height: 100%;
 }
@@ -372,4 +470,211 @@
     border-radius: 10px;
     box-shadow: none;
     background-color: #5454546a !important;
+}
+
+/* /////////// */
+.cand-reg-form-badge-area {
+    display: flex !important;
+    gap: 10px !important;
+    row-gap: 10px !important;
+    flex-wrap: wrap;
+}
+
+.cand-reg-form-badge {
+    color: #FFF;
+    background-color: #714F36;
+    border: 1.5px solid #714F36;
+    font-size: 13px;
+    border-radius: 50px;
+    font-weight: 400;
+    padding: 4px 10px 4px 13px;
+    top: 10px;
+    cursor: pointer;
+    transition: ease-in-out 0.5s;
+    position: relative;
+    white-space: nowrap;
+}
+
+.cand-reg-form-badge:hover {
+    background-color: #634836 !important;
+}
+
+.cand-reg-form-badge:after {
+    content: "\f62a";
+    vertical-align: middle;
+    margin-left: 5px;
+    color: #FFF;
+    font-size: 14px;
+    display: inline-block;
+    transition: ease-in-out 0.5s;
+    font-family: 'bootstrap-icons' !important;
+    font-style: normal;
+    font-weight: normal !important;
+    font-feature-settings: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.search-result-data-area {
+    position: absolute;
+    width: 100%;
+    z-index: 2;
+    background-color: #ffffff;
+    /* backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px); */
+    /* box-shadow: 0px 20px 40px #00000027; */
+    max-height: 280px;
+    overflow-y: scroll;
+}
+
+.search-result-data {
+    color: #714F36;
+    font-weight: 400;
+    font-size: 15px;
+    padding: 12px 20px;
+    background-color: #ececec;
+    transition: ease-in-out 0.5s;
+    cursor: pointer;
+}
+
+.search-result-data:hover {
+    background-color: #714F36 !important;
+    color: #FFF !important;
+}
+
+.multi-form-add-btn {
+    background-color: #FFF;
+    color: #714F36;
+    font-weight: 600;
+    outline: none !important;
+    border: none;
+    transition: ease-in-out 0.5s;
+    font-size: 18px;
+    position: absolute;
+    right: 0;
+    bottom: 10px;
+    padding: 5px 10px;
+
+}
+
+.cand--reg-form-input:disabled~.cand--reg-form-label,
+.cand--reg-form-input[disabled]~.cand--reg-form-label {
+    color: #a5a5a5;
+}
+
+.cand--reg-form-input:disabled,
+.cand--reg-form-input[disabled] {
+    background-color: #fff;
+    border-color: #a5a5a5;
+    cursor: not-allowed;
+    color: #7e7e7e;
+}
+
+.cand--reg-form-input:disabled::placeholder {
+    color: #a5a5a5;
+}
+
+.multi-form-add-btn:disabled {
+    color: #a5a5a5;
+    cursor: not-allowed;
+}
+
+.can-reg-form-chechbox-area {
+    margin: 30px 0 0 0;
+}
+
+.can-reg-form-check-input {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: flex-start;
+    cursor: pointer;
+    color: #714F36;
+    font-size: 15px !important;
+    font-weight: 400;
+    margin-bottom: 0;
+}
+
+.can-reg-form-check-input input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.can-reg-form-checkmark {
+    position: relative;
+    display: inline-block;
+    width: 17px;
+    height: 17px;
+    margin-right: 8px;
+    border: 1px solid #898989;
+    border-radius: 3px;
+    -webkit-transition: ease-in-out 0.5s;
+    transition: ease-in-out 0.5s;
+    outline: none;
+    flex-shrink: 0;
+}
+
+.can-reg-form-check-input input[type="checkbox"]:checked~.can-reg-form-checkmark {
+    background-color: #714F36 !important;
+    border-color: #ffffff;
+}
+
+.can-reg-form-check-input input[type="checkbox"]:checked~.can-reg-form-checkmark:after {
+    content: "";
+    position: absolute;
+    top: 2.5px;
+    left: 5.6px;
+    width: 4px;
+    height: 9px;
+    border: solid #FFF;
+    border-width: 0 1.5px 1.5px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+
+.can-reg-form-check-input:hover input[type="checkbox"]~.can-reg-form-checkmark {
+    border-color: #714F36 !important;
+}
+
+.can-reg-form-check-input input[type="checkbox"]:disabled~.can-reg-form-checkmark {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.can-reg-form-check-input input[type="checkbox"]:disabled~.can-reg-form-checkmark:hover {
+    border-color: #4d4d4d;
+}
+
+.cand--reg-form-group input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.cand--reg-form-group input[type="number"] {
+    -moz-appearance: none;
+    appearance: none;
+}
+
+.skills-error-text {
+    color: red;
+    font-size: 15px;
+    font-weight: 400;
+    position: absolute;
+}
+.custom-padding-right2{
+    padding-right: 40px;
+}
+.custom-padding-left2{
+    padding-left: 40px;
 }

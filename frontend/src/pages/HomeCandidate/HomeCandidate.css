@@ -228,6 +228,7 @@
     padding: 10px 18px;
     position: relative;
     transition: ease-in-out 0.8s;
+    overflow: hidden;
 }
 
 .cand--job-card:hover .cand--job-card-role-area {
@@ -262,10 +263,19 @@
 
 .cand--job-card-role-area .cand--job-card-role {
     color: #5C3B2E;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 500;
     margin-bottom: 0;
-    transition: ease-in-out 0.8s;
+    transition: white-space ease-in-out 0.8s;
+    /* white-space: nowrap; */
+    overflow: hidden;
+    text-overflow: ellipsis !important;
+    white-space: nowrap;
+
+}
+
+.cand--job-card:hover .cand--job-card-role-area .cand--job-card-role {
+    white-space: normal !important;
 }
 
 .cand--job-card-logo-loc-area {
@@ -277,16 +287,27 @@
     padding: 0 20px;
 }
 
+.cand--job-card-logo-area {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    overflow: hidden;
+    width: 120px;
+    height: 80px;
+}
+
 .cand--job-card-logo-loc-area .cand--job-card-logo {
     object-fit: contain;
-    height: 80px;
-    width: 120px;
+    height: 79px;
+    width: 119px;
+    border-radius: 10px;
 }
 
 .cand--job-card-loc-area .cand--job-card-location {
     color: #5C3B2E;
-    font-size: 16px;
-    font-weight: 700;
+    font-size: 14px;
+    font-weight: 600;
     margin-bottom: 0;
 }
 
@@ -299,18 +320,68 @@
 .cand--job-card-job-type {
     margin-top: 7px;
     color: #5C3B2E;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 600;
     padding-left: 5px;
 }
 
 .cand--job-card-desc-area {
     position: relative;
-    overflow: hidden;
+    overflow-y: scroll;
     margin-top: 20px;
     margin-bottom: 20px;
     height: 220px;
     padding: 0 22px;
+}
+
+.cand--job-card-desc-area .slide-down-view {
+    color: #714F36;
+    background-color: #f9c73399;
+    box-shadow: 0px -5px 20px #ffffff3f;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    font-size: 10px;
+    padding: 5px 10px;
+    font-weight: 400;
+    border-radius: 8px;
+    position: fixed;
+    bottom: 150px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: max-content;
+    opacity: 0;
+    transition: opacity ease-in-out 0.5s;
+    height: max-content;
+    z-index: 5;
+}
+
+.slide-down-view i {
+    vertical-align: middle;
+}
+
+.cand--job-card-desc-area:hover .slide-down-view {
+    opacity: 1;
+}
+
+.cand--job-card-desc-area::-webkit-scrollbar {
+    width: 5px;
+    background-color: transparent;
+    border-radius: 10px !important;
+}
+
+.cand--job-card-desc-area::-webkit-scrollbar-thumb {
+    border-radius: 10px !important;
+    -webkit-box-shadow: none;
+    background-color: transparent;
+}
+
+.cand--job-card-desc-area::-webkit-scrollbar-track {
+    -webkit-box-shadow: none;
+    border-radius: 10px !important;
+    background-color: transparent;
 }
 
 .cand--job-card-desc-area .cand--job-card-desc {
