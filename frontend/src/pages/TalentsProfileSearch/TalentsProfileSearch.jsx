@@ -8,6 +8,8 @@ import { Footer } from '../../components/Footer';
 import axios from 'axios';
 import AuthContext from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.css';
 
 const TalentsProfileSearch = () => {
     const clientToken = JSON.parse(localStorage.getItem("clientToken"));
@@ -436,6 +438,28 @@ const TalentsProfileSearch = () => {
         });
     }, [searchResult]);
 
+    //for show success message for payment
+  function showSuccessMessage(message) {
+    Swal.fire({
+      title: 'Success!',
+      text: message,
+      icon: 'success',
+      confirmButtonColor: '#3085d6',
+      confirmButtonText: 'OK',
+    });
+  }
+
+  //for show error message for payment
+  function showErrorMessage(message) {
+    Swal.fire({
+      title: 'Error!',
+      text: message,
+      icon: 'error',
+      confirmButtonColor: '#d33',
+      confirmButtonText: 'OK',
+    });
+  }
+
     const getAllCandidateDetail = async () => {
         try {
             const response = await axios.get('http://localhost:5002/candidate-Detail', {
@@ -575,7 +599,7 @@ const TalentsProfileSearch = () => {
                 setFilteredSearchResultsMsg("no such candidates found")
             }
         } else {
-            alert("select atleast one filter")
+            showErrorMessage("select atleast one filter")
         }
     };
 
@@ -633,60 +657,66 @@ const TalentsProfileSearch = () => {
     //   }
 
     const viewCandidateDetail = (id) => {
-        if (packageSelectionDetail) {
-            if (viewCandidateDetail.length > 0) {
-                const alreadyViewedCandidate = viewedCandidate.find(cand => cand.candidateId === id)
-                if (alreadyViewedCandidate) {
-                    navigate(`/talents/${id}`);
-                } else {
-                    if (viewedCandidate.length < cvViews) {
-                        const idData = {
-                            candidateId: id,
-                            companyId: loginClientDetail.companyId,
-                        }
-                        axios.post("http://localhost:5002/cv-views", idData, {
-                            headers: {
-                                Authorization: `Bearer ${clientToken}`,
-                                Accept: 'application/json'
-                            }
-                        })
-                            .then(response => {
-                                const result = response.data;
-                                console.log(result);
-                                getViewedCandidates();
-                                navigate(`/talents/${id}`);
-                            })
-                            .catch(error => {
-                                console.error(error);
-                            })
+        if(clientToken){
+            if (packageSelectionDetail) {
+                if (viewCandidateDetail.length > 0) {
+                    const alreadyViewedCandidate = viewedCandidate.find(cand => cand.candidateId === id)
+                    if (alreadyViewedCandidate) {
+                        navigate(`http://localhost:3000/talents/${id}`);
                     } else {
-                        alert("you reached your max cv-views in your plan, upgrade your plan");
+                        if (viewedCandidate.length < cvViews) {
+                            const idData = {
+                                candidateId: id,
+                                companyId: loginClientDetail.companyId,
+                            }
+                            axios.post("http://localhost:5002/cv-views", idData, {
+                                headers: {
+                                    Authorization: `Bearer ${clientToken}`,
+                                    Accept: 'application/json'
+                                }
+                            })
+                                .then(response => {
+                                    const result = response.data;
+                                    console.log(result);
+                                    getViewedCandidates();
+                                    navigate(`http://localhost:3000/talents/${id}`);
+                                })
+                                .catch(error => {
+                                    console.error(error);
+                                })
+                        } else {
+                            showErrorMessage("you reached your max cv-views in your plan, upgrade your plan");
+                            navigate("http://localhost:3000/package-plans")
+                        }
                     }
+                } else {
+                    const idData = {
+                        candidateId: id,
+                        companyId: loginClientDetail.companyId,
+                    }
+                    axios.post("http://localhost:5002/cv-views", idData, {
+                        headers: {
+                            Authorization: `Bearer ${clientToken}`,
+                            Accept: 'application/json'
+                        }
+                    })
+                        .then(response => {
+                            const result = response.data;
+                            console.log(result);
+                            getViewedCandidates();
+                            navigate(`/talents/${id}`);
+                        })
+                        .catch(error => {
+                            console.error(error);
+                        })
                 }
             } else {
-                const idData = {
-                    candidateId: id,
-                    companyId: loginClientDetail.companyId,
-                }
-                axios.post("http://localhost:5002/cv-views", idData, {
-                    headers: {
-                        Authorization: `Bearer ${clientToken}`,
-                        Accept: 'application/json'
-                    }
-                })
-                    .then(response => {
-                        const result = response.data;
-                        console.log(result);
-                        getViewedCandidates();
-                        navigate(`/talents/${id}`);
-                    })
-                    .catch(error => {
-                        console.error(error);
-                    })
+                showSuccessMessage("buy a package plan to view cv detail")
+                navigate("http://localhost:3000/package-plans")
             }
-        } else {
-            alert("buy a package plan to view cv detail")
-        }
+        }else{
+            navigate("/client-login")
+        }   
     }
 
     return (

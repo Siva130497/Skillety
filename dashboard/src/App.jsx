@@ -13,7 +13,6 @@ import JobPosting from './pages/JobPosting/JobPosting';
 import ManageApplication from './pages/ManageApplication/ManageApplication';
 import CandidateProfile from './pages/CandidateProfile/CandidateProfile';
 import Talents from './pages/Talents/Talents';
-import JobDetail from './pages/JobDetail/JobDetail';
 import AppliedCandidate from './pages/AppliedCandidate/AppliedCandidate';
 import JobEditing from './pages/EditJob/JobEditing';
 import InvoicePayment from './pages/InvoicePayment/InvoicePayment';
@@ -42,12 +41,11 @@ function App() {
         <Route path='/manage-application' element={<ManageApplication />} />
         <Route path='/candidate-profile/:id' element={<CandidateProfile />} />
         <Route path='/talents/:id' element={<Talents />} />
-        <Route path='/job-detail/:id' element={<JobDetail />} />
+        <Route path='/job-detail/:id' element={<JobDetails />} />
         <Route path='/applied-candidate/:id' element={<AppliedCandidate />} />
         <Route path='/edit-job/:id' element={<JobEditing />} />
         <Route path='/invoice-payment' element={<InvoicePayment />} />
         <Route path='/package-plans' element={<PackagePlans />} />
-
         <Route path='/job-details' element={<JobDetails />} />
 
         {/* for recruiter */}
