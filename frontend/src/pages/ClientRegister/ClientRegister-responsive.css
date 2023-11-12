@@ -1,15 +1,15 @@
-@media screen and (min-width: 992px) and (max-width: 1367px) {
+@media screen and (min-width: 992px) and (max-width: 1399px) {
     .client-register-section {
         margin-top: 130px;
     }
 
     .cli--reg-heading-area .cli--reg-heading,
     .cli--reg-heading-area .cli--reg-sub-heading {
-        font-size: 45px;
+        font-size: 30px;
     }
 
     .cli--reg-heading span {
-        font-size: 80px;
+        font-size: 60px;
     }
 
     .cli--reg-heading-area .cli--reg-sub-heading {
@@ -64,7 +64,7 @@
     }
 
     .cli--reg-heading-area .cli--reg-sub-heading {
-        margin-top: 40px;
+        margin-top: 20px;
     }
 
     .cli--reg-grab {
@@ -74,11 +74,11 @@
 
     .cli--reg-heading-area .cli--reg-heading,
     .cli--reg-heading-area .cli--reg-sub-heading {
-        font-size: 40px;
+        font-size: 30px;
     }
 
     .cli--reg-heading span {
-        font-size: 86px;
+        font-size: 60px;
     }
 
     .cli--reg-form-area .reg--form-input {
@@ -95,6 +95,10 @@
     .reg--form-group {
         margin-bottom: 70px;
     }
+
+    .custom--select-area {
+        gap: 50px;
+    }
 }
 
 @media (max-width:500px) {
@@ -103,7 +107,7 @@
     }
 
     .cli--reg-heading-area .cli--reg-heading {
-        font-size: 30px;
+        font-size: 25px;
     }
 
     .cli--reg-heading span {
@@ -116,8 +120,8 @@
     }
 
     .cli--reg-heading-area .cli--reg-sub-heading {
-        font-size: 30px;
-        margin-top: 30px;
+        font-size: 25px;
+        margin-top: 20px;
     }
 
     .cli--reg-grab-area {
@@ -135,11 +139,6 @@
 
 
     .reg--form-group {
-        margin-bottom: 60px;
-    }
-
-    .custom--select-area {
-        margin-top: 0;
         margin-bottom: 60px;
     }
 
@@ -166,6 +165,9 @@
     }
 
     .custom--select-area {
+        margin-top: 0;
+        margin-bottom: 60px;
+        gap: 20px;
         flex-direction: column !important;
         align-items: flex-start !important;
     }

@@ -15,33 +15,33 @@ import { useState } from 'react';
 
 const HomeCandidate = () => {
 
-  const {eventDetail, getEventDetail, getEventImg, eventImg, getClientImg, clientImg} = useContext(AuthContext);
+  const { eventDetail, getEventDetail, getEventImg, eventImg, getClientImg, clientImg } = useContext(AuthContext);
   const [allJobs, setAllJobs] = useState([]);
 
-  const getPostedjobs = async() => {
-    try{
-        const res = await axios.get(`http://localhost:5002/posted-jobs`, {
-          headers: {
-              Accept: 'application/json'
-          }
-        });
-        const result = res.data;
-        if (!result.error) {
-          console.log(result);
-          setAllJobs(result.reverse());
-        } else {
-          console.log(result);
+  const getPostedjobs = async () => {
+    try {
+      const res = await axios.get(`http://localhost:5002/posted-jobs`, {
+        headers: {
+          Accept: 'application/json'
         }
-    }catch(err){
+      });
+      const result = res.data;
+      if (!result.error) {
+        console.log(result);
+        setAllJobs(result.reverse());
+      } else {
+        console.log(result);
+      }
+    } catch (err) {
       console.log(err);
     }
   }
-    
-    useEffect(() => {
-        getEventDetail();
-        getEventImg();
-        getPostedjobs();
-    }, []);
+
+  useEffect(() => {
+    getEventDetail();
+    getEventImg();
+    getPostedjobs();
+  }, []);
 
   useEffect(() => {
     // Function to animate the numbers
@@ -113,7 +113,7 @@ const HomeCandidate = () => {
   };
   return (
     <div>
-      <LayoutNew home={true}/>
+      <LayoutNew home={true} />
       <div className='container-fluid home--section'>
         <div className='container-fluid container-section'>
           <div className="home--bg candidate">
@@ -125,7 +125,7 @@ const HomeCandidate = () => {
                   </h4>
                   <h3 data-aos="fade-left" data-aos-delay="200">Choose from over 2400+ Jobs.</h3>
                   <h5 data-aos="fade-left" data-aos-delay="200">
-                  Welcome to the place where you get hired in less than 7 days. Grab your Interview in 24 hours.
+                    Welcome to the place where you get hired in less than 7 days. Grab your Interview in 24 hours.
                   </h5>
                   <h6 data-aos="fade-right" data-aos-delay="300">
                     Search For Jobs
@@ -513,7 +513,7 @@ const HomeCandidate = () => {
         <div className="candidate--slider-area" data-aos="fade-left">
           <Swiper
             modules={[Navigation, Autoplay]}
-            spaceBetween={10}
+            spaceBetween={20}
             slidesPerView={3.5}
             loop={false}
             speed={1500}
@@ -533,10 +533,10 @@ const HomeCandidate = () => {
             }}
 
           >
-            {allJobs.map((job)=>{
+            {allJobs.map((job) => {
               const matchingImg = clientImg ? clientImg.find(img => img.id === job.companyId) : null;
               const imgSrc = matchingImg ? `http://localhost:5002/client_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
-              return(
+              return (
                 <SwiperSlide key={job.id}>
                   <article className='cand--job-card'>
                     <div className="cand--job-card-role-area">
@@ -548,7 +548,9 @@ const HomeCandidate = () => {
                       </div>
                     </div>
                     <div className="cand--job-card-logo-loc-area">
-                      <img src={imgSrc} alt="" />
+                      <div className="cand--job-card-logo-area">
+                        <img src={imgSrc} className='cand--job-card-logo' alt="" />
+                      </div>
                       <div className="cand--job-card-loc-area">
                         <div className="cand--job-card-location">
                           <i className='bx bxs-map'></i>
@@ -563,6 +565,10 @@ const HomeCandidate = () => {
                       <p className='cand--job-card-desc'>
                         {job.jobDescription}
                       </p>
+                      <span className='slide-down-view'>
+                        <i class="bi bi-chevron-double-down me-2"></i>
+                        Scroll to view more...
+                      </span>
                     </div>
                     <a href={`/job-detail/${job.id}`} className="cand--job-card-bottom-area">
                       <span className='cand--job-know-more'>KNOW MORE</span>
@@ -578,7 +584,7 @@ const HomeCandidate = () => {
                 </SwiperSlide>
               )
             })}
-            
+
 
             {/* <SwiperSlide>
               <article className='cand--job-card'>
@@ -886,7 +892,7 @@ const HomeCandidate = () => {
         </div>
       </div >
 
-      {eventDetail.length > 0 && 
+      {eventDetail.length > 0 &&
         <section className='custom--mobile-padding candidate cand--home-event-section'>
           <div className='candidate--section candidate'>
             <div className='home--about-toparea'>
@@ -913,7 +919,7 @@ const HomeCandidate = () => {
           <div className="candidate--slider-area" data-aos="fade-left">
             <Swiper
               modules={[Navigation, Autoplay]}
-              spaceBetween={10}
+              spaceBetween={20}
               slidesPerView={3.5}
               loop={false}
               speed={1500}
@@ -937,33 +943,33 @@ const HomeCandidate = () => {
                 const matchingImg = eventImg ? eventImg.find(img => img.id === eve.id) : null;
                 const imgSrc = matchingImg ? `http://localhost:5002/images/${matchingImg.image}` : "assets/img/events/event-img.jpg";
 
-                  return (
-                      <SwiperSlide key={eve.id}>
-                          <article className='cand--events-card candidate'>
-                              <div className="cand--events-card-img-area">
-                                  <img src={imgSrc} className='cand--events-card-img' alt="" />
-                              </div>
-                              <div className="cand--events-card-title-area">
-                                  <h6 className='cand--events-card-title'>
-                                      {eve.title} 
-                                  </h6>
-                              </div>
-                              <p className='cand--events-card-date'>
-                                  {eve.date} 
-                              </p>
-                              <a href={`/event-details/${eve.id}`} className="cand--events-card-bottom-area">
-                                  <span className='cand--event-sys'>SAVE YOUR SPOT</span>
-                                  <span className='cand--events-card-arrow-area'>
-                                      <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
-                                          <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#714F36" strokeWidth="2" />
-                                          <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#714F36" strokeWidth="2" />
-                                          <path d="M1 26L25.1667 1" stroke="#714F36" strokeWidth="2" />
-                                      </svg>
-                                  </span>
-                              </a>
-                          </article>
-                      </SwiperSlide>
-                  );
+                return (
+                  <SwiperSlide key={eve.id}>
+                    <article className='cand--events-card candidate'>
+                      <div className="cand--events-card-img-area">
+                        <img src={imgSrc} className='cand--events-card-img' alt="" />
+                      </div>
+                      <div className="cand--events-card-title-area">
+                        <h6 className='cand--events-card-title'>
+                          {eve.title}
+                        </h6>
+                      </div>
+                      <p className='cand--events-card-date'>
+                        {eve.date}
+                      </p>
+                      <a href={`/event-details/${eve.id}`} className="cand--events-card-bottom-area">
+                        <span className='cand--event-sys'>SAVE YOUR SPOT</span>
+                        <span className='cand--events-card-arrow-area'>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
+                            <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#714F36" strokeWidth="2" />
+                            <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#714F36" strokeWidth="2" />
+                            <path d="M1 26L25.1667 1" stroke="#714F36" strokeWidth="2" />
+                          </svg>
+                        </span>
+                      </a>
+                    </article>
+                  </SwiperSlide>
+                );
               })}
 
               {/* <SwiperSlide>

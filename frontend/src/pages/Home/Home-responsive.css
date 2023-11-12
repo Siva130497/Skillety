@@ -462,6 +462,16 @@
     .home--left-cover {
         padding-top: 80px;
     }
+
+    .candidate--card .candidate--name-area h6 {
+        padding-right: 0 !important;
+    }
+
+    .candidate--card .candidate--name-area {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+    }
 }
 
 @media (max-width:500px) {
@@ -959,6 +969,7 @@
     .home--milestone-card {
         padding: 25px 25px 0 25px;
     }
+
     .home--milestone-card-right .home-milestone-number {
         font-size: 80px;
         letter-spacing: normal;

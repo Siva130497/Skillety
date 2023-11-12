@@ -122,15 +122,29 @@
     .cand--reg-lg-input::placeholder {
         font-size: 18px;
     }
+
+    .custom-padding-right2 {
+        padding-right: 10px;
+    }
+
+    .custom-padding-left2 {
+        padding-left: 10px;
+    }
 }
 
 @media (max-width:500px) {
     .cand--reg-form-area {
         padding-top: 40px;
     }
-    .cand--reg-radio-input-group{
+
+    .login--with-g-area {
+        padding: 20px 0;
+    }
+
+    .cand--reg-radio-input-group {
         justify-content: center;
     }
+
     .cand--reg-form-label-custom {
         font-size: 18px;
         white-space: inherit;
@@ -157,6 +171,16 @@
         gap: 25px;
         flex-wrap: wrap;
         padding: 0 12px;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .cand--reg-form-group.can--reg-date .cand--reg-input-group {
+        width: 100%;
+    }
+
+    .cand--reg-form-group.can--reg-date .react-datepicker-wrapper {
+        width: 100%;
     }
 
     .cand--reg-form-group {
@@ -225,29 +249,41 @@
     .cand--reg-skills-text {
         font-size: 15px;
     }
+
     .cand--reg-lg-input {
         margin-top: 15px;
     }
+
     .cand--reg-lg-input::placeholder {
         font-size: 15px;
     }
-    .cand--reg-lg-input{
+
+    .cand--reg-lg-input {
         font-size: 18px;
     }
-    .cand--reg-btn-area{
+
+    .cand--reg-btn-area {
         flex-direction: column;
-    align-items: flex-start;
-    gap: 25px;
+        align-items: flex-start;
+        gap: 25px;
     }
-    .reg--form-btn-sub.candidate.back{
+
+    .reg--form-btn-sub.candidate.back {
         align-self: flex-start;
+        width: 100%;
     }
+
     .reg--form-btn-sub.candidate.next,
-    .reg--form-btn-sub.candidate.register{
+    .reg--form-btn-sub.candidate.register {
         align-self: flex-end;
+        width: 100%;
     }
-    .cand--reg-input-group .react-datepicker-wrapper .react-datepicker__input-container input{
+
+    .cand--reg-input-group .react-datepicker-wrapper .react-datepicker__input-container input {
         padding: 8px 0;
+        width: 100%;
+    }
+    .reg--form-btn.candidate{
         width: 100%;
     }
 }
