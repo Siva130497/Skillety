@@ -23,6 +23,17 @@ const CandidateTestimonialDetail = () => {
         getEventDetail();
         getEventImg();
     }, []); 
+
+    useEffect(() => {
+        const preloader = $('#preloader');
+    if (preloader.length) {
+      setTimeout(function () {
+        preloader.fadeOut('slow', function () {
+          preloader.remove();
+        });
+      }, 500);
+    }
+    }, []);
     
     useEffect(() => {
         if (eventDetail.length > 0) {
@@ -46,12 +57,14 @@ const CandidateTestimonialDetail = () => {
             }
         } 
     }, [eventDetail, eventImg, id]);
+
+
     
 
     return (
 
         <div>
-            {loading && <div>Loading...</div>}
+            {loading && <div id="preloader candidate"></div>}
             {status &&
                 <div>
                     <LayoutNew />
