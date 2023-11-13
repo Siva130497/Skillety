@@ -341,9 +341,9 @@
     padding: 6px;
 }
 
-.client-talent--profile-content-area {
+/* .client-talent--profile-content-area {
     margin-left: 20px;
-}
+} */
 
 .client-talent--profile-name {
     color: #714F36;
@@ -467,7 +467,7 @@
 
 .client-talent--profile-ability-number-area .client-talent--profile-ability {
     color: #714F36;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 500;
 }
 
@@ -593,8 +593,8 @@
 
 .client-talent--profile-detail-tab-btn {
     color: #BDBDBD;
-    font-size: 18px;
-    font-weight: 500;
+    font-size: 16px;
+    font-weight: 600;
     margin-bottom: 0;
     text-decoration: none;
     padding: 10px 30px;
@@ -655,7 +655,7 @@
 
 .client-talent--profile-tab-toggle-head {
     color: #714F36;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 600;
     margin-bottom: 0;
 }

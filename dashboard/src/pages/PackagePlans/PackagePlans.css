@@ -239,18 +239,18 @@
     white-space: nowrap;
 }
 
-.pl--package-btn {
-    border-radius: 48px;
-    background-color: #714F36;
-    padding: 13px 45px;
-    color: #FFF;
-    font-size: 16px;
-    font-weight: 500;
-    position: relative;
-    z-index: 1;
-    background-repeat: no-repeat;
+.pl--package-btn.buy-now {
+    border-radius: 48px !important;
+    background-color: #714F36 !important;
+    padding: 13px 45px !important;
+    color: #FFF !important;
+    font-size: 16px !important;
+    font-weight: 500 !important;
+    position: relative !important;
+    z-index: 1 !important;
+    background-repeat: no-repeat !important;
     overflow: hidden !important;
-    transition: ease-in-out 0.5s;
+    transition: ease-in-out 0.5s !important;
 }
 
 .pl--package-btn::after {
@@ -284,7 +284,7 @@
     transform: rotate(225deg);
 }
 
-.pl--package-arrow-area {
+.pl--package-arrow-area.buy-now {
     border-radius: 50%;
     background-color: #714F36;
     padding: 15px;
