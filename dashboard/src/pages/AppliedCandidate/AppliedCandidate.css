@@ -51,7 +51,7 @@
 
 .tal--pro-card-left-area {
     /* position: relative; */
-    padding: 25px !important;
+    padding: 20px !important;
     width: 70%;
 }
 
@@ -79,8 +79,8 @@
 }
 
 .tal--pro-card-name-checkmark {
-    width: 30px;
-    height: 30px;
+    width: 25px;
+    height: 25px;
     position: relative;
     top: 0;
     left: 0;
@@ -98,10 +98,10 @@
 .tal--pro-card-name-checkmark:after {
     content: "";
     width: 7px;
-    height: 15px;
+    height: 13px;
     position: absolute;
-    top: 4px;
-    left: 9px;
+    top: 3px;
+    left: 7px;
     display: none;
     border: solid #FFF;
     border-width: 0 2.5px 2.5px 0;
@@ -114,7 +114,7 @@
 
 .tal--pro-card-left-area .tal--pro-card-name {
     color: #714F36;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 700;
     line-height: normal;
     transition: 0.8s ease-in-out;
@@ -130,7 +130,9 @@
     margin-top: 15px;
     display: flex;
     gap: 25px;
+    row-gap: 10px;
     align-items: center;
+    flex-wrap: wrap;
 }
 
 .tal--pro-card-tags .tal--pro-card-rating i {
@@ -162,7 +164,7 @@
 .tal--pro-card-tags .tal--pro-card-location span,
 .tal--pro-card-tags .tal--pro-card-role {
     color: #714F36;
-    font-size: 16px !important;
+    font-size: 15px !important;
     font-weight: 500 !important;
     line-height: normal;
     transition: 0.8s ease-in-out;
@@ -175,7 +177,7 @@
 .tal--pro-card-desc-area .tal--pro-card-desc-title,
 .tal--pro-card-desc-area .tal--pro-card-desc {
     color: #714F36 !important;
-    font-size: 14px !important;
+    font-size: 12px !important;
     font-weight: 500 !important;
     line-height: normal;
     margin-bottom: 10px;
@@ -234,7 +236,7 @@
     align-items: center;
     /* padding-right: 70px; */
     height: 100%;
-    padding: 20px;
+    /* padding: 20px; */
 }
 
 .tal--pro-card-right-cover-area {
@@ -368,10 +370,11 @@
     opacity: 1;
 }
 
-.profile-credits-area .profile-credits-title {
+.profile-credits-title {
     color: #ffffff;
     font-size: 12px;
     font-weight: 600;
+    display: none !important;
 }
 
 .profile-credits-area .profile-credits {
@@ -411,7 +414,7 @@
 
 .tal--pro-card-ability {
     color: #714F36;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 500;
     transition: 0.8s ease-in-out;
 }

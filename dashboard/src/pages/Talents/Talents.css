@@ -326,6 +326,8 @@
     position: relative;
     display: flex;
     padding: 40px 0px 0 0;
+    gap: 10px;
+    justify-content: space-evenly;
 }
 
 .client-talent--profile-image {
@@ -335,6 +337,8 @@
     object-position: top;
     flex-shrink: 0;
     border-radius: 50%;
+    border: 2px solid #714F36;
+    padding: 6px;
 }
 
 .client-talent--profile-content-area {
@@ -343,7 +347,7 @@
 
 .client-talent--profile-name {
     color: #714F36;
-    font-size: 25px;
+    font-size: 20px;
     font-weight: 600;
     margin-bottom: 15px;
 }
@@ -353,7 +357,7 @@
     /* padding-bottom: 15px; */
     display: flex;
     align-items: center;
-    gap: 50px;
+    gap: 40px;
     border-top: #714F36 1px solid;
     /* border-bottom: #714F36 1px solid; */
 }
@@ -361,7 +365,7 @@
 .client-talent--profile-tags-area .client-talent--profile-tag {
     color: #714F36;
     text-align: center;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 500;
 }
 
@@ -373,7 +377,7 @@
 
 .client-talent--profile-desc-area .client-talent--profile-desc {
     color: #714F36;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 500;
 }
 
@@ -438,12 +442,14 @@
     filter: blur(3.5px);
 }
 
-.client-talent--profile-ability-number-area {
+/* .client-talent--profile-ability-number-area {
     display: flex;
+    flex-direction: column;
     align-items: center;
+    justify-content: flex-end;
     gap: 25px;
-    padding-left: 120px;
-}
+    padding-left: 60px;
+} */
 
 .client-talent--profile-ability-number-left {
     display: flex;
@@ -761,4 +767,27 @@
 .cli--talent-tag-by-btn-content-area>.active {
     opacity: 1;
     display: flex;
+}
+
+.client-talent--profile-days {
+    font-size: 19px;
+    color: #714F36;
+    font-weight: 600;
+    margin-top: 5px;
+}
+
+.client-talent--profile-ability-number-area{
+    background-color: #FFECE4;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content:center;
+    padding-left: 0;
+    padding: 30px;
+    gap: 10px;
+}
+.hr-line{
+    border-top: #714F36 1px solid;
+    width: 100%;
 }

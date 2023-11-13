@@ -1600,7 +1600,9 @@ section {
   transition: ease 0.5s;
   z-index: 1;
 }
-
+.logo--subarea a{
+  outline: none !important;
+}
 .nav--logo {
   width: 90px;
   height: 90px;
