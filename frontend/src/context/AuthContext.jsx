@@ -1,6 +1,8 @@
 import { createContext, useState} from "react";
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.css';
 
 
 const AuthContext = createContext();
@@ -13,6 +15,28 @@ export const AuthContextProvider = ({children}) => {
     const [candidateImg, setCandidateImg] = useState();
     const [clientImg, setClientImg] = useState();
     const [packageSelectionDetail, setPackageSelectionDetail] = useState();
+
+    //for show success message for payment
+  function showSuccessMessage(message) {
+    Swal.fire({
+      title: 'Success!',
+      text: message,
+      icon: 'success',
+      confirmButtonColor: '#3085d6',
+      confirmButtonText: 'OK',
+    });
+  }
+
+  //for show error message for payment
+  function showErrorMessage(message) {
+    Swal.fire({
+      title: 'Error!',
+      text: message,
+      icon: 'error',
+      confirmButtonColor: '#d33',
+      confirmButtonText: 'OK',
+    });
+  }
    
 
     //user login request
@@ -80,12 +104,33 @@ export const AuthContextProvider = ({children}) => {
 
             if (!result.error) {
                 console.log(result);
-                
+                await new Promise(() => {
+                    Swal.fire({
+                        title: 'User Registered',
+                        text: '',
+                        icon: 'success',
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'OK',
+                    }).then(() => {
+                        navigate("/candidate-login")
+                    });
+                });
             } else {
                 console.log(result);
             }
         } catch (error) {
             console.log(error);
+            await new Promise(() => {
+                Swal.fire({
+                    title: 'User Not Registered',
+                    text: '',
+                    icon: 'error',
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'OK',
+                }).then(() => {
+                    navigate("/candiate-register")
+                });
+            });
         }
     };
 

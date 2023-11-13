@@ -1117,7 +1117,7 @@ const JobSearch = () => {
                                                                             })}
                                                                         </div>
                                                                         <div className="job--detail-card-know-more-btn-area">
-                                                                            <a href={candidateToken ? `http://localhost:3000//job-detail/${job.id}` : "/candidate-login"} className='job--detail-card-know-more-btn'>Know more</a>
+                                                                            <a href={candidateToken ? `http://localhost:3000/job-detail/${job.id}` : "/candidate-login"} className='job--detail-card-know-more-btn'>Know more</a>
                                                                         </div>
                                                                     </div>
                                                                 </article>

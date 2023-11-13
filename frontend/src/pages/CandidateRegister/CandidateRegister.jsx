@@ -57,6 +57,8 @@ const CandidateRegister = () => {
     const [credentials, setCredentials] = useState(initialCredentials);
     console.log(credentials);
 
+    
+
     useEffect(() => {
         setCredentials((prevCredentials) => ({
             ...prevCredentials,
