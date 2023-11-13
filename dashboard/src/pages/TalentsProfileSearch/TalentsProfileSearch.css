@@ -732,10 +732,11 @@
     padding: 8px 30px;
     transition: ease-in-out 0.8s;
 }
+
 .tal--search-submit-btn:focus,
 .tal--search-submit-btn:active,
 .clear--all_button-area .clear--all_button:focus,
-.clear--all_button-area .clear--all_button:active{
+.clear--all_button-area .clear--all_button:active {
     outline: none;
 }
 
@@ -773,7 +774,7 @@
 }
 
 .talent--profile-card.search {
-    margin-bottom: 40px;
+    margin-bottom: 30px;
 }
 
 

@@ -1,7 +1,7 @@
 @media screen and (min-width: 992px) and (max-width: 1399px) {
-    .talents--section {
+    /* .talents--section {
         margin-top: 130px;
-    }
+    } */
 
     .breadcrumb--area-dark {
         padding-bottom: 50px;
@@ -75,21 +75,30 @@
         width: 130px;
         height: 130px;
     }
+
     /* .client-talent--profile-ability-number-area{
         padding-left: 0;
     } */
-    .client-talent--profile-detail-area{
+    .client-talent--profile-detail-area {
         justify-content: space-around;
+    }
+
+    .client-talent--profile-ability-number-area .client-talent--profile-number {
+        font-size: 35px;
     }
 }
 
 @media (max-width:991.5px) {
-    .custom--container {
+    /* .custom--container {
         padding: 0 25px;
-    }
+    } */
 
     .custom--container1 {
         padding: 0 30px;
+    }
+
+    .client-talent--profile-detail-area {
+        justify-content: space-between;
     }
 
     .talent--profile-img-container {

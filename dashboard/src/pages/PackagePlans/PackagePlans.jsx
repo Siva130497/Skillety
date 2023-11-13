@@ -392,10 +392,10 @@ const PackagePlans = () => {
                                                                 <div className="pl--package-btn-area starter-btn-area">
                                                                     <button className='pl--package-btn-sub buy-now'
                                                                     onClick={handleBuyMicro}>
-                                                                        <div className='pl--package-btn'>
+                                                                        <div className='pl--package-btn buy-now'>
                                                                             Buy Now
                                                                         </div>
-                                                                        <div className='pl--package-arrow-area'>
+                                                                        <div className='pl--package-arrow-area buy-now'>
                                                                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 27 27" fill="none">
                                                                                 <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="white" stroke-width="2" />
                                                                                 <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="white" stroke-width="2" />
@@ -461,10 +461,10 @@ const PackagePlans = () => {
                                                                 <div className="pl--package-btn-area professional-btn-area">
                                                                     <button className='pl--package-btn-sub buy-now'
                                                                     onClick={handleBuySmall}>
-                                                                        <div className='pl--package-btn'>
+                                                                        <div className='pl--package-btn buy-now'>
                                                                             Buy Now
                                                                         </div>
-                                                                        <div className='pl--package-arrow-area'>
+                                                                        <div className='pl--package-arrow-area buy-now'>
                                                                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 27 27" fill="none">
                                                                                 <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="white" stroke-width="2" />
                                                                                 <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="white" stroke-width="2" />
@@ -530,10 +530,10 @@ const PackagePlans = () => {
                                                                 <div className="pl--package-btn-area premium-btn-area">
                                                                     <button className='pl--package-btn-sub buy-now'
                                                                     onClick={handleBuyLarge}>
-                                                                        <div className='pl--package-btn'>
+                                                                        <div className='pl--package-btn buy-now'>
                                                                             Buy Now
                                                                         </div>
-                                                                        <div className='pl--package-arrow-area'>
+                                                                        <div className='pl--package-arrow-area buy-now'>
                                                                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 27 27" fill="none">
                                                                                 <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="white" stroke-width="2" />
                                                                                 <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="white" stroke-width="2" />
@@ -616,24 +616,24 @@ const PackagePlans = () => {
                                                     </div>
                                                     <div className="pl--package-btn-area">
                                                         <button className='pl--package-btn-sub previous'>
-                                                            <div className='pl--package-arrow-area prev custom-mobile-d-none'>
+                                                            <div className='pl--package-arrow-area buy-now prev custom-mobile-d-none'>
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 27 27" fill="none">
                                                                     <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="white" stroke-width="2" />
                                                                     <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="white" stroke-width="2" />
                                                                     <path d="M1 26L25.1667 1" stroke="white" stroke-width="2" />
                                                                 </svg>
                                                             </div>
-                                                            <div className='pl--package-btn'>
+                                                            <div className='pl--package-btn buy-now'>
                                                                 Previous
                                                             </div>
                                                         </button>
 
                                                         <button className='pl--package-btn-sub next' onClick={handleBuy}>
-                                                            <div className='pl--package-btn'>
+                                                            <div className='pl--package-btn buy-now'>
                                                                 Proceed to Pay
                                                             </div>
-                                                            <div className='pl--package-arrow-area custom-mobile-d-none'>
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
+                                                            <div className='pl--package-arrow-area buy-now custom-mobile-d-none'>
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 27 27" fill="none">
                                                                     <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="white" stroke-width="2" />
                                                                     <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="white" stroke-width="2" />
                                                                     <path d="M1 26L25.1667 1" stroke="white" stroke-width="2" />
@@ -670,7 +670,7 @@ const PackagePlans = () => {
                                                                         <path d="M1 26L25.1667 1" stroke="white" stroke-width="2" />
                                                                         </svg>
                                                                     </div> */}
-                                                            <div className='pl--package-btn'>
+                                                            <div className='pl--package-btn buy-now'>
                                                                 Done
                                                             </div>
                                                         </button>

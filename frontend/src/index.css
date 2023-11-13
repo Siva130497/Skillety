@@ -1981,6 +1981,11 @@ section {
   -webkit-backdrop-filter: blur(10px);
 }
 
+.navbar .dropdown .loged-in{
+  left: unset;
+  right: -10%;
+}
+
 .navbar .dropdown ul li {
   min-width: 200px;
 }

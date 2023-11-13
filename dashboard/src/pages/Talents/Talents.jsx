@@ -186,7 +186,7 @@ const Talents = () => {
                         <div class="main-content">
                             <section class="section">
                                 <div className="admin-component-name">
-                                    Detail
+                                    Profile Detail
                                 </div>
                                 <div className='talents--section'>
                                     <div className='container-fluid'>
@@ -325,7 +325,7 @@ const Talents = () => {
                                                                             <div className="client-talent--profile-tab-toggle-content-area">
                                                                                 <div className="client-talent--profile-tab-toggle-area">
                                                                                     <h6 className='client-talent--profile-tab-toggle-head'>Keyskills</h6>
-                                                                                    <svg xmlns="http://www.w3.org/2000/svg" className='' width="15" height="9" viewBox="0 0 15 9" fill="none">
+                                                                                    <svg xmlns="http://www.w3.org/2000/svg" className='' width="13" height="8" viewBox="0 0 15 9" fill="none">
                                                                                         <path d="M1 1L6.79289 6.79289C7.18342 7.18342 7.81658 7.18342 8.20711 6.79289L14 1" stroke="#714F36" stroke-width="2" stroke-linecap="round" />
                                                                                     </svg>
                                                                                 </div>
@@ -345,7 +345,7 @@ const Talents = () => {
                                                                             <div className="client-talent--profile-tab-toggle-content-area">
                                                                                 <div className="client-talent--profile-tab-toggle-area">
                                                                                     <h6 className='client-talent--profile-tab-toggle-head'>Work Summary</h6>
-                                                                                    <svg xmlns="http://www.w3.org/2000/svg" className='' width="15" height="9" viewBox="0 0 15 9" fill="none">
+                                                                                    <svg xmlns="http://www.w3.org/2000/svg" className='' width="13" height="8" viewBox="0 0 15 9" fill="none">
                                                                                         <path d="M1 1L6.79289 6.79289C7.18342 7.18342 7.81658 7.18342 8.20711 6.79289L14 1" stroke="#714F36" stroke-width="2" stroke-linecap="round" />
                                                                                     </svg>
                                                                                 </div>
@@ -403,7 +403,7 @@ const Talents = () => {
                                                                             <div className="client-talent--profile-tab-toggle-content-area">
                                                                                 <div className="client-talent--profile-tab-toggle-area">
                                                                                     <h6 className='client-talent--profile-tab-toggle-head'>Education</h6>
-                                                                                    <svg xmlns="http://www.w3.org/2000/svg" className='' width="15" height="9" viewBox="0 0 15 9" fill="none">
+                                                                                    <svg xmlns="http://www.w3.org/2000/svg" className='' width="13" height="8" viewBox="0 0 15 9" fill="none">
                                                                                         <path d="M1 1L6.79289 6.79289C7.18342 7.18342 7.81658 7.18342 8.20711 6.79289L14 1" stroke="#714F36" stroke-width="2" stroke-linecap="round" />
                                                                                     </svg>
                                                                                 </div>
@@ -417,7 +417,7 @@ const Talents = () => {
                                                                             <div className="client-talent--profile-tab-toggle-content-area">
                                                                                 <div className="client-talent--profile-tab-toggle-area">
                                                                                     <h6 className='client-talent--profile-tab-toggle-head'>Certification</h6>
-                                                                                    <svg xmlns="http://www.w3.org/2000/svg" className='' width="15" height="9" viewBox="0 0 15 9" fill="none">
+                                                                                    <svg xmlns="http://www.w3.org/2000/svg" className='' width="13" height="8" viewBox="0 0 15 9" fill="none">
                                                                                         <path d="M1 1L6.79289 6.79289C7.18342 7.18342 7.81658 7.18342 8.20711 6.79289L14 1" stroke="#714F36" stroke-width="2" stroke-linecap="round" />
                                                                                     </svg>
                                                                                 </div>

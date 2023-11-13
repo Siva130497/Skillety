@@ -44,7 +44,7 @@ const TalentsProfileSearch = () => {
         minExperienceMonth: "",
         maxExperienceMonth: "",
         location: "",
-        currencyType:"",
+        currencyType: "",
         minSalary: "",
         maxSalary: "",
         department: "",
@@ -463,130 +463,149 @@ const TalentsProfileSearch = () => {
                 }
             });
             ////
+
+            $('.talent--profile-card .tal--pro-card-contact-btn').hover(
+                function () {
+                    // Check if the checkbox is not checked
+                    if (!$(this).closest('.talent--profile-card').find('.tal--checkbox').prop('checked')) {
+                        // On hover in
+                        var newText = $(this).next('.profile-credits-title').text();
+                        $(this).text(newText);
+                    }
+                },
+                function () {
+                    // Check if the checkbox is not checked
+                    if (!$(this).closest('.talent--profile-card').find('.tal--checkbox').prop('checked')) {
+                        // On hover out
+                        var originalText = "View Profile"; // Replace with your original text
+                        $(this).text(originalText);
+                    }
+                }
+            );
         });
     }, [searchResult]);
 
     //for show success message for payment
-  function showSuccessMessage(message) {
-    Swal.fire({
-      title: 'Success!',
-      text: message,
-      icon: 'success',
-      confirmButtonColor: '#3085d6',
-      confirmButtonText: 'OK',
-    });
-  }
-
-  //for show error message for payment
-  function showErrorMessage(message) {
-    Swal.fire({
-      title: 'Error!',
-      text: message,
-      icon: 'error',
-      confirmButtonColor: '#d33',
-      confirmButtonText: 'OK',
-    });
-  }
-
-  const getAllSkills = async () => {
-    try {
-      const res = await axios.get("http://localhost:5002/skills", {
-        headers: {
-          Authorization: `Bearer ${clientToken}`,
-          Accept: 'application/json'
-        }
-      });
-      const result = res.data;
-      if (!result.error) {
-        console.log(result);
-        setSkillArray(result);
-      } else {
-        console.log(result);
-      }
-    } catch (err) {
-      console.log(err);
+    function showSuccessMessage(message) {
+        Swal.fire({
+            title: 'Success!',
+            text: message,
+            icon: 'success',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'OK',
+        });
     }
-  };
 
-  const getAllJobRoles = async () => {
-    try {
-      const res = await axios.get("http://localhost:5002/designations", {
-        headers: {
-          Authorization: `Bearer ${clientToken}`,
-          Accept: 'application/json'
-        }
-      });
-      const result = res.data;
-      if (!result.error) {
-        console.log(result);
-        setjobRoleArray(result);
-      } else {
-        console.log(result);
-      }
-    } catch (err) {
-      console.log(err);
+    //for show error message for payment
+    function showErrorMessage(message) {
+        Swal.fire({
+            title: 'Error!',
+            text: message,
+            icon: 'error',
+            confirmButtonColor: '#d33',
+            confirmButtonText: 'OK',
+        });
     }
-  };
 
-  const getAllLocations = async () => {
-    try {
-      const res = await axios.get("http://localhost:5002/locations", {
-        headers: {
-          Authorization: `Bearer ${clientToken}`,
-          Accept: 'application/json'
+    const getAllSkills = async () => {
+        try {
+            const res = await axios.get("http://localhost:5002/skills", {
+                headers: {
+                    Authorization: `Bearer ${clientToken}`,
+                    Accept: 'application/json'
+                }
+            });
+            const result = res.data;
+            if (!result.error) {
+                console.log(result);
+                setSkillArray(result);
+            } else {
+                console.log(result);
+            }
+        } catch (err) {
+            console.log(err);
         }
-      });
-      const result = res.data;
-      if (!result.error) {
-        console.log(result);
-        setLocationArray(result);
-      } else {
-        console.log(result);
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
+    };
 
-  const getAllDepartments = async () => {
-    try {
-      const res = await axios.get("http://localhost:5002/departments", {
-        headers: {
-          Authorization: `Bearer ${clientToken}`,
-          Accept: 'application/json'
+    const getAllJobRoles = async () => {
+        try {
+            const res = await axios.get("http://localhost:5002/designations", {
+                headers: {
+                    Authorization: `Bearer ${clientToken}`,
+                    Accept: 'application/json'
+                }
+            });
+            const result = res.data;
+            if (!result.error) {
+                console.log(result);
+                setjobRoleArray(result);
+            } else {
+                console.log(result);
+            }
+        } catch (err) {
+            console.log(err);
         }
-      });
-      const result = res.data;
-      if (!result.error) {
-        console.log(result);
-        setDepartmentArray(result);
-      } else {
-        console.log(result);
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
+    };
 
-  const getAllRoles = async () => {
-    try {
-      const res = await axios.get("http://localhost:5002/roles", {
-        headers: {
-          Authorization: `Bearer ${clientToken}`,
-          Accept: 'application/json'
+    const getAllLocations = async () => {
+        try {
+            const res = await axios.get("http://localhost:5002/locations", {
+                headers: {
+                    Authorization: `Bearer ${clientToken}`,
+                    Accept: 'application/json'
+                }
+            });
+            const result = res.data;
+            if (!result.error) {
+                console.log(result);
+                setLocationArray(result);
+            } else {
+                console.log(result);
+            }
+        } catch (err) {
+            console.log(err);
         }
-      });
-      const result = res.data;
-      if (!result.error) {
-        console.log(result);
-        setRoleArray(result);
-      } else {
-        console.log(result);
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
+    };
+
+    const getAllDepartments = async () => {
+        try {
+            const res = await axios.get("http://localhost:5002/departments", {
+                headers: {
+                    Authorization: `Bearer ${clientToken}`,
+                    Accept: 'application/json'
+                }
+            });
+            const result = res.data;
+            if (!result.error) {
+                console.log(result);
+                setDepartmentArray(result);
+            } else {
+                console.log(result);
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+    const getAllRoles = async () => {
+        try {
+            const res = await axios.get("http://localhost:5002/roles", {
+                headers: {
+                    Authorization: `Bearer ${clientToken}`,
+                    Accept: 'application/json'
+                }
+            });
+            const result = res.data;
+            if (!result.error) {
+                console.log(result);
+                setRoleArray(result);
+            } else {
+                console.log(result);
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    };
     const getAllCandidateDetail = async () => {
         try {
             const response = await axios.get('http://localhost:5002/candidate-Detail', {
@@ -721,13 +740,13 @@ const TalentsProfileSearch = () => {
                         } else if (filters.days === "beyond-30") {
                             return candidate.dayDifference > 30;
                         } else if (filters.days === "noticePeriod") {
-                            return candidate.checkbox ;
+                            return candidate.checkbox;
                         } else {
                             return true;
                         }
                     }
                     return true;
-                })        
+                })
                 .filter(candidate => {
                     if (selectedResults.length > 0) {
                         return selectedResults.some(result =>
@@ -758,7 +777,7 @@ const TalentsProfileSearch = () => {
                 })
                 .filter(candidate => {
                     if (filters.currencyType) {
-                        return candidate.currencyType === filters.currencyType 
+                        return candidate.currencyType === filters.currencyType
                     }
                     return true;
                 })
@@ -818,156 +837,156 @@ const TalentsProfileSearch = () => {
     const handleSearch = (e) => {
         const inputValue = e.target.value;
         setFilters({ ...filters, searchInput: inputValue });
-      
+
         if (inputValue.length > 0) {
-          const skills = skillArray.filter((obj) => {
-            return obj.skill.toLowerCase().includes(inputValue.toLowerCase());
-          });
-      
-          const jobRoles= jobRoleArray.filter((obj) => {
-            return obj.designation.toLowerCase().includes(inputValue.toLowerCase());
-          });
-      
-          const combinedResults = [...skills, ...jobRoles];
-      
-          if (combinedResults.length > 0) {
-            setFilteredList(combinedResults);
-          } else {
-            setFilteredList([]);
-          }
+            const skills = skillArray.filter((obj) => {
+                return obj.skill.toLowerCase().includes(inputValue.toLowerCase());
+            });
+
+            const jobRoles = jobRoleArray.filter((obj) => {
+                return obj.designation.toLowerCase().includes(inputValue.toLowerCase());
+            });
+
+            const combinedResults = [...skills, ...jobRoles];
+
+            if (combinedResults.length > 0) {
+                setFilteredList(combinedResults);
+            } else {
+                setFilteredList([]);
+            }
         } else {
-          setFilteredList([]);
+            setFilteredList([]);
         }
-      };
-      
-      const handleFilteredClick = (clickResult) => {
+    };
+
+    const handleFilteredClick = (clickResult) => {
         console.log(clickResult)
         if (selectedResults.includes(clickResult)) {
-          setSelectedResults([...selectedResults]);
-          setFilters({...filters, searchInput:""});
-          setFilteredList([]);
-    
+            setSelectedResults([...selectedResults]);
+            setFilters({ ...filters, searchInput: "" });
+            setFilteredList([]);
+
         } else {
             setSelectedResults([...selectedResults, clickResult]);
-            setFilters({...filters, searchInput:""});
+            setFilters({ ...filters, searchInput: "" });
             setFilteredList([]);
         }
-      }
+    }
 
-      const handleLocationSearch = (e) => {
+    const handleLocationSearch = (e) => {
         const inputValue = e.target.value;
         setFilters({ ...filters, location: inputValue });
-      
+
         if (inputValue.length > 0) {
-          const locations = locationArray.filter((obj) => {
-            return obj.location.toLowerCase().includes(inputValue.toLowerCase());
-          });
-      
-          if (locations.length > 0) {
-            setFilteredLocation(locations);
-          } else {
-            setFilteredLocation([]);
-          }
+            const locations = locationArray.filter((obj) => {
+                return obj.location.toLowerCase().includes(inputValue.toLowerCase());
+            });
+
+            if (locations.length > 0) {
+                setFilteredLocation(locations);
+            } else {
+                setFilteredLocation([]);
+            }
         } else {
             setFilteredLocation([]);
         }
-      };
+    };
 
-      const handleFilteredLocationClick = (clickResult) => {
+    const handleFilteredLocationClick = (clickResult) => {
         console.log(clickResult)
         if (selectedLocationResults.includes(clickResult)) {
-          setSelectedLocationResults([...selectedLocationResults]);
-          setFilters({ ...filters, location: "" });
-          setFilteredLocation([]);
-    
+            setSelectedLocationResults([...selectedLocationResults]);
+            setFilters({ ...filters, location: "" });
+            setFilteredLocation([]);
+
         } else {
             setSelectedLocationResults([...selectedLocationResults, clickResult]);
             setFilters({ ...filters, location: "" });
-          setFilteredLocation([]);
+            setFilteredLocation([]);
         }
-      }
+    }
 
-      const handleDepartmentSearch = (e) => {
+    const handleDepartmentSearch = (e) => {
         const inputValue = e.target.value;
         setFilters({ ...filters, department: inputValue });
-      
+
         if (inputValue.length > 0) {
-          const departments = departmentArray.filter((obj) => {
-            return obj.department.toLowerCase().includes(inputValue.toLowerCase());
-          });
-      
-          if (departments.length > 0) {
-            setFilteredDepartment(departments);
-          } else {
-            setFilteredDepartment([]);
-          }
+            const departments = departmentArray.filter((obj) => {
+                return obj.department.toLowerCase().includes(inputValue.toLowerCase());
+            });
+
+            if (departments.length > 0) {
+                setFilteredDepartment(departments);
+            } else {
+                setFilteredDepartment([]);
+            }
         } else {
             setFilteredDepartment([]);
         }
-      };
+    };
 
-      const handleFilteredDepartmentClick = (clickResult) => {
+    const handleFilteredDepartmentClick = (clickResult) => {
         console.log(clickResult)
         if (selectedDepartmentResults.includes(clickResult)) {
-          setSelectedDepartmentResults([...selectedDepartmentResults]);
-          setFilters({ ...filters, department: "" });
-          setFilteredDepartment([]);
-    
+            setSelectedDepartmentResults([...selectedDepartmentResults]);
+            setFilters({ ...filters, department: "" });
+            setFilteredDepartment([]);
+
         } else {
             setSelectedDepartmentResults([...selectedDepartmentResults, clickResult]);
             setFilters({ ...filters, department: "" });
             setFilteredDepartment([]);
         }
-      }
+    }
 
-      const handleRoleSearch = (e) => {
+    const handleRoleSearch = (e) => {
         const inputValue = e.target.value;
         setFilters({ ...filters, role: inputValue });
-      
+
         if (inputValue.length > 0) {
-          const roles = roleArray.filter((obj) => {
-            return obj.role.toLowerCase().includes(inputValue.toLowerCase());
-          });
-      
-          if (roles.length > 0) {
-            setFilteredRole(roles);
-          } else {
-            setFilteredRole([]);
-          }
+            const roles = roleArray.filter((obj) => {
+                return obj.role.toLowerCase().includes(inputValue.toLowerCase());
+            });
+
+            if (roles.length > 0) {
+                setFilteredRole(roles);
+            } else {
+                setFilteredRole([]);
+            }
         } else {
             setFilteredRole([]);
         }
-      };
+    };
 
-      const handleFilteredRoleClick = (clickResult) => {
+    const handleFilteredRoleClick = (clickResult) => {
         console.log(clickResult)
         if (selectedRoleResults.includes(clickResult)) {
-          setSelectedRoleResults([...selectedRoleResults]);
-          setFilters({ ...filters, role: "" });
-          setFilteredRole([]);
-    
+            setSelectedRoleResults([...selectedRoleResults]);
+            setFilters({ ...filters, role: "" });
+            setFilteredRole([]);
+
         } else {
             setSelectedRoleResults([...selectedRoleResults, clickResult]);
             setFilters({ ...filters, role: "" });
             setFilteredRole([]);
         }
-      }  
+    }
 
-      const handleDeselect = (result) => {
+    const handleDeselect = (result) => {
         setSelectedResults(selectedResults.filter(selected => selected !== result));
-      }
-    
-      const handleDeselectDepartment = (department) => {
+    }
+
+    const handleDeselectDepartment = (department) => {
         setSelectedDepartmentResults(selectedDepartmentResults.filter(selectedDepartment => selectedDepartment !== department));
-      }
+    }
 
-      const handleDeselectLocation = (location) => {
+    const handleDeselectLocation = (location) => {
         setSelectedLocationResults(selectedLocationResults.filter(selectedLocation => selectedLocation !== location));
-      }
+    }
 
-      const handleDeselectRole = (role) => {
+    const handleDeselectRole = (role) => {
         setSelectedRoleResults(selectedRoleResults.filter(selectedRole => selectedRole !== role));
-      }
+    }
 
     //   const handleSkillSearch = () => {
     //     setSearchResult(true);
@@ -1038,7 +1057,7 @@ const TalentsProfileSearch = () => {
                                         Accept: 'application/json'
                                     }
                                 });
-    
+
                                 const result = response.data;
                                 console.log(result);
                                 getViewedCandidates();
@@ -1068,7 +1087,7 @@ const TalentsProfileSearch = () => {
                                 Accept: 'application/json'
                             }
                         });
-    
+
                         const result = response.data;
                         console.log(result);
                         getViewedCandidates();
@@ -1094,7 +1113,7 @@ const TalentsProfileSearch = () => {
             console.error(error);
         }
     };
-    
+
 
     return (
         <div>
@@ -1145,17 +1164,17 @@ const TalentsProfileSearch = () => {
                                                             <div className="tal--search-options-area">
                                                                 <div className="tal--search-option-container">
                                                                     <input id="notice_period_1" className="tal--search-radio" type="radio" name="notice_period"
-                                                                    value="any" 
-                                                                    onChange={(e)=>setFilters({...filters, days:e.target.value})}/>
+                                                                        value="any"
+                                                                        onChange={(e) => setFilters({ ...filters, days: e.target.value })} />
                                                                     <div className="tal--search-tile">
                                                                         <label for="notice_period_1" className="tal--search-tile-label pe-2 ps-2">Any</label>
                                                                     </div>
                                                                 </div>
 
                                                                 <div className="tal--search-option-container">
-                                                                    <input id="notice_period_2" className="tal--search-radio" type="radio" name="notice_period" 
-                                                                    value="0-7" 
-                                                                    onChange={(e)=>setFilters({...filters, days:e.target.value})}/>
+                                                                    <input id="notice_period_2" className="tal--search-radio" type="radio" name="notice_period"
+                                                                        value="0-7"
+                                                                        onChange={(e) => setFilters({ ...filters, days: e.target.value })} />
                                                                     <div className="tal--search-tile">
                                                                         <label for="notice_period_2" className="tal--search-tile-label">0-07 days</label>
                                                                         <i class="bi bi-plus"></i>
@@ -1163,36 +1182,36 @@ const TalentsProfileSearch = () => {
                                                                 </div>
 
                                                                 <div className="tal--search-option-container">
-                                                                    <input id="notice_period_3" className="tal--search-radio" type="radio" name="notice_period" 
-                                                                    value="8-15" 
-                                                                    onChange={(e)=>setFilters({...filters, days:e.target.value})}/>
+                                                                    <input id="notice_period_3" className="tal--search-radio" type="radio" name="notice_period"
+                                                                        value="8-15"
+                                                                        onChange={(e) => setFilters({ ...filters, days: e.target.value })} />
                                                                     <div className="tal--search-tile">
                                                                         <label for="notice_period_3" className="tal--search-tile-label">08 to 15 days</label>
                                                                         <i class="bi bi-plus"></i>
                                                                     </div>
                                                                 </div>
                                                                 <div className="tal--search-option-container">
-                                                                    <input id="notice_period_4" className="tal--search-radio" type="radio" name="notice_period" 
-                                                                    value="16-30" 
-                                                                    onChange={(e)=>setFilters({...filters, days:e.target.value})}/>
+                                                                    <input id="notice_period_4" className="tal--search-radio" type="radio" name="notice_period"
+                                                                        value="16-30"
+                                                                        onChange={(e) => setFilters({ ...filters, days: e.target.value })} />
                                                                     <div className="tal--search-tile">
                                                                         <label for="notice_period_4" className="tal--search-tile-label">16 to 30 days</label>
                                                                         <i class="bi bi-plus"></i>
                                                                     </div>
                                                                 </div>
                                                                 <div className="tal--search-option-container">
-                                                                    <input id="notice_period_5" className="tal--search-radio" type="radio" name="notice_period" 
-                                                                    value="beyond-30" 
-                                                                    onChange={(e)=>setFilters({...filters, days:e.target.value})}/>
+                                                                    <input id="notice_period_5" className="tal--search-radio" type="radio" name="notice_period"
+                                                                        value="beyond-30"
+                                                                        onChange={(e) => setFilters({ ...filters, days: e.target.value })} />
                                                                     <div className="tal--search-tile">
                                                                         <label for="notice_period_5" className="tal--search-tile-label">beyond 30 days</label>
                                                                         <i class="bi bi-plus"></i>
                                                                     </div>
                                                                 </div>
                                                                 <div className="tal--search-option-container">
-                                                                    <input id="notice_period_6" className="tal--search-radio" type="radio" name="notice_period" 
-                                                                    value="noticePeriod" 
-                                                                    onChange={(e)=>setFilters({...filters, days:e.target.value})}/>
+                                                                    <input id="notice_period_6" className="tal--search-radio" type="radio" name="notice_period"
+                                                                        value="noticePeriod"
+                                                                        onChange={(e) => setFilters({ ...filters, days: e.target.value })} />
                                                                     <div className="tal--search-tile">
                                                                         <label for="notice_period_6" className="tal--search-tile-label">Currently serving notice Period</label>
                                                                         <i class="bi bi-plus"></i>
@@ -1213,12 +1232,12 @@ const TalentsProfileSearch = () => {
                                                             </div> */}
                                                             </div>
                                                             <div className='cli--tal-pro-badge-area mb-4'>
-                                                            {selectedResults.map(selectResult => (
-                                                            <span className="tal-cand-reg-form-badge"
-                                                                key={selectResult}
-                                                                onClick={() => handleDeselect(selectResult)}
-                                                            >{selectResult}</span>
-                                                            ))}
+                                                                {selectedResults.map(selectResult => (
+                                                                    <span className="tal-cand-reg-form-badge"
+                                                                        key={selectResult}
+                                                                        onClick={() => handleDeselect(selectResult)}
+                                                                    >{selectResult}</span>
+                                                                ))}
                                                             </div>
                                                             <div className="cli--tal-pro-filter-input-area">
                                                                 <input type="text" className='cli--tal-pro-filter-input' placeholder='Enter keywords like skills, designation'
@@ -1227,16 +1246,16 @@ const TalentsProfileSearch = () => {
                                                                 />
                                                                 <i className="bi bi-search cli--tal-pro-filter-search-icon"></i>
                                                                 <div className='tal-pro-search-result-data-area'>
-                                                                {filteredList.length > 0 &&
-                                                                    filteredList.map((filterResult) => (
-                                                                        <div
-                                                                            className='tal-pro-search-result-data'
-                                                                            key={filterResult._id}
-                                                                            onClick={() => handleFilteredClick(filterResult.designation || filterResult.skill)}
-                                                                        >
-                                                                            {filterResult.designation ? filterResult.designation : filterResult.skill}
-                                                                        </div>
-                                                                    ))}
+                                                                    {filteredList.length > 0 &&
+                                                                        filteredList.map((filterResult) => (
+                                                                            <div
+                                                                                className='tal-pro-search-result-data'
+                                                                                key={filterResult._id}
+                                                                                onClick={() => handleFilteredClick(filterResult.designation || filterResult.skill)}
+                                                                            >
+                                                                                {filterResult.designation ? filterResult.designation : filterResult.skill}
+                                                                            </div>
+                                                                        ))}
                                                                 </div>
                                                             </div>
                                                             <div className="cli--mark-keyword-area">
@@ -1278,7 +1297,7 @@ const TalentsProfileSearch = () => {
                                                                     {/* <input type="number" className='cli-tal-pro-exp-input text-center numeric-input' 
                                                                     value={filters.minExperienceYr}
                                                                     placeholder='Min Experience Year'/> */}
-                                                                        {/* <div className='tal-pro-search-result-data-area'>
+                                                                    {/* <div className='tal-pro-search-result-data-area'>
                                                                             {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((number) => (
                                                                             <div
                                                                                 key={number}
@@ -1289,11 +1308,11 @@ const TalentsProfileSearch = () => {
                                                                             </div>
                                                                             ))}
                                                                         </div> */}
-                                                                        <select name="" className='cli-tal-pro-exp-input text-center numeric-input select' id=""
+                                                                    <select name="" className='cli-tal-pro-exp-input text-center numeric-input select' id=""
                                                                         value={filters.minExperienceYr}
-                                                                        onChange={(e)=>setFilters({...filters, minExperienceYr:e.target.value})}
-                                                                        >
-                                                                        <option value="" selected >Min</option>
+                                                                        onChange={(e) => setFilters({ ...filters, minExperienceYr: e.target.value })}
+                                                                    >
+                                                                        <option value="" selected >Min Experience</option>
                                                                         <option value="1">1</option>
                                                                         <option value="2">2</option>
                                                                         <option value="3">3</option>
@@ -1323,11 +1342,11 @@ const TalentsProfileSearch = () => {
                                                                             </div>
                                                                             ))}
                                                                         </div> */}
-                                                                        <select name="" className='cli-tal-pro-exp-input text-center numeric-input select' id=""
+                                                                    <select name="" className='cli-tal-pro-exp-input text-center numeric-input select' id=""
                                                                         value={filters.maxExperienceYr}
-                                                                        onChange={(e)=>setFilters({...filters, maxExperienceYr:e.target.value})}
-                                                                        >
-                                                                        <option value="" selected >Max</option>
+                                                                        onChange={(e) => setFilters({ ...filters, maxExperienceYr: e.target.value })}
+                                                                    >
+                                                                        <option value="" selected >Max Experience</option>
                                                                         <option value="1">1</option>
                                                                         <option value="2">2</option>
                                                                         <option value="3">3</option>
@@ -1338,7 +1357,7 @@ const TalentsProfileSearch = () => {
                                                                         <option value="8">8</option>
                                                                         <option value="9">9</option>
                                                                         <option value="10">10</option>
-                                                                        </select>
+                                                                    </select>
                                                                 </div>
                                                                 <span className='cli-tal-pro-exp-input-text'>Years</span>
                                                             </div>
@@ -1348,7 +1367,7 @@ const TalentsProfileSearch = () => {
                                                                     {/* <input type="number" className='cli-tal-pro-exp-input text-center numeric-input' 
                                                                     value={filters.minExperienceMonth}
                                                                     placeholder='Min Experience Month'/> */}
-                                                                        {/* <div className='tal-pro-search-result-data-area'>
+                                                                    {/* <div className='tal-pro-search-result-data-area'>
                                                                             {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((number) => (
                                                                             <div
                                                                                 key={number}
@@ -1359,11 +1378,11 @@ const TalentsProfileSearch = () => {
                                                                             </div>
                                                                             ))}
                                                                         </div> */}
-                                                                        <select name="" className='cli-tal-pro-exp-input text-center numeric-input select' id=""
+                                                                    <select name="" className='cli-tal-pro-exp-input text-center numeric-input select' id=""
                                                                         value={filters.minExperienceMonth}
-                                                                        onChange={(e)=>setFilters({...filters, minExperienceMonth:e.target.value})}
-                                                                        >
-                                                                        <option value="" selected >Min</option>
+                                                                        onChange={(e) => setFilters({ ...filters, minExperienceMonth: e.target.value })}
+                                                                    >
+                                                                        <option value="" selected >Min Experience</option>
                                                                         <option value="1">1</option>
                                                                         <option value="2">2</option>
                                                                         <option value="3">3</option>
@@ -1374,7 +1393,7 @@ const TalentsProfileSearch = () => {
                                                                         <option value="8">8</option>
                                                                         <option value="9">9</option>
                                                                         <option value="10">10</option>
-                                                                        </select>
+                                                                    </select>
                                                                 </div>
 
                                                                 <span className='cli-tal-pro-exp-input-text'>to</span>
@@ -1384,9 +1403,9 @@ const TalentsProfileSearch = () => {
                                                                     placeholder='Max Experience Month'/> */}
                                                                     <select name="" className='cli-tal-pro-exp-input text-center numeric-input select' id=""
                                                                         value={filters.maxExperienceMonth}
-                                                                        onChange={(e)=>setFilters({...filters, maxExperienceMonth:e.target.value})}
-                                                                        >
-                                                                        <option value="" selected >Max</option>
+                                                                        onChange={(e) => setFilters({ ...filters, maxExperienceMonth: e.target.value })}
+                                                                    >
+                                                                        <option value="" selected >Max Experience</option>
                                                                         <option value="1">1</option>
                                                                         <option value="2">2</option>
                                                                         <option value="3">3</option>
@@ -1397,7 +1416,7 @@ const TalentsProfileSearch = () => {
                                                                         <option value="8">8</option>
                                                                         <option value="9">9</option>
                                                                         <option value="10">10</option>
-                                                                        </select>
+                                                                    </select>
                                                                     {/* <div className='tal-pro-search-result-data-area'>
                                                                             {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((number) => (
                                                                             <div
@@ -1419,26 +1438,26 @@ const TalentsProfileSearch = () => {
                                                             </div>
                                                             <div className='cli--tal-pro-badge-area mb-4'>
                                                                 {selectedLocationResults.map(selectResult => (
-                                                                <span className="tal-cand-reg-form-badge"
-                                                                    key={selectResult}
-                                                                    onClick={() => handleDeselectLocation(selectResult)}
-                                                                >{selectResult}</span>
+                                                                    <span className="tal-cand-reg-form-badge"
+                                                                        key={selectResult}
+                                                                        onClick={() => handleDeselectLocation(selectResult)}
+                                                                    >{selectResult}</span>
                                                                 ))}
                                                             </div>
                                                             <div className="cli-tal-pro-search-filter-input-area location">
                                                                 <input type="text" className='cli-tal-pro-search-filter-input' placeholder='Add location' value={filters.location}
                                                                     onChange={handleLocationSearch} />
                                                                 <div className='tal-pro-search-result-data-area'>
-                                                                {filteredLocation.length > 0 &&
-                                                                    filteredLocation.map((filterResult) => (
-                                                                        <div
-                                                                            className='tal-pro-search-result-data'
-                                                                            key={filterResult._id}
-                                                                            onClick={() => handleFilteredLocationClick(filterResult.location)}
-                                                                        >
-                                                                            {filterResult.location}
-                                                                        </div>
-                                                                    ))}
+                                                                    {filteredLocation.length > 0 &&
+                                                                        filteredLocation.map((filterResult) => (
+                                                                            <div
+                                                                                className='tal-pro-search-result-data'
+                                                                                key={filterResult._id}
+                                                                                onClick={() => handleFilteredLocationClick(filterResult.location)}
+                                                                            >
+                                                                                {filterResult.location}
+                                                                            </div>
+                                                                        ))}
                                                                 </div>
                                                             </div>
                                                             {/* <div className="cli--mark-keyword-area search-results">
@@ -1465,20 +1484,20 @@ const TalentsProfileSearch = () => {
                                                             <div className="cli-tal-pro-exp-input-area search-page">
                                                                 <div className="cli--salary-inputs-area">
                                                                     <select name="" className='cli-tal-pro-select-input width-30' id=""
-                                                                    value={filters.currencyType}
-                                                                    onChange={(e)=>setFilters({...filters, currencyType: e.target.value})}>
+                                                                        value={filters.currencyType}
+                                                                        onChange={(e) => setFilters({ ...filters, currencyType: e.target.value })}>
                                                                         <option value="" disabled>Select</option>
                                                                         <option value="INR" selected>INR</option>
                                                                         <option value="USD">USD</option>
                                                                     </select>
-                                                                    <input type="number" className='cli-tal-pro-exp-input numeric-input width-70' placeholder='Min Salary in Laks' 
-                                                                    value={filters.minSalary}
-                                                                    onChange={(e)=>setFilters({...filters, minSalary: e.target.value})}/>
+                                                                    <input type="number" className='cli-tal-pro-exp-input numeric-input width-70' placeholder='Min Salary in Laks'
+                                                                        value={filters.minSalary}
+                                                                        onChange={(e) => setFilters({ ...filters, minSalary: e.target.value })} />
                                                                 </div>
                                                                 <span className='cli-tal-pro-exp-input-text'>to</span>
                                                                 <input type="number" className='cli-tal-pro-exp-input text-center numeric-input width-45 search-page' placeholder='Max Salary in Laks'
-                                                                value={filters.maxSalary}
-                                                                onChange={(e)=>setFilters({...filters, maxSalary: e.target.value})} />
+                                                                    value={filters.maxSalary}
+                                                                    onChange={(e) => setFilters({ ...filters, maxSalary: e.target.value })} />
                                                                 <span className='cli-tal-pro-exp-input-text'>laks</span>
                                                             </div>
                                                             <div className="cli--mark-keyword-area">
@@ -1511,23 +1530,23 @@ const TalentsProfileSearch = () => {
                                                                                 key={selectResult}
                                                                                 onClick={() => handleDeselectDepartment(selectResult)}
                                                                             >{selectResult}</span>
-                                                                    ))}
+                                                                        ))}
                                                                     </div>
                                                                     <div className="cli-tal-pro-search-filter-input-area">
-                                                                        <input type="text" name='department' className='cli-tal-pro-search-filter-input' placeholder='Add Department' 
-                                                                        value={filters.department}
-                                                                        onChange={handleDepartmentSearch}/>
+                                                                        <input type="text" name='department' className='cli-tal-pro-search-filter-input' placeholder='Add Department'
+                                                                            value={filters.department}
+                                                                            onChange={handleDepartmentSearch} />
                                                                         <div className='tal-pro-search-result-data-area'>
-                                                                        {filteredDepartment.length > 0 &&
-                                                                            filteredDepartment.map((filterResult) => (
-                                                                                <div
-                                                                                    className='tal-pro-search-result-data'
-                                                                                    key={filterResult._id}
-                                                                                    onClick={() => handleFilteredDepartmentClick(filterResult.department)}
-                                                                                >
-                                                                                    {filterResult.department}
-                                                                                </div>
-                                                                            ))}  
+                                                                            {filteredDepartment.length > 0 &&
+                                                                                filteredDepartment.map((filterResult) => (
+                                                                                    <div
+                                                                                        className='tal-pro-search-result-data'
+                                                                                        key={filterResult._id}
+                                                                                        onClick={() => handleFilteredDepartmentClick(filterResult.department)}
+                                                                                    >
+                                                                                        {filterResult.department}
+                                                                                    </div>
+                                                                                ))}
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -1542,23 +1561,23 @@ const TalentsProfileSearch = () => {
                                                                                 key={selectResult}
                                                                                 onClick={() => handleDeselectRole(selectResult)}
                                                                             >{selectResult}</span>
-                                                                    ))}
+                                                                        ))}
                                                                     </div>
                                                                     <div className="cli-tal-pro-search-filter-input-area">
-                                                                        <input type="text" name='role' className='cli-tal-pro-search-filter-input' placeholder='Add Role' 
-                                                                        value={filters.role}
-                                                                        onChange={handleRoleSearch}/>
+                                                                        <input type="text" name='role' className='cli-tal-pro-search-filter-input' placeholder='Add Role'
+                                                                            value={filters.role}
+                                                                            onChange={handleRoleSearch} />
                                                                         <div className='tal-pro-search-result-data-area'>
-                                                                        {filteredRole.length > 0 &&
-                                                                            filteredRole.map((filterResult) => (
-                                                                                <div
-                                                                                    className='tal-pro-search-result-data'
-                                                                                    key={filterResult._id}
-                                                                                    onClick={() => handleFilteredRoleClick(filterResult.role)}
-                                                                                >
-                                                                                    {filterResult.role}
-                                                                                </div>
-                                                                            ))}  
+                                                                            {filteredRole.length > 0 &&
+                                                                                filteredRole.map((filterResult) => (
+                                                                                    <div
+                                                                                        className='tal-pro-search-result-data'
+                                                                                        key={filterResult._id}
+                                                                                        onClick={() => handleFilteredRoleClick(filterResult.role)}
+                                                                                    >
+                                                                                        {filterResult.role}
+                                                                                    </div>
+                                                                                ))}
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -2575,12 +2594,12 @@ const TalentsProfileSearch = () => {
                                                             const matchingImg = candidateImg ? candidateImg.find(img => img.id === candidate.id) : null;
                                                             const imgSrc = matchingImg ? `http://localhost:5002/candidate_profile/${matchingImg.image}` : "assets/img/talents-images/avatar.jpg";
                                                             return (
-                                                                <article className="talent--profile-card search" data-aos="fade-left" key={candidate.id} onClick={() => viewCandidateDetail(candidate.id)}>
+                                                                <article className="talent--profile-card search" data-aos="fade-left" key={candidate.id}>
                                                                     <div className="tal--pro-card-left-area search">
                                                                         <div className='card-split-line'></div>
                                                                         <div className="tal--pro-card-name-area">
                                                                             <label className="tal--pro-card-name-check-container">
-                                                                                <input type="checkbox" checked={viewedCandidateForThisCandidate ? true : false} onChange={(e) => e.preventDefault()} />
+                                                                                <input type="checkbox" class="tal--checkbox" checked={viewedCandidateForThisCandidate ? true : false} onChange={(e) => e.preventDefault()} />
                                                                                 <div className="tal--pro-card-name-checkmark"></div>
                                                                             </label>
                                                                             <h6 className='tal--pro-card-name'>{candidate.firstName + ' ' + candidate.lastName}</h6>
@@ -2642,7 +2661,7 @@ const TalentsProfileSearch = () => {
                                                                                 </div>
                                                                             </div>
                                                                         </div>
-                                                                        <div className="tal--pro-card-bottom-btn-area search">
+                                                                        {/* <div className="tal--pro-card-bottom-btn-area search">
                                                                             <button className='tal--pro-card-bottom-btn'>
                                                                                 <span>897 </span>Similar Profile
                                                                             </button>
@@ -2652,7 +2671,7 @@ const TalentsProfileSearch = () => {
                                                                             <button className='tal--pro-card-bottom-btn'>
                                                                                 <i class="bi bi-bookmark"></i>Save
                                                                             </button>
-                                                                        </div>
+                                                                        </div> */}
                                                                     </div>
 
                                                                     <div className="tal--pro-card-right-area search">
@@ -2662,11 +2681,12 @@ const TalentsProfileSearch = () => {
                                                                                 <p className='tal--pro-card-role-name'>Frontend Developer (Css,html)</p>
                                                                             </div>
                                                                             <div className="tal--pro-card-contact-btn-area search">
-                                                                                <button className='tal--pro-card-contact-btn search'>View Phone Number</button>
-                                                                                <button className='tal--pro-card-contact-btn search'>
+                                                                                <button className='tal--pro-card-contact-btn search' onClick={() => viewCandidateDetail(candidate.id)}>View Profile</button>
+                                                                                <span className="profile-credits-title">&#129031; 01 Credit</span>
+                                                                                {/* <button className='tal--pro-card-contact-btn search'>
                                                                                     <img src="assets/img/talent-profile/call.png" alt="" />
                                                                                     Call Candidate
-                                                                                </button>
+                                                                                </button> */}
                                                                             </div>
                                                                             <div className="tal--pro-card-ability-number-area">
                                                                                 <div className="tal--pro-card-ability-number-left">
@@ -2680,7 +2700,7 @@ const TalentsProfileSearch = () => {
                                                                             </div>
 
                                                                         </div>
-                                                                        <div className="tal--pro-card-right-btn-area search">
+                                                                        {/* <div className="tal--pro-card-right-btn-area search">
                                                                             <button className='tal--pro-card-right-btn search'>
                                                                                 <img src="assets/img/talent-profile/document.png" alt="" />
                                                                             </button>
@@ -2690,7 +2710,7 @@ const TalentsProfileSearch = () => {
                                                                             <button className='tal--pro-card-right-btn search'>
                                                                                 <img src="assets/img/talent-profile/email.png" alt="" />
                                                                             </button>
-                                                                        </div>
+                                                                        </div> */}
                                                                     </div>
                                                                 </article>
                                                             )
