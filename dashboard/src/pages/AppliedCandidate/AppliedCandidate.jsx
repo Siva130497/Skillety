@@ -427,22 +427,30 @@ const AppliedCandidate = () => {
                     $('.select-box').removeClass('active');
                 }
             });
+
             ////
 
-            $('.tal--pro-card-contact-btn').hover(
+            $('.talent--profile-card .tal--pro-card-contact-btn').hover(
                 function () {
-                    // On hover in
-                    var newText = $('.profile-credits-title').text();
-                    $(this).text(newText);
+                    // Check if the checkbox is not checked
+                    if (!$(this).closest('.talent--profile-card').find('.tal--checkbox').prop('checked')) {
+                        // On hover in
+                        var newText = $(this).next('.profile-credits-title').text();
+                        $(this).text(newText);
+                    }
                 },
                 function () {
-                    // On hover out
-                    var originalText = "View Profile"; // Replace with your original text
-                    $(this).text(originalText);
+                    // Check if the checkbox is not checked
+                    if (!$(this).closest('.talent--profile-card').find('.tal--checkbox').prop('checked')) {
+                        // On hover out
+                        var originalText = "View Profile"; // Replace with your original text
+                        $(this).text(originalText);
+                    }
                 }
             );
+
         });
-    }, []);
+    }, [selectedJobs]);
 
     const getAllCandidateDetail = async () => {
         try {
@@ -573,7 +581,7 @@ const AppliedCandidate = () => {
                                                 <div className='card-split-line'></div>
                                                 <div className="tal--pro-card-name-area">
                                                     <label className="tal--pro-card-name-check-container">
-                                                        <input type="checkbox" />
+                                                        <input type="checkbox" class="tal--checkbox" />
                                                         <div className="tal--pro-card-name-checkmark"></div>
                                                     </label>
                                                     <h6 className='tal--pro-card-name'>{candidate.firstName + ' ' + candidate.lastName}</h6>
@@ -656,11 +664,12 @@ const AppliedCandidate = () => {
                                                     </div>
                                                     <div className="tal--pro-card-contact-btn-area">
                                                         <button className='tal--pro-card-contact-btn' onClick={() => navigate(`/talents/${candidate.id}`)}>View Profile</button>
-                                                        <span className="profile-credits-title">Credits</span>
-                                                        <div className="profile-credits-area">
+                                                        <span className="profile-credits-title">&#129031; 01 Credit</span>
+
+                                                        {/* <div className="profile-credits-area">
                                                             <div className="profile-credits-title">Credits</div>
                                                             <div className="profile-credits">01</div>
-                                                        </div>
+                                                        </div> */}
                                                         {/* <button className='tal--pro-card-contact-btn'>
                                                             <img src="../assets/img/talent-profile/call.png" alt="" />
                                                             Call Candidate

@@ -510,6 +510,26 @@ const JobEditing = () => {
           console.log("Clipboard API not supported in this browser.");
         }
       });
+
+      // Function to toggle visibility of the disabled input area for each group
+      function toggleDisabledInputArea() {
+        var isChecked = $(this).is(':checked');
+        var disabledInputArea = $(this).closest('.job-post-form-group').find('.disabled-input-area');
+
+        if (isChecked) {
+          disabledInputArea.slideDown();
+        } else {
+          disabledInputArea.slideUp();
+        }
+      }
+
+      // Attach event listener to all checkboxes with the class 'toggleDisabledInput'
+      $('.toggleDisabledInput').on('change', toggleDisabledInputArea);
+
+      // Initial call to set the initial state based on the checkbox for each group
+      $('.toggleDisabledInput').each(function () {
+        toggleDisabledInputArea.call(this);
+      });
     });
   }, []);
 
@@ -748,34 +768,38 @@ const JobEditing = () => {
                           </div>
 
                           <div className="job-post-form-chechbox-area">
-                            <label className="job-post-form-check-input">
+                            <label className="job-post-form-check-input view-disabled-input">
                               <input
                                 type="checkbox"
                                 checked={isCheckedJobRole}
                                 onChange={() => setIsCheckedJobRole(!isCheckedJobRole)}
+                                className="toggleDisabledInput"
                               />
                               <span className="job-post-form-checkmark"></span>
                               If your searched job role not in the list, please enable the checkbox & type manually...
                             </label>
                           </div>
 
-                          <input
-                            type='text'
-                            name='manualJobRoleInput'
-                            id='manualJobRoleInput'
-                            className='job-post-form-input mt-4'
-                            placeholder='Enter job role...'
-                            value={newJobRole}
-                            onChange={(e) => setNewJobRole(e.target.value)}
-                            disabled={!isCheckedJobRole}
-                          />
+                          <div className="disabled-input-area">
+                            <input
+                              type='text'
+                              name='manualJobRoleInput'
+                              id='manualJobRoleInput'
+                              className='job-post-form-input mt-4'
+                              placeholder='Enter job role...'
+                              value={newJobRole}
+                              onChange={(e) => setNewJobRole(e.target.value)}
+                              disabled={!isCheckedJobRole}
+                            />
 
-                          <button
-                            type="button"
-                            className="manually-add-btn with-mb"
-                            onClick={handleManualJobRole}
-                            disabled={!isCheckedJobRole}
-                          >Add manually entered jobRole</button>
+                            <button
+                              type="button"
+                              className="manually-add-btn with-mb"
+                              onClick={handleManualJobRole}
+                              disabled={!isCheckedJobRole}
+                            >Add manually entered jobRole</button>
+                          </div>
+
                         </div>
                       </div>
 
@@ -847,35 +871,40 @@ const JobEditing = () => {
                           </div>
 
                           <div className="job-post-form-chechbox-area">
-                            <label className="job-post-form-check-input">
+                            <label className="job-post-form-check-input view-disabled-input">
                               <input
                                 type="checkbox"
                                 checked={isCheckedSkill}
                                 onChange={() => setIsCheckedSkill(!isCheckedSkill)}
+                                className="toggleDisabledInput"
                               />
                               <span className="job-post-form-checkmark"></span>
                               If the searched skill for the particular job role not in the list, please enable the checkbox & type manually...
                             </label>
                           </div>
 
-                          <input
-                            type='text'
-                            name='manualSkillInput'
-                            id='manualSkillInput'
-                            className='job-post-form-input mt-4'
-                            placeholder='Enter the skills...'
-                            value={newSkill}
-                            onChange={(e) => setNewSkill(e.target.value)}
-                            disabled={!isCheckedSkill}
-                          />
+                          <div className="disabled-input-area">
+                            <input
+                              type='text'
+                              name='manualSkillInput'
+                              id='manualSkillInput'
+                              className='job-post-form-input mt-4'
+                              placeholder='Enter the skills...'
+                              value={newSkill}
+                              onChange={(e) => setNewSkill(e.target.value)}
+                              disabled={!isCheckedSkill}
+                            />
 
-                          {/* {skillError && <p>{skillError}</p>} */}
-                          <button
-                            type="button"
-                            className="manually-add-btn"
-                            onClick={handleManualSkill}
-                            disabled={!isCheckedSkill}
-                          >Add manually entered skill for a particular job role</button>
+                            {/* {skillError && <p>{skillError}</p>} */}
+                            <button
+                              type="button"
+                              className="manually-add-btn"
+                              onClick={handleManualSkill}
+                              disabled={!isCheckedSkill}
+                            >Add manually entered skill for a particular job role
+                            </button>
+                          </div>
+
                         </div>
                       </div>
                     </div>

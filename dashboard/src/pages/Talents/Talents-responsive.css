@@ -1,4 +1,4 @@
-@media screen and (min-width: 992px) and (max-width: 1367px) {
+@media screen and (min-width: 992px) and (max-width: 1399px) {
     .talents--section {
         margin-top: 130px;
     }
@@ -72,8 +72,14 @@
 
 
     .client-talent--profile-image {
-        width: 160px;
-        height: 160px;
+        width: 130px;
+        height: 130px;
+    }
+    /* .client-talent--profile-ability-number-area{
+        padding-left: 0;
+    } */
+    .client-talent--profile-detail-area{
+        justify-content: space-around;
     }
 }
 

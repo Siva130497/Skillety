@@ -11,8 +11,8 @@ import AuthContext from '../../context/AuthContext';
 
 const TalentsProfileSearch = () => {
     const [clientToken, setClientToken] = useState("");
-    
-    const {getProtectedData, getClientChoosenPlan, packageSelectionDetail, getCandidateImg, candidateImg} = useContext(AuthContext);
+
+    const { getProtectedData, getClientChoosenPlan, packageSelectionDetail, getCandidateImg, candidateImg } = useContext(AuthContext);
     const [employeeId, setEmployeeId] = useState("");
     const [loginClientDetail, setLoginClientDetail] = useState([]);
     const [cvViews, setCvViews] = useState();
@@ -31,9 +31,9 @@ const TalentsProfileSearch = () => {
 
     const navigate = useNavigate();
 
-    useEffect(()=>{
+    useEffect(() => {
         setClientToken(JSON.parse(localStorage.getItem('clientToken')))
-    },[clientToken])
+    }, [clientToken])
 
     useEffect(() => {
         $(document).ready(function () {
@@ -438,6 +438,25 @@ const TalentsProfileSearch = () => {
                 }
             });
             ////
+
+            $('.talent--profile-card .tal--pro-card-contact-btn').hover(
+                function () {
+                    // Check if the checkbox is not checked
+                    if (!$(this).closest('.talent--profile-card').find('.tal--checkbox').prop('checked')) {
+                        // On hover in
+                        var newText = $(this).next('.profile-credits-title').text();
+                        $(this).text(newText);
+                    }
+                },
+                function () {
+                    // Check if the checkbox is not checked
+                    if (!$(this).closest('.talent--profile-card').find('.tal--checkbox').prop('checked')) {
+                        // On hover out
+                        var originalText = "View Profile"; // Replace with your original text
+                        $(this).text(originalText);
+                    }
+                }
+            );
         });
     }, [searchResult]);
 
@@ -702,7 +721,7 @@ const TalentsProfileSearch = () => {
             <div class="main-wrapper main-wrapper-1">
                 <div class="navbar-bg"></div>
                 <ClientLayout />
-            
+
                 <div class="main-content">
                     <section class="section">
                         <div className='cli--tal-pro-search-section pt-5'>
@@ -1915,7 +1934,7 @@ const TalentsProfileSearch = () => {
                                                     </div>
                                                 </div>
 
-                                                <div className="col-12 col-lg-8 col-xl-8 col-md-8 pe-lg-0 pe-md-1 col-width-lg-70">
+                                                <div className="col-12 col-lg-8 col-xl-8 col-md-8 pr-lg-0 pr-md-1 col-width-lg-70">
                                                     {/* <div className="tal--pro-search-result-image-area">
                                                     <img src="assets/img/jobs/filter-data-img.png" className='tal--pro-search-result-image' alt="" data-aos="fade"  />
                                                     <h6 className='tal--pro-search-result-title' data-aos="fade-up">Add Filter for the desired search</h6>
@@ -1929,12 +1948,12 @@ const TalentsProfileSearch = () => {
                                                                     const matchingImg = candidateImg ? candidateImg.find(img => img.id === candidate.id) : null;
                                                                     const imgSrc = matchingImg ? `http://localhost:5002/candidate_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
                                                                     return (
-                                                                        <article className="talent--profile-card search" key={candidate.id} onClick={() => viewCandidateDetail(candidate.id)}>
+                                                                        <article className="talent--profile-card search" key={candidate.id}>
                                                                             <div className="tal--pro-card-left-area search">
                                                                                 <div className='card-split-line'></div>
                                                                                 <div className="tal--pro-card-name-area">
                                                                                     <label className="tal--pro-card-name-check-container">
-                                                                                        <input type="checkbox" checked={viewedCandidateForThisCandidate ? true : false} onChange={(e) => e.preventDefault()} />
+                                                                                        <input type="checkbox" class="tal--checkbox" checked={viewedCandidateForThisCandidate ? true : false} onChange={(e) => e.preventDefault()} />
                                                                                         <div className="tal--pro-card-name-checkmark"></div>
                                                                                     </label>
                                                                                     <h6 className='tal--pro-card-name'>{candidate.firstName + ' ' + candidate.lastName}</h6>
@@ -1996,7 +2015,7 @@ const TalentsProfileSearch = () => {
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
-                                                                                <div className="tal--pro-card-bottom-btn-area search">
+                                                                                {/* <div className="tal--pro-card-bottom-btn-area search">
                                                                                     <button className='tal--pro-card-bottom-btn'>
                                                                                         <span>897 </span>Similar Profile
                                                                                     </button>
@@ -2006,21 +2025,22 @@ const TalentsProfileSearch = () => {
                                                                                     <button className='tal--pro-card-bottom-btn'>
                                                                                         <i class="bi bi-bookmark"></i>Save
                                                                                     </button>
-                                                                                </div>
+                                                                                </div> */}
                                                                             </div>
 
                                                                             <div className="tal--pro-card-right-area search">
                                                                                 <div className="tal--pro-card-right-cover-area search">
                                                                                     <div className='tal--pro-card-profile-img-role-area search'>
-                                                                                        <img src={imgSrc} alt="" />
+                                                                                        <img src={imgSrc} className='tal--pro-card-profile-img' alt="" />
                                                                                         <p className='tal--pro-card-role-name'>Frontend Developer (Css,html)</p>
                                                                                     </div>
                                                                                     <div className="tal--pro-card-contact-btn-area search">
-                                                                                        <button className='tal--pro-card-contact-btn search'>View Phone Number</button>
-                                                                                        <button className='tal--pro-card-contact-btn search'>
+                                                                                        <button className='tal--pro-card-contact-btn search' onClick={() => viewCandidateDetail(candidate.id)}>View Profile</button>
+                                                                                        <span className="profile-credits-title">&#129031; 01 Credit</span>
+                                                                                        {/* <button className='tal--pro-card-contact-btn search'>
                                                                                             <img src="assets/img/talent-profile/call.png" alt="" />
                                                                                             Call Candidate
-                                                                                        </button>
+                                                                                        </button> */}
                                                                                     </div>
                                                                                     <div className="tal--pro-card-ability-number-area">
                                                                                         <div className="tal--pro-card-ability-number-left">
@@ -2034,7 +2054,7 @@ const TalentsProfileSearch = () => {
                                                                                     </div>
 
                                                                                 </div>
-                                                                                <div className="tal--pro-card-right-btn-area search">
+                                                                                {/* <div className="tal--pro-card-right-btn-area search">
                                                                                     <button className='tal--pro-card-right-btn search'>
                                                                                         <img src="assets/img/talent-profile/document.png" alt="" />
                                                                                     </button>
@@ -2044,7 +2064,7 @@ const TalentsProfileSearch = () => {
                                                                                     <button className='tal--pro-card-right-btn search'>
                                                                                         <img src="assets/img/talent-profile/email.png" alt="" />
                                                                                     </button>
-                                                                                </div>
+                                                                                </div> */}
                                                                             </div>
                                                                         </article>
                                                                     )
