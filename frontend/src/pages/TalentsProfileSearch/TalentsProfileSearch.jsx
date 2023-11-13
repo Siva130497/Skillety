@@ -870,7 +870,7 @@ const TalentsProfileSearch = () => {
             setFilteredLocation([]);
 
         } else {
-            setSelectedLocationResults([...selectedResults, clickResult]);
+            setSelectedLocationResults([...selectedLocationResults, clickResult]);
             setFilters({ ...filters, location: "" });
             setFilteredLocation([]);
         }
