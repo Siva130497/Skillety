@@ -9,6 +9,7 @@ import { Slider } from "primereact/slider";
 import axios from 'axios';
 
 const JobSearch = () => {
+    const candidateToken = JSON.parse(localStorage.getItem("candidateToken"))
     const [allJobs, setAllJobs] = useState([]);
     const [searchResult, setSearchResult] = useState(false);
     const [filteredSearchResults, setFilteredSearchResults] = useState([]);
@@ -1116,7 +1117,7 @@ const JobSearch = () => {
                                                                             })}
                                                                         </div>
                                                                         <div className="job--detail-card-know-more-btn-area">
-                                                                            <a href="#" className='job--detail-card-know-more-btn'>Know more</a>
+                                                                            <a href={candidateToken ? `http://localhost:3000//job-detail/${job.id}` : "/candidate-login"} className='job--detail-card-know-more-btn'>Know more</a>
                                                                         </div>
                                                                     </div>
                                                                 </article>
