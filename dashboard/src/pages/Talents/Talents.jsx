@@ -241,9 +241,10 @@ const Talents = () => {
                                                                     <h6 className='client-talent--profile-ability'>Skill matched</h6>
                                                                     <h2 className='client-talent--profile-number'>90%</h2>
                                                                 </div>
+                                                                <div className="hr-line"></div>
                                                                 <div className="client-talent--profile-ability-number-right">
                                                                     <h6 className='client-talent--profile-ability'>Can join in</h6>
-                                                                    <h2 className='client-talent--profile-number'>
+                                                                    <h2 className='client-talent--profile-days'>
                                                                         <span>{loginCandidate?.days}</span>
                                                                     </h2>
                                                                 </div>

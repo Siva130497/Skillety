@@ -437,3 +437,6 @@
     background-color: #714F36 !important;
     color: #FFF !important;
 }
+.disabled-input-area{
+    display: none;
+}
