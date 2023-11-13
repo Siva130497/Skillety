@@ -1023,7 +1023,7 @@
     max-height: 280px;
     overflow-y: scroll;
     /* opacity: 0; */
-    display: none;
+    /* display: none; */
     transition: display ease-in-out 0.3s;
     border-radius: 5px;
     margin-top: 2px;
@@ -1064,11 +1064,19 @@
     color: #63442d !important;
 }
 
-.cli--tal-pro-filter-input-area .cli--tal-pro-filter-input:focus~.tal-pro-search-result-data-area,
+.cli-tal-pro-exp-input.select option{
+background-color: #714F36 !important;
+color: #FFF !important;
+}
+.cli-tal-pro-exp-input.select option:disabled{
+    color: #bdbdbd !important;
+}
+
+/* .cli--tal-pro-filter-input-area .cli--tal-pro-filter-input:focus~.tal-pro-search-result-data-area,
 .cli-tal-pro-search-filter-input-area .cli-tal-pro-search-filter-input:focus~.tal-pro-search-result-data-area,
 .cli-tal-pro-exp-input-area .cli-tal-pro-exp-input:focus~.tal-pro-search-result-data-area {
     display: block;
-}
+} */
 
 .cli--tal-pro-badge-area {
     display: flex;
