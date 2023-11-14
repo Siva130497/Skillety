@@ -24,6 +24,12 @@ const RecruiterLogin = () => {
     return (
                 <div>
                     <Layout newNavBarRecruiterLogin = {true} />
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
                     <div className='container-fluid'>
                     <h3>Login</h3>
 

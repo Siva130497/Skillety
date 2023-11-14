@@ -10,6 +10,7 @@ import axios from 'axios';
 import AuthContext from '../../context/AuthContext';
 
 const JobSearch = () => {
+    const [candidateToken, setCandidateToken] = useState("");
     const {getClientImg, clientImg} = useContext(AuthContext);
     const [allJobs, setAllJobs] = useState([]);
     const [searchResult, setSearchResult] = useState(false);
@@ -133,6 +134,15 @@ const JobSearch = () => {
             });
         });
     }, [searchResult]);
+
+    useEffect(()=>{
+        const token = JSON.parse(localStorage.getItem("candidateToken"))
+        if(token){
+            setCandidateToken(token)
+        }else{
+            window.open(`http://localhost:3001/candidate-login`, '_blank');
+        }
+    },[])
 
     const getPostedjobs = async() => {
         try{
@@ -1150,7 +1160,7 @@ const JobSearch = () => {
         //     <CandidateFooter />
         // </div>
         <div>
-            <div class="main-wrapper main-wrapper-1">
+            {candidateToken && <div class="main-wrapper main-wrapper-1">
                 <div class="navbar-bg"></div>
                 <Layout />
             
@@ -2051,7 +2061,7 @@ const JobSearch = () => {
                     </section>
                 </div>
                 <Footer />
-            </div>
+            </div>}
         </div>
     )
 }

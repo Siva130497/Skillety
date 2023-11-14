@@ -100,6 +100,8 @@ const SettingsCandidate = () => {
             };
 
             fetchData();
+        }else{
+            window.open(`http://localhost:3001/candidate-login`, '_blank');
         }
     }, [candidateToken]);
 
@@ -249,7 +251,7 @@ const SettingsCandidate = () => {
 
     return (
         <div>
-            <div class="main-wrapper main-wrapper-1">
+            {candidateToken && <div class="main-wrapper main-wrapper-1">
                 <div class="navbar-bg"></div>
 
                 <Layout />
@@ -414,7 +416,7 @@ const SettingsCandidate = () => {
                 </div>
 
                 <Footer />
-            </div>
+            </div>}
         </div>
     )
 }

@@ -60,6 +60,8 @@ const MyApplication = () => {
             };
         
             fetchData();
+        }else{
+            window.open(`http://localhost:3001/candidate-login`, '_blank');
         }
     }, [candidateToken]);
 
@@ -92,7 +94,7 @@ const MyApplication = () => {
 
     return (
         <div>
-            <div class="main-wrapper main-wrapper-1">
+            {candidateToken && <div class="main-wrapper main-wrapper-1">
                 <div class="navbar-bg"></div>
 
                 <Layout />
@@ -285,7 +287,7 @@ const MyApplication = () => {
                 </div>
 
                 <Footer />
-            </div >
+            </div >}
         </div >
     )
 }

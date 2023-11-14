@@ -130,6 +130,8 @@ const ClientDashboard = () => {
             };
         
             fetchData();
+        }else{
+            window.open(`http://localhost:3001/client-login`, '_blank');
         }
     }, [token]);
 

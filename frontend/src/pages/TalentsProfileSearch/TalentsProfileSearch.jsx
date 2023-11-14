@@ -1736,7 +1736,7 @@ const TalentsProfileSearch = () => {
                                                                     </div>
                                                                 </div>
 
-                                                                <div className="cli-tal-pro-search-filter-content mb-0">
+                                                                {/* <div className="cli-tal-pro-search-filter-content mb-0">
                                                                     <div className="cli-tal-pro-search-filter-title-area">
                                                                         <h6 className='cli-tal-pro-search-filter-title'>Show only candidates with </h6>
                                                                     </div>
@@ -1765,7 +1765,7 @@ const TalentsProfileSearch = () => {
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                </div>
+                                                                </div> */}
                                                             </div>
                                                         </div>
                                                     </div>

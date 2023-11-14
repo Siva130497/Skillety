@@ -12,7 +12,7 @@ import 'sweetalert2/dist/sweetalert2.css';
 
 const JobPosting = () => {
   const [clientToken, setClientToken] = useState("");
-  const { getProtectedData } = useContext(AuthContext);
+  const { getProtectedData, getClientChoosenPlan} = useContext(AuthContext);
 
   const [employeeId, setEmployeeId] = useState("");
   const [loginClientDetail, setLoginClientDetail] = useState([]);
@@ -37,6 +37,8 @@ const JobPosting = () => {
   const [roleArray, setRoleArray] = useState([])
   const [filteredRoles, setFilteredRoles] = useState([]);
   const [selectedRoles, setSelectedRoles] = useState([]);
+
+  const [postedJobs, setPostedJobs] = useState([]);
 
   const initialCredentials = {
     minExperience: "",
@@ -204,6 +206,26 @@ const JobPosting = () => {
     }
   }
 
+  const getOwnPostedjobs = async () => {
+    try {
+        const res = await axios.get(`http://localhost:5002/my-posted-jobs/${loginClientDetail.companyId}`, {
+            headers: {
+                Authorization: `Bearer ${clientToken}`,
+                Accept: 'application/json'
+            }
+        });
+        const result = res.data;
+        if (!result.error) {
+            console.log(result);
+            setPostedJobs(result.reverse());
+        } else {
+            console.log(result);
+        }
+    } catch (err) {
+        console.log(err);
+    }
+}
+
   useEffect(() => {
     setClientToken(JSON.parse(localStorage.getItem('clientToken')))
   }, [clientToken])
@@ -229,6 +251,8 @@ const JobPosting = () => {
       };
 
       fetchData();
+    }else{
+      window.open(`http://localhost:3001/client-login`, '_blank');
     }
   }, [clientToken]);
 
@@ -237,6 +261,12 @@ const JobPosting = () => {
       getLoginClientDetail();
     }
   }, [employeeId]);
+
+  useEffect(() => {
+    if (loginClientDetail.length>0) {
+      getOwnPostedjobs();
+    }
+  }, [loginClientDetail]);
 
   //jobposting
   const jobPosting = async (jobdetail) => {
@@ -259,6 +289,7 @@ const JobPosting = () => {
         setOtherJobRole([]);
         setSelectedSkills([]);
         setOtherSkill([]);
+        getOwnPostedjobs();
       } else {
         console.log(result);
       }
@@ -506,51 +537,80 @@ const JobPosting = () => {
     setFilteredRoles([]);
   }
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    if (
-      selectedJobRoles.length === 0 ||
-      credentials.minExperience === "" ||
-      credentials.maxExperience === "" ||
-      credentials.jobCategory === "" ||
-      credentials.jobDescription === "" ||
-      credentials.workMode === "" ||
-      credentials.currencyType === "" ||
-      credentials.minSalary === "" ||
-      credentials.maxSalary === "" ||
-      credentials.industry === "" ||
-      credentials.education === "" ||
-      selectedSkills.length === 0 ||
-      selectedDepartment.length === 0 ||
-      selectedLocations.length === 0
-    ) {
-      alert("Please fill in all required fields.");
-      return;
-    }
+  const handleSubmit = async(event) => {
+    const packageSelectionDetail = await getClientChoosenPlan(loginClientDetail.companyId);
+    if(packageSelectionDetail){
+      if(postedJobs.length < packageSelectionDetail.jobPost){
+        event.preventDefault();
+        if (
+          selectedJobRoles.length === 0 ||
+          credentials.minExperience === "" ||
+          credentials.maxExperience === "" ||
+          credentials.jobCategory === "" ||
+          credentials.jobDescription === "" ||
+          credentials.workMode === "" ||
+          credentials.currencyType === "" ||
+          credentials.minSalary === "" ||
+          credentials.maxSalary === "" ||
+          credentials.industry === "" ||
+          credentials.education === "" ||
+          selectedSkills.length === 0 ||
+          selectedDepartment.length === 0 ||
+          selectedLocations.length === 0
+        ) {
+          alert("Please fill in all required fields.");
+          return;
+        }
 
-    const id = uuidv4();
-    const updatedCredentials = {
-      ...credentials,
-      skills: selectedSkills,
-      jobRole: selectedJobRoles,
-      location: selectedLocations,
-      department: selectedDepartment,
-      role: selectedRoles,
-      Role: loginClientDetail.role,
-      id,
-    };
-    if (loginClientDetail.role === "Client") {
-      updatedCredentials.clientId = employeeId;
-      updatedCredentials.companyId = loginClientDetail.companyId;
-    } else {
-      updatedCredentials.clientStaffId = employeeId;
-      updatedCredentials.companyId = loginClientDetail.companyId;
-    }
+        const id = uuidv4();
+        const updatedCredentials = {
+          ...credentials,
+          skills: selectedSkills,
+          jobRole: selectedJobRoles,
+          location: selectedLocations,
+          department: selectedDepartment,
+          role: selectedRoles,
+          Role: loginClientDetail.role,
+          id,
+        };
+        if (loginClientDetail.role === "Client") {
+          updatedCredentials.clientId = employeeId;
+          updatedCredentials.companyId = loginClientDetail.companyId;
+        } else {
+          updatedCredentials.clientStaffId = employeeId;
+          updatedCredentials.companyId = loginClientDetail.companyId;
+        }
 
-    console.log(updatedCredentials, otherJobRole, otherSkill);
-    jobPosting(updatedCredentials);
-    otherSkill.length > 0 && postOtherSkills(otherSkill);
-    otherJobRole.length > 0 && postOtherDesignation(otherJobRole);
+        console.log(updatedCredentials, otherJobRole, otherSkill);
+        jobPosting(updatedCredentials);
+        otherSkill.length > 0 && postOtherSkills(otherSkill);
+        otherJobRole.length > 0 && postOtherDesignation(otherJobRole);
+      }else{
+        await new Promise(() => {
+          Swal.fire({
+              title: 'Buy Package Plan',
+              text: 'You reached your max cv-views in your plan, upgrade your plan',
+              icon: 'info',
+              confirmButtonColor: '#3085d6',
+              confirmButtonText: 'OK',
+          }).then(() => {
+              window.open(`http://localhost:3000/package-plans`, '_blank');
+          });
+        });
+      }
+    }else{
+      await new Promise(() => {
+        Swal.fire({
+            title: 'Buy Package Plan',
+            text: '',
+            icon: 'info',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'OK',
+        }).then(() => {
+            window.open(`http://localhost:3000/package-plans`, '_blank');
+        });
+      });
+    }
   };
 
   useEffect(() => {
@@ -780,7 +840,7 @@ const JobPosting = () => {
           <input type='submit' value="Post" className='btn btn-primary my-3' />
         </form>
       </div> */}
-      <div class="main-wrapper main-wrapper-1">
+      {clientToken && <div class="main-wrapper main-wrapper-1">
         <div class="navbar-bg"></div>
         <ClientLayout dashBoard={true} />
 
@@ -1381,7 +1441,7 @@ const JobPosting = () => {
           </section>
         </div>
         <Footer />
-      </div>
+      </div>}
     </div>
   )
 }

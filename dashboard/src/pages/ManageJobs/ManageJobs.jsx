@@ -68,6 +68,8 @@ const ManageJobs = () => {
             };
 
             fetchData();
+        }else{
+            window.open(`http://localhost:3001/client-login`, '_blank');
         }
     }, [clientToken]);
 
@@ -165,26 +167,41 @@ const ManageJobs = () => {
     }, [loginClientDetail]);
 
     const handleDeleteJob = (id) => {
-        axios.delete(`http://localhost:5002/delete-job/${id}`, {
-            headers: {
-                Authorization: `Bearer ${clientToken}`,
-                Accept: 'application/json'
+       
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'You won\'t be able to revert this!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                
+                axios.delete(`http://localhost:5002/delete-job/${id}`, {
+                    headers: {
+                        Authorization: `Bearer ${clientToken}`,
+                        Accept: 'application/json'
+                    }
+                })
+                .then((res) => {
+                    console.log(res.data);
+                    showSuccessMessage("Job has been deleted!");
+                    getOwnPostedjobs();
+                })
+                .catch((err) => {
+                    console.log(err);
+                    showErrorMessage();
+                });
             }
-        })
-            .then((res) => {
-                console.log(res.data)
-                showSuccessMessage("Job has been deleted!")
-                getOwnPostedjobs();
-            })
-            .catch((err) => {
-                console.log(err)
-                showErrorMessage()
-            })
+            
+        });
     }
 
     return (
         <div>
-            <div class="main-wrapper main-wrapper-1">
+            {clientToken && <div class="main-wrapper main-wrapper-1">
                 <div class="navbar-bg"></div>
 
                 <ClientLayout />
@@ -278,7 +295,7 @@ const ManageJobs = () => {
                 </div>
 
                 <Footer />
-            </div >
+            </div >}
         </div >
     )
 }
