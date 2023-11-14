@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import $ from 'jquery';
 import { useNavigate } from 'react-router-dom';
 
-const ClientSidebar = () => {
+const ClientSidebar = ({packageSelectionDetail}) => {
     const [clientToken, setClientToken] = useState("");
     const navigate = useNavigate();
 
@@ -54,12 +54,12 @@ const ClientSidebar = () => {
                         <li className="dropdown" id='client_dashboard'>
                             <a href={`/client-dashboard/${clientToken}`} className="nav-link"><i data-feather="home"></i><span>Dashboard</span></a>
                         </li>
-                        <li className="dropdown" id='search_candidate'>
+                        {packageSelectionDetail &&
+                        <>
+                            <li className="dropdown" id='search_candidate'>
                             <a href="/talent-profile-search" className="nav-link"><i data-feather="search"></i><span>Search Candidates</span></a>
                         </li>
-                        {/* <li className="dropdown" id='manage_application'>
-                            <a href="/manage-application" className="nav-link"><i data-feather="file"></i><span>Manage Applications</span></a>
-                        </li> */}
+                        
                         <li className="dropdown" id='post_job'>
                             <a href="/post-job" className="nav-link"><i data-feather="briefcase"></i><span>Post a Job</span></a>
                         </li>
@@ -67,25 +67,22 @@ const ClientSidebar = () => {
                         <li className="dropdown" id='manage_job'>
                             <a href="/manage-job" className="nav-link"><i data-feather="sliders"></i><span>Manage Jobs</span></a>
                         </li>
+                       
+                        
 
-                        {/* <li className="dropdown" id='services'>
-                            <a href="/services" className="nav-link"><i data-feather="tool"></i><span>Services</span></a>
-                        </li> */}
+                        
 
                         <div className='hr-line'></div>
 
-                        {/* <li className="dropdown" id='reports'>
-                            <a href="/reports" className="nav-link"><i data-feather="file-text"></i><span>Reports</span></a>
-                        </li> */}
+                        
                         <li className="dropdown" id='invoice_payment'>
                             <a href="/invoice-payment" className="nav-link"><i data-feather="dollar-sign"></i><span>Invoices& Payment</span></a>
                         </li>
-                        {/* <li className="dropdown" id='contact_support'>
-                            <a href="/contact-support" className="nav-link"><i data-feather="phone"></i><span>Contact Support</span></a>
-                        </li> */}
+                        
                         <li className="dropdown" id='client_settings'>
                             <a href="/client-settings" className="nav-link"><i data-feather="settings"></i><span>Settings</span></a>
                         </li>
+                    </>}
                     </ul>
 
                     <div className='live-chat-area'>
@@ -97,6 +94,7 @@ const ClientSidebar = () => {
 
                         <button className="live-chat-btn client" onClick={()=>navigate("/package-plans")}>Upgrade Package</button>
                     </div>
+                     
                 </aside>
             </div>
         </div>
