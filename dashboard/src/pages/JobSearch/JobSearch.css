@@ -140,6 +140,7 @@
     border: 2px solid #FFF;
     border-bottom: 5px solid #FFF;
     transition: ease-in-out 0.8s !important;
+    margin-bottom: 30px;
 }
 
 .job--detail-card:hover {
@@ -307,5 +308,5 @@
 
 .job--detail-card-know-more-btn:hover {
     background-color: #714F36;
-    color: #FFF;
+    color: #FFF !important;
 }

@@ -11,9 +11,18 @@ import 'aos/dist/aos.css';
 const Layout = () => {
 
   useEffect(() => {
-    $(window).on("load", function () {
-      $(".loader").fadeOut("slow");
-    });
+    // $(window).on("load", function () {
+    //   $(".loader").fadeOut("slow");
+    // });
+
+    const preloader = $('#preloader');
+    if (preloader.length) {
+      setTimeout(function () {
+        preloader.fadeOut('slow', function () {
+          preloader.remove();
+        });
+      }, 500);
+    }
 
     $(document).ready(function () {
       let sidebar_nicescroll_opts = {
@@ -743,14 +752,10 @@ const Layout = () => {
 
   return (
     <div>
-
-      {/* <div class="main-wrapper main-wrapper-1">
-        <div class="navbar-bg"></div> */}
+      <div id="preloader" className='candidate'></div>
       <NavBar />
 
       <Sidebar />
-
-      {/* </div> */}
     </div>
   )
 }
