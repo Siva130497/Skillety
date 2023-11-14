@@ -81,8 +81,6 @@ const JobDetails = () => {
             };
 
             fetchData();
-        }else{
-            window.open(`http://localhost:3001/client-login`, '_blank');
         }
     }, [candidateToken]);
 

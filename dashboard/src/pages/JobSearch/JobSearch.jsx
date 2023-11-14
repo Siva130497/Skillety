@@ -139,8 +139,6 @@ const JobSearch = () => {
         const token = JSON.parse(localStorage.getItem("candidateToken"))
         if(token){
             setCandidateToken(token)
-        }else{
-            window.open(`http://localhost:3001/candidate-login`, '_blank');
         }
     },[])
 

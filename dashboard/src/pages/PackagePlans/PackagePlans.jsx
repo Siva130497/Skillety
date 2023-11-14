@@ -148,8 +148,6 @@ const PackagePlans = () => {
             };
 
             fetchData();
-        }else{
-            window.open(`http://localhost:3001/client-login`, '_blank');
         }
     }, [clientToken]);
 
@@ -249,7 +247,7 @@ const PackagePlans = () => {
             {clientToken && <div class="main-wrapper main-wrapper-1">
                 <div class="navbar-bg"></div>
 
-                <ClientLayout />
+                <ClientLayout packageSelectionDetail={packageSelectionDetail}/>
 
                 <div class="main-content">
                     <section class="section">

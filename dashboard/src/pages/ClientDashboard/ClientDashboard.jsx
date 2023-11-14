@@ -88,7 +88,7 @@ const options = {
 
 const ClientDashboard = () => {
     const {token} = useParams();
-    const navigate = useNavigate();
+    
     const {getProtectedData, getCandidateImg, candidateImg, getClientChoosenPlan, packageSelectionDetail} = useContext(AuthContext);
     const [employeeId, setEmployeeId] = useState("");
     const [loginClientDetail, setLoginClientDetail] = useState();
@@ -96,6 +96,21 @@ const ClientDashboard = () => {
     const [postedJobs, setPostedJobs] = useState([]);
     const [appliedOfPostedJobs, setAppliedOfPostedJobs] =useState([]);
     const [allStaff, setAllStaff] = useState([]);
+
+    const [loading, setLoading] = useState(true);
+    const [pageNotFound, setPageNotFound] = useState(false);
+
+    useEffect(() => {
+        const preloader = $('#preloader');
+    if (preloader.length) {
+    setTimeout(function () {
+        preloader.fadeOut('slow', function () {
+        preloader.remove();
+        });
+    }, 500);
+    }
+    }, []);
+
 
     useEffect(()=>{
        localStorage.setItem("clientToken", JSON.stringify(token));
@@ -120,18 +135,21 @@ const ClientDashboard = () => {
         if(token){
             const fetchData = async () => {
                 try {
-                const user = await getProtectedData(token);
-                console.log(user);
-                setEmployeeId(user.id);
+                    const user = await getProtectedData(token);
+                    console.log(user);
+                    if(user){
+                        setLoading(false);
+                        setEmployeeId(user.id);
+                    }else{
+                        setLoading(false);
+                        setPageNotFound(true);
+                    }
                 } catch (error) {
-                console.log(error);
-                
+                    console.log(error);
                 }
             };
         
             fetchData();
-        }else{
-            window.open(`http://localhost:3001/client-login`, '_blank');
         }
     }, [token]);
 
@@ -253,11 +271,13 @@ const ClientDashboard = () => {
     
     return (
         <div>
+            {loading && <div id="preloader"></div>}
+            {employeeId && <div>
             {packageSelectionDetail ?
                 <div>
                 <div class="main-wrapper main-wrapper-1">
                     <div class="navbar-bg"></div>
-                    <ClientLayout />
+                    <ClientLayout packageSelectionDetail={packageSelectionDetail}/>
     
                     <div class="main-content">
                         <section class="section">
@@ -654,6 +674,13 @@ const ClientDashboard = () => {
                 </div> :
                 <PackagePlans />
             }
+            {pageNotFound && <div>
+                    <h1>404</h1>
+                    <p>Not Found</p>
+                    <small>The resource requested could not be found on this server!</small>
+                </div>}
+            </div>}
+            
         </div>
         
     )

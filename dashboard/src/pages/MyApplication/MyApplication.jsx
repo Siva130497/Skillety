@@ -60,8 +60,6 @@ const MyApplication = () => {
             };
         
             fetchData();
-        }else{
-            window.open(`http://localhost:3001/candidate-login`, '_blank');
         }
     }, [candidateToken]);
 
