@@ -12,7 +12,7 @@ import 'sweetalert2/dist/sweetalert2.css';
 
 const JobPosting = () => {
   const [clientToken, setClientToken] = useState("");
-  const { getProtectedData, getClientChoosenPlan} = useContext(AuthContext);
+  const { getProtectedData, getClientChoosenPlan, packageSelectionDetail} = useContext(AuthContext);
 
   const [employeeId, setEmployeeId] = useState("");
   const [loginClientDetail, setLoginClientDetail] = useState([]);
@@ -840,7 +840,7 @@ const JobPosting = () => {
       </div> */}
       {clientToken && <div class="main-wrapper main-wrapper-1">
         <div class="navbar-bg"></div>
-        <ClientLayout dashBoard={true} />
+        <ClientLayout packageSelectionDetail={packageSelectionDetail} />
 
         <div class="main-content">
           <section class="section">

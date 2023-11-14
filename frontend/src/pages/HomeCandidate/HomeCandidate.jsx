@@ -17,6 +17,7 @@ const HomeCandidate = () => {
 
   const { eventDetail, getEventDetail, getEventImg, eventImg, getClientImg, clientImg } = useContext(AuthContext);
   const [allJobs, setAllJobs] = useState([]);
+  const [allClient, setAllClient] = useState([]);
 
   const getPostedjobs = async () => {
     try {
@@ -37,10 +38,33 @@ const HomeCandidate = () => {
     }
   }
 
+
+
   useEffect(() => {
     getEventDetail();
     getEventImg();
     getPostedjobs();
+
+    axios.get("http://localhost:5002/clients")
+    .then(res => {
+      const allClients = res.data;
+      
+      // Create a Map to store unique objects based on companyId
+      const uniqueClientsMap = new Map();
+
+      // Iterate through all clients and store only unique objects in the Map
+      allClients.forEach(client => {
+        uniqueClientsMap.set(client.companyId, client);
+      });
+
+      // Convert the Map values back to an array
+      const uniqueClientsArray = Array.from(uniqueClientsMap.values());
+
+      console.log(uniqueClientsArray);
+      setAllClient(uniqueClientsArray);
+    })
+    .catch(err => console.log(err));
+
   }, []);
 
   useEffect(() => {
