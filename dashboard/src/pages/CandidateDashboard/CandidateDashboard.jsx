@@ -93,6 +93,20 @@ const ClientDashboard = () => {
   const [appliedJobDetail, setAppliedJobDetail] = useState([]);
   const [allClient, setAllClient] = useState([]);
 
+  const [loading, setLoading] = useState(true);
+    const [pageNotFound, setPageNotFound] = useState(false);
+
+    useEffect(() => {
+        const preloader = $('#preloader');
+    if (preloader.length) {
+    setTimeout(function () {
+        preloader.fadeOut('slow', function () {
+        preloader.remove();
+        });
+    }, 500);
+    }
+    }, []);
+
   useEffect(()=>{
     localStorage.setItem("candidateToken", JSON.stringify(token));
   },[token])
@@ -138,16 +152,20 @@ const ClientDashboard = () => {
     if(token){
         const fetchData = async () => {
             try {
-            const user = await getProtectedData(token);
-            console.log(user);
-            setCandidateId(user.id);
+              const user = await getProtectedData(token);
+              console.log(user);
+              setCandidateId(user.id);
+              setLoading(false);
             } catch (error) {
-            console.log(error);
-            
+              console.log(error);
+              setLoading(false);
+              setPageNotFound(true);
             }
         };
     
         fetchData();
+    }else{
+      window.open(`http://localhost:3001/candidate-login`, '_blank');
     }
 }, [token]);
 
@@ -212,7 +230,8 @@ const getSkillMatchJobDetail = async() => {
 
   return (
     <div>
-      <div className="main-wrapper main-wrapper-1">
+      {loading && <div id="preloader candidate"></div>}
+      {candidateId && <div className="main-wrapper main-wrapper-1">
         <div className="navbar-bg"></div>
 
         <Layout />
@@ -726,7 +745,12 @@ const getSkillMatchJobDetail = async() => {
         </div>
 
         <Footer />
-      </div>
+      </div>}
+      {pageNotFound && <div>
+                    <h1>404</h1>
+                    <p>Not Found</p>
+                    <small>The resource requested could not be found on this server!</small>
+                </div>}
     </div>
   )
 }

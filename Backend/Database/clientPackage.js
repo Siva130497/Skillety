@@ -18,6 +18,10 @@ const clientPackageSchema = new Schema(
         type: Number,
         required: true
       },
+      jobPost: {
+        type: Number,
+        required: true
+      },
   },
   { timestamps: true }
 );

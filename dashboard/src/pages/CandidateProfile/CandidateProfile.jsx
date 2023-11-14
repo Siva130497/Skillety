@@ -30,6 +30,20 @@ const CandidateProfile = () => {
         profileHeadline: "",
     })
 
+    const [loading, setLoading] = useState(true);
+    const [pageNotFound, setPageNotFound] = useState(false);
+
+    useEffect(() => {
+        const preloader = $('#preloader');
+    if (preloader.length) {
+    setTimeout(function () {
+        preloader.fadeOut('slow', function () {
+        preloader.remove();
+        });
+    }, 500);
+    }
+    }, []);
+
     useEffect(()=>{
         setUserInfo({
             ...userInfo,
@@ -199,13 +213,19 @@ const CandidateProfile = () => {
     }, [candidateToken])
 
     useEffect(() => {
-        if (id) {
+        if (id && candidateToken) {
             axios.get(`http://localhost:5002/candidate/${id}`)
                 .then(res => {
                     console.log(res.data)
+                    setLoading(false);
                     setLoginCandidate(res.data)
                 })
-                .catch(err => console.log(err))
+                .catch(err => {
+                    console.log(err)
+                    setLoading(false);
+                    setPageNotFound(true);
+                })
+                
 
             axios.get(`http://localhost:5002/candidate-image/${id}`)
                 .then(res => setCandidateImg(res.data))
@@ -214,8 +234,10 @@ const CandidateProfile = () => {
             axios.get(`http://localhost:5002/candidate-resume/${id}`)
                 .then(res => setResume(res.data))
                 .catch(err => console.log(err))
+        }else{
+            window.open(`http://localhost:3001/candidate-login`, '_blank');
         }
-    }, [id])
+    }, [id, candidateToken])
 
     useEffect(() => {
         if (candidateImg) {
@@ -426,7 +448,8 @@ const CandidateProfile = () => {
             {/* <div class="navbar-bg"></div> */}
 
             {/* <div class="main-content"> */}
-            <div className="container-fluid">
+            {loading && <div id="preloader"></div>}
+            {loginCandidate && <div className="container-fluid">
                 <section class="section">
                     <div className="candidate-prrofile-section">
                         <div className="profile-head-area">
@@ -1106,8 +1129,12 @@ const CandidateProfile = () => {
                         </div>
                     </div>
                 </section>
-            </div>
-            {/* </div> */}
+            </div>}
+            {pageNotFound && <div>
+                    <h1>404</h1>
+                    <p>Not Found</p>
+                    <small>The resource requested could not be found on this server!</small>
+                </div>}
 
             <footer className="main-footer no-sidebar">
                 <div className="footer-left">

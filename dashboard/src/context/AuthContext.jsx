@@ -138,11 +138,14 @@ export const AuthContextProvider = ({children}) => {
             if (!result.message) {
               console.log(result);
               setPackageSelectionDetail(result);
+              return result;
             } else {
               console.log(result);
+              return null;
             }
         }catch(err){
           console.log(err);
+          return null;
         }
       }
 
