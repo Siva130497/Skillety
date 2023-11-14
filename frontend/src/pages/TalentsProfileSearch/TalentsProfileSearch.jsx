@@ -13,7 +13,7 @@ import 'sweetalert2/dist/sweetalert2.css';
 
 const TalentsProfileSearch = () => {
     const clientToken = JSON.parse(localStorage.getItem("clientToken"));
-    const { getProtectedData, getClientChoosenPlan, packageSelectionDetail } = useContext(AuthContext);
+    const { getProtectedData, getClientChoosenPlan, packageSelectionDetail, getCandidateImg, candidateImg } = useContext(AuthContext);
     const [employeeId, setEmployeeId] = useState("");
     const [loginClientDetail, setLoginClientDetail] = useState([]);
     const [cvViews, setCvViews] = useState();
@@ -48,8 +48,12 @@ const TalentsProfileSearch = () => {
         minSalary: "",
         maxSalary: "",
         department: "",
-        role: "",
-        days: "",
+        role:"",
+        days:"",
+        industry:"",
+        company:"",
+        candidateType:"",
+        gender:"",
     })
 
     console.log(filters)
@@ -628,6 +632,7 @@ const TalentsProfileSearch = () => {
         getAllLocations();
         getAllDepartments();
         getAllRoles();
+        getCandidateImg();
     }, []);
 
     const getLoginClientDetail = async () => {
@@ -714,10 +719,16 @@ const TalentsProfileSearch = () => {
     console.log(filters)
 
     const handleSkillSearch = () => {
-        if (filters.days || selectedResults.length > 0 || selectedLocationResults.length > 0 || (filters.minExperienceYr && filters.maxExperienceYr) || (filters.minExperienceMonth && filters.maxExperienceMonth) || (filters.minSalary && filters.maxSalary) || selectedDepartmentResults.length > 0 || selectedRoleResults.length > 0) {
+        if (filters.days || selectedResults.length > 0 || selectedLocationResults.length > 0 || (filters.minExperienceYr && filters.maxExperienceYr) || (filters.minExperienceMonth && filters.maxExperienceMonth) || (filters.minSalary && filters.maxSalary) || selectedDepartmentResults.length > 0 || selectedRoleResults.length > 0 || filters.industry || filters.company || filters.candidateType || filters.gender) {
             setFilteredSearchResultsMsg("")
             setSearchResult(true)
-            const filteredResults = candidateDetail
+            if (filters.candidateType === "allCandidates") {
+                setFilteredSearchResults(candidateDetail);
+            } else if (filters.candidateType === "newRegistration") {
+                const newRegistrationResults = candidateDetail.slice(0, 10);
+                setFilteredSearchResults(newRegistrationResults);
+            }else{
+                const filteredResults = candidateDetail
                 .filter(candidate => {
                     if (filters.days) {
                         if (filters.days === "0-7") {
@@ -792,13 +803,32 @@ const TalentsProfileSearch = () => {
                     }
                     return true;
                 })
+                .filter(candidate => {
+                    if (filters.industry) {
+                        return candidate.industry === filters.industry
+                    }
+                    return true;
+                })
+                .filter(candidate => {
+                    if (filters.company) {
+                        return candidate.company === filters.company
+                    }
+                    return true;
+                })
+                .filter(candidate => {
+                    if (filters.gender) {
+                        return candidate.gender === filters.gender
+                    }
+                    return true;
+                })
 
-            console.log(filteredResults)
-            if (filteredResults.length > 0) {
-                setFilteredSearchResults(filteredResults);
-            } else {
-                setFilteredSearchResultsMsg("no such candidates found")
-            }
+                console.log(filteredResults)
+                if (filteredResults.length > 0) {
+                    setFilteredSearchResults(filteredResults);
+                } else {
+                    setFilteredSearchResultsMsg("no such candidates found")
+                }
+                }
         } else {
             showErrorMessage("select atleast one filter")
         }
@@ -1033,9 +1063,17 @@ const TalentsProfileSearch = () => {
                                 getViewedCandidates();
                                 window.open(`http://localhost:3000/talents/${id}`, '_blank');
                             } else {
-                                showErrorMessage("You reached your max cv-views in your plan, upgrade your plan");
-                                window.open(`http://localhost:3000/package-plans`, '_blank');
-                                await getClientChoosenPlan();
+                                await new Promise(() => {
+                                    Swal.fire({
+                                        title: 'Buy Package Plan',
+                                        text: 'You reached your max cv-views in your plan, upgrade your plan',
+                                        icon: 'info',
+                                        confirmButtonColor: '#3085d6',
+                                        confirmButtonText: 'OK',
+                                    }).then(() => {
+                                        window.open(`http://localhost:3000/package-plans`, '_blank');
+                                    });
+                                });
                             }
                         }
                     } else {
@@ -1548,24 +1586,12 @@ const TalentsProfileSearch = () => {
                                                                     <div className="cli-tal-search-filter-form-label-area">
                                                                         <label htmlFor="industry" className='cli-tal-search-filter-form-label'>Industry</label>
                                                                     </div>
-                                                                    <div className='cli--tal-pro-badge-area mb-4'>
-                                                                        <span className="tal-cand-reg-form-badge">Badge 1</span>
-                                                                        <span className="tal-cand-reg-form-badge">Badge 1</span>
-                                                                        <span className="tal-cand-reg-form-badge">Badge 1</span>
-                                                                        <span className="tal-cand-reg-form-badge">Badge 1</span>
-                                                                    </div>
+                                                                    
                                                                     <div className="cli-tal-pro-search-filter-input-area">
-                                                                        <input type="text" name='industry' className='cli-tal-pro-search-filter-input' placeholder='Add Industry' />
-                                                                        <div className='tal-pro-search-result-data-area'>
-                                                                            <div className='tal-pro-search-result-data'>Search Result 1</div>
-                                                                            <div className='tal-pro-search-result-data'>Search Result 2</div>
-                                                                            <div className='tal-pro-search-result-data'>Search Result 3</div>
-                                                                            <div className='tal-pro-search-result-data'>Search Result 4</div>
-                                                                            <div className='tal-pro-search-result-data'>Search Result 5</div>
-                                                                            <div className='tal-pro-search-result-data'>Search Result 6</div>
-                                                                            <div className='tal-pro-search-result-data'>Search Result 7</div>
-                                                                            <div className='tal-pro-search-result-data'>Search Result 8</div>
-                                                                        </div>
+                                                                        <input type="text" name='industry' className='cli-tal-pro-search-filter-input' placeholder='Add Industry'
+                                                                         value={filters.industry}
+                                                                         onChange={(e)=>setFilters({...filters, industry: e.target.value})}/>
+                                                                        
                                                                     </div>
                                                                 </div>
 
@@ -1580,15 +1606,17 @@ const TalentsProfileSearch = () => {
                                                                         <h6 className='cl-toggle--switch-label' id="labelText1">Boolean Off</h6>
                                                                     </div> */}
                                                                     </div>
-                                                                    <div className='cli--tal-pro-badge-area mb-4'>
+                                                                    {/* <div className='cli--tal-pro-badge-area mb-4'>
                                                                         <span className="tal-cand-reg-form-badge">Badge 1</span>
                                                                         <span className="tal-cand-reg-form-badge">Badge 1</span>
                                                                         <span className="tal-cand-reg-form-badge">Badge 1</span>
                                                                         <span className="tal-cand-reg-form-badge">Badge 1</span>
-                                                                    </div>
+                                                                    </div> */}
                                                                     <div className="cli-tal-pro-search-filter-input-area">
-                                                                        <input type="text" name='company' className='cli-tal-pro-search-filter-input' placeholder='Add Company name' />
-                                                                        <div className='tal-pro-search-result-data-area'>
+                                                                        <input type="text" name='company' className='cli-tal-pro-search-filter-input' placeholder='Add Company name' 
+                                                                        value={filters.company}
+                                                                        onChange={(e)=>setFilters({...filters, company: e.target.value})}/>
+                                                                        {/* <div className='tal-pro-search-result-data-area'>
                                                                             <div className='tal-pro-search-result-data'>Search Result 1</div>
                                                                             <div className='tal-pro-search-result-data'>Search Result 2</div>
                                                                             <div className='tal-pro-search-result-data'>Search Result 3</div>
@@ -1597,7 +1625,7 @@ const TalentsProfileSearch = () => {
                                                                             <div className='tal-pro-search-result-data'>Search Result 6</div>
                                                                             <div className='tal-pro-search-result-data'>Search Result 7</div>
                                                                             <div className='tal-pro-search-result-data'>Search Result 8</div>
-                                                                        </div>
+                                                                        </div> */}
                                                                     </div>
                                                                     <div id="container" className='multi-input-container'>
                                                                         <div className="cli--tal-search-add-input-area mt-3">
@@ -1682,29 +1710,33 @@ const TalentsProfileSearch = () => {
 
                                                                     <div className="tal--search-options-area">
                                                                         <div className="tal--search-option-container">
-                                                                            <input id="all_candidate" className="tal--search-radio" type="radio" name="show" />
+                                                                            <input id="all_candidate" className="tal--search-radio" type="radio" name="show" 
+                                                                            value="allCandidates" 
+                                                                            onChange={(e)=>setFilters({...filters, candidateType:e.target.value})}/>
                                                                             <div className="tal--search-tile">
                                                                                 <label for="all_candidate" className="tal--search-tile-label">All candidates</label>
                                                                             </div>
                                                                         </div>
 
                                                                         <div className="tal--search-option-container">
-                                                                            <input id="new_reg" className="tal--search-radio" type="radio" name="show" />
+                                                                            <input id="new_reg" className="tal--search-radio" type="radio" name="show" 
+                                                                            value="newRegistration" 
+                                                                            onChange={(e)=>setFilters({...filters, candidateType:e.target.value})}/>
                                                                             <div className="tal--search-tile">
                                                                                 <label for="new_reg" className="tal--search-tile-label">New Registrations</label>
                                                                             </div>
                                                                         </div>
 
-                                                                        <div className="tal--search-option-container">
+                                                                        {/* <div className="tal--search-option-container">
                                                                             <input id="recent_activity" className="tal--search-radio" type="radio" name="show" />
                                                                             <div className="tal--search-tile">
                                                                                 <label for="recent_activity" className="tal--search-tile-label">Active Recently</label>
                                                                             </div>
-                                                                        </div>
+                                                                        </div> */}
                                                                     </div>
                                                                 </div>
 
-                                                                <div className="cli-tal-pro-search-filter-content mb-0">
+                                                                {/* <div className="cli-tal-pro-search-filter-content mb-0">
                                                                     <div className="cli-tal-pro-search-filter-title-area">
                                                                         <h6 className='cli-tal-pro-search-filter-title'>Show only candidates with </h6>
                                                                     </div>
@@ -1733,7 +1765,7 @@ const TalentsProfileSearch = () => {
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                </div>
+                                                                </div> */}
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1834,22 +1866,26 @@ const TalentsProfileSearch = () => {
                                                                     </div>
 
                                                                     <div className="tal--search-options-area">
-                                                                        <div className="tal--search-option-container">
+                                                                        {/* <div className="tal--search-option-container">
                                                                             <input id="all_cand" className="tal--search-radio" type="radio" name="gender" />
                                                                             <div className="tal--search-tile">
                                                                                 <label for="all_cand" className="tal--search-tile-label">All candidates</label>
                                                                             </div>
-                                                                        </div>
+                                                                        </div> */}
 
                                                                         <div className="tal--search-option-container">
-                                                                            <input id="male_cand" className="tal--search-radio" type="radio" name="gender" />
+                                                                            <input id="male_cand" className="tal--search-radio" type="radio" name="gender" 
+                                                                            value="male" 
+                                                                            onChange={(e)=>setFilters({...filters, gender:e.target.value})}/>
                                                                             <div className="tal--search-tile">
                                                                                 <label for="male_cand" className="tal--search-tile-label">Male Candidates</label>
                                                                             </div>
                                                                         </div>
 
                                                                         <div className="tal--search-option-container">
-                                                                            <input id="female_cand" className="tal--search-radio" type="radio" name="gender" />
+                                                                            <input id="female_cand" className="tal--search-radio" type="radio" name="gender"
+                                                                            value="female" 
+                                                                            onChange={(e)=>setFilters({...filters, gender:e.target.value})} />
                                                                             <div className="tal--search-tile">
                                                                                 <label for="female_cand" className="tal--search-tile-label">Female candidates</label>
                                                                             </div>
@@ -2555,6 +2591,8 @@ const TalentsProfileSearch = () => {
                                                     filteredSearchResults.length > 0 ?
                                                         filteredSearchResults.map((candidate) => {
                                                             const viewedCandidateForThisCandidate = loginClientDetail.companyId && viewedCandidate.find(cand => cand.candidateId === candidate.id);
+                                                            const matchingImg = candidateImg ? candidateImg.find(img => img.id === candidate.id) : null;
+                                                            const imgSrc = matchingImg ? `http://localhost:5002/candidate_profile/${matchingImg.image}` : "assets/img/talents-images/avatar.jpg";
                                                             return (
                                                                 <article className="talent--profile-card search" data-aos="fade-left" key={candidate.id}>
                                                                     <div className="tal--pro-card-left-area search">
@@ -2639,7 +2677,7 @@ const TalentsProfileSearch = () => {
                                                                     <div className="tal--pro-card-right-area search">
                                                                         <div className="tal--pro-card-right-cover-area search">
                                                                             <div className='tal--pro-card-profile-img-role-area search'>
-                                                                                <img src="assets/img/talents-images/profile-img.png" className='tal--pro-card-profile-img' alt="" />
+                                                                                <img src={imgSrc}className='tal--pro-card-profile-img' alt="" />
                                                                                 <p className='tal--pro-card-role-name'>Frontend Developer (Css,html)</p>
                                                                             </div>
                                                                             <div className="tal--pro-card-contact-btn-area search">

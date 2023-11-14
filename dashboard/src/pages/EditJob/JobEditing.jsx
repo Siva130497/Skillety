@@ -52,12 +52,26 @@ const JobEditing = () => {
   const [otherSkill, setOtherSkill] = useState([]);
   const [job, setJob] = useState();
 
+  const [loading, setLoading] = useState(true);
+  const [pageNotFound, setPageNotFound] = useState(false);
+
+  useEffect(() => {
+    const preloader = $('#preloader');
+if (preloader.length) {
+  setTimeout(function () {
+    preloader.fadeOut('slow', function () {
+      preloader.remove();
+    });
+  }, 500);
+}
+}, []);
+
   useEffect(() => {
     setClientToken(JSON.parse(localStorage.getItem('clientToken')))
   }, [clientToken])
 
   useEffect(() => {
-    if (id) {
+    if (id && clientToken) {
       axios.get(`http://localhost:5002/job/${id}`, {
         headers: {
           // Authorization: `Bearer ${clientToken}`,
@@ -66,11 +80,18 @@ const JobEditing = () => {
       })
         .then(res => {
           console.log(res.data)
+          setLoading(false);
           setJob(res.data)
         })
-        .catch(err => console.log(err))
+        .catch(err => {
+          console.log(err)
+          setLoading(false);
+          setPageNotFound(true);
+        })
+    }else{
+      window.open(`http://localhost:3001/client-login`, '_blank');
     }
-  }, [id])
+  }, [id, clientToken])
 
   console.log(job)
 
@@ -722,7 +743,8 @@ const JobEditing = () => {
           <input type='submit' value="Post" className='btn btn-primary my-3' />
         </form>
       </div> */}
-      <div class="main-wrapper main-wrapper-1">
+      {loading && <div id="preloader"></div>}
+      {job && <div class="main-wrapper main-wrapper-1">
         <div class="navbar-bg"></div>
         <ClientLayout dashBoard={true} />
 
@@ -1319,7 +1341,12 @@ const JobEditing = () => {
           </section>
         </div >
         <Footer />
-      </div >
+      </div >}
+      {pageNotFound && <div>
+                    <h1>404</h1>
+                    <p>Not Found</p>
+                    <small>The resource requested could not be found on this server!</small>
+                </div>}
     </div >
   )
 }

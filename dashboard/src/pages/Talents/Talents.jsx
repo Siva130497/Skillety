@@ -21,6 +21,19 @@ const Talents = () => {
     const [candidateImgUrl, setCandidateImgUrl] = useState("");
     const [candidateResumeUrl, setCandidateResumeUrl] = useState("");
     const [resume, setResume] = useState();
+    const [loading, setLoading] = useState(true);
+    const [pageNotFound, setPageNotFound] = useState(false);
+
+    useEffect(() => {
+        const preloader = $('#preloader');
+    if (preloader.length) {
+      setTimeout(function () {
+        preloader.fadeOut('slow', function () {
+          preloader.remove();
+        });
+      }, 500);
+    }
+    }, []);
 
     useEffect(() => {
 
@@ -108,8 +121,13 @@ const Talents = () => {
                 .then(res => {
                     console.log(res.data)
                     setLoginCandidate(res.data)
+                    setLoading(false);
                 })
-                .catch(err => console.log(err))
+                .catch(err => {
+                    console.log(err)
+                    setLoading(false);
+                    setPageNotFound(true);
+                })
 
             axios.get(`http://localhost:5002/candidate-image/${id}`)
                 .then(res => setCandidateImg(res.data))
@@ -158,7 +176,8 @@ const Talents = () => {
 
     return (
         <div>
-            {loginCandidate ?
+            {loading && <div id="preloader"></div>}
+            {loginCandidate &&
                 <div>
                     <div class="main-wrapper main-wrapper-1">
                         <div class="navbar-bg"></div>
@@ -625,8 +644,8 @@ const Talents = () => {
                     </div>
 
 
-                </div> :
-                <div>
+                </div> }
+                {pageNotFound && <div>
                     <h1>404</h1>
                     <p>Not Found</p>
                     <small>The resource requested could not be found on this server!</small>

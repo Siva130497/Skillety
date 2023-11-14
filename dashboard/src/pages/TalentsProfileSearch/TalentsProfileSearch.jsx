@@ -8,10 +8,11 @@ import Footer from '../../components/Footer';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import AuthContext from '../../context/AuthContext';
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.css';
 
 const TalentsProfileSearch = () => {
-    const [clientToken, setClientToken] = useState("");
-
+    const clientToken = JSON.parse(localStorage.getItem("clientToken"));
     const { getProtectedData, getClientChoosenPlan, packageSelectionDetail, getCandidateImg, candidateImg } = useContext(AuthContext);
     const [employeeId, setEmployeeId] = useState("");
     const [loginClientDetail, setLoginClientDetail] = useState([]);
@@ -22,18 +23,42 @@ const TalentsProfileSearch = () => {
     const [searchResult, setSearchResult] = useState(false);
     const [viewedCandidate, setViewedCandidate] = useState([]);
 
+    const [skillArray, setSkillArray] = useState([]);
+    const [jobRoleArray, setjobRoleArray] = useState([]);
+    const [locationArray, setLocationArray] = useState([]);
+    const [departmentArray, setDepartmentArray] = useState([]);
+    const [roleArray, setRoleArray] = useState([]);
+    const [filteredList, setFilteredList] = useState([]);
+    const [filteredLocation, setFilteredLocation] = useState([]);
+    const [filteredDepartment, setFilteredDepartment] = useState([]);
+    const [filteredRole, setFilteredRole] = useState([]);
+    const [selectedResults, setSelectedResults] = useState([]);
+    const [selectedLocationResults, setSelectedLocationResults] = useState([]);
+    const [selectedDepartmentResults, setSelectedDepartmentResults] = useState([]);
+    const [selectedRoleResults, setSelectedRoleResults] = useState([]);
+
     const [filters, setFilters] = useState({
         searchInput: "",
-        minExperience: "",
-        maxExperience: "",
+        minExperienceYr: "",
+        maxExperienceYr: "",
+        minExperienceMonth: "",
+        maxExperienceMonth: "",
         location: "",
+        currencyType: "",
+        minSalary: "",
+        maxSalary: "",
+        department: "",
+        role:"",
+        days:"",
+        industry:"",
+        company:"",
+        candidateType:"",
+        gender:"",
     })
 
-    const navigate = useNavigate();
+    console.log(filters)
 
-    useEffect(() => {
-        setClientToken(JSON.parse(localStorage.getItem('clientToken')))
-    }, [clientToken])
+    const navigate = useNavigate();
 
     useEffect(() => {
         $(document).ready(function () {
@@ -49,20 +74,20 @@ const TalentsProfileSearch = () => {
             ////
 
             //// avoid "e" negative values for number input field
-            // $('.numeric-input').on('input', function () {
-            //     var inputValue = $(this).val();
+            $('.numeric-input').on('input', function () {
+                var inputValue = $(this).val();
 
-            //     // Remove any non-digit characters, "e", and leading minus sign
-            //     inputValue = inputValue.replace(/[^0-9]/g, '');
+                // Remove any non-digit characters, "e", and leading minus sign
+                inputValue = inputValue.replace(/[^0-9]/g, '');
 
-            //     // Ensure that the input is not negative
-            //     if (inputValue.length > 0 && inputValue.charAt(0) === '-') {
-            //         inputValue = inputValue.slice(1);
-            //     }
+                // Ensure that the input is not negative
+                if (inputValue.length > 0 && inputValue.charAt(0) === '-') {
+                    inputValue = inputValue.slice(1);
+                }
 
-            //     // Set the cleaned value back in the input field
-            //     $(this).val(inputValue);
-            // });
+                // Set the cleaned value back in the input field
+                $(this).val(inputValue);
+            });
             ////
 
             ////for tooltip
@@ -460,6 +485,127 @@ const TalentsProfileSearch = () => {
         });
     }, [searchResult]);
 
+    //for show success message for payment
+    function showSuccessMessage(message) {
+        Swal.fire({
+            title: 'Success!',
+            text: message,
+            icon: 'success',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'OK',
+        });
+    }
+
+    //for show error message for payment
+    function showErrorMessage(message) {
+        Swal.fire({
+            title: 'Error!',
+            text: message,
+            icon: 'error',
+            confirmButtonColor: '#d33',
+            confirmButtonText: 'OK',
+        });
+    }
+
+    const getAllSkills = async () => {
+        try {
+            const res = await axios.get("http://localhost:5002/skills", {
+                headers: {
+                    Authorization: `Bearer ${clientToken}`,
+                    Accept: 'application/json'
+                }
+            });
+            const result = res.data;
+            if (!result.error) {
+                console.log(result);
+                setSkillArray(result);
+            } else {
+                console.log(result);
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+    const getAllJobRoles = async () => {
+        try {
+            const res = await axios.get("http://localhost:5002/designations", {
+                headers: {
+                    Authorization: `Bearer ${clientToken}`,
+                    Accept: 'application/json'
+                }
+            });
+            const result = res.data;
+            if (!result.error) {
+                console.log(result);
+                setjobRoleArray(result);
+            } else {
+                console.log(result);
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+    const getAllLocations = async () => {
+        try {
+            const res = await axios.get("http://localhost:5002/locations", {
+                headers: {
+                    Authorization: `Bearer ${clientToken}`,
+                    Accept: 'application/json'
+                }
+            });
+            const result = res.data;
+            if (!result.error) {
+                console.log(result);
+                setLocationArray(result);
+            } else {
+                console.log(result);
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+    const getAllDepartments = async () => {
+        try {
+            const res = await axios.get("http://localhost:5002/departments", {
+                headers: {
+                    Authorization: `Bearer ${clientToken}`,
+                    Accept: 'application/json'
+                }
+            });
+            const result = res.data;
+            if (!result.error) {
+                console.log(result);
+                setDepartmentArray(result);
+            } else {
+                console.log(result);
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+    const getAllRoles = async () => {
+        try {
+            const res = await axios.get("http://localhost:5002/roles", {
+                headers: {
+                    Authorization: `Bearer ${clientToken}`,
+                    Accept: 'application/json'
+                }
+            });
+            const result = res.data;
+            if (!result.error) {
+                console.log(result);
+                setRoleArray(result);
+            } else {
+                console.log(result);
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    };
     const getAllCandidateDetail = async () => {
         try {
             const response = await axios.get('http://localhost:5002/candidate-Detail', {
@@ -481,6 +627,11 @@ const TalentsProfileSearch = () => {
 
     useEffect(() => {
         getAllCandidateDetail();
+        getAllJobRoles();
+        getAllSkills();
+        getAllLocations();
+        getAllDepartments();
+        getAllRoles();
         getCandidateImg();
     }, []);
 
@@ -537,6 +688,8 @@ const TalentsProfileSearch = () => {
             };
 
             fetchData();
+        }else{
+            window.open(`http://localhost:3001/client-login`, '_blank');
         }
     }, [clientToken]);
 
@@ -565,45 +718,277 @@ const TalentsProfileSearch = () => {
             fetchData();
         }
     }, [loginClientDetail]);
-
+    console.log(filters)
 
     const handleSkillSearch = () => {
-        if (filters.searchInput || filters.location || (filters.minExperience && filters.maxExperience)) {
+        if (filters.days || selectedResults.length > 0 || selectedLocationResults.length > 0 || (filters.minExperienceYr && filters.maxExperienceYr) || (filters.minExperienceMonth && filters.maxExperienceMonth) || (filters.minSalary && filters.maxSalary) || selectedDepartmentResults.length > 0 || selectedRoleResults.length > 0 || filters.industry || filters.company || filters.candidateType || filters.gender) {
             setFilteredSearchResultsMsg("")
             setSearchResult(true)
-            const filteredResults = candidateDetail
+            if (filters.candidateType === "allCandidates") {
+                setFilteredSearchResults(candidateDetail);
+            } else if (filters.candidateType === "newRegistration") {
+                const newRegistrationResults = candidateDetail.slice(0, 10);
+                setFilteredSearchResults(newRegistrationResults);
+            }else{
+                const filteredResults = candidateDetail
                 .filter(candidate => {
-                    if (filters.searchInput) {
-                        return ((candidate.skills
-                            .map(skill => skill.toLowerCase())
-                            .includes(filters.searchInput.toLowerCase())) ||
-                            (candidate.designation[0].toLowerCase().includes(filters.searchInput.toLowerCase())))
+                    if (filters.days) {
+                        if (filters.days === "0-7") {
+                            return candidate.dayDifference >= 0 && candidate.dayDifference <= 7;
+                        } else if (filters.days === "8-15") {
+                            return candidate.dayDifference >= 8 && candidate.dayDifference <= 15;
+                        } else if (filters.days === "16-30") {
+                            return candidate.dayDifference >= 16 && candidate.dayDifference <= 30;
+                        } else if (filters.days === "beyond-30") {
+                            return candidate.dayDifference > 30;
+                        } else if (filters.days === "noticePeriod") {
+                            return candidate.checkbox;
+                        } else {
+                            return true;
+                        }
                     }
                     return true;
                 })
                 .filter(candidate => {
-                    if (filters.minExperience && filters.maxExperience) {
-                        return (candidate.month >= filters.minExperience && candidate.month <= filters.maxExperience) || (candidate.year >= filters.minExperience && candidate.year <= filters.maxExperience)
+                    if (selectedResults.length > 0) {
+                        return selectedResults.some(result =>
+                            candidate.skills.includes(result) || candidate.designation.includes(result)
+                        );
                     }
                     return true;
                 })
                 .filter(candidate => {
-                    if (filters.location) {
-                        return candidate.location.toLowerCase() === filters.location.toLowerCase();
+                    if (filters.minExperienceYr && filters.maxExperienceYr) {
+                        return (candidate.year >= filters.minExperienceYr && candidate.year <= filters.maxExperienceYr)
+                    }
+                    return true;
+                })
+                .filter(candidate => {
+                    if (filters.minExperienceMonth && filters.maxExperienceMonth) {
+                        return (candidate.month >= filters.minExperienceMonth && candidate.month <= filters.maxExperienceMonth)
+                    }
+                    return true;
+                })
+                .filter(candidate => {
+                    if (selectedLocationResults.length > 0) {
+                        return selectedLocationResults.filter(result =>
+                            candidate.location.includes(result)
+                        );
+                    }
+                    return true;
+                })
+                .filter(candidate => {
+                    if (filters.currencyType) {
+                        return candidate.currencyType === filters.currencyType
+                    }
+                    return true;
+                })
+                .filter(candidate => {
+                    if (filters.minSalary && filters.maxSalary) {
+                        return (candidate.minSalary >= filters.minSalary && candidate.maxSalary <= filters.maxSalary)
+                    }
+                    return true;
+                })
+                .filter(candidate => {
+                    if (selectedDepartmentResults.length > 0) {
+                        return selectedDepartmentResults.filter(result =>
+                            candidate.department.includes(result)
+                        );
+                    }
+                    return true;
+                })
+                .filter(candidate => {
+                    if (selectedRoleResults.length > 0) {
+                        return selectedRoleResults.filter(result =>
+                            candidate.role.includes(result)
+                        );
+                    }
+                    return true;
+                })
+                .filter(candidate => {
+                    if (filters.industry) {
+                        return candidate.industry === filters.industry
+                    }
+                    return true;
+                })
+                .filter(candidate => {
+                    if (filters.company) {
+                        return candidate.company === filters.company
+                    }
+                    return true;
+                })
+                .filter(candidate => {
+                    if (filters.gender) {
+                        return candidate.gender === filters.gender
                     }
                     return true;
                 })
 
-            console.log(filteredResults)
-            if (filteredResults.length > 0) {
-                setFilteredSearchResults(filteredResults);
-            } else {
-                setFilteredSearchResultsMsg("no such candidates found")
-            }
+                console.log(filteredResults)
+                if (filteredResults.length > 0) {
+                    setFilteredSearchResults(filteredResults);
+                } else {
+                    setFilteredSearchResultsMsg("no such candidates found")
+                }
+                }
         } else {
-            alert("select atleast one filter")
+            showErrorMessage("select atleast one filter")
         }
     };
+
+    const handleSearch = (e) => {
+        const inputValue = e.target.value;
+        setFilters({ ...filters, searchInput: inputValue });
+
+        if (inputValue.length > 0) {
+            const skills = skillArray.filter((obj) => {
+                return obj.skill.toLowerCase().includes(inputValue.toLowerCase());
+            });
+
+            const jobRoles = jobRoleArray.filter((obj) => {
+                return obj.designation.toLowerCase().includes(inputValue.toLowerCase());
+            });
+
+            const combinedResults = [...skills, ...jobRoles];
+
+            if (combinedResults.length > 0) {
+                setFilteredList(combinedResults);
+            } else {
+                setFilteredList([]);
+            }
+        } else {
+            setFilteredList([]);
+        }
+    };
+
+    const handleFilteredClick = (clickResult) => {
+        console.log(clickResult)
+        if (selectedResults.includes(clickResult)) {
+            setSelectedResults([...selectedResults]);
+            setFilters({ ...filters, searchInput: "" });
+            setFilteredList([]);
+
+        } else {
+            setSelectedResults([...selectedResults, clickResult]);
+            setFilters({ ...filters, searchInput: "" });
+            setFilteredList([]);
+        }
+    }
+
+    const handleLocationSearch = (e) => {
+        const inputValue = e.target.value;
+        setFilters({ ...filters, location: inputValue });
+
+        if (inputValue.length > 0) {
+            const locations = locationArray.filter((obj) => {
+                return obj.location.toLowerCase().includes(inputValue.toLowerCase());
+            });
+
+            if (locations.length > 0) {
+                setFilteredLocation(locations);
+            } else {
+                setFilteredLocation([]);
+            }
+        } else {
+            setFilteredLocation([]);
+        }
+    };
+
+    const handleFilteredLocationClick = (clickResult) => {
+        console.log(clickResult)
+        if (selectedLocationResults.includes(clickResult)) {
+            setSelectedLocationResults([...selectedLocationResults]);
+            setFilters({ ...filters, location: "" });
+            setFilteredLocation([]);
+
+        } else {
+            setSelectedLocationResults([...selectedLocationResults, clickResult]);
+            setFilters({ ...filters, location: "" });
+            setFilteredLocation([]);
+        }
+    }
+
+    const handleDepartmentSearch = (e) => {
+        const inputValue = e.target.value;
+        setFilters({ ...filters, department: inputValue });
+
+        if (inputValue.length > 0) {
+            const departments = departmentArray.filter((obj) => {
+                return obj.department.toLowerCase().includes(inputValue.toLowerCase());
+            });
+
+            if (departments.length > 0) {
+                setFilteredDepartment(departments);
+            } else {
+                setFilteredDepartment([]);
+            }
+        } else {
+            setFilteredDepartment([]);
+        }
+    };
+
+    const handleFilteredDepartmentClick = (clickResult) => {
+        console.log(clickResult)
+        if (selectedDepartmentResults.includes(clickResult)) {
+            setSelectedDepartmentResults([...selectedDepartmentResults]);
+            setFilters({ ...filters, department: "" });
+            setFilteredDepartment([]);
+
+        } else {
+            setSelectedDepartmentResults([...selectedDepartmentResults, clickResult]);
+            setFilters({ ...filters, department: "" });
+            setFilteredDepartment([]);
+        }
+    }
+
+    const handleRoleSearch = (e) => {
+        const inputValue = e.target.value;
+        setFilters({ ...filters, role: inputValue });
+
+        if (inputValue.length > 0) {
+            const roles = roleArray.filter((obj) => {
+                return obj.role.toLowerCase().includes(inputValue.toLowerCase());
+            });
+
+            if (roles.length > 0) {
+                setFilteredRole(roles);
+            } else {
+                setFilteredRole([]);
+            }
+        } else {
+            setFilteredRole([]);
+        }
+    };
+
+    const handleFilteredRoleClick = (clickResult) => {
+        console.log(clickResult)
+        if (selectedRoleResults.includes(clickResult)) {
+            setSelectedRoleResults([...selectedRoleResults]);
+            setFilters({ ...filters, role: "" });
+            setFilteredRole([]);
+
+        } else {
+            setSelectedRoleResults([...selectedRoleResults, clickResult]);
+            setFilters({ ...filters, role: "" });
+            setFilteredRole([]);
+        }
+    }
+
+    const handleDeselect = (result) => {
+        setSelectedResults(selectedResults.filter(selected => selected !== result));
+    }
+
+    const handleDeselectDepartment = (department) => {
+        setSelectedDepartmentResults(selectedDepartmentResults.filter(selectedDepartment => selectedDepartment !== department));
+    }
+
+    const handleDeselectLocation = (location) => {
+        setSelectedLocationResults(selectedLocationResults.filter(selectedLocation => selectedLocation !== location));
+    }
+
+    const handleDeselectRole = (role) => {
+        setSelectedRoleResults(selectedRoleResults.filter(selectedRole => selectedRole !== role));
+    }
 
 
 
@@ -658,67 +1043,87 @@ const TalentsProfileSearch = () => {
     //     // }
     //   }
 
-    const viewCandidateDetail = (id) => {
-        if (packageSelectionDetail) {
-            if (viewCandidateDetail.length > 0) {
-                const alreadyViewedCandidate = viewedCandidate.find(cand => cand.candidateId === id)
-                if (alreadyViewedCandidate) {
-                    navigate(`/talents/${id}`);
-                } else {
-                    if (viewedCandidate.length < cvViews) {
+    const viewCandidateDetail = async (id) => {
+        try {
+            const packageSelectionDetail = await getClientChoosenPlan(loginClientDetail.companyId);
+            if (clientToken) {
+                if (packageSelectionDetail) {
+                    if (viewedCandidate.length > 0) {
+                        const alreadyViewedCandidate = viewedCandidate.find(cand => cand.candidateId === id);
+                        if (alreadyViewedCandidate) {
+                            window.open(`http://localhost:3000/talents/${id}`, '_blank');
+                        } else {
+                            if (viewedCandidate.length < cvViews) {
+                                const idData = {
+                                    candidateId: id,
+                                    companyId: loginClientDetail.companyId,
+                                };
+                                const response = await axios.post("http://localhost:5002/cv-views", idData, {
+                                    headers: {
+                                        Authorization: `Bearer ${clientToken}`,
+                                        Accept: 'application/json'
+                                    }
+                                });
+
+                                const result = response.data;
+                                console.log(result);
+                                getViewedCandidates();
+                                window.open(`http://localhost:3000/talents/${id}`, '_blank');
+                            } else {
+                                await new Promise(() => {
+                                    Swal.fire({
+                                        title: 'Buy Package Plan',
+                                        text: 'You reached your max cv-views in your plan, upgrade your plan',
+                                        icon: 'info',
+                                        confirmButtonColor: '#3085d6',
+                                        confirmButtonText: 'OK',
+                                    }).then(() => {
+                                        window.open(`http://localhost:3000/package-plans`, '_blank');
+                                    });
+                                });
+                            }
+                        }
+                    } else {
                         const idData = {
                             candidateId: id,
                             companyId: loginClientDetail.companyId,
-                        }
-                        axios.post("http://localhost:5002/cv-views", idData, {
+                        };
+                        const response = await axios.post("http://localhost:5002/cv-views", idData, {
                             headers: {
                                 Authorization: `Bearer ${clientToken}`,
                                 Accept: 'application/json'
                             }
-                        })
-                            .then(response => {
-                                const result = response.data;
-                                console.log(result);
-                                getViewedCandidates();
-                                navigate(`/talents/${id}`);
-                            })
-                            .catch(error => {
-                                console.error(error);
-                            })
-                    } else {
-                        alert("you reached your max cv-views in your plan, upgrade your plan");
-                    }
-                }
-            } else {
-                const idData = {
-                    candidateId: id,
-                    companyId: loginClientDetail.companyId,
-                }
-                axios.post("http://localhost:5002/cv-views", idData, {
-                    headers: {
-                        Authorization: `Bearer ${clientToken}`,
-                        Accept: 'application/json'
-                    }
-                })
-                    .then(response => {
+                        });
+
                         const result = response.data;
                         console.log(result);
                         getViewedCandidates();
-                        navigate(`/talents/${id}`);
-                    })
-                    .catch(error => {
-                        console.error(error);
-                    })
+                        window.open(`http://localhost:3000/talents/${id}`, '_blank');
+                    }
+                } else {
+                    await new Promise(() => {
+                        Swal.fire({
+                            title: 'Buy Package Plan',
+                            text: '',
+                            icon: 'info',
+                            confirmButtonColor: '#3085d6',
+                            confirmButtonText: 'OK',
+                        }).then(() => {
+                            window.open(`http://localhost:3000/package-plans`, '_blank');
+                        });
+                    });
+                }
+            } else {
+                navigate("/client-login");
             }
-        } else {
-            alert("login and buy a package plan to view cv detail")
-            navigate("/client-login")
+        } catch (error) {
+            console.error(error);
         }
-    }
+    };
 
     return (
         <div>
-            <div class="main-wrapper main-wrapper-1">
+            {clientToken && <div class="main-wrapper main-wrapper-1">
                 <div class="navbar-bg"></div>
                 <ClientLayout />
 
@@ -738,34 +1143,917 @@ const TalentsProfileSearch = () => {
 
                                     {/* Search page section start */}
                                     {!searchResult ?
-                                        <div className='talent--profile-search-page-section'>
-                                            <div className="cli-tal-pro-search-container">
-                                                <div className="row">
-                                                    <div className="col-12 col-lg-12 col-xl-6 col-md-12">
-                                                        <h4 className='cli-tal-pro-search-heading'>Search Page</h4>
+                                    <div className='talent--profile-search-page-section'>
+                                        <div className="cli-tal-pro-search-container">
+                                            <div className="row">
+                                                <div className="col-12 col-lg-12 col-xl-6 col-md-12">
+                                                    <h4 className='cli-tal-pro-search-heading'>Search Page</h4>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="row row-border-custom">
+                                            <div className="col-12 col-lg-8 col-xl-8 col-md-8 custom-right-border-col mt-4 mt-md-5">
+                                                <div className="cli-tal-pro-search-filter-area">
+                                                    <div className="cli-tal-pro-search-filter-head-area">
+                                                        <h6 className='cli-tal-pro-search-filter mb-0'>Filters</h6>
+                                                        <img src="assets/img/talent-profile/filter.png" className='cli-tal-pro-filter-img' alt="" />
+                                                    </div>
+                                                    <div className="cli-tal-pro-search-filter-container">
+
+                                                        <div className="cli-tal-pro-search-filter-content-section">
+                                                            <div className="cli-tal-pro-search-filter-content">
+                                                                <div class="cli-tal-pro-search-filter-title-area">
+                                                                    <div class='info-icon-area'>
+                                                                        <h6 class='cli-tal-pro-search-filter-title'>Notice period / Availability to join</h6>
+                                                                        <button class='info-icon-button'>
+                                                                            <i class="ri-information-line info-icon"></i>
+                                                                        </button>
+                                                                        <div class="tooltip">This is the information about the notice period & availability to join.</div>
+                                                                    </div>
+                                                                </div>
+                                                                <div className="tal--search-options-area">
+                                                                    <div className="tal--search-option-container">
+                                                                        <input id="notice_period_1" className="tal--search-radio" type="radio" name="notice_period"
+                                                                            value="any"
+                                                                            onChange={(e) => setFilters({ ...filters, days: e.target.value })} />
+                                                                        <div className="tal--search-tile">
+                                                                            <label for="notice_period_1" className="tal--search-tile-label pe-2 ps-2">Any</label>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div className="tal--search-option-container">
+                                                                        <input id="notice_period_2" className="tal--search-radio" type="radio" name="notice_period"
+                                                                            value="0-7"
+                                                                            onChange={(e) => setFilters({ ...filters, days: e.target.value })} />
+                                                                        <div className="tal--search-tile">
+                                                                            <label for="notice_period_2" className="tal--search-tile-label">0-07 days</label>
+                                                                            <i class="bi bi-plus"></i>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div className="tal--search-option-container">
+                                                                        <input id="notice_period_3" className="tal--search-radio" type="radio" name="notice_period"
+                                                                            value="8-15"
+                                                                            onChange={(e) => setFilters({ ...filters, days: e.target.value })} />
+                                                                        <div className="tal--search-tile">
+                                                                            <label for="notice_period_3" className="tal--search-tile-label">08 to 15 days</label>
+                                                                            <i class="bi bi-plus"></i>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="tal--search-option-container">
+                                                                        <input id="notice_period_4" className="tal--search-radio" type="radio" name="notice_period"
+                                                                            value="16-30"
+                                                                            onChange={(e) => setFilters({ ...filters, days: e.target.value })} />
+                                                                        <div className="tal--search-tile">
+                                                                            <label for="notice_period_4" className="tal--search-tile-label">16 to 30 days</label>
+                                                                            <i class="bi bi-plus"></i>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="tal--search-option-container">
+                                                                        <input id="notice_period_5" className="tal--search-radio" type="radio" name="notice_period"
+                                                                            value="beyond-30"
+                                                                            onChange={(e) => setFilters({ ...filters, days: e.target.value })} />
+                                                                        <div className="tal--search-tile">
+                                                                            <label for="notice_period_5" className="tal--search-tile-label">beyond 30 days</label>
+                                                                            <i class="bi bi-plus"></i>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="tal--search-option-container">
+                                                                        <input id="notice_period_6" className="tal--search-radio" type="radio" name="notice_period"
+                                                                            value="noticePeriod"
+                                                                            onChange={(e) => setFilters({ ...filters, days: e.target.value })} />
+                                                                        <div className="tal--search-tile">
+                                                                            <label for="notice_period_6" className="tal--search-tile-label">Currently serving notice Period</label>
+                                                                            <i class="bi bi-plus"></i>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div className="cli-tal-pro-search-filter-content">
+                                                                <div className="cli-tal-pro-search-filter-title-area">
+                                                                    <h6 className='cli-tal-pro-search-filter-title'>wordKeys</h6>
+                                                                    {/* <div class="cl-toggle-switch">
+                                                                    <label class="cl-switch">
+                                                                        <input type="checkbox" className="toggleSwitch" />
+                                                                        <span></span>
+                                                                    </label>
+                                                                    <h6 className='cl-toggle--switch-label'>Boolean Off</h6>
+                                                                </div> */}
+                                                                </div>
+                                                                <div className='cli--tal-pro-badge-area mb-4'>
+                                                                    {selectedResults.map(selectResult => (
+                                                                        <span className="tal-cand-reg-form-badge"
+                                                                            key={selectResult}
+                                                                            onClick={() => handleDeselect(selectResult)}
+                                                                        >{selectResult}</span>
+                                                                    ))}
+                                                                </div>
+                                                                <div className="cli--tal-pro-filter-input-area">
+                                                                    <input type="text" className='cli--tal-pro-filter-input' placeholder='Enter keywords like skills, designation'
+                                                                        value={filters.searchInput}
+                                                                        onChange={handleSearch}
+                                                                    />
+                                                                    <i className="bi bi-search cli--tal-pro-filter-search-icon"></i>
+                                                                    <div className='tal-pro-search-result-data-area'>
+                                                                        {filteredList.length > 0 &&
+                                                                            filteredList.map((filterResult) => (
+                                                                                <div
+                                                                                    className='tal-pro-search-result-data'
+                                                                                    key={filterResult._id}
+                                                                                    onClick={() => handleFilteredClick(filterResult.designation || filterResult.skill)}
+                                                                                >
+                                                                                    {filterResult.designation ? filterResult.designation : filterResult.skill}
+                                                                                </div>
+                                                                            ))}
+                                                                    </div>
+                                                                </div>
+                                                                <div className="cli--mark-keyword-area">
+                                                                    <label className="cli--mark-keyword-check-input">
+                                                                        <input type="checkbox" />
+                                                                        <span className="cli--mark-keyword-checkmark"></span>
+                                                                        Mark all keywords as mandatory
+                                                                    </label>
+
+                                                                    <label className="cli--mark-keyword-check-input">
+                                                                        <input type="checkbox" />
+                                                                        <span className="cli--mark-keyword-checkmark"></span>
+                                                                        Search all keyword in entire resume
+                                                                    </label>
+                                                                </div>
+                                                                {/* <div id="containerSearch" className='multi-input-container'>
+                                                                    <div className="cli--tal-search-add-input-area mt-3">
+                                                                        <button className='cli--tal-search-keyword-add-input-button-search'>
+                                                                            <i class="bi bi-plus add-input-icon"></i>
+                                                                            Add Exclude Keywords
+                                                                        </button>
+                                                                    </div>
+                                                                </div> */}
+                                                                {/* <div id="containerSearch2" className='multi-input-container'>
+                                                                    <div className="cli--tal-search-add-input-area">
+                                                                        <button className='cli--tal-search-skill-add-input-button-search'>
+                                                                            <i class="bi bi-plus add-input-icon"></i>
+                                                                            Add IT Skills
+                                                                        </button>
+                                                                    </div>
+                                                                </div> */}
+                                                            </div>
+                                                            <div className="cli-tal-pro-search-filter-content">
+                                                                <div className="cli-tal-pro-search-filter-title-area">
+                                                                    <h6 className='cli-tal-pro-search-filter-title'>Experience</h6>
+                                                                </div>
+                                                                <div className="cli-tal-pro-exp-input-area search-page">
+                                                                    <div className='cli-tal-pro-exp-input-container'>
+                                                                        {/* <input type="number" className='cli-tal-pro-exp-input text-center numeric-input' 
+                                                                        value={filters.minExperienceYr}
+                                                                        placeholder='Min Experience Year'/> */}
+                                                                        {/* <div className='tal-pro-search-result-data-area'>
+                                                                                {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((number) => (
+                                                                                <div
+                                                                                    key={number}
+                                                                                    className='tal-pro-search-result-data'
+                                                                                    onClick={() => setFilters({ ...filters, minExperienceYr: number })}
+                                                                                >
+                                                                                    {number}
+                                                                                </div>
+                                                                                ))}
+                                                                            </div> */}
+                                                                        <select name="" className='cli-tal-pro-exp-input text-center numeric-input select' id=""
+                                                                            value={filters.minExperienceYr}
+                                                                            onChange={(e) => setFilters({ ...filters, minExperienceYr: e.target.value })}
+                                                                        >
+                                                                            <option value="" selected >Min Experience</option>
+                                                                            <option value="1">1</option>
+                                                                            <option value="2">2</option>
+                                                                            <option value="3">3</option>
+                                                                            <option value="4">4</option>
+                                                                            <option value="5">5</option>
+                                                                            <option value="6">6</option>
+                                                                            <option value="7">7</option>
+                                                                            <option value="8">8</option>
+                                                                            <option value="9">9</option>
+                                                                            <option value="10">10</option>
+                                                                        </select>
+                                                                    </div>
+
+                                                                    <span className='cli-tal-pro-exp-input-text'>to</span>
+                                                                    <div className='cli-tal-pro-exp-input-container'>
+                                                                        {/* <input type="number" className='cli-tal-pro-exp-input text-center numeric-input' 
+                                                                        value={filters.maxExperienceYr}
+                                                                        placeholder='Max Experience Year'/> */}
+                                                                        {/* <div className='tal-pro-search-result-data-area'>
+                                                                                {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((number) => (
+                                                                                <div
+                                                                                    key={number}
+                                                                                    className='tal-pro-search-result-data'
+                                                                                    onClick={() => setFilters({ ...filters, maxExperienceYr: number })}
+                                                                                >
+                                                                                    {number}
+                                                                                </div>
+                                                                                ))}
+                                                                            </div> */}
+                                                                        <select name="" className='cli-tal-pro-exp-input text-center numeric-input select' id=""
+                                                                            value={filters.maxExperienceYr}
+                                                                            onChange={(e) => setFilters({ ...filters, maxExperienceYr: e.target.value })}
+                                                                        >
+                                                                            <option value="" selected >Max Experience</option>
+                                                                            <option value="1">1</option>
+                                                                            <option value="2">2</option>
+                                                                            <option value="3">3</option>
+                                                                            <option value="4">4</option>
+                                                                            <option value="5">5</option>
+                                                                            <option value="6">6</option>
+                                                                            <option value="7">7</option>
+                                                                            <option value="8">8</option>
+                                                                            <option value="9">9</option>
+                                                                            <option value="10">10</option>
+                                                                        </select>
+                                                                    </div>
+                                                                    <span className='cli-tal-pro-exp-input-text'>Years</span>
+                                                                </div>
+
+                                                                <div className="cli-tal-pro-exp-input-area search-page mt-3">
+                                                                    <div className='cli-tal-pro-exp-input-container'>
+                                                                        {/* <input type="number" className='cli-tal-pro-exp-input text-center numeric-input' 
+                                                                        value={filters.minExperienceMonth}
+                                                                        placeholder='Min Experience Month'/> */}
+                                                                        {/* <div className='tal-pro-search-result-data-area'>
+                                                                                {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((number) => (
+                                                                                <div
+                                                                                    key={number}
+                                                                                    className='tal-pro-search-result-data'
+                                                                                    onClick={() => setFilters({ ...filters, minExperienceMonth: number })}
+                                                                                >
+                                                                                    {number}
+                                                                                </div>
+                                                                                ))}
+                                                                            </div> */}
+                                                                        <select name="" className='cli-tal-pro-exp-input text-center numeric-input select' id=""
+                                                                            value={filters.minExperienceMonth}
+                                                                            onChange={(e) => setFilters({ ...filters, minExperienceMonth: e.target.value })}
+                                                                        >
+                                                                            <option value="" selected >Min Experience</option>
+                                                                            <option value="1">1</option>
+                                                                            <option value="2">2</option>
+                                                                            <option value="3">3</option>
+                                                                            <option value="4">4</option>
+                                                                            <option value="5">5</option>
+                                                                            <option value="6">6</option>
+                                                                            <option value="7">7</option>
+                                                                            <option value="8">8</option>
+                                                                            <option value="9">9</option>
+                                                                            <option value="10">10</option>
+                                                                        </select>
+                                                                    </div>
+
+                                                                    <span className='cli-tal-pro-exp-input-text'>to</span>
+                                                                    <div className='cli-tal-pro-exp-input-container'>
+                                                                        {/* <input type="number" className='cli-tal-pro-exp-input text-center numeric-input' 
+                                                                        value={filters.maxExperienceMonth}
+                                                                        placeholder='Max Experience Month'/> */}
+                                                                        <select name="" className='cli-tal-pro-exp-input text-center numeric-input select' id=""
+                                                                            value={filters.maxExperienceMonth}
+                                                                            onChange={(e) => setFilters({ ...filters, maxExperienceMonth: e.target.value })}
+                                                                        >
+                                                                            <option value="" selected >Max Experience</option>
+                                                                            <option value="1">1</option>
+                                                                            <option value="2">2</option>
+                                                                            <option value="3">3</option>
+                                                                            <option value="4">4</option>
+                                                                            <option value="5">5</option>
+                                                                            <option value="6">6</option>
+                                                                            <option value="7">7</option>
+                                                                            <option value="8">8</option>
+                                                                            <option value="9">9</option>
+                                                                            <option value="10">10</option>
+                                                                        </select>
+                                                                        {/* <div className='tal-pro-search-result-data-area'>
+                                                                                {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((number) => (
+                                                                                <div
+                                                                                    key={number}
+                                                                                    className='tal-pro-search-result-data'
+                                                                                    onClick={() => setFilters({ ...filters, maxExperienceMonth: number })}
+                                                                                >
+                                                                                    {number}
+                                                                                </div>
+                                                                                ))}
+                                                                            </div> */}
+                                                                    </div>
+                                                                    <span className='cli-tal-pro-exp-input-text'>Months</span>
+                                                                </div>
+                                                            </div>
+                                                            <div className="cli-tal-pro-search-filter-content">
+                                                                <div className="cli-tal-pro-search-filter-title-area">
+                                                                    <h6 className='cli-tal-pro-search-filter-title'>Current location of candidate</h6>
+                                                                </div>
+                                                                <div className='cli--tal-pro-badge-area mb-4'>
+                                                                    {selectedLocationResults.map(selectResult => (
+                                                                        <span className="tal-cand-reg-form-badge"
+                                                                            key={selectResult}
+                                                                            onClick={() => handleDeselectLocation(selectResult)}
+                                                                        >{selectResult}</span>
+                                                                    ))}
+                                                                </div>
+                                                                <div className="cli-tal-pro-search-filter-input-area location">
+                                                                    <input type="text" className='cli-tal-pro-search-filter-input' placeholder='Add location' value={filters.location}
+                                                                        onChange={handleLocationSearch} />
+                                                                    <div className='tal-pro-search-result-data-area'>
+                                                                        {filteredLocation.length > 0 &&
+                                                                            filteredLocation.map((filterResult) => (
+                                                                                <div
+                                                                                    className='tal-pro-search-result-data'
+                                                                                    key={filterResult._id}
+                                                                                    onClick={() => handleFilteredLocationClick(filterResult.location)}
+                                                                                >
+                                                                                    {filterResult.location}
+                                                                                </div>
+                                                                            ))}
+                                                                    </div>
+                                                                </div>
+                                                                {/* <div className="cli--mark-keyword-area search-results">
+                                                                    <label className="cli--mark-keyword-check-input">
+                                                                        <input type="checkbox" />
+                                                                        <span className="cli--mark-keyword-checkmark"></span>
+                                                                        Include candidate who prefer to relocate to above location
+                                                                    </label>
+                                                                    <div className='cli-change--location-area'>
+                                                                        Change preferred location
+                                                                    </div>
+                                                                    <label className="cli--mark-keyword-check-input">
+                                                                        <input type="checkbox" />
+                                                                        <span className="cli--mark-keyword-checkmark"></span>
+                                                                        Exclude candidate  who have mentioned Anywhere in ...
+                                                                    </label>
+                                                                </div> */}
+                                                            </div>
+
+                                                            <div className="cli-tal-pro-search-filter-content">
+                                                                <div className="cli-tal-pro-search-filter-title-area">
+                                                                    <h6 className='cli-tal-pro-search-filter-title'>Annual Salary</h6>
+                                                                </div>
+                                                                <div className="cli-tal-pro-exp-input-area search-page">
+                                                                    <div className="cli--salary-inputs-area">
+                                                                        <select name="" className='cli-tal-pro-select-input width-30' id=""
+                                                                            value={filters.currencyType}
+                                                                            onChange={(e) => setFilters({ ...filters, currencyType: e.target.value })}>
+                                                                            <option value="" disabled>Select</option>
+                                                                            <option value="INR" selected>INR</option>
+                                                                            <option value="USD">USD</option>
+                                                                        </select>
+                                                                        <input type="number" className='cli-tal-pro-exp-input numeric-input width-70' placeholder='Min Salary in Laks'
+                                                                            value={filters.minSalary}
+                                                                            onChange={(e) => setFilters({ ...filters, minSalary: e.target.value })} />
+                                                                    </div>
+                                                                    <span className='cli-tal-pro-exp-input-text'>to</span>
+                                                                    <input type="number" className='cli-tal-pro-exp-input text-center numeric-input width-45 search-page' placeholder='Max Salary in Laks'
+                                                                        value={filters.maxSalary}
+                                                                        onChange={(e) => setFilters({ ...filters, maxSalary: e.target.value })} />
+                                                                    <span className='cli-tal-pro-exp-input-text'>laks</span>
+                                                                </div>
+                                                                <div className="cli--mark-keyword-area">
+                                                                    <label className="cli--mark-keyword-check-input">
+                                                                        <input type="checkbox" />
+                                                                        <span className="cli--mark-keyword-checkmark"></span>
+                                                                        Include candidate  who did not mention their current salary
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div className="cli-tal-pro-search-filter-content-section">
+                                                            <div className="cli-tal-pro-search-filter-toggle-area">
+                                                                <h6 className='cli--emploment-detail-head'>Employment Details</h6>
+                                                                {/* <i class="bi bi-chevron-down"></i> */}
+                                                                <svg xmlns="http://www.w3.org/2000/svg" className='' width="15" height="9" viewBox="0 0 15 9" fill="none">
+                                                                    <path d="M1 1L6.79289 6.79289C7.18342 7.18342 7.81658 7.18342 8.20711 6.79289L14 1" stroke="#714F36" stroke-width="2" stroke-linecap="round" />
+                                                                </svg>
+                                                            </div>
+                                                            <div className="cli-tal-pro-search-filter-expand-area">
+                                                                <div className='expand-area-padding'>
+                                                                    <div className="cli-tal-search-filter-form-group">
+                                                                        <div className="cli-tal-search-filter-form-label-area">
+                                                                            <label htmlFor="department" className='cli-tal-search-filter-form-label'>Department</label>
+                                                                        </div>
+                                                                        <div className='cli--tal-pro-badge-area mb-4'>
+                                                                            {selectedDepartmentResults.map(selectResult => (
+                                                                                <span className="tal-cand-reg-form-badge"
+                                                                                    key={selectResult}
+                                                                                    onClick={() => handleDeselectDepartment(selectResult)}
+                                                                                >{selectResult}</span>
+                                                                            ))}
+                                                                        </div>
+                                                                        <div className="cli-tal-pro-search-filter-input-area">
+                                                                            <input type="text" name='department' className='cli-tal-pro-search-filter-input' placeholder='Add Department'
+                                                                                value={filters.department}
+                                                                                onChange={handleDepartmentSearch} />
+                                                                            <div className='tal-pro-search-result-data-area'>
+                                                                                {filteredDepartment.length > 0 &&
+                                                                                    filteredDepartment.map((filterResult) => (
+                                                                                        <div
+                                                                                            className='tal-pro-search-result-data'
+                                                                                            key={filterResult._id}
+                                                                                            onClick={() => handleFilteredDepartmentClick(filterResult.department)}
+                                                                                        >
+                                                                                            {filterResult.department}
+                                                                                        </div>
+                                                                                    ))}
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div className="cli-tal-search-filter-form-group">
+                                                                        <div className="cli-tal-search-filter-form-label-area">
+                                                                            <label htmlFor="role" className='cli-tal-search-filter-form-label'>Role</label>
+                                                                        </div>
+                                                                        <div className='cli--tal-pro-badge-area mb-4'>
+                                                                            {selectedRoleResults.map(selectResult => (
+                                                                                <span className="tal-cand-reg-form-badge"
+                                                                                    key={selectResult}
+                                                                                    onClick={() => handleDeselectRole(selectResult)}
+                                                                                >{selectResult}</span>
+                                                                            ))}
+                                                                        </div>
+                                                                        <div className="cli-tal-pro-search-filter-input-area">
+                                                                            <input type="text" name='role' className='cli-tal-pro-search-filter-input' placeholder='Add Role'
+                                                                                value={filters.role}
+                                                                                onChange={handleRoleSearch} />
+                                                                            <div className='tal-pro-search-result-data-area'>
+                                                                                {filteredRole.length > 0 &&
+                                                                                    filteredRole.map((filterResult) => (
+                                                                                        <div
+                                                                                            className='tal-pro-search-result-data'
+                                                                                            key={filterResult._id}
+                                                                                            onClick={() => handleFilteredRoleClick(filterResult.role)}
+                                                                                        >
+                                                                                            {filterResult.role}
+                                                                                        </div>
+                                                                                    ))}
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div className="cli-tal-search-filter-form-group">
+                                                                        <div className="cli-tal-search-filter-form-label-area">
+                                                                            <label htmlFor="industry" className='cli-tal-search-filter-form-label'>Industry</label>
+                                                                        </div>
+                                                                        
+                                                                        <div className="cli-tal-pro-search-filter-input-area">
+                                                                            <input type="text" name='industry' className='cli-tal-pro-search-filter-input' placeholder='Add Industry'
+                                                                            value={filters.industry}
+                                                                            onChange={(e)=>setFilters({...filters, industry: e.target.value})}/>
+                                                                            
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div className="cli-tal-search-filter-form-group">
+                                                                        <div className="cli-tal-search-filter-form-label-area">
+                                                                            <label htmlFor="company" className='cli-tal-search-filter-form-label'>Company</label>
+                                                                            {/* <div class="cl-toggle-switch">
+                                                                            <label class="cl-switch">
+                                                                                <input type="checkbox" id="toggletoSwitch1" />
+                                                                                <span></span>
+                                                                            </label>
+                                                                            <h6 className='cl-toggle--switch-label' id="labelText1">Boolean Off</h6>
+                                                                        </div> */}
+                                                                        </div>
+                                                                        {/* <div className='cli--tal-pro-badge-area mb-4'>
+                                                                            <span className="tal-cand-reg-form-badge">Badge 1</span>
+                                                                            <span className="tal-cand-reg-form-badge">Badge 1</span>
+                                                                            <span className="tal-cand-reg-form-badge">Badge 1</span>
+                                                                            <span className="tal-cand-reg-form-badge">Badge 1</span>
+                                                                        </div> */}
+                                                                        <div className="cli-tal-pro-search-filter-input-area">
+                                                                            <input type="text" name='company' className='cli-tal-pro-search-filter-input' placeholder='Add Company name' 
+                                                                            value={filters.company}
+                                                                            onChange={(e)=>setFilters({...filters, company: e.target.value})}/>
+                                                                            {/* <div className='tal-pro-search-result-data-area'>
+                                                                                <div className='tal-pro-search-result-data'>Search Result 1</div>
+                                                                                <div className='tal-pro-search-result-data'>Search Result 2</div>
+                                                                                <div className='tal-pro-search-result-data'>Search Result 3</div>
+                                                                                <div className='tal-pro-search-result-data'>Search Result 4</div>
+                                                                                <div className='tal-pro-search-result-data'>Search Result 5</div>
+                                                                                <div className='tal-pro-search-result-data'>Search Result 6</div>
+                                                                                <div className='tal-pro-search-result-data'>Search Result 7</div>
+                                                                                <div className='tal-pro-search-result-data'>Search Result 8</div>
+                                                                            </div> */}
+                                                                        </div>
+                                                                        <div id="container" className='multi-input-container'>
+                                                                            <div className="cli--tal-search-add-input-area mt-3">
+                                                                                <button className='cli--tal-search-add-input-button'>
+                                                                                    <i class="bi bi-plus add-input-icon"></i>
+                                                                                    Add Exclude Company
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        {/* Work Details */}
+                                                        <div className="cli-tal-pro-search-filter-content-section">
+                                                            <div className="cli-tal-pro-search-filter-toggle-area">
+                                                                <h6 className='cli--emploment-detail-head'>Work Details</h6>
+                                                                <svg xmlns="http://www.w3.org/2000/svg" className='' width="15" height="9" viewBox="0 0 15 9" fill="none">
+                                                                    <path d="M1 1L6.79289 6.79289C7.18342 7.18342 7.81658 7.18342 8.20711 6.79289L14 1" stroke="#714F36" stroke-width="2" stroke-linecap="round" />
+                                                                </svg>
+                                                            </div>
+                                                            <div className="cli-tal-pro-search-filter-expand-area">
+                                                                <div className='expand-area-padding'>
+                                                                    <div className="cli-tal-search-filter-form-group search-results">
+                                                                        <div className="cli-tal-search-filter-form-label-area">
+                                                                            <label htmlFor="candidate_seek" className='cli-tal-search-filter-form-label'>Show candidate seeking</label>
+                                                                        </div>
+                                                                        <div className="row">
+                                                                            <div className="col-12 col-xl-6 col-lg-6 col-md-12 mb-md-4 mb-lg-0 mb-xl-0">
+                                                                                <div className="cli-tal-pro-search-filter-input-area">
+                                                                                    <select name="job_type" id="candidate_seek"
+                                                                                        className='cli-tal-pro-search-filter-input cand--seek-select'>
+                                                                                        <option value="" disabled selected>Job type</option>
+                                                                                        <option value="1">Job type 1</option>
+                                                                                        <option value="2">Job type 2</option>
+                                                                                        <option value="3">Job type 3</option>
+                                                                                    </select>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div className="col-12 col-xl-6 col-lg-6 col-md-12">
+                                                                                <div className="cli-tal-pro-search-filter-input-area">
+                                                                                    <select name="employee_type" id="candidate_seek"
+                                                                                        className='cli-tal-pro-search-filter-input cand--seek-select'>
+                                                                                        <option value="" disabled selected>Employment type</option>
+                                                                                        <option value="1">Employment type 1</option>
+                                                                                        <option value="2">Employment type 2</option>
+                                                                                        <option value="3">Employment type 3</option>
+                                                                                    </select>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div className="cli-tal-search-filter-form-group search-results">
+                                                                        <div className="cli-tal-search-filter-form-label-area">
+                                                                            <label htmlFor="work_permit" className='cli-tal-search-filter-form-label'>Work permit for</label>
+                                                                        </div>
+                                                                        <div className="cli-tal-pro-search-filter-input-area">
+                                                                            <input type="text" className='cli-tal-pro-search-filter-input' placeholder='Choose Category' />
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        {/* Display Details */}
+                                                        <div className="cli-tal-pro-search-filter-content-section">
+                                                            <div className="cli-tal-pro-search-filter-toggle-area">
+                                                                <h6 className='cli--emploment-detail-head'>Display Details</h6>
+                                                                <svg xmlns="http://www.w3.org/2000/svg" className='' width="15" height="9" viewBox="0 0 15 9" fill="none">
+                                                                    <path d="M1 1L6.79289 6.79289C7.18342 7.18342 7.81658 7.18342 8.20711 6.79289L14 1" stroke="#714F36" stroke-width="2" stroke-linecap="round" />
+                                                                </svg>
+                                                            </div>
+                                                            <div className="cli-tal-pro-search-filter-expand-area">
+                                                                <div className='expand-area-padding'>
+                                                                    <div className="cli-tal-pro-search-filter-content">
+                                                                        <div className="cli-tal-pro-search-filter-title-area">
+                                                                            <h6 className='cli-tal-pro-search-filter-title'>Show</h6>
+                                                                        </div>
+
+                                                                        <div className="tal--search-options-area">
+                                                                            <div className="tal--search-option-container">
+                                                                                <input id="all_candidate" className="tal--search-radio" type="radio" name="show" 
+                                                                                value="allCandidates" 
+                                                                                onChange={(e)=>setFilters({...filters, candidateType:e.target.value})}/>
+                                                                                <div className="tal--search-tile">
+                                                                                    <label for="all_candidate" className="tal--search-tile-label">All candidates</label>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div className="tal--search-option-container">
+                                                                                <input id="new_reg" className="tal--search-radio" type="radio" name="show" 
+                                                                                value="newRegistration" 
+                                                                                onChange={(e)=>setFilters({...filters, candidateType:e.target.value})}/>
+                                                                                <div className="tal--search-tile">
+                                                                                    <label for="new_reg" className="tal--search-tile-label">New Registrations</label>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            {/* <div className="tal--search-option-container">
+                                                                                <input id="recent_activity" className="tal--search-radio" type="radio" name="show" />
+                                                                                <div className="tal--search-tile">
+                                                                                    <label for="recent_activity" className="tal--search-tile-label">Active Recently</label>
+                                                                                </div>
+                                                                            </div> */}
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div className="cli-tal-pro-search-filter-content mb-0">
+                                                                        <div className="cli-tal-pro-search-filter-title-area">
+                                                                            <h6 className='cli-tal-pro-search-filter-title'>Show only candidates with </h6>
+                                                                        </div>
+
+                                                                        <div className="tal--search-options-area">
+                                                                            <div className="tal--search-option-container">
+                                                                                <input id="ver_mobile" className="tal--search-radio" type="radio" name="show_cand" />
+                                                                                <div className="tal--search-tile">
+                                                                                    <label for="ver_mobile" className="tal--search-tile-label">Verified mobile number</label>
+                                                                                    <i class="bi bi-plus"></i>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div className="tal--search-option-container">
+                                                                                <input id="ver_email" className="tal--search-radio" type="radio" name="show_cand" />
+                                                                                <div className="tal--search-tile">
+                                                                                    <label for="ver_email" className="tal--search-tile-label">Verified email ID </label>
+                                                                                    <i class="bi bi-plus"></i>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div className="tal--search-option-container">
+                                                                                <input id="att_resume" className="tal--search-radio" type="radio" name="show_cand" />
+                                                                                <div className="tal--search-tile">
+                                                                                    <label for="att_resume" className="tal--search-tile-label">Attached resume</label>
+                                                                                    <i class="bi bi-plus"></i>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        {/* Education Details */}
+                                                        <div className="cli-tal-pro-search-filter-content-section">
+                                                            <div className="cli-tal-pro-search-filter-toggle-area">
+                                                                <h6 className='cli--emploment-detail-head'>Education Details</h6>
+                                                                <svg xmlns="http://www.w3.org/2000/svg" className='' width="15" height="9" viewBox="0 0 15 9" fill="none">
+                                                                    <path d="M1 1L6.79289 6.79289C7.18342 7.18342 7.81658 7.18342 8.20711 6.79289L14 1" stroke="#714F36" stroke-width="2" stroke-linecap="round" />
+                                                                </svg>
+                                                            </div>
+                                                            <div className="cli-tal-pro-search-filter-expand-area">
+                                                                <div className='expand-area-padding'>
+                                                                    <div className="cli-tal-pro-search-filter-content">
+                                                                        <div className="cli-tal-pro-search-filter-title-area">
+                                                                            <h6 className='cli-tal-pro-search-filter-title'>UG Qualification</h6>
+                                                                        </div>
+
+                                                                        <div className="tal--search-options-area">
+                                                                            <div className="tal--search-option-container">
+                                                                                <input id="any_ug" className="tal--search-radio" type="radio" name="ug_qualification" />
+                                                                                <div className="tal--search-tile">
+                                                                                    <label for="any_ug" className="tal--search-tile-label">Any UG Qualification</label>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div className="tal--search-option-container">
+                                                                                <input id="spc_ug" className="tal--search-radio" type="radio" name="ug_qualification" />
+                                                                                <div className="tal--search-tile">
+                                                                                    <label for="spc_ug" className="tal--search-tile-label">Specific UG Qualification</label>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div className="tal--search-option-container">
+                                                                                <input id="no_ug" className="tal--search-radio" type="radio" name="ug_qualification" />
+                                                                                <div className="tal--search-tile">
+                                                                                    <label for="no_ug" className="tal--search-tile-label">No UG Qualification</label>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div className="cli-tal-pro-search-filter-content mb-0">
+                                                                        <div className="cli-tal-pro-search-filter-title-area">
+                                                                            <h6 className='cli-tal-pro-search-filter-title'>PG Qualification</h6>
+                                                                        </div>
+
+                                                                        <div className="tal--search-options-area">
+                                                                            <div className="tal--search-option-container">
+                                                                                <input id="any_pg" className="tal--search-radio" type="radio" name="pg_qualification" />
+                                                                                <div className="tal--search-tile">
+                                                                                    <label for="any_pg" className="tal--search-tile-label">Any PG Qualification</label>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div className="tal--search-option-container">
+                                                                                <input id="spc_pg" className="tal--search-radio" type="radio" name="pg_qualification" />
+                                                                                <div className="tal--search-tile">
+                                                                                    <label for="spc_pg" className="tal--search-tile-label">Specific PG Qualification</label>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div className="tal--search-option-container">
+                                                                                <input id="no_pg" className="tal--search-radio" type="radio" name="pg_qualification" />
+                                                                                <div className="tal--search-tile">
+                                                                                    <label for="no_pg" className="tal--search-tile-label">No PG Qualification</label>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div id="container3" className='multi-input-container'>
+                                                                            <div className="cli--tal-search-add-input-area">
+                                                                                <button className='cli--tal-search-qualification-add-input-button'>
+                                                                                    <i class="bi bi-plus add-input-icon"></i>
+                                                                                    Add PPG/Doctorate Qualification
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        {/* Diversity and Additional Details */}
+                                                        <div className="cli-tal-pro-search-filter-content-section">
+                                                            <div className="cli-tal-pro-search-filter-toggle-area">
+                                                                <h6 className='cli--emploment-detail-head'>Diversity and Additional Details</h6>
+                                                                <svg xmlns="http://www.w3.org/2000/svg" className='' width="15" height="9" viewBox="0 0 15 9" fill="none">
+                                                                    <path d="M1 1L6.79289 6.79289C7.18342 7.18342 7.81658 7.18342 8.20711 6.79289L14 1" stroke="#714F36" stroke-width="2" stroke-linecap="round" />
+                                                                </svg>
+                                                            </div>
+                                                            <div className="cli-tal-pro-search-filter-expand-area">
+                                                                <div className='expand-area-padding'>
+                                                                    <div className="cli-tal-pro-search-filter-content mb-0">
+                                                                        <div className="cli-tal-pro-search-filter-title-area">
+                                                                            <h6 className='cli-tal-pro-search-filter-title'>Gender</h6>
+                                                                        </div>
+
+                                                                        <div className="tal--search-options-area">
+                                                                            {/* <div className="tal--search-option-container">
+                                                                                <input id="all_cand" className="tal--search-radio" type="radio" name="gender" />
+                                                                                <div className="tal--search-tile">
+                                                                                    <label for="all_cand" className="tal--search-tile-label">All candidates</label>
+                                                                                </div>
+                                                                            </div> */}
+
+                                                                            <div className="tal--search-option-container">
+                                                                                <input id="male_cand" className="tal--search-radio" type="radio" name="gender" 
+                                                                                value="male" 
+                                                                                onChange={(e)=>setFilters({...filters, gender:e.target.value})}/>
+                                                                                <div className="tal--search-tile">
+                                                                                    <label for="male_cand" className="tal--search-tile-label">Male Candidates</label>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div className="tal--search-option-container">
+                                                                                <input id="female_cand" className="tal--search-radio" type="radio" name="gender"
+                                                                                value="female" 
+                                                                                onChange={(e)=>setFilters({...filters, gender:e.target.value})} />
+                                                                                <div className="tal--search-tile">
+                                                                                    <label for="female_cand" className="tal--search-tile-label">Female candidates</label>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div className="cli-tal-pro-search-page-btn-area">
+                                                            <div className="cli-tal-pro-search-page-days-selection-area">
+                                                                <div className='days-active'>Active In</div>
+                                                                <div class="custom-select">
+                                                                    <div class="select-box">
+                                                                        <span>Active In</span>
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" className='toggle-icon' width="15" height="9" viewBox="0 0 15 9" fill="none">
+                                                                            <path d="M1 1L6.79289 6.79289C7.18342 7.18342 7.81658 7.18342 8.20711 6.79289L14 1" stroke="#714F36" stroke-width="2" stroke-linecap="round" />
+                                                                        </svg>
+                                                                    </div>
+                                                                    <ul class="select-options">
+                                                                        <li data-value="day_1">7 days</li>
+                                                                        <li data-value="day_2">14 days</li>
+                                                                        <li data-value="day_3">21 days</li>
+                                                                        <li data-value="day_4">30 days</li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+
+                                                            <button className="cli-tal-pro-search-page-btn" onClick={handleSkillSearch}>
+                                                                Search Candidates
+                                                            </button>
+                                                        </div>
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
+
+                                            <div className="col-12 col-lg-4 col-xl-4 col-md-4 custom-border-top-sm mt-4 mt-md-5">
+                                                <div className="cli-tal-pro-recent-search-section">
+                                                    <div className="cli-tal-pro-recent-search-head-area">
+                                                        <i class="ri-history-line"></i>
+                                                        <h4 className='cli-tal-pro-recent-search-head mb-0'>Recent Searches </h4>
+                                                    </div>
+                                                    <div className="cli-tal-pro-recent-search-container">
+                                                        <div className="cli-tal-pro-recent-search-area">
+                                                            <div className="cli-tal-pro-recent-search-btn-area">
+                                                                <button className='cli-tal-pro-recent-search-btn'>Fill this search</button>
+                                                                <button className='cli-tal-pro-recent-search-btn'>Search profile</button>
+                                                            </div>
+                                                            <div className="cli-tal-pro-recent-search-tags">
+                                                                <span>azure, Azure Devops | .NET, MVC, C#, Angualr, sql, cloud, aws | 9-12 years | Bangalore/Bengaluru,....</span>
+                                                            </div>
+                                                        </div>
+
+                                                        <div className="cli-tal-pro-recent-search-area">
+                                                            <div className="cli-tal-pro-recent-search-btn-area">
+                                                                <button className='cli-tal-pro-recent-search-btn'>Fill this search</button>
+                                                                <button className='cli-tal-pro-recent-search-btn'>Search profile</button>
+                                                            </div>
+                                                            <div className="cli-tal-pro-recent-search-tags">
+                                                                <span>azure, Azure Devops | .NET, MVC, C#, Angualr, sql, cloud, aws | 9-12 years | Bangalore/Bengaluru,....</span>
+                                                            </div>
+                                                        </div>
+
+                                                        <div className="cli-tal-pro-recent-search-area">
+                                                            <div className="cli-tal-pro-recent-search-btn-area">
+                                                                <button className='cli-tal-pro-recent-search-btn'>Fill this search</button>
+                                                                <button className='cli-tal-pro-recent-search-btn'>Search profile</button>
+                                                            </div>
+                                                            <div className="cli-tal-pro-recent-search-tags">
+                                                                <span>azure, Azure Devops | .NET, MVC, C#, Angualr, sql, cloud, aws | 9-12 years | Bangalore/Bengaluru,....</span>
+                                                            </div>
+                                                        </div>
+
+                                                        <div className="cli-tal-pro-recent-search-area">
+                                                            <div className="cli-tal-pro-recent-search-btn-area">
+                                                                <button className='cli-tal-pro-recent-search-btn'>Fill this search</button>
+                                                                <button className='cli-tal-pro-recent-search-btn'>Search profile</button>
+                                                            </div>
+                                                            <div className="cli-tal-pro-recent-search-tags">
+                                                                <span>azure, Azure Devops | .NET, MVC, C#, Angualr, sql, cloud, aws | 9-12 years | Bangalore/Bengaluru,....</span>
+                                                            </div>
+                                                        </div>
+
+                                                        <div className="cli-tal-pro-recent-search-area">
+                                                            <div className="cli-tal-pro-recent-search-btn-area">
+                                                                <button className='cli-tal-pro-recent-search-btn'>Fill this search</button>
+                                                                <button className='cli-tal-pro-recent-search-btn'>Search profile</button>
+                                                            </div>
+                                                            <div className="cli-tal-pro-recent-search-tags">
+                                                                <span>azure, Azure Devops | .NET, MVC, C#, Angualr, sql, cloud, aws | 9-12 years | Bangalore/Bengaluru,....</span>
+                                                            </div>
+                                                        </div>
+
+                                                        <div className="cli-tal-pro-recent-search-area">
+                                                            <div className="cli-tal-pro-recent-search-btn-area">
+                                                                <button className='cli-tal-pro-recent-search-btn'>Fill this search</button>
+                                                                <button className='cli-tal-pro-recent-search-btn'>Search profile</button>
+                                                            </div>
+                                                            <div className="cli-tal-pro-recent-search-tags">
+                                                                <span>azure, Azure Devops | .NET, MVC, C#, Angualr, sql, cloud, aws | 9-12 years | Bangalore/Bengaluru,....</span>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div className="row row-border-custom">
-                                                <div className="col-12 col-lg-8 col-xl-8 col-md-8 custom-right-border-col mt-4 mt-md-5">
-                                                    <div className="cli-tal-pro-search-filter-area">
-                                                        <div className="cli-tal-pro-search-filter-head-area">
-                                                            <h6 className='cli-tal-pro-search-filter mb-0'>Filters</h6>
-                                                            <img src="assets/img/talent-profile/filter.png" className='cli-tal-pro-filter-img' alt="" />
-                                                        </div>
-                                                        <div className="cli-tal-pro-search-filter-container">
+                                        </div>
+                                    </div> :
+                                    // test
 
-                                                            <div className="cli-tal-pro-search-filter-content-section">
-                                                                <div className="cli-tal-pro-search-filter-content">
-                                                                    <div class="cli-tal-pro-search-filter-title-area">
-                                                                        <div class='info-icon-area'>
-                                                                            <h6 class='cli-tal-pro-search-filter-title'>Notice period / Availability to join</h6>
-                                                                            <button class='info-icon-button'>
-                                                                                <i class="ri-information-line info-icon"></i>
-                                                                            </button>
-                                                                            <div class="tooltip">This is the information about the notice period & availability to join.</div>
-                                                                        </div>
-                                                                    </div>
+
+                                    <div className='talent--profile-search-results-section'>
+                                        <div className="cli-tal-pro-search-container">
+                                            <div className="row">
+                                                <div className="col-12 col-lg-12 col-xl-4 col-md-12">
+                                                    <h4 className='cli-tal-pro-search-heading'>Search Result Page</h4>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button class="pl--package-btn-sub previous back-to-search-btn mb-5" data-aos="fade-left" onClick={() => setSearchResult(false)}>
+                                            <div class="pl--package-arrow-area prev">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 27 27" fill="none">
+                                                    <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="white" stroke-width="2"></path>
+                                                    <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="white" stroke-width="2"></path>
+                                                    <path d="M1 26L25.1667 1" stroke="white" stroke-width="2"></path>
+                                                </svg>
+                                            </div>
+                                            <div class="pl--package-btn job">Back to Search
+                                            </div>
+                                        </button>
+                                        <div className="row row-border-custom">
+                                            <div className="col-12 col-lg-4 col-xl-3 col-md-4 custom-right-border-col ps-lg-0 ps-md-1 col-width-lg-30">
+                                                <div className="cli-tal-pro-search-filter-area">
+                                                    <div className="cli-tal-pro-search-filter-head-area search-results">
+                                                        <h6 className='cli-tal-pro-search-filter mb-0'>Filters</h6>
+                                                        <img src="assets/img/talent-profile/filter.png" className='cli-tal-pro-filter-img' alt="" />
+                                                    </div>
+                                                    <div className="cli-tal-pro-search-filter-container mt-1">
+
+                                                        {/* Notice period / Availability  to join */}
+                                                        <div className="cli-tal-pro-search-filter-content-section">
+                                                            <div className="cli-tal-pro-search-filter-toggle-area">
+                                                                <div class='info-icon-area'>
+                                                                    <h6 className='cli--emploment-detail-head'>Notice period / Availability to join
+                                                                        <button class='info-icon-button'>
+                                                                            <i class="ri-information-line info-icon"></i>
+                                                                        </button>
+                                                                        <div class="tooltip">This is the information about the notice period & availability to join.</div>
+                                                                    </h6>
+                                                                </div>
+                                                                <svg xmlns="http://www.w3.org/2000/svg" className='' width="15" height="9" viewBox="0 0 15 9" fill="none">
+                                                                    <path d="M1 1L6.79289 6.79289C7.18342 7.18342 7.81658 7.18342 8.20711 6.79289L14 1" stroke="#714F36" stroke-width="2" stroke-linecap="round" />
+                                                                </svg>
+                                                            </div>
+                                                            <div className="cli-tal-pro-search-filter-expand-area">
+                                                                <div className='expand-area-padding'>
                                                                     <div className="tal--search-options-area">
                                                                         <div className="tal--search-option-container">
                                                                             <input id="notice_period_1" className="tal--search-radio" type="radio" name="notice_period" />
@@ -812,23 +2100,29 @@ const TalentsProfileSearch = () => {
                                                                         </div>
                                                                     </div>
                                                                 </div>
+                                                            </div>
+                                                        </div>
 
-                                                                <div className="cli-tal-pro-search-filter-content">
-                                                                    <div className="cli-tal-pro-search-filter-title-area">
-                                                                        <h6 className='cli-tal-pro-search-filter-title'>Keywords</h6>
-                                                                        {/* <div class="cl-toggle-switch">
-                                                                            <label class="cl-switch">
-                                                                                <input type="checkbox" className="toggleSwitch" />
-                                                                                <span></span>
-                                                                            </label>
-                                                                            <h6 className='cl-toggle--switch-label'>Boolean Off</h6>
-                                                                        </div> */}
-                                                                    </div>
+                                                        {/* Keywords */}
+                                                        <div className="cli-tal-pro-search-filter-content-section">
+                                                            <div className="cli-tal-pro-search-filter-toggle-area">
+                                                                <h6 className='cli--emploment-detail-head'>Keywords</h6>
+                                                                <svg xmlns="http://www.w3.org/2000/svg" className='' width="15" height="9" viewBox="0 0 15 9" fill="none">
+                                                                    <path d="M1 1L6.79289 6.79289C7.18342 7.18342 7.81658 7.18342 8.20711 6.79289L14 1" stroke="#714F36" stroke-width="2" stroke-linecap="round" />
+                                                                </svg>
+                                                            </div>
+                                                            <div className="cli-tal-pro-search-filter-expand-area">
+                                                                <div className='expand-area-padding'>
+                                                                    {/* <div class="cl-toggle-switch">
+                                                                    <label class="cl-switch">
+                                                                        <input type="checkbox" className="toggleSwitch" />
+                                                                        <span></span>
+                                                                    </label>
+                                                                    <h6 className='cl-toggle--switch-label'>Boolean Off</h6>
+                                                                </div> */}
+
                                                                     <div className="cli--tal-pro-filter-input-area">
-                                                                        <input type="text" className='cli--tal-pro-filter-input' placeholder='Enter keywords like skills, designation'
-                                                                            value={filters.searchInput}
-                                                                            onChange={(e) => setFilters({ ...filters, searchInput: e.target.value })}
-                                                                        />
+                                                                        <input type="text" className='cli--tal-pro-filter-input' placeholder='Enter keywords like skills, designation' />
                                                                         <i className="bi bi-search cli--tal-pro-filter-search-icon"></i>
                                                                     </div>
 
@@ -838,52 +2132,59 @@ const TalentsProfileSearch = () => {
                                                                             <span className="cli--mark-keyword-checkmark"></span>
                                                                             Mark all keywords as mandatory
                                                                         </label>
-
-                                                                        <label className="cli--mark-keyword-check-input">
-                                                                            <input type="checkbox" />
-                                                                            <span className="cli--mark-keyword-checkmark"></span>
-                                                                            Search all keyword in entire resume
-                                                                        </label>
                                                                     </div>
-                                                                    <div id="containerSearch" className='multi-input-container'>
+                                                                    <div id="container1" className='multi-input-container'>
                                                                         <div className="cli--tal-search-add-input-area mt-3">
-                                                                            <button className='cli--tal-search-keyword-add-input-button-search'>
+                                                                            <button className='cli--tal-search-keyword-add-input-button'>
                                                                                 <i class="bi bi-plus add-input-icon"></i>
                                                                                 Add Exclude Keywords
                                                                             </button>
                                                                         </div>
                                                                     </div>
-                                                                    <div id="containerSearch2" className='multi-input-container'>
+                                                                    <div id="container2" className='multi-input-container'>
                                                                         <div className="cli--tal-search-add-input-area">
-                                                                            <button className='cli--tal-search-skill-add-input-button-search'>
+                                                                            <button className='cli--tal-search-skill-add-input-button'>
                                                                                 <i class="bi bi-plus add-input-icon"></i>
                                                                                 Add IT Skills
                                                                             </button>
                                                                         </div>
                                                                     </div>
                                                                 </div>
+                                                            </div>
+                                                        </div>
 
-                                                                <div className="cli-tal-pro-search-filter-content">
-                                                                    <div className="cli-tal-pro-search-filter-title-area">
-                                                                        <h6 className='cli-tal-pro-search-filter-title'>Experience</h6>
-                                                                    </div>
-                                                                    <div className="cli-tal-pro-exp-input-area search-page">
-                                                                        <input type="number" className='cli-tal-pro-exp-input text-center numeric-input' placeholder='Min Experience' value={filters.minExperience}
-                                                                            onChange={(e) => setFilters({ ...filters, minExperience: e.target.value })} />
+                                                        {/* Experience */}
+                                                        <div className="cli-tal-pro-search-filter-content-section">
+                                                            <div className="cli-tal-pro-search-filter-toggle-area">
+                                                                <h6 className='cli--emploment-detail-head'>Experience</h6>
+                                                                <svg xmlns="http://www.w3.org/2000/svg" className='' width="15" height="9" viewBox="0 0 15 9" fill="none">
+                                                                    <path d="M1 1L6.79289 6.79289C7.18342 7.18342 7.81658 7.18342 8.20711 6.79289L14 1" stroke="#714F36" stroke-width="2" stroke-linecap="round" />
+                                                                </svg>
+                                                            </div>
+                                                            <div className="cli-tal-pro-search-filter-expand-area">
+                                                                <div className='expand-area-padding'>
+                                                                    <div className="cli-tal-pro-exp-input-area search-results">
+                                                                        <input type="number" className='cli-tal-pro-exp-input text-center numeric-input' placeholder='Min Experience' />
                                                                         <span className='cli-tal-pro-exp-input-text'>to</span>
-                                                                        <input type="number" className='cli-tal-pro-exp-input text-center numeric-input' placeholder='Max Experience' value={filters.maxExperience}
-                                                                            onChange={(e) => setFilters({ ...filters, maxExperience: e.target.value })} />
-                                                                        <span className='cli-tal-pro-exp-input-text'>months/years</span>
+                                                                        <input type="number" className='cli-tal-pro-exp-input text-center numeric-input' placeholder='Max Experience' />
+                                                                        <span className='cli-tal-pro-exp-input-text'>years</span>
                                                                     </div>
                                                                 </div>
+                                                            </div>
+                                                        </div>
 
-                                                                <div className="cli-tal-pro-search-filter-content">
-                                                                    <div className="cli-tal-pro-search-filter-title-area">
-                                                                        <h6 className='cli-tal-pro-search-filter-title'>Current location of candidate</h6>
-                                                                    </div>
+                                                        {/* Location */}
+                                                        <div className="cli-tal-pro-search-filter-content-section">
+                                                            <div className="cli-tal-pro-search-filter-toggle-area">
+                                                                <h6 className='cli--emploment-detail-head'>Location</h6>
+                                                                <svg xmlns="http://www.w3.org/2000/svg" className='' width="15" height="9" viewBox="0 0 15 9" fill="none">
+                                                                    <path d="M1 1L6.79289 6.79289C7.18342 7.18342 7.81658 7.18342 8.20711 6.79289L14 1" stroke="#714F36" stroke-width="2" stroke-linecap="round" />
+                                                                </svg>
+                                                            </div>
+                                                            <div className="cli-tal-pro-search-filter-expand-area">
+                                                                <div className='expand-area-padding'>
                                                                     <div className="cli-tal-pro-search-filter-input-area">
-                                                                        <input type="text" className='cli-tal-pro-search-filter-input location' placeholder='Add location' value={filters.location}
-                                                                            onChange={(e) => setFilters({ ...filters, location: e.target.value })} />
+                                                                        <input type="text" className='cli-tal-pro-search-filter-input' placeholder='Add location' />
                                                                     </div>
                                                                     <div className="cli--mark-keyword-area search-results">
                                                                         <label className="cli--mark-keyword-check-input">
@@ -901,12 +2202,20 @@ const TalentsProfileSearch = () => {
                                                                         </label>
                                                                     </div>
                                                                 </div>
+                                                            </div>
+                                                        </div>
 
-                                                                <div className="cli-tal-pro-search-filter-content">
-                                                                    <div className="cli-tal-pro-search-filter-title-area">
-                                                                        <h6 className='cli-tal-pro-search-filter-title'>Annual Salary</h6>
-                                                                    </div>
-                                                                    <div className="cli-tal-pro-exp-input-area search-page">
+                                                        {/* Salary (INR- Lacs ) */}
+                                                        <div className="cli-tal-pro-search-filter-content-section">
+                                                            <div className="cli-tal-pro-search-filter-toggle-area">
+                                                                <h6 className='cli--emploment-detail-head'>Salary (INR- Lacs )</h6>
+                                                                <svg xmlns="http://www.w3.org/2000/svg" className='' width="15" height="9" viewBox="0 0 15 9" fill="none">
+                                                                    <path d="M1 1L6.79289 6.79289C7.18342 7.18342 7.81658 7.18342 8.20711 6.79289L14 1" stroke="#714F36" stroke-width="2" stroke-linecap="round" />
+                                                                </svg>
+                                                            </div>
+                                                            <div className="cli-tal-pro-search-filter-expand-area">
+                                                                <div className='expand-area-padding'>
+                                                                    <div className="cli-tal-pro-exp-input-area search-results">
                                                                         <div className="cli--salary-inputs-area">
                                                                             <select name="" className='cli-tal-pro-select-input width-30' id="">
                                                                                 <option value="" disabled>Select</option>
@@ -918,7 +2227,7 @@ const TalentsProfileSearch = () => {
                                                                             <input type="number" className='cli-tal-pro-exp-input numeric-input width-70' placeholder='Min Salary in Lacs' />
                                                                         </div>
                                                                         <span className='cli-tal-pro-exp-input-text'>to</span>
-                                                                        <input type="number" className='cli-tal-pro-exp-input text-center numeric-input width-45 search-page' placeholder='Max Salary in Lacs' />
+                                                                        <input type="number" className='cli-tal-pro-exp-input text-center numeric-input width-45 search-results' placeholder='Max Salary in Lacs' />
                                                                         <span className='cli-tal-pro-exp-input-text'>lacs</span>
                                                                     </div>
                                                                     <div className="cli--mark-keyword-area">
@@ -930,515 +2239,215 @@ const TalentsProfileSearch = () => {
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                        </div>
 
-                                                            <div className="cli-tal-pro-search-filter-content-section">
-                                                                <div className="cli-tal-pro-search-filter-toggle-area">
-                                                                    <h6 className='cli--emploment-detail-head'>Employment Details</h6>
-                                                                    {/* <i class="bi bi-chevron-down"></i> */}
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" className='' width="15" height="9" viewBox="0 0 15 9" fill="none">
-                                                                        <path d="M1 1L6.79289 6.79289C7.18342 7.18342 7.81658 7.18342 8.20711 6.79289L14 1" stroke="#714F36" stroke-width="2" stroke-linecap="round" />
-                                                                    </svg>
-                                                                </div>
-                                                                <div className="cli-tal-pro-search-filter-expand-area">
-                                                                    <div className='expand-area-padding'>
-                                                                        <div className="cli-tal-search-filter-form-group">
-                                                                            <div className="cli-tal-search-filter-form-label-area">
-                                                                                <label htmlFor="department_role" className='cli-tal-search-filter-form-label'>Department and Roles</label>
-                                                                            </div>
-                                                                            <div className="cli-tal-pro-search-filter-input-area">
-                                                                                <input type="text" name='department_role' className='cli-tal-pro-search-filter-input' placeholder='Add Department/Role' />
-                                                                            </div>
-                                                                        </div>
-
-                                                                        <div className="cli-tal-search-filter-form-group">
-                                                                            <div className="cli-tal-search-filter-form-label-area">
-                                                                                <label htmlFor="industry" className='cli-tal-search-filter-form-label'>Industry</label>
-                                                                            </div>
-                                                                            <div className="cli-tal-pro-search-filter-input-area">
-                                                                                <input type="text" name='industry' className='cli-tal-pro-search-filter-input' placeholder='Add Industry' />
-                                                                            </div>
-                                                                        </div>
-
-                                                                        <div className="cli-tal-search-filter-form-group">
-                                                                            <div className="cli-tal-search-filter-form-label-area">
-                                                                                <label htmlFor="company" className='cli-tal-search-filter-form-label'>Company</label>
-                                                                                {/* <div class="cl-toggle-switch">
-                                                                                    <label class="cl-switch">
-                                                                                        <input type="checkbox" id="toggletoSwitch1" />
-                                                                                        <span></span>
-                                                                                    </label>
-                                                                                    <h6 className='cl-toggle--switch-label' id="labelText1">Boolean Off</h6>
-                                                                                </div> */}
-                                                                            </div>
-                                                                            <div className="cli-tal-pro-search-filter-input-area">
-                                                                                <input type="text" name='company' className='cli-tal-pro-search-filter-input' placeholder='Add Company name' />
-                                                                            </div>
-                                                                            <div id="container" className='multi-input-container'>
-                                                                                <div className="cli--tal-search-add-input-area mt-3">
-                                                                                    <button className='cli--tal-search-add-input-button'>
-                                                                                        <i class="bi bi-plus add-input-icon"></i>
-                                                                                        Add Exclude Company
-                                                                                    </button>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-
-                                                                        <div className="cli-tal-search-filter-form-group">
-                                                                            <div className="cli-tal-search-filter-form-label-area">
-                                                                                <label htmlFor="designation" className='cli-tal-search-filter-form-label'>Designation</label>
-                                                                                {/* <div class="cl-toggle-switch">
-                                                                                    <label class="cl-switch">
-                                                                                        <input type="checkbox" id="toggletoSwitch2" />
-                                                                                        <span></span>
-                                                                                    </label>
-                                                                                    <h6 className='cl-toggle--switch-label' id="labelText2">Boolean Off</h6>
-                                                                                </div> */}
-                                                                            </div>
-                                                                            <div className="cli-tal-pro-search-filter-input-area">
-                                                                                <input type="text" name='designation' className='cli-tal-pro-search-filter-input' placeholder='Add designation' />
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
+                                                        {/* Department and Roles */}
+                                                        <div className="cli-tal-pro-search-filter-content-section">
+                                                            <div className="cli-tal-pro-search-filter-toggle-area">
+                                                                <h6 className='cli--emploment-detail-head'>Department and Roles</h6>
+                                                                <svg xmlns="http://www.w3.org/2000/svg" className='' width="15" height="9" viewBox="0 0 15 9" fill="none">
+                                                                    <path d="M1 1L6.79289 6.79289C7.18342 7.18342 7.81658 7.18342 8.20711 6.79289L14 1" stroke="#714F36" stroke-width="2" stroke-linecap="round" />
+                                                                </svg>
                                                             </div>
-
-                                                            {/* Work Details */}
-                                                            <div className="cli-tal-pro-search-filter-content-section">
-                                                                <div className="cli-tal-pro-search-filter-toggle-area">
-                                                                    <h6 className='cli--emploment-detail-head'>Work Details</h6>
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" className='' width="15" height="9" viewBox="0 0 15 9" fill="none">
-                                                                        <path d="M1 1L6.79289 6.79289C7.18342 7.18342 7.81658 7.18342 8.20711 6.79289L14 1" stroke="#714F36" stroke-width="2" stroke-linecap="round" />
-                                                                    </svg>
-                                                                </div>
-                                                                <div className="cli-tal-pro-search-filter-expand-area">
-                                                                    <div className='expand-area-padding'>
-                                                                        <div className="cli-tal-search-filter-form-group search-results">
-                                                                            <div className="cli-tal-search-filter-form-label-area">
-                                                                                <label htmlFor="candidate_seek" className='cli-tal-search-filter-form-label'>Show candidate seeking</label>
-                                                                            </div>
-                                                                            <div className="row">
-                                                                                <div className="col-12 col-xl-6 col-lg-6 col-md-12 mb-md-4 mb-lg-0 mb-xl-0">
-                                                                                    <div className="cli-tal-pro-search-filter-input-area">
-                                                                                        <select name="job_type" id="candidate_seek"
-                                                                                            className='cli-tal-pro-search-filter-input cand--seek-select'>
-                                                                                            <option value="" disabled selected>Job type</option>
-                                                                                            <option value="1">Job type 1</option>
-                                                                                            <option value="2">Job type 2</option>
-                                                                                            <option value="3">Job type 3</option>
-                                                                                        </select>
-                                                                                    </div>
-                                                                                </div>
-
-                                                                                <div className="col-12 col-xl-6 col-lg-6 col-md-12">
-                                                                                    <div className="cli-tal-pro-search-filter-input-area">
-                                                                                        <select name="employee_type" id="candidate_seek"
-                                                                                            className='cli-tal-pro-search-filter-input cand--seek-select'>
-                                                                                            <option value="" disabled selected>Employment type</option>
-                                                                                            <option value="1">Employment type 1</option>
-                                                                                            <option value="2">Employment type 2</option>
-                                                                                            <option value="3">Employment type 3</option>
-                                                                                        </select>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-
-                                                                        <div className="cli-tal-search-filter-form-group search-results">
-                                                                            <div className="cli-tal-search-filter-form-label-area">
-                                                                                <label htmlFor="work_permit" className='cli-tal-search-filter-form-label'>Work permit for</label>
-                                                                            </div>
-                                                                            <div className="cli-tal-pro-search-filter-input-area">
-                                                                                <input type="text" className='cli-tal-pro-search-filter-input' placeholder='Choose Category' />
-                                                                            </div>
-                                                                        </div>
+                                                            <div className="cli-tal-pro-search-filter-expand-area">
+                                                                <div className='expand-area-padding'>
+                                                                    <div className="cli-tal-pro-search-filter-input-area">
+                                                                        <input type="text" name='department_role' className='cli-tal-pro-search-filter-input' placeholder='Add Department/Role' />
                                                                     </div>
                                                                 </div>
-                                                            </div>
-
-                                                            {/* Display Details */}
-                                                            <div className="cli-tal-pro-search-filter-content-section">
-                                                                <div className="cli-tal-pro-search-filter-toggle-area">
-                                                                    <h6 className='cli--emploment-detail-head'>Display Details</h6>
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" className='' width="15" height="9" viewBox="0 0 15 9" fill="none">
-                                                                        <path d="M1 1L6.79289 6.79289C7.18342 7.18342 7.81658 7.18342 8.20711 6.79289L14 1" stroke="#714F36" stroke-width="2" stroke-linecap="round" />
-                                                                    </svg>
-                                                                </div>
-                                                                <div className="cli-tal-pro-search-filter-expand-area">
-                                                                    <div className='expand-area-padding'>
-                                                                        <div className="cli-tal-pro-search-filter-content">
-                                                                            <div className="cli-tal-pro-search-filter-title-area">
-                                                                                <h6 className='cli-tal-pro-search-filter-title'>Show</h6>
-                                                                            </div>
-
-                                                                            <div className="tal--search-options-area">
-                                                                                <div className="tal--search-option-container">
-                                                                                    <input id="all_candidate" className="tal--search-radio" type="radio" name="show" />
-                                                                                    <div className="tal--search-tile">
-                                                                                        <label for="all_candidate" className="tal--search-tile-label">All candidates</label>
-                                                                                    </div>
-                                                                                </div>
-
-                                                                                <div className="tal--search-option-container">
-                                                                                    <input id="new_reg" className="tal--search-radio" type="radio" name="show" />
-                                                                                    <div className="tal--search-tile">
-                                                                                        <label for="new_reg" className="tal--search-tile-label">New Registrations</label>
-                                                                                    </div>
-                                                                                </div>
-
-                                                                                <div className="tal--search-option-container">
-                                                                                    <input id="recent_activity" className="tal--search-radio" type="radio" name="show" />
-                                                                                    <div className="tal--search-tile">
-                                                                                        <label for="recent_activity" className="tal--search-tile-label">Active Recently</label>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-
-                                                                        <div className="cli-tal-pro-search-filter-content mb-0">
-                                                                            <div className="cli-tal-pro-search-filter-title-area">
-                                                                                <h6 className='cli-tal-pro-search-filter-title'>Show only candidates with </h6>
-                                                                            </div>
-
-                                                                            <div className="tal--search-options-area">
-                                                                                <div className="tal--search-option-container">
-                                                                                    <input id="ver_mobile" className="tal--search-radio" type="radio" name="show_cand" />
-                                                                                    <div className="tal--search-tile">
-                                                                                        <label for="ver_mobile" className="tal--search-tile-label">Verified mobile number</label>
-                                                                                        <i class="bi bi-plus"></i>
-                                                                                    </div>
-                                                                                </div>
-
-                                                                                <div className="tal--search-option-container">
-                                                                                    <input id="ver_email" className="tal--search-radio" type="radio" name="show_cand" />
-                                                                                    <div className="tal--search-tile">
-                                                                                        <label for="ver_email" className="tal--search-tile-label">Verified email ID </label>
-                                                                                        <i class="bi bi-plus"></i>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div className="tal--search-option-container">
-                                                                                    <input id="att_resume" className="tal--search-radio" type="radio" name="show_cand" />
-                                                                                    <div className="tal--search-tile">
-                                                                                        <label for="att_resume" className="tal--search-tile-label">Attached resume</label>
-                                                                                        <i class="bi bi-plus"></i>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-                                                            {/* Education Details */}
-                                                            <div className="cli-tal-pro-search-filter-content-section">
-                                                                <div className="cli-tal-pro-search-filter-toggle-area">
-                                                                    <h6 className='cli--emploment-detail-head'>Education Details</h6>
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" className='' width="15" height="9" viewBox="0 0 15 9" fill="none">
-                                                                        <path d="M1 1L6.79289 6.79289C7.18342 7.18342 7.81658 7.18342 8.20711 6.79289L14 1" stroke="#714F36" stroke-width="2" stroke-linecap="round" />
-                                                                    </svg>
-                                                                </div>
-                                                                <div className="cli-tal-pro-search-filter-expand-area">
-                                                                    <div className='expand-area-padding'>
-                                                                        <div className="cli-tal-pro-search-filter-content">
-                                                                            <div className="cli-tal-pro-search-filter-title-area">
-                                                                                <h6 className='cli-tal-pro-search-filter-title'>UG Qualification</h6>
-                                                                            </div>
-
-                                                                            <div className="tal--search-options-area">
-                                                                                <div className="tal--search-option-container">
-                                                                                    <input id="any_ug" className="tal--search-radio" type="radio" name="ug_qualification" />
-                                                                                    <div className="tal--search-tile">
-                                                                                        <label for="any_ug" className="tal--search-tile-label">Any UG Qualification</label>
-                                                                                    </div>
-                                                                                </div>
-
-                                                                                <div className="tal--search-option-container">
-                                                                                    <input id="spc_ug" className="tal--search-radio" type="radio" name="ug_qualification" />
-                                                                                    <div className="tal--search-tile">
-                                                                                        <label for="spc_ug" className="tal--search-tile-label">Specific UG Qualification</label>
-                                                                                    </div>
-                                                                                </div>
-
-                                                                                <div className="tal--search-option-container">
-                                                                                    <input id="no_ug" className="tal--search-radio" type="radio" name="ug_qualification" />
-                                                                                    <div className="tal--search-tile">
-                                                                                        <label for="no_ug" className="tal--search-tile-label">No UG Qualification</label>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-
-                                                                        <div className="cli-tal-pro-search-filter-content mb-0">
-                                                                            <div className="cli-tal-pro-search-filter-title-area">
-                                                                                <h6 className='cli-tal-pro-search-filter-title'>PG Qualification</h6>
-                                                                            </div>
-
-                                                                            <div className="tal--search-options-area">
-                                                                                <div className="tal--search-option-container">
-                                                                                    <input id="any_pg" className="tal--search-radio" type="radio" name="pg_qualification" />
-                                                                                    <div className="tal--search-tile">
-                                                                                        <label for="any_pg" className="tal--search-tile-label">Any PG Qualification</label>
-                                                                                    </div>
-                                                                                </div>
-
-                                                                                <div className="tal--search-option-container">
-                                                                                    <input id="spc_pg" className="tal--search-radio" type="radio" name="pg_qualification" />
-                                                                                    <div className="tal--search-tile">
-                                                                                        <label for="spc_pg" className="tal--search-tile-label">Specific PG Qualification</label>
-                                                                                    </div>
-                                                                                </div>
-
-                                                                                <div className="tal--search-option-container">
-                                                                                    <input id="no_pg" className="tal--search-radio" type="radio" name="pg_qualification" />
-                                                                                    <div className="tal--search-tile">
-                                                                                        <label for="no_pg" className="tal--search-tile-label">No PG Qualification</label>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-
-                                                                            <div id="container3" className='multi-input-container'>
-                                                                                <div className="cli--tal-search-add-input-area">
-                                                                                    <button className='cli--tal-search-qualification-add-input-button'>
-                                                                                        <i class="bi bi-plus add-input-icon"></i>
-                                                                                        Add PPG/Doctorate Qualification
-                                                                                    </button>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-                                                            {/* Diversity and Additional Details */}
-                                                            <div className="cli-tal-pro-search-filter-content-section">
-                                                                <div className="cli-tal-pro-search-filter-toggle-area">
-                                                                    <h6 className='cli--emploment-detail-head'>Diversity and Additional Details</h6>
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" className='' width="15" height="9" viewBox="0 0 15 9" fill="none">
-                                                                        <path d="M1 1L6.79289 6.79289C7.18342 7.18342 7.81658 7.18342 8.20711 6.79289L14 1" stroke="#714F36" stroke-width="2" stroke-linecap="round" />
-                                                                    </svg>
-                                                                </div>
-                                                                <div className="cli-tal-pro-search-filter-expand-area">
-                                                                    <div className='expand-area-padding'>
-                                                                        <div className="cli-tal-pro-search-filter-content mb-0">
-                                                                            <div className="cli-tal-pro-search-filter-title-area">
-                                                                                <h6 className='cli-tal-pro-search-filter-title'>Gender</h6>
-                                                                            </div>
-
-                                                                            <div className="tal--search-options-area">
-                                                                                <div className="tal--search-option-container">
-                                                                                    <input id="all_cand" className="tal--search-radio" type="radio" name="gender" />
-                                                                                    <div className="tal--search-tile">
-                                                                                        <label for="all_cand" className="tal--search-tile-label">All candidates</label>
-                                                                                    </div>
-                                                                                </div>
-
-                                                                                <div className="tal--search-option-container">
-                                                                                    <input id="male_cand" className="tal--search-radio" type="radio" name="gender" />
-                                                                                    <div className="tal--search-tile">
-                                                                                        <label for="male_cand" className="tal--search-tile-label">Male Candidates</label>
-                                                                                    </div>
-                                                                                </div>
-
-                                                                                <div className="tal--search-option-container">
-                                                                                    <input id="female_cand" className="tal--search-radio" type="radio" name="gender" />
-                                                                                    <div className="tal--search-tile">
-                                                                                        <label for="female_cand" className="tal--search-tile-label">Female candidates</label>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-                                                            <div className="cli-tal-pro-search-page-btn-area">
-                                                                <div className="cli-tal-pro-search-page-days-selection-area">
-                                                                    <div className='days-active'>Active In</div>
-                                                                    <div class="custom-select custom">
-                                                                        <div class="select-box">
-                                                                            <span>Active In</span>
-                                                                            <svg xmlns="http://www.w3.org/2000/svg" className='toggle-icon' width="15" height="9" viewBox="0 0 15 9" fill="none">
-                                                                                <path d="M1 1L6.79289 6.79289C7.18342 7.18342 7.81658 7.18342 8.20711 6.79289L14 1" stroke="#714F36" stroke-width="2" stroke-linecap="round" />
-                                                                            </svg>
-                                                                        </div>
-                                                                        <ul class="select-options">
-                                                                            <li data-value="day_1">7 days</li>
-                                                                            <li data-value="day_2">14 days</li>
-                                                                            <li data-value="day_3">21 days</li>
-                                                                            <li data-value="day_4">30 days</li>
-                                                                        </ul>
-                                                                    </div>
-                                                                </div>
-
-                                                                <button className="cli-tal-pro-search-page-btn" onClick={handleSkillSearch}>
-                                                                    Search Candidates
-                                                                </button>
                                                             </div>
                                                         </div>
 
-
-                                                    </div>
-                                                </div>
-
-                                                <div className="col-12 col-lg-4 col-xl-4 col-md-4 custom-border-top-sm mt-4 mt-md-5">
-                                                    <div className="cli-tal-pro-recent-search-section">
-                                                        <div className="cli-tal-pro-recent-search-head-area">
-                                                            <i class="ri-history-line"></i>
-                                                            <h4 className='cli-tal-pro-recent-search-head mb-0'>Recent Searches </h4>
-                                                        </div>
-                                                        <div className="cli-tal-pro-recent-search-container">
-                                                            <div className="cli-tal-pro-recent-search-area">
-                                                                <div className="cli-tal-pro-recent-search-btn-area">
-                                                                    <button className='cli-tal-pro-recent-search-btn'>Fill this search</button>
-                                                                    <button className='cli-tal-pro-recent-search-btn'>Search profile</button>
-                                                                </div>
-                                                                <div className="cli-tal-pro-recent-search-tags">
-                                                                    <span>azure, Azure Devops | .NET, MVC, C#, Angualr, sql, cloud, aws | 9-12 years | Bangalore/Bengaluru,....</span>
-                                                                </div>
+                                                        {/* Industry */}
+                                                        <div className="cli-tal-pro-search-filter-content-section">
+                                                            <div className="cli-tal-pro-search-filter-toggle-area">
+                                                                <h6 className='cli--emploment-detail-head'>Industry</h6>
+                                                                <svg xmlns="http://www.w3.org/2000/svg" className='' width="15" height="9" viewBox="0 0 15 9" fill="none">
+                                                                    <path d="M1 1L6.79289 6.79289C7.18342 7.18342 7.81658 7.18342 8.20711 6.79289L14 1" stroke="#714F36" stroke-width="2" stroke-linecap="round" />
+                                                                </svg>
                                                             </div>
-
-                                                            <div className="cli-tal-pro-recent-search-area">
-                                                                <div className="cli-tal-pro-recent-search-btn-area">
-                                                                    <button className='cli-tal-pro-recent-search-btn'>Fill this search</button>
-                                                                    <button className='cli-tal-pro-recent-search-btn'>Search profile</button>
-                                                                </div>
-                                                                <div className="cli-tal-pro-recent-search-tags">
-                                                                    <span>azure, Azure Devops | .NET, MVC, C#, Angualr, sql, cloud, aws | 9-12 years | Bangalore/Bengaluru,....</span>
-                                                                </div>
-                                                            </div>
-
-                                                            <div className="cli-tal-pro-recent-search-area">
-                                                                <div className="cli-tal-pro-recent-search-btn-area">
-                                                                    <button className='cli-tal-pro-recent-search-btn'>Fill this search</button>
-                                                                    <button className='cli-tal-pro-recent-search-btn'>Search profile</button>
-                                                                </div>
-                                                                <div className="cli-tal-pro-recent-search-tags">
-                                                                    <span>azure, Azure Devops | .NET, MVC, C#, Angualr, sql, cloud, aws | 9-12 years | Bangalore/Bengaluru,....</span>
-                                                                </div>
-                                                            </div>
-
-                                                            <div className="cli-tal-pro-recent-search-area">
-                                                                <div className="cli-tal-pro-recent-search-btn-area">
-                                                                    <button className='cli-tal-pro-recent-search-btn'>Fill this search</button>
-                                                                    <button className='cli-tal-pro-recent-search-btn'>Search profile</button>
-                                                                </div>
-                                                                <div className="cli-tal-pro-recent-search-tags">
-                                                                    <span>azure, Azure Devops | .NET, MVC, C#, Angualr, sql, cloud, aws | 9-12 years | Bangalore/Bengaluru,....</span>
-                                                                </div>
-                                                            </div>
-
-                                                            <div className="cli-tal-pro-recent-search-area">
-                                                                <div className="cli-tal-pro-recent-search-btn-area">
-                                                                    <button className='cli-tal-pro-recent-search-btn'>Fill this search</button>
-                                                                    <button className='cli-tal-pro-recent-search-btn'>Search profile</button>
-                                                                </div>
-                                                                <div className="cli-tal-pro-recent-search-tags">
-                                                                    <span>azure, Azure Devops | .NET, MVC, C#, Angualr, sql, cloud, aws | 9-12 years | Bangalore/Bengaluru,....</span>
-                                                                </div>
-                                                            </div>
-
-                                                            <div className="cli-tal-pro-recent-search-area">
-                                                                <div className="cli-tal-pro-recent-search-btn-area">
-                                                                    <button className='cli-tal-pro-recent-search-btn'>Fill this search</button>
-                                                                    <button className='cli-tal-pro-recent-search-btn'>Search profile</button>
-                                                                </div>
-                                                                <div className="cli-tal-pro-recent-search-tags">
-                                                                    <span>azure, Azure Devops | .NET, MVC, C#, Angualr, sql, cloud, aws | 9-12 years | Bangalore/Bengaluru,....</span>
+                                                            <div className="cli-tal-pro-search-filter-expand-area">
+                                                                <div className='expand-area-padding'>
+                                                                    <div className="cli-tal-pro-search-filter-input-area">
+                                                                        <input type="text" name='industry' className='cli-tal-pro-search-filter-input' placeholder='Add Industry' />
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div> :
-                                        // test
 
-
-                                        <div className='talent--profile-search-results-section'>
-                                            <div className="cli-tal-pro-search-container">
-                                                <div className="row">
-                                                    <div className="col-12 col-lg-12 col-xl-4 col-md-12">
-                                                        <h4 className='cli-tal-pro-search-heading'>Search Result Page</h4>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <button class="pl--package-btn-sub previous back-to-search-btn pb-5" onClick={() => setSearchResult(false)}>
-                                                <div class="pl--package-arrow-area prev">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 27 27" fill="none">
-                                                        <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="white" stroke-width="2"></path>
-                                                        <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="white" stroke-width="2"></path>
-                                                        <path d="M1 26L25.1667 1" stroke="white" stroke-width="2"></path>
-                                                    </svg>
-                                                </div>
-                                                <div class="pl--package-btn job">Back to Search
-                                                </div>
-                                            </button>
-                                            <div className="row row-border-custom">
-                                                <div className="col-12 col-lg-4 col-xl-4 col-md-4 custom-right-border-col ps-lg-0 ps-md-1 col-width-lg-30">
-                                                    <div className="cli-tal-pro-search-filter-area">
-                                                        <div className="cli-tal-pro-search-filter-head-area search-results">
-                                                            <h6 className='cli-tal-pro-search-filter mb-0'>Filters</h6>
-                                                            <img src="assets/img/talent-profile/filter.png" className='cli-tal-pro-filter-img' alt="" />
-                                                        </div>
-                                                        <div className="cli-tal-pro-search-filter-container mt-1">
-
-                                                            {/* Notice period / Availability  to join */}
-                                                            <div className="cli-tal-pro-search-filter-content-section">
-                                                                <div className="cli-tal-pro-search-filter-toggle-area">
-                                                                    <div class='info-icon-area'>
-                                                                        <h6 className='cli--emploment-detail-head'>Notice period / Availability to join
-                                                                            <button class='info-icon-button'>
-                                                                                <i class="ri-information-line info-icon"></i>
+                                                        {/* Current Company */}
+                                                        <div className="cli-tal-pro-search-filter-content-section">
+                                                            <div className="cli-tal-pro-search-filter-toggle-area">
+                                                                <h6 className='cli--emploment-detail-head'>Current Company</h6>
+                                                                <svg xmlns="http://www.w3.org/2000/svg" className='' width="15" height="9" viewBox="0 0 15 9" fill="none">
+                                                                    <path d="M1 1L6.79289 6.79289C7.18342 7.18342 7.81658 7.18342 8.20711 6.79289L14 1" stroke="#714F36" stroke-width="2" stroke-linecap="round" />
+                                                                </svg>
+                                                            </div>
+                                                            <div className="cli-tal-pro-search-filter-expand-area">
+                                                                <div className='expand-area-padding'>
+                                                                    {/* <div class="cl-toggle-switch">
+                                                                    <label class="cl-switch">
+                                                                        <input type="checkbox" className="toggleSwitch" />
+                                                                        <span></span>
+                                                                    </label>
+                                                                    <h6 className='cl-toggle--switch-label'>Boolean Off</h6>
+                                                                </div> */}
+                                                                    <div className="cli-tal-pro-search-filter-input-area">
+                                                                        <input type="text" name='company' className='cli-tal-pro-search-filter-input' placeholder='Add Company name' />
+                                                                    </div>
+                                                                    <div id="containerCompany" className='multi-input-container'>
+                                                                        <div className="cli--tal-search-add-input-area mt-3">
+                                                                            <button className='cli--tal-search-add-company-input-button'>
+                                                                                <i class="bi bi-plus add-input-icon"></i>
+                                                                                Add Exclude Company
                                                                             </button>
-                                                                            <div class="tooltip">This is the information about the notice period & availability to join.</div>
-                                                                        </h6>
+                                                                        </div>
                                                                     </div>
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" className='' width="15" height="9" viewBox="0 0 15 9" fill="none">
-                                                                        <path d="M1 1L6.79289 6.79289C7.18342 7.18342 7.81658 7.18342 8.20711 6.79289L14 1" stroke="#714F36" stroke-width="2" stroke-linecap="round" />
-                                                                    </svg>
                                                                 </div>
-                                                                <div className="cli-tal-pro-search-filter-expand-area">
-                                                                    <div className='expand-area-padding'>
+                                                            </div>
+                                                        </div>
+
+                                                        {/* Current Designation */}
+                                                        <div className="cli-tal-pro-search-filter-content-section">
+                                                            <div className="cli-tal-pro-search-filter-toggle-area">
+                                                                <h6 className='cli--emploment-detail-head'>Current Designation</h6>
+                                                                <svg xmlns="http://www.w3.org/2000/svg" className='' width="15" height="9" viewBox="0 0 15 9" fill="none">
+                                                                    <path d="M1 1L6.79289 6.79289C7.18342 7.18342 7.81658 7.18342 8.20711 6.79289L14 1" stroke="#714F36" stroke-width="2" stroke-linecap="round" />
+                                                                </svg>
+                                                            </div>
+                                                            <div className="cli-tal-pro-search-filter-expand-area">
+                                                                <div className='expand-area-padding'>
+                                                                    {/* <div class="cl-toggle-switch">
+                                                                    <label class="cl-switch">
+                                                                        <input type="checkbox" className="toggleSwitch" />
+                                                                        <span></span>
+                                                                    </label>
+                                                                    <h6 className='cl-toggle--switch-label'>Boolean Off</h6>
+                                                                </div> */}
+                                                                    <div className="cli-tal-pro-search-filter-input-area">
+                                                                        <input type="text" name='designation' className='cli-tal-pro-search-filter-input' placeholder='Add designation' />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        {/* Work Details */}
+                                                        <div className="cli-tal-pro-search-filter-content-section">
+                                                            <div className="cli-tal-pro-search-filter-toggle-area">
+                                                                <h6 className='cli--emploment-detail-head'>Work Details</h6>
+                                                                <svg xmlns="http://www.w3.org/2000/svg" className='' width="15" height="9" viewBox="0 0 15 9" fill="none">
+                                                                    <path d="M1 1L6.79289 6.79289C7.18342 7.18342 7.81658 7.18342 8.20711 6.79289L14 1" stroke="#714F36" stroke-width="2" stroke-linecap="round" />
+                                                                </svg>
+                                                            </div>
+                                                            <div className="cli-tal-pro-search-filter-expand-area">
+                                                                <div className='expand-area-padding'>
+                                                                    <div className="cli-tal-search-filter-form-group search-results">
+                                                                        <div className="cli-tal-search-filter-form-label-area">
+                                                                            <label htmlFor="candidate_seek" className='cli-tal-search-filter-form-label'>Show candidate seeking</label>
+                                                                        </div>
+                                                                        <div className="row">
+                                                                            <div className="col-12 col-xl-6 col-lg-6 col-md-12 mb-md-4 mb-lg-0 mb-xl-0">
+                                                                                <div className="cli-tal-pro-search-filter-input-area">
+                                                                                    <select name="job_type" id="candidate_seek"
+                                                                                        className='cli-tal-pro-search-filter-input cand--seek-select'>
+                                                                                        <option value="" disabled selected>Job type</option>
+                                                                                        <option value="1">Job type 1</option>
+                                                                                        <option value="2">Job type 2</option>
+                                                                                        <option value="3">Job type 3</option>
+                                                                                    </select>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div className="col-12 col-xl-6 col-lg-6 col-md-12">
+                                                                                <div className="cli-tal-pro-search-filter-input-area">
+                                                                                    <select name="employee_type" id="candidate_seek"
+                                                                                        className='cli-tal-pro-search-filter-input cand--seek-select'>
+                                                                                        <option value="" disabled selected>Employment type</option>
+                                                                                        <option value="1">Employment type 1</option>
+                                                                                        <option value="2">Employment type 2</option>
+                                                                                        <option value="3">Employment type 3</option>
+                                                                                    </select>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div className="cli-tal-search-filter-form-group search-results">
+                                                                        <div className="cli-tal-search-filter-form-label-area">
+                                                                            <label htmlFor="work_permit" className='cli-tal-search-filter-form-label'>Work permit for</label>
+                                                                        </div>
+                                                                        <div className="cli-tal-pro-search-filter-input-area">
+                                                                            <input type="text" className='cli-tal-pro-search-filter-input' placeholder='Choose Category' />
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        {/* Display Details */}
+                                                        <div className="cli-tal-pro-search-filter-content-section">
+                                                            <div className="cli-tal-pro-search-filter-toggle-area">
+                                                                <h6 className='cli--emploment-detail-head'>Display Details</h6>
+                                                                <svg xmlns="http://www.w3.org/2000/svg" className='' width="15" height="9" viewBox="0 0 15 9" fill="none">
+                                                                    <path d="M1 1L6.79289 6.79289C7.18342 7.18342 7.81658 7.18342 8.20711 6.79289L14 1" stroke="#714F36" stroke-width="2" stroke-linecap="round" />
+                                                                </svg>
+                                                            </div>
+                                                            <div className="cli-tal-pro-search-filter-expand-area">
+                                                                <div className='expand-area-padding'>
+                                                                    <div className="cli-tal-pro-search-filter-content">
+                                                                        <div className="cli-tal-pro-search-filter-title-area">
+                                                                            <h6 className='cli-tal-pro-search-filter-title'>Show</h6>
+                                                                        </div>
+
                                                                         <div className="tal--search-options-area">
                                                                             <div className="tal--search-option-container">
-                                                                                <input id="notice_period_1" className="tal--search-radio" type="radio" name="notice_period" />
+                                                                                <input id="all_candidate" className="tal--search-radio" type="radio" name="show" />
                                                                                 <div className="tal--search-tile">
-                                                                                    <label for="notice_period_1" className="tal--search-tile-label pe-2 ps-2">Any</label>
+                                                                                    <label for="all_candidate" className="tal--search-tile-label">All candidates</label>
                                                                                 </div>
                                                                             </div>
 
                                                                             <div className="tal--search-option-container">
-                                                                                <input id="notice_period_2" className="tal--search-radio" type="radio" name="notice_period" />
+                                                                                <input id="new_reg" className="tal--search-radio" type="radio" name="show" />
                                                                                 <div className="tal--search-tile">
-                                                                                    <label for="notice_period_2" className="tal--search-tile-label">0-07 days</label>
+                                                                                    <label for="new_reg" className="tal--search-tile-label">New Registrations</label>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div className="tal--search-option-container">
+                                                                                <input id="recent_activity" className="tal--search-radio" type="radio" name="show" />
+                                                                                <div className="tal--search-tile">
+                                                                                    <label for="recent_activity" className="tal--search-tile-label">Active Recently</label>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div className="cli-tal-pro-search-filter-content mb-0">
+                                                                        <div className="cli-tal-pro-search-filter-title-area">
+                                                                            <h6 className='cli-tal-pro-search-filter-title'>Show only candidates with </h6>
+                                                                        </div>
+
+                                                                        <div className="tal--search-options-area">
+                                                                            <div className="tal--search-option-container">
+                                                                                <input id="ver_mobile" className="tal--search-radio" type="radio" name="show_cand" />
+                                                                                <div className="tal--search-tile">
+                                                                                    <label for="ver_mobile" className="tal--search-tile-label">Verified mobile number</label>
                                                                                     <i class="bi bi-plus"></i>
                                                                                 </div>
                                                                             </div>
 
                                                                             <div className="tal--search-option-container">
-                                                                                <input id="notice_period_3" className="tal--search-radio" type="radio" name="notice_period" />
+                                                                                <input id="ver_email" className="tal--search-radio" type="radio" name="show_cand" />
                                                                                 <div className="tal--search-tile">
-                                                                                    <label for="notice_period_3" className="tal--search-tile-label">08 to 15 days</label>
+                                                                                    <label for="ver_email" className="tal--search-tile-label">Verified email ID </label>
                                                                                     <i class="bi bi-plus"></i>
                                                                                 </div>
                                                                             </div>
                                                                             <div className="tal--search-option-container">
-                                                                                <input id="notice_period_4" className="tal--search-radio" type="radio" name="notice_period" />
+                                                                                <input id="att_resume" className="tal--search-radio" type="radio" name="show_cand" />
                                                                                 <div className="tal--search-tile">
-                                                                                    <label for="notice_period_4" className="tal--search-tile-label">16 to 30 days</label>
-                                                                                    <i class="bi bi-plus"></i>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div className="tal--search-option-container">
-                                                                                <input id="notice_period_5" className="tal--search-radio" type="radio" name="notice_period" />
-                                                                                <div className="tal--search-tile">
-                                                                                    <label for="notice_period_5" className="tal--search-tile-label">beyond 30 days</label>
-                                                                                    <i class="bi bi-plus"></i>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div className="tal--search-option-container">
-                                                                                <input id="notice_period_6" className="tal--search-radio" type="radio" name="notice_period" />
-                                                                                <div className="tal--search-tile">
-                                                                                    <label for="notice_period_6" className="tal--search-tile-label">Currently serving notice Period</label>
+                                                                                    <label for="att_resume" className="tal--search-tile-label">Attached resume</label>
                                                                                     <i class="bi bi-plus"></i>
                                                                                 </div>
                                                                             </div>
@@ -1446,1012 +2455,659 @@ const TalentsProfileSearch = () => {
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                        </div>
 
-                                                            {/* Keywords */}
-                                                            <div className="cli-tal-pro-search-filter-content-section">
-                                                                <div className="cli-tal-pro-search-filter-toggle-area">
-                                                                    <h6 className='cli--emploment-detail-head'>Keywords</h6>
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" className='' width="15" height="9" viewBox="0 0 15 9" fill="none">
-                                                                        <path d="M1 1L6.79289 6.79289C7.18342 7.18342 7.81658 7.18342 8.20711 6.79289L14 1" stroke="#714F36" stroke-width="2" stroke-linecap="round" />
-                                                                    </svg>
-                                                                </div>
-                                                                <div className="cli-tal-pro-search-filter-expand-area">
-                                                                    <div className='expand-area-padding'>
-                                                                        {/* <div class="cl-toggle-switch">
-                                                                            <label class="cl-switch">
-                                                                                <input type="checkbox" className="toggleSwitch" />
-                                                                                <span></span>
-                                                                            </label>
-                                                                            <h6 className='cl-toggle--switch-label'>Boolean Off</h6>
-                                                                        </div> */}
-
-                                                                        <div className="cli--tal-pro-filter-input-area">
-                                                                            <input type="text" className='cli--tal-pro-filter-input' placeholder='Enter keywords like skills, designation' />
-                                                                            <i className="bi bi-search cli--tal-pro-filter-search-icon"></i>
+                                                        {/* Education Details */}
+                                                        <div className="cli-tal-pro-search-filter-content-section">
+                                                            <div className="cli-tal-pro-search-filter-toggle-area">
+                                                                <h6 className='cli--emploment-detail-head'>Education Details</h6>
+                                                                <svg xmlns="http://www.w3.org/2000/svg" className='' width="15" height="9" viewBox="0 0 15 9" fill="none">
+                                                                    <path d="M1 1L6.79289 6.79289C7.18342 7.18342 7.81658 7.18342 8.20711 6.79289L14 1" stroke="#714F36" stroke-width="2" stroke-linecap="round" />
+                                                                </svg>
+                                                            </div>
+                                                            <div className="cli-tal-pro-search-filter-expand-area">
+                                                                <div className='expand-area-padding'>
+                                                                    <div className="cli-tal-pro-search-filter-content">
+                                                                        <div className="cli-tal-pro-search-filter-title-area">
+                                                                            <h6 className='cli-tal-pro-search-filter-title'>UG Qualification</h6>
                                                                         </div>
 
-                                                                        <div className="cli--mark-keyword-area">
-                                                                            <label className="cli--mark-keyword-check-input">
-                                                                                <input type="checkbox" />
-                                                                                <span className="cli--mark-keyword-checkmark"></span>
-                                                                                Mark all keywords as mandatory
-                                                                            </label>
-                                                                        </div>
-                                                                        <div id="container1" className='multi-input-container'>
-                                                                            <div className="cli--tal-search-add-input-area mt-3">
-                                                                                <button className='cli--tal-search-keyword-add-input-button'>
-                                                                                    <i class="bi bi-plus add-input-icon"></i>
-                                                                                    Add Exclude Keywords
-                                                                                </button>
+                                                                        <div className="tal--search-options-area">
+                                                                            <div className="tal--search-option-container">
+                                                                                <input id="any_ug" className="tal--search-radio" type="radio" name="ug_qualification" />
+                                                                                <div className="tal--search-tile">
+                                                                                    <label for="any_ug" className="tal--search-tile-label">Any UG Qualification</label>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div className="tal--search-option-container">
+                                                                                <input id="spc_ug" className="tal--search-radio" type="radio" name="ug_qualification" />
+                                                                                <div className="tal--search-tile">
+                                                                                    <label for="spc_ug" className="tal--search-tile-label">Specific UG Qualification</label>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div className="tal--search-option-container">
+                                                                                <input id="no_ug" className="tal--search-radio" type="radio" name="ug_qualification" />
+                                                                                <div className="tal--search-tile">
+                                                                                    <label for="no_ug" className="tal--search-tile-label">No UG Qualification</label>
+                                                                                </div>
                                                                             </div>
                                                                         </div>
-                                                                        <div id="container2" className='multi-input-container'>
+                                                                    </div>
+
+                                                                    <div className="cli-tal-pro-search-filter-content mb-0">
+                                                                        <div className="cli-tal-pro-search-filter-title-area">
+                                                                            <h6 className='cli-tal-pro-search-filter-title'>PG Qualification</h6>
+                                                                        </div>
+
+                                                                        <div className="tal--search-options-area">
+                                                                            <div className="tal--search-option-container">
+                                                                                <input id="any_pg" className="tal--search-radio" type="radio" name="pg_qualification" />
+                                                                                <div className="tal--search-tile">
+                                                                                    <label for="any_pg" className="tal--search-tile-label">Any PG Qualification</label>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div className="tal--search-option-container">
+                                                                                <input id="spc_pg" className="tal--search-radio" type="radio" name="pg_qualification" />
+                                                                                <div className="tal--search-tile">
+                                                                                    <label for="spc_pg" className="tal--search-tile-label">Specific PG Qualification</label>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div className="tal--search-option-container">
+                                                                                <input id="no_pg" className="tal--search-radio" type="radio" name="pg_qualification" />
+                                                                                <div className="tal--search-tile">
+                                                                                    <label for="no_pg" className="tal--search-tile-label">No PG Qualification</label>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div id="container3" className='multi-input-container'>
                                                                             <div className="cli--tal-search-add-input-area">
-                                                                                <button className='cli--tal-search-skill-add-input-button'>
+                                                                                <button className='cli--tal-search-qualification-add-input-button'>
                                                                                     <i class="bi bi-plus add-input-icon"></i>
-                                                                                    Add IT Skills
+                                                                                    Add PPG/Doctorate Qualification
                                                                                 </button>
                                                                             </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                        </div>
 
-                                                            {/* Experience */}
-                                                            <div className="cli-tal-pro-search-filter-content-section">
-                                                                <div className="cli-tal-pro-search-filter-toggle-area">
-                                                                    <h6 className='cli--emploment-detail-head'>Experience</h6>
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" className='' width="15" height="9" viewBox="0 0 15 9" fill="none">
-                                                                        <path d="M1 1L6.79289 6.79289C7.18342 7.18342 7.81658 7.18342 8.20711 6.79289L14 1" stroke="#714F36" stroke-width="2" stroke-linecap="round" />
-                                                                    </svg>
-                                                                </div>
-                                                                <div className="cli-tal-pro-search-filter-expand-area">
-                                                                    <div className='expand-area-padding'>
-                                                                        <div className="cli-tal-pro-exp-input-area search-results">
-                                                                            <input type="number" className='cli-tal-pro-exp-input text-center numeric-input' placeholder='Min Experience' />
-                                                                            <span className='cli-tal-pro-exp-input-text'>to</span>
-                                                                            <input type="number" className='cli-tal-pro-exp-input text-center numeric-input' placeholder='Max Experience' />
-                                                                            <span className='cli-tal-pro-exp-input-text'>years</span>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
+                                                        {/* Diversity and Additional Details */}
+                                                        <div className="cli-tal-pro-search-filter-content-section">
+                                                            <div className="cli-tal-pro-search-filter-toggle-area">
+                                                                <h6 className='cli--emploment-detail-head'>Diversity and Additional Details</h6>
+                                                                <svg xmlns="http://www.w3.org/2000/svg" className='' width="15" height="9" viewBox="0 0 15 9" fill="none">
+                                                                    <path d="M1 1L6.79289 6.79289C7.18342 7.18342 7.81658 7.18342 8.20711 6.79289L14 1" stroke="#714F36" stroke-width="2" stroke-linecap="round" />
+                                                                </svg>
                                                             </div>
-
-                                                            {/* Location */}
-                                                            <div className="cli-tal-pro-search-filter-content-section">
-                                                                <div className="cli-tal-pro-search-filter-toggle-area">
-                                                                    <h6 className='cli--emploment-detail-head'>Location</h6>
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" className='' width="15" height="9" viewBox="0 0 15 9" fill="none">
-                                                                        <path d="M1 1L6.79289 6.79289C7.18342 7.18342 7.81658 7.18342 8.20711 6.79289L14 1" stroke="#714F36" stroke-width="2" stroke-linecap="round" />
-                                                                    </svg>
-                                                                </div>
-                                                                <div className="cli-tal-pro-search-filter-expand-area">
-                                                                    <div className='expand-area-padding'>
-                                                                        <div className="cli-tal-pro-search-filter-input-area">
-                                                                            <input type="text" className='cli-tal-pro-search-filter-input' placeholder='Add location' />
+                                                            <div className="cli-tal-pro-search-filter-expand-area">
+                                                                <div className='expand-area-padding'>
+                                                                    <div className="cli-tal-pro-search-filter-content mb-0">
+                                                                        <div className="cli-tal-pro-search-filter-title-area">
+                                                                            <h6 className='cli-tal-pro-search-filter-title'>Gender</h6>
                                                                         </div>
-                                                                        <div className="cli--mark-keyword-area search-results">
-                                                                            <label className="cli--mark-keyword-check-input">
-                                                                                <input type="checkbox" />
-                                                                                <span className="cli--mark-keyword-checkmark"></span>
-                                                                                Include candidate who prefer to relocate to above location
-                                                                            </label>
-                                                                            <div className='cli-change--location-area'>
-                                                                                Change preferred location
+
+                                                                        <div className="tal--search-options-area">
+                                                                            <div className="tal--search-option-container">
+                                                                                <input id="all_cand" className="tal--search-radio" type="radio" name="gender" />
+                                                                                <div className="tal--search-tile">
+                                                                                    <label for="all_cand" className="tal--search-tile-label">All candidates</label>
+                                                                                </div>
                                                                             </div>
-                                                                            <label className="cli--mark-keyword-check-input">
-                                                                                <input type="checkbox" />
-                                                                                <span className="cli--mark-keyword-checkmark"></span>
-                                                                                Exclude candidate  who have mentioned Anywhere in ...
-                                                                            </label>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
 
-                                                            {/* Salary (INR- Lacs ) */}
-                                                            <div className="cli-tal-pro-search-filter-content-section">
-                                                                <div className="cli-tal-pro-search-filter-toggle-area">
-                                                                    <h6 className='cli--emploment-detail-head'>Salary (INR- Lacs )</h6>
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" className='' width="15" height="9" viewBox="0 0 15 9" fill="none">
-                                                                        <path d="M1 1L6.79289 6.79289C7.18342 7.18342 7.81658 7.18342 8.20711 6.79289L14 1" stroke="#714F36" stroke-width="2" stroke-linecap="round" />
-                                                                    </svg>
-                                                                </div>
-                                                                <div className="cli-tal-pro-search-filter-expand-area">
-                                                                    <div className='expand-area-padding'>
-                                                                        <div className="cli-tal-pro-exp-input-area search-results">
-                                                                            <div className="cli--salary-inputs-area">
-                                                                                <select name="" className='cli-tal-pro-select-input width-30' id="">
-                                                                                    <option value="" disabled>Select</option>
-                                                                                    <option value="1" selected>INR</option>
-                                                                                    <option value="2">LKR</option>
-                                                                                    <option value="3">USD</option>
-                                                                                    <option value="4">GBP</option>
-                                                                                </select>
-                                                                                <input type="number" className='cli-tal-pro-exp-input numeric-input width-70' placeholder='Min Salary in Lacs' />
+                                                                            <div className="tal--search-option-container">
+                                                                                <input id="male_cand" className="tal--search-radio" type="radio" name="gender" />
+                                                                                <div className="tal--search-tile">
+                                                                                    <label for="male_cand" className="tal--search-tile-label">Male Candidates</label>
+                                                                                </div>
                                                                             </div>
-                                                                            <span className='cli-tal-pro-exp-input-text'>to</span>
-                                                                            <input type="number" className='cli-tal-pro-exp-input text-center numeric-input width-45 search-results' placeholder='Max Salary in Lacs' />
-                                                                            <span className='cli-tal-pro-exp-input-text'>lacs</span>
-                                                                        </div>
-                                                                        <div className="cli--mark-keyword-area">
-                                                                            <label className="cli--mark-keyword-check-input">
-                                                                                <input type="checkbox" />
-                                                                                <span className="cli--mark-keyword-checkmark"></span>
-                                                                                Include candidate  who did not mention their current salary
-                                                                            </label>
+
+                                                                            <div className="tal--search-option-container">
+                                                                                <input id="female_cand" className="tal--search-radio" type="radio" name="gender" />
+                                                                                <div className="tal--search-tile">
+                                                                                    <label for="female_cand" className="tal--search-tile-label">Female candidates</label>
+                                                                                </div>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                        </div>
 
-                                                            {/* Department and Roles */}
-                                                            <div className="cli-tal-pro-search-filter-content-section">
-                                                                <div className="cli-tal-pro-search-filter-toggle-area">
-                                                                    <h6 className='cli--emploment-detail-head'>Department and Roles</h6>
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" className='' width="15" height="9" viewBox="0 0 15 9" fill="none">
-                                                                        <path d="M1 1L6.79289 6.79289C7.18342 7.18342 7.81658 7.18342 8.20711 6.79289L14 1" stroke="#714F36" stroke-width="2" stroke-linecap="round" />
-                                                                    </svg>
-                                                                </div>
-                                                                <div className="cli-tal-pro-search-filter-expand-area">
-                                                                    <div className='expand-area-padding'>
-                                                                        <div className="cli-tal-pro-search-filter-input-area">
-                                                                            <input type="text" name='department_role' className='cli-tal-pro-search-filter-input' placeholder='Add Department/Role' />
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
+                                                        <div className="clear--all_button-area">
+                                                            <button className='tal--search-submit-btn'>Submit</button>
+                                                            <button className='clear--all_button'>
+                                                                Clear all
+                                                            </button>
+                                                        </div>
 
-                                                            {/* Industry */}
-                                                            <div className="cli-tal-pro-search-filter-content-section">
-                                                                <div className="cli-tal-pro-search-filter-toggle-area">
-                                                                    <h6 className='cli--emploment-detail-head'>Industry</h6>
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" className='' width="15" height="9" viewBox="0 0 15 9" fill="none">
-                                                                        <path d="M1 1L6.79289 6.79289C7.18342 7.18342 7.81658 7.18342 8.20711 6.79289L14 1" stroke="#714F36" stroke-width="2" stroke-linecap="round" />
-                                                                    </svg>
-                                                                </div>
-                                                                <div className="cli-tal-pro-search-filter-expand-area">
-                                                                    <div className='expand-area-padding'>
-                                                                        <div className="cli-tal-pro-search-filter-input-area">
-                                                                            <input type="text" name='industry' className='cli-tal-pro-search-filter-input' placeholder='Add Industry' />
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
+                                                    </div>
+                                                </div>
+                                            </div>
 
-                                                            {/* Current Company */}
-                                                            <div className="cli-tal-pro-search-filter-content-section">
-                                                                <div className="cli-tal-pro-search-filter-toggle-area">
-                                                                    <h6 className='cli--emploment-detail-head'>Current Company</h6>
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" className='' width="15" height="9" viewBox="0 0 15 9" fill="none">
-                                                                        <path d="M1 1L6.79289 6.79289C7.18342 7.18342 7.81658 7.18342 8.20711 6.79289L14 1" stroke="#714F36" stroke-width="2" stroke-linecap="round" />
-                                                                    </svg>
-                                                                </div>
-                                                                <div className="cli-tal-pro-search-filter-expand-area">
-                                                                    <div className='expand-area-padding'>
-                                                                        {/* <div class="cl-toggle-switch">
-                                                                            <label class="cl-switch">
-                                                                                <input type="checkbox" className="toggleSwitch" />
-                                                                                <span></span>
-                                                                            </label>
-                                                                            <h6 className='cl-toggle--switch-label'>Boolean Off</h6>
-                                                                        </div> */}
-                                                                        <div className="cli-tal-pro-search-filter-input-area">
-                                                                            <input type="text" name='company' className='cli-tal-pro-search-filter-input' placeholder='Add Company name' />
-                                                                        </div>
-                                                                        <div id="containerCompany" className='multi-input-container'>
-                                                                            <div className="cli--tal-search-add-input-area mt-3">
-                                                                                <button className='cli--tal-search-add-company-input-button'>
-                                                                                    <i class="bi bi-plus add-input-icon"></i>
-                                                                                    Add Exclude Company
+                                            <div className="col-12 col-lg-8 col-xl-9 col-md-8 pe-lg-0 pe-md-1 col-width-lg-70">
+                                                {/* <div className="tal--pro-search-result-image-area">
+                                            <img src="assets/img/jobs/filter-data-img.png" className='tal--pro-search-result-image' alt="" data-aos="fade"  />
+                                            <h6 className='tal--pro-search-result-title' data-aos="fade-up">Add Filter for the desired search</h6>
+                                        </div> */}
+                                                <div className="cli--tal-pro-search-results-area">
+                                                    {filteredSearchResultsMsg ?
+                                                        <p>{filteredSearchResultsMsg}</p> :
+                                                        filteredSearchResults.length > 0 ?
+                                                            filteredSearchResults.map((candidate) => {
+                                                                const viewedCandidateForThisCandidate = loginClientDetail.companyId && viewedCandidate.find(cand => cand.candidateId === candidate.id);
+                                                                const matchingImg = candidateImg ? candidateImg.find(img => img.id === candidate.id) : null;
+                                                                const imgSrc = matchingImg ? `http://localhost:5002/candidate_profile/${matchingImg.image}` : "assets/img/talents-images/avatar.jpg";
+                                                                return (
+                                                                    <article className="talent--profile-card search" data-aos="fade-left" key={candidate.id}>
+                                                                        <div className="tal--pro-card-left-area search">
+                                                                            <div className='card-split-line'></div>
+                                                                            <div className="tal--pro-card-name-area">
+                                                                                <label className="tal--pro-card-name-check-container">
+                                                                                    <input type="checkbox" class="tal--checkbox" checked={viewedCandidateForThisCandidate ? true : false} onChange={(e) => e.preventDefault()} />
+                                                                                    <div className="tal--pro-card-name-checkmark"></div>
+                                                                                </label>
+                                                                                <h6 className='tal--pro-card-name'>{candidate.firstName + ' ' + candidate.lastName}</h6>
+                                                                            </div>
+                                                                            <div className="tal--pro-card-tags search">
+                                                                                <h6 className='tal--pro-card-exp'>
+                                                                                    Experience : {candidate.year > 0 ? candidate.year + 'years' : "" + candidate.month > 0 ? candidate.month + 'months' : ""}
+                                                                                </h6>
+                                                                                <h6 className='tal--pro-card-exp'>
+                                                                                    9.5 LPA
+                                                                                </h6>
+                                                                                <h6 className='tal--pro-card-location'>
+                                                                                    <i class="bx bxs-map"></i>
+                                                                                    <span>{candidate.location}</span>
+                                                                                </h6>
+                                                                                <h6 className='tal--pro-card-role'>
+                                                                                    {candidate.designation[0]}
+                                                                                </h6>
+                                                                            </div>
+                                                                            <div className="tal--pro-card-desc-area search">
+                                                                                <div className="row tal--pro-card-desc-row">
+                                                                                    <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
+                                                                                        <h6 className='tal--pro-card-desc-title'>Previous&nbsp;:</h6>
+                                                                                    </div>
+                                                                                    <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
+                                                                                        <p className='tal--pro-card-desc'>{candidate.designation[0] + " " + "at" + " " + candidate.companyName}</p>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div className="row tal--pro-card-desc-row">
+                                                                                    <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
+                                                                                        <h6 className='tal--pro-card-desc-title'>Education&nbsp;:</h6>
+                                                                                    </div>
+                                                                                    <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
+                                                                                        <p className='tal--pro-card-desc'>{candidate.college}</p>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div className="row tal--pro-card-desc-row">
+                                                                                    <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
+                                                                                        <h6 className='tal--pro-card-desc-title'>Preferred Location&nbsp;:</h6>
+                                                                                    </div>
+                                                                                    <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
+                                                                                        <p className='tal--pro-card-desc'>Hyderabad, Kolkata, Chennai</p>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div className="row tal--pro-card-desc-row">
+                                                                                    <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
+                                                                                        <h6 className='tal--pro-card-desc-title'>KeySkill&nbsp;:</h6>
+                                                                                    </div>
+                                                                                    <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
+                                                                                        <p className='tal--pro-card-desc'>{candidate.skills.join(", ")}</p>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div className="row tal--pro-card-desc-row">
+                                                                                    <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
+                                                                                        <h6 className='tal--pro-card-desc-title'>May also Know&nbsp;:</h6>
+                                                                                    </div>
+                                                                                    <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
+                                                                                        <p className='tal--pro-card-desc'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed </p>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            {/* <div className="tal--pro-card-bottom-btn-area search">
+                                                                                <button className='tal--pro-card-bottom-btn'>
+                                                                                    <span>897 </span>Similar Profile
                                                                                 </button>
-                                                                            </div>
+                                                                                <span className='horizon--ln'>|</span>
+                                                                                <button className='tal--pro-card-bottom-btn'>Comment</button>
+                                                                                <span className='horizon--ln'>|</span>
+                                                                                <button className='tal--pro-card-bottom-btn'>
+                                                                                    <i class="bi bi-bookmark"></i>Save
+                                                                                </button>
+                                                                            </div> */}
                                                                         </div>
-                                                                    </div>
+
+                                                                        <div className="tal--pro-card-right-area search">
+                                                                            <div className="tal--pro-card-right-cover-area search">
+                                                                                <div className='tal--pro-card-profile-img-role-area search'>
+                                                                                    <img src={imgSrc}className='tal--pro-card-profile-img' alt="" />
+                                                                                    <p className='tal--pro-card-role-name'>Frontend Developer (Css,html)</p>
+                                                                                </div>
+                                                                                <div className="tal--pro-card-contact-btn-area search">
+                                                                                    <button className='tal--pro-card-contact-btn search' onClick={() => viewCandidateDetail(candidate.id)}>View Profile</button>
+                                                                                    <span className="profile-credits-title">&#129031; 01 Credit</span>
+                                                                                    {/* <button className='tal--pro-card-contact-btn search'>
+                                                                                        <img src="assets/img/talent-profile/call.png" alt="" />
+                                                                                        Call Candidate
+                                                                                    </button> */}
+                                                                                </div>
+                                                                                <div className="tal--pro-card-ability-number-area">
+                                                                                    <div className="tal--pro-card-ability-number-left">
+                                                                                        <h6 className='tal--pro-card-ability search'>Skill matched</h6>
+                                                                                        <h2 className='tal--pro-card-percentage search'>90%</h2>
+                                                                                    </div>
+                                                                                    <div className="tal--pro-card-ability-number-right">
+                                                                                        <h6 className='tal--pro-card-ability search'>Can join in</h6>
+                                                                                        <h2 className='tal--pro-card-days search'>07<span>days</span></h2>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                            </div>
+                                                                            {/* <div className="tal--pro-card-right-btn-area search">
+                                                                                <button className='tal--pro-card-right-btn search'>
+                                                                                    <img src="assets/img/talent-profile/document.png" alt="" />
+                                                                                </button>
+                                                                                <button className='tal--pro-card-right-btn search'>
+                                                                                    <img src="assets/img/talent-profile/arrow.png" alt="" />
+                                                                                </button>
+                                                                                <button className='tal--pro-card-right-btn search'>
+                                                                                    <img src="assets/img/talent-profile/email.png" alt="" />
+                                                                                </button>
+                                                                            </div> */}
+                                                                        </div>
+                                                                    </article>
+                                                                )
+                                                            }) : null}
+
+
+                                                    {/* <article className="talent--profile-card search" data-aos="fade-left">
+                                                    <div className="tal--pro-card-left-area search">
+                                                        <div className='card-split-line'></div>
+                                                        <div className="tal--pro-card-name-area">
+                                                            <label className="tal--pro-card-name-check-container">
+                                                                <input type="checkbox" />
+                                                                <div className="tal--pro-card-name-checkmark"></div>
+                                                            </label>
+                                                            <h6 className='tal--pro-card-name'>Adam Woods</h6>
+                                                        </div>
+                                                        <div className="tal--pro-card-tags search">
+                                                            <h6 className='tal--pro-card-exp'>
+                                                                Experience : 6 Yrs
+                                                            </h6>
+                                                            <h6 className='tal--pro-card-exp'>
+                                                                9.5 LPA
+                                                            </h6>
+                                                            <h6 className='tal--pro-card-location'>
+                                                                <i class="bx bxs-map"></i>
+                                                                <span>Hyderabad</span>
+                                                            </h6>
+                                                            <h6 className='tal--pro-card-role'>
+                                                                Frontend Developer
+                                                            </h6>
+                                                        </div>
+                                                        <div className="tal--pro-card-desc-area search">
+                                                            <div className="row tal--pro-card-desc-row">
+                                                                <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
+                                                                    <h6 className='tal--pro-card-desc-title'>Previous&nbsp;:</h6>
+                                                                </div>
+                                                                <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
+                                                                    <p className='tal--pro-card-desc'>Junior Frontend Developer at Cognizant</p>
                                                                 </div>
                                                             </div>
-
-                                                            {/* Current Designation */}
-                                                            <div className="cli-tal-pro-search-filter-content-section">
-                                                                <div className="cli-tal-pro-search-filter-toggle-area">
-                                                                    <h6 className='cli--emploment-detail-head'>Current Designation</h6>
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" className='' width="15" height="9" viewBox="0 0 15 9" fill="none">
-                                                                        <path d="M1 1L6.79289 6.79289C7.18342 7.18342 7.81658 7.18342 8.20711 6.79289L14 1" stroke="#714F36" stroke-width="2" stroke-linecap="round" />
-                                                                    </svg>
+                                                            <div className="row tal--pro-card-desc-row">
+                                                                <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
+                                                                    <h6 className='tal--pro-card-desc-title'>Education&nbsp;:</h6>
                                                                 </div>
-                                                                <div className="cli-tal-pro-search-filter-expand-area">
-                                                                    <div className='expand-area-padding'>
-                                                                        {/* <div class="cl-toggle-switch">
-                                                                            <label class="cl-switch">
-                                                                                <input type="checkbox" className="toggleSwitch" />
-                                                                                <span></span>
-                                                                            </label>
-                                                                            <h6 className='cl-toggle--switch-label'>Boolean Off</h6>
-                                                                        </div> */}
-                                                                        <div className="cli-tal-pro-search-filter-input-area">
-                                                                            <input type="text" name='designation' className='cli-tal-pro-search-filter-input' placeholder='Add designation' />
-                                                                        </div>
-                                                                    </div>
+                                                                <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
+                                                                    <p className='tal--pro-card-desc'>Bsc Delhi University 2019</p>
                                                                 </div>
                                                             </div>
-
-                                                            {/* Work Details */}
-                                                            <div className="cli-tal-pro-search-filter-content-section">
-                                                                <div className="cli-tal-pro-search-filter-toggle-area">
-                                                                    <h6 className='cli--emploment-detail-head'>Work Details</h6>
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" className='' width="15" height="9" viewBox="0 0 15 9" fill="none">
-                                                                        <path d="M1 1L6.79289 6.79289C7.18342 7.18342 7.81658 7.18342 8.20711 6.79289L14 1" stroke="#714F36" stroke-width="2" stroke-linecap="round" />
-                                                                    </svg>
+                                                            <div className="row tal--pro-card-desc-row">
+                                                                <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
+                                                                    <h6 className='tal--pro-card-desc-title'>Preferred Location&nbsp;:</h6>
                                                                 </div>
-                                                                <div className="cli-tal-pro-search-filter-expand-area">
-                                                                    <div className='expand-area-padding'>
-                                                                        <div className="cli-tal-search-filter-form-group search-results">
-                                                                            <div className="cli-tal-search-filter-form-label-area">
-                                                                                <label htmlFor="candidate_seek" className='cli-tal-search-filter-form-label'>Show candidate seeking</label>
-                                                                            </div>
-                                                                            <div className="row">
-                                                                                <div className="col-12 col-xl-6 col-lg-6 col-md-12 mb-md-4 mb-lg-0 mb-xl-0">
-                                                                                    <div className="cli-tal-pro-search-filter-input-area">
-                                                                                        <select name="job_type" id="candidate_seek"
-                                                                                            className='cli-tal-pro-search-filter-input cand--seek-select'>
-                                                                                            <option value="" disabled selected>Job type</option>
-                                                                                            <option value="1">Job type 1</option>
-                                                                                            <option value="2">Job type 2</option>
-                                                                                            <option value="3">Job type 3</option>
-                                                                                        </select>
-                                                                                    </div>
-                                                                                </div>
-
-                                                                                <div className="col-12 col-xl-6 col-lg-6 col-md-12">
-                                                                                    <div className="cli-tal-pro-search-filter-input-area">
-                                                                                        <select name="employee_type" id="candidate_seek"
-                                                                                            className='cli-tal-pro-search-filter-input cand--seek-select'>
-                                                                                            <option value="" disabled selected>Employment type</option>
-                                                                                            <option value="1">Employment type 1</option>
-                                                                                            <option value="2">Employment type 2</option>
-                                                                                            <option value="3">Employment type 3</option>
-                                                                                        </select>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-
-                                                                        <div className="cli-tal-search-filter-form-group search-results">
-                                                                            <div className="cli-tal-search-filter-form-label-area">
-                                                                                <label htmlFor="work_permit" className='cli-tal-search-filter-form-label'>Work permit for</label>
-                                                                            </div>
-                                                                            <div className="cli-tal-pro-search-filter-input-area">
-                                                                                <input type="text" className='cli-tal-pro-search-filter-input' placeholder='Choose Category' />
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
+                                                                <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
+                                                                    <p className='tal--pro-card-desc'>Hyderabad, Kolkata, Chennai</p>
                                                                 </div>
                                                             </div>
-
-                                                            {/* Display Details */}
-                                                            <div className="cli-tal-pro-search-filter-content-section">
-                                                                <div className="cli-tal-pro-search-filter-toggle-area">
-                                                                    <h6 className='cli--emploment-detail-head'>Display Details</h6>
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" className='' width="15" height="9" viewBox="0 0 15 9" fill="none">
-                                                                        <path d="M1 1L6.79289 6.79289C7.18342 7.18342 7.81658 7.18342 8.20711 6.79289L14 1" stroke="#714F36" stroke-width="2" stroke-linecap="round" />
-                                                                    </svg>
+                                                            <div className="row tal--pro-card-desc-row">
+                                                                <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
+                                                                    <h6 className='tal--pro-card-desc-title'>KeySkill&nbsp;:</h6>
                                                                 </div>
-                                                                <div className="cli-tal-pro-search-filter-expand-area">
-                                                                    <div className='expand-area-padding'>
-                                                                        <div className="cli-tal-pro-search-filter-content">
-                                                                            <div className="cli-tal-pro-search-filter-title-area">
-                                                                                <h6 className='cli-tal-pro-search-filter-title'>Show</h6>
-                                                                            </div>
-
-                                                                            <div className="tal--search-options-area">
-                                                                                <div className="tal--search-option-container">
-                                                                                    <input id="all_candidate" className="tal--search-radio" type="radio" name="show" />
-                                                                                    <div className="tal--search-tile">
-                                                                                        <label for="all_candidate" className="tal--search-tile-label">All candidates</label>
-                                                                                    </div>
-                                                                                </div>
-
-                                                                                <div className="tal--search-option-container">
-                                                                                    <input id="new_reg" className="tal--search-radio" type="radio" name="show" />
-                                                                                    <div className="tal--search-tile">
-                                                                                        <label for="new_reg" className="tal--search-tile-label">New Registrations</label>
-                                                                                    </div>
-                                                                                </div>
-
-                                                                                <div className="tal--search-option-container">
-                                                                                    <input id="recent_activity" className="tal--search-radio" type="radio" name="show" />
-                                                                                    <div className="tal--search-tile">
-                                                                                        <label for="recent_activity" className="tal--search-tile-label">Active Recently</label>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-
-                                                                        <div className="cli-tal-pro-search-filter-content mb-0">
-                                                                            <div className="cli-tal-pro-search-filter-title-area">
-                                                                                <h6 className='cli-tal-pro-search-filter-title'>Show only candidates with </h6>
-                                                                            </div>
-
-                                                                            <div className="tal--search-options-area">
-                                                                                <div className="tal--search-option-container">
-                                                                                    <input id="ver_mobile" className="tal--search-radio" type="radio" name="show_cand" />
-                                                                                    <div className="tal--search-tile">
-                                                                                        <label for="ver_mobile" className="tal--search-tile-label">Verified mobile number</label>
-                                                                                        <i class="bi bi-plus"></i>
-                                                                                    </div>
-                                                                                </div>
-
-                                                                                <div className="tal--search-option-container">
-                                                                                    <input id="ver_email" className="tal--search-radio" type="radio" name="show_cand" />
-                                                                                    <div className="tal--search-tile">
-                                                                                        <label for="ver_email" className="tal--search-tile-label">Verified email ID </label>
-                                                                                        <i class="bi bi-plus"></i>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div className="tal--search-option-container">
-                                                                                    <input id="att_resume" className="tal--search-radio" type="radio" name="show_cand" />
-                                                                                    <div className="tal--search-tile">
-                                                                                        <label for="att_resume" className="tal--search-tile-label">Attached resume</label>
-                                                                                        <i class="bi bi-plus"></i>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
+                                                                <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
+                                                                    <p className='tal--pro-card-desc'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore</p>
                                                                 </div>
                                                             </div>
-
-                                                            {/* Education Details */}
-                                                            <div className="cli-tal-pro-search-filter-content-section">
-                                                                <div className="cli-tal-pro-search-filter-toggle-area">
-                                                                    <h6 className='cli--emploment-detail-head'>Education Details</h6>
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" className='' width="15" height="9" viewBox="0 0 15 9" fill="none">
-                                                                        <path d="M1 1L6.79289 6.79289C7.18342 7.18342 7.81658 7.18342 8.20711 6.79289L14 1" stroke="#714F36" stroke-width="2" stroke-linecap="round" />
-                                                                    </svg>
+                                                            <div className="row tal--pro-card-desc-row">
+                                                                <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
+                                                                    <h6 className='tal--pro-card-desc-title'>May also Know&nbsp;:</h6>
                                                                 </div>
-                                                                <div className="cli-tal-pro-search-filter-expand-area">
-                                                                    <div className='expand-area-padding'>
-                                                                        <div className="cli-tal-pro-search-filter-content">
-                                                                            <div className="cli-tal-pro-search-filter-title-area">
-                                                                                <h6 className='cli-tal-pro-search-filter-title'>UG Qualification</h6>
-                                                                            </div>
-
-                                                                            <div className="tal--search-options-area">
-                                                                                <div className="tal--search-option-container">
-                                                                                    <input id="any_ug" className="tal--search-radio" type="radio" name="ug_qualification" />
-                                                                                    <div className="tal--search-tile">
-                                                                                        <label for="any_ug" className="tal--search-tile-label">Any UG Qualification</label>
-                                                                                    </div>
-                                                                                </div>
-
-                                                                                <div className="tal--search-option-container">
-                                                                                    <input id="spc_ug" className="tal--search-radio" type="radio" name="ug_qualification" />
-                                                                                    <div className="tal--search-tile">
-                                                                                        <label for="spc_ug" className="tal--search-tile-label">Specific UG Qualification</label>
-                                                                                    </div>
-                                                                                </div>
-
-                                                                                <div className="tal--search-option-container">
-                                                                                    <input id="no_ug" className="tal--search-radio" type="radio" name="ug_qualification" />
-                                                                                    <div className="tal--search-tile">
-                                                                                        <label for="no_ug" className="tal--search-tile-label">No UG Qualification</label>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-
-                                                                        <div className="cli-tal-pro-search-filter-content mb-0">
-                                                                            <div className="cli-tal-pro-search-filter-title-area">
-                                                                                <h6 className='cli-tal-pro-search-filter-title'>PG Qualification</h6>
-                                                                            </div>
-
-                                                                            <div className="tal--search-options-area">
-                                                                                <div className="tal--search-option-container">
-                                                                                    <input id="any_pg" className="tal--search-radio" type="radio" name="pg_qualification" />
-                                                                                    <div className="tal--search-tile">
-                                                                                        <label for="any_pg" className="tal--search-tile-label">Any PG Qualification</label>
-                                                                                    </div>
-                                                                                </div>
-
-                                                                                <div className="tal--search-option-container">
-                                                                                    <input id="spc_pg" className="tal--search-radio" type="radio" name="pg_qualification" />
-                                                                                    <div className="tal--search-tile">
-                                                                                        <label for="spc_pg" className="tal--search-tile-label">Specific PG Qualification</label>
-                                                                                    </div>
-                                                                                </div>
-
-                                                                                <div className="tal--search-option-container">
-                                                                                    <input id="no_pg" className="tal--search-radio" type="radio" name="pg_qualification" />
-                                                                                    <div className="tal--search-tile">
-                                                                                        <label for="no_pg" className="tal--search-tile-label">No PG Qualification</label>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-
-                                                                            <div id="container3" className='multi-input-container'>
-                                                                                <div className="cli--tal-search-add-input-area">
-                                                                                    <button className='cli--tal-search-qualification-add-input-button'>
-                                                                                        <i class="bi bi-plus add-input-icon"></i>
-                                                                                        Add PPG/Doctorate Qualification
-                                                                                    </button>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
+                                                                <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
+                                                                    <p className='tal--pro-card-desc'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed </p>
                                                                 </div>
                                                             </div>
+                                                        </div>
+                                                        <div className="tal--pro-card-bottom-btn-area search">
+                                                            <button className='tal--pro-card-bottom-btn'>
+                                                                <span>897 </span>Similar Profile
+                                                            </button>
+                                                            <span className='horizon--ln'>|</span>
+                                                            <button className='tal--pro-card-bottom-btn'>Comment</button>
+                                                            <span className='horizon--ln'>|</span>
+                                                            <button className='tal--pro-card-bottom-btn'>
+                                                                <i class="bi bi-bookmark"></i>Save
+                                                            </button>
+                                                        </div>
+                                                    </div>
 
-                                                            {/* Diversity and Additional Details */}
-                                                            <div className="cli-tal-pro-search-filter-content-section">
-                                                                <div className="cli-tal-pro-search-filter-toggle-area">
-                                                                    <h6 className='cli--emploment-detail-head'>Diversity and Additional Details</h6>
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" className='' width="15" height="9" viewBox="0 0 15 9" fill="none">
-                                                                        <path d="M1 1L6.79289 6.79289C7.18342 7.18342 7.81658 7.18342 8.20711 6.79289L14 1" stroke="#714F36" stroke-width="2" stroke-linecap="round" />
-                                                                    </svg>
-                                                                </div>
-                                                                <div className="cli-tal-pro-search-filter-expand-area">
-                                                                    <div className='expand-area-padding'>
-                                                                        <div className="cli-tal-pro-search-filter-content mb-0">
-                                                                            <div className="cli-tal-pro-search-filter-title-area">
-                                                                                <h6 className='cli-tal-pro-search-filter-title'>Gender</h6>
-                                                                            </div>
-
-                                                                            <div className="tal--search-options-area">
-                                                                                <div className="tal--search-option-container">
-                                                                                    <input id="all_cand" className="tal--search-radio" type="radio" name="gender" />
-                                                                                    <div className="tal--search-tile">
-                                                                                        <label for="all_cand" className="tal--search-tile-label">All candidates</label>
-                                                                                    </div>
-                                                                                </div>
-
-                                                                                <div className="tal--search-option-container">
-                                                                                    <input id="male_cand" className="tal--search-radio" type="radio" name="gender" />
-                                                                                    <div className="tal--search-tile">
-                                                                                        <label for="male_cand" className="tal--search-tile-label">Male Candidates</label>
-                                                                                    </div>
-                                                                                </div>
-
-                                                                                <div className="tal--search-option-container">
-                                                                                    <input id="female_cand" className="tal--search-radio" type="radio" name="gender" />
-                                                                                    <div className="tal--search-tile">
-                                                                                        <label for="female_cand" className="tal--search-tile-label">Female candidates</label>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
+                                                    <div className="tal--pro-card-right-area search">
+                                                        <div className="tal--pro-card-right-cover-area search">
+                                                            <div className='tal--pro-card-profile-img-role-area search'>
+                                                                <img src="assets/img/talents-images/profile-img.png" className='tal--pro-card-profile-img' alt="" />
+                                                                <p className='tal--pro-card-role-name'>Frontend Developer (Css,html)</p>
                                                             </div>
-
-                                                            <div className="clear--all_button-area">
-                                                                <button className='tal--search-submit-btn'>Submit</button>
-                                                                <button className='clear--all_button'>
-                                                                    Clear all
+                                                            <div className="tal--pro-card-contact-btn-area search">
+                                                                <button className='tal--pro-card-contact-btn search'>View Phone Number</button>
+                                                                <button className='tal--pro-card-contact-btn search'>
+                                                                    <img src="assets/img/talent-profile/call.png" alt="" />
+                                                                    Call Candidate
                                                                 </button>
+                                                            </div>
+                                                            <div className="tal--pro-card-ability-number-area">
+                                                                <div className="tal--pro-card-ability-number-left">
+                                                                    <h6 className='tal--pro-card-ability search'>Skill matched</h6>
+                                                                    <h2 className='tal--pro-card-percentage search'>90%</h2>
+                                                                </div>
+                                                                <div className="tal--pro-card-ability-number-right">
+                                                                    <h6 className='tal--pro-card-ability search'>Can join in</h6>
+                                                                    <h2 className='tal--pro-card-days search'>07<span>days</span></h2>
+                                                                </div>
                                                             </div>
 
                                                         </div>
+                                                        <div className="tal--pro-card-right-btn-area search">
+                                                            <button className='tal--pro-card-right-btn search'>
+                                                                <img src="assets/img/talent-profile/document.png" alt="" />
+                                                            </button>
+                                                            <button className='tal--pro-card-right-btn search'>
+                                                                <img src="assets/img/talent-profile/arrow.png" alt="" />
+                                                            </button>
+                                                            <button className='tal--pro-card-right-btn search'>
+                                                                <img src="assets/img/talent-profile/email.png" alt="" />
+                                                            </button>
+                                                        </div>
                                                     </div>
-                                                </div>
+                                                </article>
 
-                                                <div className="col-12 col-lg-8 col-xl-8 col-md-8 pr-lg-0 pr-md-1 col-width-lg-70">
-                                                    {/* <div className="tal--pro-search-result-image-area">
-                                                    <img src="assets/img/jobs/filter-data-img.png" className='tal--pro-search-result-image' alt="" data-aos="fade"  />
-                                                    <h6 className='tal--pro-search-result-title' data-aos="fade-up">Add Filter for the desired search</h6>
-                                                </div> */}
-                                                    <div className="cli--tal-pro-search-results-area">
-                                                        {filteredSearchResultsMsg ?
-                                                            <p>{filteredSearchResultsMsg}</p> :
-                                                            filteredSearchResults.length > 0 ?
-                                                                filteredSearchResults.map((candidate) => {
-                                                                    const viewedCandidateForThisCandidate = loginClientDetail.companyId && viewedCandidate.find(cand => cand.candidateId === candidate.id);
-                                                                    const matchingImg = candidateImg ? candidateImg.find(img => img.id === candidate.id) : null;
-                                                                    const imgSrc = matchingImg ? `http://localhost:5002/candidate_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
-                                                                    return (
-                                                                        <article className="talent--profile-card search" key={candidate.id}>
-                                                                            <div className="tal--pro-card-left-area search">
-                                                                                <div className='card-split-line'></div>
-                                                                                <div className="tal--pro-card-name-area">
-                                                                                    <label className="tal--pro-card-name-check-container">
-                                                                                        <input type="checkbox" class="tal--checkbox" checked={viewedCandidateForThisCandidate ? true : false} onChange={(e) => e.preventDefault()} />
-                                                                                        <div className="tal--pro-card-name-checkmark"></div>
-                                                                                    </label>
-                                                                                    <h6 className='tal--pro-card-name'>{candidate.firstName + ' ' + candidate.lastName}</h6>
-                                                                                </div>
-                                                                                <div className="tal--pro-card-tags search">
-                                                                                    <h6 className='tal--pro-card-exp'>
-                                                                                        Experience : {candidate.year > 0 ? candidate.year + 'years' : "" + candidate.month > 0 ? candidate.month + 'months' : ""}
-                                                                                    </h6>
-                                                                                    <h6 className='tal--pro-card-exp'>
-                                                                                        9.5 LPA
-                                                                                    </h6>
-                                                                                    <h6 className='tal--pro-card-location'>
-                                                                                        <i class="bx bxs-map"></i>
-                                                                                        <span>{candidate.location}</span>
-                                                                                    </h6>
-                                                                                    <h6 className='tal--pro-card-role'>
-                                                                                        {candidate.designation[0]}
-                                                                                    </h6>
-                                                                                </div>
-                                                                                <div className="tal--pro-card-desc-area search">
-                                                                                    <div className="row tal--pro-card-desc-row">
-                                                                                        <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
-                                                                                            <h6 className='tal--pro-card-desc-title'>Previous&nbsp;:</h6>
-                                                                                        </div>
-                                                                                        <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
-                                                                                            <p className='tal--pro-card-desc'>{candidate.designation[0] + " " + "at" + " " + candidate.companyName}</p>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div className="row tal--pro-card-desc-row">
-                                                                                        <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
-                                                                                            <h6 className='tal--pro-card-desc-title'>Education&nbsp;:</h6>
-                                                                                        </div>
-                                                                                        <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
-                                                                                            <p className='tal--pro-card-desc'>{candidate.college}</p>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div className="row tal--pro-card-desc-row">
-                                                                                        <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
-                                                                                            <h6 className='tal--pro-card-desc-title'>Preferred Location&nbsp;:</h6>
-                                                                                        </div>
-                                                                                        <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
-                                                                                            <p className='tal--pro-card-desc'>Hyderabad, Kolkata, Chennai</p>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div className="row tal--pro-card-desc-row">
-                                                                                        <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
-                                                                                            <h6 className='tal--pro-card-desc-title'>KeySkill&nbsp;:</h6>
-                                                                                        </div>
-                                                                                        <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
-                                                                                            <p className='tal--pro-card-desc'>{candidate.skills.join(", ")}</p>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div className="row tal--pro-card-desc-row">
-                                                                                        <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
-                                                                                            <h6 className='tal--pro-card-desc-title'>May also Know&nbsp;:</h6>
-                                                                                        </div>
-                                                                                        <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
-                                                                                            <p className='tal--pro-card-desc'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed </p>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                                {/* <div className="tal--pro-card-bottom-btn-area search">
-                                                                                    <button className='tal--pro-card-bottom-btn'>
-                                                                                        <span>897 </span>Similar Profile
-                                                                                    </button>
-                                                                                    <span className='horizon--ln'>|</span>
-                                                                                    <button className='tal--pro-card-bottom-btn'>Comment</button>
-                                                                                    <span className='horizon--ln'>|</span>
-                                                                                    <button className='tal--pro-card-bottom-btn'>
-                                                                                        <i class="bi bi-bookmark"></i>Save
-                                                                                    </button>
-                                                                                </div> */}
-                                                                            </div>
-
-                                                                            <div className="tal--pro-card-right-area search">
-                                                                                <div className="tal--pro-card-right-cover-area search">
-                                                                                    <div className='tal--pro-card-profile-img-role-area search'>
-                                                                                        <img src={imgSrc} className='tal--pro-card-profile-img' alt="" />
-                                                                                        <p className='tal--pro-card-role-name'>Frontend Developer (Css,html)</p>
-                                                                                    </div>
-                                                                                    <div className="tal--pro-card-contact-btn-area search">
-                                                                                        <button className='tal--pro-card-contact-btn search' onClick={() => viewCandidateDetail(candidate.id)}>View Profile</button>
-                                                                                        <span className="profile-credits-title">&#129031; 01 Credit</span>
-                                                                                        {/* <button className='tal--pro-card-contact-btn search'>
-                                                                                            <img src="assets/img/talent-profile/call.png" alt="" />
-                                                                                            Call Candidate
-                                                                                        </button> */}
-                                                                                    </div>
-                                                                                    <div className="tal--pro-card-ability-number-area">
-                                                                                        <div className="tal--pro-card-ability-number-left">
-                                                                                            <h6 className='tal--pro-card-ability search'>Skill matched</h6>
-                                                                                            <h2 className='tal--pro-card-percentage search'>90%</h2>
-                                                                                        </div>
-                                                                                        <div className="tal--pro-card-ability-number-right">
-                                                                                            <h6 className='tal--pro-card-ability search'>Can join in</h6>
-                                                                                            <h2 className='tal--pro-card-days search'>07<span>days</span></h2>
-                                                                                        </div>
-                                                                                    </div>
-
-                                                                                </div>
-                                                                                {/* <div className="tal--pro-card-right-btn-area search">
-                                                                                    <button className='tal--pro-card-right-btn search'>
-                                                                                        <img src="assets/img/talent-profile/document.png" alt="" />
-                                                                                    </button>
-                                                                                    <button className='tal--pro-card-right-btn search'>
-                                                                                        <img src="assets/img/talent-profile/arrow.png" alt="" />
-                                                                                    </button>
-                                                                                    <button className='tal--pro-card-right-btn search'>
-                                                                                        <img src="assets/img/talent-profile/email.png" alt="" />
-                                                                                    </button>
-                                                                                </div> */}
-                                                                            </div>
-                                                                        </article>
-                                                                    )
-                                                                }) : null}
-
-
-                                                        {/* <article className="talent--profile-card search" data-aos="fade-left">
-                                                            <div className="tal--pro-card-left-area search">
-                                                                <div className='card-split-line'></div>
-                                                                <div className="tal--pro-card-name-area">
-                                                                    <label className="tal--pro-card-name-check-container">
-                                                                        <input type="checkbox" />
-                                                                        <div className="tal--pro-card-name-checkmark"></div>
-                                                                    </label>
-                                                                    <h6 className='tal--pro-card-name'>Adam Woods</h6>
+                                                <article className="talent--profile-card search" data-aos="fade-left">
+                                                    <div className="tal--pro-card-left-area search">
+                                                        <div className='card-split-line'></div>
+                                                        <div className="tal--pro-card-name-area">
+                                                            <label className="tal--pro-card-name-check-container">
+                                                                <input type="checkbox" />
+                                                                <div className="tal--pro-card-name-checkmark"></div>
+                                                            </label>
+                                                            <h6 className='tal--pro-card-name'>Adam Woods</h6>
+                                                        </div>
+                                                        <div className="tal--pro-card-tags search">
+                                                            <h6 className='tal--pro-card-exp'>
+                                                                Experience : 6 Yrs
+                                                            </h6>
+                                                            <h6 className='tal--pro-card-exp'>
+                                                                9.5 LPA
+                                                            </h6>
+                                                            <h6 className='tal--pro-card-location'>
+                                                                <i class="bx bxs-map"></i>
+                                                                <span>Hyderabad</span>
+                                                            </h6>
+                                                            <h6 className='tal--pro-card-role'>
+                                                                Frontend Developer
+                                                            </h6>
+                                                        </div>
+                                                        <div className="tal--pro-card-desc-area search">
+                                                            <div className="row tal--pro-card-desc-row">
+                                                                <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
+                                                                    <h6 className='tal--pro-card-desc-title'>Previous&nbsp;:</h6>
                                                                 </div>
-                                                                <div className="tal--pro-card-tags search">
-                                                                    <h6 className='tal--pro-card-exp'>
-                                                                        Experience : 6 Yrs
-                                                                    </h6>
-                                                                    <h6 className='tal--pro-card-exp'>
-                                                                        9.5 LPA
-                                                                    </h6>
-                                                                    <h6 className='tal--pro-card-location'>
-                                                                        <i class="bx bxs-map"></i>
-                                                                        <span>Hyderabad</span>
-                                                                    </h6>
-                                                                    <h6 className='tal--pro-card-role'>
-                                                                        Frontend Developer
-                                                                    </h6>
-                                                                </div>
-                                                                <div className="tal--pro-card-desc-area search">
-                                                                    <div className="row tal--pro-card-desc-row">
-                                                                        <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
-                                                                            <h6 className='tal--pro-card-desc-title'>Previous&nbsp;:</h6>
-                                                                        </div>
-                                                                        <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
-                                                                            <p className='tal--pro-card-desc'>Junior Frontend Developer at Cognizant</p>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div className="row tal--pro-card-desc-row">
-                                                                        <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
-                                                                            <h6 className='tal--pro-card-desc-title'>Education&nbsp;:</h6>
-                                                                        </div>
-                                                                        <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
-                                                                            <p className='tal--pro-card-desc'>Bsc Delhi University 2019</p>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div className="row tal--pro-card-desc-row">
-                                                                        <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
-                                                                            <h6 className='tal--pro-card-desc-title'>Preferred Location&nbsp;:</h6>
-                                                                        </div>
-                                                                        <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
-                                                                            <p className='tal--pro-card-desc'>Hyderabad, Kolkata, Chennai</p>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div className="row tal--pro-card-desc-row">
-                                                                        <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
-                                                                            <h6 className='tal--pro-card-desc-title'>KeySkill&nbsp;:</h6>
-                                                                        </div>
-                                                                        <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
-                                                                            <p className='tal--pro-card-desc'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore</p>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div className="row tal--pro-card-desc-row">
-                                                                        <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
-                                                                            <h6 className='tal--pro-card-desc-title'>May also Know&nbsp;:</h6>
-                                                                        </div>
-                                                                        <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
-                                                                            <p className='tal--pro-card-desc'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed </p>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div className="tal--pro-card-bottom-btn-area search">
-                                                                    <button className='tal--pro-card-bottom-btn'>
-                                                                        <span>897 </span>Similar Profile
-                                                                    </button>
-                                                                    <span className='horizon--ln'>|</span>
-                                                                    <button className='tal--pro-card-bottom-btn'>Comment</button>
-                                                                    <span className='horizon--ln'>|</span>
-                                                                    <button className='tal--pro-card-bottom-btn'>
-                                                                        <i class="bi bi-bookmark"></i>Save
-                                                                    </button>
+                                                                <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
+                                                                    <p className='tal--pro-card-desc'>Junior Frontend Developer at Cognizant</p>
                                                                 </div>
                                                             </div>
-
-                                                            <div className="tal--pro-card-right-area search">
-                                                                <div className="tal--pro-card-right-cover-area search">
-                                                                    <div className='tal--pro-card-profile-img-role-area search'>
-                                                                        <img src="assets/img/talents-images/profile-img.png" className='tal--pro-card-profile-img' alt="" />
-                                                                        <p className='tal--pro-card-role-name'>Frontend Developer (Css,html)</p>
-                                                                    </div>
-                                                                    <div className="tal--pro-card-contact-btn-area search">
-                                                                        <button className='tal--pro-card-contact-btn search'>View Phone Number</button>
-                                                                        <button className='tal--pro-card-contact-btn search'>
-                                                                            <img src="assets/img/talent-profile/call.png" alt="" />
-                                                                            Call Candidate
-                                                                        </button>
-                                                                    </div>
-                                                                    <div className="tal--pro-card-ability-number-area">
-                                                                        <div className="tal--pro-card-ability-number-left">
-                                                                            <h6 className='tal--pro-card-ability search'>Skill matched</h6>
-                                                                            <h2 className='tal--pro-card-percentage search'>90%</h2>
-                                                                        </div>
-                                                                        <div className="tal--pro-card-ability-number-right">
-                                                                            <h6 className='tal--pro-card-ability search'>Can join in</h6>
-                                                                            <h2 className='tal--pro-card-days search'>07<span>days</span></h2>
-                                                                        </div>
-                                                                    </div>
-
+                                                            <div className="row tal--pro-card-desc-row">
+                                                                <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
+                                                                    <h6 className='tal--pro-card-desc-title'>Education&nbsp;:</h6>
                                                                 </div>
-                                                                <div className="tal--pro-card-right-btn-area search">
-                                                                    <button className='tal--pro-card-right-btn search'>
-                                                                        <img src="assets/img/talent-profile/document.png" alt="" />
-                                                                    </button>
-                                                                    <button className='tal--pro-card-right-btn search'>
-                                                                        <img src="assets/img/talent-profile/arrow.png" alt="" />
-                                                                    </button>
-                                                                    <button className='tal--pro-card-right-btn search'>
-                                                                        <img src="assets/img/talent-profile/email.png" alt="" />
-                                                                    </button>
+                                                                <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
+                                                                    <p className='tal--pro-card-desc'>Bsc Delhi University 2019</p>
                                                                 </div>
                                                             </div>
-                                                        </article>
-
-                                                        <article className="talent--profile-card search" data-aos="fade-left">
-                                                            <div className="tal--pro-card-left-area search">
-                                                                <div className='card-split-line'></div>
-                                                                <div className="tal--pro-card-name-area">
-                                                                    <label className="tal--pro-card-name-check-container">
-                                                                        <input type="checkbox" />
-                                                                        <div className="tal--pro-card-name-checkmark"></div>
-                                                                    </label>
-                                                                    <h6 className='tal--pro-card-name'>Adam Woods</h6>
+                                                            <div className="row tal--pro-card-desc-row">
+                                                                <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
+                                                                    <h6 className='tal--pro-card-desc-title'>Preferred Location&nbsp;:</h6>
                                                                 </div>
-                                                                <div className="tal--pro-card-tags search">
-                                                                    <h6 className='tal--pro-card-exp'>
-                                                                        Experience : 6 Yrs
-                                                                    </h6>
-                                                                    <h6 className='tal--pro-card-exp'>
-                                                                        9.5 LPA
-                                                                    </h6>
-                                                                    <h6 className='tal--pro-card-location'>
-                                                                        <i class="bx bxs-map"></i>
-                                                                        <span>Hyderabad</span>
-                                                                    </h6>
-                                                                    <h6 className='tal--pro-card-role'>
-                                                                        Frontend Developer
-                                                                    </h6>
-                                                                </div>
-                                                                <div className="tal--pro-card-desc-area search">
-                                                                    <div className="row tal--pro-card-desc-row">
-                                                                        <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
-                                                                            <h6 className='tal--pro-card-desc-title'>Previous&nbsp;:</h6>
-                                                                        </div>
-                                                                        <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
-                                                                            <p className='tal--pro-card-desc'>Junior Frontend Developer at Cognizant</p>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div className="row tal--pro-card-desc-row">
-                                                                        <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
-                                                                            <h6 className='tal--pro-card-desc-title'>Education&nbsp;:</h6>
-                                                                        </div>
-                                                                        <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
-                                                                            <p className='tal--pro-card-desc'>Bsc Delhi University 2019</p>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div className="row tal--pro-card-desc-row">
-                                                                        <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
-                                                                            <h6 className='tal--pro-card-desc-title'>Preferred Location&nbsp;:</h6>
-                                                                        </div>
-                                                                        <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
-                                                                            <p className='tal--pro-card-desc'>Hyderabad, Kolkata, Chennai</p>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div className="row tal--pro-card-desc-row">
-                                                                        <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
-                                                                            <h6 className='tal--pro-card-desc-title'>KeySkill&nbsp;:</h6>
-                                                                        </div>
-                                                                        <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
-                                                                            <p className='tal--pro-card-desc'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore</p>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div className="row tal--pro-card-desc-row">
-                                                                        <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
-                                                                            <h6 className='tal--pro-card-desc-title'>May also Know&nbsp;:</h6>
-                                                                        </div>
-                                                                        <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
-                                                                            <p className='tal--pro-card-desc'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed </p>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div className="tal--pro-card-bottom-btn-area search">
-                                                                    <button className='tal--pro-card-bottom-btn'>
-                                                                        <span>897 </span>Similar Profile
-                                                                    </button>
-                                                                    <span className='horizon--ln'>|</span>
-                                                                    <button className='tal--pro-card-bottom-btn'>Comment</button>
-                                                                    <span className='horizon--ln'>|</span>
-                                                                    <button className='tal--pro-card-bottom-btn'>
-                                                                        <i class="bi bi-bookmark"></i>Save
-                                                                    </button>
+                                                                <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
+                                                                    <p className='tal--pro-card-desc'>Hyderabad, Kolkata, Chennai</p>
                                                                 </div>
                                                             </div>
-
-                                                            <div className="tal--pro-card-right-area search">
-                                                                <div className="tal--pro-card-right-cover-area search">
-                                                                    <div className='tal--pro-card-profile-img-role-area search'>
-                                                                        <img src="assets/img/talents-images/profile-img.png" className='tal--pro-card-profile-img' alt="" />
-                                                                        <p className='tal--pro-card-role-name'>Frontend Developer (Css,html)</p>
-                                                                    </div>
-                                                                    <div className="tal--pro-card-contact-btn-area search">
-                                                                        <button className='tal--pro-card-contact-btn search'>View Phone Number</button>
-                                                                        <button className='tal--pro-card-contact-btn search'>
-                                                                            <img src="assets/img/talent-profile/call.png" alt="" />
-                                                                            Call Candidate
-                                                                        </button>
-                                                                    </div>
-                                                                    <div className="tal--pro-card-ability-number-area">
-                                                                        <div className="tal--pro-card-ability-number-left">
-                                                                            <h6 className='tal--pro-card-ability search'>Skill matched</h6>
-                                                                            <h2 className='tal--pro-card-percentage search'>90%</h2>
-                                                                        </div>
-                                                                        <div className="tal--pro-card-ability-number-right">
-                                                                            <h6 className='tal--pro-card-ability search'>Can join in</h6>
-                                                                            <h2 className='tal--pro-card-days search'>07<span>days</span></h2>
-                                                                        </div>
-                                                                    </div>
-
+                                                            <div className="row tal--pro-card-desc-row">
+                                                                <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
+                                                                    <h6 className='tal--pro-card-desc-title'>KeySkill&nbsp;:</h6>
                                                                 </div>
-                                                                <div className="tal--pro-card-right-btn-area search">
-                                                                    <button className='tal--pro-card-right-btn search'>
-                                                                        <img src="assets/img/talent-profile/document.png" alt="" />
-                                                                    </button>
-                                                                    <button className='tal--pro-card-right-btn search'>
-                                                                        <img src="assets/img/talent-profile/arrow.png" alt="" />
-                                                                    </button>
-                                                                    <button className='tal--pro-card-right-btn search'>
-                                                                        <img src="assets/img/talent-profile/email.png" alt="" />
-                                                                    </button>
+                                                                <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
+                                                                    <p className='tal--pro-card-desc'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore</p>
                                                                 </div>
                                                             </div>
-                                                        </article>
-
-                                                        <article className="talent--profile-card search" data-aos="fade-left">
-                                                            <div className="tal--pro-card-left-area search">
-                                                                <div className='card-split-line'></div>
-                                                                <div className="tal--pro-card-name-area">
-                                                                    <label className="tal--pro-card-name-check-container">
-                                                                        <input type="checkbox" />
-                                                                        <div className="tal--pro-card-name-checkmark"></div>
-                                                                    </label>
-                                                                    <h6 className='tal--pro-card-name'>Adam Woods</h6>
+                                                            <div className="row tal--pro-card-desc-row">
+                                                                <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
+                                                                    <h6 className='tal--pro-card-desc-title'>May also Know&nbsp;:</h6>
                                                                 </div>
-                                                                <div className="tal--pro-card-tags search">
-                                                                    <h6 className='tal--pro-card-exp'>
-                                                                        Experience : 6 Yrs
-                                                                    </h6>
-                                                                    <h6 className='tal--pro-card-exp'>
-                                                                        9.5 LPA
-                                                                    </h6>
-                                                                    <h6 className='tal--pro-card-location'>
-                                                                        <i class="bx bxs-map"></i>
-                                                                        <span>Hyderabad</span>
-                                                                    </h6>
-                                                                    <h6 className='tal--pro-card-role'>
-                                                                        Frontend Developer
-                                                                    </h6>
-                                                                </div>
-                                                                <div className="tal--pro-card-desc-area search">
-                                                                    <div className="row tal--pro-card-desc-row">
-                                                                        <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
-                                                                            <h6 className='tal--pro-card-desc-title'>Previous&nbsp;:</h6>
-                                                                        </div>
-                                                                        <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
-                                                                            <p className='tal--pro-card-desc'>Junior Frontend Developer at Cognizant</p>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div className="row tal--pro-card-desc-row">
-                                                                        <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
-                                                                            <h6 className='tal--pro-card-desc-title'>Education&nbsp;:</h6>
-                                                                        </div>
-                                                                        <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
-                                                                            <p className='tal--pro-card-desc'>Bsc Delhi University 2019</p>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div className="row tal--pro-card-desc-row">
-                                                                        <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
-                                                                            <h6 className='tal--pro-card-desc-title'>Preferred Location&nbsp;:</h6>
-                                                                        </div>
-                                                                        <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
-                                                                            <p className='tal--pro-card-desc'>Hyderabad, Kolkata, Chennai</p>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div className="row tal--pro-card-desc-row">
-                                                                        <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
-                                                                            <h6 className='tal--pro-card-desc-title'>KeySkill&nbsp;:</h6>
-                                                                        </div>
-                                                                        <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
-                                                                            <p className='tal--pro-card-desc'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore</p>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div className="row tal--pro-card-desc-row">
-                                                                        <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
-                                                                            <h6 className='tal--pro-card-desc-title'>May also Know&nbsp;:</h6>
-                                                                        </div>
-                                                                        <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
-                                                                            <p className='tal--pro-card-desc'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed </p>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div className="tal--pro-card-bottom-btn-area search">
-                                                                    <button className='tal--pro-card-bottom-btn'>
-                                                                        <span>897 </span>Similar Profile
-                                                                    </button>
-                                                                    <span className='horizon--ln'>|</span>
-                                                                    <button className='tal--pro-card-bottom-btn'>Comment</button>
-                                                                    <span className='horizon--ln'>|</span>
-                                                                    <button className='tal--pro-card-bottom-btn'>
-                                                                        <i class="bi bi-bookmark"></i>Save
-                                                                    </button>
+                                                                <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
+                                                                    <p className='tal--pro-card-desc'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed </p>
                                                                 </div>
                                                             </div>
+                                                        </div>
+                                                        <div className="tal--pro-card-bottom-btn-area search">
+                                                            <button className='tal--pro-card-bottom-btn'>
+                                                                <span>897 </span>Similar Profile
+                                                            </button>
+                                                            <span className='horizon--ln'>|</span>
+                                                            <button className='tal--pro-card-bottom-btn'>Comment</button>
+                                                            <span className='horizon--ln'>|</span>
+                                                            <button className='tal--pro-card-bottom-btn'>
+                                                                <i class="bi bi-bookmark"></i>Save
+                                                            </button>
+                                                        </div>
+                                                    </div>
 
-                                                            <div className="tal--pro-card-right-area search">
-                                                                <div className="tal--pro-card-right-cover-area search">
-                                                                    <div className='tal--pro-card-profile-img-role-area search'>
-                                                                        <img src="assets/img/talents-images/profile-img.png" className='tal--pro-card-profile-img' alt="" />
-                                                                        <p className='tal--pro-card-role-name'>Frontend Developer (Css,html)</p>
-                                                                    </div>
-                                                                    <div className="tal--pro-card-contact-btn-area search">
-                                                                        <button className='tal--pro-card-contact-btn search'>View Phone Number</button>
-                                                                        <button className='tal--pro-card-contact-btn search'>
-                                                                            <img src="assets/img/talent-profile/call.png" alt="" />
-                                                                            Call Candidate
-                                                                        </button>
-                                                                    </div>
-                                                                    <div className="tal--pro-card-ability-number-area">
-                                                                        <div className="tal--pro-card-ability-number-left">
-                                                                            <h6 className='tal--pro-card-ability search'>Skill matched</h6>
-                                                                            <h2 className='tal--pro-card-percentage search'>90%</h2>
-                                                                        </div>
-                                                                        <div className="tal--pro-card-ability-number-right">
-                                                                            <h6 className='tal--pro-card-ability search'>Can join in</h6>
-                                                                            <h2 className='tal--pro-card-days search'>07<span>days</span></h2>
-                                                                        </div>
-                                                                    </div>
-
-                                                                </div>
-                                                                <div className="tal--pro-card-right-btn-area search">
-                                                                    <button className='tal--pro-card-right-btn search'>
-                                                                        <img src="assets/img/talent-profile/document.png" alt="" />
-                                                                    </button>
-                                                                    <button className='tal--pro-card-right-btn search'>
-                                                                        <img src="assets/img/talent-profile/arrow.png" alt="" />
-                                                                    </button>
-                                                                    <button className='tal--pro-card-right-btn search'>
-                                                                        <img src="assets/img/talent-profile/email.png" alt="" />
-                                                                    </button>
-                                                                </div>
+                                                    <div className="tal--pro-card-right-area search">
+                                                        <div className="tal--pro-card-right-cover-area search">
+                                                            <div className='tal--pro-card-profile-img-role-area search'>
+                                                                <img src="assets/img/talents-images/profile-img.png" className='tal--pro-card-profile-img' alt="" />
+                                                                <p className='tal--pro-card-role-name'>Frontend Developer (Css,html)</p>
                                                             </div>
-                                                        </article> */}
-
-
-                                                        <div className="tal--pro-paginate-btn-area" data-aos="fade-up">
-                                                            <h6 className='tal--pro-total-result-text'>Total Items : <span>{filteredSearchResults.length}</span></h6>
-                                                            <div className='tal--pro-slider-btn-sub'>
-                                                                <button className="tal--pro-slider-btn">
-                                                                    <svg className='arrow-left' xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 27 27" fill="none">
-                                                                        <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#5C3B2E" stroke-width="2" />
-                                                                        <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#5C3B2E" stroke-width="2" />
-                                                                        <path d="M1 26L25.1667 1" stroke="#5C3B2E" stroke-width="2" />
-                                                                    </svg>
-                                                                </button>
-                                                                <button className="tal--pro-slider-btn">
-                                                                    <svg className='arrow-right' xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 27 27" fill="none">
-                                                                        <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#5C3B2E" stroke-width="2" />
-                                                                        <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#5C3B2E" stroke-width="2" />
-                                                                        <path d="M1 26L25.1667 1" stroke="#5C3B2E" stroke-width="2" />
-                                                                    </svg>
+                                                            <div className="tal--pro-card-contact-btn-area search">
+                                                                <button className='tal--pro-card-contact-btn search'>View Phone Number</button>
+                                                                <button className='tal--pro-card-contact-btn search'>
+                                                                    <img src="assets/img/talent-profile/call.png" alt="" />
+                                                                    Call Candidate
                                                                 </button>
                                                             </div>
+                                                            <div className="tal--pro-card-ability-number-area">
+                                                                <div className="tal--pro-card-ability-number-left">
+                                                                    <h6 className='tal--pro-card-ability search'>Skill matched</h6>
+                                                                    <h2 className='tal--pro-card-percentage search'>90%</h2>
+                                                                </div>
+                                                                <div className="tal--pro-card-ability-number-right">
+                                                                    <h6 className='tal--pro-card-ability search'>Can join in</h6>
+                                                                    <h2 className='tal--pro-card-days search'>07<span>days</span></h2>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                        <div className="tal--pro-card-right-btn-area search">
+                                                            <button className='tal--pro-card-right-btn search'>
+                                                                <img src="assets/img/talent-profile/document.png" alt="" />
+                                                            </button>
+                                                            <button className='tal--pro-card-right-btn search'>
+                                                                <img src="assets/img/talent-profile/arrow.png" alt="" />
+                                                            </button>
+                                                            <button className='tal--pro-card-right-btn search'>
+                                                                <img src="assets/img/talent-profile/email.png" alt="" />
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </article>
+
+                                                <article className="talent--profile-card search" data-aos="fade-left">
+                                                    <div className="tal--pro-card-left-area search">
+                                                        <div className='card-split-line'></div>
+                                                        <div className="tal--pro-card-name-area">
+                                                            <label className="tal--pro-card-name-check-container">
+                                                                <input type="checkbox" />
+                                                                <div className="tal--pro-card-name-checkmark"></div>
+                                                            </label>
+                                                            <h6 className='tal--pro-card-name'>Adam Woods</h6>
+                                                        </div>
+                                                        <div className="tal--pro-card-tags search">
+                                                            <h6 className='tal--pro-card-exp'>
+                                                                Experience : 6 Yrs
+                                                            </h6>
+                                                            <h6 className='tal--pro-card-exp'>
+                                                                9.5 LPA
+                                                            </h6>
+                                                            <h6 className='tal--pro-card-location'>
+                                                                <i class="bx bxs-map"></i>
+                                                                <span>Hyderabad</span>
+                                                            </h6>
+                                                            <h6 className='tal--pro-card-role'>
+                                                                Frontend Developer
+                                                            </h6>
+                                                        </div>
+                                                        <div className="tal--pro-card-desc-area search">
+                                                            <div className="row tal--pro-card-desc-row">
+                                                                <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
+                                                                    <h6 className='tal--pro-card-desc-title'>Previous&nbsp;:</h6>
+                                                                </div>
+                                                                <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
+                                                                    <p className='tal--pro-card-desc'>Junior Frontend Developer at Cognizant</p>
+                                                                </div>
+                                                            </div>
+                                                            <div className="row tal--pro-card-desc-row">
+                                                                <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
+                                                                    <h6 className='tal--pro-card-desc-title'>Education&nbsp;:</h6>
+                                                                </div>
+                                                                <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
+                                                                    <p className='tal--pro-card-desc'>Bsc Delhi University 2019</p>
+                                                                </div>
+                                                            </div>
+                                                            <div className="row tal--pro-card-desc-row">
+                                                                <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
+                                                                    <h6 className='tal--pro-card-desc-title'>Preferred Location&nbsp;:</h6>
+                                                                </div>
+                                                                <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
+                                                                    <p className='tal--pro-card-desc'>Hyderabad, Kolkata, Chennai</p>
+                                                                </div>
+                                                            </div>
+                                                            <div className="row tal--pro-card-desc-row">
+                                                                <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
+                                                                    <h6 className='tal--pro-card-desc-title'>KeySkill&nbsp;:</h6>
+                                                                </div>
+                                                                <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
+                                                                    <p className='tal--pro-card-desc'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore</p>
+                                                                </div>
+                                                            </div>
+                                                            <div className="row tal--pro-card-desc-row">
+                                                                <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
+                                                                    <h6 className='tal--pro-card-desc-title'>May also Know&nbsp;:</h6>
+                                                                </div>
+                                                                <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
+                                                                    <p className='tal--pro-card-desc'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed </p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div className="tal--pro-card-bottom-btn-area search">
+                                                            <button className='tal--pro-card-bottom-btn'>
+                                                                <span>897 </span>Similar Profile
+                                                            </button>
+                                                            <span className='horizon--ln'>|</span>
+                                                            <button className='tal--pro-card-bottom-btn'>Comment</button>
+                                                            <span className='horizon--ln'>|</span>
+                                                            <button className='tal--pro-card-bottom-btn'>
+                                                                <i class="bi bi-bookmark"></i>Save
+                                                            </button>
+                                                        </div>
+                                                    </div>
+
+                                                    <div className="tal--pro-card-right-area search">
+                                                        <div className="tal--pro-card-right-cover-area search">
+                                                            <div className='tal--pro-card-profile-img-role-area search'>
+                                                                <img src="assets/img/talents-images/profile-img.png" className='tal--pro-card-profile-img' alt="" />
+                                                                <p className='tal--pro-card-role-name'>Frontend Developer (Css,html)</p>
+                                                            </div>
+                                                            <div className="tal--pro-card-contact-btn-area search">
+                                                                <button className='tal--pro-card-contact-btn search'>View Phone Number</button>
+                                                                <button className='tal--pro-card-contact-btn search'>
+                                                                    <img src="assets/img/talent-profile/call.png" alt="" />
+                                                                    Call Candidate
+                                                                </button>
+                                                            </div>
+                                                            <div className="tal--pro-card-ability-number-area">
+                                                                <div className="tal--pro-card-ability-number-left">
+                                                                    <h6 className='tal--pro-card-ability search'>Skill matched</h6>
+                                                                    <h2 className='tal--pro-card-percentage search'>90%</h2>
+                                                                </div>
+                                                                <div className="tal--pro-card-ability-number-right">
+                                                                    <h6 className='tal--pro-card-ability search'>Can join in</h6>
+                                                                    <h2 className='tal--pro-card-days search'>07<span>days</span></h2>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                        <div className="tal--pro-card-right-btn-area search">
+                                                            <button className='tal--pro-card-right-btn search'>
+                                                                <img src="assets/img/talent-profile/document.png" alt="" />
+                                                            </button>
+                                                            <button className='tal--pro-card-right-btn search'>
+                                                                <img src="assets/img/talent-profile/arrow.png" alt="" />
+                                                            </button>
+                                                            <button className='tal--pro-card-right-btn search'>
+                                                                <img src="assets/img/talent-profile/email.png" alt="" />
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </article> */}
+
+
+                                                    <div className="tal--pro-paginate-btn-area" data-aos="fade-up">
+                                                        <h6 className='tal--pro-total-result-text'>Total Items : <span>{filteredSearchResults.length}</span></h6>
+                                                        <div className='tal--pro-slider-btn-sub'>
+                                                            <button className="tal--pro-slider-btn">
+                                                                <svg className='arrow-left' xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 27 27" fill="none">
+                                                                    <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#5C3B2E" stroke-width="2" />
+                                                                    <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#5C3B2E" stroke-width="2" />
+                                                                    <path d="M1 26L25.1667 1" stroke="#5C3B2E" stroke-width="2" />
+                                                                </svg>
+                                                            </button>
+                                                            <button className="tal--pro-slider-btn">
+                                                                <svg className='arrow-right' xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 27 27" fill="none">
+                                                                    <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#5C3B2E" stroke-width="2" />
+                                                                    <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#5C3B2E" stroke-width="2" />
+                                                                    <path d="M1 26L25.1667 1" stroke="#5C3B2E" stroke-width="2" />
+                                                                </svg>
+                                                            </button>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>}
+                                        </div>
+                                    </div>}
                                     {/* Search results page section end */}
                                 </div>
                             </div>
@@ -2459,7 +3115,7 @@ const TalentsProfileSearch = () => {
                     </section>
                 </div>
                 <Footer />
-            </div>
+            </div>}
         </div>
     )
 }

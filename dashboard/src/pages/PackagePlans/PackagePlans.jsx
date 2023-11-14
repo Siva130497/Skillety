@@ -148,6 +148,8 @@ const PackagePlans = () => {
             };
 
             fetchData();
+        }else{
+            window.open(`http://localhost:3001/client-login`, '_blank');
         }
     }, [clientToken]);
 
@@ -198,6 +200,7 @@ const PackagePlans = () => {
             packageType: "Micro",
             logins: "2",
             cvViews: "2",
+            jobPost:"2"
         })
       }
     
@@ -207,6 +210,7 @@ const PackagePlans = () => {
             packageType: "Small",
             logins: "3",
             cvViews: "3",
+            jobPost:"3"
         })
       }
     
@@ -216,6 +220,7 @@ const PackagePlans = () => {
             packageType: "Large",
             logins: "4",
             cvViews: "4",
+            jobPost:"4"
         })
       }
 
@@ -241,7 +246,7 @@ const PackagePlans = () => {
 
     return (
         <div>
-            <div class="main-wrapper main-wrapper-1">
+            {clientToken && <div class="main-wrapper main-wrapper-1">
                 <div class="navbar-bg"></div>
 
                 <ClientLayout />
@@ -970,7 +975,7 @@ const PackagePlans = () => {
                 </div>
 
                 <Footer />
-            </div >
+            </div >}
         </div >
     )
 }

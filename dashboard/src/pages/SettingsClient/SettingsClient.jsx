@@ -131,7 +131,7 @@ const SettingsClient = () => {
             });
         });
 
-    }, []);
+    }, [loginClientDetail]);
 
     useEffect(() => {
         setClientToken(JSON.parse(localStorage.getItem('clientToken')))
@@ -150,6 +150,8 @@ const SettingsClient = () => {
             };
 
             fetchData();
+        }else{
+            window.open(`http://localhost:3001/client-login`, '_blank');
         }
     }, [clientToken]);
 
@@ -303,7 +305,7 @@ const SettingsClient = () => {
 
     return (
         <div>
-            <div class="main-wrapper main-wrapper-1">
+            {clientToken && <div class="main-wrapper main-wrapper-1">
                 <div class="navbar-bg"></div>
 
                 <ClientLayout />
@@ -560,7 +562,7 @@ const SettingsClient = () => {
                 </div>
 
                 <Footer />
-            </div>
+            </div>}
         </div>
     )
 }

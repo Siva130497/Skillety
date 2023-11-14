@@ -21,6 +21,20 @@ const AppliedCandidate = () => {
 
     const navigate = useNavigate();
 
+    const [loading, setLoading] = useState(true);
+    const [pageNotFound, setPageNotFound] = useState(false);
+
+    useEffect(() => {
+        const preloader = $('#preloader');
+    if (preloader.length) {
+    setTimeout(function () {
+        preloader.fadeOut('slow', function () {
+        preloader.remove();
+        });
+    }, 500);
+    }
+    }, []);
+
     useEffect(() => {
         setClientToken(JSON.parse(localStorage.getItem('clientToken')))
     }, [clientToken])
@@ -531,6 +545,8 @@ const AppliedCandidate = () => {
             };
 
             fetchData();
+        }else{
+            window.open(`http://localhost:3001/client-login`, '_blank');
         }
     }, [clientToken]);
 
@@ -553,14 +569,22 @@ const AppliedCandidate = () => {
             const appliedCandIds = selectedJobs.map(job => job.candidateId);
             console.log(appliedCandIds)
             const appliedCands = candidateDetail.filter(cand => appliedCandIds.includes(cand.id));
-            setReqCands(appliedCands);
+            if(appliedCands){
+                setLoading(false);
+                setReqCands(appliedCands);
+            }else{
+                setLoading(false);
+                setPageNotFound(true);
+            }
+            
         }
     }, [selectedJobs])
 
 
     return (
         <div>
-            <div class="main-wrapper main-wrapper-1">
+            {loading && <div id="preloader"></div>}
+            {reqCands && <div class="main-wrapper main-wrapper-1">
                 <div class="navbar-bg"></div>
                 <ClientLayout />
 
@@ -728,7 +752,12 @@ const AppliedCandidate = () => {
                     </section>
                 </div>
                 <Footer />
-            </div>
+            </div>}
+            {pageNotFound && <div>
+                    <h1>404</h1>
+                    <p>Not Found</p>
+                    <small>The resource requested could not be found on this server!</small>
+                </div>}
         </div>
     )
 }
