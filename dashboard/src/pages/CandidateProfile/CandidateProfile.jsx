@@ -13,7 +13,7 @@ import 'sweetalert2/dist/sweetalert2.css';
 const CandidateProfile = () => {
     const { id } = useParams();
     const navigate = useNavigate();
-    
+
     const [candidateToken, setCandidateToken] = useState("");
 
     const [loginCandidate, setLoginCandidate] = useState();
@@ -35,25 +35,25 @@ const CandidateProfile = () => {
 
     useEffect(() => {
         const preloader = $('#preloader');
-    if (preloader.length) {
-    setTimeout(function () {
-        preloader.fadeOut('slow', function () {
-        preloader.remove();
-        });
-    }, 500);
-    }
+        if (preloader.length) {
+            setTimeout(function () {
+                preloader.fadeOut('slow', function () {
+                    preloader.remove();
+                });
+            }, 500);
+        }
     }, []);
 
-    useEffect(()=>{
+    useEffect(() => {
         setUserInfo({
             ...userInfo,
-            firstName:loginCandidate?.firstName,
-            lastName:loginCandidate?.lastName,
-            location:loginCandidate?.location,
-            skill:loginCandidate?.skills.join(", "),
-            profileHeadline:loginCandidate?.profileHeadline
+            firstName: loginCandidate?.firstName,
+            lastName: loginCandidate?.lastName,
+            location: loginCandidate?.location,
+            skill: loginCandidate?.skills.join(", "),
+            profileHeadline: loginCandidate?.profileHeadline
         })
-    },[loginCandidate])
+    }, [loginCandidate])
 
     useEffect(() => {
         $(document).ready(function () {
@@ -180,9 +180,27 @@ const CandidateProfile = () => {
                     }, 800);
                 }
             });
+
+            // Open modal when the button is clicked
+            $(".image-view-btn").on("click", function () {
+                $("#imageModal").css("display", "block");
+                $("#modalImage").attr("src", $(".profile-det-image").attr("src"));
+            });
+
+            // Close modal when the close button is clicked
+            $(".image-view-close").on("click", function () {
+                $("#imageModal").css("display", "none");
+            });
+
+            // Close modal when clicking outside the modal content
+            $(window).on("click", function (event) {
+                if (event.target == $("#imageModal")[0]) {
+                    $("#imageModal").css("display", "none");
+                }
+            });
         });
 
-    }, []);
+    }, [loginCandidate]);
 
 
     //for show success message for payment
@@ -225,7 +243,7 @@ const CandidateProfile = () => {
                     setLoading(false);
                     setPageNotFound(true);
                 })
-                
+
 
             axios.get(`http://localhost:5002/candidate-image/${id}`)
                 .then(res => setCandidateImg(res.data))
@@ -278,14 +296,14 @@ const CandidateProfile = () => {
                     setUserInfo({ ...userInfo, firstName: "" })
 
                     axios.get(`http://localhost:5002/candidate/${id}`)
-                    .then(res=>{
-                        console.log(res.data)
-                        setLoginCandidate(res.data)
-                    })
-                    .catch(err=>{
-                        console.log(err)
-                        
-                    })
+                        .then(res => {
+                            console.log(res.data)
+                            setLoginCandidate(res.data)
+                        })
+                        .catch(err => {
+                            console.log(err)
+
+                        })
                 }
             })
             .catch(err => {
@@ -446,7 +464,7 @@ const CandidateProfile = () => {
             {/* <div class="navbar-bg"></div> */}
 
             {/* <div class="main-content"> */}
-            {loading && <div id="preloader"></div>}
+            {loading && <div id="preloader" className='candidate'></div>}
             {loginCandidate && <div className="container-fluid">
                 <section class="section">
                     <div className="candidate-prrofile-section">
@@ -469,6 +487,12 @@ const CandidateProfile = () => {
                                                         </button>
                                                     </div>
                                                     <img src={candidateImgUrl ? candidateImgUrl : "../assets/img/talents-images/avatar.jpg"} className='profile-det-image' alt="" />
+                                                </div>
+                                                <div id="imageModal" className="image-view-modal">
+                                                    <span className="image-view-close">
+                                                        <i class="bi bi-x"></i>
+                                                    </span>
+                                                    <img className="image-view-modal-content" id="modalImage" />
                                                 </div>
                                             </div>
                                             <div className="profile-det-area">
@@ -1129,10 +1153,10 @@ const CandidateProfile = () => {
                 </section>
             </div>}
             {pageNotFound && <div>
-                    <h1>404</h1>
-                    <p>Not Found</p>
-                    <small>The resource requested could not be found on this server!</small>
-                </div>}
+                <h1>404</h1>
+                <p>Not Found</p>
+                <small>The resource requested could not be found on this server!</small>
+            </div>}
 
             <footer className="main-footer no-sidebar">
                 <div className="footer-left">

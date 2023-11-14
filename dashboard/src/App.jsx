@@ -22,6 +22,7 @@ import JobDetails from './pages/JobDetails/JobDetails';
 
 ////for recruiter
 import RecruiterDashboard from './pages/RecruiterDashboard/RecruiterDashboard';
+import AllClients from './pages/AllClients/AllClients';
 
 
 
@@ -50,6 +51,7 @@ function App() {
 
         {/* for recruiter */}
         <Route path='/recruiter-dashboard' element={<RecruiterDashboard />} />
+        <Route path='/all-clients' element={<AllClients />} />
 
       </Routes>
     </AuthContextProvider>
