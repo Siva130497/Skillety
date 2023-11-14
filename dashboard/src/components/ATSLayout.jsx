@@ -9,9 +9,18 @@ import feather from 'feather-icons';
 const ATSLayout = () => {
 
     useEffect(() => {
-        $(window).on("load", function () {
-            $(".loader").fadeOut("slow");
-        });
+        // $(window).on("load", function () {
+        //     $(".loader").fadeOut("slow");
+        // });
+
+        const preloader = $('#preloader');
+        if (preloader.length) {
+            setTimeout(function () {
+                preloader.fadeOut('slow', function () {
+                    preloader.remove();
+                });
+            }, 500);
+        }
 
         $(document).ready(function () {
             let sidebar_nicescroll_opts = {
@@ -736,21 +745,11 @@ const ATSLayout = () => {
     return (
         <div>
 
-            {/* <div class="main-wrapper main-wrapper-1">
-        <div class="navbar-bg"></div> */}
+            <div id="preloader"></div>
             <ATSNavBar />
 
             <ATSSideBar />
 
-
-
-            {/* <footer className="main-footer">
-          <div className="footer-left">
-            <a href="templateshub.net">Templateshub</a>
-          </div>
-          <div className="footer-right"></div>
-        </footer> */}
-            {/* </div> */}
         </div>
     )
 }

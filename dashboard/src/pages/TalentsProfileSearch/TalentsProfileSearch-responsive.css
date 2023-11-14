@@ -3,10 +3,10 @@
         margin-top: 130px;
     }
 
-    .cli-tal-pro-search-container .cli-tal-pro-search-heading {
-        font-size: 45px;
-        font-weight: 500;
-    }
+    /* .cli-tal-pro-search-container .cli-tal-pro-search-heading {
+        font-size: 25px;
+        font-weight: 600;
+    } */
 
     .cli-tal-pro-search-filter-area {
         padding: 30px 15px 30px 0px;
@@ -152,10 +152,10 @@
         padding: 0px 10px;
     }
 
-    .cli-tal-pro-search-container .cli-tal-pro-search-heading {
+    /* .cli-tal-pro-search-container .cli-tal-pro-search-heading {
         font-size: 45px;
         font-weight: 500;
-    }
+    } */
 
     .cli-tal-pro-search-filter-area {
         padding: 30px 10px 30px 0px;
@@ -316,9 +316,9 @@
         margin-top: 100px;
     }
 
-    .cli-tal-pro-search-container .cli-tal-pro-search-heading {
+    /* .cli-tal-pro-search-container .cli-tal-pro-search-heading {
         font-size: 30px;
-    }
+    } */
 
     .cli-tal-pro-search-filter-area {
         padding: 30px 0px;

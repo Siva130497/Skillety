@@ -131,7 +131,7 @@ const SettingsClient = () => {
             });
         });
 
-    }, []);
+    }, [loginClientDetail]);
 
     useEffect(() => {
         setClientToken(JSON.parse(localStorage.getItem('clientToken')))

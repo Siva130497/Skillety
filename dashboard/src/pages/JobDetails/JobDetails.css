@@ -3,10 +3,11 @@
 }
 
 .dash-job-det-head {
-    font-size: 25px;
-    font-weight: 400;
+    font-size: 23px;
+    font-weight: 500;
     color: #714F36;
     text-align: center;
+    text-transform: capitalize;
 }
 
 .dash-job-det-card-area {
