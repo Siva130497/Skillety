@@ -198,7 +198,8 @@ const PackagePlans = () => {
             packageType: "Micro",
             logins: "2",
             cvViews: "2",
-            jobPost:"2"
+            jobPost:"2",
+            amount:"32,804",
         })
       }
     
@@ -208,7 +209,8 @@ const PackagePlans = () => {
             packageType: "Small",
             logins: "3",
             cvViews: "3",
-            jobPost:"3"
+            jobPost:"3",
+            amount:"91,568",
         })
       }
     
@@ -218,7 +220,8 @@ const PackagePlans = () => {
             packageType: "Large",
             logins: "4",
             cvViews: "4",
-            jobPost:"4"
+            jobPost:"4",
+            amount:"161,483",
         })
       }
 

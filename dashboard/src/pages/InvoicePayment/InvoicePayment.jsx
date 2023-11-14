@@ -1,18 +1,142 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import { useEffect } from 'react';
 import ClientLayout from '../../components/ClientLayout';
 import Footer from '../../components/Footer';
 import './InvoicePayment.css';
 import './InvoicePayment-responsive.css';
 import $ from 'jquery';
+import AuthContext from '../../context/AuthContext';
+import axios from 'axios';
 
 const InvoicePayment = () => {
+    const [clientToken, setClientToken] = useState("");
+    const { getProtectedData, getClientChoosenPlan, packageSelectionDetail } = useContext(AuthContext);
 
+    const [employeeId, setEmployeeId] = useState("");
+    const [loginClientDetail, setLoginClientDetail] = useState();
+    const [viewedCandidate, setViewedCandidate] = useState([]);
+    const [postedJobs, setPostedJobs] = useState([]);
+    const [allStaff, setAllStaff] = useState([]);
     useEffect(() => {
         $(document).ready(function () {
         });
 
     }, []);
+
+    useEffect(()=>{
+        setClientToken(JSON.parse(localStorage.getItem("clientToken")))
+    },[clientToken])
+
+    const getLoginClientDetail = async () => {
+        try {
+            const res = await axios.get(`http://localhost:5002/client/${employeeId}`, {
+                headers: {
+                    Authorization: `Bearer ${clientToken}`,
+                    Accept: 'application/json'
+                }
+            });
+            const result = res.data;
+            if (!result.error) {
+                console.log(result);
+                setLoginClientDetail(result);
+            } else {
+                console.log(result);
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    const getViewedCandidates = async () => {
+        try {
+            const res = await axios.get(`http://localhost:5002/cv-views/${loginClientDetail?.companyId}`, {
+                headers: {
+                    Authorization: `Bearer ${clientToken}`,
+                    Accept: 'application/json'
+                }
+            });
+            const result = res.data;
+            if (!result.error) {
+                console.log(result);
+                setViewedCandidate(result);
+            } else {
+                console.log(result);
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    const getOwnPostedjobs = async() => {
+        try{
+            const res = await axios.get(`http://localhost:5002/my-posted-jobs/${loginClientDetail?.companyId}`, {
+              headers: {
+                  Authorization: `Bearer ${clientToken}`,
+                  Accept: 'application/json'
+              }
+            });
+            const result = res.data;
+            if (!result.error) {
+              console.log(result);
+              setPostedJobs(result.reverse());
+            } else {
+              console.log(result);
+            }
+        }catch(err){
+          console.log(err);
+        }
+      }
+
+      const allStaffFromCompany = async() => {
+        try{
+            const res = await axios.get(`http://localhost:5002/all-staff/${loginClientDetail?.companyId}`, {
+              headers: {
+                  Authorization: `Bearer ${clientToken}`,
+                  Accept: 'application/json'
+              }
+            });
+            const result = res.data;
+            if (!result.error) {
+              console.log(result);
+              setAllStaff(result);
+            } else {
+              console.log(result);
+            }
+        }catch(err){
+          console.log(err);
+        }
+      }
+
+    useEffect(() => {
+        if (clientToken) {
+            const fetchData = async () => {
+                try {
+                    const user = await getProtectedData(clientToken);
+                    console.log(user);
+                    setEmployeeId(user.id);
+                } catch (error) {
+                    console.log(error);
+                }
+            };
+
+            fetchData();
+        }
+    }, [clientToken]);
+
+    useEffect(() => {
+        if (employeeId) {
+            getLoginClientDetail();
+        }
+    }, [employeeId]);
+
+    useEffect(() => {
+        if (loginClientDetail?.companyId) {
+            getClientChoosenPlan(loginClientDetail?.companyId);
+            getViewedCandidates();
+            getOwnPostedjobs();
+            allStaffFromCompany();
+        }
+    }, [loginClientDetail]);
 
     return (
         <div>
@@ -43,7 +167,7 @@ const InvoicePayment = () => {
                                             <table className="table table-striped table-hover admin-lg-table">
                                                 <tr className='dash-table-row man-app'>
                                                     <th className='dash-table-head text-left'>Sr.no</th>
-                                                    <th className='dash-table-head text-center'>Item</th>
+                                                    <th className='dash-table-head text-center'>Package Name</th>
                                                     <th className='dash-table-head text-center'>Date of Billing</th>
                                                     <th className='dash-table-head text-center'>Available till</th>
                                                     <th className='dash-table-head text-center'>Billed Amount</th>
@@ -54,66 +178,10 @@ const InvoicePayment = () => {
                                                 <tr className='dash-table-row client'>
                                                     <td className='dash-table-data1 text-left'>01.</td>
                                                     <td className='dash-table-data1 text-center'>
-                                                        Sourcing
+                                                        {packageSelectionDetail?.packageType}
                                                     </td>
                                                     <td className='dash-table-data1 text-center'>
-                                                        21-09-2023
-                                                    </td>
-
-                                                    <td className='dash-table-data1 text-center'>
-                                                        21-12-2023
-                                                    </td>
-
-                                                    <td className='dash-table-data1 text-center'>
-                                                        Rs.&nbsp;<span>190,039/-</span>
-                                                    </td>
-
-                                                    <td className='text-center'>
-                                                        <button className='application-btn' data-toggle="modal" data-target="#invoiceModal">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
-                                                                <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
-                                                                <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"
-                                                                    fill='#0879bc' />
-                                                            </svg>
-                                                        </button>
-                                                    </td>
-                                                </tr>
-
-                                                <tr className='dash-table-row client'>
-                                                    <td className='dash-table-data1 text-left'>02.</td>
-                                                    <td className='dash-table-data1 text-center'>
-                                                        Screening
-                                                    </td>
-                                                    <td className='dash-table-data1 text-center'>
-                                                        21-06-2023
-                                                    </td>
-
-                                                    <td className='dash-table-data1 text-center'>
-                                                        21-09-2023
-                                                    </td>
-
-                                                    <td className='dash-table-data1 text-center'>
-                                                        Rs.&nbsp;<span>190,039/-</span>
-                                                    </td>
-
-                                                    <td className='text-center'>
-                                                        <button className='application-btn' data-toggle="modal" data-target="#invoiceModal">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
-                                                                <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
-                                                                <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"
-                                                                    fill='#0879bc' />
-                                                            </svg>
-                                                        </button>
-                                                    </td>
-                                                </tr>
-
-                                                <tr className='dash-table-row client'>
-                                                    <td className='dash-table-data1 text-left'>03.</td>
-                                                    <td className='dash-table-data1 text-center'>
-                                                        Sourcing
-                                                    </td>
-                                                    <td className='dash-table-data1 text-center'>
-                                                        21-09-2023
+                                                    {`${new Date(packageSelectionDetail?.createdAt).getDate().toString().padStart(2, '0')}/${(new Date(packageSelectionDetail?.createdAt).getMonth() + 1).toString().padStart(2, '0')}/${new Date(packageSelectionDetail?.createdAt).getFullYear() % 100}`}
                                                     </td>
 
                                                     <td className='dash-table-data1 text-center'>
@@ -121,7 +189,7 @@ const InvoicePayment = () => {
                                                     </td>
 
                                                     <td className='dash-table-data1 text-center'>
-                                                        Rs.&nbsp;<span>190,039/-</span>
+                                                        Rs.&nbsp;<span>{packageSelectionDetail?.amount}/-</span>
                                                     </td>
 
                                                     <td className='text-center'>
@@ -135,146 +203,7 @@ const InvoicePayment = () => {
                                                     </td>
                                                 </tr>
 
-                                                <tr className='dash-table-row client'>
-                                                    <td className='dash-table-data1 text-left'>04.</td>
-                                                    <td className='dash-table-data1 text-center'>
-                                                        Screening
-                                                    </td>
-                                                    <td className='dash-table-data1 text-center'>
-                                                        21-06-2023
-                                                    </td>
-
-                                                    <td className='dash-table-data1 text-center'>
-                                                        21-09-2023
-                                                    </td>
-
-                                                    <td className='dash-table-data1 text-center'>
-                                                        Rs.&nbsp;<span>190,039/-</span>
-                                                    </td>
-
-                                                    <td className='text-center'>
-                                                        <button className='application-btn' data-toggle="modal" data-target="#invoiceModal">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
-                                                                <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
-                                                                <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"
-                                                                    fill='#0879bc' />
-                                                            </svg>
-                                                        </button>
-                                                    </td>
-                                                </tr>
-
-                                                <tr className='dash-table-row client'>
-                                                    <td className='dash-table-data1 text-left'>05.</td>
-                                                    <td className='dash-table-data1 text-center'>
-                                                        Sourcing
-                                                    </td>
-                                                    <td className='dash-table-data1 text-center'>
-                                                        21-09-2023
-                                                    </td>
-
-                                                    <td className='dash-table-data1 text-center'>
-                                                        21-12-2023
-                                                    </td>
-
-                                                    <td className='dash-table-data1 text-center'>
-                                                        Rs.&nbsp;<span>190,039/-</span>
-                                                    </td>
-
-                                                    <td className='text-center'>
-                                                        <button className='application-btn' data-toggle="modal" data-target="#invoiceModal">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
-                                                                <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
-                                                                <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"
-                                                                    fill='#0879bc' />
-                                                            </svg>
-                                                        </button>
-                                                    </td>
-                                                </tr>
-
-                                                <tr className='dash-table-row client'>
-                                                    <td className='dash-table-data1 text-left'>06.</td>
-                                                    <td className='dash-table-data1 text-center'>
-                                                        Sourcing
-                                                    </td>
-                                                    <td className='dash-table-data1 text-center'>
-                                                        21-09-2023
-                                                    </td>
-
-                                                    <td className='dash-table-data1 text-center'>
-                                                        21-12-2023
-                                                    </td>
-
-                                                    <td className='dash-table-data1 text-center'>
-                                                        Rs.&nbsp;<span>190,039/-</span>
-                                                    </td>
-
-                                                    <td className='text-center'>
-                                                        <button className='application-btn' data-toggle="modal" data-target="#invoiceModal">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
-                                                                <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
-                                                                <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"
-                                                                    fill='#0879bc' />
-                                                            </svg>
-                                                        </button>
-                                                    </td>
-                                                </tr>
-
-                                                <tr className='dash-table-row client'>
-                                                    <td className='dash-table-data1 text-left'>07.</td>
-                                                    <td className='dash-table-data1 text-center'>
-                                                        Sourcing
-                                                    </td>
-                                                    <td className='dash-table-data1 text-center'>
-                                                        21-09-2023
-                                                    </td>
-
-                                                    <td className='dash-table-data1 text-center'>
-                                                        21-12-2023
-                                                    </td>
-
-                                                    <td className='dash-table-data1 text-center'>
-                                                        Rs.&nbsp;<span>190,039/-</span>
-                                                    </td>
-
-                                                    <td className='text-center'>
-                                                        <button className='application-btn' data-toggle="modal" data-target="#invoiceModal">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
-                                                                <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
-                                                                <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"
-                                                                    fill='#0879bc' />
-                                                            </svg>
-                                                        </button>
-                                                    </td>
-                                                </tr>
-
-                                                <tr className='dash-table-row client'>
-                                                    <td className='dash-table-data1 text-left'>08.</td>
-                                                    <td className='dash-table-data1 text-center'>
-                                                        Sourcing
-                                                    </td>
-                                                    <td className='dash-table-data1 text-center'>
-                                                        21-09-2023
-                                                    </td>
-
-                                                    <td className='dash-table-data1 text-center'>
-                                                        21-12-2023
-                                                    </td>
-
-                                                    <td className='dash-table-data1 text-center'>
-                                                        Rs.&nbsp;<span>190,039/-</span>
-                                                    </td>
-
-                                                    <td className='text-center'>
-                                                        <button className='application-btn' data-toggle="modal" data-target="#invoiceModal">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
-                                                                <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
-                                                                <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"
-                                                                    fill='#0879bc' />
-                                                            </svg>
-                                                        </button>
-                                                    </td>
-                                                </tr>
-
+                                                
                                             </table>
                                         </div>
 
@@ -333,13 +262,18 @@ const InvoicePayment = () => {
                                                 <tbody>
                                                     <tr className='row-of-table-row'>
                                                         <th className='table--head'>CV Views</th>
-                                                        <td className='table--data text-center'>05</td>
-                                                        <td className='table--data text-center'>10</td>
+                                                        <td className='table--data text-center'>{viewedCandidate.length}</td>
+                                                        <td className='table--data text-center'>{packageSelectionDetail?.cvViews-viewedCandidate.length}</td>
                                                     </tr>
                                                     <tr className='row-of-table-row'>
                                                         <th className='table--head'>Login IDs</th>
-                                                        <td className='table--data text-center'>05</td>
-                                                        <td className='table--data text-center'>10</td>
+                                                        <td className='table--data text-center'>{allStaff.length}</td>
+                                                        <td className='table--data text-center'>{packageSelectionDetail?.logins-allStaff.length}</td>
+                                                    </tr>
+                                                    <tr className='row-of-table-row'>
+                                                        <th className='table--head'>Number Of Jobs</th>
+                                                        <td className='table--data text-center'>{postedJobs.length}</td>
+                                                        <td className='table--data text-center'>{packageSelectionDetail?.jobPost-postedJobs.length}</td>
                                                     </tr>
                                                 </tbody>
                                             </table>

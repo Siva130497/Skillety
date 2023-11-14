@@ -18,8 +18,12 @@ const clientPackageSchema = new Schema(
         type: Number,
         required: true
       },
-      jobPost: {
+    jobPost: {
         type: Number,
+        required: true
+      },
+    amount: {
+        type: String,
         required: true
       },
   },
