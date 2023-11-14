@@ -234,8 +234,6 @@ const CandidateProfile = () => {
             axios.get(`http://localhost:5002/candidate-resume/${id}`)
                 .then(res => setResume(res.data))
                 .catch(err => console.log(err))
-        }else{
-            window.open(`http://localhost:3001/candidate-login`, '_blank');
         }
     }, [id, candidateToken])
 

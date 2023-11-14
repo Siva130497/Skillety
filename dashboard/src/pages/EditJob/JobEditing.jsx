@@ -88,8 +88,6 @@ if (preloader.length) {
           setLoading(false);
           setPageNotFound(true);
         })
-    }else{
-      window.open(`http://localhost:3001/client-login`, '_blank');
     }
   }, [id, clientToken])
 
