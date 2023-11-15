@@ -7,10 +7,15 @@ import LayoutNew from '../../components/LayoutNew';
 import { CandidateFooter } from '../../components/CandidateFooter';
 import { Slider } from "primereact/slider";
 import axios from 'axios';
+import { useContext } from 'react';
+import AuthContext from '../../context/AuthContext';
 
 const JobSearch = () => {
     const candidateToken = JSON.parse(localStorage.getItem("candidateToken"))
+    const { getProtectedData, getClientImg, clientImg } = useContext(AuthContext);
+    const [candidateId, setCandidateId] = useState("");
     const [allJobs, setAllJobs] = useState([]);
+    const [clients, setClients] = useState([])
     const [searchResult, setSearchResult] = useState(false);
     const [filteredSearchResults, setFilteredSearchResults] = useState([]);
     const [filteredSearchResultsMsg, setFilteredSearchResultsMsg] = useState("");
@@ -136,7 +141,23 @@ const JobSearch = () => {
                 $("html, body").animate({ scrollTop: 0 }, 0);
             });
         });
-    }, [searchResult]);
+    }, [searchResult, candidateToken, candidateId, allJobs, clients, filteredSearchResults, checkBoxfilters]);
+
+    useEffect(() => {
+        if (candidateToken) {
+            const fetchData = async () => {
+                try {
+                    const user = await getProtectedData(candidateToken);
+                    console.log(user);
+                    setCandidateId(user.id);
+                } catch (error) {
+                    console.log(error);
+                }
+            };
+
+            fetchData();
+        }
+    }, [candidateToken]);
 
     const getPostedjobs = async () => {
         try {
@@ -159,6 +180,14 @@ const JobSearch = () => {
 
     useEffect(() => {
         getPostedjobs();
+        getClientImg();
+
+        axios.get("http://localhost:5002/clients")
+            .then(res=>{
+            console.log(res.data)
+            setClients(res.data)
+            })
+            .catch(err=>console.log(err))
     }, [])
 
     const handleSkillSearch = () => {
@@ -1071,40 +1100,43 @@ const JobSearch = () => {
                                                     <p>{filteredSearchResultsMsg}</p> :
                                                     filteredSearchResults.length > 0 ?
                                                         filteredSearchResults.map((job) => {
+                                                            const matchingImg = clientImg ? clientImg.find(img => img.id === job.companyId) : null;
+                                                            const imgSrc = matchingImg ? `http://localhost:5002/client_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
+                                                            const companyName = clients.find(cli=>cli.companyId === job.companyId)?.companyName
                                                             return (
                                                                 <article className='job--detail-card search' data-aos="fade-left">
                                                                     <div className="job--detail-card-top-area job">
                                                                         <div>
                                                                             <h5 className='job--detail-card-role'>{job.jobRole[0]}</h5>
                                                                             <div className="job--detail-card-review-area">
-                                                                                <div className="job--detail-card-review">Happiest Minds</div>
-                                                                                <div className='job--detail-card-rating'>
+                                                                                <div className="job--detail-card-review">{companyName}</div>
+                                                                                {/* <div className='job--detail-card-rating'>
                                                                                     <i class="ri-star-fill"></i>
                                                                                     <span>4.9</span>
                                                                                 </div>
                                                                                 <div className="job--detail-card-review-count">
                                                                                     879&nbsp;
                                                                                     <span>Reviews</span>
-                                                                                </div>
+                                                                                </div> */}
                                                                             </div>
 
                                                                             <div className="job--detail-card-location-area">
                                                                                 <div className="job--detail-card-experience">
                                                                                     <i class='bx bx-briefcase'></i>
-                                                                                    <span>{job.year > 0 ? job.year + 'years' : "" + job.month > 0 ? job.month + 'months' : ""}</span>
+                                                                                    <span>{job?.minExperience} - {job.maxExperience} years</span>
                                                                                 </div>
-                                                                                <div className="job--detail-card-experience">
+                                                                                {/* <div className="job--detail-card-experience">
                                                                                     <i class='bx bx-rupee'></i>
                                                                                     <span>Not disclosed</span>
-                                                                                </div>
+                                                                                </div> */}
                                                                                 <div className="job--detail-card-experience">
                                                                                     <i class="bi bi-geo-alt-fill"></i>
-                                                                                    <span>Hyderabad</span>
+                                                                                    <span>{job?.location.join(", ")}</span>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
                                                                         <div className="job--detail-card-img-area job">
-                                                                            <img src="assets/img/companies/company-1.png" className='job--detail-card-img' alt="" />
+                                                                            <img src={imgSrc}className='job--detail-card-img' alt="" />
                                                                         </div>
                                                                     </div>
                                                                     <div className="job--detail-card-desc-area">
@@ -1117,7 +1149,7 @@ const JobSearch = () => {
                                                                             })}
                                                                         </div>
                                                                         <div className="job--detail-card-know-more-btn-area">
-                                                                            <a href={candidateToken ? `http://localhost:3000/job-detail/${job.id}` : "/candidate-login"} className='job--detail-card-know-more-btn'>Know more</a>
+                                                                            <a href={candidateToken ? `/job-detail/${job.id}` : "/candidate-login"} className='job--detail-card-know-more-btn'>Know more</a>
                                                                         </div>
                                                                     </div>
                                                                 </article>

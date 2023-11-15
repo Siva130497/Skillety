@@ -8,7 +8,6 @@ import About from './pages/AboutUs/About';
 import CandidateAboutUs from './pages/CandidateAboutUs/CandidateAboutUs';
 import Contact from './pages/Contact/Contact';
 import ContactCandidate from './pages/ContactCandidate/ContactCandidate';
-import JobDetail from './pages/JobDetail/JobDetail';
 import JobSearch from './pages/JobSearch/JobSearch';
 import Company from './pages/Company/Company';
 import CompanyDetails from './pages/CompanyDetails/CompanyDetails';
@@ -51,6 +50,7 @@ import CandidateDashboard from './pages/CandidateDashboard/CandidateDashboard';
 import AdminDashboard from './pages/AdminDashboard/AdminDashboard';
 import RecruiterDashboard from './pages/RecruiterDashboard/RecruiterDashboard';
 import ForgotPassword from './pages/ForgotPassword/ForgotPassword';
+import JobDetails from './pages/JobDetails/JobDetails';
 
 
 function App() {
@@ -87,10 +87,10 @@ function App() {
             <Route path='/testimonial-detail' element={<TestimonialDetail />} />
             <Route path='/candidate-testimonial-detail' element={<CandidateTestimonialDetail />} />
             <Route path='/talent-contact-us' element={<ContactCandidate />} />
-            <Route path='/job-detail/:id' element={<JobDetail />} />
+            <Route path='/job-detail/:id' element={<JobDetails />} />
             <Route path='/job-search' element={<JobSearch />} />
             <Route path='/company' element={<Company />} />
-            <Route path='/company-details' element={<CompanyDetails />} />
+            <Route path='/company-details/:id' element={<CompanyDetails />} />
             {/* <Route path='/pdf' element={<PDFViewer />} /> */}
             <Route path='/live-chat' element={<LiveChat />} />
             <Route path='/real-time-chat' element={<Chat />} />

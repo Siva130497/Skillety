@@ -5,8 +5,36 @@ import './CompanyDetails.css';
 import './CompanyDetails-responsive.css';
 import { CandidateFooter } from '../../components/CandidateFooter';
 import LayoutNew from '../../components/LayoutNew';
+import { useState } from 'react';
+import {useParams} from 'react-router-dom'
+import axios from 'axios'
 
 const CompanyDetails = () => {
+    const {id} = useParams()
+    const [jobs, setJobs] = useState([]);
+    const [candidateToken, setCandidateToken] = useState("");
+
+    const [loading, setLoading] = useState(true);
+    const [pageNotFound, setPageNotFound] = useState(false);
+
+    useEffect(()=>{
+        setCandidateToken(JSON.parse(localStorage.getItem("candidateToken")))
+    },[candidateToken])
+
+    useEffect(()=>{
+       axios.get(`http://localhost:5002/company-posted-job/${id}`) 
+       .then((res=>{
+        console.log(res.data)
+        setLoading(false);
+        setJobs(res.data);
+       }))
+       .catch(err=>{
+        console.log(err)
+        setLoading(false);
+        setPageNotFound(true);
+       })
+    },[id])
+
     useEffect(() => {
         $(document).ready(function () {
             // Expand the first card initially
@@ -44,10 +72,23 @@ const CompanyDetails = () => {
             });
         });
 
+    }, [jobs]);
+
+    useEffect(() => {
+        const preloader = $('#preloader');
+    if (preloader.length) {
+      setTimeout(function () {
+        preloader.fadeOut('slow', function () {
+          preloader.remove();
+        });
+      }, 500);
+    }
     }, []);
 
     return (
         <div>
+            {loading && <div id="preloader candidate"></div>}
+        {jobs.length > 0 && <div>
             <LayoutNew />
             <div className='talents--section'>
                 <div className='container-fluid'>
@@ -70,14 +111,16 @@ const CompanyDetails = () => {
                             </div>
 
                             <div className="company--detail-section">
-                                <div className="company--detail-desc-area">
+                                {/* <div className="company--detail-desc-area">
                                     <p className='company--detail-desc' data-aos="fade-left">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. </p>
-                                </div>
+                                </div> */}
                                 <div className="company--detail-vacancy-area">
                                     <h3 className='company--detail-vacancy-title' data-aos="fade-up">VACANCIES</h3>
 
                                     <div className="company--detail-vacancy-container">
-                                        <article className='company--detail-vacancy-card' data-aos="fade-left">
+                                        {jobs.map(job=>{
+                                            return(
+                                                <article className='company--detail-vacancy-card' data-aos="fade-left">
                                             <div className="company--detail-vacancy-card-arrow-area">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" viewBox="0 0 45 45" fill="none">
                                                     <path d="M3.61719 5.21432C9.8283 10.4699 25.9772 17.2543 40.8839 2.34766" stroke="#5C3B2E" stroke-width="2" />
@@ -94,12 +137,12 @@ const CompanyDetails = () => {
                                                     </svg>
                                                 </div>
                                                 <div className="col-12 col-lg-7 col-xl-7 col-md-7 col-sm-9 company--detail-card-role-area">
-                                                    <h4 className='company--detail-card-role'>Frontend Developer</h4>
+                                                    <h4 className='company--detail-card-role'>{job.jobRole[0]}</h4>
                                                 </div>
                                                 <div className="col-12 col-lg-3 col-xl-3 col-md-3 col-sm-9 offset-sm-3 offset-md-0 offset-lg-0 offset-xl-0 company--detail-card-role-count-area">
-                                                    <h5 className='company--detail-card-role-count'>
+                                                    {/* <h5 className='company--detail-card-role-count'>
                                                         02 <span>Job roles</span>
-                                                    </h5>
+                                                    </h5> */}
                                                 </div>
                                             </div>
                                             <div className="row company--detail-card-toggle-detail-area">
@@ -111,7 +154,7 @@ const CompanyDetails = () => {
                                                                     Location
                                                                 </h6>
                                                                 <p className='company--detail-card-content-desc'>
-                                                                    Remote
+                                                                    {job.location.join(", ")}
                                                                 </p>
                                                             </div>
                                                         </div>
@@ -121,7 +164,7 @@ const CompanyDetails = () => {
                                                                     Experience
                                                                 </h6>
                                                                 <p className='company--detail-card-content-desc'>
-                                                                    5+ years
+                                                                    {job.minExperience} - {job.maxExperience} years
                                                                 </p>
                                                             </div>
                                                         </div>
@@ -131,17 +174,17 @@ const CompanyDetails = () => {
                                                                     Required Skills
                                                                 </h6>
                                                                 <p className='company--detail-card-content-desc'>
-                                                                    Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                                                                    {job.skills.join(", ")}
                                                                 </p>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div className="company--detail-card-desc-area">
                                                         <p className='company--detail-card-desc'>
-                                                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
+                                                            {job.jobDescription}
                                                         </p>
                                                     </div>
-                                                    <div className="company--detail-card-res-section">
+                                                    {/* <div className="company--detail-card-res-section">
                                                         <h4 className="company--detail-card-sub-head">
                                                             Responsibilities
                                                         </h4>
@@ -186,9 +229,9 @@ const CompanyDetails = () => {
                                                                 <li className='company--detail-card-per-qua-list-item'>Lorem Ipsum is simply dummy text</li>
                                                             </ul>
                                                         </div>
-                                                    </div>
+                                                    </div> */}
                                                     <div className="company--detail-card-apply-btn-area">
-                                                        <a href="#" className='company--detail-card-apply-btn'>
+                                                        <a href={candidateToken ? `/job-detail/${job.id}` : "/candidate-login"} className='company--detail-card-apply-btn'>
                                                             <div className='company--detail-card-apply-btn-sub'>
                                                                 Apply Now
                                                             </div>
@@ -203,9 +246,12 @@ const CompanyDetails = () => {
                                                     </div>
                                                 </div>
                                             </div>
-                                        </article>
+                                                </article>
+                                            )
+                                        })}
+                                        
 
-                                        <article className='company--detail-vacancy-card' data-aos="fade-left">
+                                        {/* <article className='company--detail-vacancy-card' data-aos="fade-left">
                                             <div className="company--detail-vacancy-card-arrow-area">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" viewBox="0 0 45 45" fill="none">
                                                     <path d="M3.61719 5.21432C9.8283 10.4699 25.9772 17.2543 40.8839 2.34766" stroke="#5C3B2E" stroke-width="2" />
@@ -587,7 +633,7 @@ const CompanyDetails = () => {
                                                     </div>
                                                 </div>
                                             </div>
-                                        </article>
+                                        </article> */}
                                     </div>
                                 </div>
                             </div>
@@ -596,7 +642,13 @@ const CompanyDetails = () => {
                 </div>
             </div>
             <CandidateFooter />
-        </div >
+        </div >}
+        {pageNotFound && <div>
+                    <h1>404</h1>
+                    <p>Not Found</p>
+                    <small>The resource requested could not be found on this server!</small>
+                </div>}
+        </div>
     )
 
 }

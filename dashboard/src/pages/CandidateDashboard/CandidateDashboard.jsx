@@ -92,6 +92,7 @@ const ClientDashboard = () => {
   const [jobDetail, setJobDetail] = useState([]);
   const [appliedJobDetail, setAppliedJobDetail] = useState([]);
   const [allClient, setAllClient] = useState([]);
+  const [matchJobNum, setMatchJobNum] = useState("");
 
   const [loading, setLoading] = useState(true);
     const [pageNotFound, setPageNotFound] = useState(false);
@@ -190,6 +191,7 @@ const getSkillMatchJobDetail = async() => {
       if (!result.error) {
         console.log(result);
         setJobDetail(result);
+        setMatchJobNum(result.filter(job => job.percentage > 0).length);
       } else {
         console.log(result);
       }
@@ -264,28 +266,28 @@ const getSkillMatchJobDetail = async() => {
                     <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
                       <div className="dash-num-count-area">
                         <p className='dash-num-title'>Jobs Applied</p>
-                        <h4 className='dash-num-count'>14</h4>
+                        <h4 className='dash-num-count'>{appliedJobDetail.length}</h4>
                       </div>
                     </div>
 
                     <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
                       <div className="dash-num-count-area">
                         <p className='dash-num-title'>Upcoming Interviews</p>
-                        <h4 className='dash-num-count'>04</h4>
+                        <h4 className='dash-num-count'>00</h4>
                       </div>
                     </div>
 
                     <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
                       <div className="dash-num-count-area">
                         <p className='dash-num-title'>New matched Jobs</p>
-                        <h4 className='dash-num-count'>08</h4>
+                        <h4 className='dash-num-count'>{matchJobNum}</h4>
                       </div>
                     </div>
 
                     <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
                       <div className="dash-num-count-area">
                         <p className='dash-num-title'>New Notification</p>
-                        <h4 className='dash-num-count'>28</h4>
+                        <h4 className='dash-num-count'>00</h4>
                       </div>
                     </div>
                   </div>

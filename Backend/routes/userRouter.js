@@ -184,6 +184,8 @@ router.get("/assigned-candidates", employeeAuth, getAssignedCandidates);
 //get particular client
 router.get('/client/:clientId',employeeAuth, getLoginClientDetail);
 
+router.get('/company-posted-job/:id', getOwnPostedjobs);
+
 //get all client staff created by particular client
 router.get('/all-client-staffs/:companyId', employeeAuth, getAllClientStaffs);
 

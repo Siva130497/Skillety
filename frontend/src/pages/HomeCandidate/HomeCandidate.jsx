@@ -44,6 +44,7 @@ const HomeCandidate = () => {
     getEventDetail();
     getEventImg();
     getPostedjobs();
+    getClientImg();
 
     axios.get("http://localhost:5002/clients")
     .then(res => {
@@ -324,17 +325,23 @@ const HomeCandidate = () => {
               </div>
             </div>
             <div className="company--content-area">
-              <div className="row company--content-row custom-row-border-top">
+              {allClient.map(client=>{
+                const matchingImg = clientImg ? clientImg.find(img => img.id === client.companyId) : null;
+                const imgSrc = matchingImg ? `http://localhost:5002/client_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
+                const jobOpening = (allJobs.filter(job=>job.companyId === client.companyId)).length
+                return(
+                  <div className="row company--content-row custom-row-border-top">
                 <div className="col-12 col-xl-3 col-lg-3 col-sm-6 col-md-6 company--content-img-area">
-                  <img src="assets/img/companies/company-1.png" data-aos="fade" className='company--content-img' loading='lazy' alt="" />
+                  <img src={imgSrc} data-aos="fade" className='company--content-img' loading='lazy' alt="" />
+                  <div>{client.companyName}</div>
                 </div>
                 <div className="col-12 col-xl-4 col-lg-4 col-sm-6 col-md-6 company--content-jobs-area">
-                  <div className='company--content-jobs' data-aos="zoom-out">10<span> Jobs Opening</span></div>
+                  <div className='company--content-jobs' data-aos="zoom-out">{jobOpening}<span> Jobs Opening</span></div>
                 </div>
                 <div className="col-12 col-xl-5 col-lg-5 col-md-12 company--content-desc-area">
-                  <p className='company--content-desc' data-aos="fade-left">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
+                  {/* <p className='company--content-desc' data-aos="fade-left">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p> */}
                   <div className='company--content-apply-btn-area' data-aos="fade-right">
-                    <a href="/company-details" className='company--content-apply-btn'>
+                    <a href={`/company-details/${client.companyId}`} className='company--content-apply-btn'>
                       <div className='company--content-apply-btn-sub'>
                         Apply Now
                       </div>
@@ -348,9 +355,12 @@ const HomeCandidate = () => {
                     </a>
                   </div>
                 </div>
-              </div>
+                  </div>
+                )
+              })}
+              
 
-              <div className="row company--content-row custom-row-border-top">
+              {/* <div className="row company--content-row custom-row-border-top">
                 <div className="col-12 col-xl-3 col-lg-3 col-sm-6 col-md-6 company--content-img-area">
                   <img src="assets/img/companies/company-2.png" data-aos="fade" className='company--content-img' loading='lazy' alt="" />
                 </div>
@@ -504,7 +514,7 @@ const HomeCandidate = () => {
                     </a>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
           </section>
 

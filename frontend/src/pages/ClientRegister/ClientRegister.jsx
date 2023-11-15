@@ -17,11 +17,37 @@ const ClientRegister = () => {
         phone: "",
         email: "",
         companyName: "",
-        industry: "Developer",
         count: "",
         text: "",
     }
     const [credentials, setcredentials] = useState(initialCredentials)
+    const [industryArray, setIndustryArray] = useState([]);
+    const [searchIndustryInput, setSearchIndustryInput] = useState("");
+    const [filteredIndustry, setFilteredindustry] = useState([]);
+    const [selectedIndustry, setSelectedIndustry] = useState([]);
+
+    const getAllIndustry = async () => {
+        try {
+          const res = await axios.get("http://localhost:5002/industries", {
+            headers: {
+              Accept: 'application/json'
+            }
+          });
+          const result = res.data;
+          if (!result.error) {
+            console.log(result);
+            setIndustryArray(result);
+          } else {
+            console.log(result);
+          }
+        } catch (err) {
+          console.log(err);
+        }
+      };
+
+      useEffect(()=>{
+        getAllIndustry();
+      },[])
 
     useEffect(() => {
         setcredentials((prevCredentials) => ({
@@ -53,6 +79,31 @@ const ClientRegister = () => {
         }
     };
 
+    const handleIndustrySearch = (e) => {
+        const inputValue = e.target.value;
+        setSearchIndustryInput(inputValue);
+        if (inputValue.length > 0) {
+          const industries = industryArray.filter((obj) => {
+            return obj.industry.toLowerCase().includes(inputValue.toLowerCase());
+          });
+          if (industries.length > 0) {
+            setFilteredindustry(industries);
+          }
+        } else {
+          setFilteredindustry([]);
+        }
+      };
+    
+      const handleIndustryClick = (industry) => {
+        setSelectedIndustry([industry]);
+        setSearchIndustryInput("");
+        setFilteredindustry([]);
+      }
+    
+      const handleDeselectIndustry = (industry) => {
+        setSelectedIndustry(selectedIndustry.filter(selectIndustry => selectIndustry !== industry));
+      }
+
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         setcredentials({ ...credentials, [name]: value });
@@ -60,8 +111,12 @@ const ClientRegister = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        console.log(credentials);
-        registerUser(credentials);
+        const updatedCredentials = {
+            ...credentials,
+            industry:selectedIndustry[0],
+        }
+        console.log(updatedCredentials);
+        registerUser(updatedCredentials);
         // navigate("/packages");
     }
 
@@ -183,7 +238,7 @@ const ClientRegister = () => {
                                                 </div> */}
                                                 <div className="custom--select-area" >
                                                     <label htmlFor="industry" className='custom--select-label'>Industry</label>
-                                                    <div className="sel sel--black-panther">
+                                                    {/* <div className="sel sel--black-panther">
                                                         <i className="bi bi-chevron-down select--toggle"></i>
                                                         <select name="industry" id="industry" value={credentials.industry} onChange={handleInputChange}>
                                                             <option value="" disabled>- Select Here -</option>
@@ -193,6 +248,30 @@ const ClientRegister = () => {
                                                             <option value="programmer">Programmer</option>
                                                             <option value="designer">Designer</option>
                                                         </select>
+                                                    </div> */}
+                                                    {selectedIndustry.map(selectIndustry => (
+                                                        <span className="job-post-form-badge"
+                                                            key={selectIndustry}
+                                                            onClick={() => handleDeselectIndustry(selectIndustry)}
+                                                        >{selectIndustry}
+                                                        </span>
+                                                        ))}
+
+                                                    <input type="text" className='job-post-form-input'
+                                                        name='searchIndustryInput'
+                                                        id='searchIndustryInput'
+                                                        value={searchIndustryInput}
+                                                        onChange={handleIndustrySearch}
+                                                        placeholder='Enter a clear & specific industry to get better responses' />
+
+                                                    <div className='search-result-data-area'>
+                                                        {filteredIndustry.length > 0 &&
+                                                        filteredIndustry.map((filterIndustry) => {
+                                                            return <div className='search-result-data' key={filterIndustry._id} onClick={() => handleIndustryClick(filterIndustry.industry)}>
+                                                            {filterIndustry.industry}
+                                                            </div>
+                                                        })
+                                                        }
                                                     </div>
                                                 </div>
                                             </div>
