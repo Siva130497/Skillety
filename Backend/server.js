@@ -11,6 +11,8 @@ const designationsRouter = require('./routes/designations');
 const departmentRouter = require('./routes/departments');
 const locationRouter = require('./routes/location');
 const roleRouter = require('./routes/role');
+const industryRouter = require('./routes/industry');
+const educationRouter = require('./routes/education');
 const app = express();
 const dotenv = require('dotenv');
 const morgan = require('morgan');
@@ -54,6 +56,8 @@ app.use('', designationsRouter);
 app.use('', departmentRouter);
 app.use('', locationRouter);
 app.use('', roleRouter);
+app.use('', industryRouter);
+app.use('', educationRouter);
 
 const server = http.createServer(app);
 

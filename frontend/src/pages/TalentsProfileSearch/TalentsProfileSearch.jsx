@@ -2608,16 +2608,16 @@ const TalentsProfileSearch = () => {
                                                                             <h6 className='tal--pro-card-exp'>
                                                                                 Experience : {candidate.year > 0 ? candidate.year + 'years' : "" + candidate.month > 0 ? candidate.month + 'months' : ""}
                                                                             </h6>
-                                                                            <h6 className='tal--pro-card-exp'>
+                                                                            {/* <h6 className='tal--pro-card-exp'>
                                                                                 9.5 LPA
-                                                                            </h6>
+                                                                            </h6> */}
                                                                             <h6 className='tal--pro-card-location'>
                                                                                 <i class="bx bxs-map"></i>
                                                                                 <span>{candidate.location}</span>
                                                                             </h6>
-                                                                            <h6 className='tal--pro-card-role'>
+                                                                            {/* <h6 className='tal--pro-card-role'>
                                                                                 {candidate.designation[0]}
-                                                                            </h6>
+                                                                            </h6> */}
                                                                         </div>
                                                                         <div className="tal--pro-card-desc-area search">
                                                                             <div className="row tal--pro-card-desc-row">
@@ -2633,15 +2633,15 @@ const TalentsProfileSearch = () => {
                                                                                     <h6 className='tal--pro-card-desc-title'>Education&nbsp;:</h6>
                                                                                 </div>
                                                                                 <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
-                                                                                    <p className='tal--pro-card-desc'>{candidate.college}</p>
+                                                                                    <p className='tal--pro-card-desc'>{candidate.education}</p>
                                                                                 </div>
                                                                             </div>
                                                                             <div className="row tal--pro-card-desc-row">
                                                                                 <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
-                                                                                    <h6 className='tal--pro-card-desc-title'>Preferred Location&nbsp;:</h6>
+                                                                                    <h6 className='tal--pro-card-desc-title'>College&nbsp;:</h6>
                                                                                 </div>
                                                                                 <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
-                                                                                    <p className='tal--pro-card-desc'>Hyderabad, Kolkata, Chennai</p>
+                                                                                    <p className='tal--pro-card-desc'>{candidate.college}</p>
                                                                                 </div>
                                                                             </div>
                                                                             <div className="row tal--pro-card-desc-row">
@@ -2654,10 +2654,10 @@ const TalentsProfileSearch = () => {
                                                                             </div>
                                                                             <div className="row tal--pro-card-desc-row">
                                                                                 <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
-                                                                                    <h6 className='tal--pro-card-desc-title'>May also Know&nbsp;:</h6>
+                                                                                    <h6 className='tal--pro-card-desc-title'>Profile headline&nbsp;:</h6>
                                                                                 </div>
                                                                                 <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
-                                                                                    <p className='tal--pro-card-desc'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed </p>
+                                                                                    <p className='tal--pro-card-desc'>{candidate.profileHeadline}</p>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -2678,7 +2678,7 @@ const TalentsProfileSearch = () => {
                                                                         <div className="tal--pro-card-right-cover-area search">
                                                                             <div className='tal--pro-card-profile-img-role-area search'>
                                                                                 <img src={imgSrc}className='tal--pro-card-profile-img' alt="" />
-                                                                                <p className='tal--pro-card-role-name'>Frontend Developer (Css,html)</p>
+                                                                                <p className='tal--pro-card-role-name'>{candidate.designation[0]}</p>
                                                                             </div>
                                                                             <div className="tal--pro-card-contact-btn-area search">
                                                                                 <button className='tal--pro-card-contact-btn search' onClick={() => viewCandidateDetail(candidate.id)}>View Profile</button>
@@ -2689,13 +2689,13 @@ const TalentsProfileSearch = () => {
                                                                                 </button> */}
                                                                             </div>
                                                                             <div className="tal--pro-card-ability-number-area">
-                                                                                <div className="tal--pro-card-ability-number-left">
+                                                                                {/* <div className="tal--pro-card-ability-number-left">
                                                                                     <h6 className='tal--pro-card-ability search'>Skill matched</h6>
                                                                                     <h2 className='tal--pro-card-percentage search'>90%</h2>
-                                                                                </div>
+                                                                                </div> */}
                                                                                 <div className="tal--pro-card-ability-number-right">
                                                                                     <h6 className='tal--pro-card-ability search'>Can join in</h6>
-                                                                                    <h2 className='tal--pro-card-days search'>07<span>days</span></h2>
+                                                                                    <h2 className='tal--pro-card-days search'><span>{candidate?.days}</span></h2>
                                                                                 </div>
                                                                             </div>
 

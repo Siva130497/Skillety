@@ -210,7 +210,7 @@ const JobDetails = () => {
                 <div class="main-wrapper main-wrapper-1">
                     <div class="navbar-bg"></div>
 
-                    <Layout />
+                    {/* <Layout /> */}
 
                     <div class="main-content">
                         <section class="section">
