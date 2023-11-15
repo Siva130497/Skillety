@@ -354,17 +354,17 @@ const CandidateRegister = () => {
             selectedDate: dateString,
             skills: selectedSkills,
             designation: selectedDesignations,
-            education:selectedEducation,
-            location:selectedLocations,
+            education:selectedEducation[0],
+            location:selectedLocations[0],
             id: id,
         };
         console.log(updatedCredentials);
-        candidateReg(updatedCredentials);
-        otherSkill.length > 0 && postOtherSkills(otherSkill);
-        otherDesignation.length > 0 && postOtherDesignation(otherDesignation);
-        axios.post('http://localhost:5002/upload', formData)
-            .then(res => console.log(res))
-            .catch(err => console.log(err));
+        // candidateReg(updatedCredentials);
+        // otherSkill.length > 0 && postOtherSkills(otherSkill);
+        // otherDesignation.length > 0 && postOtherDesignation(otherDesignation);
+        // axios.post('http://localhost:5002/upload', formData)
+        //     .then(res => console.log(res))
+        //     .catch(err => console.log(err));
     };
 
     const handleNext = () => {
