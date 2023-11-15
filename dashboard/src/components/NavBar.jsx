@@ -248,7 +248,7 @@ const NavBar = () => {
               <a href={`/candidate-profile/${candidateId}`} className="dropdown-view-pro-btn">
                 View Profile
               </a>
-              <div className="dropdown-btn-link-area">
+              {/* <div className="dropdown-btn-link-area">
                 <a href="#" className="dropdown-acc-btn">
                   <i class="bi bi-person-fill mr-3"></i>
                   Account
@@ -262,7 +262,7 @@ const NavBar = () => {
                   <i class="bi bi-box-arrow-right mr-3"></i>
                   Log Out
                 </a>
-              </div>
+              </div> */}
             </div>
           </li>
         </ul>
