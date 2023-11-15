@@ -400,3 +400,6 @@ input[type="number"]::-webkit-outer-spin-button {
 .login--with-g-area {
     padding: 60px 0 20px 0;
 }
+.cand--reg-flex-input.industry{
+    background-color: transparent !important;
+}

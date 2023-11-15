@@ -226,6 +226,7 @@
     line-height: normal;
     transition: border-color 0.5s, box-shadow 0.5s;
     position: relative;
+    text-transform: capitalize;
 }
 
 .cand--reg-form-area .cand--reg-form-label {
@@ -422,13 +423,16 @@
     position: relative;
     text-align: left;
 }
-.cand--reg-select-input option{
+
+.cand--reg-select-input option {
     background-color: #714F36 !important;
     color: #FFF !important;
 }
-.cand--reg-select-input option:disabled{
+
+.cand--reg-select-input option:disabled {
     color: #a5a5a5 !important;
 }
+
 .cand--reg-skills-text {
     padding-top: 30px;
     color: rgba(101, 101, 101, 0.65);
@@ -493,6 +497,7 @@
     transition: ease-in-out 0.5s;
     position: relative;
     white-space: nowrap;
+    text-transform: capitalize;
 }
 
 .cand-reg-form-badge:hover {
@@ -539,6 +544,7 @@
     background-color: #ececec;
     transition: ease-in-out 0.5s;
     cursor: pointer;
+    text-transform: capitalize;
 }
 
 .search-result-data:hover {
@@ -672,9 +678,11 @@ input[type="number"]::-webkit-outer-spin-button {
     font-weight: 400;
     position: absolute;
 }
-.custom-padding-right2{
+
+.custom-padding-right2 {
     padding-right: 40px;
 }
-.custom-padding-left2{
+
+.custom-padding-left2 {
     padding-left: 40px;
 }
