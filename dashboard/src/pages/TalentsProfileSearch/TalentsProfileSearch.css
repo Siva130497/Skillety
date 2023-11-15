@@ -819,7 +819,7 @@
 }
 
 .cli-tal-pro-search-filter-expand-area.opened {
-    max-height: 100vh;
+    max-height: 500vh;
 }
 
 .cli-tal-pro-search-filter-toggle-area.opened svg {

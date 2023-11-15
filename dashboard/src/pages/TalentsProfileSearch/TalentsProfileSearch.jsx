@@ -1564,9 +1564,9 @@ const TalentsProfileSearch = () => {
                                                                             <div className="cli-tal-search-filter-form-label-area">
                                                                                 <label htmlFor="role" className='cli-tal-search-filter-form-label'>Role</label>
                                                                             </div>
-                                                                            <div className='cli--tal-pro-badge-area mb-4'>
+                                                                            <div className='job-post-form-badge-area'>
                                                                                 {selectedRoleResults.map(selectResult => (
-                                                                                    <span className="tal-cand-reg-form-badge"
+                                                                                    <span className="job-post-form-badge tal-search"
                                                                                         key={selectResult}
                                                                                         onClick={() => handleDeselectRole(selectResult)}
                                                                                     >{selectResult}</span>
@@ -1576,11 +1576,11 @@ const TalentsProfileSearch = () => {
                                                                                 <input type="text" name='role' className='cli-tal-pro-search-filter-input' placeholder='Add Role'
                                                                                     value={filters.role}
                                                                                     onChange={handleRoleSearch} />
-                                                                                <div className='tal-pro-search-result-data-area'>
+                                                                                <div className='search-result-data-area'>
                                                                                     {filteredRole.length > 0 &&
                                                                                         filteredRole.map((filterResult) => (
                                                                                             <div
-                                                                                                className='tal-pro-search-result-data'
+                                                                                                className='search-result-data'
                                                                                                 key={filterResult._id}
                                                                                                 onClick={() => handleFilteredRoleClick(filterResult.role)}
                                                                                             >

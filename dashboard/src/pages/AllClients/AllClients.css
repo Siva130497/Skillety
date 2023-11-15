@@ -115,15 +115,15 @@
     box-shadow: 0px -5px 10px #00000016;
 }
 
-.admin-lg-table-area::-webkit-scrollbar {
+.table-scroll-area::-webkit-scrollbar {
     height: 8px;
     background-color: #F5F5F5;
 }
 
-.admin-lg-table-area::-webkit-scrollbar-thumb {
+.table-scroll-area::-webkit-scrollbar-thumb {
     border-radius: 10px;
 }
 
-.admin-lg-table-area::-webkit-scrollbar-track {
+.table-scroll-area::-webkit-scrollbar-track {
     border-radius: 10px;
 }

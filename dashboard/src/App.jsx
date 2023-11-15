@@ -24,6 +24,7 @@ import JobDetails from './pages/JobDetails/JobDetails';
 import RecruiterDashboard from './pages/RecruiterDashboard/RecruiterDashboard';
 import AllClients from './pages/AllClients/AllClients';
 import AllCandidates from './pages/AllCandidates/AllCandidates';
+import AllJobs from './pages/AllJobs/AllJobs';
 
 
 
@@ -54,6 +55,7 @@ function App() {
         <Route path='/recruiter-dashboard' element={<RecruiterDashboard />} />
         <Route path='/all-clients' element={<AllClients />} />
         <Route path='/all-candidates' element={<AllCandidates />} />
+        <Route path='/all-jobs' element={<AllJobs />} />
 
       </Routes>
     </AuthContextProvider>
