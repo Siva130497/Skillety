@@ -3,13 +3,13 @@ import { useEffect } from 'react';
 import $ from 'jquery';
 import { useNavigate } from 'react-router-dom';
 
-const ClientSidebar = ({packageSelectionDetail}) => {
+const ClientSidebar = ({ packageSelectionDetail }) => {
     const [clientToken, setClientToken] = useState("");
     const navigate = useNavigate();
 
-    useEffect(()=>{
+    useEffect(() => {
         setClientToken(JSON.parse(localStorage.getItem('clientToken')))
-    },[clientToken])
+    }, [clientToken])
 
     useEffect(() => {
         $(document).ready(function () {
@@ -54,36 +54,34 @@ const ClientSidebar = ({packageSelectionDetail}) => {
                         <li className="dropdown" id='client_dashboard'>
                             <a href={`/client-dashboard/${clientToken}`} className="nav-link"><i data-feather="home"></i><span>Dashboard</span></a>
                         </li>
-                        {packageSelectionDetail && <div>
-                        
-                            <li className="dropdown" id='search_candidate'>
-                            <a href="/talent-profile-search" className="nav-link"><i data-feather="search"></i><span>Search Candidates</span></a>
-                        </li>
-                        
-                        <li className="dropdown" id='post_job'>
-                            <a href="/post-job" className="nav-link"><i data-feather="briefcase"></i><span>Post a Job</span></a>
-                        </li>
-
-                        <li className="dropdown" id='manage_job'>
-                            <a href="/manage-job" className="nav-link"><i data-feather="sliders"></i><span>Manage Jobs</span></a>
-                        </li>
-                       
-                        
-
-                        
-
-                        <div className='hr-line'></div>
-
-                        
-                        <li className="dropdown" id='invoice_payment'>
-                            <a href="/invoice-payment" className="nav-link"><i data-feather="dollar-sign"></i><span>Invoices& Payment</span></a>
-                        </li>
-                        
-                        <li className="dropdown" id='client_settings'>
-                            <a href="/client-settings" className="nav-link"><i data-feather="settings"></i><span>Settings</span></a>
-                        </li> </div>
-                        }
                     </ul>
+
+                    {/* {packageSelectionDetail && */}
+                        <ul className="sidebar-menu client">
+
+                            <li className="dropdown" id='search_candidate'>
+                                <a href="/talent-profile-search" className="nav-link"><i data-feather="search"></i><span>Search Candidates</span></a>
+                            </li>
+
+                            <li className="dropdown" id='post_job'>
+                                <a href="/post-job" className="nav-link"><i data-feather="briefcase"></i><span>Post a Job</span></a>
+                            </li>
+
+                            <li className="dropdown" id='manage_job'>
+                                <a href="/manage-job" className="nav-link"><i data-feather="sliders"></i><span>Manage Jobs</span></a>
+                            </li>
+
+                            <div className='hr-line'></div>
+
+                            <li className="dropdown" id='invoice_payment'>
+                                <a href="/invoice-payment" className="nav-link"><i data-feather="dollar-sign"></i><span>Invoices& Payment</span></a>
+                            </li>
+
+                            <li className="dropdown" id='client_settings'>
+                                <a href="/client-settings" className="nav-link"><i data-feather="settings"></i><span>Settings</span></a>
+                            </li>
+                        </ul>
+                    {/* } */}
 
                     <div className='live-chat-area'>
                         <img src="../assets/img/home/upgrade-img.png" className='live-chat-img' alt="" />
@@ -92,9 +90,9 @@ const ClientSidebar = ({packageSelectionDetail}) => {
                             for Premium Features
                         </div>
 
-                        <button className="live-chat-btn client" onClick={()=>navigate("/package-plans")}>Upgrade Package</button>
+                        <button className="live-chat-btn client" onClick={() => navigate("/package-plans")}>Upgrade Package</button>
                     </div>
-                     
+
                 </aside>
             </div>
         </div>
