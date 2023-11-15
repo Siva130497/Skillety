@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useEffect } from 'react';
 import $ from 'jquery';
 import './JobSearch.css';
+import './JobDetail.css';
 import './JobSearch-responsive.css';
 import LayoutNew from '../../components/LayoutNew';
 import { CandidateFooter } from '../../components/CandidateFooter';
