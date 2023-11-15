@@ -819,7 +819,7 @@
 }
 
 .cli-tal-pro-search-filter-expand-area.opened {
-    max-height: 100vh;
+    max-height: 500vh;
 }
 
 .cli-tal-pro-search-filter-toggle-area.opened svg {
@@ -1501,4 +1501,16 @@
 
 .swiper {
     padding: 10px 0;
+}
+.job-post-form-badge-area{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+.job-post-form-badge.tal-search{
+    margin-bottom: 0;
+}
+.cli-tal-pro-search-filter-input-area{
+    position: relative;
 }

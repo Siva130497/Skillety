@@ -1,0 +1,83 @@
+.rec-work-mode-area {
+    border-radius: 12px;
+    background-color: #F0F0F0;
+    padding: 20px;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    box-shadow: inset 0px 0px 15px #0000001c;
+}
+
+.recruite-form-check-input {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    cursor: pointer;
+    color: #714F36;
+    font-size: 14px !important;
+    font-weight: 500;
+    margin-bottom: 0;
+    background-color: #FFF;
+    padding: 8px 12px;
+    border-radius: 10px;
+    box-shadow:  0px 0px 15px #0000001c;
+    
+}
+
+.recruite-form-check-input input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.recruite-form-checkmark {
+    position: relative;
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    margin-right: 10px;
+    border: 2px solid #898989;
+    border-radius: 3px;
+    -webkit-transition: ease-in-out 0.5s;
+    transition: ease-in-out 0.5s;
+    outline: none;
+    flex-shrink: 0;
+}
+
+.recruite-form-check-input input[type="checkbox"]:checked~.recruite-form-checkmark {
+    background-color: #714F36 !important;
+    border-color: #714F36;
+}
+
+.recruite-form-check-input input[type="checkbox"]:checked~.recruite-form-checkmark:after {
+    content: "";
+    position: absolute;
+    top: 1.5px;
+    left: 5.6px;
+    width: 4px;
+    height: 9px;
+    border: solid #FFF;
+    border-width: 0 1.5px 1.5px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+
+.recruite-form-check-input:hover input[type="checkbox"]~.recruite-form-checkmark {
+    border-color: #714F36 !important;
+}
+
+.recruite-form-check-input input[type="checkbox"]:disabled~.recruite-form-checkmark {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.recruite-form-check-input input[type="checkbox"]:disabled~.recruite-form-checkmark:hover {
+    border-color: #4d4d4d;
+}

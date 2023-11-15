@@ -1,13 +1,19 @@
-@media (max-width:500px) {
-    .view-det-sub-head{
+@media (max-width:573px) {
+    .view-det-sub-head {
         padding: 15px 18px 10px 18px !important;
     }
-    .man-app-title-area.candidate{
+
+    .man-app-title-area.candidate {
         gap: 20px;
         flex-direction: column;
         align-items: stretch;
     }
-    .recruiter-search-input-area{
+
+    .recruiter-search-input-area {
         width: 100% !important;
+    }
+
+    .man-app-title-area.candidate {
+        align-items: flex-start !important;
     }
 }

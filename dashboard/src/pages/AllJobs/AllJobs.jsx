@@ -2,10 +2,11 @@ import React from 'react';
 import { useEffect } from 'react';
 import ATSLayout from '../../components/ATSLayout';
 import Footer from '../../components/Footer';
-import './AllCandidates.css';
+import './AllJobs.css';
+import './AllJobs-responsive.css';
 import $ from 'jquery';
 
-const AllCandidates = () => {
+const AllJobs = () => {
 
     useEffect(() => {
         $(document).ready(function () {
@@ -24,35 +25,62 @@ const AllCandidates = () => {
                     <section class="section">
                         <div className="my-app-section">
                             <div className="admin-component-name">
-                                All Candidates
+                                All Jobs
                             </div>
 
                             <div className="row">
                                 <div className="col-12">
                                     <div className="admin-lg-table-section">
                                         <div className='admin-lg-table-area man-app'>
+
                                             <div className='man-app-title-area candidate'>
                                                 <div>
                                                     <div className="man-app-title">
-                                                        All Candidates Details
+                                                        All Jobs Details
                                                     </div>
                                                     <div className="man-app-sub-title">
-                                                        Total Candidates :&nbsp;
+                                                        Total Jobs :&nbsp;
                                                         <span>02</span>
                                                     </div>
                                                 </div>
                                                 <div className="recruiter-search-input-area">
-                                                    <input type="text" className='recruiter-search-input' placeholder='Search skills/designations...' />
+                                                    <input type="text" className='recruiter-search-input' placeholder='Search job role...' />
                                                     <i className='bi bi-search search-icon'></i>
                                                     <button className='recruiter-search-btn'>Search</button>
                                                 </div>
+
+                                            </div>
+                                            <div className="rec-work-mode-area">
+                                                <label className="recruite-form-check-input">
+                                                    <input type="checkbox" />
+                                                    <span className="recruite-form-checkmark"></span>
+                                                    Full Time
+                                                </label>
+
+                                                <label className="recruite-form-check-input">
+                                                    <input type="checkbox" />
+                                                    <span className="recruite-form-checkmark"></span>
+                                                    Part Time
+                                                </label>
+
+                                                <label className="recruite-form-check-input">
+                                                    <input type="checkbox" />
+                                                    <span className="recruite-form-checkmark"></span>
+                                                    Remote
+                                                </label>
+
+                                                <label className="recruite-form-check-input">
+                                                    <input type="checkbox" />
+                                                    <span className="recruite-form-checkmark"></span>
+                                                    Freelancer
+                                                </label>
                                             </div>
 
                                             <div className="table-responsive table-scroll-area">
                                                 <table className="table table-striped table-hover admin-lg-table">
-                                                    <tr className='dash-table-row candidate'>
+                                                    <tr className='dash-table-row man-app'>
                                                         <th className='dash-table-head'>No.</th>
-                                                        <th className='dash-table-head'>Full Name</th>
+                                                        <th className='dash-table-head'>Job Role</th>
                                                         <th className='dash-table-head'>Email ID</th>
                                                         <th className='dash-table-head'>Status</th>
                                                         <th className='dash-table-head text-center'>Send an interview invitation</th>
@@ -63,7 +91,7 @@ const AllCandidates = () => {
                                                     <tr className='dash-table-row client'>
                                                         <td className='dash-table-data1'>01.</td>
                                                         <td className='dash-table-data1'>
-                                                            Kajan
+                                                            Software enngineer
                                                         </td>
                                                         <td className='dash-table-data1'>
                                                             email@gmail.com
@@ -139,7 +167,7 @@ const AllCandidates = () => {
                         <div className="modal-content recruiter-view-modal">
                             <div className="modal-header recruiter-view-modal-header">
                                 <h5 className="modal-title recruiter-view-modal-title candidate" id="exampleModalLabel">
-                                    Candidate Details_
+                                    Job Details_
                                 </h5>
                                 <a href='#' type="button" className="close recruiter-view-close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true"><i class="bi bi-x close-icon"></i></span>
@@ -279,4 +307,4 @@ const AllCandidates = () => {
     )
 }
 
-export default AllCandidates
+export default AllJobs
