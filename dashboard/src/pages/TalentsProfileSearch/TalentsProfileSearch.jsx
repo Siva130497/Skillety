@@ -717,6 +717,7 @@ const TalentsProfileSearch = () => {
         }
     }, [loginClientDetail]);
     console.log(filters)
+    console.log(packageSelectionDetail)
 
     const handleSkillSearch = () => {
         if (filters.days || selectedResults.length > 0 || selectedLocationResults.length > 0 || (filters.minExperienceYr && filters.maxExperienceYr) || (filters.minExperienceMonth && filters.maxExperienceMonth) || (filters.minSalary && filters.maxSalary) || selectedDepartmentResults.length > 0 || selectedRoleResults.length > 0 || filters.industry || filters.company || filters.candidateType || filters.gender) {

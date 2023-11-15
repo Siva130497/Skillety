@@ -354,6 +354,8 @@ const CandidateRegister = () => {
             selectedDate: dateString,
             skills: selectedSkills,
             designation: selectedDesignations,
+            education:selectedEducation,
+            location:selectedLocations,
             id: id,
         };
         console.log(updatedCredentials);

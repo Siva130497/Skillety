@@ -54,7 +54,7 @@ const ClientSidebar = ({packageSelectionDetail}) => {
                         <li className="dropdown" id='client_dashboard'>
                             <a href={`/client-dashboard/${clientToken}`} className="nav-link"><i data-feather="home"></i><span>Dashboard</span></a>
                         </li>
-                    
+                        {packageSelectionDetail && <div>
                         
                             <li className="dropdown" id='search_candidate'>
                             <a href="/talent-profile-search" className="nav-link"><i data-feather="search"></i><span>Search Candidates</span></a>
@@ -81,8 +81,8 @@ const ClientSidebar = ({packageSelectionDetail}) => {
                         
                         <li className="dropdown" id='client_settings'>
                             <a href="/client-settings" className="nav-link"><i data-feather="settings"></i><span>Settings</span></a>
-                        </li>
-                    
+                        </li> </div>
+                        }
                     </ul>
 
                     <div className='live-chat-area'>
