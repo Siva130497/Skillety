@@ -56,9 +56,9 @@ const Sidebar = () => {
 
             <div className='hr-line'></div>
 
-            <li className="dropdown" id="events">
+            {/* <li className="dropdown" id="events">
               <a href="/events" className="nav-link"><i data-feather="calendar"></i><span>Events</span></a>
-            </li>
+            </li> */}
             <li className="dropdown" id="settings">
               <a href="/settings" className="nav-link"><i data-feather="settings"></i><span>Settings</span></a>
             </li>
