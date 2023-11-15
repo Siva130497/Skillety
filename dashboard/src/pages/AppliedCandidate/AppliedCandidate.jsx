@@ -21,19 +21,19 @@ const AppliedCandidate = () => {
 
     const navigate = useNavigate();
 
-    const [loading, setLoading] = useState(true);
-    const [pageNotFound, setPageNotFound] = useState(false);
+    // const [loading, setLoading] = useState(true);
+    // const [pageNotFound, setPageNotFound] = useState(false);
 
-    useEffect(() => {
-        const preloader = $('#preloader');
-    if (preloader.length) {
-    setTimeout(function () {
-        preloader.fadeOut('slow', function () {
-        preloader.remove();
-        });
-    }, 500);
-    }
-    }, []);
+    // useEffect(() => {
+    //     const preloader = $('#preloader');
+    // if (preloader.length) {
+    // setTimeout(function () {
+    //     preloader.fadeOut('slow', function () {
+    //     preloader.remove();
+    //     });
+    // }, 500);
+    // }
+    // }, []);
 
     useEffect(() => {
         setClientToken(JSON.parse(localStorage.getItem('clientToken')))
@@ -568,11 +568,11 @@ const AppliedCandidate = () => {
             console.log(appliedCandIds)
             const appliedCands = candidateDetail.filter(cand => appliedCandIds.includes(cand.id));
             if(appliedCands){
-                setLoading(false);
+                // setLoading(false);
                 setReqCands(appliedCands);
             }else{
-                setLoading(false);
-                setPageNotFound(true);
+                // setLoading(false);
+                // setPageNotFound(true);
             }
             
         }
@@ -581,7 +581,7 @@ const AppliedCandidate = () => {
 
     return (
         <div>
-            {loading && <div id="preloader"></div>}
+            {/* {loading && <div id="preloader"></div>} */}
             {reqCands && <div class="main-wrapper main-wrapper-1">
                 <div class="navbar-bg"></div>
                 <ClientLayout />
@@ -751,11 +751,11 @@ const AppliedCandidate = () => {
                 </div>
                 <Footer />
             </div>}
-            {pageNotFound && <div>
+            {/* {pageNotFound && <div>
                     <h1>404</h1>
                     <p>Not Found</p>
                     <small>The resource requested could not be found on this server!</small>
-                </div>}
+                </div>} */}
         </div>
     )
 }
