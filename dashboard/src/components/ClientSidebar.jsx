@@ -56,7 +56,7 @@ const ClientSidebar = ({ packageSelectionDetail }) => {
                         </li>
                     </ul>
 
-                    {/* {packageSelectionDetail && */}
+                    {packageSelectionDetail &&
                         <ul className="sidebar-menu client">
 
                             <li className="dropdown" id='search_candidate'>
@@ -81,7 +81,7 @@ const ClientSidebar = ({ packageSelectionDetail }) => {
                                 <a href="/client-settings" className="nav-link"><i data-feather="settings"></i><span>Settings</span></a>
                             </li>
                         </ul>
-                    {/* } */}
+                    }
 
                     <div className='live-chat-area'>
                         <img src="../assets/img/home/upgrade-img.png" className='live-chat-img' alt="" />
