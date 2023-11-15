@@ -94,41 +94,41 @@ const CandidateRegister = () => {
 
     const getAllLocations = async () => {
         try {
-          const res = await axios.get("http://localhost:5002/locations", {
-            headers: {
-              Accept: 'application/json'
+            const res = await axios.get("http://localhost:5002/locations", {
+                headers: {
+                    Accept: 'application/json'
+                }
+            });
+            const result = res.data;
+            if (!result.error) {
+                console.log(result);
+                setLocationArray(result);
+            } else {
+                console.log(result);
             }
-          });
-          const result = res.data;
-          if (!result.error) {
-            console.log(result);
-            setLocationArray(result);
-          } else {
-            console.log(result);
-          }
         } catch (err) {
-          console.log(err);
+            console.log(err);
         }
-      };
+    };
 
-      const getAllEducation = async () => {
+    const getAllEducation = async () => {
         try {
-          const res = await axios.get("http://localhost:5002/educations", {
-            headers: {
-              Accept: 'application/json'
+            const res = await axios.get("http://localhost:5002/educations", {
+                headers: {
+                    Accept: 'application/json'
+                }
+            });
+            const result = res.data;
+            if (!result.error) {
+                console.log(result);
+                setEducationArray(result);
+            } else {
+                console.log(result);
             }
-          });
-          const result = res.data;
-          if (!result.error) {
-            console.log(result);
-            setEducationArray(result);
-          } else {
-            console.log(result);
-          }
         } catch (err) {
-          console.log(err);
+            console.log(err);
         }
-      };
+    };
 
     useEffect(() => {
         getAllSkills();
@@ -288,59 +288,59 @@ const CandidateRegister = () => {
         const inputValue = e.target.value;
         setSearchEducationInput(inputValue);
         if (inputValue.length > 0) {
-          const educations = educationArray.filter((obj) => {
-            return obj.education.toLowerCase().includes(inputValue.toLowerCase());
-          });
-          if (educations.length > 0) {
-            setFilteredEducation(educations);
-          }
+            const educations = educationArray.filter((obj) => {
+                return obj.education.toLowerCase().includes(inputValue.toLowerCase());
+            });
+            if (educations.length > 0) {
+                setFilteredEducation(educations);
+            }
         } else {
-          setFilteredEducation([]);
+            setFilteredEducation([]);
         }
-      };
-    
-      const handleEducationClick = (education) => {
+    };
+
+    const handleEducationClick = (education) => {
         setSelectedEducation([education]);
         setSearchEducationInput("");
         setFilteredEducation([]);
-      }
-    
-      const handleDeselectEducation = (education) => {
-        setSelectedEducation(selectedEducation.filter(selectEducation => selectEducation !== education));
-      }
+    }
 
-      const handleDeselectLocation = (location) => {
+    const handleDeselectEducation = (education) => {
+        setSelectedEducation(selectedEducation.filter(selectEducation => selectEducation !== education));
+    }
+
+    const handleDeselectLocation = (location) => {
         setSelectedLocations(selectedLocations.filter(selectedLocation => selectedLocation !== location));
-      }
-    
-      const handleLocationSearch = (e) => {
+    }
+
+    const handleLocationSearch = (e) => {
         const inputValue = e.target.value;
         setSearchLocationInput(inputValue);
         if (inputValue.length > 0) {
-          const Locations = locationArray.filter((obj) => {
-            return obj.location.toLowerCase().includes(inputValue.toLowerCase());
-          });
-          if (Locations.length > 0) {
-            setFilteredLocations(Locations);
-          }
+            const Locations = locationArray.filter((obj) => {
+                return obj.location.toLowerCase().includes(inputValue.toLowerCase());
+            });
+            if (Locations.length > 0) {
+                setFilteredLocations(Locations);
+            }
         } else {
-          setFilteredLocations([]);
+            setFilteredLocations([]);
         }
-      }
-    
-      const handleLocationClick = (location) => {
+    }
+
+    const handleLocationClick = (location) => {
         if (selectedLocations.includes(location)) {
-          setSelectedLocations([...selectedLocations]);
-          setSearchLocationInput("");
-          setFilteredLocations([]);
-       
+            setSelectedLocations([...selectedLocations]);
+            setSearchLocationInput("");
+            setFilteredLocations([]);
+
         } else {
-          setSelectedLocations([...selectedLocations, location]);
-          setSearchLocationInput("");
-          setFilteredLocations([]);
+            setSelectedLocations([...selectedLocations, location]);
+            setSearchLocationInput("");
+            setFilteredLocations([]);
         }
-      }
-    
+    }
+
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -354,8 +354,8 @@ const CandidateRegister = () => {
             selectedDate: dateString,
             skills: selectedSkills,
             designation: selectedDesignations,
-            education:selectedEducation[0],
-            location:selectedLocations[0],
+            education: selectedEducation[0],
+            location: selectedLocations[0],
             id: id,
         };
         console.log(updatedCredentials);
@@ -646,34 +646,60 @@ const CandidateRegister = () => {
                                 </div>
 
                                 <div className="col-12 col-lg-6 col-md-6 col-sm-6 custom-padding-left">
-                                    <div className='cand--reg-form-group'>
-                                        {/* <input type="text" id='location' name="location"
+                                    {/* <div className='cand--reg-form-group'>
+                                        <input type="text" id='location' name="location"
                                             value={credentials.location}
-                                            onChange={handleInputChange} placeholder="Enter your current location" className='cand--reg-form-input' required /> */}
+                                            onChange={handleInputChange} placeholder="Enter your current location" className='cand--reg-form-input' required />
                                         <label htmlFor="location" className='cand--reg-form-label'>Current Loaction</label>
                                         <i class="bi bi-chevron-down"></i>
                                         {selectedLocations.map(selectLocation => (
-                                        <span className="job-post-form-badge"
-                                            key={selectLocation}
-                                            onClick={() => handleDeselectLocation(selectLocation)}
-                                        >{selectLocation}</span>
+                                            <span className="cand-reg-form-badge-area"
+                                                key={selectLocation}
+                                                onClick={() => handleDeselectLocation(selectLocation)}
+                                            >{selectLocation}</span>
                                         ))}
-                            
+
                                         <input
                                             type='text'
-                                            className='job-post-form-input'
+                                            className='cand--reg-form-input'
                                             placeholder='Search locations'
                                             value={searchLocationInput}
                                             onChange={handleLocationSearch}
                                         />
                                         <div className='search-result-data-area'>
                                             {filteredLocations.length > 0 &&
-                                            filteredLocations.map((filterLocation) => {
-                                                return <div className='search-result-data' key={filterLocation._id} onClick={() => handleLocationClick(filterLocation.location)}>
-                                                {filterLocation.location}
-                                                </div>
-                                            })
+                                                filteredLocations.map((filterLocation) => {
+                                                    return <div className='search-result-data' key={filterLocation._id} onClick={() => handleLocationClick(filterLocation.location)}>
+                                                        {filterLocation.location}
+                                                    </div>
+                                                })
                                             }
+                                        </div>
+                                    </div> */}
+                                    <div className='cand--reg-form-group cand--reg-custom-padding'>
+                                        <div className='cand--reg-multi-input-form-group'>
+                                            <input type="text"
+                                                placeholder='Search locations'
+                                                value={searchLocationInput}
+                                                onChange={handleLocationSearch} className='cand--reg-form-input' />
+                                            <label htmlFor="location" className='cand--reg-form-label'>Current Loaction</label>
+                                            <div className='search-result-data-area'>
+                                                {filteredLocations.length > 0 &&
+                                                    filteredLocations.map((filterLocation) => {
+                                                        return <div className='search-result-data' key={filterLocation._id} onClick={() => handleLocationClick(filterLocation.location)}>
+                                                            {filterLocation.location}
+                                                        </div>
+                                                    })
+                                                }
+                                            </div>
+                                        </div>
+                                        <div className='cand-reg-form-badge-area'>
+                                            {selectedLocations.map(selectLocation => (
+                                                <span className="cand-reg-form-badge"
+                                                    key={selectLocation}
+                                                    onClick={() => handleDeselectLocation(selectLocation)}
+                                                >{selectLocation}</span>
+                                            ))}
                                         </div>
                                     </div>
                                 </div>
@@ -718,17 +744,17 @@ const CandidateRegister = () => {
                                                         })
                                                     }
                                                 </div>
+                                                <div className='cand-reg-form-badge-area'>
+                                                    {selectedSkills.map(selectSkill => (
+                                                        <span className="cand-reg-form-badge"
+                                                            key={selectSkill}
+                                                            onClick={() => handleDeselect(selectSkill)}
+                                                        >{selectSkill}</span>
+                                                    ))}
+                                                </div>
                                             </div>
-
                                         </div>
-                                        <div className='cand-reg-form-badge-area'>
-                                            {selectedSkills.map(selectSkill => (
-                                                <span className="cand-reg-form-badge"
-                                                    key={selectSkill}
-                                                    onClick={() => handleDeselect(selectSkill)}
-                                                >{selectSkill}</span>
-                                            ))}
-                                        </div>
+                                        
                                         <div className="can-reg-form-chechbox-area">
                                             <label className="can-reg-form-check-input">
                                                 <input
@@ -788,15 +814,15 @@ const CandidateRegister = () => {
                                                 <option value="C">C</option>
                                                 <option value="D">D</option>
                                             </select> */}
-                                            {selectedEducation.map(selectEducation => (
+                                            {/* {selectedEducation.map(selectEducation => (
                                                 <span className="job-post-form-badge"
                                                     key={selectEducation}
                                                     onClick={() => handleDeselectEducation(selectEducation)}
                                                 >{selectEducation}
                                                 </span>
-                                                ))}
+                                            ))} */}
 
-                                            <input type="text" className='job-post-form-input'
+                                            {/* <input type="text" className='job-post-form-input'
                                                 name='searchEducationInput'
                                                 id='searchEducationInput'
                                                 value={searchEducationInput}
@@ -805,12 +831,40 @@ const CandidateRegister = () => {
 
                                             <div className='search-result-data-area'>
                                                 {filteredEducation.length > 0 &&
-                                                filteredEducation.map((filterEducation) => {
-                                                    return <div className='search-result-data' key={filterEducation._id} onClick={() => handleEducationClick(filterEducation.education)}>
-                                                    {filterEducation.education}
-                                                    </div>
-                                                })
+                                                    filteredEducation.map((filterEducation) => {
+                                                        return <div className='search-result-data' key={filterEducation._id} onClick={() => handleEducationClick(filterEducation.education)}>
+                                                            {filterEducation.education}
+                                                        </div>
+                                                    })
                                                 }
+                                            </div> */}
+
+                                            <div className='cand--reg-multi-input-form-group'>
+                                                <input type="text"
+                                                    id='searchEducationInput'
+                                                    name='searchEducationInput'
+                                                    value={searchEducationInput}
+                                                    onChange={handleEducationSearch}
+                                                    className='cand--reg-flex-input'
+                                                    placeholder='Enter a clear & specific education to get better responses' />
+                                                <div className='search-result-data-area'>
+                                                    {filteredEducation.length > 0 &&
+                                                        filteredEducation.map((filterEducation) => {
+                                                            return <div className='search-result-data' key={filterEducation._id} onClick={() => handleEducationClick(filterEducation.education)}>
+                                                                {filterEducation.education}
+                                                            </div>
+                                                        })
+                                                    }
+                                                </div>
+                                                <div className='cand-reg-form-badge-area'>
+                                                    {selectedEducation.map(selectEducation => (
+                                                        <span className="cand-reg-form-badge"
+                                                            key={selectEducation}
+                                                            onClick={() => handleDeselectEducation(selectEducation)}
+                                                        >{selectEducation}
+                                                        </span>
+                                                    ))}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
