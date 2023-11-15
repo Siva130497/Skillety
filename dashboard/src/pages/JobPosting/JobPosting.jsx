@@ -13,7 +13,7 @@ import 'sweetalert2/dist/sweetalert2.css';
 const JobPosting = () => {
   const [clientToken, setClientToken] = useState("");
   const { getProtectedData, getClientChoosenPlan, packageSelectionDetail} = useContext(AuthContext);
-
+  // const [packageSelectionDetail, setPackageSelectionDetail] = useState();
   const [employeeId, setEmployeeId] = useState("");
   const [loginClientDetail, setLoginClientDetail] = useState([]);
 
@@ -311,10 +311,22 @@ const JobPosting = () => {
   }, [employeeId]);
 
   useEffect(() => {
-    if (loginClientDetail.length>0) {
+    if (loginClientDetail.length > 0) {
       getOwnPostedjobs();
+      const fetchData = async () => {
+        try {
+            await getClientChoosenPlan(loginClientDetail.companyId);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    fetchData();
     }
   }, [loginClientDetail]);
+
+  console.log(packageSelectionDetail)
+  
 
   //jobposting
   const jobPosting = async (jobdetail) => {
