@@ -226,7 +226,7 @@
     line-height: normal;
     transition: border-color 0.5s, box-shadow 0.5s;
     position: relative;
-    text-transform: capitalize;
+    /* text-transform: capitalize; */
 }
 
 .cand--reg-form-area .cand--reg-form-label {

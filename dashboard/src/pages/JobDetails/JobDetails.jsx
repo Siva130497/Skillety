@@ -433,9 +433,9 @@ const JobDetails = () => {
                                             <div className="dash-job-det-info-area">
                                                 <div className="dash-job-det-info">
                                                     Working Mode :&nbsp;
-                                                    <div className='mt-3'>
+                                                    <span className='mt-3'>
                                                         {job?.workMode}
-                                                    </div>
+                                                    </span>
                                                 </div>
                                             </div>
                                         </div>

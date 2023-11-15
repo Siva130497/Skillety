@@ -12,7 +12,7 @@ import 'sweetalert2/dist/sweetalert2.css';
 
 const JobPosting = () => {
   const [clientToken, setClientToken] = useState("");
-  const { getProtectedData, getClientChoosenPlan, packageSelectionDetail} = useContext(AuthContext);
+  const { getProtectedData, getClientChoosenPlan, packageSelectionDetail } = useContext(AuthContext);
   // const [packageSelectionDetail, setPackageSelectionDetail] = useState();
   const [employeeId, setEmployeeId] = useState("");
   const [loginClientDetail, setLoginClientDetail] = useState([]);
@@ -256,23 +256,23 @@ const JobPosting = () => {
 
   const getOwnPostedjobs = async () => {
     try {
-        const res = await axios.get(`http://localhost:5002/my-posted-jobs/${loginClientDetail.companyId}`, {
-            headers: {
-                Authorization: `Bearer ${clientToken}`,
-                Accept: 'application/json'
-            }
-        });
-        const result = res.data;
-        if (!result.error) {
-            console.log(result);
-            setPostedJobs(result.reverse());
-        } else {
-            console.log(result);
+      const res = await axios.get(`http://localhost:5002/my-posted-jobs/${loginClientDetail.companyId}`, {
+        headers: {
+          Authorization: `Bearer ${clientToken}`,
+          Accept: 'application/json'
         }
+      });
+      const result = res.data;
+      if (!result.error) {
+        console.log(result);
+        setPostedJobs(result.reverse());
+      } else {
+        console.log(result);
+      }
     } catch (err) {
-        console.log(err);
+      console.log(err);
     }
-}
+  }
 
   useEffect(() => {
     setClientToken(JSON.parse(localStorage.getItem('clientToken')))
@@ -315,18 +315,18 @@ const JobPosting = () => {
       getOwnPostedjobs();
       const fetchData = async () => {
         try {
-            await getClientChoosenPlan(loginClientDetail.companyId);
+          await getClientChoosenPlan(loginClientDetail.companyId);
         } catch (error) {
-            console.error(error);
+          console.error(error);
         }
-    };
+      };
 
-    fetchData();
+      fetchData();
     }
   }, [loginClientDetail]);
 
   console.log(packageSelectionDetail)
-  
+
 
   //jobposting
   const jobPosting = async (jobdetail) => {
@@ -649,10 +649,10 @@ const JobPosting = () => {
     setSelectedEducation(selectedEducation.filter(selectEducation => selectEducation !== education));
   }
 
-  const handleSubmit = async(event) => {
+  const handleSubmit = async (event) => {
     const packageSelectionDetail = await getClientChoosenPlan(loginClientDetail.companyId);
-    if(packageSelectionDetail){
-      if(postedJobs.length < packageSelectionDetail.jobPost){
+    if (packageSelectionDetail) {
+      if (postedJobs.length < packageSelectionDetail.jobPost) {
         event.preventDefault();
         if (
           selectedJobRoles.length === 0 ||
@@ -668,7 +668,7 @@ const JobPosting = () => {
           selectedDepartment.length === 0 ||
           selectedLocations.length === 0 ||
           selectedIndustry.length === 0 ||
-          selectedEducation.length === 0 
+          selectedEducation.length === 0
         ) {
           showErrorMessage("Please fill in all required fields.");
           return;
@@ -682,8 +682,8 @@ const JobPosting = () => {
           location: selectedLocations,
           department: selectedDepartment,
           role: selectedRoles,
-          industry:selectedIndustry,
-          education:selectedEducation,
+          industry: selectedIndustry[0],
+          education: selectedEducation[0],
           Role: loginClientDetail.role,
           id,
         };
@@ -699,29 +699,29 @@ const JobPosting = () => {
         jobPosting(updatedCredentials);
         otherSkill.length > 0 && postOtherSkills(otherSkill);
         otherJobRole.length > 0 && postOtherDesignation(otherJobRole);
-      }else{
+      } else {
         await new Promise(() => {
           Swal.fire({
-              title: 'Buy Package Plan',
-              text: 'You reached your max cv-views in your plan, upgrade your plan',
-              icon: 'info',
-              confirmButtonColor: '#3085d6',
-              confirmButtonText: 'OK',
-          }).then(() => {
-              window.open(`http://localhost:3000/package-plans`, '_blank');
-          });
-        });
-      }
-    }else{
-      await new Promise(() => {
-        Swal.fire({
             title: 'Buy Package Plan',
-            text: '',
+            text: 'You reached your max cv-views in your plan, upgrade your plan',
             icon: 'info',
             confirmButtonColor: '#3085d6',
             confirmButtonText: 'OK',
-        }).then(() => {
+          }).then(() => {
             window.open(`http://localhost:3000/package-plans`, '_blank');
+          });
+        });
+      }
+    } else {
+      await new Promise(() => {
+        Swal.fire({
+          title: 'Buy Package Plan',
+          text: '',
+          icon: 'info',
+          confirmButtonColor: '#3085d6',
+          confirmButtonText: 'OK',
+        }).then(() => {
+          window.open(`http://localhost:3000/package-plans`, '_blank');
         });
       });
     }
@@ -789,7 +789,7 @@ const JobPosting = () => {
 
                           <div className='job-post-form-label-with-badge'>
                             <label htmlFor="" className='job-post-form-label'>Job title / Designation<span className='form-required'>*</span></label>
-                            <i class="bi bi-chevron-down"></i>
+                            {/* <i class="bi bi-chevron-down"></i> */}
                             {selectedJobRoles.map(selectJobRole => (
                               <span className="job-post-form-badge"
                                 key={selectJobRole}
@@ -877,7 +877,6 @@ const JobPosting = () => {
 
                           <div className='job-post-form-label-with-badge'>
                             <label htmlFor="" className='job-post-form-label'>Mandatory Skills<span className='form-required'>*</span></label>
-                            <i class="bi bi-chevron-down"></i>
                             {selectedSkills.map(selectSkill => (
                               <span className="job-post-form-badge"
                                 key={selectSkill}
@@ -900,6 +899,8 @@ const JobPosting = () => {
                             onClick={()=>handleDeselect(additionalSkill)}
                             >{additionalSkill}</span>
                           ))} */}
+
+                          {/* <i class="bi bi-chevron-down"></i> */}
                           <input type="text" className='job-post-form-input'
                             name='searchSkillInput'
                             id='searchSkillInput'
@@ -963,15 +964,14 @@ const JobPosting = () => {
 
                           <div className='job-post-form-label-with-badge'>
                             <label htmlFor="" className='job-post-form-label'>Department<span className='form-required'>*</span></label>
-                            <i class="bi bi-chevron-down"></i>
                             {/* <i class="bi bi-chevron-down"></i>
                           <select className='job-post-form-input select-input'
-                            name="department" 
-                            value = {credentials.department}
-                            onChange={handleChange}>
-                            <option value="" selected>Search and Select the best matching Option</option>
-                            <option value="Option 1">Option 1</option>
-                            <option value="Option 2">Option 2</option>
+                          name="department" 
+                          value = {credentials.department}
+                          onChange={handleChange}>
+                          <option value="" selected>Search and Select the best matching Option</option>
+                          <option value="Option 1">Option 1</option>
+                          <option value="Option 2">Option 2</option>
                           </select> */}
                             {selectedDepartment.map(selectDepartment => (
                               <span className="job-post-form-badge"
@@ -981,6 +981,7 @@ const JobPosting = () => {
                             ))}
                           </div>
 
+                          {/* <i class="bi bi-chevron-down"></i> */}
                           <input
                             type='text'
                             className='job-post-form-input'
@@ -1009,7 +1010,6 @@ const JobPosting = () => {
 
                           <div className='job-post-form-label-with-badge'>
                             <label htmlFor="" className='job-post-form-label'>Role<span className='form-required'>*</span></label>
-                            <i class="bi bi-chevron-down"></i>
                             {selectedRoles.map(selectRole => (
                               <span className="job-post-form-badge"
                                 key={selectRole}
@@ -1018,6 +1018,7 @@ const JobPosting = () => {
                             ))}
                           </div>
 
+                          {/* <i class="bi bi-chevron-down"></i> */}
                           <input type="text" className='job-post-form-input'
                             name='searchRoleInput'
                             id='searchRoleInput'
@@ -1063,7 +1064,6 @@ const JobPosting = () => {
 
                           <div className='job-post-form-label-with-badge'>
                             <label htmlFor="" className='job-post-form-label'>Job location ( maximum 3 )<span className='form-required'>*</span></label>
-                            <i class="bi bi-chevron-down"></i>
                             {selectedLocations.map(selectLocation => (
                               <span className="job-post-form-badge"
                                 key={selectLocation}
@@ -1072,6 +1072,7 @@ const JobPosting = () => {
                             ))}
                           </div>
 
+                          {/* <i class="bi bi-chevron-down"></i> */}
                           <input
                             type='text'
                             className='job-post-form-input'
@@ -1199,9 +1200,9 @@ const JobPosting = () => {
                     <div className="row m-b-35">
                       <div className="col-12 col-xl-8">
                         <div className="job-post-form-group">
-                          <label htmlFor="" className='job-post-form-label'>Company industry you are hiring from<span className='form-required'>*</span></label>
-                          <i class="bi bi-chevron-down"></i>
-                          {/* <select className='job-post-form-input select-input'
+                          <div className='job-post-form-label-with-badge'>
+                            <label htmlFor="" className='job-post-form-label'>Company industry you are hiring from<span className='form-required'>*</span></label>
+                            {/* <select className='job-post-form-input select-input'
                             name="industry"
                             value={credentials.industry}
                             onChange={handleChange}>
@@ -1212,14 +1213,16 @@ const JobPosting = () => {
                             <option value="Education">Education</option>
                             <option value="Manufacturing">Manufacturing</option>
                           </select> */}
-                          {selectedIndustry.map(selectIndustry => (
+                            {selectedIndustry.map(selectIndustry => (
                               <span className="job-post-form-badge"
                                 key={selectIndustry}
                                 onClick={() => handleDeselectIndustry(selectIndustry)}
                               >{selectIndustry}
                               </span>
                             ))}
+                          </div>
 
+                          {/* <i class="bi bi-chevron-down"></i> */}
                           <input type="text" className='job-post-form-input'
                             name='searchIndustryInput'
                             id='searchIndustryInput'
@@ -1243,9 +1246,9 @@ const JobPosting = () => {
                     <div className="row m-b-35">
                       <div className="col-12 col-xl-8">
                         <div className="job-post-form-group">
-                          <label htmlFor="" className='job-post-form-label'>Educational Qualification<span className='form-required'>*</span></label>
-                          <i class="bi bi-chevron-down"></i>
-                          {/* <select className='job-post-form-input select-input'
+                          <div className='job-post-form-label-with-badge'>
+                            <label htmlFor="" className='job-post-form-label'>Educational Qualification<span className='form-required'>*</span></label>
+                            {/* <select className='job-post-form-input select-input'
                             name="education"
                             value={credentials.education}
                             onChange={handleChange}>
@@ -1256,14 +1259,16 @@ const JobPosting = () => {
                             <option value="Doctorate">Doctorate</option>
                             <option value="Professional Certification">Professional Certification</option>
                           </select> */}
-                          {selectedEducation.map(selectEducation => (
+                            {selectedEducation.map(selectEducation => (
                               <span className="job-post-form-badge"
                                 key={selectEducation}
                                 onClick={() => handleDeselectEducation(selectEducation)}
                               >{selectEducation}
                               </span>
                             ))}
+                          </div>
 
+                          {/* <i class="bi bi-chevron-down"></i> */}
                           <input type="text" className='job-post-form-input'
                             name='searchEducationInput'
                             id='searchEducationInput'
@@ -1419,10 +1424,10 @@ const JobPosting = () => {
               </div>
             </div>
           </section>
-        </div>
+        </div >
         <Footer />
-      </div>}
-    </div>
+      </div >}
+    </div >
   )
 }
 
