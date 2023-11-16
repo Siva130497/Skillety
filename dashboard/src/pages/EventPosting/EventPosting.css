@@ -4,9 +4,10 @@
     padding: 11px 13px !important;
     line-height: normal !important;
     height: auto !important;
-    color: rgb(143, 143, 143) !important;
+    color: #8f8f8f !important;
     font-size: 14px !important;
     cursor: pointer;
+    background-color: #FFF !important;
 }
 
 .custom-file.ats,
@@ -48,6 +49,10 @@
     font-size: 14px;
     font-weight: 400;
     width: 100% !important;
+}
+
+.job-post-form-group .react-datepicker-wrapper .react-datepicker__input-container input::placeholder{
+    color: #8f8f8f !important;
 }
 
 .job-post-form-group .react-datepicker-wrapper .react-datepicker__input-container input:disabled::placeholder {

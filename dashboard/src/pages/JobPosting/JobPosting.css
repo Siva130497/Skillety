@@ -102,7 +102,7 @@
 }
 
 .job-post-form-input::placeholder {
-    color: rgb(143, 143, 143) !important;
+    color: #8f8f8f !important;
 }
 
 .job-post-form-input:focus,
