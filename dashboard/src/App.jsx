@@ -24,6 +24,10 @@ import JobDetails from './pages/JobDetails/JobDetails';
 import RecruiterDashboard from './pages/RecruiterDashboard/RecruiterDashboard';
 import AllClients from './pages/AllClients/AllClients';
 import AllCandidates from './pages/AllCandidates/AllCandidates';
+import AllJobs from './pages/AllJobs/AllJobs';
+import PostedJobs from './pages/PostedJobs/PostedJobs';
+import PostingJob from './pages/PostingJob/PostingJob';
+import EventPosting from './pages/EventPosting/EventPosting';
 
 
 
@@ -54,6 +58,10 @@ function App() {
         <Route path='/recruiter-dashboard/:token' element={<RecruiterDashboard />} />
         <Route path='/all-clients' element={<AllClients />} />
         <Route path='/all-candidates' element={<AllCandidates />} />
+        <Route path='/all-jobs' element={<AllJobs />} />
+        <Route path='/posted-jobs' element={<PostedJobs />} />
+        <Route path='/job-posting' element={<PostingJob />} />
+        <Route path='/event-posting' element={<EventPosting />} />
 
       </Routes>
     </AuthContextProvider>

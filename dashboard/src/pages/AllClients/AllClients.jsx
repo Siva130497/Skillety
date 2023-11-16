@@ -74,7 +74,7 @@ const AllClients = () => {
     }
 
     useEffect(()=>{
-        getAllClientDetails();
+        // getAllClientDetails();
         getAllClient();
     },[staffToken]);
 
@@ -144,7 +144,7 @@ const AllClients = () => {
                             <div className="row">
                                 <div className="col-12">
                                     <div className="admin-lg-table-section">
-                                        <div className="table-responsive admin-lg-table-area man-app">
+                                        <div className='admin-lg-table-area man-app'>
                                             <div className='man-app-title-area'>
                                                 <div className="man-app-title">
                                                     All Clients Details

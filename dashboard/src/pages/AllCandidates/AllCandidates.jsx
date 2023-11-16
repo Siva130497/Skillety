@@ -120,7 +120,7 @@ const AllCandidates = () => {
                             <div className="row">
                                 <div className="col-12">
                                     <div className="admin-lg-table-section">
-                                        <div className="table-responsive admin-lg-table-area man-app">
+                                        <div className='admin-lg-table-area man-app'>
                                             <div className='man-app-title-area candidate'>
                                                 <div>
                                                     <div className="man-app-title">
@@ -137,57 +137,60 @@ const AllCandidates = () => {
                                                     <button className='recruiter-search-btn'>Search</button>
                                                 </div>
                                             </div>
-                                            <table className="table table-striped table-hover admin-lg-table">
-                                                <tr className='dash-table-row candidate'>
-                                                    <th className='dash-table-head'>No.</th>
-                                                    <th className='dash-table-head'>Full Name</th>
-                                                    <th className='dash-table-head'>Email ID</th>
-                                                    <th className='dash-table-head'>Status</th>
-                                                    <th className='dash-table-head text-center'>Send an interview invitation</th>
-                                                    <th className='text-center'>View</th>
-                                                </tr>
 
-                                                {/* table data */}
-                                                <tr className='dash-table-row client'>
-                                                    <td className='dash-table-data1'>01.</td>
-                                                    <td className='dash-table-data1'>
-                                                        Kajan
-                                                    </td>
-                                                    <td className='dash-table-data1'>
-                                                        email@gmail.com
-                                                    </td>
+                                            <div className="table-responsive table-scroll-area">
+                                                <table className="table table-striped table-hover admin-lg-table">
+                                                    <tr className='dash-table-row candidate'>
+                                                        <th className='dash-table-head'>No.</th>
+                                                        <th className='dash-table-head'>Full Name</th>
+                                                        <th className='dash-table-head'>Email ID</th>
+                                                        <th className='dash-table-head'>Status</th>
+                                                        <th className='dash-table-head text-center'>Send an interview invitation</th>
+                                                        <th className='text-center'>View</th>
+                                                    </tr>
 
-                                                    <td className='dash-table-data1'>
-                                                        {/* <span className='text-warning p-0'>
+                                                    {/* table data */}
+                                                    <tr className='dash-table-row client'>
+                                                        <td className='dash-table-data1'>01.</td>
+                                                        <td className='dash-table-data1'>
+                                                            Kajan
+                                                        </td>
+                                                        <td className='dash-table-data1'>
+                                                            email@gmail.com
+                                                        </td>
+
+                                                        <td className='dash-table-data1'>
+                                                            {/* <span className='text-warning p-0'>
                                                             <i class="bi bi-exclamation-circle mr-2"></i>
                                                             Email still not sent!
                                                         </span> */}
 
-                                                        <span className='text-success p-0'>
-                                                            <i class="bi bi-check-circle mr-2"></i>
-                                                            Email already sent
-                                                        </span>
-                                                    </td>
+                                                            <span className='text-success p-0'>
+                                                                <i class="bi bi-check-circle mr-2"></i>
+                                                                Email already sent
+                                                            </span>
+                                                        </td>
 
-                                                    <td className='dash-table-data1 text-center'>
-                                                        <button className='send-email-btn'>
-                                                            <i class="bi bi-send-fill send-icon"></i>
-                                                            Send
-                                                        </button>
-                                                    </td>
+                                                        <td className='dash-table-data1 text-center'>
+                                                            <button className='send-email-btn'>
+                                                                <i class="bi bi-send-fill send-icon"></i>
+                                                                Send
+                                                            </button>
+                                                        </td>
 
-                                                    <td className='text-center'>
-                                                        <button className='application-btn' data-toggle="modal" title='View Candidate Details...' data-target="#invoiceModal">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
-                                                                <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
-                                                                <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"
-                                                                    fill='#0879bc' />
-                                                            </svg>
-                                                        </button>
-                                                    </td>
-                                                </tr>
+                                                        <td className='text-center'>
+                                                            <button className='application-btn' data-toggle="modal" title='View Candidate Details...' data-target="#invoiceModal">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                                                    <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
+                                                                    <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"
+                                                                        fill='#0879bc' />
+                                                                </svg>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
 
-                                            </table>
+                                                </table>
+                                            </div>
                                         </div>
 
                                         <div className="view-application-btn-area text-center">

@@ -763,7 +763,7 @@ const JobPosting = () => {
         toggleDisabledInputArea.call(this);
       });
     });
-  }, []);
+  }, [clientToken]);
 
   return (
     <div>
@@ -851,7 +851,7 @@ const JobPosting = () => {
                         </div>
                       </div>
 
-                      <div className="col-12 col-xl-4">
+                      <div className="col-12 col-xl-4 m-t-35 mt-xl-0">
                         <div className="job-post-form-group">
                           <label htmlFor="" className='job-post-form-label'>Employment Type<span className='form-required'>*</span></label>
                           <i class="bi bi-chevron-down"></i>
