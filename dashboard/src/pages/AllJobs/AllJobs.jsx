@@ -81,9 +81,7 @@ const AllJobs = () => {
                                                     <tr className='dash-table-row man-app'>
                                                         <th className='dash-table-head'>No.</th>
                                                         <th className='dash-table-head'>Job Role</th>
-                                                        <th className='dash-table-head'>Email ID</th>
-                                                        <th className='dash-table-head'>Status</th>
-                                                        <th className='dash-table-head text-center'>Send an interview invitation</th>
+                                                        <th className='dash-table-head'>Job Category</th>
                                                         <th className='text-center'>View</th>
                                                     </tr>
 
@@ -94,26 +92,7 @@ const AllJobs = () => {
                                                             Software enngineer
                                                         </td>
                                                         <td className='dash-table-data1'>
-                                                            email@gmail.com
-                                                        </td>
-
-                                                        <td className='dash-table-data1'>
-                                                            {/* <span className='text-warning p-0'>
-                                                            <i class="bi bi-exclamation-circle mr-2"></i>
-                                                            Email still not sent!
-                                                        </span> */}
-
-                                                            <span className='text-success p-0'>
-                                                                <i class="bi bi-check-circle mr-2"></i>
-                                                                Email already sent
-                                                            </span>
-                                                        </td>
-
-                                                        <td className='dash-table-data1 text-center'>
-                                                            <button className='send-email-btn'>
-                                                                <i class="bi bi-send-fill send-icon"></i>
-                                                                Send
-                                                            </button>
+                                                            Full Time
                                                         </td>
 
                                                         <td className='text-center'>
@@ -176,120 +155,59 @@ const AllJobs = () => {
                             <div className="modal-body">
                                 <div className="card p-4 recruiter-view-card candidate">
                                     <div className="row">
-                                        <div className="col-12 col-sm-6">
-                                            <div className="view-det-head">Full Name</div>
+                                        <div className="col-12 col-sm-5">
+                                            <div className="view-det-head">Job Role</div>
                                         </div>
-                                        <div className="col-12 col-sm-6">
-                                            <div className="view-det-sub-head">Kajan</div>
-                                        </div>
-                                    </div>
-                                    <hr />
-                                    <div className="row">
-                                        <div className="col-12 col-sm-6">
-                                            <div className="view-det-head">Mobile Number</div>
-                                        </div>
-                                        <div className="col-12 col-sm-6">
-                                            <div className="view-det-sub-head">0111111111</div>
+                                        <div className="col-12 col-sm-7">
+                                            <div className="view-det-sub-head">Mern Stack developer</div>
                                         </div>
                                     </div>
                                     <hr />
                                     <div className="row">
-                                        <div className="col-12 col-sm-6">
-                                            <div className="view-det-head">Email ID</div>
+                                        <div className="col-12 col-sm-5">
+                                            <div className="view-det-head">Job Category</div>
                                         </div>
-                                        <div className="col-12 col-sm-6">
-                                            <div className="view-det-sub-head">email@gmail.com</div>
-                                        </div>
-                                    </div>
-                                    <hr />
-                                    <div className="row">
-                                        <div className="col-12 col-sm-6">
-                                            <div className="view-det-head">Current Job Role</div>
-                                        </div>
-                                        <div className="col-12 col-sm-6">
-                                            <div className="view-det-sub-head">Developer</div>
+                                        <div className="col-12 col-sm-7">
+                                            <div className="view-det-sub-head">Full time</div>
                                         </div>
                                     </div>
                                     <hr />
                                     <div className="row">
-                                        <div className="col-12 col-sm-6">
-                                            <div className="view-det-head">Skills</div>
+                                        <div className="col-12 col-sm-5">
+                                            <div className="view-det-head">Job Mandatory Skills</div>
                                         </div>
-                                        <div className="col-12 col-sm-6">
+                                        <div className="col-12 col-sm-7">
                                             <div className="cand-skills-area">
+                                                <span className='cand-skill'>Javascript</span>
+                                                <span className='cand-skill'>Mongodb</span>
+                                                <span className='cand-skill'>Express Js</span>
                                                 <span className='cand-skill'>React</span>
-                                                <span className='cand-skill'>React</span>
-                                                <span className='cand-skill'>React</span>
-                                                <span className='cand-skill'>React</span>
-                                                <span className='cand-skill'>React</span>
-                                                <span className='cand-skill'>React</span>
-                                                <span className='cand-skill'>React</span>
+                                                <span className='cand-skill'>Node Js</span>
+                                                <span className='cand-skill'>Git</span>
                                             </div>
                                         </div>
                                     </div>
                                     <hr />
                                     <div className="row">
-                                        <div className="col-12 col-sm-6">
-                                            <div className="view-det-head">Experience</div>
+                                        <div className="col-12 col-sm-5">
+                                            <div className="view-det-head">Needed Experience</div>
                                         </div>
-                                        <div className="col-12 col-sm-6">
+                                        <div className="col-12 col-sm-7">
                                             <div className="view-det-sub-head">
-                                                <span>0</span>&nbsp;years and&nbsp;<span>1</span>&nbsp;months
+                                                <span>0</span>
+                                                &nbsp;years and&nbsp;
+                                                <span>6</span>
+                                                &nbsp;months
                                             </div>
                                         </div>
                                     </div>
                                     <hr />
                                     <div className="row">
-                                        <div className="col-12 col-sm-6">
-                                            <div className="view-det-head">Current/Previous Working/Worked Company Name</div>
+                                        <div className="col-12 col-sm-5">
+                                            <div className="view-det-head">Job Description</div>
                                         </div>
-                                        <div className="col-12 col-sm-6">
-                                            <div className="view-det-sub-head">Google</div>
-                                        </div>
-                                    </div>
-                                    <hr />
-                                    <div className="row">
-                                        <div className="col-12 col-sm-6">
-                                            <div className="view-det-head">College</div>
-                                        </div>
-                                        <div className="col-12 col-sm-6">
-                                            <div className="view-det-sub-head">Indian College</div>
-                                        </div>
-                                    </div>
-                                    <hr />
-                                    <div className="row">
-                                        <div className="col-12 col-sm-6">
-                                            <div className="view-det-head">Education</div>
-                                        </div>
-                                        <div className="col-12 col-sm-6">
-                                            <div className="view-det-sub-head">BSE</div>
-                                        </div>
-                                    </div>
-                                    <hr />
-                                    <div className="row">
-                                        <div className="col-12 col-sm-6">
-                                            <div className="view-det-head">Location</div>
-                                        </div>
-                                        <div className="col-12 col-sm-6">
-                                            <div className="view-det-sub-head">India</div>
-                                        </div>
-                                    </div>
-                                    <hr />
-                                    <div className="row">
-                                        <div className="col-12 col-sm-6">
-                                            <div className="view-det-head">About him/her</div>
-                                        </div>
-                                        <div className="col-12 col-sm-6">
-                                            <div className="view-det-sub-head">Testing Profile Headline</div>
-                                        </div>
-                                    </div>
-                                    <hr />
-                                    <div className="row">
-                                        <div className="col-12 col-sm-6">
-                                            <div className="view-det-head">Last Working Day</div>
-                                        </div>
-                                        <div className="col-12 col-sm-6">
-                                            <div className="view-det-sub-head">2023/05/05</div>
+                                        <div className="col-12 col-sm-7">
+                                            <div className="view-det-sub-head">work as full stack developer for making dynamic web applications</div>
                                         </div>
                                     </div>
                                 </div>

@@ -62,10 +62,10 @@ const ATSSideBar = () => {
                             <a href="/all-jobs" className="nav-link"><i data-feather="briefcase"></i><span>All Jobs</span></a>
                         </li>
                         <li className="dropdown" id='posted_jobs'>
-                            <a href="/posted-jobs" className="nav-link"><i data-feather="briefcase"></i><span>Posted Jobs</span></a>
+                            <a href="/posted-jobs" className="nav-link"><i data-feather="mail"></i><span>Posted Jobs</span></a>
                         </li>
                         <li className="dropdown" id='job_posting'>
-                            <a href="/job-posting" className="nav-link"><i data-feather="briefcase"></i><span>Job Posting</span></a>
+                            <a href="/job-posting" className="nav-link"><i data-feather="share"></i><span>Job Posting</span></a>
                         </li>
                         <li className="dropdown" id='event_posting'>
                             <a href="/event-posting" className="nav-link"><i data-feather="calendar"></i><span>Event Posting</span></a>

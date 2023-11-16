@@ -38,6 +38,7 @@
     font-size: 14px;
     font-weight: 500;
     box-shadow: inset 2px 2px 5px #714f362f;
+    text-transform: capitalize;
 }
 
 .man-app-title-area.candidate {

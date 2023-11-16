@@ -31,6 +31,17 @@
     position: relative;
 }
 
+.job-post-form-group input[type="number"] {
+    -moz-appearance: none;
+    appearance: none;
+}
+
+.job-post-form-group input[type="number"]::-webkit-inner-spin-button,
+.job-post-form-group input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
 .job-post-form-label .form-required {
     color: red;
     margin-left: 5px;
@@ -296,6 +307,10 @@
 
 .post-job-btn-area {
     margin-top: 40px;
+    display: flex;
+    align-items: center;
+    /* justify-content: space-between; */
+    gap: 20px;
 }
 
 .post-job-btn {
@@ -303,7 +318,7 @@
     background-color: #714F36;
     outline: none;
     transition: ease-in-out 0.5s;
-    font-size: 18px !important;
+    font-size: 16px !important;
     font-weight: 600 !important;
     color: #FFF !important;
     padding: 10px 40px;
@@ -437,6 +452,7 @@
     background-color: #714F36 !important;
     color: #FFF !important;
 }
-.disabled-input-area{
+
+.disabled-input-area {
     display: none;
 }
