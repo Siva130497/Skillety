@@ -54,7 +54,7 @@ export const AuthContextProvider = ({children}) => {
                 console.log(result);
                 if (userData[1] === "staff") {
                     localStorage.setItem("staffToken", JSON.stringify(result.accessToken));
-                    navigate("/recruiter-dashboard");
+                    window.open(`http://localhost:3000/recruiter-dashboard/${result.accessToken}`, '_blank');
                 } else if (userData[1] === "admin") {
                     localStorage.setItem("adminToken",  JSON.stringify(result.accessToken));
                     navigate("/admin-dashboard");

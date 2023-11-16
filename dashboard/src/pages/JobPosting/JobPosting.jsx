@@ -769,7 +769,7 @@ const JobPosting = () => {
     <div>
       {clientToken && <div class="main-wrapper main-wrapper-1">
         <div class="navbar-bg"></div>
-        <ClientLayout packageSelectionDetail={packageSelectionDetail} />
+        <ClientLayout/>
 
         <div class="main-content">
           <section class="section">

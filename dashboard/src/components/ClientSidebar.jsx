@@ -1,10 +1,16 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { useEffect } from 'react';
 import $ from 'jquery';
 import { useNavigate } from 'react-router-dom';
+import AuthContext from '../context/AuthContext';
+import axios from 'axios';
 
-const ClientSidebar = ({ packageSelectionDetail }) => {
+const ClientSidebar = () => {
     const [clientToken, setClientToken] = useState("");
+    const { getProtectedData, getClientChoosenPlan, packageSelectionDetail } = useContext(AuthContext);
+    const [employeeId, setEmployeeId] = useState("");
+    const [loginClientDetail, setLoginClientDetail] = useState();
+    const [sideBar, setSideBar] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -38,7 +44,77 @@ const ClientSidebar = ({ packageSelectionDetail }) => {
             }
         });
 
+    }, [clientToken, packageSelectionDetail]);
+
+    const getLoginClientDetail = async () => {
+        try {
+            const res = await axios.get(`http://localhost:5002/client/${employeeId}`, {
+                headers: {
+                    Authorization: `Bearer ${clientToken}`,
+                    Accept: 'application/json'
+                }
+            });
+            const result = res.data;
+            if (!result.error) {
+                console.log(result);
+                setLoginClientDetail(result);
+            } else {
+                console.log(result);
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    useEffect(() => {
+        if (clientToken) {
+            const fetchData = async () => {
+                try {
+                    const user = await getProtectedData(clientToken);
+                    console.log(user);
+                    setEmployeeId(user.id);
+                } catch (error) {
+                    console.log(error);
+                }
+            };
+
+            fetchData();
+        }
     }, [clientToken]);
+
+    useEffect(() => {
+        if (employeeId) {
+            getLoginClientDetail();
+        }
+    }, [employeeId]);
+
+    useEffect(() => {
+        if (loginClientDetail?.companyId) {
+            
+            const fetchData = async () => {
+                try {
+
+                    await getClientChoosenPlan(loginClientDetail?.companyId);
+
+                    
+                } catch (error) {
+                    console.error(error);
+                }
+            };
+
+            fetchData();
+        }
+    }, [loginClientDetail]);
+
+    useEffect(()=>{
+        if (packageSelectionDetail ) {
+            
+            setSideBar(true);
+        }
+
+    },[packageSelectionDetail])
+
+    console.log(sideBar)
 
     return (
         <div>
@@ -56,7 +132,7 @@ const ClientSidebar = ({ packageSelectionDetail }) => {
                         </li>
                     </ul>
 
-                    {packageSelectionDetail &&
+                    {sideBar && (
                         <ul className="sidebar-menu client">
 
                             <li className="dropdown" id='search_candidate'>
@@ -80,7 +156,7 @@ const ClientSidebar = ({ packageSelectionDetail }) => {
                             <li className="dropdown" id='client_settings'>
                                 <a href="/client-settings" className="nav-link"><i data-feather="settings"></i><span>Settings</span></a>
                             </li>
-                        </ul>
+                        </ul>)
                     }
 
                     <div className='live-chat-area'>

@@ -6,7 +6,7 @@ import ClientNavBar from './ClientNavBar'
 import ClientSidebar from './ClientSidebar'
 import feather from 'feather-icons';
 
-const ClientLayout = ({ packageSelectionDetail }) => {
+const ClientLayout = () => {
 
     useEffect(() => {
         // $(window).on("load", function () {
@@ -747,7 +747,7 @@ const ClientLayout = ({ packageSelectionDetail }) => {
             <div id="preloader"></div>
             <ClientNavBar />
 
-            <ClientSidebar packageSelectionDetail={packageSelectionDetail} />
+            <ClientSidebar/>
         </div>
     )
 }

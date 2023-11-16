@@ -1,18 +1,131 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useEffect } from 'react';
 import ATSLayout from '../../components/ATSLayout';
 import Footer from '../../components/Footer';
 import './AllClients.css';
 import './AllClients-responsive.css';
 import $ from 'jquery';
+import axios from 'axios';
 
 const AllClients = () => {
+    const [staffToken, setStaffToken] = useState("");
+    const [clientDetail, setClientDetail] = useState([]);
+    const [clientWithTempPass, setClientWithTempPass] = useState([]);
+    const [emailStatus, setEmailStatus] = useState(true);
+    const [emailMsg, setEmailMsg] = useState("");
+    const [commonEmails, setCommonEmails] = useState([]);
+    const [aClient, setAClient] = useState();
+
+    useEffect(() => {
+        setStaffToken(JSON.parse(localStorage.getItem('staffToken')))
+    }, [staffToken])
 
     useEffect(() => {
         $(document).ready(function () {
         });
 
     }, []);
+
+    const getAllClientDetails = async() => {
+        try{
+            const response = await axios.get(`http://localhost:5002/client-Detail`, {
+                headers: {
+                    Authorization: `Bearer ${staffToken}`,
+                    Accept: 'application/json'
+                }
+              });
+            const result = response.data;
+            if(!result.error){
+                console.log(result);
+                setClientDetail(result.reverse());
+            }else{
+                console.log(result);
+            }
+        }catch(err){
+            console.log(err);
+        }
+    }
+
+    const getAllClient = async() => {
+        try{
+            const response = await axios.get(`http://localhost:5002/clientWithUrl-Detail`, {
+                headers: {
+                    Authorization: `Bearer ${staffToken}`,
+                    Accept: 'application/json'
+                }
+              });
+            const result = response.data;
+            if(!result.error){
+                console.log(result);
+                setClientWithTempPass(result);
+            }else{
+                console.log(result);
+            }
+        }catch(err){
+            console.log(err);
+        }
+    }
+
+    const handleCheckForEmailStatus = () => {
+        const newCommonEmails = clientDetail
+        .filter(obj1 => clientWithTempPass.some(obj2 => obj2.email === obj1.email))
+        .map(obj => obj.email);
+        setCommonEmails(newCommonEmails);
+    }
+
+    useEffect(()=>{
+        getAllClientDetails();
+        getAllClient();
+    },[staffToken]);
+
+    useEffect(()=>{
+        if(clientDetail.length>0 && clientWithTempPass.length>0){
+            handleCheckForEmailStatus();
+        }
+    },[clientDetail, clientWithTempPass]);
+
+    
+    const createClient = async (id) => {
+        const userId = {id};
+        try {
+            const response = await axios.post(`http://localhost:5002/tempPass-Client/${id}`, userId, {
+                headers: {
+                    Authorization: `Bearer ${staffToken}`,
+                    'Content-Type': 'application/json',
+                },
+            });
+    
+            const result = response.data;
+    
+            if (!result.error) {
+                console.log(result);
+    
+                // Access emailSent status
+                if (result.emailSent) {
+                    console.log('Email has been sent successfully.');
+                    setEmailStatus(false);
+                    setEmailMsg("Email has been sent successfully.")
+                } else {
+                    console.log('Email sending failed.');
+                }
+            } else {
+                console.log(result);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+    
+    const handleGeneratePasswordAndTempUrl = (id) => {
+        createClient(id);
+    };
+
+    const handleCard = (id) => {
+        const client = clientDetail.find(cli=>cli._id === id)
+        setAClient(client);
+    }
+
+    console.log(aClient)
 
     return (
         <div>
@@ -38,9 +151,10 @@ const AllClients = () => {
                                                 </div>
                                                 <div className="man-app-sub-title">
                                                     Total Clients :&nbsp;
-                                                    <span>02</span>
+                                                    <span>{clientDetail.length}</span>
                                                 </div>
                                             </div>
+                                            {clientDetail.length === 0 ? <h3>No Client Created Yet</h3> :
                                             <table className="table table-striped table-hover admin-lg-table">
                                                 <tr className='dash-table-row man-app'>
                                                     <th className='dash-table-head'>No.</th>
@@ -52,46 +166,49 @@ const AllClients = () => {
                                                 </tr>
 
                                                 {/* table data */}
-                                                <tr className='dash-table-row client'>
-                                                    <td className='dash-table-data1'>01.</td>
-                                                    <td className='dash-table-data1'>
-                                                        Kajan
-                                                    </td>
-                                                    <td className='dash-table-data1'>
-                                                        email@gmail.com
-                                                    </td>
+                                                {clientDetail.map((client, index)=>{
+                                                    return(
+                                                        <tr className='dash-table-row client'>
+                                                            <td className='dash-table-data1'>{index+1}.</td>
+                                                            <td className='dash-table-data1'>
+                                                                {client.name}
+                                                            </td>
+                                                            <td className='dash-table-data1'>
+                                                                {client.email}
+                                                            </td>
 
-                                                    <td className='dash-table-data1'>
-                                                        {/* <span className='text-warning p-0'>
-                                                            <i class="bi bi-exclamation-circle mr-2"></i>
-                                                            Email still not sent!
-                                                        </span> */}
+                                                            <td className='dash-table-data1'>
+                                                                {/* <span className='text-warning p-0'>
+                                                                    <i class="bi bi-exclamation-circle mr-2"></i>
+                                                                    Email still not sent!
+                                                                </span> */}
 
-                                                        <span className='text-success p-0'>
-                                                            <i class="bi bi-check-circle mr-2"></i>
-                                                            Email already sent
-                                                        </span>
-                                                    </td>
+                                                                <span className='text-success p-0'>
+                                                                    <i class="bi bi-check-circle mr-2"></i>
+                                                                    {commonEmails.includes(client.email) ? "Email already sent" : emailStatus ? "Email still not sent" : emailMsg}
+                                                                </span>
+                                                            </td>
 
-                                                    <td className='dash-table-data1 text-center'>
-                                                        <button className='send-email-btn'>
-                                                            <i class="bi bi-send-fill send-icon"></i>
-                                                            Send
-                                                        </button>
-                                                    </td>
+                                                            <td className='dash-table-data1 text-center'>
+                                                                <button className='send-email-btn' onClick={() => handleGeneratePasswordAndTempUrl(client._id)}>
+                                                                    <i class="bi bi-send-fill send-icon"></i>
+                                                                    Send
+                                                                </button>
+                                                            </td>
 
-                                                    <td className='text-center'>
-                                                        <button className='application-btn' title='View Client Details...' data-toggle="modal" data-target="#invoiceModal">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
-                                                                <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
-                                                                <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"
-                                                                    fill='#0879bc' />
-                                                            </svg>
-                                                        </button>
-                                                    </td>
-                                                </tr>
-
-                                            </table>
+                                                            <td className='text-center'>
+                                                                <button className='application-btn' title='View Client Details...' data-toggle="modal" data-target="#invoiceModal" onClick={()=>handleCard(client._id)}>
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                                                        <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
+                                                                        <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"
+                                                                            fill='#0879bc' />
+                                                                    </svg>
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                    )
+                                                })}
+                                            </table>}
                                         </div>
 
                                         <div className="view-application-btn-area text-center">
@@ -143,7 +260,7 @@ const AllClients = () => {
                                             <div className="view-det-head">Full Name</div>
                                         </div>
                                         <div className="col-12 col-sm-6">
-                                            <div className="view-det-sub-head">Kajan</div>
+                                            <div className="view-det-sub-head">{aClient?.name}</div>
                                         </div>
                                     </div>
                                     <hr />
@@ -152,7 +269,7 @@ const AllClients = () => {
                                             <div className="view-det-head">Mobile Number</div>
                                         </div>
                                         <div className="col-12 col-sm-6">
-                                            <div className="view-det-sub-head">0111111111</div>
+                                            <div className="view-det-sub-head">{aClient?.phone}</div>
                                         </div>
                                     </div>
                                     <hr />
@@ -161,7 +278,7 @@ const AllClients = () => {
                                             <div className="view-det-head">Email ID</div>
                                         </div>
                                         <div className="col-12 col-sm-6">
-                                            <div className="view-det-sub-head">email@gmail.com</div>
+                                            <div className="view-det-sub-head">{aClient?.email}</div>
                                         </div>
                                     </div>
                                     <hr />
@@ -170,7 +287,7 @@ const AllClients = () => {
                                             <div className="view-det-head">Company Name</div>
                                         </div>
                                         <div className="col-12 col-sm-6">
-                                            <div className="view-det-sub-head">Prodigit</div>
+                                            <div className="view-det-sub-head">{aClient?.companyName}</div>
                                         </div>
                                     </div>
                                     <hr />
@@ -179,7 +296,7 @@ const AllClients = () => {
                                             <div className="view-det-head">Industry</div>
                                         </div>
                                         <div className="col-12 col-sm-6">
-                                            <div className="view-det-sub-head">Programming</div>
+                                            <div className="view-det-sub-head">{aClient?.industry}</div>
                                         </div>
                                     </div>
                                     <hr />
@@ -188,7 +305,7 @@ const AllClients = () => {
                                             <div className="view-det-head">Headcount</div>
                                         </div>
                                         <div className="col-12 col-sm-6">
-                                            <div className="view-det-sub-head">100</div>
+                                            <div className="view-det-sub-head">{aClient?.count}</div>
                                         </div>
                                     </div>
                                     <hr />
@@ -197,7 +314,7 @@ const AllClients = () => {
                                             <div className="view-det-head">From where did you learn about Skillety?</div>
                                         </div>
                                         <div className="col-12 col-sm-6">
-                                            <div className="view-det-sub-head">Facebook</div>
+                                            <div className="view-det-sub-head">{aClient?.text}</div>
                                         </div>
                                     </div>
                                 </div>
