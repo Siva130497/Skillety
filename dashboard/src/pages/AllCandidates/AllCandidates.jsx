@@ -1,17 +1,107 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useEffect } from 'react';
 import ATSLayout from '../../components/ATSLayout';
 import Footer from '../../components/Footer';
 import './AllCandidates.css';
 import $ from 'jquery';
+import axios from 'axios';
 
 const AllCandidates = () => {
-
+    const [staffToken, setStaffToken] = useState("");
+    const [candidateDetail, setCandidateDetail] = useState([]);
+    const [selectedCandidateArray, setSelectedCandidateArray] = useState([]);
+    const [appliedOfPostedJobs, setAppliedOfPostedJobs] =useState([]);
+    const [filteredMsg, setFilteredMsg] = useState("")
+    const [searchInput, setSearchInput] = useState("");
+    const [filteredSearchResults, setFilteredSearchResults]= useState([]);
+    const [filteredSearchResultsMsg, setFilteredSearchResultsMsg] = useState("");
     useEffect(() => {
         $(document).ready(function () {
         });
 
     }, []);
+
+    useEffect(() => {
+        setStaffToken(JSON.parse(localStorage.getItem('staffToken')))
+    }, [staffToken])
+
+    const getAllCandidateDetail = async () => {
+        try{
+            const response = await axios.get('http://localhost:5002/candidate-Detail', {
+              headers: {
+                  Authorization: `Bearer ${staffToken}`,
+                  Accept: 'application/json'
+              }
+            });
+            const result = response.data;
+            if (!result.error) {
+                console.log(result);
+                setCandidateDetail(result.reverse());
+            } else {
+                console.log(result);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+      };
+    
+    //   const getAppliedOfPostedJobs = async() => {
+    //     try{
+    //         const res = await axios.get(`http://localhost:5002/applied-jobs-of-posted/${employeeId ? employeeId : companyId}`, {
+    //           headers: {
+    //               Authorization: `Bearer ${staffToken}`,
+    //               Accept: 'application/json'
+    //           }
+    //         });
+    //         const result = res.data;
+    //         if (!result.error) {
+    //           console.log(result);
+    //           setAppliedOfPostedJobs(result);
+    //         } else {
+    //           console.log(result);
+    //         }
+    //     }catch(err){
+    //       console.log(err);
+    //     }
+    //   }
+
+      useEffect(()=>{
+        getAllCandidateDetail();
+        // getAppliedOfPostedJobs();
+      },[staffToken]);
+
+
+      const viewCandidateDetail = (id) => {
+          const selectedCandidate = candidateDetail.find(filteredCandidate => filteredCandidate.id === id);
+          setSelectedCandidateArray(selectedCandidate);
+      }
+
+      const handleSkillSearch = () => {
+        const searchResults = searchInput
+          .split(/[,\s]+/) 
+          .filter(result => result.trim());
+      
+        const filteredObjBySkills = candidateDetail.filter(candidate =>
+          searchResults.some(searchResult => 
+            candidate.skills.some(skill =>
+              skill.toLowerCase().includes(searchResult.toLowerCase())
+            )
+          )
+        );
+    
+        const filteredObjByDesignation = candidateDetail.filter(candidate =>
+          searchResults.some(searchResult => 
+            candidate.designation[0].toLowerCase().includes(searchResult.toLowerCase())
+          )
+        );
+    
+        const mergedResults = [...filteredObjBySkills, ...filteredObjByDesignation];
+        if(mergedResults.length > 0){
+            setFilteredSearchResults(mergedResults);
+        }else{
+            setFilteredSearchResultsMsg("no such candidates found")
+        }
+      }
 
     return (
         <div>
@@ -38,7 +128,7 @@ const AllCandidates = () => {
                                                     </div>
                                                     <div className="man-app-sub-title">
                                                         Total Candidates :&nbsp;
-                                                        <span>02</span>
+                                                        <span>{candidateDetail.length}</span>
                                                     </div>
                                                 </div>
                                                 <div className="recruiter-search-input-area">

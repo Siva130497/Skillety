@@ -1,10 +1,43 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
+import AuthContext from '../context/AuthContext';
 
 const ATSNavBar = () => {
+    const [employeeId, setEmployeeId] = useState("");
+    const [userName, setUserName] = useState('');
+    const [token, setToken] = useState("");
+    const {getProtectedData} = useContext(AuthContext);
 
-    useEffect(() => {
-    }, [])
+    useEffect(()=>{
+        setToken(JSON.parse(localStorage.getItem('staffToken')))
+      },[token])
+
+      useEffect(() => {
+        if(token){
+            const fetchData = async () => {
+                try {
+                    const userData = await getProtectedData(token);
+                    console.log(userData);
+                    setEmployeeId(userData.id);
+                    setUserName(userData.name);
+                } catch (error) {
+                    console.log(error)
+                }
+            };
+    
+            fetchData();
+        }
+    }, [token]);
+
+      const extractLastName = () => {
+        const nameParts = userName.split(' ');
+    
+        if (nameParts.length > 1) {
+          return nameParts[nameParts.length - 1];
+        } else {
+          return userName; 
+        }
+    };
 
     return (
         <div>
@@ -180,7 +213,7 @@ const ATSNavBar = () => {
                     <li className="dropdown">
                         <a href="#" data-toggle="dropdown"
                             className="nav-user--btn client nav-link dropdown-toggle nav-link-lg nav-link-user">
-                            Company Profile
+                            Staff Profile
                             <i class="bi bi-caret-down-fill"></i>
                             <img alt="image" src="../assets/img/talents-images/avatar.jpg"
                                 className="user-img-radious-style" />
@@ -190,7 +223,7 @@ const ATSNavBar = () => {
                             <div className="dropdown-top-area">
                                 <img src="../assets/img/talents-images/avatar.jpg" className='dropdown-user-img' alt="" />
                                 <div className='dropdown-user-detail-area'>
-                                    <div className="dropdown-user-name">Skillety</div>
+                                    <div className="dropdown-user-name">{extractLastName()}</div>
                                     {/* <div className="dropdown-user-role">UX Designer, India</div> */}
                                 </div>
                             </div>
