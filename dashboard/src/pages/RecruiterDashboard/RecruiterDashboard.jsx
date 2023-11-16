@@ -84,7 +84,10 @@ const options = {
 };
 
 const RecruiterDashboard = () => {
-
+    const {token} = useParams();
+    const [clientDetail, setClientDetail] = useState([]);
+    const [candidateDetail, setCandidateDetail] = useState([]);
+    
     useEffect(() => {
         $(document).ready(function () {
             //for dashboard summary view
@@ -99,6 +102,59 @@ const RecruiterDashboard = () => {
             $('[data-toggle="tooltip"]').tooltip();
         });
     }, []);
+
+    useEffect(()=>{
+        localStorage.setItem("staffToken", JSON.stringify(token));
+    },[token])
+
+    const getAllClientDetails = async() => {
+        try{
+            const response = await axios.get(`http://localhost:5002/client-Detail`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    Accept: 'application/json'
+                }
+              });
+            const result = response.data;
+            if(!result.error){
+                console.log(result);
+                setClientDetail(result.reverse());
+            }else{
+                console.log(result);
+            }
+        }catch(err){
+            console.log(err);
+        }
+    }
+
+    const getAllCandidateDetail = async () => {
+        try{
+            const response = await axios.get('http://localhost:5002/candidate-Detail', {
+              headers: {
+                  Authorization: `Bearer ${token}`,
+                  Accept: 'application/json'
+              }
+            });
+            const result = response.data;
+            if (!result.error) {
+                console.log(result);
+                setCandidateDetail(result.reverse());
+            } else {
+                console.log(result);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+      };
+
+    useEffect(()=>{
+        if(token){
+            getAllClientDetails();
+            getAllCandidateDetail();
+        }
+    
+    },[token]);
+
 
     return (
         <div>
@@ -136,28 +192,28 @@ const RecruiterDashboard = () => {
                                         <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
                                             <div className="dash-num-count-area">
                                                 <p className='dash-num-title'>Clients</p>
-                                                <h4 className='dash-num-count'>14</h4>
+                                                <h4 className='dash-num-count'>{clientDetail.length}</h4>
                                             </div>
                                         </div>
 
                                         <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
                                             <div className="dash-num-count-area">
                                                 <p className='dash-num-title'>Candidates</p>
-                                                <h4 className='dash-num-count'>04</h4>
+                                                <h4 className='dash-num-count'>{candidateDetail.length}</h4>
                                             </div>
                                         </div>
 
                                         <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
                                             <div className="dash-num-count-area">
                                                 <p className='dash-num-title'>Upcoming Interview</p>
-                                                <h4 className='dash-num-count'>08</h4>
+                                                <h4 className='dash-num-count'>00</h4>
                                             </div>
                                         </div>
 
                                         <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
                                             <div className="dash-num-count-area">
                                                 <p className='dash-num-title'>New Notification</p>
-                                                <h4 className='dash-num-count'>28</h4>
+                                                <h4 className='dash-num-count'>00</h4>
                                             </div>
                                         </div>
                                     </div>
@@ -234,57 +290,22 @@ const RecruiterDashboard = () => {
                                                 </div>
                                                 <div class="table-responsive mt-4">
                                                     <table class="table table-striped table-hover dash-table">
-                                                        <tr className='dash-table-row'>
-                                                            <td className='dash-table-data1'>
-                                                                1st Aug, 2023
-                                                            </td>
-                                                            <td className='dash-table-data1 text-center'>05:15 PM</td>
-                                                            <td className='dash-table-data1 text-center'>Marketing Manager</td>
-                                                            <td className='text-center dash-table-view-btn-area'>
-                                                                <button className='dash-table-view-btn client pl-4 pr-4'
-                                                                    data-toggle="modal">View
-                                                                </button>
-                                                            </td>
-                                                        </tr>
-
-                                                        <tr className='dash-table-row'>
-                                                            <td className='dash-table-data1'>
-                                                                1st Aug, 2023
-                                                            </td>
-                                                            <td className='dash-table-data1 text-center'>05:15 PM</td>
-                                                            <td className='dash-table-data1 text-center'>Marketing Manager</td>
-                                                            <td className='text-center dash-table-view-btn-area'>
-                                                                <button className='dash-table-view-btn client pl-4 pr-4'
-                                                                    data-toggle="modal">View
-                                                                </button>
-                                                            </td>
-                                                        </tr>
-
-                                                        <tr className='dash-table-row'>
-                                                            <td className='dash-table-data1'>
-                                                                1st Aug, 2023
-                                                            </td>
-                                                            <td className='dash-table-data1 text-center'>05:15 PM</td>
-                                                            <td className='dash-table-data1 text-center'>Marketing Manager</td>
-                                                            <td className='text-center dash-table-view-btn-area'>
-                                                                <button className='dash-table-view-btn client pl-4 pr-4'
-                                                                    data-toggle="modal">View
-                                                                </button>
-                                                            </td>
-                                                        </tr>
-
-                                                        <tr className='dash-table-row'>
-                                                            <td className='dash-table-data1'>
-                                                                1st Aug, 2023
-                                                            </td>
-                                                            <td className='dash-table-data1 text-center'>05:15 PM</td>
-                                                            <td className='dash-table-data1 text-center'>Marketing Manager</td>
-                                                            <td className='text-center dash-table-view-btn-area'>
-                                                                <button className='dash-table-view-btn client pl-4 pr-4'
-                                                                    data-toggle="modal">View
-                                                                </button>
-                                                            </td>
-                                                        </tr>
+                                                        {clientDetail.map(client=>{
+                                                            return(
+                                                                <tr className='dash-table-row'>
+                                                                    <td className='dash-table-data1'>
+                                                                    {`${new Date(client.createdAt).getDate().toString().padStart(2, '0')}/${(new Date(client.createdAt).getMonth() + 1).toString().padStart(2, '0')}/${new Date(client.createdAt).getFullYear() % 100}`}
+                                                                    </td>
+                                                                    <td className='dash-table-data1 text-center'>{client.name}</td>
+                                                                    <td className='dash-table-data1 text-center'>{client.companyName}</td>
+                                                                    <td className='text-center dash-table-view-btn-area'>
+                                                                        <button className='dash-table-view-btn client pl-4 pr-4'
+                                                                            data-toggle="modal">View
+                                                                        </button>
+                                                                    </td>
+                                                                </tr>
+                                                            )
+                                                        })}
                                                     </table>
                                                 </div>
                                             </div>
@@ -303,58 +324,24 @@ const RecruiterDashboard = () => {
                                                     <a href='#' className="dash-table-see-all-btn">See all</a>
                                                 </div>
                                                 <div class="table-responsive mt-4">
+
                                                     <table class="table table-striped table-hover dash-table">
-                                                        <tr className='dash-table-row'>
-                                                            <td className='dash-table-data1'>
-                                                                1st Aug, 2023
-                                                            </td>
-                                                            <td className='dash-table-data1 text-center'>05:15 PM</td>
-                                                            <td className='dash-table-data1 text-center'>Marketing Manager</td>
-                                                            <td className='text-center dash-table-view-btn-area'>
-                                                                <button className='dash-table-view-btn client pl-4 pr-4'
-                                                                    data-toggle="modal">View
-                                                                </button>
-                                                            </td>
-                                                        </tr>
-
-                                                        <tr className='dash-table-row'>
-                                                            <td className='dash-table-data1'>
-                                                                1st Aug, 2023
-                                                            </td>
-                                                            <td className='dash-table-data1 text-center'>05:15 PM</td>
-                                                            <td className='dash-table-data1 text-center'>Marketing Manager</td>
-                                                            <td className='text-center dash-table-view-btn-area'>
-                                                                <button className='dash-table-view-btn client pl-4 pr-4'
-                                                                    data-toggle="modal">View
-                                                                </button>
-                                                            </td>
-                                                        </tr>
-
-                                                        <tr className='dash-table-row'>
-                                                            <td className='dash-table-data1'>
-                                                                1st Aug, 2023
-                                                            </td>
-                                                            <td className='dash-table-data1 text-center'>05:15 PM</td>
-                                                            <td className='dash-table-data1 text-center'>Marketing Manager</td>
-                                                            <td className='text-center dash-table-view-btn-area'>
-                                                                <button className='dash-table-view-btn client pl-4 pr-4'
-                                                                    data-toggle="modal">View
-                                                                </button>
-                                                            </td>
-                                                        </tr>
-
-                                                        <tr className='dash-table-row'>
-                                                            <td className='dash-table-data1'>
-                                                                1st Aug, 2023
-                                                            </td>
-                                                            <td className='dash-table-data1 text-center'>05:15 PM</td>
-                                                            <td className='dash-table-data1 text-center'>Marketing Manager</td>
-                                                            <td className='text-center dash-table-view-btn-area'>
-                                                                <button className='dash-table-view-btn client pl-4 pr-4'
-                                                                    data-toggle="modal">View
-                                                                </button>
-                                                            </td>
-                                                        </tr>
+                                                        {candidateDetail.map(candidate=>{
+                                                            return(
+                                                                <tr className='dash-table-row'>
+                                                                    <td className='dash-table-data1'>
+                                                                    {`${new Date(candidate.createdAt).getDate().toString().padStart(2, '0')}/${(new Date(candidate.createdAt).getMonth() + 1).toString().padStart(2, '0')}/${new Date(candidate.createdAt).getFullYear() % 100}`}
+                                                                    </td>
+                                                                    <td className='dash-table-data1 text-center'>{candidate.firstName} {candidate.lastName}</td>
+                                                                    <td className='dash-table-data1 text-center'>{candidate.designation[0]}</td>
+                                                                    <td className='text-center dash-table-view-btn-area'>
+                                                                        <button className='dash-table-view-btn client pl-4 pr-4'
+                                                                            data-toggle="modal">View
+                                                                        </button>
+                                                                    </td>
+                                                                </tr>
+                                                            )
+                                                        })}
                                                     </table>
                                                 </div>
                                             </div>

@@ -3,17 +3,17 @@ import { useEffect } from 'react';
 import $ from 'jquery';
 
 const ATSSideBar = () => {
-    const [clientToken, setClientToken] = useState("");
+    const [staffToken, setStaffToken] = useState("");
 
     useEffect(() => {
-        setClientToken(JSON.parse(localStorage.getItem('clientToken')))
-    }, [clientToken])
+        setStaffToken(JSON.parse(localStorage.getItem('staffToken')))
+    }, [staffToken])
 
     useEffect(() => {
         $(document).ready(function () {
             var path = window.location.pathname;
 
-            if (path === '/recruiter-dashboard') {
+            if (path === `/recruiter-dashboard/${staffToken}`) {
                 $('#recruiter_dashboard').addClass('active');
             } else if (path === '/all-clients') {
                 $('#all_clients').addClass('active');
@@ -36,7 +36,7 @@ const ATSSideBar = () => {
             }
         });
 
-    }, [clientToken]);
+    }, [staffToken]);
 
     return (
         <div>

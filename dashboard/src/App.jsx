@@ -55,7 +55,7 @@ function App() {
         <Route path='/job-details' element={<JobDetails />} />
 
         {/* for recruiter */}
-        <Route path='/recruiter-dashboard' element={<RecruiterDashboard />} />
+        <Route path='/recruiter-dashboard/:token' element={<RecruiterDashboard />} />
         <Route path='/all-clients' element={<AllClients />} />
         <Route path='/all-candidates' element={<AllCandidates />} />
         <Route path='/all-jobs' element={<AllJobs />} />

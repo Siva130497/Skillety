@@ -31,7 +31,7 @@ const CandidateProfile = () => {
     })
 
     const [loading, setLoading] = useState(true);
-    const [pageNotFound, setPageNotFound] = useState(false);
+    // const [pageNotFound, setPageNotFound] = useState(false);
 
     useEffect(() => {
         const preloader = $('#preloader');
@@ -240,17 +240,23 @@ const CandidateProfile = () => {
                 })
                 .catch(err => {
                     console.log(err)
-                    setLoading(false);
-                    setPageNotFound(true);
+                    // setLoading(false);
+                    // setPageNotFound(true);
                 })
 
 
             axios.get(`http://localhost:5002/candidate-image/${id}`)
-                .then(res => setCandidateImg(res.data))
+                .then(res => {
+                    console.log(res.data)
+                    setCandidateImg(res.data)
+                })
                 .catch(err => console.log(err))
 
             axios.get(`http://localhost:5002/candidate-resume/${id}`)
-                .then(res => setResume(res.data))
+                .then(res => {
+                    console.log(res.data)
+                    setResume(res.data)
+                })
                 .catch(err => console.log(err))
         }
     }, [id, candidateToken])
@@ -1152,11 +1158,11 @@ const CandidateProfile = () => {
                     </div>
                 </section>
             </div>}
-            {pageNotFound && <div>
+            {/* {pageNotFound && <div>
                 <h1>404</h1>
                 <p>Not Found</p>
                 <small>The resource requested could not be found on this server!</small>
-            </div>}
+            </div>} */}
 
             <footer className="main-footer no-sidebar">
                 <div className="footer-left">
