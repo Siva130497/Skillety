@@ -1,6 +1,6 @@
 @media (max-width:573px) {
     .view-det-sub-head {
-        padding: 15px 18px 10px 18px !important;
+        padding: 15px 0px 10px 18px !important;
     }
 
     .man-app-title-area.candidate {
@@ -15,5 +15,9 @@
 
     .man-app-title-area.candidate {
         align-items: flex-start !important;
+    }
+
+    .cand-skills-area {
+        padding: 15px 0px 10px 18px !important;
     }
 }
