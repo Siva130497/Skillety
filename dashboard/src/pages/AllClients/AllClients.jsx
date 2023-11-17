@@ -74,7 +74,7 @@ const AllClients = () => {
     }
 
     useEffect(()=>{
-        // getAllClientDetails();
+        getAllClientDetails();
         getAllClient();
     },[staffToken]);
 

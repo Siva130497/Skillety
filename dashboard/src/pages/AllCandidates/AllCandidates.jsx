@@ -1,17 +1,20 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useEffect } from 'react';
 import ATSLayout from '../../components/ATSLayout';
 import Footer from '../../components/Footer';
 import './AllCandidates.css';
 import $ from 'jquery';
 import axios from 'axios';
+import AuthContext from '../../context/AuthContext';
 
 const AllCandidates = () => {
+    const {getProtectedData} = useContext(AuthContext);
+
     const [staffToken, setStaffToken] = useState("");
+    const [employeeId, setEmployeeId] = useState("");
     const [candidateDetail, setCandidateDetail] = useState([]);
-    const [selectedCandidateArray, setSelectedCandidateArray] = useState([]);
+    const [selectedCandidate, setSelectedCandidate] = useState();
     const [appliedOfPostedJobs, setAppliedOfPostedJobs] =useState([]);
-    const [filteredMsg, setFilteredMsg] = useState("")
     const [searchInput, setSearchInput] = useState("");
     const [filteredSearchResults, setFilteredSearchResults]= useState([]);
     const [filteredSearchResultsMsg, setFilteredSearchResultsMsg] = useState("");
@@ -24,6 +27,22 @@ const AllCandidates = () => {
     useEffect(() => {
         setStaffToken(JSON.parse(localStorage.getItem('staffToken')))
     }, [staffToken])
+
+    useEffect(() => {
+        if(staffToken){
+            const fetchData = async () => {
+                try {
+                    const userData = await getProtectedData(staffToken);
+                    console.log(userData);
+                    setEmployeeId(userData.id);
+                } catch (error) {
+                    console.log(error)
+                }
+            };
+    
+            fetchData();
+        }
+    }, [staffToken]);
 
     const getAllCandidateDetail = async () => {
         try{
@@ -45,35 +64,90 @@ const AllCandidates = () => {
         }
       };
     
-    //   const getAppliedOfPostedJobs = async() => {
-    //     try{
-    //         const res = await axios.get(`http://localhost:5002/applied-jobs-of-posted/${employeeId ? employeeId : companyId}`, {
-    //           headers: {
-    //               Authorization: `Bearer ${staffToken}`,
-    //               Accept: 'application/json'
-    //           }
-    //         });
-    //         const result = res.data;
-    //         if (!result.error) {
-    //           console.log(result);
-    //           setAppliedOfPostedJobs(result);
-    //         } else {
-    //           console.log(result);
-    //         }
-    //     }catch(err){
-    //       console.log(err);
-    //     }
-    //   }
+      const getAppliedOfPostedJobs = async() => {
+        try{
+            const res = await axios.get(`http://localhost:5002/applied-jobs-of-posted/${employeeId}`, {
+              headers: {
+                  Authorization: `Bearer ${staffToken}`,
+                  Accept: 'application/json'
+              }
+            });
+            const result = res.data;
+            if (!result.error) {
+              console.log(result);
+              setAppliedOfPostedJobs(result);
+            } else {
+              console.log(result);
+            }
+        }catch(err){
+          console.log(err);
+        }
+      }
 
       useEffect(()=>{
-        getAllCandidateDetail();
-        // getAppliedOfPostedJobs();
+        if(staffToken){
+            getAllCandidateDetail();
+        }
+
       },[staffToken]);
 
 
+      useEffect(()=>{
+        if(employeeId){
+            getAppliedOfPostedJobs();
+        }
+
+      },[employeeId]);
+
+      const handleApiCall = (candData) => {
+        const accessToken = 'CJT85DoAcFM22rKrrQdrGkdWvWNUY_Xf';
+        const key = 'OSCfJPqV1E_PNd3mX0zL9NIg5vkjMTMs5XfQ';
+        const encodedCredentials = btoa(`${accessToken}:${key}`);
+        
+        const interviewCandidateName = candData.firstName + ' ' + candData.lastName;
+        const interviewCandidateEmail = candData.email;
+        const interviewCandidatePhoneNo = candData.phone;
+        
+        const data = JSON.stringify({
+          candidates: [
+            {
+              name: interviewCandidateName,
+              email: interviewCandidateEmail,
+              phoneNo: "0"+interviewCandidatePhoneNo,
+            },
+          ],
+          hiringRoleId: 4427,
+          roundName: "Hands-On",
+        });
+        console.log(data)
+    
+        const config = {
+          method: "post",
+          url: "/external-interviews/request",
+          headers: {
+            Authorization: `Basic ${encodedCredentials}`,
+            "Content-Type": "application/json",
+          },
+          data: data,
+        };
+      
+        axios(config)
+          .then(function (response) {
+            console.log(JSON.stringify(response.data));
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      }
+
+      const handleSend = (id) => {
+        const candData = candidateDetail.find(cand=>cand.id === id)
+        handleApiCall(candData)
+      }
+
       const viewCandidateDetail = (id) => {
-          const selectedCandidate = candidateDetail.find(filteredCandidate => filteredCandidate.id === id);
-          setSelectedCandidateArray(selectedCandidate);
+          const Candidate = candidateDetail.find(filteredCandidate => filteredCandidate.id === id);
+          setSelectedCandidate(Candidate);
       }
 
       const handleSkillSearch = () => {
@@ -128,69 +202,131 @@ const AllCandidates = () => {
                                                     </div>
                                                     <div className="man-app-sub-title">
                                                         Total Candidates :&nbsp;
-                                                        <span>{candidateDetail.length}</span>
+                                                         <span>{filteredSearchResultsMsg ? "0" : filteredSearchResults.length > 0 ? filteredSearchResults.length : !searchInput ? candidateDetail.length : null}</span>
                                                     </div>
                                                 </div>
-                                                <div className="recruiter-search-input-area">
-                                                    <input type="text" className='recruiter-search-input' placeholder='Search skills/designations...' />
+                                                {candidateDetail.length > 0 && <div className="recruiter-search-input-area">
+                                                    <input type="text" className='recruiter-search-input' placeholder='Search skills/designations...' 
+                                                    value={searchInput}
+                                                    onChange={(e)=>{
+                                                    setSearchInput(e.target.value);
+                                                    setFilteredSearchResults([]);
+                                                    setFilteredSearchResultsMsg("");
+                                                    }}/>
                                                     <i className='bi bi-search search-icon'></i>
-                                                    <button className='recruiter-search-btn'>Search</button>
-                                                </div>
+                                                    <button className='recruiter-search-btn' onClick={handleSkillSearch}>Search</button>
+                                                </div>}
                                             </div>
 
-                                            <div className="table-responsive table-scroll-area">
+                                            { candidateDetail.length > 0 ? <div className="table-responsive table-scroll-area">
                                                 <table className="table table-striped table-hover admin-lg-table">
                                                     <tr className='dash-table-row candidate'>
                                                         <th className='dash-table-head'>No.</th>
                                                         <th className='dash-table-head'>Full Name</th>
                                                         <th className='dash-table-head'>Email ID</th>
-                                                        <th className='dash-table-head'>Status</th>
+                                                        <th className='dash-table-head'>Phone No</th>
                                                         <th className='dash-table-head text-center'>Send an interview invitation</th>
                                                         <th className='text-center'>View</th>
                                                     </tr>
 
                                                     {/* table data */}
-                                                    <tr className='dash-table-row client'>
-                                                        <td className='dash-table-data1'>01.</td>
-                                                        <td className='dash-table-data1'>
-                                                            Kajan
-                                                        </td>
-                                                        <td className='dash-table-data1'>
-                                                            email@gmail.com
-                                                        </td>
+                                                    {filteredSearchResultsMsg ?
+                                                        <p>{filteredSearchResultsMsg}</p>:
+                                                        filteredSearchResults.length > 0 ?
+                                                        filteredSearchResults.map((candidate, index)=>{
+                                                            
+                                                            return (
+                                                                <tr className='dash-table-row client' key={candidate.id}>
+                                                                    <td className='dash-table-data1'>{index+1}.</td>
+                                                                    <td className='dash-table-data1'>
+                                                                    {candidate.firstName + ' ' + candidate.lastName}
+                                                                    </td>
+                                                                    <td className='dash-table-data1'>
+                                                                        {candidate.email}
+                                                                    </td>
 
-                                                        <td className='dash-table-data1'>
-                                                            {/* <span className='text-warning p-0'>
-                                                            <i class="bi bi-exclamation-circle mr-2"></i>
-                                                            Email still not sent!
-                                                        </span> */}
+                                                                    {/* <td className='dash-table-data1'>
+                                                                        <span className='text-warning p-0'>
+                                                                        <i class="bi bi-exclamation-circle mr-2"></i>
+                                                                        Email still not sent!
+                                                                    </span>
 
-                                                            <span className='text-success p-0'>
-                                                                <i class="bi bi-check-circle mr-2"></i>
-                                                                Email already sent
-                                                            </span>
-                                                        </td>
+                                                                        <span className='text-success p-0'>
+                                                                            <i class="bi bi-check-circle mr-2"></i>
+                                                                            Email already sent
+                                                                        </span>
+                                                                    </td> */}
+                                                                    <td className='dash-table-data1'>
+                                                                        {candidate.phone}
+                                                                    </td>
 
-                                                        <td className='dash-table-data1 text-center'>
-                                                            <button className='send-email-btn'>
-                                                                <i class="bi bi-send-fill send-icon"></i>
-                                                                Send
-                                                            </button>
-                                                        </td>
+                                                                    <td className='dash-table-data1 text-center'>
+                                                                        <button className='send-email-btn' onClick={()=>handleSend(candidate.id)}>
+                                                                            <i class="bi bi-send-fill send-icon"></i>
+                                                                            Send
+                                                                        </button>
+                                                                    </td>
 
-                                                        <td className='text-center'>
-                                                            <button className='application-btn' data-toggle="modal" title='View Candidate Details...' data-target="#invoiceModal">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
-                                                                    <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
-                                                                    <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"
-                                                                        fill='#0879bc' />
-                                                                </svg>
-                                                            </button>
-                                                        </td>
-                                                    </tr>
+                                                                    <td className='text-center'>
+                                                                        <button className='application-btn' data-toggle="modal" title='View Candidate Details...' data-target="#invoiceModal" onClick={()=>viewCandidateDetail(candidate.id)}>
+                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                                                                <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
+                                                                                <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"
+                                                                                    fill='#0879bc' />
+                                                                            </svg>
+                                                                        </button>
+                                                                    </td>
+                                                                </tr>
+                                                            )
+                                                        }) :
+                                                        !searchInput ? candidateDetail.map((candidate, index) => {
+                                                            return(
+                                                                <tr className='dash-table-row client' key={candidate.id}>
+                                                                    <td className='dash-table-data1'>{index+1}.</td>
+                                                                    <td className='dash-table-data1'>
+                                                                    {candidate.firstName + ' ' + candidate.lastName}
+                                                                    </td>
+                                                                    <td className='dash-table-data1'>
+                                                                        {candidate.email}
+                                                                    </td>
 
+                                                                    {/* <td className='dash-table-data1'>
+                                                                        <span className='text-warning p-0'>
+                                                                        <i class="bi bi-exclamation-circle mr-2"></i>
+                                                                        Email still not sent!
+                                                                    </span>
+
+                                                                        <span className='text-success p-0'>
+                                                                            <i class="bi bi-check-circle mr-2"></i>
+                                                                            Email already sent
+                                                                        </span>
+                                                                    </td> */}
+                                                                    <td className='dash-table-data1'>
+                                                                        {candidate.phone}
+                                                                    </td>
+
+                                                                    <td className='dash-table-data1 text-center'>
+                                                                        <button className='send-email-btn' onClick={()=>handleSend(candidate.id)}>
+                                                                            <i class="bi bi-send-fill send-icon"></i>
+                                                                            Send
+                                                                        </button>
+                                                                    </td>
+
+                                                                    <td className='text-center'>
+                                                                        <button className='application-btn' data-toggle="modal" title='View Candidate Details...' data-target="#invoiceModal" onClick={()=>viewCandidateDetail(candidate.id)}>
+                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                                                                <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
+                                                                                <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"
+                                                                                    fill='#0879bc' />
+                                                                            </svg>
+                                                                        </button>
+                                                                    </td>
+                                                                </tr>
+                                                            )
+                                                        })
+                                                        : null}
                                                 </table>
-                                            </div>
+                                            </div> : <h3>No Candidate Yet</h3>}
                                         </div>
 
                                         <div className="view-application-btn-area text-center">
@@ -242,7 +378,7 @@ const AllCandidates = () => {
                                             <div className="view-det-head">Full Name</div>
                                         </div>
                                         <div className="col-12 col-sm-6">
-                                            <div className="view-det-sub-head">Kajan</div>
+                                            <div className="view-det-sub-head">{selectedCandidate?.firstName + ' ' + selectedCandidate?.lastName}</div>
                                         </div>
                                     </div>
                                     <hr />
@@ -251,7 +387,7 @@ const AllCandidates = () => {
                                             <div className="view-det-head">Mobile Number</div>
                                         </div>
                                         <div className="col-12 col-sm-6">
-                                            <div className="view-det-sub-head">0111111111</div>
+                                            <div className="view-det-sub-head">{selectedCandidate?.phone}</div>
                                         </div>
                                     </div>
                                     <hr />
@@ -260,7 +396,7 @@ const AllCandidates = () => {
                                             <div className="view-det-head">Email ID</div>
                                         </div>
                                         <div className="col-12 col-sm-6">
-                                            <div className="view-det-sub-head">email@gmail.com</div>
+                                            <div className="view-det-sub-head">{selectedCandidate?.email}</div>
                                         </div>
                                     </div>
                                     <hr />
@@ -269,7 +405,7 @@ const AllCandidates = () => {
                                             <div className="view-det-head">Current Job Role</div>
                                         </div>
                                         <div className="col-12 col-sm-6">
-                                            <div className="view-det-sub-head">Developer</div>
+                                            <div className="view-det-sub-head">{selectedCandidate?.designation[0]}</div>
                                         </div>
                                     </div>
                                     <hr />
@@ -279,13 +415,11 @@ const AllCandidates = () => {
                                         </div>
                                         <div className="col-12 col-sm-6">
                                             <div className="cand-skills-area">
-                                                <span className='cand-skill'>React</span>
-                                                <span className='cand-skill'>React</span>
-                                                <span className='cand-skill'>React</span>
-                                                <span className='cand-skill'>React</span>
-                                                <span className='cand-skill'>React</span>
-                                                <span className='cand-skill'>React</span>
-                                                <span className='cand-skill'>React</span>
+                                            {selectedCandidate?.skills.map(skill=>{
+                                                return(
+                                                    <span className='cand-skill'>{skill}</span>
+                                                )
+                                            })}
                                             </div>
                                         </div>
                                     </div>
@@ -296,7 +430,7 @@ const AllCandidates = () => {
                                         </div>
                                         <div className="col-12 col-sm-6">
                                             <div className="view-det-sub-head">
-                                                <span>0</span>&nbsp;years and&nbsp;<span>1</span>&nbsp;months
+                                                <span>{selectedCandidate?.year}</span>&nbsp;years and&nbsp;<span>{selectedCandidate?.month}</span>&nbsp;months
                                             </div>
                                         </div>
                                     </div>
@@ -306,7 +440,7 @@ const AllCandidates = () => {
                                             <div className="view-det-head">Current/Previous Working/Worked Company Name</div>
                                         </div>
                                         <div className="col-12 col-sm-6">
-                                            <div className="view-det-sub-head">Google</div>
+                                            <div className="view-det-sub-head">{selectedCandidate?.companyName}</div>
                                         </div>
                                     </div>
                                     <hr />
@@ -315,7 +449,7 @@ const AllCandidates = () => {
                                             <div className="view-det-head">College</div>
                                         </div>
                                         <div className="col-12 col-sm-6">
-                                            <div className="view-det-sub-head">Indian College</div>
+                                            <div className="view-det-sub-head">{selectedCandidate?.college}</div>
                                         </div>
                                     </div>
                                     <hr />
@@ -324,7 +458,7 @@ const AllCandidates = () => {
                                             <div className="view-det-head">Education</div>
                                         </div>
                                         <div className="col-12 col-sm-6">
-                                            <div className="view-det-sub-head">BSE</div>
+                                            <div className="view-det-sub-head">{selectedCandidate?.education}</div>
                                         </div>
                                     </div>
                                     <hr />
@@ -333,7 +467,7 @@ const AllCandidates = () => {
                                             <div className="view-det-head">Location</div>
                                         </div>
                                         <div className="col-12 col-sm-6">
-                                            <div className="view-det-sub-head">India</div>
+                                            <div className="view-det-sub-head">{selectedCandidate?.location}</div>
                                         </div>
                                     </div>
                                     <hr />
@@ -342,16 +476,37 @@ const AllCandidates = () => {
                                             <div className="view-det-head">About him/her</div>
                                         </div>
                                         <div className="col-12 col-sm-6">
-                                            <div className="view-det-sub-head">Testing Profile Headline</div>
+                                            <div className="view-det-sub-head">{selectedCandidate?.profileHeadline}</div>
                                         </div>
                                     </div>
                                     <hr />
-                                    <div className="row">
+                                    {selectedCandidate?.selectedDate && <div className="row">
                                         <div className="col-12 col-sm-6">
                                             <div className="view-det-head">Last Working Day</div>
                                         </div>
                                         <div className="col-12 col-sm-6">
-                                            <div className="view-det-sub-head">2023/05/05</div>
+                                            <div className="view-det-sub-head">{selectedCandidate?.selectedDate}</div>
+                                        </div>
+                                    </div>}
+                                    {selectedCandidate?.selectedDate && <hr/>}
+                                    <div className="row">
+                                        <div className="col-12 col-sm-6">
+                                            <div className="view-det-head">Applied jobs of your posted</div>
+                                        </div>
+                                        <div className="col-12 col-sm-6">
+                                            <div className="cand-skills-area">
+                                             {appliedOfPostedJobs
+                                                .filter((appliedOfPostedJob) => appliedOfPostedJob.candidateId === selectedCandidate?.id).length > 0 ?
+                                                appliedOfPostedJobs
+                                                .filter((appliedOfPostedJob) => appliedOfPostedJob.candidateId === selectedCandidate?.id)
+                                                .map((appliedOfPostedJob) => {
+                                                    return(
+                                                        <span className='cand-skill'>{appliedOfPostedJob.jobRole[0]}</span>
+                                                    )
+                                                    }) :
+                                                        <p>still not applied for your posted jobs</p>
+                                                }
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
