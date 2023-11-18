@@ -2,15 +2,13 @@ import React from 'react';
 import { useEffect } from 'react';
 import ATSLayout from '../../components/ATSLayout';
 import Footer from '../../components/Footer';
-import './PostedJobs.css';
 import $ from 'jquery';
 
-const PostedJobs = () => {
+const ClientContact = () => {
 
     useEffect(() => {
         $(document).ready(function () {
         });
-
     }, []);
 
     return (
@@ -24,7 +22,7 @@ const PostedJobs = () => {
                     <section class="section">
                         <div className="my-app-section">
                             <div className="admin-component-name">
-                                Posted Jobs
+                                Contact Message Details - Client
                             </div>
 
                             <div className="row">
@@ -35,73 +33,54 @@ const PostedJobs = () => {
                                             <div className='man-app-title-area candidate'>
                                                 <div>
                                                     <div className="man-app-title">
-                                                        Posted Jobs Details
+                                                        Contact Message Details
                                                     </div>
                                                     <div className="man-app-sub-title">
-                                                        Total Jobs :&nbsp;
+                                                        Total Contact Message Data :&nbsp;
                                                         <span>02</span>
                                                     </div>
                                                 </div>
-                                                <div className="recruiter-search-input-area">
-                                                    <input type="text" className='recruiter-search-input' placeholder='Search job role...' />
-                                                    <i className='bi bi-search search-icon'></i>
-                                                    <button className='recruiter-search-btn'>Search</button>
-                                                </div>
-
-                                            </div>
-                                            <div className="rec-work-mode-area">
-                                                <label className="recruite-form-check-input">
-                                                    <input type="checkbox" />
-                                                    <span className="recruite-form-checkmark"></span>
-                                                    Full Time
-                                                </label>
-
-                                                <label className="recruite-form-check-input">
-                                                    <input type="checkbox" />
-                                                    <span className="recruite-form-checkmark"></span>
-                                                    Part Time
-                                                </label>
-
-                                                <label className="recruite-form-check-input">
-                                                    <input type="checkbox" />
-                                                    <span className="recruite-form-checkmark"></span>
-                                                    Remote
-                                                </label>
-
-                                                <label className="recruite-form-check-input">
-                                                    <input type="checkbox" />
-                                                    <span className="recruite-form-checkmark"></span>
-                                                    Freelancer
-                                                </label>
                                             </div>
 
                                             <div className="table-responsive table-scroll-area">
                                                 <table className="table table-striped table-hover admin-lg-table">
                                                     <tr className='dash-table-row man-app'>
                                                         <th className='dash-table-head'>No.</th>
-                                                        <th className='dash-table-head'>Job Role</th>
-                                                        <th className='dash-table-head'>Job Category</th>
-                                                        <th className='text-center'>View</th>
+                                                        <th className='dash-table-head'>Full Name</th>
+                                                        <th className='dash-table-head'>Mobile No.</th>
+                                                        <th className='dash-table-head'>Email</th>
+                                                        <th className='text-center'>Action</th>
                                                     </tr>
 
                                                     {/* table data */}
                                                     <tr className='dash-table-row client'>
                                                         <td className='dash-table-data1'>01.</td>
                                                         <td className='dash-table-data1'>
-                                                            Mern Stack developer
+                                                            CONSTANTINE PIRAGASH
                                                         </td>
                                                         <td className='dash-table-data1'>
-                                                            Full Time
+                                                            769804697
+                                                        </td>
+                                                        <td className='dash-table-data1'>
+                                                            pragashconstantine13@gmail.com
                                                         </td>
 
                                                         <td className='text-center'>
-                                                            <button className='application-btn' data-toggle="modal" title='View Candidate Details...' data-target="#invoiceModal">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
-                                                                    <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
-                                                                    <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"
-                                                                        fill='#0879bc' />
-                                                                </svg>
-                                                            </button>
+                                                            <div className="action-btn-area">
+                                                                <button className='job-view-btn' data-toggle="modal" title='View contact message details...' data-target="#contactMsgviewModal">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                                                        <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
+                                                                        <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"
+                                                                        />
+                                                                    </svg>
+                                                                </button>
+
+                                                                <button className='job-delete-btn' data-toggle="modal" title='Delete contact message data...' data-target="#contactMsgdeleteModal">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                                                                        <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
+                                                                    </svg>
+                                                                </button>
+                                                            </div>
                                                         </td>
                                                     </tr>
 
@@ -138,14 +117,14 @@ const PostedJobs = () => {
                     </section>
                 </div>
 
-                {/* Invoice view modal here */}
-                <div className="modal fade" id="invoiceModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                {/* Event view modal here */}
+                <div className="modal fade" id="contactMsgviewModal" tabindex="-1" role="dialog" aria-labelledby="contactMsgViewLabel"
                     aria-hidden="true">
                     <div className="modal-dialog modal-lg" role="document">
                         <div className="modal-content recruiter-view-modal">
                             <div className="modal-header recruiter-view-modal-header">
-                                <h5 className="modal-title recruiter-view-modal-title client" id="exampleModalLabel">
-                                    Job Details_
+                                <h5 className="modal-title recruiter-view-modal-title client" id="contactMsgViewLabel">
+                                    Contact Message Details_
                                 </h5>
                                 <a href='#' type="button" className="close recruiter-view-close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true"><i class="bi bi-x close-icon"></i></span>
@@ -154,59 +133,47 @@ const PostedJobs = () => {
                             <div className="modal-body">
                                 <div className="card p-4 recruiter-view-card candidate">
                                     <div className="row">
-                                        <div className="col-12 col-sm-5">
-                                            <div className="view-det-head">Job Role</div>
+                                        <div className="col-12 col-sm-4">
+                                            <div className="view-det-head">Full Name</div>
                                         </div>
-                                        <div className="col-12 col-sm-7">
-                                            <div className="view-det-sub-head">Mern Stack developer</div>
-                                        </div>
-                                    </div>
-                                    <hr />
-                                    <div className="row">
-                                        <div className="col-12 col-sm-5">
-                                            <div className="view-det-head">Job Category</div>
-                                        </div>
-                                        <div className="col-12 col-sm-7">
-                                            <div className="view-det-sub-head">Full time</div>
+                                        <div className="col-12 col-sm-8">
+                                            <div className="view-det-sub-head">CONSTANTINE PIRAGASH</div>
                                         </div>
                                     </div>
                                     <hr />
                                     <div className="row">
-                                        <div className="col-12 col-sm-5">
-                                            <div className="view-det-head">Job Mandatory Skills</div>
+                                        <div className="col-12 col-sm-4">
+                                            <div className="view-det-head">Mobile Number</div>
                                         </div>
-                                        <div className="col-12 col-sm-7">
-                                            <div className="cand-skills-area">
-                                                <span className='cand-skill'>Javascript</span>
-                                                <span className='cand-skill'>Mongodb</span>
-                                                <span className='cand-skill'>Express Js</span>
-                                                <span className='cand-skill'>React</span>
-                                                <span className='cand-skill'>Node Js</span>
-                                                <span className='cand-skill'>Git</span>
-                                            </div>
+                                        <div className="col-12 col-sm-8">
+                                            <div className="view-det-sub-head">769804697</div>
                                         </div>
                                     </div>
                                     <hr />
                                     <div className="row">
-                                        <div className="col-12 col-sm-5">
-                                            <div className="view-det-head">Needed Experience</div>
+                                        <div className="col-12 col-sm-4">
+                                            <div className="view-det-head">Email</div>
                                         </div>
-                                        <div className="col-12 col-sm-7">
-                                            <div className="view-det-sub-head">
-                                                <span>0</span>
-                                                &nbsp;years and&nbsp;
-                                                <span>6</span>
-                                                &nbsp;months
-                                            </div>
+                                        <div className="col-12 col-sm-8">
+                                            <div className="view-det-sub-head">pragashconstantine13@gmail.com</div>
                                         </div>
                                     </div>
                                     <hr />
                                     <div className="row">
-                                        <div className="col-12 col-sm-5">
-                                            <div className="view-det-head">Job Description</div>
+                                        <div className="col-12 col-sm-4">
+                                            <div className="view-det-head">Subject</div>
                                         </div>
-                                        <div className="col-12 col-sm-7">
-                                            <div className="view-det-sub-head">work as full stack developer for making dynamic web applications</div>
+                                        <div className="col-12 col-sm-8">
+                                            <div className="view-det-sub-head">issue</div>
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div className="row">
+                                        <div className="col-12 col-sm-4">
+                                            <div className="view-det-head">Message</div>
+                                        </div>
+                                        <div className="col-12 col-sm-8">
+                                            <div className="view-det-sub-head">issue in contacting you</div>
                                         </div>
                                     </div>
                                 </div>
@@ -218,10 +185,42 @@ const PostedJobs = () => {
                     </div>
                 </div>
 
+                {/* Event delete modal here */}
+                <div className="modal fade" id="contactMsgdeleteModal" tabindex="-1" role="dialog" aria-labelledby="contactMsgDeleteLabel"
+                    aria-hidden="true">
+                    <div className="modal-dialog" role="document">
+                        <div className="modal-content recruiter-delete-modal">
+                            <div className="modal-header recruiter-view-modal-header">
+                                <h5 className="modal-title recruiter-view-modal-title delete" id="contactMsgDeleteLabel">
+                                    Warning..!
+                                </h5>
+                                <a href='#' type="button" className="close recruiter-view-close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true"><i class="bi bi-x close-icon"></i></span>
+                                </a>
+                            </div>
+                            <div className="modal-body">
+                                <div className="card p-4 recruiter-delete-card">
+                                    <div className="recruiter-delete-data-area">
+                                        <img src="../assets/img/no-data/warning.png" className='recruiter-delete-img' alt="" />
+                                        <div className='recruiter-delete-text'>
+                                            Are you sure you want to delete this contact data?<br />
+                                            <b>You can't undo..!</b>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="modal-footer recruiter-view-modal-footer bg-whitesmoke br">
+                                <button type="button" className="btn modal-btn danger">Yes</button>
+                                <button type="button" className="btn modal-btn success" data-dismiss="modal">No</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <Footer />
             </div >
         </div >
     )
 }
 
-export default PostedJobs
+export default ClientContact

@@ -27,6 +27,12 @@ const ATSSideBar = () => {
                 $('#job_posting').addClass('active');
             } else if (path === '/event-posting') {
                 $('#event_posting').addClass('active');
+            } else if (path === '/client-contact-message') {
+                $('#contact-message-client').addClass('active');
+                $('#contact-message').addClass('active');
+            } else if (path === '/candidate-contact-message') {
+                $('#contact-message-candidate').addClass('active');
+                $('#contact-message').addClass('active');
             } else if (path === '/enquiry-details') {
                 $('#enquiry_details').addClass('active');
             } else if (path === '/posted-events') {
@@ -73,11 +79,11 @@ const ATSSideBar = () => {
 
                         <div className='hr-line'></div>
 
-                        <li className="dropdown">
+                        <li className="dropdown" id='contact-message'>
                             <a href="#" className="menu-toggle nav-link has-dropdown"><i data-feather="message-circle"></i><span>Contact Messages</span></a>
                             <ul className="dropdown-menu">
-                                <li><a className="nav-link" href="/client-contact">Client Contact</a></li>
-                                <li><a className="nav-link" href="/candidate-contact">Candidate Contact</a></li>
+                                <li id='contact-message-client'><a className="nav-link" href="/client-contact-message">Client Contact</a></li>
+                                <li id='contact-message-candidate'><a className="nav-link" href="/candidate-contact-message">Candidate Contact</a></li>
                             </ul>
                         </li>
 

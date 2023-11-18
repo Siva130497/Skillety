@@ -101,7 +101,19 @@
     margin-bottom: 2px;
     border: 2px solid #F9C833;
 }
-
+.recruiter-view-modal-title.candidate::before {
+    content: "";
+    display: inline-block;
+    background-color: #F9C833;
+    border-radius: 50%;
+    width: 12px;
+    height: 12px;
+    flex-shrink: 0;
+    vertical-align: middle;
+    margin-right: 8px;
+    margin-bottom: 2px;
+    border: 2px solid #FFF;
+}
 .recruiter-view-modal {
     border-bottom: #714F36 4px solid;
     border-radius: 10px;
@@ -126,4 +138,39 @@
 
 .table-scroll-area::-webkit-scrollbar-track {
     border-radius: 10px;
+}
+
+.no-data-created-area {
+    background-color: #F0F0F0;
+    border-radius: 16px;
+    padding: 32px 25px 25px 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.no-data-created-area .no-data-created .no-data-text{
+    margin-bottom: 0;
+    font-size: 16px !important;
+    color: #929292;
+}
+.no-data-created-area i{
+    font-size: 25px;
+    vertical-align: middle;
+}
+.no-data-created-area .no-data-created{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    /* background-color: #FFF;
+    border-radius: 16px;
+    padding: 20px; */
+}
+.no-data-created .no-data-img{
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    filter: saturate(0);
+    opacity: 0.3;
 }

@@ -145,7 +145,7 @@ const AllJobs = () => {
                     <div className="modal-dialog modal-lg" role="document">
                         <div className="modal-content recruiter-view-modal">
                             <div className="modal-header recruiter-view-modal-header">
-                                <h5 className="modal-title recruiter-view-modal-title candidate" id="exampleModalLabel">
+                                <h5 className="modal-title recruiter-view-modal-title client" id="exampleModalLabel">
                                     Job Details_
                                 </h5>
                                 <a href='#' type="button" className="close recruiter-view-close" data-dismiss="modal" aria-label="Close">

@@ -708,8 +708,8 @@ p {
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  width: 56px !important;
-  height: 56px !important;
+  width: 50px !important;
+  height: 50px !important;
   border-radius: 50%;
   flex-shrink: 0;
   padding: 0 !important;
@@ -747,7 +747,7 @@ p {
   margin-left: 30px;
   /* margin-right: 20px;  */
   position: relative;
-  height: 56px !important;
+  height: 50px !important;
   padding: 0 0 0 16px !important;
 }
 
@@ -799,16 +799,16 @@ p {
 }
 
 .dropdown-view-pro-btn {
-  margin-top: 30px;
+  margin-top: 25px;
   text-decoration: none;
   border-radius: 40px;
   border: 2px solid #1394DF;
   color: #1394DF !important;
-  font-size: 18px !important;
+  font-size: 16px !important;
   font-weight: 600 !important;
   transition: ease-in-out 0.5s;
   width: 100%;
-  padding: 7px 0;
+  padding: 5px 0;
   display: inline-flex;
   justify-content: center;
   align-items: center;
@@ -824,7 +824,7 @@ p {
   display: inline-flex;
   margin-top: 25px;
   color: #714F36 !important;
-  font-size: 18px !important;
+  font-size: 16px !important;
   font-weight: 600 !important;
   text-decoration: none !important;
   transition: ease-in-out 0.5s;

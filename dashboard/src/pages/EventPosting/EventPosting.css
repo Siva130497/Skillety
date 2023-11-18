@@ -125,3 +125,7 @@
     left: auto !important;
     right: 0 !important;
 }
+.job-post-form-group .react-datepicker__navigation:focus,
+.job-post-form-group .react-datepicker__navigation:active{
+    outline: none !important;
+}
