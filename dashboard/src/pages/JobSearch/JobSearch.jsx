@@ -29,10 +29,9 @@ const JobSearch = () => {
     const [filteredList, setFilteredList] = useState([]);
     const [selectedResults, setSelectedResults] = useState([]);
 
-    const [selectedLocationResults, setSelectedLocationResults] = useState([]);
     const [locationArray, setLocationArray] = useState([]);
     const [educationArray, setEducationArray] = useState([]);
-    const [filteredLocation, setFilteredLocation] = useState([]);
+   
 
     const [filters, setFilters] = useState({
         searchInput:"",
@@ -153,7 +152,7 @@ const JobSearch = () => {
                 });
             });
         });
-    }, [allJobs, matchJobs, filteredSearchResults]);
+    }, [candidateToken, getClientImg, clientImg, getProtectedData, candidateId, allJobs, matchJobs, clients, searchResult, filteredSearchResults, filteredSearchResultsMsg, checkBoxfilters, checkBoxJobTitle, checkBoxJobLocation, checkBoxJobEducation, skillArray, jobRoleArray, filteredList, selectedResults, locationArray, educationArray, filters]);
 
     console.log(filters) 
 
@@ -379,9 +378,7 @@ const JobSearch = () => {
                 })
                 .filter(job => {
                     if (checkBoxJobEducation.length > 0) {
-                        return checkBoxJobEducation.some(result =>
-                            job.education.includes(result) 
-                        );
+                        return checkBoxJobEducation.includes(job.education);
                     }
                     return true;
                 })
@@ -1860,7 +1857,7 @@ const JobSearch = () => {
                                                                 <div className='job-post-form-badge-area'>
                                                                         {selectedResults.map(selectResult => (
                                                                             <span className="job-post-form-badge tal-search"
-                                                                                key={selectResult}
+                                                                                key={selectResult} 
                                                                                 onClick={() => handleDeselect(selectResult)}
                                                                             >{selectResult}</span>
                                                                         ))}
