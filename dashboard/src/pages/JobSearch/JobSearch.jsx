@@ -11,18 +11,37 @@ import AuthContext from '../../context/AuthContext';
 
 const JobSearch = () => {
     const [candidateToken, setCandidateToken] = useState("");
-    const {getClientImg, clientImg} = useContext(AuthContext);
+    const {getClientImg, clientImg, getProtectedData} = useContext(AuthContext);
+    const [candidateId, setCandidateId] = useState("");
     const [allJobs, setAllJobs] = useState([]);
+    const [matchJobs, setMatchJobs] = useState([]);
     const [clients, setClients] = useState([])
-    const [searchResult, setSearchResult] = useState(false);
+    const [searchResult, setSearchResult] = useState(true);
     const [filteredSearchResults, setFilteredSearchResults]= useState([]);
     const [filteredSearchResultsMsg, setFilteredSearchResultsMsg] = useState("");
     const [checkBoxfilters, setCheckBoxFilters] = useState([]);
     const [checkBoxJobTitle, setCheckBoxJobTitle] = useState([]);
+    const [checkBoxJobLocation, setCheckBoxJobLocation] = useState([]);
+    const [checkBoxJobEducation, setCheckBoxJobEducation] = useState([]);
+
+    const [skillArray, setSkillArray] = useState([]);
+    const [jobRoleArray, setjobRoleArray] = useState([]);
+    const [filteredList, setFilteredList] = useState([]);
+    const [selectedResults, setSelectedResults] = useState([]);
+
+    const [selectedLocationResults, setSelectedLocationResults] = useState([]);
+    const [locationArray, setLocationArray] = useState([]);
+    const [educationArray, setEducationArray] = useState([]);
+    const [filteredLocation, setFilteredLocation] = useState([]);
+
     const [filters, setFilters] = useState({
         searchInput:"",
         minExperience:"",
         maxExperience:"",
+        location: "",
+        currencyType: "",
+        minSalary: "",
+        maxSalary: "",
     })
 
     useEffect(() => {
@@ -39,27 +58,27 @@ const JobSearch = () => {
             ////
 
             //// avoid "e" negative values for number input field
-            $('.numeric-input').on('input', function () {
-                var inputValue = $(this).val();
+            // $('.numeric-input').on('input', function () {
+            //     var inputValue = $(this).val();
 
-                // Remove any non-digit characters, "e", and leading minus sign
-                inputValue = inputValue.replace(/[^0-9]/g, '');
+            //     // Remove any non-digit characters, "e", and leading minus sign
+            //     inputValue = inputValue.replace(/[^0-9]/g, '');
 
-                // Ensure that the input is not negative
-                if (inputValue.length > 0 && inputValue.charAt(0) === '-') {
-                    inputValue = inputValue.slice(1);
-                }
+            //     // Ensure that the input is not negative
+            //     if (inputValue.length > 0 && inputValue.charAt(0) === '-') {
+            //         inputValue = inputValue.slice(1);
+            //     }
 
-                // Set the cleaned value back in the input field
-                $(this).val(inputValue);
-            });
+            //     // Set the cleaned value back in the input field
+            //     $(this).val(inputValue);
+            // });
             ////
 
             ////for tooltip
             $('.info-icon-button').click(function () {
                 // Toggle tooltip display on button click
                 $('.tooltip').toggleClass('active');
-            });
+            });  
             ////
 
             ///for search filter toggle
@@ -134,7 +153,89 @@ const JobSearch = () => {
                 });
             });
         });
-    }, [searchResult]);
+    }, [allJobs, matchJobs, filteredSearchResults]);
+
+    console.log(filters) 
+
+    const getAllSkills = async () => {
+        try {
+            const res = await axios.get("http://localhost:5002/skills", {
+                headers: {
+                    Authorization: `Bearer ${candidateToken}`,
+                    Accept: 'application/json'
+                }
+            });
+            const result = res.data;
+            if (!result.error) {
+                console.log(result);
+                setSkillArray(result);
+            } else {
+                console.log(result);
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+    const getAllJobRoles = async () => {
+        try {
+            const res = await axios.get("http://localhost:5002/designations", {
+                headers: {
+                    Authorization: `Bearer ${candidateToken}`,
+                    Accept: 'application/json'
+                }
+            });
+            const result = res.data;
+            if (!result.error) {
+                console.log(result);
+                setjobRoleArray(result);
+            } else {
+                console.log(result);
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+    const getAllLocations = async () => {
+        try {
+            const res = await axios.get("http://localhost:5002/locations", {
+                headers: {
+                    Authorization: `Bearer ${candidateToken}`,
+                    Accept: 'application/json'
+                }
+            });
+            const result = res.data;
+            if (!result.error) {
+                console.log(result);
+                setLocationArray(result);
+            } else {
+                console.log(result);
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+    const getAllEducation = async () => {
+        try {
+          const res = await axios.get("http://localhost:5002/educations", {
+            headers: {
+              Authorization: `Bearer ${candidateToken}`,
+              Accept: 'application/json'
+            }
+          });
+          const result = res.data;
+          if (!result.error) {
+            console.log(result);
+            setEducationArray(result);
+          } else {
+            console.log(result);
+          }
+        } catch (err) {
+          console.log(err);
+        }
+      };
 
     useEffect(()=>{
         const token = JSON.parse(localStorage.getItem("candidateToken"))
@@ -142,6 +243,28 @@ const JobSearch = () => {
             setCandidateToken(token)
         }
     },[])
+
+    useEffect(() => {
+        if(candidateToken){
+            const fetchData = async () => {
+                try {
+                  const user = await getProtectedData(candidateToken);
+                  console.log(user);
+                  setCandidateId(user.id);
+                  
+                } catch (error) {
+                  console.log(error);
+                  
+                }
+            };
+        
+            fetchData();
+            getAllSkills();
+            getAllJobRoles();
+            getAllLocations();
+            getAllEducation();
+        }
+    }, [candidateToken]);
 
     const getPostedjobs = async() => {
         try{
@@ -162,6 +285,28 @@ const JobSearch = () => {
         }
       }
 
+      const getSkillMatchJobDetail = async() => {
+        try {
+            const response = await axios.get(`http://localhost:5002/skill-match-job-Detail/${candidateId}`, {
+              headers: {
+                  Authorization: `Bearer ${candidateToken}`,
+                  Accept: 'application/json'
+              }
+            });
+            const result = response.data;
+      
+            if (!result.error) {
+              console.log(result.reverse());
+              setMatchJobs(result.reverse().filter(job => job.percentage > 0));
+            } else {
+              console.log(result);
+            }
+          } catch (error) {
+            console.log(error);
+          }
+      };
+      
+
       useEffect(()=>{
         getPostedjobs();
         getClientImg();
@@ -174,21 +319,24 @@ const JobSearch = () => {
             .catch(err=>console.log(err))
       },[])
 
-      
+      useEffect(()=>{
+        if(candidateId){
+          getSkillMatchJobDetail();
+        }
+      },[candidateId])
 
       const handleSkillSearch = () => {
-        if(filters.searchInput || checkBoxfilters.length > 0 || (filters.maxExperience && filters.maxExperience) || checkBoxJobTitle.length > 0){
-            setFilteredSearchResultsMsg("")
-            setSearchResult(true)
+        if(selectedResults.length > 0 || checkBoxfilters.length > 0 || (filters.maxExperience && filters.maxExperience) || checkBoxJobTitle.length > 0 || checkBoxJobLocation.length > 0 || (filters.minSalary && filters.maxSalary) || checkBoxJobEducation.length > 0){ 
+            setFilteredSearchResultsMsg("") 
+            // setSearchResult(true)
             const filteredResults = allJobs
                 .filter(job => {
-                if (filters.searchInput) { 
-                    return ((job.skills
-                    .map(skill => skill.toLowerCase()) 
-                    .includes(filters.searchInput.toLowerCase())) || 
-                    (job.jobRole[0].toLowerCase().includes(filters.searchInput.toLowerCase()))) 
-                }
-                return true;
+                    if (selectedResults.length > 0) {
+                        return selectedResults.some(result =>
+                            job.skills.includes(result) || job.jobRole.includes(result)
+                        );
+                    }
+                    return true;
                 })
                 .filter(job => {
                     if (checkBoxfilters.length > 0) {
@@ -198,7 +346,8 @@ const JobSearch = () => {
                 })
                 .filter(job => {
                     if (filters.minExperience && filters.maxExperience) {
-                        return (job.month >= filters.minExperience && job.month <= filters.     maxExperience) ||(job.year >= filters.minExperience && job.year <= filters.maxExperience)
+                        return (job.minExperience
+                            >= filters.minExperience && job.maxExperience <= filters.maxExperience)
                     }
                     return true;
                 })
@@ -208,18 +357,40 @@ const JobSearch = () => {
                     }
                     return true;
                 })
-                // .filter(candidate => {
-                //     if (filters.location) {
-                //         return candidate.location.toLowerCase() === filters.location.toLowerCase();
-                //     }
-                //     return true;
-                // })
+                .filter(job => {
+                    if (checkBoxJobLocation.length > 0) {
+                        return checkBoxJobLocation.some(result =>
+                            job.location.includes(result)
+                        );
+                    }
+                    return true;
+                })
+                .filter(job => {
+                    if (filters.currencyType) {
+                        return job.currencyType === filters.currencyType
+                    }
+                    return true;
+                })
+                .filter(job => {
+                    if (filters.minSalary && filters.maxSalary) {
+                        return (job.minSalary >= filters.minSalary && job.maxSalary <= filters.maxSalary)
+                    }
+                    return true;
+                })
+                .filter(job => {
+                    if (checkBoxJobEducation.length > 0) {
+                        return checkBoxJobEducation.some(result =>
+                            job.education.includes(result) 
+                        );
+                    }
+                    return true;
+                })
             
             console.log(filteredResults)
             if(filteredResults.length > 0){
                 setFilteredSearchResults(filteredResults);
             }else{
-                setFilteredSearchResultsMsg("no such candidates found")
+                setFilteredSearchResultsMsg("no such jobs found")
             }
         }else{
             alert("select atleast one filter")
@@ -239,7 +410,64 @@ const JobSearch = () => {
           : [...checkBoxJobTitle, category];
         setCheckBoxJobTitle(updatedFilters);
     };
+
+    const handleCheckboxJobLocationChange = (category) => {
+        const updatedFilters = checkBoxJobLocation.includes(category)
+          ? checkBoxJobLocation.filter((filter) => filter !== category)
+          : [...checkBoxJobLocation, category];
+        setCheckBoxJobLocation(updatedFilters);
+    };
+
+    const handleCheckboxJobEducationChange = (category) => {
+        const updatedFilters = checkBoxJobEducation.includes(category)
+          ? checkBoxJobEducation.filter((filter) => filter !== category)
+          : [...checkBoxJobEducation, category];
+        setCheckBoxJobEducation(updatedFilters); 
+    };
     
+    const handleSearch = (e) => {
+        const inputValue = e.target.value;
+        setFilters({ ...filters, searchInput: inputValue });
+
+        if (inputValue.length > 0) {
+            const skills = skillArray.filter((obj) => {
+                return obj.skill.toLowerCase().includes(inputValue.toLowerCase());
+            });
+
+            const jobRoles = jobRoleArray.filter((obj) => {
+                return obj.designation.toLowerCase().includes(inputValue.toLowerCase());
+            });
+
+            const combinedResults = [...skills, ...jobRoles];
+
+            if (combinedResults.length > 0) {
+                setFilteredList(combinedResults);
+            } else {
+                setFilteredList([]);
+            }
+        } else {
+            setFilteredList([]);
+        }
+    };
+
+    const handleFilteredClick = (clickResult) => {
+        console.log(clickResult)
+        if (selectedResults.includes(clickResult)) {
+            setSelectedResults([...selectedResults]);
+            setFilters({ ...filters, searchInput: "" });
+            setFilteredList([]);
+
+        } else {
+            setSelectedResults([...selectedResults, clickResult]);
+            setFilters({ ...filters, searchInput: "" });
+            setFilteredList([]);
+        }
+    }
+
+    const handleDeselect = (result) => {
+        setSelectedResults(selectedResults.filter(selected => selected !== result));
+    }
+
 
     return (
         // <div>
@@ -1296,7 +1524,7 @@ const JobSearch = () => {
                                                             </div>
                                                             <div className="cli-tal-pro-search-filter-expand-area">
                                                                 <div className="job-search-multi-check-area">
-                                                                    {allJobs.map((job)=>{
+                                                                    {jobRoleArray.map((job)=>{
                                                                         return <div                              className="cli--mark-keyword-area job">
                                                                                 <label className="cli--mark-keyword-check-input jobs">
                                                                                     <input type="checkbox" checked={checkBoxJobTitle.includes(job.jobRole[0])}
@@ -1597,13 +1825,13 @@ const JobSearch = () => {
                                             </div>
                                         </div> */}
 
-                                        <button class="pl--package-btn-sub previous back-to-search-btn"  onClick={()=>setSearchResult(false)}>
+                                        {/* <button class="pl--package-btn-sub previous back-to-search-btn"  onClick={()=>setSearchResult(false)}>
                                             <div class="pl--package-arrow-area prev">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 27 27" fill="none"><path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="white" stroke-width="2"></path><path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="white" stroke-width="2"></path><path d="M1 26L25.1667 1" stroke="white" stroke-width="2"></path></svg>
                                             </div>
                                             <div class="pl--package-btn job">Back to Search
                                             </div>
-                                        </button>
+                                        </button> */}
                                         
 
                                         <p className='job-search-head'>Job Results</p>
@@ -1629,10 +1857,33 @@ const JobSearch = () => {
                     <h6 className='cl-toggle--switch-label'>Boolean Off</h6>
                 </div> */}
                                                                 </div>
-                                                                <div className="cli--tal-pro-filter-input-area">
-                                                                    <input type="text" className='cli--tal-pro-filter-input' placeholder='Enter keywords like skills, designation' />
-                                                                    <i className="bi bi-search cli--tal-pro-filter-search-icon"></i>
-                                                                </div>
+                                                                <div className='job-post-form-badge-area'>
+                                                                        {selectedResults.map(selectResult => (
+                                                                            <span className="job-post-form-badge tal-search"
+                                                                                key={selectResult}
+                                                                                onClick={() => handleDeselect(selectResult)}
+                                                                            >{selectResult}</span>
+                                                                        ))}
+                                                                    </div>
+                                                                    <div className="cli--tal-pro-filter-input-area">
+                                                                        <input type="text" className='cli--tal-pro-filter-input' placeholder='Enter keywords like skills, designation'
+                                                                            value={filters.searchInput}
+                                                                            onChange={handleSearch}
+                                                                        />
+                                                                        <i className="bi bi-search cli--tal-pro-filter-search-icon"></i>
+                                                                        <div className='search-result-data-area'>
+                                                                            {filteredList.length > 0 &&
+                                                                                filteredList.map((filterResult) => (
+                                                                                    <div
+                                                                                        className='search-result-data'
+                                                                                        key={filterResult._id}
+                                                                                        onClick={() => handleFilteredClick(filterResult.designation || filterResult.skill)}
+                                                                                    >
+                                                                                        {filterResult.designation ? filterResult.designation : filterResult.skill}
+                                                                                    </div>
+                                                                                ))}
+                                                                        </div>
+                                                                    </div>
 
                                                                 <div className="cli--mark-keyword-area">
                                                                     <label className="cli--mark-keyword-check-input">
@@ -1654,27 +1905,38 @@ const JobSearch = () => {
                                                             </div>
                                                             <div className="cli-tal-pro-search-filter-expand-area">
                                                                 <div className="job-search-check-area">
-                                                                    <div className="cli--mark-keyword-area job">
+                                                                <div className="cli--mark-keyword-area job">
                                                                         <label className="cli--mark-keyword-check-input jobs">
-                                                                            <input type="checkbox" />
+                                                                            <input type="checkbox" checked={checkBoxfilters.includes('full time')}
+                                                                            onChange={() => handleCheckboxChange('full time')}/>
                                                                             <span className="cli--mark-keyword-checkmark"></span>
-                                                                            Work from office
+                                                                            Full time
                                                                         </label>
                                                                     </div>
                                                                     <div className="cli--mark-keyword-area job">
                                                                         <label className="cli--mark-keyword-check-input jobs">
-                                                                            <input type="checkbox" />
+                                                                            <input type="checkbox" checked={checkBoxfilters.includes('part time')}
+                                                                            onChange={() => handleCheckboxChange('part time')}/>
+                                                                            <span className="cli--mark-keyword-checkmark"></span>
+                                                                            Part time
+                                                                        </label>
+                                                                    </div>
+                                                                    <div className="cli--mark-keyword-area job">
+                                                                        <label className="cli--mark-keyword-check-input jobs">
+                                                                            <input type="checkbox" checked={checkBoxfilters.includes('remote')}
+                                                                            onChange={() => handleCheckboxChange('remote')}/>
                                                                             <span className="cli--mark-keyword-checkmark"></span>
                                                                             Remote
                                                                         </label>
                                                                     </div>
                                                                     <div className="cli--mark-keyword-area job">
                                                                         <label className="cli--mark-keyword-check-input jobs">
-                                                                            <input type="checkbox" />
+                                                                            <input type="checkbox" checked={checkBoxfilters.includes('freelancer')}
+                                                                            onChange={() => handleCheckboxChange('freelancer')}/>
                                                                             <span className="cli--mark-keyword-checkmark"></span>
-                                                                            Hybrid
+                                                                            freelancer
                                                                         </label>
-                                                                    </div>
+                                                                    </div> 
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -1687,10 +1949,40 @@ const JobSearch = () => {
                                                                 </svg>
                                                             </div>
                                                             <div className="cli-tal-pro-search-filter-expand-area">
-                                                                <div className="cli-tal-pro-exp-input-area search-results">
-                                                                    <input type="number" className='cli-tal-pro-exp-input text-center numeric-input' placeholder='Min Experience' />
+                                                            <div className="cli-tal-pro-exp-input-area search-results">
+                                                            <select name="" className='cli-tal-pro-exp-input text-center numeric-input select' id=""
+                                                                                value={filters.minExperience}
+                                                                                onChange={(e) => setFilters({ ...filters, minExperience: e.target.value })}
+                                                                            >
+                                                                                <option value="" selected >Min Experience</option>
+                                                                                <option value="1">1</option>
+                                                                                <option value="2">2</option>
+                                                                                <option value="3">3</option>
+                                                                                <option value="4">4</option>
+                                                                                <option value="5">5</option>
+                                                                                <option value="6">6</option>
+                                                                                <option value="7">7</option>
+                                                                                <option value="8">8</option>
+                                                                                <option value="9">9</option>
+                                                                                <option value="10">10</option>
+                                                                            </select>
                                                                     <span className='cli-tal-pro-exp-input-text'>to</span>
-                                                                    <input type="number" className='cli-tal-pro-exp-input text-center numeric-input' placeholder='Max Experience' />
+                                                                    <select name="" className='cli-tal-pro-exp-input text-center numeric-input select' id=""
+                                                                                value={filters.maxExperience}
+                                                                                onChange={(e) => setFilters({ ...filters, maxExperience: e.target.value })}
+                                                                            >
+                                                                                <option value="" selected >Max Experience</option>
+                                                                                <option value="1">1</option>
+                                                                                <option value="2">2</option>
+                                                                                <option value="3">3</option>
+                                                                                <option value="4">4</option>
+                                                                                <option value="5">5</option>
+                                                                                <option value="6">6</option>
+                                                                                <option value="7">7</option>
+                                                                                <option value="8">8</option>
+                                                                                <option value="9">9</option>
+                                                                                <option value="10">10</option>
+                                                                            </select>
                                                                     <span className='cli-tal-pro-exp-input-text'>years</span>
                                                                 </div>
                                                             </div>
@@ -1704,15 +1996,19 @@ const JobSearch = () => {
                                                                 </svg>
                                                             </div>
                                                             <div className="cli-tal-pro-search-filter-expand-area">
-                                                                <div className="job-search-multi-check-area">
-                                                                    <div className="cli--mark-keyword-area job">
-                                                                        <label className="cli--mark-keyword-check-input jobs">
-                                                                            <input type="checkbox" />
-                                                                            <span className="cli--mark-keyword-checkmark"></span>
-                                                                            UX,Design & Archie.........(82)
-                                                                        </label>
-                                                                    </div>
-                                                                    <div className="cli--mark-keyword-area job">
+                                                            <div className="job-search-multi-check-area">
+                                                                    {jobRoleArray.map((job)=>{ 
+                                                                        return  <div                              className="cli--mark-keyword-area job">
+                                                                                <label className="cli--mark-keyword-check-input jobs">
+                                                                                    <input type="checkbox" checked={checkBoxJobTitle.includes(job.designation)}
+                                                                                    onChange={() => handleCheckboxJobTitleChange(job.designation)}/>
+                                                                                    <span className="cli--mark-keyword-checkmark"></span>
+                                                                                    {job.designation}
+                                                                                </label> 
+                                                                        </div>
+                                                                    })}
+                                                                    
+                                                                    {/* <div className="cli--mark-keyword-area job">
                                                                         <label className="cli--mark-keyword-check-input jobs">
                                                                             <input type="checkbox" />
                                                                             <span className="cli--mark-keyword-checkmark"></span>
@@ -1769,7 +2065,7 @@ const JobSearch = () => {
                                                                             <span className="cli--mark-keyword-checkmark"></span>
                                                                             UX,Design & Archie.........(82)
                                                                         </label>
-                                                                    </div>
+                                                                    </div> */}
                                                                     <button className="jobs-view-more-btn">
                                                                         <span>View more</span>
                                                                     </button>
@@ -1784,80 +2080,25 @@ const JobSearch = () => {
                                                                     <path d="M1 1L6.79289 6.79289C7.18342 7.18342 7.81658 7.18342 8.20711 6.79289L14 1" stroke="#714F36" stroke-width="2" stroke-linecap="round" />
                                                                 </svg>
                                                             </div>
+                                                            
                                                             <div className="cli-tal-pro-search-filter-expand-area">
-                                                                <div className="job-search-multi-check-area">
-                                                                    <div className="cli--mark-keyword-area job">
-                                                                        <label className="cli--mark-keyword-check-input jobs">
-                                                                            <input type="checkbox" />
-                                                                            <span className="cli--mark-keyword-checkmark"></span>
-                                                                            Delhi/NCR (76)
-                                                                        </label>
-                                                                    </div>
-                                                                    <div className="cli--mark-keyword-area job">
-                                                                        <label className="cli--mark-keyword-check-input jobs">
-                                                                            <input type="checkbox" />
-                                                                            <span className="cli--mark-keyword-checkmark"></span>
-                                                                            Hyderabad (87)
-                                                                        </label>
-                                                                    </div>
-                                                                    <div className="cli--mark-keyword-area job">
-                                                                        <label className="cli--mark-keyword-check-input jobs">
-                                                                            <input type="checkbox" />
-                                                                            <span className="cli--mark-keyword-checkmark"></span>
-                                                                            Delhi/NCR (76)
-                                                                        </label>
-                                                                    </div>
-                                                                    <div className="cli--mark-keyword-area job">
-                                                                        <label className="cli--mark-keyword-check-input jobs">
-                                                                            <input type="checkbox" />
-                                                                            <span className="cli--mark-keyword-checkmark"></span>
-                                                                            Hyderabad (87)
-                                                                        </label>
-                                                                    </div>
-
-
-                                                                    <div className="cli--mark-keyword-area job">
-                                                                        <label className="cli--mark-keyword-check-input jobs">
-                                                                            <input type="checkbox" />
-                                                                            <span className="cli--mark-keyword-checkmark"></span>
-                                                                            Delhi/NCR (76)
-                                                                        </label>
-                                                                    </div>
-                                                                    <div className="cli--mark-keyword-area job">
-                                                                        <label className="cli--mark-keyword-check-input jobs">
-                                                                            <input type="checkbox" />
-                                                                            <span className="cli--mark-keyword-checkmark"></span>
-                                                                            Hyderabad (87)
-                                                                        </label>
-                                                                    </div>
-                                                                    <div className="cli--mark-keyword-area job">
-                                                                        <label className="cli--mark-keyword-check-input jobs">
-                                                                            <input type="checkbox" />
-                                                                            <span className="cli--mark-keyword-checkmark"></span>
-                                                                            Delhi/NCR (76)
-                                                                        </label>
-                                                                    </div>
-                                                                    <div className="cli--mark-keyword-area job">
-                                                                        <label className="cli--mark-keyword-check-input jobs">
-                                                                            <input type="checkbox" />
-                                                                            <span className="cli--mark-keyword-checkmark"></span>
-                                                                            Hyderabad (87)
-                                                                        </label>
-                                                                    </div>
-                                                                    <div className="cli--mark-keyword-area job">
-                                                                        <label className="cli--mark-keyword-check-input jobs">
-                                                                            <input type="checkbox" />
-                                                                            <span className="cli--mark-keyword-checkmark"></span>
-                                                                            Delhi/NCR (76)
-                                                                        </label>
-                                                                    </div>
+                                                            <div className="job-search-multi-check-area">
+                                                                    {locationArray.map((loc)=>{ 
+                                                                        return  <div                              className="cli--mark-keyword-area job">
+                                                                                <label className="cli--mark-keyword-check-input jobs">
+                                                                                    <input type="checkbox" checked={checkBoxJobLocation.includes(loc.location)}
+                                                                                    onChange={() => handleCheckboxJobLocationChange(loc.location)}/>
+                                                                                    <span className="cli--mark-keyword-checkmark"></span>
+                                                                                    {loc.location}
+                                                                                </label> 
+                                                                        </div>
+                                                                    })}
                                                                     <button className="jobs-view-more-btn">
                                                                         <span>View more</span>
                                                                     </button>
                                                                 </div>
                                                             </div>
                                                         </div>
-
                                                         <div className="cli-tal-pro-search-filter-content-section job">
                                                             <div className="cli-tal-pro-search-filter-toggle-area job">
                                                                 <h6 className='cli--emploment-detail-head job'>Salary</h6>
@@ -1868,18 +2109,22 @@ const JobSearch = () => {
                                                             <div className="cli-tal-pro-search-filter-expand-area">
                                                                 <div className="cli-tal-pro-exp-input-area search-results">
                                                                     <div className="cli--salary-inputs-area">
-                                                                        <select name="" className='cli-tal-pro-select-input width-30' id="">
-                                                                            <option value="" disabled>Select</option>
-                                                                            <option value="1" selected>INR</option>
-                                                                            <option value="2">LKR</option>
-                                                                            <option value="3">USD</option>
-                                                                            <option value="4">GBP</option>
-                                                                        </select>
-                                                                        <input type="number" className='cli-tal-pro-exp-input numeric-input width-70' placeholder='Min Salary in Lacs' />
+                                                                    <select name="" className='cli-tal-pro-select-input width-30' id=""
+                                                                                value={filters.currencyType}
+                                                                                onChange={(e) => setFilters({ ...filters, currencyType: e.target.value })}>
+                                                                                <option value="" disabled>Select</option>
+                                                                                <option value="₹" >₹</option>
+                                                                                <option value="$">$</option>
+                                                                            </select>
+                                                                            <input type="number" className='cli-tal-pro-exp-input numeric-input width-70' placeholder='Min Salary in Laks'
+                                                                                value={filters.minSalary}
+                                                                                onChange={(e) => setFilters({ ...filters, minSalary: e.target.value })} />
                                                                     </div>
                                                                     <span className='cli-tal-pro-exp-input-text'>to</span>
-                                                                    <input type="number" className='cli-tal-pro-exp-input text-center numeric-input width-45 search-results' placeholder='Max Salary in Lacs' />
-                                                                    <span className='cli-tal-pro-exp-input-text'>lacs</span>
+                                                                    <input type="number" className='cli-tal-pro-exp-input text-center numeric-input width-45 search-page' placeholder='Max Salary in Laks'
+                                                                            value={filters.maxSalary}
+                                                                            onChange={(e) => setFilters({ ...filters, maxSalary: e.target.value })} />
+                                                                    <span className='cli-tal-pro-exp-input-text'>laks</span>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -1892,72 +2137,17 @@ const JobSearch = () => {
                                                                 </svg>
                                                             </div>
                                                             <div className="cli-tal-pro-search-filter-expand-area">
-                                                                <div className="job-search-multi-check-area">
-                                                                    <div className="cli--mark-keyword-area job">
-                                                                        <label className="cli--mark-keyword-check-input jobs">
-                                                                            <input type="checkbox" />
-                                                                            <span className="cli--mark-keyword-checkmark"></span>
-                                                                            Any postgraduate
-                                                                        </label>
-                                                                    </div>
-                                                                    <div className="cli--mark-keyword-area job">
-                                                                        <label className="cli--mark-keyword-check-input jobs">
-                                                                            <input type="checkbox" />
-                                                                            <span className="cli--mark-keyword-checkmark"></span>
-                                                                            M.tech
-                                                                        </label>
-                                                                    </div>
-                                                                    <div className="cli--mark-keyword-area job">
-                                                                        <label className="cli--mark-keyword-check-input jobs">
-                                                                            <input type="checkbox" />
-                                                                            <span className="cli--mark-keyword-checkmark"></span>
-                                                                            B.tech
-                                                                        </label>
-                                                                    </div>
-                                                                    <div className="cli--mark-keyword-area job">
-                                                                        <label className="cli--mark-keyword-check-input jobs">
-                                                                            <input type="checkbox" />
-                                                                            <span className="cli--mark-keyword-checkmark"></span>
-                                                                            Any graduate
-                                                                        </label>
-                                                                    </div>
-
-
-                                                                    <div className="cli--mark-keyword-area job">
-                                                                        <label className="cli--mark-keyword-check-input jobs">
-                                                                            <input type="checkbox" />
-                                                                            <span className="cli--mark-keyword-checkmark"></span>
-                                                                            Any postgraduate
-                                                                        </label>
-                                                                    </div>
-                                                                    <div className="cli--mark-keyword-area job">
-                                                                        <label className="cli--mark-keyword-check-input jobs">
-                                                                            <input type="checkbox" />
-                                                                            <span className="cli--mark-keyword-checkmark"></span>
-                                                                            M.tech
-                                                                        </label>
-                                                                    </div>
-                                                                    <div className="cli--mark-keyword-area job">
-                                                                        <label className="cli--mark-keyword-check-input jobs">
-                                                                            <input type="checkbox" />
-                                                                            <span className="cli--mark-keyword-checkmark"></span>
-                                                                            B.tech
-                                                                        </label>
-                                                                    </div>
-                                                                    <div className="cli--mark-keyword-area job">
-                                                                        <label className="cli--mark-keyword-check-input jobs">
-                                                                            <input type="checkbox" />
-                                                                            <span className="cli--mark-keyword-checkmark"></span>
-                                                                            Any graduate
-                                                                        </label>
-                                                                    </div>
-                                                                    <div className="cli--mark-keyword-area job">
-                                                                        <label className="cli--mark-keyword-check-input jobs">
-                                                                            <input type="checkbox" />
-                                                                            <span className="cli--mark-keyword-checkmark"></span>
-                                                                            Any postgraduate
-                                                                        </label>
-                                                                    </div>
+                                                            <div className="job-search-multi-check-area">
+                                                                    {educationArray.map((edu)=>{ 
+                                                                        return  <div                              className="cli--mark-keyword-area job">
+                                                                                <label className="cli--mark-keyword-check-input jobs">
+                                                                                    <input type="checkbox" checked={checkBoxJobEducation.includes(edu.education)}
+                                                                                    onChange={() => handleCheckboxJobEducationChange(edu.education)}/>
+                                                                                    <span className="cli--mark-keyword-checkmark"></span>
+                                                                                    {edu.education}
+                                                                                </label> 
+                                                                        </div>
+                                                                    })}
                                                                     <button className="jobs-view-more-btn">
                                                                         <span>View more</span>
                                                                     </button>
@@ -1966,8 +2156,8 @@ const JobSearch = () => {
                                                         </div>
 
                                                         <div className="clear--all_button-area">
-                                                            <button className='tal--search-submit-btn'>Submit</button>
-                                                            <button className='clear--all_button'>
+                                                            <button className='tal--search-submit-btn' onClick={handleSkillSearch}>Search Jobs</button>
+                                                            <button className='clear--all_button' onClick={()=>window.location.reload()}>
                                                                 Clear all
                                                             </button>
                                                         </div>
@@ -1983,9 +2173,9 @@ const JobSearch = () => {
                                             </div> */}
                                                 <div className="cli--tal-pro-search-results-area">
                                                 {filteredSearchResultsMsg ?
-                                                    <p>{filteredSearchResultsMsg}</p>:
+                                                    (<p>{filteredSearchResultsMsg}</p>):
                                                     filteredSearchResults.length > 0 ?
-                                                    filteredSearchResults.map((job)=>{
+                                                    (filteredSearchResults.map((job)=>{
                                                         const matchingImg = clientImg ? clientImg.find(img => img.id === job.companyId) : null;
                                                         const imgSrc = matchingImg ? `http://localhost:5002/client_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
                                                         const companyName = clients.find(cli=>cli.companyId === job.companyId)?.companyName
@@ -2040,9 +2230,65 @@ const JobSearch = () => {
                                                         </div>
                                                             </article>
                                                         )
-                                                    }) : null}
+                                                    })) : matchJobs.length > 0 ? 
+                                                    (matchJobs.map((job)=>{
+                                                        const matchingImg = clientImg ? clientImg.find(img => img.id === job.companyId) : null;
+                                                        const imgSrc = matchingImg ? `http://localhost:5002/client_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
+                                                        const companyName = clients.find(cli=>cli.companyId === job.companyId)?.companyName
+                                                        return(
+                                                        <article className='job--detail-card'>
+                                                        <div className="job--detail-card-top-area job">
+                                                            <div>
+                                                                <h5 className='job--detail-card-role'>{job.jobRole[0]}</h5>
+                                                                <div className="job--detail-card-review-area">
+                                                                    <div className="job--detail-card-review">{companyName}</div>
+                                                                    {/* <div className='job--detail-card-rating'>
+                                                                        <i class="ri-star-fill"></i>
+                                                                        <span>4.9</span>
+                                                                    </div>
+                                                                    <div className="job--detail-card-review-count">
+                                                                        879&nbsp;
+                                                                        <span>Reviews</span>
+                                                                    </div> */}
+                                                                </div>
+
+                                                                <div className="job--detail-card-location-area">
+                                                                    <div className="job--detail-card-experience">
+                                                                        <i class='bx bx-briefcase'></i>
+                                                                        <span>{job?.jobExperience}</span>
+                                                                    </div>
+                                                                    {/* <div className="job--detail-card-experience">
+                                                                        <i class='bx bx-rupee'></i>
+                                                                        <span>Not disclosed</span>
+                                                                    </div> */}
+                                                                    <div className="job--detail-card-experience">
+                                                                        <i class="bi bi-geo-alt-fill"></i>
+                                                                        <span>{job?.jobLocation.join(", ")}</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div className="job--detail-card-img-area job">
+                                                                <img src={imgSrc} className='job--detail-card-img' alt="" />
+                                                            </div>
+                                                        </div>
+                                                        <div className="job--detail-card-desc-area">
+                                                            <p className='job--detail-card-desc'>{job.jobDescription}</p>
+                                                        </div>
+                                                        <div className="job--detail-card-bottom-area">
+                                                            <div className='job--detail-card-tags-area'>
+                                                                {job.jobMandatorySkills.map((skill, index)=>{
+                                                                    return <div className="job--detail-card-tag" key={index}>{skill}</div>
+                                                                })}
+                                                            </div>
+                                                            <div className="job--detail-card-know-more-btn-area">
+                                                                <a href={`/job-detail/${job.jobId}`} className='job--detail-card-know-more-btn'>Know more</a>
+                                                            </div>
+                                                        </div>
+                                                            </article>
+                                                        )
+                                                    })) : <p>no match jobs found</p>}
                                                     <div className="tal--pro-paginate-btn-area" data-aos="fade-up">
-                                                        <h6 className='tal--pro-total-result-text'>Total Items : <span>{filteredSearchResults.length}</span></h6>
+                                                        <h6 className='tal--pro-total-result-text'>Total Items : <span>{filteredSearchResultsMsg ? "0" : filteredSearchResults.length > 0 ? filteredSearchResults.length :  matchJobs.length > 0 ? matchJobs.length : "0"}</span></h6>
                                                         <div className='tal--pro-slider-btn-sub'>
                                                             <button className="tal--pro-slider-btn">
                                                                 <svg className='arrow-left' xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 27 27" fill="none">
