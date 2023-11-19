@@ -70,6 +70,7 @@
     border: none;
     outline: none;
 }
+
 .edit-btn {
     border: none;
     outline: none;
@@ -86,14 +87,16 @@
     border: none;
     outline: none;
 }
-.dash-table-row.client td{
-    padding: 20px 15px !important;
+
+.dash-table-row.client td {
+    padding: 15px 15px !important;
 }
 
-.dash-table-row.man-job th{
+.dash-table-row.man-job th {
     font-weight: 600 !important;
     padding: 20px 15px !important;
 }
-.dash-table-row.man-job{
+
+.dash-table-row.man-job {
     border-bottom: none !important;
 }

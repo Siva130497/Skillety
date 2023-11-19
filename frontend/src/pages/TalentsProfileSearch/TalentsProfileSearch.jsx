@@ -48,12 +48,12 @@ const TalentsProfileSearch = () => {
         minSalary: "",
         maxSalary: "",
         department: "",
-        role:"",
-        days:"",
-        industry:"",
-        company:"",
-        candidateType:"",
-        gender:"",
+        role: "",
+        days: "",
+        industry: "",
+        company: "",
+        candidateType: "",
+        gender: "",
     })
 
     console.log(filters)
@@ -482,6 +482,11 @@ const TalentsProfileSearch = () => {
                     }
                 }
             );
+
+            ///navigate to page top while press the seaarch button
+            $(".cli-tal-pro-search-page-btn").click(function () {
+                $("html, body").animate({ scrollTop: 0 }, 0);
+            });
         });
     }, [searchResult]);
 
@@ -727,100 +732,100 @@ const TalentsProfileSearch = () => {
             } else if (filters.candidateType === "newRegistration") {
                 const newRegistrationResults = candidateDetail.slice(0, 10);
                 setFilteredSearchResults(newRegistrationResults);
-            }else{
+            } else {
                 const filteredResults = candidateDetail
-                .filter(candidate => {
-                    if (filters.days) {
-                        if (filters.days === "0-7") {
-                            return candidate.dayDifference >= 0 && candidate.dayDifference <= 7;
-                        } else if (filters.days === "8-15") {
-                            return candidate.dayDifference >= 8 && candidate.dayDifference <= 15;
-                        } else if (filters.days === "16-30") {
-                            return candidate.dayDifference >= 16 && candidate.dayDifference <= 30;
-                        } else if (filters.days === "beyond-30") {
-                            return candidate.dayDifference > 30;
-                        } else if (filters.days === "noticePeriod") {
-                            return candidate.checkbox;
-                        } else {
-                            return true;
+                    .filter(candidate => {
+                        if (filters.days) {
+                            if (filters.days === "0-7") {
+                                return candidate.dayDifference >= 0 && candidate.dayDifference <= 7;
+                            } else if (filters.days === "8-15") {
+                                return candidate.dayDifference >= 8 && candidate.dayDifference <= 15;
+                            } else if (filters.days === "16-30") {
+                                return candidate.dayDifference >= 16 && candidate.dayDifference <= 30;
+                            } else if (filters.days === "beyond-30") {
+                                return candidate.dayDifference > 30;
+                            } else if (filters.days === "noticePeriod") {
+                                return candidate.checkbox;
+                            } else {
+                                return true;
+                            }
                         }
-                    }
-                    return true;
-                })
-                .filter(candidate => {
-                    if (selectedResults.length > 0) {
-                        return selectedResults.some(result =>
-                            candidate.skills.includes(result) || candidate.designation.includes(result)
-                        );
-                    }
-                    return true;
-                })
-                .filter(candidate => {
-                    if (filters.minExperienceYr && filters.maxExperienceYr) {
-                        return (candidate.year >= filters.minExperienceYr && candidate.year <= filters.maxExperienceYr)
-                    }
-                    return true;
-                })
-                .filter(candidate => {
-                    if (filters.minExperienceMonth && filters.maxExperienceMonth) {
-                        return (candidate.month >= filters.minExperienceMonth && candidate.month <= filters.maxExperienceMonth)
-                    }
-                    return true;
-                })
-                .filter(candidate => {
-                    if (selectedLocationResults.length > 0) {
-                        return selectedLocationResults.filter(result =>
-                            candidate.location.includes(result)
-                        );
-                    }
-                    return true;
-                })
-                .filter(candidate => {
-                    if (filters.currencyType) {
-                        return candidate.currencyType === filters.currencyType
-                    }
-                    return true;
-                })
-                .filter(candidate => {
-                    if (filters.minSalary && filters.maxSalary) {
-                        return (candidate.minSalary >= filters.minSalary && candidate.maxSalary <= filters.maxSalary)
-                    }
-                    return true;
-                })
-                .filter(candidate => {
-                    if (selectedDepartmentResults.length > 0) {
-                        return selectedDepartmentResults.filter(result =>
-                            candidate.department.includes(result)
-                        );
-                    }
-                    return true;
-                })
-                .filter(candidate => {
-                    if (selectedRoleResults.length > 0) {
-                        return selectedRoleResults.filter(result =>
-                            candidate.role.includes(result)
-                        );
-                    }
-                    return true;
-                })
-                .filter(candidate => {
-                    if (filters.industry) {
-                        return candidate.industry === filters.industry
-                    }
-                    return true;
-                })
-                .filter(candidate => {
-                    if (filters.company) {
-                        return candidate.company === filters.company
-                    }
-                    return true;
-                })
-                .filter(candidate => {
-                    if (filters.gender) {
-                        return candidate.gender === filters.gender
-                    }
-                    return true;
-                })
+                        return true;
+                    })
+                    .filter(candidate => {
+                        if (selectedResults.length > 0) {
+                            return selectedResults.some(result =>
+                                candidate.skills.includes(result) || candidate.designation.includes(result)
+                            );
+                        }
+                        return true;
+                    })
+                    .filter(candidate => {
+                        if (filters.minExperienceYr && filters.maxExperienceYr) {
+                            return (candidate.year >= filters.minExperienceYr && candidate.year <= filters.maxExperienceYr)
+                        }
+                        return true;
+                    })
+                    .filter(candidate => {
+                        if (filters.minExperienceMonth && filters.maxExperienceMonth) {
+                            return (candidate.month >= filters.minExperienceMonth && candidate.month <= filters.maxExperienceMonth)
+                        }
+                        return true;
+                    })
+                    .filter(candidate => {
+                        if (selectedLocationResults.length > 0) {
+                            return selectedLocationResults.filter(result =>
+                                candidate.location.includes(result)
+                            );
+                        }
+                        return true;
+                    })
+                    .filter(candidate => {
+                        if (filters.currencyType) {
+                            return candidate.currencyType === filters.currencyType
+                        }
+                        return true;
+                    })
+                    .filter(candidate => {
+                        if (filters.minSalary && filters.maxSalary) {
+                            return (candidate.minSalary >= filters.minSalary && candidate.maxSalary <= filters.maxSalary)
+                        }
+                        return true;
+                    })
+                    .filter(candidate => {
+                        if (selectedDepartmentResults.length > 0) {
+                            return selectedDepartmentResults.filter(result =>
+                                candidate.department.includes(result)
+                            );
+                        }
+                        return true;
+                    })
+                    .filter(candidate => {
+                        if (selectedRoleResults.length > 0) {
+                            return selectedRoleResults.filter(result =>
+                                candidate.role.includes(result)
+                            );
+                        }
+                        return true;
+                    })
+                    .filter(candidate => {
+                        if (filters.industry) {
+                            return candidate.industry === filters.industry
+                        }
+                        return true;
+                    })
+                    .filter(candidate => {
+                        if (filters.company) {
+                            return candidate.company === filters.company
+                        }
+                        return true;
+                    })
+                    .filter(candidate => {
+                        if (filters.gender) {
+                            return candidate.gender === filters.gender
+                        }
+                        return true;
+                    })
 
                 console.log(filteredResults)
                 if (filteredResults.length > 0) {
@@ -828,7 +833,7 @@ const TalentsProfileSearch = () => {
                 } else {
                     setFilteredSearchResultsMsg("no such candidates found")
                 }
-                }
+            }
         } else {
             showErrorMessage("select atleast one filter")
         }
@@ -1222,7 +1227,7 @@ const TalentsProfileSearch = () => {
 
                                                         <div className="cli-tal-pro-search-filter-content">
                                                             <div className="cli-tal-pro-search-filter-title-area">
-                                                                <h6 className='cli-tal-pro-search-filter-title'>wordKeys</h6>
+                                                                <h6 className='cli-tal-pro-search-filter-title'>word Keys</h6>
                                                                 {/* <div class="cl-toggle-switch">
                                                                 <label class="cl-switch">
                                                                     <input type="checkbox" className="toggleSwitch" />
@@ -1240,7 +1245,7 @@ const TalentsProfileSearch = () => {
                                                                 ))}
                                                             </div>
                                                             <div className="cli--tal-pro-filter-input-area">
-                                                                <input type="text" className='cli--tal-pro-filter-input' placeholder='Enter keywords like skills, designation'
+                                                                <input type="search" className='cli--tal-pro-filter-input' placeholder='Enter keywords like skills, designation'
                                                                     value={filters.searchInput}
                                                                     onChange={handleSearch}
                                                                 />
@@ -1445,7 +1450,7 @@ const TalentsProfileSearch = () => {
                                                                 ))}
                                                             </div>
                                                             <div className="cli-tal-pro-search-filter-input-area location">
-                                                                <input type="text" className='cli-tal-pro-search-filter-input' placeholder='Add location' value={filters.location}
+                                                                <input type="search" className='cli-tal-pro-search-filter-input' placeholder='Add location' value={filters.location}
                                                                     onChange={handleLocationSearch} />
                                                                 <div className='tal-pro-search-result-data-area'>
                                                                     {filteredLocation.length > 0 &&
@@ -1533,7 +1538,7 @@ const TalentsProfileSearch = () => {
                                                                         ))}
                                                                     </div>
                                                                     <div className="cli-tal-pro-search-filter-input-area">
-                                                                        <input type="text" name='department' className='cli-tal-pro-search-filter-input' placeholder='Add Department'
+                                                                        <input type="search" name='department' className='cli-tal-pro-search-filter-input' placeholder='Add Department'
                                                                             value={filters.department}
                                                                             onChange={handleDepartmentSearch} />
                                                                         <div className='tal-pro-search-result-data-area'>
@@ -1564,7 +1569,7 @@ const TalentsProfileSearch = () => {
                                                                         ))}
                                                                     </div>
                                                                     <div className="cli-tal-pro-search-filter-input-area">
-                                                                        <input type="text" name='role' className='cli-tal-pro-search-filter-input' placeholder='Add Role'
+                                                                        <input type="search" name='role' className='cli-tal-pro-search-filter-input' placeholder='Add Role'
                                                                             value={filters.role}
                                                                             onChange={handleRoleSearch} />
                                                                         <div className='tal-pro-search-result-data-area'>
@@ -1586,12 +1591,12 @@ const TalentsProfileSearch = () => {
                                                                     <div className="cli-tal-search-filter-form-label-area">
                                                                         <label htmlFor="industry" className='cli-tal-search-filter-form-label'>Industry</label>
                                                                     </div>
-                                                                    
+
                                                                     <div className="cli-tal-pro-search-filter-input-area">
                                                                         <input type="text" name='industry' className='cli-tal-pro-search-filter-input' placeholder='Add Industry'
-                                                                         value={filters.industry}
-                                                                         onChange={(e)=>setFilters({...filters, industry: e.target.value})}/>
-                                                                        
+                                                                            value={filters.industry}
+                                                                            onChange={(e) => setFilters({ ...filters, industry: e.target.value })} />
+
                                                                     </div>
                                                                 </div>
 
@@ -1613,9 +1618,9 @@ const TalentsProfileSearch = () => {
                                                                         <span className="tal-cand-reg-form-badge">Badge 1</span>
                                                                     </div> */}
                                                                     <div className="cli-tal-pro-search-filter-input-area">
-                                                                        <input type="text" name='company' className='cli-tal-pro-search-filter-input' placeholder='Add Company name' 
-                                                                        value={filters.company}
-                                                                        onChange={(e)=>setFilters({...filters, company: e.target.value})}/>
+                                                                        <input type="text" name='company' className='cli-tal-pro-search-filter-input' placeholder='Add Company name'
+                                                                            value={filters.company}
+                                                                            onChange={(e) => setFilters({ ...filters, company: e.target.value })} />
                                                                         {/* <div className='tal-pro-search-result-data-area'>
                                                                             <div className='tal-pro-search-result-data'>Search Result 1</div>
                                                                             <div className='tal-pro-search-result-data'>Search Result 2</div>
@@ -1710,18 +1715,18 @@ const TalentsProfileSearch = () => {
 
                                                                     <div className="tal--search-options-area">
                                                                         <div className="tal--search-option-container">
-                                                                            <input id="all_candidate" className="tal--search-radio" type="radio" name="show" 
-                                                                            value="allCandidates" 
-                                                                            onChange={(e)=>setFilters({...filters, candidateType:e.target.value})}/>
+                                                                            <input id="all_candidate" className="tal--search-radio" type="radio" name="show"
+                                                                                value="allCandidates"
+                                                                                onChange={(e) => setFilters({ ...filters, candidateType: e.target.value })} />
                                                                             <div className="tal--search-tile">
                                                                                 <label for="all_candidate" className="tal--search-tile-label">All candidates</label>
                                                                             </div>
                                                                         </div>
 
                                                                         <div className="tal--search-option-container">
-                                                                            <input id="new_reg" className="tal--search-radio" type="radio" name="show" 
-                                                                            value="newRegistration" 
-                                                                            onChange={(e)=>setFilters({...filters, candidateType:e.target.value})}/>
+                                                                            <input id="new_reg" className="tal--search-radio" type="radio" name="show"
+                                                                                value="newRegistration"
+                                                                                onChange={(e) => setFilters({ ...filters, candidateType: e.target.value })} />
                                                                             <div className="tal--search-tile">
                                                                                 <label for="new_reg" className="tal--search-tile-label">New Registrations</label>
                                                                             </div>
@@ -1874,9 +1879,9 @@ const TalentsProfileSearch = () => {
                                                                         </div> */}
 
                                                                         <div className="tal--search-option-container">
-                                                                            <input id="male_cand" className="tal--search-radio" type="radio" name="gender" 
-                                                                            value="male" 
-                                                                            onChange={(e)=>setFilters({...filters, gender:e.target.value})}/>
+                                                                            <input id="male_cand" className="tal--search-radio" type="radio" name="gender"
+                                                                                value="male"
+                                                                                onChange={(e) => setFilters({ ...filters, gender: e.target.value })} />
                                                                             <div className="tal--search-tile">
                                                                                 <label for="male_cand" className="tal--search-tile-label">Male Candidates</label>
                                                                             </div>
@@ -1884,8 +1889,8 @@ const TalentsProfileSearch = () => {
 
                                                                         <div className="tal--search-option-container">
                                                                             <input id="female_cand" className="tal--search-radio" type="radio" name="gender"
-                                                                            value="female" 
-                                                                            onChange={(e)=>setFilters({...filters, gender:e.target.value})} />
+                                                                                value="female"
+                                                                                onChange={(e) => setFilters({ ...filters, gender: e.target.value })} />
                                                                             <div className="tal--search-tile">
                                                                                 <label for="female_cand" className="tal--search-tile-label">Female candidates</label>
                                                                             </div>
@@ -2002,7 +2007,7 @@ const TalentsProfileSearch = () => {
                                 <div className='talent--profile-search-results-section'>
                                     <div className="cli-tal-pro-search-container">
                                         <div className="row">
-                                            <div className="col-12 col-lg-12 col-xl-4 col-md-12">
+                                            <div className="col-12 col-lg-12 col-xl-12 col-md-12">
                                                 <h4 className='cli-tal-pro-search-heading'>Search Result Page</h4>
                                             </div>
                                         </div>
@@ -2677,7 +2682,7 @@ const TalentsProfileSearch = () => {
                                                                     <div className="tal--pro-card-right-area search">
                                                                         <div className="tal--pro-card-right-cover-area search">
                                                                             <div className='tal--pro-card-profile-img-role-area search'>
-                                                                                <img src={imgSrc}className='tal--pro-card-profile-img' alt="" />
+                                                                                <img src={imgSrc} className='tal--pro-card-profile-img' alt="" />
                                                                                 <p className='tal--pro-card-role-name'>{candidate.designation[0]}</p>
                                                                             </div>
                                                                             <div className="tal--pro-card-contact-btn-area search">

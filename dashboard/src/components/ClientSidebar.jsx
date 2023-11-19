@@ -4,6 +4,7 @@ import $ from 'jquery';
 import { useNavigate } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
 import axios from 'axios';
+import feather from 'feather-icons';
 
 const ClientSidebar = () => {
     const [clientToken, setClientToken] = useState("");
@@ -42,6 +43,8 @@ const ClientSidebar = () => {
             } else if (path === '/client-settings') {
                 $('#client_settings').addClass('active');
             }
+
+            feather.replace();
         });
 
     }, [clientToken, packageSelectionDetail]);
@@ -90,13 +93,13 @@ const ClientSidebar = () => {
 
     useEffect(() => {
         if (loginClientDetail?.companyId) {
-            
+
             const fetchData = async () => {
                 try {
 
                     await getClientChoosenPlan(loginClientDetail?.companyId);
 
-                    
+
                 } catch (error) {
                     console.error(error);
                 }
@@ -106,13 +109,13 @@ const ClientSidebar = () => {
         }
     }, [loginClientDetail]);
 
-    useEffect(()=>{
-        if (packageSelectionDetail ) {
-            
+    useEffect(() => {
+        if (packageSelectionDetail) {
+
             setSideBar(true);
         }
 
-    },[packageSelectionDetail])
+    }, [packageSelectionDetail])
 
     console.log(sideBar)
 
@@ -121,7 +124,7 @@ const ClientSidebar = () => {
             <div className="main-sidebar client sidebar-style-2">
                 <aside id="sidebar-wrapper">
                     <div className="sidebar-brand">
-                        <a href="/client-dashboard/"> <img alt="image" src="../assets/img/logo/skillety-logo.png" className="header-logo" /> <span
+                        <a href={`/client-dashboard/${clientToken}`}> <img alt="image" src="../assets/img/logo/skillety-logo.png" className="header-logo" /> <span
                             className="logo-name">Skillety</span>
                         </a>
                     </div>
@@ -156,7 +159,8 @@ const ClientSidebar = () => {
                             <li className="dropdown" id='client_settings'>
                                 <a href="/client-settings" className="nav-link"><i data-feather="settings"></i><span>Settings</span></a>
                             </li>
-                        </ul>)
+                        </ul>
+                        )
                     }
 
                     <div className='live-chat-area'>

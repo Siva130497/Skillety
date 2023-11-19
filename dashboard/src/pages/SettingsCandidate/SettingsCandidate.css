@@ -104,10 +104,20 @@
 }
 
 .change-input-area {
-    margin: 25px 0 15px 0;
-    display: none;
+    /* margin: auto; */
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.5s ease-in-out;
 }
 
+.change-input-area.expanded {
+    /* margin: 15px 0 10px 0; */
+    max-height: 100px;
+}
+
+.change-input-area.multi-input-expanded {
+    max-height: 300px;
+}
 
 .change-setting-input {
     border: 1px solid #714F36;
@@ -186,4 +196,15 @@
     padding: 3px 8px;
     margin-right: 5px;
     cursor: pointer;
+}
+
+input[type="number"] {
+    -moz-appearance: none;
+    appearance: none;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }

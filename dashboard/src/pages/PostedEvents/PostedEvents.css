@@ -1,0 +1,235 @@
+.job-delete-btn {
+    color: #df0000;
+    border-radius: 8px;
+    outline: none;
+    border: none;
+    width: 33px;
+    height: 33px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: ease-in-out 0.5s;
+    box-shadow: inset 0px 0px 5px #00000015;
+}
+
+.job-delete-btn:hover {
+    color: #FFF !important;
+    background-color: #df0000 !important;
+}
+
+.job-delete-btn:focus,
+.job-delete-btn:active {
+    border: none;
+    outline: none;
+}
+
+
+.action-btn-area {
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+}
+
+.job-view-btn {
+    border: none;
+    outline: none;
+    border-radius: 8px;
+    width: 33px;
+    height: 33px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: ease-in-out 0.5s;
+    color: #0879bc;
+    box-shadow: inset 0px 0px 5px #00000015;
+}
+
+.job-view-btn:hover {
+    color: #FFF !important;
+    background-color: #0879bc !important;
+}
+
+.job-view-btn:focus,
+.job-view-btn:active {
+    border: none;
+    outline: none;
+}
+
+.job-edit-btn {
+    background-color: #efefef;
+    color: #000;
+    border-radius: 8px;
+    outline: none;
+    border: none;
+    width: 33px;
+    height: 33px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: ease-in-out 0.5s;
+    box-shadow: inset 0px 0px 5px #00000015;
+}
+
+.job-edit-btn:hover {
+    color: #FFF !important;
+    background-color: #000 !important;
+}
+
+.job-edit-btn:focus,
+.job-edit-btn:active {
+    border: none;
+    outline: none;
+}
+
+.event-image-area {
+    background-color: #e6e6e6;
+    border-radius: 20px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    box-shadow: inset 0px 0px 15px #0000001c;
+}
+
+.event-image-sub-area {
+    background-color: #efefef;
+    border-radius: 20px;
+    border: 4px #FFF solid;
+    box-shadow: 0px 0px 15px #00000027;
+    overflow: hidden;
+    width: 400px;
+    height: 160px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.event-image-area .event-image {
+    width: 400px;
+    height: 160px;
+    object-fit: cover;
+}
+
+.event-image-view-area {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 400px;
+    height: 160px;
+    border-radius: 20px;
+    flex-shrink: 0;
+    transition: opacity ease-in-out 0.5s;
+    opacity: 0;
+}
+
+.event-image-view-btn {
+    border: none;
+    outline: none;
+    background-color: transparent;
+    margin: 0;
+    padding: 0;
+    transition: all 0.5s;
+}
+
+.event-image-view-btn:focus,
+.event-image-view-btn:active {
+    outline: none;
+    border: none;
+}
+
+.event-image-view-btn:hover {
+    transform: scale(1.15);
+}
+
+.event-image-view-btn .img-view-icon {
+    color: #FFF;
+    font-size: 20px;
+}
+
+.event-image-sub-area:hover .event-image-view-area {
+    opacity: 1;
+}
+
+.recruiter-view-modal-title.delete {
+    color: #df0000 !important;
+    background-color: #ffe3e3 !important;
+}
+
+.recruiter-delete-card {
+    margin-bottom: 0;
+    border: 1px solid #df0000;
+    border-bottom-width: 3px;
+    margin-top: 10px;
+}
+
+.recruiter-delete-data-area {
+    border-radius: 16px;
+    padding: 20px;
+    background-color: #ffe3e3;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.recruiter-delete-img {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+}
+
+.recruiter-delete-text {
+    color: #df0000;
+    font-size: 14px;
+    font-weight: 400;
+    text-align: center;
+}
+
+.recruiter-delete-modal {
+    border-bottom: #df0000 3px solid;
+    border-radius: 10px;
+    background-color: #e6e6e6;
+}
+
+.modal-btn {
+    font-size: 14px !important;
+    transition: ease-in-out 0.5s !important;
+    color: #FFF !important;
+    border-radius: 6px;
+}
+
+.modal-btn.success {
+    background-color: #00aa3e !important;
+    border: 1px solid #00aa3e !important;
+}
+
+.modal-btn.success:focus {
+    color: #FFF !important;
+    background-color: #00aa3e;
+}
+
+.modal-btn.success:hover {
+    color: #00aa3e !important;
+    background-color: #FFF !important;
+    box-shadow: 0px 0px 15px #0000001b !important;
+}
+
+.modal-btn.danger {
+    background-color: #dc0000;
+    border: 1px solid #dc0000 !important;
+}
+
+.modal-btn.danger:focus {
+    background-color: #dc0000 !important;
+    color: #FFF !important;
+}
+
+.modal-btn.danger:hover {
+    color: #dc0000 !important;
+    background-color: #FFF !important;
+    box-shadow: 0px 0px 15px #0000001b !important;
+}

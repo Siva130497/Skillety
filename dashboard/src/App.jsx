@@ -28,6 +28,10 @@ import AllJobs from './pages/AllJobs/AllJobs';
 import PostedJobs from './pages/PostedJobs/PostedJobs';
 import PostingJob from './pages/PostingJob/PostingJob';
 import EventPosting from './pages/EventPosting/EventPosting';
+import PostedEvents from './pages/PostedEvents/PostedEvents';
+import EnquiryDetails from './pages/EnquiryDetails/EnquiryDetails';
+import CandidateContact from './pages/CandidateContact/CandidateContact';
+import ClientContact from './pages/ClientContact/ClientContact';
 
 
 
@@ -62,6 +66,10 @@ function App() {
         <Route path='/posted-jobs' element={<PostedJobs />} />
         <Route path='/job-posting' element={<PostingJob />} />
         <Route path='/event-posting' element={<EventPosting />} />
+        <Route path='/posted-events' element={<PostedEvents />} />
+        <Route path='/enquiry-details' element={<EnquiryDetails />} />
+        <Route path='/candidate-contact-message' element={<CandidateContact />} />
+        <Route path='/client-contact-message' element={<ClientContact />} />
 
       </Routes>
     </AuthContextProvider>

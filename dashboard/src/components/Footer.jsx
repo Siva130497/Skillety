@@ -13,7 +13,7 @@ const Footer = () => {
                     <div className='footer-right-text-area'>
                         <p className='footer-right-text'>Designed & Developed by</p>
                         <a href="https://www.prodigit.in/" target='_blank'>
-                            <img src="assets/img/logo/prodigit-logo.png" className='footer-logo' alt="" />
+                            <img src="../assets/img/logo/prodigit-logo.png" className='footer-logo' alt="" />
                         </a>
                     </div>
                 </div>

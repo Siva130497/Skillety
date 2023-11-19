@@ -20,4 +20,8 @@
     .cand-skills-area {
         padding: 15px 0px 10px 18px !important;
     }
+
+    .no-data-created-area {
+        padding: 25px 20px 20px 20px;
+    }
 }
