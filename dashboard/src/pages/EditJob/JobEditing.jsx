@@ -772,7 +772,7 @@ if (preloader.length) {
                             ))}
                           </div>
 
-                          <input type="text" className='job-post-form-input'
+                          <input type="search" className='job-post-form-input'
                             name='searchJobRoleInput'
                             id='searchJobRoleInput'
                             value={searchJobRoleInput}
@@ -871,7 +871,7 @@ if (preloader.length) {
                             onClick={()=>handleDeselect(additionalSkill)}
                             >{additionalSkill}</span>
                           ))} */}
-                          <input type="text" className='job-post-form-input'
+                          <input type="search" className='job-post-form-input'
                             name='searchSkillInput'
                             id='searchSkillInput'
                             value={searchSkillInput}
@@ -953,7 +953,7 @@ if (preloader.length) {
                           </div>
 
                           <input
-                            type='text'
+                            type='search'
                             className='job-post-form-input'
                             placeholder='Search department...'
                             value={searchDepartmentInput}
@@ -986,7 +986,7 @@ if (preloader.length) {
                             ))}
                           </div>
 
-                          <input type="text" className='job-post-form-input'
+                          <input type="search" className='job-post-form-input'
                             name='searchRoleInput'
                             id='searchRoleInput'
                             value={searchRoleInput}
@@ -1038,7 +1038,7 @@ if (preloader.length) {
                           </div>
 
                           <input
-                            type='text'
+                            type='search'
                             className='job-post-form-input'
                             placeholder='Search locations'
                             value={searchLocationInput}

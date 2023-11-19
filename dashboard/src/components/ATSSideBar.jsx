@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useEffect } from 'react';
 import $ from 'jquery';
+import feather from 'feather-icons';
 
 const ATSSideBar = () => {
     const [staffToken, setStaffToken] = useState("");
@@ -40,6 +41,8 @@ const ATSSideBar = () => {
             } else if (path === '/chat') {
                 $('#chat').addClass('active');
             }
+
+            feather.replace();
         });
 
     }, [staffToken]);

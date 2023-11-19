@@ -4,6 +4,7 @@ import $ from 'jquery';
 import { useNavigate } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
 import axios from 'axios';
+import feather from 'feather-icons';
 
 const ClientSidebar = () => {
     const [clientToken, setClientToken] = useState("");
@@ -42,6 +43,8 @@ const ClientSidebar = () => {
             } else if (path === '/client-settings') {
                 $('#client_settings').addClass('active');
             }
+
+            feather.replace();
         });
 
     }, [clientToken, packageSelectionDetail]);
@@ -156,7 +159,8 @@ const ClientSidebar = () => {
                             <li className="dropdown" id='client_settings'>
                                 <a href="/client-settings" className="nav-link"><i data-feather="settings"></i><span>Settings</span></a>
                             </li>
-                        </ul>)
+                        </ul>
+                        )
                     }
 
                     <div className='live-chat-area'>

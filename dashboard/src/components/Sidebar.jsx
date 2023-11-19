@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useEffect } from 'react';
 import $ from 'jquery';
+import feather from 'feather-icons';
 
 const Sidebar = () => {
   const [candidateToken, setCandidateToken] = useState("");
@@ -26,6 +27,8 @@ const Sidebar = () => {
       } else if (path === '/settings') {
         $('#settings').addClass('active');
       }
+
+      feather.replace();
     });
 
   }, [candidateToken]);

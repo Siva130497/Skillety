@@ -25,29 +25,43 @@ const SettingsClient = () => {
         confirmPassword: "",
     })
 
-    useEffect(()=>{
+    useEffect(() => {
         setUserInfo({
             ...userInfo,
-            email:loginClientDetail?.email,
-            phone:loginClientDetail?.phone,
+            email: loginClientDetail?.email,
+            phone: loginClientDetail?.phone,
         })
-    },[loginClientDetail])
+    }, [loginClientDetail])
 
     useEffect(() => {
         $(document).ready(function () {
-            $(".setting-change-btn").on("click", function () {
-                var $changeInputArea = $(this).prev(".change-input-area");
-                var type = $(this).data("type");
-                if ($changeInputArea.is(":visible")) {
-                    $changeInputArea.slideUp();
-                    $(this).removeClass("expanded");
-                    $(this).text("Change " + type);
-                } else {
-                    $changeInputArea.slideDown();
-                    $(this).addClass("expanded");
-                    $(this).text("Cancel");
-                }
-            });
+            // $(".setting-change-btn").on("click", function () {
+            //     var $changeInputArea = $(this).prev(".change-input-area");
+            //     var type = $(this).data("type");
+            //     if ($changeInputArea.is(":visible")) {
+            //         $changeInputArea.slideUp();
+            //         $(this).removeClass("expanded");
+            //         $(this).text("Change " + type);
+            //     } else {
+            //         $changeInputArea.slideDown();
+            //         $(this).addClass("expanded");
+            //         $(this).text("Cancel");
+            //     }
+            // });
+
+            // $(".setting-change-btn").on("click", function () {
+            //     var $changeInputArea = $(this).prev(".change-input-area");
+            //     var type = $(this).data("type");
+            //     if ($changeInputArea.is(":visible")) {
+            //         $changeInputArea.css("max-height", 0);
+            //         $(this).removeClass("expanded");
+            //         $(this).text("Change " + type);
+            //     } else {
+            //         $changeInputArea.css("max-height", $changeInputArea[0].scrollHeight + "px");
+            //         $(this).addClass("expanded");
+            //         $(this).text("Cancel");
+            //     }
+            // });
 
             $(".setting-value.password").each(function () {
                 var originalText = $(this).text();
@@ -113,25 +127,25 @@ const SettingsClient = () => {
                 alert("Update functionality goes here");
             });
 
-            $(".com-detail-edit-btn").click(function () {
-                var $settingContent = $(this).closest(".setting-content");
-                var $changeTextArea = $settingContent.find(".change-text-area");
+            // $(".com-detail-edit-btn").click(function () {
+            //     var $settingContent = $(this).closest(".setting-content");
+            //     var $changeTextArea = $settingContent.find(".change-text-area");
 
-                if ($changeTextArea.is(":visible")) {
-                    // Collapse the text area
-                    $changeTextArea.slideUp();
-                    $(this).removeClass("expanded");
-                    $(this).find("i").removeClass("bi-x").addClass("bi-pencil-fill");
-                } else {
-                    // Expand the text area
-                    $changeTextArea.slideDown();
-                    $(this).addClass("expanded");
-                    $(this).find("i").removeClass("bi-pencil-fill").addClass("bi-x");
-                }
-            });
+            //     if ($changeTextArea.is(":visible")) {
+            //         // Collapse the text area
+            //         $changeTextArea.slideUp();
+            //         $(this).removeClass("expanded");
+            //         $(this).find("i").removeClass("bi-x").addClass("bi-pencil-fill");
+            //     } else {
+            //         // Expand the text area
+            //         $changeTextArea.slideDown();
+            //         $(this).addClass("expanded");
+            //         $(this).find("i").removeClass("bi-pencil-fill").addClass("bi-x");
+            //     }
+            // });
         });
 
-    }, [loginClientDetail]);
+    }, [clientToken, loginClientDetail]);
 
     useEffect(() => {
         setClientToken(JSON.parse(localStorage.getItem('clientToken')))
@@ -301,6 +315,43 @@ const SettingsClient = () => {
 
     }
 
+    /////////////
+    const [isProfileImageExpanded, setIsProfileImageExpanded] = useState(false);
+    const handleProfileImageToggle = () => {
+        setIsProfileImageExpanded((prev) => !prev);
+    };
+
+    const [isEmailExpanded, setIsEmailExpanded] = useState(false);
+    const handleEmailToggle = () => {
+        setIsEmailExpanded((prev) => !prev);
+    };
+
+    const [isMobileExpanded, setIsMobileExpanded] = useState(false);
+    const handleMobileToggle = () => {
+        setIsMobileExpanded((prev) => !prev);
+    };
+
+    const [isPasswordExpanded, setIsPasswordExpanded] = useState(false);
+    const handlePasswordToggle = () => {
+        setIsPasswordExpanded((prev) => !prev);
+    };
+
+    const [isDetailsExpanded, setIsDetailsExpanded] = useState(false);
+    const handleDetailsToggle = () => {
+        setIsDetailsExpanded((prev) => !prev);
+    };
+
+    const [isPerksExpanded, setIsPerksExpanded] = useState(false);
+    const handlePerksToggle = () => {
+        setIsPerksExpanded((prev) => !prev);
+    };
+
+    const [isWebsite1Expanded, setIsWebsite1Expanded] = useState(false);
+    const handleWebsite1Toggle = () => {
+        setIsWebsite1Expanded((prev) => !prev);
+    };
+    //////////
+
     return (
         <div>
             {clientToken && <div class="main-wrapper main-wrapper-1">
@@ -343,51 +394,57 @@ const SettingsClient = () => {
                                                 <div className='image-upload-img-area'>
                                                     <img src={clientImgUrl ? clientImgUrl : "../assets/img/talents-images/avatar.jpg"} className='image-upload-img' alt="" />
                                                 </div>
-                                                <div className="change-input-area">
+                                                <div className={`change-input-area ${isProfileImageExpanded ? 'expanded' : ''}`}>
                                                     <div className="row">
-                                                        <div className="col-12 col-xl-5 col-lg-5 col-md-6 d-flex align-items-center gap-10">
+                                                        <div className="col-12 col-xl-5 col-lg-5 col-md-6 d-flex align-items-center gap-10 mt-4 mb-2">
                                                             <input type='file' className='change-setting-input file' onChange={e => setImage(e.target.files[0])} />
                                                             <button className='setting-update-btn' onClick={handlePhotoUpdate}>Update</button>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <button className="setting-change-btn" data-type="Email">Change Profile Photo</button>
+                                                <button className={`setting-change-btn ${isProfileImageExpanded ? 'expanded' : ''}`} data-type="Profile Photo" onClick={handleProfileImageToggle}>
+                                                    {isProfileImageExpanded ? 'Cancel' : `Change Profile Photo`}
+                                                </button>
                                             </div>
 
                                             <div className="setting-content">
                                                 <div className='setting-name'>Email Address</div>
                                                 <div className='setting-value'>{loginClientDetail.email}</div>
-                                                <div className="change-input-area">
+                                                <div className={`change-input-area ${isEmailExpanded ? 'expanded' : ''}`}>
                                                     <div className="row">
-                                                        <div className="col-12 col-xl-5 col-lg-5 col-md-6 d-flex align-items-center gap-10">
+                                                        <div className="col-12 col-xl-5 col-lg-5 col-md-6 d-flex align-items-center gap-10 mt-4 mb-2">
                                                             <input type="email" className='change-setting-input' placeholder='Change Email'
                                                                 onChange={(e) => setUserInfo({ ...userInfo, email: e.target.value })} />
                                                             <button className='setting-update-btn' onClick={handleEmailUpdate}>Update</button>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <button className="setting-change-btn" data-type="Email">Change Email</button>
+                                                <button className={`setting-change-btn ${isEmailExpanded ? 'expanded' : ''}`} data-type="Email" onClick={handleEmailToggle}>
+                                                    {isEmailExpanded ? 'Cancel' : `Change Email`}
+                                                </button>
                                             </div>
 
                                             <div className="setting-content">
                                                 <div className='setting-name'>Mobile Number</div>
                                                 <div className='setting-value'>{loginClientDetail.phone}</div>
-                                                <div className="change-input-area">
+                                                <div className={`change-input-area ${isMobileExpanded ? 'expanded' : ''}`}>
                                                     <div className="row">
-                                                        <div className="col-12 col-xl-5 col-lg-5 col-md-6 d-flex align-items-center gap-10">
+                                                        <div className="col-12 col-xl-5 col-lg-5 col-md-6 d-flex align-items-center gap-10 mt-4 mb-2">
                                                             <input type="number" className='change-setting-input' placeholder='Change Mobile Number' onChange={(e) => setUserInfo({ ...userInfo, phone: e.target.value })} />
                                                             <button className='setting-update-btn' onClick={handlePhoneUpdate}>Update</button>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <button className="setting-change-btn" data-type="Mobile Number">Change Mobile Number</button>
+                                                <button className={`setting-change-btn ${isMobileExpanded ? 'expanded' : ''}`} data-type="Mobile Number" onClick={handleMobileToggle}>
+                                                    {isMobileExpanded ? 'Cancel' : `Change Mobile Number`}
+                                                </button>
                                             </div>
 
                                             <div className="setting-content">
                                                 <div className='setting-name'>Password</div>
                                                 <div className='setting-value password'>Password</div>
-                                                <div className="change-input-area">
-                                                    <div className="row">
+                                                <div className={`change-input-area ${isPasswordExpanded ? 'multi-input-expanded' : ''}`}>
+                                                    <div className="row mt-4">
                                                         <div className="col-12 col-xl-5 col-lg-5 col-md-6">
                                                             <input type="password" className='change-setting-input' placeholder='Current Password' onChange={(e) => setUserInfo({ ...userInfo, currentPassword: e.target.value })} />
                                                             <button class="show-btn">
@@ -412,9 +469,11 @@ const SettingsClient = () => {
                                                         </div>
                                                     </div>
                                                     <small id="error-message" className='text-danger'></small><br />
-                                                    <button className='setting-update-btn mt-3' id="update-btn" onClick={handlePasswordUpdate}>Update</button>
+                                                    <button className='setting-update-btn mt-2 mb-3' id="update-btn" onClick={handlePasswordUpdate}>Update</button>
                                                 </div>
-                                                <button className="setting-change-btn" data-type="Password">Change Password</button>
+                                                <button className={`setting-change-btn ${isPasswordExpanded ? 'expanded' : ''}`} data-type="Password" onClick={handlePasswordToggle}>
+                                                    {isPasswordExpanded ? 'Cancel' : `Change Password`}
+                                                </button>
                                             </div>
                                         </div>
 
@@ -437,8 +496,8 @@ const SettingsClient = () => {
                                             <div className="setting-content">
                                                 <div className='setting-name d-flex align-items-center gap-10'>
                                                     Details of Company
-                                                    <button className='com-detail-edit-btn'>
-                                                        <i class="bi bi-pencil-fill"></i>
+                                                    <button className={`com-detail-edit-btn ${isDetailsExpanded ? 'expanded' : ''}`} onClick={handleDetailsToggle}>
+                                                        <i class={`bi ${isDetailsExpanded ? 'bi-x' : 'bi-pencil-fill'}`}></i>
                                                     </button>
                                                 </div>
                                                 <div className='setting-value pt-3'>
@@ -451,8 +510,8 @@ const SettingsClient = () => {
                                                     dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
                                                 </div>
 
-                                                <div className="change-text-area">
-                                                    <div className="row">
+                                                <div className={`change-text-area ${isDetailsExpanded ? 'expanded' : ''}`}>
+                                                    <div className="row mt-4">
                                                         <div className="col-12">
                                                             <textarea rows={5} className='change-setting-input' placeholder='Change Company Detail'></textarea>
                                                             <button className='setting-update-btn mt-3'>Update</button>
@@ -464,22 +523,24 @@ const SettingsClient = () => {
                                             <div className="setting-content">
                                                 <div className='setting-name'>Website</div>
                                                 <div className='setting-value'>https/mindtree.com</div>
-                                                <div className="change-input-area">
+                                                <div className={`change-input-area ${isWebsite1Expanded ? 'expanded' : ''}`}>
                                                     <div className="row">
-                                                        <div className="col-12 col-xl-5 col-lg-5 col-md-6 d-flex align-items-center gap-10">
+                                                        <div className="col-12 col-xl-5 col-lg-5 col-md-6 d-flex align-items-center gap-10 mt-4 mb-2">
                                                             <input type="email" className='change-setting-input' placeholder='Change Website' />
                                                             <button className='setting-update-btn'>Update</button>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <button className="setting-change-btn" data-type="Website">Change Website</button>
+                                                <button className={`setting-change-btn ${isWebsite1Expanded ? 'expanded' : ''}`} data-type="Website" onClick={handleWebsite1Toggle}>
+                                                    {isWebsite1Expanded ? 'Cancel' : `Change Website`}
+                                                </button>
                                             </div>
 
                                             <div className="setting-content">
                                                 <div className='setting-name d-flex align-items-center gap-10'>
                                                     Perks to work with us
-                                                    <button className='com-detail-edit-btn'>
-                                                        <i class="bi bi-pencil-fill"></i>
+                                                    <button className={`com-detail-edit-btn ${isPerksExpanded ? 'expanded' : ''}`} onClick={handlePerksToggle}>
+                                                        <i class={`bi ${isPerksExpanded ? 'bi-x' : 'bi-pencil-fill'}`}></i>
                                                     </button>
                                                 </div>
                                                 <div className='setting-value pt-3'>
@@ -495,8 +556,8 @@ const SettingsClient = () => {
                                                     <li className='perks-list-item'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et </li>
                                                 </ul>
 
-                                                <div className="change-text-area">
-                                                    <div className="row">
+                                                <div className={`change-text-area ${isPerksExpanded ? 'expanded' : ''}`}>
+                                                    <div className="row mt-4">
                                                         <div className="col-12">
                                                             <textarea rows={5} className='change-setting-input' placeholder='Change Perks Details'></textarea>
                                                             <button className='setting-update-btn mt-3'>Update</button>
