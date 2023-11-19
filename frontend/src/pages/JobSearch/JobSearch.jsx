@@ -155,7 +155,7 @@ const JobSearch = () => {
                 });
             });
         });
-    }, [candidateToken, getClientImg, clientImg, getProtectedData, candidateId, allJobs, matchJobs, latestJob,clients, searchResult, filteredSearchResults, filteredSearchResultsMsg, checkBoxfilters, checkBoxJobTitle, checkBoxJobLocation, checkBoxJobEducation, skillArray, jobRoleArray, filteredList, selectedResults, locationArray, educationArray, filters]);
+    }, [candidateToken, getClientImg, clientImg, getProtectedData, candidateId, allJobs, matchJobs, latestJob, clients, searchResult, filteredSearchResults, filteredSearchResultsMsg, checkBoxfilters, checkBoxJobTitle, checkBoxJobLocation, checkBoxJobEducation, skillArray, jobRoleArray, filteredList, selectedResults, locationArray, educationArray, filters]);
 
     console.log(filters) 
 
@@ -931,25 +931,25 @@ const JobSearch = () => {
                     <h6 className='cl-toggle--switch-label'>Boolean Off</h6>
                 </div> */}
                                                                 </div>
-                                                                <div className='job-post-form-badge-area'>
+                                                                <div className='cli--tal-pro-badge-area mb-4'>
                                                                         {selectedResults.map(selectResult => (
-                                                                            <span className="job-post-form-badge tal-search"
+                                                                            <span className="tal-cand-reg-form-badge candidate"
                                                                                 key={selectResult}
                                                                                 onClick={() => handleDeselect(selectResult)}
                                                                             >{selectResult}</span> 
                                                                         ))}
                                                                     </div>
                                                                     <div className="cli--tal-pro-filter-input-area">
-                                                                        <input type="text" className='cli--tal-pro-filter-input' placeholder='Enter keywords like skills, designation'
+                                                                        <input type="search" className='cli--tal-pro-filter-input' placeholder='Enter keywords like skills, designation'
                                                                             value={filters.searchInput}
                                                                             onChange={handleSearch}
                                                                         />
                                                                         <i className="bi bi-search cli--tal-pro-filter-search-icon"></i>
-                                                                        <div className='search-result-data-area'>
+                                                                        <div className='tal-pro-search-result-data-area'>
                                                                             {filteredList.length > 0 &&
                                                                                 filteredList.map((filterResult) => (
                                                                                     <div
-                                                                                        className='search-result-data'
+                                                                                        className='tal-pro-search-result-data candidate'
                                                                                         key={filterResult._id}
                                                                                         onClick={() => handleFilteredClick(filterResult.designation || filterResult.skill)}
                                                                                     >
@@ -1254,7 +1254,7 @@ const JobSearch = () => {
                                                         const imgSrc = matchingImg ? `http://localhost:5002/client_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
                                                         const companyName = clients.find(cli=>cli.companyId === job.companyId)?.companyName
                                                         return(
-                                                        <article className='job--detail-card'>
+                                                        <article className='job--detail-card mb-4'>
                                                         <div className="job--detail-card-top-area job">
                                                             <div>
                                                                 <h5 className='job--detail-card-role'>{job.jobRole[0]}</h5>
@@ -1310,7 +1310,7 @@ const JobSearch = () => {
                                                         const imgSrc = matchingImg ? `http://localhost:5002/client_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
                                                         const companyName = clients.find(cli=>cli.companyId === job.companyId)?.companyName
                                                         return(
-                                                        <article className='job--detail-card'>
+                                                        <article className='job--detail-card mb-4'>
                                                         <div className="job--detail-card-top-area job">
                                                             <div>
                                                                 <h5 className='job--detail-card-role'>{job.jobRole[0]}</h5>
@@ -1365,7 +1365,7 @@ const JobSearch = () => {
                                                         const imgSrc = matchingImg ? `http://localhost:5002/client_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
                                                         const companyName = clients.find(cli=>cli.companyId === job.companyId)?.companyName
                                                         return(
-                                                        <article className='job--detail-card'>
+                                                        <article className='job--detail-card mb-4'>
                                                         <div className="job--detail-card-top-area job">
                                                             <div>
                                                                 <h5 className='job--detail-card-role'>{job.jobRole[0]}</h5>

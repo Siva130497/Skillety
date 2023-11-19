@@ -206,7 +206,7 @@ const AllCandidates = () => {
                                                     </div>
                                                 </div>
                                                 {candidateDetail.length > 0 && <div className="recruiter-search-input-area">
-                                                    <input type="text" className='recruiter-search-input' placeholder='Search skills/designations...'
+                                                    <input type="search" className='recruiter-search-input' placeholder='Search skills/designations...'
                                                         value={searchInput}
                                                         onChange={(e) => {
                                                             setSearchInput(e.target.value);
