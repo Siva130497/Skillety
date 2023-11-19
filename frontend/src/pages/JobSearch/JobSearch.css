@@ -55,7 +55,7 @@
 
 .jobs-view-more-btn {
     color: #457DE0;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 700;
     background-color: transparent;
     outline: none;
@@ -75,4 +75,16 @@
 }
 .job--detail-card.search{
     margin-bottom: 30px;
+}
+
+.tal-pro-search-result-data.candidate:hover {
+    background-color: #fff0c5 !important;
+    color: #63442d !important;
+}
+.tal-cand-reg-form-badge.candidate{
+    background-color: #fff0c5 !important;
+    border-color: #F9C833;
+}
+.tal-cand-reg-form-badge.candidate:hover{
+    border-color: #714F36;
 }
