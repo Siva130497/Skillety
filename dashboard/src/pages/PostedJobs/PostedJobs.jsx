@@ -1,17 +1,166 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import { useEffect } from 'react';
 import ATSLayout from '../../components/ATSLayout';
 import Footer from '../../components/Footer';
 import './PostedJobs.css';
 import $ from 'jquery';
+import AuthContext from '../../context/AuthContext';
+import axios from 'axios';
 
 const PostedJobs = () => {
+    const {getProtectedData} = useContext(AuthContext);
+
+    const [staffToken, setStaffToken] = useState("");
+    const [employeeId, setEmployeeId] = useState("");
+    const [postedJobs, setPostedJobs] = useState([]);
+    const [appliedOfPostedJobs, setAppliedOfPostedJobs] =useState([]);
+    const [selectedJobViewDetail, setSelectedPostedJobViewDetail] = useState();
+    const [checkBoxfilters, setCheckBoxFilters] = useState([]);
+    const [checkBoxFilteredJobs, setCheckBoxFilteredJobs] = useState([]);
+    const [searchFilteredJobs, setSearchFilteredJobs] = useState([]);
+    const [searchFilteredJobMsg, setSearchFilteredJobMsg] = useState("");
+    const [prevSearchFilteredJobs, setPrevSearchFilteredJobs] = useState([]);
+    const [checkBoxFilteredJobMsg, setCheckBoxFilteredJobMsg] = useState("");
+    const [searchJobRoleInput, setSearchJobRoleInput] = useState("");
 
     useEffect(() => {
         $(document).ready(function () {
         });
 
     }, []);
+
+    useEffect(() => {
+        setStaffToken(JSON.parse(localStorage.getItem('staffToken')))
+    }, [staffToken])
+
+    useEffect(() => {
+        if(staffToken){
+            const fetchData = async () => {
+                try {
+                    const userData = await getProtectedData(staffToken);
+                    console.log(userData);
+                    setEmployeeId(userData.id);
+                } catch (error) {
+                    console.log(error)
+                }
+            };
+    
+            fetchData();
+        }
+    }, [staffToken]);
+
+    const getOwnPostedjobs = async() => {
+        try{
+            const res = await axios.get(`http://localhost:5002/my-posted-jobs/${employeeId}`, {
+              headers: {
+                  Authorization: `Bearer ${staffToken}`,
+                  Accept: 'application/json'
+              }
+            });
+            const result = res.data;
+            if (!result.error) {
+              console.log(result);
+              setPostedJobs(result.reverse());
+            } else {
+              console.log(result);
+            }
+        }catch(err){
+          console.log(err);
+        }
+      }
+
+      const getAppliedOfPostedJobs = async() => {
+        try{
+            const res = await axios.get(`http://localhost:5002/applied-jobs-of-posted/${employeeId}`, {
+              headers: {
+                  Authorization: `Bearer ${staffToken}`,
+                  Accept: 'application/json'
+              }
+            });
+            const result = res.data;
+            if (!result.error) {
+              console.log(result);
+              setAppliedOfPostedJobs(result.reverse());
+            } else {
+              console.log(result);
+            }
+        }catch(err){
+          console.log(err);
+        }
+      }
+
+    useEffect(()=>{
+        if(employeeId){
+            getOwnPostedjobs();
+            getAppliedOfPostedJobs();
+        }
+    },[employeeId]);
+
+    const handleJobSearch = () => {
+        if(searchJobRoleInput){
+          if(checkBoxFilteredJobs.length >0){
+            const filteredJobs = checkBoxFilteredJobs.filter((job)=>job.jobRole[0].toLowerCase().includes(searchJobRoleInput.toLowerCase()));
+            if(filteredJobs.length> 0){
+              setSearchFilteredJobs(filteredJobs);
+            }else{
+              setSearchFilteredJobMsg("No such job found")
+            }
+          }else{
+            const filteredJobs = postedJobs.filter((job)=>job.jobRole[0].toLowerCase().includes(searchJobRoleInput.toLowerCase()));
+            if(filteredJobs.length> 0){
+              setSearchFilteredJobs(filteredJobs);
+            }else{
+              setSearchFilteredJobMsg("No such job found")
+            }
+          }
+        }else{
+          if(checkBoxFilteredJobs.length >0){
+            setSearchFilteredJobs(checkBoxFilteredJobs);
+          }
+          setSearchFilteredJobs(postedJobs);
+        }
+      }
+  
+      const handleCheckboxChange = (category) => {
+        const updatedFilters = checkBoxfilters.includes(category)
+          ? checkBoxfilters.filter((filter) => filter !== category)
+          : [...checkBoxfilters, category];
+        setCheckBoxFilters(updatedFilters);
+        if(updatedFilters.length > 0){
+          if(searchFilteredJobs.length > 0){
+            setSearchFilteredJobMsg("");
+            setPrevSearchFilteredJobs(searchFilteredJobs)
+            const filtered = searchFilteredJobs.filter((job) => updatedFilters.includes(job.jobCategory));
+            if(filtered.length > 0){
+              setSearchFilteredJobs(filtered);
+            }else{
+              setSearchFilteredJobMsg("No such job found");
+            }
+          }else{
+            const filtered = postedJobs.filter((job) => updatedFilters.includes(job.jobCategory));
+            setCheckBoxFilteredJobMsg("");
+            if(filtered.length > 0){
+              setCheckBoxFilteredJobs(filtered);
+            }else{
+              setCheckBoxFilteredJobMsg("No such job found");
+            }
+          }
+        }else{
+          if(searchFilteredJobs.length > 0){
+            setSearchFilteredJobMsg("");
+            setSearchFilteredJobs(prevSearchFilteredJobs);
+          }else{
+            setCheckBoxFilteredJobMsg("");
+            setCheckBoxFilteredJobs(postedJobs);
+          }
+        }
+      };
+  
+      const handleViewJobDetail = (id) => {
+          const selectedPostedJob = postedJobs.find(postedJob=> postedJob.id === id);
+          setSelectedPostedJobViewDetail(selectedPostedJob);
+      }
+  
 
     return (
         <div>
@@ -39,74 +188,158 @@ const PostedJobs = () => {
                                                     </div>
                                                     <div className="man-app-sub-title">
                                                         Total Jobs :&nbsp;
-                                                        <span>02</span>
+                                                        <span>{searchFilteredJobMsg ? "0" : searchFilteredJobs.length > 0 ? searchFilteredJobs.length : checkBoxFilteredJobMsg ? "0" : checkBoxFilteredJobs.length > 0 ? checkBoxFilteredJobs.length : (!searchJobRoleInput && checkBoxfilters.length === 0)  ? postedJobs.length : null}</span>
                                                     </div>
                                                 </div>
-                                                <div className="recruiter-search-input-area">
-                                                    <input type="text" className='recruiter-search-input' placeholder='Search job role...' />
+                                                {postedJobs.length >0 && <div className="recruiter-search-input-area">
+                                                    <input type="text" className='recruiter-search-input' placeholder='Search job role...' 
+                                                    value={searchJobRoleInput}
+                                                    onChange={(e)=>{
+                                                     setSearchJobRoleInput(e.target.value);
+                                                     setSearchFilteredJobs([]);
+                                                     setSearchFilteredJobMsg("");
+                                                   }}/>
                                                     <i className='bi bi-search search-icon'></i>
-                                                    <button className='recruiter-search-btn'>Search</button>
-                                                </div>
+                                                    <button className='recruiter-search-btn' onClick={handleJobSearch}>Search</button>
+                                                </div>}
 
                                             </div>
-                                            <div className="rec-work-mode-area">
+                                            {postedJobs.length >0 && <div className="rec-work-mode-area">
                                                 <label className="recruite-form-check-input">
-                                                    <input type="checkbox" />
+                                                    <input type="checkbox" 
+                                                    checked={checkBoxfilters.includes('full time')}
+                                                    onChange={() => handleCheckboxChange('full time')}/>
                                                     <span className="recruite-form-checkmark"></span>
                                                     Full Time
                                                 </label>
 
                                                 <label className="recruite-form-check-input">
-                                                    <input type="checkbox" />
+                                                    <input type="checkbox" 
+                                                    checked={checkBoxfilters.includes('part time')}
+                                                    onChange={() => handleCheckboxChange('part time')}/>
                                                     <span className="recruite-form-checkmark"></span>
                                                     Part Time
                                                 </label>
 
                                                 <label className="recruite-form-check-input">
-                                                    <input type="checkbox" />
+                                                    <input type="checkbox" 
+                                                    checked={checkBoxfilters.includes('remote')}
+                                                    onChange={() => handleCheckboxChange('remote')}/>
                                                     <span className="recruite-form-checkmark"></span>
                                                     Remote
                                                 </label>
 
                                                 <label className="recruite-form-check-input">
-                                                    <input type="checkbox" />
+                                                    <input type="checkbox" 
+                                                    checked={checkBoxfilters.includes('freelancer')}
+                                                    onChange={() => handleCheckboxChange('freelancer')}/>
                                                     <span className="recruite-form-checkmark"></span>
                                                     Freelancer
                                                 </label>
-                                            </div>
+                                            </div>}
 
-                                            <div className="table-responsive table-scroll-area">
+                                            {postedJobs.length > 0 ? <div className="table-responsive table-scroll-area">
                                                 <table className="table table-striped table-hover admin-lg-table">
                                                     <tr className='dash-table-row man-app'>
                                                         <th className='dash-table-head'>No.</th>
                                                         <th className='dash-table-head'>Job Role</th>
                                                         <th className='dash-table-head'>Job Category</th>
+                                                        <th className='dash-table-head'>No of Applicants</th>
                                                         <th className='text-center'>View</th>
                                                     </tr>
 
                                                     {/* table data */}
-                                                    <tr className='dash-table-row client'>
-                                                        <td className='dash-table-data1'>01.</td>
-                                                        <td className='dash-table-data1'>
-                                                            Mern Stack developer
-                                                        </td>
-                                                        <td className='dash-table-data1'>
-                                                            Full Time
-                                                        </td>
+                                                    {searchFilteredJobMsg ?
+                                                        <p>{searchFilteredJobMsg}</p>:
+                                                        searchFilteredJobs.length > 0 ?
+                                                        searchFilteredJobs.map((Job, index)=>{
+                                                            const numApplicants = appliedOfPostedJobs.filter(appliedOfPostedJob => appliedOfPostedJob.jobId === searchFilteredJobs.id).length;
+                                                            return (
+                                                                <tr className='dash-table-row client' key={Job.id}>
+                                                                    <td className='dash-table-data1'>{index+1}.</td>
+                                                                    <td className='dash-table-data1'>
+                                                                        {Job?.jobRole[0]}
+                                                                    </td>
+                                                                    <td className='dash-table-data1'>
+                                                                        {Job?.jobCategory}
+                                                                    </td>
+                                                                    <td className='dash-table-data1'>
+                                                                        {numApplicants}
+                                                                    </td>
 
-                                                        <td className='text-center'>
-                                                            <button className='application-btn' data-toggle="modal" title='View Candidate Details...' data-target="#invoiceModal">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
-                                                                    <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
-                                                                    <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"
-                                                                        fill='#0879bc' />
-                                                                </svg>
-                                                            </button>
-                                                        </td>
-                                                    </tr>
+                                                                    <td className='text-center'>
+                                                                        <button className='application-btn' data-toggle="modal" title='View Candidate Details...' data-target="#invoiceModal" onClick={()=>handleViewJobDetail(Job.id)}>
+                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                                                                <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
+                                                                                <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"
+                                                                                    fill='#0879bc' />
+                                                                            </svg>
+                                                                        </button>
+                                                                    </td>
+                                                                </tr>
+                                                                );
+                                                        }):
+                                                        checkBoxFilteredJobMsg ?
+                                                        (<p>{checkBoxFilteredJobMsg}</p>):
+                                                        checkBoxFilteredJobs.length > 0 ?
+                                                        (checkBoxFilteredJobs.map((Job, index)=>{
+                                                            const numApplicants = appliedOfPostedJobs.filter(appliedOfPostedJob => appliedOfPostedJob.jobId === checkBoxFilteredJobs.id).length;
+                                                            return (
+                                                                <tr className='dash-table-row client' key={Job.id}>
+                                                                    <td className='dash-table-data1'>{index+1}.</td>
+                                                                    <td className='dash-table-data1'>
+                                                                        {Job?.jobRole[0]}
+                                                                    </td>
+                                                                    <td className='dash-table-data1'>
+                                                                        {Job?.jobCategory}
+                                                                    </td>
+                                                                    <td className='dash-table-data1'>
+                                                                        {numApplicants}
+                                                                    </td>
 
+                                                                    <td className='text-center'>
+                                                                        <button className='application-btn' data-toggle="modal" title='View Candidate Details...' data-target="#invoiceModal" onClick={()=>handleViewJobDetail(Job.id)}>
+                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                                                                <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
+                                                                                <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"
+                                                                                    fill='#0879bc' />
+                                                                            </svg>
+                                                                        </button>
+                                                                    </td>
+                                                                </tr>
+                                                             );
+                                                        })):
+                                                        (!searchJobRoleInput && checkBoxfilters.length === 0) ?
+                                                        (postedJobs.map((Job, index)=>{
+                                                            const numApplicants = appliedOfPostedJobs.filter(appliedOfPostedJob => appliedOfPostedJob.jobId === postedJobs.id).length;
+                                                            return (
+                                                                <tr className='dash-table-row client' key={Job.id}>
+                                                                    <td className='dash-table-data1'>{index+1}.</td>
+                                                                    <td className='dash-table-data1'>
+                                                                        {Job?.jobRole[0]}
+                                                                    </td>
+                                                                    <td className='dash-table-data1'>
+                                                                        {Job?.jobCategory}
+                                                                    </td>
+                                                                    <td className='dash-table-data1'>
+                                                                        {numApplicants}
+                                                                    </td>
+
+                                                                    <td className='text-center'>
+                                                                        <button className='application-btn' data-toggle="modal" title='View Candidate Details...' data-target="#invoiceModal" onClick={()=>handleViewJobDetail(Job.id)}>
+                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                                                                <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
+                                                                                <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"
+                                                                                    fill='#0879bc' />
+                                                                            </svg>
+                                                                        </button>
+                                                                    </td>
+                                                                </tr>
+                                                             );
+                                                        })):
+                                                    null}
                                                 </table>
-                                            </div>
+                                            </div> : <p>No jobs yet</p>}
                                         </div>
 
                                         <div className="view-application-btn-area text-center">
@@ -158,7 +391,7 @@ const PostedJobs = () => {
                                             <div className="view-det-head">Job Role</div>
                                         </div>
                                         <div className="col-12 col-sm-7">
-                                            <div className="view-det-sub-head">Mern Stack developer</div>
+                                            <div className="view-det-sub-head">{selectedJobViewDetail?.jobRole[0]}</div>
                                         </div>
                                     </div>
                                     <hr />
@@ -167,7 +400,7 @@ const PostedJobs = () => {
                                             <div className="view-det-head">Job Category</div>
                                         </div>
                                         <div className="col-12 col-sm-7">
-                                            <div className="view-det-sub-head">Full time</div>
+                                            <div className="view-det-sub-head">{selectedJobViewDetail?.jobCategory}</div>
                                         </div>
                                     </div>
                                     <hr />
@@ -177,12 +410,11 @@ const PostedJobs = () => {
                                         </div>
                                         <div className="col-12 col-sm-7">
                                             <div className="cand-skills-area">
-                                                <span className='cand-skill'>Javascript</span>
-                                                <span className='cand-skill'>Mongodb</span>
-                                                <span className='cand-skill'>Express Js</span>
-                                                <span className='cand-skill'>React</span>
-                                                <span className='cand-skill'>Node Js</span>
-                                                <span className='cand-skill'>Git</span>
+                                            {selectedJobViewDetail?.skills.map(skill=>{
+                                                    return(
+                                                        <span className='cand-skill'>{skill}</span>
+                                                    )
+                                                })}
                                             </div>
                                         </div>
                                     </div>
@@ -192,11 +424,11 @@ const PostedJobs = () => {
                                             <div className="view-det-head">Needed Experience</div>
                                         </div>
                                         <div className="col-12 col-sm-7">
-                                            <div className="view-det-sub-head">
-                                                <span>0</span>
-                                                &nbsp;years and&nbsp;
-                                                <span>6</span>
-                                                &nbsp;months
+                                        <div className="view-det-sub-head">
+                                                <span>{selectedJobViewDetail?.minExperience} - {selectedJobViewDetail?.maxExperience}</span>
+                                                &nbsp;years&nbsp;
+                                                {/* <span>6</span>
+                                                &nbsp;months */}
                                             </div>
                                         </div>
                                     </div>
@@ -206,7 +438,76 @@ const PostedJobs = () => {
                                             <div className="view-det-head">Job Description</div>
                                         </div>
                                         <div className="col-12 col-sm-7">
-                                            <div className="view-det-sub-head">work as full stack developer for making dynamic web applications</div>
+                                            <div className="view-det-sub-head">{selectedJobViewDetail?.jobDescription}</div>
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div className="row">
+                                        <div className="col-12 col-sm-5">
+                                            <div className="view-det-head">Salary Range</div>
+                                        </div>
+                                        <div className="col-12 col-sm-7">
+                                            <div className="view-det-sub-head">{selectedJobViewDetail?.currencyType}{selectedJobViewDetail?.minSalary} - {selectedJobViewDetail?.maxSalary}{selectedJobViewDetail?.currencyType}</div>
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div className="row">
+                                        <div className="col-12 col-sm-5">
+                                            <div className="view-det-head">Department</div>
+                                        </div>
+                                        <div className="col-12 col-sm-7">
+                                            <div className="view-det-sub-head">{selectedJobViewDetail?.department}</div>
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div className="row">
+                                        <div className="col-12 col-sm-5">
+                                            <div className="view-det-head">Education</div>
+                                        </div>
+                                        <div className="col-12 col-sm-7">
+                                            <div className="view-det-sub-head">{selectedJobViewDetail?.education}</div>
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div className="row">
+                                        <div className="col-12 col-sm-5">
+                                            <div className="view-det-head">Industry</div>
+                                        </div>
+                                        <div className="col-12 col-sm-7">
+                                            <div className="view-det-sub-head">{selectedJobViewDetail?.industry}</div>
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div className="row">
+                                        <div className="col-12 col-sm-5">
+                                            <div className="view-det-head">Locations</div>
+                                        </div>
+                                        <div className="col-12 col-sm-7">
+                                            <div className="cand-skills-area">
+                                                {selectedJobViewDetail?.location.map(location=>{
+                                                    return(
+                                                        <span className='cand-skill'>{location}</span>
+                                                    )
+                                                })}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div className="row">
+                                        <div className="col-12 col-sm-5">
+                                            <div className="view-det-head">Role</div>
+                                        </div>
+                                        <div className="col-12 col-sm-7">
+                                            <div className="view-det-sub-head">{selectedJobViewDetail?.role}</div>
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div className="row">
+                                        <div className="col-12 col-sm-5">
+                                            <div className="view-det-head">Working Mode</div>
+                                        </div>
+                                        <div className="col-12 col-sm-7">
+                                            <div className="view-det-sub-head">{selectedJobViewDetail?.workMode}</div>
                                         </div>
                                     </div>
                                 </div>
