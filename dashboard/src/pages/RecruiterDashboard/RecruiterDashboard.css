@@ -33,3 +33,24 @@
 .dash-table-top-area.candidates .dash-table-see-all-btn:hover {
     color: #ffffff !important;
 }
+.dash-table-view-btn.with-border{
+    border: #714F36 1px solid;
+}
+.dash-table-data1.heading{
+    font-weight: 700 !important;
+    color: #714F36 !important;
+}
+.dash-table-row.heading{
+    border: none;
+    background-color: #ededed !important;
+    border-radius: 16px;
+}
+.dash-table-row.heading th:first-child{
+    border-radius: 16px 0px 0px 16px !important;
+}
+.dash-table-row.heading th:last-child{
+    border-radius: 0px 16px 16px 0px !important;
+}
+.dash-table-row.heading th{
+    padding: 25px 10px !important;
+}

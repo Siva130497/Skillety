@@ -722,8 +722,8 @@ p {
 
 .notify-btn .bell {
   color: #FFF !important;
-  width: 28px !important;
-  height: 28px !important;
+  width: 25px !important;
+  height: 25px !important;
   fill: #FFF !important;
   filter: drop-shadow(2px 4px 6px #e9b62c) !important;
 }

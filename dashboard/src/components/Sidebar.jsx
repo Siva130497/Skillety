@@ -5,9 +5,9 @@ import $ from 'jquery';
 const Sidebar = () => {
   const [candidateToken, setCandidateToken] = useState("");
 
-    useEffect(()=>{
-        setCandidateToken(JSON.parse(localStorage.getItem('candidateToken')))
-    },[candidateToken])
+  useEffect(() => {
+    setCandidateToken(JSON.parse(localStorage.getItem('candidateToken')))
+  }, [candidateToken])
 
   useEffect(() => {
     $(document).ready(function () {
@@ -35,7 +35,7 @@ const Sidebar = () => {
       <div className="main-sidebar sidebar-style-2">
         <aside id="sidebar-wrapper">
           <div className="sidebar-brand">
-            <a href=""> <img alt="image" src="../assets/img/logo/skillety-logo.png" className="header-logo" /> <span
+            <a href={`/${candidateToken}`}> <img alt="image" src="../assets/img/logo/skillety-logo.png" className="header-logo" /> <span
               className="logo-name">Skillety</span>
             </a>
           </div>

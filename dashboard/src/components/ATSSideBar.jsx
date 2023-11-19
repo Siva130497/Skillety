@@ -49,14 +49,14 @@ const ATSSideBar = () => {
             <div className="main-sidebar client sidebar-style-2">
                 <aside id="sidebar-wrapper">
                     <div className="sidebar-brand">
-                        <a href="/client-dashboard/"> <img alt="image" src="../assets/img/logo/skillety-logo.png" className="header-logo" /> <span
+                        <a href={`/recruiter-dashboard/${staffToken}`}> <img alt="image" src="../assets/img/logo/skillety-logo.png" className="header-logo" /> <span
                             className="logo-name">Skillety</span>
                         </a>
                     </div>
                     <ul className="sidebar-menu client">
                         {/* <li className="menu-header">Main</li> */}
                         <li className="dropdown" id='recruiter_dashboard'>
-                            <a href="/recruiter-dashboard" className="nav-link"><i data-feather="home"></i><span>Dashboard</span></a>
+                            <a href={`/recruiter-dashboard/${staffToken}`} className="nav-link"><i data-feather="home"></i><span>Dashboard</span></a>
                         </li>
                         <li className="dropdown" id='all_clients'>
                             <a href="/all-clients" className="nav-link"><i data-feather="user"></i><span>All Clients</span></a>

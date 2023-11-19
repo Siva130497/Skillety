@@ -8,6 +8,7 @@
     padding: 6px 10px !important;
     border-radius: 6px;
     outline: none;
+    white-space: nowrap;
 }
 
 .send-email-btn:focus,
@@ -151,7 +152,7 @@
 
 .no-data-created-area .no-data-created .no-data-text{
     margin-bottom: 0;
-    font-size: 16px !important;
+    font-size: 16px;
     color: #929292;
 }
 .no-data-created-area i{
@@ -173,4 +174,7 @@
     object-fit: contain;
     filter: saturate(0);
     opacity: 0.3;
+}
+.text-capitalized{
+    text-transform: capitalize !important;
 }

@@ -74,7 +74,7 @@ const AllClients = () => {
     }
 
     useEffect(() => {
-        // getAllClientDetails();
+        getAllClientDetails();
         getAllClient();
     }, [staffToken]);
 
@@ -154,9 +154,6 @@ const AllClients = () => {
                                                     <span>{clientDetail.length}</span>
                                                 </div>
                                             </div>
-                                            <div className="no-data-created">
-
-                                            </div>
                                             {clientDetail.length === 0 ?
                                                 <div className="no-data-created-area">
                                                     <div className='no-data-created'>
@@ -181,7 +178,7 @@ const AllClients = () => {
                                                             return (
                                                                 <tr className='dash-table-row client'>
                                                                     <td className='dash-table-data1'>{index + 1}.</td>
-                                                                    <td className='dash-table-data1'>
+                                                                    <td className='dash-table-data1 text-capitalized'>
                                                                         {client.name}
                                                                     </td>
                                                                     <td className='dash-table-data1'>
@@ -208,7 +205,7 @@ const AllClients = () => {
                                                                     </td>
 
                                                                     <td className='text-center'>
-                                                                        <button className='application-btn' title='View Client Details...' data-toggle="modal" data-target="#invoiceModal" onClick={() => handleCard(client._id)}>
+                                                                        <button className='application-btn' title='View Client Details...' data-toggle="modal" data-target="#clientsViewModal" onClick={() => handleCard(client._id)}>
                                                                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
                                                                                 <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
                                                                                 <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"
@@ -253,13 +250,13 @@ const AllClients = () => {
                     </section>
                 </div>
 
-                {/* Invoice view modal here */}
-                <div className="modal fade" id="invoiceModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                {/* Clients details view modal here */}
+                <div className="modal fade" id="clientsViewModal" tabindex="-1" role="dialog" aria-labelledby="clientsViewModalLabel"
                     aria-hidden="true">
                     <div className="modal-dialog modal-lg" role="document">
                         <div className="modal-content recruiter-view-modal">
                             <div className="modal-header recruiter-view-modal-header">
-                                <h5 className="modal-title recruiter-view-modal-title client" id="exampleModalLabel">
+                                <h5 className="modal-title recruiter-view-modal-title client" id="clientsViewModalLabel">
                                     Client Details_
                                 </h5>
                                 <a href='#' type="button" className="close recruiter-view-close" data-dismiss="modal" aria-label="Close">
@@ -273,7 +270,7 @@ const AllClients = () => {
                                             <div className="view-det-head">Full Name</div>
                                         </div>
                                         <div className="col-12 col-sm-6">
-                                            <div className="view-det-sub-head">{aClient?.name}</div>
+                                            <div className="view-det-sub-head text-capitalized">{aClient?.name}</div>
                                         </div>
                                     </div>
                                     <hr />
@@ -300,7 +297,7 @@ const AllClients = () => {
                                             <div className="view-det-head">Company Name</div>
                                         </div>
                                         <div className="col-12 col-sm-6">
-                                            <div className="view-det-sub-head">{aClient?.companyName}</div>
+                                            <div className="view-det-sub-head text-capitalized">{aClient?.companyName}</div>
                                         </div>
                                     </div>
                                     <hr />
@@ -309,7 +306,7 @@ const AllClients = () => {
                                             <div className="view-det-head">Industry</div>
                                         </div>
                                         <div className="col-12 col-sm-6">
-                                            <div className="view-det-sub-head">{aClient?.industry}</div>
+                                            <div className="view-det-sub-head text-capitalized">{aClient?.industry}</div>
                                         </div>
                                     </div>
                                     <hr />
@@ -327,7 +324,7 @@ const AllClients = () => {
                                             <div className="view-det-head">From where did you learn about Skillety?</div>
                                         </div>
                                         <div className="col-12 col-sm-6">
-                                            <div className="view-det-sub-head">{aClient?.text}</div>
+                                            <div className="view-det-sub-head text-capitalized">{aClient?.text}</div>
                                         </div>
                                     </div>
                                 </div>

@@ -90,13 +90,13 @@ const ClientSidebar = () => {
 
     useEffect(() => {
         if (loginClientDetail?.companyId) {
-            
+
             const fetchData = async () => {
                 try {
 
                     await getClientChoosenPlan(loginClientDetail?.companyId);
 
-                    
+
                 } catch (error) {
                     console.error(error);
                 }
@@ -106,13 +106,13 @@ const ClientSidebar = () => {
         }
     }, [loginClientDetail]);
 
-    useEffect(()=>{
-        if (packageSelectionDetail ) {
-            
+    useEffect(() => {
+        if (packageSelectionDetail) {
+
             setSideBar(true);
         }
 
-    },[packageSelectionDetail])
+    }, [packageSelectionDetail])
 
     console.log(sideBar)
 
@@ -121,7 +121,7 @@ const ClientSidebar = () => {
             <div className="main-sidebar client sidebar-style-2">
                 <aside id="sidebar-wrapper">
                     <div className="sidebar-brand">
-                        <a href="/client-dashboard/"> <img alt="image" src="../assets/img/logo/skillety-logo.png" className="header-logo" /> <span
+                        <a href={`/client-dashboard/${clientToken}`}> <img alt="image" src="../assets/img/logo/skillety-logo.png" className="header-logo" /> <span
                             className="logo-name">Skillety</span>
                         </a>
                     </div>
