@@ -29,6 +29,7 @@ const AllJobs = () => {
     const [searchCandidateByNameMsg, setSearchCandidateByNameMsg] = useState("");
     const [searchCandidateInput, setSearchCandidateInput] = useState("");
 
+    const [x, setX] = useState([0, 10]);
 
     useEffect(() => {
         $(document).ready(function () {
@@ -312,7 +313,10 @@ const AllJobs = () => {
                                                             setSearchJobRoleInput(e.target.value);
                                                             setSearchFilteredJobs([]);
                                                             setSearchFilteredJobMsg("");
-                                                        }} />
+                                                        }}
+                                                        onKeyPress={(event) => {
+                                                            event.key === "Enter" && handleJobSearch();
+                                                          }} />
                                                     <i className='bi bi-search search-icon'></i>
                                                     <button className='recruiter-search-btn' onClick={handleJobSearch}>Search</button>
                                                 </div>}
@@ -369,16 +373,16 @@ const AllJobs = () => {
                                                             </td>
                                                         </tr> :
                                                         searchFilteredJobs.length > 0 ?
-                                                            searchFilteredJobs.map((Job, index) => {
-                                                                return (
-                                                                    <tr className='dash-table-row client' key={Job.id}>
-                                                                        <td className='dash-table-data1'>{index + 1}.</td>
-                                                                        <td className='dash-table-data1 text-capitalized'>
-                                                                            {Job?.jobRole[0]}
-                                                                        </td>
-                                                                        <td className='dash-table-data1 text-capitalized'>
-                                                                            {Job?.jobCategory}
-                                                                        </td>
+                                                        searchFilteredJobs.slice(x[0], x[1]).map((Job, index)=>{
+                                                            return (
+                                                                <tr className='dash-table-row client' key={Job.id}>
+                                                                    <td className='dash-table-data1'>{index+1}.</td>
+                                                                    <td className='dash-table-data1'>
+                                                                        {Job?.jobRole[0]}
+                                                                    </td>
+                                                                    <td className='dash-table-data1'>
+                                                                        {Job?.jobCategory}
+                                                                    </td>
 
                                                                         <td className='text-center'>
                                                                             <button className='application-btn' data-toggle="modal" title='View Candidate Details...' data-target="#invoiceModal" onClick={() => handleViewJobDetail(Job.id)}>
@@ -391,50 +395,50 @@ const AllJobs = () => {
                                                                         </td>
                                                                     </tr>
                                                                 );
-                                                            }) :
-                                                            checkBoxFilteredJobMsg ?
-                                                                (
-                                                                    <tr>
-                                                                        <td colSpan={4} className='text-secondary text-center'>
-                                                                            {checkBoxFilteredJobMsg}
-                                                                        </td>
-                                                                    </tr>
-                                                                ) :
-                                                                checkBoxFilteredJobs.length > 0 ?
-                                                                    (checkBoxFilteredJobs.map((Job, index) => {
-                                                                        return (
-                                                                            <tr className='dash-table-row client' key={Job.id}>
-                                                                                <td className='dash-table-data1'>{index + 1}.</td>
-                                                                                <td className='dash-table-data1 text-capitalized'>
-                                                                                    {Job?.jobRole[0]}
-                                                                                </td>
-                                                                                <td className='dash-table-data1 text-capitalized'>
-                                                                                    {Job?.jobCategory}
-                                                                                </td>
+                                                        }):
+                                                        checkBoxFilteredJobMsg ?
+                                                        (
+                                                            <tr>
+                                                                <td colSpan={4} className='text-secondary text-center'>
+                                                                    {checkBoxFilteredJobMsg}
+                                                                </td>
+                                                            </tr>
+                                                        ):
+                                                        checkBoxFilteredJobs.length > 0 ?
+                                                        (checkBoxFilteredJobs.slice(x[0], x[1]).map((Job, index)=>{
+                                                            return (
+                                                                <tr className='dash-table-row client' key={Job.id}>
+                                                                    <td className='dash-table-data1'>{index+1}.</td>
+                                                                    <td className='dash-table-data1'>
+                                                                        {Job?.jobRole[0]}
+                                                                    </td>
+                                                                    <td className='dash-table-data1'>
+                                                                        {Job?.jobCategory}
+                                                                    </td>
 
-                                                                                <td className='text-center'>
-                                                                                    <button className='application-btn' data-toggle="modal" title='View Candidate Details...' data-target="#invoiceModal" onClick={() => handleViewJobDetail(Job.id)}>
-                                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
-                                                                                            <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
-                                                                                            <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"
-                                                                                                fill='#0879bc' />
-                                                                                        </svg>
-                                                                                    </button>
-                                                                                </td>
-                                                                            </tr>
-                                                                        );
-                                                                    })) :
-                                                                    (!searchJobRoleInput && checkBoxfilters.length === 0) ?
-                                                                        (allJobs.map((Job, index) => {
-                                                                            return (
-                                                                                <tr className='dash-table-row client' key={Job.id}>
-                                                                                    <td className='dash-table-data1'>{index + 1}.</td>
-                                                                                    <td className='dash-table-data1 text-capitalized'>
-                                                                                        {Job?.jobRole[0]}
-                                                                                    </td>
-                                                                                    <td className='dash-table-data1 text-capitalized'>
-                                                                                        {Job?.jobCategory}
-                                                                                    </td>
+                                                                    <td className='text-center'>
+                                                                        <button className='application-btn' data-toggle="modal" title='View Candidate Details...' data-target="#invoiceModal" onClick={()=>handleViewJobDetail(Job.id)}>
+                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                                                                <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
+                                                                                <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"
+                                                                                    fill='#0879bc' />
+                                                                            </svg>
+                                                                        </button>
+                                                                    </td>
+                                                                </tr>
+                                                             );
+                                                        })):
+                                                        (!searchJobRoleInput && checkBoxfilters.length === 0) ?
+                                                        (allJobs.slice(x[0], x[1]).map((Job, index)=>{
+                                                            return (
+                                                                <tr className='dash-table-row client' key={Job.id}>
+                                                                    <td className='dash-table-data1'>{index+1}.</td>
+                                                                    <td className='dash-table-data1 text-capitalized'>
+                                                                        {Job?.jobRole[0]}
+                                                                    </td>
+                                                                    <td className='dash-table-data1 text-capitalized'>
+                                                                        {Job?.jobCategory}
+                                                                    </td>
 
                                                                                     <td className='text-center'>
                                                                                         <button className='application-btn' data-toggle="modal" title='View Candidate Details...' data-target="#invoiceModal" onClick={() => handleViewJobDetail(Job.id)}>
@@ -470,16 +474,16 @@ const AllJobs = () => {
                                         </div>
                                         <div className="table-pagination-area pt-3">
                                             <div className="pagination-btn-area">
-                                                <button className='pag-prev-btn'>
+                                                {x[0] > 0 && <button className='pag-prev-btn' onClick={()=>setX([x[0] - 10, x[1] - 10])}>
                                                     <i class="bi bi-chevron-left"></i>
-                                                </button>
-                                                <div className='pag-page'>
-                                                    <span className='current-page'>1</span>&nbsp;/&nbsp;
-                                                    <span className='total-page'>7</span>
-                                                </div>
-                                                <button className='pag-next-btn'>
+                                                </button>}
+                                                {(!searchFilteredJobMsg && !checkBoxFilteredJobMsg) && <div className='pag-page'>
+                                                    <span className='current-page'>{Math.ceil(x[0] / 10) + 1}</span>&nbsp;/&nbsp;
+                                                    <span className='total-page'>{searchFilteredJobs.length > 0 ? Math.ceil(searchFilteredJobs.length/ 10) : checkBoxFilteredJobs.length > 0 ? Math.ceil(checkBoxFilteredJobs.length/ 10) : Math.ceil(allJobs.length/ 10)}</span>
+                                                </div>}
+                                                {(searchFilteredJobMsg ? !searchFilteredJobMsg : searchFilteredJobs.length > 0 ? (searchFilteredJobs.slice(x[0], x[1]).length === 10 && searchFilteredJobs.length > x[1]) : checkBoxFilteredJobMsg ? !checkBoxFilteredJobMsg : checkBoxFilteredJobs.length > 0 ? (checkBoxFilteredJobs.slice(x[0], x[1]).length === 10 && checkBoxFilteredJobs.length > x[1]) : (allJobs.slice(x[0], x[1]).length === 10 && allJobs.length > x[1])) &&<button className='pag-next-btn' onClick={()=>setX([x[0] + 10, x[1] + 10])}>
                                                     <i class="bi bi-chevron-right"></i>
-                                                </button>
+                                                </button>}
                                             </div>
                                         </div>
                                     </div>
@@ -565,7 +569,7 @@ const AllJobs = () => {
                                             <div className="view-det-head">Salary Range</div>
                                         </div>
                                         <div className="col-12 col-sm-7">
-                                            <div className="view-det-sub-head">{selectedJobViewDetail?.currencyType}{selectedJobViewDetail?.minSalary} - {selectedJobViewDetail?.maxSalary}{selectedJobViewDetail?.currencyType}</div>
+                                            <div className="view-det-sub-head">{selectedJobViewDetail?.currencyType}{selectedJobViewDetail?.minSalary} - {selectedJobViewDetail?.currencyType}{selectedJobViewDetail?.maxSalary}</div>
                                         </div>
                                     </div>
                                     <hr />

@@ -17,18 +17,22 @@ const {
   candidateReg,
   getAllCandidateDetail,
   getCandidateDetail,
+  clientJobPosting,
   jobPosting,
+  jobApproval,
   getJob,
   getAppliedJobByJobId,
   updateJob,
   getSkillMatchJobDetail,
   getPostedjobs,
+  getNonApprovaljobs,
   getOwnPostedjobs,
   applyingjob,
   getAppliedjobs,
   getAppliedOfPostedJobs,
   deleteAppliedJob,
   deletingPostedJob,
+  deletingNonApprovalJob,
   createRecruiter,
   deleteRecruiter,
   getAllRecruiters,
@@ -124,14 +128,23 @@ router.get("/candidate-Detail", getAllCandidateDetail);
 //get a candidate 
 router.get("/candidate/:id", getCandidateDetail);
 
+//client-post job detail 
+router.post("/client-job-detail", employeeAuth, clientJobPosting)
+
 //post job detail 
 router.post("/job-detail", employeeAuth, jobPosting)
+
+//job approval 
+router.post("/job-approval", jobApproval)
 
 //get all job details
 router.get('/skill-match-job-Detail/:candidateId',  getSkillMatchJobDetail)
 
-//get client posted job details
+//get all posted job details
 router.get('/posted-jobs', getPostedjobs)
+
+//get client posted job details
+router.get('/non-approval-jobs', getNonApprovaljobs)
 
 //get a job detail
 router.get('/job/:id', getJob)
@@ -159,6 +172,9 @@ router.delete('/delete-job/:candidateId/:jobId', employeeAuth, deleteAppliedJob)
 
 //delete posted job 
 router.delete('/delete-job/:jobId', employeeAuth, deletingPostedJob)
+
+//delete non-approval job 
+router.delete('/delete-non-approval-job/:jobId', employeeAuth, deletingNonApprovalJob)
 
 //get an individual recruiter by id
 router.get('/staff/:recruiterId',employeeAuth, getAnIndividualRecruiter);

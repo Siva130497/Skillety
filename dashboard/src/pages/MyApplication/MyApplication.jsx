@@ -15,6 +15,7 @@ const MyApplication = () => {
     const {getProtectedData} = useContext(AuthContext);
     const [allClient, setAllClient] = useState([]);
 
+    const [x, setX] = useState([0, 10]);
 
     useEffect(() => {
         $(document).ready(function () {
@@ -255,18 +256,18 @@ const MyApplication = () => {
                                             </table>
                                         </div>
 
-                                        <div className="table-pagination-area">
+                                        <div className="table-pagination-area pt-3">
                                             <div className="pagination-btn-area">
-                                                <button className='pag-prev-btn'>
+                                                {x[0] > 0 &&<button className='pag-prev-btn' onClick={()=>setX([x[0] - 10, x[1] - 10])}>
                                                     <i class="bi bi-chevron-left"></i>
-                                                </button>
+                                                </button>}
                                                 <div className='pag-page'>
-                                                    <span className='current-page'>1</span>&nbsp;/&nbsp;
-                                                    <span className='total-page'>7</span>
+                                                    <span className='current-page'>{Math.ceil(x[0] / 10) + 1}</span>&nbsp;/&nbsp;
+                                                    <span className='total-page'>{Math.ceil(appliedJobDetail.length / 10)}</span>
                                                 </div>
-                                                <button className='pag-next-btn'>
+                                                {(appliedJobDetail.slice(x[0], x[1]).length === 10 && appliedJobDetail.length > x[1]) && <button className='pag-next-btn' onClick={()=>setX([x[0] + 10, x[1] + 10])}>
                                                     <i class="bi bi-chevron-right"></i>
-                                                </button>
+                                                </button>}
                                             </div>
                                         </div>
                                         <div className="view-application-btn-area text-center">

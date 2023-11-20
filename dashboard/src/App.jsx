@@ -32,7 +32,7 @@ import PostedEvents from './pages/PostedEvents/PostedEvents';
 import EnquiryDetails from './pages/EnquiryDetails/EnquiryDetails';
 import CandidateContact from './pages/CandidateContact/CandidateContact';
 import ClientContact from './pages/ClientContact/ClientContact';
-
+import NonApprovalJobs from './pages/NonApprovalJobs/NonApprovalJobs';
 
 
 function App() {
@@ -63,6 +63,7 @@ function App() {
         <Route path='/all-clients' element={<AllClients />} />
         <Route path='/all-candidates' element={<AllCandidates />} />
         <Route path='/all-jobs' element={<AllJobs />} />
+        <Route path='/non-approval-jobs' element={<NonApprovalJobs />} />
         <Route path='/posted-jobs' element={<PostedJobs />} />
         <Route path='/job-posting' element={<PostingJob />} />
         <Route path='/event-posting' element={<EventPosting />} />

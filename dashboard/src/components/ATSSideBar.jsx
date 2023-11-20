@@ -22,6 +22,8 @@ const ATSSideBar = () => {
                 $('#all_candidates').addClass('active');
             } else if (path === '/all-jobs') {
                 $('#all_jobs').addClass('active');
+            } else if (path === '/non-approval-jobs') {
+                $('#non_approval_jobs').addClass('active');
             } else if (path === '/posted-jobs') {
                 $('#posted_jobs').addClass('active');
             } else if (path === '/job-posting') {
@@ -69,6 +71,9 @@ const ATSSideBar = () => {
                         </li>
                         <li className="dropdown" id='all_jobs'>
                             <a href="/all-jobs" className="nav-link"><i data-feather="briefcase"></i><span>All Jobs</span></a>
+                        </li>
+                        <li className="dropdown" id='non_approval_jobs'>
+                            <a href="/non-approval-jobs" className="nav-link"><i data-feather="briefcase"></i><span>Non Approval Jobs</span></a>
                         </li>
                         <li className="dropdown" id='posted_jobs'>
                             <a href="/posted-jobs" className="nav-link"><i data-feather="mail"></i><span>Posted Jobs</span></a>

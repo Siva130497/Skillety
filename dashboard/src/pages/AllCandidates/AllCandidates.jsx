@@ -18,6 +18,9 @@ const AllCandidates = () => {
     const [searchInput, setSearchInput] = useState("");
     const [filteredSearchResults, setFilteredSearchResults] = useState([]);
     const [filteredSearchResultsMsg, setFilteredSearchResultsMsg] = useState("");
+
+    const [x, setX] = useState([0, 10]);
+
     useEffect(() => {
         $(document).ready(function () {
         });
@@ -212,44 +215,47 @@ const AllCandidates = () => {
                                                             setSearchInput(e.target.value);
                                                             setFilteredSearchResults([]);
                                                             setFilteredSearchResultsMsg("");
-                                                        }} />
+                                                        }} 
+                                                        onKeyPress={(event) => {
+                                                            event.key === "Enter" && handleSkillSearch();
+                                                          }}/>
                                                     <i className='bi bi-search search-icon'></i>
                                                     <button className='recruiter-search-btn' onClick={handleSkillSearch}>Search</button>
                                                 </div>}
                                             </div>
 
-                                            {candidateDetail.length > 0 ?
+                                            { candidateDetail.length > 0 ? 
                                                 <div className="table-responsive table-scroll-area">
-                                                    <table className="table table-striped table-hover admin-lg-table">
-                                                        <tr className='dash-table-row candidate'>
-                                                            <th className='dash-table-head'>No.</th>
-                                                            <th className='dash-table-head'>Full Name</th>
-                                                            <th className='dash-table-head'>Email ID</th>
-                                                            <th className='dash-table-head'>Phone No</th>
-                                                            <th className='dash-table-head text-center'>Send an interview invitation</th>
-                                                            <th className='text-center'>View</th>
-                                                        </tr>
+                                                <table className="table table-striped table-hover admin-lg-table">
+                                                    <tr className='dash-table-row candidate'>
+                                                        <th className='dash-table-head'>No.</th>
+                                                        <th className='dash-table-head'>Full Name</th>
+                                                        <th className='dash-table-head'>Email ID</th>
+                                                        <th className='dash-table-head'>Phone No</th>
+                                                        <th className='dash-table-head text-center'>Send an interview invitation</th>
+                                                        <th className='text-center'>View</th>
+                                                    </tr>
 
 
-                                                        {/* table data */}
-                                                        {filteredSearchResultsMsg ?
-                                                            <tr>
-                                                                <td colSpan={6} className='text-secondary text-center'>
-                                                                    {filteredSearchResultsMsg}
-                                                                </td>
-                                                            </tr> :
-                                                            filteredSearchResults.length > 0 ?
-                                                                filteredSearchResults.map((candidate, index) => {
-
-                                                                    return (
-                                                                        <tr className='dash-table-row client' key={candidate.id}>
-                                                                            <td className='dash-table-data1'>{index + 1}.</td>
-                                                                            <td className='dash-table-data1 text-capitalized'>
-                                                                                {candidate.firstName + ' ' + candidate.lastName}
-                                                                            </td>
-                                                                            <td className='dash-table-data1'>
-                                                                                {candidate.email}
-                                                                            </td>
+                                                    {/* table data */}
+                                                    {filteredSearchResultsMsg ?
+                                                        <tr>
+                                                        <td colSpan={6} className='text-secondary text-center'>
+                                                            {filteredSearchResultsMsg}
+                                                        </td>
+                                                    </tr> :
+                                                        filteredSearchResults.length > 0 ?
+                                                        filteredSearchResults.slice(x[0], x[1]).map((candidate, index)=>{
+                                                            
+                                                            return (
+                                                                <tr className='dash-table-row client' key={candidate.id}>
+                                                                    <td className='dash-table-data1'>{index+1}.</td>
+                                                                    <td className='dash-table-data1 text-capitalized'>
+                                                                    {candidate.firstName + ' ' + candidate.lastName}
+                                                                    </td>
+                                                                    <td className='dash-table-data1'>
+                                                                        {candidate.email}
+                                                                    </td>
 
                                                                             {/* <td className='dash-table-data1'>
                                                                         <span className='text-warning p-0'>
@@ -285,7 +291,7 @@ const AllCandidates = () => {
                                                                         </tr>
                                                                     )
                                                                 }) :
-                                                                !searchInput ? candidateDetail.map((candidate, index) => {
+                                                                !searchInput ? candidateDetail.slice(x[0], x[1]).map((candidate, index) => {
                                                                     return (
                                                                         <tr className='dash-table-row client' key={candidate.id}>
                                                                             <td className='dash-table-data1'>{index + 1}.</td>
@@ -352,16 +358,16 @@ const AllCandidates = () => {
                                         </div>
                                         <div className="table-pagination-area pt-3">
                                             <div className="pagination-btn-area">
-                                                <button className='pag-prev-btn'>
+                                                {x[0] > 0 && <button className='pag-prev-btn' onClick={()=>setX([x[0] - 10, x[1] - 10])}>
                                                     <i class="bi bi-chevron-left"></i>
-                                                </button>
-                                                <div className='pag-page'>
-                                                    <span className='current-page'>1</span>&nbsp;/&nbsp;
-                                                    <span className='total-page'>7</span>
-                                                </div>
-                                                <button className='pag-next-btn'>
+                                                </button>}
+                                                {!filteredSearchResultsMsg && <div className='pag-page'>
+                                                    <span className='current-page'>{Math.ceil(x[0] / 10) + 1}</span>&nbsp;/&nbsp;
+                                                    <span className='total-page'>{filteredSearchResults.length > 0 ? Math.ceil(filteredSearchResults.length/ 10) : Math.ceil(candidateDetail.length/ 10)}</span>
+                                                </div>}
+                                                {(filteredSearchResultsMsg ? !filteredSearchResultsMsg : filteredSearchResults.length > 0 ? (filteredSearchResults.slice(x[0], x[1]).length === 10 && filteredSearchResults.length > x[1]) : (candidateDetail.slice(x[0], x[1]).length === 10 && candidateDetail.length > x[1])) &&<button className='pag-next-btn' onClick={()=>setX([x[0] + 10, x[1] + 10])}>
                                                     <i class="bi bi-chevron-right"></i>
-                                                </button>
+                                                </button>}
                                             </div>
                                         </div>
                                     </div>

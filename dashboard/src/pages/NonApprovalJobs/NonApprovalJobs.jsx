@@ -2,21 +2,20 @@ import React, { useContext, useState } from 'react';
 import { useEffect } from 'react';
 import ATSLayout from '../../components/ATSLayout';
 import Footer from '../../components/Footer';
-import './PostedJobs.css';
+import './AllJobs.css';
+import './AllJobs-responsive.css';
 import $ from 'jquery';
-import AuthContext from '../../context/AuthContext';
 import axios from 'axios';
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.css';
 
-const PostedJobs = () => {
-    const {getProtectedData} = useContext(AuthContext);
-
+const NonApprovalJobs = () => {
+    
     const [staffToken, setStaffToken] = useState("");
-    const [employeeId, setEmployeeId] = useState("");
-    const [postedJobs, setPostedJobs] = useState([]);
-    const [appliedOfPostedJobs, setAppliedOfPostedJobs] =useState([]);
-    const [selectedJobViewDetail, setSelectedPostedJobViewDetail] = useState();
+    const [allJobs, setAllJobs] = useState([]);
     const [checkBoxfilters, setCheckBoxFilters] = useState([]);
     const [checkBoxFilteredJobs, setCheckBoxFilteredJobs] = useState([]);
+    const [selectedJobViewDetail, setSelectedJobViewDetail] = useState();
     const [searchFilteredJobs, setSearchFilteredJobs] = useState([]);
     const [searchFilteredJobMsg, setSearchFilteredJobMsg] = useState("");
     const [prevSearchFilteredJobs, setPrevSearchFilteredJobs] = useState([]);
@@ -31,74 +30,60 @@ const PostedJobs = () => {
 
     }, []);
 
+    //for show success message for payment
+  function showSuccessMessage(message) {
+    Swal.fire({
+      title: 'Success!',
+      text: message,
+      icon: 'success',
+      confirmButtonColor: '#3085d6',
+      confirmButtonText: 'OK',
+    });
+  }
+
+  //for show error message for payment
+  function showErrorMessage(message) {
+    Swal.fire({
+      title: 'Error!',
+      text: message,
+      icon: 'error',
+      confirmButtonColor: '#d33',
+      confirmButtonText: 'OK',
+    });
+  }
+
     useEffect(() => {
         setStaffToken(JSON.parse(localStorage.getItem('staffToken')))
     }, [staffToken])
 
-    useEffect(() => {
-        if(staffToken){
-            const fetchData = async () => {
-                try {
-                    const userData = await getProtectedData(staffToken);
-                    console.log(userData);
-                    setEmployeeId(userData.id);
-                } catch (error) {
-                    console.log(error)
-                }
-            };
+    const getNonApprovaljobs = async() => {
+        try{
+            const res = await axios.get(`http://localhost:5002/non-approval-jobs`, {
+              headers: {
+                  Authorization: `Bearer ${staffToken}`,
+                  Accept: 'application/json'
+              }
+            });
+            const result = res.data;
+            if (!result.error) {
+              console.log(result);
+              setAllJobs(result.reverse());
+            } else {
+              console.log(result);
+            }
+        }catch(err){
+          console.log(err);
+        }
+      }
     
-            fetchData();
+      useEffect(()=>{
+        if(staffToken){
+            getNonApprovaljobs();
         }
-    }, [staffToken]);
+       
+      },[staffToken])
 
-    const getOwnPostedjobs = async() => {
-        try{
-            const res = await axios.get(`http://localhost:5002/my-posted-jobs/${employeeId}`, {
-              headers: {
-                  Authorization: `Bearer ${staffToken}`,
-                  Accept: 'application/json'
-              }
-            });
-            const result = res.data;
-            if (!result.error) {
-              console.log(result);
-              setPostedJobs(result.reverse());
-            } else {
-              console.log(result);
-            }
-        }catch(err){
-          console.log(err);
-        }
-      }
-
-      const getAppliedOfPostedJobs = async() => {
-        try{
-            const res = await axios.get(`http://localhost:5002/applied-jobs-of-posted/${employeeId}`, {
-              headers: {
-                  Authorization: `Bearer ${staffToken}`,
-                  Accept: 'application/json'
-              }
-            });
-            const result = res.data;
-            if (!result.error) {
-              console.log(result);
-              setAppliedOfPostedJobs(result.reverse());
-            } else {
-              console.log(result);
-            }
-        }catch(err){
-          console.log(err);
-        }
-      }
-
-    useEffect(()=>{
-        if(employeeId){
-            getOwnPostedjobs();
-            getAppliedOfPostedJobs();
-        }
-    },[employeeId]);
-
-    const handleJobSearch = () => {
+      const handleJobSearch = () => {
         if(searchJobRoleInput){
           if(checkBoxFilteredJobs.length >0){
             const filteredJobs = checkBoxFilteredJobs.filter((job)=>job.jobRole[0].toLowerCase().includes(searchJobRoleInput.toLowerCase()));
@@ -108,21 +93,23 @@ const PostedJobs = () => {
               setSearchFilteredJobMsg("No such job found")
             }
           }else{
-            const filteredJobs = postedJobs.filter((job)=>job.jobRole[0].toLowerCase().includes(searchJobRoleInput.toLowerCase()));
-            if(filteredJobs.length> 0){
-              setSearchFilteredJobs(filteredJobs);
-            }else{
-              setSearchFilteredJobMsg("No such job found")
+            if(!checkBoxFilteredJobMsg){
+              const filteredJobs = allJobs.filter((job)=>job.jobRole[0].toLowerCase().includes(searchJobRoleInput.toLowerCase()));
+              if(filteredJobs.length> 0){
+                setSearchFilteredJobs(filteredJobs);
+              }else{
+                setSearchFilteredJobMsg("No such job found")
+              }
             }
           }
         }else{
           if(checkBoxFilteredJobs.length >0){
             setSearchFilteredJobs(checkBoxFilteredJobs);
           }
-          setSearchFilteredJobs(postedJobs);
+          setSearchFilteredJobs(allJobs);
         }
       }
-  
+    
       const handleCheckboxChange = (category) => {
         const updatedFilters = checkBoxfilters.includes(category)
           ? checkBoxfilters.filter((filter) => filter !== category)
@@ -139,12 +126,14 @@ const PostedJobs = () => {
               setSearchFilteredJobMsg("No such job found");
             }
           }else{
-            const filtered = postedJobs.filter((job) => updatedFilters.includes(job.jobCategory));
-            setCheckBoxFilteredJobMsg("");
-            if(filtered.length > 0){
-              setCheckBoxFilteredJobs(filtered);
-            }else{
-              setCheckBoxFilteredJobMsg("No such job found");
+            if(!searchFilteredJobMsg){
+              const filtered = allJobs.filter((job) => updatedFilters.includes(job.jobCategory));
+              setCheckBoxFilteredJobMsg("");
+              if(filtered.length > 0){
+                setCheckBoxFilteredJobs(filtered);
+              }else{
+                setCheckBoxFilteredJobMsg("No such job found");
+              }
             }
           }
         }else{
@@ -153,16 +142,34 @@ const PostedJobs = () => {
             setSearchFilteredJobs(prevSearchFilteredJobs);
           }else{
             setCheckBoxFilteredJobMsg("");
-            setCheckBoxFilteredJobs(postedJobs);
+            setCheckBoxFilteredJobs(allJobs);
           }
         }
       };
-  
+
       const handleViewJobDetail = (id) => {
-          const selectedPostedJob = postedJobs.find(postedJob=> postedJob.id === id);
-          setSelectedPostedJobViewDetail(selectedPostedJob);
+        const selectedJob = allJobs.find(job=> job.id === id);
+        setSelectedJobViewDetail(selectedJob);
       }
-  
+
+      const handleApproval = (id) => {
+        console.log(id)
+        axios.post("http://localhost:5002/job-approval", {id}, {
+            headers: {
+                Authorization: `Bearer ${staffToken}`,
+                Accept: 'application/json'
+            }
+          })
+          .then(res=>{
+            console.log(res.data)
+            showSuccessMessage("job has been approved!")
+            getNonApprovaljobs();
+        })
+          .catch(err=>{
+            console.log(err)
+            showErrorMessage()
+        })
+      }
 
     return (
         <div>
@@ -175,7 +182,7 @@ const PostedJobs = () => {
                     <section class="section">
                         <div className="my-app-section">
                             <div className="admin-component-name">
-                                Posted Jobs
+                                Non Approval Jobs
                             </div>
 
                             <div className="row">
@@ -186,15 +193,15 @@ const PostedJobs = () => {
                                             <div className='man-app-title-area candidate'>
                                                 <div>
                                                     <div className="man-app-title">
-                                                        Posted Jobs Details
+                                                        All Jobs Details
                                                     </div>
                                                     <div className="man-app-sub-title">
                                                         Total Jobs :&nbsp;
-                                                        <span>{searchFilteredJobMsg ? "0" : searchFilteredJobs.length > 0 ? searchFilteredJobs.length : checkBoxFilteredJobMsg ? "0" : checkBoxFilteredJobs.length > 0 ? checkBoxFilteredJobs.length : (!searchJobRoleInput && checkBoxfilters.length === 0)  ? postedJobs.length : null}</span>
+                                                        <span>{searchFilteredJobMsg ? "0" : searchFilteredJobs.length > 0 ? searchFilteredJobs.length : checkBoxFilteredJobMsg ? "0" : checkBoxFilteredJobs.length > 0 ? checkBoxFilteredJobs.length : (!searchJobRoleInput && checkBoxfilters.length === 0)  ? allJobs.length : null}</span>
                                                     </div>
                                                 </div>
-                                                {postedJobs.length >0 && <div className="recruiter-search-input-area">
-                                                    <input type="search" className='recruiter-search-input' placeholder='Search job role...' 
+                                                {allJobs.length >0 && <div className="recruiter-search-input-area">
+                                                    <input type="text" className='recruiter-search-input' placeholder='Search job role...' 
                                                     value={searchJobRoleInput}
                                                     onChange={(e)=>{
                                                      setSearchJobRoleInput(e.target.value);
@@ -209,7 +216,7 @@ const PostedJobs = () => {
                                                 </div>}
 
                                             </div>
-                                            {postedJobs.length >0 && <div className="rec-work-mode-area">
+                                            {allJobs.length >0 && <div className="rec-work-mode-area">
                                                 <label className="recruite-form-check-input">
                                                     <input type="checkbox" 
                                                     checked={checkBoxfilters.includes('full time')}
@@ -243,13 +250,13 @@ const PostedJobs = () => {
                                                 </label>
                                             </div>}
 
-                                            {postedJobs.length > 0 ? <div className="table-responsive table-scroll-area">
+                                            {allJobs.length > 0 ? <div className="table-responsive table-scroll-area">
                                                 <table className="table table-striped table-hover admin-lg-table">
                                                     <tr className='dash-table-row man-app'>
                                                         <th className='dash-table-head'>No.</th>
                                                         <th className='dash-table-head'>Job Role</th>
                                                         <th className='dash-table-head'>Job Category</th>
-                                                        <th className='dash-table-head'>No of Applicants</th>
+                                                        <th className='dash-table-head text-center'>Send Approval</th>
                                                         <th className='text-center'>View</th>
                                                     </tr>
 
@@ -258,7 +265,6 @@ const PostedJobs = () => {
                                                         <p>{searchFilteredJobMsg}</p>:
                                                         searchFilteredJobs.length > 0 ?
                                                         searchFilteredJobs.slice(x[0], x[1]).map((Job, index)=>{
-                                                            const numApplicants = appliedOfPostedJobs.filter(appliedOfPostedJob => appliedOfPostedJob.jobId === searchFilteredJobs.id).length;
                                                             return (
                                                                 <tr className='dash-table-row client' key={Job.id}>
                                                                     <td className='dash-table-data1'>{index+1}.</td>
@@ -268,10 +274,14 @@ const PostedJobs = () => {
                                                                     <td className='dash-table-data1'>
                                                                         {Job?.jobCategory}
                                                                     </td>
-                                                                    <td className='dash-table-data1'>
-                                                                        {numApplicants}
+                                                                    <td className='dash-table-data1 text-center'>
+                                                                        <button 
+                                                                        className='send-email-btn'
+                                                                         onClick={() => handleApproval(Job.id)}>
+                                                                            <i class="bi bi-send-fill send-icon"></i>
+                                                                            Approved
+                                                                        </button>
                                                                     </td>
-
                                                                     <td className='text-center'>
                                                                         <button className='application-btn' data-toggle="modal" title='View Candidate Details...' data-target="#invoiceModal" onClick={()=>handleViewJobDetail(Job.id)}>
                                                                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
@@ -288,7 +298,6 @@ const PostedJobs = () => {
                                                         (<p>{checkBoxFilteredJobMsg}</p>):
                                                         checkBoxFilteredJobs.length > 0 ?
                                                         (checkBoxFilteredJobs.slice(x[0], x[1]).map((Job, index)=>{
-                                                            const numApplicants = appliedOfPostedJobs.filter(appliedOfPostedJob => appliedOfPostedJob.jobId === checkBoxFilteredJobs.id).length;
                                                             return (
                                                                 <tr className='dash-table-row client' key={Job.id}>
                                                                     <td className='dash-table-data1'>{index+1}.</td>
@@ -298,8 +307,13 @@ const PostedJobs = () => {
                                                                     <td className='dash-table-data1'>
                                                                         {Job?.jobCategory}
                                                                     </td>
-                                                                    <td className='dash-table-data1'>
-                                                                        {numApplicants}
+                                                                    <td className='dash-table-data1 text-center'>
+                                                                        <button 
+                                                                        className='send-email-btn' 
+                                                                        onClick={() => handleApproval(Job.id)}>
+                                                                            <i class="bi bi-send-fill send-icon"></i>
+                                                                            Approved
+                                                                        </button>
                                                                     </td>
 
                                                                     <td className='text-center'>
@@ -315,8 +329,7 @@ const PostedJobs = () => {
                                                              );
                                                         })):
                                                         (!searchJobRoleInput && checkBoxfilters.length === 0) ?
-                                                        (postedJobs.slice(x[0], x[1]).map((Job, index)=>{
-                                                            const numApplicants = appliedOfPostedJobs.filter(appliedOfPostedJob => appliedOfPostedJob.jobId === postedJobs.id).length;
+                                                        (allJobs.slice(x[0], x[1]).map((Job, index)=>{
                                                             return (
                                                                 <tr className='dash-table-row client' key={Job.id}>
                                                                     <td className='dash-table-data1'>{index+1}.</td>
@@ -326,8 +339,13 @@ const PostedJobs = () => {
                                                                     <td className='dash-table-data1'>
                                                                         {Job?.jobCategory}
                                                                     </td>
-                                                                    <td className='dash-table-data1'>
-                                                                        {numApplicants}
+                                                                    <td className='dash-table-data1 text-center'>
+                                                                        <button 
+                                                                        className='send-email-btn' 
+                                                                        onClick={() => handleApproval(Job.id)}>
+                                                                            <i class="bi bi-send-fill send-icon"></i>
+                                                                            Approved
+                                                                        </button>
                                                                     </td>
 
                                                                     <td className='text-center'>
@@ -362,9 +380,9 @@ const PostedJobs = () => {
                                                 </button>}
                                                 {(!searchFilteredJobMsg && !checkBoxFilteredJobMsg) && <div className='pag-page'>
                                                     <span className='current-page'>{Math.ceil(x[0] / 10) + 1}</span>&nbsp;/&nbsp;
-                                                    <span className='total-page'>{searchFilteredJobs.length > 0 ? Math.ceil(searchFilteredJobs.length/ 10) : checkBoxFilteredJobs.length > 0 ? Math.ceil(checkBoxFilteredJobs.length/ 10) : Math.ceil(postedJobs.length/ 10)}</span>
+                                                    <span className='total-page'>{searchFilteredJobs.length > 0 ? Math.ceil(searchFilteredJobs.length/ 10) : checkBoxFilteredJobs.length > 0 ? Math.ceil(checkBoxFilteredJobs.length/ 10) : Math.ceil(allJobs.length/ 10)}</span>
                                                 </div>}
-                                                {(searchFilteredJobMsg ? !searchFilteredJobMsg : searchFilteredJobs.length > 0 ? (searchFilteredJobs.slice(x[0], x[1]).length === 10 && searchFilteredJobs.length > x[1]) : checkBoxFilteredJobMsg ? !checkBoxFilteredJobMsg : checkBoxFilteredJobs.length > 0 ? (checkBoxFilteredJobs.slice(x[0], x[1]).length === 10 && checkBoxFilteredJobs.length > x[1]) : (postedJobs.slice(x[0], x[1]).length === 10 && postedJobs.length > x[1])) &&<button className='pag-next-btn' onClick={()=>setX([x[0] + 10, x[1] + 10])}>
+                                                {(searchFilteredJobMsg ? !searchFilteredJobMsg : searchFilteredJobs.length > 0 ? (searchFilteredJobs.slice(x[0], x[1]).length === 10 && searchFilteredJobs.length > x[1]) : checkBoxFilteredJobMsg ? !checkBoxFilteredJobMsg : checkBoxFilteredJobs.length > 0 ? (checkBoxFilteredJobs.slice(x[0], x[1]).length === 10 && checkBoxFilteredJobs.length > x[1]) : (allJobs.slice(x[0], x[1]).length === 10 && allJobs.length > x[1])) &&<button className='pag-next-btn' onClick={()=>setX([x[0] + 10, x[1] + 10])}>
                                                     <i class="bi bi-chevron-right"></i>
                                                 </button>}
                                             </div>
@@ -382,7 +400,7 @@ const PostedJobs = () => {
                     <div className="modal-dialog modal-lg" role="document">
                         <div className="modal-content recruiter-view-modal">
                             <div className="modal-header recruiter-view-modal-header">
-                                <h5 className="modal-title recruiter-view-modal-title client" id="exampleModalLabel">
+                                <h5 className="modal-title recruiter-view-modal-title candidate" id="exampleModalLabel">
                                     Job Details_
                                 </h5>
                                 <a href='#' type="button" className="close recruiter-view-close" data-dismiss="modal" aria-label="Close">
@@ -415,7 +433,7 @@ const PostedJobs = () => {
                                         </div>
                                         <div className="col-12 col-sm-7">
                                             <div className="cand-skills-area">
-                                            {selectedJobViewDetail?.skills.map(skill=>{
+                                                {selectedJobViewDetail?.skills.map(skill=>{
                                                     return(
                                                         <span className='cand-skill'>{skill}</span>
                                                     )
@@ -429,7 +447,7 @@ const PostedJobs = () => {
                                             <div className="view-det-head">Needed Experience</div>
                                         </div>
                                         <div className="col-12 col-sm-7">
-                                        <div className="view-det-sub-head">
+                                            <div className="view-det-sub-head">
                                                 <span>{selectedJobViewDetail?.minExperience} - {selectedJobViewDetail?.maxExperience}</span>
                                                 &nbsp;years&nbsp;
                                                 {/* <span>6</span>
@@ -530,4 +548,4 @@ const PostedJobs = () => {
     )
 }
 
-export default PostedJobs
+export default NonApprovalJobs

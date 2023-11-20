@@ -4,6 +4,8 @@ import ClientLayout from '../../components/ClientLayout';
 import Footer from '../../components/Footer';
 import $ from 'jquery';
 import { useParams } from 'react-router-dom';
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.css';
 
 const JobEditing = () => {
   const { id } = useParams();
@@ -52,19 +54,39 @@ const JobEditing = () => {
   const [otherSkill, setOtherSkill] = useState([]);
   const [job, setJob] = useState();
 
-  const [loading, setLoading] = useState(true);
-  const [pageNotFound, setPageNotFound] = useState(false);
 
-  useEffect(() => {
-    const preloader = $('#preloader');
-if (preloader.length) {
-  setTimeout(function () {
-    preloader.fadeOut('slow', function () {
-      preloader.remove();
-    });
-  }, 500);
+//   useEffect(() => {
+//     const preloader = $('#preloader');
+// if (preloader.length) {
+//   setTimeout(function () {
+//     preloader.fadeOut('slow', function () {
+//       preloader.remove();
+//     });
+//   }, 500);
+// }
+// }, []);
+
+//for show success message for payment
+function showSuccessMessage(message) {
+  Swal.fire({
+      title: 'Success!',
+      text: message,
+      icon: 'success',
+      confirmButtonColor: '#3085d6',
+      confirmButtonText: 'OK',
+  });
 }
-}, []);
+
+//for show error message for payment
+function showErrorMessage() {
+  Swal.fire({
+      title: 'Error!',
+      text: "An error occured!",
+      icon: 'error',
+      confirmButtonColor: '#d33',
+      confirmButtonText: 'OK',
+  });
+}
 
   useEffect(() => {
     setClientToken(JSON.parse(localStorage.getItem('clientToken')))
@@ -80,13 +102,10 @@ if (preloader.length) {
       })
         .then(res => {
           console.log(res.data)
-          setLoading(false);
           setJob(res.data)
         })
         .catch(err => {
           console.log(err)
-          setLoading(false);
-          setPageNotFound(true);
         })
     }
   }, [id, clientToken])
@@ -236,7 +255,7 @@ if (preloader.length) {
       const result = res.data;
       if (!result.error) {
         console.log(result);
-        alert("Job has been updated successfully!")
+        showSuccessMessage("Job has been updated successfully!")
         setCredentials(initialCredentials);
         setSelectedJobRoles([]);
         setSelectedDepartment([]);
@@ -250,6 +269,7 @@ if (preloader.length) {
       }
     } catch (err) {
       console.log(err);
+      showErrorMessage();
     }
   }
 
@@ -741,7 +761,6 @@ if (preloader.length) {
           <input type='submit' value="Post" className='btn btn-primary my-3' />
         </form>
       </div> */}
-      {loading && <div id="preloader"></div>}
       {job && <div class="main-wrapper main-wrapper-1">
         <div class="navbar-bg"></div>
         <ClientLayout dashBoard={true} />
@@ -1340,11 +1359,6 @@ if (preloader.length) {
         </div >
         <Footer />
       </div >}
-      {pageNotFound && <div>
-                    <h1>404</h1>
-                    <p>Not Found</p>
-                    <small>The resource requested could not be found on this server!</small>
-                </div>}
     </div >
   )
 }
