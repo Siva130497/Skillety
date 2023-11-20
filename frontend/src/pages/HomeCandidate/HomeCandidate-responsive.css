@@ -96,6 +96,12 @@
     .cand--job-card-desc-area .slide-down-view{
         bottom: 145px !important;
     }
+    .home--company-name-area{
+        align-items: center;
+    }
+    .company--content-img.cand-home{
+        width: 100%;
+    }
 }
 
 @media (max-width:500px) {
@@ -184,5 +190,11 @@
     }
     .cand--job-card-desc-area .slide-down-view{
         bottom: 125px !important;
+    }
+    .home--company-name-area{
+        justify-content: center;
+    }
+    .home-company-name{
+        margin-top: 20px;
     }
 }

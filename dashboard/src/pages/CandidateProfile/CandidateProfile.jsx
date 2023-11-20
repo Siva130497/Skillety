@@ -183,7 +183,7 @@ const CandidateProfile = () => {
 
             // Open modal when the button is clicked
             $(".image-view-btn").on("click", function () {
-                $("#imageModal").css("display", "block");
+                $("#imageModal").css("display", "flex");
                 $("#modalImage").attr("src", $(".profile-det-image").attr("src"));
             });
 

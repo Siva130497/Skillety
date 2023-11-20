@@ -71,8 +71,8 @@
 
 .company--detail-card-role-area .company--detail-card-role {
     color: #5C3B2E;
-    font-size: 45px;
-    font-weight: 400;
+    font-size: 35px;
+    font-weight: 500;
     text-transform: capitalize;
     margin-bottom: 0;
 }
@@ -189,9 +189,9 @@
     margin-right: 15px;
 }
 
-.company--detail-card-apply-btn-area {
+/* .company--detail-card-apply-btn-area {
     margin-top: 60px;
-}
+} */
 
 .company--detail-card-apply-btn {
     text-decoration: none;
@@ -207,14 +207,17 @@
     text-align: center;
     padding: 16px 80px;
     color: #5C3B2E;
-    font-size: 24px;
-    font-weight: 500;
+    font-size: 20px;
+    font-weight: 600;
     position: relative;
     z-index: 1;
     background-repeat: no-repeat;
     overflow: hidden !important;
     transition: ease-in-out 0.5s;
     white-space: nowrap;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .company--detail-card-apply-btn-sub::after {
@@ -247,7 +250,7 @@
 .company--detail-card-apply-btn-arrow {
     border-radius: 50%;
     background-color: #F9C833;
-    padding: 20px;
+    padding: 17px;
     transition: ease-in-out 0.8s;
     flex-shrink: 0;
     display: flex;

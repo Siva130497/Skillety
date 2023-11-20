@@ -8,6 +8,9 @@
     font-size: 14px !important;
     cursor: pointer;
     background-color: #FFF !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .custom-file.ats,
@@ -51,7 +54,7 @@
     width: 100% !important;
 }
 
-.job-post-form-group .react-datepicker-wrapper .react-datepicker__input-container input::placeholder{
+.job-post-form-group .react-datepicker-wrapper .react-datepicker__input-container input::placeholder {
     color: #8f8f8f !important;
 }
 
@@ -121,11 +124,105 @@
 .job-post-form-group .react-datepicker-popper[data-placement^=top] .react-datepicker__triangle::before,
 .job-post-form-group .react-datepicker-popper[data-placement^=bottom] .react-datepicker__triangle::before,
 .job-post-form-group .react-datepicker-popper[data-placement^=top] .react-datepicker__triangle::after,
-.job-post-form-group .react-datepicker-popper[data-placement^=bottom] .react-datepicker__triangle::after{
+.job-post-form-group .react-datepicker-popper[data-placement^=bottom] .react-datepicker__triangle::after {
     left: auto !important;
     right: 0 !important;
 }
+
 .job-post-form-group .react-datepicker__navigation:focus,
-.job-post-form-group .react-datepicker__navigation:active{
+.job-post-form-group .react-datepicker__navigation:active {
     outline: none !important;
+}
+
+.event-preview-image-area {
+    width: 250px;
+    height: 150px;
+    border: 4px solid #fff;
+    border-radius: 16px;
+    box-shadow: 0px 0px 10px #0000002c;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.event-preview-image {
+    width: 250px;
+    height: 150px;
+    object-fit: cover;
+    object-position: center;
+}
+
+.event-preview-area {
+    display: flex;
+    align-items: flex-end;
+    gap: 20px;
+    transition: all 0.5s;
+    margin-top: 50px;
+    background-color: #F0F0F0;
+    border-radius: 16px;
+    padding: 20px;
+    width: max-content;
+}
+
+.clear-image-btn {
+    background-color: #ffdada;
+    color: #d40000;
+    font-size: 13px;
+    font-weight: 600;
+    border: #d40000 1px solid;
+    border-radius: 50px;
+    padding: 3px 15px 3px 10px;
+    outline: none;
+    transition: ease-in-out 0.5s;
+    position: relative;
+    white-space: nowrap;
+}
+
+.clear-image-btn span::before {
+    content: "\f62a";
+    display: inline-block;
+    color: #d40000;
+    margin-right: 5px;
+    transition: ease-in-out 0.5s;
+    font-family: 'bootstrap-icons' !important;
+    font-style: normal;
+    font-weight: normal !important;
+    font-feature-settings: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    vertical-align: -0.125em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    padding: 0;
+}
+
+.clear-image-btn:hover {
+    background-color: #d40000 !important;
+    color: #ffd2d2 !important;
+}
+
+.clear-image-btn:hover span::before {
+    color: #FFF !important;
+}
+
+.clear-image-btn:focus,
+.clear-image-btn:active {
+    outline: none;
+}
+
+/* ///// */
+@media (max-width:500px) {
+
+    .event-preview-image-area,
+    .event-preview-image,
+    .event-preview-area {
+        width: 100%;
+    }
+
+    .event-preview-area{
+        flex-direction: column;
+    }
 }

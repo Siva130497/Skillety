@@ -8,12 +8,12 @@ import AuthContext from '../../context/AuthContext';
 import axios from 'axios';
 
 const PostedJobs = () => {
-    const {getProtectedData} = useContext(AuthContext);
+    const { getProtectedData } = useContext(AuthContext);
 
     const [staffToken, setStaffToken] = useState("");
     const [employeeId, setEmployeeId] = useState("");
     const [postedJobs, setPostedJobs] = useState([]);
-    const [appliedOfPostedJobs, setAppliedOfPostedJobs] =useState([]);
+    const [appliedOfPostedJobs, setAppliedOfPostedJobs] = useState([]);
     const [selectedJobViewDetail, setSelectedPostedJobViewDetail] = useState();
     const [checkBoxfilters, setCheckBoxFilters] = useState([]);
     const [checkBoxFilteredJobs, setCheckBoxFilteredJobs] = useState([]);
@@ -34,7 +34,7 @@ const PostedJobs = () => {
     }, [staffToken])
 
     useEffect(() => {
-        if(staffToken){
+        if (staffToken) {
             const fetchData = async () => {
                 try {
                     const userData = await getProtectedData(staffToken);
@@ -44,123 +44,123 @@ const PostedJobs = () => {
                     console.log(error)
                 }
             };
-    
+
             fetchData();
         }
     }, [staffToken]);
 
-    const getOwnPostedjobs = async() => {
-        try{
+    const getOwnPostedjobs = async () => {
+        try {
             const res = await axios.get(`http://localhost:5002/my-posted-jobs/${employeeId}`, {
-              headers: {
-                  Authorization: `Bearer ${staffToken}`,
-                  Accept: 'application/json'
-              }
+                headers: {
+                    Authorization: `Bearer ${staffToken}`,
+                    Accept: 'application/json'
+                }
             });
             const result = res.data;
             if (!result.error) {
-              console.log(result);
-              setPostedJobs(result.reverse());
+                console.log(result);
+                setPostedJobs(result.reverse());
             } else {
-              console.log(result);
+                console.log(result);
             }
-        }catch(err){
-          console.log(err);
+        } catch (err) {
+            console.log(err);
         }
-      }
+    }
 
-      const getAppliedOfPostedJobs = async() => {
-        try{
+    const getAppliedOfPostedJobs = async () => {
+        try {
             const res = await axios.get(`http://localhost:5002/applied-jobs-of-posted/${employeeId}`, {
-              headers: {
-                  Authorization: `Bearer ${staffToken}`,
-                  Accept: 'application/json'
-              }
+                headers: {
+                    Authorization: `Bearer ${staffToken}`,
+                    Accept: 'application/json'
+                }
             });
             const result = res.data;
             if (!result.error) {
-              console.log(result);
-              setAppliedOfPostedJobs(result.reverse());
+                console.log(result);
+                setAppliedOfPostedJobs(result.reverse());
             } else {
-              console.log(result);
+                console.log(result);
             }
-        }catch(err){
-          console.log(err);
+        } catch (err) {
+            console.log(err);
         }
-      }
+    }
 
-    useEffect(()=>{
-        if(employeeId){
+    useEffect(() => {
+        if (employeeId) {
             getOwnPostedjobs();
             getAppliedOfPostedJobs();
         }
-    },[employeeId]);
+    }, [employeeId]);
 
     const handleJobSearch = () => {
-        if(searchJobRoleInput){
-          if(checkBoxFilteredJobs.length >0){
-            const filteredJobs = checkBoxFilteredJobs.filter((job)=>job.jobRole[0].toLowerCase().includes(searchJobRoleInput.toLowerCase()));
-            if(filteredJobs.length> 0){
-              setSearchFilteredJobs(filteredJobs);
-            }else{
-              setSearchFilteredJobMsg("No such job found")
+        if (searchJobRoleInput) {
+            if (checkBoxFilteredJobs.length > 0) {
+                const filteredJobs = checkBoxFilteredJobs.filter((job) => job.jobRole[0].toLowerCase().includes(searchJobRoleInput.toLowerCase()));
+                if (filteredJobs.length > 0) {
+                    setSearchFilteredJobs(filteredJobs);
+                } else {
+                    setSearchFilteredJobMsg("No such job found")
+                }
+            } else {
+                const filteredJobs = postedJobs.filter((job) => job.jobRole[0].toLowerCase().includes(searchJobRoleInput.toLowerCase()));
+                if (filteredJobs.length > 0) {
+                    setSearchFilteredJobs(filteredJobs);
+                } else {
+                    setSearchFilteredJobMsg("No such job found")
+                }
             }
-          }else{
-            const filteredJobs = postedJobs.filter((job)=>job.jobRole[0].toLowerCase().includes(searchJobRoleInput.toLowerCase()));
-            if(filteredJobs.length> 0){
-              setSearchFilteredJobs(filteredJobs);
-            }else{
-              setSearchFilteredJobMsg("No such job found")
+        } else {
+            if (checkBoxFilteredJobs.length > 0) {
+                setSearchFilteredJobs(checkBoxFilteredJobs);
             }
-          }
-        }else{
-          if(checkBoxFilteredJobs.length >0){
-            setSearchFilteredJobs(checkBoxFilteredJobs);
-          }
-          setSearchFilteredJobs(postedJobs);
+            setSearchFilteredJobs(postedJobs);
         }
-      }
-  
-      const handleCheckboxChange = (category) => {
+    }
+
+    const handleCheckboxChange = (category) => {
         const updatedFilters = checkBoxfilters.includes(category)
-          ? checkBoxfilters.filter((filter) => filter !== category)
-          : [...checkBoxfilters, category];
+            ? checkBoxfilters.filter((filter) => filter !== category)
+            : [...checkBoxfilters, category];
         setCheckBoxFilters(updatedFilters);
-        if(updatedFilters.length > 0){
-          if(searchFilteredJobs.length > 0){
-            setSearchFilteredJobMsg("");
-            setPrevSearchFilteredJobs(searchFilteredJobs)
-            const filtered = searchFilteredJobs.filter((job) => updatedFilters.includes(job.jobCategory));
-            if(filtered.length > 0){
-              setSearchFilteredJobs(filtered);
-            }else{
-              setSearchFilteredJobMsg("No such job found");
+        if (updatedFilters.length > 0) {
+            if (searchFilteredJobs.length > 0) {
+                setSearchFilteredJobMsg("");
+                setPrevSearchFilteredJobs(searchFilteredJobs)
+                const filtered = searchFilteredJobs.filter((job) => updatedFilters.includes(job.jobCategory));
+                if (filtered.length > 0) {
+                    setSearchFilteredJobs(filtered);
+                } else {
+                    setSearchFilteredJobMsg("No such job found");
+                }
+            } else {
+                const filtered = postedJobs.filter((job) => updatedFilters.includes(job.jobCategory));
+                setCheckBoxFilteredJobMsg("");
+                if (filtered.length > 0) {
+                    setCheckBoxFilteredJobs(filtered);
+                } else {
+                    setCheckBoxFilteredJobMsg("No such job found");
+                }
             }
-          }else{
-            const filtered = postedJobs.filter((job) => updatedFilters.includes(job.jobCategory));
-            setCheckBoxFilteredJobMsg("");
-            if(filtered.length > 0){
-              setCheckBoxFilteredJobs(filtered);
-            }else{
-              setCheckBoxFilteredJobMsg("No such job found");
+        } else {
+            if (searchFilteredJobs.length > 0) {
+                setSearchFilteredJobMsg("");
+                setSearchFilteredJobs(prevSearchFilteredJobs);
+            } else {
+                setCheckBoxFilteredJobMsg("");
+                setCheckBoxFilteredJobs(postedJobs);
             }
-          }
-        }else{
-          if(searchFilteredJobs.length > 0){
-            setSearchFilteredJobMsg("");
-            setSearchFilteredJobs(prevSearchFilteredJobs);
-          }else{
-            setCheckBoxFilteredJobMsg("");
-            setCheckBoxFilteredJobs(postedJobs);
-          }
         }
-      };
-  
-      const handleViewJobDetail = (id) => {
-          const selectedPostedJob = postedJobs.find(postedJob=> postedJob.id === id);
-          setSelectedPostedJobViewDetail(selectedPostedJob);
-      }
-  
+    };
+
+    const handleViewJobDetail = (id) => {
+        const selectedPostedJob = postedJobs.find(postedJob => postedJob.id === id);
+        setSelectedPostedJobViewDetail(selectedPostedJob);
+    }
+
 
     return (
         <div>
@@ -188,158 +188,166 @@ const PostedJobs = () => {
                                                     </div>
                                                     <div className="man-app-sub-title">
                                                         Total Jobs :&nbsp;
-                                                        <span>{searchFilteredJobMsg ? "0" : searchFilteredJobs.length > 0 ? searchFilteredJobs.length : checkBoxFilteredJobMsg ? "0" : checkBoxFilteredJobs.length > 0 ? checkBoxFilteredJobs.length : (!searchJobRoleInput && checkBoxfilters.length === 0)  ? postedJobs.length : null}</span>
+                                                        <span>{searchFilteredJobMsg ? "0" : searchFilteredJobs.length > 0 ? searchFilteredJobs.length : checkBoxFilteredJobMsg ? "0" : checkBoxFilteredJobs.length > 0 ? checkBoxFilteredJobs.length : (!searchJobRoleInput && checkBoxfilters.length === 0) ? postedJobs.length : null}</span>
                                                     </div>
                                                 </div>
-                                                {postedJobs.length >0 && <div className="recruiter-search-input-area">
-                                                    <input type="search" className='recruiter-search-input' placeholder='Search job role...' 
-                                                    value={searchJobRoleInput}
-                                                    onChange={(e)=>{
-                                                     setSearchJobRoleInput(e.target.value);
-                                                     setSearchFilteredJobs([]);
-                                                     setSearchFilteredJobMsg("");
-                                                   }}/>
+                                                {postedJobs.length > 0 && <div className="recruiter-search-input-area">
+                                                    <input type="search" className='recruiter-search-input' placeholder='Search job role...'
+                                                        value={searchJobRoleInput}
+                                                        onChange={(e) => {
+                                                            setSearchJobRoleInput(e.target.value);
+                                                            setSearchFilteredJobs([]);
+                                                            setSearchFilteredJobMsg("");
+                                                        }} />
                                                     <i className='bi bi-search search-icon'></i>
                                                     <button className='recruiter-search-btn' onClick={handleJobSearch}>Search</button>
                                                 </div>}
 
                                             </div>
-                                            {postedJobs.length >0 && <div className="rec-work-mode-area">
+                                            {postedJobs.length > 0 && <div className="rec-work-mode-area">
                                                 <label className="recruite-form-check-input">
-                                                    <input type="checkbox" 
-                                                    checked={checkBoxfilters.includes('full time')}
-                                                    onChange={() => handleCheckboxChange('full time')}/>
+                                                    <input type="checkbox"
+                                                        checked={checkBoxfilters.includes('full time')}
+                                                        onChange={() => handleCheckboxChange('full time')} />
                                                     <span className="recruite-form-checkmark"></span>
                                                     Full Time
                                                 </label>
 
                                                 <label className="recruite-form-check-input">
-                                                    <input type="checkbox" 
-                                                    checked={checkBoxfilters.includes('part time')}
-                                                    onChange={() => handleCheckboxChange('part time')}/>
+                                                    <input type="checkbox"
+                                                        checked={checkBoxfilters.includes('part time')}
+                                                        onChange={() => handleCheckboxChange('part time')} />
                                                     <span className="recruite-form-checkmark"></span>
                                                     Part Time
                                                 </label>
 
                                                 <label className="recruite-form-check-input">
-                                                    <input type="checkbox" 
-                                                    checked={checkBoxfilters.includes('remote')}
-                                                    onChange={() => handleCheckboxChange('remote')}/>
+                                                    <input type="checkbox"
+                                                        checked={checkBoxfilters.includes('remote')}
+                                                        onChange={() => handleCheckboxChange('remote')} />
                                                     <span className="recruite-form-checkmark"></span>
                                                     Remote
                                                 </label>
 
                                                 <label className="recruite-form-check-input">
-                                                    <input type="checkbox" 
-                                                    checked={checkBoxfilters.includes('freelancer')}
-                                                    onChange={() => handleCheckboxChange('freelancer')}/>
+                                                    <input type="checkbox"
+                                                        checked={checkBoxfilters.includes('freelancer')}
+                                                        onChange={() => handleCheckboxChange('freelancer')} />
                                                     <span className="recruite-form-checkmark"></span>
                                                     Freelancer
                                                 </label>
                                             </div>}
 
-                                            {postedJobs.length > 0 ? <div className="table-responsive table-scroll-area">
-                                                <table className="table table-striped table-hover admin-lg-table">
-                                                    <tr className='dash-table-row man-app'>
-                                                        <th className='dash-table-head'>No.</th>
-                                                        <th className='dash-table-head'>Job Role</th>
-                                                        <th className='dash-table-head'>Job Category</th>
-                                                        <th className='dash-table-head'>No of Applicants</th>
-                                                        <th className='text-center'>View</th>
-                                                    </tr>
+                                            {postedJobs.length > 0 ?
+                                                <div className="table-responsive table-scroll-area">
+                                                    <table className="table table-striped table-hover admin-lg-table">
+                                                        <tr className='dash-table-row man-app'>
+                                                            <th className='dash-table-head'>No.</th>
+                                                            <th className='dash-table-head'>Job Role</th>
+                                                            <th className='dash-table-head'>Job Category</th>
+                                                            <th className='dash-table-head'>No of Applicants</th>
+                                                            <th className='text-center'>View</th>
+                                                        </tr>
 
-                                                    {/* table data */}
-                                                    {searchFilteredJobMsg ?
-                                                        <p>{searchFilteredJobMsg}</p>:
-                                                        searchFilteredJobs.length > 0 ?
-                                                        searchFilteredJobs.map((Job, index)=>{
-                                                            const numApplicants = appliedOfPostedJobs.filter(appliedOfPostedJob => appliedOfPostedJob.jobId === searchFilteredJobs.id).length;
-                                                            return (
-                                                                <tr className='dash-table-row client' key={Job.id}>
-                                                                    <td className='dash-table-data1'>{index+1}.</td>
-                                                                    <td className='dash-table-data1'>
-                                                                        {Job?.jobRole[0]}
-                                                                    </td>
-                                                                    <td className='dash-table-data1'>
-                                                                        {Job?.jobCategory}
-                                                                    </td>
-                                                                    <td className='dash-table-data1'>
-                                                                        {numApplicants}
-                                                                    </td>
+                                                        {/* table data */}
+                                                        {searchFilteredJobMsg ?
+                                                            <p>{searchFilteredJobMsg}</p> :
+                                                            searchFilteredJobs.length > 0 ?
+                                                                searchFilteredJobs.map((Job, index) => {
+                                                                    const numApplicants = appliedOfPostedJobs.filter(appliedOfPostedJob => appliedOfPostedJob.jobId === searchFilteredJobs.id).length;
+                                                                    return (
+                                                                        <tr className='dash-table-row client' key={Job.id}>
+                                                                            <td className='dash-table-data1'>{index + 1}.</td>
+                                                                            <td className='dash-table-data1'>
+                                                                                {Job?.jobRole[0]}
+                                                                            </td>
+                                                                            <td className='dash-table-data1'>
+                                                                                {Job?.jobCategory}
+                                                                            </td>
+                                                                            <td className='dash-table-data1'>
+                                                                                {numApplicants}
+                                                                            </td>
 
-                                                                    <td className='text-center'>
-                                                                        <button className='application-btn' data-toggle="modal" title='View Candidate Details...' data-target="#invoiceModal" onClick={()=>handleViewJobDetail(Job.id)}>
-                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
-                                                                                <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
-                                                                                <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"
-                                                                                    fill='#0879bc' />
-                                                                            </svg>
-                                                                        </button>
-                                                                    </td>
-                                                                </tr>
-                                                                );
-                                                        }):
-                                                        checkBoxFilteredJobMsg ?
-                                                        (<p>{checkBoxFilteredJobMsg}</p>):
-                                                        checkBoxFilteredJobs.length > 0 ?
-                                                        (checkBoxFilteredJobs.map((Job, index)=>{
-                                                            const numApplicants = appliedOfPostedJobs.filter(appliedOfPostedJob => appliedOfPostedJob.jobId === checkBoxFilteredJobs.id).length;
-                                                            return (
-                                                                <tr className='dash-table-row client' key={Job.id}>
-                                                                    <td className='dash-table-data1'>{index+1}.</td>
-                                                                    <td className='dash-table-data1'>
-                                                                        {Job?.jobRole[0]}
-                                                                    </td>
-                                                                    <td className='dash-table-data1'>
-                                                                        {Job?.jobCategory}
-                                                                    </td>
-                                                                    <td className='dash-table-data1'>
-                                                                        {numApplicants}
-                                                                    </td>
+                                                                            <td className='text-center'>
+                                                                                <button className='application-btn' data-toggle="modal" title='View Candidate Details...' data-target="#invoiceModal" onClick={() => handleViewJobDetail(Job.id)}>
+                                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                                                                        <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
+                                                                                        <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"
+                                                                                            fill='#0879bc' />
+                                                                                    </svg>
+                                                                                </button>
+                                                                            </td>
+                                                                        </tr>
+                                                                    );
+                                                                }) :
+                                                                checkBoxFilteredJobMsg ?
+                                                                    (<p>{checkBoxFilteredJobMsg}</p>) :
+                                                                    checkBoxFilteredJobs.length > 0 ?
+                                                                        (checkBoxFilteredJobs.map((Job, index) => {
+                                                                            const numApplicants = appliedOfPostedJobs.filter(appliedOfPostedJob => appliedOfPostedJob.jobId === checkBoxFilteredJobs.id).length;
+                                                                            return (
+                                                                                <tr className='dash-table-row client' key={Job.id}>
+                                                                                    <td className='dash-table-data1'>{index + 1}.</td>
+                                                                                    <td className='dash-table-data1'>
+                                                                                        {Job?.jobRole[0]}
+                                                                                    </td>
+                                                                                    <td className='dash-table-data1'>
+                                                                                        {Job?.jobCategory}
+                                                                                    </td>
+                                                                                    <td className='dash-table-data1'>
+                                                                                        {numApplicants}
+                                                                                    </td>
 
-                                                                    <td className='text-center'>
-                                                                        <button className='application-btn' data-toggle="modal" title='View Candidate Details...' data-target="#invoiceModal" onClick={()=>handleViewJobDetail(Job.id)}>
-                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
-                                                                                <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
-                                                                                <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"
-                                                                                    fill='#0879bc' />
-                                                                            </svg>
-                                                                        </button>
-                                                                    </td>
-                                                                </tr>
-                                                             );
-                                                        })):
-                                                        (!searchJobRoleInput && checkBoxfilters.length === 0) ?
-                                                        (postedJobs.map((Job, index)=>{
-                                                            const numApplicants = appliedOfPostedJobs.filter(appliedOfPostedJob => appliedOfPostedJob.jobId === postedJobs.id).length;
-                                                            return (
-                                                                <tr className='dash-table-row client' key={Job.id}>
-                                                                    <td className='dash-table-data1'>{index+1}.</td>
-                                                                    <td className='dash-table-data1'>
-                                                                        {Job?.jobRole[0]}
-                                                                    </td>
-                                                                    <td className='dash-table-data1'>
-                                                                        {Job?.jobCategory}
-                                                                    </td>
-                                                                    <td className='dash-table-data1'>
-                                                                        {numApplicants}
-                                                                    </td>
+                                                                                    <td className='text-center'>
+                                                                                        <button className='application-btn' data-toggle="modal" title='View Candidate Details...' data-target="#invoiceModal" onClick={() => handleViewJobDetail(Job.id)}>
+                                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                                                                                <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
+                                                                                                <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"
+                                                                                                    fill='#0879bc' />
+                                                                                            </svg>
+                                                                                        </button>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            );
+                                                                        })) :
+                                                                        (!searchJobRoleInput && checkBoxfilters.length === 0) ?
+                                                                            (postedJobs.map((Job, index) => {
+                                                                                const numApplicants = appliedOfPostedJobs.filter(appliedOfPostedJob => appliedOfPostedJob.jobId === postedJobs.id).length;
+                                                                                return (
+                                                                                    <tr className='dash-table-row client' key={Job.id}>
+                                                                                        <td className='dash-table-data1'>{index + 1}.</td>
+                                                                                        <td className='dash-table-data1'>
+                                                                                            {Job?.jobRole[0]}
+                                                                                        </td>
+                                                                                        <td className='dash-table-data1'>
+                                                                                            {Job?.jobCategory}
+                                                                                        </td>
+                                                                                        <td className='dash-table-data1'>
+                                                                                            {numApplicants}
+                                                                                        </td>
 
-                                                                    <td className='text-center'>
-                                                                        <button className='application-btn' data-toggle="modal" title='View Candidate Details...' data-target="#invoiceModal" onClick={()=>handleViewJobDetail(Job.id)}>
-                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
-                                                                                <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
-                                                                                <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"
-                                                                                    fill='#0879bc' />
-                                                                            </svg>
-                                                                        </button>
-                                                                    </td>
-                                                                </tr>
-                                                             );
-                                                        })):
-                                                    null}
-                                                </table>
-                                            </div> : <p>No jobs yet</p>}
+                                                                                        <td className='text-center'>
+                                                                                            <button className='application-btn' data-toggle="modal" title='View Candidate Details...' data-target="#invoiceModal" onClick={() => handleViewJobDetail(Job.id)}>
+                                                                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                                                                                    <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
+                                                                                                    <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"
+                                                                                                        fill='#0879bc' />
+                                                                                                </svg>
+                                                                                            </button>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                );
+                                                                            })) :
+                                                                            null}
+                                                    </table>
+                                                </div> :
+                                                <div className="no-data-created-area">
+                                                    <div className='no-data-created'>
+                                                        <img src="../assets/img/no-data/no-data-img.png" className='no-data-img' alt="" />
+                                                        <div className='no-data-text'>No Jobs Posted Yet..!</div>
+                                                    </div>
+                                                </div>
+                                            }
                                         </div>
 
                                         <div className="view-application-btn-area text-center">
@@ -410,8 +418,8 @@ const PostedJobs = () => {
                                         </div>
                                         <div className="col-12 col-sm-7">
                                             <div className="cand-skills-area">
-                                            {selectedJobViewDetail?.skills.map(skill=>{
-                                                    return(
+                                                {selectedJobViewDetail?.skills.map(skill => {
+                                                    return (
                                                         <span className='cand-skill'>{skill}</span>
                                                     )
                                                 })}
@@ -424,7 +432,7 @@ const PostedJobs = () => {
                                             <div className="view-det-head">Needed Experience</div>
                                         </div>
                                         <div className="col-12 col-sm-7">
-                                        <div className="view-det-sub-head">
+                                            <div className="view-det-sub-head">
                                                 <span>{selectedJobViewDetail?.minExperience} - {selectedJobViewDetail?.maxExperience}</span>
                                                 &nbsp;years&nbsp;
                                                 {/* <span>6</span>
@@ -484,8 +492,8 @@ const PostedJobs = () => {
                                         </div>
                                         <div className="col-12 col-sm-7">
                                             <div className="cand-skills-area">
-                                                {selectedJobViewDetail?.location.map(location=>{
-                                                    return(
+                                                {selectedJobViewDetail?.location.map(location => {
+                                                    return (
                                                         <span className='cand-skill'>{location}</span>
                                                     )
                                                 })}
