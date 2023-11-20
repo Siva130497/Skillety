@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useEffect } from 'react';
 import $ from 'jquery';
+import feather from 'feather-icons';
 
 const ATSSideBar = () => {
     const [staffToken, setStaffToken] = useState("");
@@ -29,6 +30,12 @@ const ATSSideBar = () => {
                 $('#job_posting').addClass('active');
             } else if (path === '/event-posting') {
                 $('#event_posting').addClass('active');
+            } else if (path === '/client-contact-message') {
+                $('#contact-message-client').addClass('active');
+                $('#contact-message').addClass('active');
+            } else if (path === '/candidate-contact-message') {
+                $('#contact-message-candidate').addClass('active');
+                $('#contact-message').addClass('active');
             } else if (path === '/enquiry-details') {
                 $('#enquiry_details').addClass('active');
             } else if (path === '/posted-events') {
@@ -36,6 +43,8 @@ const ATSSideBar = () => {
             } else if (path === '/chat') {
                 $('#chat').addClass('active');
             }
+
+            feather.replace();
         });
 
     }, [staffToken]);
@@ -45,14 +54,14 @@ const ATSSideBar = () => {
             <div className="main-sidebar client sidebar-style-2">
                 <aside id="sidebar-wrapper">
                     <div className="sidebar-brand">
-                        <a href="/client-dashboard/"> <img alt="image" src="../assets/img/logo/skillety-logo.png" className="header-logo" /> <span
+                        <a href={`/recruiter-dashboard/${staffToken}`}> <img alt="image" src="../assets/img/logo/skillety-logo.png" className="header-logo" /> <span
                             className="logo-name">Skillety</span>
                         </a>
                     </div>
                     <ul className="sidebar-menu client">
                         {/* <li className="menu-header">Main</li> */}
                         <li className="dropdown" id='recruiter_dashboard'>
-                            <a href="/recruiter-dashboard" className="nav-link"><i data-feather="home"></i><span>Dashboard</span></a>
+                            <a href={`/recruiter-dashboard/${staffToken}`} className="nav-link"><i data-feather="home"></i><span>Dashboard</span></a>
                         </li>
                         <li className="dropdown" id='all_clients'>
                             <a href="/all-clients" className="nav-link"><i data-feather="user"></i><span>All Clients</span></a>
@@ -78,11 +87,11 @@ const ATSSideBar = () => {
 
                         <div className='hr-line'></div>
 
-                        <li className="dropdown">
+                        <li className="dropdown" id='contact-message'>
                             <a href="#" className="menu-toggle nav-link has-dropdown"><i data-feather="message-circle"></i><span>Contact Messages</span></a>
                             <ul className="dropdown-menu">
-                                <li><a className="nav-link" href="/client-contact">Client Contact</a></li>
-                                <li><a className="nav-link" href="/candidate-contact">Candidate Contact</a></li>
+                                <li id='contact-message-client'><a className="nav-link" href="/client-contact-message">Client Contact</a></li>
+                                <li id='contact-message-candidate'><a className="nav-link" href="/candidate-contact-message">Candidate Contact</a></li>
                             </ul>
                         </li>
 

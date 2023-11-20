@@ -207,7 +207,10 @@ const NonApprovalJobs = () => {
                                                      setSearchJobRoleInput(e.target.value);
                                                      setSearchFilteredJobs([]);
                                                      setSearchFilteredJobMsg("");
-                                                   }}/>
+                                                   }}
+                                                   onKeyPress={(event) => {
+                                                    event.key === "Enter" && handleJobSearch();
+                                                  }}/>
                                                     <i className='bi bi-search search-icon'></i>
                                                     <button className='recruiter-search-btn' onClick={handleJobSearch}>Search</button>
                                                 </div>}

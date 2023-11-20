@@ -4,6 +4,7 @@ import $ from 'jquery';
 import { useNavigate } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
 import axios from 'axios';
+import feather from 'feather-icons';
 
 const ClientSidebar = () => {
     const [clientToken, setClientToken] = useState("");
@@ -42,6 +43,7 @@ const ClientSidebar = () => {
             } else if (path === '/client-settings') {
                 $('#client_settings').addClass('active');
             }
+            feather.replace();
         });
 
     }, [clientToken]);
@@ -121,7 +123,7 @@ const ClientSidebar = () => {
             <div className="main-sidebar client sidebar-style-2">
                 <aside id="sidebar-wrapper">
                     <div className="sidebar-brand">
-                        <a href="/client-dashboard/"> <img alt="image" src="../assets/img/logo/skillety-logo.png" className="header-logo" /> <span
+                        <a href={`/client-dashboard/${clientToken}`}> <img alt="image" src="../assets/img/logo/skillety-logo.png" className="header-logo" /> <span
                             className="logo-name">Skillety</span>
                         </a>
                     </div>

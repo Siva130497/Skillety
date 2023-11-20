@@ -4,7 +4,6 @@ import $ from 'jquery';
 import 'jquery.nicescroll';
 import ClientNavBar from './ClientNavBar'
 import ClientSidebar from './ClientSidebar'
-import feather from 'feather-icons';
 
 const ClientLayout = () => {
 
@@ -736,8 +735,6 @@ const ClientLayout = () => {
 
 
             ///////////////////////////////////
-
-            feather.replace();
         });
 
     }, []);

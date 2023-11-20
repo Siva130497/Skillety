@@ -79,12 +79,13 @@
 }
 
 .change-text-area {
-    margin: 25px 0 15px 0;
-    display: none;
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.5s ease-in-out;
 }
 
 .change-text-area.expanded {
-    display: block;
+    max-height: 300px;
 }
 
 .com-detail-edit-btn.expanded i {

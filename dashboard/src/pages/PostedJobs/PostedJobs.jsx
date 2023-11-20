@@ -194,13 +194,16 @@ const PostedJobs = () => {
                                                     </div>
                                                 </div>
                                                 {postedJobs.length >0 && <div className="recruiter-search-input-area">
-                                                    <input type="text" className='recruiter-search-input' placeholder='Search job role...' 
+                                                    <input type="search" className='recruiter-search-input' placeholder='Search job role...' 
                                                     value={searchJobRoleInput}
                                                     onChange={(e)=>{
                                                      setSearchJobRoleInput(e.target.value);
                                                      setSearchFilteredJobs([]);
                                                      setSearchFilteredJobMsg("");
-                                                   }}/>
+                                                   }}
+                                                   onKeyPress={(event) => {
+                                                    event.key === "Enter" && handleJobSearch();
+                                                  }}/>
                                                     <i className='bi bi-search search-icon'></i>
                                                     <button className='recruiter-search-btn' onClick={handleJobSearch}>Search</button>
                                                 </div>}
@@ -379,7 +382,7 @@ const PostedJobs = () => {
                     <div className="modal-dialog modal-lg" role="document">
                         <div className="modal-content recruiter-view-modal">
                             <div className="modal-header recruiter-view-modal-header">
-                                <h5 className="modal-title recruiter-view-modal-title candidate" id="exampleModalLabel">
+                                <h5 className="modal-title recruiter-view-modal-title client" id="exampleModalLabel">
                                     Job Details_
                                 </h5>
                                 <a href='#' type="button" className="close recruiter-view-close" data-dismiss="modal" aria-label="Close">

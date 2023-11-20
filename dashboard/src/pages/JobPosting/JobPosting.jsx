@@ -843,7 +843,7 @@ const JobPosting = () => {
                             ))}
                           </div>
 
-                          <input type="text" className='job-post-form-input'
+                          <input type="search" className='job-post-form-input'
                             name='searchJobRoleInput'
                             id='searchJobRoleInput'
                             value={searchJobRoleInput}
@@ -945,7 +945,7 @@ const JobPosting = () => {
                           ))} */}
 
                           {/* <i class="bi bi-chevron-down"></i> */}
-                          <input type="text" className='job-post-form-input'
+                          <input type="search" className='job-post-form-input'
                             name='searchSkillInput'
                             id='searchSkillInput'
                             value={searchSkillInput}
@@ -1027,7 +1027,7 @@ const JobPosting = () => {
 
                           {/* <i class="bi bi-chevron-down"></i> */}
                           <input
-                            type='text'
+                            type='search'
                             className='job-post-form-input'
                             placeholder='Search department...'
                             value={searchDepartmentInput}
@@ -1063,7 +1063,7 @@ const JobPosting = () => {
                           </div>
 
                           {/* <i class="bi bi-chevron-down"></i> */}
-                          <input type="text" className='job-post-form-input'
+                          <input type="search" className='job-post-form-input'
                             name='searchRoleInput'
                             id='searchRoleInput'
                             value={searchRoleInput}
@@ -1118,7 +1118,7 @@ const JobPosting = () => {
 
                           {/* <i class="bi bi-chevron-down"></i> */}
                           <input
-                            type='text'
+                            type='search'
                             className='job-post-form-input'
                             placeholder='Search locations'
                             value={searchLocationInput}
@@ -1267,7 +1267,7 @@ const JobPosting = () => {
                           </div>
 
                           {/* <i class="bi bi-chevron-down"></i> */}
-                          <input type="text" className='job-post-form-input'
+                          <input type="search" className='job-post-form-input'
                             name='searchIndustryInput'
                             id='searchIndustryInput'
                             value={searchIndustryInput}
@@ -1313,7 +1313,7 @@ const JobPosting = () => {
                           </div>
 
                           {/* <i class="bi bi-chevron-down"></i> */}
-                          <input type="text" className='job-post-form-input'
+                          <input type="search" className='job-post-form-input'
                             name='searchEducationInput'
                             id='searchEducationInput'
                             value={searchEducationInput}

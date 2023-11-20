@@ -84,10 +84,10 @@ const options = {
 };
 
 const RecruiterDashboard = () => {
-    const {token} = useParams();
+    const { token } = useParams();
     const [clientDetail, setClientDetail] = useState([]);
     const [candidateDetail, setCandidateDetail] = useState([]);
-    
+
     useEffect(() => {
         $(document).ready(function () {
             //for dashboard summary view
@@ -103,37 +103,37 @@ const RecruiterDashboard = () => {
         });
     }, []);
 
-    useEffect(()=>{
+    useEffect(() => {
         localStorage.setItem("staffToken", JSON.stringify(token));
-    },[token])
+    }, [token])
 
-    const getAllClientDetails = async() => {
-        try{
+    const getAllClientDetails = async () => {
+        try {
             const response = await axios.get(`http://localhost:5002/client-Detail`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     Accept: 'application/json'
                 }
-              });
+            });
             const result = response.data;
-            if(!result.error){
+            if (!result.error) {
                 console.log(result);
                 setClientDetail(result.reverse());
-            }else{
+            } else {
                 console.log(result);
             }
-        }catch(err){
+        } catch (err) {
             console.log(err);
         }
     }
 
     const getAllCandidateDetail = async () => {
-        try{
+        try {
             const response = await axios.get('http://localhost:5002/candidate-Detail', {
-              headers: {
-                  Authorization: `Bearer ${token}`,
-                  Accept: 'application/json'
-              }
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    Accept: 'application/json'
+                }
             });
             const result = response.data;
             if (!result.error) {
@@ -145,15 +145,15 @@ const RecruiterDashboard = () => {
         } catch (error) {
             console.log(error);
         }
-      };
+    };
 
-    useEffect(()=>{
-        if(token){
+    useEffect(() => {
+        if (token) {
             getAllClientDetails();
             getAllCandidateDetail();
         }
-    
-    },[token]);
+
+    }, [token]);
 
 
     return (
@@ -286,20 +286,26 @@ const RecruiterDashboard = () => {
                                                     <div className="dash-table-title">
                                                         All Clients
                                                     </div>
-                                                    <a href='#' className="dash-table-see-all-btn">See all</a>
+                                                    <a href='/all-clients' className="dash-table-see-all-btn">See all</a>
                                                 </div>
                                                 <div class="table-responsive mt-4">
                                                     <table class="table table-striped table-hover dash-table">
-                                                        {clientDetail.map(client=>{
-                                                            return(
+                                                        <tr className='dash-table-row heading'>
+                                                            <th className='dash-table-data1 heading'>No.</th>
+                                                            <th className='dash-table-data1 text-center heading'>Name</th>
+                                                            <th className='dash-table-data1 text-center heading'>Company</th>
+                                                            <th className='dash-table-data1 text-center heading'>View</th>
+                                                        </tr>
+                                                        {clientDetail.map(client => {
+                                                            return (
                                                                 <tr className='dash-table-row'>
                                                                     <td className='dash-table-data1'>
-                                                                    {`${new Date(client.createdAt).getDate().toString().padStart(2, '0')}/${(new Date(client.createdAt).getMonth() + 1).toString().padStart(2, '0')}/${new Date(client.createdAt).getFullYear() % 100}`}
+                                                                        {`${new Date(client.createdAt).getDate().toString().padStart(2, '0')}/${(new Date(client.createdAt).getMonth() + 1).toString().padStart(2, '0')}/${new Date(client.createdAt).getFullYear() % 100}`}
                                                                     </td>
-                                                                    <td className='dash-table-data1 text-center'>{client.name}</td>
-                                                                    <td className='dash-table-data1 text-center'>{client.companyName}</td>
+                                                                    <td className='dash-table-data1 text-center text-capitalized'>{client.name}</td>
+                                                                    <td className='dash-table-data1 text-center text-capitalized'>{client.companyName}</td>
                                                                     <td className='text-center dash-table-view-btn-area'>
-                                                                        <button className='dash-table-view-btn client pl-4 pr-4'
+                                                                        <button className='dash-table-view-btn client with-border pl-4 pr-4'
                                                                             data-toggle="modal">View
                                                                         </button>
                                                                     </td>
@@ -321,21 +327,27 @@ const RecruiterDashboard = () => {
                                                     <div className="dash-table-title">
                                                         All Candidates
                                                     </div>
-                                                    <a href='#' className="dash-table-see-all-btn">See all</a>
+                                                    <a href='/all-candidates' className="dash-table-see-all-btn">See all</a>
                                                 </div>
                                                 <div class="table-responsive mt-4">
 
                                                     <table class="table table-striped table-hover dash-table">
-                                                        {candidateDetail.map(candidate=>{
-                                                            return(
+                                                        <tr className='dash-table-row heading'>
+                                                            <th className='dash-table-data1 heading'>No.</th>
+                                                            <th className='dash-table-data1 text-center heading'>Full Name</th>
+                                                            <th className='dash-table-data1 text-center heading'>Designation</th>
+                                                            <th className='dash-table-data1 text-center heading'>View</th>
+                                                        </tr>
+                                                        {candidateDetail.map(candidate => {
+                                                            return (
                                                                 <tr className='dash-table-row'>
                                                                     <td className='dash-table-data1'>
-                                                                    {`${new Date(candidate.createdAt).getDate().toString().padStart(2, '0')}/${(new Date(candidate.createdAt).getMonth() + 1).toString().padStart(2, '0')}/${new Date(candidate.createdAt).getFullYear() % 100}`}
+                                                                        {`${new Date(candidate.createdAt).getDate().toString().padStart(2, '0')}/${(new Date(candidate.createdAt).getMonth() + 1).toString().padStart(2, '0')}/${new Date(candidate.createdAt).getFullYear() % 100}`}
                                                                     </td>
-                                                                    <td className='dash-table-data1 text-center'>{candidate.firstName} {candidate.lastName}</td>
-                                                                    <td className='dash-table-data1 text-center'>{candidate.designation[0]}</td>
+                                                                    <td className='dash-table-data1 text-center text-capitalized'>{candidate.firstName} {candidate.lastName}</td>
+                                                                    <td className='dash-table-data1 text-center text-capitalized'>{candidate.designation[0]}</td>
                                                                     <td className='text-center dash-table-view-btn-area'>
-                                                                        <button className='dash-table-view-btn client pl-4 pr-4'
+                                                                        <button className='dash-table-view-btn client with-border pl-4 pr-4'
                                                                             data-toggle="modal">View
                                                                         </button>
                                                                     </td>
