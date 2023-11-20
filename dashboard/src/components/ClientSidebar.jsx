@@ -7,10 +7,10 @@ import axios from 'axios';
 
 const ClientSidebar = () => {
     const [clientToken, setClientToken] = useState("");
-    const { getProtectedData, getClientChoosenPlan, packageSelectionDetail } = useContext(AuthContext);
-    const [employeeId, setEmployeeId] = useState("");
-    const [loginClientDetail, setLoginClientDetail] = useState();
-    const [sideBar, setSideBar] = useState(false);
+    // const { getProtectedData, getClientChoosenPlan, packageSelectionDetail } = useContext(AuthContext);
+    // const [employeeId, setEmployeeId] = useState("");
+    // const [loginClientDetail, setLoginClientDetail] = useState();
+    // const [sideBar, setSideBar] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -44,77 +44,77 @@ const ClientSidebar = () => {
             }
         });
 
-    }, [clientToken, packageSelectionDetail]);
-
-    const getLoginClientDetail = async () => {
-        try {
-            const res = await axios.get(`http://localhost:5002/client/${employeeId}`, {
-                headers: {
-                    Authorization: `Bearer ${clientToken}`,
-                    Accept: 'application/json'
-                }
-            });
-            const result = res.data;
-            if (!result.error) {
-                console.log(result);
-                setLoginClientDetail(result);
-            } else {
-                console.log(result);
-            }
-        } catch (err) {
-            console.log(err);
-        }
-    }
-
-    useEffect(() => {
-        if (clientToken) {
-            const fetchData = async () => {
-                try {
-                    const user = await getProtectedData(clientToken);
-                    console.log(user);
-                    setEmployeeId(user.id);
-                } catch (error) {
-                    console.log(error);
-                }
-            };
-
-            fetchData();
-        }
     }, [clientToken]);
 
-    useEffect(() => {
-        if (employeeId) {
-            getLoginClientDetail();
-        }
-    }, [employeeId]);
+    // const getLoginClientDetail = async () => {
+    //     try {
+    //         const res = await axios.get(`http://localhost:5002/client/${employeeId}`, {
+    //             headers: {
+    //                 Authorization: `Bearer ${clientToken}`,
+    //                 Accept: 'application/json'
+    //             }
+    //         });
+    //         const result = res.data;
+    //         if (!result.error) {
+    //             console.log(result);
+    //             setLoginClientDetail(result);
+    //         } else {
+    //             console.log(result);
+    //         }
+    //     } catch (err) {
+    //         console.log(err);
+    //     }
+    // }
 
-    useEffect(() => {
-        if (loginClientDetail?.companyId) {
+    // useEffect(() => {
+    //     if (clientToken) {
+    //         const fetchData = async () => {
+    //             try {
+    //                 const user = await getProtectedData(clientToken);
+    //                 console.log(user);
+    //                 setEmployeeId(user.id);
+    //             } catch (error) {
+    //                 console.log(error);
+    //             }
+    //         };
+
+    //         fetchData();
+    //     }
+    // }, [clientToken]);
+
+    // useEffect(() => {
+    //     if (employeeId) {
+    //         getLoginClientDetail();
+    //     }
+    // }, [employeeId]);
+
+    // useEffect(() => {
+    //     if (loginClientDetail?.companyId) {
             
-            const fetchData = async () => {
-                try {
+    //         const fetchData = async () => {
+    //             try {
 
-                    await getClientChoosenPlan(loginClientDetail?.companyId);
+    //                 await getClientChoosenPlan(loginClientDetail?.companyId);
 
                     
-                } catch (error) {
-                    console.error(error);
-                }
-            };
+    //             } catch (error) {
+    //                 console.error(error);
+    //             }
+    //         };
 
-            fetchData();
-        }
-    }, [loginClientDetail]);
+    //         fetchData();
+    //     }
+    // }, [loginClientDetail]);
 
-    useEffect(()=>{
-        if (packageSelectionDetail ) {
+    // useEffect(()=>{
+    //     if (packageSelectionDetail ) {
             
-            setSideBar(true);
-        }
+    //         setSideBar(true);
+    //     }
 
-    },[packageSelectionDetail])
+    // },[packageSelectionDetail])
 
-    console.log(sideBar)
+    // console.log(sideBar)
 
     return (
         <div>
@@ -132,7 +132,7 @@ const ClientSidebar = () => {
                         </li>
                     </ul>
 
-                    {sideBar && (
+                    
                         <ul className="sidebar-menu client">
 
                             <li className="dropdown" id='search_candidate'>
@@ -156,8 +156,8 @@ const ClientSidebar = () => {
                             <li className="dropdown" id='client_settings'>
                                 <a href="/client-settings" className="nav-link"><i data-feather="settings"></i><span>Settings</span></a>
                             </li>
-                        </ul>)
-                    }
+                        </ul>
+                    
 
                     <div className='live-chat-area'>
                         <img src="../assets/img/home/upgrade-img.png" className='live-chat-img' alt="" />

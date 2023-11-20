@@ -22,6 +22,7 @@ const viewedCandidate = require("../Database/viewedCandidate");
 const enquiryFormDetail = require("../Database/enquiryFormDetail");
 const candidateChat = require("../Database/candidateChat");
 const roomIdChatDetail = require("../Database/roomIdChatDetail");
+const nonApprovalJob = require("../Database/nonApprovalJob");
 
 // const hash = async() => {
 //   const pass = 'newpassword'
@@ -439,6 +440,20 @@ const getCandidateDetail = async (req, res) => {
   }
 }
 
+const clientJobPosting = async(req, res) => {
+  try{
+    console.log(req.body);
+    const newNonApprovalJob = new nonApprovalJob({
+      ...req.body,
+    });
+    await newNonApprovalJob.save();
+    console.log(newNonApprovalJob);
+    return res.status(201).json(newNonApprovalJob);
+  }catch(err){
+    return res.status(500).json({ error: err.message })
+  }
+}
+
 const jobPosting = async(req, res) => {
   try{
     console.log(req.body);
@@ -452,6 +467,36 @@ const jobPosting = async(req, res) => {
     return res.status(500).json({ error: err.message })
   }
 }
+
+const jobApproval = async (req, res) => {
+  try {
+    const { id } = req.body;
+    console.log(id);
+
+    const nonApprovedJob = await nonApprovalJob.findOne({ id });
+
+    console.log(nonApprovedJob);
+
+    if (nonApprovedJob) {
+  
+      const nonApprovedJobObj = nonApprovedJob.toObject();
+
+      const newJobDetail = new jobDetail({
+        ...nonApprovedJobObj,
+      });
+
+      await newJobDetail.save();
+      console.log(newJobDetail);
+
+      await nonApprovedJob.deleteOne({ id });
+
+      return res.status(200).json(newJobDetail);
+    }
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+};
+
 
 /* get all job details */
 const getSkillMatchJobDetail = async (req, res) => {
@@ -506,8 +551,6 @@ const getSkillMatchJobDetail = async (req, res) => {
   }
 }
 
-
-
 /* get all posted jobs */
 const getPostedjobs = async(req, res) => {
   try{
@@ -519,22 +562,44 @@ const getPostedjobs = async(req, res) => {
   }
 }
 
-/* get a job  */
-const getJob = async (req, res) => {
-  const {id} = req.params;
-  console.log(id)
+/* get all non approval jobs */
+const getNonApprovaljobs = async(req, res) => {
   try {
-    const job = await jobDetail.findOne({ id });
-    if (job) {
-      return res.status(200).json(job);
-    } else {
-      return res.status(404).json({ error: 'Job not found' });
-    }
+    const nonApprovalJobs = await nonApprovalJob.find();
 
+    const nonApprovalJobsWithPending = nonApprovalJobs.map(job => ({ ...job.toObject(), pending: true }));
+
+    res.status(200).json(nonApprovalJobsWithPending);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 }
+
+
+/* get a job  */
+const getJob = async (req, res) => {
+  const { id } = req.params;
+  console.log(id);
+  try {
+   
+    const jobInDetail = await jobDetail.findOne({ id });
+
+    if (jobInDetail) {
+      return res.status(200).json(jobInDetail);
+    }
+
+    const jobInNonApproval = await nonApprovalJob.findOne({ id });
+
+    if (jobInNonApproval) {
+      return res.status(200).json(jobInNonApproval);
+    }
+
+    return res.status(404).json({ error: 'Job not found' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
 
 const getAppliedJobByJobId = async (req, res) => {
   const {id} = req.params;
@@ -553,36 +618,71 @@ const getAppliedJobByJobId = async (req, res) => {
 }
 
 /* update a job */
-const updateJob = async(req, res) => {
-  const {id} = req.params;
-  
-  try{
+const updateJob = async (req, res) => {
+  const { id } = req.params;
 
+  try {
+    
     const updatedJobDetail = await jobDetail.findOneAndUpdate(
       { id },
-      { $set: { 
-        jobRole : req.body.jobRole,
-        skills :  req.body.skills,
-        location :  req.body.location,
-        department :  req.body.department,
-        role: req.body.role,
-        minExperience :  req.body.minExperience,
-        maxExperience :  req.body.maxExperience,
-        jobCategory :  req.body.jobCategory,
-        jobDescription :  req.body.jobDescription,
-        currencyType :  req.body.currencyType,
-        minSalary :  req.body.minSalary,
-        maxSalary :  req.body.maxSalary,
-        industry :  req.body.industry,
-        education :  req.body.education,
-       } },
+      {
+        $set: {
+          jobRole: req.body.jobRole,
+          skills: req.body.skills,
+          location: req.body.location,
+          department: req.body.department,
+          role: req.body.role,
+          minExperience: req.body.minExperience,
+          maxExperience: req.body.maxExperience,
+          jobCategory: req.body.jobCategory,
+          jobDescription: req.body.jobDescription,
+          currencyType: req.body.currencyType,
+          minSalary: req.body.minSalary,
+          maxSalary: req.body.maxSalary,
+          industry: req.body.industry,
+          education: req.body.education,
+        },
+      },
       { new: true }
     );
-    return res.status(200).json(updatedJobDetail);
-  }catch (err) {
+
+    if (updatedJobDetail) {
+      return res.status(200).json(updatedJobDetail);
+    }
+
+    const updatedNonApprovalJob = await nonApprovalJob.findOneAndUpdate(
+      { id },
+      {
+        $set: {
+          jobRole: req.body.jobRole,
+          skills: req.body.skills,
+          location: req.body.location,
+          department: req.body.department,
+          role: req.body.role,
+          minExperience: req.body.minExperience,
+          maxExperience: req.body.maxExperience,
+          jobCategory: req.body.jobCategory,
+          jobDescription: req.body.jobDescription,
+          currencyType: req.body.currencyType,
+          minSalary: req.body.minSalary,
+          maxSalary: req.body.maxSalary,
+          industry: req.body.industry,
+          education: req.body.education,
+        },
+      },
+      { new: true }
+    );
+
+    if (updatedNonApprovalJob) {
+      return res.status(200).json(updatedNonApprovalJob);
+    }
+
+    return res.status(404).json({ error: 'Job not found' });
+  } catch (err) {
     res.status(500).json({ error: err.message });
   }
-}
+};
+
 
 
 /* get own posted jobs  */
@@ -598,10 +698,11 @@ const getOwnPostedjobs = async (req, res) => {
     });
 
     if (postedJobs.length > 0) {
-      res.status(200).json(postedJobs);
-    } else {
-      res.status(404).json({ message: 'No posted job found' });
+      return res.status(200).json(postedJobs);
     }
+
+      return res.status(404).json({ message: 'No posted job found' });
+    
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -681,6 +782,19 @@ const deletingPostedJob = async(req, res) => {
     }else{
       res.status(204).json({deletedPostedJob, deleteAppliedJob}); 
     }
+    
+  }catch(err) {
+    res.status(500).json({error: err.message})
+  }
+}
+
+/* delete non-approval-job */
+const deletingNonApprovalJob = async(req, res) => {
+  try{
+    const jobId = req.params.jobId;
+    const deletedNonApprovalJob = await nonApprovalJob.deleteOne({id:jobId});
+    
+      res.status(204).json(deletedNonApprovalJob); 
     
   }catch(err) {
     res.status(500).json({error: err.message})
@@ -1762,18 +1876,22 @@ module.exports = {
    candidateReg,
    getAllCandidateDetail,
    getCandidateDetail,
+   clientJobPosting,
    jobPosting,
+   jobApproval,
    getJob,
    getAppliedJobByJobId,
    updateJob,
    getSkillMatchJobDetail,
    getPostedjobs,
+   getNonApprovaljobs,
    getOwnPostedjobs,
    applyingjob,
    getAppliedjobs,
    getAppliedOfPostedJobs,
    deleteAppliedJob,
    deletingPostedJob,
+   deletingNonApprovalJob,
    createRecruiter,
    deleteRecruiter,
    getAllRecruiters,

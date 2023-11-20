@@ -28,6 +28,7 @@ import AllJobs from './pages/AllJobs/AllJobs';
 import PostedJobs from './pages/PostedJobs/PostedJobs';
 import PostingJob from './pages/PostingJob/PostingJob';
 import EventPosting from './pages/EventPosting/EventPosting';
+import NonApprovalJobs from './pages/NonApprovalJobs/NonApprovalJobs';
 
 
 
@@ -59,6 +60,7 @@ function App() {
         <Route path='/all-clients' element={<AllClients />} />
         <Route path='/all-candidates' element={<AllCandidates />} />
         <Route path='/all-jobs' element={<AllJobs />} />
+        <Route path='/non-approval-jobs' element={<NonApprovalJobs />} />
         <Route path='/posted-jobs' element={<PostedJobs />} />
         <Route path='/job-posting' element={<PostingJob />} />
         <Route path='/event-posting' element={<EventPosting />} />

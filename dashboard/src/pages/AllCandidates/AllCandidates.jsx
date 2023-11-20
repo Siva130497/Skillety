@@ -18,6 +18,9 @@ const AllCandidates = () => {
     const [searchInput, setSearchInput] = useState("");
     const [filteredSearchResults, setFilteredSearchResults]= useState([]);
     const [filteredSearchResultsMsg, setFilteredSearchResultsMsg] = useState("");
+
+    const [x, setX] = useState([0, 10]);
+
     useEffect(() => {
         $(document).ready(function () {
         });
@@ -233,7 +236,7 @@ const AllCandidates = () => {
                                                     {filteredSearchResultsMsg ?
                                                         <p>{filteredSearchResultsMsg}</p>:
                                                         filteredSearchResults.length > 0 ?
-                                                        filteredSearchResults.map((candidate, index)=>{
+                                                        filteredSearchResults.slice(x[0], x[1]).map((candidate, index)=>{
                                                             
                                                             return (
                                                                 <tr className='dash-table-row client' key={candidate.id}>
@@ -279,7 +282,7 @@ const AllCandidates = () => {
                                                                 </tr>
                                                             )
                                                         }) :
-                                                        !searchInput ? candidateDetail.map((candidate, index) => {
+                                                        !searchInput ? candidateDetail.slice(x[0], x[1]).map((candidate, index) => {
                                                             return(
                                                                 <tr className='dash-table-row client' key={candidate.id}>
                                                                     <td className='dash-table-data1'>{index+1}.</td>
@@ -339,16 +342,16 @@ const AllCandidates = () => {
                                         </div>
                                         <div className="table-pagination-area pt-3">
                                             <div className="pagination-btn-area">
-                                                <button className='pag-prev-btn'>
+                                                {x[0] > 0 && <button className='pag-prev-btn' onClick={()=>setX([x[0] - 10, x[1] - 10])}>
                                                     <i class="bi bi-chevron-left"></i>
-                                                </button>
-                                                <div className='pag-page'>
-                                                    <span className='current-page'>1</span>&nbsp;/&nbsp;
-                                                    <span className='total-page'>7</span>
-                                                </div>
-                                                <button className='pag-next-btn'>
+                                                </button>}
+                                                {!filteredSearchResultsMsg && <div className='pag-page'>
+                                                    <span className='current-page'>{Math.ceil(x[0] / 10) + 1}</span>&nbsp;/&nbsp;
+                                                    <span className='total-page'>{filteredSearchResults.length > 0 ? Math.ceil(filteredSearchResults.length/ 10) : Math.ceil(candidateDetail.length/ 10)}</span>
+                                                </div>}
+                                                {(filteredSearchResultsMsg ? !filteredSearchResultsMsg : filteredSearchResults.length > 0 ? (filteredSearchResults.slice(x[0], x[1]).length === 10 && filteredSearchResults.length > x[1]) : (candidateDetail.slice(x[0], x[1]).length === 10 && candidateDetail.length > x[1])) &&<button className='pag-next-btn' onClick={()=>setX([x[0] + 10, x[1] + 10])}>
                                                     <i class="bi bi-chevron-right"></i>
-                                                </button>
+                                                </button>}
                                             </div>
                                         </div>
                                     </div>

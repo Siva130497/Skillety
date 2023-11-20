@@ -32,6 +32,7 @@ const JobSearch = () => {
     const [locationArray, setLocationArray] = useState([]);
     const [educationArray, setEducationArray] = useState([]);
    
+    const [x, setX] = useState([0, 3]);
 
     const [filters, setFilters] = useState({
         searchInput:"",
@@ -152,7 +153,7 @@ const JobSearch = () => {
                 });
             });
         });
-    }, [candidateToken, getClientImg, clientImg, getProtectedData, candidateId, allJobs, matchJobs, clients, searchResult, filteredSearchResults, filteredSearchResultsMsg, checkBoxfilters, checkBoxJobTitle, checkBoxJobLocation, checkBoxJobEducation, skillArray, jobRoleArray, filteredList, selectedResults, locationArray, educationArray, filters]);
+    }, [candidateToken, getClientImg, clientImg, getProtectedData, candidateId, allJobs, matchJobs, clients, searchResult, filteredSearchResults, filteredSearchResultsMsg, checkBoxfilters, checkBoxJobTitle, checkBoxJobLocation, checkBoxJobEducation, skillArray, jobRoleArray, filteredList, selectedResults, locationArray, educationArray, filters, x]);
 
     console.log(filters) 
 
@@ -326,7 +327,10 @@ const JobSearch = () => {
 
       const handleSkillSearch = () => {
         if(selectedResults.length > 0 || checkBoxfilters.length > 0 || (filters.maxExperience && filters.maxExperience) || checkBoxJobTitle.length > 0 || checkBoxJobLocation.length > 0 || (filters.minSalary && filters.maxSalary) || checkBoxJobEducation.length > 0){ 
+            setX([0, 3]);
             setFilteredSearchResultsMsg("") 
+            // setAllJobs([])
+            // setMatchJobs([]) 
             // setSearchResult(true)
             const filteredResults = allJobs
                 .filter(job => {
@@ -2172,7 +2176,7 @@ const JobSearch = () => {
                                                 {filteredSearchResultsMsg ?
                                                     (<p>{filteredSearchResultsMsg}</p>):
                                                     filteredSearchResults.length > 0 ?
-                                                    (filteredSearchResults.map((job)=>{
+                                                    (filteredSearchResults.slice(x[0], x[1]).map((job)=>{
                                                         const matchingImg = clientImg ? clientImg.find(img => img.id === job.companyId) : null;
                                                         const imgSrc = matchingImg ? `http://localhost:5002/client_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
                                                         const companyName = clients.find(cli=>cli.companyId === job.companyId)?.companyName
@@ -2228,7 +2232,7 @@ const JobSearch = () => {
                                                             </article>
                                                         )
                                                     })) : matchJobs.length > 0 ? 
-                                                    (matchJobs.map((job)=>{
+                                                    (matchJobs.slice(x[0], x[1]).map((job)=>{
                                                         const matchingImg = clientImg ? clientImg.find(img => img.id === job.companyId) : null;
                                                         const imgSrc = matchingImg ? `http://localhost:5002/client_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
                                                         const companyName = clients.find(cli=>cli.companyId === job.companyId)?.companyName
@@ -2287,20 +2291,20 @@ const JobSearch = () => {
                                                     <div className="tal--pro-paginate-btn-area" data-aos="fade-up">
                                                         <h6 className='tal--pro-total-result-text'>Total Items : <span>{filteredSearchResultsMsg ? "0" : filteredSearchResults.length > 0 ? filteredSearchResults.length :  matchJobs.length > 0 ? matchJobs.length : "0"}</span></h6>
                                                         <div className='tal--pro-slider-btn-sub'>
-                                                            <button className="tal--pro-slider-btn">
+                                                        {x[0] > 0 && <button className="tal--pro-slider-btn" onClick={()=>setX([x[0] - 3, x[1] - 3])}>
                                                                 <svg className='arrow-left' xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 27 27" fill="none">
                                                                     <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#5C3B2E" stroke-width="2" />
                                                                     <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#5C3B2E" stroke-width="2" />
                                                                     <path d="M1 26L25.1667 1" stroke="#5C3B2E" stroke-width="2" />
                                                                 </svg>
-                                                            </button>
-                                                            <button className="tal--pro-slider-btn">
+                                                            </button>}
+                                                            {(filteredSearchResultsMsg ? !filteredSearchResultsMsg : filteredSearchResults.length > 0 ? (filteredSearchResults.slice(x[0], x[1]).length === 3 && filteredSearchResults.length > x[1]) : (matchJobs.slice(x[0], x[1]).length === 3 && matchJobs.length > x[1])) && < button className="tal--pro-slider-btn" onClick={()=>setX([x[0] + 3, x[1] + 3])}>
                                                                 <svg className='arrow-right' xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 27 27" fill="none">
                                                                     <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#5C3B2E" stroke-width="2" />
                                                                     <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#5C3B2E" stroke-width="2" />
-                                                                    <path d="M1 26L25.1667 1" stroke="#5C3B2E" stroke-width="2" />
+                                                                    <path d="M1 26L25.1667 1" stroke="#5C3B2E" stroke-width="2" /> 
                                                                 </svg>
-                                                            </button>
+                                                            </button>}
                                                         </div>
                                                     </div>
                                                 </div>

@@ -90,9 +90,6 @@ const JobPosting = () => {
     });
   }
 
-
-
-
   const getAllJobRoles = async () => {
     try {
       const res = await axios.get("http://localhost:5002/designations", {
@@ -331,7 +328,7 @@ const JobPosting = () => {
   //jobposting
   const jobPosting = async (jobdetail) => {
     try {
-      const res = await axios.post("http://localhost:5002/job-detail", jobdetail, {
+      const res = await axios.post("http://localhost:5002/client-job-detail", jobdetail, {
         headers: {
           Authorization: `Bearer ${clientToken}`,
           Accept: 'application/json'
@@ -650,10 +647,83 @@ const JobPosting = () => {
   }
 
   const handleSubmit = async (event) => {
-    const packageSelectionDetail = await getClientChoosenPlan(loginClientDetail.companyId);
-    if (packageSelectionDetail) {
-      if (postedJobs.length < packageSelectionDetail.jobPost) {
-        event.preventDefault();
+    // const packageSelectionDetail = await getClientChoosenPlan(loginClientDetail.companyId);
+    // if (packageSelectionDetail) {
+    //   if (postedJobs.length < packageSelectionDetail.jobPost) {
+    //     event.preventDefault();
+    //     if (
+    //       selectedJobRoles.length === 0 ||
+    //       credentials.minExperience === "" ||
+    //       credentials.maxExperience === "" ||
+    //       credentials.jobCategory === "" ||
+    //       credentials.jobDescription === "" ||
+    //       credentials.workMode === "" ||
+    //       credentials.currencyType === "" ||
+    //       credentials.minSalary === "" ||
+    //       credentials.maxSalary === "" ||
+    //       selectedSkills.length === 0 ||
+    //       selectedDepartment.length === 0 ||
+    //       selectedLocations.length === 0 ||
+    //       selectedIndustry.length === 0 ||
+    //       selectedEducation.length === 0
+    //     ) {
+    //       showErrorMessage("Please fill in all required fields.");
+    //       return;
+    //     }
+
+    //     const id = uuidv4();
+    //     const updatedCredentials = {
+    //       ...credentials,
+    //       skills: selectedSkills,
+    //       jobRole: selectedJobRoles,
+    //       location: selectedLocations,
+    //       department: selectedDepartment,
+    //       role: selectedRoles,
+    //       industry: selectedIndustry[0],
+    //       education: selectedEducation[0],
+    //       Role: loginClientDetail.role,
+    //       id,
+    //     };
+    //     if (loginClientDetail.role === "Client") {
+    //       updatedCredentials.clientId = employeeId;
+    //       updatedCredentials.companyId = loginClientDetail.companyId;
+    //     } else {
+    //       updatedCredentials.clientStaffId = employeeId;
+    //       updatedCredentials.companyId = loginClientDetail.companyId;
+    //     }
+
+    //     console.log(updatedCredentials, otherJobRole, otherSkill);
+    //     jobPosting(updatedCredentials);
+    //     otherSkill.length > 0 && postOtherSkills(otherSkill);
+    //     otherJobRole.length > 0 && postOtherDesignation(otherJobRole);
+    //   } else {
+    //     await new Promise(() => {
+    //       Swal.fire({
+    //         title: 'Buy Package Plan',
+    //         text: 'You reached your max cv-views in your plan, upgrade your plan',
+    //         icon: 'info',
+    //         confirmButtonColor: '#3085d6',
+    //         confirmButtonText: 'OK',
+    //       }).then(() => {
+    //         window.open(`http://localhost:3000/package-plans`, '_blank');
+    //       });
+    //     });
+    //   }
+    // } else {
+    //   await new Promise(() => {
+    //     Swal.fire({
+    //       title: 'Buy Package Plan',
+    //       text: '',
+    //       icon: 'info',
+    //       confirmButtonColor: '#3085d6',
+    //       confirmButtonText: 'OK',
+    //     }).then(() => {
+    //       window.open(`http://localhost:3000/package-plans`, '_blank');
+    //     });
+    //   });
+    // }
+
+    event.preventDefault();
         if (
           selectedJobRoles.length === 0 ||
           credentials.minExperience === "" ||
@@ -699,32 +769,6 @@ const JobPosting = () => {
         jobPosting(updatedCredentials);
         otherSkill.length > 0 && postOtherSkills(otherSkill);
         otherJobRole.length > 0 && postOtherDesignation(otherJobRole);
-      } else {
-        await new Promise(() => {
-          Swal.fire({
-            title: 'Buy Package Plan',
-            text: 'You reached your max cv-views in your plan, upgrade your plan',
-            icon: 'info',
-            confirmButtonColor: '#3085d6',
-            confirmButtonText: 'OK',
-          }).then(() => {
-            window.open(`http://localhost:3000/package-plans`, '_blank');
-          });
-        });
-      }
-    } else {
-      await new Promise(() => {
-        Swal.fire({
-          title: 'Buy Package Plan',
-          text: '',
-          icon: 'info',
-          confirmButtonColor: '#3085d6',
-          confirmButtonText: 'OK',
-        }).then(() => {
-          window.open(`http://localhost:3000/package-plans`, '_blank');
-        });
-      });
-    }
   };
 
   useEffect(() => {

@@ -16,6 +16,8 @@ const AllClients = () => {
     const [commonEmails, setCommonEmails] = useState([]);
     const [aClient, setAClient] = useState();
 
+    const [x, setX] = useState([0, 10]);
+
     useEffect(() => {
         setStaffToken(JSON.parse(localStorage.getItem('staffToken')))
     }, [staffToken])
@@ -74,8 +76,11 @@ const AllClients = () => {
     }
 
     useEffect(()=>{
-        getAllClientDetails();
-        getAllClient();
+        if(staffToken){
+            getAllClientDetails();
+            getAllClient();
+        }
+        
     },[staffToken]);
 
     useEffect(()=>{
@@ -166,7 +171,7 @@ const AllClients = () => {
                                                 </tr>
 
                                                 {/* table data */}
-                                                {clientDetail.map((client, index)=>{
+                                                {clientDetail.slice(x[0], x[1]).map((client, index)=>{
                                                     return(
                                                         <tr className='dash-table-row client'>
                                                             <td className='dash-table-data1'>{index+1}.</td>
@@ -221,21 +226,21 @@ const AllClients = () => {
                                         </div>
                                         <div className="table-pagination-area pt-3">
                                             <div className="pagination-btn-area">
-                                                <button className='pag-prev-btn'>
+                                                {x[0] > 0 &&<button className='pag-prev-btn' onClick={()=>setX([x[0] - 10, x[1] - 10])}>
                                                     <i class="bi bi-chevron-left"></i>
-                                                </button>
+                                                </button>}
                                                 <div className='pag-page'>
-                                                    <span className='current-page'>1</span>&nbsp;/&nbsp;
-                                                    <span className='total-page'>7</span>
+                                                    <span className='current-page'>{Math.ceil(x[0] / 10) + 1}</span>&nbsp;/&nbsp;
+                                                    <span className='total-page'>{Math.ceil(clientDetail.length / 10)}</span>
                                                 </div>
-                                                <button className='pag-next-btn'>
+                                                {(clientDetail.slice(x[0], x[1]).length === 10 && clientDetail.length > x[1]) && <button className='pag-next-btn' onClick={()=>setX([x[0] + 10, x[1] + 10])}>
                                                     <i class="bi bi-chevron-right"></i>
-                                                </button>
+                                                </button>}
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> 
                         </div>
                     </section>
                 </div>

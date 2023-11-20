@@ -270,11 +270,11 @@ const InvoicePayment = () => {
                                                         <td className='table--data text-center'>{allStaff.length}</td>
                                                         <td className='table--data text-center'>{packageSelectionDetail?.logins-allStaff.length}</td>
                                                     </tr>
-                                                    <tr className='row-of-table-row'>
+                                                    {/* <tr className='row-of-table-row'>
                                                         <th className='table--head'>Number Of Jobs</th>
                                                         <td className='table--data text-center'>{postedJobs.length}</td>
                                                         <td className='table--data text-center'>{packageSelectionDetail?.jobPost-postedJobs.length}</td>
-                                                    </tr>
+                                                    </tr> */}
                                                 </tbody>
                                             </table>
                                         </div>
