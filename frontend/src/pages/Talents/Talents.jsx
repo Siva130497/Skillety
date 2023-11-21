@@ -186,7 +186,7 @@ const Talents = () => {
                                                     <i class="bx bxs-map"></i>
                                                     {candidateDetail.location}
                                                 </div>
-                                                <div className='client-talent--profile-tag'>{candidateDetail.designation[0]}</div>
+                                                {/* <div className='client-talent--profile-tag'>{candidateDetail.designation[0]}</div> */}
                                             </div>
                                             <div className="client-talent--profile-desc-area mt-4">
                                                 <div className="row">
@@ -194,15 +194,15 @@ const Talents = () => {
                                                         <div className='client-talent--profile-desc'>Previous</div>
                                                     </div>
                                                     <div className="col-8">
-                                                        <div className='client-talent--profile-desc'>Junior Frontend Developer at Cognizant</div>
+                                                        <div className='client-talent--profile-desc'>{candidateDetail.designation[0] + " " + "at" + " " + candidateDetail.companyName}</div>
                                                     </div>
                                                 </div>
                                                 <div className="row mt-3">
                                                     <div className="col-4">
-                                                        <div className='client-talent--profile-desc'>Preferred Location</div>
+                                                        <div className='client-talent--profile-desc'>College</div>
                                                     </div>
                                                     <div className="col-8">
-                                                        <div className='client-talent--profile-desc'>Hyderabad, Kolkata, Chennai</div>
+                                                        <div className='client-talent--profile-desc'>{candidateDetail.college}</div>
                                                     </div>
                                                 </div>
                                             </div>

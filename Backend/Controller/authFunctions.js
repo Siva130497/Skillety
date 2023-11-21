@@ -516,17 +516,17 @@ const getSkillMatchJobDetail = async (req, res) => {
         jobId: obj.id,
         jobRole: obj.jobRole,
         jobMandatorySkills: obj.skills,
-        jobLocation:obj.location,
-        jobDepartment:obj.department,
-        role:obj.role,
+        jobLocation: obj.location,
+        jobDepartment: obj.department,
+        role: obj.role,
         jobExperience: `${obj.minExperience} - ${obj.maxExperience} years experience`,
         jobCategory: obj.jobCategory,
         jobDescription: obj.jobDescription,
-        salary:`${obj.currencyType}${obj.minSalary} - ${obj.currencyType}${obj.maxSalary} `,
-        industry:obj.industry,
-        education:obj.education,
-        workMode:obj.workMode,
-        percentage: Math.round(percentage), 
+        salary: `${obj.currencyType}${obj.minSalary} - ${obj.currencyType}${obj.maxSalary} `,
+        industry: obj.industry,
+        education: obj.education,
+        workMode: obj.workMode,
+        percentage: Math.round(percentage),
       };
 
       if (obj.recruiterId) {
@@ -547,9 +547,10 @@ const getSkillMatchJobDetail = async (req, res) => {
     res.status(200).json(comparisonResults);
 
   } catch (err) {
-    res.status(500).json({ error: err.message })
+    res.status(500).json({ error: err.message });
   }
 }
+
 
 /* get all posted jobs */
 const getPostedjobs = async(req, res) => {
