@@ -2689,16 +2689,17 @@ const TalentsProfileSearch = () => {
                                                                     </div>
 
                                                                     <div className="tal--pro-card-right-area search">
-                                                                    <div className="tal--pro-card-ability-number-area">
-                                                                                {searchResult && <div className="tal--pro-card-ability-number-left">
-                                                                                    <h6 className='tal--pro-card-ability search'>Skill matched</h6>
-                                                                                    <h2 className='tal--pro-card-percentage search'>{Math.round(percentage)}%</h2>
-                                                                                </div>}
-                                                                                <div className="tal--pro-card-ability-number-right">
-                                                                                    <h6 className='tal--pro-card-ability search'>Can join in</h6>
-                                                                                    <h2 className='tal--pro-card-days search'><span>{candidate?.days}</span></h2>
-                                                                                </div>
-                                                                            </div>
+                                                                        <div className="tal--pro-card-ability-number-area">
+                                                                                    {selectedResults.length>0 && 
+                                                                                    <div className="tal--pro-card-ability-number-left">
+                                                                                        <h6 className='tal--pro-card-ability search'>Keywords matched</h6>
+                                                                                        <h2 className='tal--pro-card-percentage search'>{Math.round(percentage)}%</h2>
+                                                                                    </div>}
+                                                                                    <div className="tal--pro-card-ability-number-right">
+                                                                                        <h6 className='tal--pro-card-ability search'>Can join in</h6>
+                                                                                        <h2 className='tal--pro-card-days search'><span>{candidate?.days}</span></h2>
+                                                                                    </div>
+                                                                        </div>
                                                                         <div className="tal--pro-card-right-cover-area search">
                                                                             <div className='tal--pro-card-profile-img-role-area search'>
                                                                                 <img src={imgSrc} className='tal--pro-card-profile-img' alt="" />

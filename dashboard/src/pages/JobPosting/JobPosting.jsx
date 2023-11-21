@@ -906,9 +906,9 @@ const JobPosting = () => {
                             onChange={handleChange}
                             required>
                             <option value="" selected disabled>Please select any one job category.</option>
-                            <option value="full time">Full Time, Permanent</option>
-                            <option value="part time">Part Time, Permanent</option>
-                            <option value="remote">Remote</option>
+                            <option value="full time">Full Time</option>
+                            <option value="part time">Part Time</option>
+                            <option value="contract">Contract</option>
                             <option value="freelancer">Freelancer</option>
                           </select>
                         </div>
@@ -1095,8 +1095,8 @@ const JobPosting = () => {
                             value={credentials.workMode}
                             onChange={handleChange}>
                             <option value="" selected disabled>select the working mode</option>
-                            <option value="In office" selected>In office</option>
-                            <option value="In Home">In Home</option>
+                            <option value="In office" selected>Work from Office</option>
+                            <option value="In Home">Work from Home</option>
                           </select>
                         </div>
                       </div>
