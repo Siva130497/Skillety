@@ -293,7 +293,7 @@ const NonApprovalJobs = () => {
                                                                         className='send-email-btn'
                                                                          onClick={() => handleApproval(Job.id)}>
                                                                             <i class="bi bi-send-fill send-icon"></i>
-                                                                            Approved
+                                                                            Approve
                                                                         </button>
                                                                     </td>
                                                                     <td className='text-center'>
