@@ -200,12 +200,12 @@ const Talents = () => {
                                                                 <h4 className='client-talent--profile-name'>{loginCandidate?.firstName + " " + loginCandidate?.lastName}</h4>
                                                                 <div className="client-talent--profile-tags-area">
                                                                     <div className='client-talent--profile-tag'>Experience : {loginCandidate?.year > 0 ? loginCandidate?.year + 'years' : "" + loginCandidate?.month > 0 ? loginCandidate?.month + 'months' : ""}</div>
-                                                                    <div className='client-talent--profile-tag'>9.5 LPA</div>
+                                                                    {/* <div className='client-talent--profile-tag'>9.5 LPA</div> */}
                                                                     <div className='client-talent--profile-tag'>
                                                                         <i class="bx bxs-map"></i>
                                                                         {loginCandidate?.location}
                                                                     </div>
-                                                                    <div className='client-talent--profile-tag'>{loginCandidate?.designation[0]}</div>
+                                                                    {/* <div className='client-talent--profile-tag'>{loginCandidate?.designation[0]}</div> */}
                                                                 </div>
                                                                 <div className="client-talent--profile-desc-area mt-4">
                                                                     <div className="row">
@@ -213,15 +213,15 @@ const Talents = () => {
                                                                             <div className='client-talent--profile-desc'>Previous</div>
                                                                         </div>
                                                                         <div className="col-8">
-                                                                            <div className='client-talent--profile-desc'>Junior Frontend Developer at Cognizant</div>
+                                                                            <div className='client-talent--profile-desc'>{loginCandidate?.designation[0] + " " + "at" + " " + loginCandidate?.companyName}</div>
                                                                         </div>
                                                                     </div>
                                                                     <div className="row mt-3">
                                                                         <div className="col-4">
-                                                                            <div className='client-talent--profile-desc'>Preferred Location</div>
+                                                                            <div className='client-talent--profile-desc'>College</div>
                                                                         </div>
                                                                         <div className="col-8">
-                                                                            <div className='client-talent--profile-desc'>Hyderabad, Kolkata, Chennai</div>
+                                                                            <div className='client-talent--profile-desc'>{loginCandidate?.college}</div>
                                                                         </div>
                                                                     </div>
                                                                     <div className="row mt-3">
