@@ -60,10 +60,13 @@ export const AuthContextProvider = ({children}) => {
                     navigate("/admin-dashboard");
                 } else if (userData[1] === "login-Candidate") {
                     localStorage.setItem("candidateToken",  JSON.stringify(result.accessToken));
+                    window.open(`http://localhost:3000/${result.accessToken}`, '_blank');
                     navigate("/candidate-home")
                 } else if (userData[1] === "login-Client") {
                     localStorage.setItem("clientToken",  JSON.stringify(result.accessToken));
+                    window.open(`http://localhost:3000/client-dashboard/${result.accessToken}`, '_blank');
                     navigate("/")
+                    
                 }
                 
             } else {

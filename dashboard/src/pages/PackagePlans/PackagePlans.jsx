@@ -196,9 +196,9 @@ const PackagePlans = () => {
         setPackageInfo({
             id: loginClientDetail?.companyId,
             packageType: "Micro",
-            logins: "2",
-            cvViews: "2",
-            jobPost:"2",
+            logins: "3",
+            cvViews: "3",
+            // jobPost:"2",
             amount:"32,804",
         })
       }
@@ -207,9 +207,9 @@ const PackagePlans = () => {
         setPackageInfo({
             id: loginClientDetail?.companyId,
             packageType: "Small",
-            logins: "3",
-            cvViews: "3",
-            jobPost:"3",
+            logins: "5",
+            cvViews: "5",
+            // jobPost:"3",
             amount:"91,568",
         })
       }
@@ -218,9 +218,9 @@ const PackagePlans = () => {
         setPackageInfo({
             id: loginClientDetail?.companyId,
             packageType: "Large",
-            logins: "4",
-            cvViews: "4",
-            jobPost:"4",
+            logins: "10",
+            cvViews: "10",
+            // jobPost:"4",
             amount:"161,483",
         })
       }

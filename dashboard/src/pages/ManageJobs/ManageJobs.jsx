@@ -16,9 +16,14 @@ const ManageJobs = () => {
     const { getProtectedData } = useContext(AuthContext);
     const [employeeId, setEmployeeId] = useState("");
     const [loginClientDetail, setLoginClientDetail] = useState([]);
+
+    // const uniqueJobIds = new Set();
+    const [updatePostedJobs, setUpdatePostedJobs] = useState([]);
     const [postedJobs, setPostedJobs] = useState([]);
     const [appliedOfPostedJobs, setAppliedOfPostedJobs] = useState([]);
     const [allStaff, setAllStaff] = useState([]);
+
+    const [x, setX] = useState([0, 10]);
 
     const navigate = useNavigate();
 
@@ -108,7 +113,7 @@ const ManageJobs = () => {
             const result = res.data;
             if (!result.error) {
                 console.log(result);
-                setPostedJobs(result.reverse());
+                setUpdatePostedJobs(prevPostedJobs => [...prevPostedJobs, ...result.reverse()]);
             } else {
                 console.log(result);
             }
@@ -116,6 +121,37 @@ const ManageJobs = () => {
             console.log(err);
         }
     }
+
+    const getNonApprovaljobs = async() => {
+        try{
+            const res = await axios.get(`http://localhost:5002/non-approval-jobs`, {
+              headers: {
+                  Authorization: `Bearer ${clientToken}`,
+                  Accept: 'application/json'
+              }
+            });
+            const result = res.data;
+            if (!result.error) {
+              console.log(result);
+              setUpdatePostedJobs(prevPostedJobs => [...prevPostedJobs, ...result.reverse()]);
+            } else {
+              console.log(result);
+            }
+        }catch(err){
+          console.log(err);
+        }
+      }
+
+    //   const updatePostedJobs = (newJobs) => {
+    //     // Filter out duplicates based on job ID
+    //     const uniqueNewJobs = newJobs.filter(job => !uniqueJobIds.has(job.id));
+        
+    //     // Add unique job IDs to the set
+    //     newJobs.forEach(job => uniqueJobIds.add(job.id));
+      
+    //     // Concatenate the new data to the existing postedJobs array
+    //     setPostedJobs(prevPostedJobs => [...prevPostedJobs, ...uniqueNewJobs]);
+    //   }
 
     const getAppliedOfPostedJobs = async () => {
         try {
@@ -160,9 +196,27 @@ const ManageJobs = () => {
 
     useEffect(() => {
         getOwnPostedjobs();
+        getNonApprovaljobs();
         getAppliedOfPostedJobs();
         allStaffFromCompany();
     }, [loginClientDetail]);
+
+    useEffect(() => {
+        const uniqueIds = {};
+        const newArray = updatePostedJobs.filter(obj => {
+            // Check if the ID is already in the uniqueIds object
+            if (!uniqueIds[obj.id]) {
+              // If not, mark it as seen and include it in the new array
+              uniqueIds[obj.id] = true;
+              return true;
+            }
+            // If the ID is already in the uniqueIds object, filter it out
+            return false;
+          });
+        setPostedJobs(newArray)
+    }, [updatePostedJobs]);
+
+    console.log(postedJobs)
 
     const handleDeleteJob = (id) => {
        
@@ -186,7 +240,40 @@ const ManageJobs = () => {
                 .then((res) => {
                     console.log(res.data);
                     showSuccessMessage("Job has been deleted!");
-                    getOwnPostedjobs();
+                    window.location.reload();
+                })
+                .catch((err) => {
+                    console.log(err);
+                    showErrorMessage();
+                });
+            }
+            
+        });
+    }
+
+    const handleDeleteNonApprovalJob = (id) => {
+       
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'You won\'t be able to revert this!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                
+                axios.delete(`http://localhost:5002/delete-non-approval-job/${id}`, {
+                    headers: {
+                        Authorization: `Bearer ${clientToken}`,
+                        Accept: 'application/json'
+                    }
+                })
+                .then((res) => {
+                    console.log(res.data);
+                    showSuccessMessage("Job has been deleted!");
+                    window.location.reload();
                 })
                 .catch((err) => {
                     console.log(err);
@@ -221,7 +308,7 @@ const ManageJobs = () => {
                                                     <th className='dash-table-head text-center'>DOA</th>
                                                     <th className='dash-table-head text-center'>No of total <br />Applicants</th>
                                                     <th className='dash-table-head text-center'>Posted by <br /> Who?</th>
-                                                    <th className='dash-table-head text-center'>Status</th>
+                                                    <th className='dash-table-head text-center'>Approval Status</th>
                                                     <th className='text-center'></th>
                                                 </tr>
 
@@ -236,23 +323,25 @@ const ManageJobs = () => {
                                                                 {`${new Date(job.createdAt).getDate().toString().padStart(2, '0')}/${(new Date(job.createdAt).getMonth() + 1).toString().padStart(2, '0')}/${new Date(job.createdAt).getFullYear() % 100}`}
                                                             </td>
                                                             <td className='dash-table-data1 text-center'>
-                                                                <button className='application-btn with-modal' onClick={() => numApplicants > 0 && navigate(`/applied-candidate/${job.id}`)}>
+                                                                {!(job?.pending) ? <button className='application-btn with-modal' onClick={() => numApplicants > 0 && navigate(`/applied-candidate/${job.id}`)}>
                                                                     <span>{numApplicants}</span>&nbsp;&nbsp;&nbsp;
                                                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-file-earmark-text-fill" viewBox="0 0 16 16">
                                                                         <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM4.5 9a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 1 0-1h4a.5.5 0 0 1 0 1h-4z" fill='#0879bc' />
                                                                     </svg>
-                                                                </button>
+                                                                </button> : <p>This job waiting for approval</p>}
                                                             </td>
                                                             <td className='dash-table-data1 text-center'>
                                                                 {staff ? staff.name : 'Unknown'}
                                                             </td>
                                                             <td className='text-center'>
-                                                                <button className='man-job-status-btn theme-info'>Ongoing</button>
+                                                                <button className='man-job-status-btn theme-info'>{job?.pending ? "Pending" : "Approved"}</button>
                                                             </td>
                                                             <td className='text-center'>
-                                                                <button className='delete-btn' onClick={() => handleDeleteJob(job.id)}>
+                                                                {!(job?.pending) ? <button className='delete-btn' onClick={() => handleDeleteJob(job.id)}>
                                                                     <i className="bi bi-trash"></i>
-                                                                </button>
+                                                                </button> : <button className='delete-btn' onClick={() => handleDeleteNonApprovalJob(job.id)}>
+                                                                    <i className="bi bi-trash"></i>
+                                                                </button>}
                                                                 <button className='edit-btn' onClick={() => navigate(`/edit-job/${job.id}`)}>
                                                                     <i class="bi bi-pencil-fill"></i>
                                                                 </button>
@@ -273,16 +362,16 @@ const ManageJobs = () => {
                                         </div>
                                         <div className="table-pagination-area pt-3">
                                             <div className="pagination-btn-area">
-                                                <button className='pag-prev-btn'>
+                                                {x[0] > 0 &&<button className='pag-prev-btn' onClick={()=>setX([x[0] - 10, x[1] - 10])}>
                                                     <i class="bi bi-chevron-left"></i>
-                                                </button>
+                                                </button>}
                                                 <div className='pag-page'>
-                                                    <span className='current-page'>1</span>&nbsp;/&nbsp;
-                                                    <span className='total-page'>7</span>
+                                                    <span className='current-page'>{Math.ceil(x[0] / 10) + 1}</span>&nbsp;/&nbsp;
+                                                    <span className='total-page'>{Math.ceil(postedJobs.length / 10)}</span>
                                                 </div>
-                                                <button className='pag-next-btn'>
+                                                {(postedJobs.slice(x[0], x[1]).length === 10 && postedJobs.length > x[1]) && <button className='pag-next-btn' onClick={()=>setX([x[0] + 10, x[1] + 10])}>
                                                     <i class="bi bi-chevron-right"></i>
-                                                </button>
+                                                </button>}
                                             </div>
                                         </div>
                                     </div>

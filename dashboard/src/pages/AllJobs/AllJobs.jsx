@@ -29,6 +29,7 @@ const AllJobs = () => {
     const [searchCandidateByNameMsg, setSearchCandidateByNameMsg] = useState("");
     const [searchCandidateInput, setSearchCandidateInput] = useState("");
 
+    const [x, setX] = useState([0, 10]);
 
     useEffect(() => {
         $(document).ready(function () {
@@ -312,6 +313,9 @@ const AllJobs = () => {
                                                             setSearchJobRoleInput(e.target.value);
                                                             setSearchFilteredJobs([]);
                                                             setSearchFilteredJobMsg("");
+                                                        }}
+                                                        onKeyPress={(event) => {
+                                                            event.key === "Enter" && handleJobSearch();
                                                         }} />
                                                     <i className='bi bi-search search-icon'></i>
                                                     <button className='recruiter-search-btn' onClick={handleJobSearch}>Search</button>
@@ -370,7 +374,7 @@ const AllJobs = () => {
                                                                 </td>
                                                             </tr> :
                                                             searchFilteredJobs.length > 0 ?
-                                                                searchFilteredJobs.map((Job, index) => {
+                                                                searchFilteredJobs.slice(x[0], x[1]).map((Job, index) => {
                                                                     return (
                                                                         <tr className='dash-table-row client' key={Job.id}>
                                                                             <td className='dash-table-data1'>{index + 1}.</td>
@@ -402,7 +406,7 @@ const AllJobs = () => {
                                                                         </tr>
                                                                     ) :
                                                                     checkBoxFilteredJobs.length > 0 ?
-                                                                        (checkBoxFilteredJobs.map((Job, index) => {
+                                                                        (checkBoxFilteredJobs.slice(x[0], x[1]).map((Job, index) => {
                                                                             return (
                                                                                 <tr className='dash-table-row client' key={Job.id}>
                                                                                     <td className='dash-table-data1'>{index + 1}.</td>
@@ -426,7 +430,7 @@ const AllJobs = () => {
                                                                             );
                                                                         })) :
                                                                         (!searchJobRoleInput && checkBoxfilters.length === 0) ?
-                                                                            (allJobs.map((Job, index) => {
+                                                                            (allJobs.slice(x[0], x[1]).map((Job, index) => {
                                                                                 return (
                                                                                     <tr className='dash-table-row client' key={Job.id}>
                                                                                         <td className='dash-table-data1'>{index + 1}.</td>
@@ -461,26 +465,26 @@ const AllJobs = () => {
                                             }
                                         </div>
 
-                                        <div className="view-application-btn-area text-center">
+                                        {/* <div className="view-application-btn-area text-center">
                                             <a href='#' className='view-app-btn'>
                                                 View More&nbsp;&nbsp;
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="13" height="8" viewBox="0 0 13 8" fill="none">
                                                     <path d="M12.3536 4.35355C12.5488 4.15829 12.5488 3.84171 12.3536 3.64645L9.17157 0.464466C8.97631 0.269204 8.65973 0.269204 8.46447 0.464466C8.2692 0.659728 8.2692 0.976311 8.46447 1.17157L11.2929 4L8.46447 6.82843C8.2692 7.02369 8.2692 7.34027 8.46447 7.53553C8.65973 7.7308 8.97631 7.7308 9.17157 7.53553L12.3536 4.35355ZM0 4.5L12 4.5V3.5L0 3.5L0 4.5Z" fill="#0F75C5" />
                                                 </svg>
                                             </a>
-                                        </div>
+                                        </div> */}
                                         <div className="table-pagination-area pt-3">
                                             <div className="pagination-btn-area">
-                                                <button className='pag-prev-btn'>
+                                                {x[0] > 0 && <button className='pag-prev-btn' onClick={() => setX([x[0] - 10, x[1] - 10])}>
                                                     <i class="bi bi-chevron-left"></i>
-                                                </button>
-                                                <div className='pag-page'>
-                                                    <span className='current-page'>1</span>&nbsp;/&nbsp;
-                                                    <span className='total-page'>7</span>
-                                                </div>
-                                                <button className='pag-next-btn'>
+                                                </button>}
+                                                {(!searchFilteredJobMsg && !checkBoxFilteredJobMsg) && <div className='pag-page'>
+                                                    <span className='current-page'>{Math.ceil(x[0] / 10) + 1}</span>&nbsp;/&nbsp;
+                                                    <span className='total-page'>{searchFilteredJobs.length > 0 ? Math.ceil(searchFilteredJobs.length / 10) : checkBoxFilteredJobs.length > 0 ? Math.ceil(checkBoxFilteredJobs.length / 10) : Math.ceil(allJobs.length / 10)}</span>
+                                                </div>}
+                                                {(searchFilteredJobMsg ? !searchFilteredJobMsg : searchFilteredJobs.length > 0 ? (searchFilteredJobs.slice(x[0], x[1]).length === 10 && searchFilteredJobs.length > x[1]) : checkBoxFilteredJobMsg ? !checkBoxFilteredJobMsg : checkBoxFilteredJobs.length > 0 ? (checkBoxFilteredJobs.slice(x[0], x[1]).length === 10 && checkBoxFilteredJobs.length > x[1]) : (allJobs.slice(x[0], x[1]).length === 10 && allJobs.length > x[1])) && <button className='pag-next-btn' onClick={() => setX([x[0] + 10, x[1] + 10])}>
                                                     <i class="bi bi-chevron-right"></i>
-                                                </button>
+                                                </button>}
                                             </div>
                                         </div>
                                     </div>
@@ -566,7 +570,7 @@ const AllJobs = () => {
                                             <div className="view-det-head">Salary Range</div>
                                         </div>
                                         <div className="col-12 col-sm-7">
-                                            <div className="view-det-sub-head">{selectedJobViewDetail?.currencyType}{selectedJobViewDetail?.minSalary} - {selectedJobViewDetail?.maxSalary}{selectedJobViewDetail?.currencyType}</div>
+                                            <div className="view-det-sub-head">{selectedJobViewDetail?.currencyType}{selectedJobViewDetail?.minSalary} - {selectedJobViewDetail?.currencyType}{selectedJobViewDetail?.maxSalary}</div>
                                         </div>
                                     </div>
                                     <hr />

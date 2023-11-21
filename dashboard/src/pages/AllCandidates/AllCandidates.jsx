@@ -18,6 +18,9 @@ const AllCandidates = () => {
     const [searchInput, setSearchInput] = useState("");
     const [filteredSearchResults, setFilteredSearchResults] = useState([]);
     const [filteredSearchResultsMsg, setFilteredSearchResultsMsg] = useState("");
+
+    const [x, setX] = useState([0, 10]);
+
     useEffect(() => {
         $(document).ready(function () {
         });
@@ -212,6 +215,9 @@ const AllCandidates = () => {
                                                             setSearchInput(e.target.value);
                                                             setFilteredSearchResults([]);
                                                             setFilteredSearchResultsMsg("");
+                                                        }}
+                                                        onKeyPress={(event) => {
+                                                            event.key === "Enter" && handleSkillSearch();
                                                         }} />
                                                     <i className='bi bi-search search-icon'></i>
                                                     <button className='recruiter-search-btn' onClick={handleSkillSearch}>Search</button>
@@ -225,7 +231,7 @@ const AllCandidates = () => {
                                                             <th className='dash-table-head'>No.</th>
                                                             <th className='dash-table-head'>Full Name</th>
                                                             <th className='dash-table-head'>Email ID</th>
-                                                            <th className='dash-table-head'>Phone No</th>
+                                                            <th className='dash-table-head'>Phone No.</th>
                                                             <th className='dash-table-head text-center'>Send an interview invitation</th>
                                                             <th className='text-center'>View</th>
                                                         </tr>
@@ -239,7 +245,7 @@ const AllCandidates = () => {
                                                                 </td>
                                                             </tr> :
                                                             filteredSearchResults.length > 0 ?
-                                                                filteredSearchResults.map((candidate, index) => {
+                                                                filteredSearchResults.slice(x[0], x[1]).map((candidate, index) => {
 
                                                                     return (
                                                                         <tr className='dash-table-row client' key={candidate.id}>
@@ -285,7 +291,7 @@ const AllCandidates = () => {
                                                                         </tr>
                                                                     )
                                                                 }) :
-                                                                !searchInput ? candidateDetail.map((candidate, index) => {
+                                                                !searchInput ? candidateDetail.slice(x[0], x[1]).map((candidate, index) => {
                                                                     return (
                                                                         <tr className='dash-table-row client' key={candidate.id}>
                                                                             <td className='dash-table-data1'>{index + 1}.</td>
@@ -342,26 +348,26 @@ const AllCandidates = () => {
                                             }
                                         </div>
 
-                                        <div className="view-application-btn-area text-center">
+                                        {/* <div className="view-application-btn-area text-center">
                                             <a href='#' className='view-app-btn'>
                                                 View More&nbsp;&nbsp;
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="13" height="8" viewBox="0 0 13 8" fill="none">
                                                     <path d="M12.3536 4.35355C12.5488 4.15829 12.5488 3.84171 12.3536 3.64645L9.17157 0.464466C8.97631 0.269204 8.65973 0.269204 8.46447 0.464466C8.2692 0.659728 8.2692 0.976311 8.46447 1.17157L11.2929 4L8.46447 6.82843C8.2692 7.02369 8.2692 7.34027 8.46447 7.53553C8.65973 7.7308 8.97631 7.7308 9.17157 7.53553L12.3536 4.35355ZM0 4.5L12 4.5V3.5L0 3.5L0 4.5Z" fill="#0F75C5" />
                                                 </svg>
                                             </a>
-                                        </div>
+                                        </div> */}
                                         <div className="table-pagination-area pt-3">
                                             <div className="pagination-btn-area">
-                                                <button className='pag-prev-btn'>
+                                                {x[0] > 0 && <button className='pag-prev-btn' onClick={() => setX([x[0] - 10, x[1] - 10])}>
                                                     <i class="bi bi-chevron-left"></i>
-                                                </button>
-                                                <div className='pag-page'>
-                                                    <span className='current-page'>1</span>&nbsp;/&nbsp;
-                                                    <span className='total-page'>7</span>
-                                                </div>
-                                                <button className='pag-next-btn'>
+                                                </button>}
+                                                {!filteredSearchResultsMsg && <div className='pag-page'>
+                                                    <span className='current-page'>{Math.ceil(x[0] / 10) + 1}</span>&nbsp;/&nbsp;
+                                                    <span className='total-page'>{filteredSearchResults.length > 0 ? Math.ceil(filteredSearchResults.length / 10) : Math.ceil(candidateDetail.length / 10)}</span>
+                                                </div>}
+                                                {(filteredSearchResultsMsg ? !filteredSearchResultsMsg : filteredSearchResults.length > 0 ? (filteredSearchResults.slice(x[0], x[1]).length === 10 && filteredSearchResults.length > x[1]) : (candidateDetail.slice(x[0], x[1]).length === 10 && candidateDetail.length > x[1])) && <button className='pag-next-btn' onClick={() => setX([x[0] + 10, x[1] + 10])}>
                                                     <i class="bi bi-chevron-right"></i>
-                                                </button>
+                                                </button>}
                                             </div>
                                         </div>
                                     </div>

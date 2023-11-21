@@ -37,6 +37,8 @@ const TalentsProfileSearch = () => {
     const [selectedDepartmentResults, setSelectedDepartmentResults] = useState([]);
     const [selectedRoleResults, setSelectedRoleResults] = useState([]);
 
+    const [x, setX] = useState([0, 4]);
+
     const [filters, setFilters] = useState({
         searchInput: "",
         minExperienceYr: "",
@@ -1051,6 +1053,7 @@ const TalentsProfileSearch = () => {
                         if (alreadyViewedCandidate) {
                             window.open(`http://localhost:3000/talents/${id}`, '_blank');
                         } else {
+                            console.log(viewedCandidate.length)
                             if (viewedCandidate.length < cvViews) {
                                 const idData = {
                                     candidateId: id,
@@ -2594,10 +2597,16 @@ const TalentsProfileSearch = () => {
                                                 {filteredSearchResultsMsg ?
                                                     <p>{filteredSearchResultsMsg}</p> :
                                                     filteredSearchResults.length > 0 ?
-                                                        filteredSearchResults.map((candidate) => {
+                                                        filteredSearchResults.slice(x[0], x[1]).map((candidate) => {
                                                             const viewedCandidateForThisCandidate = loginClientDetail.companyId && viewedCandidate.find(cand => cand.candidateId === candidate.id);
                                                             const matchingImg = candidateImg ? candidateImg.find(img => img.id === candidate.id) : null;
                                                             const imgSrc = matchingImg ? `http://localhost:5002/candidate_profile/${matchingImg.image}` : "assets/img/talents-images/avatar.jpg";
+
+                                                            const calculateMatchPercentage = (skills1, skills2) => {
+                                                                const matchingSkills = skills2.filter(skill => skills1.includes(skill));
+                                                                return (matchingSkills.length / skills1.length) * 100;
+                                                            }
+                                                            const percentage = calculateMatchPercentage(selectedResults, [...candidate.skills, ...candidate.designation]);
                                                             return (
                                                                 <article className="talent--profile-card search" data-aos="fade-left" key={candidate.id}>
                                                                     <div className="tal--pro-card-left-area search">
@@ -2680,6 +2689,16 @@ const TalentsProfileSearch = () => {
                                                                     </div>
 
                                                                     <div className="tal--pro-card-right-area search">
+                                                                    <div className="tal--pro-card-ability-number-area">
+                                                                                {searchResult && <div className="tal--pro-card-ability-number-left">
+                                                                                    <h6 className='tal--pro-card-ability search'>Skill matched</h6>
+                                                                                    <h2 className='tal--pro-card-percentage search'>{Math.round(percentage)}%</h2>
+                                                                                </div>}
+                                                                                <div className="tal--pro-card-ability-number-right">
+                                                                                    <h6 className='tal--pro-card-ability search'>Can join in</h6>
+                                                                                    <h2 className='tal--pro-card-days search'><span>{candidate?.days}</span></h2>
+                                                                                </div>
+                                                                            </div>
                                                                         <div className="tal--pro-card-right-cover-area search">
                                                                             <div className='tal--pro-card-profile-img-role-area search'>
                                                                                 <img src={imgSrc} className='tal--pro-card-profile-img' alt="" />
@@ -2693,17 +2712,6 @@ const TalentsProfileSearch = () => {
                                                                                     Call Candidate
                                                                                 </button> */}
                                                                             </div>
-                                                                            <div className="tal--pro-card-ability-number-area">
-                                                                                {/* <div className="tal--pro-card-ability-number-left">
-                                                                                    <h6 className='tal--pro-card-ability search'>Skill matched</h6>
-                                                                                    <h2 className='tal--pro-card-percentage search'>90%</h2>
-                                                                                </div> */}
-                                                                                <div className="tal--pro-card-ability-number-right">
-                                                                                    <h6 className='tal--pro-card-ability search'>Can join in</h6>
-                                                                                    <h2 className='tal--pro-card-days search'><span>{candidate?.days}</span></h2>
-                                                                                </div>
-                                                                            </div>
-
                                                                         </div>
                                                                         {/* <div className="tal--pro-card-right-btn-area search">
                                                                             <button className='tal--pro-card-right-btn search'>
@@ -3080,25 +3088,25 @@ const TalentsProfileSearch = () => {
                                             </article> */}
 
 
-                                                <div className="tal--pro-paginate-btn-area" data-aos="fade-up">
-                                                    <h6 className='tal--pro-total-result-text'>Total Items : <span>{filteredSearchResults.length}</span></h6>
-                                                    <div className='tal--pro-slider-btn-sub'>
-                                                        <button className="tal--pro-slider-btn">
-                                                            <svg className='arrow-left' xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 27 27" fill="none">
-                                                                <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#5C3B2E" stroke-width="2" />
-                                                                <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#5C3B2E" stroke-width="2" />
-                                                                <path d="M1 26L25.1667 1" stroke="#5C3B2E" stroke-width="2" />
-                                                            </svg>
-                                                        </button>
-                                                        <button className="tal--pro-slider-btn">
-                                                            <svg className='arrow-right' xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 27 27" fill="none">
-                                                                <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#5C3B2E" stroke-width="2" />
-                                                                <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#5C3B2E" stroke-width="2" />
-                                                                <path d="M1 26L25.1667 1" stroke="#5C3B2E" stroke-width="2" />
-                                                            </svg>
-                                                        </button>
+                                                    <div className="tal--pro-paginate-btn-area" data-aos="fade-up">
+                                                        <h6 className='tal--pro-total-result-text'>Total Items : <span>{filteredSearchResultsMsg ? "0" : filteredSearchResults.length}</span></h6>
+                                                        <div className='tal--pro-slider-btn-sub'>
+                                                            {x[0] > 0 && <button className="tal--pro-slider-btn" onClick={()=>setX([x[0] - 4, x[1] - 4])}>
+                                                                <svg className='arrow-left' xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 27 27" fill="none">
+                                                                    <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#5C3B2E" stroke-width="2" />
+                                                                    <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#5C3B2E" stroke-width="2" />
+                                                                    <path d="M1 26L25.1667 1" stroke="#5C3B2E" stroke-width="2" />
+                                                                </svg>
+                                                            </button>}
+                                                            {(filteredSearchResultsMsg ? !filteredSearchResultsMsg : (filteredSearchResults.slice(x[0], x[1]).length === 4 && filteredSearchResults.length > x[1])) && < button className="tal--pro-slider-btn" onClick={()=>setX([x[0] + 4, x[1] + 4])}>
+                                                                <svg className='arrow-right' xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 27 27" fill="none">
+                                                                    <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#5C3B2E" stroke-width="2" />
+                                                                    <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#5C3B2E" stroke-width="2" />
+                                                                    <path d="M1 26L25.1667 1" stroke="#5C3B2E" stroke-width="2" /> 
+                                                                </svg>
+                                                            </button>}
+                                                        </div>
                                                     </div>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>

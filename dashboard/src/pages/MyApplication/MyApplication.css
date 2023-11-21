@@ -150,6 +150,7 @@
 }
 
 .pagination-btn-area {
+    margin-top: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -171,8 +172,9 @@
 
 .pag-prev-btn i,
 .pag-next-btn i {
+    
     color: #0F75C5;
-    font-size: 28px;
+    font-size: 25px;
 }
 
 .pag-prev-btn:focus,
