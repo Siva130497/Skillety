@@ -136,7 +136,7 @@ const Home = () => {
                 <div className="home--search-area">
                   <input type="text" data-aos="fade-down" data-aos-delay="200" className='home--search-box form-control' placeholder='Search for skills' />
                   <i class="bi bi-search home--search-icon" data-aos="zoom-in" data-aos-delay="200"></i>
-                  <button className='btn home--search-btn' data-aos="fade-up" data-aos-delay="100">Search</button>
+                  <button className='btn home--search-btn' data-aos="fade-left" data-aos-delay="100">Search</button>
                 </div>
                 <div className="home--popular-area">
                   <h6 data-aos="fade-right">Popular Searches</h6>

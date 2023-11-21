@@ -6683,7 +6683,7 @@ body.layout-3 .main-footer {
 
 .hr-line {
     border-top: 1px solid #714F36;
-    margin-bottom: 25px;
+    margin: 25px 0;
 }
 
 .main-sidebar .sidebar-brand.sidebar-brand-sm {
@@ -7021,7 +7021,7 @@ body.layout-3 .main-footer {
 }
 
 .main-footer {
-    padding: 18px 30px 18px 330px;
+    padding: 16px 30px 16px 330px;
     margin-top: 40px;
     color: #98a6ad;
     border-top: 1px solid #e3eaef;
@@ -8997,7 +8997,7 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
 
 .light-sidebar .main-sidebar .sidebar-menu li.active a .feather {
     color: #FFF;
-    fill: #F9C833;
+    /* fill: #F9C833; */
     filter: drop-shadow(2px 4px 6px #dcb02d) !important;
 }
 

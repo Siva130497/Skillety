@@ -44,17 +44,17 @@ const data = {
     datasets: [
         {
             fill: true,
-            label: 'Candidate Applied',
+            label: 'Clients',
             data: [12.5, 12.5, 2.5, 5, 0, 2.5, 2.5, 10],
-            borderColor: '#F9C833',
+            borderColor: '#5C3B2E',
             backgroundColor: '#714F36',
         },
         {
             fill: true,
-            label: 'Candidate Screened',
+            label: 'Candidates',
             data: [7.5, 8, 5, 7.5, 12.5, 5, 6, 7.5],
             borderColor: '#714F36',
-            backgroundColor: '#C2B9B0',
+            backgroundColor: '#F9C833',
         },
     ],
 };
@@ -284,7 +284,7 @@ const RecruiterDashboard = () => {
                                             <div className="dash-table-area">
                                                 <div className="dash-table-top-area clients">
                                                     <div className="dash-table-title">
-                                                        All Clients
+                                                        New Clients
                                                     </div>
                                                     <a href='/all-clients' className="dash-table-see-all-btn">See all</a>
                                                 </div>
@@ -294,7 +294,7 @@ const RecruiterDashboard = () => {
                                                             <th className='dash-table-data1 heading'>No.</th>
                                                             <th className='dash-table-data1 text-center heading'>Name</th>
                                                             <th className='dash-table-data1 text-center heading'>Company</th>
-                                                            <th className='dash-table-data1 text-center heading'>View</th>
+                                                            {/* <th className='dash-table-data1 text-center heading'>View</th> */}
                                                         </tr>
                                                         {clientDetail.map(client => {
                                                             return (
@@ -304,11 +304,11 @@ const RecruiterDashboard = () => {
                                                                     </td>
                                                                     <td className='dash-table-data1 text-center text-capitalized'>{client.name}</td>
                                                                     <td className='dash-table-data1 text-center text-capitalized'>{client.companyName}</td>
-                                                                    <td className='text-center dash-table-view-btn-area'>
+                                                                    {/* <td className='text-center dash-table-view-btn-area'>
                                                                         <button className='dash-table-view-btn client with-border pl-4 pr-4'
                                                                             data-toggle="modal">View
                                                                         </button>
-                                                                    </td>
+                                                                    </td> */}
                                                                 </tr>
                                                             )
                                                         })}
@@ -325,7 +325,7 @@ const RecruiterDashboard = () => {
                                             <div className="dash-table-area">
                                                 <div className="dash-table-top-area candidates">
                                                     <div className="dash-table-title">
-                                                        All Candidates
+                                                        New Candidates
                                                     </div>
                                                     <a href='/all-candidates' className="dash-table-see-all-btn">See all</a>
                                                 </div>
@@ -336,7 +336,7 @@ const RecruiterDashboard = () => {
                                                             <th className='dash-table-data1 heading'>No.</th>
                                                             <th className='dash-table-data1 text-center heading'>Full Name</th>
                                                             <th className='dash-table-data1 text-center heading'>Designation</th>
-                                                            <th className='dash-table-data1 text-center heading'>View</th>
+                                                            {/* <th className='dash-table-data1 text-center heading'>View</th> */}
                                                         </tr>
                                                         {candidateDetail.map(candidate => {
                                                             return (
@@ -346,11 +346,11 @@ const RecruiterDashboard = () => {
                                                                     </td>
                                                                     <td className='dash-table-data1 text-center text-capitalized'>{candidate.firstName} {candidate.lastName}</td>
                                                                     <td className='dash-table-data1 text-center text-capitalized'>{candidate.designation[0]}</td>
-                                                                    <td className='text-center dash-table-view-btn-area'>
+                                                                    {/* <td className='text-center dash-table-view-btn-area'>
                                                                         <button className='dash-table-view-btn client with-border pl-4 pr-4'
                                                                             data-toggle="modal">View
                                                                         </button>
-                                                                    </td>
+                                                                    </td> */}
                                                                 </tr>
                                                             )
                                                         })}

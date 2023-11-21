@@ -27,19 +27,19 @@ const SettingsCandidate = () => {
 
     useEffect(() => {
         $(document).ready(function () {
-            $(".setting-change-btn").on("click", function () {
-                var $changeInputArea = $(this).prev(".change-input-area");
-                var type = $(this).data("type");
-                if ($changeInputArea.is(":visible")) {
-                    $changeInputArea.slideUp();
-                    $(this).removeClass("expanded");
-                    $(this).text("Change " + type);
-                } else {
-                    $changeInputArea.slideDown();
-                    $(this).addClass("expanded");
-                    $(this).text("Cancel");
-                }
-            });
+            // $(".setting-change-btn").on("click", function () {
+            //     var $changeInputArea = $(this).prev(".change-input-area");
+            //     var type = $(this).data("type");
+            //     if ($changeInputArea.is(":visible")) {
+            //         $changeInputArea.slideUp();
+            //         $(this).removeClass("expanded");
+            //         $(this).text("Change " + type);
+            //     } else {
+            //         $changeInputArea.slideDown();
+            //         $(this).addClass("expanded");
+            //         $(this).text("Cancel");
+            //     }
+            // });
 
             $(".setting-value.password").each(function () {
                 var originalText = $(this).text();
@@ -162,7 +162,7 @@ const SettingsCandidate = () => {
                 if (!res.data.error) {
                     alert("email updated")
                     setUserInfo({ ...userInfo, email: "" })
-                    
+
                 }
             })
             .catch(err => console.log(err))
@@ -247,6 +247,38 @@ const SettingsCandidate = () => {
 
     }
 
+    /////////////
+    const [isProfileImageExpanded, setIsProfileImageExpanded] = useState(false);
+    const handleProfileImageToggle = () => {
+        setIsProfileImageExpanded((prev) => !prev);
+    };
+
+    const [isEmailExpanded, setIsEmailExpanded] = useState(false);
+    const handleEmailToggle = () => {
+        setIsEmailExpanded((prev) => !prev);
+    };
+
+    const [isMobileExpanded, setIsMobileExpanded] = useState(false);
+    const handleMobileToggle = () => {
+        setIsMobileExpanded((prev) => !prev);
+    };
+
+    const [isPasswordExpanded, setIsPasswordExpanded] = useState(false);
+    const handlePasswordToggle = () => {
+        setIsPasswordExpanded((prev) => !prev);
+    };
+
+    const [isLocationExpanded, setIsLocationExpanded] = useState(false);
+    const handleLocationToggle = () => {
+        setIsLocationExpanded((prev) => !prev);
+    };
+
+    const [isSalaryExpanded, setIsSalaryExpanded] = useState(false);
+    const handleSalaryToggle = () => {
+        setIsSalaryExpanded((prev) => !prev);
+    };
+
+
     return (
         <div>
             {candidateToken && <div class="main-wrapper main-wrapper-1">
@@ -289,50 +321,56 @@ const SettingsCandidate = () => {
                                                 <div className='image-upload-img-area'>
                                                     <img src={candidateImgUrl ? candidateImgUrl : "../assets/img/talents-images/avatar.jpg"} className='image-upload-img' alt="" />
                                                 </div>
-                                                <div className="change-input-area">
+                                                <div className={`change-input-area ${isProfileImageExpanded ? 'expanded' : ''}`}>
                                                     <div className="row">
-                                                        <div className="col-12 col-xl-5 col-lg-5 col-md-6 d-flex align-items-center gap-10">
+                                                        <div className="col-12 col-xl-5 col-lg-5 col-md-6 d-flex align-items-center gap-10 mt-4 mb-2">
                                                             <input type='file' className='change-setting-input file' onChange={e => setImage(e.target.files[0])} />
                                                             <button className='setting-update-btn' onClick={handlePhotoUpdate}>Update</button>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <button className="setting-change-btn" data-type="Email">Change Profile Photo</button>
+                                                <button className={`setting-change-btn ${isProfileImageExpanded ? 'expanded' : ''}`} data-type="Profile Image" onClick={handleProfileImageToggle}>
+                                                    {isProfileImageExpanded ? 'Cancel' : `Change Profile Image`}
+                                                </button>
                                             </div>
 
                                             <div className="setting-content">
                                                 <div className='setting-name'>Email Address</div>
                                                 <div className='setting-value'>{candidateDetail.email}</div>
-                                                <div className="change-input-area">
+                                                <div className={`change-input-area ${isEmailExpanded ? 'expanded' : ''}`}>
                                                     <div className="row">
-                                                        <div className="col-12 col-xl-5 col-lg-5 col-md-6 d-flex align-items-center gap-10">
+                                                        <div className="col-12 col-xl-5 col-lg-5 col-md-6 d-flex align-items-center gap-10 mt-4 mb-2">
                                                             <input type="email" className='change-setting-input' placeholder='Change Email' onChange={(e) => setUserInfo({ ...userInfo, email: e.target.value })} />
                                                             <button className='setting-update-btn' onClick={handleEmailUpdate}>Update</button>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <button className="setting-change-btn" data-type="Email">Change Email</button>
+                                                <button className={`setting-change-btn ${isEmailExpanded ? 'expanded' : ''}`} data-type="Email" onClick={handleEmailToggle}>
+                                                    {isEmailExpanded ? 'Cancel' : `Change Email`}
+                                                </button>
                                             </div>
 
                                             <div className="setting-content">
                                                 <div className='setting-name'>Mobile Number</div>
                                                 <div className='setting-value'>{candidateDetail.phone}</div>
-                                                <div className="change-input-area">
+                                                <div className={`change-input-area ${isMobileExpanded ? 'expanded' : ''}`}>
                                                     <div className="row">
-                                                        <div className="col-12 col-xl-5 col-lg-5 col-md-6 d-flex align-items-center gap-10">
+                                                        <div className="col-12 col-xl-5 col-lg-5 col-md-6 d-flex align-items-center gap-10 mt-4 mb-2">
                                                             <input type="number" className='change-setting-input' placeholder='Change Mobile Number' onChange={(e) => setUserInfo({ ...userInfo, phone: e.target.value })} />
                                                             <button className='setting-update-btn' onClick={handlePhoneUpdate}>Update</button>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <button className="setting-change-btn" data-type="Mobile Number">Change Mobile Number</button>
+                                                <button className={`setting-change-btn ${isMobileExpanded ? 'expanded' : ''}`} data-type="Mobile Number" onClick={handleMobileToggle}>
+                                                    {isMobileExpanded ? 'Cancel' : `Change Mobile Number`}
+                                                </button>
                                             </div>
 
                                             <div className="setting-content">
                                                 <div className='setting-name'>Password</div>
                                                 <div className='setting-value password'>Password</div>
-                                                <div className="change-input-area">
-                                                    <div className="row">
+                                                <div className={`change-input-area ${isPasswordExpanded ? 'multi-input-expanded' : ''}`}>
+                                                    <div className="row mt-4">
                                                         <div className="col-12 col-xl-5 col-lg-5 col-md-6">
                                                             <input type="password" className='change-setting-input' placeholder='Current Password' onChange={(e) => setUserInfo({ ...userInfo, currentPassword: e.target.value })} />
                                                             <button class="show-btn">
@@ -357,9 +395,11 @@ const SettingsCandidate = () => {
                                                         </div>
                                                     </div>
                                                     <small id="error-message" className='text-danger'></small><br />
-                                                    <button className='setting-update-btn mt-3' id="update-btn" onClick={handlePasswordUpdate}>Update</button>
+                                                    <button className='setting-update-btn mt-2 mb-2' id="update-btn" onClick={handlePasswordUpdate}>Update</button>
                                                 </div>
-                                                <button className="setting-change-btn" data-type="Password">Change Password</button>
+                                                <button className={`setting-change-btn ${isPasswordExpanded ? 'expanded' : ''}`} data-type="Password" onClick={handlePasswordToggle}>
+                                                    {isPasswordExpanded ? 'Cancel' : `Change Password`}
+                                                </button>
                                             </div>
                                         </div>
 
@@ -372,15 +412,17 @@ const SettingsCandidate = () => {
                                             <div className="setting-content">
                                                 <div className='setting-name'>Preferred Work Location(Maximum 10)</div>
                                                 <div className='setting-value'>Delhi, Mumbai, Chennai, Hyderabad</div>
-                                                <div className="change-input-area">
+                                                <div className={`change-input-area ${isLocationExpanded ? 'expanded' : ''}`}>
                                                     <div className="row">
-                                                        <div className="col-12 col-xl-6 col-lg-6 col-md-6 d-flex align-items-center gap-10">
+                                                        <div className="col-12 col-xl-6 col-lg-6 col-md-6 d-flex align-items-center gap-10 mt-4 mb-2">
                                                             <input type="text" className='change-setting-input' placeholder='Change Work Location' />
                                                             <button className='setting-update-btn'>Update</button>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <button className="setting-change-btn" data-type="Work Location">Change Work Location</button>
+                                                <button className={`setting-change-btn ${isLocationExpanded ? 'expanded' : ''}`} data-type="Work Location" onClick={handleLocationToggle}>
+                                                    {isLocationExpanded ? 'Cancel' : `Change Work Location`}
+                                                </button>
                                             </div>
 
                                             <div className="setting-content">
@@ -388,9 +430,9 @@ const SettingsCandidate = () => {
                                                 <div className='setting-value'>
                                                     <span>5.5</span> - <span>6.8</span> LPA Annual
                                                 </div>
-                                                <div className="change-input-area">
+                                                <div className={`change-input-area ${isSalaryExpanded ? 'expanded' : ''}`}>
                                                     <div className="row">
-                                                        <div className="col-12 col-xl-6 col-lg-6 col-md-6 d-flex align-items-center gap-10">
+                                                        <div className="col-12 col-xl-6 col-lg-6 col-md-6 d-flex align-items-center gap-10 mt-4 mb-2">
                                                             <input type="number" className='change-setting-input text-center' placeholder='Min' />
                                                             <span>-</span>
                                                             <input type="number" className='change-setting-input text-center' placeholder='Max' />
@@ -398,7 +440,9 @@ const SettingsCandidate = () => {
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <button className="setting-change-btn" data-type="Amount">Change Amount</button>
+                                                <button className={`setting-change-btn ${isSalaryExpanded ? 'expanded' : ''}`} data-type="Amount" onClick={handleSalaryToggle}>
+                                                    {isMobileExpanded ? 'Cancel' : `Change Amount`}
+                                                </button>
                                             </div>
 
                                         </div>

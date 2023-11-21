@@ -47,24 +47,24 @@ const HomeCandidate = () => {
     getClientImg();
 
     axios.get("http://localhost:5002/clients")
-    .then(res => {
-      const allClients = res.data;
-      
-      // Create a Map to store unique objects based on companyId
-      const uniqueClientsMap = new Map();
+      .then(res => {
+        const allClients = res.data;
 
-      // Iterate through all clients and store only unique objects in the Map
-      allClients.forEach(client => {
-        uniqueClientsMap.set(client.companyId, client);
-      });
+        // Create a Map to store unique objects based on companyId
+        const uniqueClientsMap = new Map();
 
-      // Convert the Map values back to an array
-      const uniqueClientsArray = Array.from(uniqueClientsMap.values());
+        // Iterate through all clients and store only unique objects in the Map
+        allClients.forEach(client => {
+          uniqueClientsMap.set(client.companyId, client);
+        });
 
-      console.log(uniqueClientsArray);
-      setAllClient(uniqueClientsArray);
-    })
-    .catch(err => console.log(err));
+        // Convert the Map values back to an array
+        const uniqueClientsArray = Array.from(uniqueClientsMap.values());
+
+        console.log(uniqueClientsArray);
+        setAllClient(uniqueClientsArray);
+      })
+      .catch(err => console.log(err));
 
   }, []);
 
@@ -159,7 +159,7 @@ const HomeCandidate = () => {
                 <div className="home--search-area candidate">
                   <input type="text" data-aos="fade-down" data-aos-delay="200" className='home--search-box candidate form-control' placeholder='Search job, keywords, companies' />
                   <i class="bi bi-search home--search-icon" data-aos="zoom-in" data-aos-delay="200"></i>
-                  <button className='btn home--search-btn candidate' data-aos="fade-up" data-aos-delay="100">Search</button>
+                  <button className='btn home--search-btn candidate' data-aos="fade-left" data-aos-delay="100">Search</button>
                 </div>
                 <div className="home--popular-area candidate">
                   <h6 data-aos="fade-right">Popular Searches</h6>
@@ -325,40 +325,42 @@ const HomeCandidate = () => {
               </div>
             </div>
             <div className="company--content-area">
-              {allClient.map(client=>{
+              {allClient.map(client => {
                 const matchingImg = clientImg ? clientImg.find(img => img.id === client.companyId) : null;
                 const imgSrc = matchingImg ? `http://localhost:5002/client_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
-                const jobOpening = (allJobs.filter(job=>job.companyId === client.companyId)).length
-                return(
+                const jobOpening = (allJobs.filter(job => job.companyId === client.companyId)).length
+                return (
                   <div className="row company--content-row custom-row-border-top">
-                <div className="col-12 col-xl-3 col-lg-3 col-sm-6 col-md-6 company--content-img-area">
-                  <img src={imgSrc} data-aos="fade" className='company--content-img' loading='lazy' alt="" />
-                  <div>{client.companyName}</div>
-                </div>
-                <div className="col-12 col-xl-4 col-lg-4 col-sm-6 col-md-6 company--content-jobs-area">
-                  <div className='company--content-jobs' data-aos="zoom-out">{jobOpening}<span> Jobs Opening</span></div>
-                </div>
-                <div className="col-12 col-xl-5 col-lg-5 col-md-12 company--content-desc-area">
-                  {/* <p className='company--content-desc' data-aos="fade-left">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p> */}
-                  <div className='company--content-apply-btn-area' data-aos="fade-right">
-                    <a href={`/company-details/${client.companyId}`} className='company--content-apply-btn'>
-                      <div className='company--content-apply-btn-sub'>
-                        Apply Now
+                    <div className="col-12 col-xl-2 col-lg-2 col-sm-6 col-md-3 company--content-img-area">
+                      <img src={imgSrc} data-aos="fade" className='company--content-img cand-home' loading='lazy' alt="" />
+                    </div>
+                    <div className="col-12 col-xl-3 col-lg-3 col-sm-6 col-md-4 home--company-name-area">
+                      <div className='home-company-name' data-aos="zoom-out">{client.companyName}</div>
+                    </div>
+                    <div className="col-12 col-xl-4 col-lg-4 col-sm-6 col-md-5 company--content-jobs-area">
+                      <div className='company--content-jobs' data-aos="zoom-out">{jobOpening}<span> Jobs Opening</span></div>
+                    </div>
+                    <div className="col-12 col-xl-3 col-lg-3 col-md-12 company--content-desc-area">
+                      {/* <p className='company--content-desc' data-aos="fade-left">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p> */}
+                      <div className='company--content-apply-btn-area' data-aos="fade-right">
+                        <a href={`/company-details/${client.companyId}`} className='company--content-apply-btn'>
+                          <div className='company--content-apply-btn-sub'>
+                            Apply Now
+                          </div>
+                          <div className='company--content-apply-arrow'>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 15 15" fill="none">
+                              <path d="M2.10205 2.10666C4.02798 3.73629 9.03538 5.84 13.6576 1.21777" stroke="#5C3B2E" stroke-width="2" />
+                              <path d="M13.8327 1.04564C11.9705 2.74763 9.24438 7.44531 13.2383 12.6201" stroke="#5C3B2E" stroke-width="2" />
+                              <path d="M1.2666 14.1331L14.1555 0.799805" stroke="#5C3B2E" stroke-width="2" />
+                            </svg>
+                          </div>
+                        </a>
                       </div>
-                      <div className='company--content-apply-arrow'>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 15 15" fill="none">
-                          <path d="M2.10205 2.10666C4.02798 3.73629 9.03538 5.84 13.6576 1.21777" stroke="#5C3B2E" stroke-width="2" />
-                          <path d="M13.8327 1.04564C11.9705 2.74763 9.24438 7.44531 13.2383 12.6201" stroke="#5C3B2E" stroke-width="2" />
-                          <path d="M1.2666 14.1331L14.1555 0.799805" stroke="#5C3B2E" stroke-width="2" />
-                        </svg>
-                      </div>
-                    </a>
-                  </div>
-                </div>
+                    </div>
                   </div>
                 )
               })}
-              
+
 
               {/* <div className="row company--content-row custom-row-border-top">
                 <div className="col-12 col-xl-3 col-lg-3 col-sm-6 col-md-6 company--content-img-area">

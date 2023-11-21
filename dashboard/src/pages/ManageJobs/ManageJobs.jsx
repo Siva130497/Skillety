@@ -122,33 +122,33 @@ const ManageJobs = () => {
         }
     }
 
-    const getNonApprovaljobs = async() => {
-        try{
+    const getNonApprovaljobs = async () => {
+        try {
             const res = await axios.get(`http://localhost:5002/non-approval-jobs`, {
-              headers: {
-                  Authorization: `Bearer ${clientToken}`,
-                  Accept: 'application/json'
-              }
+                headers: {
+                    Authorization: `Bearer ${clientToken}`,
+                    Accept: 'application/json'
+                }
             });
             const result = res.data;
             if (!result.error) {
-              console.log(result);
-              setUpdatePostedJobs(prevPostedJobs => [...prevPostedJobs, ...result.reverse()]);
+                console.log(result);
+                setUpdatePostedJobs(prevPostedJobs => [...prevPostedJobs, ...result.reverse()]);
             } else {
-              console.log(result);
+                console.log(result);
             }
-        }catch(err){
-          console.log(err);
+        } catch (err) {
+            console.log(err);
         }
-      }
+    }
 
     //   const updatePostedJobs = (newJobs) => {
     //     // Filter out duplicates based on job ID
     //     const uniqueNewJobs = newJobs.filter(job => !uniqueJobIds.has(job.id));
-        
+
     //     // Add unique job IDs to the set
     //     newJobs.forEach(job => uniqueJobIds.add(job.id));
-      
+
     //     // Concatenate the new data to the existing postedJobs array
     //     setPostedJobs(prevPostedJobs => [...prevPostedJobs, ...uniqueNewJobs]);
     //   }
@@ -206,20 +206,20 @@ const ManageJobs = () => {
         const newArray = updatePostedJobs.filter(obj => {
             // Check if the ID is already in the uniqueIds object
             if (!uniqueIds[obj.id]) {
-              // If not, mark it as seen and include it in the new array
-              uniqueIds[obj.id] = true;
-              return true;
+                // If not, mark it as seen and include it in the new array
+                uniqueIds[obj.id] = true;
+                return true;
             }
             // If the ID is already in the uniqueIds object, filter it out
             return false;
-          });
+        });
         setPostedJobs(newArray)
     }, [updatePostedJobs]);
 
     console.log(postedJobs)
 
     const handleDeleteJob = (id) => {
-       
+
         Swal.fire({
             title: 'Are you sure?',
             text: 'You won\'t be able to revert this!',
@@ -230,29 +230,29 @@ const ManageJobs = () => {
             confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
             if (result.isConfirmed) {
-                
+
                 axios.delete(`http://localhost:5002/delete-job/${id}`, {
                     headers: {
                         Authorization: `Bearer ${clientToken}`,
                         Accept: 'application/json'
                     }
                 })
-                .then((res) => {
-                    console.log(res.data);
-                    showSuccessMessage("Job has been deleted!");
-                    window.location.reload();
-                })
-                .catch((err) => {
-                    console.log(err);
-                    showErrorMessage();
-                });
+                    .then((res) => {
+                        console.log(res.data);
+                        showSuccessMessage("Job has been deleted!");
+                        window.location.reload();
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                        showErrorMessage();
+                    });
             }
-            
+
         });
     }
 
     const handleDeleteNonApprovalJob = (id) => {
-       
+
         Swal.fire({
             title: 'Are you sure?',
             text: 'You won\'t be able to revert this!',
@@ -263,24 +263,24 @@ const ManageJobs = () => {
             confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
             if (result.isConfirmed) {
-                
+
                 axios.delete(`http://localhost:5002/delete-non-approval-job/${id}`, {
                     headers: {
                         Authorization: `Bearer ${clientToken}`,
                         Accept: 'application/json'
                     }
                 })
-                .then((res) => {
-                    console.log(res.data);
-                    showSuccessMessage("Job has been deleted!");
-                    window.location.reload();
-                })
-                .catch((err) => {
-                    console.log(err);
-                    showErrorMessage();
-                });
+                    .then((res) => {
+                        console.log(res.data);
+                        showSuccessMessage("Job has been deleted!");
+                        window.location.reload();
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                        showErrorMessage();
+                    });
             }
-            
+
         });
     }
 
@@ -328,7 +328,7 @@ const ManageJobs = () => {
                                                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-file-earmark-text-fill" viewBox="0 0 16 16">
                                                                         <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM4.5 9a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 1 0-1h4a.5.5 0 0 1 0 1h-4z" fill='#0879bc' />
                                                                     </svg>
-                                                                </button> : <p>This job waiting for approval</p>}
+                                                                </button> : <div className='text-approval'>This job waiting <br /> for approval</div>}
                                                             </td>
                                                             <td className='dash-table-data1 text-center'>
                                                                 {staff ? staff.name : 'Unknown'}
@@ -337,14 +337,24 @@ const ManageJobs = () => {
                                                                 <button className='man-job-status-btn theme-info'>{job?.pending ? "Pending" : "Approved"}</button>
                                                             </td>
                                                             <td className='text-center'>
-                                                                {!(job?.pending) ? <button className='delete-btn' onClick={() => handleDeleteJob(job.id)}>
-                                                                    <i className="bi bi-trash"></i>
-                                                                </button> : <button className='delete-btn' onClick={() => handleDeleteNonApprovalJob(job.id)}>
-                                                                    <i className="bi bi-trash"></i>
-                                                                </button>}
-                                                                <button className='edit-btn' onClick={() => navigate(`/edit-job/${job.id}`)}>
-                                                                    <i class="bi bi-pencil-fill"></i>
-                                                                </button>
+                                                                <div className="action-btn-area">
+                                                                    <button className='job-edit-btn' title='Edit job details...' onClick={() => navigate(`/edit-job/${job.id}`)}>
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
+                                                                            <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
+                                                                        </svg>
+                                                                    </button>
+                                                                    {!(job?.pending) ?
+                                                                        <button className='job-delete-btn' title='Delete job data...' onClick={() => handleDeleteJob(job.id)}>
+                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                                                                                <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
+                                                                            </svg>
+                                                                        </button> :
+                                                                        <button className='job-delete-btn' title='Delete job data...' onClick={() => handleDeleteNonApprovalJob(job.id)}>
+                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                                                                                <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
+                                                                            </svg>
+                                                                        </button>}
+                                                                </div>
                                                             </td>
                                                         </tr>
                                                     );
@@ -362,14 +372,14 @@ const ManageJobs = () => {
                                         </div>
                                         <div className="table-pagination-area pt-3">
                                             <div className="pagination-btn-area">
-                                                {x[0] > 0 &&<button className='pag-prev-btn' onClick={()=>setX([x[0] - 10, x[1] - 10])}>
+                                                {x[0] > 0 && <button className='pag-prev-btn' onClick={() => setX([x[0] - 10, x[1] - 10])}>
                                                     <i class="bi bi-chevron-left"></i>
                                                 </button>}
                                                 <div className='pag-page'>
                                                     <span className='current-page'>{Math.ceil(x[0] / 10) + 1}</span>&nbsp;/&nbsp;
                                                     <span className='total-page'>{Math.ceil(postedJobs.length / 10)}</span>
                                                 </div>
-                                                {(postedJobs.slice(x[0], x[1]).length === 10 && postedJobs.length > x[1]) && <button className='pag-next-btn' onClick={()=>setX([x[0] + 10, x[1] + 10])}>
+                                                {(postedJobs.slice(x[0], x[1]).length === 10 && postedJobs.length > x[1]) && <button className='pag-next-btn' onClick={() => setX([x[0] + 10, x[1] + 10])}>
                                                     <i class="bi bi-chevron-right"></i>
                                                 </button>}
                                             </div>
