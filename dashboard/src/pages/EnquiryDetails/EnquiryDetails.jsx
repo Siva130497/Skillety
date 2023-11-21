@@ -56,7 +56,7 @@ const EnquiryDetails = () => {
                                                     {/* table data */}
                                                     <tr className='dash-table-row client'>
                                                         <td className='dash-table-data1'>01.</td>
-                                                        <td className='dash-table-data1'>
+                                                        <td className='dash-table-data1 text-capitalized'>
                                                             sanjay yut
                                                         </td>
                                                         <td className='dash-table-data1'>
@@ -89,14 +89,14 @@ const EnquiryDetails = () => {
                                             </div>
                                         </div>
 
-                                        <div className="view-application-btn-area text-center">
+                                        {/* <div className="view-application-btn-area text-center">
                                             <a href='#' className='view-app-btn'>
                                                 View More&nbsp;&nbsp;
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="13" height="8" viewBox="0 0 13 8" fill="none">
                                                     <path d="M12.3536 4.35355C12.5488 4.15829 12.5488 3.84171 12.3536 3.64645L9.17157 0.464466C8.97631 0.269204 8.65973 0.269204 8.46447 0.464466C8.2692 0.659728 8.2692 0.976311 8.46447 1.17157L11.2929 4L8.46447 6.82843C8.2692 7.02369 8.2692 7.34027 8.46447 7.53553C8.65973 7.7308 8.97631 7.7308 9.17157 7.53553L12.3536 4.35355ZM0 4.5L12 4.5V3.5L0 3.5L0 4.5Z" fill="#0F75C5" />
                                                 </svg>
                                             </a>
-                                        </div>
+                                        </div> */}
                                         <div className="table-pagination-area pt-3">
                                             <div className="pagination-btn-area">
                                                 <button className='pag-prev-btn'>
@@ -138,7 +138,7 @@ const EnquiryDetails = () => {
                                             <div className="view-det-head">Full Name</div>
                                         </div>
                                         <div className="col-12 col-sm-6">
-                                            <div className="view-det-sub-head">Sanjay yut</div>
+                                            <div className="view-det-sub-head text-capitalized">Sanjay yut</div>
                                         </div>
                                     </div>
                                     <hr />
@@ -165,7 +165,7 @@ const EnquiryDetails = () => {
                                             <div className="view-det-head">Company Name</div>
                                         </div>
                                         <div className="col-12 col-sm-6">
-                                            <div className="view-det-sub-head">newCompany</div>
+                                            <div className="view-det-sub-head text-capitalized">newCompany</div>
                                         </div>
                                     </div>
                                     <hr />
@@ -174,7 +174,7 @@ const EnquiryDetails = () => {
                                             <div className="view-det-head">Designation</div>
                                         </div>
                                         <div className="col-12 col-sm-6">
-                                            <div className="view-det-sub-head">engineer</div>
+                                            <div className="view-det-sub-head text-capitalized">engineer</div>
                                         </div>
                                     </div>
                                     <hr />
@@ -183,7 +183,7 @@ const EnquiryDetails = () => {
                                             <div className="view-det-head">Location</div>
                                         </div>
                                         <div className="col-12 col-sm-6">
-                                            <div className="view-det-sub-head">Jaffna</div>
+                                            <div className="view-det-sub-head text-capitalized">Jaffna</div>
                                         </div>
                                     </div>
                                     <hr />
@@ -192,7 +192,7 @@ const EnquiryDetails = () => {
                                             <div className="view-det-head">Selected RPO model</div>
                                         </div>
                                         <div className="col-12 col-sm-6">
-                                            <div className="view-det-sub-head">Designer</div>
+                                            <div className="view-det-sub-head text-capitalized">Designer</div>
                                         </div>
                                     </div>
                                     <hr />
@@ -219,7 +219,7 @@ const EnquiryDetails = () => {
                                             <div className="view-det-head">Premises where the Accounts Manager has to work.</div>
                                         </div>
                                         <div className="col-12 col-sm-6">
-                                            <div className="view-det-sub-head">our premises</div>
+                                            <div className="view-det-sub-head text-capitalized">our premises</div>
                                         </div>
                                     </div>
                                 </div>

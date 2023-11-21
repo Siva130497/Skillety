@@ -386,13 +386,14 @@ const AllJobs = () => {
                                                                             </td>
 
                                                                             <td className='text-center'>
-                                                                                <button className='application-btn' data-toggle="modal" title='View Candidate Details...' data-target="#invoiceModal" onClick={() => handleViewJobDetail(Job.id)}>
-                                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
-                                                                                        <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
-                                                                                        <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"
-                                                                                            fill='#0879bc' />
-                                                                                    </svg>
-                                                                                </button>
+                                                                                <div className="action-btn-area">
+                                                                                    <button className='job-view-btn' data-toggle="modal" title='View Candidate Details...' data-target="#invoiceModal" onClick={() => handleViewJobDetail(Job.id)}>
+                                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                                                                            <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
+                                                                                            <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
+                                                                                        </svg>
+                                                                                    </button>
+                                                                                </div>
                                                                             </td>
                                                                         </tr>
                                                                     );
@@ -418,13 +419,14 @@ const AllJobs = () => {
                                                                                     </td>
 
                                                                                     <td className='text-center'>
-                                                                                        <button className='application-btn' data-toggle="modal" title='View Candidate Details...' data-target="#invoiceModal" onClick={() => handleViewJobDetail(Job.id)}>
-                                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
-                                                                                                <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
-                                                                                                <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"
-                                                                                                    fill='#0879bc' />
-                                                                                            </svg>
-                                                                                        </button>
+                                                                                        <div className="action-btn-area">
+                                                                                            <button className='job-view-btn' data-toggle="modal" title='View Candidate Details...' data-target="#invoiceModal" onClick={() => handleViewJobDetail(Job.id)}>
+                                                                                                <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                                                                                    <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
+                                                                                                    <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
+                                                                                                </svg>
+                                                                                            </button>
+                                                                                        </div>
                                                                                     </td>
                                                                                 </tr>
                                                                             );
@@ -442,13 +444,14 @@ const AllJobs = () => {
                                                                                         </td>
 
                                                                                         <td className='text-center'>
-                                                                                            <button className='application-btn' data-toggle="modal" title='View Candidate Details...' data-target="#invoiceModal" onClick={() => handleViewJobDetail(Job.id)}>
-                                                                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
-                                                                                                    <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
-                                                                                                    <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"
-                                                                                                        fill='#0879bc' />
-                                                                                                </svg>
-                                                                                            </button>
+                                                                                            <div className="action-btn-area">
+                                                                                                <button className='job-view-btn' data-toggle="modal" title='View Candidate Details...' data-target="#invoiceModal" onClick={() => handleViewJobDetail(Job.id)}>
+                                                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                                                                                        <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
+                                                                                                        <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
+                                                                                                    </svg>
+                                                                                                </button>
+                                                                                            </div>
                                                                                         </td>
                                                                                     </tr>
                                                                                 );
@@ -510,28 +513,28 @@ const AllJobs = () => {
                             <div className="modal-body">
                                 <div className="card p-4 recruiter-view-card candidate">
                                     <div className="row">
-                                        <div className="col-12 col-sm-5">
+                                        <div className="col-12 col-sm-5 col-md-5 col-lg-4">
                                             <div className="view-det-head">Job Role</div>
                                         </div>
-                                        <div className="col-12 col-sm-7">
+                                        <div className="col-12 col-sm-7 col-md-7 col-lg-8">
                                             <div className="view-det-sub-head text-capitalized">{selectedJobViewDetail?.jobRole[0]}</div>
                                         </div>
                                     </div>
                                     <hr />
                                     <div className="row">
-                                        <div className="col-12 col-sm-5">
+                                        <div className="col-12 col-sm-5 col-md-5 col-lg-4">
                                             <div className="view-det-head">Job Category</div>
                                         </div>
-                                        <div className="col-12 col-sm-7">
+                                        <div className="col-12 col-sm-7 col-md-7 col-lg-8">
                                             <div className="view-det-sub-head text-capitalized">{selectedJobViewDetail?.jobCategory}</div>
                                         </div>
                                     </div>
                                     <hr />
                                     <div className="row">
-                                        <div className="col-12 col-sm-5">
+                                        <div className="col-12 col-sm-5 col-md-5 col-lg-4">
                                             <div className="view-det-head">Job Mandatory Skills</div>
                                         </div>
-                                        <div className="col-12 col-sm-7">
+                                        <div className="col-12 col-sm-7 col-md-7 col-lg-8">
                                             <div className="cand-skills-area">
                                                 {selectedJobViewDetail?.skills.map(skill => {
                                                     return (
@@ -543,10 +546,10 @@ const AllJobs = () => {
                                     </div>
                                     <hr />
                                     <div className="row">
-                                        <div className="col-12 col-sm-5">
+                                        <div className="col-12 col-sm-5 col-md-5 col-lg-4">
                                             <div className="view-det-head">Needed Experience</div>
                                         </div>
-                                        <div className="col-12 col-sm-7">
+                                        <div className="col-12 col-sm-7 col-md-7 col-lg-8">
                                             <div className="view-det-sub-head text-capitalized">
                                                 <span>{selectedJobViewDetail?.minExperience} - {selectedJobViewDetail?.maxExperience}</span>
                                                 &nbsp;years&nbsp;
@@ -557,55 +560,55 @@ const AllJobs = () => {
                                     </div>
                                     <hr />
                                     <div className="row">
-                                        <div className="col-12 col-sm-5">
+                                        <div className="col-12 col-sm-5 col-md-5 col-lg-4">
                                             <div className="view-det-head">Job Description</div>
                                         </div>
-                                        <div className="col-12 col-sm-7">
+                                        <div className="col-12 col-sm-7 col-md-7 col-lg-8">
                                             <div className="view-det-sub-head text-capitalized">{selectedJobViewDetail?.jobDescription}</div>
                                         </div>
                                     </div>
                                     <hr />
                                     <div className="row">
-                                        <div className="col-12 col-sm-5">
+                                        <div className="col-12 col-sm-5 col-md-5 col-lg-4">
                                             <div className="view-det-head">Salary Range</div>
                                         </div>
-                                        <div className="col-12 col-sm-7">
+                                        <div className="col-12 col-sm-7 col-md-7 col-lg-8">
                                             <div className="view-det-sub-head">{selectedJobViewDetail?.currencyType}{selectedJobViewDetail?.minSalary} - {selectedJobViewDetail?.currencyType}{selectedJobViewDetail?.maxSalary}</div>
                                         </div>
                                     </div>
                                     <hr />
                                     <div className="row">
-                                        <div className="col-12 col-sm-5">
+                                        <div className="col-12 col-sm-5 col-md-5 col-lg-4">
                                             <div className="view-det-head">Department</div>
                                         </div>
-                                        <div className="col-12 col-sm-7">
+                                        <div className="col-12 col-sm-7 col-md-7 col-lg-8">
                                             <div className="view-det-sub-head text-capitalized">{selectedJobViewDetail?.department}</div>
                                         </div>
                                     </div>
                                     <hr />
                                     <div className="row">
-                                        <div className="col-12 col-sm-5">
+                                        <div className="col-12 col-sm-5 col-md-5 col-lg-4">
                                             <div className="view-det-head">Education</div>
                                         </div>
-                                        <div className="col-12 col-sm-7">
+                                        <div className="col-12 col-sm-7 col-md-7 col-lg-8">
                                             <div className="view-det-sub-head text-capitalized">{selectedJobViewDetail?.education}</div>
                                         </div>
                                     </div>
                                     <hr />
                                     <div className="row">
-                                        <div className="col-12 col-sm-5">
+                                        <div className="col-12 col-sm-5 col-md-5 col-lg-4">
                                             <div className="view-det-head">Industry</div>
                                         </div>
-                                        <div className="col-12 col-sm-7">
+                                        <div className="col-12 col-sm-7 col-md-7 col-lg-8">
                                             <div className="view-det-sub-head text-capitalized">{selectedJobViewDetail?.industry}</div>
                                         </div>
                                     </div>
                                     <hr />
                                     <div className="row">
-                                        <div className="col-12 col-sm-5">
+                                        <div className="col-12 col-sm-5 col-md-5 col-lg-4">
                                             <div className="view-det-head">Locations</div>
                                         </div>
-                                        <div className="col-12 col-sm-7">
+                                        <div className="col-12 col-sm-7 col-md-7 col-lg-8">
                                             <div className="cand-skills-area">
                                                 {selectedJobViewDetail?.location.map(location => {
                                                     return (
@@ -617,28 +620,28 @@ const AllJobs = () => {
                                     </div>
                                     <hr />
                                     <div className="row">
-                                        <div className="col-12 col-sm-5">
+                                        <div className="col-12 col-sm-5 col-md-5 col-lg-4">
                                             <div className="view-det-head">Role</div>
                                         </div>
-                                        <div className="col-12 col-sm-7">
+                                        <div className="col-12 col-sm-7 col-md-7 col-lg-8">
                                             <div className="view-det-sub-head text-capitalized">{selectedJobViewDetail?.role}</div>
                                         </div>
                                     </div>
                                     <hr />
                                     <div className="row">
-                                        <div className="col-12 col-sm-5">
+                                        <div className="col-12 col-sm-5 col-md-5 col-lg-4">
                                             <div className="view-det-head">Working Mode</div>
                                         </div>
-                                        <div className="col-12 col-sm-7">
+                                        <div className="col-12 col-sm-7 col-md-7 col-lg-8">
                                             <div className="view-det-sub-head text-capitalized">{selectedJobViewDetail?.workMode}</div>
                                         </div>
                                     </div>
                                     <hr />
                                     <div className="row">
-                                        <div className="col-12 col-sm-5">
+                                        <div className="col-12 col-sm-5 col-md-5 col-lg-4">
                                             <div className="view-det-head">Assigned Candidates to this job</div>
                                         </div>
-                                        <div className="col-12 col-sm-7">
+                                        <div className="col-12 col-sm-7 col-md-7 col-lg-8">
                                             <div className="cand-skills-area">
                                                 {assignedCandidates
                                                     .filter(cand => cand.jobId === selectedJobViewDetail?.id).length > 0 ?
