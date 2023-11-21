@@ -2604,6 +2604,13 @@ const TalentsProfileSearch = () => {
                                                                     const viewedCandidateForThisCandidate = loginClientDetail.companyId && viewedCandidate.find(cand => cand.candidateId === candidate.id);
                                                                     const matchingImg = candidateImg ? candidateImg.find(img => img.id === candidate.id) : null;
                                                                     const imgSrc = matchingImg ? `http://localhost:5002/candidate_profile/${matchingImg.image}` : "assets/img/talents-images/avatar.jpg";
+
+                                                                    const calculateMatchPercentage = (skills1, skills2) => {
+                                                                        const matchingSkills = skills2.filter(skill => skills1.includes(skill));
+                                                                        return (matchingSkills.length / skills1.length) * 100;
+                                                                    }
+                                                                    const percentage = calculateMatchPercentage(selectedResults, [...candidate.skills, ...candidate.designation]);
+
                                                                     return (
                                                                         <article className="talent--profile-card search"  key={candidate.id}>
                                                                             <div className="tal--pro-card-left-area search">
@@ -2700,10 +2707,10 @@ const TalentsProfileSearch = () => {
                                                                                     </button> */}
                                                                                     </div>
                                                                                     <div className="tal--pro-card-ability-number-area">
-                                                                                        {/* <div className="tal--pro-card-ability-number-left">
-                                                                                        <h6 className='tal--pro-card-ability search'>Skill matched</h6>
-                                                                                        <h2 className='tal--pro-card-percentage search'>90%</h2>
-                                                                                    </div> */}
+                                                                                        <div className="tal--pro-card-ability-number-left">
+                                                                                        <h6 className='tal--pro-card-ability search'>Keywords matched</h6>
+                                                                                        <h2 className='tal--pro-card-percentage search'>{Math.round(percentage)}%</h2>
+                                                                                    </div>
                                                                                         <div className="tal--pro-card-ability-number-right">
                                                                                             <h6 className='tal--pro-card-ability search'>Can join in</h6>
                                                                                             <h2 className='tal--pro-card-days search'>{candidate.days}<span></span></h2>

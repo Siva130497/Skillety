@@ -247,10 +247,10 @@ const NonApprovalJobs = () => {
 
                                                 <label className="recruite-form-check-input">
                                                     <input type="checkbox"
-                                                        checked={checkBoxfilters.includes('remote')}
-                                                        onChange={() => handleCheckboxChange('remote')} />
+                                                        checked={checkBoxfilters.includes('contract')}
+                                                        onChange={() => handleCheckboxChange('contract')} />
                                                     <span className="recruite-form-checkmark"></span>
-                                                    Remote
+                                                    Contract
                                                 </label>
 
                                                 <label className="recruite-form-check-input">

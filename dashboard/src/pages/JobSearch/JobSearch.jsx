@@ -1932,7 +1932,7 @@ const JobSearch = () => {
                                                                     </div>
                                                                     <div className="cli--mark-keyword-area job">
                                                                         <label className="cli--mark-keyword-check-input jobs">
-                                                                            <input type="checkbox" checked={checkBoxfilters.includes('remote')}
+                                                                            <input type="checkbox" checked={checkBoxfilters.includes('contract')}
                                                                             onChange={() => handleCheckboxChange('contract')}/>
                                                                             <span className="cli--mark-keyword-checkmark"></span>
                                                                             Contract
@@ -2188,6 +2188,13 @@ const JobSearch = () => {
                                                         const matchingImg = clientImg ? clientImg.find(img => img.id === job.companyId) : null;
                                                         const imgSrc = matchingImg ? `http://localhost:5002/client_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
                                                         const companyName = clients.find(cli=>cli.companyId === job.companyId)?.companyName
+
+                                                        const calculateMatchPercentage = (skills1, skills2) => {
+                                                            const matchingSkills = skills2.filter(skill => skills1.includes(skill));
+                                                            return (matchingSkills.length / skills1.length) * 100;
+                                                        }
+                                                        const percentage = calculateMatchPercentage(selectedResults, [...job.skills, ...job.jobRole]);
+
                                                         return(
                                                         <article className='job--detail-card'>
                                                         <div className="job--detail-card-top-area job">
@@ -2223,6 +2230,11 @@ const JobSearch = () => {
                                                             <div className="job--detail-card-img-area job">
                                                                 <img src={imgSrc} className='job--detail-card-img' alt="" />
                                                             </div>
+                                                            {selectedResults && 
+                                                            <div className="tal--pro-card-ability-number-left">
+                                                                <h6 className='tal--pro-card-ability search'>Keywords matched</h6>
+                                                                <h2 className='tal--pro-card-percentage search'>{Math.round(percentage)}%</h2>
+                                                            </div>}
                                                         </div>
                                                         <div className="job--detail-card-desc-area">
                                                             <p className='job--detail-card-desc'>{job.jobDescription}</p>
@@ -2279,6 +2291,10 @@ const JobSearch = () => {
                                                             <div className="job--detail-card-img-area job">
                                                                 <img src={imgSrc} className='job--detail-card-img' alt="" />
                                                             </div>
+                                                            <div className="tal--pro-card-ability-number-left">
+                                                            <h6 className='tal--pro-card-ability search'>Skills matched</h6>
+                                                            <h2 className='tal--pro-card-percentage search'>{job?.percentage}%</h2>
+                                                        </div>
                                                         </div>
                                                         <div className="job--detail-card-desc-area">
                                                             <p className='job--detail-card-desc'>{job.jobDescription}</p>
