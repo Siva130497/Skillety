@@ -9,21 +9,22 @@ import 'sweetalert2/dist/sweetalert2.css';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import AuthContext from '../../context/AuthContext';
-import { v4 as uuidv4} from "uuid";
+import { v4 as uuidv4 } from "uuid";
 
 const EventPosting = () => {
-    const {getProtectedData} = useContext(AuthContext);
+    const { getProtectedData } = useContext(AuthContext);
 
     const [staffToken, setStaffToken] = useState("");
     const [employeeId, setEmployeeId] = useState("");
     const [selectedDate, setSelectedDate] = useState(null);
     const [dateString, setDateString] = useState("");
+    const [fileName, setFileName] = useState('');
 
     const [image, setImage] = useState();
     const InitialEventDetail = {
-        title:"",
-        description:"",
-        location:"",
+        title: "",
+        description: "",
+        location: "",
     }
     const [eventDetail, setEventDetail] = useState(InitialEventDetail);
     const [eventImgUrl, setEventImgUrl] = useState("");
@@ -52,19 +53,23 @@ const EventPosting = () => {
 
     useEffect(() => {
         $(document).ready(function () {
-            $(".custom-file-input").on("change", function () {
-                var fileName = $(this).val().split("\\").pop();
-                $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
-            });
+            // $(".custom-file-input").on("change", function () {
+            //     var fileName = $(this).val().split("\\").pop();
+            //     $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+            // });
+
+            // $('#clear-file').on('click', function () {
+            //     $('#customFile').val('');
+            // });
         });
-    }, []);
+    }, [eventImgUrl]);
 
     useEffect(() => {
         setStaffToken(JSON.parse(localStorage.getItem('staffToken')))
     }, [staffToken])
 
     useEffect(() => {
-        if(staffToken){
+        if (staffToken) {
             const fetchData = async () => {
                 try {
                     const userData = await getProtectedData(staffToken);
@@ -74,108 +79,115 @@ const EventPosting = () => {
                     console.log(error)
                 }
             };
-    
+
             fetchData();
         }
     }, [staffToken]);
 
     useEffect(() => {
         if (image) {
-          setEventImgUrl(URL.createObjectURL(image));
+            setEventImgUrl(URL.createObjectURL(image));
+
+            setFileName(image.name);
         }
-      }, [image]);
+    }, [image]);
 
     const handleInputChange = (event) => {
-        const {name, value} = event.target;
-        setEventDetail({...eventDetail, [name] : value});
-      }
-    
+        const { name, value } = event.target;
+        setEventDetail({ ...eventDetail, [name]: value });
+    }
+
     const handleDateChange = date => {
         setSelectedDate(date);
-    
-        if (date) {
-          const day = date.getDate();
-          const month = date.toLocaleString('default', { month: 'long' });
-          const year = date.getFullYear();
-    
-          setDateString(`${day}${daySuffix(day)} ${month} ${year}`);
-        }
-      };
 
-      const daySuffix = (day) => {
+        if (date) {
+            const day = date.getDate();
+            const month = date.toLocaleString('default', { month: 'long' });
+            const year = date.getFullYear();
+
+            setDateString(`${day}${daySuffix(day)} ${month} ${year}`);
+        }
+    };
+
+    const daySuffix = (day) => {
         if (day >= 11 && day <= 13) {
-          return "th";
+            return "th";
         }
         switch (day % 10) {
-          case 1: return "st";
-          case 2: return "nd";
-          case 3: return "rd";
-          default: return "th";
+            case 1: return "st";
+            case 2: return "nd";
+            case 3: return "rd";
+            default: return "th";
         }
-      };
-    
-    const eventPosting = async (event) => {
-      if(image && dateString){
-          try {
-            const response = await axios.post('http://localhost:5002/events', event, {
-              headers: {
-                  Authorization: `Bearer ${staffToken}`,
-                  Accept: 'application/json'
-              }
-            });
-    
-            const result = response.data;
-    
-            if (!result.error) {
-                console.log(result);
-                showSuccessMessage();
-                setEventDetail(InitialEventDetail);
-                setSelectedDate(null);
-                setDateString("");
-            } else {
-                console.log(result);
-            }
-        } catch (error) {
-            console.log(error);
-        }
-      }else{
-        showErrorMessage("select the event image and date");
-      }
-        
-      };
+    };
 
-      const handleSubmit = (e) => {
+    const eventPosting = async (event) => {
+        if (image && dateString) {
+            try {
+                const response = await axios.post('http://localhost:5002/events', event, {
+                    headers: {
+                        Authorization: `Bearer ${staffToken}`,
+                        Accept: 'application/json'
+                    }
+                });
+
+                const result = response.data;
+
+                if (!result.error) {
+                    console.log(result);
+                    showSuccessMessage();
+                    setEventDetail(InitialEventDetail);
+                    setSelectedDate(null);
+                    setDateString("");
+                } else {
+                    console.log(result);
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        } else {
+            showErrorMessage("select the event image and date");
+        }
+
+    };
+
+    const handleSubmit = (e) => {
         e.preventDefault();
         let event;
-        
-          const id = uuidv4();
-          event = {
+
+        const id = uuidv4();
+        event = {
             ...eventDetail,
             id,
-            recruiterId:employeeId,
+            recruiterId: employeeId,
             date: dateString,
-          };
-          console.log(event);
-          eventPosting(event);
-          if(image){
+        };
+        console.log(event);
+        eventPosting(event);
+        if (image) {
             console.log(image)
             const formData = new FormData()
             formData.append('image', image);
             formData.append('id', id)
             axios.post("http://localhost:5002/upload-image", formData, {
-              headers: {
-                  Authorization: `Bearer ${staffToken}`,
-                  Accept: 'application/json'
-              }
+                headers: {
+                    Authorization: `Bearer ${staffToken}`,
+                    Accept: 'application/json'
+                }
             })
-            .then(res=>{
-              console.log(res);
-              setImage(null);
-            })
-            .catch(err=>console.log(err));
-          }
-      }
+                .then(res => {
+                    console.log(res);
+                    setImage(null);
+                })
+                .catch(err => console.log(err));
+        }
+    }
 
+    const handleClearFile = () => {
+        setEventImgUrl('');
+        setFileName('');
+        document.getElementById('customFile').value = '';
+    };
 
     return (
         <div>
@@ -201,9 +213,9 @@ const EventPosting = () => {
                                                     <label htmlFor="" className='job-post-form-label'>Event Title<span className='form-required'>*</span></label>
                                                     <input type="text" className='job-post-form-input'
                                                         id='eventTitle'
-                                                        name="title" 
+                                                        name="title"
                                                         value={eventDetail.title}
-                                                        onChange = {handleInputChange}
+                                                        onChange={handleInputChange}
                                                         placeholder='Enter the event title...' />
                                                 </div>
                                             </div>
@@ -214,9 +226,9 @@ const EventPosting = () => {
                                                 <div className="job-post-form-group">
                                                     <label htmlFor="" className='job-post-form-label'>Description</label>
                                                     <textarea rows="5" className='job-post-form-input'
-                                                        name="description" 
-                                                        value={eventDetail.description} 
-                                                        onChange = {handleInputChange} 
+                                                        name="description"
+                                                        value={eventDetail.description}
+                                                        onChange={handleInputChange}
                                                         placeholder='Enter the event description...' id="event-description"
                                                         required></textarea>
                                                 </div>
@@ -229,9 +241,9 @@ const EventPosting = () => {
                                                     <label htmlFor="" className='job-post-form-label'>Location<span className='form-required'>*</span></label>
                                                     <input type="text" className='job-post-form-input'
                                                         id='location'
-                                                        name="location" 
-                                                        value={eventDetail.location} 
-                                                        onChange = {handleInputChange}
+                                                        name="location"
+                                                        value={eventDetail.location}
+                                                        onChange={handleInputChange}
                                                         placeholder='Enter the event location...' />
                                                 </div>
                                             </div>
@@ -260,10 +272,20 @@ const EventPosting = () => {
                                                 <div className="job-post-form-group">
                                                     <label htmlFor="" className='job-post-form-label'>Event Image</label>
                                                     <div className="custom-file ats">
-                                                    <iframe src={eventImgUrl} title="Event Image iframe" ></iframe>
-                                                        <input type="file" className="custom-file-input ats" id="customFile" name="filename" onChange={e=>setImage(e.target.files[0])}/>
-                                                        <label className="custom-file-label ats" for="customFile">Choose file...</label>
+                                                        <input type="file" className="custom-file-input ats" id="customFile" name="filename" onChange={e => setImage(e.target.files[0])} />
+                                                        <label className="custom-file-label ats" for="customFile">{fileName || 'Choose file...'}</label>
                                                     </div>
+                                                    {eventImgUrl.length > 0 &&
+                                                        <div className="event-preview-area">
+                                                            <div className='event-preview-image-area'>
+                                                                <img src={eventImgUrl} className='event-preview-image' title='Event Image' alt="Event Image" />
+                                                            </div>
+                                                            <button id='clear-file' className='clear-image-btn' 
+                                                            title='Clear the image file...' onClick={handleClearFile}>
+                                                                <span>Clear</span>
+                                                            </button>
+                                                        </div>
+                                                    }
                                                 </div>
                                             </div>
                                         </div>
@@ -272,7 +294,7 @@ const EventPosting = () => {
                             </div>
                             <div className="post-job-btn-area">
                                 <button className='post-job-btn' onClick={handleSubmit}>Post</button>
-                                <a href='#' className='post-job-btn yellow'>
+                                <a href='/posted-events' className='post-job-btn yellow'>
                                     Posted Events
                                     <i class="bi bi-box-arrow-up-right ml-3"></i>
                                 </a>

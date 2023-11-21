@@ -477,3 +477,13 @@
 .register--card.candidate:hover .register-arrow-area.candidate svg path {
     stroke: #5C3B2E;
 }
+.home--company-name-area{
+    display: flex;
+}
+.home-company-name{
+    color: #5C3B2E;
+    font-size: 18px;
+    font-weight: 600;
+    text-transform: capitalize;
+    /* margin-top: 10px; */
+}

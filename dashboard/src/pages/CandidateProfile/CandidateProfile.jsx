@@ -177,14 +177,14 @@ const CandidateProfile = () => {
                 if (target.length) {
                     event.preventDefault();
                     $('html, body').animate({
-                        scrollTop: target.offset().top - 20
+                        scrollTop: target.offset().top - 100
                     }, 800);
                 }
             });
 
             // Open modal when the button is clicked
             $(".image-view-btn").on("click", function () {
-                $("#imageModal").css("display", "block");
+                $("#imageModal").css("display", "flex");
                 $("#modalImage").attr("src", $(".profile-det-image").attr("src"));
             });
 
@@ -468,136 +468,136 @@ const CandidateProfile = () => {
     return (
         <div>
             <div class="main-wrapper main-wrapper-1">
-            <div class="navbar-bg"></div>
-            <Layout />
-            <div class="main-content">
-            {loading && <div id="preloader" className='candidate'></div>}
-            {loginCandidate && <div className="container-fluid">
-                <section class="section">
-                    <div className="candidate-prrofile-section">
-                        <div className="profile-head-area">
-                            <div className='profile-head'>Profile details</div>
-                        </div>
-                        <div className="row">
-                            <div className="col-12">
-                                <div className="profile-card">
-                                    <div className="card-flex-area">
-                                        <div className="card-right-area">
-                                            <div className="profile-det-image-area">
-                                                <div className="profile-det-image-container">
-                                                    {/* <button className='prof-img-btn'>
+                <div class="navbar-bg"></div>
+                <Layout />
+                <div class="main-content">
+                    {loading && <div id="preloader" className='candidate'></div>}
+                    {loginCandidate &&
+                        <section class="section">
+                            <div className="candidate-prrofile-section">
+                                <div className="profile-head-area">
+                                    <div className='profile-head'>Profile details</div>
+                                </div>
+                                <div className="row">
+                                    <div className="col-12">
+                                        <div className="profile-card">
+                                            <div className="card-flex-area">
+                                                <div className="card-right-area">
+                                                    <div className="profile-det-image-area">
+                                                        <div className="profile-det-image-container">
+                                                            {/* <button className='prof-img-btn'>
                                                         <i class="bi bi-pencil edit-icon"></i>
                                                     </button> */}
-                                                    <div className="image-view-area">
-                                                        <button className='image-view-btn'>
-                                                            <i class="bi bi-fullscreen img-view-icon"></i>
-                                                        </button>
-                                                    </div>
-                                                    <img src={candidateImgUrl ? candidateImgUrl : "../assets/img/talents-images/avatar.jpg"} className='profile-det-image' alt="" />
-                                                </div>
-                                                <div id="imageModal" className="image-view-modal">
-                                                    <span className="image-view-close">
-                                                        <i class="bi bi-x"></i>
-                                                    </span>
-                                                    <img className="image-view-modal-content" id="modalImage" />
-                                                </div>
-                                            </div>
-                                            <div className="profile-det-area">
-                                                <div className="profile--name-edit-section">
-                                                    <div className="profile--name-area">
-                                                        <div className="profile--name">{loginCandidate?.firstName + " " + loginCandidate?.lastName}</div>
-                                                        <button className='profile--name-edit-btn'>
-                                                            <i class="bi bi-pencil profile--name-edit-icon"></i>
-                                                        </button>
-                                                    </div>
-                                                    <div className="profile-name-edit-input-area">
-                                                        <div className="row">
-                                                            <div className="col-12 d-flex align-items-center gap-10">
-                                                                <input type="text" className="change-setting-input"
-                                                                    value={userInfo.firstName}
-                                                                    onChange={(e) => setUserInfo({ ...userInfo, firstName: e.target.value })}
-                                                                    placeholder="Change Profile First Name" />
-                                                                <button className="setting-update-btn" onClick={handleFirstNameUpdate}>Update</button>
+                                                            <div className="image-view-area">
+                                                                <button className='image-view-btn'>
+                                                                    <i class="bi bi-fullscreen img-view-icon"></i>
+                                                                </button>
                                                             </div>
+                                                            <img src={candidateImgUrl ? candidateImgUrl : "../assets/img/talents-images/avatar.jpg"} className='profile-det-image' alt="" />
+                                                        </div>
+                                                        <div id="imageModal" className="image-view-modal">
+                                                            <span className="image-view-close">
+                                                                <i class="bi bi-x"></i>
+                                                            </span>
+                                                            <img className="image-view-modal-content" id="modalImage" />
                                                         </div>
                                                     </div>
-                                                    <div className="profile-name-edit-input-area">
-                                                        <div className="row">
-                                                            <div className="col-12 d-flex align-items-center gap-10">
-                                                                <input type="text"
-                                                                    className="change-setting-input"
-                                                                    value={userInfo.lastName}
-                                                                    onChange={(e) => setUserInfo({ ...userInfo, lastName: e.target.value })}
-                                                                    placeholder="Change Profile Last Name" />
-                                                                <button className="setting-update-btn" onClick={handleLastNameUpdate}>Update</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div className="profile-update-status">
-                                                    Profile Last Updated :&nbsp;
-                                                    <span>{`${new Date(loginCandidate?.updatedAt).getDate().toString().padStart(2, '0')}/${(new Date(loginCandidate?.updatedAt).getMonth() + 1).toString().padStart(2, '0')}/${new Date(loginCandidate?.updatedAt).getFullYear() % 100}`}</span>
-                                                </div>
-                                                <div className="prof-page-divider"></div>
-                                                <div className="prof-more-det-section">
-                                                    <div className="prof-more-det-left-area">
-                                                        <div className="prof-more-det-area">
-                                                            <div className="prof-more-det">
-                                                                <i class="bi bi-geo-alt"></i>
-                                                                <div className="prof-more-det-title">{loginCandidate?.location}</div>
-                                                                <button className="prof-more-det-edit-btn">
+                                                    <div className="profile-det-area">
+                                                        <div className="profile--name-edit-section">
+                                                            <div className="profile--name-area">
+                                                                <div className="profile--name">{loginCandidate?.firstName + " " + loginCandidate?.lastName}</div>
+                                                                <button className='profile--name-edit-btn'>
                                                                     <i class="bi bi-pencil profile--name-edit-icon"></i>
                                                                 </button>
                                                             </div>
-                                                            <div className="prof-more-det-input-area">
+                                                            <div className="profile-name-edit-input-area">
                                                                 <div className="row">
                                                                     <div className="col-12 d-flex align-items-center gap-10">
-                                                                        <input type="text" className="change-setting-input more-det" placeholder="Change Location"
-                                                                            value={userInfo.location}
-                                                                            onChange={(e) => setUserInfo({ ...userInfo, location: e.target.value })} />
-                                                                        <button className="setting-update-btn more-det" onClick={handleLocationUpdate}>Update</button>
+                                                                        <input type="text" className="change-setting-input"
+                                                                            value={userInfo.firstName}
+                                                                            onChange={(e) => setUserInfo({ ...userInfo, firstName: e.target.value })}
+                                                                            placeholder="Change Profile First Name" />
+                                                                        <button className="setting-update-btn" onClick={handleFirstNameUpdate}>Update</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div className="profile-name-edit-input-area">
+                                                                <div className="row">
+                                                                    <div className="col-12 d-flex align-items-center gap-10">
+                                                                        <input type="text"
+                                                                            className="change-setting-input"
+                                                                            value={userInfo.lastName}
+                                                                            onChange={(e) => setUserInfo({ ...userInfo, lastName: e.target.value })}
+                                                                            placeholder="Change Profile Last Name" />
+                                                                        <button className="setting-update-btn" onClick={handleLastNameUpdate}>Update</button>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-
-                                                        <div className="prof-more-det-area">
-                                                            <div className="prof-more-det">
-                                                                <i class="bi bi-briefcase"></i>
-                                                                <div className="prof-more-det-title">{loginCandidate?.designation[0]}</div>
-                                                            </div>
+                                                        <div className="profile-update-status">
+                                                            Profile Last Updated :&nbsp;
+                                                            <span>{`${new Date(loginCandidate?.updatedAt).getDate().toString().padStart(2, '0')}/${(new Date(loginCandidate?.updatedAt).getMonth() + 1).toString().padStart(2, '0')}/${new Date(loginCandidate?.updatedAt).getFullYear() % 100}`}</span>
                                                         </div>
+                                                        <div className="prof-page-divider"></div>
+                                                        <div className="prof-more-det-section">
+                                                            <div className="prof-more-det-left-area">
+                                                                <div className="prof-more-det-area">
+                                                                    <div className="prof-more-det">
+                                                                        <i class="bi bi-geo-alt"></i>
+                                                                        <div className="prof-more-det-title">{loginCandidate?.location}</div>
+                                                                        <button className="prof-more-det-edit-btn">
+                                                                            <i class="bi bi-pencil profile--name-edit-icon"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                    <div className="prof-more-det-input-area">
+                                                                        <div className="row">
+                                                                            <div className="col-12 d-flex align-items-center gap-10">
+                                                                                <input type="text" className="change-setting-input more-det" placeholder="Change Location"
+                                                                                    value={userInfo.location}
+                                                                                    onChange={(e) => setUserInfo({ ...userInfo, location: e.target.value })} />
+                                                                                <button className="setting-update-btn more-det" onClick={handleLocationUpdate}>Update</button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
 
-                                                        <div className="prof-more-det-area">
-                                                            <div className="prof-more-det">
-                                                                <i class="bi bi-file-earmark-text"></i>
-                                                                <div className="prof-more-det-title">{loginCandidate?.days}</div>
-                                                                <button className="prof-more-det-edit-btn">
-                                                                    <i class="bi bi-pencil profile--name-edit-icon"></i>
-                                                                </button>
-                                                            </div>
-                                                            <div className="prof-more-det-input-area">
-                                                                <div className="row">
-                                                                    <div className="col-12 d-flex align-items-center gap-10">
-                                                                        <input type="text" className="change-setting-input more-det" placeholder="Add availability to join"
-                                                                        />
-                                                                        <button className="setting-update-btn more-det">Update</button>
+                                                                <div className="prof-more-det-area">
+                                                                    <div className="prof-more-det">
+                                                                        <i class="bi bi-briefcase"></i>
+                                                                        <div className="prof-more-det-title">{loginCandidate?.designation[0]}</div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div className="prof-more-det-area">
+                                                                    <div className="prof-more-det">
+                                                                        <i class="bi bi-file-earmark-text"></i>
+                                                                        <div className="prof-more-det-title">{loginCandidate?.days}</div>
+                                                                        <button className="prof-more-det-edit-btn">
+                                                                            <i class="bi bi-pencil profile--name-edit-icon"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                    <div className="prof-more-det-input-area">
+                                                                        <div className="row">
+                                                                            <div className="col-12 d-flex align-items-center gap-10">
+                                                                                <input type="text" className="change-setting-input more-det" placeholder="Add availability to join"
+                                                                                />
+                                                                                <button className="setting-update-btn more-det">Update</button>
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                    </div>
 
-                                                    <div className="prof-more-det-line"></div>
+                                                            <div className="prof-more-det-line"></div>
 
-                                                    <div className="prof-more-det-right-area">
-                                                        <div className="prof-more-det-area">
-                                                            <div className="prof-more-det">
-                                                                <i class="bi bi-telephone"></i>
-                                                                <div className="prof-more-det-title">{loginCandidate?.phone}</div>
-                                                                {/* <button className="prof-more-det-edit-btn" data-type="mobile number">Add mobile number</button> */}
-                                                            </div>
-                                                            {/* <div className="prof-more-det-input-area">
+                                                            <div className="prof-more-det-right-area">
+                                                                <div className="prof-more-det-area">
+                                                                    <div className="prof-more-det">
+                                                                        <i class="bi bi-telephone"></i>
+                                                                        <div className="prof-more-det-title">{loginCandidate?.phone}</div>
+                                                                        {/* <button className="prof-more-det-edit-btn" data-type="mobile number">Add mobile number</button> */}
+                                                                    </div>
+                                                                    {/* <div className="prof-more-det-input-area">
                                                                 <div className="row">
                                                                     <div className="col-12 d-flex align-items-center gap-10">
                                                                         <input type="number" className="change-setting-input more-det" placeholder="Add mobile number" />
@@ -605,15 +605,15 @@ const CandidateProfile = () => {
                                                                     </div>
                                                                 </div>
                                                             </div> */}
-                                                        </div>
+                                                                </div>
 
-                                                        <div className="prof-more-det-area">
-                                                            <div className="prof-more-det">
-                                                                <i class="bi bi-envelope"></i>
-                                                                <div className="prof-more-det-title">{loginCandidate?.email}</div>
-                                                                {/* <button className="prof-more-det-edit-btn" data-type="your email">Add your email</button> */}
-                                                            </div>
-                                                            {/* <div className="prof-more-det-input-area">
+                                                                <div className="prof-more-det-area">
+                                                                    <div className="prof-more-det">
+                                                                        <i class="bi bi-envelope"></i>
+                                                                        <div className="prof-more-det-title">{loginCandidate?.email}</div>
+                                                                        {/* <button className="prof-more-det-edit-btn" data-type="your email">Add your email</button> */}
+                                                                    </div>
+                                                                    {/* <div className="prof-more-det-input-area">
                                                                 <div className="row">
                                                                     <div className="col-12 d-flex align-items-center gap-10">
                                                                         <input type="email" className="change-setting-input more-det" placeholder="Add your email" />
@@ -621,13 +621,13 @@ const CandidateProfile = () => {
                                                                     </div>
                                                                 </div>
                                                             </div> */}
-                                                        </div>
+                                                                </div>
 
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        {/* <div className="card-left-area">
+                                                {/* <div className="card-left-area">
                                             <div className="missing-det-content-section">
                                                 <div className="missing-det-content-area">
                                                     <div className="missing-det-content">
@@ -682,46 +682,46 @@ const CandidateProfile = () => {
                                                 <button className='missing-det-btn'>Add missing details</button>
                                             </div>
                                         </div> */}
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div className="row">
-                            <div className="col-12 col-xl-4 col-lg-4 col-md-4">
-                                <div className="profile-side-card">
-                                    <div className="quick-link-head">Quick Links</div>
-                                    <div className="pro-quick-links-area">
-                                        <div className='pro-quick-link-content'>
-                                            <a href="#Resume" className='pro-quick-link'>Resume
-                                                <i class="bi bi-arrow-right"></i>
-                                            </a>
-                                        </div>
-                                        {/* <div className='pro-quick-link-content'>
+                                <div className="row">
+                                    <div className="col-12 col-xl-4 col-lg-4 col-md-4">
+                                        <div className="profile-side-card">
+                                            <div className="quick-link-head">Quick Links</div>
+                                            <div className="pro-quick-links-area">
+                                                <div className='pro-quick-link-content'>
+                                                    <a href="#Resume" className='pro-quick-link'>Resume
+                                                        <i class="bi bi-arrow-right"></i>
+                                                    </a>
+                                                </div>
+                                                {/* <div className='pro-quick-link-content'>
                                             <a href="#Resume_headline" className='pro-quick-link'>Resume Headline
                                                 <i class="bi bi-arrow-right"></i>
                                             </a>
                                         </div> */}
-                                        <div className='pro-quick-link-content'>
-                                            <a href="#Key_skills" className='pro-quick-link'>Key Skills
-                                                <i class="bi bi-arrow-right"></i>
-                                            </a>
-                                        </div>
-                                        <div className='pro-quick-link-content'>
-                                            <a href="#Profile_headline" className='pro-quick-link'>Profile Headline
-                                                <i class="bi bi-arrow-right"></i>
-                                            </a>
-                                        </div>
-                                        <div className='pro-quick-link-content'>
-                                            <a href="#Education" className='pro-quick-link'>Education
-                                                <i class="bi bi-arrow-right"></i>
-                                            </a>
-                                        </div>
-                                        {/* <div className='pro-quick-link-content'>
+                                                <div className='pro-quick-link-content'>
+                                                    <a href="#Key_skills" className='pro-quick-link'>Key Skills
+                                                        <i class="bi bi-arrow-right"></i>
+                                                    </a>
+                                                </div>
+                                                <div className='pro-quick-link-content'>
+                                                    <a href="#Profile_headline" className='pro-quick-link'>Profile Headline
+                                                        <i class="bi bi-arrow-right"></i>
+                                                    </a>
+                                                </div>
+                                                <div className='pro-quick-link-content'>
+                                                    <a href="#Education" className='pro-quick-link'>Education
+                                                        <i class="bi bi-arrow-right"></i>
+                                                    </a>
+                                                </div>
+                                                {/* <div className='pro-quick-link-content'>
                                             <a href="#It_skills" className='pro-quick-link'>IT Skills
                                                 <i class="bi bi-arrow-right"></i>
                                             </a>
                                         </div> */}
-                                        {/* <div className='pro-quick-link-content'>
+                                                {/* <div className='pro-quick-link-content'>
                                             <a href="#Project" className='pro-quick-link'>Project
                                                 <i class="bi bi-arrow-right"></i>
                                             </a>
@@ -746,35 +746,35 @@ const CandidateProfile = () => {
                                                 <i class="bi bi-arrow-right"></i>
                                             </a>
                                         </div> */}
-                                        <div className='pro-quick-link-content'>
-                                            <a href="#View_Cv" className='pro-quick-link'>View or Download CV
-                                                <i class="bi bi-arrow-right"></i>
-                                            </a>
+                                                <div className='pro-quick-link-content'>
+                                                    <a href="#View_Cv" className='pro-quick-link'>View or Download CV
+                                                        <i class="bi bi-arrow-right"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div className="col-12 col-xl-8 col-lg-8 col-md-8">
-                                <div className="profile-content-card" id='Resume'>
-                                    <div className="profile-content-title">Resume</div>
-                                    {/* <div className="profile-content-sub-title">
+                                    <div className="col-12 col-xl-8 col-lg-8 col-md-8">
+                                        <div className="profile-content-card" id='Resume'>
+                                            <div className="profile-content-title">Resume</div>
+                                            {/* <div className="profile-content-sub-title">
                                         Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature
                                     </div> */}
-                                    <div className="prof-page-file-upload-area">
-                                        <form action="">
-                                            {/* <iframe src={candidateResumeUrl ? candidateResumeUrl : ""} title="Event Image iframe" ></iframe> */}
-                                            <input type="file" id="file_upload" accept=".doc,.docx,.pdf"
-                                                style={{ display: 'none' }}
-                                                onChange={e => setResume(e.target.files[0])}
-                                                required />
-                                            <label for="file_upload" className='prof-page-file-upload-label'>
-                                                <span className='file-upload-btn'>
-                                                    Update resume
-                                                </span>
-                                            </label>
-                                            {resume?.length > 0 ? <span id="file-chosen">{resume.name}</span> : loginCandidate?.file ? <span id="file-chosen">{loginCandidate?.file}</span> : <span id="file-chosen">no file choosen</span>}
-                                            <button className="setting-update-btn more-det" onClick={handleResumeUpdate}>Update</button>
-                                            {/* <div className="file-upload-btn-area">
+                                            <div className="prof-page-file-upload-area">
+                                                <form action="">
+                                                    {/* <iframe src={candidateResumeUrl ? candidateResumeUrl : ""} title="Event Image iframe" ></iframe> */}
+                                                    <input type="file" id="file_upload" accept=".doc,.docx,.pdf"
+                                                        style={{ display: 'none' }}
+                                                        onChange={e => setResume(e.target.files[0])}
+                                                        required />
+                                                    <label for="file_upload" className='prof-page-file-upload-label'>
+                                                        <span className='file-upload-btn'>
+                                                            Update resume
+                                                        </span>
+                                                    </label>
+                                                    {resume?.length > 0 ? <span id="file-chosen">{resume.name}</span> : loginCandidate?.file ? <span id="file-chosen">{loginCandidate?.file}</span> : <span id="file-chosen">no file choosen</span>}
+                                                    <button className="setting-update-btn more-det" onClick={handleResumeUpdate}>Update</button>
+                                                    {/* <div className="file-upload-btn-area">
                                                 <button id="clear-file" className='clear-file-btn'>
                                                     <i class="bi bi-x"></i>Clear File
                                                 </button>
@@ -783,11 +783,11 @@ const CandidateProfile = () => {
                                                     Save
                                                 </button>
                                             </div> */}
-                                        </form>
-                                    </div>
-                                </div>
+                                                </form>
+                                            </div>
+                                        </div>
 
-                                {/* <div className="profile-content-card" id='Resume_headline'>
+                                        {/* <div className="profile-content-card" id='Resume_headline'>
                                     <div className="profile-content-top-area">
                                         <div className="profile-content-title">Resume Headline</div>
                                         <button className="profile-content-edit-btn" data-type="Resume headline">Add Resume headline</button>
@@ -807,72 +807,72 @@ const CandidateProfile = () => {
                                     </div>
                                 </div> */}
 
-                                <div className="profile-content-card" id='Key_skills'>
-                                    <div className="profile-content-top-area">
-                                        <div className="profile-content-title">Key Skills</div>
-                                        <button className="profile-content-edit-btn" data-type="key skill">Change key skill</button>
-                                    </div>
-                                    <div className="profile-content-area">
-                                        <div className='profile-content'>
-                                            {loginCandidate?.skills.join(", ")}
-                                        </div>
-                                    </div>
-                                    <div className="profile-content-input-area">
-                                        <div className="row">
-                                            <div className="col-12 d-flex align-items-center gap-10">
-                                                <input type="text" className="change-setting-input"
-                                                    onChange={(e) => setUserInfo({ ...userInfo, skill: e.target.value })}
-                                                    placeholder="Add key skill"
-                                                />
-                                                <button className="setting-update-btn"
-                                                // onClick={handleSkillUpdate}
-                                                >Update</button>
+                                        <div className="profile-content-card" id='Key_skills'>
+                                            <div className="profile-content-top-area">
+                                                <div className="profile-content-title">Key Skills</div>
+                                                <button className="profile-content-edit-btn" data-type="key skill">Change key skill</button>
+                                            </div>
+                                            <div className="profile-content-area">
+                                                <div className='profile-content'>
+                                                    {loginCandidate?.skills.join(", ")}
+                                                </div>
+                                            </div>
+                                            <div className="profile-content-input-area">
+                                                <div className="row">
+                                                    <div className="col-12 d-flex align-items-center gap-10">
+                                                        <input type="text" className="change-setting-input"
+                                                            onChange={(e) => setUserInfo({ ...userInfo, skill: e.target.value })}
+                                                            placeholder="Add key skill"
+                                                        />
+                                                        <button className="setting-update-btn"
+                                                        // onClick={handleSkillUpdate}
+                                                        >Update</button>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
 
-                                <div className="profile-content-card" id='Profile_headline'>
-                                    <div className="profile-content-top-area">
-                                        <div className="profile-content-title">Profile Headline</div>
-                                        <button className="profile-content-edit-btn" data-type="Profile headline">Change Profile Headline</button>
-                                    </div>
-                                    <div className="profile-content-area">
-                                        <div className='profile-content'>
-                                            {loginCandidate?.profileHeadline}
-                                        </div>
-                                    </div>
-                                    <div className="profile-content-input-area">
-                                        <div className="row">
-                                            <div className="col-12 d-flex align-items-center gap-10">
-                                                <input type="text" className="change-setting-input" placeholder="Change profile headline"
-                                                    value={userInfo.profileHeadline}
-                                                    onChange={(e) => setUserInfo({ ...userInfo, profileHeadline: e.target.value })} />
-                                                <button className="setting-update-btn" onClick={handleProfileHeadlineUpdate}>Update</button>
+                                        <div className="profile-content-card" id='Profile_headline'>
+                                            <div className="profile-content-top-area">
+                                                <div className="profile-content-title">Profile Headline</div>
+                                                <button className="profile-content-edit-btn" data-type="Profile headline">Change Profile Headline</button>
+                                            </div>
+                                            <div className="profile-content-area">
+                                                <div className='profile-content'>
+                                                    {loginCandidate?.profileHeadline}
+                                                </div>
+                                            </div>
+                                            <div className="profile-content-input-area">
+                                                <div className="row">
+                                                    <div className="col-12 d-flex align-items-center gap-10">
+                                                        <input type="text" className="change-setting-input" placeholder="Change profile headline"
+                                                            value={userInfo.profileHeadline}
+                                                            onChange={(e) => setUserInfo({ ...userInfo, profileHeadline: e.target.value })} />
+                                                        <button className="setting-update-btn" onClick={handleProfileHeadlineUpdate}>Update</button>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
 
-                                <div className="profile-content-card" id='Education'>
-                                    <div className="profile-content-top-area">
-                                        <div className="profile-content-title">Education</div>
-                                        <button className="profile-content-edit-btn" data-type="Education">Add Education</button>
-                                    </div>
-                                    <div className="profile-content-area">
-                                        <div className='profile-content'>
-                                            {loginCandidate?.education}
-                                        </div>
-                                    </div>
-                                    <div className="profile-content-input-area">
-                                        <div className="row">
-                                            <div className="col-12 d-flex align-items-center gap-10">
-                                                <input type="text" className="change-setting-input" placeholder="Add Education" />
-                                                <button className="setting-update-btn">Add</button>
+                                        <div className="profile-content-card" id='Education'>
+                                            <div className="profile-content-top-area">
+                                                <div className="profile-content-title">Education</div>
+                                                <button className="profile-content-edit-btn" data-type="Education">Add Education</button>
                                             </div>
-                                        </div>
-                                    </div>
-                                    {/* <div className="more-inputs-section">
+                                            <div className="profile-content-area">
+                                                <div className='profile-content'>
+                                                    {loginCandidate?.education}
+                                                </div>
+                                            </div>
+                                            <div className="profile-content-input-area">
+                                                <div className="row">
+                                                    <div className="col-12 d-flex align-items-center gap-10">
+                                                        <input type="text" className="change-setting-input" placeholder="Add Education" />
+                                                        <button className="setting-update-btn">Add</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {/* <div className="more-inputs-section">
                                         <div className="more-inputs-area">
                                             <div className="more-inputs-btn-area">
                                                 <button className="profile-content-more-inputs-edit-btn" data-type="Education">Add Education</button>
@@ -915,9 +915,9 @@ const CandidateProfile = () => {
                                             </div>
                                         </div>
                                     </div> */}
-                                </div>
+                                        </div>
 
-                                {/* <div className="profile-content-card" id='It_skills'>
+                                        {/* <div className="profile-content-card" id='It_skills'>
                                     <div className="profile-content-top-area">
                                         <div className="profile-content-title">IT Skills</div>
                                         <button className="profile-content-edit-btn" data-type="IT Skills">Add IT Skills</button>
@@ -1133,12 +1133,12 @@ const CandidateProfile = () => {
                                     </div>
                                 </div> */}
 
-                                <div className="profile-action-btn-area" id='View_Cv'>
-                                    <button className='view-cv-btn' >
-                                        <i class="bi bi-eye-fill view-cv-icon"></i>
-                                        View CV
-                                    </button>
-                                    {/* {showViewer && (
+                                        <div className="profile-action-btn-area" id='View_Cv'>
+                                            <button className='view-cv-btn' >
+                                                <i class="bi bi-eye-fill view-cv-icon"></i>
+                                                View CV
+                                            </button>
+                                            {/* {showViewer && (
                                         <object
                                         data={candidateResumeUrl}
                                         type="application/pdf"
@@ -1147,40 +1147,25 @@ const CandidateProfile = () => {
                                         >
                                         </object>
                                     )} */}
-                                    <button className='download-cv-btn' onClick={() => {
-                                        window.open(candidateResumeUrl);
-                                    }}>
-                                        <i class="bi bi-download download-cv-icon"></i>
-                                        Download CV
-                                    </button>
+                                            <button className='download-cv-btn' onClick={() => {
+                                                window.open(candidateResumeUrl);
+                                            }}>
+                                                <i class="bi bi-download download-cv-icon"></i>
+                                                Download CV
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </section>
-            </div>}
-            {/* {pageNotFound && <div>
+                        </section>
+                    }
+                    {/* {pageNotFound && <div>
                 <h1>404</h1>
                 <p>Not Found</p>
                 <small>The resource requested could not be found on this server!</small>
             </div>} */}
-            </div>
-            <Footer />
-            {/* <footer className="main-footer no-sidebar">
-                <div className="footer-left">
-                    <p className='footer-text'>
-                        © 2023 - <a href="#">Skillety</a> Technologies Private Limited, All Rights Reserved.
-                    </p>
                 </div>
-                <div className="footer-right">
-                    <div className='footer-right-text-area'>
-                        <p className='footer-right-text'>Designed & Developed by</p>
-                        <a href="https://www.prodigit.in/" target='_blank'>
-                            <img src="assets/img/logo/prodigit-logo.png" className='footer-logo' alt="" />
-                        </a>
-                    </div>
-                </div>
-            </footer> */}
+                <Footer />
             </div >
         </div >
     )

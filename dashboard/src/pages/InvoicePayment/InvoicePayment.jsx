@@ -23,9 +23,9 @@ const InvoicePayment = () => {
 
     }, []);
 
-    useEffect(()=>{
+    useEffect(() => {
         setClientToken(JSON.parse(localStorage.getItem("clientToken")))
-    },[clientToken])
+    }, [clientToken])
 
     const getLoginClientDetail = async () => {
         try {
@@ -67,45 +67,45 @@ const InvoicePayment = () => {
         }
     }
 
-    const getOwnPostedjobs = async() => {
-        try{
+    const getOwnPostedjobs = async () => {
+        try {
             const res = await axios.get(`http://localhost:5002/my-posted-jobs/${loginClientDetail?.companyId}`, {
-              headers: {
-                  Authorization: `Bearer ${clientToken}`,
-                  Accept: 'application/json'
-              }
+                headers: {
+                    Authorization: `Bearer ${clientToken}`,
+                    Accept: 'application/json'
+                }
             });
             const result = res.data;
             if (!result.error) {
-              console.log(result);
-              setPostedJobs(result.reverse());
+                console.log(result);
+                setPostedJobs(result.reverse());
             } else {
-              console.log(result);
+                console.log(result);
             }
-        }catch(err){
-          console.log(err);
+        } catch (err) {
+            console.log(err);
         }
-      }
+    }
 
-      const allStaffFromCompany = async() => {
-        try{
+    const allStaffFromCompany = async () => {
+        try {
             const res = await axios.get(`http://localhost:5002/all-staff/${loginClientDetail?.companyId}`, {
-              headers: {
-                  Authorization: `Bearer ${clientToken}`,
-                  Accept: 'application/json'
-              }
+                headers: {
+                    Authorization: `Bearer ${clientToken}`,
+                    Accept: 'application/json'
+                }
             });
             const result = res.data;
             if (!result.error) {
-              console.log(result);
-              setAllStaff(result);
+                console.log(result);
+                setAllStaff(result);
             } else {
-              console.log(result);
+                console.log(result);
             }
-        }catch(err){
-          console.log(err);
+        } catch (err) {
+            console.log(err);
         }
-      }
+    }
 
     useEffect(() => {
         if (clientToken) {
@@ -181,7 +181,7 @@ const InvoicePayment = () => {
                                                         {packageSelectionDetail?.packageType}
                                                     </td>
                                                     <td className='dash-table-data1 text-center'>
-                                                    {`${new Date(packageSelectionDetail?.createdAt).getDate().toString().padStart(2, '0')}/${(new Date(packageSelectionDetail?.createdAt).getMonth() + 1).toString().padStart(2, '0')}/${new Date(packageSelectionDetail?.createdAt).getFullYear() % 100}`}
+                                                        {`${new Date(packageSelectionDetail?.createdAt).getDate().toString().padStart(2, '0')}/${(new Date(packageSelectionDetail?.createdAt).getMonth() + 1).toString().padStart(2, '0')}/${new Date(packageSelectionDetail?.createdAt).getFullYear() % 100}`}
                                                     </td>
 
                                                     <td className='dash-table-data1 text-center'>
@@ -193,17 +193,19 @@ const InvoicePayment = () => {
                                                     </td>
 
                                                     <td className='text-center'>
-                                                        <button className='application-btn' data-toggle="modal" data-target="#invoiceModal">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
-                                                                <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
-                                                                <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"
-                                                                    fill='#0879bc' />
-                                                            </svg>
-                                                        </button>
+                                                        <div className="action-btn-area">
+                                                            <button className='job-view-btn' data-toggle="modal" data-target="#invoiceModal">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                                                    <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
+                                                                    <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"
+                                                                    />
+                                                                </svg>
+                                                            </button>
+                                                        </div>
                                                     </td>
                                                 </tr>
 
-                                                
+
                                             </table>
                                         </div>
 
@@ -263,12 +265,12 @@ const InvoicePayment = () => {
                                                     <tr className='row-of-table-row'>
                                                         <th className='table--head'>CV Views</th>
                                                         <td className='table--data text-center'>{viewedCandidate.length}</td>
-                                                        <td className='table--data text-center'>{packageSelectionDetail?.cvViews-viewedCandidate.length}</td>
+                                                        <td className='table--data text-center'>{packageSelectionDetail?.cvViews - viewedCandidate.length}</td>
                                                     </tr>
                                                     <tr className='row-of-table-row'>
                                                         <th className='table--head'>Login IDs</th>
                                                         <td className='table--data text-center'>{allStaff.length}</td>
-                                                        <td className='table--data text-center'>{packageSelectionDetail?.logins-allStaff.length}</td>
+                                                        <td className='table--data text-center'>{packageSelectionDetail?.logins - allStaff.length}</td>
                                                     </tr>
                                                     {/* <tr className='row-of-table-row'>
                                                         <th className='table--head'>Number Of Jobs</th>

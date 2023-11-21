@@ -75,13 +75,13 @@ const AllClients = () => {
         setCommonEmails(newCommonEmails);
     }
 
-    useEffect(()=>{
-        if(staffToken){
+    useEffect(() => {
+        if (staffToken) {
             getAllClientDetails();
             getAllClient();
         }
-        
-    },[staffToken]);
+
+    }, [staffToken]);
 
     useEffect(() => {
         if (clientDetail.length > 0 && clientWithTempPass.length > 0) {
@@ -178,17 +178,17 @@ const AllClients = () => {
                                                             <th className='text-center'>View</th>
                                                         </tr>
 
-                                                {/* table data */}
-                                                {clientDetail.slice(x[0], x[1]).map((client, index)=>{
-                                                    return(
-                                                        <tr className='dash-table-row client'>
-                                                            <td className='dash-table-data1'>{index+1}.</td>
-                                                            <td className='dash-table-data1'>
-                                                                {client.name}
-                                                            </td>
-                                                            <td className='dash-table-data1'>
-                                                                {client.email}
-                                                            </td>
+                                                        {/* table data */}
+                                                        {clientDetail.slice(x[0], x[1]).map((client, index) => {
+                                                            return (
+                                                                <tr className='dash-table-row client'>
+                                                                    <td className='dash-table-data1'>{index + 1}.</td>
+                                                                    <td className='dash-table-data1 text-capitalized'>
+                                                                        {client.name}
+                                                                    </td>
+                                                                    <td className='dash-table-data1'>
+                                                                        {client.email}
+                                                                    </td>
 
                                                                     <td className='dash-table-data1'>
                                                                         {/* <span className='text-warning p-0'>
@@ -210,13 +210,14 @@ const AllClients = () => {
                                                                     </td>
 
                                                                     <td className='text-center'>
-                                                                        <button className='application-btn' title='View Client Details...' data-toggle="modal" data-target="#clientsViewModal" onClick={() => handleCard(client._id)}>
-                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
-                                                                                <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
-                                                                                <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"
-                                                                                    fill='#0879bc' />
-                                                                            </svg>
-                                                                        </button>
+                                                                        <div className="action-btn-area">
+                                                                            <button className='job-view-btn' title='View Client Details...' data-toggle="modal" data-target="#clientsViewModal" onClick={() => handleCard(client._id)}>
+                                                                                <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                                                                    <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
+                                                                                    <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
+                                                                                </svg>
+                                                                            </button>
+                                                                        </div>
                                                                     </td>
                                                                 </tr>
                                                             )
@@ -226,31 +227,31 @@ const AllClients = () => {
                                             }
                                         </div>
 
-                                        <div className="view-application-btn-area text-center">
+                                        {/* <div className="view-application-btn-area text-center">
                                             <a href='#' className='view-app-btn'>
                                                 View More&nbsp;&nbsp;
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="13" height="8" viewBox="0 0 13 8" fill="none">
                                                     <path d="M12.3536 4.35355C12.5488 4.15829 12.5488 3.84171 12.3536 3.64645L9.17157 0.464466C8.97631 0.269204 8.65973 0.269204 8.46447 0.464466C8.2692 0.659728 8.2692 0.976311 8.46447 1.17157L11.2929 4L8.46447 6.82843C8.2692 7.02369 8.2692 7.34027 8.46447 7.53553C8.65973 7.7308 8.97631 7.7308 9.17157 7.53553L12.3536 4.35355ZM0 4.5L12 4.5V3.5L0 3.5L0 4.5Z" fill="#0F75C5" />
                                                 </svg>
                                             </a>
-                                        </div>
+                                        </div> */}
                                         <div className="table-pagination-area pt-3">
                                             <div className="pagination-btn-area">
-                                                {x[0] > 0 &&<button className='pag-prev-btn' onClick={()=>setX([x[0] - 10, x[1] - 10])}>
+                                                {x[0] > 0 && <button className='pag-prev-btn' onClick={() => setX([x[0] - 10, x[1] - 10])}>
                                                     <i class="bi bi-chevron-left"></i>
                                                 </button>}
                                                 <div className='pag-page'>
                                                     <span className='current-page'>{Math.ceil(x[0] / 10) + 1}</span>&nbsp;/&nbsp;
                                                     <span className='total-page'>{Math.ceil(clientDetail.length / 10)}</span>
                                                 </div>
-                                                {(clientDetail.slice(x[0], x[1]).length === 10 && clientDetail.length > x[1]) && <button className='pag-next-btn' onClick={()=>setX([x[0] + 10, x[1] + 10])}>
+                                                {(clientDetail.slice(x[0], x[1]).length === 10 && clientDetail.length > x[1]) && <button className='pag-next-btn' onClick={() => setX([x[0] + 10, x[1] + 10])}>
                                                     <i class="bi bi-chevron-right"></i>
                                                 </button>}
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div> 
+                            </div>
                         </div>
                     </section>
                 </div>

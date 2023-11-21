@@ -402,8 +402,8 @@ const SettingsClient = () => {
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <button className={`setting-change-btn ${isProfileImageExpanded ? 'expanded' : ''}`} data-type="Profile Photo" onClick={handleProfileImageToggle}>
-                                                    {isProfileImageExpanded ? 'Cancel' : `Change Profile Photo`}
+                                                <button className={`setting-change-btn ${isProfileImageExpanded ? 'expanded' : ''}`} data-type="Profile Image" onClick={handleProfileImageToggle}>
+                                                    {isProfileImageExpanded ? 'Cancel' : `Change Profile Image`}
                                                 </button>
                                             </div>
 

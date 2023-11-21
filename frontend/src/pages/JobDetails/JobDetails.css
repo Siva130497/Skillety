@@ -361,7 +361,7 @@
 }
 
 .dash-job-det-info-area {
-    margin-top: 20px;
+    margin-top: 30px;
 }
 
 .dash-job-det-info {
@@ -373,4 +373,20 @@
 .dash-job-det-info span,
 .dash-job-det-info div {
     font-weight: 400;
+}
+.job--apply-area{
+    margin-top: 40px;
+    border-top: #714F36 1px solid;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+.button{
+    background-color: transparent !important;
+    outline: none !important;
+    border: none !important;
+}
+.company--detail-card-apply-btn-sub.apply{
+    padding: 15px 60px;
+    font-size: 18px;
 }
