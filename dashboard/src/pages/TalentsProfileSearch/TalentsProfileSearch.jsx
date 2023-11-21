@@ -2018,7 +2018,7 @@ const TalentsProfileSearch = () => {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <button class="pl--package-btn-sub previous back-to-search-btn mb-5" data-aos="fade-left" onClick={() => setSearchResult(false)}>
+                                            <button class="pl--package-btn-sub previous back-to-search-btn mb-5"  onClick={() => setSearchResult(false)}>
                                                 <div class="pl--package-arrow-area prev">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 27 27" fill="none">
                                                         <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="white" stroke-width="2"></path>
@@ -2605,7 +2605,7 @@ const TalentsProfileSearch = () => {
                                                                     const matchingImg = candidateImg ? candidateImg.find(img => img.id === candidate.id) : null;
                                                                     const imgSrc = matchingImg ? `http://localhost:5002/candidate_profile/${matchingImg.image}` : "assets/img/talents-images/avatar.jpg";
                                                                     return (
-                                                                        <article className="talent--profile-card search" data-aos="fade-left" key={candidate.id}>
+                                                                        <article className="talent--profile-card search"  key={candidate.id}>
                                                                             <div className="tal--pro-card-left-area search">
                                                                                 <div className='card-split-line'></div>
                                                                                 <div className="tal--pro-card-name-area">
@@ -3086,7 +3086,7 @@ const TalentsProfileSearch = () => {
                                                 </article> */}
 
 
-                                                    <div className="tal--pro-paginate-btn-area" data-aos="fade-up">
+                                                    <div className="tal--pro-paginate-btn-area" >
                                                         <h6 className='tal--pro-total-result-text'>Total Items : <span>{filteredSearchResultsMsg ? "0" : filteredSearchResults.length}</span></h6>
                                                         <div className='tal--pro-slider-btn-sub'>
                                                             {x[0] > 0 && <button className="tal--pro-slider-btn" onClick={()=>setX([x[0] - 4, x[1] - 4])}>

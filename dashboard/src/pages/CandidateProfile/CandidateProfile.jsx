@@ -8,6 +8,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
+import Footer from '../../components/Footer';
 
 
 const CandidateProfile = () => {
@@ -466,10 +467,10 @@ const CandidateProfile = () => {
 
     return (
         <div>
-            {/* <div class="main-wrapper main-wrapper-1"> */}
-            {/* <div class="navbar-bg"></div> */}
-
-            {/* <div class="main-content"> */}
+            <div class="main-wrapper main-wrapper-1">
+            <div class="navbar-bg"></div>
+            <Layout />
+            <div class="main-content">
             {loading && <div id="preloader" className='candidate'></div>}
             {loginCandidate && <div className="container-fluid">
                 <section class="section">
@@ -1163,8 +1164,9 @@ const CandidateProfile = () => {
                 <p>Not Found</p>
                 <small>The resource requested could not be found on this server!</small>
             </div>} */}
-
-            <footer className="main-footer no-sidebar">
+            </div>
+            <Footer />
+            {/* <footer className="main-footer no-sidebar">
                 <div className="footer-left">
                     <p className='footer-text'>
                         © 2023 - <a href="#">Skillety</a> Technologies Private Limited, All Rights Reserved.
@@ -1178,8 +1180,8 @@ const CandidateProfile = () => {
                         </a>
                     </div>
                 </div>
-            </footer>
-            {/* </div > */}
+            </footer> */}
+            </div >
         </div >
     )
 }

@@ -154,21 +154,35 @@ const NonApprovalJobs = () => {
 
       const handleApproval = (id) => {
         console.log(id)
-        axios.post("http://localhost:5002/job-approval", {id}, {
-            headers: {
-                Authorization: `Bearer ${staffToken}`,
-                Accept: 'application/json'
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'You won\'t be able to revert this!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                
+                axios.post("http://localhost:5002/job-approval", {id}, {
+                    headers: {
+                        Authorization: `Bearer ${staffToken}`,
+                        Accept: 'application/json'
+                    }
+                })
+                .then(res=>{
+                    console.log(res.data)
+                    showSuccessMessage("job has been approved!")
+                    getNonApprovaljobs();
+                })
+                .catch(err=>{
+                    console.log(err)
+                    showErrorMessage()
+                })
             }
-          })
-          .then(res=>{
-            console.log(res.data)
-            showSuccessMessage("job has been approved!")
-            getNonApprovaljobs();
-        })
-          .catch(err=>{
-            console.log(err)
-            showErrorMessage()
-        })
+            
+        });
       }
 
     return (

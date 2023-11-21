@@ -153,7 +153,7 @@ const JobSearch = () => {
                 });
             });
         });
-    }, [candidateToken, getClientImg, clientImg, getProtectedData, candidateId, allJobs, matchJobs, clients, searchResult, filteredSearchResults, filteredSearchResultsMsg, checkBoxfilters, checkBoxJobTitle, checkBoxJobLocation, checkBoxJobEducation, skillArray, jobRoleArray, filteredList, selectedResults, locationArray, educationArray, filters, x]);
+    }, [candidateToken, getClientImg, clientImg, getProtectedData, candidateId, allJobs, matchJobs, clients, searchResult, filteredSearchResults, filteredSearchResultsMsg, checkBoxfilters, checkBoxJobTitle, checkBoxJobLocation, checkBoxJobEducation, skillArray, jobRoleArray, filteredList, selectedResults, locationArray, educationArray, filters, x]); 
 
     console.log(filters) 
 
@@ -1487,6 +1487,14 @@ const JobSearch = () => {
                                                                     </div>
                                                                     <div className="cli--mark-keyword-area job">
                                                                         <label className="cli--mark-keyword-check-input jobs">
+                                                                            <input type="checkbox" checked={checkBoxfilters.includes('contract')}
+                                                                            onChange={() => handleCheckboxChange('contract')}/>
+                                                                            <span className="cli--mark-keyword-checkmark"></span>
+                                                                            Contract
+                                                                        </label>
+                                                                    </div>
+                                                                    <div className="cli--mark-keyword-area job">
+                                                                        <label className="cli--mark-keyword-check-input jobs">
                                                                             <input type="checkbox" checked={checkBoxfilters.includes('freelancer')}
                                                                             onChange={() => handleCheckboxChange('freelancer')}/>
                                                                             <span className="cli--mark-keyword-checkmark"></span>
@@ -1925,9 +1933,9 @@ const JobSearch = () => {
                                                                     <div className="cli--mark-keyword-area job">
                                                                         <label className="cli--mark-keyword-check-input jobs">
                                                                             <input type="checkbox" checked={checkBoxfilters.includes('remote')}
-                                                                            onChange={() => handleCheckboxChange('remote')}/>
+                                                                            onChange={() => handleCheckboxChange('contract')}/>
                                                                             <span className="cli--mark-keyword-checkmark"></span>
-                                                                            Remote
+                                                                            Contract
                                                                         </label>
                                                                     </div>
                                                                     <div className="cli--mark-keyword-area job">
