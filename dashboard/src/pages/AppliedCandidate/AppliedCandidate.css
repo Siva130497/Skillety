@@ -155,7 +155,7 @@
 
 .tal--pro-card-tags .tal--pro-card-location i {
     color: #714F36;
-    font-size: 20px;
+    font-size: 18px;
     margin-right: 5px;
     transition: 0.8s ease-in-out;
 }
@@ -183,6 +183,7 @@
     line-height: normal;
     margin-bottom: 10px;
     transition: 0.8s ease-in-out;
+    text-transform: capitalize;
 }
 
 .tal--pro-card-bottom-btn-area {
@@ -233,7 +234,7 @@
     width: 30%;
     display: flex;
     justify-content: space-between;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
     /* padding-right: 70px; */
     height: 100%;
@@ -242,9 +243,10 @@
 
 .tal--pro-card-right-cover-area {
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
     align-items: center;
     justify-content: center;
+    gap: 20px;
 }
 
 .tal--pro-card-right-btn-area {
@@ -283,8 +285,8 @@
 }
 
 .tal--pro-card-right-area .tal--pro-card-profile-img {
-    width: 90px;
-    height: 90px;
+    width: 85px;
+    height: 85px;
     flex-shrink: 0;
     border-radius: 50%;
     object-fit: cover;
@@ -395,10 +397,10 @@
 }
 
 .tal--pro-card-ability-number-area {
-    margin-top: 17px;
+    /* margin-top: 17px; */
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 15px;
 }
 
 .tal--pro-card-ability-number-left {
@@ -418,16 +420,17 @@
     font-size: 12px;
     font-weight: 500;
     transition: 0.8s ease-in-out;
+    margin-bottom: 0;
 }
 
 .tal--pro-card-percentage,
 .tal--pro-card-days {
     color: #714F36;
-    font-size: 35px;
-    font-weight: 500;
+    font-size:16px;
+    font-weight: 700;
     transition: 0.8s ease-in-out;
     margin-bottom: 0;
-    margin-top: 5px;
+    margin-top: 0px;
 }
 
 .tal--pro-card-days span {

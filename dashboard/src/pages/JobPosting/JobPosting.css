@@ -443,6 +443,7 @@
     font-weight: 400;
     font-size: 13px;
     padding: 12px 20px;
+    text-transform: capitalize;
     background-color: #FFF;
     transition: ease-in-out 0.5s;
     cursor: pointer;

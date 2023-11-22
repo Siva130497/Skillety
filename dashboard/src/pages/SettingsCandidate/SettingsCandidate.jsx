@@ -441,7 +441,7 @@ const SettingsCandidate = () => {
                                                     </div>
                                                 </div>
                                                 <button className={`setting-change-btn ${isSalaryExpanded ? 'expanded' : ''}`} data-type="Amount" onClick={handleSalaryToggle}>
-                                                    {isMobileExpanded ? 'Cancel' : `Change Amount`}
+                                                    {isSalaryExpanded ? 'Cancel' : `Change Amount`}
                                                 </button>
                                             </div>
 

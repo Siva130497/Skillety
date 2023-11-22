@@ -250,7 +250,7 @@ const PostedJobs = () => {
                                                             <th className='dash-table-head'>No.</th>
                                                             <th className='dash-table-head'>Job Role</th>
                                                             <th className='dash-table-head'>Job Category</th>
-                                                            <th className='dash-table-head'>No of Applicants</th>
+                                                            <th className='dash-table-head text-center'>No. of Applicants</th>
                                                             <th className='text-center'>View</th>
                                                         </tr>
 
@@ -273,7 +273,7 @@ const PostedJobs = () => {
                                                                             <td className='dash-table-data1 text-capitalized'>
                                                                                 {Job?.jobCategory}
                                                                             </td>
-                                                                            <td className='dash-table-data1'>
+                                                                            <td className='dash-table-data1 text-center'>
                                                                                 {numApplicants}
                                                                             </td>
 
@@ -310,7 +310,7 @@ const PostedJobs = () => {
                                                                                     <td className='dash-table-data1 text-capitalized'>
                                                                                         {Job?.jobCategory}
                                                                                     </td>
-                                                                                    <td className='dash-table-data1'>
+                                                                                    <td className='dash-table-data1 text-center'>
                                                                                         {numApplicants}
                                                                                     </td>
 
@@ -339,7 +339,7 @@ const PostedJobs = () => {
                                                                                         <td className='dash-table-data1 text-capitalized'>
                                                                                             {Job?.jobCategory}
                                                                                         </td>
-                                                                                        <td className='dash-table-data1'>
+                                                                                        <td className='dash-table-data1 text-center'>
                                                                                             {numApplicants}
                                                                                         </td>
 

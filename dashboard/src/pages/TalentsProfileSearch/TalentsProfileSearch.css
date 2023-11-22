@@ -706,7 +706,7 @@
     color: #714F36;
     border-radius: 40px;
     border: 1px solid #714F36;
-    font-size: 18px;
+    font-size: 15px;
     font-weight: 500;
     outline: none;
     background-color: transparent;
@@ -723,7 +723,7 @@
 
 .tal--search-submit-btn {
     color: #FFF;
-    font-size: 18px;
+    font-size: 15px;
     font-weight: 500;
     background-color: #714F36;
     border: 1px solid #714F36;
@@ -793,7 +793,7 @@
 
 .cli--emploment-detail-head {
     color: #714F36;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 600;
     text-transform: capitalize;
     margin-bottom: 0px;
@@ -876,6 +876,7 @@
     appearance: none !important;
     border: none;
     background: none;
+    height: auto;
 }
 
 .select-box {
@@ -885,7 +886,7 @@
     gap: 10px;
     cursor: pointer;
     color: #714F36;
-    font-size: 20px;
+    font-size: 16px;
     font-weight: 600;
     text-transform: capitalize;
 }
@@ -925,6 +926,7 @@
 
 .select-box .toggle-icon {
     color: #714F36;
+    width: 14px;
 }
 
 .select-box.active .toggle-icon {
@@ -969,8 +971,8 @@
     border: none;
     outline: none;
     color: #1863B9;
-    font-size: 16px;
-    font-weight: 400;
+    font-size: 15px;
+    font-weight: 500;
     margin: 0;
     padding: 0;
     transition: ease-in-out 0.5s;
@@ -1006,21 +1008,33 @@
     overflow-y: scroll;
 }
 
+.cli-tal-pro-recent-search-container:hover::-webkit-scrollbar,
+.cli-tal-pro-recent-search-container:hover::-webkit-scrollbar-thumb,
+.cli-tal-pro-recent-search-container:hover::-webkit-scrollbar-track {
+    visibility: visible;
+}
+
 .cli-tal-pro-recent-search-container::-webkit-scrollbar {
-    width: 8px;
+    width: 6px;
     background-color: #F5F5F5;
+    visibility: hidden;
+    transition: visibility ease 0.5s;
 }
 
 .cli-tal-pro-recent-search-container::-webkit-scrollbar-thumb {
     border-radius: 10px;
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.166);
     background-color: #bcbcbcd3;
+    visibility: hidden;
+    transition: visibility ease 0.5s;
 }
 
 .cli-tal-pro-recent-search-container::-webkit-scrollbar-track {
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.203);
+    visibility: hidden;
     border-radius: 10px;
     background-color: transparent;
+    transition: visibility ease 0.5s;
 }
 
 .talent--profile-card {
@@ -1250,7 +1264,7 @@
     width: 30%;
     display: flex;
     justify-content: space-between;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
     padding: 20px;
     height: 100%;
@@ -1368,7 +1382,7 @@
 }
 
 .tal--pro-card-ability-number-area {
-    margin-top: 17px;
+    /* margin-top: 17px; */
     display: flex;
     align-items: center;
     gap: 20px;
@@ -1502,15 +1516,55 @@
 .swiper {
     padding: 10px 0;
 }
-.job-post-form-badge-area{
+
+.job-post-form-badge-area {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
     margin-bottom: 10px;
 }
-.job-post-form-badge.tal-search{
+
+.job-post-form-badge.tal-search {
     margin-bottom: 0;
+    text-transform: capitalize;
 }
-.cli-tal-pro-search-filter-input-area{
+
+.cli-tal-pro-search-filter-input-area {
     position: relative;
 }
+
+.tal--pro-card-ability-number-area.search-result {
+    flex-direction: column;
+}
+
+.tal--pro-card-ability-number-right.search-result {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.tal--pro-card-can-join {
+    font-size: 12px;
+    margin-bottom: 0;
+    font-weight: 500;
+    color: #63442d;
+}
+
+.tal--pro-card-join-days {
+    color: #714F36;
+    font-size: 16px;
+    margin-bottom: 0;
+    font-weight: 700;
+}
+
+.tal--pro-card-ability-number-left.search-result {
+    align-items: center;
+    flex-direction: row;
+    gap: 15px;
+}
+
+/* .clear--all_button-area.search-result{
+    flex-direction: column;
+} */
