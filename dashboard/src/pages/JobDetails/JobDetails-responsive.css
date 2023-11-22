@@ -8,9 +8,15 @@
         gap: 20px;
         row-gap: 30px;
     }
+
+    .comp-det-card.profile {
+        margin-bottom: 22px;
+        flex-direction: row;
+        justify-content: space-evenly;
+    }
 }
 
-@media (max-width:500px) {
+@media (max-width:573px) {
     .dash-job-det-card {
         padding: 20px;
     }
@@ -94,7 +100,7 @@
     }
 
     .dash-job-det-content-area {
-        padding: 20px;
+        padding: 20px 20px 30px 20px;
     }
 
     .dash-job-desc-area ul {
@@ -108,8 +114,6 @@
     .dash-job-det-info {
         font-size: 15px;
         display: flex;
-        flex-direction: column;
-        gap: 10px;
     }
 
     .dash-job-det-info-area {
@@ -118,5 +122,26 @@
 
     .dash-job-det-info div {
         margin-top: 0 !important;
+    }
+
+    .com-det-content {
+        padding: 20px 0px 10px 18px !important;
+    }
+
+    .comp-det-card.profile {
+        margin-bottom: 22px;
+        flex-direction: column;
+        justify-content: center;
+        padding: 30px;
+    }
+
+    .dash-job-desc-area span {
+        display: none;
+    }
+
+    .dash-job-desc-area.flex {
+        flex-direction: column;
+        align-items: flex-start;
+        margin-bottom: 20px;
     }
 }

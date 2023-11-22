@@ -178,79 +178,79 @@ const PackagePlans = () => {
     }, [employeeId]);
 
     useEffect(() => {
-        if(loginClientDetail?.companyId){
+        if (loginClientDetail?.companyId) {
             getClientChoosenPlan(loginClientDetail?.companyId);
         }
-        
-      }, [loginClientDetail?.companyId]);
 
-      useEffect(() => {
-        if(packageSelectionDetail){
+    }, [loginClientDetail?.companyId]);
+
+    useEffect(() => {
+        if (packageSelectionDetail) {
             setPackageType(packageSelectionDetail?.packageType)
         }
-        
-      }, [packageSelectionDetail]);
+
+    }, [packageSelectionDetail]);
 
 
-      const handleBuyMicro = () => {
+    const handleBuyMicro = () => {
         setPackageInfo({
             id: loginClientDetail?.companyId,
             packageType: "Micro",
             logins: "3",
             cvViews: "3",
             // jobPost:"2",
-            amount:"32,804",
+            amount: "32,804",
         })
-      }
-    
-      const handleBuySmall = () => {
+    }
+
+    const handleBuySmall = () => {
         setPackageInfo({
             id: loginClientDetail?.companyId,
             packageType: "Small",
             logins: "5",
             cvViews: "5",
             // jobPost:"3",
-            amount:"91,568",
+            amount: "91,568",
         })
-      }
-    
-      const handleBuyLarge = () => {
+    }
+
+    const handleBuyLarge = () => {
         setPackageInfo({
             id: loginClientDetail?.companyId,
             packageType: "Large",
             logins: "10",
             cvViews: "10",
             // jobPost:"4",
-            amount:"161,483",
+            amount: "161,483",
         })
-      }
+    }
 
-      
 
-      const handleBuy = () => {
+
+    const handleBuy = () => {
         axios.post("http://localhost:5002/client-package-plan", packageInfo, {
             headers: {
                 Authorization: `Bearer ${clientToken}`,
                 Accept: 'application/json'
             }
         })
-        .then(res=>{
-            console.log(res.data)
-            showSuccessMessage(`Successfully bought ${packageInfo?.packageType} package`)
-            window.location.reload();
-        })
-        .catch(err=>{
-            console.log(err)
-            showErrorMessage()
-        })
-      }
+            .then(res => {
+                console.log(res.data)
+                showSuccessMessage(`Successfully bought ${packageInfo?.packageType} package`)
+                window.location.reload();
+            })
+            .catch(err => {
+                console.log(err)
+                showErrorMessage()
+            })
+    }
 
     return (
         <div>
             {clientToken && <div class="main-wrapper main-wrapper-1">
                 <div class="navbar-bg"></div>
 
-                <ClientLayout packageSelectionDetail={packageSelectionDetail}/>
+                <ClientLayout packageSelectionDetail={packageSelectionDetail} />
 
                 <div class="main-content">
                     <section class="section">
@@ -397,7 +397,7 @@ const PackagePlans = () => {
 
                                                                 <div className="pl--package-btn-area starter-btn-area">
                                                                     <button className='pl--package-btn-sub buy-now'
-                                                                    onClick={handleBuyMicro}>
+                                                                        onClick={handleBuyMicro}>
                                                                         <div className='pl--package-btn buy-now'>
                                                                             Buy Now
                                                                         </div>
@@ -412,7 +412,7 @@ const PackagePlans = () => {
                                                                 </div>
                                                             </div>
                                                         </div>}
-                                                        {packageType !== "Small" &&<div className="col-12 col-xl-3 col-lg-3 col-md-3 custom-width1">
+                                                        {packageType !== "Small" && <div className="col-12 col-xl-3 col-lg-3 col-md-3 custom-width1">
                                                             <div className="pl--package-detail-area">
                                                                 <div className='pl--package-info-area professional-info-area'>
                                                                     <img src="../assets/img/packages/Professional.png" className="pl--package-img" alt="" />
@@ -466,7 +466,7 @@ const PackagePlans = () => {
 
                                                                 <div className="pl--package-btn-area professional-btn-area">
                                                                     <button className='pl--package-btn-sub buy-now'
-                                                                    onClick={handleBuySmall}>
+                                                                        onClick={handleBuySmall}>
                                                                         <div className='pl--package-btn buy-now'>
                                                                             Buy Now
                                                                         </div>
@@ -481,7 +481,7 @@ const PackagePlans = () => {
                                                                 </div>
                                                             </div>
                                                         </div>}
-                                                        {packageType !== "Large" &&<div className="col-12 col-xl-3 col-lg-3 col-md-3 custom-width1">
+                                                        {packageType !== "Large" && <div className="col-12 col-xl-3 col-lg-3 col-md-3 custom-width1">
                                                             <div className="pl--package-detail-area">
                                                                 <div className='pl--package-info-area premium-info-area'>
                                                                     <img src="../assets/img/packages/premium.png" className="pl--package-img" alt="" />
@@ -535,7 +535,7 @@ const PackagePlans = () => {
 
                                                                 <div className="pl--package-btn-area premium-btn-area">
                                                                     <button className='pl--package-btn-sub buy-now'
-                                                                    onClick={handleBuyLarge}>
+                                                                        onClick={handleBuyLarge}>
                                                                         <div className='pl--package-btn buy-now'>
                                                                             Buy Now
                                                                         </div>
@@ -657,7 +657,7 @@ const PackagePlans = () => {
                                                             <img src="assets/img/packages/payment-success.png" className='pl-payment-img' alt="" />
                                                             <div className="pl-payment-message success">Payment Success..!</div>
                                                         </div>
-                                                        
+
 
                                                         {/* if payment was success */}
                                                         {/* <div className="pl-payment-area failed">

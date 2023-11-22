@@ -160,11 +160,11 @@
     }
 
     .tal--pro-card-desc-area .tal--pro-card-desc {
-        padding-left: 12px;
+        padding-left: 15px;
     }
 
     .tal--pro-card-desc-row {
-        border-bottom: 1px #d9ad26 solid;
+        border-bottom: 1px #ddd solid;
         margin-bottom: 12px;
     }
 

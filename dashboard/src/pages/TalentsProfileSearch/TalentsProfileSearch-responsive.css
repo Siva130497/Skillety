@@ -22,7 +22,7 @@
 
     .clear--all_button-area .clear--all_button,
     .tal--search-submit-btn {
-        /* width: 100%; */
+        width: 100%;
         font-size: 16px;
     }
 
@@ -136,13 +136,17 @@
         font-size: 12px;
     }
 
-    .tal--pro-card-days.search,
+    /* .tal--pro-card-days.search,
     .tal--pro-card-percentage.search {
         font-size: 37px;
-    }
+    } */
 
     .tal--pro-card-right-cover-area.search {
-        gap: 10px;
+        gap: 20px;
+    }
+    .clear--all_button-area{
+        flex-direction: column;
+        gap: 20px;
     }
 }
 
@@ -284,7 +288,7 @@
 
     .tal--pro-card-right-cover-area.search {
         flex-direction: column;
-        gap: 15px;
+        gap: 20px;
     }
 
     .tal--pro-card-right-area.search {
@@ -309,13 +313,18 @@
     .talent--profile-search-results-section {
         padding-bottom: 60px;
     }
+    .tal--pro-card-percentage, .tal--pro-card-days{
+        font-size: 24px !important;
+    }
 }
 
-@media (max-width:500px) {
+@media (max-width:573px) {
     .cli--tal-pro-search-section {
         margin-top: 100px;
     }
-
+    .pl--package-arrow-area{
+        padding: 15px !important;
+    }
     /* .cli-tal-pro-search-container .cli-tal-pro-search-heading {
         font-size: 30px;
     } */
@@ -325,7 +334,7 @@
     }
 
     .custom-right-border-col {
-        border-right: none;
+        border-right: none !important;
     }
 
     .cli-tal-pro-search-filter-container {
@@ -405,7 +414,7 @@
     }
 
     .cli-tal-pro-exp-input-area.search-page {
-        flex-direction: column;
+        flex-direction: row;
     }
 
     .width-45.search-page {
@@ -439,5 +448,11 @@
     }
     .info-icon-button:hover+.tooltip{
         transform: translateY(-15px);
+    }
+    .mob-padding{
+        padding: 0;
+    }
+    .cli--tal-pro-search-section{
+        padding-bottom: 0;
     }
 }

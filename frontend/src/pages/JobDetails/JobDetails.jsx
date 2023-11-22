@@ -44,7 +44,7 @@ const JobDetails = () => {
   //for show success message for payment
   function showSuccessMessage(message) {
     Swal.fire({
-      title: "Success!",
+      title: "Congratulations!",
       text: message,
       icon: "success",
       confirmButtonColor: "#3085d6",
@@ -120,7 +120,7 @@ const JobDetails = () => {
       const result = res.data;
       if (!result.error) {
         console.log(result);
-        showSuccessMessage("job applied successfully!");
+        showSuccessMessage("Job applied successfully..!");
         getAppliedjobs();
       } else {
         console.log(result);
@@ -144,7 +144,7 @@ const JobDetails = () => {
         }
       );
       console.log(response);
-      showSuccessMessage("Job successfully deleted!");
+      showSuccessMessage("Job successfully deleted..!");
       getAppliedjobs();
     } catch (error) {
       console.error(error);
@@ -303,11 +303,11 @@ const JobDetails = () => {
                               {/* <div className="dash-job-det-card-status with-border-padding">
                                                         Posted :&nbsp;<span>{`${new Date(job?.createdAt).getDate().toString().padStart(2, '0')}/${(new Date(job?.createdAt).getMonth() + 1).toString().padStart(2, '0')}/${new Date(job?.createdAt).getFullYear() % 100}`}</span>
                                                     </div> */}
-                              {/* <div className="dash-job-det-card-status with-border-padding">
-                                                        Opening :&nbsp;<span>02</span>
-                                                    </div> */}
-                              <div className="dash-job-det-card-status">
+                              <div className="dash-job-det-card-status with-border-padding">
                                 Applicants :&nbsp;<span>{applicants}</span>
+                              </div>
+                              <div className="dash-job-det-card-status">
+                                Skill Matched :&nbsp;<span>{job?.percentage} %</span>
                               </div>
                             </div>
                             <div className="dash-job-det-card-btn-area">
@@ -324,86 +324,75 @@ const JobDetails = () => {
                                 <path d="M16.4,4C14.6,4,13,4.9,12,6.3C11,4.9,9.4,4,7.6,4C4.5,4,2,6.5,2,9.6C2,14,12,22,12,22s10-8,10-12.4C22,6.5,19.5,4,16.4,4z"></path>
                               </svg>
                             </label> */}
-                              {/* {alreadyApplied ? (
-                                <button
-                                  type="button"
-                                  className="dash-job-det-card-apply-btn"
-                                  onClick={handleDiscard}
-                                >
-                                  Discard
-                                </button>
-                              ) : (
-                                <button
-                                  type="button"
-                                  className="dash-job-det-card-apply-btn"
-                                  onClick={handleApply}
-                                >
-                                  Apply
-                                </button>
-                              )} */}
+                              <button
+                                type="button"
+                                className="dash-job-det-card-apply-btn"
+                                data-bs-toggle="modal"
+                                data-bs-target="#company_detail_modal">
+                                View Company Detail
+                              </button>
                             </div>
                           </div>
                         </article>
                       </div>
 
                       <div className="dash-job-det-content-area">
-                        <div className="job-match-score-area">
+                        {/* <div className="job-match-score-area">
                           <div className="job-match-score-head">
                             Job match percentage with your skill
                           </div>
                           <div className="job-match-score-selection-area">
                             <div className="job-match-score-radio-select-area">
                               <label className="job-match-score-radio-button">
-                                {/* <input type="radio" name="job-match-score-radio-option" value="Early_Applicant" /> */}
+                                <input type="radio" name="job-match-score-radio-option" value="Early_Applicant" />
                                 <span className="job-match-score-radio"></span>
                                 {job?.percentage} %
                               </label>
 
-                              {/* <label className="job-match-score-radio-button">
-                                                        <input type="radio" name="job-match-score-radio-option" value="Keyskills" />
-                                                        <span className="job-match-score-radio"></span>
-                                                        Keyskills
-                                                    </label>
+                              <label className="job-match-score-radio-button">
+                                <input type="radio" name="job-match-score-radio-option" value="Keyskills" />
+                                <span className="job-match-score-radio"></span>
+                                Keyskills
+                              </label>
 
-                                                    <label className="job-match-score-radio-button">
-                                                        <input type="radio" name="job-match-score-radio-option" value="Location" />
-                                                        <span className="job-match-score-radio"></span>
-                                                        Location
-                                                    </label>
+                              <label className="job-match-score-radio-button">
+                                <input type="radio" name="job-match-score-radio-option" value="Location" />
+                                <span className="job-match-score-radio"></span>
+                                Location
+                              </label>
 
-                                                    <label className="job-match-score-radio-button">
-                                                        <input type="radio" name="job-match-score-radio-option" value="Work_Experience" />
-                                                        <span className="job-match-score-radio"></span>
-                                                        Work Experience
-                                                    </label> */}
+                              <label className="job-match-score-radio-button">
+                                <input type="radio" name="job-match-score-radio-option" value="Work_Experience" />
+                                <span className="job-match-score-radio"></span>
+                                Work Experience
+                              </label>
                             </div>
                           </div>
-                        </div>
+                        </div> */}
                         <div className="dash-job-desc-section">
-                          <div className="dash-job-desc-area">
-                            <div className="dash-job-desc-head">
-                              Job Description
+                          <div className="row qulification-area">
+                            <div className="col-12">
+                              <div className="dash-job-desc-area">
+                                <div className="dash-job-desc-head qualification">
+                                  QUALIFICATION
+                                </div>
+                              </div>
                             </div>
-                            <p className="dash-job-desc">{job?.jobDescription}</p>
+                            <div className="col-12 col-md-12 col-lg-6 mt-4">
+                              <div className="dash-job-desc-area flex">
+                                <div className="dash-job-desc-head">Education</div>&nbsp;&nbsp;<span>:</span>&nbsp;&nbsp;
+                                <div className="dash-job-desc2">{job?.education}</div>
+                              </div>
+                            </div>
+                            <div className="col-12 col-md-12 col-lg-6 mt-4">
+                              <div className="dash-job-desc-area flex">
+                                <div className="dash-job-desc-head">Prior Experience</div>&nbsp;&nbsp;<span>:</span>&nbsp;&nbsp;
+                                <div className="dash-job-desc2">{job?.jobExperience}</div>
+                              </div>
+                            </div>
                           </div>
 
-                          <div className="dash-job-desc-area">
-                            <div className="dash-job-desc-head">
-                              QUALIFICATION
-                            </div>
-                          </div>
 
-                          <div className="dash-job-desc-area">
-                            <div className="dash-job-desc-head">Education</div>
-                            <p className="dash-job-desc">{job?.education}</p>
-                          </div>
-
-                          <div className="dash-job-desc-area">
-                            <div className="dash-job-desc-head">
-                              Prior Experience
-                            </div>
-                            <p className="dash-job-desc">{job?.jobExperience}</p>
-                          </div>
 
                           {/* <div className="dash-job-desc-area">
                                                 <div className="dash-job-desc-head">Prior Experience</div>
@@ -453,47 +442,65 @@ const JobDetails = () => {
                                                 </ul>
                                             </div> */}
                         </div>
+
                         <div className="dash-job-det-info-section">
-                          <div className="dash-job-det-info-area">
-                            <div className="dash-job-det-info">
-                              Location :&nbsp;
-                              <span>{job?.jobLocation.join(", ")}</span>
+                          <div className="row">
+                            <div className="col-12 col-md-6">
+                              <div className="dash-job-det-info-area">
+                                <div className="dash-job-det-info">
+                                  Location&nbsp;&nbsp;:&nbsp;&nbsp;
+                                  <span>{job?.jobLocation.join(", ")}</span>
+                                </div>
+                                <div className="dash-job-det-info-area">
+                                  <div className="dash-job-det-info">
+                                    Role&nbsp;&nbsp;:&nbsp;&nbsp;
+                                    <span>{job?.jobRole[0]}</span>
+                                  </div>
+                                </div>
+                                <div className="dash-job-det-info-area">
+                                  <div className="dash-job-det-info">
+                                    Industry Type&nbsp;&nbsp;:&nbsp;&nbsp;
+                                    <span>{job?.industry}</span>
+                                  </div>
+                                </div>
+                                <div className="dash-job-det-info-area">
+                                  <div className="dash-job-det-info">
+                                    Department&nbsp;&nbsp;:&nbsp;&nbsp;
+                                    <span>{job?.jobDepartment}</span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div className="col-12 col-md-6">
+                              <div className="dash-job-det-info-area">
+                                <div className="dash-job-det-info">
+                                  Employment Type&nbsp;&nbsp;:&nbsp;&nbsp;
+                                  <span>{job?.jobCategory}</span>
+                                </div>
+                              </div>
+                              <div className="dash-job-det-info-area">
+                                <div className="dash-job-det-info">
+                                  Role Category&nbsp;&nbsp;:&nbsp;&nbsp;
+                                  <span>{job?.role}</span>
+                                </div>
+                              </div>
+                              <div className="dash-job-det-info-area">
+                                <div className="dash-job-det-info">
+                                  Working Mode&nbsp;&nbsp;:&nbsp;&nbsp;
+                                  <span>{job?.workMode}</span>
+                                </div>
+                              </div>
                             </div>
                           </div>
-                          <div className="dash-job-det-info-area">
-                            <div className="dash-job-det-info">
-                              Role :&nbsp;
-                              <span>{job?.jobRole[0]}</span>
-                            </div>
-                          </div>
-                          <div className="dash-job-det-info-area">
-                            <div className="dash-job-det-info">
-                              Industry Type :&nbsp;
-                              <span>{job?.industry}</span>
-                            </div>
-                          </div>
-                          <div className="dash-job-det-info-area">
-                            <div className="dash-job-det-info">
-                              Department :&nbsp;
-                              <span>{job?.jobDepartment}</span>
-                            </div>
-                          </div>
-                          <div className="dash-job-det-info-area">
-                            <div className="dash-job-det-info">
-                              Employment Type :&nbsp;
-                              <span>{job?.jobCategory}</span>
-                            </div>
-                          </div>
-                          <div className="dash-job-det-info-area">
-                            <div className="dash-job-det-info">
-                              Role Category :&nbsp;
-                              <span>{job?.role}</span>
-                            </div>
-                          </div>
-                          <div className="dash-job-det-info-area">
-                            <div className="dash-job-det-info">
-                              Working Mode :&nbsp;
-                              <span className="mt-3">{job?.workMode}</span>
+
+                          <div className="dash-job-desc-container">
+                            <div className="dash-job-desc-area">
+                              <div>
+                                <div className="dash-job-desc-head">
+                                  Job Description
+                                </div>
+                                <p className="dash-job-desc mt-2">{job?.jobDescription}</p>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -501,13 +508,13 @@ const JobDetails = () => {
 
                       <div className="job--apply-area">
                         {alreadyApplied ? (
-                          <button className='company--detail-card-apply-btn button mt-5' onClick={handleDiscard}>
+                          <button className='company--detail-card-apply-btn button m-t-40' onClick={handleDiscard}>
                             <div className='company--detail-card-apply-btn-sub apply'>
                               Discard
                             </div>
                           </button>
                         ) : (
-                          <button className='company--detail-card-apply-btn button mt-5' onClick={handleApply}>
+                          <button className='company--detail-card-apply-btn button m-t-40' onClick={handleApply}>
                             <div className='company--detail-card-apply-btn-sub apply'>
                               Apply Now
                             </div>
@@ -524,6 +531,78 @@ const JobDetails = () => {
                     </div>
                   </div>
                 </div>
+
+                {/* company detail modal here */}
+                <div className="modal fade" id="company_detail_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div className="modal-dialog modal-lg modal-dialog-centered">
+                    <div className="modal-content comp-det-modal">
+                      <div className="modal-header comp-det-modal-header">
+                        <h5 className="modal-title comp-det-modal-head" id="exampleModalLabel">
+                          Company Detail_
+                        </h5>
+                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div className="modal-body comp-det-modal-body">
+                        <div className="row p-3">
+                          <div className="col-12 col-lg-4">
+                            <div className="card comp-det-card profile">
+                              <div className="com-det-logo-area">
+                                <img src="../assets/img/companies/company-1.png" className="com-det-logo" alt="" />
+                              </div>
+                              <div className="com-det-name">Company Name</div>
+                            </div>
+                          </div>
+                          <div className="col-12 col-lg-8">
+                            <div className="card comp-det-card">
+                              <div className="row">
+                                <div className="col-12 col-lg-4 col-xl-4 col-md-5 col-sm-5">
+                                  <div className="com-det-title">Email</div>
+                                </div>
+                                <div className="col-12 col-lg-8 col-xl-8 col-md-7 col-sm-7">
+                                  <div className="com-det-content">email@gmail.com</div>
+                                </div>
+                              </div>
+                              <hr />
+                              <div className="row">
+                                <div className="col-12 col-lg-4 col-xl-4 col-md-5 col-sm-5">
+                                  <div className="com-det-title">Mobile Number</div>
+                                </div>
+                                <div className="col-12 col-lg-8 col-xl-8 col-md-7 col-sm-7">
+                                  <div className="com-det-content">0770770770</div>
+                                </div>
+                              </div>
+                              <hr />
+                              <div className="row">
+                                <div className="col-12 col-lg-4 col-xl-4 col-md-5 col-sm-5">
+                                  <div className="com-det-title">Headcount</div>
+                                </div>
+                                <div className="col-12 col-lg-8 col-xl-8 col-md-7 col-sm-7">
+                                  <div className="com-det-content">05</div>
+                                </div>
+                              </div>
+                              <hr />
+                              <div className="row">
+                                <div className="col-12 col-lg-4 col-xl-4 col-md-5 col-sm-5">
+                                  <div className="com-det-title">Description</div>
+                                </div>
+                                <div className="col-12 col-lg-8 col-xl-8 col-md-7 col-sm-7">
+                                  <div className="com-det-content">
+                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea nemo in dolorem maiores pariatur, veritatis accusantium rerum optio distinctio quae quidem omnis quibusdam facilis obcaecati harum sequi fugit necessitatibus praesentium.
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="modal-footer comp-det-modal-footer">
+                        <button type="button" className="btn btn-close-btn" data-bs-dismiss="modal">Close</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {/*  */}
+
               </div>
             </div>
           </div>
