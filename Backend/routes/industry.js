@@ -18,6 +18,11 @@ router.post("/industries", async(req, res)=>{
     
     try {
       const savedindustry = await Promise.all(industryArray.map(async (industryString) => {
+        const existingIndustry = await industry.findOne({ industry: industryString });
+
+        if (existingIndustry) {
+              return existingIndustry;
+        }
         const postindustry = new industry({ industry: industryString });
         return await postindustry.save();
       }));

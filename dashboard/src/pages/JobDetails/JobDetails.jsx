@@ -273,16 +273,16 @@ const JobDetails = () => {
                                                     </div>
                                                 </div>
                                                 <div className="dash-job-det-card-btn-area">
-                                                    <label className="dash-job-det-favourite">
+                                                    {/* <label className="dash-job-det-favourite">
                                                         <input type="checkbox" />
                                                         <svg id="Layer_1" version="1.0" viewBox="0 0 24 24" space="preserve" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink">
                                                             <path d="M16.4,4C14.6,4,13,4.9,12,6.3C11,4.9,9.4,4,7.6,4C4.5,4,2,6.5,2,9.6C2,14,12,22,12,22s10-8,10-12.4C22,6.5,19.5,4,16.4,4z">
                                                             </path>
                                                         </svg>
-                                                    </label>
-                                                    {alreadyApplied ? <button type='button' className="dash-job-det-card-apply-btn"
+                                                    </label> */}
+                                                    {/* {alreadyApplied ? <button type='button' className="dash-job-det-card-apply-btn"
                                                     onClick={handleDiscard}>Discard</button> : <button type='button' className="dash-job-det-card-apply-btn"
-                                                    onClick={handleApply}>Apply</button>}
+                                                    onClick={handleApply}>Apply</button>} */}
                                                 </div>
                                             </div>
                                         </article>
@@ -440,6 +440,28 @@ const JobDetails = () => {
                                             </div>
                                         </div>
                                     </div>
+                                    <div className="job--apply-area">
+                        {alreadyApplied ? (
+                          <button className='company--detail-card-apply-btn button mt-5' onClick={handleDiscard}>
+                            <div className='company--detail-card-apply-btn-sub apply'>
+                              Discard
+                            </div>
+                          </button>
+                        ) : (
+                          <button className='company--detail-card-apply-btn button mt-5' onClick={handleApply}>
+                            <div className='company--detail-card-apply-btn-sub apply'>
+                              Apply Now
+                            </div>
+                            <div className='company--detail-card-apply-btn-arrow'>
+                              <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 27 27" fill="none">
+                                <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#714F36" stroke-width="2" />
+                                <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#714F36" stroke-width="2" />
+                                <path d="M1 26L25.1667 1" stroke="#714F36" stroke-width="2" />
+                              </svg>
+                            </div>
+                          </button>
+                        )}
+                      </div>
                                 </div>
                             </div>
                         </section>

@@ -18,6 +18,11 @@ router.post("/educations", async(req, res)=>{
     
     try {
       const savededucation = await Promise.all(educationArray.map(async (educationString) => {
+        const existingEducation = await education.findOne({ education: educationString });
+
+        if (existingEducation) {
+              return existingEducation;
+        }
         const posteducation = new education({ education: educationString });
         return await posteducation.save();
       }));

@@ -1,6 +1,6 @@
 const { Schema, model } = require("mongoose");
 
-const nonApprovalJobSchema = new Schema(
+const activeJobSchema = new Schema(
   {
     id: {
         type: String,
@@ -11,6 +11,12 @@ const nonApprovalJobSchema = new Schema(
         required: function() {
             return this.Role === 'Client';
         } 
+    },
+    recruiterId: {
+        type: String,
+        required: function() {
+            return this.Role === 'Recruiter';
+          }
     },
     clientStaffId: {
         type: String,
@@ -88,4 +94,4 @@ const nonApprovalJobSchema = new Schema(
     { timestamps: true }
 );
 
-module.exports = model("nonApprovalJob", nonApprovalJobSchema);
+module.exports = model("activeJob", activeJobSchema);

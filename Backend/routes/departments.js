@@ -18,6 +18,11 @@ router.post("/departments", async(req, res)=>{
     
     try {
       const savedDepartment = await Promise.all(departmentArray.map(async (departmentString) => {
+        const existingDepartment = await department.findOne({ department: departmentString });
+
+        if (existingDepartment) {
+              return existingDepartment;
+        }
         const postDepartment = new department({ department: departmentString });
         return await postDepartment.save();
       }));

@@ -18,6 +18,11 @@ router.post("/locations", async(req, res)=>{
     
     try {
       const savedLocation = await Promise.all(locationArray.map(async (locationString) => {
+        const existingLocation = await location.findOne({ location: locationString });
+
+        if (existingLocation) {
+              return existingLocation;
+        }
         const postLocation = new location({ location: locationString });
         return await postLocation.save();
       }));
