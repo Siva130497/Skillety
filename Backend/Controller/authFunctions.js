@@ -23,6 +23,8 @@ const enquiryFormDetail = require("../Database/enquiryFormDetail");
 const candidateChat = require("../Database/candidateChat");
 const roomIdChatDetail = require("../Database/roomIdChatDetail");
 const nonApprovalJob = require("../Database/nonApprovalJob");
+const activeJob = require("../Database/activeJob");
+const searchResult = require("../Database/searchResult");
 
 // const hash = async() => {
 //   const pass = 'newpassword'
@@ -497,13 +499,71 @@ const jobApproval = async (req, res) => {
   }
 };
 
+const activateJob = async (req, res) => {
+  try {
+    const { id } = req.body;
+    console.log(id);
+
+    const job = await jobDetail.findOne({ id });
+
+    console.log(job);
+
+    if (job) {
+  
+      const jobObj = job.toObject();
+
+      const newActiveJob = new activeJob({
+        ...jobObj,
+      });
+
+      await newActiveJob.save();
+      console.log(newActiveJob);
+
+      await jobDetail.deleteOne({ id });
+
+      return res.status(200).json(newActiveJob);
+    }
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+};
+
+const deactivateJob = async (req, res) => {
+  try {
+    const { id } = req.body;
+    console.log(id);
+
+    const job = await activeJob.findOne({ id });
+
+    console.log(job);
+
+    if (job) {
+  
+      const jobObj = job.toObject();
+
+      const newJob = new jobDetail({
+        ...jobObj,
+      });
+
+      await newJob.save();
+      console.log(newJob);
+
+      await activeJob.deleteOne({ id });
+
+      return res.status(200).json(newJob);
+    }
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+};
+
 
 /* get all job details */
 const getSkillMatchJobDetail = async (req, res) => {
   try {
     const id = req.params.candidateId;
     const candidateDetail = await candidate.findOne({ id });
-    const jobDetails = await jobDetail.find();
+    const jobDetails = await activeJob.find();
 
     const calculateMatchPercentage = (skills1, skills2) => {
       const matchingSkills = skills2.filter(skill => skills1.includes(skill));
@@ -553,11 +613,11 @@ const getSkillMatchJobDetail = async (req, res) => {
 
 
 /* get all posted jobs */
-const getPostedjobs = async(req, res) => {
+const getActivejobs = async(req, res) => {
   try{
-    const postedJobs = await jobDetail.find();
+    const avtiveJobs = await activeJob.find();
     
-    res.status(200).json(postedJobs); 
+    res.status(200).json(avtiveJobs); 
   }catch(err) {
     res.status(500).json({error: err.message})
   }
@@ -576,12 +636,17 @@ const getNonApprovaljobs = async(req, res) => {
   }
 }
 
-
 /* get a job  */
 const getJob = async (req, res) => {
   const { id } = req.params;
   console.log(id);
   try {
+
+    const jobActive = await activeJob.findOne({ id });
+
+    if (jobActive) {
+      return res.status(200).json(jobActive);
+    }
    
     const jobInDetail = await jobDetail.findOne({ id });
 
@@ -623,6 +688,33 @@ const updateJob = async (req, res) => {
   const { id } = req.params;
 
   try {
+
+    const updatedActiveJob = await activeJob.findOneAndUpdate(
+      { id },
+      {
+        $set: {
+          jobRole: req.body.jobRole,
+          skills: req.body.skills,
+          location: req.body.location,
+          department: req.body.department,
+          role: req.body.role,
+          minExperience: req.body.minExperience,
+          maxExperience: req.body.maxExperience,
+          jobCategory: req.body.jobCategory,
+          jobDescription: req.body.jobDescription,
+          currencyType: req.body.currencyType,
+          minSalary: req.body.minSalary,
+          maxSalary: req.body.maxSalary,
+          industry: req.body.industry,
+          education: req.body.education,
+        },
+      },
+      { new: true }
+    );
+
+    if (updatedActiveJob) {
+      return res.status(200).json(updatedActiveJob);
+    }
     
     const updatedJobDetail = await jobDetail.findOneAndUpdate(
       { id },
@@ -709,6 +801,30 @@ const getOwnPostedjobs = async (req, res) => {
   }
 }
 
+/* get own active jobs  */
+const getOwnActivejobs = async (req, res) => {
+  try {
+    const id = req.params.id; 
+    
+    const activeJobs = await activeJob.find({
+      $or: [
+        { companyId: id },
+        { recruiterId: id }
+      ]
+    });
+
+    if (activeJobs.length > 0) {
+      const activeJobWithStatus = activeJobs.map(job => ({ ...job.toObject(), active: true }));
+      return res.status(200).json(activeJobWithStatus);
+    }
+
+      return res.status(404).json({ message: 'No active job found' });
+    
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+}
+
 
 /* candidate applying job */
 const applyingjob = async(req, res) => {
@@ -772,16 +888,16 @@ const deleteAppliedJob = async(req, res) => {
   }
 }
 
-/* delete posted job */
-const deletingPostedJob = async(req, res) => {
+/* delete active job */
+const deletingActiveJob = async(req, res) => {
   try{
     const jobId = req.params.jobId;
-    const deletedPostedJob = await jobDetail.deleteOne({id:jobId});
+    const deletedActiveJob = await activeJob.deleteOne({id:jobId});
     const deleteAppliedJob = await appliedJob.deleteOne({jobId:jobId});
     if(!deleteAppliedJob){
-      res.status(204).json({deletedPostedJob}); 
+      res.status(204).json({deletedActiveJob}); 
     }else{
-      res.status(204).json({deletedPostedJob, deleteAppliedJob}); 
+      res.status(204).json({deletedActiveJob, deleteAppliedJob}); 
     }
     
   }catch(err) {
@@ -796,6 +912,19 @@ const deletingNonApprovalJob = async(req, res) => {
     const deletedNonApprovalJob = await nonApprovalJob.deleteOne({id:jobId});
     
       res.status(204).json(deletedNonApprovalJob); 
+    
+  }catch(err) {
+    res.status(500).json({error: err.message})
+  }
+}
+
+/* delete posted-job */
+const deletingPostedJob = async(req, res) => {
+  try{
+    const jobId = req.params.jobId;
+    const deletedPostedJob = await jobDetail.deleteOne({id:jobId});
+    
+      res.status(204).json(deletedPostedJob); 
     
   }catch(err) {
     res.status(500).json({error: err.message})
@@ -1709,6 +1838,32 @@ const updatingCandidatePassword = async (req, res) => {
   }
 };
 
+/* search result of job save */
+const searchResultSave = async(req, res) => {
+  try {
+    console.log(req.body);
+    const newRecentSearch = new searchResult({
+      ...req.body,
+    });
+    await newRecentSearch.save();
+    console.log(newRecentSearch);
+    return res.status(201).json(newRecentSearch);
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+}
+
+/* get all recent searches */
+const getAllRecentSearches = async(req, res) => {
+  try{
+    const allRecentSearches = await searchResult.find();
+    console.log(allRecentSearches);
+    return res.status(200).json(allRecentSearches);
+  }catch(err){
+    return res.status(500).json({ error: err.message });
+  }
+};
+
 
 /* random password generate */
 const generateRandomPassword = (req, res) => {
@@ -1880,18 +2035,22 @@ module.exports = {
    clientJobPosting,
    jobPosting,
    jobApproval,
+   activateJob,
+   deactivateJob,
    getJob,
    getAppliedJobByJobId,
    updateJob,
    getSkillMatchJobDetail,
-   getPostedjobs,
+   getActivejobs,
    getNonApprovaljobs,
+   getOwnActivejobs,
    getOwnPostedjobs,
    applyingjob,
    getAppliedjobs,
    getAppliedOfPostedJobs,
    deleteAppliedJob,
    deletingPostedJob,
+   deletingActiveJob,
    deletingNonApprovalJob,
    createRecruiter,
    deleteRecruiter,
@@ -1936,5 +2095,6 @@ module.exports = {
    updatingCandidateLocation,
    updatingCandidateProfileHeadline,
    updatingCandidatePassword,
-
+   searchResultSave,
+   getAllRecentSearches,
 };

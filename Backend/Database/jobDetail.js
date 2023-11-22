@@ -9,25 +9,25 @@ const jobDetailSchema = new Schema(
     clientId: {
         type: String,
         required: function() {
-            return this.role == 'Client';
+            return this.Role === 'Client';
         } 
     },
     recruiterId: {
         type: String,
         required: function() {
-            return this.role == 'Recruiter';
+            return this.Role === 'Recruiter';
           }
     },
     clientStaffId: {
         type: String,
         required: function() {
-            return this.role == 'Client-staff';
+            return this.Role === 'Client-staff';
         } 
     },
     companyId: {
         type: String,
         required: function() {
-            return this.role !== 'Recruiter';
+            return this.Role === 'Client' || this.Role === 'Client-staff';
         } 
     },
     jobRole: {

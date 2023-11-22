@@ -20,18 +20,22 @@ const {
   clientJobPosting,
   jobPosting,
   jobApproval,
+  activateJob,
+  deactivateJob,
   getJob,
   getAppliedJobByJobId,
   updateJob,
   getSkillMatchJobDetail,
-  getPostedjobs,
+  getActivejobs,
   getNonApprovaljobs,
   getOwnPostedjobs,
+  getOwnActivejobs,
   applyingjob,
   getAppliedjobs,
   getAppliedOfPostedJobs,
   deleteAppliedJob,
   deletingPostedJob,
+  deletingActiveJob,
   deletingNonApprovalJob,
   createRecruiter,
   deleteRecruiter,
@@ -76,6 +80,9 @@ const {
   updatingCandidateLocation,
   updatingCandidateProfileHeadline,
   updatingCandidatePassword,
+  searchResultSave,
+  getAllRecentSearches,
+  
 } = require("../Controller/authFunctions");
 const employeeAuth = require("../middleware/employeeAuth");
 
@@ -137,11 +144,18 @@ router.post("/job-detail", employeeAuth, jobPosting)
 //job approval 
 router.post("/job-approval", jobApproval)
 
+//job activate 
+router.post("/job-activate", activateJob)
+
+//job deactivate 
+router.post("/job-deactivate", deactivateJob)
+
+
 //get all job details
 router.get('/skill-match-job-Detail/:candidateId',  getSkillMatchJobDetail)
 
 //get all posted job details
-router.get('/posted-jobs', getPostedjobs)
+router.get('/posted-jobs', getActivejobs)
 
 //get client posted job details
 router.get('/non-approval-jobs', getNonApprovaljobs)
@@ -151,12 +165,14 @@ router.get('/job/:id', getJob)
 
 router.get('/applied-job/:id', getAppliedJobByJobId)
 
-
 //edit the job using id
 router.patch("/job-detail/:id", employeeAuth, updateJob);
 
 //get posted job details
 router.get('/my-posted-jobs/:id', employeeAuth, getOwnPostedjobs)
+
+//get active job details
+router.get('/my-active-jobs/:id', employeeAuth, getOwnActivejobs)
 
 //candidate applied for job
 router.post('/job-applying',  applyingjob)
@@ -172,6 +188,9 @@ router.delete('/delete-job/:candidateId/:jobId', employeeAuth, deleteAppliedJob)
 
 //delete posted job 
 router.delete('/delete-job/:jobId', employeeAuth, deletingPostedJob)
+
+//delete active job 
+router.delete('/delete-active-job/:jobId', employeeAuth, deletingActiveJob)
 
 //delete non-approval job 
 router.delete('/delete-non-approval-job/:jobId', employeeAuth, deletingNonApprovalJob)
@@ -293,6 +312,12 @@ router.patch("/update-candidate-location", updatingCandidateLocation);
 router.patch("/update-candidate-profileHeadline", updatingCandidateProfileHeadline);
 
 router.patch("/update-candidate-password", updatingCandidatePassword);
+
+//recent search saving
+router.post("/recent-search", searchResultSave)
+
+//get all recent searches
+router.get("/recent-search", getAllRecentSearches)
 
 // Client, Client-staff Login Route
 router.post("/login-Client", async (req, res) => {

@@ -122,6 +122,26 @@ const ManageJobs = () => {
         }
     }
 
+    const getOwnActivejobs = async () => {
+        try {
+            const res = await axios.get(`http://localhost:5002/my-active-jobs/${loginClientDetail.companyId}`, {
+                headers: {
+                    Authorization: `Bearer ${clientToken}`,
+                    Accept: 'application/json'
+                }
+            });
+            const result = res.data;
+            if (!result.error) {
+                console.log(result);
+                setUpdatePostedJobs(prevPostedJobs => [...prevPostedJobs, ...result.reverse()]);
+            } else {
+                console.log(result);
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
     const getNonApprovaljobs = async () => {
         try {
             const res = await axios.get(`http://localhost:5002/non-approval-jobs`, {
@@ -197,6 +217,7 @@ const ManageJobs = () => {
     useEffect(() => {
         getOwnPostedjobs();
         getNonApprovaljobs();
+        getOwnActivejobs();
         getAppliedOfPostedJobs();
         allStaffFromCompany();
     }, [loginClientDetail]);
@@ -284,6 +305,105 @@ const ManageJobs = () => {
         });
     }
 
+    const handleDeleteActiveJob = (id) => {
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'You won\'t be able to revert this!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+
+                axios.delete(`http://localhost:5002/delete-active-job/${id}`, {
+                    headers: {
+                        Authorization: `Bearer ${clientToken}`,
+                        Accept: 'application/json'
+                    }
+                })
+                    .then((res) => {
+                        console.log(res.data);
+                        showSuccessMessage("Job has been deleted!");
+                        window.location.reload();
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                        showErrorMessage();
+                    });
+            }
+
+        });
+    }
+
+    const handleActivate = (id) => {
+        console.log(id)
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'You won\'t be able to revert this!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, activate it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+
+                axios.post("http://localhost:5002/job-activate", { id }, {
+                    headers: {
+                        Authorization: `Bearer ${clientToken}`,
+                        Accept: 'application/json'
+                    }
+                })
+                    .then(res => {
+                        console.log(res.data)
+                        showSuccessMessage("job has been activate!, it will displayed on job portal here onwards..");
+                        window.location.reload();
+                    })
+                    .catch(err => {
+                        console.log(err)
+                        showErrorMessage()
+                    })
+            }
+
+        });
+    }
+
+    const handleDeActivate = (id) => {
+        console.log(id)
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'You won\'t be able to revert this!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, deactivate it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+
+                axios.post("http://localhost:5002/job-deactivate", { id }, {
+                    headers: {
+                        Authorization: `Bearer ${clientToken}`,
+                        Accept: 'application/json'
+                    }
+                })
+                    .then(res => {
+                        console.log(res.data)
+                        showSuccessMessage("job has been deactivate!, it will not displayed on job portal here onwards..");
+                        window.location.reload();
+                    })
+                    .catch(err => {
+                        console.log(err)
+                        showErrorMessage()
+                    })
+            }
+
+        });
+    }
+
     return (
         <div>
             {clientToken && <div class="main-wrapper main-wrapper-1">
@@ -304,12 +424,12 @@ const ManageJobs = () => {
                                         <div className="table-responsive admin-lg-table-area">
                                             <table className="table table-striped table-hover admin-lg-table">
                                                 <tr className='dash-table-row man-job'>
-                                                    <th className='dash-table-head'>Total Jobs</th>
-                                                    <th className='dash-table-head text-center'>DOA</th>
-                                                    <th className='dash-table-head text-center'>No. of total <br />Applicants</th>
+                                                    <th className='dash-table-head'>Job Title</th>
+                                                    <th className='dash-table-head text-center'>DOC</th>
+                                                    <th className='dash-table-head text-center'>Applicants</th>
                                                     <th className='dash-table-head text-center'>Posted by <br /> Who?</th>
-                                                    <th className='dash-table-head text-center'>Approval Status</th>
-                                                    <th className='text-center'></th>
+                                                    <th className='dash-table-head text-center'>Status</th>
+                                                    <th className='text-center'>Action</th>
                                                 </tr>
 
                                                 {/* table data */}
@@ -323,18 +443,18 @@ const ManageJobs = () => {
                                                                 {`${new Date(job.createdAt).getDate().toString().padStart(2, '0')}/${(new Date(job.createdAt).getMonth() + 1).toString().padStart(2, '0')}/${new Date(job.createdAt).getFullYear() % 100}`}
                                                             </td>
                                                             <td className='dash-table-data1 text-center'>
-                                                                {!(job?.pending) ? <button className='application-btn with-modal' onClick={() => numApplicants > 0 && navigate(`/applied-candidate/${job.id}`)}>
+                                                                {(job?.active) ? <button className='application-btn with-modal' onClick={() => numApplicants > 0 && navigate(`/applied-candidate/${job.id}`)}>
                                                                     <span>{numApplicants}</span>&nbsp;&nbsp;&nbsp;
                                                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-file-earmark-text-fill" viewBox="0 0 16 16">
                                                                         <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM4.5 9a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 1 0-1h4a.5.5 0 0 1 0 1h-4z" fill='#0879bc' />
                                                                     </svg>
-                                                                </button> : <div className='text-approval'>This job waiting <br /> for approval</div>}
+                                                                </button> : <div className='text-approval'>This job still not shown <br /> on job portal</div>}
                                                             </td>
                                                             <td className='dash-table-data1 text-center'>
                                                                 {staff ? staff.name : 'Unknown'}
                                                             </td>
                                                             <td className='text-center'>
-                                                                <button className='man-job-status-btn theme-info'>{job?.pending ? "Pending" : "Approved"}</button>
+                                                                <button className='man-job-status-btn theme-info'>{job?.pending ? "Approval Pending & InActive" : job?.active ? "Approved & Active" : "Approved & InActive"}</button>
                                                             </td>
                                                             <td className='text-center'>
                                                                 <div className="action-btn-area">
@@ -343,16 +463,33 @@ const ManageJobs = () => {
                                                                             <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
                                                                         </svg>
                                                                     </button>
-                                                                    {!(job?.pending) ?
-                                                                        <button className='job-delete-btn' title='Delete job data...' onClick={() => handleDeleteJob(job.id)}>
-                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
-                                                                                <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
-                                                                            </svg>
-                                                                        </button> :
+                                                                    {(job?.pending) ?
                                                                         <button className='job-delete-btn' title='Delete job data...' onClick={() => handleDeleteNonApprovalJob(job.id)}>
                                                                             <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
                                                                                 <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
                                                                             </svg>
+                                                                        </button> :
+                                                                        (job?.active) ?
+                                                                        <button className='job-delete-btn' title='Delete job data...' onClick={() => handleDeleteActiveJob(job.id)}>
+                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                                                                                <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
+                                                                            </svg>
+                                                                        </button> :
+                                                                        <button className='job-delete-btn' title='Delete job data...' onClick={() => handleDeleteJob(job.id)}>
+                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                                                                                <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
+                                                                            </svg>
+                                                                        </button>}
+                                                                        {(job?.pending) ?
+                                                                        <button disabled>
+                                                                            Activate
+                                                                        </button> :
+                                                                        (job?.active) ?
+                                                                        <button onClick={() => handleDeActivate(job.id)}>
+                                                                            Deactivate
+                                                                        </button> :
+                                                                        <button onClick={() => handleActivate(job.id)}>
+                                                                            Activate
                                                                         </button>}
                                                                 </div>
                                                             </td>
