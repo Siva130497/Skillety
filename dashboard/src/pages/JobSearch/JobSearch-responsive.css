@@ -323,19 +323,35 @@
         column-gap: 40px;
         row-gap: 20px;
     }
-    .job--detail-card:hover .job--detail-card-location-area{
+
+    .job--detail-card:hover .job--detail-card-location-area {
         border-color: #714F36;
     }
-    .job--detail-card-desc-area{
+
+    .job--detail-card-desc-area {
         margin-top: 30px;
     }
-    .job--detail-card-desc-area .job--detail-card-desc{
+
+    .job--detail-card-desc-area .job--detail-card-desc {
         margin-bottom: 20px;
         line-height: 1.6rem;
     }
-    .job--detail-card-bottom-area{
+
+    .job--detail-card-bottom-area {
         flex-direction: column;
         gap: 30px;
-        align-items: flex-end;
+        align-items: stretch;
+    }
+
+    .job--detail-card-know-more-btn-area,
+    .job--detail-card-know-more-btn-area .job--detail-card-know-more-btn {
+        width: 100%;
+        text-align: center;
+    }
+    .job--detail-card-img-area.job{
+        height: 120px;
+    }
+    .job--detail-card-img-area.job .job--detail-card-img{
+        height: 100px;
     }
 }

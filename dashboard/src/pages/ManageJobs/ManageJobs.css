@@ -107,3 +107,6 @@
     line-height: normal;
     text-align: center;
 }
+.swal2-container .swal2-cancel{
+    border-radius: 8px !important;
+}
