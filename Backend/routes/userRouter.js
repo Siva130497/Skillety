@@ -154,6 +154,9 @@ router.post("/job-deactivate", deactivateJob)
 //get all job details
 router.get('/skill-match-job-Detail/:candidateId',  getSkillMatchJobDetail)
 
+//sending job alert to candidate
+// router.post('/email-job-alert/:jobId',  sendingJobAlertMail)
+
 //get all posted job details
 router.get('/posted-jobs', getActivejobs)
 

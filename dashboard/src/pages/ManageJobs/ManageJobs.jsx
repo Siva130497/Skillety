@@ -339,7 +339,8 @@ const ManageJobs = () => {
     }
 
     const handleActivate = (id) => {
-        console.log(id)
+        console.log(id);
+    
         Swal.fire({
             title: 'Are you sure?',
             text: 'You won\'t be able to revert this!',
@@ -350,29 +351,57 @@ const ManageJobs = () => {
             confirmButtonText: 'Yes, activate it!'
         }).then((result) => {
             if (result.isConfirmed) {
-
                 axios.post("http://localhost:5002/job-activate", { id }, {
                     headers: {
                         Authorization: `Bearer ${clientToken}`,
                         Accept: 'application/json'
                     }
                 })
-                    .then(res => {
-                        console.log(res.data)
-                        showSuccessMessage("job has been activate!, it will displayed on job portal here onwards..");
-                        window.location.reload();
-                    })
-                    .catch(err => {
-                        console.log(err)
-                        showErrorMessage()
-                    })
+                .then((res) => {
+                    console.log(res.data);
+                  
+                    if (res.data.message === "Job alerts sent successfully!") {
+                        Swal.fire({
+                            title: 'Job has been activated!',
+                            text: 'It will be displayed on the job portal from now on. Job alerts have also been sent to skill-matched candidates.',
+                            icon: 'success',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Ok'
+                        }).then((result)=>{
+                            if(result.isConfirmed){
+                                window.location.reload();
+                            }
+                        })
+                    } else if (res.data.message === "No candidates with matching skill percentage found.") {
+                        Swal.fire({
+                            title: 'Job has been activated!',
+                            text: 'It will be displayed on the job portal from now on, but no matching candidates were found.',
+                            icon: 'success',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Ok'
+                        }).then((result)=>{
+                            if(result.isConfirmed){
+                                window.location.reload();
+                            }
+                        })
+                    }
+                  })
+                .catch((err) => {
+                    console.error(err);
+                    showErrorMessage();
+                });
             }
-
         });
-    }
+    };
+    
 
     const handleDeActivate = (id) => {
         console.log(id)
+        
         Swal.fire({
             title: 'Are you sure?',
             text: 'You won\'t be able to revert this!',

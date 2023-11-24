@@ -79,23 +79,23 @@ const createClient = async (req, res) => {
       const token = uuidv4();
       const tempUrl = baseUrl + token;
 
-      const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=[]{}|;:,.<>?';
-      let password = '';
+      // const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=[]{}|;:,.<>?';
+      // let password = '';
           
-      for (let i = 0; i < 12; i++) {
-          const randomIndex = Math.floor(Math.random() * charset.length);
-          password += charset[randomIndex];
-      }
+      // for (let i = 0; i < 12; i++) {
+      //     const randomIndex = Math.floor(Math.random() * charset.length);
+      //     password += charset[randomIndex];
+      // }
 
       console.log(tempUrl);
-      console.log(password);
+      // console.log(password);
 
-      const hashPassword = await bcrypt.hash(password, 12);
+      // const hashPassword = await bcrypt.hash(password, 12);
 
       const newTempClient = new TempClient({
         ...clientProperties, 
         id: token, 
-        tempPassword: hashPassword, 
+        // tempPassword: hashPassword, 
         url: tempUrl 
       });
 
@@ -114,8 +114,8 @@ const createClient = async (req, res) => {
         from: 'demoemail1322@gmail.com',
         to: `${newTempClient.email}`,
         subject: 'Mail from SKILLITY!',
-        text: 'We verified your details, use the temporary url and temporary password to create your account',
-        html: `<p>Temporary URL: ${newTempClient.url}</p><p>Temporary Password: ${password}</p>`
+        text: 'Your details have been verified successfully. Please use the temporary URL to create your account.',
+        html: `<p>Temporary URL: ${newTempClient.url}</p>`
       };
 
       transporter.sendMail(mailOptions, function (error, info) {
@@ -272,7 +272,7 @@ const finalClientRegister = async (req, res) => {
     const user = await TempClient.findOne({ id });
 
     if (user) {
-      const { _id, tempPassword, url, createdAt, updatedAt, __v, ...tempClientProperties } = user._doc;
+      const { _id, url, createdAt, updatedAt, __v, ...tempClientProperties } = user._doc;
       const hashPassword = await bcrypt.hash(password, 12);
       
       let updatedClient; 
@@ -306,7 +306,34 @@ const finalClientRegister = async (req, res) => {
       await updatedUser.save();
       console.log(updatedUser);
 
-      return res.status(201).json({ updatedClient, updatedUser });
+      await TempClient.deleteOne({id});
+
+      const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: 'demoemail1322@gmail.com',
+          pass: 'znsdgrmwzskpatwz'
+        }
+      });
+  
+      const mailOptions = {
+        from: 'demoemail1322@gmail.com',
+        to: `${updatedUser.email}`,
+        subject: 'Mail from SKILLITY!',
+        text: 'Welcome to Skillety!',
+        html: `<p>Welcome to Skillety!</p><p>Your account has been created...</p>`
+      };
+  
+      transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+          console.log(error);
+          return res.status(500).json({ error: error.message, updatedClient, updatedUser });
+        } else {
+          console.log('Email sent: ' + info.response);
+          res.status(201).json({ updatedClient, updatedUser, emailSent: true });
+        }
+      });
+
     } else {
       return res.status(404).json({ message: 'User not found' });
     }
@@ -346,7 +373,7 @@ const candidateReg = async(req, res) => {
   try {
     console.log(req.body);
     const {firstName, lastName, email, id, password, phone} = req.body; 
-    const candidateAvailable = await candidate.findOne({email});
+    const candidateAvailable = await candidate.findOne({ $or: [{ email }, { firstName }, {lastName}, {phone}] });
     if(candidateAvailable){
       return res.status(404).json({message: "User already registered"});
     }
@@ -368,7 +395,33 @@ const candidateReg = async(req, res) => {
     });
     await updatedUser.save();
     console.log(updatedUser);
-    return res.status(201).json({newCandidate, updatedUser});
+
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: 'demoemail1322@gmail.com',
+        pass: 'znsdgrmwzskpatwz'
+      }
+    });
+
+    const mailOptions = {
+      from: 'demoemail1322@gmail.com',
+      to: `${updatedUser.email}`,
+      subject: 'Mail from SKILLITY!',
+      text: 'Welcome to Skillety!',
+      html: `<p>Welcome to Skillety!</p><p>Your account has been created...</p>`
+    };
+
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+        return res.status(500).json({ error: error.message, newCandidate, updatedUser });
+      } else {
+        console.log('Email sent: ' + info.response);
+        res.status(201).json({ newCandidate, updatedUser, emailSent: true });
+      }
+    });
+
   } catch (err) {
     return res.status(500).json({ error: err.message });
   }
@@ -504,14 +557,14 @@ const activateJob = async (req, res) => {
     const { id } = req.body;
     console.log(id);
 
+    // Find the job by id
     const job = await jobDetail.findOne({ id });
 
     console.log(job);
 
     if (job) {
-  
+      // Move job to the activeJob schema
       const jobObj = job.toObject();
-
       const newActiveJob = new activeJob({
         ...jobObj,
       });
@@ -519,14 +572,60 @@ const activateJob = async (req, res) => {
       await newActiveJob.save();
       console.log(newActiveJob);
 
+      // Delete the job from jobDetail schema
       await jobDetail.deleteOne({ id });
 
-      return res.status(200).json(newActiveJob);
+      // Fetch all candidates
+      const candidateDetails = await candidate.find();
+
+      const calculateMatchPercentage = (skills1, skills2) => {
+        const matchingSkills = skills2.filter(skill => skills1.includes(skill));
+        return (matchingSkills.length / skills2.length) * 100;
+      };
+
+      // Filter candidates based on skill match
+      const matchingCandidates = candidateDetails.filter(candidate => {
+        const percentage = calculateMatchPercentage(candidate.skills, job.skills);
+        return percentage > 50;
+      });
+
+      const candidateEmails = matchingCandidates.map(candidate => candidate.email);
+      console.log(candidateEmails);
+
+      if (candidateEmails.length > 0) {
+        // Send email alerts to matching candidates
+        const transporter = nodemailer.createTransport({
+          service: 'gmail',
+          auth: {
+            user: 'demoemail1322@gmail.com',
+            pass: 'znsdgrmwzskpatwz'
+          }
+        });
+
+        for (const candidateEmail of candidateEmails) {
+          const mailOptions = {
+            from: 'demoemail1322@gmail.com',
+            to: candidateEmail,
+            subject: 'Mail from SKILLITY!',
+            text: `Welcome to Skillety! Your skill match found`,
+            html: `<p>Your skill match found for the job with role ${newActiveJob.jobRole[0]}</p>`
+          };
+
+          await transporter.sendMail(mailOptions);
+          console.log('Email sent to ' + candidateEmail);
+        }
+
+        res.status(200).json({ message: 'Job alerts sent successfully!', newActiveJob });
+      } else {
+        res.status(200).json({ message: 'No candidates with matching skill percentage found.', newActiveJob });
+      }
     }
   } catch (err) {
-    return res.status(500).json({ error: err.message });
+    console.error(err);
+    res.status(500).json({ error: err.message });
   }
 };
+
 
 const deactivateJob = async (req, res) => {
   try {
@@ -610,6 +709,20 @@ const getSkillMatchJobDetail = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 }
+
+/* sending email alert to candidate */
+// const sendingJobAlertMail = async (req, res) => {
+//   try {
+//     const { id } = req.body;
+//     console.log(id)
+    
+    
+//   } catch (err) {
+//     res.status(500).json({ error: err.message });
+//   }
+// };
+
+
 
 
 /* get all posted jobs */
