@@ -8,6 +8,7 @@ const NavBar = () => {
   const [candidateId, setCandidateId] = useState("");
   const [candidateImg, setCandidateImg] = useState();
   const [candidateImgUrl, setCandidateImgUrl] = useState("")
+  const [loginCandidate, setLoginCandidate] = useState();
 
   const [userName, setUserName] = useState('');
 
@@ -37,6 +38,15 @@ const NavBar = () => {
           axios.get(`http://localhost:5002/candidate-image/${candidateId}`)
             .then(res=>setCandidateImg(res.data))
             .catch(err=>console.log(err))
+
+            axios.get(`http://localhost:5002/candidate/${candidateId}`)
+            .then(res => {
+                console.log(res.data)
+                setLoginCandidate(res.data)
+            })
+            .catch(err => {
+                console.log(err)
+            })
       }
   }, [candidateId]);
 
@@ -242,7 +252,7 @@ const NavBar = () => {
                 <img src={candidateImgUrl ? candidateImgUrl : "../assets/img/talents-images/avatar.jpg"} className='dropdown-user-img' alt="" />
                 <div className='dropdown-user-detail-area'>
                   <div className="dropdown-user-name">{extractLastName()}</div>
-                  <div className="dropdown-user-role">UX Designer, India</div>
+                  <div className="dropdown-user-role">{loginCandidate?.designation + "@" + loginCandidate?.companyName}</div>
                 </div>
               </div>
               <a href={`/candidate-profile/${candidateId}`} className="dropdown-view-pro-btn">

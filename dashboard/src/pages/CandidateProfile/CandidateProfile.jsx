@@ -34,16 +34,17 @@ const CandidateProfile = () => {
     const [loading, setLoading] = useState(true);
     // const [pageNotFound, setPageNotFound] = useState(false);
 
-    useEffect(() => {
-        const preloader = $('#preloader');
-        if (preloader.length) {
-            setTimeout(function () {
-                preloader.fadeOut('slow', function () {
-                    preloader.remove();
-                });
-            }, 500);
-        }
-    }, []);
+    // useEffect(() => {
+    //     const preloader = $('#preloader');
+    //     if (preloader.length) {
+    //         setTimeout(function () {
+    //             preloader.fadeOut('slow', function () {
+    //                 preloader.remove();
+    //             });
+    //         }, 500);
+    //     }
+    // }, []);
+
 
     useEffect(() => {
         setUserInfo({
@@ -300,8 +301,8 @@ const CandidateProfile = () => {
                 console.log(res.data)
                 if (!res.data.error) {
                     showSuccessMessage("First Name Updated")
-                    setUserInfo({ ...userInfo, firstName: "" })
-
+                    setUserInfo(prevUserInfo => ({ ...prevUserInfo, firstName: "" }));
+                    
                     axios.get(`http://localhost:5002/candidate/${id}`)
                         .then(res => {
                             console.log(res.data)
@@ -333,8 +334,9 @@ const CandidateProfile = () => {
             .then(res => {
                 console.log(res.data)
                 if (!res.data.error) {
-                    alert("last name updated")
-                    setUserInfo({ ...userInfo, lastName: "" })
+                    showSuccessMessage("last name updated")
+                    setUserInfo(prevUserInfo => ({ ...prevUserInfo, lastName: "" }));
+
 
                     axios.get(`http://localhost:5002/candidate/${id}`)
                         .then(res => {
@@ -344,7 +346,10 @@ const CandidateProfile = () => {
                         .catch(err => console.log(err))
                 }
             })
-            .catch(err => console.log(err))
+            .catch(err => {
+                console.log(err)
+                showErrorMessage();
+            })
     }
 
     const handleLocationUpdate = () => {
@@ -361,8 +366,9 @@ const CandidateProfile = () => {
             .then(res => {
                 console.log(res.data)
                 if (!res.data.error) {
-                    alert("location updated")
-                    setUserInfo({ ...userInfo, location: "" })
+                    showSuccessMessage("location updated")
+                    setUserInfo(prevUserInfo => ({ ...prevUserInfo, location: "" }));
+
 
                     axios.get(`http://localhost:5002/candidate/${id}`)
                         .then(res => {
@@ -372,7 +378,10 @@ const CandidateProfile = () => {
                         .catch(err => console.log(err))
                 }
             })
-            .catch(err => console.log(err))
+            .catch(err => {
+                console.log(err)
+                showErrorMessage();
+            })
     }
 
     const handleResumeUpdate = () => {
@@ -387,10 +396,21 @@ const CandidateProfile = () => {
             })
                 .then(res => {
                     console.log(res);
-                    alert("resume updated")
+                    showSuccessMessage("resume updated")
                     setResume(null);
+
+                    axios.get(`http://localhost:5002/candidate-resume/${id}`)
+                    .then(res => {
+                        console.log(res.data)
+                        setResume(res.data)
+                    })
+                    .catch(err => console.log(err))
+
                 })
-                .catch(err => console.log(err));
+                .catch(err => {
+                    console.log(err)
+                    showErrorMessage();
+                });
         } else {
             const formData = new FormData()
             formData.append('file', resume);
@@ -402,10 +422,21 @@ const CandidateProfile = () => {
             })
                 .then(res => {
                     console.log(res);
-                    alert("resume updated")
+                    showSuccessMessage("resume updated")
                     setResume(null);
+
+                    axios.get(`http://localhost:5002/candidate-resume/${id}`)
+                    .then(res => {
+                        console.log(res.data)
+                        setResume(res.data)
+                    })
+                    .catch(err => console.log(err))
+
                 })
-                .catch(err => console.log(err));
+                .catch(err => {
+                    console.log(err)
+                    showErrorMessage();
+                });
         }
     }
 
@@ -451,8 +482,8 @@ const CandidateProfile = () => {
             .then(res => {
                 console.log(res.data)
                 if (!res.data.error) {
-                    alert("profile headline updated")
-                    setUserInfo({ ...userInfo, profileHeadline: "" })
+                    showSuccessMessage("profile headline updated")
+                    setUserInfo(prevUserInfo => ({ ...prevUserInfo, profileHeadline: "" }))
 
                     axios.get(`http://localhost:5002/candidate/${id}`)
                         .then(res => {
@@ -462,7 +493,10 @@ const CandidateProfile = () => {
                         .catch(err => console.log(err))
                 }
             })
-            .catch(err => console.log(err))
+            .catch(err => {
+                console.log(err)
+                showErrorMessage()
+            })
     }
 
     return (
@@ -471,7 +505,7 @@ const CandidateProfile = () => {
                 <div class="navbar-bg"></div>
                 <Layout />
                 <div class="main-content">
-                    {loading && <div id="preloader" className='candidate'></div>}
+                    {/* {loading && <div id="preloader" className='candidate'></div>} */}
                     {loginCandidate &&
                         <section class="section">
                             <div className="candidate-prrofile-section">
@@ -761,9 +795,9 @@ const CandidateProfile = () => {
                                         Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature
                                     </div> */}
                                             <div className="prof-page-file-upload-area">
-                                                <form action="">
+                                                
                                                     {/* <iframe src={candidateResumeUrl ? candidateResumeUrl : ""} title="Event Image iframe" ></iframe> */}
-                                                    <input type="file" id="file_upload" accept=".doc,.docx,.pdf"
+                                                    <input type="file" id="file_upload" accept=".doc,.docx,.pdf,.rtf"
                                                         style={{ display: 'none' }}
                                                         onChange={e => setResume(e.target.files[0])}
                                                         required />
@@ -783,7 +817,7 @@ const CandidateProfile = () => {
                                                     Save
                                                 </button>
                                             </div> */}
-                                                </form>
+                                                
                                             </div>
                                         </div>
 

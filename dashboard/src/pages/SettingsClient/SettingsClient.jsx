@@ -7,6 +7,8 @@ import './SettingsClient-responsive.css';
 import $ from 'jquery';
 import AuthContext from '../../context/AuthContext';
 import axios from 'axios';
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.css';
 
 const SettingsClient = () => {
     const [clientToken, setClientToken] = useState("");
@@ -32,6 +34,28 @@ const SettingsClient = () => {
             phone: loginClientDetail?.phone,
         })
     }, [loginClientDetail])
+
+    //for show success message for payment
+    function showSuccessMessage(message) {
+        Swal.fire({
+            title: 'Success!',
+            text: message,
+            icon: 'success',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'OK',
+        });
+    }
+
+    //for show error message for payment
+    function showErrorMessage(message) {
+        Swal.fire({
+            title: 'Error!',
+            text: message,
+            icon: 'error',
+            confirmButtonColor: '#d33',
+            confirmButtonText: 'OK',
+        });
+    }
 
     useEffect(() => {
         $(document).ready(function () {
@@ -228,11 +252,15 @@ const SettingsClient = () => {
             .then(res => {
                 console.log(res.data)
                 if (!res.data.error) {
-                    alert("email updated")
-                    setUserInfo({ ...userInfo, email: "" })
+                    showSuccessMessage("email updated")
+                    setUserInfo(prevUserInfo => ({ ...prevUserInfo, email: "" }));
+                    getLoginClientDetail();
                 }
             })
-            .catch(err => console.log(err))
+            .catch(err => {
+                console.log(err)
+                showErrorMessage();
+            })
     }
 
     const handlePhoneUpdate = () => {
@@ -249,11 +277,15 @@ const SettingsClient = () => {
             .then(res => {
                 console.log(res.data)
                 if (!res.data.error) {
-                    alert("phone no updated")
-                    setUserInfo({ ...userInfo, phone: "" })
+                    showSuccessMessage("phone no updated")
+                    setUserInfo(prevUserInfo => ({ ...prevUserInfo, phone: "" }));
+                    getLoginClientDetail();
                 }
             })
-            .catch(err => console.log(err))
+            .catch(err => {
+                console.log(err)
+                showErrorMessage();
+            })
     }
 
     const handlePasswordUpdate = () => {
@@ -271,11 +303,15 @@ const SettingsClient = () => {
             .then(res => {
                 console.log(res.data)
                 if (!res.data.error) {
-                    alert("password updated")
-                    setUserInfo({ ...userInfo, currentPassword: "", newPassword: "", confirmPassword: "" })
+                    showSuccessMessage("password updated")
+                    setUserInfo(prevUserInfo => ({ ...prevUserInfo, currentPassword: "" , newPassword: "", confirmPassword: ""}));
+                    getLoginClientDetail();
                 }
             })
-            .catch(err => console.log(err))
+            .catch(err => {
+                console.log(err)
+                showErrorMessage();
+            })
     }
 
 
@@ -291,10 +327,14 @@ const SettingsClient = () => {
             })
                 .then(res => {
                     console.log(res);
-                    alert("profile photo updated")
+                    showSuccessMessage("profile photo updated")
                     setImage(null);
+                    window.location.reload()
                 })
-                .catch(err => console.log(err));
+                .catch(err => {
+                    console.log(err)
+                    showErrorMessage()
+                });
         } else {
             const formData = new FormData()
             formData.append('image', image);
@@ -307,10 +347,14 @@ const SettingsClient = () => {
             })
                 .then(res => {
                     console.log(res);
-                    alert("profile photo updated")
+                    showSuccessMessage("profile photo updated")
                     setImage(null);
+                    window.location.reload()
                 })
-                .catch(err => console.log(err));
+                .catch(err =>{
+                    console.log(err)
+                    showErrorMessage()
+                });
         }
 
     }
@@ -409,7 +453,7 @@ const SettingsClient = () => {
 
                                             <div className="setting-content">
                                                 <div className='setting-name'>Email Address</div>
-                                                <div className='setting-value'>{loginClientDetail.email}</div>
+                                                <div className='setting-value' onClick={()=> window.location.href = `mailto:${loginClientDetail.email}`}><a href={`mailto:${loginClientDetail.email}`}>{loginClientDetail.email}</a></div>
                                                 <div className={`change-input-area ${isEmailExpanded ? 'expanded' : ''}`}>
                                                     <div className="row">
                                                         <div className="col-12 col-xl-5 col-lg-5 col-md-6 d-flex align-items-center gap-10 mt-4 mb-2">
@@ -426,7 +470,7 @@ const SettingsClient = () => {
 
                                             <div className="setting-content">
                                                 <div className='setting-name'>Mobile Number</div>
-                                                <div className='setting-value'>{loginClientDetail.phone}</div>
+                                                <div className='setting-value'onClick={()=>window.location.href = `tel:${loginClientDetail.phone}`}><a href={`tel:${loginClientDetail.phone}`}>{loginClientDetail.phone}</a></div>
                                                 <div className={`change-input-area ${isMobileExpanded ? 'expanded' : ''}`}>
                                                     <div className="row">
                                                         <div className="col-12 col-xl-5 col-lg-5 col-md-6 d-flex align-items-center gap-10 mt-4 mb-2">

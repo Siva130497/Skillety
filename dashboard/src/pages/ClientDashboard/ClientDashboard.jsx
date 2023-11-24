@@ -96,6 +96,7 @@ const ClientDashboard = () => {
     const [postedJobs, setPostedJobs] = useState([]);
     const [appliedOfPostedJobs, setAppliedOfPostedJobs] =useState([]);
     const [allStaff, setAllStaff] = useState([]);
+    const [updatePostedJobs, setUpdatePostedJobs] = useState([]);
 
     const [loading, setLoading] = useState(true);
     const [pageNotFound, setPageNotFound] = useState(false);
@@ -210,7 +211,7 @@ const ClientDashboard = () => {
             const result = res.data;
             if (!result.error) {
               console.log(result);
-              setPostedJobs(result.reverse());
+              setUpdatePostedJobs(prevPostedJobs => [...prevPostedJobs, ...result.reverse()]);
             } else {
               console.log(result);
             }
@@ -218,6 +219,26 @@ const ClientDashboard = () => {
           console.log(err);
         }
       }
+
+      const getOwnActivejobs = async () => {
+        try {
+            const res = await axios.get(`http://localhost:5002/my-active-jobs/${loginClientDetail.companyId}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    Accept: 'application/json'
+                }
+            });
+            const result = res.data;
+            if (!result.error) {
+                console.log(result);
+                setUpdatePostedJobs(prevPostedJobs => [...prevPostedJobs, ...result.reverse()]);
+            } else {
+                console.log(result);
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    }
 
       const getAppliedOfPostedJobs = async() => {
         try{
@@ -262,16 +283,32 @@ const ClientDashboard = () => {
     useEffect(()=>{
         getAllCandidateDetail();
         getOwnPostedjobs();
+        getOwnActivejobs();
         getAppliedOfPostedJobs();
         getCandidateImg();
         allStaffFromCompany();
         getClientChoosenPlan(loginClientDetail?.companyId);
       },[loginClientDetail]);
 
+      useEffect(() => {
+        const uniqueIds = {};
+        const newArray = updatePostedJobs.filter(obj => {
+            // Check if the ID is already in the uniqueIds object
+            if (!uniqueIds[obj.id]) {
+                // If not, mark it as seen and include it in the new array
+                uniqueIds[obj.id] = true;
+                return true;
+            }
+            // If the ID is already in the uniqueIds object, filter it out
+            return false;
+        });
+        setPostedJobs(newArray)
+    }, [updatePostedJobs]);
+
     
     return (
         <div>
-            {loading && <div id="preloader"></div>}
+            {/* {loading && <div id="preloader"></div>} */}
             {employeeId && <div>
             {packageSelectionDetail ?
                 <div>
@@ -464,12 +501,12 @@ const ClientDashboard = () => {
                                                         <div className="dash-table-title">
                                                             New Application
                                                         </div>
-                                                        <a href='#' className="dash-table-see-all-btn">See all</a>
+                                                        <a href='/talent-profile-search' className="dash-table-see-all-btn">See all</a>
                                                     </div>
                                                     <div class="table-responsive dash-table-container client mt-4">
                                                         
                                                         <table class="table table-striped table-hover dash-table">
-                                                        {candidateDetail.map((cand) => {
+                                                        {candidateDetail.slice(0,10).map((cand) => {
                                                             const matchingImg = candidateImg ? candidateImg.find(img => img.id === cand.id) : null;
                                                             const imgSrc = matchingImg ? `http://localhost:5002/candidate_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
                                                             return(
@@ -571,13 +608,13 @@ const ClientDashboard = () => {
                                                 <div className="dash-table-area">
                                                     <div className="dash-table-top-area">
                                                         <div className="dash-table-title">
-                                                            Posted Jobs
+                                                            Latest Posted Jobs
                                                         </div>
-                                                        <a href='#' className="dash-table-see-all-btn">See all</a>
+                                                        <a href='/manage-job' className="dash-table-see-all-btn">See all</a>
                                                     </div>
                                                     <div class="table-responsive mt-4">
                                                     <table className="table table-striped table-hover dash-table">
-                                                    {postedJobs.map((job) => {
+                                                    {postedJobs.slice(0,10).map((job) => {
                                                         const numApplicants = appliedOfPostedJobs.filter(appliedOfPostedJob => appliedOfPostedJob.jobId === job.id).length;
                                                         const staff = allStaff.find(obj => obj.id === (job.clientId || job.clientStaffId));
                                                         return (
