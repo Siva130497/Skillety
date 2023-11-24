@@ -8,6 +8,8 @@ import Layout from '../../components/Layout';
 import { Footer } from '../../components/Footer';
 import GoogleAuth from '../../components/GoogleAuth';
 import axios from 'axios';
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.css';
 
 const ClientRegister = () => {
     const navigate = useNavigate();
@@ -69,8 +71,17 @@ const ClientRegister = () => {
 
             if (!result.error) {
                 console.log(result);
-                alert("your details send for verification, after verification we contact you through your email")
-                setcredentials(initialCredentials);
+                await new Promise(() => {
+                    Swal.fire({
+                        title: 'Your details have been sent for verification. After the verification process is complete, we will contact you through your email.',
+                        text: '',
+                        icon: 'success',
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'OK',
+                    }).then(() => {
+                        setcredentials(initialCredentials);
+                    });
+                });
             } else {
                 console.log(result);
             }

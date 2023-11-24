@@ -6,21 +6,45 @@ import './Verification.css';
 import './Verification-responsive.css';
 import { useNavigate, useParams } from 'react-router-dom';
 import Layout from '../../components/Layout';
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.css';
 
 const ClientVerification = () => {
     let { id } = useParams();
     console.log(id);
     const navigate = useNavigate();
-    const [newClient, setNewClient] = useState([]);
+    const [newClient, setNewClient] = useState();
 
     const [credentials, setcredentials] = useState({
         tempPassword: "",
         password: "",
         confirmPassword: "",
     });
-    const [step, setStep]= useState(1);
+    const [step, setStep]= useState(2);
 
     let updatedCredentials;
+
+    //for show success message for payment
+    function showSuccessMessage(message) {
+        Swal.fire({
+            title: 'Success!',
+            text: message,
+            icon: 'success',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'OK',
+        });
+    }
+
+    //for show error message for payment
+    function showErrorMessage(message) {
+        Swal.fire({
+            title: 'Alert',
+            text: message,
+            icon: 'info',
+            confirmButtonColor: '#d33',
+            confirmButtonText: 'OK',
+        });
+    }
 
     const getClient = async () => {
         try {
@@ -31,6 +55,7 @@ const ClientVerification = () => {
                 setNewClient(result);
             } else {
                 console.log(result);
+                showErrorMessage("It seems like you already registered using this temporary URL, or the URL is incorrect.")
             }
         } catch (err) {
             console.log(err);
@@ -38,8 +63,10 @@ const ClientVerification = () => {
     };
 
     useEffect(() => {
-        getClient();
-    }, []);
+        if(id){
+            getClient();
+        }
+    }, [id]);
 
     
     const verify = async (userData) => {
@@ -75,13 +102,31 @@ const ClientVerification = () => {
 
             if (!result.message) {
                 console.log(result);
-                 navigate("/client-login")
+                 await new Promise(() => {
+                    Swal.fire({
+                        title: 'User Registered',
+                        text: '',
+                        icon: 'success',
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'OK',
+                    }).then(() => {
+                        navigate("/client-login")
+                    });
+                });
             } else {
                 console.log(result);
             }
         } catch (error) {
-            alert("you already registered with this url & temporary password")
             console.log(error);
+            await new Promise(() => {
+                Swal.fire({
+                    title: 'It seems that the user is not registered. Please try again.',
+                    text: '',
+                    icon: 'error',
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'OK',
+                })
+            });
         }
     };
 
@@ -111,10 +156,10 @@ const ClientVerification = () => {
             if (credentials.password === credentials.confirmPassword) {
                 finalClientRegister(updatedCredentials);
             } else {
-                alert("confirm password doesn't match with your new password")
+                showErrorMessage("The confirmed password does not match your new password.")
             }
         } else {
-            alert("password must be 8 characters long")
+            showErrorMessage("Your password must be at least 8 characters long.")
         }
     }
 
@@ -123,7 +168,7 @@ const ClientVerification = () => {
             case 1:
                 return (
                         <div>
-                                            <h5 className="cli--signup-title" data-aos="fade-left">Welcome {newClient.name} from {newClient.companyName}</h5>
+                                            <h5 className="cli--signup-title" data-aos="fade-left">Welcome {newClient?.name} from {newClient?.companyName}</h5>
                                             <h6 className='cli--signup-sub-title' data-aos="fade-right">Enter Temporary Password</h6>
                                             
                                             <form action="" className='cli--signup-form' onSubmit={handleVerification}>
@@ -144,7 +189,7 @@ const ClientVerification = () => {
             case 2:
                 return (
                             <div>
-                                                <h5 className="cli--signup-title" data-aos="fade-left">Welcome {newClient.name} from {newClient.companyName}</h5>
+                                                <h5 className="cli--signup-title" data-aos="fade-left">Welcome {newClient?.name} from {newClient?.companyName}</h5>
                                                 <h6 className='cli--signup-sub-title' data-aos="fade-right">Enter New Password</h6>
                                                 
                                                 <form action="" className='cli--signup-form' onSubmit={handleRegister}>

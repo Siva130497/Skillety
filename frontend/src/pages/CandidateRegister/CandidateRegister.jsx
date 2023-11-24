@@ -10,7 +10,8 @@ import './CandidateRegister-responsive.css';
 import { CandidateFooter } from '../../components/CandidateFooter';
 import LayoutNew from '../../components/LayoutNew';
 import GoogleAuth from '../../components/GoogleAuth';
-
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.css';
 
 const CandidateRegister = () => {
     const [step, setStep] = useState(1);
@@ -34,6 +35,9 @@ const CandidateRegister = () => {
     const [otherSkill, setOtherSkill] = useState([]);
     const [otherDesignation, setOtherDesignation] = useState([]);
     const [profile, setProfile] = useState([]);
+    const [totalMonths, setTotalMonths] = useState();
+    const [maxSkillNum, setMaxSkillNum] = useState();
+    const [minSkillNum, setMinSkillNum] = useState();
 
     const fileInputRef = useRef(null);
 
@@ -62,6 +66,28 @@ const CandidateRegister = () => {
     const [filteredEducation, setFilteredEducation] = useState([]);
     const [selectedEducation, setSelectedEducation] = useState([]);
 
+    //for show success message for payment
+    function showSuccessMessage(message) {
+        Swal.fire({
+            title: 'Success!',
+            text: message,
+            icon: 'success',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'OK',
+        });
+    }
+
+    //for show error message for payment
+    function showErrorMessage(message) {
+        Swal.fire({
+            title: 'Alert',
+            text: message,
+            icon: 'info',
+            confirmButtonColor: '#d33',
+            confirmButtonText: 'OK',
+        });
+    }
+
     useEffect(() => {
         setCredentials((prevCredentials) => ({
             ...prevCredentials,
@@ -71,8 +97,29 @@ const CandidateRegister = () => {
         }));
     }, [profile]);
 
-    const totalMonths = parseInt(credentials.year * 12) + parseInt(credentials.month);
-    const maxSkillNum = totalMonths <= 24 ? 6 : totalMonths <= 48 ? 8 : totalMonths <= 96 ? 10 : 12;
+    useEffect(()=>{
+        if(credentials.year && credentials.month){
+            setTotalMonths(parseInt(credentials.year * 12) + parseInt(credentials.month))
+        }
+    },[credentials])
+
+    useEffect(()=>{
+        if(totalMonths){
+            console.log(totalMonths)
+            setMaxSkillNum(totalMonths <= 24 ? 6 : totalMonths <= 48 ? 8 : totalMonths <= 96 ? 10 : 12)
+            setMinSkillNum(totalMonths <= 24 ? 4 : totalMonths <= 48 ? 6 : totalMonths <= 96 ? 8 : 10)
+
+            if(totalMonths <= 24){
+                showErrorMessage("You can select min of 4 & max of 6 skills")
+            }else if(totalMonths <= 48){
+                showErrorMessage("You can select min of 6 & max of 8 skills")
+            }else if(totalMonths <= 96){
+                showErrorMessage("You can select min of 8 & max of 10 skills")
+            }else{
+                showErrorMessage("You can select min of 10 & max of 12 skills")
+            }
+        }
+    },[totalMonths])
 
     const getAllSkills = async () => {
         try {
@@ -171,10 +218,6 @@ const CandidateRegister = () => {
                 [name]: value,
             }));
         }
-
-        if (name === "year" || name === "month") {
-            setSkillError("");
-        }
     };
 
 
@@ -220,7 +263,7 @@ const CandidateRegister = () => {
                 setSearchSkillInput("");
                 setFilteredSkills([]);
             } else {
-                selectedSkills.length === maxSkillNum && alert(`You can select max of ${maxSkillNum} skills`)
+                selectedSkills.length === maxSkillNum && showErrorMessage(`You can select max of ${maxSkillNum} skills`)
                 setSearchSkillInput("");
                 setFilteredSkills([]);
                 if (selectedSkills.length < maxSkillNum) {
@@ -230,7 +273,7 @@ const CandidateRegister = () => {
                 }
             }
         } else {
-            setSkillError("Please enter the experience first...");
+            showErrorMessage("Please enter the experience first...");
             setSearchSkillInput("");
             setFilteredSkills([]);
         }
@@ -255,13 +298,13 @@ const CandidateRegister = () => {
     const handleManualSkill = () => {
         setSearchSkillInput("");
         if (selectedSkills.length === maxSkillNum) {
-            alert(`You can select max of ${maxSkillNum} skills`);
+            showErrorMessage(`You can select max of ${maxSkillNum} skills`);
             setNewSkill("");
         }
         if (selectedSkills.length < maxSkillNum) {
             const foundObject = skillArray.find(item => item.skill.toLowerCase() === newSkill.toLowerCase());
             if (foundObject) {
-                alert(`Skill "${newSkill}" already in list, please search...`);
+                showErrorMessage(`Skill "${newSkill}" already in list, please search...`);
                 setNewSkill("");
             } else {
                 setOtherSkill([...otherSkill, newSkill]);
@@ -275,7 +318,7 @@ const CandidateRegister = () => {
         setSearchDesignationInput("");
         const foundObject = designationArray.find(item => item.designation.toLowerCase() === newDesignation.toLowerCase());
         if (foundObject) {
-            alert(`Designation "${newDesignation}" already in list, please search...`);
+            showErrorMessage(`Designation "${newDesignation}" already in list, please search...`);
             setNewDesignation("");
         } else {
             setOtherDesignation([newDesignation]);
@@ -370,16 +413,20 @@ const CandidateRegister = () => {
     const handleNext = () => {
         let isValid = true;
         if (step === 1) {
-            if (credentials.days === "" || credentials.firstName === "" || credentials.lastName === "" || credentials.phone === "" || credentials.email === "" || credentials.password === "" || credentials.confirmPassword === "" || credentials.password !== credentials.confirmPassword || !resume || credentials.password.length < 8) {
-                credentials.password !== credentials.confirmPassword && alert("Please check that both password and confirm password are same")
-                credentials.password.length < 8 && alert("password must be atleast 8 characters long")
+            if (credentials.days === "" || credentials.firstName === "" || credentials.lastName === "" || credentials.phone === "" || credentials.email === "" || credentials.password === "" || credentials.confirmPassword === "" || credentials.password !== credentials.confirmPassword || !resume.length === 0 || credentials.password.length < 8) {
+                if(credentials.password.length < 8){
+                    return showErrorMessage("password must be atleast 8 characters long")
+                }else if(credentials.password !== credentials.confirmPassword){
+                    return showErrorMessage("Please check that both password and confirm password are same")
+                } 
                 isValid = false;
             }
         }
         if (step === 2) {
-            const minSkillNum = totalMonths <= 24 ? 4 : totalMonths <= 48 ? 6 : totalMonths <= 96 ? 8 : 10;
-            if (selectedDesignations.length === 0 || credentials.companyName === "" || credentials.location === "" || credentials.year === "" || credentials.month === "" || selectedSkills.length === 0 || credentials.education === "" || credentials.college === "" || selectedSkills.length < minSkillNum) {
-                selectedSkills.length < minSkillNum && alert(`Please select atleast ${minSkillNum} skills`)
+            if (selectedDesignations.length === 0 || credentials.companyName === "" || selectedLocations.length === 0 || credentials.year === "" || credentials.month === "" || selectedSkills.length === 0 || selectedEducation.length === 0 || credentials.college === "" || selectedSkills.length < minSkillNum) {
+                if(selectedSkills.length < minSkillNum){
+                    return showErrorMessage(`Please select atleast ${minSkillNum} skills`)
+                }
                 isValid = false;
             }
         }
@@ -391,7 +438,9 @@ const CandidateRegister = () => {
         if (isValid) {
             setStep(step + 1);
         } else {
-            alert("Please complete all the required fields before proceeding.");
+            
+                showErrorMessage("Please complete all the required fields before proceeding...");
+            
         }
     };
 
@@ -450,6 +499,15 @@ const CandidateRegister = () => {
                                                     onChange={handleInputChange} />
                                                 <div className="radio-tile">
                                                     <label for="day_option_4" className="radio-tile-label">More than 30 days</label>
+                                                </div>
+                                            </div>
+
+                                            <div className="cand--reg-input-container">
+                                                <input id="day_option_5" className="radio-button" type="radio" name="days"
+                                                    value="Currently not serving notice period"
+                                                    onChange={handleInputChange} />
+                                                <div className="radio-tile">
+                                                    <label for="day_option_4" className="radio-tile-label"> Currently not serving notice period</label>
                                                 </div>
                                             </div>
                                         </div>

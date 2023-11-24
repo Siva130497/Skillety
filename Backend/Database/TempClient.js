@@ -39,10 +39,10 @@ const TempClient = new Schema(
           return this.role === 'Client';
         }
     },
-    tempPassword: {
-        type: String,
-        required: true
-    },
+    // tempPassword: {
+    //     type: String,
+    //     required: true
+    // },
     url: {
         type: String,
         required: true
