@@ -32,6 +32,13 @@ const JobSearch = () => {
     const [locationArray, setLocationArray] = useState([]);
     const [educationArray, setEducationArray] = useState([]);
 
+    const [filteredJobTitleList, setFilteredjobTitleList] = useState([]);
+    const [filteredLocationList, setFilteredLocationList] = useState([]);
+    const [filteredEducationList, setFilteredEducationList] = useState([]);
+    const [selectedJobTitleResults, setSelectedJobTitleResults] = useState([]);
+    const [selectedLocationResults, setSelectedLocationResults] = useState([]);
+    const [selectedEducationResults, setSelectedEducationResults] = useState([]);
+
     const [x, setX] = useState([0, 3]);
 
     const [filters, setFilters] = useState({
@@ -364,16 +371,16 @@ const JobSearch = () => {
                     return true;
                 })
                 .filter(job => {
-                    if (checkBoxJobTitle.length > 0) {
-                        return checkBoxJobTitle.includes(job.jobRole[0]);
+                    if (selectedJobTitleResults.length > 0) {
+                        return selectedJobTitleResults.some(result =>
+                            job.jobRole[0].includes(result));
                     }
                     return true;
                 })
                 .filter(job => {
-                    if (checkBoxJobLocation.length > 0) {
-                        return checkBoxJobLocation.some(result =>
-                            job.location.includes(result)
-                        );
+                    if (selectedLocationResults.length > 0) {
+                        return selectedLocationResults.some(result =>
+                            job.location.includes(result));
                     }
                     return true;
                 })
@@ -390,11 +397,12 @@ const JobSearch = () => {
                     return true;
                 })
                 .filter(job => {
-                    if (checkBoxJobEducation.length > 0) {
-                        return checkBoxJobEducation.includes(job.education);
+                    if (selectedEducationResults.length > 0) {
+                        return selectedEducationResults.some(result =>
+                            job.education.includes(result)); 
                     }
                     return true;
-                })
+                }) 
 
             console.log(filteredResults)
             if (filteredResults.length > 0) {
@@ -414,26 +422,26 @@ const JobSearch = () => {
         setCheckBoxFilters(updatedFilters);
     };
 
-    const handleCheckboxJobTitleChange = (category) => {
-        const updatedFilters = checkBoxJobTitle.includes(category)
-            ? checkBoxJobTitle.filter((filter) => filter !== category)
-            : [...checkBoxJobTitle, category];
-        setCheckBoxJobTitle(updatedFilters);
-    };
+    // const handleCheckboxJobTitleChange = (category) => {
+    //     const updatedFilters = checkBoxJobTitle.includes(category)
+    //         ? checkBoxJobTitle.filter((filter) => filter !== category)
+    //         : [...checkBoxJobTitle, category];
+    //     setCheckBoxJobTitle(updatedFilters);
+    // };
 
-    const handleCheckboxJobLocationChange = (category) => {
-        const updatedFilters = checkBoxJobLocation.includes(category)
-            ? checkBoxJobLocation.filter((filter) => filter !== category)
-            : [...checkBoxJobLocation, category];
-        setCheckBoxJobLocation(updatedFilters);
-    };
+    // const handleCheckboxJobLocationChange = (category) => {
+    //     const updatedFilters = checkBoxJobLocation.includes(category)
+    //         ? checkBoxJobLocation.filter((filter) => filter !== category)
+    //         : [...checkBoxJobLocation, category];
+    //     setCheckBoxJobLocation(updatedFilters);
+    // };
 
-    const handleCheckboxJobEducationChange = (category) => {
-        const updatedFilters = checkBoxJobEducation.includes(category)
-            ? checkBoxJobEducation.filter((filter) => filter !== category)
-            : [...checkBoxJobEducation, category];
-        setCheckBoxJobEducation(updatedFilters);
-    };
+    // const handleCheckboxJobEducationChange = (category) => {
+    //     const updatedFilters = checkBoxJobEducation.includes(category)
+    //         ? checkBoxJobEducation.filter((filter) => filter !== category)
+    //         : [...checkBoxJobEducation, category];
+    //     setCheckBoxJobEducation(updatedFilters);
+    // };
 
     const handleSearch = (e) => {
         const inputValue = e.target.value;
@@ -476,6 +484,117 @@ const JobSearch = () => {
 
     const handleDeselect = (result) => {
         setSelectedResults(selectedResults.filter(selected => selected !== result));
+    }
+
+    const handleJobTitleSearch = (e) => {
+        const inputValue = e.target.value;
+        setFilters({ ...filters, jobTitle: inputValue });
+
+        if (inputValue.length > 0) {
+            const jobTitles = jobRoleArray.filter((obj) => {
+                return obj.designation.toLowerCase().includes(inputValue.toLowerCase());
+            });
+
+            if (jobTitles.length > 0) {
+                setFilteredjobTitleList(jobTitles);
+            } else {
+                setFilteredjobTitleList([]);
+            }
+        } else {
+            setFilteredjobTitleList([]);
+        }
+    };
+
+    const handleJobTitleFilteredClick = (clickResult) => {
+        console.log(clickResult)
+        if (selectedJobTitleResults.includes(clickResult)) {
+            setSelectedJobTitleResults([...selectedJobTitleResults]);
+            setFilters({ ...filters, jobTitle: "" });
+            setFilteredjobTitleList([]);
+
+        } else {
+            setSelectedJobTitleResults([...selectedJobTitleResults, clickResult]);
+            setFilters({ ...filters, jobTitle: "" });
+            setFilteredjobTitleList([]);
+        }
+    }
+
+    const handleJobTitleDeselect = (result) => {
+        setSelectedJobTitleResults(selectedJobTitleResults.filter(selected => selected !== result));
+    }
+
+    const handleLocationSearch = (e) => {
+        const inputValue = e.target.value;
+        setFilters({ ...filters, location: inputValue });
+
+        if (inputValue.length > 0) {
+            const locations = locationArray.filter((obj) => {
+                return obj.location.toLowerCase().includes(inputValue.toLowerCase());
+            });
+
+            if (locations.length > 0) {
+                setFilteredLocationList(locations);
+            } else {
+                setFilteredLocationList([]);
+            }
+        } else {
+            setFilteredLocationList([]);
+        }
+    };
+
+    const handleLocationFilteredClick = (clickResult) => {
+        console.log(clickResult)
+        if (selectedLocationResults.includes(clickResult)) {
+            setSelectedLocationResults([...selectedLocationResults]);
+            setFilters({ ...filters, location: "" });
+            setFilteredLocationList([]);
+
+        } else {
+            setSelectedLocationResults([...selectedLocationResults, clickResult]);
+            setFilters({ ...filters, location: "" });
+            setFilteredLocationList([]);
+        }
+    }
+
+    const handleLocationDeselect = (result) => {
+        setSelectedLocationResults(selectedLocationResults.filter(selected => selected !== result));
+    }
+
+    const handleEducationSearch = (e) => {
+        const inputValue = e.target.value;
+        setFilters({ ...filters, education: inputValue });
+
+        if (inputValue.length > 0) {
+            const educations = educationArray.filter((obj) => {
+                return obj.education.toLowerCase().includes(inputValue.toLowerCase());
+            });
+
+            if (educations.length > 0) {
+                setFilteredEducationList(educations);
+            } else {
+                setFilteredEducationList([]);
+            }
+        } else {
+            setFilteredEducationList([]);
+        }
+    };
+
+    const handleEducationFilteredClick = (clickResult) => {
+        console.log(clickResult)
+        if (selectedEducationResults.includes(clickResult)) {
+            setSelectedEducationResults([...selectedEducationResults]);
+            setFilters({ ...filters, education: "" });
+            setFilteredEducationList([]);
+
+        } else {
+            setSelectedEducationResults([...selectedEducationResults, clickResult]);
+            setFilters({ ...filters, education: "" });
+            setFilteredEducationList([]);
+        }
+    }
+
+    const handleEducationDeselect = (result) => {
+        setSelectedEducationResults(selectedEducationResults.filter(selected => selected !== result));
     }
 
 
@@ -1542,7 +1661,7 @@ const JobSearch = () => {
                                                             </div>
                                                             <div className="cli-tal-pro-search-filter-expand-area">
                                                                 <div className="job-search-multi-check-area">
-                                                                    {jobRoleArray.map((job) => {
+                                                                    {/* {jobRoleArray.map((job) => {
                                                                         return <div className="cli--mark-keyword-area job">
                                                                             <label className="cli--mark-keyword-check-input jobs">
                                                                                 <input type="checkbox" checked={checkBoxJobTitle.includes(job.jobRole[0])}
@@ -1551,7 +1670,7 @@ const JobSearch = () => {
                                                                                 {job.jobRole[0]}
                                                                             </label>
                                                                         </div>
-                                                                    })}
+                                                                    })} */}
 
                                                                     {/* <div className="cli--mark-keyword-area job">
                                                                         <label className="cli--mark-keyword-check-input jobs">
@@ -2014,7 +2133,7 @@ const JobSearch = () => {
                                                                     </svg>
                                                                 </div>
                                                                 <div className="cli-tal-pro-search-filter-expand-area">
-                                                                    <div className="job-search-multi-check-area">
+                                                                    {/* <div className="job-search-multi-check-area">
                                                                         {jobRoleArray.map((job) => {
                                                                             return <div className="cli--mark-keyword-area job">
                                                                                 <label className="cli--mark-keyword-check-input jobs">
@@ -2026,7 +2145,7 @@ const JobSearch = () => {
                                                                             </div>
                                                                         })}
 
-                                                                        {/* <div className="cli--mark-keyword-area job">
+                                                                        <div className="cli--mark-keyword-area job">
                                                                         <label className="cli--mark-keyword-check-input jobs">
                                                                             <input type="checkbox" />
                                                                             <span className="cli--mark-keyword-checkmark"></span>
@@ -2083,11 +2202,38 @@ const JobSearch = () => {
                                                                             <span className="cli--mark-keyword-checkmark"></span>
                                                                             UX,Design & Archie.........(82)
                                                                         </label>
-                                                                    </div> */}
+                                                                    </div>
                                                                         <button className="jobs-view-more-btn">
                                                                             <span>View more</span>
                                                                         </button>
-                                                                    </div>
+                                                                    </div> */}
+                                                                    <div className='cli--tal-pro-badge-area mb-4'>
+                                                                {selectedJobTitleResults.map(selectResult => (
+                                                                    <span className="tal-cand-reg-form-badge"
+                                                                        key={selectResult}
+                                                                        onClick={() => handleJobTitleDeselect(selectResult)}
+                                                                    >{selectResult}</span>
+                                                                ))}
+                                                                </div> 
+                                                                <div className="cli--tal-pro-filter-input-area">
+                                                                <input type="search" className='cli--tal-pro-filter-input' placeholder='Enter job titles'
+                                                                    value={filters.jobTitle}
+                                                                    onChange={handleJobTitleSearch}
+                                                                />
+                                                                <i className="bi bi-search cli--tal-pro-filter-search-icon"></i>
+                                                                <div className='tal-pro-search-result-data-area'>
+                                                                    {filteredJobTitleList.length > 0 &&
+                                                                        filteredJobTitleList.map((filterResult) => (
+                                                                            <div
+                                                                                className='tal-pro-search-result-data'
+                                                                                key={filterResult._id}
+                                                                                onClick={() => handleJobTitleFilteredClick(filterResult.designation)}
+                                                                            >
+                                                                                {filterResult.designation}
+                                                                            </div>
+                                                                        ))}
+                                                                </div>
+                                                                </div>
                                                                 </div>
                                                             </div>
 
@@ -2100,7 +2246,7 @@ const JobSearch = () => {
                                                                 </div>
 
                                                                 <div className="cli-tal-pro-search-filter-expand-area">
-                                                                    <div className="job-search-multi-check-area">
+                                                                    {/* <div className="job-search-multi-check-area">
                                                                         {locationArray.map((loc) => {
                                                                             return <div className="cli--mark-keyword-area job">
                                                                                 <label className="cli--mark-keyword-check-input jobs">
@@ -2114,7 +2260,34 @@ const JobSearch = () => {
                                                                         <button className="jobs-view-more-btn">
                                                                             <span>View more</span>
                                                                         </button>
-                                                                    </div>
+                                                                    </div> */}
+                                                                    <div className='cli--tal-pro-badge-area mb-4'>
+                                                                {selectedLocationResults.map(selectResult => (
+                                                                    <span className="tal-cand-reg-form-badge"
+                                                                        key={selectResult}
+                                                                        onClick={() => handleLocationDeselect(selectResult)}
+                                                                    >{selectResult}</span>
+                                                                ))}
+                                                                </div>
+                                                                <div className="cli--tal-pro-filter-input-area">
+                                                                <input type="search" className='cli--tal-pro-filter-input' placeholder='Enter location'
+                                                                    value={filters.location}
+                                                                    onChange={handleLocationSearch}
+                                                                />
+                                                                <i className="bi bi-search cli--tal-pro-filter-search-icon"></i>
+                                                                <div className='tal-pro-search-result-data-area'>
+                                                                    {filteredLocationList.length > 0 &&
+                                                                        filteredLocationList.map((filterResult) => (
+                                                                            <div
+                                                                                className='tal-pro-search-result-data'
+                                                                                key={filterResult._id}
+                                                                                onClick={() => handleLocationFilteredClick(filterResult.location)}
+                                                                            >
+                                                                                {filterResult.location}
+                                                                            </div>
+                                                                        ))}
+                                                                </div>
+                                                                </div>
                                                                 </div>
                                                             </div>
                                                             <div className="cli-tal-pro-search-filter-content-section job">
@@ -2155,7 +2328,7 @@ const JobSearch = () => {
                                                                     </svg>
                                                                 </div>
                                                                 <div className="cli-tal-pro-search-filter-expand-area">
-                                                                    <div className="job-search-multi-check-area">
+                                                                    {/* <div className="job-search-multi-check-area">
                                                                         {educationArray.map((edu) => {
                                                                             return <div className="cli--mark-keyword-area job">
                                                                                 <label className="cli--mark-keyword-check-input jobs">
@@ -2169,7 +2342,34 @@ const JobSearch = () => {
                                                                         <button className="jobs-view-more-btn">
                                                                             <span>View more</span>
                                                                         </button>
-                                                                    </div>
+                                                                    </div> */}
+                                                                    <div className='cli--tal-pro-badge-area mb-4'>
+                                                                {selectedEducationResults.map(selectResult => (
+                                                                    <span className="tal-cand-reg-form-badge"
+                                                                        key={selectResult}
+                                                                        onClick={() => handleEducationDeselect(selectResult)}
+                                                                    >{selectResult}</span>
+                                                                ))}
+                                                                </div>
+                                                                <div className="cli--tal-pro-filter-input-area">
+                                                                <input type="search" className='cli--tal-pro-filter-input' placeholder='Enter education'
+                                                                    value={filters.education}
+                                                                    onChange={handleEducationSearch}
+                                                                />
+                                                                <i className="bi bi-search cli--tal-pro-filter-search-icon"></i>
+                                                                <div className='tal-pro-search-result-data-area'>
+                                                                    {filteredEducationList.length > 0 &&
+                                                                        filteredEducationList.map((filterResult) => (
+                                                                            <div
+                                                                                className='tal-pro-search-result-data'
+                                                                                key={filterResult._id}
+                                                                                onClick={() => handleEducationFilteredClick(filterResult.education)}
+                                                                            >
+                                                                                {filterResult.education}
+                                                                            </div>
+                                                                        ))}
+                                                                </div>
+                                                                </div>
                                                                 </div>
                                                             </div>
 
