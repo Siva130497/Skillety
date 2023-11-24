@@ -190,7 +190,7 @@ const getSkillMatchJobDetail = async() => {
 
       if (!result.error) {
         console.log(result);
-        setJobDetail(result);
+        setJobDetail(result.reverse());
         setMatchJobNum(result.filter(job => job.percentage > 0).length);
       } else {
         console.log(result);
@@ -211,7 +211,7 @@ const getSkillMatchJobDetail = async() => {
         const result = res.data;
         if (!result.error) {
           console.log(result);
-          setAppliedJobDetail(result);
+          setAppliedJobDetail(result.reverse());
         } else {
           console.log(result);
         }
@@ -230,7 +230,7 @@ const getSkillMatchJobDetail = async() => {
 
   return (
     <div>
-      {loading && <div id="preloader candidate"></div>}
+      {/* {loading && <div id="preloader candidate"></div>} */}
       {candidateId && <div className="main-wrapper main-wrapper-1">
         <div className="navbar-bg"></div>
 
@@ -448,11 +448,11 @@ const getSkillMatchJobDetail = async() => {
                           <div className="dash-table-title">
                             Job Applied
                           </div>
-                          <a href='#' className="dash-table-see-all-btn">See all</a>
+                          <a href='/my-application' className="dash-table-see-all-btn">See all</a>
                         </div>
                         <div class="table-responsive mt-4">
                           <table class="table table-striped table-hover dash-table">
-                            {appliedJobDetail.map((job)=>{
+                            {appliedJobDetail.slice(0,10).map((job)=>{
                               const matchingImg = clientImg ? clientImg.find(img => img.id === job.companyId) : null;
                               const imgSrc = matchingImg ? `http://localhost:5002/client_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
                               const client= allClient.find(obj => obj.companyId === job.companyId);
@@ -465,7 +465,7 @@ const getSkillMatchJobDetail = async() => {
                                 {job.jobRole[0]} <br />
                                 <span className='dash-table-sub'>{client?.companyName}</span>
                               </td>
-                              <td className='dash-table-data1 text-center'>Marketing & Communication</td>
+                              <td className='dash-table-data1 text-center'>{job.industry}</td>
                               <td className='dash-table-data1 text-center'>{job.jobCategory}</td>
                               <td className='dash-table-data1 text-center'>Screening</td>
                               <td className='text-center dash-table-view-btn-area'>
@@ -492,11 +492,11 @@ const getSkillMatchJobDetail = async() => {
                           <div className="dash-table-title">
                             Latest Jobs
                           </div>
-                          <a href='#' className="dash-table-see-all-btn">See all</a>
+                          <a href='/search-jobs' className="dash-table-see-all-btn">See all</a>
                         </div>
                         <div class="table-responsive mt-4">
                           <table class="table table-striped table-hover dash-table">
-                            {jobDetail.map(job=>{
+                            {jobDetail.slice(0,10).map(job=>{
                               const matchingImg = clientImg ? clientImg.find(img => img.id === job.companyId) : null;
                               const imgSrc = matchingImg ? `http://localhost:5002/client_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
                               const client= allClient.find(obj => obj.companyId === job.companyId);
@@ -510,7 +510,7 @@ const getSkillMatchJobDetail = async() => {
                                 {job.jobRole} <br />
                                 <span className='dash-table-sub'>{client?.companyName}</span>
                               </td>
-                              <td className='dash-table-data1 text-center'>Marketing & Communication</td>
+                              <td className='dash-table-data1 text-center'>{job.industry}</td>
                               <td className='dash-table-data1 text-center'>{job.jobCategory}</td>
                               <td className='dash-table-data1 text-center'>{job.jobExperience}</td>
                               <td className='text-center dash-table-view-btn-area'>

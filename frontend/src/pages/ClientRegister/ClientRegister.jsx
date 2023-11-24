@@ -14,6 +14,7 @@ import 'sweetalert2/dist/sweetalert2.css';
 const ClientRegister = () => {
     const navigate = useNavigate();
     const [profile, setProfile] = useState([]);
+    const [isAgreed, setIsAgreed] = useState(false);
     const initialCredentials = {
         name: "",
         phone: "",
@@ -27,6 +28,17 @@ const ClientRegister = () => {
     const [searchIndustryInput, setSearchIndustryInput] = useState("");
     const [filteredIndustry, setFilteredindustry] = useState([]);
     const [selectedIndustry, setSelectedIndustry] = useState([]);
+
+    //for show error message for payment
+    function showErrorMessage(message) {
+        Swal.fire({
+            title: 'Alert',
+            text: message,
+            icon: 'info',
+            confirmButtonColor: '#d33',
+            confirmButtonText: 'OK',
+        });
+    }
 
     const getAllIndustry = async () => {
         try {
@@ -122,14 +134,36 @@ const ClientRegister = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        const updatedCredentials = {
-            ...credentials,
-            industry: selectedIndustry[0],
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (emailRegex.test(credentials.email)) {
+            console.log(credentials.email)
+            if (
+                credentials.name &&
+                credentials.companyName &&
+                credentials.count &&
+                credentials.email &&
+                credentials.phone &&
+                credentials.text &&
+                selectedIndustry.length > 0
+            ) {
+                if (isAgreed) {
+                    const updatedCredentials = {
+                        ...credentials,
+                        industry: selectedIndustry[0],
+                    };
+                    console.log(updatedCredentials);
+                    registerUser(updatedCredentials);
+                } else {
+                    showErrorMessage("Agree to the terms & conditions before registering");
+                }
+            } else {
+                showErrorMessage("Please complete all the required fields before proceeding...");
+            }
+        } else {
+            showErrorMessage('Please enter a valid email address');
         }
-        console.log(updatedCredentials);
-        registerUser(updatedCredentials);
-        // navigate("/packages");
-    }
+    };
+    
 
     useEffect(() => {
         $('.sel').each(function () {
@@ -219,13 +253,13 @@ const ClientRegister = () => {
                                             </div>
                                             <div className="col-12 col-lg-6 col-md-6 col-sm-6 custom-padding-left">
                                                 <div className='reg--form-group'>
-                                                    <input type="text" id='email' name="email" value={credentials.email} onChange={handleInputChange} placeholder="Enter your email address" className='reg--form-input' required />
+                                                    <input type="email" id='email' name="email" value={credentials.email} onChange={handleInputChange} placeholder="Enter your email address" className='reg--form-input' required />
                                                     <label htmlFor="email" className='reg--form-label'>Email ID</label>
                                                 </div>
                                             </div>
                                             <div className="col-12 col-lg-6 col-md-6 col-sm-6 custom-padding-right">
                                                 <div className='reg--form-group'>
-                                                    <input type="text" id='phone_no' name="phone" value={credentials.phone} onChange={handleInputChange} placeholder="Enter your mobile number" className='reg--form-input' required />
+                                                    <input type="number" id='phone_no' name="phone" value={credentials.phone} onChange={handleInputChange} placeholder="Enter your mobile number" className='reg--form-input' required />
                                                     <label htmlFor="phone_no" className='reg--form-label'>Mobile Number</label>
                                                 </div>
                                             </div>
@@ -313,7 +347,7 @@ const ClientRegister = () => {
                                             </div>
                                             <div className="col-12 col-lg-6 col-md-4 col-sm-4 custom-padding-left">
                                                 <div className='reg--form-group'>
-                                                    <input type="text" id='subject' name="count" value={credentials.count} onChange={handleInputChange} placeholder="Enter the headcount" className='reg--form-input' required />
+                                                    <input type="number" id='subject' name="count" value={credentials.count} min="0" onChange={handleInputChange} placeholder="Enter the headcount" className='reg--form-input' required />
                                                     <label htmlFor="subject" className='reg--form-label'>Headcount</label>
                                                 </div>
                                             </div>
@@ -325,6 +359,15 @@ const ClientRegister = () => {
                                             </div>
                                         </div>
                                         <div className="reg--form-btn-area">
+                                        <label>
+                                                <input
+                                                type="checkbox"
+                                                checked={isAgreed}
+                                                onChange={() => {
+                                                    setIsAgreed(!isAgreed)}
+                                                }/>
+                                            I agree to the terms and conditions
+                                            </label>
                                             <button type='submit' className='reg--form-btn-sub' data-aos="fade-down">
                                                 <div className='reg--form-btn'>
                                                     Submit

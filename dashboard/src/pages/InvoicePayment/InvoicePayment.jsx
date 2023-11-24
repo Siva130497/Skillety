@@ -67,25 +67,25 @@ const InvoicePayment = () => {
         }
     }
 
-    const getOwnPostedjobs = async () => {
-        try {
-            const res = await axios.get(`http://localhost:5002/my-posted-jobs/${loginClientDetail?.companyId}`, {
-                headers: {
-                    Authorization: `Bearer ${clientToken}`,
-                    Accept: 'application/json'
-                }
-            });
-            const result = res.data;
-            if (!result.error) {
-                console.log(result);
-                setPostedJobs(result.reverse());
-            } else {
-                console.log(result);
-            }
-        } catch (err) {
-            console.log(err);
-        }
-    }
+    // const getOwnPostedjobs = async () => {
+    //     try {
+    //         const res = await axios.get(`http://localhost:5002/my-posted-jobs/${loginClientDetail?.companyId}`, {
+    //             headers: {
+    //                 Authorization: `Bearer ${clientToken}`,
+    //                 Accept: 'application/json'
+    //             }
+    //         });
+    //         const result = res.data;
+    //         if (!result.error) {
+    //             console.log(result);
+    //             setPostedJobs(result.reverse());
+    //         } else {
+    //             console.log(result);
+    //         }
+    //     } catch (err) {
+    //         console.log(err);
+    //     }
+    // }
 
     const allStaffFromCompany = async () => {
         try {
@@ -133,7 +133,7 @@ const InvoicePayment = () => {
         if (loginClientDetail?.companyId) {
             getClientChoosenPlan(loginClientDetail?.companyId);
             getViewedCandidates();
-            getOwnPostedjobs();
+            // getOwnPostedjobs();
             allStaffFromCompany();
         }
     }, [loginClientDetail]);
@@ -168,9 +168,9 @@ const InvoicePayment = () => {
                                                 <tr className='dash-table-row man-app'>
                                                     <th className='dash-table-head text-left'>Sr.no</th>
                                                     <th className='dash-table-head text-center'>Package Name</th>
-                                                    <th className='dash-table-head text-center'>Date of Billing</th>
-                                                    <th className='dash-table-head text-center'>Available till</th>
-                                                    <th className='dash-table-head text-center'>Billed Amount</th>
+                                                    <th className='dash-table-head text-center'>Date of Purchase</th>
+                                                    <th className='dash-table-head text-center'>Validity</th>
+                                                    <th className='dash-table-head text-center'>Invoice Amount</th>
                                                     <th className='text-center'>View</th>
                                                 </tr>
 

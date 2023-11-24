@@ -47,7 +47,7 @@ const JobPosting = () => {
   const [filteredEducation, setFilteredEducation] = useState([]);
   const [selectedEducation, setSelectedEducation] = useState([]);
 
-  const [postedJobs, setPostedJobs] = useState([]);
+  // const [postedJobs, setPostedJobs] = useState([]);
 
   const initialCredentials = {
     minExperience: "",
@@ -251,25 +251,25 @@ const JobPosting = () => {
     }
   }
 
-  const getOwnPostedjobs = async () => {
-    try {
-      const res = await axios.get(`http://localhost:5002/my-posted-jobs/${loginClientDetail.companyId}`, {
-        headers: {
-          Authorization: `Bearer ${clientToken}`,
-          Accept: 'application/json'
-        }
-      });
-      const result = res.data;
-      if (!result.error) {
-        console.log(result);
-        setPostedJobs(result.reverse());
-      } else {
-        console.log(result);
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  }
+  // const getOwnPostedjobs = async () => {
+  //   try {
+  //     const res = await axios.get(`http://localhost:5002/my-posted-jobs/${loginClientDetail.companyId}`, {
+  //       headers: {
+  //         Authorization: `Bearer ${clientToken}`,
+  //         Accept: 'application/json'
+  //       }
+  //     });
+  //     const result = res.data;
+  //     if (!result.error) {
+  //       console.log(result);
+  //       setPostedJobs(result.reverse());
+  //     } else {
+  //       console.log(result);
+  //     }
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // }
 
   useEffect(() => {
     setClientToken(JSON.parse(localStorage.getItem('clientToken')))
@@ -307,20 +307,20 @@ const JobPosting = () => {
     }
   }, [employeeId]);
 
-  useEffect(() => {
-    if (loginClientDetail.length > 0) {
-      getOwnPostedjobs();
-      const fetchData = async () => {
-        try {
-          await getClientChoosenPlan(loginClientDetail.companyId);
-        } catch (error) {
-          console.error(error);
-        }
-      };
+  // useEffect(() => {
+  //   if (loginClientDetail.length > 0) {
+  //     getOwnPostedjobs();
+  //     const fetchData = async () => {
+  //       try {
+  //         await getClientChoosenPlan(loginClientDetail.companyId);
+  //       } catch (error) {
+  //         console.error(error);
+  //       }
+  //     };
 
-      fetchData();
-    }
-  }, [loginClientDetail]);
+  //     fetchData();
+  //   }
+  // }, [loginClientDetail]);
 
   console.log(packageSelectionDetail)
 
@@ -348,7 +348,7 @@ const JobPosting = () => {
         setOtherJobRole([]);
         setSelectedSkills([]);
         setOtherSkill([]);
-        getOwnPostedjobs();
+        // getOwnPostedjobs();
       } else {
         console.log(result);
       }

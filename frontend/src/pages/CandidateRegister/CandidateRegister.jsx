@@ -15,6 +15,7 @@ import 'sweetalert2/dist/sweetalert2.css';
 
 const CandidateRegister = () => {
     const [step, setStep] = useState(1);
+    const [isAgreed, setIsAgreed] = useState(false);
     const { candidateReg, postOtherSkills, postOtherDesignation } = useContext(AuthContext);
     const [skillArray, setSkillArray] = useState([]);
     const [designationArray, setDesignationArray] = useState([])
@@ -387,37 +388,50 @@ const CandidateRegister = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        const formData = new FormData();
-        const id = uuidv4();
-        formData.append('file', resume);
-        formData.append('id', id);
-        const updatedCredentials = {
-            ...credentials,
-            confirmPassword: undefined,
-            selectedDate: dateString,
-            skills: selectedSkills,
-            designation: selectedDesignations,
-            education: selectedEducation[0],
-            location: selectedLocations[0],
-            id: id,
-        };
-        console.log(updatedCredentials);
-        candidateReg(updatedCredentials);
-        otherSkill.length > 0 && postOtherSkills(otherSkill);
-        otherDesignation.length > 0 && postOtherDesignation(otherDesignation);
-        axios.post('http://localhost:5002/upload', formData)
-            .then(res => console.log(res))
-            .catch(err => console.log(err));
+        if(credentials.profileHeadline){
+            if(isAgreed){
+                const formData = new FormData();
+                const id = uuidv4();
+                formData.append('file', resume);
+                formData.append('id', id);
+                const updatedCredentials = {
+                    ...credentials,
+                    confirmPassword: undefined,
+                    selectedDate: dateString,
+                    skills: selectedSkills,
+                    designation: selectedDesignations,
+                    education: selectedEducation[0],
+                    location: selectedLocations[0],
+                    id: id,
+                };
+                console.log(updatedCredentials);
+                candidateReg(updatedCredentials);
+                otherSkill.length > 0 && postOtherSkills(otherSkill);
+                otherDesignation.length > 0 && postOtherDesignation(otherDesignation);
+                axios.post('http://localhost:5002/upload', formData)
+                    .then(res => console.log(res))
+                    .catch(err => console.log(err));
+            }else{
+                showErrorMessage("Agree the terms & condition before register");
+            }
+            
+        }else{
+            showErrorMessage("Please complete all the required fields before proceeding...");
+        }
+        
     };
 
     const handleNext = () => {
         let isValid = true;
         if (step === 1) {
-            if (credentials.days === "" || credentials.firstName === "" || credentials.lastName === "" || credentials.phone === "" || credentials.email === "" || credentials.password === "" || credentials.confirmPassword === "" || credentials.password !== credentials.confirmPassword || !resume.length === 0 || credentials.password.length < 8) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (credentials.days === "" || credentials.firstName === "" || credentials.lastName === "" || credentials.phone === "" || credentials.email === "" || credentials.password === "" || credentials.confirmPassword === "" || credentials.password !== credentials.confirmPassword || !resume.length === 0 || credentials.password.length < 8 || !(emailRegex.test(credentials.email))) {
                 if(credentials.password.length < 8){
                     return showErrorMessage("password must be atleast 8 characters long")
                 }else if(credentials.password !== credentials.confirmPassword){
                     return showErrorMessage("Please check that both password and confirm password are same")
+                }else if(!(emailRegex.test(credentials.email))){
+                    return showErrorMessage("Please enter a valid email address")
                 } 
                 isValid = false;
             }
@@ -430,11 +444,11 @@ const CandidateRegister = () => {
                 isValid = false;
             }
         }
-        if (step === 3) {
-            if (credentials.profileHeadline === "") {
-                isValid = false;
-            }
-        }
+        // if (step === 3) {
+        //     if (credentials.profileHeadline === "") {
+        //         isValid = false;
+        //     }
+        // }
         if (isValid) {
             setStep(step + 1);
         } else {
@@ -603,7 +617,7 @@ const CandidateRegister = () => {
                                 <div className="col-12">
                                     <div className='cand--reg-form-group cand--reg-custom-padding'>
                                         <div className="cand--reg-file-upload-area">
-                                            <input type="file" id="file_upload" accept=".doc,.docx,.pdf"
+                                            <input type="file" id="file_upload" accept=".doc,.docx,.pdf,.rtf"
                                                 ref={fileInputRef}
                                                 style={{ display: 'none' }}
                                                 onChange={handleFileChange}
@@ -1015,18 +1029,29 @@ const CandidateRegister = () => {
                                         </button>
                                     )}
                                     {step === 3 && (
-                                        <button type='submit' className='reg--form-btn-sub candidate register' data-aos="fade-down">
-                                            <div className='reg--form-btn candidate'>
-                                                Register
-                                            </div>
-                                            <div className='reg--form-arrow-area candidate'>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
-                                                    <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#714F36" stroke-width="2" />
-                                                    <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#714F36" stroke-width="2" />
-                                                    <path d="M1 26L25.1667 1" stroke="#714F36" stroke-width="2" />
-                                                </svg>
-                                            </div>
-                                        </button>
+                                        <div>
+                                            <label>
+                                                <input
+                                                type="checkbox"
+                                                checked={isAgreed}
+                                                onChange={() => {
+                                                    setIsAgreed(!isAgreed)}
+                                                }/>
+                                            I agree to the terms and conditions
+                                            </label>
+                                            <button type='submit' className='reg--form-btn-sub candidate register' data-aos="fade-down" >
+                                                <div className='reg--form-btn candidate' >
+                                                    Register
+                                                </div>
+                                                <div className='reg--form-arrow-area candidate' >
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
+                                                        <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#714F36" stroke-width="2" />
+                                                        <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#714F36" stroke-width="2" />
+                                                        <path d="M1 26L25.1667 1" stroke="#714F36" stroke-width="2" />
+                                                    </svg>
+                                                </div>
+                                            </button>
+                                        </div>
                                     )}
                                 </div>
                             </form>

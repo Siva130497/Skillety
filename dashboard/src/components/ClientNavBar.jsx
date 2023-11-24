@@ -272,7 +272,7 @@ const ClientNavBar = () => {
                 <img src={clientImgUrl ? clientImgUrl : "../assets/img/talents-images/avatar.jpg"} className='dropdown-user-img' alt="" />
                 <div className='dropdown-user-detail-area'>
                   <div className="dropdown-user-name">{extractLastName()}</div>
-                  <div className="dropdown-user-role">UX Designer, India</div>
+                  <div className="dropdown-user-role">{loginClientDetail?.companyName}</div>
                 </div>
               </div>
               <a href="#" className="dropdown-view-pro-btn">
