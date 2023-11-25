@@ -1,0 +1,47 @@
+.comp-det-card {
+    margin-bottom: 30px;
+}
+
+.com-main-detail-area {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    border-radius: 12px;
+    padding: 10px 20px;
+    background-color: #F0F0F0;
+    box-shadow: inset 0px 0px 10px #0000000f;
+}
+
+.com-main-detail-area i {
+    color: #714F36;
+    font-size: 20px;
+}
+
+.com-det-main-content {
+    transition: ease-in-out 0.5s;
+    color: #714F36 !important;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.com-det-main-content:hover {
+    color: #000 !important;
+}
+
+.com-type {
+    font-size: 13px;
+    font-weight: 400;
+    color: #714F36;
+}
+
+.com-det-content ul li {
+    list-style: disc;
+    color: #714F36;
+    font-size: 15px;
+    font-weight: 400;
+    margin-bottom: 5px;
+}
+.com-det-content ul{
+    padding-left: 20px;
+}

@@ -324,13 +324,14 @@ const JobDetails = () => {
                                 <path d="M16.4,4C14.6,4,13,4.9,12,6.3C11,4.9,9.4,4,7.6,4C4.5,4,2,6.5,2,9.6C2,14,12,22,12,22s10-8,10-12.4C22,6.5,19.5,4,16.4,4z"></path>
                               </svg>
                             </label> */}
-                              <button
-                                type="button"
+                              <a
+                                href="/company-info"
                                 className="dash-job-det-card-apply-btn"
-                                data-bs-toggle="modal"
-                                data-bs-target="#company_detail_modal">
+                              // data-bs-toggle="modal"
+                              // data-bs-target="#company_detail_modal"
+                              >
                                 View Company Detail
-                              </button>
+                              </a>
                             </div>
                           </div>
                         </article>
@@ -371,20 +372,20 @@ const JobDetails = () => {
                         </div> */}
                         <div className="dash-job-desc-section">
                           <div className="row qulification-area">
-                            <div className="col-12">
+                            <div className="col-12 ps-1 pe-1">
                               <div className="dash-job-desc-area">
                                 <div className="dash-job-desc-head qualification">
                                   QUALIFICATION
                                 </div>
                               </div>
                             </div>
-                            <div className="col-12 col-md-12 col-lg-6 mt-4">
+                            <div className="col-12 col-md-12 col-lg-6 mt-4 ps-1 pe-1">
                               <div className="dash-job-desc-area flex">
                                 <div className="dash-job-desc-head">Education</div>&nbsp;&nbsp;<span>:</span>&nbsp;&nbsp;
                                 <div className="dash-job-desc2">{job?.education}</div>
                               </div>
                             </div>
-                            <div className="col-12 col-md-12 col-lg-6 mt-4">
+                            <div className="col-12 col-md-12 col-lg-6 mt-4 ps-1 pe-1">
                               <div className="dash-job-desc-area flex">
                                 <div className="dash-job-desc-head">Prior Experience</div>&nbsp;&nbsp;<span>:</span>&nbsp;&nbsp;
                                 <div className="dash-job-desc2">{job?.jobExperience}</div>
@@ -442,6 +443,8 @@ const JobDetails = () => {
                                                 </ul>
                                             </div> */}
                         </div>
+
+                        <div className="hr-line mb-2 mt-4"></div>
 
                         <div className="dash-job-det-info-section">
                           <div className="row">
@@ -533,7 +536,7 @@ const JobDetails = () => {
                 </div>
 
                 {/* company detail modal here */}
-                <div className="modal fade" id="company_detail_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                {/* <div className="modal fade" id="company_detail_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                   <div className="modal-dialog modal-lg modal-dialog-centered">
                     <div className="modal-content comp-det-modal">
                       <div className="modal-header comp-det-modal-header">
@@ -600,7 +603,7 @@ const JobDetails = () => {
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> */}
                 {/*  */}
 
               </div>

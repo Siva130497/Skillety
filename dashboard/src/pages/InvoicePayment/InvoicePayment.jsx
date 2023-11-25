@@ -20,50 +20,50 @@ const InvoicePayment = () => {
     const [viewedCandidate, setViewedCandidate] = useState([]);
     // const [postedJobs, setPostedJobs] = useState([]);
     const [allStaff, setAllStaff] = useState([]);
-    
+
     const [invoice, setInvoice] = useState([]);
 
     useEffect(() => {
         const calculateInvoice = () => {
-          const cvViews = packageSelectionDetail?.cvViews;
-          const usedViews = viewedCandidate.length;
-          const balanceViews = cvViews - usedViews;
+            const cvViews = packageSelectionDetail?.cvViews;
+            const usedViews = viewedCandidate.length;
+            const balanceViews = cvViews - usedViews;
 
-          const loginIDs = packageSelectionDetail?.logins;
-          const usedLoginIDs = allStaff.length;
-          const balanceLoginIDs = loginIDs - usedLoginIDs;
-    
-          setInvoice([
-            ['Cv Views', usedViews, balanceViews],
-            ['Login IDs', usedLoginIDs, balanceLoginIDs]
-          ]);
+            const loginIDs = packageSelectionDetail?.logins;
+            const usedLoginIDs = allStaff.length;
+            const balanceLoginIDs = loginIDs - usedLoginIDs;
+
+            setInvoice([
+                ['Cv Views', usedViews, balanceViews],
+                ['Login IDs', usedLoginIDs, balanceLoginIDs]
+            ]);
         };
-    
-        calculateInvoice();
-      }, [packageSelectionDetail, viewedCandidate, allStaff]);
 
-      const generatePDF = () => {
+        calculateInvoice();
+    }, [packageSelectionDetail, viewedCandidate, allStaff]);
+
+    const generatePDF = () => {
         const doc = new jsPDF();
         const tableColumn = ['Detail', 'Used', 'Balance'];
         const tableRows = [];
-    
-       
+
+
         tableRows.push(...invoice);
-    
+
         doc.autoTable({ startY: 20, head: [tableColumn], body: tableRows });
-    
+
         const date = new Date();
         const dateStr =
-          date.getFullYear() +
-          ('0' + (date.getMonth() + 1)).slice(-2) +
-          ('0' + date.getDate()).slice(-2) +
-          '_' +
-          ('0' + date.getHours()).slice(-2) +
-          ('0' + date.getMinutes()).slice(-2) +
-          ('0' + date.getSeconds()).slice(-2);
-    
+            date.getFullYear() +
+            ('0' + (date.getMonth() + 1)).slice(-2) +
+            ('0' + date.getDate()).slice(-2) +
+            '_' +
+            ('0' + date.getHours()).slice(-2) +
+            ('0' + date.getMinutes()).slice(-2) +
+            ('0' + date.getSeconds()).slice(-2);
+
         doc.save(`invoice_${dateStr}.pdf`);
-      };
+    };
 
     useEffect(() => {
         $(document).ready(function () {
@@ -332,10 +332,11 @@ const InvoicePayment = () => {
                                 </div>
                             </div>
                             <div className="modal-footer invoive-modal-footer bg-whitesmoke br">
-                                <button type="button" className="btn close-modal-btn" data-dismiss="modal">Close</button>
-                                <button className="btn btn-primary" onClick={generatePDF}>
+                                <button className="btn invoice-download-btn" onClick={generatePDF}>
+                                    <i class="bi bi-download mr-2"></i>
                                     Download Invoice
                                 </button>
+                                <button type="button" className="btn close-modal-btn" data-dismiss="modal">Close</button>
                             </div>
                         </div>
                     </div>

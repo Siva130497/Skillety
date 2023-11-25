@@ -1,0 +1,226 @@
+.profile-content-edit-btn i {
+    font-size: 23px;
+    color: #714F36;
+}
+
+.cli-pro-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #714F36;
+}
+
+/* .cli-pro-detail-area {
+    margin-bottom: 40px;
+} */
+
+.cli-pro-input-area {
+    margin-top: 15px;
+    position: relative;
+}
+
+.cli-pro-input {
+    outline: none;
+    border: none;
+    padding: 12px 40px 12px 0px;
+    border-bottom: 1px solid #714F36;
+    font-size: 15px;
+    color: #714F36;
+    font-weight: 400;
+    transition: ease-in-out 0.5s;
+    width: 100%;
+    background-color: #fff;
+}
+
+.cli-pro-input:focus {
+    outline: none;
+}
+
+.cli-pro-input::placeholder {
+    color: #714F36;
+    font-size: 15px;
+    font-weight: 400;
+}
+
+.cli-pro-add-btn {
+    outline: none;
+    border: none;
+    font-size: 14px;
+    color: #1394DF;
+    transition: ease-in-out 0.5s;
+    font-weight: 600;
+    background-color: #fff;
+    position: absolute;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    bottom: 12px;
+}
+
+.cli-pro-add-btn:hover {
+    color: #000;
+}
+
+.cli-pro-add-btn:focus {
+    outline: none;
+    border: none;
+}
+
+/* .cli-profile-content-area {
+    padding-top: 40px;
+} */
+
+.cli-profile-content-area {
+    /* display: none; */
+    max-height: 0px;
+    overflow: hidden;
+    opacity: 0;
+    transition: padding 0.8s ease-out, max-height 0.8s ease-out, opacity 0.8s ease-out;
+}
+
+.cli-profile-content-area.expanded {
+    /* display: block; */
+    max-height: 1000px;
+    padding-top: 40px;
+    opacity: 1;
+}
+
+.profile-content-top-area.with-toggle {
+    cursor: pointer;
+}
+
+.toggle-icon {
+    transition: all 0.8s;
+}
+
+
+
+.cli-pro-checkbox-input {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    cursor: pointer;
+    color: #714F36;
+    font-size: 14px !important;
+    font-weight: 400;
+    margin-bottom: 20px;
+}
+
+.cli-pro-checkbox-input input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.cli-pro-checkbox-checkmark {
+    position: relative;
+    display: inline-block;
+    width: 22px;
+    height: 22px;
+    margin-right: 20px;
+    border: 2px solid #898989;
+    border-radius: 2px;
+    -webkit-transition: ease-in-out 0.5s;
+    transition: ease-in-out 0.5s;
+    outline: none;
+    flex-shrink: 0;
+}
+
+.cli-pro-checkbox-input input[type="checkbox"]:checked~.cli-pro-checkbox-checkmark {
+    background-color: #714F36;
+    border-color: #714F36;
+}
+
+.cli-pro-checkbox-input input[type="checkbox"]:checked~.cli-pro-checkbox-checkmark:after {
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: 6px;
+    width: 6px;
+    height: 11px;
+    border: solid #FFF;
+    border-width: 0 2px 2px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+
+.cli-pro-checkbox-input:hover input[type="checkbox"]~.cli-pro-checkbox-checkmark {
+    border-color: #714F36;
+}
+
+.cli-pro-checkbox-input input[type="checkbox"]:disabled~.cli-pro-checkbox-checkmark {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.cli-pro-checkbox-input input[type="checkbox"]:disabled~.cli-pro-checkbox-checkmark:hover {
+    border-color: #4d4d4d;
+}
+
+.cli-pro-add-input-btn {
+    outline: none;
+    border: none;
+    background-color: transparent;
+    color: #1394DF;
+    font-size: 14px;
+    font-weight: 600;
+    transition: ease-in-out 0.5s;
+    margin: 0;
+    padding: 0;
+}
+
+.cli-pro-add-input-btn:hover {
+    color: #000;
+}
+
+.cli-pro-add-input-btn:focus {
+    outline: none;
+    border: none;
+}
+
+.cli-pro-add-input-btn i {
+    vertical-align: middle;
+    margin-right: 20px !important;
+    font-size: 20px;
+}
+
+.cli-pro-add-input-btn::before {
+    content: "\f4fe";
+    display: inline-block;
+    font-family: 'bootstrap-icons' !important;
+    font-style: normal;
+    margin-right: 20px;
+    font-size: 20px;
+    font-weight: normal !important;
+    font-feature-settings: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    vertical-align: text-top;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.add-more-input-area {
+    margin: 20px 0;
+    display: none;
+}
+
+.cli-pro-add-input-btn.expanded {
+    color: red;
+}
+
+.cli-pro-add-input-btn.expanded:hover {
+    color: #d40000 !important;
+}
+
+.cli-pro-add-input-btn.expanded::before {
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}

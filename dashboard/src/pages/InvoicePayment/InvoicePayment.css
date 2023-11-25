@@ -43,6 +43,28 @@
     color: #FFF !important;
 }
 
+.close-modal-btn:focus{
+    box-shadow: 0px 2px 10px #00000015 !important;
+}
+
+.invoice-download-btn {
+    background-color: #ffffff;
+    color: #1394DF !important;
+    border: 1px solid #1394DF !important;
+    font-size: 14px !important;
+    transition: ease-in-out 0.5s !important;
+    border-radius: 6px !important;
+}
+
+.invoice-download-btn:hover {
+    background-color: #1394DF !important;
+    color: #FFF !important;
+}
+
+.invoice-download-btn:focus {
+    box-shadow: 0px 2px 10px #00000015 !important;
+}
+
 .invoice-table-area {
     border-radius: 10px;
     border: #714F36 1px solid;

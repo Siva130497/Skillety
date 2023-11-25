@@ -182,8 +182,8 @@
 }
 
 .dash-job-det-card-apply-btn:hover {
-    background-color: #714F36;
-    color: #FFF;
+    background-color: #714F36 !important;
+    color: #FFF !important;
 }
 
 .dash-job-det-card-apply-btn:focus,
@@ -487,8 +487,8 @@
 
 .com-det-logo-area {
     border-radius: 16px;
-    width: 160px;
-    height: 110px;
+    width: 200px;
+    height: 130px;
     border: #FFF 4px solid;
     overflow: hidden;
     flex-shrink: 0;
@@ -503,7 +503,7 @@
 
 .com-det-logo-area .com-det-logo {
     width: 100%;
-    height: 90px;
+    height: 110px;
     object-fit: contain;
     object-position: center;
 }
@@ -515,7 +515,7 @@
 }
 
 .com-det-title {
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 600;
     color: #714F36;
 }
@@ -536,7 +536,7 @@
 
 .com-det-content {
     color: #714F36;
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 400;
 }
 
@@ -576,15 +576,15 @@
 
 .qulification-area {
     /* margin-top: 25px; */
-    border-radius: 16px;
+    /* border-radius: 16px;
     background-color: #ededed;
-    padding: 25px 10px;
+    padding: 25px 10px; */
 }
 
 .dash-job-desc-head.qualification {
-    background-color: #FFF;
+    /* background-color: #FFF;
     border-radius: 8px;
-    padding: 5px 15px;
+    padding: 5px 15px; */
 }
 
 .dash-job-desc-container {
