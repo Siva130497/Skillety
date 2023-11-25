@@ -25,6 +25,7 @@ const roomIdChatDetail = require("../Database/roomIdChatDetail");
 const nonApprovalJob = require("../Database/nonApprovalJob");
 const activeJob = require("../Database/activeJob");
 const searchResult = require("../Database/searchResult");
+const popularSearch = require("../Database/popularSearch");
 
 // const hash = async() => {
 //   const pass = 'newpassword'
@@ -1977,6 +1978,44 @@ const getAllRecentSearches = async(req, res) => {
   }
 };
 
+const popularSearchSaving = async (req, res) => {
+  const popularSearchArray = req.body;
+  
+  try {
+      const savedPopularSearches = await Promise.all(popularSearchArray.map(async (popularSearchString) => {
+        
+          const existingPopularSearch  = await popularSearch.findOne({ keyword: popularSearchString });
+
+          if (existingPopularSearch ) {
+            existingPopularSearch.times += 1;
+            return await existingPopularSearch.save();
+          }
+
+          const postPopularSearch = new popularSearch({
+            keyword: popularSearchString,
+            times: 1,
+          });
+          return await postPopularSearch.save();
+      }));
+    
+      res.status(200).json(savedPopularSearches);
+  } catch (err) {
+      res.status(500).json(err)
+  }
+}
+
+const getPopularSearches = async (req, res) => {
+  try {
+   
+    const popularSearches = await popularSearch.find()
+      .sort({ times: -1 }) 
+      .limit(7); 
+
+    res.status(200).json(popularSearches);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+};
 
 /* random password generate */
 const generateRandomPassword = (req, res) => {
@@ -2210,4 +2249,6 @@ module.exports = {
    updatingCandidatePassword,
    searchResultSave,
    getAllRecentSearches,
+   popularSearchSaving,
+   getPopularSearches,
 };

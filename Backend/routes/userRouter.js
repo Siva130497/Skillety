@@ -82,6 +82,8 @@ const {
   updatingCandidatePassword,
   searchResultSave,
   getAllRecentSearches,
+  popularSearchSaving,
+  getPopularSearches,
   
 } = require("../Controller/authFunctions");
 const employeeAuth = require("../middleware/employeeAuth");
@@ -321,6 +323,12 @@ router.post("/recent-search", searchResultSave)
 
 //get all recent searches
 router.get("/recent-search", getAllRecentSearches)
+
+//get popular searches limit to 7
+router.get("/popular-search", getPopularSearches);
+
+//popular search saving
+router.post("/popular-search", popularSearchSaving);
 
 // Client, Client-staff Login Route
 router.post("/login-Client", async (req, res) => {
