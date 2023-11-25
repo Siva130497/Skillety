@@ -289,13 +289,14 @@ const JobDetails = () => {
                                                             Apply
                                                         </button>
                                                     } */}
-                                                    <button
-                                                        type="button"
+                                                    <a
+                                                        href='/company-detail'
                                                         className="dash-job-det-card-apply-btn"
-                                                        data-toggle="modal"
-                                                        data-target="#company_detail_modal">
+                                                        // data-toggle="modal"
+                                                        // data-target="#company_detail_modal"
+                                                    >
                                                         View Company Detail
-                                                    </button>
+                                                    </a>
                                                 </div>
                                             </div>
                                         </article>
@@ -335,7 +336,7 @@ const JobDetails = () => {
 
                                         <div className="dash-job-desc-section">
                                             <div className="row qulification-area">
-                                                <div className="col-12">
+                                                <div className="col-12 pl-1 pr-1">
                                                     <div className="dash-job-desc-area">
                                                         <div className="dash-job-desc-head qualification">
                                                             QUALIFICATION
@@ -343,7 +344,7 @@ const JobDetails = () => {
                                                     </div>
                                                 </div>
 
-                                                <div className="col-12 col-md-12 col-lg-12 col-xl-6 mt-4">
+                                                <div className="col-12 col-md-12 col-lg-12 col-xl-6 mt-4 pl-1 pr-1">
                                                     <div className="dash-job-desc-area flex">
                                                         <div className="dash-job-desc-head">Education</div>&nbsp;&nbsp;<span>:</span>&nbsp;&nbsp;
                                                         <div className='dash-job-desc2'>
@@ -352,7 +353,7 @@ const JobDetails = () => {
                                                     </div>
                                                 </div>
 
-                                                <div className="col-12 col-md-12 col-lg-12 col-xl-6 mt-4">
+                                                <div className="col-12 col-md-12 col-lg-12 col-xl-6 mt-4 pl-1 pr-1">
                                                     <div className="dash-job-desc-area flex">
                                                         <div className="dash-job-desc-head">Prior Experience</div>&nbsp;&nbsp;<span>:</span>&nbsp;&nbsp;
                                                         <div className='dash-job-desc2'>
@@ -410,6 +411,7 @@ const JobDetails = () => {
                                                 </ul>
                                             </div> */}
                                         </div>
+                                        <div className="hr-line mt-4 mb-2"></div>
                                         <div className="dash-job-det-info-section">
                                             <div className="row">
                                                 <div className="col-12 col-md-6">
@@ -503,7 +505,7 @@ const JobDetails = () => {
                     </div>
 
                     {/* company detail modal here */}
-                    <div className="modal fade" id="company_detail_modal" tabindex="-1" role="dialog" aria-labelledby="clientsViewModalLabel"
+                    {/* <div className="modal fade" id="company_detail_modal" tabindex="-1" role="dialog" aria-labelledby="clientsViewModalLabel"
                         aria-hidden="true">
                         <div className="modal-dialog modal-lg modal-dialog-centered" role="document">
                             <div className="modal-content recruiter-view-modal">
@@ -573,7 +575,7 @@ const JobDetails = () => {
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                     {/*  */}
 
                     <Footer />

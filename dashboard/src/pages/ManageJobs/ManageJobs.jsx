@@ -340,7 +340,7 @@ const ManageJobs = () => {
 
     const handleActivate = (id) => {
         console.log(id);
-    
+
         Swal.fire({
             title: 'Are you sure?',
             text: 'You won\'t be able to revert this!',
@@ -357,51 +357,51 @@ const ManageJobs = () => {
                         Accept: 'application/json'
                     }
                 })
-                .then((res) => {
-                    console.log(res.data);
-                  
-                    if (res.data.message === "Job alerts sent successfully!") {
-                        Swal.fire({
-                            title: 'Job has been activated!',
-                            text: 'It will be displayed on the job portal from now on. Job alerts have also been sent to skill-matched candidates.',
-                            icon: 'success',
-                            showCancelButton: true,
-                            confirmButtonColor: '#3085d6',
-                            cancelButtonColor: '#d33',
-                            confirmButtonText: 'Ok'
-                        }).then((result)=>{
-                            if(result.isConfirmed){
-                                window.location.reload();
-                            }
-                        })
-                    } else if (res.data.message === "No candidates with matching skill percentage found.") {
-                        Swal.fire({
-                            title: 'Job has been activated!',
-                            text: 'It will be displayed on the job portal from now on, but no matching candidates were found.',
-                            icon: 'success',
-                            showCancelButton: true,
-                            confirmButtonColor: '#3085d6',
-                            cancelButtonColor: '#d33',
-                            confirmButtonText: 'Ok'
-                        }).then((result)=>{
-                            if(result.isConfirmed){
-                                window.location.reload();
-                            }
-                        })
-                    }
-                  })
-                .catch((err) => {
-                    console.error(err);
-                    showErrorMessage();
-                });
+                    .then((res) => {
+                        console.log(res.data);
+
+                        if (res.data.message === "Job alerts sent successfully!") {
+                            Swal.fire({
+                                title: 'Job has been activated!',
+                                text: 'It will be displayed on the job portal from now on. Job alerts have also been sent to skill-matched candidates.',
+                                icon: 'success',
+                                showCancelButton: true,
+                                confirmButtonColor: '#3085d6',
+                                cancelButtonColor: '#d33',
+                                confirmButtonText: 'Ok'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    window.location.reload();
+                                }
+                            })
+                        } else if (res.data.message === "No candidates with matching skill percentage found.") {
+                            Swal.fire({
+                                title: 'Job has been activated!',
+                                text: 'It will be displayed on the job portal from now on, but no matching candidates were found.',
+                                icon: 'success',
+                                showCancelButton: true,
+                                confirmButtonColor: '#3085d6',
+                                cancelButtonColor: '#d33',
+                                confirmButtonText: 'Ok'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    window.location.reload();
+                                }
+                            })
+                        }
+                    })
+                    .catch((err) => {
+                        console.error(err);
+                        showErrorMessage();
+                    });
             }
         });
     };
-    
+
 
     const handleDeActivate = (id) => {
         console.log(id)
-        
+
         Swal.fire({
             title: 'Are you sure?',
             text: 'You won\'t be able to revert this!',
@@ -467,7 +467,7 @@ const ManageJobs = () => {
                                                     const staff = allStaff.find(obj => obj.id === (job.clientId || job.clientStaffId));
                                                     return (
                                                         <tr className='dash-table-row client' key={job.id}>
-                                                            <td className='dash-table-data1'>{job.jobRole[0]}</td>
+                                                            <td className='dash-table-data1 text-capitalized'>{job.jobRole[0]}</td>
                                                             <td className='dash-table-data1 text-center'>
                                                                 {`${new Date(job.createdAt).getDate().toString().padStart(2, '0')}/${(new Date(job.createdAt).getMonth() + 1).toString().padStart(2, '0')}/${new Date(job.createdAt).getFullYear() % 100}`}
                                                             </td>
@@ -479,11 +479,18 @@ const ManageJobs = () => {
                                                                     </svg>
                                                                 </button> : <div className='text-approval'>This job still not shown <br /> on job portal</div>}
                                                             </td>
-                                                            <td className='dash-table-data1 text-center'>
+                                                            <td className='dash-table-data1 text-center text-capitalized'>
                                                                 {staff ? staff.name : 'Unknown'}
                                                             </td>
                                                             <td className='text-center'>
-                                                                <button className='man-job-status-btn theme-info'>{job?.pending ? "Approval Pending & InActive" : job?.active ? "Approved & Active" : "Approved & InActive"}</button>
+                                                                {job?.pending ?
+                                                                    <span className='man-job-status-btn theme-warning'>Approval Pending & InActive</span>
+                                                                    : job?.active ?
+                                                                        <span className='man-job-status-btn theme-success'>Approved & Active</span>
+                                                                        :
+                                                                        <span className='man-job-status-btn theme-info'>Approved & InActive</span>
+                                                                }
+                                                                {/* <span className='man-job-status-btn theme-info'>{job?.pending ? "Approval Pending & InActive" : job?.active ? "Approved & Active" : "Approved & InActive"}</span> */}
                                                             </td>
                                                             <td className='text-center'>
                                                                 <div className="action-btn-area">
@@ -499,27 +506,27 @@ const ManageJobs = () => {
                                                                             </svg>
                                                                         </button> :
                                                                         (job?.active) ?
-                                                                        <button className='job-delete-btn' title='Delete job data...' onClick={() => handleDeleteActiveJob(job.id)}>
-                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
-                                                                                <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
-                                                                            </svg>
-                                                                        </button> :
-                                                                        <button className='job-delete-btn' title='Delete job data...' onClick={() => handleDeleteJob(job.id)}>
-                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
-                                                                                <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
-                                                                            </svg>
-                                                                        </button>}
-                                                                        {(job?.pending) ?
-                                                                        <button disabled>
+                                                                            <button className='job-delete-btn' title='Delete job data...' onClick={() => handleDeleteActiveJob(job.id)}>
+                                                                                <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                                                                                    <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
+                                                                                </svg>
+                                                                            </button> :
+                                                                            <button className='job-delete-btn' title='Delete job data...' onClick={() => handleDeleteJob(job.id)}>
+                                                                                <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                                                                                    <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
+                                                                                </svg>
+                                                                            </button>}
+                                                                    {(job?.pending) ?
+                                                                        <button className='status-change-btn' title='Approval Pending' disabled>
                                                                             Activate
                                                                         </button> :
                                                                         (job?.active) ?
-                                                                        <button onClick={() => handleDeActivate(job.id)}>
-                                                                            Deactivate
-                                                                        </button> :
-                                                                        <button onClick={() => handleActivate(job.id)}>
-                                                                            Activate
-                                                                        </button>}
+                                                                            <button className='status-change-btn deactive' title='Deactivate' onClick={() => handleDeActivate(job.id)}>
+                                                                                Deactivate
+                                                                            </button> :
+                                                                            <button className='status-change-btn active' title='Activate' onClick={() => handleActivate(job.id)}>
+                                                                                Activate
+                                                                            </button>}
                                                                 </div>
                                                             </td>
                                                         </tr>

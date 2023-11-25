@@ -453,7 +453,7 @@ const SettingsClient = () => {
 
                                             <div className="setting-content">
                                                 <div className='setting-name'>Email Address</div>
-                                                <div className='setting-value' onClick={()=> window.location.href = `mailto:${loginClientDetail.email}`}><a href={`mailto:${loginClientDetail.email}`}>{loginClientDetail.email}</a></div>
+                                                <div className='setting-value' onClick={()=> window.location.href = `mailto:${loginClientDetail.email}`}><a className='setting-value link' href={`mailto:${loginClientDetail.email}`}>{loginClientDetail.email}</a></div>
                                                 <div className={`change-input-area ${isEmailExpanded ? 'expanded' : ''}`}>
                                                     <div className="row">
                                                         <div className="col-12 col-xl-5 col-lg-5 col-md-6 d-flex align-items-center gap-10 mt-4 mb-2">
@@ -470,7 +470,7 @@ const SettingsClient = () => {
 
                                             <div className="setting-content">
                                                 <div className='setting-name'>Mobile Number</div>
-                                                <div className='setting-value'onClick={()=>window.location.href = `tel:${loginClientDetail.phone}`}><a href={`tel:${loginClientDetail.phone}`}>{loginClientDetail.phone}</a></div>
+                                                <div className='setting-value'onClick={()=>window.location.href = `tel:${loginClientDetail.phone}`}><a className='setting-value link' href={`tel:${loginClientDetail.phone}`}>{loginClientDetail.phone}</a></div>
                                                 <div className={`change-input-area ${isMobileExpanded ? 'expanded' : ''}`}>
                                                     <div className="row">
                                                         <div className="col-12 col-xl-5 col-lg-5 col-md-6 d-flex align-items-center gap-10 mt-4 mb-2">

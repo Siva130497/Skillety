@@ -835,8 +835,8 @@
 }
 
 .swal2-confirm.swal2-styled.swal2-default-outline {
-    background-color: #714F36 !important;
-    border-color: #714F36 !important;
+    background-color: #00c060 !important;
+    border-color: #00c060 !important;
     box-shadow: none !important;
     padding: 10px 30px !important;
     border-radius: 8px !important;
@@ -891,4 +891,8 @@
 
 .pl-payment-message.failed {
     color: #eb0000;
+}
+
+.pl--package-info-area.active {
+    background-color: #F9C833;
 }

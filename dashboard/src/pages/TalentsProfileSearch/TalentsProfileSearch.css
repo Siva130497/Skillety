@@ -1568,3 +1568,7 @@
 /* .clear--all_button-area.search-result{
     flex-direction: column;
 } */
+
+.search-result-data-area.low-height{
+    max-height: 130px;
+}

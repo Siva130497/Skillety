@@ -19,6 +19,8 @@ import InvoicePayment from './pages/InvoicePayment/InvoicePayment';
 import PackagePlans from './pages/PackagePlans/PackagePlans';
 
 import JobDetails from './pages/JobDetails/JobDetails';
+import ClientProfile from './pages/ClientProfile/ClientProfile';
+import CompanyDetail from './pages/CompanyDetail/CompanyDetail';
 
 ////for recruiter
 import RecruiterDashboard from './pages/RecruiterDashboard/RecruiterDashboard';
@@ -57,6 +59,9 @@ function App() {
         <Route path='/invoice-payment' element={<InvoicePayment />} />
         <Route path='/package-plans' element={<PackagePlans />} />
         <Route path='/job-details' element={<JobDetails />} />
+        <Route path='/client-profile' element={<ClientProfile />} />
+        <Route path='/company-detail' element={<CompanyDetail />} />
+        
 
         {/* for recruiter */}
         <Route path='/recruiter-dashboard/:token' element={<RecruiterDashboard />} />

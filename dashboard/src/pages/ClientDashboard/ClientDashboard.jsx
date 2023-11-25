@@ -622,7 +622,7 @@ const ClientDashboard = () => {
                                                                 {/* <td>
                                                                     <img src="assets/img/home/javascript.png" className='dash-table-avatar-img client' alt="" />
                                                                 </td> */}
-                                                                <td className='dash-table-data1'>
+                                                                <td className='dash-table-data1 text-capitalized'>
                                                                     {job.jobRole[0]}
                                                                 </td>
                                                                 <td className='dash-table-data1 text-center'>{`${new Date(job.createdAt).getDate().toString().padStart(2, '0')}/${(new Date(job.createdAt).getMonth() + 1).toString().padStart(2, '0')}/${new Date(job.createdAt).getFullYear() % 100}`}</td>

@@ -7,7 +7,7 @@
     border: none;
     outline: none;
     text-align: center;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 600;
     border-radius: 22px;
     display: flex;
@@ -16,6 +16,7 @@
     width: 100%;
     padding: 10px 0;
     transition: ease-in-out 0.5s;
+    box-shadow: inset 0px 0px 10px #00000010 !important;
 }
 
 .man-job-status-btn:focus,
@@ -29,30 +30,30 @@
     background-color: #EAFCFF !important;
 }
 
-.man-job-status-btn.theme-info:hover {
+/* .man-job-status-btn.theme-info:hover {
     color: #EAFCFF !important;
     background-color: #0F75C5 !important;
-}
+} */
 
 .man-job-status-btn.theme-warning {
     color: #714F36 !important;
     background-color: #FFF1C8 !important;
 }
 
-.man-job-status-btn.theme-warning:hover {
+/* .man-job-status-btn.theme-warning:hover {
     color: #FFF1C8 !important;
     background-color: #714F36 !important;
-}
+} */
 
 .man-job-status-btn.theme-success {
     color: #00994d !important;
     background-color: #e1ffeb !important;
 }
 
-.man-job-status-btn.theme-success:hover {
+/* .man-job-status-btn.theme-success:hover {
     color: #e1ffeb !important;
     background-color: #00994d !important;
-}
+} */
 
 .delete-btn {
     border: none;
@@ -100,13 +101,65 @@
 .dash-table-row.man-job {
     border-bottom: none !important;
 }
-.text-approval{
+
+.text-approval {
     color: #cbcbcb;
     font-size: 13px;
     font-weight: 400;
     line-height: normal;
     text-align: center;
 }
-.swal2-container .swal2-cancel{
+
+.swal2-container .swal2-cancel {
     border-radius: 8px !important;
+}
+
+.status-change-btn {
+    font-size: 13px;
+    font-weight: 600;
+    border: none;
+    outline: none;
+    box-shadow: inset 0px 0px 5px #00000015;
+    border-radius: 8px;
+    height: 33px;
+    display: flex;
+    padding-left: 10px;
+    padding-right: 10px;
+    align-items: center;
+    justify-content: center;
+    transition: ease-in-out 0.5s;
+    text-shadow: 1px 1px 3px #FFF !important;
+}
+
+.status-change-btn:focus{
+    outline: none;
+    border: none;
+}
+
+.status-change-btn:hover{
+    text-shadow: 1px 1px 3px #00000022 !important;
+}
+
+.status-change-btn:disabled,
+.status-change-btn[disabled] {
+    color: #898989 !important;
+    cursor: not-allowed;
+}
+
+.status-change-btn.deactive {
+    color: #d70000 !important;
+}
+
+.status-change-btn.active {
+    color: #00c060 !important;
+}
+
+.status-change-btn.active:hover {
+    background-color: #00c060 !important;
+    color: #fff !important;
+}
+
+.status-change-btn.deactive:hover {
+    background-color: #d70000 !important;
+    color: #fff !important;
 }

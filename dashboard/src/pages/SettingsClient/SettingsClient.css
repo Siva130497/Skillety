@@ -128,3 +128,11 @@
 .change-setting-input.file{
     padding: 7px;
 }
+
+.setting-value.link{
+    transition: ease-in-out 0.5s;
+}
+
+.setting-value.link:hover{
+    color: #1394DF !important;
+}

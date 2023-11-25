@@ -381,7 +381,7 @@ const SettingsCandidate = () => {
 
                                             <div className="setting-content">
                                                 <div className='setting-name'>Email Address</div>
-                                                <div className='setting-value' onClick={()=> window.location.href = `mailto:${candidateDetail.email}`}><a href={`mailto:${candidateDetail.email}`}>{candidateDetail.email}</a></div>
+                                                <div className='setting-value' onClick={()=> window.location.href = `mailto:${candidateDetail.email}`}><a className='setting-value link' href={`mailto:${candidateDetail.email}`}>{candidateDetail.email}</a></div>
                                                 <div className={`change-input-area ${isEmailExpanded ? 'expanded' : ''}`}>
                                                     <div className="row">
                                                         <div className="col-12 col-xl-5 col-lg-5 col-md-6 d-flex align-items-center gap-10 mt-4 mb-2">
@@ -397,7 +397,7 @@ const SettingsCandidate = () => {
 
                                             <div className="setting-content">
                                                 <div className='setting-name'>Mobile Number</div>
-                                                <div className='setting-value' onClick={()=>window.location.href = `tel:${candidateDetail.phone}`}><a href={`tel:${candidateDetail.phone}`}>{candidateDetail.phone}</a></div>
+                                                <div className='setting-value' onClick={()=>window.location.href = `tel:${candidateDetail.phone}`}><a className='setting-value link' href={`tel:${candidateDetail.phone}`}>{candidateDetail.phone}</a></div>
                                                 <div className={`change-input-area ${isMobileExpanded ? 'expanded' : ''}`}>
                                                     <div className="row">
                                                         <div className="col-12 col-xl-5 col-lg-5 col-md-6 d-flex align-items-center gap-10 mt-4 mb-2">
