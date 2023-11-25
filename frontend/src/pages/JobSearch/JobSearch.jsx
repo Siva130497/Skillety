@@ -10,8 +10,15 @@ import { Slider } from "primereact/slider";
 import axios from 'axios';
 import { useContext } from 'react';
 import AuthContext from '../../context/AuthContext';
+import { useLocation } from 'react-router-dom';
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.css';
 
 const JobSearch = () => {
+
+    const location = useLocation();
+    const [inCommingData, setInCommingData] = useState();
+
     const [candidateToken, setCandidateToken] = useState("");
     const {getClientImg, clientImg, getProtectedData} = useContext(AuthContext);
     const [candidateId, setCandidateId] = useState("");
@@ -55,6 +62,28 @@ const JobSearch = () => {
         minSalary: "",
         maxSalary: "",
     })
+
+    //for show success message for payment
+    function showSuccessMessage(message) {
+        Swal.fire({
+            title: 'Success!',
+            text: message,
+            icon: 'success',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'OK',
+        });
+    }
+
+    //for show error message for payment
+    function showErrorMessage(message) {
+        Swal.fire({
+            title: 'Error!',
+            text: message,
+            icon: 'error',
+            confirmButtonColor: '#d33',
+            confirmButtonText: 'OK',
+        });
+    }
 
     useEffect(() => {
         $(document).ready(function () {
@@ -166,6 +195,137 @@ const JobSearch = () => {
             });
         });
     }, [candidateToken, getClientImg, clientImg, getProtectedData, candidateId, allJobs, matchJobs, latestJob,clients, searchResult, filteredSearchResults, filteredSearchResultsMsg, checkBoxfilters, checkBoxJobTitle, checkBoxJobLocation, checkBoxJobEducation, skillArray, jobRoleArray, filteredList, selectedResults, locationArray, educationArray, filters, x]);
+
+    const handleSkillSearch = () => {
+        if(selectedResults.length > 0 || checkBoxfilters.length > 0 || (filters.maxExperience && filters.maxExperience) || checkBoxJobTitle.length > 0 || checkBoxJobLocation.length > 0 || (filters.minSalary && filters.maxSalary) || checkBoxJobEducation.length > 0){ 
+            setX([0, 3]);
+            setFilteredSearchResultsMsg("") 
+            // setAllJobs([])
+            // setLatestJob([])
+            // setMatchJobs([])
+            // setSearchResult(true)
+            const filteredResults = allJobs
+                .filter(job => {
+                    if (selectedResults.length > 0) {
+                        return selectedResults.some(result =>
+                            job.skills.includes(result) || job.jobRole.includes(result)
+                        );
+                    }
+                    return true;
+                })
+                .filter(job => {
+                    if (checkBoxfilters.length > 0) {
+                        return checkBoxfilters.includes(job.jobCategory);
+                    }
+                    return true;
+                })
+                .filter(job => {
+                    if (filters.minExperience && filters.maxExperience) {
+                        return (job.minExperience
+                            >= filters.minExperience && job.maxExperience <= filters.maxExperience)
+                    }
+                    return true;
+                })
+                .filter(job => {
+                    if (selectedJobTitleResults.length > 0) {
+                        return selectedJobTitleResults.some(result =>
+                            job.jobRole[0].includes(result));
+                    }
+                    return true;
+                })
+                .filter(job => {
+                    if (selectedLocationResults.length > 0) {
+                        return selectedLocationResults.some(result =>
+                            job.location.includes(result));
+                    }
+                    return true;
+                })
+                .filter(job => {
+                    if (filters.currencyType) {
+                        return job.currencyType === filters.currencyType
+                    }
+                    return true;
+                })
+                .filter(job => {
+                    if (filters.minSalary && filters.maxSalary) {
+                        return (job.minSalary >= filters.minSalary && job.maxSalary <= filters.maxSalary)
+                    }
+                    return true;
+                })
+                .filter(job => {
+                    if (selectedEducationResults.length > 0) {
+                        return selectedEducationResults.some(result =>
+                            job.education.includes(result)); 
+                    }
+                    return true;
+                }) 
+            
+            console.log(filteredResults)
+            if(filteredResults.length > 0){
+                setFilteredSearchResults(filteredResults);
+            }else{
+                setFilteredSearchResultsMsg("no such jobs found")
+            }
+        }else{
+            showErrorMessage("select atleast one filter") 
+        }
+        };
+
+    // useEffect(() => {
+    //     if (selectedResults.length > 0) {
+    //         handleSkillSearch()
+    
+    //     //   document.getElementById('searchButton').addEventListener('click', handleSkillSearch);
+
+    //     //   return () => {
+    //     //     document.getElementById('searchButton').removeEventListener('click', handleSkillSearch);
+    //     //   };
+    //     }
+    //   }, [selectedResults]); 
+
+    const handleKeywordSearch = () =>{
+        if(inCommingData && allJobs.length>0){ 
+            setX([0, 3]);
+            setFilteredSearchResultsMsg("") 
+            console.log(selectedResults)
+            const filteredResults = allJobs
+                .filter(job => {
+                    if (selectedResults.length > 0) {
+                        return selectedResults.some(result =>
+                            job.skills.includes(result) || job.jobRole.includes(result)
+                        );
+                    }
+                    return true;
+                })
+            console.log(filteredResults)
+            if(filteredResults.length > 0){
+                setFilteredSearchResults(filteredResults);
+                setInCommingData(null)
+            }else{
+                setFilteredSearchResultsMsg("no such jobs found")
+                setInCommingData(null)
+            }
+        }
+    }
+
+    useEffect(()=>{
+        const { keywords } = location.state || {};
+        setInCommingData(keywords);
+        
+    },[location.state])
+
+    useEffect(()=>{
+       
+        if(inCommingData){
+            setSelectedResults(inCommingData); 
+        }
+        
+        
+    },[inCommingData])
+
+    useEffect(() => {
+        handleKeywordSearch();
+    }, [selectedResults, allJobs]);
 
     console.log(filters) 
 
@@ -339,80 +499,7 @@ const JobSearch = () => {
         }
       },[candidateId])
 
-      const handleSkillSearch = () => {
-        if(selectedResults.length > 0 || checkBoxfilters.length > 0 || (filters.maxExperience && filters.maxExperience) || checkBoxJobTitle.length > 0 || checkBoxJobLocation.length > 0 || (filters.minSalary && filters.maxSalary) || checkBoxJobEducation.length > 0){ 
-            setX([0, 3]);
-            setFilteredSearchResultsMsg("") 
-            // setAllJobs([])
-            // setLatestJob([])
-            // setMatchJobs([])
-            // setSearchResult(true)
-            const filteredResults = allJobs
-                .filter(job => {
-                    if (selectedResults.length > 0) {
-                        return selectedResults.some(result =>
-                            job.skills.includes(result) || job.jobRole.includes(result)
-                        );
-                    }
-                    return true;
-                })
-                .filter(job => {
-                    if (checkBoxfilters.length > 0) {
-                        return checkBoxfilters.includes(job.jobCategory);
-                    }
-                    return true;
-                })
-                .filter(job => {
-                    if (filters.minExperience && filters.maxExperience) {
-                        return (job.minExperience
-                            >= filters.minExperience && job.maxExperience <= filters.maxExperience)
-                    }
-                    return true;
-                })
-                .filter(job => {
-                    if (selectedJobTitleResults.length > 0) {
-                        return selectedJobTitleResults.some(result =>
-                            job.jobRole[0].includes(result));
-                    }
-                    return true;
-                })
-                .filter(job => {
-                    if (selectedLocationResults.length > 0) {
-                        return selectedLocationResults.some(result =>
-                            job.location.includes(result));
-                    }
-                    return true;
-                })
-                .filter(job => {
-                    if (filters.currencyType) {
-                        return job.currencyType === filters.currencyType
-                    }
-                    return true;
-                })
-                .filter(job => {
-                    if (filters.minSalary && filters.maxSalary) {
-                        return (job.minSalary >= filters.minSalary && job.maxSalary <= filters.maxSalary)
-                    }
-                    return true;
-                })
-                .filter(job => {
-                    if (selectedEducationResults.length > 0) {
-                        return selectedEducationResults.some(result =>
-                            job.education.includes(result)); 
-                    }
-                    return true;
-                }) 
-            
-            console.log(filteredResults)
-            if(filteredResults.length > 0){
-                setFilteredSearchResults(filteredResults);
-            }else{
-                setFilteredSearchResultsMsg("no such jobs found")
-            }
-        }else{
-            alert("select atleast one filter")
-        }
-    };
+      
 
     const handleCheckboxChange = (category) => {
         const updatedFilters = checkBoxfilters.includes(category)
@@ -483,6 +570,7 @@ const JobSearch = () => {
 
     const handleDeselect = (result) => {
         setSelectedResults(selectedResults.filter(selected => selected !== result));
+        
     }
 
 
@@ -1445,8 +1533,11 @@ const JobSearch = () => {
                                                         </div>
 
                                                         <div className="clear--all_button-area">
-                                                            <button className='tal--search-submit-btn' onClick={handleSkillSearch}>Search Jobs</button>
-                                                            <button className='clear--all_button' onClick={()=>window.location.reload()}>
+                                                            <button className='tal--search-submit-btn' id="searchButton" onClick={handleSkillSearch}>Search Jobs</button>
+                                                            <button className='clear--all_button' onClick={()=>{
+                                                                window.location.reload()
+                                                                // setInCommingData(null)
+                                                                }}>
                                                                 Clear all
                                                             </button>
                                                         </div>
@@ -1511,7 +1602,7 @@ const JobSearch = () => {
                                                                 <img src={imgSrc} className='job--detail-card-img' alt="" />
                                                             </div>
                                                         </div>
-                                                        {selectedResults && 
+                                                        {selectedResults.length>0 && 
                                                         <div className="tal--pro-card-ability-number-left">
                                                             <h6 className='tal--pro-card-ability search'>Keywords matched</h6>
                                                             <h2 className='tal--pro-card-percentage search'>{Math.round(percentage)}%</h2>
@@ -1521,7 +1612,7 @@ const JobSearch = () => {
                                                         </div>
                                                         <div className="job--detail-card-bottom-area">
                                                             <div className='job--detail-card-tags-area'>
-                                                                {job.skills.map((skill, index)=>{
+                                                                {job?.skills.map((skill, index)=>{
                                                                     return <div className="job--detail-card-tag" key={index}>{skill}</div>
                                                                 })}
                                                             </div>
@@ -1581,7 +1672,7 @@ const JobSearch = () => {
                                                         </div>
                                                         <div className="job--detail-card-bottom-area">
                                                             <div className='job--detail-card-tags-area'>
-                                                                {job.jobMandatorySkills.map((skill, index)=>{
+                                                                {job?.jobMandatorySkills.map((skill, index)=>{
                                                                     return <div className="job--detail-card-tag" key={index}>{skill}</div>
                                                                 })}
                                                             </div>
@@ -1636,7 +1727,7 @@ const JobSearch = () => {
                                                         </div>
                                                         <div className="job--detail-card-bottom-area">
                                                             <div className='job--detail-card-tags-area'>
-                                                                {job.skills.map((skill, index)=>{
+                                                                {job?.skills.map((skill, index)=>{
                                                                     return <div className="job--detail-card-tag" key={index}>{skill}</div>
                                                                 })}
                                                             </div>
