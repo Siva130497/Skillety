@@ -8,6 +8,8 @@ import { Footer } from '../../components/Footer';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import axios from 'axios';
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.css';
 
 const Enquiry = () => {
 
@@ -78,6 +80,28 @@ const Enquiry = () => {
         });
     }, []);
 
+    //for show success message for payment
+    function showSuccessMessage(message) {
+        Swal.fire({
+            title: 'Success!',
+            text: message,
+            icon: 'success',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'OK',
+        });
+    }
+
+    //for show error message for payment
+    function showErrorMessage(message) {
+        Swal.fire({
+            title: 'Error!',
+            text: message,
+            icon: 'error',
+            confirmButtonColor: '#d33',
+            confirmButtonText: 'OK',
+        });
+    }
+
     useEffect(() => {
         if (CSEChoosing) {
             axios.get('http://localhost:5002/staff-cse')
@@ -101,7 +125,7 @@ const Enquiry = () => {
 
             if (!result.error) {
                 console.log(result);
-                alert("enquiry form send successfully!")
+                showSuccessMessage("enquiry form send successfully!")
                 setCredentials(initialCredentials);
                 setSelectedDate(null);
                 setDateString("");
@@ -151,7 +175,7 @@ const Enquiry = () => {
             .then((res) => {
                 console.log(res.data);
                 if (res.data.emailSent) {
-                    alert(`Your “RPO model“ is all set. Our CSE will contact you within 24 hours. Thank you and welcome onboard!!!
+                    showSuccessMessage(`Your “RPO model“ is all set. Our CSE will contact you within 24 hours. Thank you and welcome onboard!!!
                 `)
                 }
             })

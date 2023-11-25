@@ -7,11 +7,16 @@ import Layout from '../../components/Layout';
 import { Footer } from '../../components/Footer';
 import axios from 'axios';
 import AuthContext from '../../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
 
+
 const TalentsProfileSearch = () => {
+
+    const location = useLocation();
+    const [inCommingData, setInCommingData] = useState();
+    
     const clientToken = JSON.parse(localStorage.getItem("clientToken"));
     const { getProtectedData, getClientChoosenPlan, packageSelectionDetail, getCandidateImg, candidateImg } = useContext(AuthContext);
     const [employeeId, setEmployeeId] = useState("");
@@ -497,6 +502,50 @@ const TalentsProfileSearch = () => {
         });
     }, [searchResult]);
 
+    const handleKeywordSearch = () =>{
+        if(inCommingData && candidateDetail.length>0){ 
+            setX([0, 4]);
+            setFilteredSearchResultsMsg("") 
+            console.log(selectedResults)
+            setSearchResult(true)
+            const filteredResults = candidateDetail
+            .filter(candidate => {
+                if (selectedResults.length > 0) {
+                    return selectedResults.some(result =>
+                        candidate.skills.includes(result) || candidate.designation.includes(result)
+                    );
+                }
+                return true;
+            })
+            console.log(filteredResults)
+            if(filteredResults.length > 0){
+                setFilteredSearchResults(filteredResults);
+                setInCommingData(null)
+            }else{
+                setFilteredSearchResultsMsg("no such candidates found")
+                setInCommingData(null)
+            }
+        }
+    }
+
+    useEffect(()=>{
+        const { keywords } = location.state || {};
+        setInCommingData(keywords);
+        
+    },[location.state])
+
+    useEffect(()=>{
+
+        if(inCommingData){
+            setSelectedResults(inCommingData);
+        }
+        
+    },[inCommingData])
+
+    useEffect(() => {
+        handleKeywordSearch();
+    }, [selectedResults, candidateDetail]);
+
     //for show success message for payment
     function showSuccessMessage(message) {
         Swal.fire({
@@ -793,7 +842,7 @@ const TalentsProfileSearch = () => {
                     candidateType: filters.candidateType,
                     gender: filters.gender,
             }
-            
+            setX([0, 4]); 
             setFilteredSearchResultsMsg("")
             setSearchResult(true)
             if (filters.candidateType === "allCandidates") {
