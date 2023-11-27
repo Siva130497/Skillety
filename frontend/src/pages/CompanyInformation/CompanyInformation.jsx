@@ -11,17 +11,49 @@ import AuthContext from "../../context/AuthContext";
 
 
 const CompanyInformation = () => {
+    const { id } = useParams();
+    const [companyDetail, setCompanyDetail] = useState();
+    const [clientImg, setClientImg] = useState();
+    const [clientImgUrl, setClientImgUrl] = useState("");
+    const [selectedBenefits, setSelectedBenefits] = useState([]);
 
     useEffect(() => {
         $(document).ready(function () { });
     }, []);
+
+    useEffect(()=>{
+        if(id){
+            axios.get(`http://localhost:5002/company-detail/${id}`, {
+                headers: {
+                    Accept: 'application/json'
+                }
+            })
+            .then(res=>{
+                console.log(res.data)
+                setCompanyDetail(res.data)
+                setSelectedBenefits(res.data.benefits)
+            })
+            .catch(err=>console.log(err))
+
+            axios.get(`http://localhost:5002/client-image/${id}`)
+                .then(res => setClientImg(res.data))
+                .catch(err => console.log(err))
+        }
+    },[id])
+
+    useEffect(() => {
+        if (clientImg) {
+            setClientImgUrl(`http://localhost:5002/client_profile/${clientImg.image}`)
+        }
+
+    }, [clientImg]);
 
     return (
         <div>
             <div>
                 <LayoutNew />
 
-                <div className="talents--section">
+                {companyDetail && <div className="talents--section">
                     <div className="container-fluid">
                         <div className="container-fluid container-section">
                             <div className="custom--container">
@@ -47,32 +79,32 @@ const CompanyInformation = () => {
                                                 <div className="company-main-info-container">
                                                     <div className="card comp-det-card profile">
                                                         <div className="com-det-logo-area">
-                                                            <img src="../assets/img/companies/company-1.png" className="com-det-logo" alt="" />
+                                                            <img src={clientImgUrl ? clientImgUrl : "../assets/img/talents-images/avatar.jpg"} className="com-det-logo" alt="" />
                                                         </div>
-                                                        <div className="com-det-name">Company Name</div>
+                                                        <div className="com-det-name">{companyDetail?.companyName}</div>
                                                         <div className="com-type">
-                                                            IT Service Management Company
+                                                        {companyDetail?.industry}
                                                         </div>
                                                     </div>
 
                                                     <div className="card comp-det-card prof-det">
                                                         <div className="row">
-                                                            <div className="col-12">
-                                                                <div className="com-main-detail-area mb-3">
-                                                                    <i class="bi bi-envelope-fill"></i>
-                                                                    <a className='com-det-main-content' href="mailto:email@gmail.com">email@gmail.com</a>
-                                                                </div>
-                                                                {/* <hr /> */}
-                                                                <div className="com-main-detail-area mb-3">
-                                                                    <i class="bi bi-telephone-fill"></i>
-                                                                    <a className='com-det-main-content' href="tel:0123456789">0123456789</a>
-                                                                </div>
-                                                                {/* <hr /> */}
-                                                                <div className="com-main-detail-area">
-                                                                    <i class="bi bi-geo-alt-fill"></i>
-                                                                    <a className='com-det-main-content' href="#" target='_blank'>Hydrabad, India.</a>
-                                                                </div>
-                                                            </div>
+                                                        <div className="col-12">
+                                                    <div className="com-main-detail-area mb-3" onClick={()=> window.location.href = `mailto:${companyDetail?.email}`}>
+                                                        <i class="bi bi-envelope-fill"></i>
+                                                        <a className='com-det-main-content' href={`mailto:${companyDetail?.email}`}>{companyDetail?.email}</a>
+                                                    </div>
+                                                    {/* <hr /> */}
+                                                    <div className="com-main-detail-area mb-3" onClick={()=>window.location.href = `tel:${companyDetail?.phone}`}>
+                                                        <i class="bi bi-telephone-fill"></i>
+                                                        <a className='com-det-main-content' href={`tel:${companyDetail?.phone}`}>{companyDetail?.phone}</a>
+                                                    </div>
+                                                    {/* <hr /> */}
+                                                    <div className="com-main-detail-area">
+                                                        <i class="bi bi-geo-alt-fill"></i>
+                                                        <a className='com-det-main-content' href="#" target='_blank'>{companyDetail?.location}</a>
+                                                    </div>
+                                                        </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -84,7 +116,7 @@ const CompanyInformation = () => {
                                                             <div className="com-det-title">Headcount</div>
                                                         </div>
                                                         <div className="col-12 col-lg-8 col-xl-8 col-md-8 col-sm-7">
-                                                            <div className="com-det-content">05</div>
+                                                            <div className="com-det-content">{companyDetail?.count}</div>
                                                         </div>
                                                     </div>
                                                     <hr />
@@ -94,7 +126,7 @@ const CompanyInformation = () => {
                                                         </div>
                                                         <div className="col-12 col-lg-8 col-xl-8 col-md-8 col-sm-7">
                                                             <div className="com-det-content">
-                                                                Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature
+                                                                {companyDetail?.vision}
                                                             </div>
                                                         </div>
                                                     </div>
@@ -105,7 +137,7 @@ const CompanyInformation = () => {
                                                         </div>
                                                         <div className="col-12 col-lg-8 col-xl-8 col-md-8 col-sm-7">
                                                             <div className="com-det-content">
-                                                                Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature
+                                                                {companyDetail?.mission}
                                                             </div>
                                                         </div>
                                                     </div>
@@ -116,10 +148,10 @@ const CompanyInformation = () => {
                                                         </div>
                                                         <div className="col-12 col-lg-8 col-xl-8 col-md-8 col-sm-7">
                                                             <div className="com-det-content">
-                                                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea nemo in dolorem maiores pariatur, veritatis accusantium rerum optio distinctio quae quidem omnis quibusdam facilis obcaecati harum sequi fugit necessitatibus praesentium.
+                                                                {companyDetail?.shortDescription}
                                                             </div>
                                                             <div className="com-det-content mt-3">
-                                                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea nemo in dolorem maiores pariatur, veritatis accusantium rerum optio distinctio quae quidem omnis quibusdam facilis obcaecati harum sequi fugit necessitatibus praesentium.
+                                                                {companyDetail?.longDescription}
                                                             </div>
                                                         </div>
                                                     </div>
@@ -131,11 +163,16 @@ const CompanyInformation = () => {
                                                         <div className="col-12 col-lg-8 col-xl-8 col-md-8 col-sm-7">
                                                             <div className="com-det-content">
                                                                 <ul>
-                                                                    <li>Health Insurance</li>
-                                                                    <li>Sick Leave</li>
+                                                                    {selectedBenefits.map(benefit=>{
+                                                                        return(
+                                                                            <li>{benefit}</li>
+                                                                        )
+                                                                    })}
+                                                                    
+                                                                    {/* <li>Sick Leave</li>
                                                                     <li>Job Training</li>
                                                                     <li>Work From Home</li>
-                                                                    <li>Maternity/Parental Leave</li>
+                                                                    <li>Maternity/Parental Leave</li> */}
                                                                 </ul>
                                                             </div>
                                                         </div>
@@ -148,7 +185,7 @@ const CompanyInformation = () => {
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>}
                 <CandidateFooter />
             </div>
         </div>

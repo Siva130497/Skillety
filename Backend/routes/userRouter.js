@@ -73,6 +73,16 @@ const {
   updatingClientEmail,
   updatingClientPhone,
   updatingClientPassword,
+  updatingCompanyName,
+   updatingCompanyIndustry,
+   updatingCompanyLocation,
+   updatingCompanyShortDescription,
+   updatingCompanyLongDescription,
+   updatingCompanyMission,
+   updatingCompanyVision,
+   updatingCompanyAwards,
+   updatingCompanyBenefits,
+   updatingCompanyWebsite,
   updatingCandidateEmail,
   updatingCandidatePhone,
   updatingCandidateFirstName,
@@ -84,6 +94,8 @@ const {
   getAllRecentSearches,
   popularSearchSaving,
   getPopularSearches,
+  saveCompanyDetail,
+  getCompanyDetailByCompanyId,
   
 } = require("../Controller/authFunctions");
 const employeeAuth = require("../middleware/employeeAuth");
@@ -303,6 +315,26 @@ router.patch("/update-client-phone", updatingClientPhone);
 
 router.patch("/update-client-password", updatingClientPassword);
 
+router.patch("/update-company-name", updatingCompanyName);
+
+router.patch("/update-company-industry", updatingCompanyIndustry);
+
+router.patch("/update-company-location", updatingCompanyLocation);
+
+router.patch("/update-company-short-description", updatingCompanyShortDescription);
+
+router.patch("/update-company-long-description", updatingCompanyLongDescription);
+
+router.patch("/update-company-mission", updatingCompanyMission);
+
+router.patch("/update-company-vision", updatingCompanyVision);
+
+router.patch("/update-company-awards", updatingCompanyAwards);
+
+router.patch("/update-company-website", updatingCompanyWebsite);
+
+router.patch("/company-benefits", updatingCompanyBenefits);
+
 //updating candidate information
 router.patch("/update-candidate-email", updatingCandidateEmail);
 
@@ -329,6 +361,11 @@ router.get("/popular-search", getPopularSearches);
 
 //popular search saving
 router.post("/popular-search", popularSearchSaving);
+
+// router.post("/company", saveCompanyDetail)
+
+//get company detail for the given company id end-point
+router.get("/company-detail/:id", getCompanyDetailByCompanyId)
 
 // Client, Client-staff Login Route
 router.post("/login-Client", async (req, res) => {

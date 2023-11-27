@@ -275,7 +275,7 @@ const ClientNavBar = () => {
                   <div className="dropdown-user-role">{loginClientDetail?.companyName}</div>
                 </div>
               </div>
-              <a href="/client-profile" className="dropdown-view-pro-btn">
+              <a href={`/client-profile/${loginClientDetail.companyId}`} className="dropdown-view-pro-btn">
                 View Profile
               </a>
               {/* <div className="dropdown-btn-link-area">

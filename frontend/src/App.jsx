@@ -110,7 +110,7 @@ function App() {
             <Route path='/candidate-dashboard' element={<CandidateDashboard />} />
             <Route path='/admin-dashboard' element={<AdminDashboard />} />
             <Route path='/recruiter-dashboard' element={<RecruiterDashboard />} />
-            <Route path='/company-info' element={<CompanyInformation />} />
+            <Route path='/company-info/:id' element={<CompanyInformation />} />
 
           </Routes>
         </GoogleOAuthProvider>
