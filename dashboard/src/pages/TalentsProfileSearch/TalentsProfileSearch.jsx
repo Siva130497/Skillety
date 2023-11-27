@@ -2864,10 +2864,10 @@ const TalentsProfileSearch = () => {
                                                                                         </div>
                                                                                     </div>
                                                                                     <div className="tal--pro-card-ability-number-area search-result">
-                                                                                        <div className="tal--pro-card-ability-number-left search-result">
+                                                                                        {selectedResults.length>0 && <div className="tal--pro-card-ability-number-left search-result">
                                                                                             <h6 className='tal--pro-card-ability search'>Keywords matched</h6>
                                                                                             <h2 className='tal--pro-card-percentage search'>{Math.round(percentage)}%</h2>
-                                                                                        </div>
+                                                                                        </div>}
                                                                                         <div className="tal--pro-card-ability-number-right search-result">
                                                                                             <h6 className='tal--pro-card-can-join'>Can join in</h6>
                                                                                             <h2 className='tal--pro-card-join-days'>{candidate.days}<span></span></h2>
