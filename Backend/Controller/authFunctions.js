@@ -26,6 +26,7 @@ const nonApprovalJob = require("../Database/nonApprovalJob");
 const activeJob = require("../Database/activeJob");
 const searchResult = require("../Database/searchResult");
 const popularSearch = require("../Database/popularSearch");
+const companyDetail = require("../Database/companyDetail");
 
 // const hash = async() => {
 //   const pass = 'newpassword'
@@ -277,7 +278,7 @@ const finalClientRegister = async (req, res) => {
       const hashPassword = await bcrypt.hash(password, 12);
       
       let updatedClient; 
-
+      const companyId = uuidv4()
       if (tempClientProperties.companyId) {
         updatedClient = new finalClient({
           ...tempClientProperties,
@@ -286,7 +287,7 @@ const finalClientRegister = async (req, res) => {
       } else {
         updatedClient = new finalClient({
           ...tempClientProperties,
-          companyId: uuidv4(),
+          companyId,
           password: hashPassword
         });
       }
@@ -294,7 +295,27 @@ const finalClientRegister = async (req, res) => {
       await updatedClient.save();
       console.log(updatedClient);
 
-      const { name, email, role, id, phone } = tempClientProperties;
+      const { email, industry, phone, count, companyName, name, role, id } = tempClientProperties;
+      const newCompanyDetail = new companyDetail({
+        email,
+        industry, 
+        phone, 
+        count, 
+        companyName,
+        companyId,
+        location:"",
+        shortDescription:"",
+        longDescription:"",
+        mission:"",
+        vision:"",
+        benefits:[],
+        awards:"",
+        website:"",
+      });
+
+      await newCompanyDetail.save();
+      console.log(newCompanyDetail);
+
       const updatedUser = new allUsers({
         id,
         name,
@@ -328,10 +349,10 @@ const finalClientRegister = async (req, res) => {
       transporter.sendMail(mailOptions, function (error, info) {
         if (error) {
           console.log(error);
-          return res.status(500).json({ error: error.message, updatedClient, updatedUser });
+          return res.status(500).json({ error: error.message, updatedClient, newCompanyDetail, updatedUser });
         } else {
           console.log('Email sent: ' + info.response);
-          res.status(201).json({ updatedClient, updatedUser, emailSent: true });
+          res.status(201).json({ updatedClient, newCompanyDetail, updatedUser, emailSent: true });
         }
       });
 
@@ -339,6 +360,19 @@ const finalClientRegister = async (req, res) => {
       return res.status(404).json({ message: 'User not found' });
     }
   } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+}
+
+const saveCompanyDetail = async(req, res) =>{
+  try{
+    const newComDetail = new companyDetail({
+      ...req.body,
+    });
+    await newComDetail.save();
+    console.log(newComDetail);
+    return res.status(201).json(newComDetail);
+  }catch{
     return res.status(500).json({ error: err.message });
   }
 }
@@ -1761,6 +1795,178 @@ const updatingClientPassword = async (req, res) => {
   }
 };
 
+const updatingCompanyName = async (req, res) => {
+  const { id, companyName } = req.body;
+
+  try {
+    const finalClientDoc = await finalClient.findOneAndUpdate(
+      { companyId: id },
+      { companyName: companyName },
+      { new: true }
+    );
+
+    const companyDetailDoc = await companyDetail.findOneAndUpdate(
+      { companyId: id },
+      { companyName: companyName },
+      { new: true }
+    );
+    res.status(200).json({ finalClientDoc, companyDetailDoc });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: 'Internal Server Error' });
+  }
+};
+
+const updatingCompanyIndustry = async (req, res) => {
+  const { id, industry } = req.body;
+
+  try {
+    const finalClientDoc = await finalClient.findOneAndUpdate(
+      { companyId: id },
+      { industry: industry },
+      { new: true }
+    );
+
+    const companyDetailDoc = await companyDetail.findOneAndUpdate(
+      { companyId: id },
+      { industry: industry },
+      { new: true }
+    );
+    res.status(200).json({ finalClientDoc, companyDetailDoc });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: 'Internal Server Error' });
+  }
+};
+
+const updatingCompanyLocation = async (req, res) => {
+  const { id, location } = req.body;
+
+  try {
+    const companyDetailDoc = await companyDetail.findOneAndUpdate(
+      { companyId: id },
+      { location: location },
+      { new: true }
+    );
+    res.status(200).json({ companyDetailDoc });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: 'Internal Server Error' });
+  }
+};
+
+const updatingCompanyShortDescription = async (req, res) => {
+  const { id, shortDescription } = req.body;
+
+  try {
+    const companyDetailDoc = await companyDetail.findOneAndUpdate(
+      { companyId: id },
+      { shortDescription: shortDescription },
+      { new: true }
+    );
+    res.status(200).json({ companyDetailDoc });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: 'Internal Server Error' });
+  }
+};
+
+const updatingCompanyLongDescription = async (req, res) => {
+  const { id, longDescription } = req.body;
+
+  try {
+    const companyDetailDoc = await companyDetail.findOneAndUpdate(
+      { companyId: id },
+      { longDescription: longDescription },
+      { new: true }
+    );
+    res.status(200).json({ companyDetailDoc });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: 'Internal Server Error' });
+  }
+};
+
+const updatingCompanyMission = async (req, res) => {
+  const { id, mission } = req.body;
+
+  try {
+    const companyDetailDoc = await companyDetail.findOneAndUpdate(
+      { companyId: id },
+      { mission: mission },
+      { new: true }
+    );
+    res.status(200).json({ companyDetailDoc });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: 'Internal Server Error' });
+  }
+};
+
+const updatingCompanyVision = async (req, res) => {
+  const { id, vision } = req.body;
+
+  try {
+    const companyDetailDoc = await companyDetail.findOneAndUpdate(
+      { companyId: id },
+      { vision: vision },
+      { new: true }
+    );
+    res.status(200).json({ companyDetailDoc });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: 'Internal Server Error' });
+  }
+};
+
+const updatingCompanyAwards = async (req, res) => {
+  const { id, awards } = req.body;
+
+  try {
+    const companyDetailDoc = await companyDetail.findOneAndUpdate(
+      { companyId: id },
+      { awards: awards },
+      { new: true }
+    );
+    res.status(200).json({ companyDetailDoc });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: 'Internal Server Error' });
+  }
+};
+
+const updatingCompanyBenefits = async (req, res) => {
+  const { id, benefits } = req.body;
+
+  try {
+    const companyDetailDoc = await companyDetail.findOneAndUpdate(
+      { companyId: id },
+      { benefits: benefits },
+      { new: true }
+    );
+    res.status(200).json({ companyDetailDoc });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: 'Internal Server Error' });
+  }
+};
+
+const updatingCompanyWebsite = async (req, res) => {
+  const { id, website } = req.body;
+
+  try {
+    const companyDetailDoc = await companyDetail.findOneAndUpdate(
+      { companyId: id },
+      { website: website },
+      { new: true }
+    );
+    res.status(200).json({ companyDetailDoc });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: 'Internal Server Error' });
+  }
+};
+
 /* update the candidate information */
 const updatingCandidateEmail = async (req, res) => {
   const { id, email } = req.body;
@@ -1952,6 +2158,7 @@ const updatingCandidatePassword = async (req, res) => {
   }
 };
 
+
 /* search result of job save */
 const searchResultSave = async(req, res) => {
   try {
@@ -2016,6 +2223,18 @@ const getPopularSearches = async (req, res) => {
     res.status(500).json(err);
   }
 };
+
+/* get particular company detail  */
+const getCompanyDetailByCompanyId = async(req, res) => {
+  try{
+    const {id} = req.params;
+    const companyDetailForCompanyId = await companyDetail.findOne({companyId:id});
+    
+    res.status(200).json(companyDetailForCompanyId); 
+  }catch(err) {
+    res.status(500).json({error: err.message})
+  }
+}
 
 /* random password generate */
 const generateRandomPassword = (req, res) => {
@@ -2240,6 +2459,16 @@ module.exports = {
    updatingClientEmail,
    updatingClientPhone,
    updatingClientPassword,
+   updatingCompanyName,
+   updatingCompanyIndustry,
+   updatingCompanyLocation,
+   updatingCompanyShortDescription,
+   updatingCompanyLongDescription,
+   updatingCompanyMission,
+   updatingCompanyVision,
+   updatingCompanyAwards,
+   updatingCompanyBenefits,
+   updatingCompanyWebsite,
    updatingCandidateEmail,
    updatingCandidatePhone,
    updatingCandidateFirstName,
@@ -2251,4 +2480,6 @@ module.exports = {
    getAllRecentSearches,
    popularSearchSaving,
    getPopularSearches,
+   saveCompanyDetail,
+   getCompanyDetailByCompanyId,
 };

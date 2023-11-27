@@ -59,8 +59,8 @@ function App() {
         <Route path='/invoice-payment' element={<InvoicePayment />} />
         <Route path='/package-plans' element={<PackagePlans />} />
         <Route path='/job-details' element={<JobDetails />} />
-        <Route path='/client-profile' element={<ClientProfile />} />
-        <Route path='/company-detail' element={<CompanyDetail />} />
+        <Route path='/client-profile/:id' element={<ClientProfile />} />
+        <Route path='/company-detail/:id' element={<CompanyDetail />} />
         
 
         {/* for recruiter */}

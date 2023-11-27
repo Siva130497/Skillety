@@ -628,7 +628,7 @@ const CandidateProfile = () => {
                                                                 <div className="prof-more-det-area">
                                                                     <div className="prof-more-det">
                                                                         <i class="bi bi-telephone"></i>
-                                                                        <div className="prof-more-det-title">{loginCandidate?.phone}</div>
+                                                                        <div className="prof-more-det-title" onClick={()=>window.location.href = `tel:${loginCandidate?.phone}`}><a className='setting-value link' href={`tel:${loginCandidate?.phone}`}>{loginCandidate?.phone}</a></div>
                                                                         {/* <button className="prof-more-det-edit-btn" data-type="mobile number">Add mobile number</button> */}
                                                                     </div>
                                                                     {/* <div className="prof-more-det-input-area">
@@ -644,7 +644,7 @@ const CandidateProfile = () => {
                                                                 <div className="prof-more-det-area">
                                                                     <div className="prof-more-det">
                                                                         <i class="bi bi-envelope"></i>
-                                                                        <div className="prof-more-det-title">{loginCandidate?.email}</div>
+                                                                        <div className="prof-more-det-title" onClick={()=> window.location.href = `mailto:${loginCandidate?.email}`}><a className='setting-value link' href={`mailto:${loginCandidate?.email}`}>{loginCandidate?.email}</a></div>
                                                                         {/* <button className="prof-more-det-edit-btn" data-type="your email">Add your email</button> */}
                                                                     </div>
                                                                     {/* <div className="prof-more-det-input-area">
