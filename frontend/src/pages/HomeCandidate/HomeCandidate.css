@@ -279,12 +279,12 @@
 }
 
 .cand--job-card-logo-loc-area {
-    margin-top: 16px;
-    display: flex;
+    margin-top: 20px;
+    /* display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: center; */
     position: relative;
-    padding: 0 20px;
+    /* padding: 0 10px; */
 }
 
 .cand--job-card-logo-area {
@@ -309,13 +309,23 @@
     font-size: 14px;
     font-weight: 600;
     margin-bottom: 0;
+    text-transform: capitalize;
+    display: flex;
+    word-break: break-word;
+    align-items: center;
 }
 
 .cand--job-card-location i {
-    font-size: 24px;
-    margin-right: 5px;
+    font-size: 20px;
+    margin-right: 10px !important;
     vertical-align: text-bottom;
 }
+
+/* .cand--job-card-location .job-icon {
+    vertical-align: middle;
+    margin-right: 8px;
+    font-size: 20px;
+} */
 
 .cand--job-card-job-type {
     margin-top: 7px;
@@ -323,6 +333,7 @@
     font-size: 14px;
     font-weight: 600;
     padding-left: 5px;
+    text-transform: capitalize;
 }
 
 .cand--job-card-desc-area {
@@ -477,13 +488,49 @@
 .register--card.candidate:hover .register-arrow-area.candidate svg path {
     stroke: #5C3B2E;
 }
-.home--company-name-area{
+
+.home--company-name-area {
     display: flex;
 }
-.home-company-name{
+
+.home-company-name {
     color: #5C3B2E;
     font-size: 18px;
     font-weight: 600;
     text-transform: capitalize;
     /* margin-top: 10px; */
+}
+
+.home-search-result-data-area.candidate::-webkit-scrollbar-thumb {
+    border-radius: 10px !important;
+    -webkit-box-shadow: none;
+    background-color: #f9c733a7;
+}
+
+.home-search-result-data.candidate {
+    color: #714F36;
+}
+
+.home-search-result-data.candidate:hover {
+    background-color: #F9C833 !important;
+    color: #714F36 !important;
+}
+
+.home-search-badge.candidate {
+    color: #714F36;
+    background-color: #F9C833;
+    border: 1.5px solid #714F36;
+}
+
+.home-search-badge.candidate:hover {
+    background-color: #714F36 !important;
+    color: #FFF;
+}
+
+.home-search-badge.candidate::after {
+    color: #714F36;
+}
+
+.home-search-badge.candidate:hover::after {
+    color: #FFF !important;
 }

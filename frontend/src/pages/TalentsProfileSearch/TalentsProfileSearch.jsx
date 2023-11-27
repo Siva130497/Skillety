@@ -16,7 +16,7 @@ const TalentsProfileSearch = () => {
 
     const location = useLocation();
     const [inCommingData, setInCommingData] = useState();
-    
+
     const clientToken = JSON.parse(localStorage.getItem("clientToken"));
     const { getProtectedData, getClientChoosenPlan, packageSelectionDetail, getCandidateImg, candidateImg } = useContext(AuthContext);
     const [employeeId, setEmployeeId] = useState("");
@@ -495,52 +495,56 @@ const TalentsProfileSearch = () => {
                 }
             );
 
-            ///navigate to page top while press the seaarch button
-            $(".cli-tal-pro-search-page-btn").click(function () {
-                $("html, body").animate({ scrollTop: 0 }, 0);
+            //navigate to top while press buttons
+            $(".tal--pro-slider-btn-sub .tal--pro-slider-btn").on("click", function () {
+                $("html, body").animate({ scrollTop: 0 }, "slow");
+            });
+
+            $(".cli-tal-pro-search-page-btn").on("click", function () {
+                $("html, body").animate({ scrollTop: 0 }, "slow");
             });
         });
     }, [searchResult]);
 
-    const handleKeywordSearch = () =>{
-        if(inCommingData && candidateDetail.length>0){ 
+    const handleKeywordSearch = () => {
+        if (inCommingData && candidateDetail.length > 0) {
             setX([0, 4]);
-            setFilteredSearchResultsMsg("") 
+            setFilteredSearchResultsMsg("")
             console.log(selectedResults)
             setSearchResult(true)
             const filteredResults = candidateDetail
-            .filter(candidate => {
-                if (selectedResults.length > 0) {
-                    return selectedResults.some(result =>
-                        candidate.skills.includes(result) || candidate.designation.includes(result)
-                    );
-                }
-                return true;
-            })
+                .filter(candidate => {
+                    if (selectedResults.length > 0) {
+                        return selectedResults.some(result =>
+                            candidate.skills.includes(result) || candidate.designation.includes(result)
+                        );
+                    }
+                    return true;
+                })
             console.log(filteredResults)
-            if(filteredResults.length > 0){
+            if (filteredResults.length > 0) {
                 setFilteredSearchResults(filteredResults);
                 setInCommingData(null)
-            }else{
+            } else {
                 setFilteredSearchResultsMsg("no such candidates found")
                 setInCommingData(null)
             }
         }
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         const { keywords } = location.state || {};
         setInCommingData(keywords);
-        
-    },[location.state])
 
-    useEffect(()=>{
+    }, [location.state])
 
-        if(inCommingData){
+    useEffect(() => {
+
+        if (inCommingData) {
             setSelectedResults(inCommingData);
         }
-        
-    },[inCommingData])
+
+    }, [inCommingData])
 
     useEffect(() => {
         handleKeywordSearch();
@@ -717,7 +721,7 @@ const TalentsProfileSearch = () => {
             const result = response.data;
             if (!result.error) {
                 console.log(result);
-                setRecentSearches(result.reverse().slice(0,10));
+                setRecentSearches(result.reverse().slice(0, 10));
             } else {
                 console.log(result);
             }
@@ -826,23 +830,23 @@ const TalentsProfileSearch = () => {
         if (filters.days || selectedResults.length > 0 || selectedLocationResults.length > 0 || (filters.minExperienceYr && filters.minExperienceMonth) || (filters.maxExperienceYr && filters.maxExperienceMonth) || (filters.minSalary && filters.maxSalary) || selectedDepartmentResults.length > 0 || selectedRoleResults.length > 0 || filters.industry || filters.company || filters.candidateType || filters.gender) {
 
             const recentSearch = {
-                    days: filters.days,
-                    selectedResults: selectedResults,
-                    selectedLocationResults:  selectedLocationResults,
-                    minExperienceYr: filters.minExperienceYr,
-                    minExperienceMonth: filters.minExperienceMonth,
-                    maxExperienceYr: filters.maxExperienceYr,
-                    maxExperienceMonth: filters.maxExperienceMonth,
-                    minSalary: filters.minSalary,
-                    maxSalary: filters.maxSalary,
-                    selectedDepartmentResults: selectedDepartmentResults,
-                    selectedRoleResults: selectedRoleResults,
-                    industry: selectedIndustryResults,
-                    company: filters.company,
-                    candidateType: filters.candidateType,
-                    gender: filters.gender,
+                days: filters.days,
+                selectedResults: selectedResults,
+                selectedLocationResults: selectedLocationResults,
+                minExperienceYr: filters.minExperienceYr,
+                minExperienceMonth: filters.minExperienceMonth,
+                maxExperienceYr: filters.maxExperienceYr,
+                maxExperienceMonth: filters.maxExperienceMonth,
+                minSalary: filters.minSalary,
+                maxSalary: filters.maxSalary,
+                selectedDepartmentResults: selectedDepartmentResults,
+                selectedRoleResults: selectedRoleResults,
+                industry: selectedIndustryResults,
+                company: filters.company,
+                candidateType: filters.candidateType,
+                gender: filters.gender,
             }
-            setX([0, 4]); 
+            setX([0, 4]);
             setFilteredSearchResultsMsg("")
             setSearchResult(true)
             if (filters.candidateType === "allCandidates") {
@@ -936,7 +940,7 @@ const TalentsProfileSearch = () => {
                     })
                     .filter(candidate => {
                         if (filters.company) {
-                            return candidate.company.toLowerCase()=== filters.company.toLowerCase()
+                            return candidate.company.toLowerCase() === filters.company.toLowerCase()
                         }
                         return true;
                     })
@@ -948,15 +952,15 @@ const TalentsProfileSearch = () => {
                     })
 
                 console.log(filteredResults)
-                
+
                 if (filteredResults.length > 0) {
                     setFilteredSearchResults(filteredResults);
                     axios.post("http://localhost:5002/recent-search", recentSearch)
-                    .then(res=>{
-                        console.log(res.data)
-                        getAllRecentSearch();
-                    })
-                    .catch(err=>console.log(err))
+                        .then(res => {
+                            console.log(res.data)
+                            getAllRecentSearch();
+                        })
+                        .catch(err => console.log(err))
                 } else {
                     setFilteredSearchResultsMsg("no such candidates found")
                 }
@@ -967,21 +971,21 @@ const TalentsProfileSearch = () => {
     };
 
     const handleFill = (id) => {
-        const selectedSearchResult = recentSearches.find(search=>search._id === id)
-        if(selectedSearchResult){
+        const selectedSearchResult = recentSearches.find(search => search._id === id)
+        if (selectedSearchResult) {
             setFilters({
                 ...filters,
-                days:selectedSearchResult.days,
-                minExperienceYr:selectedSearchResult.minExperienceYr,
-                minExperienceMonth:selectedSearchResult.minExperienceMonth,
-                maxExperienceYr:selectedSearchResult.maxExperienceYr,
-                maxExperienceMonth:selectedSearchResult.maxExperienceMonth,
-                minSalary:selectedSearchResult.minSalary,
-                maxSalary:selectedSearchResult.maxSalary,
-                company:selectedSearchResult.company,
-                candidateType:selectedSearchResult.candidateType,
-                gender:selectedSearchResult.gender
-                })
+                days: selectedSearchResult.days,
+                minExperienceYr: selectedSearchResult.minExperienceYr,
+                minExperienceMonth: selectedSearchResult.minExperienceMonth,
+                maxExperienceYr: selectedSearchResult.maxExperienceYr,
+                maxExperienceMonth: selectedSearchResult.maxExperienceMonth,
+                minSalary: selectedSearchResult.minSalary,
+                maxSalary: selectedSearchResult.maxSalary,
+                company: selectedSearchResult.company,
+                candidateType: selectedSearchResult.candidateType,
+                gender: selectedSearchResult.gender
+            })
             setSelectedResults(selectedSearchResult.selectedResults)
             setSelectedLocationResults(selectedSearchResult.selectedLocationResults)
             setSelectedDepartmentResults(selectedSearchResult.selectedDepartmentResults)
@@ -2158,13 +2162,13 @@ const TalentsProfileSearch = () => {
                                                     <i class="ri-history-line"></i>
                                                     <h4 className='cli-tal-pro-recent-search-head mb-0'>Recent Searches </h4>
                                                 </div>
-                                                
+
                                                 <div className="cli-tal-pro-recent-search-container">
-                                                    {recentSearches.map(search=>{
-                                                        return(
+                                                    {recentSearches.map(search => {
+                                                        return (
                                                             <div className="cli-tal-pro-recent-search-area" key={search._id}>
                                                                 <div className="cli-tal-pro-recent-search-btn-area">
-                                                                    <button className='cli-tal-pro-recent-search-btn' onClick={()=>handleFill(search._id)}>Fill this search</button>
+                                                                    <button className='cli-tal-pro-recent-search-btn' onClick={() => handleFill(search._id)}>Fill this search</button>
                                                                     {/* <button className='cli-tal-pro-recent-search-btn'>Search profile</button> */}
                                                                 </div>
                                                                 <div className="cli-tal-pro-recent-search-tags">
@@ -2173,7 +2177,7 @@ const TalentsProfileSearch = () => {
                                                             </div>
                                                         )
                                                     })}
-                                                    
+
                                                     {/* <div className="cli-tal-pro-recent-search-area">
                                                         <div className="cli-tal-pro-recent-search-btn-area">
                                                             <button className='cli-tal-pro-recent-search-btn'>Fill this search</button>
@@ -2853,7 +2857,7 @@ const TalentsProfileSearch = () => {
                                                                                     <h6 className='tal--pro-card-desc-title'>Previous&nbsp;:</h6>
                                                                                 </div>
                                                                                 <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
-                                                                                    <p className='tal--pro-card-desc'>{candidate.designation[0] + " " + "at" + " " + candidate.companyName}</p>
+                                                                                    <p className='tal--pro-card-desc text-capitalized'>{candidate.designation[0] + " " + "at" + " " + candidate.companyName}</p>
                                                                                 </div>
                                                                             </div>
                                                                             <div className="row tal--pro-card-desc-row">
@@ -2861,7 +2865,7 @@ const TalentsProfileSearch = () => {
                                                                                     <h6 className='tal--pro-card-desc-title'>Education&nbsp;:</h6>
                                                                                 </div>
                                                                                 <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
-                                                                                    <p className='tal--pro-card-desc'>{candidate.education}</p>
+                                                                                    <p className='tal--pro-card-desc text-capitalized'>{candidate.education}</p>
                                                                                 </div>
                                                                             </div>
                                                                             <div className="row tal--pro-card-desc-row">
@@ -2869,7 +2873,7 @@ const TalentsProfileSearch = () => {
                                                                                     <h6 className='tal--pro-card-desc-title'>College&nbsp;:</h6>
                                                                                 </div>
                                                                                 <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
-                                                                                    <p className='tal--pro-card-desc'>{candidate.college}</p>
+                                                                                    <p className='tal--pro-card-desc text-capitalized'>{candidate.college}</p>
                                                                                 </div>
                                                                             </div>
                                                                             <div className="row tal--pro-card-desc-row">
@@ -2877,7 +2881,7 @@ const TalentsProfileSearch = () => {
                                                                                     <h6 className='tal--pro-card-desc-title'>KeySkill&nbsp;:</h6>
                                                                                 </div>
                                                                                 <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
-                                                                                    <p className='tal--pro-card-desc'>{candidate.skills.join(", ")}</p>
+                                                                                    <p className='tal--pro-card-desc text-capitalized'>{candidate.skills.join(", ")}</p>
                                                                                 </div>
                                                                             </div>
                                                                             <div className="row tal--pro-card-desc-row">
@@ -2885,7 +2889,7 @@ const TalentsProfileSearch = () => {
                                                                                     <h6 className='tal--pro-card-desc-title'>Profile headline&nbsp;:</h6>
                                                                                 </div>
                                                                                 <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
-                                                                                    <p className='tal--pro-card-desc'>{candidate.profileHeadline}</p>
+                                                                                    <p className='tal--pro-card-desc text-capitalized'>{candidate.profileHeadline}</p>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -2903,31 +2907,34 @@ const TalentsProfileSearch = () => {
                                                                     </div>
 
                                                                     <div className="tal--pro-card-right-area search">
-                                                                        <div className="tal--pro-card-ability-number-area">
-                                                                                    {selectedResults.length>0 && 
-                                                                                    <div className="tal--pro-card-ability-number-left">
+                                                                        <div className="tal--pro-card-right-cover-area search">
+                                                                            <div>
+                                                                                <div className='tal--pro-card-profile-img-role-area search'>
+                                                                                    <img src={imgSrc} className='tal--pro-card-profile-img' alt="" />
+                                                                                    <p className='tal--pro-card-role-name'>{candidate.designation[0]}</p>
+                                                                                </div>
+                                                                                <div className="tal--pro-card-contact-btn-area search">
+                                                                                    <button className='tal--pro-card-contact-btn search' onClick={() => viewCandidateDetail(candidate.id)}>View Profile</button>
+                                                                                    <span className="profile-credits-title">&#129031; 01 Credit</span>
+                                                                                    {/* <button className='tal--pro-card-contact-btn search'>
+                                                                                        <img src="assets/img/talent-profile/call.png" alt="" />
+                                                                                        Call Candidate
+                                                                                    </button> */}
+                                                                                </div>
+                                                                            </div>
+                                                                            <div className="tal--pro-card-ability-number-area search-result">
+                                                                                {selectedResults.length > 0 &&
+                                                                                    <div className="tal--pro-card-ability-number-left search-result">
                                                                                         <h6 className='tal--pro-card-ability search'>Keywords matched</h6>
                                                                                         <h2 className='tal--pro-card-percentage search'>{Math.round(percentage)}%</h2>
                                                                                     </div>}
-                                                                                    <div className="tal--pro-card-ability-number-right">
-                                                                                        <h6 className='tal--pro-card-ability search'>Can join in</h6>
-                                                                                        <h2 className='tal--pro-card-days search'><span>{candidate?.days}</span></h2>
-                                                                                    </div>
-                                                                        </div>
-                                                                        <div className="tal--pro-card-right-cover-area search">
-                                                                            <div className='tal--pro-card-profile-img-role-area search'>
-                                                                                <img src={imgSrc} className='tal--pro-card-profile-img' alt="" />
-                                                                                <p className='tal--pro-card-role-name'>{candidate.designation[0]}</p>
-                                                                            </div>
-                                                                            <div className="tal--pro-card-contact-btn-area search">
-                                                                                <button className='tal--pro-card-contact-btn search' onClick={() => viewCandidateDetail(candidate.id)}>View Profile</button>
-                                                                                <span className="profile-credits-title">&#129031; 01 Credit</span>
-                                                                                {/* <button className='tal--pro-card-contact-btn search'>
-                                                                                    <img src="assets/img/talent-profile/call.png" alt="" />
-                                                                                    Call Candidate
-                                                                                </button> */}
+                                                                                <div className="tal--pro-card-ability-number-right search-result">
+                                                                                    <h6 className='tal--pro-card-can-join'>Can join in</h6>
+                                                                                    <h2 className='tal--pro-card-join-days'>{candidate.days}<span></span></h2>
+                                                                                </div>
                                                                             </div>
                                                                         </div>
+
                                                                         {/* <div className="tal--pro-card-right-btn-area search">
                                                                             <button className='tal--pro-card-right-btn search'>
                                                                                 <img src="assets/img/talent-profile/document.png" alt="" />
@@ -3303,25 +3310,25 @@ const TalentsProfileSearch = () => {
                                             </article> */}
 
 
-                                                    <div className="tal--pro-paginate-btn-area" data-aos="fade-up">
-                                                        <h6 className='tal--pro-total-result-text'>Total Items : <span>{filteredSearchResultsMsg ? "0" : filteredSearchResults.length}</span></h6>
-                                                        <div className='tal--pro-slider-btn-sub'>
-                                                            {x[0] > 0 && <button className="tal--pro-slider-btn" onClick={()=>setX([x[0] - 4, x[1] - 4])}>
-                                                                <svg className='arrow-left' xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 27 27" fill="none">
-                                                                    <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#5C3B2E" stroke-width="2" />
-                                                                    <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#5C3B2E" stroke-width="2" />
-                                                                    <path d="M1 26L25.1667 1" stroke="#5C3B2E" stroke-width="2" />
-                                                                </svg>
-                                                            </button>}
-                                                            {(filteredSearchResultsMsg ? !filteredSearchResultsMsg : (filteredSearchResults.slice(x[0], x[1]).length === 4 && filteredSearchResults.length > x[1])) && < button className="tal--pro-slider-btn" onClick={()=>setX([x[0] + 4, x[1] + 4])}>
-                                                                <svg className='arrow-right' xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 27 27" fill="none">
-                                                                    <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#5C3B2E" stroke-width="2" />
-                                                                    <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#5C3B2E" stroke-width="2" />
-                                                                    <path d="M1 26L25.1667 1" stroke="#5C3B2E" stroke-width="2" /> 
-                                                                </svg>
-                                                            </button>}
-                                                        </div>
+                                                <div className="tal--pro-paginate-btn-area" data-aos="fade-up">
+                                                    <h6 className='tal--pro-total-result-text'>Total Items : <span>{filteredSearchResultsMsg ? "0" : filteredSearchResults.length}</span></h6>
+                                                    <div className='tal--pro-slider-btn-sub'>
+                                                        {x[0] > 0 && <button className="tal--pro-slider-btn" onClick={() => setX([x[0] - 4, x[1] - 4])}>
+                                                            <svg className='arrow-left' xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 27 27" fill="none">
+                                                                <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#5C3B2E" stroke-width="2" />
+                                                                <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#5C3B2E" stroke-width="2" />
+                                                                <path d="M1 26L25.1667 1" stroke="#5C3B2E" stroke-width="2" />
+                                                            </svg>
+                                                        </button>}
+                                                        {(filteredSearchResultsMsg ? !filteredSearchResultsMsg : (filteredSearchResults.slice(x[0], x[1]).length === 4 && filteredSearchResults.length > x[1])) && < button className="tal--pro-slider-btn" onClick={() => setX([x[0] + 4, x[1] + 4])}>
+                                                            <svg className='arrow-right' xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 27 27" fill="none">
+                                                                <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#5C3B2E" stroke-width="2" />
+                                                                <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#5C3B2E" stroke-width="2" />
+                                                                <path d="M1 26L25.1667 1" stroke="#5C3B2E" stroke-width="2" />
+                                                            </svg>
+                                                        </button>}
                                                     </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

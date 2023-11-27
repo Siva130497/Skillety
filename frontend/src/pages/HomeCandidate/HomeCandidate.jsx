@@ -52,62 +52,62 @@ const HomeCandidate = () => {
 
   const getAllSkills = async () => {
     try {
-        const res = await axios.get("http://localhost:5002/skills", {
-            headers: {
-                
-                Accept: 'application/json'
-            }
-        });
-        const result = res.data;
-        if (!result.error) {
-            console.log(result);
-            setSkillArray(result);
-        } else {
-            console.log(result);
-        }
-    } catch (err) {
-        console.log(err);
-    }
-};
+      const res = await axios.get("http://localhost:5002/skills", {
+        headers: {
 
-const getAllJobRoles = async () => {
+          Accept: 'application/json'
+        }
+      });
+      const result = res.data;
+      if (!result.error) {
+        console.log(result);
+        setSkillArray(result);
+      } else {
+        console.log(result);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const getAllJobRoles = async () => {
     try {
-        const res = await axios.get("http://localhost:5002/designations", {
-            headers: {
-                
-                Accept: 'application/json'
-            }
-        });
-        const result = res.data;
-        if (!result.error) {
-            console.log(result);
-            setjobRoleArray(result);
-        } else {
-            console.log(result);
-        }
-    } catch (err) {
-        console.log(err);
-    }
-};
+      const res = await axios.get("http://localhost:5002/designations", {
+        headers: {
 
-const getPopularSearches = async () => {
-  try {
+          Accept: 'application/json'
+        }
+      });
+      const result = res.data;
+      if (!result.error) {
+        console.log(result);
+        setjobRoleArray(result);
+      } else {
+        console.log(result);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const getPopularSearches = async () => {
+    try {
       const response = await axios.get('http://localhost:5002/popular-search', {
-          headers: {
-              Accept: 'application/json'
-          }
+        headers: {
+          Accept: 'application/json'
+        }
       });
       const result = response.data;
       if (!result.error) {
-          console.log(result);
-          setPopulartSearches(result);
+        console.log(result);
+        setPopulartSearches(result);
       } else {
-          console.log(result);
+        console.log(result);
       }
-  } catch (error) {
+    } catch (error) {
       console.log(error);
-  }
-};
+    }
+  };
 
   useEffect(() => {
     getEventDetail();
@@ -214,54 +214,62 @@ const getPopularSearches = async () => {
     setSearchinput(inputValue);
 
     if (inputValue.length > 0) {
-        const skills = skillArray.filter((obj) => {
-            return obj.skill.toLowerCase().includes(inputValue.toLowerCase());
-        });
+      const skills = skillArray.filter((obj) => {
+        return obj.skill.toLowerCase().includes(inputValue.toLowerCase());
+      });
 
-        const jobRoles = jobRoleArray.filter((obj) => {
-            return obj.designation.toLowerCase().includes(inputValue.toLowerCase());
-        });
+      const jobRoles = jobRoleArray.filter((obj) => {
+        return obj.designation.toLowerCase().includes(inputValue.toLowerCase());
+      });
 
-        const combinedResults = [...skills, ...jobRoles];
+      const combinedResults = [...skills, ...jobRoles];
 
-        if (combinedResults.length > 0) {
-            setFilteredList(combinedResults);
-        } else {
-            setFilteredList([]);
-        }
-    } else {
+      if (combinedResults.length > 0) {
+        setFilteredList(combinedResults);
+      } else {
         setFilteredList([]);
+      }
+    } else {
+      setFilteredList([]);
     }
-};
+  };
 
-const handleFilteredClick = (clickResult) => {
+  const handleFilteredClick = (clickResult) => {
     console.log(clickResult)
     if (selectedResults.includes(clickResult)) {
-        setSelectedResults([...selectedResults]);
-        setSearchinput("");
-        setFilteredList([]);
+      setSelectedResults([...selectedResults]);
+      setSearchinput("");
+      setFilteredList([]);
 
     } else {
-        setSelectedResults([...selectedResults, clickResult]);
-        setSearchinput("");
-        setFilteredList([]);
+      setSelectedResults([...selectedResults, clickResult]);
+      setSearchinput("");
+      setFilteredList([]);
     }
-}
+  }
 
-const handleDeselect = (result) => {
+  const handleDeselect = (result) => {
     setSelectedResults(selectedResults.filter(selected => selected !== result));
-}
+  }
 
-const handlePopularSearch = () => {
-  axios.post("http://localhost:5002/popular-search", selectedResults)
-  .then(res=>{
-    console.log(res.data)
-    getPopularSearches();
-    const keywords = selectedResults
-    navigate('/job-search', { state: { keywords } });
-  })
-  .catch(err=>console.log(err))
-}
+  const handlePopularSearch = () => {
+    axios.post("http://localhost:5002/popular-search", selectedResults)
+      .then(res => {
+        console.log(res.data)
+        getPopularSearches();
+        const keywords = selectedResults
+        navigate('/job-search', { state: { keywords } });
+      })
+      .catch(err => console.log(err))
+  }
+
+  useEffect(() => {
+    $(".home--search-btn").click(function () {
+      setTimeout(function () {
+        $("html, body").animate({ scrollTop: 0 }, 500);
+      }, 0);
+    });
+  }, []);
 
 
   return (
@@ -276,53 +284,53 @@ const handlePopularSearch = () => {
                   <h4 data-aos="fade-left" data-aos-delay="200">
                     Great opportunities knock only once. We make sure you don’t miss them.
                   </h4>
-                  <h3 data-aos="fade-left" data-aos-delay="200">Choose from over 2400+ Jobs.</h3>
+                  {/* <h3 data-aos="fade-left" data-aos-delay="200">Choose from over 2400+ Jobs.</h3>
                   <h5 data-aos="fade-left" data-aos-delay="200">
                     Welcome to the place where you get hired in less than 7 days. Grab your Interview in 24 hours.
-                  </h5>
+                  </h5> */}
                   <h6 data-aos="fade-right" data-aos-delay="300">
                     Search For Jobs
                   </h6>
                 </div>
                 <div className="home--search-area candidate">
-                  <div className='cli--tal-pro-badge-area mb-4'>
-                      {selectedResults.map(selectResult => (
-                        <span className="tal-cand-reg-form-badge candidate"
-                          key={selectResult}
-                          onClick={() => handleDeselect(selectResult)}
-                        >{selectResult}</span> 
-                      ))}
+                  <div className='home-search-badge-area mb-4'>
+                    {selectedResults.map(selectResult => (
+                      <span className="home-search-badge candidate"
+                        key={selectResult}
+                        onClick={() => handleDeselect(selectResult)}
+                      >{selectResult}</span>
+                    ))}
                   </div>
-                  <input type="text" data-aos="fade-down" data-aos-delay="200" className='home--search-box candidate form-control' 
-                  placeholder='Enter keywords like skills, designation'
-                  value={searchInput}
-                  onChange={handleSearch}
-                   />
+                  <input type="search" data-aos="fade-down" data-aos-delay="200" className='home--search-box candidate form-control'
+                    placeholder='Enter keywords like skills, designation'
+                    value={searchInput}
+                    onChange={handleSearch}
+                  />
                   <i class="bi bi-search home--search-icon" data-aos="zoom-in" data-aos-delay="200"></i>
-                  <div className='tal-pro-search-result-data-area'>
+                  <div className='home-search-result-data-area candidate'>
                     {filteredList.length > 0 &&
                       filteredList.map((filterResult) => (
                         <div
-                          className='tal-pro-search-result-data candidate'
+                          className='home-search-result-data candidate'
                           key={filterResult._id}
                           onClick={() => handleFilteredClick(filterResult.designation || filterResult.skill)}
                         >
                           {filterResult.designation ? filterResult.designation : filterResult.skill}
                         </div>
-                    ))}
+                      ))}
                   </div>
                   <button className='btn home--search-btn candidate' data-aos="fade-left" data-aos-delay="100"
-                  onClick={handlePopularSearch}>Search</button>
+                    onClick={handlePopularSearch}>Search</button>
                 </div>
-                {popularSearches.length>0 && <div className="home--popular-area candidate">
+                {popularSearches.length > 0 && <div className="home--popular-area candidate">
                   <h6 data-aos="fade-right">Popular Searches</h6>
                   <div className="popular--btn-area candidate">
-                    {popularSearches.map(pop=>{
-                      return(
-                        <button onClick={()=>handleFilteredClick(pop.keyword)} className='btn home--popular-btn candidate' data-aos="fade-up" data-aos-delay="150">{pop.keyword}</button>
+                    {popularSearches.map(pop => {
+                      return (
+                        <button onClick={() => handleFilteredClick(pop.keyword)} className='btn home--popular-btn candidate' data-aos="fade-up" data-aos-delay="150">{pop.keyword}</button>
                       )
                     })}
-                    
+
                     {/* <a href="" className='btn home--popular-btn candidate' data-aos="fade-up" data-aos-delay="100">Marketing</a>
                     <a href="" className='btn home--popular-btn candidate' data-aos="fade-up" data-aos-delay="100">Finance</a>
                     <a href="" className='btn home--popular-btn candidate' data-aos="fade-up" data-aos-delay="50">IT</a>
@@ -741,17 +749,22 @@ const handlePopularSearch = () => {
                         {job.jobRole[0]}
                       </div>
                     </div>
-                    <div className="cand--job-card-logo-loc-area">
-                      <div className="cand--job-card-logo-area">
-                        <img src={imgSrc} className='cand--job-card-logo' alt="" />
-                      </div>
-                      <div className="cand--job-card-loc-area">
-                        <div className="cand--job-card-location">
-                          <i className='bx bxs-map'></i>
-                          {job.location}
+                    <div className="cand--job-card-logo-loc-area row">
+                      <div className="col-6">
+                        <div className="cand--job-card-logo-area">
+                          <img src={imgSrc} className='cand--job-card-logo' alt="" />
                         </div>
-                        <div className="cand--job-card-job-type">
-                          {job.jobCategory}
+                      </div>
+                      <div className="col-6">
+                        <div className="cand--job-card-loc-area">
+                          <div className="cand--job-card-location">
+                            <i class="bi bi-geo-alt-fill"></i>
+                            {job.location}
+                          </div>
+                          <div className="cand--job-card-location mt-1">
+                            <i class="bi bi-briefcase-fill job-icon"></i>
+                            {job.jobCategory}
+                          </div>
                         </div>
                       </div>
                     </div>

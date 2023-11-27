@@ -26,13 +26,13 @@ const Talents = () => {
 
     useEffect(() => {
         const preloader = $('#preloader');
-    if (preloader.length) {
-      setTimeout(function () {
-        preloader.fadeOut('slow', function () {
-          preloader.remove();
-        });
-      }, 500);
-    }
+        if (preloader.length) {
+            setTimeout(function () {
+                preloader.fadeOut('slow', function () {
+                    preloader.remove();
+                });
+            }, 500);
+        }
     }, []);
 
     useEffect(() => {
@@ -202,7 +202,7 @@ const Talents = () => {
                                                                     <div className='client-talent--profile-tag'>Experience : {loginCandidate?.year > 0 ? loginCandidate?.year + 'years' : "" + loginCandidate?.month > 0 ? loginCandidate?.month + 'months' : ""}</div>
                                                                     {/* <div className='client-talent--profile-tag'>9.5 LPA</div> */}
                                                                     <div className='client-talent--profile-tag'>
-                                                                        <i class="bx bxs-map"></i>
+                                                                        <i class="bi bi-geo-alt-fill"></i>
                                                                         {loginCandidate?.location}
                                                                     </div>
                                                                     {/* <div className='client-talent--profile-tag'>{loginCandidate?.designation[0]}</div> */}
@@ -213,7 +213,7 @@ const Talents = () => {
                                                                             <div className='client-talent--profile-desc'>Previous</div>
                                                                         </div>
                                                                         <div className="col-8">
-                                                                            <div className='client-talent--profile-desc'>{loginCandidate?.designation[0] + " " + "at" + " " + loginCandidate?.companyName}</div>
+                                                                            <div className='client-talent--profile-desc text-capitalized'>{loginCandidate?.designation[0] + " " + "at" + " " + loginCandidate?.companyName}</div>
                                                                         </div>
                                                                     </div>
                                                                     <div className="row mt-3">
@@ -221,7 +221,7 @@ const Talents = () => {
                                                                             <div className='client-talent--profile-desc'>College</div>
                                                                         </div>
                                                                         <div className="col-8">
-                                                                            <div className='client-talent--profile-desc'>{loginCandidate?.college}</div>
+                                                                            <div className='client-talent--profile-desc text-capitalized'>{loginCandidate?.college}</div>
                                                                         </div>
                                                                     </div>
                                                                     <div className="row mt-3">
@@ -409,7 +409,9 @@ const Talents = () => {
                                                                                 </div>
                                                                                 <div className="client-talent--profile-tab-expand-area">
                                                                                     <div className="client-talent--profile-tab-expand-sub-area">
-                                                                                        {loginCandidate?.education}
+                                                                                        <p className="client-talent--profile-tab-expand-desc">
+                                                                                            {loginCandidate?.education}
+                                                                                        </p>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -644,12 +646,12 @@ const Talents = () => {
                     </div>
 
 
-                </div> }
-                {pageNotFound && <div>
-                    <h1>404</h1>
-                    <p>Not Found</p>
-                    <small>The resource requested could not be found on this server!</small>
                 </div>}
+            {pageNotFound && <div>
+                <h1>404</h1>
+                <p>Not Found</p>
+                <small>The resource requested could not be found on this server!</small>
+            </div>}
         </div>
     )
 }

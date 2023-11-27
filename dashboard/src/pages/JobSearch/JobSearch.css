@@ -73,14 +73,17 @@
 .pl--package-btn.job {
     font-size: 20px;
 }
-.tal--search-submit-btn.dash{
+
+.tal--search-submit-btn.dash {
     white-space: nowrap;
 }
+
 .clear--all_button.dash,
-.tal--search-submit-btn.dash{
+.tal--search-submit-btn.dash {
     font-size: 16px !important;
 }
-.clear--all_button-area.dash{
+
+.clear--all_button-area.dash {
     justify-content: center;
     gap: 10px;
 }
@@ -105,9 +108,14 @@
     transition: ease-in-out 0.8s;
     position: relative;
 }
-.pl--package-arrow-area svg, .pl--package-arrow-area svg path, .pl--package-arrow-area.prev svg, .pl--package-arrow-area.prev svg path {
+
+.pl--package-arrow-area svg,
+.pl--package-arrow-area svg path,
+.pl--package-arrow-area.prev svg,
+.pl--package-arrow-area.prev svg path {
     transition: ease-in-out 0.8s;
 }
+
 .pl--package-btn {
     border-radius: 48px;
     background-color: #714F36;
@@ -121,13 +129,15 @@
     overflow: hidden !important;
     transition: ease-in-out 0.5s;
 }
+
 .pl--package-btn.job {
     font-size: 20px;
 }
+
 .jobs-view-more-btn:focus,
-.jobs-view-more-btn:active{
+.jobs-view-more-btn:active {
     border: none;
-    outline:none;
+    outline: none;
 }
 
 .job--detail-card {
@@ -176,6 +186,7 @@
     color: #714F36;
     font-size: 16px;
     font-weight: 500;
+    text-transform: capitalize;
 }
 
 .job--detail-card-review-area .job--detail-card-rating i {
@@ -239,7 +250,8 @@
     box-shadow: -2px 2px 15px #31313114;
     transition: ease-in-out 0.8s !important;
 }
-.job--detail-card:hover .job--detail-card-img-area{
+
+.job--detail-card:hover .job--detail-card-img-area {
     box-shadow: -2px 2px 15px #3131312e;
 }
 
@@ -269,9 +281,11 @@
     flex-wrap: nowrap;
     gap: 25px;
 }
-.job--detail-card-know-more-btn-area{
+
+.job--detail-card-know-more-btn-area {
     display: flex;
 }
+
 .job--detail-card-tags-area {
     display: flex;
     gap: 10px;
@@ -315,11 +329,16 @@
     background-color: #714F36;
     color: #FFF !important;
 }
-.tal--pro-card-ability-number-left.job{
+
+.tal--pro-card-ability-number-left.job {
     justify-content: flex-start;
-    align-items: center;
-    margin-top: 20px;
-    flex-direction: row;
+    align-items: flex-end;
+    margin-bottom: 10px;
+    flex-direction: column;
     gap: 10px;
-    
+    margin-top: 0;
+}
+
+.tal--pro-card-percentage.custom-font-size {
+    font-size: 20px;
 }
