@@ -38,7 +38,7 @@ const MyApplication = () => {
     },[candidateToken])
 
     useEffect(()=>{
-        axios.get("http://localhost:5002/clients")
+        axios.get("https://skillety.onrender.com/clients")
         .then(res=>{
           console.log(res.data)
           setAllClient(res.data);
@@ -66,7 +66,7 @@ const MyApplication = () => {
 
     const getAppliedjobs = async() => {
         try{
-            const res = await axios.get(`http://localhost:5002/my-applied-jobs/${candidateId}`, {
+            const res = await axios.get(`https://skillety.onrender.com/my-applied-jobs/${candidateId}`, {
               headers: {
                   Authorization: `Bearer ${candidateToken}`,
                   Accept: 'application/json'

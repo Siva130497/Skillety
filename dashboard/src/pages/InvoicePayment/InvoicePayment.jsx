@@ -77,7 +77,7 @@ const InvoicePayment = () => {
 
     const getLoginClientDetail = async () => {
         try {
-            const res = await axios.get(`http://localhost:5002/client/${employeeId}`, {
+            const res = await axios.get(`https://skillety.onrender.com/client/${employeeId}`, {
                 headers: {
                     Authorization: `Bearer ${clientToken}`,
                     Accept: 'application/json'
@@ -97,7 +97,7 @@ const InvoicePayment = () => {
 
     const getViewedCandidates = async () => {
         try {
-            const res = await axios.get(`http://localhost:5002/cv-views/${loginClientDetail?.companyId}`, {
+            const res = await axios.get(`https://skillety.onrender.com/cv-views/${loginClientDetail?.companyId}`, {
                 headers: {
                     Authorization: `Bearer ${clientToken}`,
                     Accept: 'application/json'
@@ -117,7 +117,7 @@ const InvoicePayment = () => {
 
     // const getOwnPostedjobs = async () => {
     //     try {
-    //         const res = await axios.get(`http://localhost:5002/my-posted-jobs/${loginClientDetail?.companyId}`, {
+    //         const res = await axios.get(`https://skillety.onrender.com/my-posted-jobs/${loginClientDetail?.companyId}`, {
     //             headers: {
     //                 Authorization: `Bearer ${clientToken}`,
     //                 Accept: 'application/json'
@@ -137,7 +137,7 @@ const InvoicePayment = () => {
 
     const allStaffFromCompany = async () => {
         try {
-            const res = await axios.get(`http://localhost:5002/all-staff/${loginClientDetail?.companyId}`, {
+            const res = await axios.get(`https://skillety.onrender.com/all-staff/${loginClientDetail?.companyId}`, {
                 headers: {
                     Authorization: `Bearer ${clientToken}`,
                     Accept: 'application/json'

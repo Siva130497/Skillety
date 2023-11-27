@@ -38,7 +38,7 @@ const ClientNavBar = () => {
 
     const getLoginClientDetail = async () => {
       try {
-          const res = await axios.get(`http://localhost:5002/client/${employeeId}`, {
+          const res = await axios.get(`https://skillety.onrender.com/client/${employeeId}`, {
               headers: {
                   Authorization: `Bearer ${token}`,
                   Accept: 'application/json'
@@ -64,7 +64,7 @@ const ClientNavBar = () => {
 
     useEffect(() => {
       if (loginClientDetail.companyId) {
-          axios.get(`http://localhost:5002/client-image/${loginClientDetail.companyId}`)
+          axios.get(`https://skillety.onrender.com/client-image/${loginClientDetail.companyId}`)
             .then(res=>setClientImg(res.data))
             .catch(err=>console.log(err))
       }
@@ -72,7 +72,7 @@ const ClientNavBar = () => {
 
   useEffect(() => {
       if(clientImg){
-        setClientImgUrl(`http://localhost:5002/client_profile/${clientImg.image}`)
+        setClientImgUrl(`https://skillety.onrender.com/client_profile/${clientImg.image}`)
       }
       
     }, [clientImg]);

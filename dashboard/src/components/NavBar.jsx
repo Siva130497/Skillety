@@ -35,11 +35,11 @@ const NavBar = () => {
 
     useEffect(() => {
       if (candidateId) {
-          axios.get(`http://localhost:5002/candidate-image/${candidateId}`)
+          axios.get(`https://skillety.onrender.com/candidate-image/${candidateId}`)
             .then(res=>setCandidateImg(res.data))
             .catch(err=>console.log(err))
 
-            axios.get(`http://localhost:5002/candidate/${candidateId}`)
+            axios.get(`https://skillety.onrender.com/candidate/${candidateId}`)
             .then(res => {
                 console.log(res.data)
                 setLoginCandidate(res.data)
@@ -52,7 +52,7 @@ const NavBar = () => {
 
   useEffect(() => {
       if(candidateImg){
-        setCandidateImgUrl(`http://localhost:5002/candidate_profile/${candidateImg.image}`)
+        setCandidateImgUrl(`https://skillety.onrender.com/candidate_profile/${candidateImg.image}`)
       }
       
     }, [candidateImg]);

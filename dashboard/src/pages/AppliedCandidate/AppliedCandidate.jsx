@@ -468,7 +468,7 @@ const AppliedCandidate = () => {
 
     const getAllCandidateDetail = async () => {
         try {
-            const response = await axios.get('http://localhost:5002/candidate-Detail', {
+            const response = await axios.get('https://skillety.onrender.com/candidate-Detail', {
                 headers: {
                     Accept: 'application/json'
                 }
@@ -492,7 +492,7 @@ const AppliedCandidate = () => {
 
     const getLoginClientDetail = async () => {
         try {
-            const res = await axios.get(`http://localhost:5002/client/${employeeId}`, {
+            const res = await axios.get(`https://skillety.onrender.com/client/${employeeId}`, {
                 headers: {
                     Authorization: `Bearer ${clientToken}`,
                     Accept: 'application/json'
@@ -512,7 +512,7 @@ const AppliedCandidate = () => {
 
     const getAppliedOfPostedJobs = async () => {
         try {
-            const res = await axios.get(`http://localhost:5002/applied-jobs-of-posted/${loginClientDetail.companyId}`, {
+            const res = await axios.get(`https://skillety.onrender.com/applied-jobs-of-posted/${loginClientDetail.companyId}`, {
                 headers: {
                     Authorization: `Bearer ${clientToken}`,
                     Accept: 'application/json'
@@ -596,7 +596,7 @@ const AppliedCandidate = () => {
                             <div className="dash-talent--profile-card-section">
                                 {reqCands.map((candidate) => {
                                     const matchingImg = candidateImg ? candidateImg.find(img => img.id === candidate.id) : null;
-                                    const imgSrc = matchingImg ? `http://localhost:5002/candidate_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
+                                    const imgSrc = matchingImg ? `https://skillety.onrender.com/candidate_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
                                     return (
                                         <article className="talent--profile-card" key={candidate.id}>
                                             <div className="tal--pro-card-left-area">

@@ -117,7 +117,7 @@ const Talents = () => {
 
     useEffect(() => {
         if (id) {
-            axios.get(`http://localhost:5002/candidate/${id}`)
+            axios.get(`https://skillety.onrender.com/candidate/${id}`)
                 .then(res => {
                     console.log(res.data)
                     setLoginCandidate(res.data)
@@ -129,11 +129,11 @@ const Talents = () => {
                     setPageNotFound(true);
                 })
 
-            axios.get(`http://localhost:5002/candidate-image/${id}`)
+            axios.get(`https://skillety.onrender.com/candidate-image/${id}`)
                 .then(res => setCandidateImg(res.data))
                 .catch(err => console.log(err))
 
-            axios.get(`http://localhost:5002/candidate-resume/${id}`)
+            axios.get(`https://skillety.onrender.com/candidate-resume/${id}`)
                 .then(res => setResume(res.data))
                 .catch(err => console.log(err))
         }
@@ -142,14 +142,14 @@ const Talents = () => {
 
     useEffect(() => {
         if (candidateImg) {
-            setCandidateImgUrl(`http://localhost:5002/candidate_profile/${candidateImg.image}`)
+            setCandidateImgUrl(`https://skillety.onrender.com/candidate_profile/${candidateImg.image}`)
         }
 
     }, [candidateImg]);
 
     useEffect(() => {
         if (loginCandidate) {
-            setCandidateResumeUrl(`http://localhost:5002/files/${loginCandidate.file}`)
+            setCandidateResumeUrl(`https://skillety.onrender.com/files/${loginCandidate.file}`)
         }
 
     }, [loginCandidate]);
