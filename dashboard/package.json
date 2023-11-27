@@ -2,7 +2,7 @@
   "name": "dashboard",
   "version": "0.1.0",
   "proxy": "https://api.intervue.io",
-  "homepage": "http://localhost:3000",
+  "homepage": "https://skillety-dashboard.onrender.com",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",

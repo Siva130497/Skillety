@@ -77,7 +77,7 @@ const createClient = async (req, res) => {
       const { _id, createdAt, updatedAt, __v, ...clientProperties } = neededClient._doc;
       console.log(clientProperties);
 
-      const baseUrl = "http://localhost:3001/verification/";
+      const baseUrl = "https://skillety-frontend.onrender.com/verification/";
       const token = uuidv4();
       const tempUrl = baseUrl + token;
 
@@ -151,7 +151,7 @@ const createClientStaff = async (req, res) => {
       const createdAccounts = await finalClient.find({companyId});
       
       if(createdAccounts.length < packageDetailForCompanyId.logins){
-        const baseUrl = "http://localhost:3001/verification/";
+        const baseUrl = "https://skillety-frontend.onrender.com/verification/";
         const token = uuidv4();
         const tempUrl = baseUrl + token;
 
