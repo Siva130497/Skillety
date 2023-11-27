@@ -288,7 +288,7 @@ const ClientNavBar = () => {
                   Settings
                 </a>
 
-                <a href="http://localhost:3000/client-login" className="dropdown-logout-btn" >
+                <a href="https://skillety-dashboard.onrender.com/client-login" className="dropdown-logout-btn" >
                   <i class="bi bi-box-arrow-right mr-3"></i>
                   Log Out
                 </a>

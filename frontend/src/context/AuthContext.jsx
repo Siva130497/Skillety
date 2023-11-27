@@ -54,17 +54,17 @@ export const AuthContextProvider = ({children}) => {
                 console.log(result);
                 if (userData[1] === "staff") {
                     localStorage.setItem("staffToken", JSON.stringify(result.accessToken));
-                    window.open(`http://localhost:3000/recruiter-dashboard/${result.accessToken}`, '_blank');
+                    window.open(`https://skillety-dashboard.onrender.com/recruiter-dashboard/${result.accessToken}`, '_blank');
                 } else if (userData[1] === "admin") {
                     localStorage.setItem("adminToken",  JSON.stringify(result.accessToken));
                     navigate("/admin-dashboard");
                 } else if (userData[1] === "login-Candidate") {
                     localStorage.setItem("candidateToken",  JSON.stringify(result.accessToken));
-                    window.open(`http://localhost:3000/${result.accessToken}`, '_blank');
+                    window.open(`https://skillety-dashboard.onrender.com/${result.accessToken}`, '_blank');
                     navigate("/candidate-home")
                 } else if (userData[1] === "login-Client") {
                     localStorage.setItem("clientToken",  JSON.stringify(result.accessToken));
-                    window.open(`http://localhost:3000/client-dashboard/${result.accessToken}`, '_blank');
+                    window.open(`https://skillety-dashboard.onrender.com/client-dashboard/${result.accessToken}`, '_blank');
                     navigate("/")
                     
                 }

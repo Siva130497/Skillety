@@ -1239,7 +1239,7 @@ const TalentsProfileSearch = () => {
                     if (viewedCandidate.length > 0) {
                         const alreadyViewedCandidate = viewedCandidate.find(cand => cand.candidateId === id);
                         if (alreadyViewedCandidate) {
-                            window.open(`http://localhost:3000/talents/${id}`, '_blank');
+                            window.open(`https://skillety-dashboard.onrender.com/talents/${id}`, '_blank');
                         } else {
                             console.log(viewedCandidate.length)
                             if (viewedCandidate.length < cvViews) {
@@ -1257,7 +1257,7 @@ const TalentsProfileSearch = () => {
                                 const result = response.data;
                                 console.log(result);
                                 getViewedCandidates();
-                                window.open(`http://localhost:3000/talents/${id}`, '_blank');
+                                window.open(`https://skillety-dashboard.onrender.com/talents/${id}`, '_blank');
                             } else {
                                 await new Promise(() => {
                                     Swal.fire({
@@ -1267,7 +1267,7 @@ const TalentsProfileSearch = () => {
                                         confirmButtonColor: '#3085d6',
                                         confirmButtonText: 'OK',
                                     }).then(() => {
-                                        window.open(`http://localhost:3000/package-plans`, '_blank');
+                                        window.open(`https://skillety-dashboard.onrender.com/package-plans`, '_blank');
                                     });
                                 });
                             }
@@ -1287,7 +1287,7 @@ const TalentsProfileSearch = () => {
                         const result = response.data;
                         console.log(result);
                         getViewedCandidates();
-                        window.open(`http://localhost:3000/talents/${id}`, '_blank');
+                        window.open(`https://skillety-dashboard.onrender.com/talents/${id}`, '_blank');
                     }
                 } else {
                     await new Promise(() => {
@@ -1298,7 +1298,7 @@ const TalentsProfileSearch = () => {
                             confirmButtonColor: '#3085d6',
                             confirmButtonText: 'OK',
                         }).then(() => {
-                            window.open(`http://localhost:3000/package-plans`, '_blank');
+                            window.open(`https://skillety-dashboard.onrender.com/package-plans`, '_blank');
                         });
                     });
                 }
