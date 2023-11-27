@@ -574,7 +574,7 @@ const TalentsProfileSearch = () => {
 
     const getAllSkills = async () => {
         try {
-            const res = await axios.get("http://localhost:5002/skills", {
+            const res = await axios.get("https://skillety.onrender.com/skills", {
                 headers: {
                     Authorization: `Bearer ${clientToken}`,
                     Accept: 'application/json'
@@ -594,7 +594,7 @@ const TalentsProfileSearch = () => {
 
     const getAllJobRoles = async () => {
         try {
-            const res = await axios.get("http://localhost:5002/designations", {
+            const res = await axios.get("https://skillety.onrender.com/designations", {
                 headers: {
                     Authorization: `Bearer ${clientToken}`,
                     Accept: 'application/json'
@@ -614,7 +614,7 @@ const TalentsProfileSearch = () => {
 
     const getAllLocations = async () => {
         try {
-            const res = await axios.get("http://localhost:5002/locations", {
+            const res = await axios.get("https://skillety.onrender.com/locations", {
                 headers: {
                     Authorization: `Bearer ${clientToken}`,
                     Accept: 'application/json'
@@ -634,7 +634,7 @@ const TalentsProfileSearch = () => {
 
     const getAllDepartments = async () => {
         try {
-            const res = await axios.get("http://localhost:5002/departments", {
+            const res = await axios.get("https://skillety.onrender.com/departments", {
                 headers: {
                     Authorization: `Bearer ${clientToken}`,
                     Accept: 'application/json'
@@ -654,7 +654,7 @@ const TalentsProfileSearch = () => {
 
     const getAllRoles = async () => {
         try {
-            const res = await axios.get("http://localhost:5002/roles", {
+            const res = await axios.get("https://skillety.onrender.com/roles", {
                 headers: {
                     Authorization: `Bearer ${clientToken}`,
                     Accept: 'application/json'
@@ -674,7 +674,7 @@ const TalentsProfileSearch = () => {
 
     const getAllIndustries = async () => {
         try {
-            const res = await axios.get("http://localhost:5002/industries", {
+            const res = await axios.get("https://skillety.onrender.com/industries", {
                 headers: {
                     Authorization: `Bearer ${clientToken}`,
                     Accept: 'application/json'
@@ -694,7 +694,7 @@ const TalentsProfileSearch = () => {
 
     const getAllCandidateDetail = async () => {
         try {
-            const response = await axios.get('http://localhost:5002/candidate-Detail', {
+            const response = await axios.get('https://skillety.onrender.com/candidate-Detail', {
                 headers: {
                     Accept: 'application/json'
                 }
@@ -713,7 +713,7 @@ const TalentsProfileSearch = () => {
 
     const getAllRecentSearch = async () => {
         try {
-            const response = await axios.get('http://localhost:5002/recent-search', {
+            const response = await axios.get('https://skillety.onrender.com/recent-search', {
                 headers: {
                     Accept: 'application/json'
                 }
@@ -744,7 +744,7 @@ const TalentsProfileSearch = () => {
 
     const getLoginClientDetail = async () => {
         try {
-            const res = await axios.get(`http://localhost:5002/client/${employeeId}`, {
+            const res = await axios.get(`https://skillety.onrender.com/client/${employeeId}`, {
                 headers: {
                     Authorization: `Bearer ${clientToken}`,
                     Accept: 'application/json'
@@ -764,7 +764,7 @@ const TalentsProfileSearch = () => {
 
     const getViewedCandidates = async () => {
         try {
-            const res = await axios.get(`http://localhost:5002/cv-views/${loginClientDetail.companyId}`, {
+            const res = await axios.get(`https://skillety.onrender.com/cv-views/${loginClientDetail.companyId}`, {
                 headers: {
                     Authorization: `Bearer ${clientToken}`,
                     Accept: 'application/json'
@@ -955,12 +955,12 @@ const TalentsProfileSearch = () => {
 
                 if (filteredResults.length > 0) {
                     setFilteredSearchResults(filteredResults);
-                    axios.post("http://localhost:5002/recent-search", recentSearch)
-                        .then(res => {
-                            console.log(res.data)
-                            getAllRecentSearch();
-                        })
-                        .catch(err => console.log(err))
+                    axios.post("https://skillety.onrender.com/recent-search", recentSearch)
+                    .then(res=>{
+                        console.log(res.data)
+                        getAllRecentSearch();
+                    })
+                    .catch(err=>console.log(err))
                 } else {
                     setFilteredSearchResultsMsg("no such candidates found")
                 }
@@ -1243,7 +1243,7 @@ const TalentsProfileSearch = () => {
                     if (viewedCandidate.length > 0) {
                         const alreadyViewedCandidate = viewedCandidate.find(cand => cand.candidateId === id);
                         if (alreadyViewedCandidate) {
-                            window.open(`http://localhost:3000/talents/${id}`, '_blank');
+                            window.open(`https://skillety-dashboard.onrender.com/talents/${id}`, '_blank');
                         } else {
                             console.log(viewedCandidate.length)
                             if (viewedCandidate.length < cvViews) {
@@ -1251,7 +1251,7 @@ const TalentsProfileSearch = () => {
                                     candidateId: id,
                                     companyId: loginClientDetail.companyId,
                                 };
-                                const response = await axios.post("http://localhost:5002/cv-views", idData, {
+                                const response = await axios.post("https://skillety.onrender.com/cv-views", idData, {
                                     headers: {
                                         Authorization: `Bearer ${clientToken}`,
                                         Accept: 'application/json'
@@ -1261,7 +1261,7 @@ const TalentsProfileSearch = () => {
                                 const result = response.data;
                                 console.log(result);
                                 getViewedCandidates();
-                                window.open(`http://localhost:3000/talents/${id}`, '_blank');
+                                window.open(`https://skillety-dashboard.onrender.com/talents/${id}`, '_blank');
                             } else {
                                 await new Promise(() => {
                                     Swal.fire({
@@ -1271,7 +1271,7 @@ const TalentsProfileSearch = () => {
                                         confirmButtonColor: '#3085d6',
                                         confirmButtonText: 'OK',
                                     }).then(() => {
-                                        window.open(`http://localhost:3000/package-plans`, '_blank');
+                                        window.open(`https://skillety-dashboard.onrender.com/package-plans`, '_blank');
                                     });
                                 });
                             }
@@ -1281,7 +1281,7 @@ const TalentsProfileSearch = () => {
                             candidateId: id,
                             companyId: loginClientDetail.companyId,
                         };
-                        const response = await axios.post("http://localhost:5002/cv-views", idData, {
+                        const response = await axios.post("https://skillety.onrender.com/cv-views", idData, {
                             headers: {
                                 Authorization: `Bearer ${clientToken}`,
                                 Accept: 'application/json'
@@ -1291,7 +1291,7 @@ const TalentsProfileSearch = () => {
                         const result = response.data;
                         console.log(result);
                         getViewedCandidates();
-                        window.open(`http://localhost:3000/talents/${id}`, '_blank');
+                        window.open(`https://skillety-dashboard.onrender.com/talents/${id}`, '_blank');
                     }
                 } else {
                     await new Promise(() => {
@@ -1302,7 +1302,7 @@ const TalentsProfileSearch = () => {
                             confirmButtonColor: '#3085d6',
                             confirmButtonText: 'OK',
                         }).then(() => {
-                            window.open(`http://localhost:3000/package-plans`, '_blank');
+                            window.open(`https://skillety-dashboard.onrender.com/package-plans`, '_blank');
                         });
                     });
                 }
@@ -2818,7 +2818,7 @@ const TalentsProfileSearch = () => {
                                                         filteredSearchResults.slice(x[0], x[1]).map((candidate) => {
                                                             const viewedCandidateForThisCandidate = loginClientDetail.companyId && viewedCandidate.find(cand => cand.candidateId === candidate.id);
                                                             const matchingImg = candidateImg ? candidateImg.find(img => img.id === candidate.id) : null;
-                                                            const imgSrc = matchingImg ? `http://localhost:5002/candidate_profile/${matchingImg.image}` : "assets/img/talents-images/avatar.jpg";
+                                                            const imgSrc = matchingImg ? `https://skillety.onrender.com/candidate_profile/${matchingImg.image}` : "assets/img/talents-images/avatar.jpg";
 
                                                             const calculateMatchPercentage = (skills1, skills2) => {
                                                                 const matchingSkills = skills2.filter(skill => skills1.includes(skill));

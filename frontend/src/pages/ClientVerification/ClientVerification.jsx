@@ -48,7 +48,7 @@ const ClientVerification = () => {
 
     const getClient = async () => {
         try {
-            const response = await axios.get(`http://localhost:5002/clientWithUrl-Detail/${id}`);
+            const response = await axios.get(`https://skillety.onrender.com/clientWithUrl-Detail/${id}`);
             const result = response.data;
             if (!result.error) {
                 console.log(result);
@@ -71,7 +71,7 @@ const ClientVerification = () => {
     
     const verify = async (userData) => {
         try {
-            const response = await axios.post('http://localhost:5002/verify-temp-password', userData, {
+            const response = await axios.post('https://skillety.onrender.com/verify-temp-password', userData, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -92,7 +92,7 @@ const ClientVerification = () => {
 
     const finalClientRegister = async (userData) => {
         try {
-            const response = await axios.post(`http://localhost:5002/finalRegister-Client`, userData, {
+            const response = await axios.post(`https://skillety.onrender.com/finalRegister-Client`, userData, {
                 headers: {
                     'Content-Type': 'application/json',
                 },

@@ -14,7 +14,7 @@ const ContactCandidate = () => {
 
     const sendMessage = async (messageDetail) => {
         try {
-            const response = await axios.post('http://localhost:5002/contact-candidate', messageDetail, {
+            const response = await axios.post('https://skillety.onrender.com/contact-candidate', messageDetail, {
                 headers: {
                     'Content-Type': 'application/json',
                 },

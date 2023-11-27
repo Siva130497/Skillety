@@ -88,7 +88,7 @@ const JobDetails = () => {
     //get candidate applied jobs
     const getAppliedjobs = async () => {
         try {
-            const res = await axios.get(`http://localhost:5002/my-applied-jobs/${candidateId}`, {
+            const res = await axios.get(`https://skillety.onrender.com/my-applied-jobs/${candidateId}`, {
                 headers: {
                     Authorization: `Bearer ${candidateToken}`,
                     Accept: 'application/json'
@@ -110,7 +110,7 @@ const JobDetails = () => {
     //candidate apply for job
     const applyingjob = async (job) => {
         try {
-            const res = await axios.post('http://localhost:5002/job-applying', job, {
+            const res = await axios.post('https://skillety.onrender.com/job-applying', job, {
                 headers: {
                     Authorization: `Bearer ${candidateToken}`,
                     Accept: 'application/json'
@@ -133,7 +133,7 @@ const JobDetails = () => {
     //candidate delete the job
     const deletingjob = async () => {
         try {
-            const response = await axios.delete(`http://localhost:5002/delete-job/${candidateId}/${id}`, {
+            const response = await axios.delete(`https://skillety.onrender.com/delete-job/${candidateId}/${id}`, {
                 headers: {
                     Authorization: `Bearer ${candidateToken}`,
                     Accept: 'application/json'
@@ -152,7 +152,7 @@ const JobDetails = () => {
         if (candidateId) {
             getAppliedjobs()
 
-            axios.get(`http://localhost:5002/skill-match-job-Detail/${candidateId}`)
+            axios.get(`https://skillety.onrender.com/skill-match-job-Detail/${candidateId}`)
                 .then(res => {
                     console.log(res.data)
                     const reqJob = res.data.find(job => job.jobId === id)
@@ -166,7 +166,7 @@ const JobDetails = () => {
                 })
                 .catch(err => console.log(err))
 
-            axios.get(`http://localhost:5002/applied-job/${id}`)
+            axios.get(`https://skillety.onrender.com/applied-job/${id}`)
                 .then(res => {
                     console.log(res.data)
                     setApplicants(res.data?.length)
@@ -180,7 +180,7 @@ const JobDetails = () => {
 
     useEffect(() => {
         if (job) {
-            axios.get("http://localhost:5002/clients")
+            axios.get("https://skillety.onrender.com/clients")
                 .then(res => {
                     console.log(res.data)
                     setClientCompanyName((res.data.find(cli => cli.companyId === job.companyId)).companyName)
@@ -244,7 +244,7 @@ const JobDetails = () => {
                                                 </div>
                                                 <div className="dash-job-det-card-header-rgt">
                                                     <div className="dash-job-det-card-img-area">
-                                                        <img src={companyImg ? `http://localhost:5002/client_profile/${companyImg.image}` : "../assets/img/talents-images/avatar.jpg"} className='dash-job-det-card-img' alt="" />
+                                                        <img src={companyImg ? `https://skillety.onrender.com/client_profile/${companyImg.image}` : "../assets/img/talents-images/avatar.jpg"} className='dash-job-det-card-img' alt="" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -290,7 +290,7 @@ const JobDetails = () => {
                                                         </button>
                                                     } */}
                                                     <a
-                                                        href='/company-detail'
+                                                        href={`/company-detail/${job.companyId}`}
                                                         className="dash-job-det-card-apply-btn"
                                                         // data-toggle="modal"
                                                         // data-target="#company_detail_modal"

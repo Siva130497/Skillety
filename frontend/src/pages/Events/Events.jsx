@@ -19,7 +19,7 @@ const Events = ({ staffToken }) => {
     }, []);
 
     const handleDelete = (id) => {
-        axios.delete(`http://localhost:5002/events/${id}`, {
+        axios.delete(`https://skillety.onrender.com/events/${id}`, {
             headers: {
                 Authorization: `Bearer ${staffToken}`,
                 Accept: 'application/json'
@@ -32,7 +32,7 @@ const Events = ({ staffToken }) => {
             )
             .catch(err => console.log(err));
 
-        axios.delete(`http://localhost:5002/event-image-delete/${id}`, {
+        axios.delete(`https://skillety.onrender.com/event-image-delete/${id}`, {
             headers: {
                 Authorization: `Bearer ${staffToken}`,
                 Accept: 'application/json'
@@ -172,7 +172,7 @@ const Events = ({ staffToken }) => {
                                                 ))} */}
                                                         {eventDetail.slice(index * 3, (index + 1) * 3).map((eve) => {
                                                             const matchingImg = eventImg ? eventImg.find(img => img.id === eve.id) : null;
-                                                            const imgSrc = matchingImg ? `http://localhost:5002/images/${matchingImg.image}` : "assets/img/events/event-img.jpg";
+                                                            const imgSrc = matchingImg ? `https://skillety.onrender.com/images/${matchingImg.image}` : "assets/img/events/event-img.jpg";
 
                                                             return (
                                                                 <div key={eve.id} className="col-12 col-lg-4 col-xl-4 col-md-4 col-sm-10 offset-sm-1 offset-md-0 offset-lg-0 offset-xl-0 cand--events-card-area" data-aos="fade-up">

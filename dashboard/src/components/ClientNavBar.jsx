@@ -38,7 +38,7 @@ const ClientNavBar = () => {
 
     const getLoginClientDetail = async () => {
       try {
-          const res = await axios.get(`http://localhost:5002/client/${employeeId}`, {
+          const res = await axios.get(`https://skillety.onrender.com/client/${employeeId}`, {
               headers: {
                   Authorization: `Bearer ${token}`,
                   Accept: 'application/json'
@@ -64,7 +64,7 @@ const ClientNavBar = () => {
 
     useEffect(() => {
       if (loginClientDetail.companyId) {
-          axios.get(`http://localhost:5002/client-image/${loginClientDetail.companyId}`)
+          axios.get(`https://skillety.onrender.com/client-image/${loginClientDetail.companyId}`)
             .then(res=>setClientImg(res.data))
             .catch(err=>console.log(err))
       }
@@ -72,7 +72,7 @@ const ClientNavBar = () => {
 
   useEffect(() => {
       if(clientImg){
-        setClientImgUrl(`http://localhost:5002/client_profile/${clientImg.image}`)
+        setClientImgUrl(`https://skillety.onrender.com/client_profile/${clientImg.image}`)
       }
       
     }, [clientImg]);
@@ -275,7 +275,7 @@ const ClientNavBar = () => {
                   <div className="dropdown-user-role">{loginClientDetail?.companyName}</div>
                 </div>
               </div>
-              <a href="/client-profile" className="dropdown-view-pro-btn">
+              <a href={`/client-profile/${loginClientDetail.companyId}`} className="dropdown-view-pro-btn">
                 View Profile
               </a>
               {/* <div className="dropdown-btn-link-area">
@@ -288,7 +288,7 @@ const ClientNavBar = () => {
                   Settings
                 </a>
 
-                <a href="http://localhost:3000/client-login" className="dropdown-logout-btn" >
+                <a href="https://skillety-dashboard.onrender.com/client-login" className="dropdown-logout-btn" >
                   <i class="bi bi-box-arrow-right mr-3"></i>
                   Log Out
                 </a>

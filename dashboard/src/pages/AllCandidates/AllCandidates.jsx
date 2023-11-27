@@ -49,7 +49,7 @@ const AllCandidates = () => {
 
     const getAllCandidateDetail = async () => {
         try {
-            const response = await axios.get('http://localhost:5002/candidate-Detail', {
+            const response = await axios.get('https://skillety.onrender.com/candidate-Detail', {
                 headers: {
                     Authorization: `Bearer ${staffToken}`,
                     Accept: 'application/json'
@@ -69,7 +69,7 @@ const AllCandidates = () => {
 
     const getAppliedOfPostedJobs = async () => {
         try {
-            const res = await axios.get(`http://localhost:5002/applied-jobs-of-posted/${employeeId}`, {
+            const res = await axios.get(`https://skillety.onrender.com/applied-jobs-of-posted/${employeeId}`, {
                 headers: {
                     Authorization: `Bearer ${staffToken}`,
                     Accept: 'application/json'

@@ -42,7 +42,7 @@ export const AuthContextProvider = ({children}) => {
     //user login request
     const loginUser = async (userData) => {
         try {
-            const response = await axios.post(`http://localhost:5002/${userData[1]}`, userData[0], {
+            const response = await axios.post(`https://skillety.onrender.com/${userData[1]}`, userData[0], {
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -54,17 +54,17 @@ export const AuthContextProvider = ({children}) => {
                 console.log(result);
                 if (userData[1] === "staff") {
                     localStorage.setItem("staffToken", JSON.stringify(result.accessToken));
-                    window.open(`http://localhost:3000/recruiter-dashboard/${result.accessToken}`, '_blank');
+                    window.open(`https://skillety-dashboard.onrender.com/recruiter-dashboard/${result.accessToken}`, '_blank');
                 } else if (userData[1] === "admin") {
                     localStorage.setItem("adminToken",  JSON.stringify(result.accessToken));
                     navigate("/admin-dashboard");
                 } else if (userData[1] === "login-Candidate") {
                     localStorage.setItem("candidateToken",  JSON.stringify(result.accessToken));
-                    window.open(`http://localhost:3000/${result.accessToken}`, '_blank');
+                    window.open(`https://skillety-dashboard.onrender.com/${result.accessToken}`, '_blank');
                     navigate("/candidate-home")
                 } else if (userData[1] === "login-Client") {
                     localStorage.setItem("clientToken",  JSON.stringify(result.accessToken));
-                    window.open(`http://localhost:3000/client-dashboard/${result.accessToken}`, '_blank');
+                    window.open(`https://skillety-dashboard.onrender.com/client-dashboard/${result.accessToken}`, '_blank');
                     navigate("/")
                     
                 }
@@ -82,7 +82,7 @@ export const AuthContextProvider = ({children}) => {
 
     const getProtectedData = async (token) => {
         try {
-          const response = await axios.get('http://localhost:5002/protected', {
+          const response = await axios.get('https://skillety.onrender.com/protected', {
             headers: {
                 Authorization: `Bearer ${token}`,
                 Accept: 'application/json'
@@ -97,7 +97,7 @@ export const AuthContextProvider = ({children}) => {
     //candidate register
     const candidateReg = async (userData) => {
         try {
-            const response = await axios.post('http://localhost:5002/candidate-reg', userData, {
+            const response = await axios.post('https://skillety.onrender.com/candidate-reg', userData, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -139,7 +139,7 @@ export const AuthContextProvider = ({children}) => {
 
     const getEventDetail = async() => {
         try{
-            const res = await axios.get(`http://localhost:5002/events`);
+            const res = await axios.get(`https://skillety.onrender.com/events`);
             const result = res.data;
             if (!result.error) {
               console.log(result);
@@ -154,7 +154,7 @@ export const AuthContextProvider = ({children}) => {
     }
 
     const getEventImg = async() => {
-        axios.get('http://localhost:5002/event-image')
+        axios.get('https://skillety.onrender.com/event-image')
         .then(res=>{
             console.log(res.data)
             setEventImg(res.data)
@@ -163,7 +163,7 @@ export const AuthContextProvider = ({children}) => {
     }
 
     const getCandidateImg = async() => {
-        axios.get('http://localhost:5002/candidate-image')
+        axios.get('https://skillety.onrender.com/candidate-image')
         .then(res=>{
             console.log(res.data)
             setCandidateImg(res.data)
@@ -172,7 +172,7 @@ export const AuthContextProvider = ({children}) => {
     }
 
     const getClientImg = async() => {
-        axios.get('http://localhost:5002/client-image')
+        axios.get('https://skillety.onrender.com/client-image')
         .then(res=>{
             console.log(res.data)
             setClientImg(res.data)
@@ -182,7 +182,7 @@ export const AuthContextProvider = ({children}) => {
 
     const getClientChoosenPlan = async(id) => {
         try{
-            const res = await axios.get(`http://localhost:5002/client-package-plan/${id}`
+            const res = await axios.get(`https://skillety.onrender.com/client-package-plan/${id}`
             );
             const result = res.data;
             if (!result.message) {

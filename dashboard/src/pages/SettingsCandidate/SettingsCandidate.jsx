@@ -129,7 +129,7 @@ const SettingsCandidate = () => {
 
     const getAllCandidateDetail = async () => {
         try {
-            const response = await axios.get('http://localhost:5002/candidate-Detail', {
+            const response = await axios.get('https://skillety.onrender.com/candidate-Detail', {
                 headers: {
                     Accept: 'application/json'
                 }
@@ -150,7 +150,7 @@ const SettingsCandidate = () => {
     useEffect(() => {
         if (candidateId) {
             getAllCandidateDetail();
-            axios.get(`http://localhost:5002/candidate-image/${candidateId}`)
+            axios.get(`https://skillety.onrender.com/candidate-image/${candidateId}`)
                 .then(res => setCandidateImg(res.data))
                 .catch(err => console.log(err))
         }
@@ -158,7 +158,7 @@ const SettingsCandidate = () => {
 
     useEffect(() => {
         if (candidateImg) {
-            setCandidateImgUrl(`http://localhost:5002/candidate_profile/${candidateImg.image}`)
+            setCandidateImgUrl(`https://skillety.onrender.com/candidate_profile/${candidateImg.image}`)
         }
 
     }, [candidateImg]);
@@ -175,7 +175,7 @@ const SettingsCandidate = () => {
             id: candidateDetail.id,
             email: userInfo.email,
         }
-        axios.patch("http://localhost:5002/update-candidate-email", userData, {
+        axios.patch("https://skillety.onrender.com/update-candidate-email", userData, {
             headers: {
                 Authorization: `Bearer ${candidateToken}`,
                 Accept: 'application/json'
@@ -201,7 +201,7 @@ const SettingsCandidate = () => {
             id: candidateDetail.id,
             phone: userInfo.phone,
         }
-        axios.patch("http://localhost:5002/update-candidate-phone", userData, {
+        axios.patch("https://skillety.onrender.com/update-candidate-phone", userData, {
             headers: {
                 Authorization: `Bearer ${candidateToken}`,
                 Accept: 'application/json'
@@ -227,7 +227,7 @@ const SettingsCandidate = () => {
             currentPassword: userInfo.currentPassword,
             newPassword: userInfo.newPassword,
         }
-        axios.patch("http://localhost:5002/update-candidate-password", userData, {
+        axios.patch("https://skillety.onrender.com/update-candidate-password", userData, {
             headers: {
                 Authorization: `Bearer ${candidateToken}`,
                 Accept: 'application/json'
@@ -252,7 +252,7 @@ const SettingsCandidate = () => {
         if (candidateImg) {
             const formData = new FormData()
             formData.append('image', image);
-            axios.patch(`http://localhost:5002/update-candidate-profile-image/${candidateId}`, formData, {
+            axios.patch(`https://skillety.onrender.com/update-candidate-profile-image/${candidateId}`, formData, {
                 headers: {
                     Authorization: `Bearer ${candidateToken}`,
                     Accept: 'application/json'
@@ -272,7 +272,7 @@ const SettingsCandidate = () => {
             const formData = new FormData()
             formData.append('image', image);
             formData.append('id', candidateId)
-            axios.post("http://localhost:5002/upload-candidate-profile-image", formData, {
+            axios.post("https://skillety.onrender.com/upload-candidate-profile-image", formData, {
                 headers: {
                     Authorization: `Bearer ${candidateToken}`,
                     Accept: 'application/json'

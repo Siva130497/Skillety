@@ -156,7 +156,7 @@ const ClientDashboard = () => {
 
     const getLoginClientDetail = async() => {
         try{
-            const res = await axios.get(`http://localhost:5002/client/${employeeId}`, {
+            const res = await axios.get(`https://skillety.onrender.com/client/${employeeId}`, {
               headers: {
                   Authorization: `Bearer ${token}`,
                   Accept: 'application/json'
@@ -182,7 +182,7 @@ const ClientDashboard = () => {
 
     const getAllCandidateDetail = async () => {
         try{
-            const response = await axios.get('http://localhost:5002/candidate-Detail', {
+            const response = await axios.get('https://skillety.onrender.com/candidate-Detail', {
               headers: {
                   Accept: 'application/json'
               }
@@ -202,7 +202,7 @@ const ClientDashboard = () => {
 
     const getOwnPostedjobs = async() => {
         try{
-            const res = await axios.get(`http://localhost:5002/my-posted-jobs/${loginClientDetail?.companyId}`, {
+            const res = await axios.get(`https://skillety.onrender.com/my-posted-jobs/${loginClientDetail?.companyId}`, {
               headers: {
                   Authorization: `Bearer ${token}`,
                   Accept: 'application/json'
@@ -222,7 +222,7 @@ const ClientDashboard = () => {
 
       const getOwnActivejobs = async () => {
         try {
-            const res = await axios.get(`http://localhost:5002/my-active-jobs/${loginClientDetail.companyId}`, {
+            const res = await axios.get(`https://skillety.onrender.com/my-active-jobs/${loginClientDetail.companyId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     Accept: 'application/json'
@@ -242,7 +242,7 @@ const ClientDashboard = () => {
 
       const getAppliedOfPostedJobs = async() => {
         try{
-            const res = await axios.get(`http://localhost:5002/applied-jobs-of-posted/${loginClientDetail?.companyId}`, {
+            const res = await axios.get(`https://skillety.onrender.com/applied-jobs-of-posted/${loginClientDetail?.companyId}`, {
               headers: {
                   Authorization: `Bearer ${token}`,
                   Accept: 'application/json'
@@ -262,7 +262,7 @@ const ClientDashboard = () => {
 
       const allStaffFromCompany = async() => {
         try{
-            const res = await axios.get(`http://localhost:5002/all-staff/${loginClientDetail?.companyId}`, {
+            const res = await axios.get(`https://skillety.onrender.com/all-staff/${loginClientDetail?.companyId}`, {
               headers: {
                   Authorization: `Bearer ${token}`,
                   Accept: 'application/json'
@@ -508,7 +508,7 @@ const ClientDashboard = () => {
                                                         <table class="table table-striped table-hover dash-table">
                                                         {candidateDetail.slice(0,10).map((cand) => {
                                                             const matchingImg = candidateImg ? candidateImg.find(img => img.id === cand.id) : null;
-                                                            const imgSrc = matchingImg ? `http://localhost:5002/candidate_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
+                                                            const imgSrc = matchingImg ? `https://skillety.onrender.com/candidate_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
                                                             return(
                                                             <tr className='dash-table-row' key={cand.id}>
                                                                 <td>

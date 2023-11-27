@@ -17,7 +17,7 @@ const LiveChat = () => {
     useEffect(()=>{
         const getConversation = async ()=>{
             try{
-                const res = await axios.get("http://localhost:5002/conversation/"+id);
+                const res = await axios.get("https://skillety.onrender.com/conversation/"+id);
                 setConversation(res.data);
             }catch(err){
                 console.log(err);
@@ -29,7 +29,7 @@ const LiveChat = () => {
     useEffect(()=>{
         const getMessages  = async ()=>{
             try{
-                const res = await axios.get("http://localhost:5002/messages/"+currentChat?._id);
+                const res = await axios.get("https://skillety.onrender.com/messages/"+currentChat?._id);
                 setMessages(res.data);
             }catch(err){
                 console.log(err);
@@ -46,7 +46,7 @@ const LiveChat = () => {
             conversationId: currentChat._id,
         };
         try{
-            const res = await axios.post("http://localhost:5002/messages", message);
+            const res = await axios.post("https://skillety.onrender.com/messages", message);
             setMessages((prevMessages) => [...prevMessages, res.data]);
             setNewMessage("");
         }catch(err){

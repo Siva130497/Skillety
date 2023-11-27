@@ -35,7 +35,7 @@ const {Server} = require('socket.io');
 
 
 const corsOptions = {
-  origin: ['http://localhost:3000', 'http://localhost:3001'],
+  origin: ['https://skillety-frontend.onrender.com', 'https://skillety-dashboard.onrender.com', 'http://localhost:3000', 'http://localhost:3001'],
   credentials: true,
   methods: ['GET', 'POST', 'PATCH', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization', 'Access-Control-Allow-Credentials']
@@ -63,7 +63,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: "https://skillety-dashboard.onrender.com",
     methods: ["GET", "POST"],
   },
 });

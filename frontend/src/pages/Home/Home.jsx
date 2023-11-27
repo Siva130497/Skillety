@@ -85,7 +85,7 @@ const Home = () => {
 
   const getAllCandidateDetail = async () => {
     try {
-      const response = await axios.get('http://localhost:5002/candidate-Detail', {
+      const response = await axios.get('https://skillety.onrender.com/candidate-Detail', {
         headers: {
           Accept: 'application/json'
         }
@@ -104,7 +104,7 @@ const Home = () => {
 
   const getAllSkills = async () => {
     try {
-      const res = await axios.get("http://localhost:5002/skills", {
+      const res = await axios.get("https://skillety.onrender.com/skills", {
         headers: {
 
           Accept: 'application/json'
@@ -124,7 +124,7 @@ const Home = () => {
 
   const getAllJobRoles = async () => {
     try {
-      const res = await axios.get("http://localhost:5002/designations", {
+      const res = await axios.get("https://skillety.onrender.com/designations", {
         headers: {
 
           Accept: 'application/json'
@@ -142,9 +142,17 @@ const Home = () => {
     }
   };
 
+  useEffect(() => {
+    $(".home--search-btn").click(function () {
+      setTimeout(function () {
+        $("html, body").animate({ scrollTop: 0 }, 500);
+      }, 0);
+    });
+  }, []);
+
   const getPopularSearches = async () => {
     try {
-      const response = await axios.get('http://localhost:5002/popular-search', {
+      const response = await axios.get('https://skillety.onrender.com/popular-search', {
         headers: {
           Accept: 'application/json'
         }
@@ -232,7 +240,7 @@ const Home = () => {
   }
 
   const handlePopularSearch = () => {
-    axios.post("http://localhost:5002/popular-search", selectedResults)
+    axios.post("https://skillety.onrender.com/popular-search", selectedResults)
       .then(res => {
         console.log(res.data)
         getPopularSearches();
@@ -241,14 +249,6 @@ const Home = () => {
       })
       .catch(err => console.log(err))
   }
-
-  useEffect(() => {
-    $(".home--search-btn").click(function () {
-      setTimeout(function () {
-        $("html, body").animate({ scrollTop: 0 }, 500);
-      }, 0);
-    });
-  }, []);
 
   return (
     <div>
@@ -912,7 +912,7 @@ const Home = () => {
           >
             {candidateDetail.map((candidate) => {
               const matchingImg = candidateImg ? candidateImg.find(img => img.id === candidate.id) : null;
-              const imgSrc = matchingImg ? `http://localhost:5002/candidate_profile/${matchingImg.image}` : "assets/img/talents-images/avatar.jpg";
+              const imgSrc = matchingImg ? `https://skillety.onrender.com/candidate_profile/${matchingImg.image}` : "assets/img/talents-images/avatar.jpg";
               return (
                 <SwiperSlide>
                   <article className='candidate--card'>

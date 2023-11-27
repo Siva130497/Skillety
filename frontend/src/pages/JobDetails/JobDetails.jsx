@@ -88,7 +88,7 @@ const JobDetails = () => {
   const getAppliedjobs = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:5002/my-applied-jobs/${candidateId}`,
+        `https://skillety.onrender.com/my-applied-jobs/${candidateId}`,
         {
           headers: {
             Authorization: `Bearer ${candidateToken}`,
@@ -111,7 +111,7 @@ const JobDetails = () => {
   //candidate apply for job
   const applyingjob = async (job) => {
     try {
-      const res = await axios.post("http://localhost:5002/job-applying", job, {
+      const res = await axios.post("https://skillety.onrender.com/job-applying", job, {
         headers: {
           Authorization: `Bearer ${candidateToken}`,
           Accept: "application/json",
@@ -135,7 +135,7 @@ const JobDetails = () => {
   const deletingjob = async () => {
     try {
       const response = await axios.delete(
-        `http://localhost:5002/delete-job/${candidateId}/${id}`,
+        `https://skillety.onrender.com/delete-job/${candidateId}/${id}`,
         {
           headers: {
             Authorization: `Bearer ${candidateToken}`,
@@ -157,7 +157,7 @@ const JobDetails = () => {
       getAppliedjobs();
 
       axios
-        .get(`http://localhost:5002/skill-match-job-Detail/${candidateId}`)
+        .get(`https://skillety.onrender.com/skill-match-job-Detail/${candidateId}`)
         .then((res) => {
           console.log(res.data);
           const reqJob = res.data.find((job) => job.jobId === id);
@@ -172,7 +172,7 @@ const JobDetails = () => {
         .catch((err) => console.log(err));
 
       axios
-        .get(`http://localhost:5002/applied-job/${id}`)
+        .get(`https://skillety.onrender.com/applied-job/${id}`)
         .then((res) => {
           console.log(res.data);
           setApplicants(res.data?.length);
@@ -184,7 +184,7 @@ const JobDetails = () => {
   useEffect(() => {
     if (job) {
       axios
-        .get("http://localhost:5002/clients")
+        .get("https://skillety.onrender.com/clients")
         .then((res) => {
           console.log(res.data);
           setClientCompanyName(
@@ -275,7 +275,7 @@ const JobDetails = () => {
                                 <img
                                   src={
                                     companyImg
-                                      ? `http://localhost:5002/client_profile/${companyImg.image}`
+                                      ? `https://skillety.onrender.com/client_profile/${companyImg.image}`
                                       : "../assets/img/talents-images/avatar.jpg"
                                   }
                                   className="dash-job-det-card-img"
@@ -325,7 +325,7 @@ const JobDetails = () => {
                               </svg>
                             </label> */}
                               <a
-                                href="/company-info"
+                                href={`/company-info/${job?.companyId}`}
                                 className="dash-job-det-card-apply-btn"
                               // data-bs-toggle="modal"
                               // data-bs-target="#company_detail_modal"

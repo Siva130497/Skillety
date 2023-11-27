@@ -19,6 +19,9 @@ const SettingsClient = () => {
     const [clientImgUrl, setClientImgUrl] = useState("");
     const [image, setImage] = useState();
 
+    const [companyDetail, setCompanyDetail] = useState();
+    const [selectedBenefits, setSelectedBenefits] = useState([]);
+
     const [userInfo, setUserInfo] = useState({
         email: "",
         phone: "",
@@ -193,7 +196,7 @@ const SettingsClient = () => {
 
     const getLoginClientDetail = async () => {
         try {
-            const res = await axios.get(`http://localhost:5002/client/${employeeId}`, {
+            const res = await axios.get(`https://skillety.onrender.com/client/${employeeId}`, {
                 headers: {
                     Authorization: `Bearer ${clientToken}`,
                     Accept: 'application/json'
@@ -219,15 +222,28 @@ const SettingsClient = () => {
 
     useEffect(() => {
         if (loginClientDetail.companyId) {
-            axios.get(`http://localhost:5002/client-image/${loginClientDetail.companyId}`)
+            axios.get(`https://skillety.onrender.com/client-image/${loginClientDetail.companyId}`)
                 .then(res => setClientImg(res.data))
                 .catch(err => console.log(err))
+
+                axios.get(`https://skillety.onrender.com/company-detail/${loginClientDetail.companyId}`, {
+                    headers: {
+                        Authorization: `Bearer ${clientToken}`,
+                        Accept: 'application/json'
+                    }
+                })
+                .then(res=>{
+                    console.log(res.data)
+                    setCompanyDetail(res.data)
+                    setSelectedBenefits(res.data.benefits)
+                })
+                .catch(err=>console.log(err))
         }
     }, [loginClientDetail.companyId]);
 
     useEffect(() => {
         if (clientImg) {
-            setClientImgUrl(`http://localhost:5002/client_profile/${clientImg.image}`)
+            setClientImgUrl(`https://skillety.onrender.com/client_profile/${clientImg.image}`)
         }
 
     }, [clientImg]);
@@ -243,7 +259,7 @@ const SettingsClient = () => {
             id: loginClientDetail.id,
             email: userInfo.email,
         }
-        axios.patch("http://localhost:5002/update-client-email", userData, {
+        axios.patch("https://skillety.onrender.com/update-client-email", userData, {
             headers: {
                 Authorization: `Bearer ${clientToken}`,
                 Accept: 'application/json'
@@ -268,7 +284,7 @@ const SettingsClient = () => {
             id: loginClientDetail.id,
             phone: userInfo.phone,
         }
-        axios.patch("http://localhost:5002/update-client-phone", userData, {
+        axios.patch("https://skillety.onrender.com/update-client-phone", userData, {
             headers: {
                 Authorization: `Bearer ${clientToken}`,
                 Accept: 'application/json'
@@ -294,7 +310,7 @@ const SettingsClient = () => {
             currentPassword: userInfo.currentPassword,
             newPassword: userInfo.newPassword,
         }
-        axios.patch("http://localhost:5002/update-client-password", userData, {
+        axios.patch("https://skillety.onrender.com/update-client-password", userData, {
             headers: {
                 Authorization: `Bearer ${clientToken}`,
                 Accept: 'application/json'
@@ -319,7 +335,7 @@ const SettingsClient = () => {
         if (clientImg) {
             const formData = new FormData()
             formData.append('image', image);
-            axios.patch(`http://localhost:5002/update-client-profile-image/${loginClientDetail.companyId}`, formData, {
+            axios.patch(`https://skillety.onrender.com/update-client-profile-image/${loginClientDetail.companyId}`, formData, {
                 headers: {
                     Authorization: `Bearer ${clientToken}`,
                     Accept: 'application/json'
@@ -339,7 +355,7 @@ const SettingsClient = () => {
             const formData = new FormData()
             formData.append('image', image);
             formData.append('id', loginClientDetail.companyId)
-            axios.post("http://localhost:5002/upload-client-profile-image", formData, {
+            axios.post("https://skillety.onrender.com/upload-client-profile-image", formData, {
                 headers: {
                     Authorization: `Bearer ${clientToken}`,
                     Accept: 'application/json'
@@ -540,34 +556,30 @@ const SettingsClient = () => {
                                             <div className="setting-content">
                                                 <div className='setting-name d-flex align-items-center gap-10'>
                                                     Details of Company
-                                                    <button className={`com-detail-edit-btn ${isDetailsExpanded ? 'expanded' : ''}`} onClick={handleDetailsToggle}>
+                                                    {/* <button className={`com-detail-edit-btn ${isDetailsExpanded ? 'expanded' : ''}`} onClick={handleDetailsToggle}>
                                                         <i class={`bi ${isDetailsExpanded ? 'bi-x' : 'bi-pencil-fill'}`}></i>
-                                                    </button>
+                                                    </button> */}
                                                 </div>
                                                 <div className='setting-value pt-3'>
-                                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                                                    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-                                                    dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                                                    {companyDetail?.shortDescription}
                                                     <br />
-                                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                                                    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-                                                    dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                                                    {companyDetail?.longDescription}
                                                 </div>
 
-                                                <div className={`change-text-area ${isDetailsExpanded ? 'expanded' : ''}`}>
+                                                {/* <div className={`change-text-area ${isDetailsExpanded ? 'expanded' : ''}`}>
                                                     <div className="row mt-4">
                                                         <div className="col-12">
                                                             <textarea rows={5} className='change-setting-input' placeholder='Change Company Detail'></textarea>
                                                             <button className='setting-update-btn mt-3'>Update</button>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </div> */}
                                             </div>
 
                                             <div className="setting-content">
                                                 <div className='setting-name'>Website</div>
-                                                <div className='setting-value'>https/mindtree.com</div>
-                                                <div className={`change-input-area ${isWebsite1Expanded ? 'expanded' : ''}`}>
+                                                <div className='setting-value'><a href={companyDetail?.website}>{companyDetail?.website}</a></div>
+                                                {/* <div className={`change-input-area ${isWebsite1Expanded ? 'expanded' : ''}`}>
                                                     <div className="row">
                                                         <div className="col-12 col-xl-5 col-lg-5 col-md-6 d-flex align-items-center gap-10 mt-4 mb-2">
                                                             <input type="email" className='change-setting-input' placeholder='Change Website' />
@@ -577,40 +589,45 @@ const SettingsClient = () => {
                                                 </div>
                                                 <button className={`setting-change-btn ${isWebsite1Expanded ? 'expanded' : ''}`} data-type="Website" onClick={handleWebsite1Toggle}>
                                                     {isWebsite1Expanded ? 'Cancel' : `Change Website`}
-                                                </button>
+                                                </button> */}
                                             </div>
 
                                             <div className="setting-content">
                                                 <div className='setting-name d-flex align-items-center gap-10'>
                                                     Perks to work with us
-                                                    <button className={`com-detail-edit-btn ${isPerksExpanded ? 'expanded' : ''}`} onClick={handlePerksToggle}>
+                                                    {/* <button className={`com-detail-edit-btn ${isPerksExpanded ? 'expanded' : ''}`} onClick={handlePerksToggle}>
                                                         <i class={`bi ${isPerksExpanded ? 'bi-x' : 'bi-pencil-fill'}`}></i>
-                                                    </button>
+                                                    </button> */}
                                                 </div>
-                                                <div className='setting-value pt-3'>
+                                                {/* <div className='setting-value pt-3'>
                                                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                                                     Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
                                                     dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                                                </div>
+                                                </div> */}
                                                 <ul className='perks-content'>
+                                                    {selectedBenefits.map(perk=>{
+                                                        return(
+                                                            <li className='perks-list-item'>{perk}</li>
+                                                        )
+                                                    })}
+                                                    
+                                                    {/* <li className='perks-list-item'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et </li>
                                                     <li className='perks-list-item'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et </li>
                                                     <li className='perks-list-item'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et </li>
-                                                    <li className='perks-list-item'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et </li>
-                                                    <li className='perks-list-item'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et </li>
-                                                    <li className='perks-list-item'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et </li>
+                                                    <li className='perks-list-item'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et </li> */}
                                                 </ul>
 
-                                                <div className={`change-text-area ${isPerksExpanded ? 'expanded' : ''}`}>
+                                                {/* <div className={`change-text-area ${isPerksExpanded ? 'expanded' : ''}`}>
                                                     <div className="row mt-4">
                                                         <div className="col-12">
                                                             <textarea rows={5} className='change-setting-input' placeholder='Change Perks Details'></textarea>
                                                             <button className='setting-update-btn mt-3'>Update</button>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </div> */}
                                             </div>
 
-                                            <div className="setting-content">
+                                            {/* <div className="setting-content">
                                                 <div className='setting-name'>Website</div>
                                                 <div className='setting-value'>https/mindtree.com</div>
                                                 <div className="change-input-area">
@@ -650,7 +667,7 @@ const SettingsClient = () => {
                                                     </div>
                                                 </div>
                                                 <button className="setting-change-btn" data-type="Website">Change Website</button>
-                                            </div>
+                                            </div> */}
 
                                         </div>
 

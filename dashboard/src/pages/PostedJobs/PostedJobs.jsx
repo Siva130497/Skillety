@@ -53,7 +53,7 @@ const PostedJobs = () => {
 
     const getOwnPostedjobs = async () => {
         try {
-            const res = await axios.get(`http://localhost:5002/my-posted-jobs/${employeeId}`, {
+            const res = await axios.get(`https://skillety.onrender.com/my-posted-jobs/${employeeId}`, {
                 headers: {
                     Authorization: `Bearer ${staffToken}`,
                     Accept: 'application/json'
@@ -73,7 +73,7 @@ const PostedJobs = () => {
 
     const getAppliedOfPostedJobs = async () => {
         try {
-            const res = await axios.get(`http://localhost:5002/applied-jobs-of-posted/${employeeId}`, {
+            const res = await axios.get(`https://skillety.onrender.com/applied-jobs-of-posted/${employeeId}`, {
                 headers: {
                     Authorization: `Bearer ${staffToken}`,
                     Accept: 'application/json'

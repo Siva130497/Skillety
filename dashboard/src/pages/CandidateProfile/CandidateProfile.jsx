@@ -234,7 +234,7 @@ const CandidateProfile = () => {
 
     useEffect(() => {
         if (id && candidateToken) {
-            axios.get(`http://localhost:5002/candidate/${id}`)
+            axios.get(`https://skillety.onrender.com/candidate/${id}`)
                 .then(res => {
                     console.log(res.data)
                     setLoading(false);
@@ -247,14 +247,14 @@ const CandidateProfile = () => {
                 })
 
 
-            axios.get(`http://localhost:5002/candidate-image/${id}`)
+            axios.get(`https://skillety.onrender.com/candidate-image/${id}`)
                 .then(res => {
                     console.log(res.data)
                     setCandidateImg(res.data)
                 })
                 .catch(err => console.log(err))
 
-            axios.get(`http://localhost:5002/candidate-resume/${id}`)
+            axios.get(`https://skillety.onrender.com/candidate-resume/${id}`)
                 .then(res => {
                     console.log(res.data)
                     setResume(res.data)
@@ -265,14 +265,14 @@ const CandidateProfile = () => {
 
     useEffect(() => {
         if (candidateImg) {
-            setCandidateImgUrl(`http://localhost:5002/candidate_profile/${candidateImg.image}`)
+            setCandidateImgUrl(`https://skillety.onrender.com/candidate_profile/${candidateImg.image}`)
         }
 
     }, [candidateImg]);
 
     useEffect(() => {
         if (resume) {
-            setCandidateResumeUrl(`http://localhost:5002/files/${resume.file}`)
+            setCandidateResumeUrl(`https://skillety.onrender.com/files/${resume.file}`)
         }
 
     }, [resume]);
@@ -291,7 +291,7 @@ const CandidateProfile = () => {
             id: id,
             firstName: userInfo.firstName,
         }
-        axios.patch("http://localhost:5002/update-candidate-first-name", userData, {
+        axios.patch("https://skillety.onrender.com/update-candidate-first-name", userData, {
             headers: {
                 Authorization: `Bearer ${candidateToken}`,
                 Accept: 'application/json'
@@ -303,7 +303,7 @@ const CandidateProfile = () => {
                     showSuccessMessage("First Name Updated")
                     setUserInfo(prevUserInfo => ({ ...prevUserInfo, firstName: "" }));
                     
-                    axios.get(`http://localhost:5002/candidate/${id}`)
+                    axios.get(`https://skillety.onrender.com/candidate/${id}`)
                         .then(res => {
                             console.log(res.data)
                             setLoginCandidate(res.data)
@@ -325,7 +325,7 @@ const CandidateProfile = () => {
             id: id,
             lastName: userInfo.lastName,
         }
-        axios.patch("http://localhost:5002/update-candidate-last-name", userData, {
+        axios.patch("https://skillety.onrender.com/update-candidate-last-name", userData, {
             headers: {
                 Authorization: `Bearer ${candidateToken}`,
                 Accept: 'application/json'
@@ -338,7 +338,7 @@ const CandidateProfile = () => {
                     setUserInfo(prevUserInfo => ({ ...prevUserInfo, lastName: "" }));
 
 
-                    axios.get(`http://localhost:5002/candidate/${id}`)
+                    axios.get(`https://skillety.onrender.com/candidate/${id}`)
                         .then(res => {
                             console.log(res.data)
                             setLoginCandidate(res.data)
@@ -357,7 +357,7 @@ const CandidateProfile = () => {
             id: id,
             location: userInfo.location,
         }
-        axios.patch("http://localhost:5002/update-candidate-location", userData, {
+        axios.patch("https://skillety.onrender.com/update-candidate-location", userData, {
             headers: {
                 Authorization: `Bearer ${candidateToken}`,
                 Accept: 'application/json'
@@ -370,7 +370,7 @@ const CandidateProfile = () => {
                     setUserInfo(prevUserInfo => ({ ...prevUserInfo, location: "" }));
 
 
-                    axios.get(`http://localhost:5002/candidate/${id}`)
+                    axios.get(`https://skillety.onrender.com/candidate/${id}`)
                         .then(res => {
                             console.log(res.data)
                             setLoginCandidate(res.data)
@@ -388,7 +388,7 @@ const CandidateProfile = () => {
         if (resume) {
             const formData = new FormData()
             formData.append('resume', resume);
-            axios.patch(`http://localhost:5002/update-candidate-resume/${id}`, formData, {
+            axios.patch(`https://skillety.onrender.com/update-candidate-resume/${id}`, formData, {
                 headers: {
                     Authorization: `Bearer ${candidateToken}`,
                     Accept: 'application/json'
@@ -399,7 +399,7 @@ const CandidateProfile = () => {
                     showSuccessMessage("resume updated")
                     setResume(null);
 
-                    axios.get(`http://localhost:5002/candidate-resume/${id}`)
+                    axios.get(`https://skillety.onrender.com/candidate-resume/${id}`)
                     .then(res => {
                         console.log(res.data)
                         setResume(res.data)
@@ -415,7 +415,7 @@ const CandidateProfile = () => {
             const formData = new FormData()
             formData.append('file', resume);
             formData.append('id', id)
-            axios.post("http://localhost:5002/upload", formData, {
+            axios.post("https://skillety.onrender.com/upload", formData, {
                 headers: {
                     Accept: 'application/json'
                 }
@@ -425,7 +425,7 @@ const CandidateProfile = () => {
                     showSuccessMessage("resume updated")
                     setResume(null);
 
-                    axios.get(`http://localhost:5002/candidate-resume/${id}`)
+                    axios.get(`https://skillety.onrender.com/candidate-resume/${id}`)
                     .then(res => {
                         console.log(res.data)
                         setResume(res.data)
@@ -445,7 +445,7 @@ const CandidateProfile = () => {
     //         id: id,
     //         skill: userInfo.skill,
     //     }
-    //     axios.patch("http://localhost:5002/update-candidate-skill", userData, {
+    //     axios.patch("https://skillety.onrender.com/update-candidate-skill", userData, {
     //         headers: {
     //             Authorization: `Bearer ${candidateToken}`,
     //             Accept: 'application/json'
@@ -457,7 +457,7 @@ const CandidateProfile = () => {
     //                 alert("location updated")
     //                 setUserInfo({ ...userInfo, skill: "" })
 
-    //                 axios.get(`http://localhost:5002/candidate/${id}`)
+    //                 axios.get(`https://skillety.onrender.com/candidate/${id}`)
     //                 .then(res=>{
     //                     console.log(res.data)
     //                     setLoginCandidate(res.data)
@@ -473,7 +473,7 @@ const CandidateProfile = () => {
             id: id,
             profileHeadline: userInfo.profileHeadline,
         }
-        axios.patch("http://localhost:5002/update-candidate-profileHeadline", userData, {
+        axios.patch("https://skillety.onrender.com/update-candidate-profileHeadline", userData, {
             headers: {
                 Authorization: `Bearer ${candidateToken}`,
                 Accept: 'application/json'
@@ -485,7 +485,7 @@ const CandidateProfile = () => {
                     showSuccessMessage("profile headline updated")
                     setUserInfo(prevUserInfo => ({ ...prevUserInfo, profileHeadline: "" }))
 
-                    axios.get(`http://localhost:5002/candidate/${id}`)
+                    axios.get(`https://skillety.onrender.com/candidate/${id}`)
                         .then(res => {
                             console.log(res.data)
                             setLoginCandidate(res.data)
@@ -628,7 +628,7 @@ const CandidateProfile = () => {
                                                                 <div className="prof-more-det-area">
                                                                     <div className="prof-more-det">
                                                                         <i class="bi bi-telephone"></i>
-                                                                        <div className="prof-more-det-title">{loginCandidate?.phone}</div>
+                                                                        <div className="prof-more-det-title" onClick={()=>window.location.href = `tel:${loginCandidate?.phone}`}><a className='setting-value link' href={`tel:${loginCandidate?.phone}`}>{loginCandidate?.phone}</a></div>
                                                                         {/* <button className="prof-more-det-edit-btn" data-type="mobile number">Add mobile number</button> */}
                                                                     </div>
                                                                     {/* <div className="prof-more-det-input-area">
@@ -644,7 +644,7 @@ const CandidateProfile = () => {
                                                                 <div className="prof-more-det-area">
                                                                     <div className="prof-more-det">
                                                                         <i class="bi bi-envelope"></i>
-                                                                        <div className="prof-more-det-title">{loginCandidate?.email}</div>
+                                                                        <div className="prof-more-det-title" onClick={()=> window.location.href = `mailto:${loginCandidate?.email}`}><a className='setting-value link' href={`mailto:${loginCandidate?.email}`}>{loginCandidate?.email}</a></div>
                                                                         {/* <button className="prof-more-det-edit-btn" data-type="your email">Add your email</button> */}
                                                                     </div>
                                                                     {/* <div className="prof-more-det-input-area">
