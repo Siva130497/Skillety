@@ -102,7 +102,7 @@ function App() {
             <Route path='/client-login' element={<ClientLogin />} />
             <Route path='/candidate-login' element={<CandidateLogin />} />
             <Route path='/packages' element={<Packages />} />
-            <Route path='verification/:id' element={<ClientVerification />} />
+            <Route path='/verification/:id' element={<ClientVerification />} />
             <Route path='/admin-login' element={<AdminLogin />} />
             <Route path='/recruiter-login' element={<RecruiterLogin />} />
             <Route path='/forgot-password/:role' element={<ForgotPassword />} />
