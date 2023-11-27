@@ -196,7 +196,7 @@ const SettingsClient = () => {
 
     const getLoginClientDetail = async () => {
         try {
-            const res = await axios.get(`http://localhost:5002/client/${employeeId}`, {
+            const res = await axios.get(`https://skillety.onrender.com/client/${employeeId}`, {
                 headers: {
                     Authorization: `Bearer ${clientToken}`,
                     Accept: 'application/json'
@@ -222,11 +222,11 @@ const SettingsClient = () => {
 
     useEffect(() => {
         if (loginClientDetail.companyId) {
-            axios.get(`http://localhost:5002/client-image/${loginClientDetail.companyId}`)
+            axios.get(`https://skillety.onrender.com/client-image/${loginClientDetail.companyId}`)
                 .then(res => setClientImg(res.data))
                 .catch(err => console.log(err))
 
-                axios.get(`http://localhost:5002/company-detail/${loginClientDetail.companyId}`, {
+                axios.get(`https://skillety.onrender.com/company-detail/${loginClientDetail.companyId}`, {
                     headers: {
                         Authorization: `Bearer ${clientToken}`,
                         Accept: 'application/json'
@@ -243,7 +243,7 @@ const SettingsClient = () => {
 
     useEffect(() => {
         if (clientImg) {
-            setClientImgUrl(`http://localhost:5002/client_profile/${clientImg.image}`)
+            setClientImgUrl(`https://skillety.onrender.com/client_profile/${clientImg.image}`)
         }
 
     }, [clientImg]);
@@ -259,7 +259,7 @@ const SettingsClient = () => {
             id: loginClientDetail.id,
             email: userInfo.email,
         }
-        axios.patch("http://localhost:5002/update-client-email", userData, {
+        axios.patch("https://skillety.onrender.com/update-client-email", userData, {
             headers: {
                 Authorization: `Bearer ${clientToken}`,
                 Accept: 'application/json'
@@ -284,7 +284,7 @@ const SettingsClient = () => {
             id: loginClientDetail.id,
             phone: userInfo.phone,
         }
-        axios.patch("http://localhost:5002/update-client-phone", userData, {
+        axios.patch("https://skillety.onrender.com/update-client-phone", userData, {
             headers: {
                 Authorization: `Bearer ${clientToken}`,
                 Accept: 'application/json'
@@ -310,7 +310,7 @@ const SettingsClient = () => {
             currentPassword: userInfo.currentPassword,
             newPassword: userInfo.newPassword,
         }
-        axios.patch("http://localhost:5002/update-client-password", userData, {
+        axios.patch("https://skillety.onrender.com/update-client-password", userData, {
             headers: {
                 Authorization: `Bearer ${clientToken}`,
                 Accept: 'application/json'
@@ -335,7 +335,7 @@ const SettingsClient = () => {
         if (clientImg) {
             const formData = new FormData()
             formData.append('image', image);
-            axios.patch(`http://localhost:5002/update-client-profile-image/${loginClientDetail.companyId}`, formData, {
+            axios.patch(`https://skillety.onrender.com/update-client-profile-image/${loginClientDetail.companyId}`, formData, {
                 headers: {
                     Authorization: `Bearer ${clientToken}`,
                     Accept: 'application/json'
@@ -355,7 +355,7 @@ const SettingsClient = () => {
             const formData = new FormData()
             formData.append('image', image);
             formData.append('id', loginClientDetail.companyId)
-            axios.post("http://localhost:5002/upload-client-profile-image", formData, {
+            axios.post("https://skillety.onrender.com/upload-client-profile-image", formData, {
                 headers: {
                     Authorization: `Bearer ${clientToken}`,
                     Accept: 'application/json'

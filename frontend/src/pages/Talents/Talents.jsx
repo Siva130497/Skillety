@@ -104,7 +104,7 @@ const Talents = () => {
 
     const getAllCandidateDetail = async () => {
         try{
-            const response = await axios.get('http://localhost:5002/candidate-Detail', {
+            const response = await axios.get('https://skillety.onrender.com/candidate-Detail', {
               headers: {
                   Accept: 'application/json'
               }
@@ -131,7 +131,7 @@ const Talents = () => {
 
     useEffect(()=>{
         const matchingImg = candidateImg ? candidateImg.find(img => img.id === id) : null;
-        const imgSrc = matchingImg ? `http://localhost:5002/candidate_profile/${matchingImg.image}` : "assets/img/talents-images/avatar.jpg";
+        const imgSrc = matchingImg ? `https://skillety.onrender.com/candidate_profile/${matchingImg.image}` : "assets/img/talents-images/avatar.jpg";
         setImg(imgSrc);
     },[candidateDetail])
 

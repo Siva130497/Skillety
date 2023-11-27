@@ -30,7 +30,7 @@ const AllClients = () => {
 
     const getAllClientDetails = async () => {
         try {
-            const response = await axios.get(`http://localhost:5002/client-Detail`, {
+            const response = await axios.get(`https://skillety.onrender.com/client-Detail`, {
                 headers: {
                     Authorization: `Bearer ${staffToken}`,
                     Accept: 'application/json'
@@ -50,7 +50,7 @@ const AllClients = () => {
 
     const getAllClient = async () => {
         try {
-            const response = await axios.get(`http://localhost:5002/clientWithUrl-Detail`, {
+            const response = await axios.get(`https://skillety.onrender.com/clientWithUrl-Detail`, {
                 headers: {
                     Authorization: `Bearer ${staffToken}`,
                     Accept: 'application/json'
@@ -93,7 +93,7 @@ const AllClients = () => {
     const createClient = async (id) => {
         const userId = { id };
         try {
-            const response = await axios.post(`http://localhost:5002/tempPass-Client/${id}`, userId, {
+            const response = await axios.post(`https://skillety.onrender.com/tempPass-Client/${id}`, userId, {
                 headers: {
                     Authorization: `Bearer ${staffToken}`,
                     'Content-Type': 'application/json',

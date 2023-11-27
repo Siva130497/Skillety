@@ -5,7 +5,7 @@ import '../../App.css';
 import ScrollToBottom from "react-scroll-to-bottom";
 
 
-const socket = io.connect('http://localhost:5002');
+const socket = io.connect('https://skillety.onrender.com');
 
 const Chat = ({userName, userId, staffToken, candidateToken}) => {
   
@@ -27,7 +27,7 @@ const Chat = ({userName, userId, staffToken, candidateToken}) => {
 
   useEffect(()=>{
     if(staffToken){
-      axios.get("http://localhost:5002/candidate-chat", {
+      axios.get("https://skillety.onrender.com/candidate-chat", {
         headers: {
           Authorization: `Bearer ${staffToken}`,
           Accept: 'application/json'
@@ -44,7 +44,7 @@ const Chat = ({userName, userId, staffToken, candidateToken}) => {
   useEffect(()=>{
     if(userName && roomId){
       socket.emit('join_room', roomId)
-      axios.get(`http://localhost:5002/roomId-chat/${roomId}`, {
+      axios.get(`https://skillety.onrender.com/roomId-chat/${roomId}`, {
         headers: {
           Authorization: `Bearer ${candidateToken ? candidateToken : staffToken}`,
           Accept: 'application/json'
@@ -58,7 +58,7 @@ const Chat = ({userName, userId, staffToken, candidateToken}) => {
                 setMessages(result.allChatDetailOfRoomId);
             }else{
               setDisableMode(true);
-              axios.get(`http://localhost:5002/staff/${result.nonMatchingUserId[0].userId}`, {
+              axios.get(`https://skillety.onrender.com/staff/${result.nonMatchingUserId[0].userId}`, {
                 headers: {
                   Authorization: `Bearer ${staffToken}`,
                   Accept: 'application/json'
@@ -110,7 +110,7 @@ const Chat = ({userName, userId, staffToken, candidateToken}) => {
         setMessages((prevMessages) => [...prevMessages, messageData]);
         setInputMessage("");
 
-        const res = await axios.post(`http://localhost:5002/roomId-chat`, messageData, {
+        const res = await axios.post(`https://skillety.onrender.com/roomId-chat`, messageData, {
           headers: {
             Authorization: `Bearer ${candidateToken ? candidateToken : staffToken}`,
             Accept: 'application/json'
@@ -120,7 +120,7 @@ const Chat = ({userName, userId, staffToken, candidateToken}) => {
         console.log(res.data);
   
         if(candidateToken){
-          const response = await axios.post(`http://localhost:5002/candidate-chat`, {roomId, userName}, {
+          const response = await axios.post(`https://skillety.onrender.com/candidate-chat`, {roomId, userName}, {
           headers: {
             Authorization: `Bearer ${candidateToken}`,
             Accept: 'application/json'

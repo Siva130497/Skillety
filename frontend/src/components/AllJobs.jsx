@@ -20,7 +20,7 @@ const AllJobs = ({staffToken, employeeId}) => {
 
     const getPostedjobs = async() => {
         try{
-            const res = await axios.get(`http://localhost:5002/posted-jobs`, {
+            const res = await axios.get(`https://skillety.onrender.com/posted-jobs`, {
               headers: {
                   Authorization: `Bearer ${staffToken}`,
                   Accept: 'application/json'
@@ -40,7 +40,7 @@ const AllJobs = ({staffToken, employeeId}) => {
 
       const getAllCandidateDetail = async () => {
         try{
-            const response = await axios.get('http://localhost:5002/candidate-Detail', {
+            const response = await axios.get('https://skillety.onrender.com/candidate-Detail', {
               headers: {
                   Authorization: `Bearer ${staffToken}`,
                   Accept: 'application/json'
@@ -60,7 +60,7 @@ const AllJobs = ({staffToken, employeeId}) => {
     
       const getAssignedCandidates = async() => {
         try{
-            const res = await axios.get(`http://localhost:5002/assigned-candidates`, {
+            const res = await axios.get(`https://skillety.onrender.com/assigned-candidates`, {
               headers: {
                   Authorization: `Bearer ${staffToken}`,
                   Accept: 'application/json'
@@ -86,7 +86,7 @@ const AllJobs = ({staffToken, employeeId}) => {
 
       const getRecruiterNameWhoAssignedCandidate = async(id) => {
         try{
-            const res = await axios.get(`http://localhost:5002/staff/${id}`, {
+            const res = await axios.get(`https://skillety.onrender.com/staff/${id}`, {
               headers: {
                   Authorization: `Bearer ${staffToken}`,
                   Accept: 'application/json'
@@ -107,7 +107,7 @@ const AllJobs = ({staffToken, employeeId}) => {
 
       const assigningCandidate = async(candidate) => {
         try{
-            const res = await axios.post('http://localhost:5002/candidate-assigning', candidate, {
+            const res = await axios.post('https://skillety.onrender.com/candidate-assigning', candidate, {
               headers: {
                   Authorization: `Bearer ${staffToken}`,
                   Accept: 'application/json'

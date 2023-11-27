@@ -124,7 +124,7 @@ const EventPosting = () => {
     const eventPosting = async (event) => {
         if (image && dateString) {
             try {
-                const response = await axios.post('http://localhost:5002/events', event, {
+                const response = await axios.post('https://skillety.onrender.com/events', event, {
                     headers: {
                         Authorization: `Bearer ${staffToken}`,
                         Accept: 'application/json'
@@ -169,7 +169,7 @@ const EventPosting = () => {
             const formData = new FormData()
             formData.append('image', image);
             formData.append('id', id)
-            axios.post("http://localhost:5002/upload-image", formData, {
+            axios.post("https://skillety.onrender.com/upload-image", formData, {
                 headers: {
                     Authorization: `Bearer ${staffToken}`,
                     Accept: 'application/json'

@@ -124,7 +124,7 @@ const CandidateRegister = () => {
 
     const getAllSkills = async () => {
         try {
-            const res = await axios.get("http://localhost:5002/skills");
+            const res = await axios.get("https://skillety.onrender.com/skills");
             setSkillArray(res.data);
         } catch (err) {
             console.log(err);
@@ -133,7 +133,7 @@ const CandidateRegister = () => {
 
     const getAllDesignations = async () => {
         try {
-            const res = await axios.get("http://localhost:5002/designations");
+            const res = await axios.get("https://skillety.onrender.com/designations");
             setDesignationArray(res.data);
         } catch (err) {
             console.log(err);
@@ -142,7 +142,7 @@ const CandidateRegister = () => {
 
     const getAllLocations = async () => {
         try {
-            const res = await axios.get("http://localhost:5002/locations", {
+            const res = await axios.get("https://skillety.onrender.com/locations", {
                 headers: {
                     Accept: 'application/json'
                 }
@@ -161,7 +161,7 @@ const CandidateRegister = () => {
 
     const getAllEducation = async () => {
         try {
-            const res = await axios.get("http://localhost:5002/educations", {
+            const res = await axios.get("https://skillety.onrender.com/educations", {
                 headers: {
                     Accept: 'application/json'
                 }
@@ -408,7 +408,7 @@ const CandidateRegister = () => {
                 candidateReg(updatedCredentials);
                 otherSkill.length > 0 && postOtherSkills(otherSkill);
                 otherDesignation.length > 0 && postOtherDesignation(otherDesignation);
-                axios.post('http://localhost:5002/upload', formData)
+                axios.post('https://skillety.onrender.com/upload', formData)
                     .then(res => console.log(res))
                     .catch(err => console.log(err));
             }else{

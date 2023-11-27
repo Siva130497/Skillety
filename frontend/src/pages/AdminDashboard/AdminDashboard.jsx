@@ -30,7 +30,7 @@ const AdminDashboard = () => {
   
   const getProtectedData = async () => {
     try {
-      const response = await axios.get('http://localhost:5002/protected', {
+      const response = await axios.get('https://skillety.onrender.com/protected', {
         headers: {
             Authorization: `Bearer ${adminToken}`,
             Accept: 'application/json'
@@ -57,7 +57,7 @@ const AdminDashboard = () => {
 
   const getAllRecruiters = async() => {
     try{
-        const res = await axios.get(`http://localhost:5002/all-recruiters`, {
+        const res = await axios.get(`https://skillety.onrender.com/all-recruiters`, {
           headers: {
               Authorization: `Bearer ${adminToken}`,
               Accept: 'application/json'
@@ -78,7 +78,7 @@ const AdminDashboard = () => {
   //recruiter create request
   const createRecruiter = async (userData) => {
     try {
-        const response = await axios.post('http://localhost:5002/recruiter-create', userData, {
+        const response = await axios.post('https://skillety.onrender.com/recruiter-create', userData, {
             headers: {
                 Authorization: `Bearer ${adminToken}`,
                 Accept: 'application/json'
@@ -108,7 +108,7 @@ const AdminDashboard = () => {
 
   const handleRemove = async(id) => {
     try {
-      const response = await axios.delete(`http://localhost:5002/delete-recruiter/${id}`, {
+      const response = await axios.delete(`https://skillety.onrender.com/delete-recruiter/${id}`, {
         headers: {
             Authorization: `Bearer ${adminToken}`,
             Accept: 'application/json'
@@ -128,7 +128,7 @@ const AdminDashboard = () => {
   }
 
   const handleGeneratePassword = () => {
-    axios.get('http://localhost:5002/random-password')
+    axios.get('https://skillety.onrender.com/random-password')
       .then(response => {
         setcredentials({...credentials, password:response.data});
       })

@@ -23,7 +23,7 @@ const CompanyInformation = () => {
 
     useEffect(()=>{
         if(id){
-            axios.get(`http://localhost:5002/company-detail/${id}`, {
+            axios.get(`https://skillety.onrender.com/company-detail/${id}`, {
                 headers: {
                     Accept: 'application/json'
                 }
@@ -35,7 +35,7 @@ const CompanyInformation = () => {
             })
             .catch(err=>console.log(err))
 
-            axios.get(`http://localhost:5002/client-image/${id}`)
+            axios.get(`https://skillety.onrender.com/client-image/${id}`)
                 .then(res => setClientImg(res.data))
                 .catch(err => console.log(err))
         }
@@ -43,7 +43,7 @@ const CompanyInformation = () => {
 
     useEffect(() => {
         if (clientImg) {
-            setClientImgUrl(`http://localhost:5002/client_profile/${clientImg.image}`)
+            setClientImgUrl(`https://skillety.onrender.com/client_profile/${clientImg.image}`)
         }
 
     }, [clientImg]);

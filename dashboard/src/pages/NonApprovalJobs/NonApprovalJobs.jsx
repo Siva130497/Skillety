@@ -56,7 +56,7 @@ const NonApprovalJobs = () => {
 
     const getNonApprovaljobs = async () => {
         try {
-            const res = await axios.get(`http://localhost:5002/non-approval-jobs`, {
+            const res = await axios.get(`https://skillety.onrender.com/non-approval-jobs`, {
                 headers: {
                     Authorization: `Bearer ${staffToken}`,
                     Accept: 'application/json'
@@ -163,7 +163,7 @@ const NonApprovalJobs = () => {
         }).then((result) => {
             if (result.isConfirmed) {
 
-                axios.post("http://localhost:5002/job-approval", { id }, {
+                axios.post("https://skillety.onrender.com/job-approval", { id }, {
                     headers: {
                         Authorization: `Bearer ${staffToken}`,
                         Accept: 'application/json'

@@ -33,7 +33,7 @@ const HomeCandidate = () => {
 
   const getPostedjobs = async () => {
     try {
-      const res = await axios.get(`http://localhost:5002/posted-jobs`, {
+      const res = await axios.get(`https://skillety.onrender.com/posted-jobs`, {
         headers: {
           Accept: 'application/json'
         }
@@ -52,7 +52,7 @@ const HomeCandidate = () => {
 
   const getAllSkills = async () => {
     try {
-        const res = await axios.get("http://localhost:5002/skills", {
+        const res = await axios.get("https://skillety.onrender.com/skills", {
             headers: {
                 
                 Accept: 'application/json'
@@ -72,7 +72,7 @@ const HomeCandidate = () => {
 
 const getAllJobRoles = async () => {
     try {
-        const res = await axios.get("http://localhost:5002/designations", {
+        const res = await axios.get("https://skillety.onrender.com/designations", {
             headers: {
                 
                 Accept: 'application/json'
@@ -92,7 +92,7 @@ const getAllJobRoles = async () => {
 
 const getPopularSearches = async () => {
   try {
-      const response = await axios.get('http://localhost:5002/popular-search', {
+      const response = await axios.get('https://skillety.onrender.com/popular-search', {
           headers: {
               Accept: 'application/json'
           }
@@ -118,7 +118,7 @@ const getPopularSearches = async () => {
     getAllJobRoles();
     getPopularSearches();
 
-    axios.get("http://localhost:5002/clients")
+    axios.get("https://skillety.onrender.com/clients")
       .then(res => {
         const allClients = res.data;
 
@@ -253,7 +253,7 @@ const handleDeselect = (result) => {
 }
 
 const handlePopularSearch = () => {
-  axios.post("http://localhost:5002/popular-search", selectedResults)
+  axios.post("https://skillety.onrender.com/popular-search", selectedResults)
   .then(res=>{
     console.log(res.data)
     getPopularSearches();
@@ -485,7 +485,7 @@ const handlePopularSearch = () => {
             <div className="company--content-area">
               {allClient.map(client => {
                 const matchingImg = clientImg ? clientImg.find(img => img.id === client.companyId) : null;
-                const imgSrc = matchingImg ? `http://localhost:5002/client_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
+                const imgSrc = matchingImg ? `https://skillety.onrender.com/client_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
                 const jobOpening = (allJobs.filter(job => job.companyId === client.companyId)).length
                 return (
                   <div className="row company--content-row custom-row-border-top">
@@ -729,7 +729,7 @@ const handlePopularSearch = () => {
           >
             {allJobs.map((job) => {
               const matchingImg = clientImg ? clientImg.find(img => img.id === job.companyId) : null;
-              const imgSrc = matchingImg ? `http://localhost:5002/client_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
+              const imgSrc = matchingImg ? `https://skillety.onrender.com/client_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
               return (
                 <SwiperSlide key={job.id}>
                   <article className='cand--job-card'>
@@ -1135,7 +1135,7 @@ const handlePopularSearch = () => {
             >
               {eventDetail.map(eve => {
                 const matchingImg = eventImg ? eventImg.find(img => img.id === eve.id) : null;
-                const imgSrc = matchingImg ? `http://localhost:5002/images/${matchingImg.image}` : "assets/img/events/event-img.jpg";
+                const imgSrc = matchingImg ? `https://skillety.onrender.com/images/${matchingImg.image}` : "assets/img/events/event-img.jpg";
 
                 return (
                   <SwiperSlide key={eve.id}>

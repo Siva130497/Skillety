@@ -18,7 +18,7 @@ const PostedJobs = ({employeeId, staffToken, clientToken, companyId}) => {
 
     const getOwnPostedjobs = async() => {
         try{
-            const res = await axios.get(`http://localhost:5002/my-posted-jobs/${employeeId ? employeeId : companyId}`, {
+            const res = await axios.get(`https://skillety.onrender.com/my-posted-jobs/${employeeId ? employeeId : companyId}`, {
               headers: {
                   Authorization: `Bearer ${staffToken ? staffToken : clientToken}`,
                   Accept: 'application/json'
@@ -38,7 +38,7 @@ const PostedJobs = ({employeeId, staffToken, clientToken, companyId}) => {
 
       const getAppliedOfPostedJobs = async() => {
         try{
-            const res = await axios.get(`http://localhost:5002/applied-jobs-of-posted/${employeeId ? employeeId : companyId}`, {
+            const res = await axios.get(`https://skillety.onrender.com/applied-jobs-of-posted/${employeeId ? employeeId : companyId}`, {
               headers: {
                   Authorization: `Bearer ${staffToken ? staffToken : clientToken}`,
                   Accept: 'application/json'

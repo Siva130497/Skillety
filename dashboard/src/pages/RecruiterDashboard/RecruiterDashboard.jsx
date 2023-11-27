@@ -109,7 +109,7 @@ const RecruiterDashboard = () => {
 
     const getAllClientDetails = async () => {
         try {
-            const response = await axios.get(`http://localhost:5002/client-Detail`, {
+            const response = await axios.get(`https://skillety.onrender.com/client-Detail`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     Accept: 'application/json'
@@ -129,7 +129,7 @@ const RecruiterDashboard = () => {
 
     const getAllCandidateDetail = async () => {
         try {
-            const response = await axios.get('http://localhost:5002/candidate-Detail', {
+            const response = await axios.get('https://skillety.onrender.com/candidate-Detail', {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     Accept: 'application/json'
