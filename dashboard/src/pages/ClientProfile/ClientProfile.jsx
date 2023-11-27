@@ -204,6 +204,7 @@ const ClientProfile = () => {
                 console.log(res.data)
                 setCompanyDetail(res.data)
                 setSelectedBenefits(res.data.benefits)
+                setCheckBox(prevState => [...new Set([...prevState, ...res.data.benefits])]);
                 setAwardlist(res.data.awards)
             })
             .catch(err=>console.log(err))
@@ -214,6 +215,7 @@ const ClientProfile = () => {
         }
     },[id, clientToken])
 
+    console.log(checkBox)
     useEffect(() => {
         if (clientImg) {
             setClientImgUrl(`https://skillety.onrender.com/client_profile/${clientImg.image}`)
