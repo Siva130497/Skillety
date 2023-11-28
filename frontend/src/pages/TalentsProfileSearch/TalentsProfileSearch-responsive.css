@@ -121,7 +121,7 @@
 
     .tal--pro-card-right-area.search {
         width: 35%;
-        padding-right: 60px;
+        /* padding-right: 60px; */
     }
 
     .tal--pro-card-right-btn-area.search {
@@ -136,13 +136,13 @@
         font-size: 12px;
     }
 
-    .tal--pro-card-days.search,
+    /* .tal--pro-card-days.search,
     .tal--pro-card-percentage.search {
         font-size: 37px;
-    }
+    } */
 
     .tal--pro-card-right-cover-area.search {
-        gap: 10px;
+        gap: 20px;
     }
 }
 
@@ -309,6 +309,10 @@
     .talent--profile-search-results-section {
         padding-bottom: 60px;
     }
+
+    .tal--pro-card-percentage, .tal--pro-card-days {
+        font-size: 24px !important;
+    }
 }
 
 @media (max-width:500px) {
@@ -405,7 +409,8 @@
     }
 
     .cli-tal-pro-exp-input-area.search-page {
-        flex-direction: column;
+        flex-direction: row;
+        width: 100%;
     }
 
     .width-45.search-page {

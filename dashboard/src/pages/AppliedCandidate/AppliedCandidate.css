@@ -120,6 +120,7 @@
     line-height: normal;
     transition: 0.8s ease-in-out;
     margin-bottom: 0;
+    text-transform: capitalize;
 }
 
 .talent--profile-card:hover .tal--pro-card-left-area .tal--pro-card-name {

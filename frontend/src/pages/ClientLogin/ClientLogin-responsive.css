@@ -11,6 +11,16 @@
     .cli--signup-form-area.cli--login-form-area {
         padding: 60px 50px;
     }
+
+    .cli--login-remember-area.terms-condition .cli--login-remember-checkbox{
+        flex-direction: row;
+        align-items: flex-start;
+        line-height: 1.8rem;
+        font-size: 17px;
+    }
+    .cli--login-remember-area.terms-condition .cli--login-remember-checkbox a{
+        font-size: 17px;
+    }
 }
 
 @media (max-width:500px) {
@@ -32,7 +42,8 @@
     }
 
     .cli--login-remember-checkbox,
-    .cli--login-forgot-area .cli--login-forgot {
+    .cli--login-forgot-area .cli--login-forgot,
+    .cli--login-remember-checkbox a {
         font-size: 15px;
     }
 

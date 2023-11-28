@@ -722,6 +722,7 @@
     color: #714F36;
     font-size: 15px;
     font-weight: 500;
+    text-transform: capitalize;
 }
 
 .cli--talent-tag-by-btn-container {

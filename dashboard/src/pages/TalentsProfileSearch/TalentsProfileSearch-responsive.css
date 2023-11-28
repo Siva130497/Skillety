@@ -356,7 +356,7 @@
 
     .cli--tal-pro-search-results-area {
         border-top: #714F36 1px solid;
-        padding: 40px 0px;
+        padding: 40px 0px 0px 0px;
     }
 
     .clear--all_button-area {
@@ -439,7 +439,7 @@
     }
 
     .talent--profile-search-page-section {
-        padding-bottom: 40px;
+        padding-bottom: 0px;
     }
 
     .tooltip {
@@ -454,5 +454,11 @@
     }
     .cli--tal-pro-search-section{
         padding-bottom: 0;
+    }
+    .no-padding-mobile{
+        padding: 0;
+    }
+    .cli-tal-pro-recent-search-head-area {
+        gap: 0px;
     }
 }

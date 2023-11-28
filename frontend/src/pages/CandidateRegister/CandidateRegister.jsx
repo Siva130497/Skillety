@@ -98,29 +98,29 @@ const CandidateRegister = () => {
         }));
     }, [profile]);
 
-    useEffect(()=>{
-        if(credentials.year && credentials.month){
+    useEffect(() => {
+        if (credentials.year && credentials.month) {
             setTotalMonths(parseInt(credentials.year * 12) + parseInt(credentials.month))
         }
-    },[credentials])
+    }, [credentials])
 
-    useEffect(()=>{
-        if(totalMonths){
+    useEffect(() => {
+        if (totalMonths) {
             console.log(totalMonths)
             setMaxSkillNum(totalMonths <= 24 ? 6 : totalMonths <= 48 ? 8 : totalMonths <= 96 ? 10 : 12)
             setMinSkillNum(totalMonths <= 24 ? 4 : totalMonths <= 48 ? 6 : totalMonths <= 96 ? 8 : 10)
 
-            if(totalMonths <= 24){
+            if (totalMonths <= 24) {
                 showErrorMessage("You can select min of 4 & max of 6 skills")
-            }else if(totalMonths <= 48){
+            } else if (totalMonths <= 48) {
                 showErrorMessage("You can select min of 6 & max of 8 skills")
-            }else if(totalMonths <= 96){
+            } else if (totalMonths <= 96) {
                 showErrorMessage("You can select min of 8 & max of 10 skills")
-            }else{
+            } else {
                 showErrorMessage("You can select min of 10 & max of 12 skills")
             }
         }
-    },[totalMonths])
+    }, [totalMonths])
 
     const getAllSkills = async () => {
         try {
@@ -189,9 +189,9 @@ const CandidateRegister = () => {
                 $('#file-chosen').text(this.files[0].name);
             });
 
-            $(".reg--form-btn-sub").click(function () {
-                $("html, body").animate({ scrollTop: 0 }, 0);
-            });
+        });
+        $(".reg--form-btn-sub").click(function () {
+            $("html, body").animate({ scrollTop: 0 }, 0);
         });
     }, [])
 
@@ -388,8 +388,8 @@ const CandidateRegister = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        if(credentials.profileHeadline){
-            if(isAgreed){
+        if (credentials.profileHeadline) {
+            if (isAgreed) {
                 const formData = new FormData();
                 const id = uuidv4();
                 formData.append('file', resume);
@@ -411,14 +411,14 @@ const CandidateRegister = () => {
                 axios.post('https://skillety.onrender.com/upload', formData)
                     .then(res => console.log(res))
                     .catch(err => console.log(err));
-            }else{
+            } else {
                 showErrorMessage("Agree the terms & condition before register");
             }
-            
-        }else{
+
+        } else {
             showErrorMessage("Please complete all the required fields before proceeding...");
         }
-        
+
     };
 
     const handleNext = () => {
@@ -426,19 +426,19 @@ const CandidateRegister = () => {
         if (step === 1) {
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (credentials.days === "" || credentials.firstName === "" || credentials.lastName === "" || credentials.phone === "" || credentials.email === "" || credentials.password === "" || credentials.confirmPassword === "" || credentials.password !== credentials.confirmPassword || !resume.length === 0 || credentials.password.length < 8 || !(emailRegex.test(credentials.email))) {
-                if(credentials.password.length < 8){
+                if (credentials.password.length < 8) {
                     return showErrorMessage("password must be atleast 8 characters long")
-                }else if(credentials.password !== credentials.confirmPassword){
+                } else if (credentials.password !== credentials.confirmPassword) {
                     return showErrorMessage("Please check that both password and confirm password are same")
-                }else if(!(emailRegex.test(credentials.email))){
+                } else if (!(emailRegex.test(credentials.email))) {
                     return showErrorMessage("Please enter a valid email address")
-                } 
+                }
                 isValid = false;
             }
         }
         if (step === 2) {
             if (selectedDesignations.length === 0 || credentials.companyName === "" || selectedLocations.length === 0 || credentials.year === "" || credentials.month === "" || selectedSkills.length === 0 || selectedEducation.length === 0 || credentials.college === "" || selectedSkills.length < minSkillNum) {
-                if(selectedSkills.length < minSkillNum){
+                if (selectedSkills.length < minSkillNum) {
                     return showErrorMessage(`Please select atleast ${minSkillNum} skills`)
                 }
                 isValid = false;
@@ -452,9 +452,9 @@ const CandidateRegister = () => {
         if (isValid) {
             setStep(step + 1);
         } else {
-            
-                showErrorMessage("Please complete all the required fields before proceeding...");
-            
+
+            showErrorMessage("Please complete all the required fields before proceeding...");
+
         }
     };
 
@@ -826,7 +826,7 @@ const CandidateRegister = () => {
                                                 </div>
                                             </div>
                                         </div>
-                                        
+
                                         <div className="can-reg-form-chechbox-area">
                                             <label className="can-reg-form-check-input">
                                                 <input
@@ -975,6 +975,21 @@ const CandidateRegister = () => {
                                 </div>
                             </div>
                         </div>
+
+                        <div className="cli--login-remember-area terms-condition" data-aos="fade-right">
+                            <label className="cli--login-remember-checkbox">
+                                <input
+                                    type="checkbox"
+                                    checked={isAgreed}
+                                    onChange={() => {
+                                        setIsAgreed(!isAgreed)
+                                    }
+                                    }
+                                />
+                                <span className="cli--login-remember-checkmark"></span>
+                                <span>By clicking Agree & Join, you agree to the Skillety&nbsp;<a href="#">User Agreement, Privacy Policy</a></span>
+                            </label>
+                        </div>
                     </div>
                 )
             default:
@@ -1030,16 +1045,7 @@ const CandidateRegister = () => {
                                     )}
                                     {step === 3 && (
                                         <div>
-                                            <label>
-                                                <input
-                                                type="checkbox"
-                                                checked={isAgreed}
-                                                onChange={() => {
-                                                    setIsAgreed(!isAgreed)}
-                                                }/>
-                                            I agree to the terms and conditions
-                                            </label>
-                                            <button type='submit' className='reg--form-btn-sub candidate register' data-aos="fade-down" >
+                                            <button type='submit' className='reg--form-btn-sub candidate register' disabled={!isAgreed} data-aos="fade-down" >
                                                 <div className='reg--form-btn candidate' >
                                                     Register
                                                 </div>

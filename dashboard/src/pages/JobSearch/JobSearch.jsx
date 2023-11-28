@@ -399,10 +399,10 @@ const JobSearch = () => {
                 .filter(job => {
                     if (selectedEducationResults.length > 0) {
                         return selectedEducationResults.some(result =>
-                            job.education.includes(result)); 
+                            job.education.includes(result));
                     }
                     return true;
-                }) 
+                })
 
             console.log(filteredResults)
             if (filteredResults.length > 0) {
@@ -2208,32 +2208,32 @@ const JobSearch = () => {
                                                                         </button>
                                                                     </div> */}
                                                                     <div className='cli--tal-pro-badge-area mb-4'>
-                                                                {selectedJobTitleResults.map(selectResult => (
-                                                                    <span className="tal-cand-reg-form-badge"
-                                                                        key={selectResult}
-                                                                        onClick={() => handleJobTitleDeselect(selectResult)}
-                                                                    >{selectResult}</span>
-                                                                ))}
-                                                                </div> 
-                                                                <div className="cli--tal-pro-filter-input-area">
-                                                                <input type="search" className='cli--tal-pro-filter-input' placeholder='Enter job titles'
-                                                                    value={filters.jobTitle}
-                                                                    onChange={handleJobTitleSearch}
-                                                                />
-                                                                <i className="bi bi-search cli--tal-pro-filter-search-icon"></i>
-                                                                <div className='tal-pro-search-result-data-area'>
-                                                                    {filteredJobTitleList.length > 0 &&
-                                                                        filteredJobTitleList.map((filterResult) => (
-                                                                            <div
-                                                                                className='tal-pro-search-result-data'
-                                                                                key={filterResult._id}
-                                                                                onClick={() => handleJobTitleFilteredClick(filterResult.designation)}
-                                                                            >
-                                                                                {filterResult.designation}
-                                                                            </div>
+                                                                        {selectedJobTitleResults.map(selectResult => (
+                                                                            <span className="tal-cand-reg-form-badge"
+                                                                                key={selectResult}
+                                                                                onClick={() => handleJobTitleDeselect(selectResult)}
+                                                                            >{selectResult}</span>
                                                                         ))}
-                                                                </div>
-                                                                </div>
+                                                                    </div>
+                                                                    <div className="cli--tal-pro-filter-input-area">
+                                                                        <input type="search" className='cli--tal-pro-filter-input' placeholder='Enter job titles'
+                                                                            value={filters.jobTitle}
+                                                                            onChange={handleJobTitleSearch}
+                                                                        />
+                                                                        <i className="bi bi-search cli--tal-pro-filter-search-icon"></i>
+                                                                        <div className='tal-pro-search-result-data-area'>
+                                                                            {filteredJobTitleList.length > 0 &&
+                                                                                filteredJobTitleList.map((filterResult) => (
+                                                                                    <div
+                                                                                        className='tal-pro-search-result-data'
+                                                                                        key={filterResult._id}
+                                                                                        onClick={() => handleJobTitleFilteredClick(filterResult.designation)}
+                                                                                    >
+                                                                                        {filterResult.designation}
+                                                                                    </div>
+                                                                                ))}
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                             </div>
 
@@ -2262,32 +2262,32 @@ const JobSearch = () => {
                                                                         </button>
                                                                     </div> */}
                                                                     <div className='cli--tal-pro-badge-area mb-4'>
-                                                                {selectedLocationResults.map(selectResult => (
-                                                                    <span className="tal-cand-reg-form-badge"
-                                                                        key={selectResult}
-                                                                        onClick={() => handleLocationDeselect(selectResult)}
-                                                                    >{selectResult}</span>
-                                                                ))}
-                                                                </div>
-                                                                <div className="cli--tal-pro-filter-input-area">
-                                                                <input type="search" className='cli--tal-pro-filter-input' placeholder='Enter location'
-                                                                    value={filters.location}
-                                                                    onChange={handleLocationSearch}
-                                                                />
-                                                                <i className="bi bi-search cli--tal-pro-filter-search-icon"></i>
-                                                                <div className='tal-pro-search-result-data-area'>
-                                                                    {filteredLocationList.length > 0 &&
-                                                                        filteredLocationList.map((filterResult) => (
-                                                                            <div
-                                                                                className='tal-pro-search-result-data'
-                                                                                key={filterResult._id}
-                                                                                onClick={() => handleLocationFilteredClick(filterResult.location)}
-                                                                            >
-                                                                                {filterResult.location}
-                                                                            </div>
+                                                                        {selectedLocationResults.map(selectResult => (
+                                                                            <span className="tal-cand-reg-form-badge"
+                                                                                key={selectResult}
+                                                                                onClick={() => handleLocationDeselect(selectResult)}
+                                                                            >{selectResult}</span>
                                                                         ))}
-                                                                </div>
-                                                                </div>
+                                                                    </div>
+                                                                    <div className="cli--tal-pro-filter-input-area">
+                                                                        <input type="search" className='cli--tal-pro-filter-input' placeholder='Enter location'
+                                                                            value={filters.location}
+                                                                            onChange={handleLocationSearch}
+                                                                        />
+                                                                        <i className="bi bi-search cli--tal-pro-filter-search-icon"></i>
+                                                                        <div className='tal-pro-search-result-data-area'>
+                                                                            {filteredLocationList.length > 0 &&
+                                                                                filteredLocationList.map((filterResult) => (
+                                                                                    <div
+                                                                                        className='tal-pro-search-result-data'
+                                                                                        key={filterResult._id}
+                                                                                        onClick={() => handleLocationFilteredClick(filterResult.location)}
+                                                                                    >
+                                                                                        {filterResult.location}
+                                                                                    </div>
+                                                                                ))}
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                             <div className="cli-tal-pro-search-filter-content-section job">
@@ -2344,32 +2344,32 @@ const JobSearch = () => {
                                                                         </button>
                                                                     </div> */}
                                                                     <div className='cli--tal-pro-badge-area mb-4'>
-                                                                {selectedEducationResults.map(selectResult => (
-                                                                    <span className="tal-cand-reg-form-badge"
-                                                                        key={selectResult}
-                                                                        onClick={() => handleEducationDeselect(selectResult)}
-                                                                    >{selectResult}</span>
-                                                                ))}
-                                                                </div>
-                                                                <div className="cli--tal-pro-filter-input-area">
-                                                                <input type="search" className='cli--tal-pro-filter-input' placeholder='Enter education'
-                                                                    value={filters.education}
-                                                                    onChange={handleEducationSearch}
-                                                                />
-                                                                <i className="bi bi-search cli--tal-pro-filter-search-icon"></i>
-                                                                <div className='tal-pro-search-result-data-area'>
-                                                                    {filteredEducationList.length > 0 &&
-                                                                        filteredEducationList.map((filterResult) => (
-                                                                            <div
-                                                                                className='tal-pro-search-result-data'
-                                                                                key={filterResult._id}
-                                                                                onClick={() => handleEducationFilteredClick(filterResult.education)}
-                                                                            >
-                                                                                {filterResult.education}
-                                                                            </div>
+                                                                        {selectedEducationResults.map(selectResult => (
+                                                                            <span className="tal-cand-reg-form-badge"
+                                                                                key={selectResult}
+                                                                                onClick={() => handleEducationDeselect(selectResult)}
+                                                                            >{selectResult}</span>
                                                                         ))}
-                                                                </div>
-                                                                </div>
+                                                                    </div>
+                                                                    <div className="cli--tal-pro-filter-input-area">
+                                                                        <input type="search" className='cli--tal-pro-filter-input' placeholder='Enter education'
+                                                                            value={filters.education}
+                                                                            onChange={handleEducationSearch}
+                                                                        />
+                                                                        <i className="bi bi-search cli--tal-pro-filter-search-icon"></i>
+                                                                        <div className='tal-pro-search-result-data-area'>
+                                                                            {filteredEducationList.length > 0 &&
+                                                                                filteredEducationList.map((filterResult) => (
+                                                                                    <div
+                                                                                        className='tal-pro-search-result-data'
+                                                                                        key={filterResult._id}
+                                                                                        onClick={() => handleEducationFilteredClick(filterResult.education)}
+                                                                                    >
+                                                                                        {filterResult.education}
+                                                                                    </div>
+                                                                                ))}
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                             </div>
 
@@ -2437,8 +2437,15 @@ const JobSearch = () => {
                                                                                     </div>
                                                                                 </div>
 
-                                                                                <div className="job--detail-card-img-area job">
-                                                                                    <img src={imgSrc} className='job--detail-card-img' alt="" />
+                                                                                <div className='flex-reverse-md'>
+                                                                                    {selectedResults &&
+                                                                                        <div className="tal--pro-card-ability-number-left mobile-flex mb-3 job">
+                                                                                            <h6 className='tal--pro-card-ability search'>Keywords Matched</h6>
+                                                                                            <h2 className='tal--pro-card-percentage search custom-font-size'>{Math.round(percentage)}%</h2>
+                                                                                        </div>}
+                                                                                    <div className="job--detail-card-img-area job">
+                                                                                        <img src={imgSrc} className='job--detail-card-img' alt="" />
+                                                                                    </div>
                                                                                 </div>
                                                                             </div>
                                                                             <div className="job--detail-card-desc-area">
@@ -2451,11 +2458,7 @@ const JobSearch = () => {
                                                                                             return <div className="job--detail-card-tag" key={index}>{skill}</div>
                                                                                         })}
                                                                                     </div>
-                                                                                    {selectedResults &&
-                                                                                        <div className="tal--pro-card-ability-number-left job">
-                                                                                            <h6 className='tal--pro-card-ability search'>Keywords Matched</h6>
-                                                                                            <h2 className='tal--pro-card-percentage search'>{Math.round(percentage)}%</h2>
-                                                                                        </div>}
+
                                                                                 </div>
                                                                                 <div className="job--detail-card-know-more-btn-area">
                                                                                     <a href={`/job-detail/${job.id}`} className='job--detail-card-know-more-btn'>Know more</a>
@@ -2501,9 +2504,14 @@ const JobSearch = () => {
                                                                                         </div>
                                                                                     </div>
                                                                                     <div>
-
-                                                                                        <div className="job--detail-card-img-area job">
-                                                                                            <img src={imgSrc} className='job--detail-card-img' alt="" />
+                                                                                        <div className='flex-reverse-md'>
+                                                                                            <div className="tal--pro-card-ability-number-left mobile-flex mb-3 job">
+                                                                                                <h6 className='tal--pro-card-ability search'>Skills matched</h6>
+                                                                                                <h2 className='tal--pro-card-percentage search custom-font-size'>{job?.percentage}%</h2>
+                                                                                            </div>
+                                                                                            <div className="job--detail-card-img-area job">
+                                                                                                <img src={imgSrc} className='job--detail-card-img' alt="" />
+                                                                                            </div>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
@@ -2517,10 +2525,7 @@ const JobSearch = () => {
                                                                                                 return <div className="job--detail-card-tag" key={index}>{skill}</div>
                                                                                             })}
                                                                                         </div>
-                                                                                        <div className="tal--pro-card-ability-number-left job">
-                                                                                            <h6 className='tal--pro-card-ability search'>Skills matched</h6>
-                                                                                            <h2 className='tal--pro-card-percentage search'>{job?.percentage}%</h2>
-                                                                                        </div>
+
                                                                                     </div>
                                                                                     <div className="job--detail-card-know-more-btn-area">
                                                                                         <a href={`/job-detail/${job.jobId}`} className='job--detail-card-know-more-btn'>Know more</a>

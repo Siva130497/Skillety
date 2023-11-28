@@ -672,7 +672,7 @@ const TalentsProfileSearch = () => {
             const result = response.data;
             if (!result.error) {
                 console.log(result);
-                setRecentSearches(result.reverse().slice(0,10));
+                setRecentSearches(result.reverse().slice(0, 10));
             } else {
                 console.log(result);
             }
@@ -781,23 +781,23 @@ const TalentsProfileSearch = () => {
         if (filters.days || selectedResults.length > 0 || selectedLocationResults.length > 0 || (filters.minExperienceYr && filters.minExperienceMonth) || (filters.maxExperienceYr && filters.maxExperienceMonth) || (filters.minSalary && filters.maxSalary) || selectedDepartmentResults.length > 0 || selectedRoleResults.length > 0 || filters.industry || filters.company || filters.candidateType || filters.gender) {
 
             const recentSearch = {
-                    days: filters.days,
-                    selectedResults: selectedResults,
-                    selectedLocationResults:  selectedLocationResults,
-                    minExperienceYr: filters.minExperienceYr,
-                    minExperienceMonth: filters.minExperienceMonth,
-                    maxExperienceYr: filters.maxExperienceYr,
-                    maxExperienceMonth: filters.maxExperienceMonth,
-                    minSalary: filters.minSalary,
-                    maxSalary: filters.maxSalary,
-                    selectedDepartmentResults: selectedDepartmentResults,
-                    selectedRoleResults: selectedRoleResults,
-                    industry: selectedIndustryResults,
-                    company: filters.company,
-                    candidateType: filters.candidateType,
-                    gender: filters.gender,
+                days: filters.days,
+                selectedResults: selectedResults,
+                selectedLocationResults: selectedLocationResults,
+                minExperienceYr: filters.minExperienceYr,
+                minExperienceMonth: filters.minExperienceMonth,
+                maxExperienceYr: filters.maxExperienceYr,
+                maxExperienceMonth: filters.maxExperienceMonth,
+                minSalary: filters.minSalary,
+                maxSalary: filters.maxSalary,
+                selectedDepartmentResults: selectedDepartmentResults,
+                selectedRoleResults: selectedRoleResults,
+                industry: selectedIndustryResults,
+                company: filters.company,
+                candidateType: filters.candidateType,
+                gender: filters.gender,
             }
-            
+
             setFilteredSearchResultsMsg("")
             setSearchResult(true)
             if (filters.candidateType === "allCandidates") {
@@ -891,7 +891,7 @@ const TalentsProfileSearch = () => {
                     })
                     .filter(candidate => {
                         if (filters.company) {
-                            return candidate.company.toLowerCase()=== filters.company.toLowerCase()
+                            return candidate.company.toLowerCase() === filters.company.toLowerCase()
                         }
                         return true;
                     })
@@ -903,7 +903,7 @@ const TalentsProfileSearch = () => {
                     })
 
                 console.log(filteredResults)
-                
+
                 if (filteredResults.length > 0) {
                     setFilteredSearchResults(filteredResults);
                     axios.post("https://skillety.onrender.com/recent-search", recentSearch)
@@ -922,21 +922,21 @@ const TalentsProfileSearch = () => {
     };
 
     const handleFill = (id) => {
-        const selectedSearchResult = recentSearches.find(search=>search._id === id)
-        if(selectedSearchResult){
+        const selectedSearchResult = recentSearches.find(search => search._id === id)
+        if (selectedSearchResult) {
             setFilters({
                 ...filters,
-                days:selectedSearchResult.days,
-                minExperienceYr:selectedSearchResult.minExperienceYr,
-                minExperienceMonth:selectedSearchResult.minExperienceMonth,
-                maxExperienceYr:selectedSearchResult.maxExperienceYr,
-                maxExperienceMonth:selectedSearchResult.maxExperienceMonth,
-                minSalary:selectedSearchResult.minSalary,
-                maxSalary:selectedSearchResult.maxSalary,
-                company:selectedSearchResult.company,
-                candidateType:selectedSearchResult.candidateType,
-                gender:selectedSearchResult.gender
-                })
+                days: selectedSearchResult.days,
+                minExperienceYr: selectedSearchResult.minExperienceYr,
+                minExperienceMonth: selectedSearchResult.minExperienceMonth,
+                maxExperienceYr: selectedSearchResult.maxExperienceYr,
+                maxExperienceMonth: selectedSearchResult.maxExperienceMonth,
+                minSalary: selectedSearchResult.minSalary,
+                maxSalary: selectedSearchResult.maxSalary,
+                company: selectedSearchResult.company,
+                candidateType: selectedSearchResult.candidateType,
+                gender: selectedSearchResult.gender
+            })
             setSelectedResults(selectedSearchResult.selectedResults)
             setSelectedLocationResults(selectedSearchResult.selectedLocationResults)
             setSelectedDepartmentResults(selectedSearchResult.selectedDepartmentResults)
@@ -1443,15 +1443,15 @@ const TalentsProfileSearch = () => {
                                                                 </div> */}
                                                                 </div>
                                                                 <div className="cli-tal-pro-search-filter-content">
-                                                            <div className="cli-tal-pro-search-filter-title-area">
-                                                                <h6 className='cli-tal-pro-search-filter-title'>Experience</h6>
-                                                            </div>
-                                                            <div className="cli-tal-pro-exp-input-area search-page">
-                                                                <div className='cli-tal-pro-exp-input-container'>
-                                                                    {/* <input type="number" className='cli-tal-pro-exp-input text-center numeric-input' 
+                                                                    <div className="cli-tal-pro-search-filter-title-area">
+                                                                        <h6 className='cli-tal-pro-search-filter-title'>Experience</h6>
+                                                                    </div>
+                                                                    <div className="cli-tal-pro-exp-input-area search-page">
+                                                                        <div className='cli-tal-pro-exp-input-container'>
+                                                                            {/* <input type="number" className='cli-tal-pro-exp-input text-center numeric-input' 
                                                                     value={filters.minExperienceYr}
                                                                     placeholder='Min Experience Year'/> */}
-                                                                    {/* <div className='tal-pro-search-result-data-area'>
+                                                                            {/* <div className='tal-pro-search-result-data-area'>
                                                                             {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((number) => (
                                                                             <div
                                                                                 key={number}
@@ -1462,30 +1462,30 @@ const TalentsProfileSearch = () => {
                                                                             </div>
                                                                             ))}
                                                                         </div> */}
-                                                                    <select name="" className='cli-tal-pro-exp-input text-center numeric-input select' id=""
-                                                                        value={filters.minExperienceYr}
-                                                                        onChange={(e) => setFilters({ ...filters, minExperienceYr: e.target.value })}
-                                                                    >
-                                                                        <option value="" selected >Min Experience</option>
-                                                                        <option value="1">1</option>
-                                                                        <option value="2">2</option>
-                                                                        <option value="3">3</option>
-                                                                        <option value="4">4</option>
-                                                                        <option value="5">5</option>
-                                                                        <option value="6">6</option>
-                                                                        <option value="7">7</option>
-                                                                        <option value="8">8</option>
-                                                                        <option value="9">9</option>
-                                                                        <option value="10">10</option>
-                                                                    </select>
-                                                                </div>
+                                                                            <select name="" className='cli-tal-pro-exp-input text-center numeric-input select' id=""
+                                                                                value={filters.minExperienceYr}
+                                                                                onChange={(e) => setFilters({ ...filters, minExperienceYr: e.target.value })}
+                                                                            >
+                                                                                <option value="" selected >Min Experience</option>
+                                                                                <option value="1">1</option>
+                                                                                <option value="2">2</option>
+                                                                                <option value="3">3</option>
+                                                                                <option value="4">4</option>
+                                                                                <option value="5">5</option>
+                                                                                <option value="6">6</option>
+                                                                                <option value="7">7</option>
+                                                                                <option value="8">8</option>
+                                                                                <option value="9">9</option>
+                                                                                <option value="10">10</option>
+                                                                            </select>
+                                                                        </div>
 
-                                                                <span className='cli-tal-pro-exp-input-text'>years</span>
-                                                                <div className='cli-tal-pro-exp-input-container'>
-                                                                    {/* <input type="number" className='cli-tal-pro-exp-input text-center numeric-input' 
+                                                                        <span className='cli-tal-pro-exp-input-text'>years</span>
+                                                                        <div className='cli-tal-pro-exp-input-container'>
+                                                                            {/* <input type="number" className='cli-tal-pro-exp-input text-center numeric-input' 
                                                                     value={filters.maxExperienceYr}
                                                                     placeholder='Max Experience Year'/> */}
-                                                                    {/* <div className='tal-pro-search-result-data-area'>
+                                                                            {/* <div className='tal-pro-search-result-data-area'>
                                                                             {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((number) => (
                                                                             <div
                                                                                 key={number}
@@ -1496,32 +1496,32 @@ const TalentsProfileSearch = () => {
                                                                             </div>
                                                                             ))}
                                                                         </div> */}
-                                                                    <select name="" className='cli-tal-pro-exp-input text-center numeric-input select' id=""
-                                                                        value={filters.minExperienceMonth}
-                                                                        onChange={(e) => setFilters({ ...filters, minExperienceMonth: e.target.value })}
-                                                                    >
-                                                                        <option value="" selected >Min Experience</option>
-                                                                        <option value="1">1</option>
-                                                                        <option value="2">2</option>
-                                                                        <option value="3">3</option>
-                                                                        <option value="4">4</option>
-                                                                        <option value="5">5</option>
-                                                                        <option value="6">6</option>
-                                                                        <option value="7">7</option>
-                                                                        <option value="8">8</option>
-                                                                        <option value="9">9</option>
-                                                                        <option value="10">10</option>
-                                                                    </select>
-                                                                </div>
-                                                                <span className='cli-tal-pro-exp-input-text'>months</span>
-                                                            </div>
+                                                                            <select name="" className='cli-tal-pro-exp-input text-center numeric-input select' id=""
+                                                                                value={filters.minExperienceMonth}
+                                                                                onChange={(e) => setFilters({ ...filters, minExperienceMonth: e.target.value })}
+                                                                            >
+                                                                                <option value="" selected >Min Experience</option>
+                                                                                <option value="1">1</option>
+                                                                                <option value="2">2</option>
+                                                                                <option value="3">3</option>
+                                                                                <option value="4">4</option>
+                                                                                <option value="5">5</option>
+                                                                                <option value="6">6</option>
+                                                                                <option value="7">7</option>
+                                                                                <option value="8">8</option>
+                                                                                <option value="9">9</option>
+                                                                                <option value="10">10</option>
+                                                                            </select>
+                                                                        </div>
+                                                                        <span className='cli-tal-pro-exp-input-text'>months</span>
+                                                                    </div>
 
-                                                            <div className="cli-tal-pro-exp-input-area search-page mt-3">
-                                                                <div className='cli-tal-pro-exp-input-container'>
-                                                                    {/* <input type="number" className='cli-tal-pro-exp-input text-center numeric-input' 
+                                                                    <div className="cli-tal-pro-exp-input-area search-page mt-3">
+                                                                        <div className='cli-tal-pro-exp-input-container'>
+                                                                            {/* <input type="number" className='cli-tal-pro-exp-input text-center numeric-input' 
                                                                     value={filters.minExperienceMonth}
                                                                     placeholder='Min Experience Month'/> */}
-                                                                    {/* <div className='tal-pro-search-result-data-area'>
+                                                                            {/* <div className='tal-pro-search-result-data-area'>
                                                                             {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((number) => (
                                                                             <div
                                                                                 key={number}
@@ -1532,46 +1532,46 @@ const TalentsProfileSearch = () => {
                                                                             </div>
                                                                             ))}
                                                                         </div> */}
-                                                                    <select name="" className='cli-tal-pro-exp-input text-center numeric-input select' id=""
-                                                                        value={filters.maxExperienceYr}
-                                                                        onChange={(e) => setFilters({ ...filters, maxExperienceYr: e.target.value })}
-                                                                    >
-                                                                        <option value="" selected >Max Experience</option>
-                                                                        <option value="1">1</option>
-                                                                        <option value="2">2</option>
-                                                                        <option value="3">3</option>
-                                                                        <option value="4">4</option>
-                                                                        <option value="5">5</option>
-                                                                        <option value="6">6</option>
-                                                                        <option value="7">7</option>
-                                                                        <option value="8">8</option>
-                                                                        <option value="9">9</option>
-                                                                        <option value="10">10</option>
-                                                                    </select>
-                                                                </div>
+                                                                            <select name="" className='cli-tal-pro-exp-input text-center numeric-input select' id=""
+                                                                                value={filters.maxExperienceYr}
+                                                                                onChange={(e) => setFilters({ ...filters, maxExperienceYr: e.target.value })}
+                                                                            >
+                                                                                <option value="" selected >Max Experience</option>
+                                                                                <option value="1">1</option>
+                                                                                <option value="2">2</option>
+                                                                                <option value="3">3</option>
+                                                                                <option value="4">4</option>
+                                                                                <option value="5">5</option>
+                                                                                <option value="6">6</option>
+                                                                                <option value="7">7</option>
+                                                                                <option value="8">8</option>
+                                                                                <option value="9">9</option>
+                                                                                <option value="10">10</option>
+                                                                            </select>
+                                                                        </div>
 
-                                                                <span className='cli-tal-pro-exp-input-text'>years</span>
-                                                                <div className='cli-tal-pro-exp-input-container'>
-                                                                    {/* <input type="number" className='cli-tal-pro-exp-input text-center numeric-input' 
+                                                                        <span className='cli-tal-pro-exp-input-text'>years</span>
+                                                                        <div className='cli-tal-pro-exp-input-container'>
+                                                                            {/* <input type="number" className='cli-tal-pro-exp-input text-center numeric-input' 
                                                                     value={filters.maxExperienceMonth}
                                                                     placeholder='Max Experience Month'/> */}
-                                                                    <select name="" className='cli-tal-pro-exp-input text-center numeric-input select' id=""
-                                                                        value={filters.maxExperienceMonth}
-                                                                        onChange={(e) => setFilters({ ...filters, maxExperienceMonth: e.target.value })}
-                                                                    >
-                                                                        <option value="" selected >Max Experience</option>
-                                                                        <option value="1">1</option>
-                                                                        <option value="2">2</option>
-                                                                        <option value="3">3</option>
-                                                                        <option value="4">4</option>
-                                                                        <option value="5">5</option>
-                                                                        <option value="6">6</option>
-                                                                        <option value="7">7</option>
-                                                                        <option value="8">8</option>
-                                                                        <option value="9">9</option>
-                                                                        <option value="10">10</option>
-                                                                    </select>
-                                                                    {/* <div className='tal-pro-search-result-data-area'>
+                                                                            <select name="" className='cli-tal-pro-exp-input text-center numeric-input select' id=""
+                                                                                value={filters.maxExperienceMonth}
+                                                                                onChange={(e) => setFilters({ ...filters, maxExperienceMonth: e.target.value })}
+                                                                            >
+                                                                                <option value="" selected >Max Experience</option>
+                                                                                <option value="1">1</option>
+                                                                                <option value="2">2</option>
+                                                                                <option value="3">3</option>
+                                                                                <option value="4">4</option>
+                                                                                <option value="5">5</option>
+                                                                                <option value="6">6</option>
+                                                                                <option value="7">7</option>
+                                                                                <option value="8">8</option>
+                                                                                <option value="9">9</option>
+                                                                                <option value="10">10</option>
+                                                                            </select>
+                                                                            {/* <div className='tal-pro-search-result-data-area'>
                                                                             {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((number) => (
                                                                             <div
                                                                                 key={number}
@@ -1582,9 +1582,9 @@ const TalentsProfileSearch = () => {
                                                                             </div>
                                                                             ))}
                                                                         </div> */}
-                                                                </div>
-                                                                <span className='cli-tal-pro-exp-input-text'>months</span>
-                                                            </div>
+                                                                        </div>
+                                                                        <span className='cli-tal-pro-exp-input-text'>months</span>
+                                                                    </div>
                                                                 </div>
                                                                 <div className="cli-tal-pro-search-filter-content">
                                                                     <div className="cli-tal-pro-search-filter-title-area">
@@ -1737,35 +1737,35 @@ const TalentsProfileSearch = () => {
                                                                         </div>
 
                                                                         <div className="cli-tal-search-filter-form-group">
-                                                                    <div className="cli-tal-search-filter-form-label-area">
-                                                                        <label htmlFor="industry" className='cli-tal-search-filter-form-label'>Industry</label>
-                                                                    </div>
-                                                                    <div className='job-post-form-badge-area'>
-                                                                        {selectedIndustryResults.map(selectResult => (
-                                                                            <span className="job-post-form-badge tal-search"
-                                                                                key={selectResult}
-                                                                                onClick={() => handleDeselectIndustry(selectResult)}
-                                                                            >{selectResult}</span>
-                                                                        ))}
-                                                                    </div>
-                                                                    <div className="cli-tal-pro-search-filter-input-area">
-                                                                        <input type="search" name='industry' className='cli-tal-pro-search-filter-input' placeholder='Add Industry'
-                                                                            value={filters.industry}
-                                                                            onChange={handleIndustrySearch} />
-                                                                        <div className='search-result-data-area low-height'>
-                                                                            {filteredIndustry.length > 0 &&
-                                                                                filteredIndustry.map((filterResult) => (
-                                                                                    <div
-                                                                                        className='search-result-data'
-                                                                                        key={filterResult._id}
-                                                                                        onClick={() => handleFilteredIndustryClick(filterResult.industry)}
-                                                                                    >
-                                                                                        {filterResult.industry}
-                                                                                    </div>
+                                                                            <div className="cli-tal-search-filter-form-label-area">
+                                                                                <label htmlFor="industry" className='cli-tal-search-filter-form-label'>Industry</label>
+                                                                            </div>
+                                                                            <div className='job-post-form-badge-area'>
+                                                                                {selectedIndustryResults.map(selectResult => (
+                                                                                    <span className="job-post-form-badge tal-search"
+                                                                                        key={selectResult}
+                                                                                        onClick={() => handleDeselectIndustry(selectResult)}
+                                                                                    >{selectResult}</span>
                                                                                 ))}
+                                                                            </div>
+                                                                            <div className="cli-tal-pro-search-filter-input-area">
+                                                                                <input type="search" name='industry' className='cli-tal-pro-search-filter-input' placeholder='Add Industry'
+                                                                                    value={filters.industry}
+                                                                                    onChange={handleIndustrySearch} />
+                                                                                <div className='search-result-data-area low-height'>
+                                                                                    {filteredIndustry.length > 0 &&
+                                                                                        filteredIndustry.map((filterResult) => (
+                                                                                            <div
+                                                                                                className='search-result-data'
+                                                                                                key={filterResult._id}
+                                                                                                onClick={() => handleFilteredIndustryClick(filterResult.industry)}
+                                                                                            >
+                                                                                                {filterResult.industry}
+                                                                                            </div>
+                                                                                        ))}
+                                                                                </div>
+                                                                            </div>
                                                                         </div>
-                                                                    </div>
-                                                                </div>
                                                                         <div className="cli-tal-search-filter-form-group">
                                                                             <div className="cli-tal-search-filter-form-label-area">
                                                                                 <label htmlFor="company" className='cli-tal-search-filter-form-label'>Company</label>
@@ -2096,29 +2096,29 @@ const TalentsProfileSearch = () => {
                                                     </div>
                                                 </div>
 
-                                                <div className="col-12 col-lg-4 col-xl-4 col-md-4 custom-border-top-sm mt-4 mt-md-5">
-                                            <div className="cli-tal-pro-recent-search-section">
-                                                <div className="cli-tal-pro-recent-search-head-area">
-                                                    <i class="ri-history-line"></i>
-                                                    <h4 className='cli-tal-pro-recent-search-head mb-0'>Recent Searches </h4>
-                                                </div>
-                                                
-                                                <div className="cli-tal-pro-recent-search-container">
-                                                    {recentSearches.map(search=>{
-                                                        return(
-                                                            <div className="cli-tal-pro-recent-search-area" key={search._id}>
-                                                                <div className="cli-tal-pro-recent-search-btn-area">
-                                                                    <button className='cli-tal-pro-recent-search-btn' onClick={()=>handleFill(search._id)}>Fill this search</button>
-                                                                    {/* <button className='cli-tal-pro-recent-search-btn'>Search profile</button> */}
-                                                                </div>
-                                                                <div className="cli-tal-pro-recent-search-tags">
-                                                                    <span>{search.selectedResults.join(", ")}|{search.selectedRoleResults.join(", ")}|{search.selectedLocationResults.join(", ")}|{search.selectedDepartmentResults.join(", ")}|{search.industry.join(", ")}....</span>
-                                                                </div>
-                                                            </div>
-                                                        )
-                                                    })}
-                                                    
-                                                    {/* <div className="cli-tal-pro-recent-search-area">
+                                                <div className="col-12 col-lg-4 col-xl-4 col-md-4 custom-border-top-sm mt-4 mt-md-5 no-padding-mobile">
+                                                    <div className="cli-tal-pro-recent-search-section">
+                                                        <div className="cli-tal-pro-recent-search-head-area">
+                                                            <i class="ri-history-line"></i>
+                                                            <h4 className='cli-tal-pro-recent-search-head mb-0'>Recent Searches </h4>
+                                                        </div>
+
+                                                        <div className="cli-tal-pro-recent-search-container">
+                                                            {recentSearches.map(search => {
+                                                                return (
+                                                                    <div className="cli-tal-pro-recent-search-area" key={search._id}>
+                                                                        <div className="cli-tal-pro-recent-search-btn-area">
+                                                                            <button className='cli-tal-pro-recent-search-btn' onClick={() => handleFill(search._id)}>Fill this search</button>
+                                                                            {/* <button className='cli-tal-pro-recent-search-btn'>Search profile</button> */}
+                                                                        </div>
+                                                                        <div className="cli-tal-pro-recent-search-tags">
+                                                                            <span>{search.selectedResults.join(", ")}|{search.selectedRoleResults.join(", ")}|{search.selectedLocationResults.join(", ")}|{search.selectedDepartmentResults.join(", ")}|{search.industry.join(", ")}....</span>
+                                                                        </div>
+                                                                    </div>
+                                                                )
+                                                            })}
+
+                                                            {/* <div className="cli-tal-pro-recent-search-area">
                                                         <div className="cli-tal-pro-recent-search-btn-area">
                                                             <button className='cli-tal-pro-recent-search-btn'>Fill this search</button>
                                                             <button className='cli-tal-pro-recent-search-btn'>Search profile</button>
@@ -2157,9 +2157,9 @@ const TalentsProfileSearch = () => {
                                                             <span>azure, Azure Devops | .NET, MVC, C#, Angualr, sql, cloud, aws | 9-12 years | Bangalore/Bengaluru,....</span>
                                                         </div>
                                                     </div> */}
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </div>
                                             </div>
                                         </div> :
                                         // test
@@ -2168,12 +2168,12 @@ const TalentsProfileSearch = () => {
                                         <div className='talent--profile-search-results-section'>
                                             <div className="cli-tal-pro-search-container">
                                                 <div className="row">
-                                                    <div className="col-12 col-lg-12 col-xl-4 col-md-12">
+                                                    <div className="col-12 col-lg-12 col-xl-4 col-md-12 no-padding-mobile">
                                                         <h4 className='cli-tal-pro-search-heading'>Search Result Page</h4>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <button class="pl--package-btn-sub previous back-to-search-btn mb-5" onClick={() => setSearchResult(false)}>
+                                            <button class="pl--package-btn-sub previous back-to-search-btn mb-5 no-padding-mobile" onClick={() => setSearchResult(false)}>
                                                 <div class="pl--package-arrow-area prev">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 27 27" fill="none">
                                                         <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="white" stroke-width="2"></path>
@@ -2185,7 +2185,7 @@ const TalentsProfileSearch = () => {
                                                 </div>
                                             </button>
                                             <div className="row row-border-custom">
-                                                <div className="col-12 col-lg-4 col-xl-3 col-md-4 custom-right-border-col ps-lg-0 ps-md-1 col-width-lg-30">
+                                                <div className="col-12 col-lg-4 col-xl-3 col-md-4 custom-right-border-col ps-lg-0 ps-md-1 col-width-lg-30 no-padding-mobile">
                                                     <div className="cli-tal-pro-search-filter-area">
                                                         <div className="cli-tal-pro-search-filter-head-area search-results">
                                                             <h6 className='cli-tal-pro-search-filter mb-0'>Filters</h6>
@@ -2199,7 +2199,7 @@ const TalentsProfileSearch = () => {
                                                                     <div class='info-icon-area'>
                                                                         <h6 className='cli--emploment-detail-head'>Notice period / Availability to join
                                                                             <button class='info-icon-button'>
-                                                                                <i class="ri-information-line info-icon"></i>
+                                                                                <i class="bi bi-info-circle info-icon"></i>
                                                                             </button>
                                                                             <div class="tooltip">This is the information about the notice period & availability to join.</div>
                                                                         </h6>
@@ -2746,7 +2746,7 @@ const TalentsProfileSearch = () => {
                                                     </div>
                                                 </div>
 
-                                                <div className="col-12 col-lg-8 col-xl-9 col-md-8 pe-lg-0 pe-md-1 col-width-lg-70">
+                                                <div className="col-12 col-lg-8 col-xl-9 col-md-8 pe-lg-0 pe-md-1 col-width-lg-70 no-padding-mobile">
                                                     {/* <div className="tal--pro-search-result-image-area">
                                             <img src="assets/img/jobs/filter-data-img.png" className='tal--pro-search-result-image' alt="" data-aos="fade"  />
                                             <h6 className='tal--pro-search-result-title' data-aos="fade-up">Add Filter for the desired search</h6>

@@ -976,6 +976,7 @@
     color: #2B2B2B;
     font-size: 15px;
     font-weight: 400;
+    text-transform: capitalize;
 }
 
 .expand-area-padding {
@@ -1064,6 +1065,7 @@
     background-color: #ffffff;
     transition: ease-in-out 0.5s;
     cursor: pointer;
+    text-transform: capitalize;
     margin: 5px;
     border-radius: 5px;
 }
@@ -1112,6 +1114,7 @@
     font-weight: 500;
     padding: 4px 10px 4px 13px;
     top: 10px;
+    text-transform: capitalize;
     cursor: pointer;
     transition: ease-in-out 0.5s;
     position: relative;
@@ -1152,12 +1155,6 @@
     border-color: #FFF !important;
 }
 
-.profile-credits-title {
-    color: #ffffff;
-    font-size: 12px;
-    font-weight: 600;
-    display: none !important;
-}
 input[type="search"]::-webkit-search-cancel-button {
     -webkit-appearance: none;
     appearance: none;
