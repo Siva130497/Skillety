@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { useEffect } from 'react';
 import $ from 'jquery';
 import feather from 'feather-icons';
+import AuthContext from '../context/AuthContext';
 
 const ATSSideBar = () => {
     const [staffToken, setStaffToken] = useState("");
