@@ -118,7 +118,8 @@ const NewNav = ({homeActive, aboutUsActive, searchCVActive, serviceActive, RPOAc
                                     <li><a href={`https://skillety-dashboard.onrender.com/client-dashboard/${clientToken}`} target='_blank'>Dash Board</a></li>
                                     <li onClick={()=>{
                                         localStorage.removeItem("clientToken");
-                                        window.location.reload();
+                                        // window.location.reload();
+                                        navigate("/client-login")
                                     }}><a href='#'>Logout</a></li>
                                 </ul>
                             </li> : 

@@ -22,7 +22,7 @@ const CompanyDetails = () => {
     }, [candidateToken])
 
     useEffect(() => {
-        axios.get(`https://skillety.onrender.com/company-posted-job/${id}`)
+        axios.get(`https://skillety.onrender.com/my-active-jobs/${id}`)
             .then((res => {
                 console.log(res.data)
                 setLoading(false);

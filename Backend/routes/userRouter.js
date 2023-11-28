@@ -189,7 +189,7 @@ router.patch("/job-detail/:id", employeeAuth, updateJob);
 router.get('/my-posted-jobs/:id', employeeAuth, getOwnPostedjobs)
 
 //get active job details
-router.get('/my-active-jobs/:id', employeeAuth, getOwnActivejobs)
+router.get('/my-active-jobs/:id', getOwnActivejobs)
 
 //candidate applied for job
 router.post('/job-applying',  applyingjob)
@@ -236,7 +236,7 @@ router.get("/assigned-candidates", employeeAuth, getAssignedCandidates);
 //get particular client
 router.get('/client/:clientId',employeeAuth, getLoginClientDetail);
 
-router.get('/company-posted-job/:id', getOwnPostedjobs);
+// router.get('/company-posted-job/:id', getOwnPostedjobs);
 
 //get all client staff created by particular client
 router.get('/all-client-staffs/:companyId', employeeAuth, getAllClientStaffs);
