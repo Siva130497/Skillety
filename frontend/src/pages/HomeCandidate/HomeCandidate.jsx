@@ -748,22 +748,18 @@ const HomeCandidate = () => {
                         {job.jobRole[0]}
                       </div>
                     </div>
-                    <div className="cand--job-card-logo-loc-area row">
-                      <div className="col-6">
-                        <div className="cand--job-card-logo-area">
-                          <img src={imgSrc} className='cand--job-card-logo' alt="" />
-                        </div>
+                    <div className="cand--job-card-logo-loc-area">
+                      <div className="cand--job-card-logo-area">
+                        <img src={imgSrc} className='cand--job-card-logo' alt="" />
                       </div>
-                      <div className="col-6">
-                        <div className="cand--job-card-loc-area">
-                          <div className="cand--job-card-location">
-                            <i class="bi bi-geo-alt-fill"></i>
-                            {job.location}
-                          </div>
-                          <div className="cand--job-card-location mt-1">
-                            <i class="bi bi-briefcase-fill job-icon"></i>
-                            {job.jobCategory}
-                          </div>
+                      <div className="cand--job-card-loc-area mt-3">
+                        <div className="cand--job-card-location">
+                          <i class="bi bi-geo-alt-fill"></i>
+                          {job?.location.join(", ")}
+                        </div>
+                        <div className="cand--job-card-location mt-1">
+                          <i class="bi bi-briefcase-fill job-icon"></i>
+                          {job.jobCategory}
                         </div>
                       </div>
                     </div>

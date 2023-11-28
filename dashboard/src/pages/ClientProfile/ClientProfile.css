@@ -79,7 +79,7 @@
 
 .cli-profile-content-area.expanded {
     /* display: block; */
-    max-height: 1000px;
+    max-height: 500vh;
     padding-top: 40px;
     opacity: 1;
 }
@@ -223,4 +223,15 @@
     -webkit-transform: rotate(45deg);
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
+}
+
+.prof-more-det-title.link:hover {
+    color: #1394DF !important;
+}
+.add-detail{
+    color: #1394DF !important;
+    transition: ease-in-out 0.5s;
+}
+.add-detail:hover{
+    color: #000 !important;
 }
