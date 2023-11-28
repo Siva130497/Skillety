@@ -163,7 +163,7 @@ const ClientRegister = () => {
             showErrorMessage('Please enter a valid email address');
         }
     };
-    
+
 
     useEffect(() => {
         $('.sel').each(function () {
@@ -359,16 +359,21 @@ const ClientRegister = () => {
                                             </div>
                                         </div>
                                         <div className="reg--form-btn-area">
-                                        <label>
-                                                <input
-                                                type="checkbox"
-                                                checked={isAgreed}
-                                                onChange={() => {
-                                                    setIsAgreed(!isAgreed)}
-                                                }/>
-                                            I agree to the terms and conditions
-                                            </label>
-                                            <button type='submit' className='reg--form-btn-sub' data-aos="fade-down">
+                                            <div className="cli--login-remember-area terms-condition" data-aos="fade-right">
+                                                <label className="cli--login-remember-checkbox">
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={isAgreed}
+                                                        onChange={() => {
+                                                            setIsAgreed(!isAgreed)
+                                                        }
+                                                        }
+                                                    />
+                                                    <span className="cli--login-remember-checkmark"></span>
+                                                    <span>By clicking Agree & Join, you agree to the Skillety&nbsp;<a href="#">User Agreement, Privacy Policy</a></span> 
+                                                </label>
+                                            </div>
+                                            <button type='submit' className='reg--form-btn-sub' disabled={!isAgreed} data-aos="fade-left">
                                                 <div className='reg--form-btn'>
                                                     Submit
                                                 </div>

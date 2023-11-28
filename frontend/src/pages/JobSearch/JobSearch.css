@@ -88,3 +88,8 @@
 .tal-cand-reg-form-badge.candidate:hover{
     border-color: #714F36;
 }
+
+.tal--pro-card-percentage.custom-font-size{
+    font-size: 20px;
+    margin-top: 10px;
+}

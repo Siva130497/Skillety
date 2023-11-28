@@ -104,7 +104,7 @@
     height: 100%;
     border-radius: 4px;
     border: 2px solid #714F36;
-    /* padding: 1rem; */
+    padding: 1rem;
     transition: transform ease-in-out 0.8s;
 }
 
@@ -397,7 +397,7 @@
 
 .cand--reg-flex-input {
     color: #5C3B2E;
-    font-size: 20px;
+    font-size: 18px;
     border: none;
     border-bottom: 2px solid #714F36;
     outline: none;
@@ -685,4 +685,25 @@ input[type="number"]::-webkit-outer-spin-button {
 
 .custom-padding-left2 {
     padding-left: 40px;
+}
+
+.reg--form-btn-sub:disabled,
+.reg--form-btn-sub[disabled] {
+    cursor: not-allowed !important;
+}
+
+.reg--form-btn-sub:disabled .reg--form-btn,
+.reg--form-btn-sub[disabled] .reg--form-btn {
+    background-color: #c9c9c9 !important;
+    color: #656565 !important;
+}
+
+.reg--form-btn-sub:disabled .reg--form-btn::after,
+.reg--form-btn-sub[disabled] .reg--form-btn::after {
+    display: none !important;
+}
+
+.reg--form-btn-sub:disabled .reg--form-arrow-area,
+.reg--form-btn-sub[disabled] .reg--form-arrow-area {
+    display: none !important;
 }

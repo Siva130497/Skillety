@@ -19,6 +19,17 @@
         width: 100%;
         height: 80px;
     }
+    .flex-reverse-md{
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .tal--pro-card-ability-number-left.mobile-flex{
+        flex-direction: row;
+        align-items: baseline;
+        gap: 20px;
+    }
 }
 
 @media (max-width:500px) {

@@ -41,20 +41,22 @@
 }
 
 .home--search-area {
-    margin-top: 25px;
+    margin-top: 10px;
+    position: relative;
 }
 
 .home--search-area .home--search-box {
     border-radius: 48px;
     background: #FFF;
     color: #5C3B2E;
-    font-size: 20px;
+    font-size: 19px;
     font-style: normal;
     font-weight: 300;
     line-height: normal;
     max-width: 724px;
     padding: 15px 15px 15px 60px;
     transition: ease-in-out 0.8s !important;
+    position: relative;
 }
 
 .home--search-area .home--search-box:focus {
@@ -75,7 +77,7 @@
 .home--search-area .home--search-btn {
     margin-top: 32px;
     color: #5C3B2E;
-    font-size: 24px;
+    font-size: 22px;
     font-weight: 500;
     border-radius: 48px;
     background: #F9C833;
@@ -133,6 +135,7 @@
     background-repeat: no-repeat;
     border: 1px solid #FFF;
     z-index: 1;
+    text-transform: capitalize;
     background-color: transparent;
     color: #fff !important;
     /* text-shadow: 1px 2px 5px #535353; */
@@ -1333,6 +1336,7 @@
     color: #714F36;
     font-size: 15px;
     font-weight: 600;
+    text-transform: capitalize;
 }
 
 .candidate--profile-area {
@@ -1345,7 +1349,7 @@
 .candidate--rate-area i {
     color: #F9C833;
     font-size: 18px;
-    margin-right: 9px;
+    margin-right: 7px;
     transition: ease-in-out 0.8s;
 }
 
@@ -1361,7 +1365,7 @@
 }
 
 .candidate--content-area {
-    margin-top: 40px;
+    margin-top: 30px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -2117,3 +2121,120 @@
     padding-left: 50px;
     padding-right: 50px;
   } */
+
+.home-search-result-data-area {
+    position: absolute;
+    width: 100%;
+    z-index: 2;
+    background-color: #ffffff9d;
+    box-shadow: 0px 5px 15px #0000003b;
+    max-height: 283px;
+    overflow-y: scroll;
+    transition: ease-in-out 0.3s;
+    border-radius: 30px;
+    margin-top: 8px;
+    max-width: 724px;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+}
+
+.home-search-result-data-area::-webkit-scrollbar {
+    width: 8px;
+    background-color: #ffffff00;
+    border-radius: 10px !important;
+}
+
+.home-search-result-data-area.client::-webkit-scrollbar-thumb {
+    border-radius: 10px !important;
+    -webkit-box-shadow: none;
+    background-color: #714f36d3;
+}
+
+.home-search-result-data-area::-webkit-scrollbar-track {
+    -webkit-box-shadow: none;
+    border-radius: 10px !important;
+    background-color: transparent;
+}
+
+.home-search-result-data {
+    font-weight: 500;
+    font-size: 15px;
+    padding: 14px 15px;
+    background-color: transparent;
+    transition: ease-in-out 0.5s;
+    cursor: pointer;
+    margin: 5px;
+    border-radius: 50px;
+    text-transform: capitalize;
+}
+
+.home-search-result-data.client {
+    color: #714F36;
+}
+
+.home-search-result-data.client:hover {
+    background-color: #714F36 !important;
+    color: #FFF !important;
+}
+
+.home-search-badge-area {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    max-width: 724px;
+}
+
+.home-search-badge {
+    font-size: 14px;
+    border-radius: 50px;
+    font-weight: 500;
+    padding: 4px 10px 4px 13px;
+    top: 10px;
+    cursor: pointer;
+    transition: ease-in-out 0.5s;
+    position: relative;
+    white-space: nowrap;
+    text-transform: capitalize;
+}
+
+.home-search-badge.client {
+    color: #ffffff;
+    background-color: #714F36;
+    border: 1.5px solid #ffffff;
+}
+
+.home-search-badge.client:hover {
+    background-color: #FFF !important;
+    color: #714F36;
+}
+
+.home-search-badge::after {
+    content: "\f62a";
+    vertical-align: middle;
+    margin-left: 6px;
+    font-size: 14px;
+    display: inline-block;
+    transition: ease-in-out 0.5s;
+    font-family: 'bootstrap-icons' !important;
+    font-style: normal;
+    font-weight: normal !important;
+    font-feature-settings: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: normal;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    flex-shrink: 0;
+    border-radius: 50%;
+    padding: 0 1px;
+}
+
+.home-search-badge.client::after {
+    color: #FFF;
+}
+
+.home-search-badge.client:hover::after {
+    color: #714F36 !important;
+}

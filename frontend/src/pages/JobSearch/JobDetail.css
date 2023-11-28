@@ -194,6 +194,7 @@
     font-size: 20px;
     font-weight: 700;
     transition: ease-in-out 0.8s !important;
+    text-transform: capitalize;
 }
 
 .job--detail-card:hover .job--detail-card-top-area .job--detail-card-role {
@@ -211,6 +212,7 @@
     color: #714F36;
     font-size: 16px;
     font-weight: 500;
+    text-transform: capitalize;
 }
 
 .job--detail-card-review-area .job--detail-card-rating i {
@@ -259,6 +261,7 @@
     color: #714F36;
     font-size: 12px;
     font-weight: 500;
+    text-transform: capitalize;
 }
 
 .job--detail-card-img-area {
@@ -319,6 +322,7 @@
     color: #313131;
     font-size: 10px;
     font-weight: 400;
+    text-transform: capitalize;
 }
 
 .job--detail-card-tags-area .job--detail-card-tag::before {
