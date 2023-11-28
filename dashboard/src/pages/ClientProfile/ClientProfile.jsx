@@ -215,7 +215,6 @@ const ClientProfile = () => {
         }
     },[id, clientToken])
 
-    console.log(checkBox)
     useEffect(() => {
         if (clientImg) {
             setClientImgUrl(`https://skillety.onrender.com/client_profile/${clientImg.image}`)
@@ -250,6 +249,7 @@ const ClientProfile = () => {
                 console.log(res.data)
                 setCompanyDetail(res.data)
                 setSelectedBenefits(res.data.benefits)
+                setCheckBox(prevState => [...new Set([...prevState, ...res.data.benefits])]);
                 setAwardlist(res.data.awards)
                 })
                 .catch(err=>console.log(err))
@@ -288,6 +288,7 @@ const ClientProfile = () => {
                 console.log(res.data)
                 setCompanyDetail(res.data)
                 setSelectedBenefits(res.data.benefits)
+                setCheckBox(prevState => [...new Set([...prevState, ...res.data.benefits])]);
                 setAwardlist(res.data.awards)
                 })
                 .catch(err=>console.log(err))
@@ -326,6 +327,7 @@ const ClientProfile = () => {
                 console.log(res.data)
                 setCompanyDetail(res.data)
                 setSelectedBenefits(res.data.benefits)
+                setCheckBox(prevState => [...new Set([...prevState, ...res.data.benefits])]);
                 setAwardlist(res.data.awards)
                 })
                 .catch(err=>console.log(err))
@@ -364,6 +366,7 @@ const ClientProfile = () => {
                 console.log(res.data)
                 setCompanyDetail(res.data)
                 setSelectedBenefits(res.data.benefits)
+                setCheckBox(prevState => [...new Set([...prevState, ...res.data.benefits])]);
                 setAwardlist(res.data.awards)
                 })
                 .catch(err=>console.log(err))
@@ -402,6 +405,7 @@ const ClientProfile = () => {
                 console.log(res.data)
                 setCompanyDetail(res.data)
                 setSelectedBenefits(res.data.benefits)
+                setCheckBox(prevState => [...new Set([...prevState, ...res.data.benefits])]);
                 setAwardlist(res.data.awards)
                 })
                 .catch(err=>console.log(err))
@@ -440,6 +444,7 @@ const ClientProfile = () => {
                 console.log(res.data)
                 setCompanyDetail(res.data)
                 setSelectedBenefits(res.data.benefits)
+                setCheckBox(prevState => [...new Set([...prevState, ...res.data.benefits])]);
                 setAwardlist(res.data.awards)
                 })
                 .catch(err=>console.log(err))
@@ -478,6 +483,7 @@ const ClientProfile = () => {
                 console.log(res.data)
                 setCompanyDetail(res.data)
                 setSelectedBenefits(res.data.benefits)
+                setCheckBox(prevState => [...new Set([...prevState, ...res.data.benefits])]);
                 setAwardlist(res.data.awards)
                 })
                 .catch(err=>console.log(err))
@@ -518,6 +524,7 @@ const ClientProfile = () => {
                 console.log(res.data)
                 setCompanyDetail(res.data)
                 setSelectedBenefits(res.data.benefits)
+                setCheckBox(prevState => [...new Set([...prevState, ...res.data.benefits])]);
                 setAwardlist(res.data.awards)
                 })
                 .catch(err=>console.log(err))
@@ -557,6 +564,7 @@ const ClientProfile = () => {
                 console.log(res.data)
                 setCompanyDetail(res.data)
                 setSelectedBenefits(res.data.benefits)
+                setCheckBox(prevState => [...new Set([...prevState, ...res.data.benefits])]);
                 setAwardlist(res.data.awards)
                 })
                 .catch(err=>console.log(err))
@@ -596,6 +604,21 @@ const ClientProfile = () => {
             console.log(res.data)
             if (!res.data.error) {
                 showSuccessMessage("Benefits Updated")
+
+                axios.get(`https://skillety.onrender.com/company-detail/${id}`, {
+                    headers: {
+                        Authorization: `Bearer ${clientToken}`,
+                        Accept: 'application/json'
+                    }
+                })
+                .then(res=>{
+                    console.log(res.data)
+                    setCompanyDetail(res.data)
+                    setSelectedBenefits(res.data.benefits)
+                    setCheckBox(prevState => [...new Set([...prevState, ...res.data.benefits])]);
+                    setAwardlist(res.data.awards)
+                })
+                .catch(err=>console.log(err))
             }
         })
         .catch(err => {
@@ -606,10 +629,10 @@ const ClientProfile = () => {
     
       const handleAddManually = () => {
         if (companyInfo.manuallyAddedBenefit) {
-            const updatedCheckBox = [...checkBox, companyInfo.manuallyAddedBenefit]
+            // const updatedCheckBox = [...checkBox, companyInfo.manuallyAddedBenefit]
           const updatedBenefits = [...selectedBenefits, companyInfo.manuallyAddedBenefit];
-          setCheckBox(updatedCheckBox);
-          setSelectedBenefits(updatedBenefits);
+        //   setCheckBox(updatedCheckBox);
+        //   setSelectedBenefits(updatedBenefits);
           setCompanyInfo(prev=>({...prev, manuallyAddedBenefit:""}));
 
           const companyData = {
@@ -627,6 +650,22 @@ const ClientProfile = () => {
             console.log(res.data)
             if (!res.data.error) {
                 showSuccessMessage("Benefits Updated")
+
+                axios.get(`https://skillety.onrender.com/company-detail/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${clientToken}`,
+                    Accept: 'application/json'
+                }
+                })
+                .then(res=>{
+                    console.log(res.data)
+                    setCompanyDetail(res.data)
+                    setSelectedBenefits(res.data.benefits)
+                    setCheckBox(prevState => [...new Set([...prevState, ...res.data.benefits])]);
+                    setAwardlist(res.data.awards)
+                })
+                .catch(err=>console.log(err))
+
             }
         })
         .catch(err => {
