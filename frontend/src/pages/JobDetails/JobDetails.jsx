@@ -122,6 +122,14 @@ const JobDetails = () => {
         console.log(result);
         showSuccessMessage("Job applied successfully..!");
         getAppliedjobs();
+
+        axios.get(`https://skillety.onrender.com/applied-job/${id}`)
+                .then(res => {
+                    console.log(res.data)
+                    setApplicants(res.data?.length)
+                })
+                .catch(err => console.log(err))
+
       } else {
         console.log(result);
       }
@@ -146,6 +154,14 @@ const JobDetails = () => {
       console.log(response);
       showSuccessMessage("Job successfully deleted..!");
       getAppliedjobs();
+
+      axios.get(`https://skillety.onrender.com/applied-job/${id}`)
+                .then(res => {
+                    console.log(res.data)
+                    setApplicants(res.data?.length)
+                })
+                .catch(err => console.log(err))
+                
     } catch (error) {
       console.error(error);
       showErrorMessage();
@@ -198,15 +214,45 @@ const JobDetails = () => {
 
   const handleApply = () => {
     if (!alreadyApplied) {
-      applyingjob({ ...job, candidateId: candidateId });
-    }
-  };
+        Swal.fire({
+            title: 'Are you sure?',
+            text: '',
+            icon: 'info',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, apply it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                applyingjob({ ...job, candidateId: candidateId });
+                
+            }
 
-  const handleDiscard = () => {
-    if (alreadyApplied) {
-      deletingjob();
+        });
+        
     }
-  };
+}
+
+const handleDiscard = () => {
+  if (alreadyApplied) {
+      Swal.fire({
+          title: 'Are you sure?',
+          text: '',
+          icon: 'info',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes, apply it!'
+      }).then((result) => {
+          if (result.isConfirmed) {
+              deletingjob();
+              
+          }
+
+      });
+      
+  }
+}
 
   return (
     <div>
