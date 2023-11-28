@@ -20,6 +20,7 @@ const ManageJobs = () => {
     // const uniqueJobIds = new Set();
     const [updatePostedJobs, setUpdatePostedJobs] = useState([]);
     const [postedJobs, setPostedJobs] = useState([]);
+    const [selectedJobViewDetail, setSelectedPostedJobViewDetail] = useState();
     const [appliedOfPostedJobs, setAppliedOfPostedJobs] = useState([]);
     const [allStaff, setAllStaff] = useState([]);
 
@@ -433,6 +434,11 @@ const ManageJobs = () => {
         });
     }
 
+    const handleViewJobDetail = (id) => {
+        const selectedPostedJob = postedJobs.find(postedJob => postedJob.id === id);
+        setSelectedPostedJobViewDetail(selectedPostedJob);
+    }
+
     return (
         <div>
             {clientToken && <div class="main-wrapper main-wrapper-1">
@@ -458,6 +464,7 @@ const ManageJobs = () => {
                                                     <th className='dash-table-head text-center'>Applicants</th>
                                                     <th className='dash-table-head text-center'>Posted by <br /> Who?</th>
                                                     <th className='dash-table-head text-center'>Status</th>
+                                                    <th className='text-center'>View</th>
                                                     <th className='text-center'>Action</th>
                                                 </tr>
 
@@ -492,6 +499,16 @@ const ManageJobs = () => {
                                                                 }
                                                                 {/* <span className='man-job-status-btn theme-info'>{job?.pending ? "Approval Pending & InActive" : job?.active ? "Approved & Active" : "Approved & InActive"}</span> */}
                                                             </td>
+                                                            <td className='text-center'>
+                                                                                <div className="action-btn-area">
+                                                                                    <button className='job-view-btn' data-toggle="modal" title='View Candidate Details...' data-target="#invoiceModal" onClick={() => handleViewJobDetail(job.id)}>
+                                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                                                                            <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
+                                                                                            <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
+                                                                                        </svg>
+                                                                                    </button>
+                                                                                </div>
+                                                                            </td>
                                                             <td className='text-center'>
                                                                 <div className="action-btn-area">
                                                                     <button className='job-edit-btn' title='Edit job details...' onClick={() => navigate(`/edit-job/${job.id}`)}>
@@ -563,7 +580,152 @@ const ManageJobs = () => {
                         </div>
                     </section>
                 </div>
-
+                <div className="modal fade" id="invoiceModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div className="modal-dialog modal-lg" role="document">
+                        <div className="modal-content recruiter-view-modal">
+                            <div className="modal-header recruiter-view-modal-header">
+                                <h5 className="modal-title recruiter-view-modal-title client" id="exampleModalLabel">
+                                    Job Details_
+                                </h5>
+                                <a href='#' type="button" className="close recruiter-view-close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true"><i class="bi bi-x close-icon"></i></span>
+                                </a>
+                            </div>
+                            <div className="modal-body">
+                                <div className="card p-4 recruiter-view-card candidate">
+                                    <div className="row">
+                                        <div className="col-12 col-sm-5 col-md-5 col-lg-4">
+                                            <div className="view-det-head">Job Role</div>
+                                        </div>
+                                        <div className="col-12 col-sm-7 col-md-7 col-lg-8">
+                                            <div className="view-det-sub-head text-capitalized">{selectedJobViewDetail?.jobRole[0]}</div>
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div className="row">
+                                        <div className="col-12 col-sm-5 col-md-5 col-lg-4">
+                                            <div className="view-det-head">Job Category</div>
+                                        </div>
+                                        <div className="col-12 col-sm-7 col-md-7 col-lg-8">
+                                            <div className="view-det-sub-head text-capitalized">{selectedJobViewDetail?.jobCategory}</div>
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div className="row">
+                                        <div className="col-12 col-sm-5 col-md-5 col-lg-4">
+                                            <div className="view-det-head">Job Mandatory Skills</div>
+                                        </div>
+                                        <div className="col-12 col-sm-7 col-md-7 col-lg-8">
+                                            <div className="cand-skills-area">
+                                                {selectedJobViewDetail?.skills.map(skill => {
+                                                    return (
+                                                        <span className='cand-skill'>{skill}</span>
+                                                    )
+                                                })}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div className="row">
+                                        <div className="col-12 col-sm-5 col-md-5 col-lg-4">
+                                            <div className="view-det-head">Needed Experience</div>
+                                        </div>
+                                        <div className="col-12 col-sm-7 col-md-7 col-lg-8">
+                                            <div className="view-det-sub-head">
+                                                <span>{selectedJobViewDetail?.minExperience} - {selectedJobViewDetail?.maxExperience}</span>
+                                                &nbsp;years&nbsp;
+                                                {/* <span>6</span>
+                                                &nbsp;months */}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div className="row">
+                                        <div className="col-12 col-sm-5 col-md-5 col-lg-4">
+                                            <div className="view-det-head">Job Description</div>
+                                        </div>
+                                        <div className="col-12 col-sm-7 col-md-7 col-lg-8">
+                                            <div className="view-det-sub-head">{selectedJobViewDetail?.jobDescription}</div>
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div className="row">
+                                        <div className="col-12 col-sm-5 col-md-5 col-lg-4">
+                                            <div className="view-det-head">Salary Range</div>
+                                        </div>
+                                        <div className="col-12 col-sm-7 col-md-7 col-lg-8">
+                                            <div className="view-det-sub-head">{selectedJobViewDetail?.currencyType}{selectedJobViewDetail?.minSalary} - {selectedJobViewDetail?.currencyType}{selectedJobViewDetail?.maxSalary}</div>
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div className="row">
+                                        <div className="col-12 col-sm-5 col-md-5 col-lg-4">
+                                            <div className="view-det-head">Department</div>
+                                        </div>
+                                        <div className="col-12 col-sm-7 col-md-7 col-lg-8">
+                                            <div className="view-det-sub-head text-capitalized">{selectedJobViewDetail?.department}</div>
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div className="row">
+                                        <div className="col-12 col-sm-5 col-md-5 col-lg-4">
+                                            <div className="view-det-head">Education</div>
+                                        </div>
+                                        <div className="col-12 col-sm-7 col-md-7 col-lg-8">
+                                            <div className="view-det-sub-head text-capitalized">{selectedJobViewDetail?.education}</div>
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div className="row">
+                                        <div className="col-12 col-sm-5 col-md-5 col-lg-4">
+                                            <div className="view-det-head">Industry</div>
+                                        </div>
+                                        <div className="col-12 col-sm-7 col-md-7 col-lg-8">
+                                            <div className="view-det-sub-head text-capitalized">{selectedJobViewDetail?.industry}</div>
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div className="row">
+                                        <div className="col-12 col-sm-5 col-md-5 col-lg-4">
+                                            <div className="view-det-head">Locations</div>
+                                        </div>
+                                        <div className="col-12 col-sm-7 col-md-7 col-lg-8">
+                                            <div className="cand-skills-area">
+                                                {selectedJobViewDetail?.location.map(location => {
+                                                    return (
+                                                        <span className='cand-skill'>{location}</span>
+                                                    )
+                                                })}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div className="row">
+                                        <div className="col-12 col-sm-5 col-md-5 col-lg-4">
+                                            <div className="view-det-head">Role</div>
+                                        </div>
+                                        <div className="col-12 col-sm-7 col-md-7 col-lg-8">
+                                            <div className="view-det-sub-head text-capitalized">{selectedJobViewDetail?.role}</div>
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div className="row">
+                                        <div className="col-12 col-sm-5 col-md-5 col-lg-4">
+                                            <div className="view-det-head">Working Mode</div>
+                                        </div>
+                                        <div className="col-12 col-sm-7 col-md-7 col-lg-8">
+                                            <div className="view-det-sub-head text-capitalized">{selectedJobViewDetail?.workMode}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="modal-footer recruiter-view-modal-footer bg-whitesmoke br">
+                                <button type="button" className="btn close-modal-btn" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <Footer />
             </div >}
         </div >

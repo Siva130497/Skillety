@@ -1,0 +1,177 @@
+@media screen and (min-width: 992px) and (max-width: 1399px) {}
+
+@media (max-width:991.5px) {
+    .dash-talent--profile-card-section {
+        padding: 40px 10px;
+    }
+
+    .tal--pro-card-ability {
+        margin-bottom: 0;
+    }
+
+    .tal--pro-card-tags {
+        flex-wrap: wrap;
+    }
+
+    .tal--pro-card-tags {
+        margin-top: 20px;
+        row-gap: 10px;
+    }
+
+    /* .tal--pro-card-right-area {
+        justify-content: space-evenly;
+        padding: 15px 0;
+    } */
+
+    .tal--pro-card-left-area .tal--pro-card-name {
+        font-size: 22px;
+    }
+
+    .tal--pro-card-right-area .tal--pro-card-profile-img {
+        width: 120px;
+        height: 120px;
+    }
+
+    .card-split-line {
+        border-top: 1px #fff solid;
+        margin-bottom: 25px;
+    }
+
+    .talent--profile-card {
+        flex-direction: column-reverse;
+    }
+
+    .tal--pro-card-right-area {
+        justify-content: center;
+        padding: 25px;
+        width: 100%;
+    }
+
+    .tal--pro-card-left-area {
+        width: 100%;
+        padding: 0px 25px 70px 25px !important;
+    }
+
+    .tal--pro-card-right-btn-area {
+        flex-direction: row;
+        bottom: 0;
+        width: 100%;
+        height: 48px;
+    }
+
+    .tal--pro-card-right-cover-area {
+        flex-direction: row;
+        gap: 30px;
+        flex-wrap: wrap;
+    }
+
+    .tal--pro-card-ability-number-area {
+        margin-top: 5px;
+    }
+
+    .tal--pro-card-name-check-container {
+        position: absolute;
+        top: 25px;
+    }
+
+    .tal--pro-card-ability-number-area {
+        flex-direction: row;
+        width: 100%;
+        justify-content: space-evenly;
+    }
+
+    .tal--pro-card-tags {
+        justify-content: space-between;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #ffffff;
+    }
+}
+
+@media (max-width:500px) {
+    .dash-talent--profile-card-section {
+        padding: 30px 0px;
+    }
+
+    .tal--pro-card-left-area {
+        padding: 0px 0px 20px 0px !important;
+    }
+
+    .tal--pro-card-right-area {
+        padding: 20px 0;
+        background-color: #e3e3e3;
+        border: 1px solid #FFF;
+        border-radius: 12px;
+        box-shadow: 0px 5px 10px #7d7d7d1f;
+        transition: ease-in-out 0.8s;
+    }
+
+    /* .talent--profile-card:hover .tal--pro-card-right-area {
+        background-color: #ddd;
+        border-color: #fff;
+        box-shadow: none;
+    } */
+
+    .tal--pro-card-tags {
+        flex-direction: column;
+        border: 1px solid #FFF;
+        border-radius: 12px;
+        padding: 15px 0 5px;
+    }
+
+    .tal--pro-card-left-area .tal--pro-card-name {
+        text-align: center;
+    }
+
+    .tal--pro-card-desc-area .tal--pro-card-desc-title,
+    .tal--pro-card-desc-area .tal--pro-card-desc {
+        /* text-align: center; */
+        margin-bottom: 15px;
+    }
+
+    .talent--profile-card {
+        padding: 20px;
+    }
+
+    .card-split-line {
+        border-top: none;
+        margin-bottom: 25px;
+    }
+
+    .tal--pro-card-right-cover-area {
+        gap: 20px;
+        flex-direction: column;
+    }
+
+    .tal--pro-card-role-name {
+        /* margin-bottom: 0; */
+    }
+
+    .tal--pro-card-name-check-container {
+        top: 35px;
+        left: 35px;
+    }
+
+    .tal--pro-card-name-area {
+        justify-content: center;
+    }
+
+    .tal--pro-card-profile-img-role-area {
+        gap: 5px;
+    }
+
+    .tal--pro-card-desc-area .tal--pro-card-desc {
+        padding-left: 15px;
+    }
+
+    .tal--pro-card-desc-row {
+        border-bottom: 1px #ddd solid;
+        margin-bottom: 12px;
+    }
+
+    .tal--pro-card-bottom-btn-area {
+        margin-top: 30px;
+        gap: 12px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+}

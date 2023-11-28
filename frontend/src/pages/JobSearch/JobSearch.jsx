@@ -197,7 +197,7 @@ const JobSearch = () => {
     }, [candidateToken, getClientImg, clientImg, getProtectedData, candidateId, allJobs, matchJobs, latestJob, clients, searchResult, filteredSearchResults, filteredSearchResultsMsg, checkBoxfilters, checkBoxJobTitle, checkBoxJobLocation, checkBoxJobEducation, skillArray, jobRoleArray, filteredList, selectedResults, locationArray, educationArray, filters, x]);
 
     const handleSkillSearch = () => {
-        if (selectedResults.length > 0 || checkBoxfilters.length > 0 || (filters.maxExperience && filters.maxExperience) || checkBoxJobTitle.length > 0 || checkBoxJobLocation.length > 0 || (filters.minSalary && filters.maxSalary) || checkBoxJobEducation.length > 0) {
+        if (selectedResults.length > 0 || checkBoxfilters.length > 0 || (filters.maxExperience && filters.maxExperience) || selectedJobTitleResults.length > 0 || selectedLocationResults.length > 0 || (filters.minSalary && filters.maxSalary) || selectedEducationResults.length > 0) {
             setX([0, 3]);
             setFilteredSearchResultsMsg("")
             // setAllJobs([])

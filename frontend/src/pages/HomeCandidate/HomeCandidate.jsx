@@ -20,7 +20,7 @@ const HomeCandidate = () => {
 
   const { eventDetail, getEventDetail, getEventImg, eventImg, getClientImg, clientImg } = useContext(AuthContext);
   const [allJobs, setAllJobs] = useState([]);
-  const [allClient, setAllClient] = useState([]);
+  const [allCompany, setAllCompany] = useState([]);
 
   const [skillArray, setSkillArray] = useState([]);
   const [jobRoleArray, setjobRoleArray] = useState([]);
@@ -118,25 +118,35 @@ const HomeCandidate = () => {
     getAllJobRoles();
     getPopularSearches();
 
-    axios.get("https://skillety.onrender.com/clients")
-      .then(res => {
-        const allClients = res.data;
+    // axios.get("https://skillety.onrender.com/clients")
+    //   .then(res => {
+    //     const allClients = res.data;
 
-        // Create a Map to store unique objects based on companyId
-        const uniqueClientsMap = new Map();
+    //     // Create a Map to store unique objects based on companyId
+    //     const uniqueClientsMap = new Map();
 
-        // Iterate through all clients and store only unique objects in the Map
-        allClients.forEach(client => {
-          uniqueClientsMap.set(client.companyId, client);
-        });
+    //     // Iterate through all clients and store only unique objects in the Map
+    //     allClients.forEach(client => {
+    //       uniqueClientsMap.set(client.companyId, client);
+    //     });
 
-        // Convert the Map values back to an array
-        const uniqueClientsArray = Array.from(uniqueClientsMap.values());
+    //     // Convert the Map values back to an array
+    //     const uniqueClientsArray = Array.from(uniqueClientsMap.values());
 
-        console.log(uniqueClientsArray);
-        setAllClient(uniqueClientsArray);
-      })
-      .catch(err => console.log(err));
+    //     console.log(uniqueClientsArray);
+    //     setAllClient(uniqueClientsArray);
+    //   })
+    //   .catch(err => console.log(err));
+
+    axios.get("https://skillety.onrender.com/company-details")
+    .then(res=>{
+      console.log(res.data);
+      setAllCompany(res.data);
+    })
+    .catch(err=>{
+      console.log(err);
+    })
+
 
   }, []);
 
@@ -490,25 +500,25 @@ const HomeCandidate = () => {
               </div>
             </div>
             <div className="company--content-area">
-              {allClient.map(client => {
-                const matchingImg = clientImg ? clientImg.find(img => img.id === client.companyId) : null;
+              {allCompany.map(company => {
+                const matchingImg = clientImg ? clientImg.find(img => img.id === company.companyId) : null;
                 const imgSrc = matchingImg ? `https://skillety.onrender.com/client_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
-                const jobOpening = (allJobs.filter(job => job.companyId === client.companyId)).length
-                return (
+                const jobOpening = (allJobs.filter(job => job.companyId === company.companyId)).length
+                return jobOpening > 0 && (
                   <div className="row company--content-row custom-row-border-top">
                     <div className="col-12 col-xl-2 col-lg-2 col-sm-6 col-md-3 company--content-img-area">
                       <img src={imgSrc} data-aos="fade" className='company--content-img cand-home' loading='lazy' alt="" />
                     </div>
                     <div className="col-12 col-xl-3 col-lg-3 col-sm-6 col-md-4 home--company-name-area">
-                      <div className='home-company-name' data-aos="zoom-out">{client.companyName}</div>
+                      <div className='home-company-name' data-aos="zoom-out">{company.companyName}</div>
                     </div>
                     <div className="col-12 col-xl-4 col-lg-4 col-sm-6 col-md-5 company--content-jobs-area">
                       <div className='company--content-jobs' data-aos="zoom-out">{jobOpening}<span> Jobs Opening</span></div>
                     </div>
                     <div className="col-12 col-xl-3 col-lg-3 col-md-12 company--content-desc-area">
-                      {/* <p className='company--content-desc' data-aos="fade-left">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p> */}
+                      <p className='company--content-desc' data-aos="fade-left">{company.shortDescription}</p>
                       <div className='company--content-apply-btn-area' data-aos="fade-right">
-                        <a href={`/company-details/${client.companyId}`} className='company--content-apply-btn'>
+                        <a href={`/company-details/${company.companyId}`} className='company--content-apply-btn'>
                           <div className='company--content-apply-btn-sub'>
                             Apply Now
                           </div>
