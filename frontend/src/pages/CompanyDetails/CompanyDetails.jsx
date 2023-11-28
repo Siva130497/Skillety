@@ -13,6 +13,7 @@ const CompanyDetails = () => {
     const { id } = useParams()
     const [jobs, setJobs] = useState([]);
     const [candidateToken, setCandidateToken] = useState("");
+    const [companyDetail, setCompanyDetail] = useState();
 
     const [loading, setLoading] = useState(true);
     const [pageNotFound, setPageNotFound] = useState(false);
@@ -33,6 +34,16 @@ const CompanyDetails = () => {
                 setLoading(false);
                 setPageNotFound(true);
             })
+
+        axios.get(`https://skillety.onrender.com/company-detail//${id}`)
+            .then((res => {
+                console.log(res.data)
+                setCompanyDetail(res.data);
+            }))
+            .catch(err => {
+                console.log(err)
+            })
+
     }, [id])
 
     useEffect(() => {
@@ -111,9 +122,9 @@ const CompanyDetails = () => {
                                 </div>
 
                                 <div className="company--detail-section">
-                                    {/* <div className="company--detail-desc-area">
-                                    <p className='company--detail-desc' data-aos="fade-left">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. </p>
-                                </div> */}
+                                    <div className="company--detail-desc-area">
+                                    <p className='company--detail-desc' data-aos="fade-left">{companyDetail?.longDescription}</p>
+                                </div>
                                     <div className="company--detail-vacancy-area">
                                         <h3 className='company--detail-vacancy-title' data-aos="fade-up">VACANCIES</h3>
 

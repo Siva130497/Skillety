@@ -1,11 +1,15 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import { useEffect } from 'react';
 import ATSLayout from '../../components/ATSLayout';
 import Footer from '../../components/Footer';
 import './PostedEvents.css';
 import $ from 'jquery';
+import AuthContext from '../../context/AuthContext';
 
 const PostedEvents = () => {
+    const { eventDetail, getEventDetail, getEventImg, eventImg } = useContext(AuthContext);
+    const [selectedEventViewDetail, setSelectedEventViewDetail] = useState();
+    const [image, setImage] = useState("");
 
     useEffect(() => {
         $(document).ready(function () {
@@ -29,6 +33,25 @@ const PostedEvents = () => {
         });
 
     }, []);
+
+    useEffect(() => {
+        getEventDetail();
+        getEventImg();
+    }, []);
+
+    const handleViewEventDetail = (id) => {
+        const selectedEvent = eventDetail.find(eve => eve.id === id);
+        setSelectedEventViewDetail(selectedEvent);
+
+        const matchingImg = eventImg ? eventImg.find(img => img.id === id) : null;
+    
+        if (matchingImg) {
+            setImage(`https://skillety.onrender.com/images/${matchingImg.image}`);
+        } else {
+            setImage("assets/img/events/event-img.jpg");
+        }
+    }
+
 
     return (
         <div>
@@ -71,39 +94,44 @@ const PostedEvents = () => {
                                                     </tr>
 
                                                     {/* table data */}
-                                                    <tr className='dash-table-row client'>
-                                                        <td className='dash-table-data1'>01.</td>
-                                                        <td className='dash-table-data1 text-capitalized'>
-                                                            Google Pixel 20 Launch
-                                                        </td>
-                                                        <td className='dash-table-data1'>
-                                                            1999.12.26
-                                                        </td>
+                                                    {eventDetail.map((eve, index)=>{
+                                                        return(
+                                                            <tr className='dash-table-row client' key={eve.id}>
+                                                                <td className='dash-table-data1'>{index+1}</td>
+                                                                <td className='dash-table-data1 text-capitalized'>
+                                                                {eve.title}
+                                                                </td>
+                                                                <td className='dash-table-data1'>
+                                                                    {eve.date}
+                                                                </td>
 
-                                                        <td className='text-center'>
-                                                            <div className="action-btn-area">
-                                                                <a href='#' className='job-edit-btn' title='Edit event details...'>
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
-                                                                        <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
-                                                                    </svg>
-                                                                </a>
+                                                                <td className='text-center'>
+                                                                    <div className="action-btn-area">
+                                                                        <a href='#' className='job-edit-btn' title='Edit event details...'>
+                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
+                                                                                <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
+                                                                            </svg>
+                                                                        </a>
 
-                                                                <button className='job-view-btn' data-toggle="modal" title='View event details...' data-target="#eventviewModal">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
-                                                                        <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
-                                                                        <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"
-                                                                        />
-                                                                    </svg>
-                                                                </button>
+                                                                        <button className='job-view-btn' data-toggle="modal" title='View event details...' data-target="#eventviewModal" onClick={() => handleViewEventDetail(eve.id)}>
+                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                                                                <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
+                                                                                <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"
+                                                                                />
+                                                                            </svg>
+                                                                        </button>
 
-                                                                <button className='job-delete-btn' data-toggle="modal" title='Delete event data...' data-target="#eventdeleteModal">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
-                                                                        <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
-                                                                    </svg>
-                                                                </button>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
+                                                                        <button className='job-delete-btn' data-toggle="modal" title='Delete event data...' data-target="#eventdeleteModal">
+                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                                                                                <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
+                                                                            </svg>
+                                                                        </button>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        )
+                                                    })}
+                                                    
 
                                                 </table>
                                             </div>
@@ -160,7 +188,7 @@ const PostedEvents = () => {
                                                     <i class="bi bi-fullscreen img-view-icon"></i>
                                                 </button>
                                             </div>
-                                            <img src="../assets/img/events/event-img.jpg" className='event-image' alt="" />
+                                            <img src={image} className='event-image' alt="" />
                                         </div>
                                         <div id="imageModal" className="image-view-modal">
                                             <span className="image-view-close">
@@ -175,7 +203,7 @@ const PostedEvents = () => {
                                             <div className="view-det-head">Event Title</div>
                                         </div>
                                         <div className="col-12 col-sm-8">
-                                            <div className="view-det-sub-head text-capitalized">Google Pixel 20 Launch</div>
+                                            <div className="view-det-sub-head text-capitalized">{selectedEventViewDetail?.title}</div>
                                         </div>
                                     </div>
                                     <hr />
@@ -184,7 +212,7 @@ const PostedEvents = () => {
                                             <div className="view-det-head">Location</div>
                                         </div>
                                         <div className="col-12 col-sm-8">
-                                            <div className="view-det-sub-head text-capitalized">Vannarpannai</div>
+                                            <div className="view-det-sub-head text-capitalized">{selectedEventViewDetail?.location}</div>
                                         </div>
                                     </div>
                                     <hr />
@@ -193,7 +221,7 @@ const PostedEvents = () => {
                                             <div className="view-det-head">Date</div>
                                         </div>
                                         <div className="col-12 col-sm-8">
-                                            <div className="view-det-sub-head">1999.12.26</div>
+                                            <div className="view-det-sub-head">{selectedEventViewDetail?.date}</div>
                                         </div>
                                     </div>
                                     <hr />
@@ -202,7 +230,7 @@ const PostedEvents = () => {
                                             <div className="view-det-head">Description</div>
                                         </div>
                                         <div className="col-12 col-sm-8">
-                                            <div className="view-det-sub-head">work as full stack developer for making dynamic web applications</div>
+                                            <div className="view-det-sub-head">{selectedEventViewDetail?.description}</div>
                                         </div>
                                     </div>
                                 </div>
