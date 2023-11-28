@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
 
 const ATSNavBar = () => {
+    const navigate = useNavigate()
     const [employeeId, setEmployeeId] = useState("");
     const [userName, setUserName] = useState('');
     const [token, setToken] = useState("");
@@ -231,16 +232,19 @@ const ATSNavBar = () => {
                                 View Profile
                             </a>
                             <div className="dropdown-btn-link-area">
-                                <a href="#" className="dropdown-acc-btn">
+                                {/* <a href="#" className="dropdown-acc-btn">
                                     <i class="bi bi-person-fill mr-3"></i>
                                     Account
                                 </a>
                                 <a href="#" className="dropdown-sub-btn">
                                     <i class="bi bi-gear-fill mr-3"></i>
                                     Settings
-                                </a>
+                                </a> */}
 
-                                <a href="#" className="dropdown-logout-btn" >
+                                <a href="" onClick={()=>{
+                                    localStorage.removeItem("staffToken");
+                                    navigate("/")
+                                    }} className="dropdown-logout-btn">
                                     <i class="bi bi-box-arrow-right mr-3"></i>
                                     Log Out
                                 </a>

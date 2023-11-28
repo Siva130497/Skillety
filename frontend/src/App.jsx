@@ -104,7 +104,7 @@ function App() {
             <Route path='/packages' element={<Packages />} />
             <Route path='/verification/:id' element={<ClientVerification />} />
             <Route path='/admin-login' element={<AdminLogin />} />
-            <Route path='/recruiter-login' element={<RecruiterLogin />} />
+            {/* <Route path='/recruiter-login' element={<RecruiterLogin />} /> */}
             <Route path='/forgot-password/:role' element={<ForgotPassword />} />
             <Route path='/client-dashboard' element={<ClientDashboard />} />
             <Route path='/candidate-dashboard' element={<CandidateDashboard />} />

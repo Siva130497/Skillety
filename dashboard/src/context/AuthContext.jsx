@@ -29,17 +29,8 @@ export const AuthContextProvider = ({children}) => {
                 console.log(result);
                 if (userData[1] === "staff") {
                     localStorage.setItem("staffToken", JSON.stringify(result.accessToken));
-                    navigate("/recruiter-dashboard");
-                } else if (userData[1] === "admin") {
-                    localStorage.setItem("adminToken",  JSON.stringify(result.accessToken));
-                    navigate("/admin-dashboard");
-                } else if (userData[1] === "login-Candidate") {
-                    localStorage.setItem("candidateToken",  JSON.stringify(result.accessToken));
-                    navigate("/candidate-home")
-                } else if (userData[1] === "login-Client") {
-                    localStorage.setItem("clientToken",  JSON.stringify(result.accessToken));
-                    navigate("/")
-                }
+                    navigate(`/recruiter-dashboard/${result.accessToken}`);
+                } 
                 
             } else {
                 console.log(result);

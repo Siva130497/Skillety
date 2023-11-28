@@ -278,21 +278,24 @@ const ClientNavBar = () => {
               <a href={`/client-profile/${loginClientDetail.companyId}`} className="dropdown-view-pro-btn">
                 View Profile
               </a>
-              {/* <div className="dropdown-btn-link-area">
-                <a href="#" className="dropdown-acc-btn">
+              <div className="dropdown-btn-link-area">
+                {/* <a href="#" className="dropdown-acc-btn">
                   <i class="bi bi-person-fill mr-3"></i>
                   Account
                 </a>
                 <a href="#" className="dropdown-sub-btn">
                   <i class="bi bi-gear-fill mr-3"></i>
                   Settings
-                </a>
+                </a> */}
 
-                <a href="https://skillety-dashboard.onrender.com/client-login" className="dropdown-logout-btn" >
+                <a href="" onClick={()=>{
+                  localStorage.removeItem("clientToken");
+                  window.open(`https://skillety-frontend.onrender.com/client-login`, '_blank');
+                  }} className="dropdown-logout-btn">
                   <i class="bi bi-box-arrow-right mr-3"></i>
                   Log Out
                 </a>
-              </div> */}
+              </div>
             </div>
           </li>
         </ul>
