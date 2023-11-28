@@ -103,7 +103,8 @@ export const NewNavCandidateHome = ({homeActive, aboutUsActive, searchJobActive,
                                     <li><a href={`https://skillety-dashboard.onrender.com/${candidateToken}`} target='_blank'>Dash Board</a></li>
                                     <li onClick={() => {
                                         localStorage.removeItem("candidateToken");
-                                        window.location.reload();
+                                        // window.location.reload();
+                                        navigate("/candidate-login")
                                     }}><a href='#'>Logout</a></li>
                                 </ul>
                             </li> :

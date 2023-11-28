@@ -1,10 +1,13 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { useEffect } from 'react';
 import $ from 'jquery';
 import feather from 'feather-icons';
+import AuthContext from '../context/AuthContext';
 
 const ATSSideBar = () => {
     const [staffToken, setStaffToken] = useState("");
+    const {getProtectedData} = useContext(AuthContext);
+    const [role, setRole] = useState("");
 
     useEffect(() => {
         setStaffToken(JSON.parse(localStorage.getItem('staffToken')))
@@ -49,6 +52,22 @@ const ATSSideBar = () => {
 
     }, [staffToken]);
 
+    useEffect(() => {
+        if(staffToken){
+            const fetchData = async () => {
+                try {
+                    const userData = await getProtectedData(staffToken);
+                    console.log(userData);
+                    setRole(userData.role);
+                } catch (error) {
+                    console.log(error)
+                }
+            };
+    
+            fetchData();
+        }
+    }, [staffToken]);
+
     return (
         <div>
             <div className="main-sidebar client sidebar-style-2">
@@ -63,6 +82,9 @@ const ATSSideBar = () => {
                         <li className="dropdown" id='recruiter_dashboard'>
                             <a href={`/recruiter-dashboard/${staffToken}`} className="nav-link"><i data-feather="home"></i><span>Dashboard</span></a>
                         </li>
+                        {role === "Admin" && <li className="dropdown" id='all_clients'>
+                            <a href="" className="nav-link"><i data-feather="user"></i><span>Company Staff</span></a>
+                        </li>}
                         <li className="dropdown" id='all_clients'>
                             <a href="/all-clients" className="nav-link"><i data-feather="user"></i><span>All Clients</span></a>
                         </li>
