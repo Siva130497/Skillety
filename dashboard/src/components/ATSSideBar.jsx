@@ -58,7 +58,7 @@ const ATSSideBar = () => {
                 try {
                     const userData = await getProtectedData(staffToken);
                     console.log(userData);
-                    setRole(userData.id);
+                    setRole(userData.role);
                 } catch (error) {
                     console.log(error)
                 }
