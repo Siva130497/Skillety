@@ -226,8 +226,7 @@ const CompanyDetail = () => {
 
                                 >
                                     {jobs.map((job) => {
-                                    const matchingImg = clientImg ? clientImg.find(img => img.id === job.companyId) : null;
-                                    const imgSrc = matchingImg ? `https://skillety.onrender.com/client_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
+                                    const imgSrc = clientImg ? clientImgUrl : "../assets/img/talents-images/avatar.jpg";
                                     return (
                                         <SwiperSlide key={job.id}>
                                         <article className='cand--job-card'>

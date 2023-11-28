@@ -35,6 +35,7 @@ import EnquiryDetails from './pages/EnquiryDetails/EnquiryDetails';
 import CandidateContact from './pages/CandidateContact/CandidateContact';
 import ClientContact from './pages/ClientContact/ClientContact';
 import NonApprovalJobs from './pages/NonApprovalJobs/NonApprovalJobs';
+import RecruiterLogin from './pages/RecruiterLogin/RecruiterLogin';
 
 
 function App() {
@@ -64,6 +65,7 @@ function App() {
         
 
         {/* for recruiter */}
+        <Route path='/' element={<RecruiterLogin />} />
         <Route path='/recruiter-dashboard/:token' element={<RecruiterDashboard />} />
         <Route path='/all-clients' element={<AllClients />} />
         <Route path='/all-candidates' element={<AllCandidates />} />

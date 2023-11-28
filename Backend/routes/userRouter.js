@@ -377,13 +377,13 @@ router.post("/login-Candidate", async (req, res) => {
   await userLogin(req.body, ["Candidate"], res);
 });
 
-// Admin, Recruiter Login Route
-router.post("/admin", async (req, res) => {
-  await userLogin(req.body, ["Admin"], res);
-});
+// // Admin, Recruiter Login Route
+// router.post("/admin", async (req, res) => {
+//   await userLogin(req.body, ["Admin"], res);
+// });
 
 router.post("/staff", async (req, res) => {
-  await userLogin(req.body, ["Recruiter"], res);
+  await userLogin(req.body, ["Recruiter", "Admin"], res);
 });
 
 //protected route
