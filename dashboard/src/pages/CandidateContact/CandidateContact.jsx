@@ -3,13 +3,85 @@ import { useEffect } from 'react';
 import ATSLayout from '../../components/ATSLayout';
 import Footer from '../../components/Footer';
 import $ from 'jquery';
+import axios from 'axios';
+import { useState } from 'react';
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.css';
 
 const CandidateContact = () => {
+    const [contactMsgDetails, setContactMsgDetails] = useState([]);
+    const [staffToken, setStaffToken] = useState("");
+    const [selectedViewDetail, setSelectedViewDetail] = useState();
+    const [x, setX] = useState([0, 10]);
 
     useEffect(() => {
         $(document).ready(function () {
         });
     }, []);
+
+    useEffect(() => {
+        setStaffToken(JSON.parse(localStorage.getItem('staffToken')))
+    }, [staffToken])
+
+    const getAllContactMessages = async () => {
+        try {
+            const response = await axios.get('https://skillety.onrender.com/candidate-contact', {
+              headers: {
+                  Authorization: `Bearer ${staffToken}`,
+                  Accept: 'application/json'
+              }
+            });
+    
+            const result = response.data;
+    
+            if (!result.error) {
+                console.log(result);
+                setContactMsgDetails(result);
+            } else {
+                console.log(result);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+      };
+
+      useEffect(()=>{
+        getAllContactMessages();
+      },[staffToken])
+
+      const handleViewMsg = (id) => {
+        const selectedMsg = contactMsgDetails.find(msg => msg._id === id);
+        setSelectedViewDetail(selectedMsg);
+
+    }
+
+    const handleDelete = (id) => {
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'You won\'t be able to revert this!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axios.delete(`https://skillety.onrender.com/candidate-contact-msg/${id}`, {
+                    headers: {
+                        Authorization: `Bearer ${staffToken}`,
+                        Accept: 'application/json'
+                    }
+                })
+                .then(res => {
+                    console.log(res.data);
+                    getAllContactMessages();
+                }
+                )
+                .catch(err => console.log(err));
+            }
+        });
+    }
 
     return (
         <div>
@@ -37,7 +109,7 @@ const CandidateContact = () => {
                                                     </div>
                                                     <div className="man-app-sub-title">
                                                         Total Contact Message Data :&nbsp;
-                                                        <span>02</span>
+                                                        <span>{contactMsgDetails.length}</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -53,21 +125,23 @@ const CandidateContact = () => {
                                                     </tr>
 
                                                     {/* table data */}
-                                                    <tr className='dash-table-row client'>
-                                                        <td className='dash-table-data1'>01.</td>
+                                                    {contactMsgDetails.map((msg, index)=>{
+                                                        return(
+                                                            <tr className='dash-table-row client' key={msg._id}>
+                                                        <td className='dash-table-data1'>{index+1}.</td>
                                                         <td className='dash-table-data1 text-capitalized'>
-                                                            raj sekar
+                                                        {msg.fullName}
                                                         </td>
                                                         <td className='dash-table-data1'>
-                                                            7898746555
+                                                        {msg.phoneNo}
                                                         </td>
                                                         <td className='dash-table-data1'>
-                                                            raj@gmail.com
+                                                        {msg.email}
                                                         </td>
 
                                                         <td className='text-center'>
                                                             <div className="action-btn-area">
-                                                                <button className='job-view-btn' data-toggle="modal" title='View contact message details...' data-target="#contactMsgviewModal">
+                                                                <button className='job-view-btn' data-toggle="modal" title='View contact message details...' data-target="#contactMsgviewModal" onClick={()=>handleViewMsg(msg._id)}>
                                                                     <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
                                                                         <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
                                                                         <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"
@@ -75,7 +149,7 @@ const CandidateContact = () => {
                                                                     </svg>
                                                                 </button>
 
-                                                                <button className='job-delete-btn' data-toggle="modal" title='Delete contact message data...' data-target="#contactMsgdeleteModal">
+                                                                <button className='job-delete-btn' data-toggle="modal" title='Delete contact message data...' data-target="#contactMsgdeleteModal" onClick={()=>handleDelete(msg._id)}>
                                                                     <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
                                                                         <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
                                                                     </svg>
@@ -83,6 +157,8 @@ const CandidateContact = () => {
                                                             </div>
                                                         </td>
                                                     </tr>
+                                                        )
+                                                    })}
 
                                                 </table>
                                             </div>
@@ -98,16 +174,16 @@ const CandidateContact = () => {
                                         </div> */}
                                         <div className="table-pagination-area pt-3">
                                             <div className="pagination-btn-area">
-                                                <button className='pag-prev-btn'>
+                                                {x[0] > 0 && <button className='pag-prev-btn' onClick={() => setX([x[0] - 10, x[1] - 10])}>
                                                     <i class="bi bi-chevron-left"></i>
-                                                </button>
+                                                </button>}
                                                 <div className='pag-page'>
-                                                    <span className='current-page'>1</span>&nbsp;/&nbsp;
-                                                    <span className='total-page'>7</span>
+                                                    <span className='current-page'>{Math.ceil(x[0] / 10) + 1}</span>&nbsp;/&nbsp;
+                                                    <span className='total-page'>{Math.ceil(contactMsgDetails.length / 10)}</span>
                                                 </div>
-                                                <button className='pag-next-btn'>
+                                                {((contactMsgDetails.slice(x[0], x[1]).length === 10 && contactMsgDetails.length > x[1])) && <button className='pag-next-btn' onClick={() => setX([x[0] + 10, x[1] + 10])}>
                                                     <i class="bi bi-chevron-right"></i>
-                                                </button>
+                                                </button>}
                                             </div>
                                         </div>
                                     </div>
@@ -123,7 +199,7 @@ const CandidateContact = () => {
                     <div className="modal-dialog modal-lg" role="document">
                         <div className="modal-content recruiter-view-modal">
                             <div className="modal-header recruiter-view-modal-header">
-                                <h5 className="modal-title recruiter-view-modal-title candidate" id="contactMsgViewLabel">
+                                <h5 className="modal-title recruiter-view-modal-title client" id="contactMsgViewLabel">
                                     Contact Message Details_
                                 </h5>
                                 <a href='#' type="button" className="close recruiter-view-close" data-dismiss="modal" aria-label="Close">
@@ -137,7 +213,7 @@ const CandidateContact = () => {
                                             <div className="view-det-head">Full Name</div>
                                         </div>
                                         <div className="col-12 col-sm-8">
-                                            <div className="view-det-sub-head text-capitalized">raj sekar</div>
+                                            <div className="view-det-sub-head text-capitalized">{selectedViewDetail?.fullName}</div>
                                         </div>
                                     </div>
                                     <hr />
@@ -146,7 +222,7 @@ const CandidateContact = () => {
                                             <div className="view-det-head">Mobile Number</div>
                                         </div>
                                         <div className="col-12 col-sm-8">
-                                            <div className="view-det-sub-head">7898746555</div>
+                                            <div className="view-det-sub-head">{selectedViewDetail?.phoneNo}</div>
                                         </div>
                                     </div>
                                     <hr />
@@ -155,7 +231,7 @@ const CandidateContact = () => {
                                             <div className="view-det-head">Email</div>
                                         </div>
                                         <div className="col-12 col-sm-8">
-                                            <div className="view-det-sub-head">raj@gmail.com</div>
+                                            <div className="view-det-sub-head">{selectedViewDetail?.email}</div>
                                         </div>
                                     </div>
                                     <hr />
@@ -164,7 +240,7 @@ const CandidateContact = () => {
                                             <div className="view-det-head">Subject</div>
                                         </div>
                                         <div className="col-12 col-sm-8">
-                                            <div className="view-det-sub-head text-capitalized">issue</div>
+                                            <div className="view-det-sub-head text-capitalized">{selectedViewDetail?.subject}</div>
                                         </div>
                                     </div>
                                     <hr />
@@ -173,7 +249,7 @@ const CandidateContact = () => {
                                             <div className="view-det-head">Message</div>
                                         </div>
                                         <div className="col-12 col-sm-8">
-                                            <div className="view-det-sub-head">issue in contacting you</div>
+                                            <div className="view-det-sub-head">{selectedViewDetail?.message}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -184,9 +260,8 @@ const CandidateContact = () => {
                         </div>
                     </div>
                 </div>
-
                 {/* Contact message delete modal here */}
-                <div className="modal fade" id="contactMsgdeleteModal" tabindex="-1" role="dialog" aria-labelledby="contactMsgDeleteLabel"
+                {/* <div className="modal fade" id="contactMsgdeleteModal" tabindex="-1" role="dialog" aria-labelledby="contactMsgDeleteLabel"
                     aria-hidden="true">
                     <div className="modal-dialog" role="document">
                         <div className="modal-content recruiter-delete-modal">
@@ -215,7 +290,7 @@ const CandidateContact = () => {
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> */}
 
                 <Footer />
             </div >
