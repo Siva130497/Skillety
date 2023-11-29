@@ -11,6 +11,9 @@
 }
 
 @media (max-width:573px) {
+    .dash-job-det-section{
+        padding-top: 0;
+    }
     .dash-job-det-card {
         padding: 20px;
     }
