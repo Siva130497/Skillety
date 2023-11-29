@@ -1,6 +1,7 @@
-.company-info-container{
+.company-info-container {
     padding-top: 30px;
 }
+
 .comp-det-card {
     margin-bottom: 30px;
     background-color: #f4f4f4 !important;
@@ -30,6 +31,7 @@
     color: #714F36 !important;
     font-size: 15px;
     font-weight: 500;
+    word-break: break-all;
 }
 
 .com-det-main-content:hover {
@@ -40,6 +42,7 @@
     font-size: 13px;
     font-weight: 400;
     color: #714F36;
+    text-transform: capitalize;
 }
 
 .com-det-content ul li {
@@ -48,7 +51,19 @@
     font-size: 15px;
     font-weight: 400;
     margin-bottom: 5px;
+    text-transform: capitalize;
 }
-.com-det-content ul{
+
+.com-det-content ul {
     padding-left: 20px;
+}
+
+.job--detail-content-section.mobile {
+    margin-bottom: 20px !important;
+}
+.candidate--slider-area.custom-mt{
+    margin-top: 80px;
+}
+.custom--mobile-padding.padding-custom{
+    padding-bottom: 120px;
 }
