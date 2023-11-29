@@ -291,12 +291,12 @@ const RecruiterDashboard = () => {
                                                 <div class="table-responsive mt-4">
                                                     <table class="table table-striped table-hover dash-table">
                                                         <tr className='dash-table-row heading'>
-                                                            <th className='dash-table-data1 heading'>No.</th>
+                                                            <th className='dash-table-data1 heading'>DOR.</th>
                                                             <th className='dash-table-data1 text-center heading'>Name</th>
                                                             <th className='dash-table-data1 text-center heading'>Company</th>
                                                             {/* <th className='dash-table-data1 text-center heading'>View</th> */}
                                                         </tr>
-                                                        {clientDetail.map(client => {
+                                                        {clientDetail.slice(0,10).map(client => {
                                                             return (
                                                                 <tr className='dash-table-row'>
                                                                     <td className='dash-table-data1'>
@@ -333,12 +333,12 @@ const RecruiterDashboard = () => {
 
                                                     <table class="table table-striped table-hover dash-table">
                                                         <tr className='dash-table-row heading'>
-                                                            <th className='dash-table-data1 heading'>No.</th>
+                                                            <th className='dash-table-data1 heading'>DOR</th>
                                                             <th className='dash-table-data1 text-center heading'>Full Name</th>
                                                             <th className='dash-table-data1 text-center heading'>Designation</th>
                                                             {/* <th className='dash-table-data1 text-center heading'>View</th> */}
                                                         </tr>
-                                                        {candidateDetail.map(candidate => {
+                                                        {candidateDetail.slice(0,10).map(candidate => {
                                                             return (
                                                                 <tr className='dash-table-row'>
                                                                     <td className='dash-table-data1'>

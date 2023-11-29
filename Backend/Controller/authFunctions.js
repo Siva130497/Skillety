@@ -2236,6 +2236,17 @@ const getCompanyDetailByCompanyId = async(req, res) => {
   }
 }
 
+/* grt all company detail */
+const getAllCompanyDetails = async(req, res) => {
+  try{
+    const allCompanyDetails = await companyDetail.find();
+    
+    res.status(200).json(allCompanyDetails); 
+  }catch(err) {
+    res.status(500).json({error: err.message})
+  }
+}
+
 /* random password generate */
 const generateRandomPassword = (req, res) => {
   const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=[]{}|;:,.<>?';
@@ -2482,4 +2493,5 @@ module.exports = {
    getPopularSearches,
    saveCompanyDetail,
    getCompanyDetailByCompanyId,
+   getAllCompanyDetails,
 };

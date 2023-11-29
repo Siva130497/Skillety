@@ -96,6 +96,7 @@ const {
   getPopularSearches,
   saveCompanyDetail,
   getCompanyDetailByCompanyId,
+  getAllCompanyDetails,
   
 } = require("../Controller/authFunctions");
 const employeeAuth = require("../middleware/employeeAuth");
@@ -366,6 +367,9 @@ router.post("/popular-search", popularSearchSaving);
 
 //get company detail for the given company id end-point
 router.get("/company-detail/:id", getCompanyDetailByCompanyId)
+
+//get all company details
+router.get("/company-details", getAllCompanyDetails);
 
 // Client, Client-staff Login Route
 router.post("/login-Client", async (req, res) => {
