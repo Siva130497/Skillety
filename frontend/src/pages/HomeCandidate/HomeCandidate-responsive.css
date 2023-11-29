@@ -2,9 +2,11 @@
     .home--head.candidate h4 {
         font-size: 35px;
     }
+
     .home--head.candidate h5 {
         font-size: 25px;
     }
+
     .home--head.candidate h3 {
         font-size: 18px;
     }
@@ -36,22 +38,28 @@
         padding-top: 40px;
         padding-bottom: 0;
     }
-    .cand--job-card .cand--job-card-bottom-area .cand--job-know-more{
+
+    .cand--job-card .cand--job-card-bottom-area .cand--job-know-more {
         font-size: 24px;
     }
-    .cand--job-card-arrow-area svg{
+
+    .cand--job-card-arrow-area svg {
         width: 25px;
         height: 25px;
     }
-    .cand--job-card-desc-area{
+
+    .cand--job-card-desc-area {
         padding: 0 15px;
     }
-    .custom--mobile-padding.candidate{
+
+    .custom--mobile-padding.candidate {
         padding-top: 60px;
     }
-    .home--testimonial-section.candidate{
+
+    .home--testimonial-section.candidate {
         padding-top: 40px;
     }
+
     .register--section.candidate {
         padding: 40px 0 100px 0;
     }
@@ -80,26 +88,33 @@
         padding-top: 40px;
         padding-bottom: 20px;
     }
-    .cand--job-card .cand--job-card-bottom-area .cand--job-know-more{
+
+    .cand--job-card .cand--job-card-bottom-area .cand--job-know-more {
         font-size: 20px;
     }
-    .home--testimonial-section.candidate{
+
+    .home--testimonial-section.candidate {
         padding-top: 40px;
     }
-    .cand--home-event-section{
+
+    .cand--home-event-section {
         padding-top: 40px;
     }
+
     .home--testimonial-section.candidate {
         overflow: visible;
         padding-bottom: 40%;
     }
-    .cand--job-card-desc-area .slide-down-view{
+
+    .cand--job-card-desc-area .slide-down-view {
         bottom: 145px !important;
     }
-    .home--company-name-area{
+
+    .home--company-name-area {
         align-items: center;
     }
-    .company--content-img.cand-home{
+
+    .company--content-img.cand-home {
         width: 100%;
     }
 }
@@ -134,67 +149,89 @@
     .cand--milestone-para-area {
         margin-bottom: 40px;
     }
+
     .home--rpo-section.candidate {
         padding-top: 0px;
         padding-bottom: 0px;
     }
+
     .cand--home-company-title-area {
         gap: 20px;
     }
-    .candidate--section.candidate{
+
+    .candidate--section.candidate {
         padding-top: 20px;
     }
-    .home--section.candidate{
+
+    .home--section.candidate {
         padding-top: 25px;
     }
-    .cand--job-card-desc-area{
+
+    .cand--job-card-desc-area {
         height: 245px;
     }
+
     .cand--job-card-loc-area .cand--job-card-location,
-    .cand--job-card-job-type{
+    .cand--job-card-job-type {
         font-size: 15px;
     }
-    .cand--job-card-location i{
+
+    .cand--job-card-location i {
         font-size: 20px;
         margin-right: 2px;
     }
-    .cand--job-card-logo-loc-area .cand--job-card-logo{
+
+    .cand--job-card-logo-loc-area .cand--job-card-logo {
         width: 110px;
     }
-    .cand--job-card-logo-loc-area,
-    .cand--job-card-desc-area{
+
+    .cand--job-card-logo-loc-area {
+        padding: 15px 15px 10px 15px;
+    }
+
+    .cand--job-card-desc-area {
         padding: 0 15px;
     }
-    .cand--job-card .cand--job-card-bottom-area{
+
+    .cand--job-card .cand--job-card-bottom-area {
         padding: 35px 25px;
     }
-    .cand--job-card .cand--job-card-bottom-area .cand--job-know-more{
+
+    .cand--job-card .cand--job-card-bottom-area .cand--job-know-more {
         font-size: 18px;
     }
-    .cand--job-card-arrow-area svg{
+
+    .cand--job-card-arrow-area svg {
         width: 25px;
         height: 25px;
     }
-    .cand--job-card .cand--job-card-bottom-area .cand--job-card-arrow-area{
+
+    .cand--job-card .cand--job-card-bottom-area .cand--job-card-arrow-area {
         padding: 12px;
     }
-    .home--testimonial-section.candidate{
+
+    .home--testimonial-section.candidate {
         padding-top: 0;
         padding-bottom: 40px !important;
     }
+
     .cand--home-event-section {
         padding-top: 0px;
     }
-    .register--section.candidate{
+
+    .register--section.candidate {
         padding: 10px 0 60px 0;
     }
-    .cand--job-card-desc-area .slide-down-view{
+
+    .cand--job-card-desc-area .slide-down-view {
         bottom: 125px !important;
     }
-    .home--company-name-area{
+
+    .home--company-name-area {
         justify-content: center;
     }
-    .home-company-name{
+
+    .home-company-name {
         margin-top: 20px;
     }
 }

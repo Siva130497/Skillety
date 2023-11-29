@@ -19,20 +19,530 @@ const ClientProfile = () => {
     const [checkBox, setCheckBox] = useState(["Health Insurance", "Work From Home", "Sick Leave", "Maternity/Parental Leave", "Job Training"]);
     const [selectedBenefits, setSelectedBenefits] = useState([]);
     const [awardList, setAwardlist] = useState([]);
-    
+
 
     const [companyInfo, setCompanyInfo] = useState({
-        companyName:"",
-        industry:"",
-        location:"",
-        website:"",
-        shortDescription:"",
-        longDescription:"",
-        mission:"",
-        vision:"",
-        manuallyAddedBenefit:"",
-        awards:"",
+        companyName: "",
+        industry: "",
+        location: "",
+        website: "",
+        shortDescription: "",
+        longDescription: "",
+        mission: "",
+        vision: "",
+        manuallyAddedBenefit: "",
+        awards: "",
     })
+
+    //for show success message for payment
+    function showSuccessMessage(message) {
+        Swal.fire({
+            title: 'Success!',
+            text: message,
+            icon: 'success',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'OK',
+        });
+    }
+
+    //for show error message for payment
+    function showErrorMessage() {
+        Swal.fire({
+            title: 'Error!',
+            text: "An error occured!",
+            icon: 'error',
+            confirmButtonColor: '#d33',
+            confirmButtonText: 'OK',
+        });
+    }
+
+    useEffect(() => {
+        setClientToken(JSON.parse(localStorage.getItem('clientToken')))
+    }, [clientToken])
+
+    useEffect(() => {
+        if (id && clientToken) {
+            axios.get(`https://skillety.onrender.com/company-detail/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${clientToken}`,
+                    Accept: 'application/json'
+                }
+            })
+                .then(res => {
+                    console.log(res.data)
+                    setCompanyDetail(res.data)
+                    setSelectedBenefits(res.data.benefits)
+                    setCheckBox(prevState => [...new Set([...prevState, ...res.data.benefits])]);
+                    setAwardlist(res.data.awards)
+                })
+                .catch(err => console.log(err))
+
+            axios.get(`https://skillety.onrender.com/client-image/${id}`)
+                .then(res => setClientImg(res.data))
+                .catch(err => console.log(err))
+        }
+    }, [id, clientToken])
+
+    useEffect(() => {
+        if (clientImg) {
+            setClientImgUrl(`https://skillety.onrender.com/client_profile/${clientImg.image}`)
+        }
+
+    }, [clientImg]);
+
+    const handleCompanyNameUpdate = () => {
+        const companyData = {
+            id: id,
+            companyName: companyInfo.companyName,
+        }
+        axios.patch("https://skillety.onrender.com/update-company-name", companyData, {
+            headers: {
+                Authorization: `Bearer ${clientToken}`,
+                Accept: 'application/json'
+            }
+        })
+            .then(res => {
+                console.log(res.data)
+                if (!res.data.error) {
+                    showSuccessMessage("Company Name Updated")
+                    setCompanyInfo(prevInfo => ({ ...prevInfo, companyName: "" }));
+
+                    axios.get(`https://skillety.onrender.com/company-detail/${id}`, {
+                        headers: {
+                            Authorization: `Bearer ${clientToken}`,
+                            Accept: 'application/json'
+                        }
+                    })
+                        .then(res => {
+                            console.log(res.data)
+                            setCompanyDetail(res.data)
+                            setSelectedBenefits(res.data.benefits)
+                            setCheckBox(prevState => [...new Set([...prevState, ...res.data.benefits])]);
+                            setAwardlist(res.data.awards)
+                        })
+                        .catch(err => console.log(err))
+                }
+            })
+            .catch(err => {
+                console.log(err)
+                showErrorMessage()
+            })
+    }
+
+    const handleIndustryUpdate = () => {
+        const companyData = {
+            id: id,
+            industry: companyInfo.industry,
+        }
+        axios.patch("https://skillety.onrender.com/update-company-industry", companyData, {
+            headers: {
+                Authorization: `Bearer ${clientToken}`,
+                Accept: 'application/json'
+            }
+        })
+            .then(res => {
+                console.log(res.data)
+                if (!res.data.error) {
+                    showSuccessMessage("Industry Updated")
+                    setCompanyInfo(prevInfo => ({ ...prevInfo, industry: "" }));
+
+                    axios.get(`https://skillety.onrender.com/company-detail/${id}`, {
+                        headers: {
+                            Authorization: `Bearer ${clientToken}`,
+                            Accept: 'application/json'
+                        }
+                    })
+                        .then(res => {
+                            console.log(res.data)
+                            setCompanyDetail(res.data)
+                            setSelectedBenefits(res.data.benefits)
+                            setCheckBox(prevState => [...new Set([...prevState, ...res.data.benefits])]);
+                            setAwardlist(res.data.awards)
+                        })
+                        .catch(err => console.log(err))
+                }
+            })
+            .catch(err => {
+                console.log(err)
+                showErrorMessage()
+            })
+    }
+
+    const handleLocationUpdate = () => {
+        const companyData = {
+            id: id,
+            location: companyInfo.location,
+        }
+        axios.patch("https://skillety.onrender.com/update-company-location", companyData, {
+            headers: {
+                Authorization: `Bearer ${clientToken}`,
+                Accept: 'application/json'
+            }
+        })
+            .then(res => {
+                console.log(res.data)
+                if (!res.data.error) {
+                    showSuccessMessage("Location Updated")
+                    setCompanyInfo(prevInfo => ({ ...prevInfo, location: "" }));
+
+                    axios.get(`https://skillety.onrender.com/company-detail/${id}`, {
+                        headers: {
+                            Authorization: `Bearer ${clientToken}`,
+                            Accept: 'application/json'
+                        }
+                    })
+                        .then(res => {
+                            console.log(res.data)
+                            setCompanyDetail(res.data)
+                            setSelectedBenefits(res.data.benefits)
+                            setCheckBox(prevState => [...new Set([...prevState, ...res.data.benefits])]);
+                            setAwardlist(res.data.awards)
+                        })
+                        .catch(err => console.log(err))
+                }
+            })
+            .catch(err => {
+                console.log(err)
+                showErrorMessage()
+            })
+    }
+
+    const handleShortDescriptionUpdate = () => {
+        const companyData = {
+            id: id,
+            shortDescription: companyInfo.shortDescription,
+        }
+        axios.patch("https://skillety.onrender.com/update-company-short-description", companyData, {
+            headers: {
+                Authorization: `Bearer ${clientToken}`,
+                Accept: 'application/json'
+            }
+        })
+            .then(res => {
+                console.log(res.data)
+                if (!res.data.error) {
+                    showSuccessMessage("Short Description Updated")
+                    setCompanyInfo(prevInfo => ({ ...prevInfo, shortDescription: "" }));
+
+                    axios.get(`https://skillety.onrender.com/company-detail/${id}`, {
+                        headers: {
+                            Authorization: `Bearer ${clientToken}`,
+                            Accept: 'application/json'
+                        }
+                    })
+                        .then(res => {
+                            console.log(res.data)
+                            setCompanyDetail(res.data)
+                            setSelectedBenefits(res.data.benefits)
+                            setCheckBox(prevState => [...new Set([...prevState, ...res.data.benefits])]);
+                            setAwardlist(res.data.awards)
+                        })
+                        .catch(err => console.log(err))
+                }
+            })
+            .catch(err => {
+                console.log(err)
+                showErrorMessage()
+            })
+    }
+
+    const handleLongDescriptionUpdate = () => {
+        const companyData = {
+            id: id,
+            longDescription: companyInfo.longDescription,
+        }
+        axios.patch("https://skillety.onrender.com/update-company-long-description", companyData, {
+            headers: {
+                Authorization: `Bearer ${clientToken}`,
+                Accept: 'application/json'
+            }
+        })
+            .then(res => {
+                console.log(res.data)
+                if (!res.data.error) {
+                    showSuccessMessage("Long Description Updated")
+                    setCompanyInfo(prevInfo => ({ ...prevInfo, longDescription: "" }));
+
+                    axios.get(`https://skillety.onrender.com/company-detail/${id}`, {
+                        headers: {
+                            Authorization: `Bearer ${clientToken}`,
+                            Accept: 'application/json'
+                        }
+                    })
+                        .then(res => {
+                            console.log(res.data)
+                            setCompanyDetail(res.data)
+                            setSelectedBenefits(res.data.benefits)
+                            setCheckBox(prevState => [...new Set([...prevState, ...res.data.benefits])]);
+                            setAwardlist(res.data.awards)
+                        })
+                        .catch(err => console.log(err))
+                }
+            })
+            .catch(err => {
+                console.log(err)
+                showErrorMessage()
+            })
+    }
+
+    const handleMissionUpdate = () => {
+        const companyData = {
+            id: id,
+            mission: companyInfo.mission,
+        }
+        axios.patch("https://skillety.onrender.com/update-company-mission", companyData, {
+            headers: {
+                Authorization: `Bearer ${clientToken}`,
+                Accept: 'application/json'
+            }
+        })
+            .then(res => {
+                console.log(res.data)
+                if (!res.data.error) {
+                    showSuccessMessage("Mission Updated")
+                    setCompanyInfo(prevInfo => ({ ...prevInfo, mission: "" }));
+
+                    axios.get(`https://skillety.onrender.com/company-detail/${id}`, {
+                        headers: {
+                            Authorization: `Bearer ${clientToken}`,
+                            Accept: 'application/json'
+                        }
+                    })
+                        .then(res => {
+                            console.log(res.data)
+                            setCompanyDetail(res.data)
+                            setSelectedBenefits(res.data.benefits)
+                            setCheckBox(prevState => [...new Set([...prevState, ...res.data.benefits])]);
+                            setAwardlist(res.data.awards)
+                        })
+                        .catch(err => console.log(err))
+                }
+            })
+            .catch(err => {
+                console.log(err)
+                showErrorMessage()
+            })
+    }
+
+    const handleVisionUpdate = () => {
+        const companyData = {
+            id: id,
+            vision: companyInfo.vision,
+        }
+        axios.patch("https://skillety.onrender.com/update-company-vision", companyData, {
+            headers: {
+                Authorization: `Bearer ${clientToken}`,
+                Accept: 'application/json'
+            }
+        })
+            .then(res => {
+                console.log(res.data)
+                if (!res.data.error) {
+                    showSuccessMessage("Vision Updated")
+                    setCompanyInfo(prevInfo => ({ ...prevInfo, vision: "" }));
+
+                    axios.get(`https://skillety.onrender.com/company-detail/${id}`, {
+                        headers: {
+                            Authorization: `Bearer ${clientToken}`,
+                            Accept: 'application/json'
+                        }
+                    })
+                        .then(res => {
+                            console.log(res.data)
+                            setCompanyDetail(res.data)
+                            setSelectedBenefits(res.data.benefits)
+                            setCheckBox(prevState => [...new Set([...prevState, ...res.data.benefits])]);
+                            setAwardlist(res.data.awards)
+                        })
+                        .catch(err => console.log(err))
+                }
+            })
+            .catch(err => {
+                console.log(err)
+                showErrorMessage()
+            })
+    }
+
+    const handleAwardUpdate = () => {
+        setAwardlist(prev => [...prev, companyInfo.awards])
+
+        const companyData = {
+            id: id,
+            awards: [...awardList, companyInfo.awards],
+        }
+        axios.patch("https://skillety.onrender.com/update-company-awards", companyData, {
+            headers: {
+                Authorization: `Bearer ${clientToken}`,
+                Accept: 'application/json'
+            }
+        })
+            .then(res => {
+                console.log(res.data)
+                if (!res.data.error) {
+                    showSuccessMessage("Awards Updated")
+                    setCompanyInfo(prevInfo => ({ ...prevInfo, awards: "" }));
+
+                    axios.get(`https://skillety.onrender.com/company-detail/${id}`, {
+                        headers: {
+                            Authorization: `Bearer ${clientToken}`,
+                            Accept: 'application/json'
+                        }
+                    })
+                        .then(res => {
+                            console.log(res.data)
+                            setCompanyDetail(res.data)
+                            setSelectedBenefits(res.data.benefits)
+                            setCheckBox(prevState => [...new Set([...prevState, ...res.data.benefits])]);
+                            setAwardlist(res.data.awards)
+                        })
+                        .catch(err => console.log(err))
+                }
+            })
+            .catch(err => {
+                console.log(err)
+                showErrorMessage()
+            })
+
+    }
+
+    const handleWebsiteUpdate = () => {
+        const companyData = {
+            id: id,
+            website: companyInfo.website,
+        }
+        axios.patch("https://skillety.onrender.com/update-company-website", companyData, {
+            headers: {
+                Authorization: `Bearer ${clientToken}`,
+                Accept: 'application/json'
+            }
+        })
+            .then(res => {
+                console.log(res.data)
+                if (!res.data.error) {
+                    showSuccessMessage("Website Updated")
+                    setCompanyInfo(prevInfo => ({ ...prevInfo, website: "" }));
+
+                    axios.get(`https://skillety.onrender.com/company-detail/${id}`, {
+                        headers: {
+                            Authorization: `Bearer ${clientToken}`,
+                            Accept: 'application/json'
+                        }
+                    })
+                        .then(res => {
+                            console.log(res.data)
+                            setCompanyDetail(res.data)
+                            setSelectedBenefits(res.data.benefits)
+                            setCheckBox(prevState => [...new Set([...prevState, ...res.data.benefits])]);
+                            setAwardlist(res.data.awards)
+                        })
+                        .catch(err => console.log(err))
+                }
+            })
+            .catch(err => {
+                console.log(err)
+                showErrorMessage()
+            })
+    }
+
+    const handleCheckboxChange = (value) => {
+        const updatedBenefits = [...selectedBenefits];
+
+        if (updatedBenefits.includes(value)) {
+            // If the value is already in the array, remove it
+            updatedBenefits.splice(updatedBenefits.indexOf(value), 1);
+        } else {
+            // If the value is not in the array, add it
+            updatedBenefits.push(value);
+        }
+
+        setSelectedBenefits(updatedBenefits);
+
+        const companyData = {
+            id: id,
+            benefits: updatedBenefits,
+        }
+
+        axios.patch("https://skillety.onrender.com/company-benefits", companyData, {
+            headers: {
+                Authorization: `Bearer ${clientToken}`,
+                Accept: 'application/json'
+            }
+        })
+            .then(res => {
+                console.log(res.data)
+                if (!res.data.error) {
+                    showSuccessMessage("Benefits Updated")
+
+                    axios.get(`https://skillety.onrender.com/company-detail/${id}`, {
+                        headers: {
+                            Authorization: `Bearer ${clientToken}`,
+                            Accept: 'application/json'
+                        }
+                    })
+                        .then(res => {
+                            console.log(res.data)
+                            setCompanyDetail(res.data)
+                            setSelectedBenefits(res.data.benefits)
+                            setCheckBox(prevState => [...new Set([...prevState, ...res.data.benefits])]);
+                            setAwardlist(res.data.awards)
+                        })
+                        .catch(err => console.log(err))
+                }
+            })
+            .catch(err => {
+                console.log(err)
+                showErrorMessage()
+            })
+    };
+
+    const handleAddManually = () => {
+        if (companyInfo.manuallyAddedBenefit) {
+            // const updatedCheckBox = [...checkBox, companyInfo.manuallyAddedBenefit]
+            const updatedBenefits = [...selectedBenefits, companyInfo.manuallyAddedBenefit];
+            //   setCheckBox(updatedCheckBox);
+            //   setSelectedBenefits(updatedBenefits);
+            setCompanyInfo(prev => ({ ...prev, manuallyAddedBenefit: "" }));
+
+            const companyData = {
+                id: id,
+                benefits: updatedBenefits,
+            }
+
+            axios.patch("https://skillety.onrender.com/company-benefits", companyData, {
+                headers: {
+                    Authorization: `Bearer ${clientToken}`,
+                    Accept: 'application/json'
+                }
+            })
+                .then(res => {
+                    console.log(res.data)
+                    if (!res.data.error) {
+                        showSuccessMessage("Benefits Updated")
+
+                        axios.get(`https://skillety.onrender.com/company-detail/${id}`, {
+                            headers: {
+                                Authorization: `Bearer ${clientToken}`,
+                                Accept: 'application/json'
+                            }
+                        })
+                            .then(res => {
+                                console.log(res.data)
+                                setCompanyDetail(res.data)
+                                setSelectedBenefits(res.data.benefits)
+                                setCheckBox(prevState => [...new Set([...prevState, ...res.data.benefits])]);
+                                setAwardlist(res.data.awards)
+                            })
+                            .catch(err => console.log(err))
+
+                    }
+                })
+                .catch(err => {
+                    console.log(err)
+                    showErrorMessage()
+                })
+
+        }
+    };
 
     useEffect(() => {
         $(document).ready(function () {
@@ -166,516 +676,6 @@ const ClientProfile = () => {
 
     }, [id, clientToken, companyDetail, clientImg, clientImgUrl, checkBox, selectedBenefits, companyInfo, awardList]);
 
-    //for show success message for payment
-    function showSuccessMessage(message) {
-        Swal.fire({
-            title: 'Success!',
-            text: message,
-            icon: 'success',
-            confirmButtonColor: '#3085d6',
-            confirmButtonText: 'OK',
-        });
-    }
-
-    //for show error message for payment
-    function showErrorMessage() {
-        Swal.fire({
-            title: 'Error!',
-            text: "An error occured!",
-            icon: 'error',
-            confirmButtonColor: '#d33',
-            confirmButtonText: 'OK',
-        });
-    }
-
-    useEffect(() => {
-        setClientToken(JSON.parse(localStorage.getItem('clientToken')))
-    }, [clientToken])
-
-    useEffect(()=>{
-        if(id && clientToken){
-            axios.get(`https://skillety.onrender.com/company-detail/${id}`, {
-                headers: {
-                    Authorization: `Bearer ${clientToken}`,
-                    Accept: 'application/json'
-                }
-            })
-            .then(res=>{
-                console.log(res.data)
-                setCompanyDetail(res.data)
-                setSelectedBenefits(res.data.benefits)
-                setCheckBox(prevState => [...new Set([...prevState, ...res.data.benefits])]);
-                setAwardlist(res.data.awards)
-            })
-            .catch(err=>console.log(err))
-
-            axios.get(`https://skillety.onrender.com/client-image/${id}`)
-                .then(res => setClientImg(res.data))
-                .catch(err => console.log(err))
-        }
-    },[id, clientToken])
-
-    useEffect(() => {
-        if (clientImg) {
-            setClientImgUrl(`https://skillety.onrender.com/client_profile/${clientImg.image}`)
-        }
-
-    }, [clientImg]);
-
-    const handleCompanyNameUpdate = () => {
-        const companyData = {
-            id: id,
-            companyName: companyInfo.companyName,
-        }
-        axios.patch("https://skillety.onrender.com/update-company-name", companyData, {
-            headers: {
-                Authorization: `Bearer ${clientToken}`,
-                Accept: 'application/json'
-            }
-        })
-        .then(res => {
-            console.log(res.data)
-            if (!res.data.error) {
-                showSuccessMessage("Company Name Updated")
-                setCompanyInfo(prevInfo => ({ ...prevInfo, companyName: "" }));
-                        
-                axios.get(`https://skillety.onrender.com/company-detail/${id}`, {
-                    headers: {
-                        Authorization: `Bearer ${clientToken}`,
-                        Accept: 'application/json'
-                    }
-                })
-                .then(res=>{
-                console.log(res.data)
-                setCompanyDetail(res.data)
-                setSelectedBenefits(res.data.benefits)
-                setCheckBox(prevState => [...new Set([...prevState, ...res.data.benefits])]);
-                setAwardlist(res.data.awards)
-                })
-                .catch(err=>console.log(err))
-            }
-        })
-        .catch(err => {
-            console.log(err)
-            showErrorMessage()
-        })
-    }
-
-    const handleIndustryUpdate = () => {
-        const companyData = {
-            id: id,
-            industry: companyInfo.industry,
-        }
-        axios.patch("https://skillety.onrender.com/update-company-industry", companyData, {
-            headers: {
-                Authorization: `Bearer ${clientToken}`,
-                Accept: 'application/json'
-            }
-        })
-        .then(res => {
-            console.log(res.data)
-            if (!res.data.error) {
-                showSuccessMessage("Industry Updated")
-                setCompanyInfo(prevInfo => ({ ...prevInfo, industry: "" }));
-                        
-                axios.get(`https://skillety.onrender.com/company-detail/${id}`, {
-                    headers: {
-                        Authorization: `Bearer ${clientToken}`,
-                        Accept: 'application/json'
-                    }
-                })
-                .then(res=>{
-                console.log(res.data)
-                setCompanyDetail(res.data)
-                setSelectedBenefits(res.data.benefits)
-                setCheckBox(prevState => [...new Set([...prevState, ...res.data.benefits])]);
-                setAwardlist(res.data.awards)
-                })
-                .catch(err=>console.log(err))
-            }
-        })
-        .catch(err => {
-            console.log(err)
-            showErrorMessage()
-        })
-    }
-
-    const handleLocationUpdate = () => {
-        const companyData = {
-            id: id,
-            location: companyInfo.location,
-        }
-        axios.patch("https://skillety.onrender.com/update-company-location", companyData, {
-            headers: {
-                Authorization: `Bearer ${clientToken}`,
-                Accept: 'application/json'
-            }
-        })
-        .then(res => {
-            console.log(res.data)
-            if (!res.data.error) {
-                showSuccessMessage("Location Updated")
-                setCompanyInfo(prevInfo => ({ ...prevInfo, location: "" }));
-                        
-                axios.get(`https://skillety.onrender.com/company-detail/${id}`, {
-                    headers: {
-                        Authorization: `Bearer ${clientToken}`,
-                        Accept: 'application/json'
-                    }
-                })
-                .then(res=>{
-                console.log(res.data)
-                setCompanyDetail(res.data)
-                setSelectedBenefits(res.data.benefits)
-                setCheckBox(prevState => [...new Set([...prevState, ...res.data.benefits])]);
-                setAwardlist(res.data.awards)
-                })
-                .catch(err=>console.log(err))
-            }
-        })
-        .catch(err => {
-            console.log(err)
-            showErrorMessage()
-        })
-    }
-
-    const handleShortDescriptionUpdate = () => {
-        const companyData = {
-            id: id,
-            shortDescription: companyInfo.shortDescription,
-        }
-        axios.patch("https://skillety.onrender.com/update-company-short-description", companyData, {
-            headers: {
-                Authorization: `Bearer ${clientToken}`,
-                Accept: 'application/json'
-            }
-        })
-        .then(res => {
-            console.log(res.data)
-            if (!res.data.error) {
-                showSuccessMessage("Short Description Updated")
-                setCompanyInfo(prevInfo => ({ ...prevInfo, shortDescription: "" }));
-                        
-                axios.get(`https://skillety.onrender.com/company-detail/${id}`, {
-                    headers: {
-                        Authorization: `Bearer ${clientToken}`,
-                        Accept: 'application/json'
-                    }
-                })
-                .then(res=>{
-                console.log(res.data)
-                setCompanyDetail(res.data)
-                setSelectedBenefits(res.data.benefits)
-                setCheckBox(prevState => [...new Set([...prevState, ...res.data.benefits])]);
-                setAwardlist(res.data.awards)
-                })
-                .catch(err=>console.log(err))
-            }
-        })
-        .catch(err => {
-            console.log(err)
-            showErrorMessage()
-        })
-    }
-
-    const handleLongDescriptionUpdate = () => {
-        const companyData = {
-            id: id,
-            longDescription: companyInfo.longDescription,
-        }
-        axios.patch("https://skillety.onrender.com/update-company-long-description", companyData, {
-            headers: {
-                Authorization: `Bearer ${clientToken}`,
-                Accept: 'application/json'
-            }
-        })
-        .then(res => {
-            console.log(res.data)
-            if (!res.data.error) {
-                showSuccessMessage("Long Description Updated")
-                setCompanyInfo(prevInfo => ({ ...prevInfo, longDescription: "" }));
-                        
-                axios.get(`https://skillety.onrender.com/company-detail/${id}`, {
-                    headers: {
-                        Authorization: `Bearer ${clientToken}`,
-                        Accept: 'application/json'
-                    }
-                })
-                .then(res=>{
-                console.log(res.data)
-                setCompanyDetail(res.data)
-                setSelectedBenefits(res.data.benefits)
-                setCheckBox(prevState => [...new Set([...prevState, ...res.data.benefits])]);
-                setAwardlist(res.data.awards)
-                })
-                .catch(err=>console.log(err))
-            }
-        })
-        .catch(err => {
-            console.log(err)
-            showErrorMessage()
-        })
-    }
-
-    const handleMissionUpdate = () => {
-        const companyData = {
-            id: id,
-            mission: companyInfo.mission,
-        }
-        axios.patch("https://skillety.onrender.com/update-company-mission", companyData, {
-            headers: {
-                Authorization: `Bearer ${clientToken}`,
-                Accept: 'application/json'
-            }
-        })
-        .then(res => {
-            console.log(res.data)
-            if (!res.data.error) {
-                showSuccessMessage("Mission Updated")
-                setCompanyInfo(prevInfo => ({ ...prevInfo, mission: "" }));
-                        
-                axios.get(`https://skillety.onrender.com/company-detail/${id}`, {
-                    headers: {
-                        Authorization: `Bearer ${clientToken}`,
-                        Accept: 'application/json'
-                    }
-                })
-                .then(res=>{
-                console.log(res.data)
-                setCompanyDetail(res.data)
-                setSelectedBenefits(res.data.benefits)
-                setCheckBox(prevState => [...new Set([...prevState, ...res.data.benefits])]);
-                setAwardlist(res.data.awards)
-                })
-                .catch(err=>console.log(err))
-            }
-        })
-        .catch(err => {
-            console.log(err)
-            showErrorMessage()
-        })
-    }
-
-    const handleVisionUpdate = () => {
-        const companyData = {
-            id: id,
-            vision: companyInfo.vision,
-        }
-        axios.patch("https://skillety.onrender.com/update-company-vision", companyData, {
-            headers: {
-                Authorization: `Bearer ${clientToken}`,
-                Accept: 'application/json'
-            }
-        })
-        .then(res => {
-            console.log(res.data)
-            if (!res.data.error) {
-                showSuccessMessage("Vision Updated")
-                setCompanyInfo(prevInfo => ({ ...prevInfo, vision: "" }));
-                        
-                axios.get(`https://skillety.onrender.com/company-detail/${id}`, {
-                    headers: {
-                        Authorization: `Bearer ${clientToken}`,
-                        Accept: 'application/json'
-                    }
-                })
-                .then(res=>{
-                console.log(res.data)
-                setCompanyDetail(res.data)
-                setSelectedBenefits(res.data.benefits)
-                setCheckBox(prevState => [...new Set([...prevState, ...res.data.benefits])]);
-                setAwardlist(res.data.awards)
-                })
-                .catch(err=>console.log(err))
-            }
-        })
-        .catch(err => {
-            console.log(err)
-            showErrorMessage()
-        })
-    }
-
-    const handleAwardUpdate = () => {
-        setAwardlist(prev=>[...prev, companyInfo.awards])
-
-        const companyData = {
-            id: id,
-            awards: [...awardList, companyInfo.awards],
-        }
-        axios.patch("https://skillety.onrender.com/update-company-awards", companyData, {
-            headers: {
-                Authorization: `Bearer ${clientToken}`,
-                Accept: 'application/json'
-            }
-        })
-        .then(res => {
-            console.log(res.data)
-            if (!res.data.error) {
-                showSuccessMessage("Awards Updated")
-                setCompanyInfo(prevInfo => ({ ...prevInfo, awards: "" }));
-                        
-                axios.get(`https://skillety.onrender.com/company-detail/${id}`, {
-                    headers: {
-                        Authorization: `Bearer ${clientToken}`,
-                        Accept: 'application/json'
-                    }
-                })
-                .then(res=>{
-                console.log(res.data)
-                setCompanyDetail(res.data)
-                setSelectedBenefits(res.data.benefits)
-                setCheckBox(prevState => [...new Set([...prevState, ...res.data.benefits])]);
-                setAwardlist(res.data.awards)
-                })
-                .catch(err=>console.log(err))
-            }
-        })
-        .catch(err => {
-            console.log(err)
-            showErrorMessage()
-        })
-
-    }
-
-    const handleWebsiteUpdate = () => {
-        const companyData = {
-            id: id,
-            website: companyInfo.website,
-        }
-        axios.patch("https://skillety.onrender.com/update-company-website", companyData, {
-            headers: {
-                Authorization: `Bearer ${clientToken}`,
-                Accept: 'application/json'
-            }
-        })
-        .then(res => {
-            console.log(res.data)
-            if (!res.data.error) {
-                showSuccessMessage("Website Updated")
-                setCompanyInfo(prevInfo => ({ ...prevInfo, website: "" }));
-                        
-                axios.get(`https://skillety.onrender.com/company-detail/${id}`, {
-                    headers: {
-                        Authorization: `Bearer ${clientToken}`,
-                        Accept: 'application/json'
-                    }
-                })
-                .then(res=>{
-                console.log(res.data)
-                setCompanyDetail(res.data)
-                setSelectedBenefits(res.data.benefits)
-                setCheckBox(prevState => [...new Set([...prevState, ...res.data.benefits])]);
-                setAwardlist(res.data.awards)
-                })
-                .catch(err=>console.log(err))
-            }
-        })
-        .catch(err => {
-            console.log(err)
-            showErrorMessage()
-        })
-    }
-
-    const handleCheckboxChange = (value) => {
-        const updatedBenefits = [...selectedBenefits];
-    
-        if (updatedBenefits.includes(value)) {
-          // If the value is already in the array, remove it
-          updatedBenefits.splice(updatedBenefits.indexOf(value), 1);
-        } else {
-          // If the value is not in the array, add it
-          updatedBenefits.push(value);
-        }
-    
-        setSelectedBenefits(updatedBenefits);
-
-        const companyData = {
-            id: id,
-            benefits: updatedBenefits,
-        }
-
-        axios.patch("https://skillety.onrender.com/company-benefits", companyData, {
-            headers: {
-                Authorization: `Bearer ${clientToken}`,
-                Accept: 'application/json'
-            }
-        })
-        .then(res=>{
-            console.log(res.data)
-            if (!res.data.error) {
-                showSuccessMessage("Benefits Updated")
-
-                axios.get(`https://skillety.onrender.com/company-detail/${id}`, {
-                    headers: {
-                        Authorization: `Bearer ${clientToken}`,
-                        Accept: 'application/json'
-                    }
-                })
-                .then(res=>{
-                    console.log(res.data)
-                    setCompanyDetail(res.data)
-                    setSelectedBenefits(res.data.benefits)
-                    setCheckBox(prevState => [...new Set([...prevState, ...res.data.benefits])]);
-                    setAwardlist(res.data.awards)
-                })
-                .catch(err=>console.log(err))
-            }
-        })
-        .catch(err => {
-            console.log(err)
-            showErrorMessage()
-        })
-      };
-    
-      const handleAddManually = () => {
-        if (companyInfo.manuallyAddedBenefit) {
-            // const updatedCheckBox = [...checkBox, companyInfo.manuallyAddedBenefit]
-          const updatedBenefits = [...selectedBenefits, companyInfo.manuallyAddedBenefit];
-        //   setCheckBox(updatedCheckBox);
-        //   setSelectedBenefits(updatedBenefits);
-          setCompanyInfo(prev=>({...prev, manuallyAddedBenefit:""}));
-
-          const companyData = {
-            id: id,
-            benefits: updatedBenefits,
-        }
-
-          axios.patch("https://skillety.onrender.com/company-benefits", companyData, {
-            headers: {
-                Authorization: `Bearer ${clientToken}`,
-                Accept: 'application/json'
-            }
-        })
-        .then(res=>{
-            console.log(res.data)
-            if (!res.data.error) {
-                showSuccessMessage("Benefits Updated")
-
-                axios.get(`https://skillety.onrender.com/company-detail/${id}`, {
-                headers: {
-                    Authorization: `Bearer ${clientToken}`,
-                    Accept: 'application/json'
-                }
-                })
-                .then(res=>{
-                    console.log(res.data)
-                    setCompanyDetail(res.data)
-                    setSelectedBenefits(res.data.benefits)
-                    setCheckBox(prevState => [...new Set([...prevState, ...res.data.benefits])]);
-                    setAwardlist(res.data.awards)
-                })
-                .catch(err=>console.log(err))
-
-            }
-        })
-        .catch(err => {
-            console.log(err)
-            showErrorMessage()
-        })
-
-        }
-      };
-    
     return (
         <div>
             <div class="main-wrapper main-wrapper-1">
@@ -714,7 +714,7 @@ const ClientProfile = () => {
                                                 <div className="profile-det-area">
                                                     <div className="profile--name-edit-section">
                                                         <div className="profile--name-area">
-                                                            <div className="profile--name">{companyDetail?.companyName}</div>
+                                                            <div className="profile--name text-capitalized">{companyDetail?.companyName}</div>
                                                             <button className='profile--name-edit-btn'>
                                                                 <i class="bi bi-pencil profile--name-edit-icon"></i>
                                                             </button>
@@ -725,7 +725,7 @@ const ClientProfile = () => {
                                                                     <input type="text" className="change-setting-input"
                                                                         placeholder="Change Company Name"
                                                                         value={companyInfo.companyName}
-                                                                            onChange={(e) => setCompanyInfo({ ...companyInfo, companyName: e.target.value })} />
+                                                                        onChange={(e) => setCompanyInfo({ ...companyInfo, companyName: e.target.value })} />
                                                                     <button className="setting-update-btn" onClick={handleCompanyNameUpdate}>Update</button>
                                                                 </div>
                                                             </div>
@@ -751,7 +751,7 @@ const ClientProfile = () => {
                                                             <div className="prof-more-det-area">
                                                                 <div className="prof-more-det">
                                                                     <i class="bi bi-building"></i>
-                                                                    <div className="prof-more-det-title">{companyDetail?.industry}</div>
+                                                                    <div className="prof-more-det-title text-capitalized">{companyDetail?.industry}</div>
                                                                     <button className="prof-more-det-edit-btn">
                                                                         <i class="bi bi-pencil profile--name-edit-icon"></i>
                                                                     </button>
@@ -759,9 +759,9 @@ const ClientProfile = () => {
                                                                 <div className="prof-more-det-input-area">
                                                                     <div className="row">
                                                                         <div className="col-12 d-flex align-items-center gap-10">
-                                                                            <input type="text" className="change-setting-input more-det" placeholder="Change Company Type" 
-                                                                            value={companyInfo.industry}
-                                                                            onChange={(e) => setCompanyInfo({ ...companyInfo, industry: e.target.value })}/>
+                                                                            <input type="text" className="change-setting-input more-det" placeholder="Change Company Type"
+                                                                                value={companyInfo.industry}
+                                                                                onChange={(e) => setCompanyInfo({ ...companyInfo, industry: e.target.value })} />
                                                                             <button className="setting-update-btn more-det" onClick={handleIndustryUpdate}>Update</button>
                                                                         </div>
                                                                     </div>
@@ -771,18 +771,20 @@ const ClientProfile = () => {
                                                             <div className="prof-more-det-area">
                                                                 <div className="prof-more-det">
                                                                     <i class="bi bi-geo-alt"></i>
-                                                                    <div className="prof-more-det-title">{companyDetail?.location}</div>
+                                                                    <div className="prof-more-det-title text-capitalized">{companyDetail?.location}</div>
                                                                     <button className="prof-more-det-edit-btn">
+                                                                    {companyDetail?.location ?
                                                                         <i class="bi bi-pencil profile--name-edit-icon"></i>
+                                                                        : <span className="add-detail">Add Location</span>}
                                                                     </button>
                                                                 </div>
                                                                 <div className="prof-more-det-input-area">
                                                                     <div className="row">
                                                                         <div className="col-12 d-flex align-items-center gap-10">
                                                                             <input type="text" className="change-setting-input more-det" placeholder={companyDetail?.location ? "Change Location" : "Add Location"}
-                                                                            value={companyInfo.location}
-                                                                            onChange={(e) => setCompanyInfo({ ...companyInfo, location: e.target.value })} />
-                                                                            <button className="setting-update-btn more-det" onClick={handleLocationUpdate}>{companyDetail?.location ?"Update" : "Add"}</button>
+                                                                                value={companyInfo.location}
+                                                                                onChange={(e) => setCompanyInfo({ ...companyInfo, location: e.target.value })} />
+                                                                            <button className="setting-update-btn more-det" onClick={handleLocationUpdate}>{companyDetail?.location ? "Update" : "Add"}</button>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -835,7 +837,7 @@ const ClientProfile = () => {
                                                             <div className="prof-more-det-area">
                                                                 <div className="prof-more-det">
                                                                     <i class="bi bi-telephone"></i>
-                                                                    <div className="prof-more-det-title" onClick={()=>window.location.href = `tel:${companyDetail?.phone}`}><a className='setting-value link' href={`tel:${companyDetail?.phone}`}>{companyDetail?.phone}</a></div>
+                                                                    <div className="prof-more-det-title" onClick={() => window.location.href = `tel:${companyDetail?.phone}`}><a className='prof-more-det-title link' href={`tel:${companyDetail?.phone}`}>{companyDetail?.phone}</a></div>
                                                                     {/* <button className="prof-more-det-edit-btn">
                                                                         <i class="bi bi-pencil profile--name-edit-icon"></i>
                                                                     </button> */}
@@ -855,7 +857,7 @@ const ClientProfile = () => {
                                                             <div className="prof-more-det-area">
                                                                 <div className="prof-more-det">
                                                                     <i class="bi bi-envelope"></i>
-                                                                    <div className="prof-more-det-title" onClick={()=> window.location.href = `mailto:${companyDetail?.email}`}><a className='setting-value link' href={`mailto:${companyDetail?.email}`}>{companyDetail?.email}</a></div>
+                                                                    <div className="prof-more-det-title" onClick={() => window.location.href = `mailto:${companyDetail?.email}`}><a className='prof-more-det-title link' href={`mailto:${companyDetail?.email}`}>{companyDetail?.email}</a></div>
                                                                     {/* <button className="prof-more-det-edit-btn">
                                                                         <i class="bi bi-pencil profile--name-edit-icon"></i>
                                                                     </button> */}
@@ -924,9 +926,9 @@ const ClientProfile = () => {
                                                     <input
                                                         type="text"
                                                         className='cli-pro-input'
-                                                        placeholder='Add description' 
+                                                        placeholder='Add description'
                                                         value={companyInfo.website}
-                                                        onChange={(e) => setCompanyInfo({ ...companyInfo, website: e.target.value })}/>
+                                                        onChange={(e) => setCompanyInfo({ ...companyInfo, website: e.target.value })} />
                                                     <button className='cli-pro-add-btn' onClick={handleWebsiteUpdate}>{companyDetail?.website ? "Change" : "Add"}</button>
                                                 </div>
                                             </div>
@@ -940,9 +942,9 @@ const ClientProfile = () => {
                                                     <textarea
                                                         type="text"
                                                         className='cli-pro-input'
-                                                        placeholder='Add description' 
+                                                        placeholder='Add description'
                                                         value={companyInfo.shortDescription}
-                                                        onChange={(e) => setCompanyInfo({ ...companyInfo, shortDescription: e.target.value })}/>
+                                                        onChange={(e) => setCompanyInfo({ ...companyInfo, shortDescription: e.target.value })} />
                                                     <button className='cli-pro-add-btn' onClick={handleShortDescriptionUpdate}>{companyDetail?.shortDescription ? "Change" : "Add"}</button>
                                                 </div>
                                             </div>
@@ -1008,21 +1010,21 @@ const ClientProfile = () => {
                                             <div className="cli-pro-detail-area m-b-10">
                                                 <div className="cli-pro-checkbox-area">
                                                     <div className="row">
-                                                        {checkBox.map(box=>{
-                                                            return(
+                                                        {checkBox.map(box => {
+                                                            return (
                                                                 <div className="col-12 col-md-6">
-                                                                <label className="cli-pro-checkbox-input">
-                                                                    <input type="checkbox" 
-                                                                    value={box}
-                                                                    checked={selectedBenefits.includes(box)}
-                                                                    onChange={()=>handleCheckboxChange(box)}/>
-                                                                    <span className="cli-pro-checkbox-checkmark"></span>
-                                                                    {box}
-                                                                </label>
-                                                        </div>
+                                                                    <label className="cli-pro-checkbox-input">
+                                                                        <input type="checkbox"
+                                                                            value={box}
+                                                                            checked={selectedBenefits.includes(box)}
+                                                                            onChange={() => handleCheckboxChange(box)} />
+                                                                        <span className="cli-pro-checkbox-checkmark"></span>
+                                                                        {box}
+                                                                    </label>
+                                                                </div>
                                                             )
                                                         })}
-                                                        
+
 
                                                         {/* <div className="col-12 col-md-6">
                                                             <label className="cli-pro-checkbox-input">
@@ -1065,10 +1067,10 @@ const ClientProfile = () => {
                                                             <div className="row">
                                                                 <div className="col-12 d-flex align-items-center gap-10">
                                                                     <input type="text" className="change-setting-input" placeholder="Add Benefit"
-                                                                    value={companyInfo.manuallyAddedBenefit}
-                                                                    onChange={(e) => setCompanyInfo({...companyInfo, manuallyAddedBenefit:e.target.value})} />
+                                                                        value={companyInfo.manuallyAddedBenefit}
+                                                                        onChange={(e) => setCompanyInfo({ ...companyInfo, manuallyAddedBenefit: e.target.value })} />
                                                                     <button className="setting-update-btn"
-                                                                    onClick={handleAddManually}>Add</button>
+                                                                        onClick={handleAddManually}>Add</button>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -1086,14 +1088,14 @@ const ClientProfile = () => {
                                                 <i class="bi bi-chevron-down toggle-icon"></i>
                                             </button>
                                         </div>
-                                        {awardList.map(award=>{
-                                            return(
+                                        {awardList.map(award => {
+                                            return (
                                                 <div className='profile-content mt-4'>
                                                     {award}
                                                 </div>
                                             )
                                         })}
-                                        
+
                                         <div className="cli-profile-content-area">
                                             <div className="cli-pro-detail-area m-b-10">
                                                 <div className="add-more-input-field-area">
@@ -1104,9 +1106,9 @@ const ClientProfile = () => {
                                                     <div className="add-more-input-area">
                                                         <div className="row">
                                                             <div className="col-12 d-flex align-items-center gap-10">
-                                                                <input type="text" className="change-setting-input" placeholder="Add Details" 
-                                                                value={companyInfo.awards}
-                                                                onChange={(e) => setCompanyInfo({ ...companyInfo, awards: e.target.value })}/>
+                                                                <input type="text" className="change-setting-input" placeholder="Add Details"
+                                                                    value={companyInfo.awards}
+                                                                    onChange={(e) => setCompanyInfo({ ...companyInfo, awards: e.target.value })} />
                                                                 <button className="setting-update-btn" onClick={handleAwardUpdate}>Add</button>
                                                             </div>
                                                         </div>

@@ -2825,7 +2825,7 @@ const TalentsProfileSearch = () => {
                                                                                             <p className='tal--pro-card-desc'>{candidate.skills.join(", ")}</p>
                                                                                         </div>
                                                                                     </div>
-                                                                                    <div className="row tal--pro-card-desc-row">
+                                                                                    <div className="row tal--pro-card-desc-row border-bottom-none">
                                                                                         <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
                                                                                             <h6 className='tal--pro-card-desc-title'>Profile headline&nbsp;:</h6>
                                                                                         </div>
