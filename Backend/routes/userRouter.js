@@ -64,6 +64,9 @@ const {
   createViewedCandidate,
   getViewedCandidates,
   postEnquiryFormDetail,
+  deletingClientContactMsg,
+  deletingCandidateContactMsg,
+  deletingEnquiryForm,
   getEnquiryFormDetails,
   candidateChatRoomId,
   getAllCandidateWantChat,
@@ -276,6 +279,12 @@ router.get("/contact", employeeAuth, getAllContactMessages);
 
 router.get("/candidate-contact", employeeAuth, getAllCandidateContactMessages);
 
+//delete contact msg
+router.delete('/client-contact-msg/:id', employeeAuth, deletingClientContactMsg)
+
+router.delete('/candidate-contact-msg/:id', employeeAuth, deletingCandidateContactMsg)
+
+
 //client package selection endpoint
 router.post("/client-package-plan", clientPackageSelection);
 
@@ -293,6 +302,8 @@ router.post("/enquiry-form",  postEnquiryFormDetail);
 
 //get all enquiry_form details by recruiters endpoint
 router.get("/enquiry-form", employeeAuth, getEnquiryFormDetails);
+
+router.delete('/enquiry-form/:id', employeeAuth, deletingEnquiryForm)
 
 //candidate join the chat 
 router.post("/candidate-chat", employeeAuth, candidateChatRoomId);

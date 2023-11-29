@@ -4,13 +4,86 @@ import ATSLayout from '../../components/ATSLayout';
 import Footer from '../../components/Footer';
 import './EnquiryDetails.css';
 import $ from 'jquery';
+import axios from 'axios';
+import { useState } from 'react';
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.css';
 
 const EnquiryDetails = () => {
+    const [enquiryFormDetails, setEnquiryFormDetails] = useState([]);
+    const [staffToken, setStaffToken] = useState("");
+    const [selectedViewDetail, setSelectedViewDetail] = useState();
+    const [x, setX] = useState([0, 10]);
 
     useEffect(() => {
         $(document).ready(function () {
         });
     }, []);
+
+    useEffect(() => {
+        setStaffToken(JSON.parse(localStorage.getItem('staffToken')))
+    }, [staffToken])
+
+    const getAllEnquiryForms = async () => {
+        try {
+            const response = await axios.get('https://skillety.onrender.com/enquiry-form', {
+              headers: {
+                  Authorization: `Bearer ${staffToken}`,
+                  Accept: 'application/json'
+              }
+            });
+    
+            const result = response.data;
+    
+            if (!result.error) {
+                console.log(result);
+                setEnquiryFormDetails(result);
+            } else {
+                console.log(result);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+      };
+
+      useEffect(()=>{
+        getAllEnquiryForms();
+      },[staffToken])
+
+      const handleViewEnquiry = (id) => {
+        const selectedEnquiry = enquiryFormDetails.find(enquiry => enquiry._id === id);
+        setSelectedViewDetail(selectedEnquiry);
+
+    }
+
+    const handleDelete = (id) => {
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'You won\'t be able to revert this!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axios.delete(`https://skillety.onrender.com/enquiry-form/${id}`, {
+                    headers: {
+                        Authorization: `Bearer ${staffToken}`,
+                        Accept: 'application/json'
+                    }
+                })
+                .then(res => {
+                    console.log(res.data);
+                    getAllEnquiryForms();
+                }
+                )
+                .catch(err => console.log(err));
+            }
+        });
+    }
+
 
     return (
         <div>
@@ -38,7 +111,7 @@ const EnquiryDetails = () => {
                                                     </div>
                                                     <div className="man-app-sub-title">
                                                         Total Enquiry Data :&nbsp;
-                                                        <span>02</span>
+                                                        <span>{enquiryFormDetails.length}</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -54,21 +127,23 @@ const EnquiryDetails = () => {
                                                     </tr>
 
                                                     {/* table data */}
-                                                    <tr className='dash-table-row client'>
-                                                        <td className='dash-table-data1'>01.</td>
+                                                    {enquiryFormDetails.map((enquiry, index)=>{
+                                                        return(
+                                                            <tr className='dash-table-row client' key={enquiry._id}>
+                                                        <td className='dash-table-data1'>{index+1}.</td>
                                                         <td className='dash-table-data1 text-capitalized'>
-                                                            sanjay yut
+                                                        {enquiry.fullName}
                                                         </td>
                                                         <td className='dash-table-data1'>
-                                                            786796779
+                                                        {enquiry.phoneNo}
                                                         </td>
                                                         <td className='dash-table-data1'>
-                                                            sanjay@gmail.com
+                                                        {enquiry.email}
                                                         </td>
 
                                                         <td className='text-center'>
                                                             <div className="action-btn-area">
-                                                                <button className='job-view-btn' data-toggle="modal" title='View enquiry details...' data-target="#enquiryviewModal">
+                                                                <button className='job-view-btn' data-toggle="modal" title='View contact message details...' data-target="#enquiryviewModal" onClick={()=>handleViewEnquiry(enquiry._id)}>
                                                                     <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
                                                                         <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
                                                                         <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"
@@ -76,7 +151,7 @@ const EnquiryDetails = () => {
                                                                     </svg>
                                                                 </button>
 
-                                                                <button className='job-delete-btn' data-toggle="modal" title='Delete enquiry data...' data-target="#enquirydeleteModal">
+                                                                <button className='job-delete-btn' data-toggle="modal" title='Delete contact message data...' data-target="#contactMsgdeleteModal" onClick={()=>handleDelete(enquiry._id)}>
                                                                     <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
                                                                         <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
                                                                     </svg>
@@ -84,6 +159,8 @@ const EnquiryDetails = () => {
                                                             </div>
                                                         </td>
                                                     </tr>
+                                                        )
+                                                    })}
 
                                                 </table>
                                             </div>
@@ -99,16 +176,16 @@ const EnquiryDetails = () => {
                                         </div> */}
                                         <div className="table-pagination-area pt-3">
                                             <div className="pagination-btn-area">
-                                                <button className='pag-prev-btn'>
+                                                {x[0] > 0 && <button className='pag-prev-btn' onClick={() => setX([x[0] - 10, x[1] - 10])}>
                                                     <i class="bi bi-chevron-left"></i>
-                                                </button>
+                                                </button>}
                                                 <div className='pag-page'>
-                                                    <span className='current-page'>1</span>&nbsp;/&nbsp;
-                                                    <span className='total-page'>7</span>
+                                                    <span className='current-page'>{Math.ceil(x[0] / 10) + 1}</span>&nbsp;/&nbsp;
+                                                    <span className='total-page'>{Math.ceil(enquiryFormDetails.length / 10)}</span>
                                                 </div>
-                                                <button className='pag-next-btn'>
+                                                {((enquiryFormDetails.slice(x[0], x[1]).length === 10 && enquiryFormDetails.length > x[1])) && <button className='pag-next-btn' onClick={() => setX([x[0] + 10, x[1] + 10])}>
                                                     <i class="bi bi-chevron-right"></i>
-                                                </button>
+                                                </button>}
                                             </div>
                                         </div>
                                     </div>
@@ -138,7 +215,7 @@ const EnquiryDetails = () => {
                                             <div className="view-det-head">Full Name</div>
                                         </div>
                                         <div className="col-12 col-sm-6">
-                                            <div className="view-det-sub-head text-capitalized">Sanjay yut</div>
+                                            <div className="view-det-sub-head text-capitalized">{selectedViewDetail?.fullName}</div>
                                         </div>
                                     </div>
                                     <hr />
@@ -147,7 +224,7 @@ const EnquiryDetails = () => {
                                             <div className="view-det-head">Mobile Number</div>
                                         </div>
                                         <div className="col-12 col-sm-6">
-                                            <div className="view-det-sub-head">786796779</div>
+                                            <div className="view-det-sub-head">{selectedViewDetail?.phoneNo}</div>
                                         </div>
                                     </div>
                                     <hr />
@@ -156,7 +233,7 @@ const EnquiryDetails = () => {
                                             <div className="view-det-head">Email</div>
                                         </div>
                                         <div className="col-12 col-sm-6">
-                                            <div className="view-det-sub-head">sanjay@gmail.com</div>
+                                            <div className="view-det-sub-head">{selectedViewDetail?.email}</div>
                                         </div>
                                     </div>
                                     <hr />
@@ -165,7 +242,7 @@ const EnquiryDetails = () => {
                                             <div className="view-det-head">Company Name</div>
                                         </div>
                                         <div className="col-12 col-sm-6">
-                                            <div className="view-det-sub-head text-capitalized">newCompany</div>
+                                            <div className="view-det-sub-head text-capitalized">{selectedViewDetail?.companyName}</div>
                                         </div>
                                     </div>
                                     <hr />
@@ -174,7 +251,7 @@ const EnquiryDetails = () => {
                                             <div className="view-det-head">Designation</div>
                                         </div>
                                         <div className="col-12 col-sm-6">
-                                            <div className="view-det-sub-head text-capitalized">engineer</div>
+                                            <div className="view-det-sub-head text-capitalized">{selectedViewDetail?.designation}</div>
                                         </div>
                                     </div>
                                     <hr />
@@ -183,7 +260,7 @@ const EnquiryDetails = () => {
                                             <div className="view-det-head">Location</div>
                                         </div>
                                         <div className="col-12 col-sm-6">
-                                            <div className="view-det-sub-head text-capitalized">Jaffna</div>
+                                            <div className="view-det-sub-head text-capitalized">{selectedViewDetail?.location}</div>
                                         </div>
                                     </div>
                                     <hr />
@@ -192,7 +269,7 @@ const EnquiryDetails = () => {
                                             <div className="view-det-head">Selected RPO model</div>
                                         </div>
                                         <div className="col-12 col-sm-6">
-                                            <div className="view-det-sub-head text-capitalized">Designer</div>
+                                            <div className="view-det-sub-head text-capitalized">{selectedViewDetail?.rpoModel}</div>
                                         </div>
                                     </div>
                                     <hr />
@@ -201,7 +278,7 @@ const EnquiryDetails = () => {
                                             <div className="view-det-head">Positions open to outsourcing</div>
                                         </div>
                                         <div className="col-12 col-sm-6">
-                                            <div className="view-det-sub-head">23</div>
+                                            <div className="view-det-sub-head">{selectedViewDetail?.positionCount}</div>
                                         </div>
                                     </div>
                                     <hr />
@@ -210,7 +287,7 @@ const EnquiryDetails = () => {
                                             <div className="view-det-head">Tentative deadline for closing positions</div>
                                         </div>
                                         <div className="col-12 col-sm-6">
-                                            <div className="view-det-sub-head">04/10/2023</div>
+                                            <div className="view-det-sub-head">{selectedViewDetail?.deadline}</div>
                                         </div>
                                     </div>
                                     <hr />
@@ -219,7 +296,7 @@ const EnquiryDetails = () => {
                                             <div className="view-det-head">Premises where the Accounts Manager has to work.</div>
                                         </div>
                                         <div className="col-12 col-sm-6">
-                                            <div className="view-det-sub-head text-capitalized">our premises</div>
+                                            <div className="view-det-sub-head text-capitalized">{selectedViewDetail?.premisesType}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -232,7 +309,7 @@ const EnquiryDetails = () => {
                 </div>
 
                 {/* Event delete modal here */}
-                <div className="modal fade" id="enquirydeleteModal" tabindex="-1" role="dialog" aria-labelledby="enquiryDeleteLabel"
+                {/* <div className="modal fade" id="enquirydeleteModal" tabindex="-1" role="dialog" aria-labelledby="enquiryDeleteLabel"
                     aria-hidden="true">
                     <div className="modal-dialog" role="document">
                         <div className="modal-content recruiter-delete-modal">
@@ -261,7 +338,7 @@ const EnquiryDetails = () => {
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> */}
 
                 <Footer />
             </div >

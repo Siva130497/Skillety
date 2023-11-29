@@ -10,15 +10,22 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import AuthContext from '../../context/AuthContext';
 import { v4 as uuidv4 } from "uuid";
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const EventPosting = () => {
     const { getProtectedData } = useContext(AuthContext);
+    const location = useLocation();
+    const navigate = useNavigate();
 
     const [staffToken, setStaffToken] = useState("");
     const [employeeId, setEmployeeId] = useState("");
     const [selectedDate, setSelectedDate] = useState(null);
     const [dateString, setDateString] = useState("");
     const [fileName, setFileName] = useState('');
+    const [editingEventId, setEditingEventId] = useState("");
+    const [editingEventDetail, setEditingEventDetail] = useState();
+    const [editingEventImg, setEditingEventImg] = useState();
+    const [eventDate, setEventDate] = useState("");
 
     const [image, setImage] = useState();
     const InitialEventDetail = {
@@ -30,10 +37,10 @@ const EventPosting = () => {
     const [eventImgUrl, setEventImgUrl] = useState("");
 
     //for show success message for payment
-    function showSuccessMessage() {
+    function showSuccessMessage(message) {
         Swal.fire({
             title: 'Congratulations!',
-            text: 'Event Posted Successfully',
+            text: message,
             icon: 'success',
             confirmButtonColor: '#3085d6',
             confirmButtonText: 'OK',
@@ -67,6 +74,59 @@ const EventPosting = () => {
     useEffect(() => {
         setStaffToken(JSON.parse(localStorage.getItem('staffToken')))
     }, [staffToken])
+
+    useEffect(() => {
+        const { editingEventId } = location.state || {};
+        setEditingEventId(editingEventId);
+
+    }, [location.state])
+
+    useEffect(()=>{
+        if(editingEventId){
+
+            axios.get(`https://skillety.onrender.com/event/${editingEventId}`, {
+                headers: {
+                    Authorization: `Bearer ${staffToken}`,
+                    Accept: 'application/json'
+                }
+              })
+              .then(res=>{
+                console.log(res.data);
+                setEditingEventDetail(res.data);
+            })
+            .catch(err=>console.log(err));
+
+            axios.get(`https://skillety.onrender.com/event-image/${editingEventId}`)
+              .then(res=>setEditingEventImg(res.data))
+              .catch(err=>console.log(err))
+          
+        }
+
+    },[editingEventId]);
+
+    useEffect(() => {
+        if(editingEventDetail){
+          setEventDetail({
+            title:editingEventDetail.title,
+            description:editingEventDetail.description,
+            location:editingEventDetail.location,
+          });
+          setEventDate(editingEventDetail.date);
+        }
+        
+      }, [editingEventDetail]);
+  
+      useEffect(() => {
+        if(editingEventImg){
+          setEventImgUrl(`https://skillety.onrender.com/images/${editingEventImg.image}`)
+        }
+        
+      }, [editingEventImg]);
+
+      useEffect(() => {
+        setEventDate(dateString);
+      }, [dateString]);
+  
 
     useEffect(() => {
         if (staffToken) {
@@ -135,10 +195,11 @@ const EventPosting = () => {
 
                 if (!result.error) {
                     console.log(result);
-                    showSuccessMessage();
-                    setEventDetail(InitialEventDetail);
-                    setSelectedDate(null);
-                    setDateString("");
+                    showSuccessMessage("Event Posted Successfully");
+                    navigate("/posted-events");
+                    // setEventDetail(InitialEventDetail);
+                    // setSelectedDate(null);
+                    // setDateString("");
                 } else {
                     console.log(result);
                 }
@@ -151,35 +212,90 @@ const EventPosting = () => {
 
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        let event;
-
-        const id = uuidv4();
-        event = {
-            ...eventDetail,
-            id,
-            recruiterId: employeeId,
-            date: dateString,
-        };
-        console.log(event);
-        eventPosting(event);
-        if (image) {
-            console.log(image)
-            const formData = new FormData()
-            formData.append('image', image);
-            formData.append('id', id)
-            axios.post("https://skillety.onrender.com/upload-image", formData, {
+    const changingEvent = async (event) => {
+        if(eventDate){
+            try {
+              const response = await axios.patch(`https://skillety.onrender.com/event/${editingEventId}`, event, {
                 headers: {
                     Authorization: `Bearer ${staffToken}`,
                     Accept: 'application/json'
                 }
+              });
+      
+              const result = response.data;
+      
+              if (!result.message) {
+                  console.log(result);
+                  showSuccessMessage("event has been updated");
+                  navigate("/posted-events");
+                //   setEditingEventId("");
+                //   setEventDetail(InitialEventDetail);
+                //     setSelectedDate(null);
+                //     setDateString("");
+              } else {
+                  console.log(result);
+              }
+          } catch (error) {
+              console.log(error);
+          }
+        }
+          
+        };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        let event;
+        if(!editingEventId){
+          const id = uuidv4();
+          event = {
+            ...eventDetail,
+            id,
+            recruiterId:employeeId,
+            date: dateString,
+          };
+          console.log(event);
+          eventPosting(event);
+          if(image){
+            const formData = new FormData()
+            formData.append('image', image);
+            formData.append('id', id)
+            axios.post("https://skillety.onrender.com/upload-image", formData, {
+              headers: {
+                  Authorization: `Bearer ${staffToken}`,
+                  Accept: 'application/json'
+              }
             })
-                .then(res => {
-                    console.log(res);
-                    setImage(null);
-                })
-                .catch(err => console.log(err));
+            .then(res=>{
+              console.log(res);
+              setImage(null);
+            })
+            .catch(err=>console.log(err));
+          }
+        }
+        if(editingEventId){
+          event={
+            ...eventDetail,
+            id:editingEventDetail.id,
+            recruiterId:editingEventDetail.recruiterId,
+            date:eventDate,
+          }
+          console.log(event);
+          changingEvent(event);
+          if(image){
+            const formData = new FormData()
+            formData.append('image', image);
+            axios.patch(`https://skillety.onrender.com/update-image/${editingEventId}`, formData, {
+              headers: {
+                  Authorization: `Bearer ${staffToken}`,
+                  Accept: 'application/json'
+              }
+            })
+            .then(res=>{
+              console.log(res);
+              setImage(null);
+            })
+            .catch(err=>console.log(err));
+          }
         }
     }
 
@@ -255,6 +371,19 @@ const EventPosting = () => {
                                                         name='eventTitle'
                                                         id='eventTitle'
                                                         placeholder='Enter the event title...' /> */}
+                                                    {editingEventId && 
+                                                        <div>
+                                                            <input 
+                                                                type="text" 
+                                                                className="form-control" 
+                                                                id="eventDateInput"  
+                                                                name="eventDate" 
+                                                                value={eventDate}
+                                                                onChange = {(e)=>setEventDate(e.target.value)} 
+                                                                placeholder="event date"
+                                                                required />
+                                                                <p>if you want to change the date of the event change it below</p>
+                                                        </div>}
                                                     <div>
                                                         <DatePicker
                                                             selected={selectedDate}
@@ -271,6 +400,11 @@ const EventPosting = () => {
                                             <div className="col-12 col-xl-12">
                                                 <div className="job-post-form-group">
                                                     <label htmlFor="" className='job-post-form-label'>Event Image</label>
+                                                    {editingEventId && 
+                                                        <div>
+                                                            <iframe src={eventImgUrl} title="Event Image iframe" ></iframe>
+                                                        <p>if you want to change the image of the event change it below</p>
+                                                        </div>}
                                                     <div className="custom-file ats">
                                                         <input type="file" className="custom-file-input ats" id="customFile" name="filename" onChange={e => setImage(e.target.files[0])} />
                                                         <label className="custom-file-label ats" for="customFile">{fileName || 'Choose file...'}</label>
@@ -293,7 +427,7 @@ const EventPosting = () => {
                                 </div>
                             </div>
                             <div className="post-job-btn-area">
-                                <button className='post-job-btn' onClick={handleSubmit}>Post</button>
+                                {editingEventId? <button className='post-job-btn' onClick={handleSubmit}>Update</button> : <button className='post-job-btn' onClick={handleSubmit}>Post</button>}
                                 <a href='/posted-events' className='post-job-btn yellow'>
                                     Posted Events
                                     <i class="bi bi-box-arrow-up-right ml-3"></i>

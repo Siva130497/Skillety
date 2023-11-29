@@ -1512,6 +1512,41 @@ const getAllCandidateContactMessages = async(req, res) => {
   }
 }
 
+const deletingCandidateContactMsg = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const deletedClientContactMsg = await contactCandidateDetail.deleteOne({ _id: id });
+
+    if (deletedClientContactMsg.deletedCount > 0) {
+      res.status(204).json({ message: 'Contact message deleted successfully' });
+    } else {
+      res.status(404).json({ error: 'Contact message not found' });
+    }
+
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+}
+
+const deletingClientContactMsg = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const deletedClientContactMsg = await contactDetail.deleteOne({ _id: id });
+
+    if (deletedClientContactMsg.deletedCount > 0) {
+      res.status(204).json({ message: 'Contact message deleted successfully' });
+    } else {
+      res.status(404).json({ error: 'Contact message not found' });
+    }
+
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+}
+
+
 /* client_package choosing */
 const clientPackageSelection = async(req, res) => {
   console.log(req.body);
@@ -1601,6 +1636,23 @@ const getEnquiryFormDetails = async(req, res) => {
     return res.status(500).json({ error: err.message });
   }
 };
+
+const deletingEnquiryForm = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const deletedEnquiry = await enquiryFormDetail.deleteOne({ _id: id });
+
+    if (deletedEnquiry.deletedCount > 0) {
+      res.status(204).json({ message: 'enquiry deleted successfully' });
+    } else {
+      res.status(404).json({ error: 'enquiry not found' });
+    }
+
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+}
 
 /* create a schema for candidate join chat*/
 const candidateChatRoomId = async(req, res) => {
@@ -2453,6 +2505,9 @@ module.exports = {
    generateRandomPassword,
    contactMessage,
    getAllContactMessages,
+   deletingClientContactMsg,
+  deletingCandidateContactMsg,
+  deletingEnquiryForm,
    verifying,
    contactMessageCandidate,
    getAllCandidateContactMessages,
