@@ -35,7 +35,7 @@ const CompanyDetails = () => {
                 setPageNotFound(true);
             })
 
-        axios.get(`https://skillety.onrender.com/company-detail//${id}`)
+        axios.get(`https://skillety.onrender.com/company-detail/${id}`)
             .then((res => {
                 console.log(res.data)
                 setCompanyDetail(res.data);

@@ -85,8 +85,8 @@ const ClientRegister = () => {
                 console.log(result);
                 await new Promise(() => {
                     Swal.fire({
-                        title: 'Your details have been sent for verification. After the verification process is complete, we will contact you through your email.',
-                        text: '',
+                        title: 'Congratulations!',
+                        text: 'Your details have been sent for verification. After the verification process is complete, we will contact you through your email.',
                         icon: 'success',
                         confirmButtonColor: '#3085d6',
                         confirmButtonText: 'OK',

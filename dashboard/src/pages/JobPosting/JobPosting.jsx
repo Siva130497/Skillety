@@ -337,7 +337,7 @@ const JobPosting = () => {
       const result = res.data;
       if (!result.error) {
         console.log(result);
-        showSuccessMessage("Job has been posted successfully!")
+        showSuccessMessage("Job posted successfully.")
         setCredentials(initialCredentials);
         setSelectedJobRoles([]);
         setSelectedDepartment([]);
@@ -823,7 +823,8 @@ const JobPosting = () => {
               </div>
               <div className="card post-job-card">
                 <div className="post-job-title">Post a Job </div>
-                {/* <div className="post-job-sub-title">Begin from scratch</div> */}
+                <div className="post-job-sub-title">Welcome to Skillety’s Post Job page! Post an array of Unlimited Free Jobs, and witness the magic in action. Our AI-powered platform seamlessly integrates with 172 global Job Boards and Social Media platforms via APIs. This strategic alliance ensures that a job posting crawls out and gets relevant CVs through inward aggregation. Currently we’re clocking over 450+ daily registrations.
+</div>
 
                 <div className="job-post-form-area">
                   <form action="">

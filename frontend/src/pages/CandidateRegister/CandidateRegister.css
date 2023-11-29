@@ -707,3 +707,6 @@ input[type="number"]::-webkit-outer-spin-button {
 .reg--form-btn-sub[disabled] .reg--form-arrow-area {
     display: none !important;
 }
+.text-uppercase{
+    text-transform: uppercase !important;
+}

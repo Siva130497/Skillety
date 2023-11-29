@@ -5,11 +5,20 @@ import Footer from '../../components/Footer';
 import './PostedEvents.css';
 import $ from 'jquery';
 import AuthContext from '../../context/AuthContext';
+import axios from 'axios';
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.css';
+import { useNavigate } from 'react-router-dom';
+
 
 const PostedEvents = () => {
+    const navigate = useNavigate();
     const { eventDetail, getEventDetail, getEventImg, eventImg } = useContext(AuthContext);
     const [selectedEventViewDetail, setSelectedEventViewDetail] = useState();
     const [image, setImage] = useState("");
+    const [staffToken, setStaffToken] = useState("");
+
+    const [x, setX] = useState([0, 10]);
 
     useEffect(() => {
         $(document).ready(function () {
@@ -39,6 +48,10 @@ const PostedEvents = () => {
         getEventImg();
     }, []);
 
+    useEffect(() => {
+        setStaffToken(JSON.parse(localStorage.getItem('staffToken')))
+    }, [staffToken])
+
     const handleViewEventDetail = (id) => {
         const selectedEvent = eventDetail.find(eve => eve.id === id);
         setSelectedEventViewDetail(selectedEvent);
@@ -52,6 +65,52 @@ const PostedEvents = () => {
         }
     }
 
+    const handleDelete = (id) => {
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'You won\'t be able to revert this!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axios.delete(`https://skillety.onrender.com/events/${id}`, {
+                    headers: {
+                        Authorization: `Bearer ${staffToken}`,
+                        Accept: 'application/json'
+                    }
+                })
+                .then(res => {
+                    console.log(res.data);
+                    getEventDetail();
+                }
+                )
+                .catch(err => console.log(err));
+
+                axios.delete(`https://skillety.onrender.com/event-image-delete/${id}`, {
+                    headers: {
+                        Authorization: `Bearer ${staffToken}`,
+                        Accept: 'application/json'
+                    }
+                })
+                .then(response => {
+                    console.log(response.data);
+                    getEventImg();
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+            }
+        });
+    }
+
+    // const handleEdit = (id) => {
+    //     console.log(id);
+    //     setEditingEventId(id);
+    // }
 
     return (
         <div>
@@ -79,7 +138,7 @@ const PostedEvents = () => {
                                                     </div>
                                                     <div className="man-app-sub-title">
                                                         Total Events :&nbsp;
-                                                        <span>02</span>
+                                                        <span>{eventDetail.length}</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -95,6 +154,7 @@ const PostedEvents = () => {
 
                                                     {/* table data */}
                                                     {eventDetail.map((eve, index)=>{
+                                                        const editingEventId = eve.id;
                                                         return(
                                                             <tr className='dash-table-row client' key={eve.id}>
                                                                 <td className='dash-table-data1'>{index+1}</td>
@@ -107,7 +167,9 @@ const PostedEvents = () => {
 
                                                                 <td className='text-center'>
                                                                     <div className="action-btn-area">
-                                                                        <a href='#' className='job-edit-btn' title='Edit event details...'>
+                                                                        <a href=''onClick={()=>{
+                                                                            navigate('/event-posting', { state: { editingEventId } });
+                                                                        }}className='job-edit-btn' title='Edit event details...'>
                                                                             <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
                                                                                 <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
                                                                             </svg>
@@ -121,7 +183,7 @@ const PostedEvents = () => {
                                                                             </svg>
                                                                         </button>
 
-                                                                        <button className='job-delete-btn' data-toggle="modal" title='Delete event data...' data-target="#eventdeleteModal">
+                                                                        <button className='job-delete-btn' data-toggle="modal" title='Delete event data...' data-target="#eventdeleteModal" onClick={()=>handleDelete(eve.id)}>
                                                                             <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
                                                                                 <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
                                                                             </svg>
@@ -147,16 +209,16 @@ const PostedEvents = () => {
                                         </div> */}
                                         <div className="table-pagination-area pt-3">
                                             <div className="pagination-btn-area">
-                                                <button className='pag-prev-btn'>
+                                                {x[0] > 0 && <button className='pag-prev-btn' onClick={() => setX([x[0] - 10, x[1] - 10])}>
                                                     <i class="bi bi-chevron-left"></i>
-                                                </button>
+                                                </button>}
                                                 <div className='pag-page'>
-                                                    <span className='current-page'>1</span>&nbsp;/&nbsp;
-                                                    <span className='total-page'>7</span>
+                                                    <span className='current-page'>{Math.ceil(x[0] / 10) + 1}</span>&nbsp;/&nbsp;
+                                                    <span className='total-page'>{Math.ceil(eventDetail.length / 10)}</span>
                                                 </div>
-                                                <button className='pag-next-btn'>
+                                                {((eventDetail.slice(x[0], x[1]).length === 10 && eventDetail.length > x[1])) && <button className='pag-next-btn' onClick={() => setX([x[0] + 10, x[1] + 10])}>
                                                     <i class="bi bi-chevron-right"></i>
-                                                </button>
+                                                </button>}
                                             </div>
                                         </div>
                                     </div>
@@ -243,7 +305,7 @@ const PostedEvents = () => {
                 </div>
 
                 {/* Event delete modal here */}
-                <div className="modal fade" id="eventdeleteModal" tabindex="-1" role="dialog" aria-labelledby="eventDeleteLabel"
+                {/* <div className="modal fade" id="eventdeleteModal" tabindex="-1" role="dialog" aria-labelledby="eventDeleteLabel"
                     aria-hidden="true">
                     <div className="modal-dialog" role="document">
                         <div className="modal-content recruiter-delete-modal">
@@ -272,7 +334,7 @@ const PostedEvents = () => {
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> */}
 
                 <Footer />
             </div >

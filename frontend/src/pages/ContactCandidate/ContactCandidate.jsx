@@ -107,8 +107,21 @@ const ContactCandidate = () => {
                                 </div>
                                 <div className="con--where-desc-area">
                                     <p className="con--where-desc" data-aos="fade-left">
-                                        We operate globally and are headquartered in Hyderabad, India.See contact information below on how to get in touch via phone or email.
+                                    Hello!, seekers of wisdom and answers! Welcome to the Contact Us page at Skillety - the space where your questions meet their match, and your curiosity gets a VIP pass to the front of the line!
                                     </p>
+
+                                    <p className="con--where-desc mt-4" data-aos="fade-left">
+                                    Need assistance, guidance, or just want to drop us a virtual high-five? We've got you covered like a cozy blanket on a chilly night. Our Contact Us page is more than just a form; it's a direct hotline to the wizards behind the career-curtain, ready to sprinkle a little magic on your queries.
+                                    </p>
+
+                                    <p className="con--where-desc mt-4" data-aos="fade-left">
+                                    Whether you're navigating the labyrinth of Job listings, seeking career advice, or just want to share your latest cat meme (we love those too), this is the place where pixels become handshakes. So, put on your typing gloves, flex those fingers, and let the conversation begin!
+                                    </p>
+
+                                    <p className="con--where-desc mt-4" data-aos="fade-left">
+                                        <b>Even better, just pick up your phone and call us @ +91-99664-33330. We’re waiting!!!</b>
+                                    </p>
+
                                 </div>
                             </div>
                             <div className="con-where-content-area">

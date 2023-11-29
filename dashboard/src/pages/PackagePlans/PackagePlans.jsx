@@ -236,7 +236,7 @@ const PackagePlans = () => {
         })
             .then(res => {
                 console.log(res.data)
-                showSuccessMessage(`Successfully bought ${packageInfo?.packageType} package`)
+                showSuccessMessage(`Thank you for purchasing the ${packageInfo?.packageType} Package. Welcome onboard.`)
                 window.location.reload();
             })
             .catch(err => {
@@ -768,6 +768,9 @@ const PackagePlans = () => {
                                                 By clicking on the Buy Now you are agreeing to the&nbsp;
                                                 <a href="#">Terms & Conditions</a>
                                             </p>
+
+                                            <p className='term-con mt-4 font-14'>
+                                            We understand that one size doesn't fit all. So, we have designed our Packages based on your journey level. Please choose any package that fits your needs. If you want a Customised package, please talk to our Sales guys, who would be happy to help.                                            </p>
                                         </div>
                                         <div className="sol-price-area">
                                             <h5 className="sol-price-heading">SKILLETY SOLUTIONS PRICES</h5>
