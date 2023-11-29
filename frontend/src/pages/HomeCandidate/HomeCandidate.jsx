@@ -291,14 +291,14 @@ const HomeCandidate = () => {
               <div className="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-7 col-xxl-7 home--left-cover">
                 <div className="home--head candidate">
                   <h4 data-aos="fade-left" data-aos-delay="200">
-                    Great opportunities knock only once. We make sure you don’t miss them.
+                  Welcome to the only Job Portal for Immediate Joiners in the world.
                   </h4>
                   {/* <h3 data-aos="fade-left" data-aos-delay="200">Choose from over 2400+ Jobs.</h3>
                   <h5 data-aos="fade-left" data-aos-delay="200">
                     Welcome to the place where you get hired in less than 7 days. Grab your Interview in 24 hours.
                   </h5> */}
                   <h6 data-aos="fade-right" data-aos-delay="300">
-                    Search For Jobs
+                  Choose from over 2400+ Jobs. Get Interviewed within 24 Hours.
                   </h6>
                 </div>
                 <div className="home--search-area candidate">

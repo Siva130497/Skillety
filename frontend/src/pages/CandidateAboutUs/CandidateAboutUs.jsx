@@ -84,8 +84,8 @@ const CandidateAboutUs = () => {
                                                     VISION
                                                 </h6>
                                                 <p className='cand--ab-vis-mis-desc'>
-                                                    To free organisations from outdated recruitment practices, by harnessing the combined power of human wisdom & artificial intelligence and providing them with just-for-you & easy-to-use solutions.
-                                                </p>
+                                                To be the most “Useful” Job Portal on the planet.
+ </p>
                                             </div>
                                         </div>
                                         <div className="col-12 col-lg-6 col-xl-4 col-sm-12 col-md-12">
@@ -94,8 +94,8 @@ const CandidateAboutUs = () => {
                                                     MISSION
                                                 </h6>
                                                 <p className='cand--ab-vis-mis-desc'>
-                                                    With 'Client Appreciation' at the heart of our organisational culture, we are dedicated to consistently innovating and crafting unconventional solutions to ensure our clients' delight and satisfaction at all times.
-                                                </p>
+                                                To find a Job for everyone who needs it.
+</p>
                                             </div>
                                         </div>
                                     </div>
