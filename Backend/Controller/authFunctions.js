@@ -343,7 +343,7 @@ const finalClientRegister = async (req, res) => {
         to: `${updatedUser.email}`,
         subject: 'Mail from SKILLITY!',
         text: 'Welcome to Skillety!',
-        html: `<p>Welcome to Skillety!</p><p>Your account has been created...</p>`
+        html: `<p>Congratulations!</p><p>We are happy to have you with us. Please find your Login details below:</p>`
       };
   
       transporter.sendMail(mailOptions, function (error, info) {
@@ -444,7 +444,7 @@ const candidateReg = async(req, res) => {
       to: `${updatedUser.email}`,
       subject: 'Mail from SKILLITY!',
       text: 'Welcome to Skillety!',
-      html: `<p>Welcome to Skillety!</p><p>Your account has been created...</p>`
+      html: `<p>Congratulations! </p><p>We are happy to have you with us. Please find your Login details below :</p>`
     };
 
     transporter.sendMail(mailOptions, function (error, info) {

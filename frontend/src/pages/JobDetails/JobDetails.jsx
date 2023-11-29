@@ -127,7 +127,7 @@ const JobDetails = () => {
       const result = res.data;
       if (!result.error) {
         console.log(result);
-        showSuccessMessage("Job applied successfully..!");
+        showSuccessMessage("Successfully Applied.");
         getAppliedjobs();
 
         axios.get(`https://skillety.onrender.com/applied-job/${id}`)

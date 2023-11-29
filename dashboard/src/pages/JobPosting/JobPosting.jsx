@@ -337,7 +337,7 @@ const JobPosting = () => {
       const result = res.data;
       if (!result.error) {
         console.log(result);
-        showSuccessMessage("Job has been posted successfully!")
+        showSuccessMessage("Job posted successfully.")
         setCredentials(initialCredentials);
         setSelectedJobRoles([]);
         setSelectedDepartment([]);
