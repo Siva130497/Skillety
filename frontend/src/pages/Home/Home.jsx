@@ -263,7 +263,7 @@ const Home = () => {
                       Welcome to the world’s first Recruitment Solutions Integrator, powered by an exclusive job board for Immediate Joiners.
                     </h5> */}
                   <h5 data-aos="fade-left" data-aos-delay="200">
-                    Welcome to our AI-driven job portal for Immediate Joiners - Talent that can Join you within 7 days or less.
+                  Welcome to the world’s only Job Portal for Immediate Joiners - guys who can Join you within 7 days or less!!!
                   </h5>
                   <h6 data-aos="fade-right" data-aos-delay="300">
                     Search For Talents
