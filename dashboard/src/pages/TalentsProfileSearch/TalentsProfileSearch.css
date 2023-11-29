@@ -1575,3 +1575,9 @@
 .search-result-data-area.low-height{
     max-height: 130px;
 }
+.tal-head-desc{
+    font-size: 16px;
+    font-weight: 400;
+    color: #714F36;
+    padding: 20px 15px;
+}
