@@ -225,7 +225,7 @@
     font-weight: 400;
     border-radius: 8px;
     position: fixed;
-    bottom: 150px;
+    bottom: 120px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
