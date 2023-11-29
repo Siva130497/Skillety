@@ -57,7 +57,8 @@ const ServicesCVSourcing = () => {
                         </div>
 
                         <div className="service-par">
-                            <p>What makes us unique is that - Skillety is the world's first Digital-RPO platform, offering a comprehensive suite of diverse hiring solutions, including Sourcing, Screening, Assessments, Interviews, Verification, and Onboarding, all thoughtfully integrated into a single platform. We are powered by our exclusive Job-board for Immediate Joiners – guys who can Join within 7 days or less, reducing the TAT for a new hire by an impressive 30-50%. Our pay-as-you-go model offers our clients with a simple billing and performance evaluation process, focused solely on end results. As an end-to-end recruitment powerhouse, Skillety is your ideal RPO partner, dedicated to optimizing your recruitment journey.
+                            <p>
+                                Skillety stands out as a Job Portal for Immediate Joiners, featuring a comprehensive suite of hiring solutions – CV Sourcing, Job Postings, Assessments, L1-Interviews, and Background Verification, seamlessly integrated into one platform. This consolidation cuts the TAT for new hires by an impressive 30-50%. Our pay-as-you-go model ensures straightforward billing and performance evaluation, prioritising end-results. As your end-to-end recruitment powerhouse, Skillety is the ultimate Digital-RPO partner committed to optimising your recruitment journey with precision and efficiency.
                             </p>
                         </div>
 
@@ -73,9 +74,9 @@ const ServicesCVSourcing = () => {
                                     <div className="col-12 col-lg-5 col-md-12 custom-padding-lr">
                                         <div className="ser--cont-area-right">
                                             <p className='ser--cont-title' data-aos="fade">
-                                                Search for Candidates with any skill and experience, from any sector and location through seamless filter options. Search for Immediate Joiner CVs from 3 buckets - 7 days, 15 days & 30 days joiners.
+                                            Search for Candidates with any skill and experience, from any sector and location through seamless filter options. Search for Immediate Joiner CVs from 3 buckets - 7 days, 15 days & 30 days joiners.
                                             </p>
-                                            <div className='ser--cont-list-area'>
+                                            {/* <div className='ser--cont-list-area'>
                                                 <ul>
                                                     <li className='ser--cont-list-item' data-aos="fade-left">
                                                         Lorem Ipsum is simply dummy text of the printing and typesetting industry.
@@ -93,7 +94,7 @@ const ServicesCVSourcing = () => {
                                                         Lorem Ipsum is simply dummy text of the printing and typesetting industry.
                                                     </li>
                                                 </ul>
-                                            </div>
+                                            </div> */}
                                             <div className="ser--cont-btn-area">
                                                 <a href="#" className='ser--cont-btn-sub' data-aos="fade-left">
                                                     <div className='ser--cont-btn'>
