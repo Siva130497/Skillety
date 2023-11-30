@@ -12,6 +12,14 @@ export const AuthContextProvider = ({children}) => {
     const [errorMsg, setErrorMsg] = useState("");
     const [eventDetail, setEventDetail] = useState([]);
     const [eventImg, setEventImg] = useState();
+    const [blogDetail, setBlogDetail] = useState([]);
+    // const [blogImg, setBlogImg] = useState();
+    const [videoDetail, setVideoDetail] = useState([]);
+    // const [videoImg, setVideoImg] = useState();
+    const [podcastDetail, setPodcastDetail] = useState([]);
+    // const [podcastImg, setPodcastImg] = useState();
+    const [newsDetail, setNewsDetail] = useState([]);
+    // const [newsImg, setnewsImg] = useState();
     const [candidateImg, setCandidateImg] = useState();
     const [clientImg, setClientImg] = useState();
     const [packageSelectionDetail, setPackageSelectionDetail] = useState();
@@ -163,6 +171,106 @@ export const AuthContextProvider = ({children}) => {
         .catch(err=>console.log(err))
     }
 
+    const getBlogsDetail = async() => {
+        try{
+            const res = await axios.get(`https://skillety.onrender.com/blogs`);
+            const result = res.data;
+            if (!result.error) {
+              console.log(result);
+              setBlogDetail(result);
+            } else {
+              console.log(result);
+            }
+        }catch(err){
+          console.log(err);
+          
+        }
+    }
+
+    // const getBlogImg = async() => {
+    //     axios.get('https://skillety.onrender.com/blog-image')
+    //     .then(res=>{
+    //         console.log(res.data)
+    //         setBlogImg(res.data)
+    //     })
+    //     .catch(err=>console.log(err))
+    // }
+
+    const getVideoDetail = async() => {
+        try{
+            const res = await axios.get(`https://skillety.onrender.com/videos`);
+            const result = res.data;
+            if (!result.error) {
+              console.log(result);
+              setVideoDetail(result);
+            } else {
+              console.log(result);
+            }
+        }catch(err){
+          console.log(err);
+          
+        }
+    }
+
+    // const getVideoImg = async() => {
+    //     axios.get('https://skillety.onrender.com/video-image')
+    //     .then(res=>{
+    //         console.log(res.data)
+    //         setVideoImg(res.data)
+    //     })
+    //     .catch(err=>console.log(err))
+    // }
+
+    const getPodcastDetail = async() => {
+        try{
+            const res = await axios.get(`https://skillety.onrender.com/podcasts`);
+            const result = res.data;
+            if (!result.error) {
+              console.log(result);
+              setPodcastDetail(result);
+            } else {
+              console.log(result);
+            }
+        }catch(err){
+          console.log(err);
+          
+        }
+    }
+
+    // const getPodcastImg = async() => {
+    //     axios.get('https://skillety.onrender.com/podcast-image')
+    //     .then(res=>{
+    //         console.log(res.data)
+    //         setPodcastImg(res.data)
+    //     })
+    //     .catch(err=>console.log(err))
+    // }
+
+    const getNewsDetail = async() => {
+        try{
+            const res = await axios.get(`https://skillety.onrender.com/news`);
+            const result = res.data;
+            if (!result.error) {
+              console.log(result);
+              setNewsDetail(result);
+            } else {
+              console.log(result);
+            }
+        }catch(err){
+          console.log(err);
+          
+        }
+    }
+
+    // const getNewsImg = async() => {
+    //     axios.get('https://skillety.onrender.com/news-image')
+    //     .then(res=>{
+    //         console.log(res.data)
+    //         setnewsImg(res.data)
+    //     })
+    //     .catch(err=>console.log(err))
+    // }
+
     const getCandidateImg = async() => {
         axios.get('https://skillety.onrender.com/candidate-image')
         .then(res=>{
@@ -201,7 +309,7 @@ export const AuthContextProvider = ({children}) => {
       }
 
 
-    return<AuthContext.Provider value={{candidateReg, loginUser, getProtectedData, errorMsg, setErrorMsg, eventDetail, getEventDetail, getEventImg, eventImg, getCandidateImg, candidateImg, getClientImg, clientImg, getClientChoosenPlan, packageSelectionDetail}}>
+    return<AuthContext.Provider value={{candidateReg, loginUser, getProtectedData, errorMsg, setErrorMsg, eventDetail, getEventDetail, getEventImg, eventImg, blogDetail, getBlogsDetail,videoDetail, getVideoDetail, podcastDetail, getPodcastDetail, newsDetail, getNewsDetail, getCandidateImg, candidateImg, getClientImg, clientImg, getClientChoosenPlan, packageSelectionDetail}}>
             {children}
         </AuthContext.Provider>
 }

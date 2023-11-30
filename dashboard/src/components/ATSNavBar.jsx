@@ -4,7 +4,7 @@ import AuthContext from '../context/AuthContext';
 
 const ATSNavBar = () => {
     const navigate = useNavigate()
-    const [employeeId, setEmployeeId] = useState("");
+    const [employeeRole, setEmployeeRole] = useState("");
     const [userName, setUserName] = useState('');
     const [token, setToken] = useState("");
     const {getProtectedData} = useContext(AuthContext);
@@ -19,7 +19,7 @@ const ATSNavBar = () => {
                 try {
                     const userData = await getProtectedData(token);
                     console.log(userData);
-                    setEmployeeId(userData.id);
+                    setEmployeeRole(userData.role);
                     setUserName(userData.name);
                 } catch (error) {
                     console.log(error)
@@ -214,7 +214,7 @@ const ATSNavBar = () => {
                     <li className="dropdown">
                         <a href="#" data-toggle="dropdown"
                             className="nav-user--btn client nav-link dropdown-toggle nav-link-lg nav-link-user">
-                            Staff Profile
+                            {employeeRole === "Admin" ? "Admin Profile" : "Staff Profile"}
                             <i class="bi bi-caret-down-fill"></i>
                             <img alt="image" src="../assets/img/talents-images/avatar.jpg"
                                 className="user-img-radious-style" />

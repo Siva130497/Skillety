@@ -19,7 +19,11 @@ const ATSSideBar = () => {
 
             if (path === `/recruiter-dashboard/${staffToken}`) {
                 $('#recruiter_dashboard').addClass('active');
-            } else if (path === '/all-clients') {
+            } else if (path === '/all-company-staff') {
+                $('#all-company-staff').addClass('active');
+            }else if (path === '/company-staff-create') {
+                $('#company-staff-create').addClass('active');
+            }else if (path === '/all-clients') {
                 $('#all_clients').addClass('active');
             } else if (path === '/all-candidates') {
                 $('#all_candidates').addClass('active');
@@ -50,7 +54,7 @@ const ATSSideBar = () => {
             feather.replace();
         });
 
-    }, [staffToken]);
+    }, [staffToken, role]);
 
     useEffect(() => {
         if(staffToken){
@@ -82,8 +86,11 @@ const ATSSideBar = () => {
                         <li className="dropdown" id='recruiter_dashboard'>
                             <a href={`/recruiter-dashboard/${staffToken}`} className="nav-link"><i data-feather="home"></i><span>Dashboard</span></a>
                         </li>
-                        {role === "Admin" && <li className="dropdown" id='all_clients'>
-                            <a href="" className="nav-link"><i data-feather="user"></i><span>Company Staff</span></a>
+                        {role === "Admin" && <li className="dropdown" id='all-company-staff'>
+                            <a href="/all-company-staff" className="nav-link"><i data-feather="user"></i><span>All Company Staff</span></a>
+                        </li>}
+                        {role === "Admin" && <li className="dropdown" id='company-staff-create'>
+                            <a href="/company-staff-create" className="nav-link"><i data-feather="user"></i><span>Company Staff Create</span></a>
                         </li>}
                         <li className="dropdown" id='all_clients'>
                             <a href="/all-clients" className="nav-link"><i data-feather="user"></i><span>All Clients</span></a>
@@ -104,7 +111,17 @@ const ATSSideBar = () => {
                             <a href="/job-posting" className="nav-link"><i data-feather="share"></i><span>Job Posting</span></a>
                         </li>
                         <li className="dropdown" id='event_posting'>
-                            <a href="/event-posting" className="nav-link"><i data-feather="calendar"></i><span>Event Posting</span></a>
+                            <a href="#" className="menu-toggle nav-link has-dropdown"><i data-feather="message-circle"></i><span>Media Posting</span></a>
+                            <ul className="dropdown-menu">
+                                <li id='contact-message-client'><a className="nav-link" href="/event-posting">Event Posting</a></li>
+                                <li ><a className="nav-link" href="/event-posting">Blog Posting</a></li>
+                                <li ><a className="nav-link" href="/event-posting">Video Posting</a></li>
+                                <li ><a className="nav-link" href="/event-posting">Podcast Posting</a></li>
+                                <li ><a className="nav-link" href="/event-posting">News Posting</a></li>
+                            </ul>
+                        </li>
+                        <li className="dropdown" id='event_posting'>
+                            <a href="/event-posting" className="nav-link"><i data-feather="calendar"></i><span>Media Posting</span></a>
                         </li>
 
                         <div className='hr-line'></div>

@@ -50,6 +50,10 @@ const {
   newPassword,
   eventPosting,
   getAllEvents,
+  getAllBlogs,
+  getAllVideos,
+  getAllPodcasts,
+  getAllNews,
   deleteEvent,
   anEvent,
   changingEvent,
@@ -264,6 +268,11 @@ router.post("/contact-candidate",  contactMessageCandidate);
 
 //get all event details of recruiters endpoint
 router.get("/events", getAllEvents);
+
+router.get("/blogs", getAllBlogs);
+router.get("/videos", getAllVideos);
+router.get("/podcasts", getAllPodcasts);
+router.get("/news", getAllNews);
 
 //deleting the created event endpoint for the recruiter
 router.delete("/events/:id", employeeAuth, deleteEvent);

@@ -9,58 +9,63 @@ import AuthContext from '../../context/AuthContext';
 import axios from 'axios';
 import EventPosting from '../../components/EventPosting';
 
-const Events = ({ staffToken }) => {
-    const { eventDetail, getEventDetail, getEventImg, eventImg } = useContext(AuthContext);
-    const [editingEventId, setEditingEventId] = useState("");
+const Events = () => {
+    const { eventDetail, getEventDetail, getEventImg, eventImg, blogDetail, getBlogsDetail, 
+        videoDetail, getVideoDetail,  podcastDetail, getPodcastDetail, newsDetail, getNewsDetail,  } = useContext(AuthContext);
 
     useEffect(() => {
         getEventDetail();
         getEventImg();
+        getBlogsDetail();
+        // getBlogImg();
+        getVideoDetail();
+        // getVideoImg();
+        getPodcastDetail();
+        // getPodcastImg();
+        getNewsDetail();
+        // getNewsImg();
     }, []);
 
-    const handleDelete = (id) => {
-        axios.delete(`https://skillety.onrender.com/events/${id}`, {
-            headers: {
-                Authorization: `Bearer ${staffToken}`,
-                Accept: 'application/json'
-            }
-        })
-            .then(res => {
-                console.log(res.data);
-                getEventDetail();
-            }
-            )
-            .catch(err => console.log(err));
+    // const handleDelete = (id) => {
+    //     axios.delete(`https://skillety.onrender.com/events/${id}`, {
+    //         headers: {
+    //             Authorization: `Bearer ${staffToken}`,
+    //             Accept: 'application/json'
+    //         }
+    //     })
+    //         .then(res => {
+    //             console.log(res.data);
+    //             getEventDetail();
+    //         }
+    //         )
+    //         .catch(err => console.log(err));
 
-        axios.delete(`https://skillety.onrender.com/event-image-delete/${id}`, {
-            headers: {
-                Authorization: `Bearer ${staffToken}`,
-                Accept: 'application/json'
-            }
-        })
-            .then(response => {
-                console.log(response.data);
-                getEventImg();
-            })
-            .catch(error => {
-                console.error(error);
-            });
-    }
+    //     axios.delete(`https://skillety.onrender.com/event-image-delete/${id}`, {
+    //         headers: {
+    //             Authorization: `Bearer ${staffToken}`,
+    //             Accept: 'application/json'
+    //         }
+    //     })
+    //         .then(response => {
+    //             console.log(response.data);
+    //             getEventImg();
+    //         })
+    //         .catch(error => {
+    //             console.error(error);
+    //         });
+    // }
 
-    const handleEdit = (id) => {
-        console.log(id);
-        setEditingEventId(id);
-    }
+    // const handleEdit = (id) => {
+    //     console.log(id);
+    //     setEditingEventId(id);
+    // }
 
     return (
         <>
-            {editingEventId ? <EventPosting editingEventId={editingEventId} staffToken={staffToken} /> :
-                <>
-                    {!staffToken && <LayoutNew events={true}/>}
-                    <>
+                   <LayoutNew events={true}/>
                         <div className='container-fluid contact--section'>
                             <div className='container-fluid container-section'>
-                                {!staffToken && <div className="about--bg candidate">
+                               <div className="about--bg candidate">
                                     <div className="row">
                                         <div className="col-12 col-xl-8 col-lg-12 col-md-12 about--left-cover">
                                             <div className="breadcrumb--area candidate" data-aos="fade-down">
@@ -68,7 +73,7 @@ const Events = ({ staffToken }) => {
                                                     <a href="/candidate-home">Home</a>
                                                 </div>
                                                 <div className="breadcrumb--item">
-                                                    <p>Events</p>
+                                                    <p>Medias</p>
                                                 </div>
                                             </div>
                                             <div className="about--head candidate">
@@ -94,10 +99,10 @@ const Events = ({ staffToken }) => {
                                             </div>
                                         </div>
                                     </div>
-                                </div>}
+                                </div>
 
                                 <div className='con--where-section'>
-                                    {!staffToken && <div className="con--where-container">
+                                    <div className="con--where-container">
                                         <div className="cand--event-para-section">
                                             <p className='cand--event-para' data-aos="fade">
                                                 Welcome to the Skillety Events Hub, your gateway to a world of dynamic experiences. Our Events section is a vibrant tapestry of opportunities designed to enrich your personal and professional journey.
@@ -112,8 +117,8 @@ const Events = ({ staffToken }) => {
                                                 Stay connected with our event calendar to be part of this vibrant community of knowledge seekers and opportunity creators. Join us in embracing the future, one event at a time. Welcome to Skillety Events - where possibilities unfold.
                                             </p>
                                         </div>
-                                    </div>}
-                                    {!staffToken && <div className="cand--event-login-card">
+                                    </div>
+                                   <div className="cand--event-login-card">
                                         <div className='company-demo-card'>
                                             <div className="company-demo-card-desc-area">
                                                 <p className='company-demo-card-desc' data-aos="fade-left">Contact</p>
@@ -138,38 +143,15 @@ const Events = ({ staffToken }) => {
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>}
+                                    </div>
+                                    
+                                    {/* events  */}
+                                    {eventDetail.length > 0 &&
                                     <div className="con--where-container">
-                                        {eventDetail.length > 0 &&
+                                        <p>Events</p>
                                             <div className="cand--events-card-section">
                                                 {Array.from({ length: Math.ceil(eventDetail.length / 3) }).map((_, index) => (
                                                     <div className="row" key={index}>
-                                                        {/* {eventDetail.slice(index * 3, (index + 1) * 3).map((eve) => (
-                                                    <div key={eve.id} className="col-12 col-lg-4 col-xl-4 col-md-4 col-sm-10 offset-sm-1 offset-md-0 offset-lg-0 offset-xl-0 cand--events-card-area" data-aos="fade-up">
-                                                        <article className='cand--events-card'>
-                                                            
-                                                                    <div className="cand--events-card-img-area">
-                                                                        <img src="assets/img/events/event-img.jpg" className='cand--events-card-img' alt="" />
-                                                                    </div>
-                                                                    <div className="cand--events-card-title-area">
-                                                                        <h6 className='cand--events-card-title'>
-                                                                            {eve.title}
-                                                                        </h6>
-                                                                    </div>
-                                                                    <p className='cand--events-card-date'>{eve.date}</p>
-                                                                    <a href={`/event-details/${eve.id}`} className="cand--events-card-bottom-area">
-                                                                        <span className='cand--event-sys'>SAVE YOUR SPOT</span>
-                                                                        <span className='cand--events-card-arrow-area'>
-                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
-                                                                                <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#714F36" stroke-width="2" />
-                                                                                <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#714F36" stroke-width="2" />
-                                                                                <path d="M1 26L25.1667 1" stroke="#714F36" stroke-width="2" />
-                                                                            </svg>
-                                                                        </span>
-                                                                    </a>
-                                                                </article>
-                                                    </div>
-                                                ))} */}
                                                         {eventDetail.slice(index * 3, (index + 1) * 3).map((eve) => {
                                                             const matchingImg = eventImg ? eventImg.find(img => img.id === eve.id) : null;
                                                             const imgSrc = matchingImg ? `https://skillety.onrender.com/images/${matchingImg.image}` : "assets/img/events/event-img.jpg";
@@ -187,7 +169,7 @@ const Events = ({ staffToken }) => {
                                                                         </div>
                                                                         <p className='cand--events-card-date'>{eve.date}</p>
                                                                         <a href={`/event-details/${eve.id}`} className="cand--events-card-bottom-area">
-                                                                            <span className='cand--event-sys'>SAVE YOUR SPOT</span>
+                                                                            <span className='cand--event-sys'>Know More</span>
                                                                             <span className='cand--events-card-arrow-area'>
                                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
                                                                                     <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#714F36" strokeWidth="2" />
@@ -196,13 +178,6 @@ const Events = ({ staffToken }) => {
                                                                                 </svg>
                                                                             </span>
                                                                         </a>
-                                                                        {staffToken &&
-                                                                            <div>
-                                                                                <button type="button" className="btn btn-danger" onClick={() => handleDelete(eve.id)}>Delete</button>
-                                                                                <button type="button" className="btn btn-outline-info" onClick={() => handleEdit(eve.id)}>Edit</button>
-                                                                            </div>
-
-                                                                        }
                                                                     </article>
                                                                 </div>
                                                             );
@@ -210,15 +185,180 @@ const Events = ({ staffToken }) => {
                                                     </div>
                                                 ))}
                                             </div>
-                                        }
-                                    </div>
+                                    </div>}
+
+                                    {/* blogs  */}
+                                    {blogDetail.length > 0 &&
+                                    <div className="con--where-container">
+                                        <p>Blogs</p>
+                                            <div className="cand--events-card-section">
+                                                {Array.from({ length: Math.ceil(blogDetail.length / 3) }).map((_, index) => (
+                                                    <div className="row" key={index}>
+                                                        {blogDetail.slice(index * 3, (index + 1) * 3).map((blog) => {
+                                                            const matchingImg = eventImg ? eventImg.find(img => img.id === blog.id) : null;
+                                                            const imgSrc = matchingImg ? `https://skillety.onrender.com/images/${matchingImg.image}` : "assets/img/events/event-img.jpg";
+
+                                                            return (
+                                                                <div key={blog.id} className="col-12 col-lg-4 col-xl-4 col-md-4 col-sm-10 offset-sm-1 offset-md-0 offset-lg-0 offset-xl-0 cand--events-card-area" data-aos="fade-up">
+                                                                    <article className='cand--events-card'>
+                                                                        <div className="cand--events-card-img-area">
+                                                                            <img src={imgSrc} className='cand--events-card-img' alt="" />
+                                                                        </div>
+                                                                        <div className="cand--events-card-title-area">
+                                                                            <h6 className='cand--events-card-title'>
+                                                                                {blog.title}
+                                                                            </h6>
+                                                                        </div>
+                                                                        <p className='cand--events-card-date'>{blog.date}</p>
+                                                                        <a href={blog.url} className="cand--events-card-bottom-area">
+                                                                            <span className='cand--event-sys'>Know More</span>
+                                                                            <span className='cand--events-card-arrow-area'>
+                                                                                <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
+                                                                                    <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#714F36" strokeWidth="2" />
+                                                                                    <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#714F36" strokeWidth="2" />
+                                                                                    <path d="M1 26L25.1667 1" stroke="#714F36" strokeWidth="2" />
+                                                                                </svg>
+                                                                            </span>
+                                                                        </a>
+                                                                    </article>
+                                                                </div>
+                                                            );
+                                                        })}
+                                                    </div>
+                                                ))}
+                                            </div>
+                                    </div>}
+
+                                    {/* videos  */}
+                                    {videoDetail.length > 0 &&
+                                    <div className="con--where-container">
+                                        <p>Videos</p>
+                                            <div className="cand--events-card-section">
+                                                {Array.from({ length: Math.ceil(videoDetail.length / 3) }).map((_, index) => (
+                                                    <div className="row" key={index}>
+                                                        {videoDetail.slice(index * 3, (index + 1) * 3).map((vdo) => {
+                                                            const matchingImg = eventImg ? eventImg.find(img => img.id === vdo.id) : null;
+                                                            const imgSrc = matchingImg ? `https://skillety.onrender.com/images/${matchingImg.image}` : "assets/img/events/event-img.jpg";
+
+                                                            return (
+                                                                <div key={vdo.id} className="col-12 col-lg-4 col-xl-4 col-md-4 col-sm-10 offset-sm-1 offset-md-0 offset-lg-0 offset-xl-0 cand--events-card-area" data-aos="fade-up">
+                                                                    <article className='cand--events-card'>
+                                                                        <div className="cand--events-card-img-area">
+                                                                            <img src={imgSrc} className='cand--events-card-img' alt="" />
+                                                                        </div>
+                                                                        <div className="cand--events-card-title-area">
+                                                                            <h6 className='cand--events-card-title'>
+                                                                                {vdo.title}
+                                                                            </h6>
+                                                                        </div>
+                                                                        <p className='cand--events-card-date'>{vdo.date}</p>
+                                                                        <a href={vdo.url} className="cand--events-card-bottom-area">
+                                                                            <span className='cand--event-sys'>Know More</span>
+                                                                            <span className='cand--events-card-arrow-area'>
+                                                                                <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
+                                                                                    <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#714F36" strokeWidth="2" />
+                                                                                    <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#714F36" strokeWidth="2" />
+                                                                                    <path d="M1 26L25.1667 1" stroke="#714F36" strokeWidth="2" />
+                                                                                </svg>
+                                                                            </span>
+                                                                        </a>
+                                                                    </article>
+                                                                </div>
+                                                            );
+                                                        })}
+                                                    </div>
+                                                ))}
+                                            </div>
+                                    </div>}
+
+                                    {/* podcasts  */}
+                                    {podcastDetail.length > 0 &&
+                                    <div className="con--where-container">
+                                        <p>Podcasts</p>
+                                            <div className="cand--events-card-section">
+                                                {Array.from({ length: Math.ceil(podcastDetail.length / 3) }).map((_, index) => (
+                                                    <div className="row" key={index}>
+                                                        {podcastDetail.slice(index * 3, (index + 1) * 3).map((pod) => {
+                                                            const matchingImg = eventImg ? eventImg.find(img => img.id === pod.id) : null;
+                                                            const imgSrc = matchingImg ? `https://skillety.onrender.com/images/${matchingImg.image}` : "assets/img/events/event-img.jpg";
+
+                                                            return (
+                                                                <div key={pod.id} className="col-12 col-lg-4 col-xl-4 col-md-4 col-sm-10 offset-sm-1 offset-md-0 offset-lg-0 offset-xl-0 cand--events-card-area" data-aos="fade-up">
+                                                                    <article className='cand--events-card'>
+                                                                        <div className="cand--events-card-img-area">
+                                                                            <img src={imgSrc} className='cand--events-card-img' alt="" />
+                                                                        </div>
+                                                                        <div className="cand--events-card-title-area">
+                                                                            <h6 className='cand--events-card-title'>
+                                                                                {pod.title}
+                                                                            </h6>
+                                                                        </div>
+                                                                        <p className='cand--events-card-date'>{pod.date}</p>
+                                                                        <a href={pod.url} className="cand--events-card-bottom-area">
+                                                                            <span className='cand--event-sys'>Know More</span>
+                                                                            <span className='cand--events-card-arrow-area'>
+                                                                                <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
+                                                                                    <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#714F36" strokeWidth="2" />
+                                                                                    <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#714F36" strokeWidth="2" />
+                                                                                    <path d="M1 26L25.1667 1" stroke="#714F36" strokeWidth="2" />
+                                                                                </svg>
+                                                                            </span>
+                                                                        </a>
+                                                                    </article>
+                                                                </div>
+                                                            );
+                                                        })}
+                                                    </div>
+                                                ))}
+                                            </div>
+                                    </div>}
+
+                                    {/* news  */}
+                                    {newsDetail.length > 0 &&
+                                    <div className="con--where-container">
+                                        <p>News</p>
+                                            <div className="cand--events-card-section">
+                                                {Array.from({ length: Math.ceil(newsDetail.length / 3) }).map((_, index) => (
+                                                    <div className="row" key={index}>
+                                                        {newsDetail.slice(index * 3, (index + 1) * 3).map((news) => {
+                                                            const matchingImg = eventImg ? eventImg.find(img => img.id === news.id) : null;
+                                                            const imgSrc = matchingImg ? `https://skillety.onrender.com/images/${matchingImg.image}` : "assets/img/events/event-img.jpg";
+
+                                                            return (
+                                                                <div key={news.id} className="col-12 col-lg-4 col-xl-4 col-md-4 col-sm-10 offset-sm-1 offset-md-0 offset-lg-0 offset-xl-0 cand--events-card-area" data-aos="fade-up">
+                                                                    <article className='cand--events-card'>
+                                                                        <div className="cand--events-card-img-area">
+                                                                            <img src={imgSrc} className='cand--events-card-img' alt="" />
+                                                                        </div>
+                                                                        <div className="cand--events-card-title-area">
+                                                                            <h6 className='cand--events-card-title'>
+                                                                                {news.title}
+                                                                            </h6>
+                                                                        </div>
+                                                                        <p className='cand--events-card-date'>{news.date}</p>
+                                                                        <a href={news.url} className="cand--events-card-bottom-area">
+                                                                            <span className='cand--event-sys'>Know More</span>
+                                                                            <span className='cand--events-card-arrow-area'>
+                                                                                <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
+                                                                                    <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#714F36" strokeWidth="2" />
+                                                                                    <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#714F36" strokeWidth="2" />
+                                                                                    <path d="M1 26L25.1667 1" stroke="#714F36" strokeWidth="2" />
+                                                                                </svg>
+                                                                            </span>
+                                                                        </a>
+                                                                    </article>
+                                                                </div>
+                                                            );
+                                                        })}
+                                                    </div>
+                                                ))}
+                                            </div>
+                                    </div>}
+                                    
                                 </div>
                             </div>
                         </div>
-                    </>
-                    {!staffToken && <CandidateFooter />}
-                </>
-            }
+                    <CandidateFooter />
         </>
 
 
