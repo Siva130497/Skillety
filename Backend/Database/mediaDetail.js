@@ -1,6 +1,6 @@
 const { Schema, model } = require("mongoose");
 
-const eventDetailSchema = new Schema(
+const mediaDetailSchema = new Schema(
   {
     id: {
       type: String,
@@ -26,8 +26,18 @@ const eventDetailSchema = new Schema(
       type: String,
       required: true
     },
+    url: {
+      type: String,
+      required: function() {
+        return this.type === 'blog' || "blog" || "video" || "podcast" || "news";
+      }
+    },
+    type: {
+      type: String,
+      required: true
+    },
   },
   { timestamps: true }
 );
 
-module.exports = model("eventDetail", eventDetailSchema);
+module.exports = model("mediaDetail", mediaDetailSchema);

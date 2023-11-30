@@ -10,10 +10,11 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import AuthContext from '../../context/AuthContext';
 import { v4 as uuidv4 } from "uuid";
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 const EventPosting = () => {
     const { getProtectedData } = useContext(AuthContext);
+    const {type} = useParams();
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -35,6 +36,7 @@ const EventPosting = () => {
     }
     const [eventDetail, setEventDetail] = useState(InitialEventDetail);
     const [eventImgUrl, setEventImgUrl] = useState("");
+    const [url, setUrl] = useState("");
 
     //for show success message for payment
     function showSuccessMessage(message) {
@@ -112,8 +114,8 @@ const EventPosting = () => {
             location:editingEventDetail.location,
           });
           setEventDate(editingEventDetail.date);
+          setUrl(editingEventDetail.url);
         }
-        
       }, [editingEventDetail]);
   
       useEffect(() => {
@@ -181,10 +183,10 @@ const EventPosting = () => {
         }
     };
 
-    const eventPosting = async (event) => {
+    const mediaPosting = async (media) => {
         if (image && dateString) {
             try {
-                const response = await axios.post('https://skillety.onrender.com/events', event, {
+                const response = await axios.post(`https://skillety.onrender.com/media`, media, {
                     headers: {
                         Authorization: `Bearer ${staffToken}`,
                         Accept: 'application/json'
@@ -195,8 +197,8 @@ const EventPosting = () => {
 
                 if (!result.error) {
                     console.log(result);
-                    showSuccessMessage("Event Posted Successfully");
-                    navigate("/posted-events");
+                    showSuccessMessage(`${type} Posted Successfully`);
+                    navigate(`/posted-media/${type}`);
                     // setEventDetail(InitialEventDetail);
                     // setSelectedDate(null);
                     // setDateString("");
@@ -207,7 +209,7 @@ const EventPosting = () => {
                 console.log(error);
             }
         } else {
-            showErrorMessage("select the event image and date");
+            showErrorMessage(`select the ${type} image and date`);
         }
 
     };
@@ -247,14 +249,28 @@ const EventPosting = () => {
         let event;
         if(!editingEventId){
           const id = uuidv4();
-          event = {
-            ...eventDetail,
-            id,
-            recruiterId:employeeId,
-            date: dateString,
-          };
-          console.log(event);
-          eventPosting(event);
+          if(type==="event"){
+            event = {
+                ...eventDetail,
+                id,
+                recruiterId:employeeId,
+                date: dateString,
+                type,
+              };
+              console.log(event);
+              mediaPosting(event);
+          }else{
+            event = {
+                ...eventDetail,
+                url,
+                id,
+                recruiterId:employeeId,
+                date: dateString,
+                type,
+              };
+              console.log(event);
+              mediaPosting(event);
+          }
           if(image){
             const formData = new FormData()
             formData.append('image', image);
@@ -315,10 +331,10 @@ const EventPosting = () => {
                     <section class="section">
                         <div className="post-job-section">
                             <div className="admin-component-name">
-                                Media Posting
+                                {type} Posting
                             </div>
                             <div className="card post-job-card">
-                                <div className="post-job-title">Post a Event/Blog/Video/Podcast/News </div>
+                                <div className="post-job-title">Post a {type} </div>
                                 {/* <div className="post-job-sub-title">Begin from scratch</div> */}
 
                                 <div className="job-post-form-area">
@@ -326,13 +342,13 @@ const EventPosting = () => {
                                         <div className="row m-b-35">
                                             <div className="col-12 col-xl-12">
                                                 <div className="job-post-form-group">
-                                                    <label htmlFor="" className='job-post-form-label'>Media Title<span className='form-required'>*</span></label>
+                                                    <label htmlFor="" className='job-post-form-label'>{type} Title<span className='form-required'>*</span></label>
                                                     <input type="text" className='job-post-form-input'
                                                         id='eventTitle'
                                                         name="title"
                                                         value={eventDetail.title}
                                                         onChange={handleInputChange}
-                                                        placeholder='Enter the event title...' />
+                                                        placeholder={`Enter the ${type} title...`} />
                                                 </div>
                                             </div>
                                         </div>
@@ -345,7 +361,7 @@ const EventPosting = () => {
                                                         name="description"
                                                         value={eventDetail.description}
                                                         onChange={handleInputChange}
-                                                        placeholder='Enter the event description...' id="event-description"
+                                                        placeholder={`Enter the ${type} description...`} id="event-description"
                                                         required></textarea>
                                                 </div>
                                             </div>
@@ -360,7 +376,7 @@ const EventPosting = () => {
                                                         name="location"
                                                         value={eventDetail.location}
                                                         onChange={handleInputChange}
-                                                        placeholder='Enter the event location...' />
+                                                        placeholder={`Enter the ${type} location...` }/>
                                                 </div>
                                             </div>
 
@@ -397,10 +413,24 @@ const EventPosting = () => {
                                             </div>
                                         </div>
 
+                                        {!(type === "event") && <div className="row m-b-35">
+                                            <div className="col-12 col-xl-12">
+                                                <div className="job-post-form-group">
+                                                    <label htmlFor="" className='job-post-form-label'>{type} Link<span className='form-required'>*</span></label>
+                                                    <input type="text" className='job-post-form-input'
+                                                        id='eventTitle'
+                                                        name="title"
+                                                        value={url}
+                                                        onChange={(e)=>setUrl(e.target.value)}
+                                                        placeholder={`Enter the ${type} link...`} />
+                                                </div>
+                                            </div>
+                                        </div>}
+
                                         <div className="row m-b-35">
                                             <div className="col-12 col-xl-12">
                                                 <div className="job-post-form-group">
-                                                    <label htmlFor="" className='job-post-form-label'>Media Image</label>
+                                                    <label htmlFor="" className='job-post-form-label'>{type} Image</label>
                                                     {(eventImgUrl.length > 0 || editingEventId) &&
                                                         <div className="event-preview-area">
                                                             <div className='event-preview-image-area'>
@@ -425,8 +455,8 @@ const EventPosting = () => {
                             </div>
                             <div className="post-job-btn-area">
                                 {editingEventId? <button className='post-job-btn' onClick={handleSubmit}>Update</button> : <button className='post-job-btn' onClick={handleSubmit}>Post</button>}
-                                <a href='/posted-events' className='post-job-btn yellow'>
-                                    Posted Events
+                                <a href={`/posted-media/${type}`} className='post-job-btn yellow'>
+                                    Posted {type}
                                     <i class="bi bi-box-arrow-up-right ml-3"></i>
                                 </a>
                             </div>

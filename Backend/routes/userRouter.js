@@ -258,8 +258,8 @@ router.post("/verification", verifying);
 //change the existing password with new password
 router.patch("/newpassword/:id", newPassword);
 
-//recruiter event posting endpoint
-router.post("/events", employeeAuth, eventPosting);
+//recruiter media posting endpoint
+router.post("/media", employeeAuth, eventPosting);
 
 //contact message sending end point
 router.post("/contact",  contactMessage);

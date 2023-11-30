@@ -14,7 +14,7 @@ const allUsers = require("../Database/allUsers");
 const employee = require("../Database/employee");
 const assignedCandidate = require("../Database/assignedCandidate");
 const forgotPasswordUser = require("../Database/forgotPasswordUsers");
-const eventDetail = require("../Database/eventDetail");
+const mediaDetail = require("../Database/mediaDetail");
 const contactDetail = require("../Database/contact");
 const contactCandidateDetail = require("../Database/contactCandidate");
 const clientPackage = require("../Database/clientPackage");
@@ -1386,12 +1386,12 @@ const newPassword = async(req, res) => {
 const eventPosting = async(req, res) => {
   console.log(req.body);
   try {
-    const newEvent = new eventDetail({
-      ...req.body,
-    });
-    await newEvent.save();
-    console.log(newEvent);
-    return res.status(201).json(newEvent);
+      const newMedia = new mediaDetail({
+        ...req.body,
+      });
+      await newMedia.save();
+      console.log(newMedia);
+      return res.status(201).json(newMedia);
   } catch (err) {
     return res.status(500).json({ error: err.message });
   }
@@ -1400,7 +1400,7 @@ const eventPosting = async(req, res) => {
 /* get all posted events of recruiters */
 const getAllEvents = async(req, res) => {
   try{
-    const allEventDetails = await eventDetail.find();
+    const allEventDetails = await mediaDetail.find({type:"event"});
     console.log(allEventDetails);
     return res.status(200).json(allEventDetails);
   }catch(err){
@@ -1410,7 +1410,7 @@ const getAllEvents = async(req, res) => {
 
 const getAllBlogs = async(req, res) => {
   try{
-    const allBlogDetails = await blogDetail.find();
+    const allBlogDetails = await mediaDetail.find({type:"blog"});
     console.log(allBlogDetails);
     return res.status(200).json(allBlogDetails);
   }catch(err){
@@ -1420,7 +1420,7 @@ const getAllBlogs = async(req, res) => {
 
 const getAllVideos = async(req, res) => {
   try{
-    const allVdoDetails = await vdoDetail.find();
+    const allVdoDetails = await mediaDetail.find({type:"video"});
     console.log(allVdoDetails);
     return res.status(200).json(allVdoDetails);
   }catch(err){
@@ -1430,7 +1430,7 @@ const getAllVideos = async(req, res) => {
 
 const getAllPodcasts = async(req, res) => {
   try{
-    const allPodcastDetails = await podcastDetail.find();
+    const allPodcastDetails = await mediaDetail.find({type:"podcast"});
     console.log(allPodcastDetails);
     return res.status(200).json(allPodcastDetails);
   }catch(err){
@@ -1440,7 +1440,7 @@ const getAllPodcasts = async(req, res) => {
 
 const getAllNews = async(req, res) => {
   try{
-    const allNewsDetails = await newsDetail.find();
+    const allNewsDetails = await mediaDetail.find({type:"news"});
     console.log(allNewsDetails);
     return res.status(200).json(allNewsDetails);
   }catch(err){
@@ -1452,11 +1452,11 @@ const getAllNews = async(req, res) => {
 const deleteEvent = async (req, res) => {
   const { id } = req.params;
   try {
-    const deletedEvent = await eventDetail.deleteOne({ id }); 
+    const deletedEvent = await mediaDetail.deleteOne({ id }); 
     if (deletedEvent.deletedCount === 0) {
-      return res.status(404).json({ error: 'Event not found' });
+      return res.status(404).json({ error: 'media not found' });
     }
-    return res.status(200).json({ message: 'Event deleted successfully' });
+    return res.status(200).json({ message: 'media deleted successfully' });
   } catch (err) {
     return res.status(500).json({ error: err.message });
   }
@@ -1467,12 +1467,12 @@ const anEvent = async(req, res) => {
   const {id} = req.params;
   console.log(id);
   try{
-    const event = await eventDetail.findOne({id});
+    const event = await mediaDetail.findOne({id});
     if(event){
       console.log(event);
       return res.status(200).json(event);
     }else{
-      return res.status(404).json({ error: 'Event not found' });
+      return res.status(404).json({ error: 'media not found' });
     }
   }catch (err) {
     return res.status(500).json({ error: err.message });
@@ -1485,14 +1485,14 @@ const changingEvent = async (req, res) => {
   const eventData = req.body; 
 
   try {
-    const updatedEvent = await eventDetail.findOneAndUpdate(
+    const updatedEvent = await mediaDetail.findOneAndUpdate(
       { id: id }, 
       eventData,
       { new: true }
     );
 
     if (!updatedEvent) {
-      return res.status(404).json({ message: 'Event not found' });
+      return res.status(404).json({ message: 'media not found' });
     }
 
     return res.status(200).json({ updatedEvent });

@@ -88,7 +88,7 @@ const NewNav = ({homeActive, aboutUsActive, searchCVActive, serviceActive, RPOAc
 
                 <nav id="navbar" className="navbar client navbar-expand-lg">
                     <ul>
-                        <li><div><a href="/" className={homeActive ? "nav-link scrollto active" : "nav-link scrollto"}>Home</a></div></li>
+                        {/* <li><div><a href="/" className={homeActive ? "nav-link scrollto active" : "nav-link scrollto"}>Home</a></div></li> */}
                         <li><a href="/about-us" className={aboutUsActive ? "nav-link scrollto active" : "nav-link scrollto"}>About Us</a></li>
                         <li><a href="/talent-profile-search" className={searchCVActive ? "nav-link scrollto active" : "nav-link scrollto"}>Search CV</a></li>
                         <li className="dropdown"><a href="#" className={serviceActive ? "nav-link scrollto active" : "nav-link scrollto"}><span>Services</span> <i className="bi bi-chevron-down"></i></a>
