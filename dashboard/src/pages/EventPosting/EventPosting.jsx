@@ -226,7 +226,7 @@ const EventPosting = () => {
       
               if (!result.message) {
                   console.log(result);
-                  showSuccessMessage("event has been updated");
+                  showSuccessMessage("Event has been updated.");
                   navigate("/posted-events");
                 //   setEditingEventId("");
                 //   setEventDetail(InitialEventDetail);

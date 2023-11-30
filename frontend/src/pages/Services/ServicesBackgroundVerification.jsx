@@ -117,7 +117,7 @@ const ServicesBackgroundVerification = () => {
                                                     </li>
                                                 </ul>
                                             </div> */}
-                      <div className="ser--cont-btn-area">
+                      {/* <div className="ser--cont-btn-area">
                         <a
                           href="#"
                           className="ser--cont-btn-sub"
@@ -150,7 +150,7 @@ const ServicesBackgroundVerification = () => {
                             </svg>
                           </div>
                         </a>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                   <div

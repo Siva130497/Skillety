@@ -95,7 +95,7 @@ const ServicesSkillAssessment = () => {
                                                     </li>
                                                 </ul>
                                             </div> */}
-                                            <div className="ser--cont-btn-area">
+                                            {/* <div className="ser--cont-btn-area">
                                                 <a href="#" className='ser--cont-btn-sub' data-aos="fade-left">
                                                     <div className='ser--cont-btn'>
                                                         Request a demo
@@ -108,7 +108,7 @@ const ServicesSkillAssessment = () => {
                                                         </svg>
                                                     </div>
                                                 </a>
-                                            </div>
+                                            </div> */}
                                         </div>
                                     </div>
                                 </div>

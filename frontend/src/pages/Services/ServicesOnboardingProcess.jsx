@@ -74,7 +74,7 @@ const ServicesOnboardingProcess = () => {
                                             <p className='ser--cont-title' data-aos="fade">
                                                 Covers the collection and re-evaluation of all necessary documents of an Employee who has joined. Basic information, Job Details, Work and Reporting details, Compensation & Benefits, Statutory documents, Educational Certificates, etc.
                                             </p>
-                                            <div className='ser--cont-list-area'>
+                                            {/* <div className='ser--cont-list-area'>
                                                 <ul>
                                                     <li className='ser--cont-list-item' data-aos="fade-left">
                                                         Lorem Ipsum is simply dummy text of the printing and typesetting industry.
@@ -92,8 +92,8 @@ const ServicesOnboardingProcess = () => {
                                                         Lorem Ipsum is simply dummy text of the printing and typesetting industry.
                                                     </li>
                                                 </ul>
-                                            </div>
-                                            <div className="ser--cont-btn-area">
+                                            </div> */}
+                                            {/* <div className="ser--cont-btn-area">
                                                 <a href="#" className='ser--cont-btn-sub' data-aos="fade-left">
                                                     <div className='ser--cont-btn'>
                                                         Request a demo
@@ -106,7 +106,7 @@ const ServicesOnboardingProcess = () => {
                                                         </svg>
                                                     </div>
                                                 </a>
-                                            </div>
+                                            </div> */}
                                         </div>
                                     </div>
                                 </div>
