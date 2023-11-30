@@ -116,7 +116,17 @@ const PostedEvents = () => {
                 })
                 .then(res => {
                     console.log(res.data);
-                    getEventDetail();
+                    if(type === "event"){
+                        getEventDetail();
+                    }else if(type === "blog"){
+                        getBlogsDetail();
+                    }else if(type === "video"){
+                        getVideoDetail();
+                    }else if(type === "podcast"){
+                        getPodcastDetail();
+                    }else if(type === "news"){
+                        getNewsDetail();
+                    }
                 }
                 )
                 .catch(err => console.log(err));
