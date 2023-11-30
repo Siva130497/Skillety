@@ -9,7 +9,7 @@ const mediaDetailSchema = new Schema(
     recruiterId: {
         type: String,
         required: true
-      },
+    },
     title: {
       type: String,
       required: true
@@ -29,7 +29,7 @@ const mediaDetailSchema = new Schema(
     url: {
       type: String,
       required: function() {
-        return this.type === 'blog' || "blog" || "video" || "podcast" || "news";
+        return ["blog", "video", "podcast", "news"].includes(this.type);
       }
     },
     type: {
