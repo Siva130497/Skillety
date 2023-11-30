@@ -184,6 +184,7 @@ const EventPosting = () => {
     };
 
     const mediaPosting = async (media) => {
+        console.log(media)
         if (image && dateString) {
             try {
                 const response = await axios.post(`https://skillety.onrender.com/media`, media, {
