@@ -90,7 +90,7 @@ const ServicesJobPosting = () => {
                                                     </li>
                                                 </ul>
                                             </div> */}
-                                            <div className="ser--cont-btn-area">
+                                            {/* <div className="ser--cont-btn-area">
                                                 <a href="#" className='ser--cont-btn-sub' data-aos="fade-left">
                                                     <div className='ser--cont-btn'>
                                                         Request a demo
@@ -103,7 +103,7 @@ const ServicesJobPosting = () => {
                                                         </svg>
                                                     </div>
                                                 </a>
-                                            </div>
+                                            </div> */}
                                         </div>
                                     </div>
                                     <div className="col-12 col-lg-7 col-md-12 ser--cont-img-area img--2" data-aos="fade" data-aos-delay="200">

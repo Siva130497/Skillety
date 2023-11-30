@@ -263,7 +263,7 @@ const Home = () => {
                       Welcome to the world’s first Recruitment Solutions Integrator, powered by an exclusive job board for Immediate Joiners.
                     </h5> */}
                   <h5 data-aos="fade-left" data-aos-delay="200">
-                  Welcome to the world’s only Job Portal for Immediate Joiners - guys who can Join you within 7 days or less!!!
+                    Welcome to the world’s only Job Portal for Immediate Joiners - guys who can Join you within 7 days or less!!!
                   </h5>
                   <h6 data-aos="fade-right" data-aos-delay="300">
                     Search For Talents
@@ -537,11 +537,11 @@ const Home = () => {
                     </div>
                     <div className="service--content-area">
                       <div className="service--card-headarea">
-                        <h3>ONBOARDING PROCESS</h3>
+                        <h3>BACKGROUND VERIFICATION</h3>
                         <img src="assets/img/home-images/verification.png" className='verification-icon' alt="" />
                       </div>
                       <p className='service--content'>
-                        Covers the collection and re-evaluation of all necessary documents of an Employee who has joined. Basic information, Job Details, Work and Reporting details, Compensation & Benefits, Statutory documents, Educational Certificates, etc.
+                        Before releasing the Offer, do a quick sanity check if it's a fake profile or not, with our BGV-Lite services. Also do a detailed 360-degree Background Verification after the candidate joins – all from the Skillety platform.
                       </p>
                       <div className='service-know-morearea'>
                         <a href="/services" className='service--know-more'>
@@ -564,15 +564,14 @@ const Home = () => {
                     </div>
                     <div className="service--content-area">
                       <div className="service--card-headarea">
-                        <h3>BACKGROUND VERIFICATION</h3>
-                        <img src="assets/img/home-images/interview.png" className='interview-icon' alt="" />
+                        <h3>RPO-LITE</h3>
+                        <img src="assets/img/home-images/rpo.png" className='interview-icon' alt="" />
                       </div>
                       {/* <p className='service--content'>
                           Before releasing the Offer, do a quick sanity check if it's a fake profile or not, with our BGV-Lite services. Also do a 360-degree Background Verification after the candidate joins.
                         </p> */}
                       <p className='service--content'>
-                        Before releasing the Offer, do a quick sanity check if it's a fake profile or not, with our BGV-Lite services. Also do a detailed 360-degree Background Verification after the candidate joins – all from the Skillety platform.
-                      </p>
+                        This Is Specifically Designed For Companies Who Would Want To Test Run The RPO Model First, And Then Decide. We Take Up Hiring Requirements From One Or Few Projects On Exclusivity, And Close Them In Record Time, First. The Results Will Determine Whether You Want To Upgrade To An Enterprise RPO (Or Not), Based On Solid Proof.                      </p>
                       <div className='service-know-morearea'>
                         <a href="/services" className='service--know-more'>
                           <div className='service--know-more-btn'>Know more

@@ -506,16 +506,14 @@ const HomeCandidate = () => {
                 const jobOpening = (allJobs.filter(job => job.companyId === company.companyId)).length
                 return jobOpening > 0 && (
                   <div className="row company--content-row custom-row-border-top">
-                    <div className="col-12 col-xl-2 col-lg-2 col-sm-6 col-md-3 company--content-img-area">
+                    <div className="col-12 col-xl-2 col-lg-2 col-sm-4 col-md-4 company--content-img-area">
                       <img src={imgSrc} data-aos="fade" className='company--content-img cand-home' loading='lazy' alt="" />
                     </div>
-                    <div className="col-12 col-xl-3 col-lg-3 col-sm-6 col-md-4 home--company-name-area">
-                      <div className='home-company-name' data-aos="zoom-out">{company.companyName}</div>
-                    </div>
-                    <div className="col-12 col-xl-4 col-lg-4 col-sm-6 col-md-5 company--content-jobs-area">
+                    <div className="col-12 col-xl-3 col-lg-3 col-sm-8 col-md-8 company--content-jobs-area">
                       <div className='company--content-jobs' data-aos="zoom-out">{jobOpening}<span> Jobs Opening</span></div>
+                      <div className='home-company-name mt-2' data-aos="zoom-out">{company.companyName}</div>
                     </div>
-                    <div className="col-12 col-xl-3 col-lg-3 col-md-12 company--content-desc-area">
+                    <div className="col-12 col-xl-7 col-lg-7 col-md-12 company--content-desc-area">
                       <p className='company--content-desc' data-aos="fade-left">{company.shortDescription}</p>
                       <div className='company--content-apply-btn-area' data-aos="fade-right">
                         <a href={`/company-details/${company.companyId}`} className='company--content-apply-btn'>

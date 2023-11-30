@@ -22,4 +22,7 @@
     .comp-det-card.profile {
         padding: 30px;
     }
+    .home--slider-btn-area{
+        justify-content: center;
+    }
 }
