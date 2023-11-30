@@ -14,6 +14,11 @@ export const AuthContextProvider = ({children}) => {
     const [clientImg, setClientImg] = useState();
     const [packageSelectionDetail, setPackageSelectionDetail] = useState();
 
+    const [blogDetail, setBlogDetail] = useState([]);
+    const [videoDetail, setVideoDetail] = useState([]);
+    const [podcastDetail, setPodcastDetail] = useState([]);
+    const [newsDetail, setNewsDetail] = useState([]);
+
     //user login request
     const loginUser = async (userData) => {
         try {
@@ -103,6 +108,70 @@ export const AuthContextProvider = ({children}) => {
         .catch(err=>console.log(err))
     }
 
+    const getBlogsDetail = async() => {
+        try{
+            const res = await axios.get(`https://skillety.onrender.com/blogs`);
+            const result = res.data;
+            if (!result.error) {
+              console.log(result);
+              setBlogDetail(result);
+            } else {
+              console.log(result);
+            }
+        }catch(err){
+          console.log(err);
+          
+        }
+    }
+
+    const getVideoDetail = async() => {
+        try{
+            const res = await axios.get(`https://skillety.onrender.com/videos`);
+            const result = res.data;
+            if (!result.error) {
+              console.log(result);
+              setVideoDetail(result);
+            } else {
+              console.log(result);
+            }
+        }catch(err){
+          console.log(err);
+          
+        }
+    }
+
+    const getPodcastDetail = async() => {
+        try{
+            const res = await axios.get(`https://skillety.onrender.com/podcasts`);
+            const result = res.data;
+            if (!result.error) {
+              console.log(result);
+              setPodcastDetail(result);
+            } else {
+              console.log(result);
+            }
+        }catch(err){
+          console.log(err);
+          
+        }
+    }
+
+    const getNewsDetail = async() => {
+        try{
+            const res = await axios.get(`https://skillety.onrender.com/news`);
+            const result = res.data;
+            if (!result.error) {
+              console.log(result);
+              setNewsDetail(result);
+            } else {
+              console.log(result);
+            }
+        }catch(err){
+          console.log(err);
+          
+        }
+    }
+
     const getCandidateImg = async() => {
         axios.get('https://skillety.onrender.com/candidate-image')
         .then(res=>{
@@ -141,7 +210,7 @@ export const AuthContextProvider = ({children}) => {
       }
 
 
-    return<AuthContext.Provider value={{candidateReg, loginUser, getProtectedData, errorMsg, setErrorMsg, eventDetail, getEventDetail, getEventImg, eventImg, getCandidateImg, candidateImg, getClientImg, clientImg, getClientChoosenPlan, packageSelectionDetail}}>
+    return<AuthContext.Provider value={{candidateReg, loginUser, getProtectedData, errorMsg, setErrorMsg, eventDetail, getEventDetail, getEventImg, eventImg, blogDetail, getBlogsDetail,videoDetail, getVideoDetail, podcastDetail, getPodcastDetail, newsDetail, getNewsDetail, getCandidateImg, candidateImg, getClientImg, clientImg, getClientChoosenPlan, packageSelectionDetail}}>
             {children}
         </AuthContext.Provider>
 }

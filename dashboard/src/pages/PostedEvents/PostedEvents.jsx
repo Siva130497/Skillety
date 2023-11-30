@@ -8,13 +8,14 @@ import AuthContext from '../../context/AuthContext';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 
 const PostedEvents = () => {
+    const {type} = useParams();
     const navigate = useNavigate();
-    const { eventDetail, getEventDetail, getEventImg, eventImg } = useContext(AuthContext);
-    const [selectedEventViewDetail, setSelectedEventViewDetail] = useState();
+    const { eventDetail, getEventDetail, getEventImg, eventImg, blogDetail, getBlogsDetail,videoDetail, getVideoDetail, podcastDetail, getPodcastDetail, newsDetail, getNewsDetail, } = useContext(AuthContext);
+    const [selectedMediaViewDetail, setSelectedMediaViewDetail] = useState();
     const [image, setImage] = useState("");
     const [staffToken, setStaffToken] = useState("");
 
@@ -44,17 +45,47 @@ const PostedEvents = () => {
     }, []);
 
     useEffect(() => {
-        getEventDetail();
         getEventImg();
-    }, []);
+        if(type === "event"){
+            getEventDetail();
+        }else if(type === "blog"){
+            getBlogsDetail();
+        }else if(type === "video"){
+            getVideoDetail();
+        }else if(type === "podcast"){
+            getPodcastDetail();
+        }else if(type === "news"){
+            getNewsDetail();
+        }
+    }, [type]);
 
     useEffect(() => {
         setStaffToken(JSON.parse(localStorage.getItem('staffToken')))
     }, [staffToken])
 
+    const getDataArray = (type) => {
+        switch (type) {
+          case 'event':
+            return eventDetail;
+          case 'blog':
+            return blogDetail;
+          case 'video':
+            return videoDetail;
+          case 'podcast':
+            return podcastDetail;
+          case 'news':
+            return newsDetail;
+          default:
+            return null;
+        }
+      };
+      
+      const data = getDataArray(type);
+
     const handleViewEventDetail = (id) => {
-        const selectedEvent = eventDetail.find(eve => eve.id === id);
-        setSelectedEventViewDetail(selectedEvent);
+
+            const selectedObj = data.find(obj => obj.id === id);
+            setSelectedMediaViewDetail(selectedObj);
 
         const matchingImg = eventImg ? eventImg.find(img => img.id === id) : null;
     
@@ -123,7 +154,7 @@ const PostedEvents = () => {
                     <section class="section">
                         <div className="my-app-section">
                             <div className="admin-component-name">
-                                Posted Events
+                                Posted {type}s
                             </div>
 
                             <div className="row">
@@ -134,11 +165,11 @@ const PostedEvents = () => {
                                             <div className='man-app-title-area candidate'>
                                                 <div>
                                                     <div className="man-app-title">
-                                                        Posted Events Details
+                                                        Posted {type}s Details
                                                     </div>
                                                     <div className="man-app-sub-title">
-                                                        Total Events :&nbsp;
-                                                        <span>{eventDetail.length}</span>
+                                                        Total {type}s :&nbsp;
+                                                        <span>{data ? data.length : 0}</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -153,7 +184,8 @@ const PostedEvents = () => {
                                                     </tr>
 
                                                     {/* table data */}
-                                                    {eventDetail.map((eve, index)=>{
+                                                    
+                                                    {data.map((eve, index)=>{
                                                         const editingEventId = eve.id;
                                                         return(
                                                             <tr className='dash-table-row client' key={eve.id}>
@@ -168,7 +200,7 @@ const PostedEvents = () => {
                                                                 <td className='text-center'>
                                                                     <div className="action-btn-area">
                                                                         <a href=''onClick={()=>{
-                                                                            navigate('/event-posting', { state: { editingEventId } });
+                                                                            navigate(`/media-posting/${type}`, { state: { editingEventId } });
                                                                         }}className='job-edit-btn' title='Edit event details...'>
                                                                             <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
                                                                                 <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
@@ -214,9 +246,9 @@ const PostedEvents = () => {
                                                 </button>}
                                                 <div className='pag-page'>
                                                     <span className='current-page'>{Math.ceil(x[0] / 10) + 1}</span>&nbsp;/&nbsp;
-                                                    <span className='total-page'>{Math.ceil(eventDetail.length / 10)}</span>
+                                                    <span className='total-page'>{Math.ceil(data.length / 10)}</span>
                                                 </div>
-                                                {((eventDetail.slice(x[0], x[1]).length === 10 && eventDetail.length > x[1])) && <button className='pag-next-btn' onClick={() => setX([x[0] + 10, x[1] + 10])}>
+                                                {((data.slice(x[0], x[1]).length === 10 && data.length > x[1])) && <button className='pag-next-btn' onClick={() => setX([x[0] + 10, x[1] + 10])}>
                                                     <i class="bi bi-chevron-right"></i>
                                                 </button>}
                                             </div>
@@ -265,7 +297,7 @@ const PostedEvents = () => {
                                             <div className="view-det-head">Event Title</div>
                                         </div>
                                         <div className="col-12 col-sm-8">
-                                            <div className="view-det-sub-head text-capitalized">{selectedEventViewDetail?.title}</div>
+                                            <div className="view-det-sub-head text-capitalized">{selectedMediaViewDetail?.title}</div>
                                         </div>
                                     </div>
                                     <hr />
@@ -274,7 +306,7 @@ const PostedEvents = () => {
                                             <div className="view-det-head">Location</div>
                                         </div>
                                         <div className="col-12 col-sm-8">
-                                            <div className="view-det-sub-head text-capitalized">{selectedEventViewDetail?.location}</div>
+                                            <div className="view-det-sub-head text-capitalized">{selectedMediaViewDetail?.location}</div>
                                         </div>
                                     </div>
                                     <hr />
@@ -283,7 +315,7 @@ const PostedEvents = () => {
                                             <div className="view-det-head">Date</div>
                                         </div>
                                         <div className="col-12 col-sm-8">
-                                            <div className="view-det-sub-head">{selectedEventViewDetail?.date}</div>
+                                            <div className="view-det-sub-head">{selectedMediaViewDetail?.date}</div>
                                         </div>
                                     </div>
                                     <hr />
@@ -292,7 +324,7 @@ const PostedEvents = () => {
                                             <div className="view-det-head">Description</div>
                                         </div>
                                         <div className="col-12 col-sm-8">
-                                            <div className="view-det-sub-head">{selectedEventViewDetail?.description}</div>
+                                            <div className="view-det-sub-head">{selectedMediaViewDetail?.description}</div>
                                         </div>
                                     </div>
                                 </div>

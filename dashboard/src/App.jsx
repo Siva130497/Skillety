@@ -76,8 +76,8 @@ function App() {
         <Route path='/non-approval-jobs' element={<NonApprovalJobs />} />
         <Route path='/posted-jobs' element={<PostedJobs />} />
         <Route path='/job-posting' element={<PostingJob />} />
-        <Route path='/event-posting' element={<EventPosting />} />
-        <Route path='/posted-events' element={<PostedEvents />} />
+        <Route path='/media-posting/:type' element={<EventPosting />} />
+        <Route path='/posted-media/:type' element={<PostedEvents />} />
         <Route path='/enquiry-details' element={<EnquiryDetails />} />
         <Route path='/candidate-contact-message' element={<CandidateContact />} />
         <Route path='/client-contact-message' element={<ClientContact />} />
