@@ -184,6 +184,7 @@ const PostedEvents = () => {
                                                 </div>
                                             </div>
 
+                                            {data.length > 0 ?
                                             <div className="table-responsive table-scroll-area">
                                                 <table className="table table-striped table-hover admin-lg-table">
                                                     <tr className='dash-table-row man-app'>
@@ -194,7 +195,6 @@ const PostedEvents = () => {
                                                     </tr>
 
                                                     {/* table data */}
-                                                    
                                                     {data.map((eve, index)=>{
                                                         const editingEventId = eve.id;
                                                         return(
@@ -238,7 +238,13 @@ const PostedEvents = () => {
                                                     
 
                                                 </table>
+                                            </div> :
+                                            <div className="no-data-created-area">
+                                            <div className='no-data-created'>
+                                                <img src="../assets/img/no-data/no-data-img.png" className='no-data-img' alt="" />
+                                                <div className='no-data-text'>No {type} Posted Yet..!</div>
                                             </div>
+                                        </div>}
                                         </div>
 
                                         {/* <div className="view-application-btn-area text-center">
@@ -337,6 +343,15 @@ const PostedEvents = () => {
                                             <div className="view-det-sub-head">{selectedMediaViewDetail?.description}</div>
                                         </div>
                                     </div>
+                                    <hr />
+                                    {!(type==="event")&& <div className="row">
+                                        <div className="col-12 col-sm-4">
+                                            <div className="view-det-head">Link</div>
+                                        </div>
+                                        <div className="col-12 col-sm-8">
+                                            <div className="view-det-sub-head">{selectedMediaViewDetail?.url}</div>
+                                        </div>
+                                    </div>}
                                 </div>
                             </div>
                             <div className="modal-footer recruiter-view-modal-footer bg-whitesmoke br">

@@ -229,8 +229,8 @@ const EventPosting = () => {
       
               if (!result.message) {
                   console.log(result);
-                  showSuccessMessage("Event has been updated.");
-                  navigate("/posted-events");
+                  showSuccessMessage(`${type} has been updated.`);
+                  navigate(`/posted-media/${type}`);
                 //   setEditingEventId("");
                 //   setEventDetail(InitialEventDetail);
                 //     setSelectedDate(null);
@@ -290,14 +290,30 @@ const EventPosting = () => {
           }
         }
         if(editingEventId){
-          event={
-            ...eventDetail,
-            id:editingEventDetail.id,
-            recruiterId:editingEventDetail.recruiterId,
-            date:eventDate,
-          }
-          console.log(event);
-          changingEvent(event);
+            let event;
+            if(type==="event"){
+                event={
+                    ...eventDetail,
+                    id:editingEventDetail.id,
+                    recruiterId:editingEventDetail.recruiterId,
+                    date:eventDate,
+                    type,
+                  }
+                  console.log(event);
+                  changingEvent(event);
+            }else{
+                event={
+                    ...eventDetail,
+                    id:editingEventDetail.id,
+                    recruiterId:editingEventDetail.recruiterId,
+                    date:eventDate,
+                    type,
+                    url,
+                  }
+                  console.log(event);
+                  changingEvent(event);
+            }
+          
           if(image){
             const formData = new FormData()
             formData.append('image', image);
