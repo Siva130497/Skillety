@@ -115,7 +115,14 @@ const EnquiryDetails = () => {
                                                     </div>
                                                 </div>
                                             </div>
-
+                                            {enquiryFormDetails.length === 0 ?
+                                                <div className="no-data-created-area">
+                                                    <div className='no-data-created'>
+                                                        <img src="../assets/img/no-data/no-data-img.png" className='no-data-img' alt="" />
+                                                        <div className='no-data-text'>No Enquiry Found Yet..!</div>
+                                                    </div>
+                                                </div>
+                                                :
                                             <div className="table-responsive table-scroll-area">
                                                 <table className="table table-striped table-hover admin-lg-table">
                                                     <tr className='dash-table-row man-app'>
@@ -164,6 +171,7 @@ const EnquiryDetails = () => {
 
                                                 </table>
                                             </div>
+}
                                         </div>
 
                                         {/* <div className="view-application-btn-area text-center">

@@ -18,7 +18,8 @@ const HomeCandidate = () => {
 
   const navigate = useNavigate();
 
-  const { eventDetail, getEventDetail, getEventImg, eventImg, getClientImg, clientImg } = useContext(AuthContext);
+  const { eventDetail, getEventDetail, getEventImg, eventImg, blogDetail, getBlogsDetail,  
+    videoDetail, getVideoDetail,  podcastDetail, getPodcastDetail,  newsDetail, getNewsDetail,  getClientImg, clientImg } = useContext(AuthContext);
   const [allJobs, setAllJobs] = useState([]);
   const [allCompany, setAllCompany] = useState([]);
 
@@ -112,6 +113,14 @@ const HomeCandidate = () => {
   useEffect(() => {
     getEventDetail();
     getEventImg();
+    getBlogsDetail();
+    // getBlogImg();
+    getVideoDetail();
+    // getVideoImg();
+    getPodcastDetail();
+    // getPodcastImg();
+    getNewsDetail();
+    // getNewsImg();
     getPostedjobs();
     getClientImg();
     getAllSkills();
@@ -1104,12 +1113,13 @@ const HomeCandidate = () => {
         </div>
       </div >
 
-      {eventDetail.length > 0 &&
+      
+      {(eventDetail.length > 0 || blogDetail.length> 0 || videoDetail.length>0 || podcastDetail.length> 0 || newsDetail.length>0) &&
         <section className='custom--mobile-padding candidate cand--home-event-section'>
           <div className='candidate--section candidate'>
             <div className='home--about-toparea'>
               <div className='home--about-headarea'>
-                <h6 data-aos="fade-down">Events</h6>
+                <h6 data-aos="fade-down">Medias</h6>
                 <h4 className='candidate--heading candidate' data-aos="fade-up">Webinars, Job Fairs, <br /> <span>Walk-in Interviews,</span> etc.</h4>
               </div>
               <div className='home--know-more-area'>
@@ -1128,6 +1138,8 @@ const HomeCandidate = () => {
               </div>
             </div>
           </div>
+
+          {/* events */}
           <div className="candidate--slider-area" data-aos="fade-left">
             <Swiper
               modules={[Navigation, Autoplay]}
@@ -1170,7 +1182,7 @@ const HomeCandidate = () => {
                         {eve.date}
                       </p>
                       <a href={`/event-details/${eve.id}`} className="cand--events-card-bottom-area">
-                        <span className='cand--event-sys'>SAVE YOUR SPOT</span>
+                        <span className='cand--event-sys'>Know More</span>
                         <span className='cand--events-card-arrow-area'>
                           <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
                             <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#714F36" strokeWidth="2" />
@@ -1331,6 +1343,246 @@ const HomeCandidate = () => {
             </Swiper>
 
           </div>
+
+          {/* blogs  */}
+          <div className="candidate--slider-area" data-aos="fade-left">
+            <Swiper
+              modules={[Navigation, Autoplay]}
+              spaceBetween={20}
+              slidesPerView={3.5}
+              loop={false}
+              speed={1500}
+              navigation={{
+                nextEl: '.swiper-button-next5',
+                prevEl: '.swiper-button-prev5',
+              }}
+              grabCursor={true}
+              breakpoints={breakpoints}
+              onSlideChange={() => console.log('slide change')}
+              onSwiper={(swiper) => console.log(swiper)}
+              autoplay={{
+                delay: 5000,
+                waitForTransition: true,
+                // stopOnLastSlide: false,
+                disableOnInteraction: false,
+              }}
+
+            >
+              {blogDetail.map(blog => {
+                const matchingImg = eventImg ? eventImg.find(img => img.id === blog.id) : null;
+                const imgSrc = matchingImg ? `https://skillety.onrender.com/images/${matchingImg.image}` : "assets/img/events/event-img.jpg";
+
+                return (
+                  <SwiperSlide key={blog.id}>
+                    <article className='cand--events-card candidate'>
+                      <div className="cand--events-card-img-area">
+                        <img src={imgSrc} className='cand--events-card-img' alt="" />
+                      </div>
+                      <div className="cand--events-card-title-area">
+                        <h6 className='cand--events-card-title'>
+                          {blog.title}
+                        </h6>
+                      </div>
+                      <p className='cand--events-card-date'>
+                        {blog.date}
+                      </p>
+                      <a href={blog.url} className="cand--events-card-bottom-area">
+                        <span className='cand--event-sys'>Know More</span>
+                        <span className='cand--events-card-arrow-area'>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
+                            <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#714F36" strokeWidth="2" />
+                            <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#714F36" strokeWidth="2" />
+                            <path d="M1 26L25.1667 1" stroke="#714F36" strokeWidth="2" />
+                          </svg>
+                        </span>
+                      </a>
+                    </article>
+                  </SwiperSlide>
+                );
+              })}
+            </Swiper>
+
+          </div>
+
+          {/* videos  */}
+          <div className="candidate--slider-area" data-aos="fade-left">
+            <Swiper
+              modules={[Navigation, Autoplay]}
+              spaceBetween={20}
+              slidesPerView={3.5}
+              loop={false}
+              speed={1500}
+              navigation={{
+                nextEl: '.swiper-button-next5',
+                prevEl: '.swiper-button-prev5',
+              }}
+              grabCursor={true}
+              breakpoints={breakpoints}
+              onSlideChange={() => console.log('slide change')}
+              onSwiper={(swiper) => console.log(swiper)}
+              autoplay={{
+                delay: 5000,
+                waitForTransition: true,
+                // stopOnLastSlide: false,
+                disableOnInteraction: false,
+              }}
+
+            >
+              {videoDetail.map(vdo => {
+                const matchingImg = eventImg ? eventImg.find(img => img.id === vdo.id) : null;
+                const imgSrc = matchingImg ? `https://skillety.onrender.com/images/${matchingImg.image}` : "assets/img/events/event-img.jpg";
+
+                return (
+                  <SwiperSlide key={vdo.id}>
+                    <article className='cand--events-card candidate'>
+                      <div className="cand--events-card-img-area">
+                        <img src={imgSrc} className='cand--events-card-img' alt="" />
+                      </div>
+                      <div className="cand--events-card-title-area">
+                        <h6 className='cand--events-card-title'>
+                          {vdo.title}
+                        </h6>
+                      </div>
+                      <p className='cand--events-card-date'>
+                        {vdo.date}
+                      </p>
+                      <a href={vdo.url} className="cand--events-card-bottom-area">
+                        <span className='cand--event-sys'>Know More</span>
+                        <span className='cand--events-card-arrow-area'>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
+                            <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#714F36" strokeWidth="2" />
+                            <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#714F36" strokeWidth="2" />
+                            <path d="M1 26L25.1667 1" stroke="#714F36" strokeWidth="2" />
+                          </svg>
+                        </span>
+                      </a>
+                    </article>
+                  </SwiperSlide>
+                );
+              })}
+            </Swiper>
+
+          </div>
+
+          {/* podcast  */}
+          <div className="candidate--slider-area" data-aos="fade-left">
+            <Swiper
+              modules={[Navigation, Autoplay]}
+              spaceBetween={20}
+              slidesPerView={3.5}
+              loop={false}
+              speed={1500}
+              navigation={{
+                nextEl: '.swiper-button-next5',
+                prevEl: '.swiper-button-prev5',
+              }}
+              grabCursor={true}
+              breakpoints={breakpoints}
+              onSlideChange={() => console.log('slide change')}
+              onSwiper={(swiper) => console.log(swiper)}
+              autoplay={{
+                delay: 5000,
+                waitForTransition: true,
+                // stopOnLastSlide: false,
+                disableOnInteraction: false,
+              }}
+
+            >
+              {podcastDetail.map(pod => {
+                const matchingImg = eventImg ? eventImg.find(img => img.id === pod.id) : null;
+                const imgSrc = matchingImg ? `https://skillety.onrender.com/images/${matchingImg.image}` : "assets/img/events/event-img.jpg";
+
+                return (
+                  <SwiperSlide key={pod.id}>
+                    <article className='cand--events-card candidate'>
+                      <div className="cand--events-card-img-area">
+                        <img src={imgSrc} className='cand--events-card-img' alt="" />
+                      </div>
+                      <div className="cand--events-card-title-area">
+                        <h6 className='cand--events-card-title'>
+                          {pod.title}
+                        </h6>
+                      </div>
+                      <p className='cand--events-card-date'>
+                        {pod.date}
+                      </p>
+                      <a href={pod.url} className="cand--events-card-bottom-area">
+                        <span className='cand--event-sys'>Know More</span>
+                        <span className='cand--events-card-arrow-area'>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
+                            <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#714F36" strokeWidth="2" />
+                            <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#714F36" strokeWidth="2" />
+                            <path d="M1 26L25.1667 1" stroke="#714F36" strokeWidth="2" />
+                          </svg>
+                        </span>
+                      </a>
+                    </article>
+                  </SwiperSlide>
+                );
+              })}
+            </Swiper>
+
+          </div>
+
+          {/* news  */}
+          <div className="candidate--slider-area" data-aos="fade-left">
+            <Swiper
+              modules={[Navigation, Autoplay]}
+              spaceBetween={20}
+              slidesPerView={3.5}
+              loop={false}
+              speed={1500}
+              navigation={{
+                nextEl: '.swiper-button-next5',
+                prevEl: '.swiper-button-prev5',
+              }}
+              grabCursor={true}
+              breakpoints={breakpoints}
+              onSlideChange={() => console.log('slide change')}
+              onSwiper={(swiper) => console.log(swiper)}
+              autoplay={{
+                delay: 5000,
+                waitForTransition: true,
+                // stopOnLastSlide: false,
+                disableOnInteraction: false,
+              }}
+
+            >
+              {newsDetail.map(news => {
+                const matchingImg = eventImg ? eventImg.find(img => img.id === news.id) : null;
+                const imgSrc = matchingImg ? `https://skillety.onrender.com/images/${matchingImg.image}` : "assets/img/events/event-img.jpg";
+
+                return (
+                  <SwiperSlide key={news.id}>
+                    <article className='cand--events-card candidate'>
+                      <div className="cand--events-card-img-area">
+                        <img src={imgSrc} className='cand--events-card-img' alt="" />
+                      </div>
+                      <div className="cand--events-card-title-area">
+                        <h6 className='cand--events-card-title'>
+                          {news.title}
+                        </h6>
+                      </div>
+                      <p className='cand--events-card-date'>
+                        {news.date}
+                      </p>
+                      <a href={news.url} className="cand--events-card-bottom-area">
+                        <span className='cand--event-sys'>Know More</span>
+                        <span className='cand--events-card-arrow-area'>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
+                            <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#714F36" strokeWidth="2" />
+                            <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#714F36" strokeWidth="2" />
+                            <path d="M1 26L25.1667 1" stroke="#714F36" strokeWidth="2" />
+                          </svg>
+                        </span>
+                      </a>
+                    </article>
+                  </SwiperSlide>
+                );
+              })}
+            </Swiper>
+
+          </div> 
 
           <div className="home--slider-btn-area" data-aos="fade-up">
             <div className='tal--pro-slider-btn-sub'>

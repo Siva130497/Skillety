@@ -288,12 +288,19 @@ const ClientNavBar = () => {
                   Settings
                 </a> */}
 
-                <a href="" onClick={()=>{
+                {/* <a href="" onClick={()=>{
                   localStorage.removeItem("clientToken");
-                  window.open(`https://skillety-frontend.onrender.com/client-login`, '_blank');
+                  window.open(`https://skillety-frontend.onrender.com/client-login`);
                   }} className="dropdown-logout-btn">
                   <i class="bi bi-box-arrow-right mr-3"></i>
                   Log Out
+                </a> */}
+                <a href="#" onClick={()=>{
+                  localStorage.removeItem("clientToken");
+                  window.location.href = 'https://skillety-frontend.onrender.com/client-login'
+                  }} className="dropdown-logout-btn">
+                  <i class="bi bi-box-arrow-right mr-3"></i>
+                  Log Out pls
                 </a>
               </div>
             </div>

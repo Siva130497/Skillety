@@ -315,10 +315,10 @@ const EventPosting = () => {
                     <section class="section">
                         <div className="post-job-section">
                             <div className="admin-component-name">
-                                Event Posting
+                                Media Posting
                             </div>
                             <div className="card post-job-card">
-                                <div className="post-job-title">Post an Event </div>
+                                <div className="post-job-title">Post a Event/Blog/Video/Podcast/News </div>
                                 {/* <div className="post-job-sub-title">Begin from scratch</div> */}
 
                                 <div className="job-post-form-area">
@@ -326,7 +326,7 @@ const EventPosting = () => {
                                         <div className="row m-b-35">
                                             <div className="col-12 col-xl-12">
                                                 <div className="job-post-form-group">
-                                                    <label htmlFor="" className='job-post-form-label'>Event Title<span className='form-required'>*</span></label>
+                                                    <label htmlFor="" className='job-post-form-label'>Media Title<span className='form-required'>*</span></label>
                                                     <input type="text" className='job-post-form-input'
                                                         id='eventTitle'
                                                         name="title"
@@ -371,7 +371,7 @@ const EventPosting = () => {
                                                         name='eventTitle'
                                                         id='eventTitle'
                                                         placeholder='Enter the event title...' /> */}
-                                                    {editingEventId && 
+                                                    {/* {editingEventId && 
                                                         <div>
                                                             <input 
                                                                 type="text" 
@@ -383,12 +383,13 @@ const EventPosting = () => {
                                                                 placeholder="event date"
                                                                 required />
                                                                 <p>if you want to change the date of the event change it below</p>
-                                                        </div>}
+                                                        </div>} */}
                                                     <div>
                                                         <DatePicker
                                                             selected={selectedDate}
                                                             onChange={handleDateChange}
                                                             dateFormat="dd/MM/yyyy"
+                                                            value={eventDate}
                                                             placeholderText='dd/mm/yyyy'
                                                         />
                                                     </div>
@@ -399,17 +400,8 @@ const EventPosting = () => {
                                         <div className="row m-b-35">
                                             <div className="col-12 col-xl-12">
                                                 <div className="job-post-form-group">
-                                                    <label htmlFor="" className='job-post-form-label'>Event Image</label>
-                                                    {editingEventId && 
-                                                        <div>
-                                                            <iframe src={eventImgUrl} title="Event Image iframe" ></iframe>
-                                                        <p>if you want to change the image of the event change it below</p>
-                                                        </div>}
-                                                    <div className="custom-file ats">
-                                                        <input type="file" className="custom-file-input ats" id="customFile" name="filename" onChange={e => setImage(e.target.files[0])} />
-                                                        <label className="custom-file-label ats" for="customFile">{fileName || 'Choose file...'}</label>
-                                                    </div>
-                                                    {eventImgUrl.length > 0 &&
+                                                    <label htmlFor="" className='job-post-form-label'>Media Image</label>
+                                                    {(eventImgUrl.length > 0 || editingEventId) &&
                                                         <div className="event-preview-area">
                                                             <div className='event-preview-image-area'>
                                                                 <img src={eventImgUrl} className='event-preview-image' title='Event Image' alt="Event Image" />
@@ -418,8 +410,13 @@ const EventPosting = () => {
                                                             title='Clear the image file...' onClick={handleClearFile}>
                                                                 <span>Clear</span>
                                                             </button>
+                                                            {/* <p>if you want to change the image of the event change it below</p> */}
                                                         </div>
                                                     }
+                                                    <div className="custom-file ats">
+                                                        <input type="file" className="custom-file-input ats" id="customFile" name="filename" onChange={e => setImage(e.target.files[0])} />
+                                                        <label className="custom-file-label ats" for="customFile">{fileName || 'Choose file...'}</label>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
