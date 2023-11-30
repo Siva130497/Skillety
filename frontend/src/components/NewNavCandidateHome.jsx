@@ -91,11 +91,11 @@ export const NewNavCandidateHome = ({homeActive, aboutUsActive, searchJobActive,
 
                 <nav id="navbar" className="navbar candidate navbar-expand-lg">
                     <ul>
-                        <li><div><a href="/candidate-home" className={homeActive ? "nav-link scrollto active" : "nav-link scrollto"}>Home</a></div></li>
+                        {/* <li><div><a href="/candidate-home" className={homeActive ? "nav-link scrollto active" : "nav-link scrollto"}>Home</a></div></li> */}
                         <li><a href="/candidate-about-us" className={aboutUsActive ? "nav-link scrollto active" : "nav-link scrollto"}>About Us</a></li>
                         <li><a href="/job-search" className={searchJobActive ? "nav-link scrollto active" : "nav-link scrollto"}>Search Jobs</a></li>
                         {/* <li><a href="#" className="nav-link scrollto">Companies</a></li> */}
-                        <li><a href="/events" className={eventsActive ? "nav-link scrollto active" : "nav-link scrollto"}>Event</a></li>
+                        <li><a href="/events" className={eventsActive ? "nav-link scrollto active" : "nav-link scrollto"}>Medias</a></li>
                         <li><a href="/talent-contact-us" className={contactActive ? "nav-link scrollto active" : "nav-link scrollto"}>Contact</a></li>
                         {userName ?
                             <li className="dropdown"><a href='#'><span>{extractLastName()}</span><i className="bi bi-chevron-down"></i></a>

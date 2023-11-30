@@ -38,6 +38,7 @@ import NonApprovalJobs from './pages/NonApprovalJobs/NonApprovalJobs';
 import RecruiterLogin from './pages/RecruiterLogin/RecruiterLogin';
 import JobEditingRecruiter from './pages/EditJob recruiter/JobEditingRecruiter';
 import AppliedCandidateRecruiter from './pages/AppliedCandidate Recruiter/AppliedCandidateRecruiter';
+import AllCompanyStaff from './pages/AllCompanyStaff/AllCompanyStaff';
 
 
 function App() {
@@ -82,6 +83,9 @@ function App() {
         <Route path='/client-contact-message' element={<ClientContact />} />
         <Route path='/edit-job-recruiter/:id' element={<JobEditingRecruiter />} />
         <Route path='/applied-candidate-recruiter/:id' element={<AppliedCandidateRecruiter />} />
+
+        {/* admin pages */}
+        <Route path='/all-company-staff' element={<AllCompanyStaff />} />
 
       </Routes>
     </AuthContextProvider>

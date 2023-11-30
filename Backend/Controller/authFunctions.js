@@ -1408,6 +1408,46 @@ const getAllEvents = async(req, res) => {
   }
 }
 
+const getAllBlogs = async(req, res) => {
+  try{
+    const allBlogDetails = await blogDetail.find();
+    console.log(allBlogDetails);
+    return res.status(200).json(allBlogDetails);
+  }catch(err){
+    return res.status(500).json({ error: err.message });
+  }
+}
+
+const getAllVideos = async(req, res) => {
+  try{
+    const allVdoDetails = await vdoDetail.find();
+    console.log(allVdoDetails);
+    return res.status(200).json(allVdoDetails);
+  }catch(err){
+    return res.status(500).json({ error: err.message });
+  }
+}
+
+const getAllPodcasts = async(req, res) => {
+  try{
+    const allPodcastDetails = await podcastDetail.find();
+    console.log(allPodcastDetails);
+    return res.status(200).json(allPodcastDetails);
+  }catch(err){
+    return res.status(500).json({ error: err.message });
+  }
+}
+
+const getAllNews = async(req, res) => {
+  try{
+    const allNewsDetails = await newsDetail.find();
+    console.log(allNewsDetails);
+    return res.status(200).json(allNewsDetails);
+  }catch(err){
+    return res.status(500).json({ error: err.message });
+  }
+}
+
 /* delete the event by recruiter */
 const deleteEvent = async (req, res) => {
   const { id } = req.params;
@@ -2499,6 +2539,10 @@ module.exports = {
    newPassword,
    eventPosting,
    getAllEvents,
+   getAllBlogs,
+  getAllVideos,
+  getAllPodcasts,
+  getAllNews,
    deleteEvent,
    anEvent,
    changingEvent,
