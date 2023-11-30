@@ -117,6 +117,10 @@
     .company--content-img.cand-home {
         width: 100%;
     }
+
+    .home-company-name{
+        margin: 0 !important;
+    }
 }
 
 @media (max-width:500px) {

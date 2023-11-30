@@ -106,11 +106,12 @@ const NewNav = ({homeActive, aboutUsActive, searchCVActive, serviceActive, RPOAc
                                 <li><a href="/job-posting">Job Posting</a></li>
                                 <li><a href="/skill-assessment">Skill Assessment</a></li>
                                 <li><a href="/interview-as-a-service">Interview as a Service</a></li>
-                                <li><a href="/onboarding-process">Onboarding Process</a></li>
+                                {/* <li><a href="/onboarding-process">Onboarding Process</a></li> */}
                                 <li><a href="/background-verification">Background Verification</a></li>
+                                <li><a href="/rpo">RPO</a></li>
                             </ul>
                         </li>
-                        <li><a className={RPOActive ? "nav-link scrollto active" : "nav-link scrollto"} href="/rpo">RPO</a></li>
+                        {/* <li><a className={RPOActive ? "nav-link scrollto active" : "nav-link scrollto"} href="/rpo">RPO</a></li> */}
                         <li><a className={contactActive ? "nav-link scrollto active" : "nav-link scrollto"} href="/contact-us">Contact</a></li>
                         {userName ? 
                             <li className="dropdown"><a href='#'><span>{extractLastName()}</span><i className="bi bi-chevron-down"></i></a>

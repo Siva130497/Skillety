@@ -68,8 +68,10 @@
 
     .company--content-jobs-area {
         display: flex;
-        align-items: center;
-        justify-content: flex-end;
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 8px;
+        justify-content: center;
     }
 
     .company--content-desc-area {
@@ -136,6 +138,7 @@
     .company--content-jobs-area {
         justify-content: center;
         margin-top: 20px;
+        align-items: center;
     }
     .company--content-jobs-area .company--content-jobs{
         font-size: 20px;
