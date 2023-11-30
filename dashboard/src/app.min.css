@@ -6677,9 +6677,14 @@ a.close.disabled {
 
 .modal-header .close {
     padding: 1rem 1rem;
-    margin: -1rem -1rem -1rem auto
+    margin: -1rem -1rem -1rem auto;
+    outline: none !important;
+    border: none !important;
 }
-
+.modal-header .close:focus{
+    outline: none !important;
+    border: none !important;
+}
 .modal-title {
     margin-bottom: 0;
     line-height: 1.5

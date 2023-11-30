@@ -221,16 +221,17 @@ const ATSNavBar = () => {
                             <span className="d-sm-none d-lg-inline-block"></span>
                         </a>
                         <div className="dropdown-menu dropdown-menu-right pullDown profile-dropdown-menu">
-                            <div className="dropdown-top-area">
+                            <div className="dropdown-top-area mb-4">
                                 <img src="../assets/img/talents-images/avatar.jpg" className='dropdown-user-img' alt="" />
                                 <div className='dropdown-user-detail-area'>
                                     <div className="dropdown-user-name">{extractLastName()}</div>
                                     {/* <div className="dropdown-user-role">UX Designer, India</div> */}
                                 </div>
                             </div>
-                            <a href="#" className="dropdown-view-pro-btn">
+                            {/* <a href="#" className="dropdown-view-pro-btn">
                                 View Profile
-                            </a>
+                            </a> */}
+                            <hr />
                             <div className="dropdown-btn-link-area">
                                 {/* <a href="#" className="dropdown-acc-btn">
                                     <i class="bi bi-person-fill mr-3"></i>

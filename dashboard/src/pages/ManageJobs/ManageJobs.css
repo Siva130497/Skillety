@@ -114,6 +114,10 @@
     border-radius: 8px !important;
 }
 
+.swal2-container .swal2-cancel:focus{
+    box-shadow: none !important;
+}
+
 .status-change-btn {
     font-size: 13px;
     font-weight: 600;

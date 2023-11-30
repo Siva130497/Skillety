@@ -24,6 +24,9 @@ const AllClients = () => {
 
     useEffect(() => {
         $(document).ready(function () {
+            $(".cli-tal-pro-search-page-btn").on("click", function () {
+                $("html, body").animate({ scrollTop: 0 }, "slow");
+            });
         });
 
     }, []);
@@ -175,7 +178,7 @@ const AllClients = () => {
                                                             <th className='dash-table-head'>Email ID</th>
                                                             <th className='dash-table-head'>Email Status</th>
                                                             <th className='dash-table-head text-center'>Send Email</th>
-                                                            <th className='text-center'>View</th>
+                                                            <th className='dash-table-head text-center'>View</th>
                                                         </tr>
 
                                                         {/* table data */}

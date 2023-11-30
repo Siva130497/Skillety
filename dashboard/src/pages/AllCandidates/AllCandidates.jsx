@@ -233,7 +233,7 @@ const AllCandidates = () => {
                                                             <th className='dash-table-head'>Email ID</th>
                                                             <th className='dash-table-head'>Phone No.</th>
                                                             <th className='dash-table-head text-center'>Send an interview invitation</th>
-                                                            <th className='text-center'>View</th>
+                                                            <th className='dash-table-head text-center'>View</th>
                                                         </tr>
 
 

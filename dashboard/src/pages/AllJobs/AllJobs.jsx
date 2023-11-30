@@ -363,7 +363,7 @@ const AllJobs = () => {
                                                             <th className='dash-table-head'>No.</th>
                                                             <th className='dash-table-head'>Job Role</th>
                                                             <th className='dash-table-head'>Job Category</th>
-                                                            <th className='text-center'>View</th>
+                                                            <th className='dash-table-head text-center'>View</th>
                                                         </tr>
 
                                                         {/* table data */}

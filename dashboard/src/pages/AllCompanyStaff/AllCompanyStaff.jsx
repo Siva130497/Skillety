@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { useEffect } from 'react';
 import ATSLayout from '../../components/ATSLayout';
 import Footer from '../../components/Footer';
-import './AllClients.css';
-import './AllClients-responsive.css';
+import './AllCompanyStaff.css';
+import './AllCompanyStaff-responsive.css';
 import $ from 'jquery';
 import axios from 'axios';
 import Swal from 'sweetalert2';
@@ -49,25 +49,25 @@ const AllCompanyStaff = () => {
         });
     }
 
-    const getAllRecruiters = async() => {
-        try{
+    const getAllRecruiters = async () => {
+        try {
             const res = await axios.get(`https://skillety.onrender.com/all-recruiters`, {
-              headers: {
-                  Authorization: `Bearer ${staffToken}`,
-                  Accept: 'application/json'
-              }
+                headers: {
+                    Authorization: `Bearer ${staffToken}`,
+                    Accept: 'application/json'
+                }
             });
             const result = res.data;
             if (!result.error) {
-              console.log(result);
-              setAllRecruiters(result);
+                console.log(result);
+                setAllRecruiters(result);
             } else {
-              console.log(result);
+                console.log(result);
             }
-        }catch(err){
-          console.log(err);
+        } catch (err) {
+            console.log(err);
         }
-      }
+    }
 
     useEffect(() => {
         if (staffToken) {
@@ -77,11 +77,11 @@ const AllCompanyStaff = () => {
     }, [staffToken]);
 
     const handleViewRecruiterDetail = (id) => {
-        const selectedRecruiter = allRecruiters.find(recruiter=> recruiter.id === id);
+        const selectedRecruiter = allRecruiters.find(recruiter => recruiter.id === id);
         setSelectedRecruiterViewDetail(selectedRecruiter);
-      }
+    }
 
-      const handleRemove = (id) => {
+    const handleRemove = (id) => {
         Swal.fire({
             title: 'Are you sure?',
             text: 'You won\'t be able to revert this!',
@@ -92,26 +92,32 @@ const AllCompanyStaff = () => {
             confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
             if (result.isConfirmed) {
-                
-                    axios.delete(`https://skillety.onrender.com/delete-recruiter/${id}`, {
-                      headers: {
-                          Authorization: `Bearer ${staffToken}`,
-                          Accept: 'application/json'
-                      }
-                    })
-                    .then(res=>{
+
+                axios.delete(`https://skillety.onrender.com/delete-recruiter/${id}`, {
+                    headers: {
+                        Authorization: `Bearer ${staffToken}`,
+                        Accept: 'application/json'
+                    }
+                })
+                    .then(res => {
                         console.log(res.data)
                         showSuccessMessage("recruiter successfully removed from company!");
                         getAllRecruiters();
                     })
-                    .catch(err=>{
+                    .catch(err => {
                         console.log(err)
                         showErrorMessage();
                     })
             }
         });
-      }
-    
+    }
+
+    const [showPassword, setShowPassword] = useState(false);
+
+    const handleTogglePassword = () => {
+        setShowPassword(!showPassword);
+    };
+
     return (
         <div>
             <div class="main-wrapper main-wrapper-1">
@@ -123,20 +129,33 @@ const AllCompanyStaff = () => {
                     <section class="section">
                         <div className="my-app-section">
                             <div className="admin-component-name">
-                                All Clients
+                                Company Staffs
                             </div>
 
                             <div className="row">
                                 <div className="col-12">
                                     <div className="admin-lg-table-section">
                                         <div className='admin-lg-table-area man-app'>
-                                            <div className='man-app-title-area'>
-                                                <div className="man-app-title">
-                                                    All Company Staff Details
+                                            <div className='man-app-title-area custom-flex-area'>
+                                                <div>
+                                                    <div className="man-app-title">
+                                                        Company Staffs Details
+                                                    </div>
+                                                    <div className="man-app-sub-title">
+                                                        Total Staffs :&nbsp;
+                                                        <span>{allRecruiters.length}</span>
+                                                    </div>
                                                 </div>
-                                                <div className="man-app-sub-title">
-                                                    Total Staffs :&nbsp;
-                                                    <span>{allRecruiters.length}</span>
+                                                <div className="create-btn-area">
+                                                    <button
+                                                        className='btn creat-data-btn'
+                                                        data-toggle="modal"
+                                                        title='Create new staff...'
+                                                        data-target="#staffCreateModal"
+                                                    >
+                                                        <i class="bi bi-person-plus-fill"></i>
+                                                        <span>Create New</span>
+                                                    </button>
                                                 </div>
                                             </div>
                                             {allRecruiters.length === 0 ?
@@ -154,7 +173,7 @@ const AllCompanyStaff = () => {
                                                             <th className='dash-table-head'>Full Name</th>
                                                             <th className='dash-table-head'>Email ID</th>
                                                             <th className='dash-table-head'>Staff Type</th>
-                                                            <th className='text-center'>Action</th>
+                                                            <th className='dash-table-head text-center'>Action</th>
                                                         </tr>
 
                                                         {/* table data */}
@@ -174,7 +193,7 @@ const AllCompanyStaff = () => {
                                                                     </td>
                                                                     <td className='text-center'>
                                                                         <div className="action-btn-area">
-                                                                            <button className='job-view-btn' data-toggle="modal" title='View contact message details...' data-target="#recruiterViewModal" onClick={()=>handleViewRecruiterDetail(recruiter.id)}>
+                                                                            <button className='job-view-btn' data-toggle="modal" title='View staff details...' data-target="#staffViewModal" onClick={() => handleViewRecruiterDetail(recruiter.id)}>
                                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
                                                                                     <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
                                                                                     <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"
@@ -182,7 +201,7 @@ const AllCompanyStaff = () => {
                                                                                 </svg>
                                                                             </button>
 
-                                                                            <button className='job-delete-btn' data-toggle="modal" title='Delete contact message data...' data-target="#contactMsgdeleteModal" onClick={()=>handleRemove(recruiter.id)}>
+                                                                            <button className='job-delete-btn' data-toggle="modal" title='Delete contact message data...' data-target="#contactMsgdeleteModal" onClick={() => handleRemove(recruiter.id)}>
                                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
                                                                                     <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
                                                                                 </svg>
@@ -226,13 +245,13 @@ const AllCompanyStaff = () => {
                     </section>
                 </div>
 
-                {/* Clients details view modal here */}
-                <div className="modal fade" id="recruiterViewModal" tabindex="-1" role="dialog" aria-labelledby="clientsViewModalLabel"
+                {/* Comapny staff details view modal here */}
+                <div className="modal fade" id="staffViewModal" tabindex="-1" role="dialog" aria-labelledby="staffViewModalLabel"
                     aria-hidden="true">
                     <div className="modal-dialog modal-lg" role="document">
                         <div className="modal-content recruiter-view-modal">
                             <div className="modal-header recruiter-view-modal-header">
-                                <h5 className="modal-title recruiter-view-modal-title client" id="clientsViewModalLabel">
+                                <h5 className="modal-title recruiter-view-modal-title client" id="staffViewModalLabel">
                                     Company Staff Details_
                                 </h5>
                                 <a href='#' type="button" className="close recruiter-view-close" data-dismiss="modal" aria-label="Close">
@@ -311,6 +330,135 @@ const AllCompanyStaff = () => {
                         </div>
                     </div>
                 </div>
+                {/*  */}
+
+                {/* Comapny staff details view modal here */}
+                <div className="modal fade" id="staffCreateModal" tabindex="-1" role="dialog" aria-labelledby="staffCreateModalLabel"
+                    aria-hidden="true">
+                    <div className="modal-dialog modal-lg" role="document">
+                        <div className="modal-content recruiter-view-modal">
+                            <div className="modal-header recruiter-view-modal-header">
+                                <h5 className="modal-title recruiter-view-modal-title client" id="staffCreateModalLabel">
+                                    Create new staff_
+                                </h5>
+                                <a href='#' type="button" className="close recruiter-view-close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true"><i class="bi bi-x close-icon"></i></span>
+                                </a>
+                            </div>
+                            <form>
+                                <div className="modal-body">
+                                    <div className="card p-4 recruiter-view-card">
+                                        <div className="row">
+                                            <div className="col-12 col-sm-12 col-md-12 col-lg-6">
+                                                <div className="dash-form-group">
+                                                    <label htmlFor="name" className='dash-form-label'>Staff Name<span className='form-required'>*</span></label>
+                                                    <input
+                                                        type="text"
+                                                        id="staff_name"
+                                                        aria-describedby="staffName"
+                                                        name="name"
+                                                        placeholder="Enter the staff name"
+                                                        className='form-control dash-form-input'
+                                                        required
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="col-12 col-sm-12 col-md-12 col-lg-6">
+                                                <div className="dash-form-group">
+                                                    <label htmlFor="email" className='dash-form-label'>Email Address<span className='form-required'>*</span></label>
+                                                    <input
+                                                        type="email"
+                                                        id="email"
+                                                        aria-describedby="email"
+                                                        name="email"
+                                                        placeholder="example@example.com"
+                                                        className='form-control dash-form-input'
+                                                        required
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="col-12 col-sm-12 col-md-12 col-lg-6">
+                                                <div className="dash-form-group">
+                                                    <label htmlFor="phone" className='dash-form-label'>Phone No.<span className='form-required'>*</span></label>
+                                                    <input
+                                                        type="number"
+                                                        id="phone"
+                                                        aria-describedby="mobileNo"
+                                                        name="phone"
+                                                        placeholder="0XXXX XXXX XXX"
+                                                        className='form-control dash-form-input'
+                                                        required
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="col-12 col-sm-12 col-md-12 col-lg-6">
+                                                <div className="dash-form-group">
+                                                    <label htmlFor="companyStaff" className='dash-form-label'>Staff Type<span className='form-required'>*</span></label>
+                                                    <i class="bi bi-chevron-down toggle-icon"></i>
+                                                    <select
+                                                        name="companyStaff"
+                                                        id="companyStaff"
+                                                        className='form-control dash-form-input select-input'
+                                                        required>
+                                                        <option value="" disabled selected>-- Select type of company staff --</option>
+                                                        <option value="HR">HR</option>
+                                                        <option value="Operator">Operator</option>
+                                                        <option value="Finance">Finance</option>
+                                                        <option value="Customer support executive">Customer support executive</option>
+                                                        <option value="digitalmarketing team">digitalmarketing team</option>
+                                                        <option value="RMG">RMG</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div className="col-12 col-sm-12 col-md-12 col-lg-12">
+                                                <div className="dash-form-group">
+                                                    <label htmlFor="password" className='dash-form-label'>Password<span className='form-required'>*</span></label>
+                                                    <div className='row'>
+                                                        <div className="col-12 col-sm-12 col-lg-6">
+                                                            <input
+                                                                type={showPassword ? 'text' : 'password'}
+                                                                id="password"
+                                                                aria-describedby="password"
+                                                                name="password"
+                                                                // value={credentials.password}
+                                                                placeholder="Company staff password"
+                                                                className='form-control dash-form-input'
+                                                                required
+                                                            />
+                                                            {/* {credentials.password ? */}
+                                                            <i className={`bi ${showPassword ? 'bi-eye' : 'bi-eye-slash'} password-view-icon`}
+                                                                onClick={handleTogglePassword}
+                                                                id='togglePassword'>
+                                                            </i>
+                                                            {/* : null} */}
+                                                        </div>
+                                                        <div className="col-12 col-sm-12 col-lg-6 pl-lg-0 mt-3 mt-lg-0 generate-btn-area">
+                                                            <button
+                                                                type="button"
+                                                                className="btn generate-btn"
+                                                                title='Generate Password'
+                                                            // onClick={handleGeneratePassword}
+                                                            >
+                                                                Generate
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="modal-footer recruiter-view-modal-footer bg-whitesmoke br">
+                                    <button className="btn save-btn" type='submit'>
+                                        Save
+                                    </button>
+                                    <button type="button" className="btn close-modal-btn" data-dismiss="modal">Close</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                {/*  */}
 
                 <Footer />
             </div >
