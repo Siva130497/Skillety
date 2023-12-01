@@ -319,7 +319,7 @@ const HomeCandidate = () => {
                       >{selectResult}</span>
                     ))}
                   </div>
-                  <input type="search" data-aos="fade-down" data-aos-delay="200" className='home--search-box candidate form-control'
+                  <input type="search" data-aos="fade-up" data-aos-delay="200" className='home--search-box candidate form-control'
                     placeholder='Enter keywords like skills, designation'
                     value={searchInput}
                     onChange={handleSearch}

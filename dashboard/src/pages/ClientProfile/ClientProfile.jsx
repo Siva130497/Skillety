@@ -545,136 +545,86 @@ const ClientProfile = () => {
     };
 
     useEffect(() => {
-        $(document).ready(function () {
-            $(".profile--name-edit-btn").click(function () {
-                var $nameEditSection = $(this).closest(".profile--name-edit-section");
-                var $changeNameInput = $nameEditSection.find(".profile-name-edit-input-area");
+        // Function to handle scrolling to the target
+        const handleScroll = (event) => {
+            const target = $($(event.currentTarget).attr('href'));
+            if (target.length) {
+                event.preventDefault();
+                $('html, body').animate({
+                    scrollTop: target.offset().top - 100
+                }, 800);
+            }
+        };
 
-                if ($changeNameInput.is(":visible")) {
-                    // Collapse the text area
-                    $changeNameInput.slideUp();
-                    $(this).removeClass("expanded");
-                    $(this).find("i").removeClass("bi-x").addClass("bi-pencil");
-                } else {
-                    // Expand the text area
-                    $changeNameInput.slideDown();
-                    $(this).addClass("expanded");
-                    $(this).find("i").removeClass("bi-pencil").addClass("bi-x");
-                }
-            });
+        // Function to handle click on profile content top area
+        const handleProfileContentClick = (event) => {
+            // Toggle the content area
+            $(event.currentTarget).siblings(".cli-profile-content-area").toggleClass("expanded");
 
-            $(".prof-more-det-edit-btn").on("click", function () {
-                var $changeInputSection = $(this).closest(".prof-more-det-area");
-                var $changeInputArea = $changeInputSection.find(".prof-more-det-input-area");
+            // Toggle the chevron icon
+            const icon = $(event.currentTarget).find("i");
+            icon.toggleClass("bi-chevron-down bi-chevron-up");
+        };
 
-                // var type = $(this).data("type");
-                if ($changeInputArea.is(":visible")) {
-                    $changeInputArea.slideUp();
-                    $(this).removeClass("expanded");
-                    $(this).find("i").removeClass("bi-x").addClass("bi-pencil");
-                    // $(this).text("Change " + type);
-                } else {
-                    $changeInputArea.slideDown();
-                    $(this).addClass("expanded");
-                    $(this).find("i").removeClass("bi-pencil").addClass("bi-x");
-                    // $(this).text("Cancel");
-                }
-            });
+        // Attach event listeners when the component mounts
+        $('.pro-quick-link').on('click', handleScroll);
+        $(".profile-content-top-area").on('click', handleProfileContentClick);
 
-            $(".cli-pro-add-input-btn").on("click", function () {
-                var $changeInputSection = $(this).closest(".add-more-input-field-area");
-                var $changeInputArea = $changeInputSection.find(".add-more-input-area");
+        // Set up initial state when the component mounts
+        const firstTopArea = $(".profile-content-top-area:first");
+        firstTopArea.siblings(".cli-profile-content-area").addClass("expanded");
+        firstTopArea.find("i").toggleClass("bi-chevron-down bi-chevron-up");
 
-                var type = $(this).data("type");
-                if ($changeInputArea.is(":visible")) {
-                    $changeInputArea.slideUp();
-                    $(this).removeClass("expanded");
-                    $(this).text("Add " + type);
-                } else {
-                    $changeInputArea.slideDown();
-                    $(this).addClass("expanded");
-                    $(this).text("Cancel");
-                }
-            });
-
-            $(".profile-content-more-inputs-edit-btn").on("click", function () {
-                var $changeInputSection = $(this).closest(".more-inputs-area");
-                var $changeInputArea = $changeInputSection.find(".profile-content-more-input-area");
-
-                var type = $(this).data("type");
-                if ($changeInputArea.is(":visible")) {
-                    $changeInputArea.slideUp();
-                    $(this).removeClass("expanded");
-                    $(this).text("Add " + type);
-                } else {
-                    $changeInputArea.slideDown();
-                    $(this).addClass("expanded");
-                    $(this).text("Cancel");
-                }
-            });
-
-            $(".personal-det-add-btn").on("click", function () {
-                var $changeInputSection = $(this).closest(".personal-detail-section");
-                var $changeInputArea = $changeInputSection.find(".personal-det-add-input-area");
-
-                var type = $(this).data("type");
-                if ($changeInputArea.is(":visible")) {
-                    $changeInputArea.slideUp();
-                    $(this).removeClass("expanded");
-                    $(this).text("Add " + type);
-                } else {
-                    $changeInputArea.slideDown();
-                    $(this).addClass("expanded");
-                    $(this).text("Cancel");
-                }
-            });
-
-            $('.pro-quick-link').on('click', function (event) {
-                var target = $($(this).attr('href'));
-                if (target.length) {
-                    event.preventDefault();
-                    $('html, body').animate({
-                        scrollTop: target.offset().top - 100
-                    }, 800);
-                }
-            });
-
-            // Open modal when the button is clicked
-            $(".image-view-btn").on("click", function () {
-                $("#imageModal").css("display", "flex");
-                $("#modalImage").attr("src", $(".profile-det-image").attr("src"));
-            });
-
-            // Close modal when the close button is clicked
-            $(".image-view-close").on("click", function () {
-                $("#imageModal").css("display", "none");
-            });
-
-            // Close modal when clicking outside the modal content
-            $(window).on("click", function (event) {
-                if (event.target == $("#imageModal")[0]) {
-                    $("#imageModal").css("display", "none");
-                }
-            });
-
-
-            //////
-            // Initially toggle the first profile-content-area
-            let firstTopArea = $(".profile-content-top-area:first");
-            firstTopArea.siblings(".cli-profile-content-area").addClass("expanded");
-            firstTopArea.find("i").toggleClass("bi-chevron-down bi-chevron-up");
-
-            $(".profile-content-top-area").click(function () {
-                // Toggle the content area
-                $(this).siblings(".cli-profile-content-area").toggleClass("expanded");
-
-                // Toggle the chevron icon
-                let icon = $(this).find("i");
-                icon.toggleClass("bi-chevron-down bi-chevron-up");
-            });
+        // Open modal when the button is clicked
+        $(".image-view-btn").on("click", function () {
+            $("#imageModal").css("display", "flex");
+            $("#modalImage").attr("src", $(".profile-det-image").attr("src"));
         });
 
+        // Close modal when the close button is clicked
+        $(".image-view-close").on("click", function () {
+            $("#imageModal").css("display", "none");
+        });
+
+        // Close modal when clicking outside the modal content
+        $(window).on("click", function (event) {
+            if (event.target == $("#imageModal")[0]) {
+                $("#imageModal").css("display", "none");
+            }
+        });
+
+        return () => {
+            $('.pro-quick-link').off('click', handleScroll);
+            $(".profile-content-top-area").off('click', handleProfileContentClick);
+        };
     }, [id, clientToken, companyDetail, clientImg, clientImgUrl, checkBox, selectedBenefits, companyInfo, awardList]);
+
+    /////////////
+    const [isNameExpanded, setisNameExpanded] = useState(false);
+    const handleNameChangeToggle = () => {
+        setisNameExpanded((prev) => !prev);
+    };
+
+    const [isComTypeExpanded, setisComTypeExpanded] = useState(false);
+    const handleComTypeChangeToggle = () => {
+        setisComTypeExpanded((prev) => !prev);
+    };
+
+    const [isLocationExpanded, setisLocationExpanded] = useState(false);
+    const handleLocationChangeToggle = () => {
+        setisLocationExpanded((prev) => !prev);
+    };
+
+    const [isBenefitExpanded, setisBenefitExpanded] = useState(false);
+    const handleBenefitChangeToggle = () => {
+        setisBenefitExpanded((prev) => !prev);
+    };
+
+    const [isDetailExpanded, setisDetailExpanded] = useState(false);
+    const handleDetailChangeToggle = () => {
+        setisDetailExpanded((prev) => !prev);
+    };
+    //////////////
 
     return (
         <div>
@@ -715,11 +665,13 @@ const ClientProfile = () => {
                                                     <div className="profile--name-edit-section">
                                                         <div className="profile--name-area">
                                                             <div className="profile--name text-capitalized">{companyDetail?.companyName}</div>
-                                                            <button className='profile--name-edit-btn'>
-                                                                <i class="bi bi-pencil profile--name-edit-icon"></i>
+                                                            <button
+                                                                className={`profile--name-edit-btn ${isNameExpanded ? 'expanded' : ''}`}
+                                                                onClick={handleNameChangeToggle}>
+                                                                <i class={`${isNameExpanded ? 'bi-x' : 'bi bi-pencil'} profile--name-edit-icon`}></i>
                                                             </button>
                                                         </div>
-                                                        <div className="profile-name-edit-input-area">
+                                                        <div className={`profile-name-edit-input-area ${isNameExpanded ? 'expanded' : ''}`}>
                                                             <div className="row">
                                                                 <div className="col-12 d-flex align-items-center gap-10">
                                                                     <input type="text" className="change-setting-input"
@@ -748,47 +700,103 @@ const ClientProfile = () => {
                                                     <div className="prof-page-divider"></div>
                                                     <div className="prof-more-det-section">
                                                         <div className="prof-more-det-left-area">
-                                                            <div className="prof-more-det-area">
-                                                                <div className="prof-more-det">
-                                                                    <i class="bi bi-building"></i>
-                                                                    <div className="prof-more-det-title text-capitalized">{companyDetail?.industry}</div>
-                                                                    <button className="prof-more-det-edit-btn">
-                                                                        <i class="bi bi-pencil profile--name-edit-icon"></i>
-                                                                    </button>
-                                                                </div>
-                                                                <div className="prof-more-det-input-area">
-                                                                    <div className="row">
-                                                                        <div className="col-12 d-flex align-items-center gap-10">
-                                                                            <input type="text" className="change-setting-input more-det" placeholder="Change Company Type"
-                                                                                value={companyInfo.industry}
-                                                                                onChange={(e) => setCompanyInfo({ ...companyInfo, industry: e.target.value })} />
-                                                                            <button className="setting-update-btn more-det" onClick={handleIndustryUpdate}>Update</button>
+                                                            {companyDetail?.industry ?
+                                                                <div className="prof-more-det-area">
+                                                                    <div className="prof-more-det">
+                                                                        <i class="bi bi-building"></i>
+                                                                        <div className="prof-more-det-title text-capitalized">{companyDetail?.industry}</div>
+                                                                        <button
+                                                                            className={`prof-more-det-edit-btn ${isComTypeExpanded ? 'expanded' : ''}`}
+                                                                            onClick={handleComTypeChangeToggle}
+                                                                        >
+                                                                            <i class={`${isComTypeExpanded ? 'bi-x' : 'bi bi-pencil'} profile--name-edit-icon`}></i>
+                                                                        </button>
+                                                                    </div>
+                                                                    <div className={`prof-more-det-input-area ${isComTypeExpanded ? 'expanded' : ''}`}>
+                                                                        <div className="row">
+                                                                            <div className="col-12 d-flex align-items-center gap-10">
+                                                                                <input type="text" className="change-setting-input more-det" placeholder="Change Company Type"
+                                                                                    value={companyInfo.industry}
+                                                                                    onChange={(e) => setCompanyInfo({ ...companyInfo, industry: e.target.value })} />
+                                                                                <button className="setting-update-btn more-det" onClick={handleIndustryUpdate}>Update</button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div> :
+                                                                <div className="prof-more-det-area">
+                                                                    <div className="prof-more-det">
+                                                                        <i class="bi bi-building"></i>
+                                                                        <div className="prof-more-det-title text-capitalized">{companyDetail?.industry}</div>
+                                                                        <button
+                                                                            className={`prof-more-det-edit-btn ${isComTypeExpanded ? 'expanded' : ''}`}
+                                                                            onClick={handleComTypeChangeToggle}
+                                                                        >
+                                                                            <span className="add-detail">
+                                                                                {isComTypeExpanded ? 'Cancel' : 'Add Company Type'}
+                                                                            </span>
+                                                                        </button>
+                                                                    </div>
+                                                                    <div className={`prof-more-det-input-area ${isComTypeExpanded ? 'expanded' : ''}`}>
+                                                                        <div className="row">
+                                                                            <div className="col-12 d-flex align-items-center gap-10">
+                                                                                <input type="text" className="change-setting-input more-det" placeholder="Add Company Type"
+                                                                                    value={companyInfo.industry}
+                                                                                    onChange={(e) => setCompanyInfo({ ...companyInfo, industry: e.target.value })} />
+                                                                                <button className="setting-update-btn more-det" onClick={handleIndustryUpdate}>Add</button>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
+                                                            }
 
-                                                            <div className="prof-more-det-area">
-                                                                <div className="prof-more-det">
-                                                                    <i class="bi bi-geo-alt"></i>
-                                                                    <div className="prof-more-det-title text-capitalized">{companyDetail?.location}</div>
-                                                                    <button className="prof-more-det-edit-btn">
-                                                                    {companyDetail?.location ?
-                                                                        <i class="bi bi-pencil profile--name-edit-icon"></i>
-                                                                        : <span className="add-detail">Add Location</span>}
-                                                                    </button>
-                                                                </div>
-                                                                <div className="prof-more-det-input-area">
-                                                                    <div className="row">
-                                                                        <div className="col-12 d-flex align-items-center gap-10">
-                                                                            <input type="text" className="change-setting-input more-det" placeholder={companyDetail?.location ? "Change Location" : "Add Location"}
-                                                                                value={companyInfo.location}
-                                                                                onChange={(e) => setCompanyInfo({ ...companyInfo, location: e.target.value })} />
-                                                                            <button className="setting-update-btn more-det" onClick={handleLocationUpdate}>{companyDetail?.location ? "Update" : "Add"}</button>
+                                                            {companyDetail?.location ?
+                                                                <div className="prof-more-det-area">
+                                                                    <div className="prof-more-det">
+                                                                        <i class="bi bi-geo-alt"></i>
+                                                                        <div className="prof-more-det-title text-capitalized">{companyDetail?.location}</div>
+                                                                        <button
+                                                                            className={`prof-more-det-edit-btn ${isLocationExpanded ? 'expanded' : ''}`}
+                                                                            onClick={handleLocationChangeToggle}
+                                                                        >
+                                                                            <i class={`${isLocationExpanded ? 'bi-x' : 'bi bi-pencil'} profile--name-edit-icon`}></i>
+                                                                        </button>
+                                                                    </div>
+                                                                    <div className={`prof-more-det-input-area ${isLocationExpanded ? 'expanded' : ''}`}>
+                                                                        <div className="row">
+                                                                            <div className="col-12 d-flex align-items-center gap-10">
+                                                                                <input type="text" className="change-setting-input more-det" placeholder="Change Location"
+                                                                                    value={companyInfo.location}
+                                                                                    onChange={(e) => setCompanyInfo({ ...companyInfo, location: e.target.value })} />
+                                                                                <button className="setting-update-btn more-det" onClick={handleLocationUpdate}>Update</button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div> :
+                                                                <div className="prof-more-det-area">
+                                                                    <div className="prof-more-det">
+                                                                        <i class="bi bi-geo-alt"></i>
+                                                                        <div className="prof-more-det-title text-capitalized">{companyDetail?.location}</div>
+                                                                        <button
+                                                                            className={`prof-more-det-edit-btn ${isLocationExpanded ? 'expanded' : ''}`}
+                                                                            onClick={handleLocationChangeToggle}
+                                                                        >
+                                                                            <span className="add-detail">
+                                                                                {isLocationExpanded ? 'Cancel' : 'Add Location'}
+                                                                            </span>
+                                                                        </button>
+                                                                    </div>
+                                                                    <div className={`prof-more-det-input-area ${isLocationExpanded ? 'expanded' : ''}`}>
+                                                                        <div className="row">
+                                                                            <div className="col-12 d-flex align-items-center gap-10">
+                                                                                <input type="text" className="change-setting-input more-det" placeholder="Add Location"
+                                                                                    value={companyInfo.location}
+                                                                                    onChange={(e) => setCompanyInfo({ ...companyInfo, location: e.target.value })} />
+                                                                                <button className="setting-update-btn more-det" onClick={handleLocationUpdate}>Add</button>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
+                                                            }
 
                                                             {/* <div className="prof-more-det-area">
                                                                 <div className="prof-more-det">
@@ -837,7 +845,13 @@ const ClientProfile = () => {
                                                             <div className="prof-more-det-area">
                                                                 <div className="prof-more-det">
                                                                     <i class="bi bi-telephone"></i>
-                                                                    <div className="prof-more-det-title" onClick={() => window.location.href = `tel:${companyDetail?.phone}`}><a className='prof-more-det-title link' href={`tel:${companyDetail?.phone}`}>{companyDetail?.phone}</a></div>
+                                                                    <div className="prof-more-det-title"
+                                                                        onClick={() => window.location.href = `tel:${companyDetail?.phone}`}
+                                                                    >
+                                                                        <a className='prof-more-det-title link' href={`tel:${companyDetail?.phone}`}>
+                                                                            {companyDetail?.phone}
+                                                                        </a>
+                                                                    </div>
                                                                     {/* <button className="prof-more-det-edit-btn">
                                                                         <i class="bi bi-pencil profile--name-edit-icon"></i>
                                                                     </button> */}
@@ -919,14 +933,15 @@ const ClientProfile = () => {
 
                                             <div className="cli-pro-detail-area m-b-40">
                                                 <div className="cli-pro-title">{companyDetail?.website ? "Change" : "Add"} Website</div>
-                                                <div className='profile-content mt-4'>
-                                                    {companyDetail?.website}
+                                                <div className='profile-content mt-4'
+                                                    onClick={() => window.location.href = `${companyDetail?.website}`}>
+                                                    <a href={`${companyDetail?.website}`} target='_blank'>{companyDetail?.website}</a>
                                                 </div>
                                                 <div className="cli-pro-input-area">
                                                     <input
                                                         type="text"
                                                         className='cli-pro-input'
-                                                        placeholder='Add description'
+                                                        placeholder={`${companyDetail?.website ? 'Change' : 'Add'} website`}
                                                         value={companyInfo.website}
                                                         onChange={(e) => setCompanyInfo({ ...companyInfo, website: e.target.value })} />
                                                     <button className='cli-pro-add-btn' onClick={handleWebsiteUpdate}>{companyDetail?.website ? "Change" : "Add"}</button>
@@ -942,10 +957,11 @@ const ClientProfile = () => {
                                                     <textarea
                                                         type="text"
                                                         className='cli-pro-input'
-                                                        placeholder='Add description'
+                                                        rows={1}
+                                                        placeholder={`${companyDetail?.shortDescription ? 'Change' : 'Add'} description`}
                                                         value={companyInfo.shortDescription}
                                                         onChange={(e) => setCompanyInfo({ ...companyInfo, shortDescription: e.target.value })} />
-                                                    <button className='cli-pro-add-btn' onClick={handleShortDescriptionUpdate}>{companyDetail?.shortDescription ? "Change" : "Add"}</button>
+                                                    <button className='cli-pro-add-btn text-area' onClick={handleShortDescriptionUpdate}>{companyDetail?.shortDescription ? "Change" : "Add"}</button>
                                                 </div>
                                             </div>
 
@@ -957,11 +973,12 @@ const ClientProfile = () => {
                                                 <div className="cli-pro-input-area">
                                                     <textarea
                                                         type="text"
+                                                        rows={1}
                                                         className='cli-pro-input'
-                                                        placeholder='Add description'
+                                                        placeholder={`${companyDetail?.longDescription ? 'Change' : 'Add'} description`}
                                                         value={companyInfo.longDescription}
                                                         onChange={(e) => setCompanyInfo({ ...companyInfo, longDescription: e.target.value })} />
-                                                    <button className='cli-pro-add-btn' onClick={handleLongDescriptionUpdate}>{companyDetail?.longDescription ? "Change" : "Add"}</button>
+                                                    <button className='cli-pro-add-btn text-area' onClick={handleLongDescriptionUpdate}>{companyDetail?.longDescription ? "Change" : "Add"}</button>
                                                 </div>
                                             </div>
 
@@ -973,11 +990,12 @@ const ClientProfile = () => {
                                                 <div className="cli-pro-input-area">
                                                     <textarea
                                                         type="text"
+                                                        rows={1}
                                                         className='cli-pro-input'
-                                                        placeholder='Add Mision'
+                                                        placeholder={`${companyDetail?.mission ? 'Change' : 'Add'} Mission`}
                                                         value={companyInfo.mission}
                                                         onChange={(e) => setCompanyInfo({ ...companyInfo, mission: e.target.value })} />
-                                                    <button className='cli-pro-add-btn' onClick={handleMissionUpdate}>{companyDetail?.mission ? "Change" : "Add"}</button>
+                                                    <button className='cli-pro-add-btn text-area' onClick={handleMissionUpdate}>{companyDetail?.mission ? "Change" : "Add"}</button>
                                                 </div>
                                             </div>
 
@@ -989,11 +1007,12 @@ const ClientProfile = () => {
                                                 <div className="cli-pro-input-area">
                                                     <textarea
                                                         type="text"
+                                                        rows={1}
                                                         className='cli-pro-input'
-                                                        placeholder='Add Vision'
+                                                        placeholder={`${companyDetail?.vision ? 'Change' : 'Add'} Vision`}
                                                         value={companyInfo.vision}
                                                         onChange={(e) => setCompanyInfo({ ...companyInfo, vision: e.target.value })} />
-                                                    <button className='cli-pro-add-btn' onClick={handleVisionUpdate}>{companyDetail?.vision ? "Change" : "Add"}</button>
+                                                    <button className='cli-pro-add-btn text-area' onClick={handleVisionUpdate}>{companyDetail?.vision ? "Change" : "Add"}</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -1059,11 +1078,12 @@ const ClientProfile = () => {
                                                         </div> */}
                                                     </div>
                                                     <div className="add-more-input-field-area">
-                                                        <button className='cli-pro-add-input-btn' data-type="More Benefits">
-                                                            {/* <i class="bi bi-plus"></i> */}
-                                                            Add More Benefits
+                                                        <button className={`cli-pro-add-input-btn ${isBenefitExpanded ? 'expanded' : ''}`}
+                                                            onClick={handleBenefitChangeToggle}
+                                                        >
+                                                            {isBenefitExpanded ? 'Cancel' : 'Add More Benefits'}
                                                         </button>
-                                                        <div className="add-more-input-area">
+                                                        <div className={`add-more-input-area ${isBenefitExpanded ? 'expanded' : ''}`}>
                                                             <div className="row">
                                                                 <div className="col-12 d-flex align-items-center gap-10">
                                                                     <input type="text" className="change-setting-input" placeholder="Add Benefit"
@@ -1099,11 +1119,12 @@ const ClientProfile = () => {
                                         <div className="cli-profile-content-area">
                                             <div className="cli-pro-detail-area m-b-10">
                                                 <div className="add-more-input-field-area">
-                                                    <button className='cli-pro-add-input-btn' data-type="More Details">
-                                                        {/* <i class="bi bi-plus"></i> */}
-                                                        Add Details
+                                                    <button className={`cli-pro-add-input-btn ${isDetailExpanded ? 'expanded' : ''}`}
+                                                        onClick={handleDetailChangeToggle}
+                                                    >
+                                                        {isDetailExpanded ? 'Cancel' : 'Add Details'}
                                                     </button>
-                                                    <div className="add-more-input-area">
+                                                    <div className={`add-more-input-area ${isDetailExpanded ? 'expanded' : ''}`}>
                                                         <div className="row">
                                                             <div className="col-12 d-flex align-items-center gap-10">
                                                                 <input type="text" className="change-setting-input" placeholder="Add Details"
