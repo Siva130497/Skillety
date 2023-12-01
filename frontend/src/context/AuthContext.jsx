@@ -68,8 +68,8 @@ export const AuthContextProvider = ({children}) => {
                     navigate("/candidate-home")
                 } else if (userData[1] === "login-Client") {
                     localStorage.setItem("clientToken",  JSON.stringify(result.accessToken));
-                    window.open(`https://skillety-dashboard.onrender.com/client-dashboard/${result.accessToken}`, '_blank');
-                    // window.open(`https://skillety-dashboard.onrender.com/post-job`, '_blank');
+                    // window.open(`https://skillety-dashboard.onrender.com/client-dashboard/${result.accessToken}`, '_blank');
+                    window.open(`https://skillety-dashboard.onrender.com/post-job/${result.accessToken}`, '_blank');
                     navigate("/")
                     
                 }
