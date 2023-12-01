@@ -6,6 +6,7 @@ import './AllCompanyStaff.css';
 import './AllCompanyStaff-responsive.css';
 import $ from 'jquery';
 import axios from 'axios';
+import { v4 as uuidv4} from "uuid";
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
 
@@ -13,6 +14,16 @@ const AllCompanyStaff = () => {
     const [staffToken, setStaffToken] = useState("");
     const [allRecruiters, setAllRecruiters] = useState([]);
     const [selectedRecruiterViewDetail, setSelectedRecruiterViewDetail] = useState();
+    const initialCredentials = {
+        name:"",
+        email:"",
+        phone:"",
+        companyStaff:"",
+        password:"",
+      }
+      const [credentials, setcredentials] = useState(initialCredentials);
+    const [showPassword, setShowPassword] = useState(false);
+
 
 
     const [x, setX] = useState([0, 10]);
@@ -112,11 +123,60 @@ const AllCompanyStaff = () => {
         });
     }
 
-    const [showPassword, setShowPassword] = useState(false);
+    const createRecruiter = async (userData) => {
+        try {
+            const response = await axios.post('https://skillety.onrender.com/recruiter-create', userData, {
+                headers: {
+                    Authorization: `Bearer ${staffToken}`,
+                    Accept: 'application/json'
+                }
+              });
+    
+            const result = response.data;
+    
+            if (!result.error) {
+                console.log(result);
+                showSuccessMessage("New company staff has been created successfully!")
+                setcredentials(initialCredentials);
+            } else {
+                console.log(result);
+            }
+        } catch (error) {
+            console.log(error);
+            showErrorMessage(error.response.data.message);
+        }
+      };
+    
 
     const handleTogglePassword = () => {
         setShowPassword(!showPassword);
     };
+
+    const handleInputChange = (event) => {
+        const {name, value} = event.target;
+        setcredentials({...credentials, [name]:value});
+      }
+    
+      const handleGeneratePassword = () => {
+        axios.get('https://skillety.onrender.com/random-password')
+          .then(response => {
+            setcredentials({...credentials, password:response.data});
+          })
+          .catch(error => {
+            console.error('Error:', error);
+          });
+      }
+    
+      const handleSubmit = (event) => {
+        event.preventDefault();
+        const id = uuidv4();
+        const updatedCredentials = {
+          ...credentials,
+          id,
+        };
+        console.log(updatedCredentials);
+        createRecruiter(updatedCredentials);
+      }
 
     return (
         <div>
@@ -345,7 +405,7 @@ const AllCompanyStaff = () => {
                                     <span aria-hidden="true"><i class="bi bi-x close-icon"></i></span>
                                 </a>
                             </div>
-                            <form>
+                            <form onSubmit={handleSubmit}>
                                 <div className="modal-body">
                                     <div className="card p-4 recruiter-view-card">
                                         <div className="row">
@@ -356,7 +416,9 @@ const AllCompanyStaff = () => {
                                                         type="text"
                                                         id="staff_name"
                                                         aria-describedby="staffName"
-                                                        name="name"
+                                                        name="name" 
+                                                        value={credentials.name} 
+                                                        onChange = {handleInputChange}
                                                         placeholder="Enter the staff name"
                                                         className='form-control dash-form-input'
                                                         required
@@ -370,7 +432,9 @@ const AllCompanyStaff = () => {
                                                         type="email"
                                                         id="email"
                                                         aria-describedby="email"
-                                                        name="email"
+                                                        name="email" 
+                                                        value={credentials.email} 
+                                                        onChange = {handleInputChange}
                                                         placeholder="example@example.com"
                                                         className='form-control dash-form-input'
                                                         required
@@ -384,7 +448,9 @@ const AllCompanyStaff = () => {
                                                         type="number"
                                                         id="phone"
                                                         aria-describedby="mobileNo"
-                                                        name="phone"
+                                                        name="phone" 
+                                                        value={credentials.phone} 
+                                                        onChange = {handleInputChange}
                                                         placeholder="0XXXX XXXX XXX"
                                                         className='form-control dash-form-input'
                                                         required
@@ -396,8 +462,10 @@ const AllCompanyStaff = () => {
                                                     <label htmlFor="companyStaff" className='dash-form-label'>Staff Type<span className='form-required'>*</span></label>
                                                     <i class="bi bi-chevron-down toggle-icon"></i>
                                                     <select
-                                                        name="companyStaff"
                                                         id="companyStaff"
+                                                        name="companyStaff" 
+                                                        value = {credentials.companyStaff}
+                                                        onChange={handleInputChange}
                                                         className='form-control dash-form-input select-input'
                                                         required>
                                                         <option value="" disabled selected>-- Select type of company staff --</option>
@@ -419,8 +487,9 @@ const AllCompanyStaff = () => {
                                                                 type={showPassword ? 'text' : 'password'}
                                                                 id="password"
                                                                 aria-describedby="password"
-                                                                name="password"
-                                                                // value={credentials.password}
+                                                                name="password" 
+                                                                value={credentials.password} 
+                                                                onChange = {handleInputChange}
                                                                 placeholder="Company staff password"
                                                                 className='form-control dash-form-input'
                                                                 required
@@ -437,7 +506,7 @@ const AllCompanyStaff = () => {
                                                                 type="button"
                                                                 className="btn generate-btn"
                                                                 title='Generate Password'
-                                                            // onClick={handleGeneratePassword}
+                                                                onClick={handleGeneratePassword}
                                                             >
                                                                 Generate
                                                             </button>
