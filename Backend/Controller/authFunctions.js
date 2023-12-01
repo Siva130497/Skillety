@@ -14,7 +14,7 @@ const allUsers = require("../Database/allUsers");
 const employee = require("../Database/employee");
 const assignedCandidate = require("../Database/assignedCandidate");
 const forgotPasswordUser = require("../Database/forgotPasswordUsers");
-const eventDetail = require("../Database/eventDetail");
+const mediaDetail = require("../Database/mediaDetail");
 const contactDetail = require("../Database/contact");
 const contactCandidateDetail = require("../Database/contactCandidate");
 const clientPackage = require("../Database/clientPackage");
@@ -41,8 +41,10 @@ const clientRegister = async(req, res) => {
     console.log(req.body);
     const {email, name, phone} = req.body;
     const clientAvailable = await client.findOne({ $or: [{ email }, { name }, {phone}] });
-    if(clientAvailable){
-      return res.status(404).json({message: "User already registered"});
+    const allUserAvailable = await allUsers.findOne({ $or: [{ email }, { name }, { phone }] });
+
+    if (clientAvailable || allUserAvailable) {
+      return res.status(404).json({ message: "User already registered" });
     }
     const newClient = new client({
       ...req.body,
@@ -142,6 +144,14 @@ const createClientStaff = async (req, res) => {
   const {id} = req.params;
   
   try {
+    const {email, name, phone} = req.body; 
+    const userAvailable = await finalClient.findOne(({ $or: [{ email }, { name }, {phone}] }));
+    const allUserAvailable = await allUsers.findOne({ $or: [{ email }, { name }, { phone }] });
+
+    if (userAvailable || allUserAvailable) {
+      return res.status(404).json({ message: "User already registered" });
+    }
+
     const neededClient = await finalClient.findOne({id});
     
     if (neededClient){
@@ -155,25 +165,25 @@ const createClientStaff = async (req, res) => {
         const token = uuidv4();
         const tempUrl = baseUrl + token;
 
-        const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=[]{}|;:,.<>?';
-        let password = '';
+        // const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=[]{}|;:,.<>?';
+        // let password = '';
             
-        for (let i = 0; i < 12; i++) {
-            const randomIndex = Math.floor(Math.random() * charset.length);
-            password += charset[randomIndex];
-        }
+        // for (let i = 0; i < 12; i++) {
+        //     const randomIndex = Math.floor(Math.random() * charset.length);
+        //     password += charset[randomIndex];
+        // }
 
         console.log(tempUrl);
-        console.log(password);
+        // console.log(password);
 
-        const hashPassword = await bcrypt.hash(password, 12);
+        // const hashPassword = await bcrypt.hash(password, 12);
 
         const newTempClient = new TempClient({
           ...req.body,
           companyName,
           companyId,
           id: token, 
-          tempPassword: hashPassword, 
+          // tempPassword: hashPassword, 
           url: tempUrl,
           role:"Client-staff"
         });
@@ -195,7 +205,6 @@ const createClientStaff = async (req, res) => {
           subject: `Mail from ${companyName}!`,
           text: 'These are your account detail, use the temporary url and temporary password to create your account',
           html: `<p>Temporary URL: ${newTempClient.url}</p>
-                <p>Temporary Password: ${password}</p>
                 <p>User Name: ${req.body.name}</p>
                 <p>Phone No: ${req.body.phone}</p>`
         };
@@ -268,101 +277,137 @@ const verifyTempPassword = async(req, res) => {
 
 /* client register after setup new password */
 const finalClientRegister = async (req, res) => {
-  console.log(req.body);
   try {
+    console.log(req.body);
+
     const { id, password } = req.body;
-    const user = await TempClient.findOne({ id });
+    const tempClient = await TempClient.findOne({ id });
 
-    if (user) {
-      const { _id, url, createdAt, updatedAt, __v, ...tempClientProperties } = user._doc;
-      const hashPassword = await bcrypt.hash(password, 12);
-      
-      let updatedClient; 
-      const companyId = uuidv4()
-      if (tempClientProperties.companyId) {
-        updatedClient = new finalClient({
-          ...tempClientProperties,
-          password: hashPassword
-        });
-      } else {
-        updatedClient = new finalClient({
-          ...tempClientProperties,
-          companyId,
-          password: hashPassword
-        });
-      }
+    if (!tempClient) {
+      return res.status(404).json({ message: 'User not found' });
+    }
 
-      await updatedClient.save();
-      console.log(updatedClient);
+    const {
+      _id,
+      url,
+      createdAt,
+      updatedAt,
+      __v,
+      ...tempClientProperties
+    } = tempClient._doc;
 
-      const { email, industry, phone, count, companyName, name, role, id } = tempClientProperties;
-      const newCompanyDetail = new companyDetail({
+    const hashPassword = await bcrypt.hash(password, 12);
+
+    let updatedClient;
+    let newCompanyDetail;
+    const companyId = tempClientProperties.companyId || uuidv4();
+    const {
+      email,
+      industry,
+      phone,
+      count,
+      companyName,
+      name,
+      role,
+    } = tempClientProperties;
+
+    if (!tempClientProperties.companyId) {
+      updatedClient = new finalClient({
+        ...tempClientProperties,
+        companyId,
+        password: hashPassword,
+      });
+
+      newCompanyDetail = new companyDetail({
         email,
-        industry, 
-        phone, 
-        count, 
+        industry,
+        phone,
+        count,
         companyName,
         companyId,
-        location:"",
-        shortDescription:"",
-        longDescription:"",
-        mission:"",
-        vision:"",
-        benefits:[],
-        awards:"",
-        website:"",
+        location: '',
+        shortDescription: '',
+        longDescription: '',
+        mission: '',
+        vision: '',
+        benefits: [],
+        awards: '',
+        website: '',
       });
 
       await newCompanyDetail.save();
-      console.log(newCompanyDetail);
-
-      const updatedUser = new allUsers({
-        id,
-        name,
-        email,
-        phone,
-        role,
-        password: hashPassword
-      });
-
-      await updatedUser.save();
-      console.log(updatedUser);
-
-      await TempClient.deleteOne({id});
-
-      const transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-          user: 'demoemail1322@gmail.com',
-          pass: 'znsdgrmwzskpatwz'
-        }
-      });
-  
-      const mailOptions = {
-        from: 'demoemail1322@gmail.com',
-        to: `${updatedUser.email}`,
-        subject: 'Mail from SKILLITY!',
-        text: 'Welcome to Skillety!',
-        html: `<p>Congratulations!</p><p>We are happy to have you with us. Please find your Login details below:</p>`
-      };
-  
-      transporter.sendMail(mailOptions, function (error, info) {
-        if (error) {
-          console.log(error);
-          return res.status(500).json({ error: error.message, updatedClient, newCompanyDetail, updatedUser });
-        } else {
-          console.log('Email sent: ' + info.response);
-          res.status(201).json({ updatedClient, newCompanyDetail, updatedUser, emailSent: true });
-        }
-      });
-
+      console.log('New Company Detail:', newCompanyDetail);
     } else {
-      return res.status(404).json({ message: 'User not found' });
+      updatedClient = new finalClient({
+        ...tempClientProperties,
+        password: hashPassword,
+      });
     }
+
+    await updatedClient.save();
+    console.log('Updated Client:', updatedClient);
+
+    const updatedUser = new allUsers({
+      id,
+      name,
+      email,
+      phone,
+      role,
+      password: hashPassword,
+    });
+
+    await updatedUser.save();
+    console.log('Updated User:', updatedUser);
+
+    await TempClient.deleteOne({ id });
+
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: 'demoemail1322@gmail.com',
+        pass: 'znsdgrmwzskpatwz'
+      }
+    });
+
+    const mailOptions = {
+      from: 'demoemail1322@gmail.com',
+      to: updatedUser.email,
+      subject: 'Mail from SKILLITY!',
+      text: 'Welcome to Skillety!',
+      html: `<p>Congratulations!</p><p>We are happy to have you with us. Please find your Login details below:</p>`,
+    };
+
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.error('Email sending error:', error);
+        return res
+          .status(500)
+          .json({ error: 'Failed to send email', details: error.message });
+      } else {
+        console.log('Email sent:', info.response);
+
+        // Exclude companyDetail if it doesn't exist
+        const responseData = {
+          updatedClient,
+          updatedUser,
+          emailSent: true,
+        };
+
+        if (newCompanyDetail) {
+          responseData.newCompanyDetail = newCompanyDetail;
+        }
+
+        res.status(201).json(responseData);
+      }
+    });
   } catch (err) {
-    return res.status(500).json({ error: err.message });
+    console.error('Internal server error:', err);
+    return res
+      .status(500)
+      .json({ error: 'Internal server error', details: err.message });
   }
-}
+};
+
 
 const saveCompanyDetail = async(req, res) =>{
   try{
@@ -409,9 +454,12 @@ const candidateReg = async(req, res) => {
     console.log(req.body);
     const {firstName, lastName, email, id, password, phone} = req.body; 
     const candidateAvailable = await candidate.findOne({ $or: [{ email }, { firstName }, {lastName}, {phone}] });
-    if(candidateAvailable){
-      return res.status(404).json({message: "User already registered"});
+    const allUserAvailable = await allUsers.findOne({ $or: [{ email }, { name:firstName }, { name:lastName }, { phone }] });
+
+    if (candidateAvailable || allUserAvailable) {
+      return res.status(404).json({ message: "User already registered" });
     }
+    
     const hashPassword = await bcrypt.hash(password, 12);
     const newCandidate = new candidate({
       ...req.body,
@@ -1386,12 +1434,12 @@ const newPassword = async(req, res) => {
 const eventPosting = async(req, res) => {
   console.log(req.body);
   try {
-    const newEvent = new eventDetail({
-      ...req.body,
-    });
-    await newEvent.save();
-    console.log(newEvent);
-    return res.status(201).json(newEvent);
+      const newMedia = new mediaDetail({
+        ...req.body,
+      });
+      await newMedia.save();
+      console.log(newMedia);
+      return res.status(201).json(newMedia);
   } catch (err) {
     return res.status(500).json({ error: err.message });
   }
@@ -1400,7 +1448,7 @@ const eventPosting = async(req, res) => {
 /* get all posted events of recruiters */
 const getAllEvents = async(req, res) => {
   try{
-    const allEventDetails = await eventDetail.find();
+    const allEventDetails = await mediaDetail.find({type:"event"});
     console.log(allEventDetails);
     return res.status(200).json(allEventDetails);
   }catch(err){
@@ -1410,7 +1458,7 @@ const getAllEvents = async(req, res) => {
 
 const getAllBlogs = async(req, res) => {
   try{
-    const allBlogDetails = await blogDetail.find();
+    const allBlogDetails = await mediaDetail.find({type:"blog"});
     console.log(allBlogDetails);
     return res.status(200).json(allBlogDetails);
   }catch(err){
@@ -1420,7 +1468,7 @@ const getAllBlogs = async(req, res) => {
 
 const getAllVideos = async(req, res) => {
   try{
-    const allVdoDetails = await vdoDetail.find();
+    const allVdoDetails = await mediaDetail.find({type:"video"});
     console.log(allVdoDetails);
     return res.status(200).json(allVdoDetails);
   }catch(err){
@@ -1430,7 +1478,7 @@ const getAllVideos = async(req, res) => {
 
 const getAllPodcasts = async(req, res) => {
   try{
-    const allPodcastDetails = await podcastDetail.find();
+    const allPodcastDetails = await mediaDetail.find({type:"podcast"});
     console.log(allPodcastDetails);
     return res.status(200).json(allPodcastDetails);
   }catch(err){
@@ -1440,7 +1488,7 @@ const getAllPodcasts = async(req, res) => {
 
 const getAllNews = async(req, res) => {
   try{
-    const allNewsDetails = await newsDetail.find();
+    const allNewsDetails = await mediaDetail.find({type:"news"});
     console.log(allNewsDetails);
     return res.status(200).json(allNewsDetails);
   }catch(err){
@@ -1452,11 +1500,11 @@ const getAllNews = async(req, res) => {
 const deleteEvent = async (req, res) => {
   const { id } = req.params;
   try {
-    const deletedEvent = await eventDetail.deleteOne({ id }); 
+    const deletedEvent = await mediaDetail.deleteOne({ id }); 
     if (deletedEvent.deletedCount === 0) {
-      return res.status(404).json({ error: 'Event not found' });
+      return res.status(404).json({ error: 'media not found' });
     }
-    return res.status(200).json({ message: 'Event deleted successfully' });
+    return res.status(200).json({ message: 'media deleted successfully' });
   } catch (err) {
     return res.status(500).json({ error: err.message });
   }
@@ -1467,12 +1515,12 @@ const anEvent = async(req, res) => {
   const {id} = req.params;
   console.log(id);
   try{
-    const event = await eventDetail.findOne({id});
+    const event = await mediaDetail.findOne({id});
     if(event){
       console.log(event);
       return res.status(200).json(event);
     }else{
-      return res.status(404).json({ error: 'Event not found' });
+      return res.status(404).json({ error: 'media not found' });
     }
   }catch (err) {
     return res.status(500).json({ error: err.message });
@@ -1485,14 +1533,14 @@ const changingEvent = async (req, res) => {
   const eventData = req.body; 
 
   try {
-    const updatedEvent = await eventDetail.findOneAndUpdate(
+    const updatedEvent = await mediaDetail.findOneAndUpdate(
       { id: id }, 
       eventData,
       { new: true }
     );
 
     if (!updatedEvent) {
-      return res.status(404).json({ message: 'Event not found' });
+      return res.status(404).json({ message: 'media not found' });
     }
 
     return res.status(200).json({ updatedEvent });

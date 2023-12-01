@@ -8,6 +8,8 @@ import feather from 'feather-icons';
 
 const ClientSidebar = () => {
     const [clientToken, setClientToken] = useState("");
+    const [role, setRole] = useState("");
+    const {getProtectedData} = useContext(AuthContext);
     // const { getProtectedData, getClientChoosenPlan, packageSelectionDetail } = useContext(AuthContext);
     // const [employeeId, setEmployeeId] = useState("");
     // const [loginClientDetail, setLoginClientDetail] = useState();
@@ -24,11 +26,13 @@ const ClientSidebar = () => {
 
             if (path === `/client-dashboard/${clientToken}`) {
                 $('#client_dashboard').addClass('active');
-            } else if (path === '/talent-profile-search') {
+            } else if (path === '/client-staff') {
+                $('#client_staff').addClass('active');
+            }else if (path === '/talent-profile-search') {
                 $('#search_candidate').addClass('active');
             } else if (path === '/manage-application') {
                 $('#manage_application').addClass('active');
-            } else if (path === '/post-job') {
+            } else if (path === `/post-job/${clientToken}`) {
                 $('#post_job').addClass('active');
             } else if (path === '/manage-job') {
                 $('#manage_job').addClass('active');
@@ -46,7 +50,7 @@ const ClientSidebar = () => {
             feather.replace();
         });
 
-    }, [clientToken]);
+    }, [clientToken, role]);
 
     // const getLoginClientDetail = async () => {
     //     try {
@@ -118,6 +122,22 @@ const ClientSidebar = () => {
 
     // console.log(sideBar)
 
+    useEffect(() => {
+        if(clientToken){
+            const fetchData = async () => {
+                try {
+                    const userData = await getProtectedData(clientToken);
+                    console.log(userData);
+                    setRole(userData.role);
+                } catch (error) {
+                    console.log(error)
+                }
+            };
+    
+            fetchData();
+        }
+    }, [clientToken]);
+
     return (
         <div>
             <div className="main-sidebar client sidebar-style-2">
@@ -137,12 +157,16 @@ const ClientSidebar = () => {
                     
                         <ul className="sidebar-menu client">
 
+                            {role === "Client" && <li className="dropdown" id='client_staff'>
+                                <a href="/client-staff" className="nav-link"><i data-feather="user-check"></i><span>Client Staffs</span></a>
+                            </li>}
+
                             <li className="dropdown" id='search_candidate'>
                                 <a href="/talent-profile-search" className="nav-link"><i data-feather="search"></i><span>Search Candidates</span></a>
                             </li>
 
                             <li className="dropdown" id='post_job'>
-                                <a href="/post-job" className="nav-link"><i data-feather="briefcase"></i><span>Post a Job</span></a>
+                                <a href={`/post-job/${clientToken}`} className="nav-link"><i data-feather="briefcase"></i><span>Post a Job</span></a>
                             </li>
 
                             <li className="dropdown" id='manage_job'>

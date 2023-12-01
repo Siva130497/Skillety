@@ -14,13 +14,19 @@ const employeeSchema = new Schema(
       type: String,
       required: true
     },
+    phone: {
+      type: Number,
+      required: true
+    },
     role: {
       type: String,
       enum: ["Recruiter", "Admin"]
     },
     companyStaff: {
       type: String,
-      required:true
+      required: function() {
+        return ["Recruiter"].includes(this.role);
+      }
     },
     password: {
       type: String,

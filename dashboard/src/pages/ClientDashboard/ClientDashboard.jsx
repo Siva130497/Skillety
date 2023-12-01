@@ -287,7 +287,7 @@ const ClientDashboard = () => {
         getAppliedOfPostedJobs();
         getCandidateImg();
         allStaffFromCompany();
-        getClientChoosenPlan(loginClientDetail?.companyId);
+        // getClientChoosenPlan(loginClientDetail?.companyId);
       },[loginClientDetail]);
 
       useEffect(() => {
@@ -310,8 +310,8 @@ const ClientDashboard = () => {
         <div>
             {/* {loading && <div id="preloader"></div>} */}
             {employeeId && <div>
-            {packageSelectionDetail ?
-                <div>
+            
+               
                 <div class="main-wrapper main-wrapper-1">
                     <div class="navbar-bg"></div>
                     <ClientLayout />
@@ -708,9 +708,7 @@ const ClientDashboard = () => {
                     </div>
                     <Footer />
                 </div>
-                </div> :
-                <PackagePlans />
-            }
+                 
             {pageNotFound && <div>
                     <h1>404</h1>
                     <p>Not Found</p>

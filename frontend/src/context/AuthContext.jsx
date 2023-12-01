@@ -13,13 +13,9 @@ export const AuthContextProvider = ({children}) => {
     const [eventDetail, setEventDetail] = useState([]);
     const [eventImg, setEventImg] = useState();
     const [blogDetail, setBlogDetail] = useState([]);
-    // const [blogImg, setBlogImg] = useState();
     const [videoDetail, setVideoDetail] = useState([]);
-    // const [videoImg, setVideoImg] = useState();
     const [podcastDetail, setPodcastDetail] = useState([]);
-    // const [podcastImg, setPodcastImg] = useState();
     const [newsDetail, setNewsDetail] = useState([]);
-    // const [newsImg, setnewsImg] = useState();
     const [candidateImg, setCandidateImg] = useState();
     const [clientImg, setClientImg] = useState();
     const [packageSelectionDetail, setPackageSelectionDetail] = useState();
@@ -72,8 +68,8 @@ export const AuthContextProvider = ({children}) => {
                     navigate("/candidate-home")
                 } else if (userData[1] === "login-Client") {
                     localStorage.setItem("clientToken",  JSON.stringify(result.accessToken));
-                    window.open(`https://skillety-dashboard.onrender.com/client-dashboard/${result.accessToken}`, '_blank');
-                    // window.open(`https://skillety-dashboard.onrender.com/post-job`, '_blank');
+                    // window.open(`https://skillety-dashboard.onrender.com/client-dashboard/${result.accessToken}`, '_blank');
+                    window.open(`https://skillety-dashboard.onrender.com/post-job/${result.accessToken}`, '_blank');
                     navigate("/")
                     
                 }
@@ -187,15 +183,6 @@ export const AuthContextProvider = ({children}) => {
         }
     }
 
-    // const getBlogImg = async() => {
-    //     axios.get('https://skillety.onrender.com/blog-image')
-    //     .then(res=>{
-    //         console.log(res.data)
-    //         setBlogImg(res.data)
-    //     })
-    //     .catch(err=>console.log(err))
-    // }
-
     const getVideoDetail = async() => {
         try{
             const res = await axios.get(`https://skillety.onrender.com/videos`);
@@ -211,15 +198,6 @@ export const AuthContextProvider = ({children}) => {
           
         }
     }
-
-    // const getVideoImg = async() => {
-    //     axios.get('https://skillety.onrender.com/video-image')
-    //     .then(res=>{
-    //         console.log(res.data)
-    //         setVideoImg(res.data)
-    //     })
-    //     .catch(err=>console.log(err))
-    // }
 
     const getPodcastDetail = async() => {
         try{
@@ -237,15 +215,6 @@ export const AuthContextProvider = ({children}) => {
         }
     }
 
-    // const getPodcastImg = async() => {
-    //     axios.get('https://skillety.onrender.com/podcast-image')
-    //     .then(res=>{
-    //         console.log(res.data)
-    //         setPodcastImg(res.data)
-    //     })
-    //     .catch(err=>console.log(err))
-    // }
-
     const getNewsDetail = async() => {
         try{
             const res = await axios.get(`https://skillety.onrender.com/news`);
@@ -261,15 +230,6 @@ export const AuthContextProvider = ({children}) => {
           
         }
     }
-
-    // const getNewsImg = async() => {
-    //     axios.get('https://skillety.onrender.com/news-image')
-    //     .then(res=>{
-    //         console.log(res.data)
-    //         setnewsImg(res.data)
-    //     })
-    //     .catch(err=>console.log(err))
-    // }
 
     const getCandidateImg = async() => {
         axios.get('https://skillety.onrender.com/candidate-image')

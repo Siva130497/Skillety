@@ -9,9 +9,11 @@ import $ from 'jquery';
 import AuthContext from '../../context/AuthContext';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
+import { useParams } from 'react-router-dom';
 
 const JobPosting = () => {
-  const [clientToken, setClientToken] = useState("");
+  // const [token, settoken] = useState("");
+  const {token} = useParams(); 
   const { getProtectedData, getClientChoosenPlan, packageSelectionDetail } = useContext(AuthContext);
   // const [packageSelectionDetail, setPackageSelectionDetail] = useState();
   const [employeeId, setEmployeeId] = useState("");
@@ -94,7 +96,7 @@ const JobPosting = () => {
     try {
       const res = await axios.get("https://skillety.onrender.com/designations", {
         headers: {
-          Authorization: `Bearer ${clientToken}`,
+          Authorization: `Bearer ${token}`,
           Accept: 'application/json'
         }
       });
@@ -114,7 +116,7 @@ const JobPosting = () => {
     try {
       const res = await axios.get("https://skillety.onrender.com/skills", {
         headers: {
-          Authorization: `Bearer ${clientToken}`,
+          Authorization: `Bearer ${token}`,
           Accept: 'application/json'
         }
       });
@@ -134,7 +136,7 @@ const JobPosting = () => {
     try {
       const res = await axios.get("https://skillety.onrender.com/departments", {
         headers: {
-          Authorization: `Bearer ${clientToken}`,
+          Authorization: `Bearer ${token}`,
           Accept: 'application/json'
         }
       });
@@ -154,7 +156,7 @@ const JobPosting = () => {
     try {
       const res = await axios.get("https://skillety.onrender.com/locations", {
         headers: {
-          Authorization: `Bearer ${clientToken}`,
+          Authorization: `Bearer ${token}`,
           Accept: 'application/json'
         }
       });
@@ -174,7 +176,7 @@ const JobPosting = () => {
     try {
       const res = await axios.get("https://skillety.onrender.com/roles", {
         headers: {
-          Authorization: `Bearer ${clientToken}`,
+          Authorization: `Bearer ${token}`,
           Accept: 'application/json'
         }
       });
@@ -195,7 +197,7 @@ const JobPosting = () => {
     try {
       const res = await axios.get("https://skillety.onrender.com/educations", {
         headers: {
-          Authorization: `Bearer ${clientToken}`,
+          Authorization: `Bearer ${token}`,
           Accept: 'application/json'
         }
       });
@@ -215,7 +217,7 @@ const JobPosting = () => {
     try {
       const res = await axios.get("https://skillety.onrender.com/industries", {
         headers: {
-          Authorization: `Bearer ${clientToken}`,
+          Authorization: `Bearer ${token}`,
           Accept: 'application/json'
         }
       });
@@ -235,7 +237,7 @@ const JobPosting = () => {
     try {
       const res = await axios.get(`https://skillety.onrender.com/client/${employeeId}`, {
         headers: {
-          Authorization: `Bearer ${clientToken}`,
+          Authorization: `Bearer ${token}`,
           Accept: 'application/json'
         }
       });
@@ -255,7 +257,7 @@ const JobPosting = () => {
   //   try {
   //     const res = await axios.get(`https://skillety.onrender.com/my-posted-jobs/${loginClientDetail.companyId}`, {
   //       headers: {
-  //         Authorization: `Bearer ${clientToken}`,
+  //         Authorization: `Bearer ${token}`,
   //         Accept: 'application/json'
   //       }
   //     });
@@ -271,9 +273,9 @@ const JobPosting = () => {
   //   }
   // }
 
-  useEffect(() => {
-    setClientToken(JSON.parse(localStorage.getItem('clientToken')))
-  }, [clientToken])
+  useEffect(()=>{
+    localStorage.setItem("clientToken", JSON.stringify(token));
+ },[token])
 
   useEffect(() => {
     getAllJobRoles();
@@ -286,10 +288,10 @@ const JobPosting = () => {
   }, []);
 
   useEffect(() => {
-    if (clientToken) {
+    if (token) {
       const fetchData = async () => {
         try {
-          const user = await getProtectedData(clientToken);
+          const user = await getProtectedData(token);
           console.log(user);
           setEmployeeId(user.id);
         } catch (error) {
@@ -299,7 +301,7 @@ const JobPosting = () => {
 
       fetchData();
     }
-  }, [clientToken]);
+  }, [token]);
 
   useEffect(() => {
     if (employeeId) {
@@ -330,7 +332,7 @@ const JobPosting = () => {
     try {
       const res = await axios.post("https://skillety.onrender.com/client-job-detail", jobdetail, {
         headers: {
-          Authorization: `Bearer ${clientToken}`,
+          Authorization: `Bearer ${token}`,
           Accept: 'application/json'
         }
       });
@@ -363,7 +365,7 @@ const JobPosting = () => {
     try {
       const res = await axios.post("https://skillety.onrender.com/skills", skills, {
         headers: {
-          Authorization: `Bearer ${clientToken}`,
+          Authorization: `Bearer ${token}`,
           Accept: 'application/json'
         }
       });
@@ -383,7 +385,7 @@ const JobPosting = () => {
     try {
       const res = await axios.post("https://skillety.onrender.com/designations", designation, {
         headers: {
-          Authorization: `Bearer ${clientToken}`,
+          Authorization: `Bearer ${token}`,
           Accept: 'application/json'
         }
       });
@@ -807,11 +809,11 @@ const JobPosting = () => {
         toggleDisabledInputArea.call(this);
       });
     });
-  }, [clientToken]);
+  }, [token]);
 
   return (
     <div>
-      {clientToken && <div class="main-wrapper main-wrapper-1">
+      {token && <div class="main-wrapper main-wrapper-1">
         <div class="navbar-bg"></div>
         <ClientLayout/>
 

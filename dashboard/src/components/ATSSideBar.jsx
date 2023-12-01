@@ -33,7 +33,7 @@ const ATSSideBar = () => {
                 $('#posted_jobs').addClass('active');
             } else if (path === '/job-posting') {
                 $('#job_posting').addClass('active');
-            } else if (path === '/event-posting') {
+            } else if (path === '/media-posting/event' || path === '/media-posting/blog' || path === '/media-posting/video' || path === '/media-posting/news' || path === '/media-posting/podcast') {
                 $('#event_posting').addClass('active');
             } else if (path === '/client-contact-message') {
                 $('#contact-message-client').addClass('active');
@@ -43,7 +43,7 @@ const ATSSideBar = () => {
                 $('#contact-message').addClass('active');
             } else if (path === '/enquiry-details') {
                 $('#enquiry_details').addClass('active');
-            } else if (path === '/posted-events') {
+            } else if (path === '/posted-media/event' || path === '/posted-media/blog' || path === '/posted-media/video' || path === '/posted-media/news' || path === '/posted-media/podcast') {
                 $('#posted_events').addClass('active');
             } else if (path === '/chat') {
                 $('#chat').addClass('active');
@@ -111,16 +111,16 @@ const ATSSideBar = () => {
                         <li className="dropdown" id='event_posting'>
                             <a href="#" className="menu-toggle nav-link has-dropdown"><i data-feather="video"></i><span>Media Posting</span></a>
                             <ul className="dropdown-menu">
-                                <li id='contact-message-client'><a className="nav-link" href="/event-posting">Event Posting</a></li>
-                                <li ><a className="nav-link" href="/event-posting">Blog Posting</a></li>
-                                <li ><a className="nav-link" href="/event-posting">Video Posting</a></li>
-                                <li ><a className="nav-link" href="/event-posting">Podcast Posting</a></li>
-                                <li ><a className="nav-link" href="/event-posting">News Posting</a></li>
+                                <li id='event_posting'><a className="nav-link" href="/media-posting/event">Event Posting</a></li>
+                                <li id='event_posting'><a className="nav-link" href="/media-posting/blog">Blog Posting</a></li>
+                                <li id='event_posting'><a className="nav-link" href="/media-posting/video">Video Posting</a></li>
+                                <li id='event_posting'><a className="nav-link" href="/media-posting/podcast">Podcast Posting</a></li>
+                                <li id='event_posting'><a className="nav-link" href="/media-posting/news">News Posting</a></li>
                             </ul>
                         </li>
-                        <li className="dropdown" id='event_posting'>
+                        {/* <li className="dropdown" id='event_posting'>
                             <a href="/event-posting" className="nav-link"><i data-feather="calendar"></i><span>Media Posting</span></a>
-                        </li>
+                        </li> */}
 
                         <div className='hr-line'></div>
 
@@ -136,8 +136,18 @@ const ATSSideBar = () => {
                             <a href="/enquiry-details" className="nav-link"><i data-feather="message-square"></i><span>Enquiry Details</span></a>
                         </li>
                         <li className="dropdown" id='posted_events'>
-                            <a href="/posted-events" className="nav-link"><i data-feather="calendar"></i><span>Posted Events</span></a>
+                            <a href="#" className="menu-toggle nav-link has-dropdown"><i data-feather="calendar"></i><span>Posted Media</span></a>
+                            <ul className="dropdown-menu">
+                                <li id='posted_events'><a className="nav-link" href="/posted-media/event">Posted Events</a></li>
+                                <li id='posted_events'><a className="nav-link" href="/posted-media/blog">Posted Blogs</a></li>
+                                <li id='posted_events'><a className="nav-link" href="/posted-media/video">Posted Videos</a></li>
+                                <li id='posted_events'><a className="nav-link" href="/posted-media/podcast">Posted Podcasts</a></li>
+                                <li id='posted_events'><a className="nav-link" href="/posted-media/news">Posted News</a></li>
+                            </ul>
                         </li>
+                        {/* <li className="dropdown" id='posted_events'>
+                            <a href="/posted-events" className="nav-link"><i data-feather="calendar"></i><span>Posted Events</span></a>
+                        </li> */}
                         <li className="dropdown" id='chat'>
                             <a href="/chat" className="nav-link"><i data-feather="send"></i><span>Chat</span></a>
                         </li>

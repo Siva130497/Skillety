@@ -21,6 +21,7 @@ import PackagePlans from './pages/PackagePlans/PackagePlans';
 import JobDetails from './pages/JobDetails/JobDetails';
 import ClientProfile from './pages/ClientProfile/ClientProfile';
 import CompanyDetail from './pages/CompanyDetail/CompanyDetail';
+import AllClientStaff from './pages/AllClientStaff/AllClientStaff';
 
 ////for recruiter
 import RecruiterDashboard from './pages/RecruiterDashboard/RecruiterDashboard';
@@ -53,7 +54,7 @@ function App() {
         <Route path='/settings' element={<SettingsCandidate />} />
         <Route path='/client-settings' element={<SettingsClient />} />
         <Route path='/manage-job' element={<ManageJobs />} />
-        <Route path='/post-job' element={<JobPosting />} />
+        <Route path='/post-job/:token' element={<JobPosting />} />
         <Route path='/manage-application' element={<ManageApplication />} />
         <Route path='/candidate-profile/:id' element={<CandidateProfile />} />
         <Route path='/talents/:id' element={<Talents />} />
@@ -65,7 +66,7 @@ function App() {
         <Route path='/job-details' element={<JobDetails />} />
         <Route path='/client-profile/:id' element={<ClientProfile />} />
         <Route path='/company-detail/:id' element={<CompanyDetail />} />
-        
+        <Route path='/client-staff' element={<AllClientStaff />} />
 
         {/* for recruiter */}
         <Route path='/' element={<RecruiterLogin />} />
@@ -76,8 +77,8 @@ function App() {
         <Route path='/non-approval-jobs' element={<NonApprovalJobs />} />
         <Route path='/posted-jobs' element={<PostedJobs />} />
         <Route path='/job-posting' element={<PostingJob />} />
-        <Route path='/event-posting' element={<EventPosting />} />
-        <Route path='/posted-events' element={<PostedEvents />} />
+        <Route path='/media-posting/:type' element={<EventPosting />} />
+        <Route path='/posted-media/:type' element={<PostedEvents />} />
         <Route path='/enquiry-details' element={<EnquiryDetails />} />
         <Route path='/candidate-contact-message' element={<CandidateContact />} />
         <Route path='/client-contact-message' element={<ClientContact />} />

@@ -1,6 +1,6 @@
 const { Schema, model } = require("mongoose");
 
-const eventDetailSchema = new Schema(
+const mediaDetailSchema = new Schema(
   {
     id: {
       type: String,
@@ -9,7 +9,7 @@ const eventDetailSchema = new Schema(
     recruiterId: {
         type: String,
         required: true
-      },
+    },
     title: {
       type: String,
       required: true
@@ -26,8 +26,18 @@ const eventDetailSchema = new Schema(
       type: String,
       required: true
     },
+    url: {
+      type: String,
+      required: function() {
+        return ["blog", "video", "podcast", "news"].includes(this.type);
+      }
+    },
+    type: {
+      type: String,
+      required: true
+    },
   },
   { timestamps: true }
 );
 
-module.exports = model("eventDetail", eventDetailSchema);
+module.exports = model("mediaDetail", mediaDetailSchema);
