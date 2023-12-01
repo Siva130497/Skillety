@@ -50,7 +50,7 @@ const ClientSidebar = () => {
             feather.replace();
         });
 
-    }, [clientToken]);
+    }, [clientToken, role]);
 
     // const getLoginClientDetail = async () => {
     //     try {
