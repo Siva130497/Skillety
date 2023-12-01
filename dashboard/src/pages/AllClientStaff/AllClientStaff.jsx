@@ -268,7 +268,7 @@ const AllClientStaff = () => {
                                                             <th className='dash-table-head'>Full Name</th>
                                                             <th className='dash-table-head'>Email ID</th>
                                                             {/* <th className='dash-table-head'>Staff Type</th> */}
-                                                            {/* <th className='dash-table-head text-center'>Action</th> */}
+                                                            <th className='dash-table-head text-center'>Action</th>
                                                         </tr>
 
                                                         {/* table data */}
