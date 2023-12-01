@@ -509,196 +509,51 @@ const HomeCandidate = () => {
               </div>
             </div>
             <div className="company--content-area">
-              {allCompany.map(company => {
-                const matchingImg = clientImg ? clientImg.find(img => img.id === company.companyId) : null;
-                const imgSrc = matchingImg ? `https://skillety.onrender.com/client_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
-                const jobOpening = (allJobs.filter(job => job.companyId === company.companyId)).length
-                return jobOpening > 0 && (
-                  <div className="row company--content-row custom-row-border-top">
-                    <div className="col-12 col-xl-2 col-lg-2 col-sm-4 col-md-4 company--content-img-area">
-                      <img src={imgSrc} data-aos="fade" className='company--content-img cand-home' loading='lazy' alt="" />
+              {allCompany
+                .filter(company => {
+                  const jobOpening = allJobs.filter(job => job.companyId === company.companyId).length;
+                  return allCompany.length > 0 && jobOpening > 0;
+                })
+                .sort((a, b) => {
+                  const jobOpeningA = allJobs.filter(job => job.companyId === a.companyId).length;
+                  const jobOpeningB = allJobs.filter(job => job.companyId === b.companyId).length;
+                  return jobOpeningB - jobOpeningA;
+                })
+                .slice(0, 5)
+                .map(company => {
+                  const matchingImg = clientImg ? clientImg.find(img => img.id === company.companyId) : null;
+                  const imgSrc = matchingImg ? `https://skillety.onrender.com/client_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
+                  const jobOpening = allJobs.filter(job => job.companyId === company.companyId).length;
+
+                  return (
+                    <div key={company.companyId} className="row company--content-row custom-row-border-top">
+                      <div className="col-12 col-xl-2 col-lg-2 col-sm-4 col-md-4 company--content-img-area">
+                        <img src={imgSrc} data-aos="fade" className='company--content-img cand-home' loading='lazy' alt="" />
+                      </div>
+                      <div className="col-12 col-xl-3 col-lg-3 col-sm-8 col-md-8 company--content-jobs-area">
+                        <div className='company--content-jobs' data-aos="zoom-out">{jobOpening}<span> Jobs Opening</span></div>
+                        <div className='home-company-name mt-2' data-aos="zoom-out">{company.companyName}</div>
+                      </div>
+                      <div className="col-12 col-xl-7 col-lg-7 col-md-12 company--content-desc-area">
+                        <p className='company--content-desc' data-aos="fade-left">{company.shortDescription}</p>
+                        <div className='company--content-apply-btn-area' data-aos="fade-right">
+                          <a href={`/company-details/${company.companyId}`} className='company--content-apply-btn'>
+                            <div className='company--content-apply-btn-sub'>
+                              Apply Now
+                            </div>
+                            <div className='company--content-apply-arrow'>
+                              <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 15 15" fill="none">
+                                <path d="M2.10205 2.10666C4.02798 3.73629 9.03538 5.84 13.6576 1.21777" stroke="#5C3B2E" strokeWidth="2" />
+                                <path d="M13.8327 1.04564C11.9705 2.74763 9.24438 7.44531 13.2383 12.6201" stroke="#5C3B2E" strokeWidth="2" />
+                                <path d="M1.2666 14.1331L14.1555 0.799805" stroke="#5C3B2E" strokeWidth="2" />
+                              </svg>
+                            </div>
+                          </a>
+                        </div>
+                      </div>
                     </div>
-                    <div className="col-12 col-xl-3 col-lg-3 col-sm-8 col-md-8 company--content-jobs-area">
-                      <div className='company--content-jobs' data-aos="zoom-out">{jobOpening}<span> Jobs Opening</span></div>
-                      <div className='home-company-name mt-2' data-aos="zoom-out">{company.companyName}</div>
-                    </div>
-                    <div className="col-12 col-xl-7 col-lg-7 col-md-12 company--content-desc-area">
-                      <p className='company--content-desc' data-aos="fade-left">{company.shortDescription}</p>
-                      <div className='company--content-apply-btn-area' data-aos="fade-right">
-                        <a href={`/company-details/${company.companyId}`} className='company--content-apply-btn'>
-                          <div className='company--content-apply-btn-sub'>
-                            Apply Now
-                          </div>
-                          <div className='company--content-apply-arrow'>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 15 15" fill="none">
-                              <path d="M2.10205 2.10666C4.02798 3.73629 9.03538 5.84 13.6576 1.21777" stroke="#5C3B2E" stroke-width="2" />
-                              <path d="M13.8327 1.04564C11.9705 2.74763 9.24438 7.44531 13.2383 12.6201" stroke="#5C3B2E" stroke-width="2" />
-                              <path d="M1.2666 14.1331L14.1555 0.799805" stroke="#5C3B2E" stroke-width="2" />
-                            </svg>
-                          </div>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                )
-              })}
-
-
-              {/* <div className="row company--content-row custom-row-border-top">
-                <div className="col-12 col-xl-3 col-lg-3 col-sm-6 col-md-6 company--content-img-area">
-                  <img src="assets/img/companies/company-2.png" data-aos="fade" className='company--content-img' loading='lazy' alt="" />
-                </div>
-                <div className="col-12 col-xl-4 col-lg-4 col-sm-6 col-md-6 company--content-jobs-area">
-                  <div className='company--content-jobs' data-aos="zoom-out">15<span> Jobs Opening</span></div>
-                </div>
-                <div className="col-12 col-xl-5 col-lg-5 col-md-12 company--content-desc-area">
-                  <p className='company--content-desc' data-aos="fade-left">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
-                  <div className='company--content-apply-btn-area' data-aos="fade-right">
-                    <a href="/company-details" className='company--content-apply-btn'>
-                      <div className='company--content-apply-btn-sub'>
-                        Apply Now
-                      </div>
-                      <div className='company--content-apply-arrow'>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 15 15" fill="none">
-                          <path d="M2.10205 2.10666C4.02798 3.73629 9.03538 5.84 13.6576 1.21777" stroke="#5C3B2E" stroke-width="2" />
-                          <path d="M13.8327 1.04564C11.9705 2.74763 9.24438 7.44531 13.2383 12.6201" stroke="#5C3B2E" stroke-width="2" />
-                          <path d="M1.2666 14.1331L14.1555 0.799805" stroke="#5C3B2E" stroke-width="2" />
-                        </svg>
-                      </div>
-                    </a>
-                  </div>
-                </div>
-              </div>
-
-              <div className="row company--content-row custom-row-border-top">
-                <div className="col-12 col-xl-3 col-lg-3 col-sm-6 col-md-6 company--content-img-area">
-                  <img src="assets/img/companies/company-3.png" data-aos="fade" className='company--content-img' loading='lazy' alt="" />
-                </div>
-                <div className="col-12 col-xl-4 col-lg-4 col-sm-6 col-md-6 company--content-jobs-area">
-                  <div className='company--content-jobs' data-aos="zoom-out">05<span> Jobs Opening</span></div>
-                </div>
-                <div className="col-12 col-xl-5 col-lg-5 col-md-12 company--content-desc-area">
-                  <p className='company--content-desc' data-aos="fade-left">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
-                  <div className='company--content-apply-btn-area' data-aos="fade-right">
-                    <a href="/company-details" className='company--content-apply-btn'>
-                      <div className='company--content-apply-btn-sub'>
-                        Apply Now
-                      </div>
-                      <div className='company--content-apply-arrow'>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 15 15" fill="none">
-                          <path d="M2.10205 2.10666C4.02798 3.73629 9.03538 5.84 13.6576 1.21777" stroke="#5C3B2E" stroke-width="2" />
-                          <path d="M13.8327 1.04564C11.9705 2.74763 9.24438 7.44531 13.2383 12.6201" stroke="#5C3B2E" stroke-width="2" />
-                          <path d="M1.2666 14.1331L14.1555 0.799805" stroke="#5C3B2E" stroke-width="2" />
-                        </svg>
-                      </div>
-                    </a>
-                  </div>
-                </div>
-              </div>
-
-              <div className="row company--content-row custom-row-border-top">
-                <div className="col-12 col-xl-3 col-lg-3 col-sm-6 col-md-6 company--content-img-area">
-                  <img src="assets/img/companies/company-4.png" data-aos="fade" className='company--content-img' loading='lazy' alt="" />
-                </div>
-                <div className="col-12 col-xl-4 col-lg-4 col-sm-6 col-md-6 company--content-jobs-area">
-                  <div className='company--content-jobs' data-aos="zoom-out">15<span> Jobs Opening</span></div>
-                </div>
-                <div className="col-12 col-xl-5 col-lg-5 col-md-12 company--content-desc-area">
-                  <p className='company--content-desc' data-aos="fade-left">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
-                  <div className='company--content-apply-btn-area' data-aos="fade-right">
-                    <a href="/company-details" className='company--content-apply-btn'>
-                      <div className='company--content-apply-btn-sub'>
-                        Apply Now
-                      </div>
-                      <div className='company--content-apply-arrow'>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 15 15" fill="none">
-                          <path d="M2.10205 2.10666C4.02798 3.73629 9.03538 5.84 13.6576 1.21777" stroke="#5C3B2E" stroke-width="2" />
-                          <path d="M13.8327 1.04564C11.9705 2.74763 9.24438 7.44531 13.2383 12.6201" stroke="#5C3B2E" stroke-width="2" />
-                          <path d="M1.2666 14.1331L14.1555 0.799805" stroke="#5C3B2E" stroke-width="2" />
-                        </svg>
-                      </div>
-                    </a>
-                  </div>
-                </div>
-              </div>
-
-              <div className="row company--content-row custom-row-border-top">
-                <div className="col-12 col-xl-3 col-lg-3 col-sm-6 col-md-6 company--content-img-area">
-                  <img src="assets/img/companies/company-5.png" data-aos="fade" className='company--content-img' loading='lazy' alt="" />
-                </div>
-                <div className="col-12 col-xl-4 col-lg-4 col-sm-6 col-md-6 company--content-jobs-area">
-                  <div className='company--content-jobs' data-aos="zoom-out">06<span> Jobs Opening</span></div>
-                </div>
-                <div className="col-12 col-xl-5 col-lg-5 col-md-12 company--content-desc-area">
-                  <p className='company--content-desc' data-aos="fade-left">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
-                  <div className='company--content-apply-btn-area' data-aos="fade-right">
-                    <a href="/company-details" className='company--content-apply-btn'>
-                      <div className='company--content-apply-btn-sub'>
-                        Apply Now
-                      </div>
-                      <div className='company--content-apply-arrow'>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 15 15" fill="none">
-                          <path d="M2.10205 2.10666C4.02798 3.73629 9.03538 5.84 13.6576 1.21777" stroke="#5C3B2E" stroke-width="2" />
-                          <path d="M13.8327 1.04564C11.9705 2.74763 9.24438 7.44531 13.2383 12.6201" stroke="#5C3B2E" stroke-width="2" />
-                          <path d="M1.2666 14.1331L14.1555 0.799805" stroke="#5C3B2E" stroke-width="2" />
-                        </svg>
-                      </div>
-                    </a>
-                  </div>
-                </div>
-              </div>
-
-              <div className="row company--content-row custom-row-border-top">
-                <div className="col-12 col-xl-3 col-lg-3 col-sm-6 col-md-6 company--content-img-area">
-                  <img src="assets/img/companies/company-6.png" data-aos="fade" className='company--content-img' loading='lazy' alt="" />
-                </div>
-                <div className="col-12 col-xl-4 col-lg-4 col-sm-6 col-md-6 company--content-jobs-area">
-                  <div className='company--content-jobs' data-aos="zoom-out">06<span> Jobs Opening</span></div>
-                </div>
-                <div className="col-12 col-xl-5 col-lg-5 col-md-12 company--content-desc-area">
-                  <p className='company--content-desc' data-aos="fade-left">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
-                  <div className='company--content-apply-btn-area' data-aos="fade-right">
-                    <a href="/company-details" className='company--content-apply-btn'>
-                      <div className='company--content-apply-btn-sub'>
-                        Apply Now
-                      </div>
-                      <div className='company--content-apply-arrow'>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 15 15" fill="none">
-                          <path d="M2.10205 2.10666C4.02798 3.73629 9.03538 5.84 13.6576 1.21777" stroke="#5C3B2E" stroke-width="2" />
-                          <path d="M13.8327 1.04564C11.9705 2.74763 9.24438 7.44531 13.2383 12.6201" stroke="#5C3B2E" stroke-width="2" />
-                          <path d="M1.2666 14.1331L14.1555 0.799805" stroke="#5C3B2E" stroke-width="2" />
-                        </svg>
-                      </div>
-                    </a>
-                  </div>
-                </div>
-              </div>
-
-              <div className="row company--content-row custom-row-border-top custom-row-border-bottom">
-                <div className="col-12 col-xl-3 col-lg-3 col-sm-6 col-md-6 company--content-img-area">
-                  <img src="assets/img/companies/company-7.png" data-aos="fade" className='company--content-img' loading='lazy' alt="" />
-                </div>
-                <div className="col-12 col-xl-4 col-lg-4 col-sm-6 col-md-6 company--content-jobs-area">
-                  <div className='company--content-jobs' data-aos="zoom-out">15<span> Jobs Opening</span></div>
-                </div>
-                <div className="col-12 col-xl-5 col-lg-5 col-md-12 company--content-desc-area">
-                  <p className='company--content-desc' data-aos="fade-left">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
-                  <div className='company--content-apply-btn-area' data-aos="fade-right">
-                    <a href="/company-details" className='company--content-apply-btn'>
-                      <div className='company--content-apply-btn-sub'>
-                        Apply Now
-                      </div>
-                      <div className='company--content-apply-arrow'>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 15 15" fill="none">
-                          <path d="M2.10205 2.10666C4.02798 3.73629 9.03538 5.84 13.6576 1.21777" stroke="#5C3B2E" stroke-width="2" />
-                          <path d="M13.8327 1.04564C11.9705 2.74763 9.24438 7.44531 13.2383 12.6201" stroke="#5C3B2E" stroke-width="2" />
-                          <path d="M1.2666 14.1331L14.1555 0.799805" stroke="#5C3B2E" stroke-width="2" />
-                        </svg>
-                      </div>
-                    </a>
-                  </div>
-                </div>
-              </div> */}
+                  );
+                })}
             </div>
           </section>
 

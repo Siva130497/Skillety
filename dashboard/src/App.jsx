@@ -54,7 +54,7 @@ function App() {
         <Route path='/settings' element={<SettingsCandidate />} />
         <Route path='/client-settings' element={<SettingsClient />} />
         <Route path='/manage-job' element={<ManageJobs />} />
-        <Route path='/post-job' element={<JobPosting />} />
+        <Route path='/post-job/:token' element={<JobPosting />} />
         <Route path='/manage-application' element={<ManageApplication />} />
         <Route path='/candidate-profile/:id' element={<CandidateProfile />} />
         <Route path='/talents/:id' element={<Talents />} />

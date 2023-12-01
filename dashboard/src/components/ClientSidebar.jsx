@@ -30,7 +30,7 @@ const ClientSidebar = () => {
                 $('#search_candidate').addClass('active');
             } else if (path === '/manage-application') {
                 $('#manage_application').addClass('active');
-            } else if (path === '/post-job') {
+            } else if (path === `/post-job/${clientToken}`) {
                 $('#post_job').addClass('active');
             } else if (path === '/manage-job') {
                 $('#manage_job').addClass('active');
@@ -148,7 +148,7 @@ const ClientSidebar = () => {
                             </li>
 
                             <li className="dropdown" id='post_job'>
-                                <a href="/post-job" className="nav-link"><i data-feather="briefcase"></i><span>Post a Job</span></a>
+                                <a href={`/post-job/${clientToken}`} className="nav-link"><i data-feather="briefcase"></i><span>Post a Job</span></a>
                             </li>
 
                             <li className="dropdown" id='manage_job'>

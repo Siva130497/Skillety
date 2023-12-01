@@ -139,18 +139,21 @@ const AllClientStaff = () => {
       }
 
       useEffect(() => {
-        const fetchData = async () => {
-          try {
-            const user = await getProtectedData(clientToken);
-            console.log(user);
-            setEmployeeId(user.id);
-          } catch (error) {
-            console.log(error)
-          }
-        };
-    
-        fetchData();
-      }, []);
+        if(clientToken){
+            const fetchData = async () => {
+                try {
+                  const user = await getProtectedData(clientToken);
+                  console.log(user);
+                  setEmployeeId(user.id);
+                } catch (error) {
+                  console.log(error)
+                }
+              };
+          
+              fetchData();
+        }
+        
+      }, [clientToken]);
   
       useEffect(()=>{
         if(employeeId){
