@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useEffect } from 'react';
-import ATSLayout from '../../components/ATSLayout';
+import ClientLayout from '../../components/ClientLayout';
 import Footer from '../../components/Footer';
 import './AllCompanyStaff.css';
 import './AllCompanyStaff-responsive.css';
@@ -9,28 +9,28 @@ import axios from 'axios';
 import { v4 as uuidv4} from "uuid";
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
+import AuthContext from '../../context/AuthContext';
 
-const AllCompanyStaff = () => {
-    const [staffToken, setStaffToken] = useState("");
-    const [allRecruiters, setAllRecruiters] = useState([]);
-    const [selectedRecruiterViewDetail, setSelectedRecruiterViewDetail] = useState();
+const AllClientStaff = () => {
+    const [clientToken, setclientToken] = useState("");
+    const {getProtectedData} = useContext(AuthContext);
+    const [employeeId, setEmployeeId] = useState("");
+    const [loginClientDetail, setLoginClientDetail] = useState();
+    const [allClientStaffs, setAllClientStaffs] = useState([]);
+    const [selectedClientStaffViewDetail, setSelectedClientStaffViewDetail] = useState();
+
     const initialCredentials = {
         name:"",
         email:"",
         phone:"",
-        companyStaff:"",
-        password:"",
       }
       const [credentials, setcredentials] = useState(initialCredentials);
-    const [showPassword, setShowPassword] = useState(false);
-
-
-
+    
     const [x, setX] = useState([0, 10]);
 
     useEffect(() => {
-        setStaffToken(JSON.parse(localStorage.getItem('staffToken')))
-    }, [staffToken])
+        setclientToken(JSON.parse(localStorage.getItem('clientToken')))
+    }, [clientToken])
 
     useEffect(() => {
         $(document).ready(function () {
@@ -60,123 +60,154 @@ const AllCompanyStaff = () => {
         });
     }
 
-    const getAllRecruiters = async () => {
+   
+
+    const handleViewClientStaffDetail = (id) => {
+        const selectedClientStaff = allClientStaffs.find(clientStaff => clientStaff.id === id);
+        setSelectedClientStaffViewDetail(selectedClientStaff);
+    }
+
+    const createClientStaff = async (userData) => {
         try {
-            const res = await axios.get(`https://skillety.onrender.com/all-recruiters`, {
+            const response = await axios.post(`https://skillety.onrender.com/tempPass-Client-staff/${employeeId}`, userData, {
                 headers: {
-                    Authorization: `Bearer ${staffToken}`,
-                    Accept: 'application/json'
-                }
-            });
-            const result = res.data;
-            if (!result.error) {
-                console.log(result);
-                setAllRecruiters(result);
-            } else {
-                console.log(result);
-            }
-        } catch (err) {
-            console.log(err);
-        }
-    }
-
-    useEffect(() => {
-        if (staffToken) {
-            getAllRecruiters();
-        }
-
-    }, [staffToken]);
-
-    const handleViewRecruiterDetail = (id) => {
-        const selectedRecruiter = allRecruiters.find(recruiter => recruiter.id === id);
-        setSelectedRecruiterViewDetail(selectedRecruiter);
-    }
-
-    const handleRemove = (id) => {
-        Swal.fire({
-            title: 'Are you sure?',
-            text: 'You won\'t be able to revert this!',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
-        }).then((result) => {
-            if (result.isConfirmed) {
-
-                axios.delete(`https://skillety.onrender.com/delete-recruiter/${id}`, {
-                    headers: {
-                        Authorization: `Bearer ${staffToken}`,
-                        Accept: 'application/json'
-                    }
-                })
-                    .then(res => {
-                        console.log(res.data)
-                        showSuccessMessage("recruiter successfully removed from company!");
-                        getAllRecruiters();
-                    })
-                    .catch(err => {
-                        console.log(err)
-                        showErrorMessage();
-                    })
-            }
-        });
-    }
-
-    const createRecruiter = async (userData) => {
-        try {
-            const response = await axios.post('https://skillety.onrender.com/recruiter-create', userData, {
-                headers: {
-                    Authorization: `Bearer ${staffToken}`,
+                    Authorization: `Bearer ${clientToken}`,
                     Accept: 'application/json'
                 }
               });
     
             const result = response.data;
     
-            if (!result.error) {
+            if (!result.message) {
                 console.log(result);
-                showSuccessMessage("New company staff has been created successfully!")
-                setcredentials(initialCredentials);
-                getAllRecruiters();
+                if (result.emailSent) {
+                  showSuccessMessage("New client staff has been created successfully!")
+                  setcredentials(initialCredentials)
+                  getAllClientStaffs();
+              } else {
+                  console.log('Email sending failed.');
+                  showErrorMessage('Email sending failed.')
+              }
             } else {
                 console.log(result);
+                showErrorMessage("you reached the limit of creating accounts, upgrade your plan")
+                setcredentials(initialCredentials);
             }
         } catch (error) {
             console.log(error);
-            showErrorMessage(error.response.data.message);
         }
       };
-    
 
-    const handleTogglePassword = () => {
-        setShowPassword(!showPassword);
-    };
+      const getLoginClientDetail = async() => {
+        try{
+            const res = await axios.get(`https://skillety.onrender.com/client/${employeeId}`, {
+              headers: {
+                  Authorization: `Bearer ${clientToken}`,
+                  Accept: 'application/json'
+              }
+            });
+            const result = res.data;
+            if (!result.error) {
+              console.log(result);
+              setLoginClientDetail(result);
+            } else {
+              console.log(result);
+            }
+        }catch(err){
+          console.log(err);
+        }
+      }
+
+      const getAllClientStaffs = async() => {
+        try{
+            const res = await axios.get(`https://skillety.onrender.com/all-client-staffs/${loginClientDetail?.companyId}`, {
+              headers: {
+                  Authorization: `Bearer ${clientToken}`,
+                  Accept: 'application/json'
+              }
+            });
+            const result = res.data;
+            if (!result.error) {
+              console.log(result);
+              setAllClientStaffs(result);
+            } else {
+              console.log(result);
+            }
+        }catch(err){
+          console.log(err);
+        }
+      }
+
+      useEffect(() => {
+        const fetchData = async () => {
+          try {
+            const user = await getProtectedData(clientToken);
+            console.log(user);
+            setEmployeeId(user.id);
+          } catch (error) {
+            console.log(error)
+          }
+        };
+    
+        fetchData();
+      }, []);
+  
+      useEffect(()=>{
+        if(employeeId){
+          getLoginClientDetail();
+        }
+      },[employeeId]);
+
+      useEffect(()=>{
+        if(loginClientDetail){
+          getAllClientStaffs();
+        }
+      },[loginClientDetail]);
+
+      
+    // const handleRemove = (id) => {
+    //     Swal.fire({
+    //         title: 'Are you sure?',
+    //         text: 'You won\'t be able to revert this!',
+    //         icon: 'warning',
+    //         showCancelButton: true,
+    //         confirmButtonColor: '#3085d6',
+    //         cancelButtonColor: '#d33',
+    //         confirmButtonText: 'Yes, delete it!'
+    //     }).then((result) => {
+    //         if (result.isConfirmed) {
+
+    //             axios.delete(`https://skillety.onrender.com/delete-recruiter/${id}`, {
+    //                 headers: {
+    //                     Authorization: `Bearer ${clientToken}`,
+    //                     Accept: 'application/json'
+    //                 }
+    //             })
+    //                 .then(res => {
+    //                     console.log(res.data)
+    //                     showSuccessMessage("recruiter successfully removed from company!");
+    //                     getallClientStaffs();
+    //                 })
+    //                 .catch(err => {
+    //                     console.log(err)
+    //                     showErrorMessage();
+    //                 })
+    //         }
+    //     });
+    // }
 
     const handleInputChange = (event) => {
         const {name, value} = event.target;
         setcredentials({...credentials, [name]:value});
       }
     
-      const handleGeneratePassword = () => {
-        axios.get('https://skillety.onrender.com/random-password')
-          .then(response => {
-            setcredentials({...credentials, password:response.data});
-          })
-          .catch(error => {
-            console.error('Error:', error);
-          });
-      }
-    
       const handleSubmit = (event) => {
         event.preventDefault();
-        const id = uuidv4();
         const updatedCredentials = {
           ...credentials,
-          id,
         };
         console.log(updatedCredentials);
-        createRecruiter(updatedCredentials);
+        createClientStaff(updatedCredentials);
       }
 
     return (
@@ -184,7 +215,7 @@ const AllCompanyStaff = () => {
             <div class="main-wrapper main-wrapper-1">
                 <div class="navbar-bg"></div>
 
-                <ATSLayout />
+                <ClientLayout />
 
                 <div class="main-content">
                     <section class="section">
@@ -204,7 +235,7 @@ const AllCompanyStaff = () => {
                                                     </div>
                                                     <div className="man-app-sub-title">
                                                         Total Staffs :&nbsp;
-                                                        <span>{allRecruiters.length}</span>
+                                                        <span>{allClientStaffs.length}</span>
                                                     </div>
                                                 </div>
                                                 <div className="create-btn-area">
@@ -219,7 +250,7 @@ const AllCompanyStaff = () => {
                                                     </button>
                                                 </div>
                                             </div>
-                                            {allRecruiters.length === 0 ?
+                                            {allClientStaffs.length === 0 ?
                                                 <div className="no-data-created-area">
                                                     <div className='no-data-created'>
                                                         <img src="../assets/img/no-data/no-data-img.png" className='no-data-img' alt="" />
@@ -233,28 +264,28 @@ const AllCompanyStaff = () => {
                                                             <th className='dash-table-head'>No.</th>
                                                             <th className='dash-table-head'>Full Name</th>
                                                             <th className='dash-table-head'>Email ID</th>
-                                                            <th className='dash-table-head'>Staff Type</th>
-                                                            <th className='dash-table-head text-center'>Action</th>
+                                                            {/* <th className='dash-table-head'>Staff Type</th> */}
+                                                            {/* <th className='dash-table-head text-center'>Action</th> */}
                                                         </tr>
 
                                                         {/* table data */}
-                                                        {allRecruiters.slice(x[0], x[1]).map((recruiter, index) => {
+                                                        {allClientStaffs.slice(x[0], x[1]).map((clientStaff, index) => {
                                                             return (
-                                                                <tr className='dash-table-row client' key={recruiter.id}>
+                                                                <tr className='dash-table-row client' key={clientStaff.id}>
                                                                     <td className='dash-table-data1'>{index + 1}.</td>
                                                                     <td className='dash-table-data1 text-capitalized'>
-                                                                        {recruiter.name}
+                                                                        {clientStaff.name}
                                                                     </td>
                                                                     <td className='dash-table-data1'>
-                                                                        {recruiter.email}
+                                                                        {clientStaff.email}
                                                                     </td>
 
-                                                                    <td className='dash-table-data1'>
+                                                                    {/* <td className='dash-table-data1'>
                                                                         {recruiter.companyStaff}
-                                                                    </td>
+                                                                    </td> */}
                                                                     <td className='text-center'>
                                                                         <div className="action-btn-area">
-                                                                            <button className='job-view-btn' data-toggle="modal" title='View staff details...' data-target="#staffViewModal" onClick={() => handleViewRecruiterDetail(recruiter.id)}>
+                                                                            <button className='job-view-btn' data-toggle="modal" title='View staff details...' data-target="#staffViewModal" onClick={() => handleViewClientStaffDetail(clientStaff.id)}>
                                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
                                                                                     <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
                                                                                     <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"
@@ -262,11 +293,11 @@ const AllCompanyStaff = () => {
                                                                                 </svg>
                                                                             </button>
 
-                                                                            <button className='job-delete-btn' data-toggle="modal" title='Delete contact message data...' data-target="#contactMsgdeleteModal" onClick={() => handleRemove(recruiter.id)}>
+                                                                            {/* <button className='job-delete-btn' data-toggle="modal" title='Delete contact message data...' data-target="#contactMsgdeleteModal" onClick={() => handleRemove(recruiter.id)}>
                                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
                                                                                     <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
                                                                                 </svg>
-                                                                            </button>
+                                                                            </button> */}
                                                                         </div>
                                                                     </td>
                                                                 </tr>
@@ -292,9 +323,9 @@ const AllCompanyStaff = () => {
                                                 </button>}
                                                 <div className='pag-page'>
                                                     <span className='current-page'>{Math.ceil(x[0] / 10) + 1}</span>&nbsp;/&nbsp;
-                                                    <span className='total-page'>{Math.ceil(allRecruiters.length / 10)}</span>
+                                                    <span className='total-page'>{Math.ceil(allClientStaffs.length / 10)}</span>
                                                 </div>
-                                                {(allRecruiters.slice(x[0], x[1]).length === 10 && allRecruiters.length > x[1]) && <button className='pag-next-btn' onClick={() => setX([x[0] + 10, x[1] + 10])}>
+                                                {(allClientStaffs.slice(x[0], x[1]).length === 10 && allClientStaffs.length > x[1]) && <button className='pag-next-btn' onClick={() => setX([x[0] + 10, x[1] + 10])}>
                                                     <i class="bi bi-chevron-right"></i>
                                                 </button>}
                                             </div>
@@ -326,7 +357,7 @@ const AllCompanyStaff = () => {
                                             <div className="view-det-head">Full Name</div>
                                         </div>
                                         <div className="col-12 col-sm-6">
-                                            <div className="view-det-sub-head text-capitalized">{selectedRecruiterViewDetail?.name}</div>
+                                            <div className="view-det-sub-head text-capitalized">{selectedClientStaffViewDetail?.name}</div>
                                         </div>
                                     </div>
                                     <hr />
@@ -335,7 +366,7 @@ const AllCompanyStaff = () => {
                                             <div className="view-det-head">Mobile Number</div>
                                         </div>
                                         <div className="col-12 col-sm-6">
-                                            <div className="view-det-sub-head">{selectedRecruiterViewDetail?.phone}</div>
+                                            <div className="view-det-sub-head">{selectedClientStaffViewDetail?.phone}</div>
                                         </div>
                                     </div>
                                     <hr />
@@ -344,10 +375,10 @@ const AllCompanyStaff = () => {
                                             <div className="view-det-head">Email ID</div>
                                         </div>
                                         <div className="col-12 col-sm-6">
-                                            <div className="view-det-sub-head">{selectedRecruiterViewDetail?.email}</div>
+                                            <div className="view-det-sub-head">{selectedClientStaffViewDetail?.email}</div>
                                         </div>
                                     </div>
-                                    <hr />
+                                    {/* <hr />
                                     <div className="row">
                                         <div className="col-12 col-sm-6">
                                             <div className="view-det-head">Staff Type</div>
@@ -355,7 +386,7 @@ const AllCompanyStaff = () => {
                                         <div className="col-12 col-sm-6">
                                             <div className="view-det-sub-head text-capitalized">{selectedRecruiterViewDetail?.companyStaff}</div>
                                         </div>
-                                    </div>
+                                    </div> */}
                                     {/* <hr />
                                     <div className="row">
                                         <div className="col-12 col-sm-6">
@@ -458,63 +489,6 @@ const AllCompanyStaff = () => {
                                                     />
                                                 </div>
                                             </div>
-                                            <div className="col-12 col-sm-12 col-md-12 col-lg-6">
-                                                <div className="dash-form-group">
-                                                    <label htmlFor="companyStaff" className='dash-form-label'>Staff Type<span className='form-required'>*</span></label>
-                                                    <i class="bi bi-chevron-down toggle-icon"></i>
-                                                    <select
-                                                        id="companyStaff"
-                                                        name="companyStaff" 
-                                                        value = {credentials.companyStaff}
-                                                        onChange={handleInputChange}
-                                                        className='form-control dash-form-input select-input'
-                                                        required>
-                                                        <option value="" disabled selected>-- Select type of company staff --</option>
-                                                        <option value="HR">HR</option>
-                                                        <option value="Operator">Operator</option>
-                                                        <option value="Finance">Finance</option>
-                                                        <option value="Customer support executive">Customer support executive</option>
-                                                        <option value="digitalmarketing team">digitalmarketing team</option>
-                                                        <option value="RMG">RMG</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div className="col-12 col-sm-12 col-md-12 col-lg-12">
-                                                <div className="dash-form-group">
-                                                    <label htmlFor="password" className='dash-form-label'>Password<span className='form-required'>*</span></label>
-                                                    <div className='row'>
-                                                        <div className="col-12 col-sm-12 col-lg-6">
-                                                            <input
-                                                                type={showPassword ? 'text' : 'password'}
-                                                                id="password"
-                                                                aria-describedby="password"
-                                                                name="password" 
-                                                                value={credentials.password} 
-                                                                onChange = {handleInputChange}
-                                                                placeholder="Company staff password"
-                                                                className='form-control dash-form-input'
-                                                                required
-                                                            />
-                                                            {/* {credentials.password ? */}
-                                                            <i className={`bi ${showPassword ? 'bi-eye' : 'bi-eye-slash'} password-view-icon`}
-                                                                onClick={handleTogglePassword}
-                                                                id='togglePassword'>
-                                                            </i>
-                                                            {/* : null} */}
-                                                        </div>
-                                                        <div className="col-12 col-sm-12 col-lg-6 pl-lg-0 mt-3 mt-lg-0 generate-btn-area">
-                                                            <button
-                                                                type="button"
-                                                                className="btn generate-btn"
-                                                                title='Generate Password'
-                                                                onClick={handleGeneratePassword}
-                                                            >
-                                                                Generate
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -536,4 +510,4 @@ const AllCompanyStaff = () => {
     )
 }
 
-export default AllCompanyStaff
+export default AllClientStaff

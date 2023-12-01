@@ -21,6 +21,7 @@ import PackagePlans from './pages/PackagePlans/PackagePlans';
 import JobDetails from './pages/JobDetails/JobDetails';
 import ClientProfile from './pages/ClientProfile/ClientProfile';
 import CompanyDetail from './pages/CompanyDetail/CompanyDetail';
+import AllClientStaff from './pages/AllClientStaff/AllClientStaff';
 
 ////for recruiter
 import RecruiterDashboard from './pages/RecruiterDashboard/RecruiterDashboard';
@@ -65,7 +66,7 @@ function App() {
         <Route path='/job-details' element={<JobDetails />} />
         <Route path='/client-profile/:id' element={<ClientProfile />} />
         <Route path='/company-detail/:id' element={<CompanyDetail />} />
-        
+        <Route path='/client-staff' element={<AllClientStaff />} />
 
         {/* for recruiter */}
         <Route path='/' element={<RecruiterLogin />} />
