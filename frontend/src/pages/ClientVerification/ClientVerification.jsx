@@ -220,7 +220,7 @@ const ClientVerification = () => {
 
     return (
         <div>
-            {newClient.id === id ?
+            {newClient ?
                 <div>
                 <Layout forgotPassword={true}/>
                 <div className='cli--signup-section'>
