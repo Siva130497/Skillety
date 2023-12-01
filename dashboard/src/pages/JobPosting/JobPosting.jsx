@@ -274,7 +274,7 @@ const JobPosting = () => {
   // }
 
   useEffect(()=>{
-    localStorage.setItem("token", JSON.stringify(token));
+    localStorage.setItem("clientToken", JSON.stringify(token));
  },[token])
 
   useEffect(() => {
