@@ -58,152 +58,157 @@ const CandidateProfile = () => {
     }, [loginCandidate])
 
     useEffect(() => {
-        $(document).ready(function () {
-            $(".profile--name-edit-btn").click(function () {
-                var $nameEditSection = $(this).closest(".profile--name-edit-section");
-                var $changeNameInput = $nameEditSection.find(".profile-name-edit-input-area");
+        // $(".profile--name-edit-btn").click(function () {
+        //     var $nameEditSection = $(this).closest(".profile--name-edit-section");
+        //     var $changeNameInput = $nameEditSection.find(".profile-name-edit-input-area");
 
-                if ($changeNameInput.is(":visible")) {
-                    // Collapse the text area
-                    $changeNameInput.slideUp();
-                    $(this).removeClass("expanded");
-                    $(this).find("i").removeClass("bi-x").addClass("bi-pencil");
-                } else {
-                    // Expand the text area
-                    $changeNameInput.slideDown();
-                    $(this).addClass("expanded");
-                    $(this).find("i").removeClass("bi-pencil").addClass("bi-x");
-                }
-            });
+        //     if ($changeNameInput.is(":visible")) {
+        //         // Collapse the text area
+        //         $changeNameInput.slideUp();
+        //         $(this).removeClass("expanded");
+        //         $(this).find("i").removeClass("bi-x").addClass("bi-pencil");
+        //     } else {
+        //         // Expand the text area
+        //         $changeNameInput.slideDown();
+        //         $(this).addClass("expanded");
+        //         $(this).find("i").removeClass("bi-pencil").addClass("bi-x");
+        //     }
+        // });
 
-            $(".prof-more-det-edit-btn").on("click", function () {
-                var $changeInputSection = $(this).closest(".prof-more-det-area");
-                var $changeInputArea = $changeInputSection.find(".prof-more-det-input-area");
+        // $(".prof-more-det-edit-btn").on("click", function () {
+        //     var $changeInputSection = $(this).closest(".prof-more-det-area");
+        //     var $changeInputArea = $changeInputSection.find(".prof-more-det-input-area");
 
-                // var type = $(this).data("type");
-                if ($changeInputArea.is(":visible")) {
-                    $changeInputArea.slideUp();
-                    $(this).removeClass("expanded");
-                    $(this).find("i").removeClass("bi-x").addClass("bi-pencil");
-                    // $(this).text("Change " + type);
-                } else {
-                    $changeInputArea.slideDown();
-                    $(this).addClass("expanded");
-                    $(this).find("i").removeClass("bi-pencil").addClass("bi-x");
-                    // $(this).text("Cancel");
-                }
-            });
+        //     // var type = $(this).data("type");
+        //     if ($changeInputArea.is(":visible")) {
+        //         $changeInputArea.slideUp();
+        //         $(this).removeClass("expanded");
+        //         $(this).find("i").removeClass("bi-x").addClass("bi-pencil");
+        //         // $(this).text("Change " + type);
+        //     } else {
+        //         $changeInputArea.slideDown();
+        //         $(this).addClass("expanded");
+        //         $(this).find("i").removeClass("bi-pencil").addClass("bi-x");
+        //         // $(this).text("Cancel");
+        //     }
+        // });
 
-            $(".profile-content-edit-btn").on("click", function () {
-                var $changeInputSection = $(this).closest(".profile-content-card");
-                var $changeInputArea = $changeInputSection.find(".profile-content-input-area");
+        // $(".profile-content-edit-btn").on("click", function () {
+        //     var $changeInputSection = $(this).closest(".profile-content-card");
+        //     var $changeInputArea = $changeInputSection.find(".profile-content-input-area");
 
-                var type = $(this).data("type");
-                if ($changeInputArea.is(":visible")) {
-                    $changeInputArea.slideUp();
-                    $(this).removeClass("expanded");
-                    $(this).text("Change " + type);
-                } else {
-                    $changeInputArea.slideDown();
-                    $(this).addClass("expanded");
-                    $(this).text("Cancel");
-                }
-            });
+        //     var type = $(this).data("type");
+        //     if ($changeInputArea.is(":visible")) {
+        //         $changeInputArea.slideUp();
+        //         $(this).removeClass("expanded");
+        //         $(this).text("Change " + type);
+        //     } else {
+        //         $changeInputArea.slideDown();
+        //         $(this).addClass("expanded");
+        //         $(this).text("Cancel");
+        //     }
+        // });
 
-            $(".profile-content-more-inputs-edit-btn").on("click", function () {
-                var $changeInputSection = $(this).closest(".more-inputs-area");
-                var $changeInputArea = $changeInputSection.find(".profile-content-more-input-area");
+        $(".profile-content-more-inputs-edit-btn").on("click", function () {
+            var $changeInputSection = $(this).closest(".more-inputs-area");
+            var $changeInputArea = $changeInputSection.find(".profile-content-more-input-area");
 
-                var type = $(this).data("type");
-                if ($changeInputArea.is(":visible")) {
-                    $changeInputArea.slideUp();
-                    $(this).removeClass("expanded");
-                    $(this).text("Add " + type);
-                } else {
-                    $changeInputArea.slideDown();
-                    $(this).addClass("expanded");
-                    $(this).text("Cancel");
-                }
-            });
+            var type = $(this).data("type");
+            if ($changeInputArea.is(":visible")) {
+                $changeInputArea.slideUp();
+                $(this).removeClass("expanded");
+                $(this).text("Add " + type);
+            } else {
+                $changeInputArea.slideDown();
+                $(this).addClass("expanded");
+                $(this).text("Cancel");
+            }
+        });
 
-            $(".personal-det-add-btn").on("click", function () {
-                var $changeInputSection = $(this).closest(".personal-detail-section");
-                var $changeInputArea = $changeInputSection.find(".personal-det-add-input-area");
+        $(".personal-det-add-btn").on("click", function () {
+            var $changeInputSection = $(this).closest(".personal-detail-section");
+            var $changeInputArea = $changeInputSection.find(".personal-det-add-input-area");
 
-                var type = $(this).data("type");
-                if ($changeInputArea.is(":visible")) {
-                    $changeInputArea.slideUp();
-                    $(this).removeClass("expanded");
-                    $(this).text("Add " + type);
-                } else {
-                    $changeInputArea.slideDown();
-                    $(this).addClass("expanded");
-                    $(this).text("Cancel");
-                }
-            });
+            var type = $(this).data("type");
+            if ($changeInputArea.is(":visible")) {
+                $changeInputArea.slideUp();
+                $(this).removeClass("expanded");
+                $(this).text("Add " + type);
+            } else {
+                $changeInputArea.slideDown();
+                $(this).addClass("expanded");
+                $(this).text("Cancel");
+            }
+        });
 
-            // Function to clear the file input and reset the button and text
-            function clearFileInput() {
-                $('#file_upload').val('');
-                $('#file-chosen').text('No file chosen');
+        // Function to clear the file input and reset the button and text
+        function clearFileInput() {
+            $('#file_upload').val('');
+            $('#file-chosen').text('No file chosen');
+            $('.file-upload-btn').text('Upload resume');
+            $('.file-upload-btn').css('background-color', '#FFF3D0');
+            $('.file-upload-btn').css('color', '#714F36');
+            $('#clear-file').hide();
+            $('#save-file').hide();
+        }
+
+        $('#file_upload').on('change', function () {
+            $('#file-chosen').text(this.files[0].name);
+
+            if (this.files.length > 0) {
+                $('.file-upload-btn').text('Resume Uploaded');
+                $('.file-upload-btn').css('background-color', '#714F36');
+                $('.file-upload-btn').css('color', '#FFF');
+                $('#clear-file').show();
+                $('#save-file').show();
+            } else {
                 $('.file-upload-btn').text('Upload resume');
                 $('.file-upload-btn').css('background-color', '#FFF3D0');
                 $('.file-upload-btn').css('color', '#714F36');
-                $('#clear-file').hide();
-                $('#save-file').hide();
             }
-
-            $('#file_upload').on('change', function () {
-                $('#file-chosen').text(this.files[0].name);
-
-                if (this.files.length > 0) {
-                    $('.file-upload-btn').text('Resume Uploaded');
-                    $('.file-upload-btn').css('background-color', '#714F36');
-                    $('.file-upload-btn').css('color', '#FFF');
-                    $('#clear-file').show();
-                    $('#save-file').show();
-                } else {
-                    $('.file-upload-btn').text('Upload resume');
-                    $('.file-upload-btn').css('background-color', '#FFF3D0');
-                    $('.file-upload-btn').css('color', '#714F36');
-                }
-            });
-
-            $('#clear-file').on('click', function () {
-                clearFileInput();
-            });
-
-            $('.pro-quick-link').on('click', function (event) {
-                var target = $($(this).attr('href'));
-                if (target.length) {
-                    event.preventDefault();
-                    $('html, body').animate({
-                        scrollTop: target.offset().top - 100
-                    }, 800);
-                }
-            });
-
-            // Open modal when the button is clicked
-            $(".image-view-btn").on("click", function () {
-                $("#imageModal").css("display", "flex");
-                $("#modalImage").attr("src", $(".profile-det-image").attr("src"));
-            });
-
-            // Close modal when the close button is clicked
-            $(".image-view-close").on("click", function () {
-                $("#imageModal").css("display", "none");
-            });
-
-            // Close modal when clicking outside the modal content
-            $(window).on("click", function (event) {
-                if (event.target == $("#imageModal")[0]) {
-                    $("#imageModal").css("display", "none");
-                }
-            });
         });
 
-    }, [loginCandidate]);
+        $('#clear-file').on('click', function () {
+            clearFileInput();
+        });
 
+        // Open modal when the button is clicked
+        $(".image-view-btn").on("click", function () {
+            $("#imageModal").css("display", "flex");
+            $("#modalImage").attr("src", $(".profile-det-image").attr("src"));
+        });
+
+        // Close modal when the close button is clicked
+        $(".image-view-close").on("click", function () {
+            $("#imageModal").css("display", "none");
+        });
+
+        // Close modal when clicking outside the modal content
+        $(window).on("click", function (event) {
+            if (event.target == $("#imageModal")[0]) {
+                $("#imageModal").css("display", "none");
+            }
+        });
+
+        // Function to handle scrolling to the target
+        const handleScroll = (event) => {
+            const target = $($(event.currentTarget).attr('href'));
+            if (target.length) {
+                event.preventDefault();
+                $('html, body').animate({
+                    scrollTop: target.offset().top - 100
+                }, 800);
+            }
+        };
+
+        // Attach event listeners when the component mounts
+        $('.pro-quick-link').on('click', handleScroll);
+
+        return () => {
+            $('.pro-quick-link').off('click', handleScroll);
+        };
+
+    }, [loginCandidate]);
 
     //for show success message for payment
     function showSuccessMessage(message) {
@@ -226,7 +231,6 @@ const CandidateProfile = () => {
             confirmButtonText: 'OK',
         });
     }
-
 
     useEffect(() => {
         setCandidateToken(JSON.parse(localStorage.getItem('candidateToken')))
@@ -283,9 +287,6 @@ const CandidateProfile = () => {
         }
     }, [resume]);
 
-
-
-
     const handleFirstNameUpdate = () => {
         const userData = {
             id: id,
@@ -300,9 +301,9 @@ const CandidateProfile = () => {
             .then(res => {
                 console.log(res.data)
                 if (!res.data.error) {
-                    showSuccessMessage("First Name Updated")
+                    showSuccessMessage("First Name Updated!")
                     setUserInfo(prevUserInfo => ({ ...prevUserInfo, firstName: "" }));
-                    
+
                     axios.get(`https://skillety.onrender.com/candidate/${id}`)
                         .then(res => {
                             console.log(res.data)
@@ -334,7 +335,7 @@ const CandidateProfile = () => {
             .then(res => {
                 console.log(res.data)
                 if (!res.data.error) {
-                    showSuccessMessage("last name updated")
+                    showSuccessMessage("Last name updated!")
                     setUserInfo(prevUserInfo => ({ ...prevUserInfo, lastName: "" }));
 
 
@@ -366,7 +367,7 @@ const CandidateProfile = () => {
             .then(res => {
                 console.log(res.data)
                 if (!res.data.error) {
-                    showSuccessMessage("location updated")
+                    showSuccessMessage("Location updated!")
                     setUserInfo(prevUserInfo => ({ ...prevUserInfo, location: "" }));
 
 
@@ -396,15 +397,15 @@ const CandidateProfile = () => {
             })
                 .then(res => {
                     console.log(res);
-                    showSuccessMessage("resume updated")
+                    showSuccessMessage("Resume updated!")
                     setResume(null);
 
                     axios.get(`https://skillety.onrender.com/candidate-resume/${id}`)
-                    .then(res => {
-                        console.log(res.data)
-                        setResume(res.data)
-                    })
-                    .catch(err => console.log(err))
+                        .then(res => {
+                            console.log(res.data)
+                            setResume(res.data)
+                        })
+                        .catch(err => console.log(err))
 
                 })
                 .catch(err => {
@@ -426,11 +427,11 @@ const CandidateProfile = () => {
                     setResume(null);
 
                     axios.get(`https://skillety.onrender.com/candidate-resume/${id}`)
-                    .then(res => {
-                        console.log(res.data)
-                        setResume(res.data)
-                    })
-                    .catch(err => console.log(err))
+                        .then(res => {
+                            console.log(res.data)
+                            setResume(res.data)
+                        })
+                        .catch(err => console.log(err))
 
                 })
                 .catch(err => {
@@ -482,7 +483,7 @@ const CandidateProfile = () => {
             .then(res => {
                 console.log(res.data)
                 if (!res.data.error) {
-                    showSuccessMessage("profile headline updated")
+                    showSuccessMessage("Profile headline updated!")
                     setUserInfo(prevUserInfo => ({ ...prevUserInfo, profileHeadline: "" }))
 
                     axios.get(`https://skillety.onrender.com/candidate/${id}`)
@@ -498,6 +499,39 @@ const CandidateProfile = () => {
                 showErrorMessage()
             })
     }
+
+
+    /////////////
+    const [isNameExpanded, setisNameExpanded] = useState(false);
+    const handleNameChangeToggle = () => {
+        setisNameExpanded((prev) => !prev);
+    };
+
+    const [isLocationExpanded, setisLocationExpanded] = useState(false);
+    const handleLocationChangeToggle = () => {
+        setisLocationExpanded((prev) => !prev);
+    };
+
+    const [isDaysExpanded, setisDaysExpanded] = useState(false);
+    const handleDaysChangeToggle = () => {
+        setisDaysExpanded((prev) => !prev);
+    };
+
+    const [isSkillExpanded, setisSkillExpanded] = useState(false);
+    const handleSkillChangeToggle = () => {
+        setisSkillExpanded((prev) => !prev);
+    };
+
+    const [isHeadlineExpanded, setisHeadlineExpanded] = useState(false);
+    const handleHeadlineChangeToggle = () => {
+        setisHeadlineExpanded((prev) => !prev);
+    };
+
+    const [isEducationExpanded, setisEducationExpanded] = useState(false);
+    const handleEducationChangeToggle = () => {
+        setisEducationExpanded((prev) => !prev);
+    };
+    /////////////
 
     return (
         <div>
@@ -539,12 +573,13 @@ const CandidateProfile = () => {
                                                     <div className="profile-det-area">
                                                         <div className="profile--name-edit-section">
                                                             <div className="profile--name-area">
-                                                                <div className="profile--name">{loginCandidate?.firstName + " " + loginCandidate?.lastName}</div>
-                                                                <button className='profile--name-edit-btn'>
-                                                                    <i class="bi bi-pencil profile--name-edit-icon"></i>
+                                                                <div className="profile--name text-capitalized">{loginCandidate?.firstName + " " + loginCandidate?.lastName}</div>
+                                                                <button className={`profile--name-edit-btn ${isNameExpanded ? 'expanded' : ''}`}
+                                                                    onClick={handleNameChangeToggle}>
+                                                                    <i class={`${isNameExpanded ? 'bi-x' : 'bi bi-pencil'} profile--name-edit-icon`}></i>
                                                                 </button>
                                                             </div>
-                                                            <div className="profile-name-edit-input-area">
+                                                            <div className={`profile-name-edit-input-area ${isNameExpanded ? 'expanded-one' : ''}`}>
                                                                 <div className="row">
                                                                     <div className="col-12 d-flex align-items-center gap-10">
                                                                         <input type="text" className="change-setting-input"
@@ -555,7 +590,7 @@ const CandidateProfile = () => {
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div className="profile-name-edit-input-area">
+                                                            <div className={`profile-name-edit-input-area ${isNameExpanded ? 'expanded-two' : ''}`}>
                                                                 <div className="row">
                                                                     <div className="col-12 d-flex align-items-center gap-10">
                                                                         <input type="text"
@@ -575,30 +610,62 @@ const CandidateProfile = () => {
                                                         <div className="prof-page-divider"></div>
                                                         <div className="prof-more-det-section">
                                                             <div className="prof-more-det-left-area">
-                                                                <div className="prof-more-det-area">
-                                                                    <div className="prof-more-det">
-                                                                        <i class="bi bi-geo-alt"></i>
-                                                                        <div className="prof-more-det-title">{loginCandidate?.location}</div>
-                                                                        <button className="prof-more-det-edit-btn">
-                                                                            <i class="bi bi-pencil profile--name-edit-icon"></i>
-                                                                        </button>
-                                                                    </div>
-                                                                    <div className="prof-more-det-input-area">
-                                                                        <div className="row">
-                                                                            <div className="col-12 d-flex align-items-center gap-10">
-                                                                                <input type="text" className="change-setting-input more-det" placeholder="Change Location"
-                                                                                    value={userInfo.location}
-                                                                                    onChange={(e) => setUserInfo({ ...userInfo, location: e.target.value })} />
-                                                                                <button className="setting-update-btn more-det" onClick={handleLocationUpdate}>Update</button>
+                                                                {loginCandidate?.location ?
+                                                                    <div className="prof-more-det-area">
+                                                                        <div className="prof-more-det">
+                                                                            <i class="bi bi-geo-alt"></i>
+                                                                            <div className="prof-more-det-title text-capitalized">{loginCandidate?.location}</div>
+                                                                            <button className={`prof-more-det-edit-btn ${isLocationExpanded ? 'expanded' : ''}`}
+                                                                                onClick={handleLocationChangeToggle}>
+                                                                                <i class={`${isLocationExpanded ? 'bi-x' : 'bi bi-pencil'} profile--name-edit-icon`}></i>
+                                                                            </button>
+                                                                        </div>
+                                                                        <div className={`prof-more-det-input-area ${isLocationExpanded ? 'expanded' : ''}`}>
+                                                                            <div className="row">
+                                                                                <div className="col-12 d-flex align-items-center gap-10">
+                                                                                    <input
+                                                                                        type="text"
+                                                                                        className="change-setting-input more-det"
+                                                                                        placeholder="Change Location"
+                                                                                        value={userInfo.location}
+                                                                                        onChange={(e) => setUserInfo({ ...userInfo, location: e.target.value })} />
+                                                                                    <button className="setting-update-btn more-det" onClick={handleLocationUpdate}>Update</button>
+                                                                                </div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                </div>
+                                                                    :
+                                                                    <div className="prof-more-det-area">
+                                                                        <div className="prof-more-det">
+                                                                            <i class="bi bi-geo-alt"></i>
+                                                                            {/* <div className="prof-more-det-title text-capitalized">{loginCandidate?.location}</div> */}
+                                                                            <button className={`prof-more-det-edit-btn ${isLocationExpanded ? 'expanded' : ''}`}
+                                                                                onClick={handleLocationChangeToggle}>
+                                                                                <span className="add-detail">
+                                                                                    {isLocationExpanded ? 'Cancel' : 'Add Location'}
+                                                                                </span>
+                                                                            </button>
+                                                                        </div>
+                                                                        <div className={`prof-more-det-input-area ${isLocationExpanded ? 'expanded' : ''}`}>
+                                                                            <div className="row">
+                                                                                <div className="col-12 d-flex align-items-center gap-10">
+                                                                                    <input
+                                                                                        type="text"
+                                                                                        className="change-setting-input more-det"
+                                                                                        placeholder="Add Location"
+                                                                                        value={userInfo.location}
+                                                                                        onChange={(e) => setUserInfo({ ...userInfo, location: e.target.value })} />
+                                                                                    <button className="setting-update-btn more-det" onClick={handleLocationUpdate}>Update</button>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                }
 
                                                                 <div className="prof-more-det-area">
                                                                     <div className="prof-more-det">
                                                                         <i class="bi bi-briefcase"></i>
-                                                                        <div className="prof-more-det-title">{loginCandidate?.designation[0]}</div>
+                                                                        <div className="prof-more-det-title text-capitalized">{loginCandidate?.designation[0]}</div>
                                                                     </div>
                                                                 </div>
 
@@ -606,15 +673,22 @@ const CandidateProfile = () => {
                                                                     <div className="prof-more-det">
                                                                         <i class="bi bi-file-earmark-text"></i>
                                                                         <div className="prof-more-det-title">{loginCandidate?.days}</div>
-                                                                        <button className="prof-more-det-edit-btn">
-                                                                            <i class="bi bi-pencil profile--name-edit-icon"></i>
+                                                                        <button className={`prof-more-det-edit-btn ${isDaysExpanded ? 'expanded' : ''}`}
+                                                                            onClick={handleDaysChangeToggle}>
+                                                                            <i class={`${isDaysExpanded ? 'bi-x' : 'bi bi-pencil'} profile--name-edit-icon`}></i>
                                                                         </button>
                                                                     </div>
-                                                                    <div className="prof-more-det-input-area">
+                                                                    <div className={`prof-more-det-input-area ${isDaysExpanded ? 'expanded' : ''}`}>
                                                                         <div className="row">
                                                                             <div className="col-12 d-flex align-items-center gap-10">
-                                                                                <input type="text" className="change-setting-input more-det" placeholder="Add availability to join"
-                                                                                />
+                                                                                <i class="bi bi-chevron-down toggle-icon"></i>
+                                                                                <select className='change-setting-input more-det select'>
+                                                                                    <option value="" disabled selected>-- Select availablity to join --</option>
+                                                                                    <option value="">0 to 7 days</option>
+                                                                                    <option value="">0 to 15 days</option>
+                                                                                    <option value="">0 to 21 days</option>
+                                                                                    <option value="">0 to 30 days</option>
+                                                                                </select>
                                                                                 <button className="setting-update-btn more-det">Update</button>
                                                                             </div>
                                                                         </div>
@@ -628,7 +702,11 @@ const CandidateProfile = () => {
                                                                 <div className="prof-more-det-area">
                                                                     <div className="prof-more-det">
                                                                         <i class="bi bi-telephone"></i>
-                                                                        <div className="prof-more-det-title" onClick={()=>window.location.href = `tel:${loginCandidate?.phone}`}><a className='setting-value link' href={`tel:${loginCandidate?.phone}`}>{loginCandidate?.phone}</a></div>
+                                                                        <div className="prof-more-det-title" onClick={() => window.location.href = `tel:${loginCandidate?.phone}`}>
+                                                                            <a className='prof-more-det-title link' href={`tel:${loginCandidate?.phone}`}>
+                                                                                {loginCandidate?.phone}
+                                                                            </a>
+                                                                        </div>
                                                                         {/* <button className="prof-more-det-edit-btn" data-type="mobile number">Add mobile number</button> */}
                                                                     </div>
                                                                     {/* <div className="prof-more-det-input-area">
@@ -644,7 +722,11 @@ const CandidateProfile = () => {
                                                                 <div className="prof-more-det-area">
                                                                     <div className="prof-more-det">
                                                                         <i class="bi bi-envelope"></i>
-                                                                        <div className="prof-more-det-title" onClick={()=> window.location.href = `mailto:${loginCandidate?.email}`}><a className='setting-value link' href={`mailto:${loginCandidate?.email}`}>{loginCandidate?.email}</a></div>
+                                                                        <div className="prof-more-det-title" onClick={() => window.location.href = `mailto:${loginCandidate?.email}`}>
+                                                                            <a className='prof-more-det-title link' href={`mailto:${loginCandidate?.email}`}>
+                                                                                {loginCandidate?.email}
+                                                                            </a>
+                                                                        </div>
                                                                         {/* <button className="prof-more-det-edit-btn" data-type="your email">Add your email</button> */}
                                                                     </div>
                                                                     {/* <div className="prof-more-det-input-area">
@@ -788,6 +870,7 @@ const CandidateProfile = () => {
                                             </div>
                                         </div>
                                     </div>
+
                                     <div className="col-12 col-xl-8 col-lg-8 col-md-8">
                                         <div className="profile-content-card" id='Resume'>
                                             <div className="profile-content-title">Resume</div>
@@ -795,20 +878,20 @@ const CandidateProfile = () => {
                                         Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature
                                     </div> */}
                                             <div className="prof-page-file-upload-area">
-                                                
-                                                    {/* <iframe src={candidateResumeUrl ? candidateResumeUrl : ""} title="Event Image iframe" ></iframe> */}
-                                                    <input type="file" id="file_upload" accept=".doc,.docx,.pdf,.rtf"
-                                                        style={{ display: 'none' }}
-                                                        onChange={e => setResume(e.target.files[0])}
-                                                        required />
-                                                    <label for="file_upload" className='prof-page-file-upload-label'>
-                                                        <span className='file-upload-btn'>
-                                                            Update resume
-                                                        </span>
-                                                    </label>
-                                                    {resume?.length > 0 ? <span id="file-chosen">{resume.name}</span> : loginCandidate?.file ? <span id="file-chosen">{loginCandidate?.file}</span> : <span id="file-chosen">no file choosen</span>}
-                                                    <button className="setting-update-btn more-det" onClick={handleResumeUpdate}>Update</button>
-                                                    {/* <div className="file-upload-btn-area">
+
+                                                {/* <iframe src={candidateResumeUrl ? candidateResumeUrl : ""} title="Event Image iframe" ></iframe> */}
+                                                <input type="file" id="file_upload" accept=".doc,.docx,.pdf,.rtf"
+                                                    style={{ display: 'none' }}
+                                                    onChange={e => setResume(e.target.files[0])}
+                                                    required />
+                                                <label for="file_upload" className='prof-page-file-upload-label'>
+                                                    <span className='file-upload-btn'>
+                                                        Update resume
+                                                    </span>
+                                                </label>
+                                                {resume?.length > 0 ? <span id="file-chosen">{resume.name}</span> : loginCandidate?.file ? <span id="file-chosen">{loginCandidate?.file}</span> : <span id="file-chosen">no file choosen</span>}
+                                                <button className="setting-update-btn more-det" onClick={handleResumeUpdate}>Update</button>
+                                                {/* <div className="file-upload-btn-area">
                                                 <button id="clear-file" className='clear-file-btn'>
                                                     <i class="bi bi-x"></i>Clear File
                                                 </button>
@@ -817,7 +900,7 @@ const CandidateProfile = () => {
                                                     Save
                                                 </button>
                                             </div> */}
-                                                
+
                                             </div>
                                         </div>
 
@@ -844,23 +927,37 @@ const CandidateProfile = () => {
                                         <div className="profile-content-card" id='Key_skills'>
                                             <div className="profile-content-top-area">
                                                 <div className="profile-content-title">Key Skills</div>
-                                                <button className="profile-content-edit-btn" data-type="key skill">Change key skill</button>
+                                                {loginCandidate?.skills ?
+                                                    <button className={`profile-content-edit-btn ${isSkillExpanded ? 'expanded' : ''}`}
+                                                        onClick={handleSkillChangeToggle}>
+                                                        {isSkillExpanded ? 'Cancel' : 'Change Key Skills'}
+                                                    </button>
+                                                    :
+                                                    <button className={`profile-content-edit-btn ${isSkillExpanded ? 'expanded' : ''}`}
+                                                        onClick={handleSkillChangeToggle}>
+                                                        {isSkillExpanded ? 'Cancel' : 'Add Key Skills'}
+                                                    </button>
+                                                }
                                             </div>
-                                            <div className="profile-content-area">
-                                                <div className='profile-content'>
-                                                    {loginCandidate?.skills.join(", ")}
-                                                </div>
-                                            </div>
-                                            <div className="profile-content-input-area">
+                                            {loginCandidate?.skills ?
+                                                <div className="profile-content-area">
+                                                    <div className='profile-content text-capitalized'>
+                                                        {loginCandidate?.skills.join(", ")}
+                                                    </div>
+                                                </div> : null
+                                            }
+                                            <div className={`profile-content-input-area ${isSkillExpanded ? 'expanded' : ''}`}>
                                                 <div className="row">
                                                     <div className="col-12 d-flex align-items-center gap-10">
                                                         <input type="text" className="change-setting-input"
                                                             onChange={(e) => setUserInfo({ ...userInfo, skill: e.target.value })}
-                                                            placeholder="Add key skill"
+                                                            placeholder={`${loginCandidate?.skills ? 'Change' : 'Add'} key skills`}
                                                         />
                                                         <button className="setting-update-btn"
                                                         // onClick={handleSkillUpdate}
-                                                        >Update</button>
+                                                        >
+                                                            {loginCandidate?.skills ? 'Update' : 'Add'}
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -869,20 +966,35 @@ const CandidateProfile = () => {
                                         <div className="profile-content-card" id='Profile_headline'>
                                             <div className="profile-content-top-area">
                                                 <div className="profile-content-title">Profile Headline</div>
-                                                <button className="profile-content-edit-btn" data-type="Profile headline">Change Profile Headline</button>
+                                                {loginCandidate?.profileHeadline ?
+                                                    <button className={`profile-content-edit-btn ${isHeadlineExpanded ? 'expanded' : ''}`}
+                                                        onClick={handleHeadlineChangeToggle}>
+                                                        {isHeadlineExpanded ? 'Cancel' : 'Change Profile Headline'}
+                                                    </button>
+                                                    :
+                                                    <button className={`profile-content-edit-btn ${isHeadlineExpanded ? 'expanded' : ''}`}
+                                                        onClick={handleHeadlineChangeToggle}>
+                                                        {isHeadlineExpanded ? 'Cancel' : 'Add Profile Headline'}
+                                                    </button>
+                                                }
                                             </div>
-                                            <div className="profile-content-area">
-                                                <div className='profile-content'>
-                                                    {loginCandidate?.profileHeadline}
-                                                </div>
-                                            </div>
-                                            <div className="profile-content-input-area">
+                                            {loginCandidate?.profileHeadline ?
+                                                <div className="profile-content-area">
+                                                    <div className='profile-content text-capitalized'>
+                                                        {loginCandidate?.profileHeadline}
+                                                    </div>
+                                                </div> : null
+                                            }
+                                            <div className={`profile-content-input-area ${isHeadlineExpanded ? 'expanded' : ''}`}>
                                                 <div className="row">
                                                     <div className="col-12 d-flex align-items-center gap-10">
-                                                        <input type="text" className="change-setting-input" placeholder="Change profile headline"
+                                                        <input type="text" className="change-setting-input"
+                                                            placeholder={`${loginCandidate?.profileHeadline ? 'Change' : 'Add'} profile headline`}
                                                             value={userInfo.profileHeadline}
                                                             onChange={(e) => setUserInfo({ ...userInfo, profileHeadline: e.target.value })} />
-                                                        <button className="setting-update-btn" onClick={handleProfileHeadlineUpdate}>Update</button>
+                                                        <button className="setting-update-btn" onClick={handleProfileHeadlineUpdate}>
+                                                            {loginCandidate?.profileHeadline ? 'Update' : 'Add'}
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -891,18 +1003,33 @@ const CandidateProfile = () => {
                                         <div className="profile-content-card" id='Education'>
                                             <div className="profile-content-top-area">
                                                 <div className="profile-content-title">Education</div>
-                                                <button className="profile-content-edit-btn" data-type="Education">Add Education</button>
+                                                {loginCandidate?.education ?
+                                                    <button className={`profile-content-edit-btn ${isEducationExpanded ? 'expanded' : ''}`}
+                                                        onClick={handleEducationChangeToggle}>
+                                                        {isEducationExpanded ? 'Cancel' : 'Change Education Detail'}
+                                                    </button>
+                                                    :
+                                                    <button className={`profile-content-edit-btn ${isEducationExpanded ? 'expanded' : ''}`}
+                                                        onClick={handleEducationChangeToggle}>
+                                                        {isEducationExpanded ? 'Cancel' : 'Add Education Detail'}
+                                                    </button>
+                                                }
                                             </div>
-                                            <div className="profile-content-area">
-                                                <div className='profile-content'>
-                                                    {loginCandidate?.education}
-                                                </div>
-                                            </div>
-                                            <div className="profile-content-input-area">
+                                            {loginCandidate?.education ?
+                                                <div className="profile-content-area">
+                                                    <div className='profile-content'>
+                                                        {loginCandidate?.education}
+                                                    </div>
+                                                </div> : null
+                                            }
+                                            <div className={`profile-content-input-area ${isEducationExpanded ? 'expanded' : ''}`}>
                                                 <div className="row">
                                                     <div className="col-12 d-flex align-items-center gap-10">
-                                                        <input type="text" className="change-setting-input" placeholder="Add Education" />
-                                                        <button className="setting-update-btn">Add</button>
+                                                        <input type="text" className="change-setting-input"
+                                                            placeholder={`${loginCandidate?.education ? 'Change' : 'Add'} education`} />
+                                                        <button className="setting-update-btn">
+                                                            {loginCandidate?.education ? 'Update' : 'Add'}
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </div>

@@ -12,6 +12,8 @@ import JobSearch from './pages/JobSearch/JobSearch';
 import Company from './pages/Company/Company';
 import CompanyDetails from './pages/CompanyDetails/CompanyDetails';
 import CompanyInformation from './pages/CompanyInformation/CompanyInformation';
+import TermsConditions from './pages/TermsConditions/TermsConditions';
+import PrivacyPolicy from './pages/PrivacyPolicy/PrivacyPolicy';
 
 import Services from './pages/Services/Services';
 import ServicesCVSourcing from './pages/Services/ServicesCVSourcing';
@@ -91,6 +93,8 @@ function App() {
             <Route path='/job-detail/:id' element={<JobDetails />} />
             <Route path='/job-search' element={<JobSearch />} />
             <Route path='/company' element={<Company />} />
+            <Route path='/terms-and-conditions' element={<TermsConditions />} />
+            <Route path='/privacy-policy' element={<PrivacyPolicy />} />
             <Route path='/company-details/:id' element={<CompanyDetails />} />
             {/* <Route path='/pdf' element={<PDFViewer />} /> */}
             <Route path='/live-chat' element={<LiveChat />} />
