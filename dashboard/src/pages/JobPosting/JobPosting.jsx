@@ -9,10 +9,11 @@ import $ from 'jquery';
 import AuthContext from '../../context/AuthContext';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
+import { useParams } from 'react-router-dom';
 
 const JobPosting = () => {
   // const [token, settoken] = useState("");
-  const {token} = useParams();
+  const {token} = useParams(); 
   const { getProtectedData, getClientChoosenPlan, packageSelectionDetail } = useContext(AuthContext);
   // const [packageSelectionDetail, setPackageSelectionDetail] = useState();
   const [employeeId, setEmployeeId] = useState("");
