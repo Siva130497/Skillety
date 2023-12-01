@@ -41,8 +41,10 @@ const clientRegister = async(req, res) => {
     console.log(req.body);
     const {email, name, phone} = req.body;
     const clientAvailable = await client.findOne({ $or: [{ email }, { name }, {phone}] });
-    if(clientAvailable){
-      return res.status(404).json({message: "User already registered"});
+    const allUserAvailable = await allUsers.findOne({ $or: [{ email }, { name }, { phone }] });
+
+    if (clientAvailable || allUserAvailable) {
+      return res.status(404).json({ message: "User already registered" });
     }
     const newClient = new client({
       ...req.body,
@@ -142,6 +144,14 @@ const createClientStaff = async (req, res) => {
   const {id} = req.params;
   
   try {
+    const {email, name, phone} = req.body; 
+    const userAvailable = await finalClient.findOne(({ $or: [{ email }, { name }, {phone}] }));
+    const allUserAvailable = await allUsers.findOne({ $or: [{ email }, { name }, { phone }] });
+
+    if (userAvailable || allUserAvailable) {
+      return res.status(404).json({ message: "User already registered" });
+    }
+
     const neededClient = await finalClient.findOne({id});
     
     if (neededClient){
@@ -444,9 +454,12 @@ const candidateReg = async(req, res) => {
     console.log(req.body);
     const {firstName, lastName, email, id, password, phone} = req.body; 
     const candidateAvailable = await candidate.findOne({ $or: [{ email }, { firstName }, {lastName}, {phone}] });
-    if(candidateAvailable){
-      return res.status(404).json({message: "User already registered"});
+    const allUserAvailable = await allUsers.findOne({ $or: [{ email }, { name:firstName }, { name:lastName }, { phone }] });
+
+    if (candidateAvailable || allUserAvailable) {
+      return res.status(404).json({ message: "User already registered" });
     }
+    
     const hashPassword = await bcrypt.hash(password, 12);
     const newCandidate = new candidate({
       ...req.body,
