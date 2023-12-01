@@ -6,7 +6,7 @@ import AuthContext from '../context/AuthContext';
 
 const ATSSideBar = () => {
     const [staffToken, setStaffToken] = useState("");
-    const {getProtectedData} = useContext(AuthContext);
+    const { getProtectedData } = useContext(AuthContext);
     const [role, setRole] = useState("");
 
     useEffect(() => {
@@ -21,7 +21,7 @@ const ATSSideBar = () => {
                 $('#recruiter_dashboard').addClass('active');
             } else if (path === '/all-company-staff') {
                 $('#all-company-staff').addClass('active');
-            }else if (path === '/all-clients') {
+            } else if (path === '/all-clients') {
                 $('#all_clients').addClass('active');
             } else if (path === '/all-candidates') {
                 $('#all_candidates').addClass('active');
@@ -33,8 +33,21 @@ const ATSSideBar = () => {
                 $('#posted_jobs').addClass('active');
             } else if (path === '/job-posting') {
                 $('#job_posting').addClass('active');
-            } else if (path === '/media-posting/event' || path === '/media-posting/blog' || path === '/media-posting/video' || path === '/media-posting/news' || path === '/media-posting/podcast') {
+            } else if (path === '/media-posting/event') {
+                $('#media_posting').addClass('active');
                 $('#event_posting').addClass('active');
+            } else if (path === '/media-posting/blog') {
+                $('#media_posting').addClass('active');
+                $('#blog_posting').addClass('active');
+            } else if (path === '/media-posting/video') {
+                $('#media_posting').addClass('active');
+                $('#video_posting').addClass('active');
+            } else if (path === '/media-posting/news') {
+                $('#media_posting').addClass('active');
+                $('#news_posting').addClass('active');
+            } else if (path === '/media-posting/podcast') {
+                $('#media_posting').addClass('active');
+                $('#podcast_posting').addClass('active');
             } else if (path === '/client-contact-message') {
                 $('#contact-message-client').addClass('active');
                 $('#contact-message').addClass('active');
@@ -55,7 +68,7 @@ const ATSSideBar = () => {
     }, [staffToken, role]);
 
     useEffect(() => {
-        if(staffToken){
+        if (staffToken) {
             const fetchData = async () => {
                 try {
                     const userData = await getProtectedData(staffToken);
@@ -65,7 +78,7 @@ const ATSSideBar = () => {
                     console.log(error)
                 }
             };
-    
+
             fetchData();
         }
     }, [staffToken]);
@@ -108,14 +121,14 @@ const ATSSideBar = () => {
                         <li className="dropdown" id='job_posting'>
                             <a href="/job-posting" className="nav-link"><i data-feather="share"></i><span>Job Posting</span></a>
                         </li>
-                        <li className="dropdown" id='event_posting'>
+                        <li className="dropdown" id='media_posting'>
                             <a href="#" className="menu-toggle nav-link has-dropdown"><i data-feather="video"></i><span>Media Posting</span></a>
                             <ul className="dropdown-menu">
                                 <li id='event_posting'><a className="nav-link" href="/media-posting/event">Event Posting</a></li>
-                                <li id='event_posting'><a className="nav-link" href="/media-posting/blog">Blog Posting</a></li>
-                                <li id='event_posting'><a className="nav-link" href="/media-posting/video">Video Posting</a></li>
-                                <li id='event_posting'><a className="nav-link" href="/media-posting/podcast">Podcast Posting</a></li>
-                                <li id='event_posting'><a className="nav-link" href="/media-posting/news">News Posting</a></li>
+                                <li id='blog_posting'><a className="nav-link" href="/media-posting/blog">Blog Posting</a></li>
+                                <li id='video_posting'><a className="nav-link" href="/media-posting/video">Video Posting</a></li>
+                                <li id='podcast_posting'><a className="nav-link" href="/media-posting/podcast">Podcast Posting</a></li>
+                                <li id='news_posting'><a className="nav-link" href="/media-posting/news">News Posting</a></li>
                             </ul>
                         </li>
                         {/* <li className="dropdown" id='event_posting'>

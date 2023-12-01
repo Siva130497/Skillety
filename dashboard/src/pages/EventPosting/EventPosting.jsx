@@ -14,7 +14,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 const EventPosting = () => {
     const { getProtectedData } = useContext(AuthContext);
-    const {type} = useParams();
+    const { type } = useParams();
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -83,52 +83,52 @@ const EventPosting = () => {
 
     }, [location.state])
 
-    useEffect(()=>{
-        if(editingEventId){
+    useEffect(() => {
+        if (editingEventId) {
 
             axios.get(`https://skillety.onrender.com/event/${editingEventId}`, {
                 headers: {
                     Authorization: `Bearer ${staffToken}`,
                     Accept: 'application/json'
                 }
-              })
-              .then(res=>{
-                console.log(res.data);
-                setEditingEventDetail(res.data);
             })
-            .catch(err=>console.log(err));
+                .then(res => {
+                    console.log(res.data);
+                    setEditingEventDetail(res.data);
+                })
+                .catch(err => console.log(err));
 
             axios.get(`https://skillety.onrender.com/event-image/${editingEventId}`)
-              .then(res=>setEditingEventImg(res.data))
-              .catch(err=>console.log(err))
-          
+                .then(res => setEditingEventImg(res.data))
+                .catch(err => console.log(err))
+
         }
 
-    },[editingEventId]);
+    }, [editingEventId]);
 
     useEffect(() => {
-        if(editingEventDetail){
-          setEventDetail({
-            title:editingEventDetail.title,
-            description:editingEventDetail.description,
-            location:editingEventDetail.location,
-          });
-          setEventDate(editingEventDetail.date);
-          setUrl(editingEventDetail.url);
+        if (editingEventDetail) {
+            setEventDetail({
+                title: editingEventDetail.title,
+                description: editingEventDetail.description,
+                location: editingEventDetail.location,
+            });
+            setEventDate(editingEventDetail.date);
+            setUrl(editingEventDetail.url);
         }
-      }, [editingEventDetail]);
-  
-      useEffect(() => {
-        if(editingEventImg){
-          setEventImgUrl(`https://skillety.onrender.com/images/${editingEventImg.image}`)
-        }
-        
-      }, [editingEventImg]);
+    }, [editingEventDetail]);
 
-      useEffect(() => {
+    useEffect(() => {
+        if (editingEventImg) {
+            setEventImgUrl(`https://skillety.onrender.com/images/${editingEventImg.image}`)
+        }
+
+    }, [editingEventImg]);
+
+    useEffect(() => {
         setEventDate(dateString);
-      }, [dateString]);
-  
+    }, [dateString]);
+
 
     useEffect(() => {
         if (staffToken) {
@@ -216,119 +216,119 @@ const EventPosting = () => {
     };
 
     const changingEvent = async (event) => {
-        if(eventDate){
+        if (eventDate) {
             try {
-              const response = await axios.patch(`https://skillety.onrender.com/event/${editingEventId}`, event, {
-                headers: {
-                    Authorization: `Bearer ${staffToken}`,
-                    Accept: 'application/json'
+                const response = await axios.patch(`https://skillety.onrender.com/event/${editingEventId}`, event, {
+                    headers: {
+                        Authorization: `Bearer ${staffToken}`,
+                        Accept: 'application/json'
+                    }
+                });
+
+                const result = response.data;
+
+                if (!result.message) {
+                    console.log(result);
+                    showSuccessMessage(`${type} has been updated.`);
+                    navigate(`/posted-media/${type}`);
+                    //   setEditingEventId("");
+                    //   setEventDetail(InitialEventDetail);
+                    //     setSelectedDate(null);
+                    //     setDateString("");
+                } else {
+                    console.log(result);
                 }
-              });
-      
-              const result = response.data;
-      
-              if (!result.message) {
-                  console.log(result);
-                  showSuccessMessage(`${type} has been updated.`);
-                  navigate(`/posted-media/${type}`);
-                //   setEditingEventId("");
-                //   setEventDetail(InitialEventDetail);
-                //     setSelectedDate(null);
-                //     setDateString("");
-              } else {
-                  console.log(result);
-              }
-          } catch (error) {
-              console.log(error);
-          }
+            } catch (error) {
+                console.log(error);
+            }
         }
-          
-        };
+
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
         let event;
-        if(!editingEventId){
-          const id = uuidv4();
-          if(type==="event"){
-            event = {
-                ...eventDetail,
-                id,
-                recruiterId:employeeId,
-                date: dateString,
-                type,
-              };
-              console.log(event);
-              mediaPosting(event);
-          }else{
-            event = {
-                ...eventDetail,
-                url,
-                id,
-                recruiterId:employeeId,
-                date: dateString,
-                type,
-              };
-              console.log(event);
-              mediaPosting(event);
-          }
-          if(image){
-            const formData = new FormData()
-            formData.append('image', image);
-            formData.append('id', id)
-            axios.post("https://skillety.onrender.com/upload-image", formData, {
-              headers: {
-                  Authorization: `Bearer ${staffToken}`,
-                  Accept: 'application/json'
-              }
-            })
-            .then(res=>{
-              console.log(res);
-              setImage(null);
-            })
-            .catch(err=>console.log(err));
-          }
-        }
-        if(editingEventId){
-            let event;
-            if(type==="event"){
-                event={
+        if (!editingEventId) {
+            const id = uuidv4();
+            if (type === "event") {
+                event = {
                     ...eventDetail,
-                    id:editingEventDetail.id,
-                    recruiterId:editingEventDetail.recruiterId,
-                    date:eventDate,
+                    id,
+                    recruiterId: employeeId,
+                    date: dateString,
                     type,
-                  }
-                  console.log(event);
-                  changingEvent(event);
-            }else{
-                event={
+                };
+                console.log(event);
+                mediaPosting(event);
+            } else {
+                event = {
                     ...eventDetail,
-                    id:editingEventDetail.id,
-                    recruiterId:editingEventDetail.recruiterId,
-                    date:eventDate,
+                    url,
+                    id,
+                    recruiterId: employeeId,
+                    date: dateString,
+                    type,
+                };
+                console.log(event);
+                mediaPosting(event);
+            }
+            if (image) {
+                const formData = new FormData()
+                formData.append('image', image);
+                formData.append('id', id)
+                axios.post("https://skillety.onrender.com/upload-image", formData, {
+                    headers: {
+                        Authorization: `Bearer ${staffToken}`,
+                        Accept: 'application/json'
+                    }
+                })
+                    .then(res => {
+                        console.log(res);
+                        setImage(null);
+                    })
+                    .catch(err => console.log(err));
+            }
+        }
+        if (editingEventId) {
+            let event;
+            if (type === "event") {
+                event = {
+                    ...eventDetail,
+                    id: editingEventDetail.id,
+                    recruiterId: editingEventDetail.recruiterId,
+                    date: eventDate,
+                    type,
+                }
+                console.log(event);
+                changingEvent(event);
+            } else {
+                event = {
+                    ...eventDetail,
+                    id: editingEventDetail.id,
+                    recruiterId: editingEventDetail.recruiterId,
+                    date: eventDate,
                     type,
                     url,
-                  }
-                  console.log(event);
-                  changingEvent(event);
+                }
+                console.log(event);
+                changingEvent(event);
             }
-          
-          if(image){
-            const formData = new FormData()
-            formData.append('image', image);
-            axios.patch(`https://skillety.onrender.com/update-image/${editingEventId}`, formData, {
-              headers: {
-                  Authorization: `Bearer ${staffToken}`,
-                  Accept: 'application/json'
-              }
-            })
-            .then(res=>{
-              console.log(res);
-              setImage(null);
-            })
-            .catch(err=>console.log(err));
-          }
+
+            if (image) {
+                const formData = new FormData()
+                formData.append('image', image);
+                axios.patch(`https://skillety.onrender.com/update-image/${editingEventId}`, formData, {
+                    headers: {
+                        Authorization: `Bearer ${staffToken}`,
+                        Accept: 'application/json'
+                    }
+                })
+                    .then(res => {
+                        console.log(res);
+                        setImage(null);
+                    })
+                    .catch(err => console.log(err));
+            }
         }
     }
 
@@ -351,7 +351,11 @@ const EventPosting = () => {
                                 {type} Posting
                             </div>
                             <div className="card post-job-card">
-                                <div className="post-job-title">Post a {type} </div>
+                                {type === "event" ?
+                                    <div className="post-job-title">Post an {type} </div>
+                                    :
+                                    <div className="post-job-title">Post a {type} </div>
+                                }
                                 {/* <div className="post-job-sub-title">Begin from scratch</div> */}
 
                                 <div className="job-post-form-area">
@@ -393,7 +397,7 @@ const EventPosting = () => {
                                                         name="location"
                                                         value={eventDetail.location}
                                                         onChange={handleInputChange}
-                                                        placeholder={`Enter the ${type} location...` }/>
+                                                        placeholder={`Enter the ${type} location...`} />
                                                 </div>
                                             </div>
 
@@ -438,7 +442,7 @@ const EventPosting = () => {
                                                         id='eventTitle'
                                                         name="title"
                                                         value={url}
-                                                        onChange={(e)=>setUrl(e.target.value)}
+                                                        onChange={(e) => setUrl(e.target.value)}
                                                         placeholder={`Enter the ${type} link...`} />
                                                 </div>
                                             </div>
@@ -453,8 +457,8 @@ const EventPosting = () => {
                                                             <div className='event-preview-image-area'>
                                                                 <img src={eventImgUrl} className='event-preview-image' title='Event Image' alt="Event Image" />
                                                             </div>
-                                                            <button id='clear-file' className='clear-image-btn' 
-                                                            title='Clear the image file...' onClick={handleClearFile}>
+                                                            <button id='clear-file' className='clear-image-btn'
+                                                                title='Clear the image file...' onClick={handleClearFile}>
                                                                 <span>Clear</span>
                                                             </button>
                                                             {/* <p>if you want to change the image of the event change it below</p> */}
@@ -471,7 +475,7 @@ const EventPosting = () => {
                                 </div>
                             </div>
                             <div className="post-job-btn-area">
-                                {editingEventId? <button className='post-job-btn' onClick={handleSubmit}>Update</button> : <button className='post-job-btn' onClick={handleSubmit}>Post</button>}
+                                {editingEventId ? <button className='post-job-btn' onClick={handleSubmit}>Update</button> : <button className='post-job-btn' onClick={handleSubmit}>Post</button>}
                                 <a href={`/posted-media/${type}`} className='post-job-btn yellow'>
                                     Posted {type}
                                     <i class="bi bi-box-arrow-up-right ml-3"></i>
