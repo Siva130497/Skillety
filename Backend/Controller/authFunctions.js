@@ -155,25 +155,25 @@ const createClientStaff = async (req, res) => {
         const token = uuidv4();
         const tempUrl = baseUrl + token;
 
-        const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=[]{}|;:,.<>?';
-        let password = '';
+        // const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=[]{}|;:,.<>?';
+        // let password = '';
             
-        for (let i = 0; i < 12; i++) {
-            const randomIndex = Math.floor(Math.random() * charset.length);
-            password += charset[randomIndex];
-        }
+        // for (let i = 0; i < 12; i++) {
+        //     const randomIndex = Math.floor(Math.random() * charset.length);
+        //     password += charset[randomIndex];
+        // }
 
         console.log(tempUrl);
-        console.log(password);
+        // console.log(password);
 
-        const hashPassword = await bcrypt.hash(password, 12);
+        // const hashPassword = await bcrypt.hash(password, 12);
 
         const newTempClient = new TempClient({
           ...req.body,
           companyName,
           companyId,
           id: token, 
-          tempPassword: hashPassword, 
+          // tempPassword: hashPassword, 
           url: tempUrl,
           role:"Client-staff"
         });
@@ -195,7 +195,6 @@ const createClientStaff = async (req, res) => {
           subject: `Mail from ${companyName}!`,
           text: 'These are your account detail, use the temporary url and temporary password to create your account',
           html: `<p>Temporary URL: ${newTempClient.url}</p>
-                <p>Temporary Password: ${password}</p>
                 <p>User Name: ${req.body.name}</p>
                 <p>Phone No: ${req.body.phone}</p>`
         };
@@ -268,101 +267,137 @@ const verifyTempPassword = async(req, res) => {
 
 /* client register after setup new password */
 const finalClientRegister = async (req, res) => {
-  console.log(req.body);
   try {
+    console.log(req.body);
+
     const { id, password } = req.body;
-    const user = await TempClient.findOne({ id });
+    const tempClient = await TempClient.findOne({ id });
 
-    if (user) {
-      const { _id, url, createdAt, updatedAt, __v, ...tempClientProperties } = user._doc;
-      const hashPassword = await bcrypt.hash(password, 12);
-      
-      let updatedClient; 
-      const companyId = uuidv4()
-      if (tempClientProperties.companyId) {
-        updatedClient = new finalClient({
-          ...tempClientProperties,
-          password: hashPassword
-        });
-      } else {
-        updatedClient = new finalClient({
-          ...tempClientProperties,
-          companyId,
-          password: hashPassword
-        });
-      }
+    if (!tempClient) {
+      return res.status(404).json({ message: 'User not found' });
+    }
 
-      await updatedClient.save();
-      console.log(updatedClient);
+    const {
+      _id,
+      url,
+      createdAt,
+      updatedAt,
+      __v,
+      ...tempClientProperties
+    } = tempClient._doc;
 
-      const { email, industry, phone, count, companyName, name, role, id } = tempClientProperties;
-      const newCompanyDetail = new companyDetail({
+    const hashPassword = await bcrypt.hash(password, 12);
+
+    let updatedClient;
+    let newCompanyDetail;
+    const companyId = tempClientProperties.companyId || uuidv4();
+    const {
+      email,
+      industry,
+      phone,
+      count,
+      companyName,
+      name,
+      role,
+    } = tempClientProperties;
+
+    if (!tempClientProperties.companyId) {
+      updatedClient = new finalClient({
+        ...tempClientProperties,
+        companyId,
+        password: hashPassword,
+      });
+
+      newCompanyDetail = new companyDetail({
         email,
-        industry, 
-        phone, 
-        count, 
+        industry,
+        phone,
+        count,
         companyName,
         companyId,
-        location:"",
-        shortDescription:"",
-        longDescription:"",
-        mission:"",
-        vision:"",
-        benefits:[],
-        awards:"",
-        website:"",
+        location: '',
+        shortDescription: '',
+        longDescription: '',
+        mission: '',
+        vision: '',
+        benefits: [],
+        awards: '',
+        website: '',
       });
 
       await newCompanyDetail.save();
-      console.log(newCompanyDetail);
-
-      const updatedUser = new allUsers({
-        id,
-        name,
-        email,
-        phone,
-        role,
-        password: hashPassword
-      });
-
-      await updatedUser.save();
-      console.log(updatedUser);
-
-      await TempClient.deleteOne({id});
-
-      const transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-          user: 'demoemail1322@gmail.com',
-          pass: 'znsdgrmwzskpatwz'
-        }
-      });
-  
-      const mailOptions = {
-        from: 'demoemail1322@gmail.com',
-        to: `${updatedUser.email}`,
-        subject: 'Mail from SKILLITY!',
-        text: 'Welcome to Skillety!',
-        html: `<p>Congratulations!</p><p>We are happy to have you with us. Please find your Login details below:</p>`
-      };
-  
-      transporter.sendMail(mailOptions, function (error, info) {
-        if (error) {
-          console.log(error);
-          return res.status(500).json({ error: error.message, updatedClient, newCompanyDetail, updatedUser });
-        } else {
-          console.log('Email sent: ' + info.response);
-          res.status(201).json({ updatedClient, newCompanyDetail, updatedUser, emailSent: true });
-        }
-      });
-
+      console.log('New Company Detail:', newCompanyDetail);
     } else {
-      return res.status(404).json({ message: 'User not found' });
+      updatedClient = new finalClient({
+        ...tempClientProperties,
+        password: hashPassword,
+      });
     }
+
+    await updatedClient.save();
+    console.log('Updated Client:', updatedClient);
+
+    const updatedUser = new allUsers({
+      id,
+      name,
+      email,
+      phone,
+      role,
+      password: hashPassword,
+    });
+
+    await updatedUser.save();
+    console.log('Updated User:', updatedUser);
+
+    await TempClient.deleteOne({ id });
+
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: 'demoemail1322@gmail.com',
+        pass: 'znsdgrmwzskpatwz'
+      }
+    });
+
+    const mailOptions = {
+      from: 'demoemail1322@gmail.com',
+      to: updatedUser.email,
+      subject: 'Mail from SKILLITY!',
+      text: 'Welcome to Skillety!',
+      html: `<p>Congratulations!</p><p>We are happy to have you with us. Please find your Login details below:</p>`,
+    };
+
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.error('Email sending error:', error);
+        return res
+          .status(500)
+          .json({ error: 'Failed to send email', details: error.message });
+      } else {
+        console.log('Email sent:', info.response);
+
+        // Exclude companyDetail if it doesn't exist
+        const responseData = {
+          updatedClient,
+          updatedUser,
+          emailSent: true,
+        };
+
+        if (newCompanyDetail) {
+          responseData.newCompanyDetail = newCompanyDetail;
+        }
+
+        res.status(201).json(responseData);
+      }
+    });
   } catch (err) {
-    return res.status(500).json({ error: err.message });
+    console.error('Internal server error:', err);
+    return res
+      .status(500)
+      .json({ error: 'Internal server error', details: err.message });
   }
-}
+};
+
 
 const saveCompanyDetail = async(req, res) =>{
   try{

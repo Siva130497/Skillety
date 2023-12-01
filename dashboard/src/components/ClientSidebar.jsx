@@ -24,7 +24,9 @@ const ClientSidebar = () => {
 
             if (path === `/client-dashboard/${clientToken}`) {
                 $('#client_dashboard').addClass('active');
-            } else if (path === '/talent-profile-search') {
+            } else if (path === '/client-staff') {
+                $('#client_staff').addClass('active');
+            }else if (path === '/talent-profile-search') {
                 $('#search_candidate').addClass('active');
             } else if (path === '/manage-application') {
                 $('#manage_application').addClass('active');
@@ -136,6 +138,10 @@ const ClientSidebar = () => {
 
                     
                         <ul className="sidebar-menu client">
+
+                            <li className="dropdown" id='client_staff'>
+                                <a href="/client-staff" className="nav-link"><i data-feather="user-check"></i><span>Client Staffs</span></a>
+                            </li>
 
                             <li className="dropdown" id='search_candidate'>
                                 <a href="/talent-profile-search" className="nav-link"><i data-feather="search"></i><span>Search Candidates</span></a>
