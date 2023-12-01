@@ -8,6 +8,8 @@ import feather from 'feather-icons';
 
 const ClientSidebar = () => {
     const [clientToken, setClientToken] = useState("");
+    const [role, setRole] = useState("");
+    const {getProtectedData} = useContext(AuthContext);
     // const { getProtectedData, getClientChoosenPlan, packageSelectionDetail } = useContext(AuthContext);
     // const [employeeId, setEmployeeId] = useState("");
     // const [loginClientDetail, setLoginClientDetail] = useState();
@@ -120,6 +122,22 @@ const ClientSidebar = () => {
 
     // console.log(sideBar)
 
+    useEffect(() => {
+        if(clientToken){
+            const fetchData = async () => {
+                try {
+                    const userData = await getProtectedData(clientToken);
+                    console.log(userData);
+                    setRole(userData.role);
+                } catch (error) {
+                    console.log(error)
+                }
+            };
+    
+            fetchData();
+        }
+    }, [clientToken]);
+
     return (
         <div>
             <div className="main-sidebar client sidebar-style-2">
@@ -139,9 +157,9 @@ const ClientSidebar = () => {
                     
                         <ul className="sidebar-menu client">
 
-                            <li className="dropdown" id='client_staff'>
+                            {role === "Client" && <li className="dropdown" id='client_staff'>
                                 <a href="/client-staff" className="nav-link"><i data-feather="user-check"></i><span>Client Staffs</span></a>
-                            </li>
+                            </li>}
 
                             <li className="dropdown" id='search_candidate'>
                                 <a href="/talent-profile-search" className="nav-link"><i data-feather="search"></i><span>Search Candidates</span></a>
