@@ -190,7 +190,10 @@ const AllClients = () => {
                                                                         {client.name}
                                                                     </td>
                                                                     <td className='dash-table-data1'>
-                                                                        {client.email}
+                                                                        <a href={`mailto:${client.email}`}
+                                                                            className='dash-table-data1 link is-link'>
+                                                                            {client.email}
+                                                                        </a>
                                                                     </td>
 
                                                                     <td className='dash-table-data1'>
@@ -288,7 +291,12 @@ const AllClients = () => {
                                             <div className="view-det-head">Mobile Number</div>
                                         </div>
                                         <div className="col-12 col-sm-6">
-                                            <div className="view-det-sub-head">{aClient?.phone}</div>
+                                            <div className="view-det-sub-head">
+                                                <a href={`tel:${aClient?.phone}`}
+                                                    className='view-det-sub-head link is-link'>
+                                                    {aClient?.phone}
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
                                     <hr />
@@ -297,7 +305,12 @@ const AllClients = () => {
                                             <div className="view-det-head">Email ID</div>
                                         </div>
                                         <div className="col-12 col-sm-6">
-                                            <div className="view-det-sub-head">{aClient?.email}</div>
+                                            <div className="view-det-sub-head">
+                                                <a href={`mailto:${aClient?.email}`}
+                                                    className='view-det-sub-head link is-link'>
+                                                    {aClient?.email}
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
                                     <hr />

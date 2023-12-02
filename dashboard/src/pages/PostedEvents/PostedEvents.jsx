@@ -12,9 +12,9 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 
 const PostedEvents = () => {
-    const {type} = useParams();
+    const { type } = useParams();
     const navigate = useNavigate();
-    const { eventDetail, getEventDetail, getEventImg, eventImg, blogDetail, getBlogsDetail,videoDetail, getVideoDetail, podcastDetail, getPodcastDetail, newsDetail, getNewsDetail, } = useContext(AuthContext);
+    const { eventDetail, getEventDetail, getEventImg, eventImg, blogDetail, getBlogsDetail, videoDetail, getVideoDetail, podcastDetail, getPodcastDetail, newsDetail, getNewsDetail, } = useContext(AuthContext);
     const [selectedMediaViewDetail, setSelectedMediaViewDetail] = useState();
     const [image, setImage] = useState("");
     const [staffToken, setStaffToken] = useState("");
@@ -46,15 +46,15 @@ const PostedEvents = () => {
 
     useEffect(() => {
         getEventImg();
-        if(type === "event"){
+        if (type === "event") {
             getEventDetail();
-        }else if(type === "blog"){
+        } else if (type === "blog") {
             getBlogsDetail();
-        }else if(type === "video"){
+        } else if (type === "video") {
             getVideoDetail();
-        }else if(type === "podcast"){
+        } else if (type === "podcast") {
             getPodcastDetail();
-        }else if(type === "news"){
+        } else if (type === "news") {
             getNewsDetail();
         }
     }, [type]);
@@ -65,30 +65,30 @@ const PostedEvents = () => {
 
     const getDataArray = (type) => {
         switch (type) {
-          case 'event':
-            return eventDetail;
-          case 'blog':
-            return blogDetail;
-          case 'video':
-            return videoDetail;
-          case 'podcast':
-            return podcastDetail;
-          case 'news':
-            return newsDetail;
-          default:
-            return null;
+            case 'event':
+                return eventDetail;
+            case 'blog':
+                return blogDetail;
+            case 'video':
+                return videoDetail;
+            case 'podcast':
+                return podcastDetail;
+            case 'news':
+                return newsDetail;
+            default:
+                return null;
         }
-      };
-      
-      const data = getDataArray(type);
+    };
+
+    const data = getDataArray(type);
 
     const handleViewEventDetail = (id) => {
 
-            const selectedObj = data.find(obj => obj.id === id);
-            setSelectedMediaViewDetail(selectedObj);
+        const selectedObj = data.find(obj => obj.id === id);
+        setSelectedMediaViewDetail(selectedObj);
 
         const matchingImg = eventImg ? eventImg.find(img => img.id === id) : null;
-    
+
         if (matchingImg) {
             setImage(`https://skillety.onrender.com/images/${matchingImg.image}`);
         } else {
@@ -114,22 +114,22 @@ const PostedEvents = () => {
                         Accept: 'application/json'
                     }
                 })
-                .then(res => {
-                    console.log(res.data);
-                    if(type === "event"){
-                        getEventDetail();
-                    }else if(type === "blog"){
-                        getBlogsDetail();
-                    }else if(type === "video"){
-                        getVideoDetail();
-                    }else if(type === "podcast"){
-                        getPodcastDetail();
-                    }else if(type === "news"){
-                        getNewsDetail();
+                    .then(res => {
+                        console.log(res.data);
+                        if (type === "event") {
+                            getEventDetail();
+                        } else if (type === "blog") {
+                            getBlogsDetail();
+                        } else if (type === "video") {
+                            getVideoDetail();
+                        } else if (type === "podcast") {
+                            getPodcastDetail();
+                        } else if (type === "news") {
+                            getNewsDetail();
+                        }
                     }
-                }
-                )
-                .catch(err => console.log(err));
+                    )
+                    .catch(err => console.log(err));
 
                 axios.delete(`https://skillety.onrender.com/event-image-delete/${id}`, {
                     headers: {
@@ -137,13 +137,13 @@ const PostedEvents = () => {
                         Accept: 'application/json'
                     }
                 })
-                .then(response => {
-                    console.log(response.data);
-                    getEventImg();
-                })
-                .catch(error => {
-                    console.error(error);
-                });
+                    .then(response => {
+                        console.log(response.data);
+                        getEventImg();
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
             }
         });
     }
@@ -185,66 +185,66 @@ const PostedEvents = () => {
                                             </div>
 
                                             {data.length > 0 ?
-                                            <div className="table-responsive table-scroll-area">
-                                                <table className="table table-striped table-hover admin-lg-table">
-                                                    <tr className='dash-table-row man-app'>
-                                                        <th className='dash-table-head'>No.</th>
-                                                        <th className='dash-table-head'>Event Title</th>
-                                                        <th className='dash-table-head'>Date</th>
-                                                        <th className='dash-table-head text-center'>Action</th>
-                                                    </tr>
+                                                <div className="table-responsive table-scroll-area">
+                                                    <table className="table table-striped table-hover admin-lg-table">
+                                                        <tr className='dash-table-row man-app'>
+                                                            <th className='dash-table-head'>No.</th>
+                                                            <th className='dash-table-head'>Event Title</th>
+                                                            <th className='dash-table-head'>Date</th>
+                                                            <th className='dash-table-head text-center'>Action</th>
+                                                        </tr>
 
-                                                    {/* table data */}
-                                                    {data.map((eve, index)=>{
-                                                        const editingEventId = eve.id;
-                                                        return(
-                                                            <tr className='dash-table-row client' key={eve.id}>
-                                                                <td className='dash-table-data1'>{index+1}</td>
-                                                                <td className='dash-table-data1 text-capitalized'>
-                                                                {eve.title}
-                                                                </td>
-                                                                <td className='dash-table-data1'>
-                                                                    {eve.date}
-                                                                </td>
+                                                        {/* table data */}
+                                                        {data.map((eve, index) => {
+                                                            const editingEventId = eve.id;
+                                                            return (
+                                                                <tr className='dash-table-row client' key={eve.id}>
+                                                                    <td className='dash-table-data1'>{index + 1}</td>
+                                                                    <td className='dash-table-data1 text-capitalized'>
+                                                                        {eve.title}
+                                                                    </td>
+                                                                    <td className='dash-table-data1'>
+                                                                        {eve.date}
+                                                                    </td>
 
-                                                                <td className='text-center'>
-                                                                    <div className="action-btn-area">
-                                                                        <a href=''onClick={()=>{
-                                                                            navigate(`/media-posting/${type}`, { state: { editingEventId } });
-                                                                        }}className='job-edit-btn' title='Edit event details...'>
-                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
-                                                                                <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
-                                                                            </svg>
-                                                                        </a>
+                                                                    <td className='text-center'>
+                                                                        <div className="action-btn-area">
+                                                                            <a href='' onClick={() => {
+                                                                                navigate(`/media-posting/${type}`, { state: { editingEventId } });
+                                                                            }} className='job-edit-btn' title='Edit event details...'>
+                                                                                <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
+                                                                                    <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
+                                                                                </svg>
+                                                                            </a>
 
-                                                                        <button className='job-view-btn' data-toggle="modal" title='View event details...' data-target="#eventviewModal" onClick={() => handleViewEventDetail(eve.id)}>
-                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
-                                                                                <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
-                                                                                <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"
-                                                                                />
-                                                                            </svg>
-                                                                        </button>
+                                                                            <button className='job-view-btn' data-toggle="modal" title='View event details...' data-target="#eventviewModal" onClick={() => handleViewEventDetail(eve.id)}>
+                                                                                <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                                                                    <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
+                                                                                    <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"
+                                                                                    />
+                                                                                </svg>
+                                                                            </button>
 
-                                                                        <button className='job-delete-btn' data-toggle="modal" title='Delete event data...' data-target="#eventdeleteModal" onClick={()=>handleDelete(eve.id)}>
-                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
-                                                                                <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
-                                                                            </svg>
-                                                                        </button>
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                        )
-                                                    })}
-                                                    
+                                                                            <button className='job-delete-btn' data-toggle="modal" title='Delete event data...' data-target="#eventdeleteModal" onClick={() => handleDelete(eve.id)}>
+                                                                                <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                                                                                    <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
+                                                                                </svg>
+                                                                            </button>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            )
+                                                        })}
 
-                                                </table>
-                                            </div> :
-                                            <div className="no-data-created-area">
-                                            <div className='no-data-created'>
-                                                <img src="../assets/img/no-data/no-data-img.png" className='no-data-img' alt="" />
-                                                <div className='no-data-text'>No {type} Posted Yet..!</div>
-                                            </div>
-                                        </div>}
+
+                                                    </table>
+                                                </div> :
+                                                <div className="no-data-created-area">
+                                                    <div className='no-data-created'>
+                                                        <img src="../assets/img/no-data/no-data-img.png" className='no-data-img' alt="" />
+                                                        <div className='no-data-text text-capitalized'>No {type} Posted Yet..!</div>
+                                                    </div>
+                                                </div>}
                                         </div>
 
                                         {/* <div className="view-application-btn-area text-center">
@@ -344,12 +344,18 @@ const PostedEvents = () => {
                                         </div>
                                     </div>
                                     <hr />
-                                    {!(type==="event")&& <div className="row">
+                                    {!(type === "event") && <div className="row">
                                         <div className="col-12 col-sm-4">
                                             <div className="view-det-head">Link</div>
                                         </div>
                                         <div className="col-12 col-sm-8">
-                                            <div className="view-det-sub-head">{selectedMediaViewDetail?.url}</div>
+                                            <div className="view-det-sub-head">
+                                                <a href={`${selectedMediaViewDetail?.url}`}
+                                                    className='view-det-sub-head link is-link'
+                                                    target='_blank'>
+                                                    {selectedMediaViewDetail?.url}
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>}
                                 </div>

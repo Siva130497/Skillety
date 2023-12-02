@@ -57,6 +57,21 @@
     font-weight: 500;
 }
 
+.view-det-sub-head {
+    color: #714F36;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.view-det-sub-head.link {
+    transition: ease-in-out 0.5s;
+}
+
+.view-det-sub-head.link:hover {
+    color: #1394DF !important;
+    text-decoration: underline;
+}
+
 .recruiter-view-card {
     margin-bottom: 0;
     border: 1px solid #714F36;
@@ -102,6 +117,7 @@
     margin-bottom: 2px;
     border: 2px solid #F9C833;
 }
+
 .recruiter-view-modal-title.candidate::before {
     content: "";
     display: inline-block;
@@ -115,6 +131,7 @@
     margin-bottom: 2px;
     border: 2px solid #FFF;
 }
+
 .recruiter-view-modal {
     border-bottom: #714F36 4px solid;
     border-radius: 10px;
@@ -150,16 +167,18 @@
     justify-content: center;
 }
 
-.no-data-created-area .no-data-created .no-data-text{
+.no-data-created-area .no-data-created .no-data-text {
     margin-bottom: 0;
     font-size: 16px;
     color: #929292;
 }
-.no-data-created-area i{
+
+.no-data-created-area i {
     font-size: 25px;
     vertical-align: middle;
 }
-.no-data-created-area .no-data-created{
+
+.no-data-created-area .no-data-created {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -168,13 +187,15 @@
     border-radius: 16px;
     padding: 20px; */
 }
-.no-data-created .no-data-img{
+
+.no-data-created .no-data-img {
     width: 80px;
     height: 80px;
     object-fit: contain;
     filter: saturate(0);
     opacity: 0.3;
 }
-.text-capitalized{
+
+.text-capitalized {
     text-transform: capitalize !important;
 }

@@ -987,7 +987,9 @@ const CandidateRegister = () => {
                                     }
                                 />
                                 <span className="cli--login-remember-checkmark"></span>
-                                <span>By clicking Agree & Join, you agree to the Skillety&nbsp;<a href="#">User Agreement, Privacy Policy</a></span>
+                                <span>By clicking Agree & Join, you agree to the Skillety
+                                    &nbsp;<a href="/terms-and-conditions" target='_blank'>User Agreement</a>,&nbsp;<a href="/privacy-policy" target='_blank'>Privacy Policy</a>
+                                </span>
                             </label>
                         </div>
                     </div>
