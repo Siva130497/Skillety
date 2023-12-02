@@ -221,7 +221,7 @@ const ClientProfile = () => {
             .then(res => {
                 console.log(res.data)
                 if (!res.data.error) {
-                    showSuccessMessage("Short Description Updated")
+                    showSuccessMessage("Short Description Updated!")
                     setCompanyInfo(prevInfo => ({ ...prevInfo, shortDescription: "" }));
 
                     axios.get(`https://skillety.onrender.com/company-detail/${id}`, {
@@ -260,7 +260,7 @@ const ClientProfile = () => {
             .then(res => {
                 console.log(res.data)
                 if (!res.data.error) {
-                    showSuccessMessage("Long Description Updated")
+                    showSuccessMessage("Long Description Updated!")
                     setCompanyInfo(prevInfo => ({ ...prevInfo, longDescription: "" }));
 
                     axios.get(`https://skillety.onrender.com/company-detail/${id}`, {
@@ -299,7 +299,7 @@ const ClientProfile = () => {
             .then(res => {
                 console.log(res.data)
                 if (!res.data.error) {
-                    showSuccessMessage("Mission Updated")
+                    showSuccessMessage("Mission Updated!")
                     setCompanyInfo(prevInfo => ({ ...prevInfo, mission: "" }));
 
                     axios.get(`https://skillety.onrender.com/company-detail/${id}`, {
@@ -338,7 +338,7 @@ const ClientProfile = () => {
             .then(res => {
                 console.log(res.data)
                 if (!res.data.error) {
-                    showSuccessMessage("Vision Updated")
+                    showSuccessMessage("Vision Updated!")
                     setCompanyInfo(prevInfo => ({ ...prevInfo, vision: "" }));
 
                     axios.get(`https://skillety.onrender.com/company-detail/${id}`, {
@@ -379,7 +379,7 @@ const ClientProfile = () => {
             .then(res => {
                 console.log(res.data)
                 if (!res.data.error) {
-                    showSuccessMessage("Awards Updated")
+                    showSuccessMessage("Awards Updated!")
                     setCompanyInfo(prevInfo => ({ ...prevInfo, awards: "" }));
 
                     axios.get(`https://skillety.onrender.com/company-detail/${id}`, {
@@ -419,7 +419,7 @@ const ClientProfile = () => {
             .then(res => {
                 console.log(res.data)
                 if (!res.data.error) {
-                    showSuccessMessage("Website Updated")
+                    showSuccessMessage("Website Updated!")
                     setCompanyInfo(prevInfo => ({ ...prevInfo, website: "" }));
 
                     axios.get(`https://skillety.onrender.com/company-detail/${id}`, {
@@ -471,7 +471,7 @@ const ClientProfile = () => {
             .then(res => {
                 console.log(res.data)
                 if (!res.data.error) {
-                    showSuccessMessage("Benefits Updated")
+                    showSuccessMessage("Benefits Updated!")
 
                     axios.get(`https://skillety.onrender.com/company-detail/${id}`, {
                         headers: {
@@ -517,7 +517,7 @@ const ClientProfile = () => {
                 .then(res => {
                     console.log(res.data)
                     if (!res.data.error) {
-                        showSuccessMessage("Benefits Updated")
+                        showSuccessMessage("Benefits Updated!")
 
                         axios.get(`https://skillety.onrender.com/company-detail/${id}`, {
                             headers: {
@@ -933,9 +933,12 @@ const ClientProfile = () => {
 
                                             <div className="cli-pro-detail-area m-b-40">
                                                 <div className="cli-pro-title">{companyDetail?.website ? "Change" : "Add"} Website</div>
-                                                <div className='profile-content mt-4'
-                                                    onClick={() => window.location.href = `${companyDetail?.website}`}>
-                                                    <a href={`${companyDetail?.website}`} target='_blank'>{companyDetail?.website}</a>
+                                                <div className='profile-content mt-4'>
+                                                    <a href={`${companyDetail?.website}`}
+                                                        target='_blank'
+                                                        className='profile-content link is-link'>
+                                                        {companyDetail?.website}
+                                                    </a>
                                                 </div>
                                                 <div className="cli-pro-input-area">
                                                     <input
@@ -1108,16 +1111,16 @@ const ClientProfile = () => {
                                                 <i class="bi bi-chevron-down toggle-icon"></i>
                                             </button>
                                         </div>
-                                        {awardList.map(award => {
-                                            return (
-                                                <div className='profile-content mt-4'>
-                                                    {award}
-                                                </div>
-                                            )
-                                        })}
 
                                         <div className="cli-profile-content-area">
                                             <div className="cli-pro-detail-area m-b-10">
+                                                {awardList.map(award => {
+                                                    return (
+                                                        <div className='profile-content mb-4'>
+                                                            {award}
+                                                        </div>
+                                                    )
+                                                })}
                                                 <div className="add-more-input-field-area">
                                                     <button className={`cli-pro-add-input-btn ${isDetailExpanded ? 'expanded' : ''}`}
                                                         onClick={handleDetailChangeToggle}

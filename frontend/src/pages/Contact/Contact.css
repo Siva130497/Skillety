@@ -238,10 +238,11 @@
 /* .con--form-input:focus+.con--form-label {
     top: -1px;
 } */
-.con--form-input:not(:placeholder-shown) + .con--form-label,
-.con--form-input:focus + .con--form-label {
+.con--form-input:not(:placeholder-shown)+.con--form-label,
+.con--form-input:focus+.con--form-label {
     top: -1px;
 }
+
 .con--note-form-area .con--form-input::placeholder {
     opacity: 0;
     font-size: 18px;
@@ -337,4 +338,16 @@
 .con--form-arrow-area svg,
 .con--form-arrow-area svg path {
     transition: ease-in-out 0.8s;
+}
+
+/* Hide the default number input spinner */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: none;
+    appearance: none;
 }

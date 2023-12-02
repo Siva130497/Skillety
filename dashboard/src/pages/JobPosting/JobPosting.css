@@ -18,12 +18,15 @@
 .post-job-sub-title {
     padding-top: 10px;
     color: #714F36;
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 400;
+    line-height: 1.7rem;
+    border-bottom: 1px solid #dddddd;
+    padding-bottom: 25px;
 }
 
 .job-post-form-area {
-    padding-top: 40px;
+    padding-top: 30px;
 }
 
 .job-post-form-group {

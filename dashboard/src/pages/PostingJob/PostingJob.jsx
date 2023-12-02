@@ -674,7 +674,7 @@ const PostingJob = () => {
                             <div className="post-job-title">Post a Job </div>
                             {/* <div className="post-job-sub-title">Begin from scratch</div> */}
 
-                            <div className="job-post-form-area">
+                            <div className="job-post-form-area p-t-40">
                             <form action="">
                                 <div className="row m-b-35">
                                 <div className="col-12 col-xl-8">
