@@ -200,6 +200,7 @@ const MyApplication = () => {
                             <div className="row">
                                 <div className="col-12">
                                     <div className="admin-lg-table-section">
+                                    {appliedJobDetail.length > 0 ?
                                         <div className="table-responsive admin-lg-table-area">
                                             <table className="table table-striped table-hover admin-lg-table">
                                                 <tr className='dash-table-row head-row'>
@@ -254,7 +255,14 @@ const MyApplication = () => {
                                                     </tr>
                                                 )})}
                                             </table>
-                                        </div>
+                                        </div> :
+                                                <div className="no-data-created-area">
+                                                    <div className='no-data-created'>
+                                                        <img src="../assets/img/no-data/no-data-img.png" className='no-data-img' alt="" />
+                                                        <div className='no-data-text'>No Jobs Applied Yet..!</div>
+                                                    </div>
+                                                </div>
+                                    }  
 
                                         <div className="table-pagination-area pt-3">
                                             <div className="pagination-btn-area">

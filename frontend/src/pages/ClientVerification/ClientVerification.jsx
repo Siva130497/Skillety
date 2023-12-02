@@ -21,6 +21,9 @@ const ClientVerification = () => {
         confirmPassword: "",
     });
     const [step, setStep]= useState(2);
+    const [loading, setLoading] = useState(true);
+    const [pageNotFound, setPageNotFound] = useState(false);
+
 
     let updatedCredentials;
 
@@ -46,16 +49,31 @@ const ClientVerification = () => {
         });
     }
 
+    useEffect(() => {
+        const preloader = $('#preloader');
+    if (preloader.length) {
+    setTimeout(function () {
+        preloader.fadeOut('slow', function () {
+        preloader.remove();
+        });
+    }, 500);
+    }
+    }, []);
+
     const getClient = async () => {
         try {
             const response = await axios.get(`https://skillety.onrender.com/clientWithUrl-Detail/${id}`);
             const result = response.data;
             if (!result.error) {
+                setLoading(false)
                 console.log(result);
                 setNewClient(result);
             } else {
                 console.log(result);
                 showErrorMessage("It seems like you already registered using this temporary URL, or the URL is incorrect.")
+                setLoading(false)
+                setPageNotFound(true)
+                
             }
         } catch (err) {
             console.log(err);
@@ -220,7 +238,8 @@ const ClientVerification = () => {
 
     return (
         <div>
-            {newClient ?
+            {loading && <div id="preloader"></div>}
+            {newClient &&
                 <div>
                 <Layout forgotPassword={true}/>
                 <div className='cli--signup-section'>
@@ -246,13 +265,13 @@ const ClientVerification = () => {
                             </div>
                         </div>
                 </div>
-                </div> :
-                <div>
+                </div> }
+                {pageNotFound && <div>
                     <h1>404</h1>
                     <p>Not Found</p>
                     <small>The resource requested could not be found on this server!</small>
-                </div>
-            }
+                </div>}
+            
         </div>
         
         
