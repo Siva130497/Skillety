@@ -125,7 +125,7 @@ const Enquiry = () => {
 
             if (!result.error) {
                 console.log(result);
-                showSuccessMessage("enquiry form send successfully!")
+                showSuccessMessage("Enquiry form send successfully!")
                 setCredentials(initialCredentials);
                 setSelectedDate(null);
                 setDateString("");

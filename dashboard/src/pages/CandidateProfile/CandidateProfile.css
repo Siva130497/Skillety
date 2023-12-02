@@ -170,8 +170,11 @@
 }
 
 .profile-name-edit-input-area {
-    margin: 12px 0 16px 0;
-    display: none;
+    /* margin: 0px 0px 10px 0; */
+    margin: 0;
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.5s ease-in-out, margin 0.5s ease-in-out;
 }
 
 .prof-page-divider {
@@ -180,7 +183,18 @@
 }
 
 .profile-name-edit-input-area.expanded {
-    display: block;
+    margin: 5px 0 20px 0;
+    max-height: 100px;
+}
+
+.profile-name-edit-input-area.expanded-one {
+    margin: 5px 0 10px 0;
+    max-height: 200px;
+}
+
+.profile-name-edit-input-area.expanded-two {
+    margin: 5px 0 20px 0;
+    max-height: 200px;
 }
 
 .profile--name-edit-btn.expanded i {
@@ -193,6 +207,10 @@
     color: red !important;
     font-size: 25px;
     vertical-align: middle;
+}
+
+.prof-more-det-edit-btn.expanded .add-detail {
+    color: red !important;
 }
 
 .prof-more-det-section {
@@ -224,6 +242,24 @@
     font-weight: 500;
 }
 
+.prof-more-det-title.link::after {
+    content: "\f1c5";
+    display: inline-block;
+    font-family: 'bootstrap-icons' !important;
+    font-style: normal;
+    font-weight: normal !important;
+    font-feature-settings: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    vertical-align: text-top;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    margin-left: 5px;
+    font-size: 10px;
+    color: #1394DF;
+}
+
 .prof-more-det-edit-btn {
     background-color: transparent;
     border: none;
@@ -247,13 +283,44 @@
 }
 
 .prof-more-det-input-area {
-    margin: 12px 0;
-    display: none;
+    margin: 0;
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.5s ease-in-out, margin 0.5s ease-in-out;
+}
+
+.prof-more-det-input-area.expanded {
+    margin: 8px 0 12px 0;
+    max-height: 100px;
 }
 
 .change-setting-input.more-det,
 .setting-update-btn-more-det {
     font-size: 13px !important;
+}
+
+.change-setting-input.select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+.prof-more-det-input-area .toggle-icon {
+    position: absolute;
+    right: 120px;
+    z-index: 3;
+    font-size: 14px;
+    color: #714F36;
+    top: 12px;
+}
+
+.change-setting-input.select option {
+    background-color: #714F36 !important;
+    color: #FFF !important;
+}
+
+.change-setting-input.select option:disabled {
+    color: #bababa !important;
 }
 
 .prof-more-det-edit-btn.expanded {
@@ -516,9 +583,25 @@
     font-size: 15px;
 }
 
+.profile-content a {
+    color: #714F36 !important;
+    transition: ease-in-out 0.5s;
+}
+
+.profile-content a:hover {
+    color: #1394DF !important;
+}
+
 .profile-content-input-area {
-    margin: 25px 0;
-    display: none;
+    margin: 0;
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.5s ease-in-out, margin 0.5s ease-in-out;
+}
+
+.profile-content-input-area.expanded {
+    margin: 20px 0 15px 0;
+    max-height: 100px;
 }
 
 .profile-content-edit-btn.expanded,
@@ -771,7 +854,8 @@
     font-weight: bold;
     cursor: pointer;
 }
-.image-view-close .bi-x{
+
+.image-view-close .bi-x {
     color: #FFF !important;
     font-size: 35px;
     transition: ease-in-out 0.5s;
@@ -782,6 +866,7 @@
     text-decoration: none;
     cursor: pointer;
 }
+
 .image-view-close:hover .bi-x,
 .image-view-close:focus .bi-x {
     color: red !important;

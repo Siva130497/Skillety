@@ -21,7 +21,7 @@
 .cli-pro-input {
     outline: none;
     border: none;
-    padding: 12px 40px 12px 0px;
+    padding: 12px 50px 12px 0px;
     border-bottom: 1px solid #714F36;
     font-size: 15px;
     color: #714F36;
@@ -54,6 +54,11 @@
     margin: 0;
     padding: 0;
     bottom: 12px;
+}
+
+.cli-pro-add-btn.text-area {
+    padding: 15px 0 13px 0 !important;
+    bottom: 7px;
 }
 
 .cli-pro-add-btn:hover {
@@ -207,8 +212,15 @@
 }
 
 .add-more-input-area {
+    margin: 0;
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.5s ease-in-out, margin 0.5s ease-in-out;
+}
+
+.add-more-input-area.expanded {
     margin: 20px 0;
-    display: none;
+    max-height: 100px;
 }
 
 .cli-pro-add-input-btn.expanded {
@@ -228,10 +240,12 @@
 .prof-more-det-title.link:hover {
     color: #1394DF !important;
 }
-.add-detail{
+
+.add-detail {
     color: #1394DF !important;
     transition: ease-in-out 0.5s;
 }
-.add-detail:hover{
+
+.add-detail:hover {
     color: #000 !important;
 }

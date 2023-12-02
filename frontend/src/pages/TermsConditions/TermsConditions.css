@@ -1,0 +1,117 @@
+.terms-con-section {
+    overflow: hidden;
+    padding-bottom: 100px;
+}
+
+.terms-con-area {
+    border-radius: 20px;
+    background-color: #e8e8e8;
+    padding: 30px 20px;
+}
+
+.terms-con-title {
+    font-size: 40px;
+    color: #714F36;
+    font-weight: 500;
+    text-align: center;
+}
+
+.terms-con-title span{
+    font-weight: 700;
+}
+
+.terms-con-note-area {
+    margin-top: 20px;
+    border-radius: 20px;
+    background-color: #FFF;
+    padding: 25px;
+    box-shadow: 0px 0px 15px #00000017
+    /* text-align: center; */
+}
+
+.terms-con-sub-title {
+    color: #714F36;
+    font-size: 25px;
+    font-weight: 700;
+    position: relative;
+}
+
+.terms-con-sub-title::after {
+    content: '';
+    width: 10%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 3px;
+    background-color: #F9C833;
+}
+
+.terms-con-updated {
+    margin-bottom: 20px;
+    color: #000;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.terms-con-updated::before {
+    content: "";
+    display: inline-block;
+    vertical-align: middle;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-right: 10px;
+    background-color: #F9C833;
+    border: 2px solid #714F36;
+}
+
+.terms-con-updated span {
+    font-weight: 400;
+}
+
+.terms-con-note {
+    color: #000;
+    font-weight: 400;
+    font-size: 16px;
+    margin-top: 15px;
+}
+
+.terms-con-group {
+    margin-bottom: 30px;
+    border-bottom: 1px solid #714F36;
+}
+
+.terms-con-head {
+    color: #714F36;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.terms-con-content {
+    font-size: 16px;
+    font-weight: 400;
+    color: #000;
+    display: list-item;
+    list-style: upper-roman;
+    margin-left: 30px;
+    margin-bottom: 25px;
+}
+
+.terms-con-list-area {
+    margin-bottom: 25px;
+}
+
+.terms-con-list-area ul {
+    padding-left: 60px;
+
+}
+
+.terms-con-list-area ul .terms-con-list-item {
+    color: #000;
+    font-size: 16px;
+    font-weight: 500;
+    list-style: disc;
+    margin-bottom: 10px;
+}
