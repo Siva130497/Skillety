@@ -464,7 +464,7 @@ const PostedJobs = () => {
                                                     Freelancer
                                                 </label>
                                             </div>}
-
+                                            
                                             {postedJobs.length > 0 ?
                                                 <div className="table-responsive table-scroll-area">
                                                     <table className="table table-striped table-hover admin-lg-table">
