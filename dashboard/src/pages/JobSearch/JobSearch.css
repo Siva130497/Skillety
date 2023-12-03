@@ -45,7 +45,7 @@
 }
 
 .cli-tal-pro-search-filter-content-section.job {
-    border: none;
+    /* border: none; */
 }
 
 .cli--mark-keyword-area.job {
@@ -341,4 +341,34 @@
 
 .tal--pro-card-percentage.custom-font-size {
     font-size: 20px;
+}
+
+.cli-tal-pro-search-filter-expand-area.job {
+    padding-bottom: 40px;
+}
+
+.job-post-form-badge.job {
+    background-color: #F9C833 !important;
+    color: #714F36 !important;
+    font-weight: 500;
+    border-color: #F9C833;
+}
+
+.job-post-form-badge.job::after {
+    color: #714F36 !important;
+}
+
+.job-post-form-badge.job:hover {
+    background-color: #fcd45d !important;
+    border-color: #fcd45d !important;
+}
+
+.search-result-data.job:hover {
+    background-color: #F9C833 !important;
+    color: #714F36 !important;
+}
+
+.custom-padding-area {
+    padding-left: 15px !important;
+    padding-right: 5px !important;
 }

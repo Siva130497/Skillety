@@ -12,7 +12,7 @@
 }
 
 .cand--ab-vis-mis-section {
-    margin: 120px 0;
+    margin: 100px 0 120px 0;
 }
 
 .custom-align-center {
@@ -22,7 +22,7 @@
 
 .cand--ab-vis-mis-para {
     color: #714F36;
-    font-size: 48px;
+    font-size: 40px;
     font-weight: 400;
     text-transform: uppercase;
     line-height: 100%;

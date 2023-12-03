@@ -6,3 +6,15 @@
     background-color: #714F36 !important;
     color: #F9C833 !important;
 }
+
+.log-error-msg{
+    margin-top: -20px;
+    color: red;
+    margin-bottom: 40px;
+    font-size: 14px;
+    text-align: center;
+    transition: all 0.5s;
+    border: 1px solid red;
+    border-radius: 8px;
+    padding: 10px;
+}

@@ -184,66 +184,77 @@ const Talents = () => {
                         <ClientLayout />
 
                         <div class="main-content">
-                            <section class="section">
-                                <div className="admin-component-name">
-                                    Profile Detail
-                                </div>
-                                <div className='talents--section mobile'>
-                                    <div className='container-fluid'>
-                                        <div className='container-fluid container-section container-no-padding'>
-                                            <div className="custom--container">
-                                                <div className="talent--profile-section">
-                                                    <div className="talent--profile-container">
-                                                        <div className="client-talent--profile-detail-area">
-                                                            <div className='client-talent--profile-image-area'>
-                                                                <img src={candidateImgUrl ? candidateImgUrl : "../assets/img/talents-images/avatar.jpg"} className='client-talent--profile-image' alt="" />
-                                                            </div>
-                                                            <div className='client-talent--profile-content-area'>
-                                                                <h4 className='client-talent--profile-name'>{loginCandidate?.firstName + " " + loginCandidate?.lastName}</h4>
-                                                                <div className="client-talent--profile-tags-area">
-                                                                    <div className='client-talent--profile-tag'>Experience : {loginCandidate?.year > 0 ? loginCandidate?.year + 'years' : "" + loginCandidate?.month > 0 ? loginCandidate?.month + 'months' : ""}</div>
-                                                                    {/* <div className='client-talent--profile-tag'>9.5 LPA</div> */}
-                                                                    <div className='client-talent--profile-tag'>
-                                                                        <i class="bi bi-geo-alt-fill"></i>
-                                                                        {loginCandidate?.location}
-                                                                    </div>
-                                                                    {/* <div className='client-talent--profile-tag'>{loginCandidate?.designation[0]}</div> */}
+                            <div className="my-app-section">
+                                <section class="section">
+                                    <div className="admin-component-name">
+                                        Profile Detail
+                                    </div>
+                                    <div className='talents--section mobile'>
+                                        <div className='container-fluid'>
+                                            <div className='container-fluid container-section container-no-padding'>
+                                                <div className="custom--container">
+                                                    <div className="talent--profile-section">
+                                                        <div className="talent--profile-container">
+                                                            <div className="client-talent--profile-detail-area">
+                                                                <div className='client-talent--profile-image-area'>
+                                                                    <img src={candidateImgUrl ? candidateImgUrl : "../assets/img/talents-images/avatar.jpg"} className='client-talent--profile-image' alt="" />
                                                                 </div>
-                                                                <div className="client-talent--profile-desc-area mt-4">
-                                                                    <div className="row">
-                                                                        <div className="col-12 col-sm-4">
-                                                                            <div className='client-talent--profile-desc'>Previous :</div>
+                                                                <div className='client-talent--profile-content-area'>
+                                                                    <h4 className='client-talent--profile-name'>{loginCandidate?.firstName + " " + loginCandidate?.lastName}</h4>
+                                                                    <div className="client-talent--profile-tags-area">
+                                                                        <div className='client-talent--profile-tag'>Experience : {loginCandidate?.year > 0 ? loginCandidate?.year + 'years' : "" + loginCandidate?.month > 0 ? loginCandidate?.month + 'months' : ""}</div>
+                                                                        {/* <div className='client-talent--profile-tag'>9.5 LPA</div> */}
+                                                                        <div className='client-talent--profile-tag'>
+                                                                            <i class="bi bi-geo-alt-fill"></i>
+                                                                            {loginCandidate?.location}
                                                                         </div>
-                                                                        <div className="col-12 col-sm-8 mt-2 mt-sm-0">
-                                                                            <div className='client-talent--profile-desc text-capitalized'>{loginCandidate?.designation[0] + " " + "at" + " " + loginCandidate?.companyName}</div>
+                                                                        {/* <div className='client-talent--profile-tag'>{loginCandidate?.designation[0]}</div> */}
+                                                                    </div>
+                                                                    <div className="client-talent--profile-desc-area mt-4">
+                                                                        <div className="row">
+                                                                            <div className="col-12 col-sm-4">
+                                                                                <div className='client-talent--profile-desc'>Previous :</div>
+                                                                            </div>
+                                                                            <div className="col-12 col-sm-8 mt-2 mt-sm-0">
+                                                                                <div className='client-talent--profile-desc text-capitalized'>{loginCandidate?.designation[0] + " " + "at" + " " + loginCandidate?.companyName}</div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div className="row m-t-35 mt-sm-3">
+                                                                            <div className="col-12 col-sm-4">
+                                                                                <div className='client-talent--profile-desc'>College :</div>
+                                                                            </div>
+                                                                            <div className="col-12 col-sm-8 mt-2 mt-sm-0">
+                                                                                <div className='client-talent--profile-desc text-capitalized'>{loginCandidate?.college}</div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div className="row m-t-35 mt-sm-3">
+                                                                            <div className="col-12 col-sm-4">
+                                                                                <div className='client-talent--profile-desc'>Phone Number :</div>
+                                                                            </div>
+                                                                            <div className="col-12 col-sm-8 mt-2 mt-sm-0">
+                                                                                <div className='client-talent--profile-desc'>
+                                                                                    <a href={`tel:${loginCandidate?.phone}`}
+                                                                                        className='client-talent--profile-desc link is-link'>
+                                                                                        {loginCandidate?.phone}
+                                                                                    </a>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div className="row m-t-35 mt-sm-3">
+                                                                            <div className="col-12 col-sm-4">
+                                                                                <div className='client-talent--profile-desc'>Email :</div>
+                                                                            </div>
+                                                                            <div className="col-12 col-sm-8 mt-2 mt-sm-0">
+                                                                                <div className='client-talent--profile-desc'>
+                                                                                    <a href={`mailto:${loginCandidate?.email}`}
+                                                                                        className='client-talent--profile-desc link is-link'>
+                                                                                        {loginCandidate?.email}
+                                                                                    </a>
+                                                                                </div>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
-                                                                    <div className="row m-t-35 mt-sm-3">
-                                                                        <div className="col-12 col-sm-4">
-                                                                            <div className='client-talent--profile-desc'>College :</div>
-                                                                        </div>
-                                                                        <div className="col-12 col-sm-8 mt-2 mt-sm-0">
-                                                                            <div className='client-talent--profile-desc text-capitalized'>{loginCandidate?.college}</div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div className="row m-t-35 mt-sm-3">
-                                                                        <div className="col-12 col-sm-4">
-                                                                            <div className='client-talent--profile-desc'>Phone Number :</div>
-                                                                        </div>
-                                                                        <div className="col-12 col-sm-8 mt-2 mt-sm-0">
-                                                                            <div className='client-talent--profile-desc'>{loginCandidate?.phone}</div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div className="row m-t-35 mt-sm-3">
-                                                                        <div className="col-12 col-sm-4">
-                                                                            <div className='client-talent--profile-desc'>Email :</div>
-                                                                        </div>
-                                                                        <div className="col-12 col-sm-8 mt-2 mt-sm-0">
-                                                                            <div className='client-talent--profile-desc'>{loginCandidate?.email}</div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                {/* <div className="client-talent--profile-contact-btn-area">
+                                                                    {/* <div className="client-talent--profile-contact-btn-area">
                                                                     <button className='client-talent--profile-contact-btn'>View Phone Number</button>
                                                                     <button className='client-talent--profile-contact-btn'>
                                                                         <img src="assets/img/talent-profile/call-w.png" alt="" />
@@ -256,21 +267,21 @@ const Talents = () => {
                                                                 <img src="assets/img/talent-profile/email-b.png" alt="" />
                                                                 <div className='client-talent--profile-contact-email'>{candidateDetail.email}</div>
                                                             </div> */}
-                                                            </div>
-                                                            <div className="client-talent--profile-ability-number-area">
-                                                                <div className="client-talent--profile-ability-number-left">
-                                                                    <h6 className='client-talent--profile-ability'>Skill matched</h6>
-                                                                    <h2 className='client-talent--profile-number'>90%</h2>
                                                                 </div>
-                                                                <div className="hr-line mobile"></div>
-                                                                <div className="client-talent--profile-ability-number-right">
-                                                                    <h6 className='client-talent--profile-ability'>Can join in</h6>
-                                                                    <h2 className='client-talent--profile-days'>
-                                                                        <span>{loginCandidate?.days}</span>
-                                                                    </h2>
+                                                                <div className="client-talent--profile-ability-number-area">
+                                                                    <div className="client-talent--profile-ability-number-left">
+                                                                        <h6 className='client-talent--profile-ability'>Skill matched</h6>
+                                                                        <h2 className='client-talent--profile-number'>90%</h2>
+                                                                    </div>
+                                                                    <div className="hr-line mobile"></div>
+                                                                    <div className="client-talent--profile-ability-number-right">
+                                                                        <h6 className='client-talent--profile-ability'>Can join in</h6>
+                                                                        <h2 className='client-talent--profile-days'>
+                                                                            <span>{loginCandidate?.days}</span>
+                                                                        </h2>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                            {/* <div className="client-talent--profile-save-btn-area">
+                                                                {/* <div className="client-talent--profile-save-btn-area">
                                                             <form method="" action="">
                                                                 <input type="hidden" name="" value={"add"} />
                                                                 <input type="hidden" name="action" value={"remove"} />
@@ -280,9 +291,9 @@ const Talents = () => {
                                                                 </button>
                                                             </form>
                                                         </div> */}
-                                                        </div>
+                                                            </div>
 
-                                                        {/* <div className="client-talent--profile-days-tracking-area">
+                                                            {/* <div className="client-talent--profile-days-tracking-area">
                                         <div className="client-talent--profile-days-track-line-area">
                                             <div className="client-talent--profile-days-track-point-area point-1">
                                                 <div className="client-talent--profile-days-track-point"></div>
@@ -311,84 +322,84 @@ const Talents = () => {
                                         </div>
                                     </div> */}
 
-                                                        <div class="client-talent--profile-detail-section">
-                                                            <div class="client-talent--profile-detail-tab-area">
-                                                                <div class="client-talent--profile-detail-tab-btn-area">
-                                                                    <a href="#profileDetail" class="client-talent--profile-detail-tab-btn">Profile Detail</a>
-                                                                    <a href="#attachedCV" class="client-talent--profile-detail-tab-btn">Attached CV</a>
+                                                            <div class="client-talent--profile-detail-section">
+                                                                <div class="client-talent--profile-detail-tab-area">
+                                                                    <div class="client-talent--profile-detail-tab-btn-area">
+                                                                        <a href="#profileDetail" class="client-talent--profile-detail-tab-btn">Profile Detail</a>
+                                                                        <a href="#attachedCV" class="client-talent--profile-detail-tab-btn">Attached CV</a>
 
-                                                                </div>
-                                                                <div class="client-talent--profile-detail-tab-content-area">
-                                                                    <div id="profileDetail" class="client-talent--profile-detail-tab-content">
-                                                                        <div className="client-talent--profile-tab-desc-area">
-                                                                            <p className='client-talent--profile-tab-desc'>{loginCandidate?.profileHeadline}</p>
-                                                                        </div>
-                                                                        <div className="client-talent--profile-tab-toggle-content-section">
-                                                                            <div className="client-talent--profile-tab-toggle-content-area">
-                                                                                <div className="client-talent--profile-tab-toggle-area">
-                                                                                    <h6 className='client-talent--profile-tab-toggle-head'>Keyskills</h6>
-                                                                                    <svg xmlns="http://www.w3.org/2000/svg" className='' width="13" height="8" viewBox="0 0 15 9" fill="none">
-                                                                                        <path d="M1 1L6.79289 6.79289C7.18342 7.18342 7.81658 7.18342 8.20711 6.79289L14 1" stroke="#714F36" stroke-width="2" stroke-linecap="round" />
-                                                                                    </svg>
-                                                                                </div>
-                                                                                <div className="client-talent--profile-tab-expand-area">
-                                                                                    <div className="client-talent--profile-tab-expand-sub-area">
-                                                                                        <div className="client-talent--profile-tab-key-tags-area">
-                                                                                            {loginCandidate?.skills.map((skill) => {
-                                                                                                return (
-                                                                                                    <div className='client-talent--profile-tab-key-tag'>{skill}</div>
-                                                                                                )
-                                                                                            })}
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
+                                                                    </div>
+                                                                    <div class="client-talent--profile-detail-tab-content-area">
+                                                                        <div id="profileDetail" class="client-talent--profile-detail-tab-content">
+                                                                            <div className="client-talent--profile-tab-desc-area">
+                                                                                <p className='client-talent--profile-tab-desc'>{loginCandidate?.profileHeadline}</p>
                                                                             </div>
-
-                                                                            <div className="client-talent--profile-tab-toggle-content-area">
-                                                                                <div className="client-talent--profile-tab-toggle-area">
-                                                                                    <h6 className='client-talent--profile-tab-toggle-head'>Work Summary</h6>
-                                                                                    <svg xmlns="http://www.w3.org/2000/svg" className='' width="13" height="8" viewBox="0 0 15 9" fill="none">
-                                                                                        <path d="M1 1L6.79289 6.79289C7.18342 7.18342 7.81658 7.18342 8.20711 6.79289L14 1" stroke="#714F36" stroke-width="2" stroke-linecap="round" />
-                                                                                    </svg>
-                                                                                </div>
-                                                                                <div className="client-talent--profile-tab-expand-area">
-                                                                                    <div className="client-talent--profile-tab-expand-sub-area">
-                                                                                        <p className="client-talent--profile-tab-expand-desc">
-                                                                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
-                                                                                        </p>
-                                                                                        <div className="client-talent--profile-tab-expand-table-area">
-                                                                                            <div className="row">
-                                                                                                <div className="col-md-2">
-                                                                                                    <div className='client-talent--profile-tab-expand-table-title'>College</div>
-                                                                                                </div>
-                                                                                                <div className="col-md-10">
-                                                                                                    <div className='client-talent--profile-tab-expand-table-content'>{loginCandidate?.college}</div>
-                                                                                                </div>
-                                                                                            </div>
-
-                                                                                            <div className="row mt-3">
-                                                                                                <div className="col-md-2">
-                                                                                                    <div className='client-talent--profile-tab-expand-table-title'>Department</div>
-                                                                                                </div>
-                                                                                                <div className="col-md-10">
-                                                                                                    <div className='client-talent--profile-tab-expand-table-content'>Junior Frontend Developer at Cognizant</div>
-                                                                                                </div>
-                                                                                            </div>
-
-                                                                                            <div className="row mt-3">
-                                                                                                <div className="col-md-2">
-                                                                                                    <div className='client-talent--profile-tab-expand-table-title'>Role</div>
-                                                                                                </div>
-                                                                                                <div className="col-md-10">
-                                                                                                    <div className='client-talent--profile-tab-expand-table-content'>{loginCandidate?.designation[0]}</div>
-                                                                                                </div>
+                                                                            <div className="client-talent--profile-tab-toggle-content-section">
+                                                                                <div className="client-talent--profile-tab-toggle-content-area">
+                                                                                    <div className="client-talent--profile-tab-toggle-area">
+                                                                                        <h6 className='client-talent--profile-tab-toggle-head'>Keyskills</h6>
+                                                                                        <svg xmlns="http://www.w3.org/2000/svg" className='' width="13" height="8" viewBox="0 0 15 9" fill="none">
+                                                                                            <path d="M1 1L6.79289 6.79289C7.18342 7.18342 7.81658 7.18342 8.20711 6.79289L14 1" stroke="#714F36" stroke-width="2" stroke-linecap="round" />
+                                                                                        </svg>
+                                                                                    </div>
+                                                                                    <div className="client-talent--profile-tab-expand-area">
+                                                                                        <div className="client-talent--profile-tab-expand-sub-area">
+                                                                                            <div className="client-talent--profile-tab-key-tags-area">
+                                                                                                {loginCandidate?.skills.map((skill) => {
+                                                                                                    return (
+                                                                                                        <div className='client-talent--profile-tab-key-tag'>{skill}</div>
+                                                                                                    )
+                                                                                                })}
                                                                                             </div>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
-                                                                            </div>
 
-                                                                            {/* <div className="client-talent--profile-tab-toggle-content-area">
+                                                                                <div className="client-talent--profile-tab-toggle-content-area">
+                                                                                    <div className="client-talent--profile-tab-toggle-area">
+                                                                                        <h6 className='client-talent--profile-tab-toggle-head'>Work Summary</h6>
+                                                                                        <svg xmlns="http://www.w3.org/2000/svg" className='' width="13" height="8" viewBox="0 0 15 9" fill="none">
+                                                                                            <path d="M1 1L6.79289 6.79289C7.18342 7.18342 7.81658 7.18342 8.20711 6.79289L14 1" stroke="#714F36" stroke-width="2" stroke-linecap="round" />
+                                                                                        </svg>
+                                                                                    </div>
+                                                                                    <div className="client-talent--profile-tab-expand-area">
+                                                                                        <div className="client-talent--profile-tab-expand-sub-area">
+                                                                                            <p className="client-talent--profile-tab-expand-desc">
+                                                                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+                                                                                            </p>
+                                                                                            <div className="client-talent--profile-tab-expand-table-area">
+                                                                                                <div className="row">
+                                                                                                    <div className="col-md-2">
+                                                                                                        <div className='client-talent--profile-tab-expand-table-title'>College</div>
+                                                                                                    </div>
+                                                                                                    <div className="col-md-10">
+                                                                                                        <div className='client-talent--profile-tab-expand-table-content'>{loginCandidate?.college}</div>
+                                                                                                    </div>
+                                                                                                </div>
+
+                                                                                                <div className="row mt-3">
+                                                                                                    <div className="col-md-2">
+                                                                                                        <div className='client-talent--profile-tab-expand-table-title'>Department</div>
+                                                                                                    </div>
+                                                                                                    <div className="col-md-10">
+                                                                                                        <div className='client-talent--profile-tab-expand-table-content'>Junior Frontend Developer at Cognizant</div>
+                                                                                                    </div>
+                                                                                                </div>
+
+                                                                                                <div className="row mt-3">
+                                                                                                    <div className="col-md-2">
+                                                                                                        <div className='client-talent--profile-tab-expand-table-title'>Role</div>
+                                                                                                    </div>
+                                                                                                    <div className="col-md-10">
+                                                                                                        <div className='client-talent--profile-tab-expand-table-content'>{loginCandidate?.designation[0]}</div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                {/* <div className="client-talent--profile-tab-toggle-content-area">
                                                             <div className="client-talent--profile-tab-toggle-area">
                                                                 <h6 className='client-talent--profile-tab-toggle-head'>Work Experience</h6>
                                                                 <svg xmlns="http://www.w3.org/2000/svg" className='' width="15" height="9" viewBox="0 0 15 9" fill="none">
@@ -402,36 +413,36 @@ const Talents = () => {
                                                             </div>
                                                         </div> */}
 
-                                                                            <div className="client-talent--profile-tab-toggle-content-area">
-                                                                                <div className="client-talent--profile-tab-toggle-area">
-                                                                                    <h6 className='client-talent--profile-tab-toggle-head'>Education</h6>
-                                                                                    <svg xmlns="http://www.w3.org/2000/svg" className='' width="13" height="8" viewBox="0 0 15 9" fill="none">
-                                                                                        <path d="M1 1L6.79289 6.79289C7.18342 7.18342 7.81658 7.18342 8.20711 6.79289L14 1" stroke="#714F36" stroke-width="2" stroke-linecap="round" />
-                                                                                    </svg>
-                                                                                </div>
-                                                                                <div className="client-talent--profile-tab-expand-area">
-                                                                                    <div className="client-talent--profile-tab-expand-sub-area">
-                                                                                        <p className="client-talent--profile-tab-expand-desc">
-                                                                                            {loginCandidate?.education}
-                                                                                        </p>
+                                                                                <div className="client-talent--profile-tab-toggle-content-area">
+                                                                                    <div className="client-talent--profile-tab-toggle-area">
+                                                                                        <h6 className='client-talent--profile-tab-toggle-head'>Education</h6>
+                                                                                        <svg xmlns="http://www.w3.org/2000/svg" className='' width="13" height="8" viewBox="0 0 15 9" fill="none">
+                                                                                            <path d="M1 1L6.79289 6.79289C7.18342 7.18342 7.81658 7.18342 8.20711 6.79289L14 1" stroke="#714F36" stroke-width="2" stroke-linecap="round" />
+                                                                                        </svg>
+                                                                                    </div>
+                                                                                    <div className="client-talent--profile-tab-expand-area">
+                                                                                        <div className="client-talent--profile-tab-expand-sub-area">
+                                                                                            <p className="client-talent--profile-tab-expand-desc">
+                                                                                                {loginCandidate?.education}
+                                                                                            </p>
+                                                                                        </div>
                                                                                     </div>
                                                                                 </div>
-                                                                            </div>
 
-                                                                            <div className="client-talent--profile-tab-toggle-content-area">
-                                                                                <div className="client-talent--profile-tab-toggle-area">
-                                                                                    <h6 className='client-talent--profile-tab-toggle-head'>Certification</h6>
-                                                                                    <svg xmlns="http://www.w3.org/2000/svg" className='' width="13" height="8" viewBox="0 0 15 9" fill="none">
-                                                                                        <path d="M1 1L6.79289 6.79289C7.18342 7.18342 7.81658 7.18342 8.20711 6.79289L14 1" stroke="#714F36" stroke-width="2" stroke-linecap="round" />
-                                                                                    </svg>
-                                                                                </div>
-                                                                                <div className="client-talent--profile-tab-expand-area">
-                                                                                    <div className="client-talent--profile-tab-expand-sub-area">
+                                                                                <div className="client-talent--profile-tab-toggle-content-area">
+                                                                                    <div className="client-talent--profile-tab-toggle-area">
+                                                                                        <h6 className='client-talent--profile-tab-toggle-head'>Certification</h6>
+                                                                                        <svg xmlns="http://www.w3.org/2000/svg" className='' width="13" height="8" viewBox="0 0 15 9" fill="none">
+                                                                                            <path d="M1 1L6.79289 6.79289C7.18342 7.18342 7.81658 7.18342 8.20711 6.79289L14 1" stroke="#714F36" stroke-width="2" stroke-linecap="round" />
+                                                                                        </svg>
+                                                                                    </div>
+                                                                                    <div className="client-talent--profile-tab-expand-area">
+                                                                                        <div className="client-talent--profile-tab-expand-sub-area">
+                                                                                        </div>
                                                                                     </div>
                                                                                 </div>
-                                                                            </div>
 
-                                                                            {/* <div className="tal--pro-btn-area">
+                                                                                {/* <div className="tal--pro-btn-area">
                                                             <div>
                                                                 <div className="tal--pro-view-btn-area">
                                                                     <button  className='tal--pro-view-btn'>To View/Hire Talents</button>
@@ -452,23 +463,23 @@ const Talents = () => {
                                                                 </div>
                                                             </div>
                                                         </div> */}
+                                                                            </div>
                                                                         </div>
-                                                                    </div>
 
-                                                                    <div id="attachedCV" class="client-talent--profile-detail-tab-content">
-                                                                        Content-2 for Attached CV
+                                                                        <div id="attachedCV" class="client-talent--profile-detail-tab-content">
+                                                                            Content-2 for Attached CV
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
+
                                                     </div>
-
                                                 </div>
-                                            </div>
 
+                                            </div>
                                         </div>
-                                    </div>
-                                    {/* <div className="custom--container1">
+                                        {/* <div className="custom--container1">
                     <div className="talent--more-profile-section">
                         <h3 className='talent--more-profile-title' data-aos="fade-up">More Profile for Frontend Developer</h3>
                         <div className="talent--more-profile-slider-area">
@@ -641,8 +652,9 @@ const Talents = () => {
                         </button>
                     </div>
                 </div> */}
-                                </div>
-                            </section>
+                                    </div>
+                                </section>
+                            </div>
                         </div>
                         <Footer />
                     </div>

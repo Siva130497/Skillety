@@ -1,7 +1,7 @@
 @media screen and (min-width: 992px) and (max-width: 1399px) {
-    .cli--tal-pro-search-section {
+    /* .cli--tal-pro-search-section {
         margin-top: 130px;
-    }
+    } */
 
     /* .cli-tal-pro-search-container .cli-tal-pro-search-heading {
         font-size: 25px;
@@ -319,9 +319,9 @@
 }
 
 @media (max-width:573px) {
-    .cli--tal-pro-search-section {
+    /* .cli--tal-pro-search-section {
         margin-top: 100px;
-    }
+    } */
     .pl--package-arrow-area{
         padding: 15px !important;
     }

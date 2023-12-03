@@ -549,7 +549,7 @@ const ManageJobs = () => {
                                                 })}
                                             </table> 
                                         </div> :
-                                                <div className="no-data-created-area">
+                                                <div className="no-data-created-area bg-white">
                                                     <div className='no-data-created'>
                                                         <img src="../assets/img/no-data/no-data-img.png" className='no-data-img' alt="" />
                                                         <div className='no-data-text'>No Jobs Posted Yet..!</div>

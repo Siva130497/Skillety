@@ -2152,7 +2152,6 @@ const TalentsProfileSearch = () => {
                                                 <div className="col-12 col-lg-4 col-xl-4 col-md-4 custom-border-top-sm mt-4 mt-md-5 no-padding-mobile">
                                                     <div className="cli-tal-pro-recent-search-section">
                                                         <div className="cli-tal-pro-recent-search-head-area">
-                                                            <i class="ri-history-line"></i>
                                                             <h4 className='cli-tal-pro-recent-search-head mb-0'>Recent Searches </h4>
                                                         </div>
 
