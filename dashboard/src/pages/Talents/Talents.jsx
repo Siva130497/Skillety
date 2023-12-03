@@ -188,14 +188,16 @@ const Talents = () => {
                                 <div className="admin-component-name">
                                     Profile Detail
                                 </div>
-                                <div className='talents--section'>
+                                <div className='talents--section mobile'>
                                     <div className='container-fluid'>
-                                        <div className='container-fluid container-section'>
+                                        <div className='container-fluid container-section container-no-padding'>
                                             <div className="custom--container">
                                                 <div className="talent--profile-section">
                                                     <div className="talent--profile-container">
                                                         <div className="client-talent--profile-detail-area">
-                                                            <img src={candidateImgUrl ? candidateImgUrl : "../assets/img/talents-images/avatar.jpg"} className='client-talent--profile-image' alt="" />
+                                                            <div className='client-talent--profile-image-area'>
+                                                                <img src={candidateImgUrl ? candidateImgUrl : "../assets/img/talents-images/avatar.jpg"} className='client-talent--profile-image' alt="" />
+                                                            </div>
                                                             <div className='client-talent--profile-content-area'>
                                                                 <h4 className='client-talent--profile-name'>{loginCandidate?.firstName + " " + loginCandidate?.lastName}</h4>
                                                                 <div className="client-talent--profile-tags-area">
@@ -209,34 +211,34 @@ const Talents = () => {
                                                                 </div>
                                                                 <div className="client-talent--profile-desc-area mt-4">
                                                                     <div className="row">
-                                                                        <div className="col-4">
-                                                                            <div className='client-talent--profile-desc'>Previous</div>
+                                                                        <div className="col-12 col-sm-4">
+                                                                            <div className='client-talent--profile-desc'>Previous :</div>
                                                                         </div>
-                                                                        <div className="col-8">
+                                                                        <div className="col-12 col-sm-8 mt-2 mt-sm-0">
                                                                             <div className='client-talent--profile-desc text-capitalized'>{loginCandidate?.designation[0] + " " + "at" + " " + loginCandidate?.companyName}</div>
                                                                         </div>
                                                                     </div>
-                                                                    <div className="row mt-3">
-                                                                        <div className="col-4">
-                                                                            <div className='client-talent--profile-desc'>College</div>
+                                                                    <div className="row m-t-35 mt-sm-3">
+                                                                        <div className="col-12 col-sm-4">
+                                                                            <div className='client-talent--profile-desc'>College :</div>
                                                                         </div>
-                                                                        <div className="col-8">
+                                                                        <div className="col-12 col-sm-8 mt-2 mt-sm-0">
                                                                             <div className='client-talent--profile-desc text-capitalized'>{loginCandidate?.college}</div>
                                                                         </div>
                                                                     </div>
-                                                                    <div className="row mt-3">
-                                                                        <div className="col-4">
-                                                                            <div className='client-talent--profile-desc'>Phone Number</div>
+                                                                    <div className="row m-t-35 mt-sm-3">
+                                                                        <div className="col-12 col-sm-4">
+                                                                            <div className='client-talent--profile-desc'>Phone Number :</div>
                                                                         </div>
-                                                                        <div className="col-8">
+                                                                        <div className="col-12 col-sm-8 mt-2 mt-sm-0">
                                                                             <div className='client-talent--profile-desc'>{loginCandidate?.phone}</div>
                                                                         </div>
                                                                     </div>
-                                                                    <div className="row mt-3">
-                                                                        <div className="col-4">
-                                                                            <div className='client-talent--profile-desc'>Email</div>
+                                                                    <div className="row m-t-35 mt-sm-3">
+                                                                        <div className="col-12 col-sm-4">
+                                                                            <div className='client-talent--profile-desc'>Email :</div>
                                                                         </div>
-                                                                        <div className="col-8">
+                                                                        <div className="col-12 col-sm-8 mt-2 mt-sm-0">
                                                                             <div className='client-talent--profile-desc'>{loginCandidate?.email}</div>
                                                                         </div>
                                                                     </div>
@@ -260,7 +262,7 @@ const Talents = () => {
                                                                     <h6 className='client-talent--profile-ability'>Skill matched</h6>
                                                                     <h2 className='client-talent--profile-number'>90%</h2>
                                                                 </div>
-                                                                <div className="hr-line"></div>
+                                                                <div className="hr-line mobile"></div>
                                                                 <div className="client-talent--profile-ability-number-right">
                                                                     <h6 className='client-talent--profile-ability'>Can join in</h6>
                                                                     <h2 className='client-talent--profile-days'>
