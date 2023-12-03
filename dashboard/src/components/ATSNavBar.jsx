@@ -214,11 +214,11 @@ const ATSNavBar = () => {
                     <li className="dropdown">
                         <a href="#" data-toggle="dropdown"
                             className="nav-user--btn client nav-link dropdown-toggle nav-link-lg nav-link-user">
-                            {employeeRole === "Admin" ? "Admin Profile" : "Staff Profile"}
+                            <span>{employeeRole === "Admin" ? "Admin Profile" : "Staff Profile"}</span>
                             <i class="bi bi-caret-down-fill"></i>
                             <img alt="image" src="../assets/img/talents-images/avatar.jpg"
                                 className="user-img-radious-style" />
-                            <span className="d-sm-none d-lg-inline-block"></span>
+                            {/* <span className="d-sm-none d-lg-inline-block"></span> */}
                         </a>
                         <div className="dropdown-menu dropdown-menu-right pullDown profile-dropdown-menu">
                             <div className="dropdown-top-area mb-4">

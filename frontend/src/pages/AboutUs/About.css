@@ -191,7 +191,7 @@
     padding-top: 68px;
     padding-left: 36px;
     padding-right: 36px;
-    width: 80%;
+    width: 100%;
 }
 
 .about--desc-section p {
@@ -200,10 +200,11 @@
     font-weight: 400;
     line-height: normal;
     text-transform: capitalize;
+    margin-bottom: 0;
 }
 
 .about--milestone-section {
-    padding-top: 120px;
+    padding-top: 80px;
     padding-left: 36px;
     padding-right: 36px;
 }
@@ -250,7 +251,7 @@
 }
 
 .about--milestone-cards-area {
-    padding-top: 109px;
+    padding-top: 100px;
     padding-left: 120px;
 }
 
@@ -261,7 +262,7 @@
     padding: 31px 28px 0 28px;
     border: 2px solid #5C3B2E;
     border-bottom: 5px solid #5C3B2E;
-    height: 300px;
+    height: 280px;
     margin-bottom: 3rem;
     display: flex;
     flex-direction: row;
@@ -358,7 +359,7 @@
 
 .ab--milestone-card-right .ab-milestone-number {
     color: #714F36;
-    font-size: 96px;
+    font-size: 80px;
     font-weight: 400;
     line-height: normal;
     text-transform: capitalize;
@@ -374,7 +375,7 @@
 }
 
 .about--weoffer-section {
-    padding-top: 120px;
+    padding-top: 80px;
     padding-bottom: 120px;
 }
 

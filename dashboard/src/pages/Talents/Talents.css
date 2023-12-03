@@ -341,9 +341,12 @@
     padding: 6px;
 }
 
-/* .client-talent--profile-content-area {
-    margin-left: 20px;
-} */
+.client-talent--profile-content-area {
+    border-radius: 16px;
+    padding: 30px;
+    border: 3px solid #FFECE4;
+    width: 100%;
+}
 
 .client-talent--profile-name {
     color: #714F36;
@@ -379,6 +382,7 @@
     color: #714F36;
     font-size: 14px;
     font-weight: 500;
+    word-break: break-all;
 }
 
 .client-talent--profile-contact-btn-area {
@@ -469,12 +473,14 @@
     color: #714F36;
     font-size: 14px;
     font-weight: 500;
+    white-space: nowrap;
 }
 
 .client-talent--profile-ability-number-area .client-talent--profile-number {
     color: #714F36;
     font-size: 40px;
     font-weight: 500;
+    margin-bottom: 0;
 }
 
 .client-talent--profile-number span {
@@ -776,20 +782,40 @@
     color: #714F36;
     font-weight: 600;
     margin-top: 5px;
+    white-space: nowrap;
 }
 
-.client-talent--profile-ability-number-area{
+.client-talent--profile-ability-number-area {
     background-color: #FFECE4;
     border-radius: 16px;
     display: flex;
     align-items: center;
     flex-direction: column;
-    justify-content:center;
+    justify-content: center;
     padding-left: 0;
     padding: 30px;
     gap: 10px;
 }
-.hr-line{
+
+.hr-line {
     border-top: #714F36 1px solid;
     width: 100%;
+}
+
+.client-talent--profile-image-area {
+    border: 3px solid #FFECE4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+    border-radius: 16px;
+    /* width: 100%; */
+}
+
+.client-talent--profile-desc.link{
+    transition: ease-in-out 0.5s;
+}
+.client-talent--profile-desc.link:hover{
+    color: #1394DF !important;
+    text-decoration: underline;
 }

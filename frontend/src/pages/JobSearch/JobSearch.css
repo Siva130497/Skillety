@@ -29,10 +29,12 @@
 }
 
 .job-search-head {
-    color: #5C3B2E;
-    font-size: 20px;
+    color: #714F36;
+    font-size: 48px;
     font-weight: 500;
-    padding: 40px 0 10px 0;
+    /* padding: 40px 0 10px 0; */
+    padding-bottom: 20px;
+    text-transform: uppercase;
 }
 
 .cli--emploment-detail-head.job {
@@ -45,7 +47,11 @@
 }
 
 .cli-tal-pro-search-filter-content-section.job {
-    border: none;
+    /* border: none; */
+}
+
+.cli-tal-pro-search-filter-expand-area.job {
+    padding-bottom: 30px;
 }
 
 .cli--mark-keyword-area.job {
@@ -73,7 +79,8 @@
 .pl--package-btn.job {
     font-size: 20px;
 }
-.job--detail-card.search{
+
+.job--detail-card.search {
     margin-bottom: 30px;
 }
 
@@ -81,15 +88,21 @@
     background-color: #fff0c5 !important;
     color: #63442d !important;
 }
-.tal-cand-reg-form-badge.candidate{
+
+.tal-cand-reg-form-badge.candidate {
     background-color: #fff0c5 !important;
     border-color: #F9C833;
 }
-.tal-cand-reg-form-badge.candidate:hover{
-    border-color: #714F36;
-}
 
-.tal--pro-card-percentage.custom-font-size{
+.tal-cand-reg-form-badge.candidate:hover {
+    color: #714F36 !important;
+    background-color: #F9C833 !important;
+}
+.tal-cand-reg-form-badge.candidate:hover::after {
+    color: #714F36 !important;
+    border-color: #714F36 !important;
+}
+.tal--pro-card-percentage.custom-font-size {
     font-size: 20px;
     margin-top: 10px;
 }

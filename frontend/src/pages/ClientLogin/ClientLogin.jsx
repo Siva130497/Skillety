@@ -74,57 +74,62 @@ const ClientLogin = () => {
                         {/* <div className="custom--container"> */}
                         <div className="row custom-column-reverse">
                             <div className="col-12 col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                <div className="cli--signup-form-area cli--login-form-area">
+                                <div className="cli--signup-form-area cli--login-form-area" data-aos="fade-up">
                                     {/* <h5 className="cli--signup-title" data-aos="fade-left">Welcome back</h5> */}
-                                
-                                        <h6 className='cli--signup-sub-title' data-aos="fade-right">Welcome back! Plz enter your details</h6>
-                                    
-                                        <div className="cli--login-with-google-btn-area">
-                                            <a href="#" className='cli--login-with-google-btn' data-aos="fade-up">
-                                                <img src="assets/img/signup/google-icon.png" className='google-icon' alt="" />
-                                                <span>Log in with Google</span>
-                                            </a>
+
+                                    <h6 className='cli--signup-sub-title'>Welcome back! Plz enter your details</h6>
+
+                                    <div className="cli--login-with-google-btn-area">
+                                        <a href="#" className='cli--login-with-google-btn'>
+                                            <img src="assets/img/signup/google-icon.png" className='google-icon' alt="" />
+                                            <span>Log in with Google</span>
+                                        </a>
+                                    </div>
+
+                                    <form action="" className='cli--signup-form' onSubmit={handleSubmit}>
+
+                                        <div className='cli--signup-form-group'>
+                                            <input type="text" id='user_id' name="userId" placeholder="Enter your User ID" className='cli--signup-form-input' value={credentials.userId} onChange={handleInputChange} />
+                                            <label htmlFor="user_id" className='cli--signup--form-label'>User Id</label>
                                         </div>
 
-                                        <form action="" className='cli--signup-form' onSubmit={handleSubmit}>
-                                            <p>{errorMsg && "!!!"+errorMsg}</p>
-                                            <div className='cli--signup-form-group' data-aos="fade-up" >
-                                                <input type="text" id='user_id' name="userId" placeholder="Enter your User ID" className='cli--signup-form-input' value={credentials.userId} onChange = {handleInputChange} />
-                                                <label htmlFor="user_id" className='cli--signup--form-label'>User Id</label>
-                                            </div>
-                                        
 
-                                            <div className='cli--signup-form-group' data-aos="fade-up">
-                                                <i class="bi bi-eye-slash toggle-eye" id="togglePassword"></i>
-                                                <input type="password" id='password' name="password" placeholder="Enter your password" className='cli--signup-form-input'  value = {credentials.password} onChange = {handleInputChange} required 
-                                                // onPaste={(e)=>e.preventDefault()}
-                                                />
-                                                <label htmlFor="password" className='cli--signup--form-label'>Password</label>
-                                            </div>
-
-                                            <div className="cli--login-forgot-remember-area">
-                                                <div className="cli--login-remember-area" data-aos="fade-right">
-                                                    <label className="cli--login-remember-checkbox">
-                                                        <input type="checkbox" />
-                                                        <span className="cli--login-remember-checkmark"></span>
-                                                        Remember Details
-                                                    </label>
-                                                </div>
-                                                <div className="cli--login-forgot-area" data-aos="fade-left">
-                                                    <a href="/forgot-password/Client" className='cli--login-forgot'>Forgot Password</a>
-                                                </div>
-                                            </div>
-
-                                            <div className="cli--create-account-btn-area" data-aos="fade-up">
-                                                <button type='submit' className='cli--create-account-btn'>Log In</button>
-                                            </div>
-
-                                        </form>
-                                        <div className="cli--login-no-account-area" data-aos="fade-up">
-                                            <span className='cli--login-no-account'>Don’t have an account?&nbsp;</span>
-                                            <a href="/client-register" className='cli--login-no-account-signup'>Sign up</a>
+                                        <div className='cli--signup-form-group'>
+                                            <i class="bi bi-eye-slash toggle-eye" id="togglePassword"></i>
+                                            <input type="password" id='password' name="password" placeholder="Enter your password" className='cli--signup-form-input' value={credentials.password} onChange={handleInputChange} required
+                                            // onPaste={(e)=>e.preventDefault()}
+                                            />
+                                            <label htmlFor="password" className='cli--signup--form-label'>Password</label>
                                         </div>
-                                 
+
+                                        {errorMsg ?
+                                            <p className='log-error-msg'>{errorMsg && "!!!" + errorMsg}</p>
+                                            : null
+                                        }
+
+                                        <div className="cli--login-forgot-remember-area">
+                                            <div className="cli--login-remember-area">
+                                                <label className="cli--login-remember-checkbox">
+                                                    <input type="checkbox" />
+                                                    <span className="cli--login-remember-checkmark"></span>
+                                                    Remember Details
+                                                </label>
+                                            </div>
+                                            <div className="cli--login-forgot-area">
+                                                <a href="/forgot-password/Client" className='cli--login-forgot'>Forgot Password</a>
+                                            </div>
+                                        </div>
+
+                                        <div className="cli--create-account-btn-area">
+                                            <button type='submit' className='cli--create-account-btn'>Log In</button>
+                                        </div>
+
+                                    </form>
+                                    <div className="cli--login-no-account-area">
+                                        <span className='cli--login-no-account'>Don’t have an account?&nbsp;</span>
+                                        <a href="/client-register" className='cli--login-no-account-signup'>Sign up</a>
+                                    </div>
+
                                 </div>
                             </div>
                             <div className="col-12 col-xl-6 col-lg-6 col-md-12 col-sm-12">

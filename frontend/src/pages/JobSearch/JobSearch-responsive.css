@@ -2,6 +2,7 @@
     .job-search-content-lg p {
         font-size: 25px;
     }
+    
 }
 
 @media (max-width:991.5px) {
@@ -30,6 +31,10 @@
         align-items: baseline;
         gap: 20px;
     }
+
+    .job-search-head{
+        font-size: 45px !important;
+    }
 }
 
 @media (max-width:500px) {
@@ -45,12 +50,19 @@
         padding-top: 30px;
     }
 
-    .job-search-head {
-        padding-top: 30px;
+    .job-search-head{
+        font-size: 30px !important;
     }
 
     .pl--package-btn.job {
         font-size: 18px;
         padding: 12px 30px;
+    }
+    .job--detail-card-bottom-area{
+        gap: 15px;
+        align-items: flex-end;
+    }
+    .job--detail-card-location-area .job--detail-card-experience i{
+        font-size: 20px !important;
     }
 }

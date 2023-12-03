@@ -71,6 +71,11 @@
     .job--detail-more-slider-area {
         margin-top: 50px;
     }
+
+    .custom-padding-area {
+        padding-left: 10px !important;
+        padding-right: 5px !important;
+    }
 }
 
 @media (max-width:991.5px) {
@@ -167,16 +172,20 @@
         margin-top: 60px;
     }
 
-    .flex-reverse-md{
+    .flex-reverse-md {
         display: flex;
         flex-direction: column;
         align-items: flex-start;
     }
 
-    .tal--pro-card-ability-number-left.mobile-flex{
+    .tal--pro-card-ability-number-left.mobile-flex {
         flex-direction: row;
         align-items: baseline;
         gap: 20px;
+    }
+
+    .no-padding-md {
+        padding: 0;
     }
 }
 
@@ -360,10 +369,17 @@
         width: 100%;
         text-align: center;
     }
-    .job--detail-card-img-area.job{
+
+    .job--detail-card-img-area.job {
         height: 120px;
     }
-    .job--detail-card-img-area.job .job--detail-card-img{
+
+    .job--detail-card-img-area.job .job--detail-card-img {
         height: 100px;
+    }
+
+    .custom-padding-area {
+        padding-left: 15px !important;
+        padding-right: 15px !important;
     }
 }

@@ -6,26 +6,26 @@ import './AllCompanyStaff.css';
 import './AllCompanyStaff-responsive.css';
 import $ from 'jquery';
 import axios from 'axios';
-import { v4 as uuidv4} from "uuid";
+import { v4 as uuidv4 } from "uuid";
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
 import AuthContext from '../../context/AuthContext';
 
 const AllClientStaff = () => {
     const [clientToken, setclientToken] = useState("");
-    const {getProtectedData} = useContext(AuthContext);
+    const { getProtectedData } = useContext(AuthContext);
     const [employeeId, setEmployeeId] = useState("");
     const [loginClientDetail, setLoginClientDetail] = useState();
     const [allClientStaffs, setAllClientStaffs] = useState([]);
     const [selectedClientStaffViewDetail, setSelectedClientStaffViewDetail] = useState();
 
     const initialCredentials = {
-        name:"",
-        email:"",
-        phone:"",
-      }
-      const [credentials, setcredentials] = useState(initialCredentials);
-    
+        name: "",
+        email: "",
+        phone: "",
+    }
+    const [credentials, setcredentials] = useState(initialCredentials);
+
     const [x, setX] = useState([0, 10]);
 
     useEffect(() => {
@@ -60,7 +60,7 @@ const AllClientStaff = () => {
         });
     }
 
-   
+
 
     const handleViewClientStaffDetail = (id) => {
         const selectedClientStaff = allClientStaffs.find(clientStaff => clientStaff.id === id);
@@ -74,20 +74,20 @@ const AllClientStaff = () => {
                     Authorization: `Bearer ${clientToken}`,
                     Accept: 'application/json'
                 }
-              });
-    
+            });
+
             const result = response.data;
-    
+
             if (!result.message) {
                 console.log(result);
                 if (result.emailSent) {
-                  showSuccessMessage("New client staff has been created successfully!")
-                  setcredentials(initialCredentials)
-                  getAllClientStaffs();
-              } else {
-                  console.log('Email sending failed.');
-                  showErrorMessage('Email sending failed.')
-              }
+                    showSuccessMessage("New client staff has been created successfully!")
+                    setcredentials(initialCredentials)
+                    getAllClientStaffs();
+                } else {
+                    console.log('Email sending failed.');
+                    showErrorMessage('Email sending failed.')
+                }
             } else {
                 console.log(result);
                 showErrorMessage("you reached the limit of creating accounts, upgrade your plan")
@@ -96,78 +96,78 @@ const AllClientStaff = () => {
         } catch (error) {
             console.log(error);
         }
-      };
+    };
 
-      const getLoginClientDetail = async() => {
-        try{
+    const getLoginClientDetail = async () => {
+        try {
             const res = await axios.get(`https://skillety.onrender.com/client/${employeeId}`, {
-              headers: {
-                  Authorization: `Bearer ${clientToken}`,
-                  Accept: 'application/json'
-              }
+                headers: {
+                    Authorization: `Bearer ${clientToken}`,
+                    Accept: 'application/json'
+                }
             });
             const result = res.data;
             if (!result.error) {
-              console.log(result);
-              setLoginClientDetail(result);
+                console.log(result);
+                setLoginClientDetail(result);
             } else {
-              console.log(result);
+                console.log(result);
             }
-        }catch(err){
-          console.log(err);
+        } catch (err) {
+            console.log(err);
         }
-      }
+    }
 
-      const getAllClientStaffs = async() => {
-        try{
+    const getAllClientStaffs = async () => {
+        try {
             const res = await axios.get(`https://skillety.onrender.com/all-client-staffs/${loginClientDetail?.companyId}`, {
-              headers: {
-                  Authorization: `Bearer ${clientToken}`,
-                  Accept: 'application/json'
-              }
+                headers: {
+                    Authorization: `Bearer ${clientToken}`,
+                    Accept: 'application/json'
+                }
             });
             const result = res.data;
             if (!result.error) {
-              console.log(result);
-              setAllClientStaffs(result);
+                console.log(result);
+                setAllClientStaffs(result);
             } else {
-              console.log(result);
+                console.log(result);
             }
-        }catch(err){
-          console.log(err);
+        } catch (err) {
+            console.log(err);
         }
-      }
+    }
 
-      useEffect(() => {
-        if(clientToken){
+    useEffect(() => {
+        if (clientToken) {
             const fetchData = async () => {
                 try {
-                  const user = await getProtectedData(clientToken);
-                  console.log(user);
-                  setEmployeeId(user.id);
+                    const user = await getProtectedData(clientToken);
+                    console.log(user);
+                    setEmployeeId(user.id);
                 } catch (error) {
-                  console.log(error)
+                    console.log(error)
                 }
-              };
-          
-              fetchData();
-        }
-        
-      }, [clientToken]);
-  
-      useEffect(()=>{
-        if(employeeId){
-          getLoginClientDetail();
-        }
-      },[employeeId]);
+            };
 
-      useEffect(()=>{
-        if(loginClientDetail){
-          getAllClientStaffs();
+            fetchData();
         }
-      },[loginClientDetail]);
 
-      
+    }, [clientToken]);
+
+    useEffect(() => {
+        if (employeeId) {
+            getLoginClientDetail();
+        }
+    }, [employeeId]);
+
+    useEffect(() => {
+        if (loginClientDetail) {
+            getAllClientStaffs();
+        }
+    }, [loginClientDetail]);
+
+
     // const handleRemove = (id) => {
     //     Swal.fire({
     //         title: 'Are you sure?',
@@ -200,18 +200,18 @@ const AllClientStaff = () => {
     // }
 
     const handleInputChange = (event) => {
-        const {name, value} = event.target;
-        setcredentials({...credentials, [name]:value});
-      }
-    
-      const handleSubmit = (event) => {
+        const { name, value } = event.target;
+        setcredentials({ ...credentials, [name]: value });
+    }
+
+    const handleSubmit = (event) => {
         event.preventDefault();
         const updatedCredentials = {
-          ...credentials,
+            ...credentials,
         };
         console.log(updatedCredentials);
         createClientStaff(updatedCredentials);
-      }
+    }
 
     return (
         <div>
@@ -280,7 +280,10 @@ const AllClientStaff = () => {
                                                                         {clientStaff.name}
                                                                     </td>
                                                                     <td className='dash-table-data1'>
-                                                                        {clientStaff.email}
+                                                                        <a href={`mailto:${clientStaff.email}`}
+                                                                            className='dash-table-data1 link is-link'>
+                                                                            {clientStaff.email}
+                                                                        </a>
                                                                     </td>
 
                                                                     {/* <td className='dash-table-data1'>
@@ -369,7 +372,12 @@ const AllClientStaff = () => {
                                             <div className="view-det-head">Mobile Number</div>
                                         </div>
                                         <div className="col-12 col-sm-6">
-                                            <div className="view-det-sub-head">{selectedClientStaffViewDetail?.phone}</div>
+                                            <div className="view-det-sub-head">
+                                                <a href={`tel:${selectedClientStaffViewDetail?.phone}`}
+                                                    className='view-det-sub-head link is-link'>
+                                                    {selectedClientStaffViewDetail?.phone}
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
                                     <hr />
@@ -378,7 +386,12 @@ const AllClientStaff = () => {
                                             <div className="view-det-head">Email ID</div>
                                         </div>
                                         <div className="col-12 col-sm-6">
-                                            <div className="view-det-sub-head">{selectedClientStaffViewDetail?.email}</div>
+                                            <div className="view-det-sub-head">
+                                                <a href={`mailto:${selectedClientStaffViewDetail?.email}`}
+                                                    className='view-det-sub-head link is-link'>
+                                                    {selectedClientStaffViewDetail?.email}
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
                                     {/* <hr />
@@ -451,9 +464,9 @@ const AllClientStaff = () => {
                                                         type="text"
                                                         id="staff_name"
                                                         aria-describedby="staffName"
-                                                        name="name" 
-                                                        value={credentials.name} 
-                                                        onChange = {handleInputChange}
+                                                        name="name"
+                                                        value={credentials.name}
+                                                        onChange={handleInputChange}
                                                         placeholder="Enter the staff name"
                                                         className='form-control dash-form-input'
                                                         required
@@ -467,9 +480,9 @@ const AllClientStaff = () => {
                                                         type="email"
                                                         id="email"
                                                         aria-describedby="email"
-                                                        name="email" 
-                                                        value={credentials.email} 
-                                                        onChange = {handleInputChange}
+                                                        name="email"
+                                                        value={credentials.email}
+                                                        onChange={handleInputChange}
                                                         placeholder="example@example.com"
                                                         className='form-control dash-form-input'
                                                         required
@@ -483,9 +496,9 @@ const AllClientStaff = () => {
                                                         type="number"
                                                         id="phone"
                                                         aria-describedby="mobileNo"
-                                                        name="phone" 
-                                                        value={credentials.phone} 
-                                                        onChange = {handleInputChange}
+                                                        name="phone"
+                                                        value={credentials.phone}
+                                                        onChange={handleInputChange}
                                                         placeholder="0XXXX XXXX XXX"
                                                         className='form-control dash-form-input'
                                                         required
