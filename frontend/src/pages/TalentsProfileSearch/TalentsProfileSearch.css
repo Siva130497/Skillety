@@ -1,7 +1,7 @@
 .cli--tal-pro-search-section {
     margin-top: 150px;
     padding-top: 60px;
-    overflow: hidden !important;
+    /* overflow: hidden !important; */
 }
 
 
@@ -568,7 +568,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
 }
 
 .cli-tal-search-filter-form-group .cli-tal-search-filter-form-label {
@@ -812,7 +812,7 @@
 }
 
 .cli-tal-pro-search-filter-expand-area.opened {
-    /* max-height: 100vh; */
+    /* max-height: 500vh; */
     display: block;
 }
 
@@ -1113,7 +1113,7 @@
     border-radius: 50px;
     font-weight: 500;
     padding: 4px 10px 4px 13px;
-    top: 10px;
+    top: 5px;
     text-transform: capitalize;
     cursor: pointer;
     transition: ease-in-out 0.5s;

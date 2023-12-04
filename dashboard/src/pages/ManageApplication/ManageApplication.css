@@ -27,6 +27,7 @@
     font-size: 22px !important;
     color: #714F36 !important;
     font-weight: 600 !important;
+    text-transform: capitalize;
 }
 
 .man-app-sub-title {
@@ -34,6 +35,7 @@
     font-size: 16px !important;
     color: #714F36 !important;
     font-weight: 400 !important;
+    text-transform: capitalize;
 }
 .admin-lg-table-area.man-app{
     padding: 15px;

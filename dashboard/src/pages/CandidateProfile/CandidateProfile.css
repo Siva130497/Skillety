@@ -583,13 +583,13 @@
     font-size: 15px;
 }
 
-.profile-content a {
-    color: #714F36 !important;
+.profile-content.link {
     transition: ease-in-out 0.5s;
 }
 
-.profile-content a:hover {
+.profile-content.link:hover {
     color: #1394DF !important;
+    text-decoration: underline;
 }
 
 .profile-content-input-area {

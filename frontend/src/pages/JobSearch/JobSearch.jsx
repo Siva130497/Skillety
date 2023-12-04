@@ -86,114 +86,96 @@ const JobSearch = () => {
     }
 
     useEffect(() => {
-        $(document).ready(function () {
-            ////change the toggle text and color
-            $('.toggleSwitch').change(function () {
-                var $label = $(this).closest('.cl-toggle-switch').find('.cl-toggle--switch-label');
-                if ($(this).is(':checked')) {
-                    $label.text('Boolean On').css('color', '#714F36');
-                } else {
-                    $label.text('Boolean Off').css('color', '#B3B3B3');
-                }
-            });
-            ////
+        // $(document).ready(function () {
+        ////change the toggle text and color
+        $('.toggleSwitch').change(function () {
+            var $label = $(this).closest('.cl-toggle-switch').find('.cl-toggle--switch-label');
+            if ($(this).is(':checked')) {
+                $label.text('Boolean On').css('color', '#714F36');
+            } else {
+                $label.text('Boolean Off').css('color', '#B3B3B3');
+            }
+        });
+        ////
 
-            //// avoid "e" negative values for number input field
-            // $('.numeric-input').on('input', function () {
-            //     var inputValue = $(this).val();
+        //// avoid "e" negative values for number input field
+        // $('.numeric-input').on('input', function () {
+        //     var inputValue = $(this).val();
 
-            //     // Remove any non-digit characters, "e", and leading minus sign
-            //     inputValue = inputValue.replace(/[^0-9]/g, '');
+        //     // Remove any non-digit characters, "e", and leading minus sign
+        //     inputValue = inputValue.replace(/[^0-9]/g, '');
 
-            //     // Ensure that the input is not negative
-            //     if (inputValue.length > 0 && inputValue.charAt(0) === '-') {
-            //         inputValue = inputValue.slice(1);
-            //     }
+        //     // Ensure that the input is not negative
+        //     if (inputValue.length > 0 && inputValue.charAt(0) === '-') {
+        //         inputValue = inputValue.slice(1);
+        //     }
 
-            //     // Set the cleaned value back in the input field
-            //     $(this).val(inputValue);
-            // });
-            ////
+        //     // Set the cleaned value back in the input field
+        //     $(this).val(inputValue);
+        // });
+        ////
 
-            ////for tooltip
-            $('.info-icon-button').click(function () {
-                // Toggle tooltip display on button click
-                $('.tooltip').toggleClass('active');
-            });
-            ////
+        ////for tooltip
+        $('.info-icon-button').click(function () {
+            // Toggle tooltip display on button click
+            $('.tooltip').toggleClass('active');
+        });
+        ////
 
-            ///for search filter toggle
-            $('.cli-tal-pro-search-filter-toggle-area').click(function () {
-                var expandArea = $(this).closest('.cli-tal-pro-search-filter-content-section').find('.cli-tal-pro-search-filter-expand-area');
+        ///for search filter toggle
+        function handleFilterToggle() {
+            var expandArea = $(this).closest('.cli-tal-pro-search-filter-content-section').find('.cli-tal-pro-search-filter-expand-area');
 
-                if (expandArea.hasClass('opened')) {
-                    expandArea.removeClass('opened');
-                    $(this).removeClass('opened');
-                } else {
-                    expandArea.addClass('opened');
-                    $(this).addClass('opened');
-                }
-            });
-            ////
+            if (expandArea.hasClass('opened')) {
+                expandArea.slideUp();
+                expandArea.removeClass('opened');
+                $(this).removeClass('opened');
+            } else {
+                expandArea.slideDown();
+                expandArea.addClass('opened');
+                $(this).addClass('opened');
+            }
+        }
+        ////
 
-            ////for custom select option for days
-            var defaultOption = $('.select-options li:first-child');
-            $('.select-box span').text(defaultOption.text());
 
-            $('.select-box').on('click', function () {
-                var selectBox = $(this);
-                var toggleIcon = selectBox.find('.toggle-icon');
-                var selectOptions = selectBox.next('.select-options');
+        ////for view more checkboxes
+        var buttons = $(".jobs-view-more-btn");
+        buttons.each(function () {
+            var button = $(this);
+            var hiddenDivs = button.closest(".job-search-multi-check-area").find(".cli--mark-keyword-area.job:nth-child(n+5)");
 
-                selectOptions.slideToggle(300, function () {
-                    if (selectOptions.is(':visible')) {
-                        toggleIcon.css('transform', 'rotateX(180deg)');
-                        selectBox.addClass('active');
+            button.on("click", function () {
+                hiddenDivs.slideToggle(function () {
+                    var buttonText = button.find("span");
+                    if (hiddenDivs.is(":visible")) {
+                        buttonText.text("View Less");
                     } else {
-                        toggleIcon.css('transform', 'rotateX(0deg)');
-                        selectBox.removeClass('active');
+                        buttonText.text("View More");
                     }
                 });
             });
-
-            $('.select-options li').on('click', function () {
-                var selectedValue = $(this).data('value');
-                $('.select-box span').text($(this).text());
-                $('.select-options').slideUp();
-                $('.select-box .toggle-icon').css('transform', 'rotateX(0deg)');
-                $('.select-box').removeClass('active');
-
-                // You can do something with the selected value here
-                console.log('Selected value: ' + selectedValue);
-            });
-
-            $(document).on('click', function (e) {
-                if (!$(e.target).closest('.custom-select').length) {
-                    $('.select-options').slideUp();
-                    $('.select-box .toggle-icon').css('transform', 'rotateX(0deg)');
-                    $('.select-box').removeClass('active');
-                }
-            });
-            ////
-
-            ////for view more checkboxes
-            var buttons = $(".jobs-view-more-btn");
-            buttons.each(function () {
-                var button = $(this);
-                var hiddenDivs = button.closest(".job-search-multi-check-area").find(".cli--mark-keyword-area.job:nth-child(n+5)");
-
-                button.on("click", function () {
-                    hiddenDivs.slideToggle(function () {
-                        var buttonText = button.find("span");
-                        if (hiddenDivs.is(":visible")) {
-                            buttonText.text("View Less");
-                        } else {
-                            buttonText.text("View More");
-                        }
-                    });
-                });
-            });
         });
+
+
+        //navigate to top while press buttons
+        $(".tal--pro-slider-btn").on("click", function () {
+            $("html, body").animate({ scrollTop: 0 }, "slow");
+        });
+
+        $(".tal--search-submit-btn").on("click", function () {
+            $("html, body").animate({ scrollTop: 0 }, "slow");
+        });
+
+        $('.cli-tal-pro-search-filter-toggle-area').on('click', handleFilterToggle);
+
+        // Cleanup function to remove event listeners when the component unmounts
+        return () => {
+            $(".tal--pro-slider-btn").off("click");
+            $(".tal--search-submit-btn").off("click");
+            $('.cli-tal-pro-search-filter-toggle-area').off('click', handleFilterToggle);
+        };
+        // });
     }, [candidateToken, getClientImg, clientImg, getProtectedData, candidateId, allJobs, matchJobs, latestJob, clients, searchResult, filteredSearchResults, filteredSearchResultsMsg, checkBoxfilters, checkBoxJobTitle, checkBoxJobLocation, checkBoxJobEducation, skillArray, jobRoleArray, filteredList, selectedResults, locationArray, educationArray, filters, x]);
 
     const handleSkillSearch = () => {
@@ -1109,7 +1091,7 @@ const JobSearch = () => {
                                 </div>
                             </div> :
 
-                                <div className='talent--profile-search-results-section pt-4'>
+                                <div className='talent--profile-search-results-section'>
                                     {/* <div className="cli-tal-pro-search-container">
                                             <div className="row">
                                                 <div className="col-12 col-lg-12 col-xl-12 col-md-12">
@@ -1130,7 +1112,7 @@ const JobSearch = () => {
                                         </button> */}
 
 
-                                    <p className='job-search-head'>Job Results</p>
+                                    <p className='job-search-head'>Job Search</p>
                                     <div className="row row-border-custom">
                                         <div className="col-12 col-lg-4 col-xl-4 col-md-4 custom-right-border-col ps-lg-0 ps-md-1 col-width-lg-30">
                                             <div className="cli-tal-pro-search-filter-area">
@@ -1138,7 +1120,7 @@ const JobSearch = () => {
                                                     <h6 className='cli-tal-pro-search-filter mb-0'>Filters</h6>
                                                     <img src="assets/img/talent-profile/filter.png" className='cli-tal-pro-filter-img' alt="" />
                                                 </div>
-                                                <div className="cli-tal-pro-search-filter-container mt-1">
+                                                <div className="cli-tal-pro-search-filter-container mt-4">
 
                                                     <div className="cli-tal-pro-search-filter-content-section job">
 
@@ -1153,14 +1135,19 @@ const JobSearch = () => {
                     <h6 className='cl-toggle--switch-label'>Boolean Off</h6>
                 </div> */}
                                                             </div>
-                                                            <div className='cli--tal-pro-badge-area mb-4'>
-                                                                {selectedResults.map(selectResult => (
-                                                                    <span className="tal-cand-reg-form-badge candidate"
-                                                                        key={selectResult}
-                                                                        onClick={() => handleDeselect(selectResult)}
-                                                                    >{selectResult}</span>
-                                                                ))}
-                                                            </div>
+
+                                                            {selectedResults.length > 0 && (
+                                                                <div className='cli--tal-pro-badge-area mb-4'>
+                                                                    {selectedResults.map(selectResult => (
+                                                                        <span className="tal-cand-reg-form-badge candidate"
+                                                                            key={selectResult}
+                                                                            onClick={() => handleDeselect(selectResult)}
+                                                                        >{selectResult}</span>
+                                                                    ))}
+                                                                </div>
+
+                                                            )}
+
                                                             <div className="cli--tal-pro-filter-input-area">
                                                                 <input type="search" className='cli--tal-pro-filter-input' placeholder='Enter keywords like skills, designation'
                                                                     value={filters.searchInput}
@@ -1199,7 +1186,7 @@ const JobSearch = () => {
                                                                 <path d="M1 1L6.79289 6.79289C7.18342 7.18342 7.81658 7.18342 8.20711 6.79289L14 1" stroke="#714F36" stroke-width="2" stroke-linecap="round" />
                                                             </svg>
                                                         </div>
-                                                        <div className="cli-tal-pro-search-filter-expand-area">
+                                                        <div className="cli-tal-pro-search-filter-expand-area job">
                                                             <div className="job-search-check-area">
                                                                 <div className="cli--mark-keyword-area job">
                                                                     <label className="cli--mark-keyword-check-input jobs">
@@ -1230,7 +1217,7 @@ const JobSearch = () => {
                                                                         <input type="checkbox" checked={checkBoxfilters.includes('freelancer')}
                                                                             onChange={() => handleCheckboxChange('freelancer')} />
                                                                         <span className="cli--mark-keyword-checkmark"></span>
-                                                                        freelancer
+                                                                        Freelancer
                                                                     </label>
                                                                 </div>
                                                             </div>
@@ -1244,7 +1231,7 @@ const JobSearch = () => {
                                                                 <path d="M1 1L6.79289 6.79289C7.18342 7.18342 7.81658 7.18342 8.20711 6.79289L14 1" stroke="#714F36" stroke-width="2" stroke-linecap="round" />
                                                             </svg>
                                                         </div>
-                                                        <div className="cli-tal-pro-search-filter-expand-area">
+                                                        <div className="cli-tal-pro-search-filter-expand-area job">
                                                             <div className="cli-tal-pro-exp-input-area search-results">
                                                                 <select name="" className='cli-tal-pro-exp-input text-center numeric-input select' id=""
                                                                     value={filters.minExperience}
@@ -1291,7 +1278,7 @@ const JobSearch = () => {
                                                                 <path d="M1 1L6.79289 6.79289C7.18342 7.18342 7.81658 7.18342 8.20711 6.79289L14 1" stroke="#714F36" stroke-width="2" stroke-linecap="round" />
                                                             </svg>
                                                         </div>
-                                                        <div className="cli-tal-pro-search-filter-expand-area">
+                                                        <div className="cli-tal-pro-search-filter-expand-area job">
                                                             {/* <div className="job-search-multi-check-area">
                                                                         {jobRoleArray.map((job)=>{ 
                                                                             return  <div                              className="cli--mark-keyword-area job">
@@ -1366,14 +1353,19 @@ const JobSearch = () => {
                                                                             <span>View more</span>
                                                                         </button>
                                                                 </div> */}
-                                                            <div className='cli--tal-pro-badge-area mb-4'>
-                                                                {selectedJobTitleResults.map(selectResult => (
-                                                                    <span className="tal-cand-reg-form-badge"
-                                                                        key={selectResult}
-                                                                        onClick={() => handleJobTitleDeselect(selectResult)}
-                                                                    >{selectResult}</span>
-                                                                ))}
-                                                            </div>
+
+                                                            {selectedJobTitleResults.length > 0 && (
+                                                                <div className='cli--tal-pro-badge-area mb-4'>
+                                                                    {selectedJobTitleResults.map(selectResult => (
+                                                                        <span className="tal-cand-reg-form-badge candidate"
+                                                                            key={selectResult}
+                                                                            onClick={() => handleJobTitleDeselect(selectResult)}
+                                                                        >{selectResult}</span>
+                                                                    ))}
+                                                                </div>
+                                                            )}
+
+
                                                             <div className="cli--tal-pro-filter-input-area">
                                                                 <input type="search" className='cli--tal-pro-filter-input' placeholder='Enter job titles'
                                                                     value={filters.jobTitle}
@@ -1384,7 +1376,7 @@ const JobSearch = () => {
                                                                     {filteredJobTitleList.length > 0 &&
                                                                         filteredJobTitleList.map((filterResult) => (
                                                                             <div
-                                                                                className='tal-pro-search-result-data'
+                                                                                className='tal-pro-search-result-data candidate'
                                                                                 key={filterResult._id}
                                                                                 onClick={() => handleJobTitleFilteredClick(filterResult.designation)}
                                                                             >
@@ -1404,7 +1396,7 @@ const JobSearch = () => {
                                                             </svg>
                                                         </div>
 
-                                                        <div className="cli-tal-pro-search-filter-expand-area">
+                                                        <div className="cli-tal-pro-search-filter-expand-area job">
                                                             {/* <div className="job-search-multi-check-area">
                                                                     {locationArray.map((loc)=>{ 
                                                                         return  <div                              className="cli--mark-keyword-area job">
@@ -1420,14 +1412,18 @@ const JobSearch = () => {
                                                                         <span>View more</span>
                                                                     </button>
                                                                 </div> */}
-                                                            <div className='cli--tal-pro-badge-area mb-4'>
-                                                                {selectedLocationResults.map(selectResult => (
-                                                                    <span className="tal-cand-reg-form-badge"
-                                                                        key={selectResult}
-                                                                        onClick={() => handleLocationDeselect(selectResult)}
-                                                                    >{selectResult}</span>
-                                                                ))}
-                                                            </div>
+
+                                                            {selectedLocationResults.length > 0 && (
+                                                                <div className='cli--tal-pro-badge-area mb-4'>
+                                                                    {selectedLocationResults.map(selectResult => (
+                                                                        <span className="tal-cand-reg-form-badge candidate"
+                                                                            key={selectResult}
+                                                                            onClick={() => handleLocationDeselect(selectResult)}
+                                                                        >{selectResult}</span>
+                                                                    ))}
+                                                                </div>
+                                                            )}
+
                                                             <div className="cli--tal-pro-filter-input-area">
                                                                 <input type="search" className='cli--tal-pro-filter-input' placeholder='Enter location'
                                                                     value={filters.location}
@@ -1438,7 +1434,7 @@ const JobSearch = () => {
                                                                     {filteredLocationList.length > 0 &&
                                                                         filteredLocationList.map((filterResult) => (
                                                                             <div
-                                                                                className='tal-pro-search-result-data'
+                                                                                className='tal-pro-search-result-data candidate'
                                                                                 key={filterResult._id}
                                                                                 onClick={() => handleLocationFilteredClick(filterResult.location)}
                                                                             >
@@ -1456,7 +1452,7 @@ const JobSearch = () => {
                                                                 <path d="M1 1L6.79289 6.79289C7.18342 7.18342 7.81658 7.18342 8.20711 6.79289L14 1" stroke="#714F36" stroke-width="2" stroke-linecap="round" />
                                                             </svg>
                                                         </div>
-                                                        <div className="cli-tal-pro-search-filter-expand-area">
+                                                        <div className="cli-tal-pro-search-filter-expand-area job">
                                                             <div className="cli-tal-pro-exp-input-area search-results">
                                                                 <div className="cli--salary-inputs-area">
                                                                     <select name="" className='cli-tal-pro-select-input width-30' id=""
@@ -1486,7 +1482,7 @@ const JobSearch = () => {
                                                                 <path d="M1 1L6.79289 6.79289C7.18342 7.18342 7.81658 7.18342 8.20711 6.79289L14 1" stroke="#714F36" stroke-width="2" stroke-linecap="round" />
                                                             </svg>
                                                         </div>
-                                                        <div className="cli-tal-pro-search-filter-expand-area">
+                                                        <div className="cli-tal-pro-search-filter-expand-area job">
                                                             {/* <div className="job-search-multi-check-area">
                                                                     {educationArray.map((edu)=>{ 
                                                                         return  <div                              className="cli--mark-keyword-area job">
@@ -1502,14 +1498,19 @@ const JobSearch = () => {
                                                                         <span>View more</span>
                                                                     </button>
                                                                 </div> */}
-                                                            <div className='cli--tal-pro-badge-area mb-4'>
-                                                                {selectedEducationResults.map(selectResult => (
-                                                                    <span className="tal-cand-reg-form-badge"
-                                                                        key={selectResult}
-                                                                        onClick={() => handleEducationDeselect(selectResult)}
-                                                                    >{selectResult}</span>
-                                                                ))}
-                                                            </div>
+
+                                                            {selectedEducationResults.length > 0 && (
+                                                                <div className='cli--tal-pro-badge-area mb-4'>
+                                                                    {selectedEducationResults.map(selectResult => (
+                                                                        <span className="tal-cand-reg-form-badge candidate"
+                                                                            key={selectResult}
+                                                                            onClick={() => handleEducationDeselect(selectResult)}
+                                                                        >{selectResult}</span>
+                                                                    ))}
+                                                                </div>
+                                                            )}
+
+
                                                             <div className="cli--tal-pro-filter-input-area">
                                                                 <input type="search" className='cli--tal-pro-filter-input' placeholder='Enter education'
                                                                     value={filters.education}
@@ -1520,7 +1521,7 @@ const JobSearch = () => {
                                                                     {filteredEducationList.length > 0 &&
                                                                         filteredEducationList.map((filterResult) => (
                                                                             <div
-                                                                                className='tal-pro-search-result-data'
+                                                                                className='tal-pro-search-result-data candidate'
                                                                                 key={filterResult._id}
                                                                                 onClick={() => handleEducationFilteredClick(filterResult.education)}
                                                                             >

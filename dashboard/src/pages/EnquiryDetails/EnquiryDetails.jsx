@@ -142,10 +142,16 @@ const EnquiryDetails = () => {
                                                                         {enquiry.fullName}
                                                                     </td>
                                                                     <td className='dash-table-data1'>
-                                                                        {enquiry.phoneNo}
+                                                                        <a href={`tel:${enquiry.phoneNo}`}
+                                                                            className='dash-table-data1 link is-link'>
+                                                                            {enquiry.phoneNo}
+                                                                        </a>
                                                                     </td>
                                                                     <td className='dash-table-data1'>
-                                                                        {enquiry.email}
+                                                                        <a href={`mailto:${enquiry.email}`}
+                                                                            className='dash-table-data1 link is-link'>
+                                                                            {enquiry.email}
+                                                                        </a>
                                                                     </td>
 
                                                                     <td className='text-center'>
@@ -232,7 +238,12 @@ const EnquiryDetails = () => {
                                             <div className="view-det-head">Mobile Number</div>
                                         </div>
                                         <div className="col-12 col-sm-6">
-                                            <div className="view-det-sub-head">{selectedViewDetail?.phoneNo}</div>
+                                            <div className="view-det-sub-head">
+                                                <a href={`tel:${selectedViewDetail?.phoneNo}`}
+                                                    className='view-det-sub-head link is-link'>
+                                                    {selectedViewDetail?.phoneNo}
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
                                     <hr />
@@ -241,7 +252,12 @@ const EnquiryDetails = () => {
                                             <div className="view-det-head">Email</div>
                                         </div>
                                         <div className="col-12 col-sm-6">
-                                            <div className="view-det-sub-head">{selectedViewDetail?.email}</div>
+                                            <div className="view-det-sub-head">
+                                                <a href={`mailto:${selectedViewDetail?.email}`}
+                                                    className='view-det-sub-head link is-link'>
+                                                    {selectedViewDetail?.email}
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
                                     <hr />

@@ -6,7 +6,7 @@ import './AllCompanyStaff.css';
 import './AllCompanyStaff-responsive.css';
 import $ from 'jquery';
 import axios from 'axios';
-import { v4 as uuidv4} from "uuid";
+import { v4 as uuidv4 } from "uuid";
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
 
@@ -15,13 +15,13 @@ const AllCompanyStaff = () => {
     const [allRecruiters, setAllRecruiters] = useState([]);
     const [selectedRecruiterViewDetail, setSelectedRecruiterViewDetail] = useState();
     const initialCredentials = {
-        name:"",
-        email:"",
-        phone:"",
-        companyStaff:"",
-        password:"",
-      }
-      const [credentials, setcredentials] = useState(initialCredentials);
+        name: "",
+        email: "",
+        phone: "",
+        companyStaff: "",
+        password: "",
+    }
+    const [credentials, setcredentials] = useState(initialCredentials);
     const [showPassword, setShowPassword] = useState(false);
 
 
@@ -130,10 +130,10 @@ const AllCompanyStaff = () => {
                     Authorization: `Bearer ${staffToken}`,
                     Accept: 'application/json'
                 }
-              });
-    
+            });
+
             const result = response.data;
-    
+
             if (!result.error) {
                 console.log(result);
                 showSuccessMessage("New company staff has been created successfully!")
@@ -146,38 +146,38 @@ const AllCompanyStaff = () => {
             console.log(error);
             showErrorMessage(error.response.data.message);
         }
-      };
-    
+    };
+
 
     const handleTogglePassword = () => {
         setShowPassword(!showPassword);
     };
 
     const handleInputChange = (event) => {
-        const {name, value} = event.target;
-        setcredentials({...credentials, [name]:value});
-      }
-    
-      const handleGeneratePassword = () => {
+        const { name, value } = event.target;
+        setcredentials({ ...credentials, [name]: value });
+    }
+
+    const handleGeneratePassword = () => {
         axios.get('https://skillety.onrender.com/random-password')
-          .then(response => {
-            setcredentials({...credentials, password:response.data});
-          })
-          .catch(error => {
-            console.error('Error:', error);
-          });
-      }
-    
-      const handleSubmit = (event) => {
+            .then(response => {
+                setcredentials({ ...credentials, password: response.data });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+
+    const handleSubmit = (event) => {
         event.preventDefault();
         const id = uuidv4();
         const updatedCredentials = {
-          ...credentials,
-          id,
+            ...credentials,
+            id,
         };
         console.log(updatedCredentials);
         createRecruiter(updatedCredentials);
-      }
+    }
 
     return (
         <div>
@@ -246,7 +246,10 @@ const AllCompanyStaff = () => {
                                                                         {recruiter.name}
                                                                     </td>
                                                                     <td className='dash-table-data1'>
-                                                                        {recruiter.email}
+                                                                        <a href={`mailto:${recruiter.email}`}
+                                                                            className='dash-table-data1 link is-link'>
+                                                                            {recruiter.email}
+                                                                        </a>
                                                                     </td>
 
                                                                     <td className='dash-table-data1'>
@@ -335,7 +338,12 @@ const AllCompanyStaff = () => {
                                             <div className="view-det-head">Mobile Number</div>
                                         </div>
                                         <div className="col-12 col-sm-6">
-                                            <div className="view-det-sub-head">{selectedRecruiterViewDetail?.phone}</div>
+                                            <div className="view-det-sub-head">
+                                                <a href={`tel:${selectedRecruiterViewDetail?.phone}`}
+                                                    className='view-det-sub-head link is-link'>
+                                                    {selectedRecruiterViewDetail?.phone}
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
                                     <hr />
@@ -344,7 +352,12 @@ const AllCompanyStaff = () => {
                                             <div className="view-det-head">Email ID</div>
                                         </div>
                                         <div className="col-12 col-sm-6">
-                                            <div className="view-det-sub-head">{selectedRecruiterViewDetail?.email}</div>
+                                            <div className="view-det-sub-head">
+                                                <a href={`mailto:${selectedRecruiterViewDetail?.email}`}
+                                                    className='view-det-sub-head link is-link'>
+                                                    {selectedRecruiterViewDetail?.email}
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
                                     <hr />
@@ -417,9 +430,9 @@ const AllCompanyStaff = () => {
                                                         type="text"
                                                         id="staff_name"
                                                         aria-describedby="staffName"
-                                                        name="name" 
-                                                        value={credentials.name} 
-                                                        onChange = {handleInputChange}
+                                                        name="name"
+                                                        value={credentials.name}
+                                                        onChange={handleInputChange}
                                                         placeholder="Enter the staff name"
                                                         className='form-control dash-form-input'
                                                         required
@@ -433,9 +446,9 @@ const AllCompanyStaff = () => {
                                                         type="email"
                                                         id="email"
                                                         aria-describedby="email"
-                                                        name="email" 
-                                                        value={credentials.email} 
-                                                        onChange = {handleInputChange}
+                                                        name="email"
+                                                        value={credentials.email}
+                                                        onChange={handleInputChange}
                                                         placeholder="example@example.com"
                                                         className='form-control dash-form-input'
                                                         required
@@ -449,9 +462,9 @@ const AllCompanyStaff = () => {
                                                         type="number"
                                                         id="phone"
                                                         aria-describedby="mobileNo"
-                                                        name="phone" 
-                                                        value={credentials.phone} 
-                                                        onChange = {handleInputChange}
+                                                        name="phone"
+                                                        value={credentials.phone}
+                                                        onChange={handleInputChange}
                                                         placeholder="0XXXX XXXX XXX"
                                                         className='form-control dash-form-input'
                                                         required
@@ -464,8 +477,8 @@ const AllCompanyStaff = () => {
                                                     <i class="bi bi-chevron-down toggle-icon"></i>
                                                     <select
                                                         id="companyStaff"
-                                                        name="companyStaff" 
-                                                        value = {credentials.companyStaff}
+                                                        name="companyStaff"
+                                                        value={credentials.companyStaff}
                                                         onChange={handleInputChange}
                                                         className='form-control dash-form-input select-input'
                                                         required>
@@ -488,9 +501,9 @@ const AllCompanyStaff = () => {
                                                                 type={showPassword ? 'text' : 'password'}
                                                                 id="password"
                                                                 aria-describedby="password"
-                                                                name="password" 
-                                                                value={credentials.password} 
-                                                                onChange = {handleInputChange}
+                                                                name="password"
+                                                                value={credentials.password}
+                                                                onChange={handleInputChange}
                                                                 placeholder="Company staff password"
                                                                 className='form-control dash-form-input'
                                                                 required

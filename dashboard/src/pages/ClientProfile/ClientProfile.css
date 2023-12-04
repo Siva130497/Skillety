@@ -239,6 +239,7 @@
 
 .prof-more-det-title.link:hover {
     color: #1394DF !important;
+    text-decoration: underline;
 }
 
 .add-detail {

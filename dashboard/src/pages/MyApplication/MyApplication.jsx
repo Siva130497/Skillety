@@ -12,7 +12,7 @@ const MyApplication = () => {
     const [candidateToken, setCandidateToken] = useState("");
     const [candidateId, setCandidateId] = useState("");
     const [appliedJobDetail, setAppliedJobDetail] = useState([]);
-    const {getProtectedData} = useContext(AuthContext);
+    const { getProtectedData } = useContext(AuthContext);
     const [allClient, setAllClient] = useState([]);
 
     const [x, setX] = useState([0, 10]);
@@ -33,63 +33,63 @@ const MyApplication = () => {
 
     }, []);
 
-    useEffect(()=>{
+    useEffect(() => {
         setCandidateToken(JSON.parse(localStorage.getItem('candidateToken')))
-    },[candidateToken])
-
-    useEffect(()=>{
-        axios.get("https://skillety.onrender.com/clients")
-        .then(res=>{
-          console.log(res.data)
-          setAllClient(res.data);
-        })
-        .catch(err=>console.log(err))
-      },[])
-      
+    }, [candidateToken])
 
     useEffect(() => {
-        if(candidateToken){
+        axios.get("https://skillety.onrender.com/clients")
+            .then(res => {
+                console.log(res.data)
+                setAllClient(res.data);
+            })
+            .catch(err => console.log(err))
+    }, [])
+
+
+    useEffect(() => {
+        if (candidateToken) {
             const fetchData = async () => {
                 try {
-                const user = await getProtectedData(candidateToken);
-                console.log(user);
-                setCandidateId(user.id);
+                    const user = await getProtectedData(candidateToken);
+                    console.log(user);
+                    setCandidateId(user.id);
                 } catch (error) {
-                console.log(error);
-                
+                    console.log(error);
+
                 }
             };
-        
+
             fetchData();
         }
     }, [candidateToken]);
 
-    const getAppliedjobs = async() => {
-        try{
+    const getAppliedjobs = async () => {
+        try {
             const res = await axios.get(`https://skillety.onrender.com/my-applied-jobs/${candidateId}`, {
-              headers: {
-                  Authorization: `Bearer ${candidateToken}`,
-                  Accept: 'application/json'
-              }
+                headers: {
+                    Authorization: `Bearer ${candidateToken}`,
+                    Accept: 'application/json'
+                }
             });
             const result = res.data;
             if (!result.error) {
-              console.log(result);
-              setAppliedJobDetail(result);
+                console.log(result);
+                setAppliedJobDetail(result);
             } else {
-              console.log(result);
+                console.log(result);
             }
-        }catch(err){
-          console.log(err);
+        } catch (err) {
+            console.log(err);
         }
-      }
-    
-      useEffect(()=>{
-        if(candidateId){
-          getAppliedjobs();
+    }
+
+    useEffect(() => {
+        if (candidateId) {
+            getAppliedjobs();
         }
-      },[candidateId])
-    
+    }, [candidateId])
+
 
     return (
         <div>
@@ -200,51 +200,51 @@ const MyApplication = () => {
                             <div className="row">
                                 <div className="col-12">
                                     <div className="admin-lg-table-section">
-                                    {appliedJobDetail.length > 0 ?
-                                        <div className="table-responsive admin-lg-table-area">
-                                            <table className="table table-striped table-hover admin-lg-table">
-                                                <tr className='dash-table-row head-row'>
-                                                    <th className='dash-table-head'>COMPANY</th>
-                                                    <th className='dash-table-head'>JOB TITLE</th>
-                                                    <th className='dash-table-head'>APPLIED ON</th>
-                                                    <th className='dash-table-head text-center'>APPLICATION STATUS</th>
-                                                    {/* <th className='dash-table-head text-center'>REVIEW <br /> APPLICATION</th> */}
-                                                </tr>
+                                        {appliedJobDetail.length > 0 ?
+                                            <div className="table-responsive admin-lg-table-area">
+                                                <table className="table table-striped table-hover admin-lg-table">
+                                                    <tr className='dash-table-row head-row'>
+                                                        <th className='dash-table-head'>COMPANY</th>
+                                                        <th className='dash-table-head'>JOB TITLE</th>
+                                                        <th className='dash-table-head'>APPLIED ON</th>
+                                                        <th className='dash-table-head text-center'>APPLICATION STATUS</th>
+                                                        {/* <th className='dash-table-head text-center'>REVIEW <br /> APPLICATION</th> */}
+                                                    </tr>
 
-                                                {/* table data */}
-                                                {appliedJobDetail.map(job=>{
-                                                    const client= allClient.find(obj => obj.companyId === job.companyId)   
-                                                    return(                  
-                                                    <tr className='dash-table-row custom'>
-                                                    <td className='dash-table-data1'>{client?.companyName}</td>
-                                                    <td className='dash-table-data1'>
-                                                        {job.jobRole[0]} &nbsp;&nbsp;
-                                                        {/* <a href="#">
+                                                    {/* table data */}
+                                                    {appliedJobDetail.map(job => {
+                                                        const client = allClient.find(obj => obj.companyId === job.companyId)
+                                                        return (
+                                                            <tr className='dash-table-row custom'>
+                                                                <td className='dash-table-data1 text-capitalized'>{client?.companyName}</td>
+                                                                <td className='dash-table-data1 text-capitalized'>
+                                                                    {job.jobRole[0]} &nbsp;&nbsp;
+                                                                    {/* <a href="#">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="15" height="14" viewBox="0 0 15 14" fill="none">
                                                                 <path d="M7.96815 3.39453H2C1.44771 3.39453 1 3.84225 1 4.39453V11.9951C1 12.5474 1.44772 12.9951 2 12.9951H10.8006C11.3529 12.9951 11.8006 12.5474 11.8006 11.9951V8.34966" stroke="#1394DF" stroke-linecap="round" />
                                                                 <path d="M4.91191 9.40359C4.71604 9.59825 4.71507 9.91483 4.90972 10.1107C5.10438 10.3066 5.42096 10.3075 5.61683 10.1129L4.91191 9.40359ZM14.5778 1.0006C14.5786 0.724458 14.3555 0.49991 14.0793 0.499058L9.57935 0.485168C9.3032 0.484316 9.07866 0.707482 9.0778 0.983623C9.07695 1.25976 9.30012 1.48431 9.57626 1.48516L13.5762 1.49751L13.5639 5.49749C13.563 5.77363 13.7862 5.99818 14.0623 5.99903C14.3385 5.99988 14.563 5.77672 14.5639 5.50058L14.5778 1.0006ZM5.61683 10.1129L14.4302 1.3537L13.7253 0.644412L4.91191 9.40359L5.61683 10.1129Z" fill="#1394DF" />
                                                             </svg>
                                                         </a>  */}
-                                                    </td>
-                                                    <td className='dash-table-data1'>{`${new Date(job.createdAt).getDate().toString().padStart(2, '0')}/${(new Date(job.createdAt).getMonth() + 1).toString().padStart(2, '0')}/${new Date(job.createdAt).getFullYear() % 100}`}</td>
-                                                    <td className='text-center application-status-data'>
-                                                        <div className="application-status-area">
-                                                            <div className="app-status-line"></div>
+                                                                </td>
+                                                                <td className='dash-table-data1'>{`${new Date(job.createdAt).getDate().toString().padStart(2, '0')}/${(new Date(job.createdAt).getMonth() + 1).toString().padStart(2, '0')}/${new Date(job.createdAt).getFullYear() % 100}`}</td>
+                                                                <td className='text-center application-status-data'>
+                                                                    <div className="application-status-area">
+                                                                        <div className="app-status-line"></div>
 
-                                                            {/* for Screening */}
-                                                            <div className="app-status-point point1 finished"></div>
+                                                                        {/* for Screening */}
+                                                                        <div className="app-status-point point1 finished"></div>
 
-                                                            {/* for Interview */}
-                                                            <div className="app-status-point point2 active"></div>
+                                                                        {/* for Interview */}
+                                                                        <div className="app-status-point point2 active"></div>
 
-                                                            {/* for Offer */}
-                                                            <div className="app-status-point point3"></div>
+                                                                        {/* for Offer */}
+                                                                        <div className="app-status-point point3"></div>
 
-                                                            {/* for Joining */}
-                                                            <div className="app-status-point point4"></div>
-                                                        </div>
-                                                    </td>
-                                                    {/* <td className='text-center'>
+                                                                        {/* for Joining */}
+                                                                        <div className="app-status-point point4"></div>
+                                                                    </div>
+                                                                </td>
+                                                                {/* <td className='text-center'>
                                                         <button className='application-btn'>
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-file-earmark-text-fill" viewBox="0 0 16 16">
                                                                 <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM4.5 9a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 1 0-1h4a.5.5 0 0 1 0 1h-4z"
@@ -252,28 +252,29 @@ const MyApplication = () => {
                                                             </svg>
                                                         </button>
                                                     </td> */}
-                                                    </tr>
-                                                )})}
-                                            </table>
-                                        </div> :
-                                                <div className="no-data-created-area">
-                                                    <div className='no-data-created'>
-                                                        <img src="../assets/img/no-data/no-data-img.png" className='no-data-img' alt="" />
-                                                        <div className='no-data-text'>No Jobs Applied Yet..!</div>
-                                                    </div>
+                                                            </tr>
+                                                        )
+                                                    })}
+                                                </table>
+                                            </div> :
+                                            <div className="no-data-created-area bg-white">
+                                                <div className='no-data-created'>
+                                                    <img src="../assets/img/no-data/no-data-img.png" className='no-data-img' alt="" />
+                                                    <div className='no-data-text'>No Jobs Applied Yet..!</div>
                                                 </div>
-                                    }  
+                                            </div>
+                                        }
 
                                         <div className="table-pagination-area pt-3">
                                             <div className="pagination-btn-area">
-                                                {x[0] > 0 &&<button className='pag-prev-btn' onClick={()=>setX([x[0] - 10, x[1] - 10])}>
+                                                {x[0] > 0 && <button className='pag-prev-btn' onClick={() => setX([x[0] - 10, x[1] - 10])}>
                                                     <i class="bi bi-chevron-left"></i>
                                                 </button>}
                                                 <div className='pag-page'>
                                                     <span className='current-page'>{Math.ceil(x[0] / 10) + 1}</span>&nbsp;/&nbsp;
                                                     <span className='total-page'>{Math.ceil(appliedJobDetail.length / 10)}</span>
                                                 </div>
-                                                {(appliedJobDetail.slice(x[0], x[1]).length === 10 && appliedJobDetail.length > x[1]) && <button className='pag-next-btn' onClick={()=>setX([x[0] + 10, x[1] + 10])}>
+                                                {(appliedJobDetail.slice(x[0], x[1]).length === 10 && appliedJobDetail.length > x[1]) && <button className='pag-next-btn' onClick={() => setX([x[0] + 10, x[1] + 10])}>
                                                     <i class="bi bi-chevron-right"></i>
                                                 </button>}
                                             </div>

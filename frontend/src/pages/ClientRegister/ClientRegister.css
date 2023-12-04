@@ -414,6 +414,11 @@ input[type="number"]::-webkit-outer-spin-button {
     font-size: 16px;
     font-weight: 600;
     text-decoration: none;
+    transition: ease-in-out 0.5s;
+}
+
+.cli--login-remember-checkbox a:hover {
+    text-decoration: underline;
 }
 
 .reg--form-btn-sub:disabled,

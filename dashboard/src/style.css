@@ -5370,7 +5370,7 @@ h6 .badge {
 .dropdown-menu {
     border: none;
     width: 320px;
-    border-radius: 8px !important;
+    border-radius: 16px !important;
     background: #FFF;
     box-shadow: -2px 0px 18px -1px rgba(0, 0, 0, 0.25);
 
@@ -5646,7 +5646,7 @@ a.dropdown-item.active {
 
 @media (max-width: 479px) {
     .dropdown-list-toggle:first-child .dropdown-list {
-        right: -100px
+        right: -170px
     }
 
     .dropdown-list-toggle:nth-child(2) .dropdown-list {
@@ -9002,7 +9002,7 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
 }
 
 .light-sidebar .main-sidebar .sidebar-menu li ul.dropdown-menu li.active>a {
-    color: #714F36 ;
+    color: #714F36;
     font-weight: 600
 }
 
@@ -11883,4 +11883,111 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
 
 .dark .note-editor.note-frame .note-toolbar button {
     color: #96a2b4
+}
+
+@media (max-width:1024px) {
+    .theme-white .navbar::before {
+        display: none !important;
+    }
+
+    .navbar-expand-lg .navbar-nav .dropdown-menu-right {
+        padding: 20px !important;
+    }
+    .main-sidebar, .navbar, .main-content, .main-footer {
+        transition: all 0.5s !important;
+    }
+}
+
+@media (max-width:573px) {
+    .nav-user--btn {
+        font-size: 14px !important;
+    }
+
+    .navbar .nav-link.nav-link-user span {
+        width: 80px !important;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    .navbar .nav-link.nav-link-user {
+        padding-right: 0 !important;
+        height: 40px !important;
+        margin-left: 10px;
+        padding-left: 10px !important;
+    }
+
+    .navbar .nav-link.nav-link-lg i {
+        margin: 0 5px !important;
+    }
+
+    .navbar .nav-link.nav-link-user img {
+        width: 40px;
+        height: 40px;
+    }
+
+    .notify-btn {
+        height: 40px !important;
+        width: 40px !important;
+    }
+
+    .navbar .nav-link.nav-link-lg .feather {
+        width: 20px !important;
+        height: 20px !important;
+    }
+
+    .dropdown-menu {
+        width: 280px !important;
+    }
+
+    .dropdown-user-detail-area .dropdown-user-name {
+        font-size: 15px !important;
+    }
+
+    .dropdown-user-role {
+        font-size: 13px !important;
+    }
+
+    .dropdown-user-img {
+        width: 50px !important;
+        height: 50px !important;
+    }
+
+    .dropdown-view-pro-btn {
+        font-size: 14px !important;
+        margin-top: 20px;
+        padding: 3px;
+        border-width: 1px;
+    }
+
+    .dropdown-logout-btn {
+        font-size: 14px !important;
+    }
+
+    .dropdown-list{
+        width: 350px !important;
+        padding-bottom: 0;
+    }
+    .navbar-expand-lg .navbar-nav .dropdown-menu-right{
+        padding: 15px !important; 
+    }
+    .notification-dropdown-head{
+        font-size: 16px !important;
+    }
+    .notify-settings-btn.client i{
+        font-size: 15px !important;
+    }
+    .dropdown-notification-item{
+        font-size: 12px !important;
+    }
+    .drpdwn-notify-time{
+        font-size: 14px !important;
+    }
+    .noti-drpdwn-img-area{
+        width: 40px !important;
+        height: 40px !important;
+    }
+    .noti-drpdwn-img-area i{
+        font-size: 20px !important;
+    }
 }

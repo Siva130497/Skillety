@@ -226,18 +226,18 @@ const SettingsClient = () => {
                 .then(res => setClientImg(res.data))
                 .catch(err => console.log(err))
 
-                axios.get(`https://skillety.onrender.com/company-detail/${loginClientDetail.companyId}`, {
-                    headers: {
-                        Authorization: `Bearer ${clientToken}`,
-                        Accept: 'application/json'
-                    }
-                })
-                .then(res=>{
+            axios.get(`https://skillety.onrender.com/company-detail/${loginClientDetail.companyId}`, {
+                headers: {
+                    Authorization: `Bearer ${clientToken}`,
+                    Accept: 'application/json'
+                }
+            })
+                .then(res => {
                     console.log(res.data)
                     setCompanyDetail(res.data)
                     setSelectedBenefits(res.data.benefits)
                 })
-                .catch(err=>console.log(err))
+                .catch(err => console.log(err))
         }
     }, [loginClientDetail.companyId]);
 
@@ -320,7 +320,7 @@ const SettingsClient = () => {
                 console.log(res.data)
                 if (!res.data.error) {
                     showSuccessMessage("password updated")
-                    setUserInfo(prevUserInfo => ({ ...prevUserInfo, currentPassword: "" , newPassword: "", confirmPassword: ""}));
+                    setUserInfo(prevUserInfo => ({ ...prevUserInfo, currentPassword: "", newPassword: "", confirmPassword: "" }));
                     getLoginClientDetail();
                 }
             })
@@ -367,7 +367,7 @@ const SettingsClient = () => {
                     setImage(null);
                     window.location.reload()
                 })
-                .catch(err =>{
+                .catch(err => {
                     console.log(err)
                     showErrorMessage()
                 });
@@ -469,7 +469,11 @@ const SettingsClient = () => {
 
                                             <div className="setting-content">
                                                 <div className='setting-name'>Email Address</div>
-                                                <div className='setting-value' onClick={()=> window.location.href = `mailto:${loginClientDetail.email}`}><a className='setting-value link' href={`mailto:${loginClientDetail.email}`}>{loginClientDetail.email}</a></div>
+                                                <div className='setting-value' onClick={() => window.location.href = `mailto:${loginClientDetail.email}`}>
+                                                    <a className='setting-value link is-link' href={`mailto:${loginClientDetail.email}`}>
+                                                        {loginClientDetail.email}
+                                                    </a>
+                                                </div>
                                                 <div className={`change-input-area ${isEmailExpanded ? 'expanded' : ''}`}>
                                                     <div className="row">
                                                         <div className="col-12 col-xl-5 col-lg-5 col-md-6 d-flex align-items-center gap-10 mt-4 mb-2">
@@ -486,7 +490,11 @@ const SettingsClient = () => {
 
                                             <div className="setting-content">
                                                 <div className='setting-name'>Mobile Number</div>
-                                                <div className='setting-value'onClick={()=>window.location.href = `tel:${loginClientDetail.phone}`}><a className='setting-value link' href={`tel:${loginClientDetail.phone}`}>{loginClientDetail.phone}</a></div>
+                                                <div className='setting-value' onClick={() => window.location.href = `tel:${loginClientDetail.phone}`}>
+                                                    <a className='setting-value link is-link' href={`tel:${loginClientDetail.phone}`}>
+                                                        {loginClientDetail.phone}
+                                                    </a>
+                                                </div>
                                                 <div className={`change-input-area ${isMobileExpanded ? 'expanded' : ''}`}>
                                                     <div className="row">
                                                         <div className="col-12 col-xl-5 col-lg-5 col-md-6 d-flex align-items-center gap-10 mt-4 mb-2">
@@ -547,7 +555,7 @@ const SettingsClient = () => {
                                                         </label>
                                                     </div>
                                                     <div className="company-name-area">
-                                                        <div className="company-name">Company Logo</div>
+                                                        <div className="company-name">{companyDetail?.companyName}</div>
                                                         <button id="updateButton">Update</button>
                                                     </div>
                                                 </div>
@@ -560,11 +568,19 @@ const SettingsClient = () => {
                                                         <i class={`bi ${isDetailsExpanded ? 'bi-x' : 'bi-pencil-fill'}`}></i>
                                                     </button> */}
                                                 </div>
-                                                <div className='setting-value pt-3'>
-                                                    {companyDetail?.shortDescription}
-                                                    <br />
-                                                    {companyDetail?.longDescription}
-                                                </div>
+                                                {companyDetail?.shortDescription || companyDetail?.longDescription ?
+                                                    <div className='setting-value pt-3'>
+                                                        {companyDetail?.shortDescription ?
+                                                            <div className='pb-3'>{companyDetail?.shortDescription}</div>
+                                                            : null}
+                                                        {companyDetail?.longDescription ?
+                                                            <div>{companyDetail?.longDescription}</div>
+                                                            : null
+                                                        }
+                                                    </div>
+                                                    :
+                                                    <div className='setting-value pt-3'>--------------------</div>
+                                                }
 
                                                 {/* <div className={`change-text-area ${isDetailsExpanded ? 'expanded' : ''}`}>
                                                     <div className="row mt-4">
@@ -578,7 +594,16 @@ const SettingsClient = () => {
 
                                             <div className="setting-content">
                                                 <div className='setting-name'>Website</div>
-                                                <div className='setting-value'><a href={companyDetail?.website}>{companyDetail?.website}</a></div>
+                                                {companyDetail?.website ?
+                                                    <div className='setting-value pt-3'>
+                                                        <a href={companyDetail?.website}
+                                                            className='setting-value link is-link'
+                                                            target='_blank'>{companyDetail?.website}
+                                                        </a>
+                                                    </div>
+                                                    :
+                                                    <div className='setting-value pt-3'>--------------------</div>
+                                                }
                                                 {/* <div className={`change-input-area ${isWebsite1Expanded ? 'expanded' : ''}`}>
                                                     <div className="row">
                                                         <div className="col-12 col-xl-5 col-lg-5 col-md-6 d-flex align-items-center gap-10 mt-4 mb-2">
@@ -594,7 +619,7 @@ const SettingsClient = () => {
 
                                             <div className="setting-content">
                                                 <div className='setting-name d-flex align-items-center gap-10'>
-                                                    Perks to work with us
+                                                    Benefits
                                                     {/* <button className={`com-detail-edit-btn ${isPerksExpanded ? 'expanded' : ''}`} onClick={handlePerksToggle}>
                                                         <i class={`bi ${isPerksExpanded ? 'bi-x' : 'bi-pencil-fill'}`}></i>
                                                     </button> */}
@@ -605,12 +630,12 @@ const SettingsClient = () => {
                                                     dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
                                                 </div> */}
                                                 <ul className='perks-content'>
-                                                    {selectedBenefits.map(perk=>{
-                                                        return(
+                                                    {selectedBenefits.map(perk => {
+                                                        return (
                                                             <li className='perks-list-item'>{perk}</li>
                                                         )
                                                     })}
-                                                    
+
                                                     {/* <li className='perks-list-item'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et </li>
                                                     <li className='perks-list-item'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et </li>
                                                     <li className='perks-list-item'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et </li>

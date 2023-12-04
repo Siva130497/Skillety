@@ -56,8 +56,21 @@ const ATSSideBar = () => {
                 $('#contact-message').addClass('active');
             } else if (path === '/enquiry-details') {
                 $('#enquiry_details').addClass('active');
-            } else if (path === '/posted-media/event' || path === '/posted-media/blog' || path === '/posted-media/video' || path === '/posted-media/news' || path === '/posted-media/podcast') {
+            } else if (path === '/posted-media/event') {
+                $('#posted_media').addClass('active');
                 $('#posted_events').addClass('active');
+            } else if (path === '/posted-media/blog') {
+                $('#posted_media').addClass('active');
+                $('#posted_blogs').addClass('active');
+            } else if (path === '/posted-media/video') {
+                $('#posted_media').addClass('active');
+                $('#posted_videos').addClass('active');
+            } else if (path === '/posted-media/news') {
+                $('#posted_media').addClass('active');
+                $('#posted_news').addClass('active');
+            } else if (path === '/posted-media/podcast') {
+                $('#posted_media').addClass('active');
+                $('#posted_podcasts').addClass('active');
             } else if (path === '/chat') {
                 $('#chat').addClass('active');
             }
@@ -148,14 +161,14 @@ const ATSSideBar = () => {
                         <li className="dropdown" id='enquiry_details'>
                             <a href="/enquiry-details" className="nav-link"><i data-feather="message-square"></i><span>Enquiry Details</span></a>
                         </li>
-                        <li className="dropdown" id='posted_events'>
+                        <li className="dropdown" id='posted_media'>
                             <a href="#" className="menu-toggle nav-link has-dropdown"><i data-feather="calendar"></i><span>Posted Media</span></a>
                             <ul className="dropdown-menu">
                                 <li id='posted_events'><a className="nav-link" href="/posted-media/event">Posted Events</a></li>
-                                <li id='posted_events'><a className="nav-link" href="/posted-media/blog">Posted Blogs</a></li>
-                                <li id='posted_events'><a className="nav-link" href="/posted-media/video">Posted Videos</a></li>
-                                <li id='posted_events'><a className="nav-link" href="/posted-media/podcast">Posted Podcasts</a></li>
-                                <li id='posted_events'><a className="nav-link" href="/posted-media/news">Posted News</a></li>
+                                <li id='posted_blogs'><a className="nav-link" href="/posted-media/blog">Posted Blogs</a></li>
+                                <li id='posted_videos'><a className="nav-link" href="/posted-media/video">Posted Videos</a></li>
+                                <li id='posted_podcasts'><a className="nav-link" href="/posted-media/podcast">Posted Podcasts</a></li>
+                                <li id='posted_news'><a className="nav-link" href="/posted-media/news">Posted News</a></li>
                             </ul>
                         </li>
                         {/* <li className="dropdown" id='posted_events'>

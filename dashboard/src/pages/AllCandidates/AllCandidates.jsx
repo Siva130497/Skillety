@@ -254,7 +254,10 @@ const AllCandidates = () => {
                                                                                 {candidate.firstName + ' ' + candidate.lastName}
                                                                             </td>
                                                                             <td className='dash-table-data1'>
-                                                                                {candidate.email}
+                                                                                <a href={`mailto:${candidate.email}`}
+                                                                                    className='dash-table-data1 link is-link'>
+                                                                                    {candidate.email}
+                                                                                </a>
                                                                             </td>
 
                                                                             {/* <td className='dash-table-data1'>
@@ -269,7 +272,10 @@ const AllCandidates = () => {
                                                                         </span>
                                                                     </td> */}
                                                                             <td className='dash-table-data1'>
-                                                                                {candidate.phone}
+                                                                                <a href={`tel:${candidate.phone}`}
+                                                                                    className='dash-table-data1 link is-link'>
+                                                                                    {candidate.phone}
+                                                                                </a>
                                                                             </td>
 
                                                                             <td className='dash-table-data1 text-center'>
@@ -300,7 +306,10 @@ const AllCandidates = () => {
                                                                                 {candidate.firstName + ' ' + candidate.lastName}
                                                                             </td>
                                                                             <td className='dash-table-data1'>
-                                                                                {candidate.email}
+                                                                                <a href={`mailto:${candidate.email}`}
+                                                                                    className='dash-table-data1 link is-link'>
+                                                                                    {candidate.email}
+                                                                                </a>
                                                                             </td>
 
                                                                             {/* <td className='dash-table-data1'>
@@ -315,7 +324,10 @@ const AllCandidates = () => {
                                                                         </span>
                                                                     </td> */}
                                                                             <td className='dash-table-data1'>
-                                                                                {candidate.phone}
+                                                                                <a href={`tel:${candidate.phone}`}
+                                                                                    className='dash-table-data1 link is-link'>
+                                                                                    {candidate.phone}
+                                                                                </a>
                                                                             </td>
 
                                                                             <td className='dash-table-data1 text-center'>
@@ -408,7 +420,12 @@ const AllCandidates = () => {
                                             <div className="view-det-head">Mobile Number</div>
                                         </div>
                                         <div className="col-12 col-sm-7">
-                                            <div className="view-det-sub-head">{selectedCandidate?.phone}</div>
+                                            <div className="view-det-sub-head">
+                                                <a href={`tel:${selectedCandidate?.phone}`}
+                                                    className='view-det-sub-head link is-link'>
+                                                    {selectedCandidate?.phone}
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
                                     <hr />
@@ -417,7 +434,12 @@ const AllCandidates = () => {
                                             <div className="view-det-head">Email ID</div>
                                         </div>
                                         <div className="col-12 col-sm-7">
-                                            <div className="view-det-sub-head">{selectedCandidate?.email}</div>
+                                            <div className="view-det-sub-head">
+                                                <a href={`mailto:${selectedCandidate?.email}`}
+                                                    className='view-det-sub-head link is-link'>
+                                                    {selectedCandidate?.email}
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
                                     <hr />

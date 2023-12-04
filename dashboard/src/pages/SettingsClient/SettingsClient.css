@@ -31,6 +31,7 @@
     color: #714F36;
     font-size: 23px;
     font-weight: 700;
+    text-transform: capitalize;
 }
 
 
@@ -106,6 +107,7 @@
     font-weight: 400 !important;
     margin-bottom: 5px;
     list-style: disc;
+    text-transform: capitalize;
 }
 
 .image-upload-img-area {
@@ -135,4 +137,23 @@
 
 .setting-value.link:hover{
     color: #1394DF !important;
+    text-decoration: underline;
+}
+
+.is-link::after {
+    content: "\f1c5";
+    display: inline-block;
+    font-family: 'bootstrap-icons' !important;
+    font-style: normal;
+    font-weight: normal !important;
+    font-feature-settings: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    vertical-align: 0.3em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    margin-left: 5px;
+    font-size: 10px;
+    color: #1394DF;
 }

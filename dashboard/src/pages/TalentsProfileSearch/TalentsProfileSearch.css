@@ -1,12 +1,12 @@
 .cli--tal-pro-search-section {
-    margin-top: 150px;
+    /* margin-top: 150px; */
     padding-top: 60px;
     /* padding-bottom: 60px; */
     /* overflow-x: hidden !important; */
 }
 
 
-.cli-tal-pro-search-container .cli-tal-pro-search-heading {
+.cli-tal-pro-search-heading {
     color: #714F36;
     font-size: 28px;
     font-weight: 600;
@@ -287,7 +287,7 @@
     align-items: center;
     cursor: pointer;
     color: #313131;
-    font-size: 10px !important;
+    font-size: 12px !important;
     font-weight: 400;
 }
 
@@ -805,9 +805,11 @@
 }
 
 .cli-tal-pro-search-filter-expand-area {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.8s ease-in-out;
+    /* max-height: 0; */
+    /* overflow: hidden; */
+    /* transition: max-height 0.8s ease-in-out; */
+    transition: display 0.8s ease-in-out;
+    display: none;
 }
 
 .cli-tal-pro-search-filter-expand-area .cli-tal-search-filter-form-group {
@@ -819,7 +821,8 @@
 }
 
 .cli-tal-pro-search-filter-expand-area.opened {
-    max-height: 500vh;
+    /* max-height: 500vh; */
+    display: block;
 }
 
 .cli-tal-pro-search-filter-toggle-area.opened svg {
@@ -953,7 +956,7 @@
 
 .cli-tal-pro-recent-search-head {
     color: #714F36;
-    font-size: 25px;
+    font-size: 20px;
     font-weight: 600;
 }
 
@@ -1308,8 +1311,8 @@
 }
 
 .tal--pro-card-right-area .tal--pro-card-profile-img {
-    width: 90px;
-    height: 90px;
+    width: 80px;
+    height: 80px;
     flex-shrink: 0;
     border-radius: 50%;
     object-fit: cover;
@@ -1541,7 +1544,7 @@
 }
 
 .tal--pro-card-ability-number-right.search-result {
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
     justify-content: space-between;
     gap: 15px;
@@ -1560,6 +1563,7 @@
     font-size: 16px;
     margin-bottom: 0;
     font-weight: 700;
+    text-align: center;
 }
 
 .tal--pro-card-ability-number-left.search-result {

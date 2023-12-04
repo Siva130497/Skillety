@@ -116,17 +116,17 @@ const CompanyDetail = () => {
                                                         <div className="col-12">
                                                             <div className="com-main-detail-area mb-3" onClick={() => window.location.href = `mailto:${companyDetail?.email}`}>
                                                                 <i class="bi bi-envelope-fill"></i>
-                                                                <a className='com-det-main-content' href={`mailto:${companyDetail?.email}`}>{companyDetail?.email}</a>
+                                                                <a className='com-det-main-content link is-link' href={`mailto:${companyDetail?.email}`}>{companyDetail?.email}</a>
                                                             </div>
                                                             {/* <hr /> */}
                                                             <div className="com-main-detail-area mb-3" onClick={() => window.location.href = `tel:${companyDetail?.phone}`}>
                                                                 <i class="bi bi-telephone-fill"></i>
-                                                                <a className='com-det-main-content' href={`tel:${companyDetail?.phone}`}>{companyDetail?.phone}</a>
+                                                                <a className='com-det-main-content link is-link' href={`tel:${companyDetail?.phone}`}>{companyDetail?.phone}</a>
                                                             </div>
                                                             {/* <hr /> */}
                                                             <div className="com-main-detail-area">
                                                                 <i class="bi bi-geo-alt-fill"></i>
-                                                                <a className='com-det-main-content' href="#" target='_blank'>{companyDetail?.location}</a>
+                                                                <span className='com-det-main-content text-capitalized'>{companyDetail?.location}</span>
                                                             </div>
                                                         </div>
                                                     </div>

@@ -13,7 +13,7 @@ import { useParams } from 'react-router-dom';
 
 const JobPosting = () => {
   // const [token, settoken] = useState("");
-  const {token} = useParams(); 
+  const { token } = useParams();
   const { getProtectedData, getClientChoosenPlan, packageSelectionDetail } = useContext(AuthContext);
   // const [packageSelectionDetail, setPackageSelectionDetail] = useState();
   const [employeeId, setEmployeeId] = useState("");
@@ -273,9 +273,9 @@ const JobPosting = () => {
   //   }
   // }
 
-  useEffect(()=>{
+  useEffect(() => {
     localStorage.setItem("clientToken", JSON.stringify(token));
- },[token])
+  }, [token])
 
   useEffect(() => {
     getAllJobRoles();
@@ -726,51 +726,51 @@ const JobPosting = () => {
     // }
 
     event.preventDefault();
-        if (
-          selectedJobRoles.length === 0 ||
-          credentials.minExperience === "" ||
-          credentials.maxExperience === "" ||
-          credentials.jobCategory === "" ||
-          credentials.jobDescription === "" ||
-          credentials.workMode === "" ||
-          credentials.currencyType === "" ||
-          credentials.minSalary === "" ||
-          credentials.maxSalary === "" ||
-          selectedSkills.length === 0 ||
-          selectedDepartment.length === 0 ||
-          selectedLocations.length === 0 ||
-          selectedIndustry.length === 0 ||
-          selectedEducation.length === 0
-        ) {
-          showErrorMessage("Please fill in all required fields.");
-          return;
-        }
+    if (
+      selectedJobRoles.length === 0 ||
+      credentials.minExperience === "" ||
+      credentials.maxExperience === "" ||
+      credentials.jobCategory === "" ||
+      credentials.jobDescription === "" ||
+      credentials.workMode === "" ||
+      credentials.currencyType === "" ||
+      credentials.minSalary === "" ||
+      credentials.maxSalary === "" ||
+      selectedSkills.length === 0 ||
+      selectedDepartment.length === 0 ||
+      selectedLocations.length === 0 ||
+      selectedIndustry.length === 0 ||
+      selectedEducation.length === 0
+    ) {
+      showErrorMessage("Please fill in all required fields.");
+      return;
+    }
 
-        const id = uuidv4();
-        const updatedCredentials = {
-          ...credentials,
-          skills: selectedSkills,
-          jobRole: selectedJobRoles,
-          location: selectedLocations,
-          department: selectedDepartment,
-          role: selectedRoles,
-          industry: selectedIndustry[0],
-          education: selectedEducation[0],
-          Role: loginClientDetail.role,
-          id,
-        };
-        if (loginClientDetail.role === "Client") {
-          updatedCredentials.clientId = employeeId;
-          updatedCredentials.companyId = loginClientDetail.companyId;
-        } else {
-          updatedCredentials.clientStaffId = employeeId;
-          updatedCredentials.companyId = loginClientDetail.companyId;
-        }
+    const id = uuidv4();
+    const updatedCredentials = {
+      ...credentials,
+      skills: selectedSkills,
+      jobRole: selectedJobRoles,
+      location: selectedLocations,
+      department: selectedDepartment,
+      role: selectedRoles,
+      industry: selectedIndustry[0],
+      education: selectedEducation[0],
+      Role: loginClientDetail.role,
+      id,
+    };
+    if (loginClientDetail.role === "Client") {
+      updatedCredentials.clientId = employeeId;
+      updatedCredentials.companyId = loginClientDetail.companyId;
+    } else {
+      updatedCredentials.clientStaffId = employeeId;
+      updatedCredentials.companyId = loginClientDetail.companyId;
+    }
 
-        console.log(updatedCredentials, otherJobRole, otherSkill);
-        jobPosting(updatedCredentials);
-        otherSkill.length > 0 && postOtherSkills(otherSkill);
-        otherJobRole.length > 0 && postOtherDesignation(otherJobRole);
+    console.log(updatedCredentials, otherJobRole, otherSkill);
+    jobPosting(updatedCredentials);
+    otherSkill.length > 0 && postOtherSkills(otherSkill);
+    otherJobRole.length > 0 && postOtherDesignation(otherJobRole);
   };
 
   useEffect(() => {
@@ -815,7 +815,7 @@ const JobPosting = () => {
     <div>
       {token && <div class="main-wrapper main-wrapper-1">
         <div class="navbar-bg"></div>
-        <ClientLayout/>
+        <ClientLayout />
 
         <div class="main-content">
           <section class="section">
@@ -825,8 +825,9 @@ const JobPosting = () => {
               </div>
               <div className="card post-job-card">
                 <div className="post-job-title">Post a Job </div>
-                <div className="post-job-sub-title">Welcome to Skillety’s Post Job page! Post an array of Unlimited Free Jobs, and witness the magic in action. Our AI-powered platform seamlessly integrates with 172 global Job Boards and Social Media platforms via APIs. This strategic alliance ensures that a job posting crawls out and gets relevant CVs through inward aggregation. Currently we’re clocking over 450+ daily registrations.
-</div>
+                <div className="post-job-sub-title">
+                  Welcome to Skillety’s Post Job page! Post an array of Unlimited Free Jobs, and witness the magic in action. Our AI-powered platform seamlessly integrates with 172 global Job Boards and Social Media platforms via APIs. This strategic alliance ensures that a job posting crawls out and gets relevant CVs through inward aggregation. Currently we’re clocking over 450+ daily registrations.
+                </div>
 
                 <div className="job-post-form-area">
                   <form action="">
