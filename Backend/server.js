@@ -32,6 +32,7 @@ const jwt = require("jsonwebtoken");
 const http = require('http');
 const employeeAuth = require('./middleware/employeeAuth');
 const {Server} = require('socket.io');
+const axios = require("axios");
 
 
 const corsOptions = {
@@ -70,11 +71,23 @@ const io = new Server(server, {
 
 const PORT = process.env.PORT || 3000;
 
+const SITE_SECRET = process.env.SITE_SECRET;
+
 // Connecting our database
 mongoose.connect(process.env.DB_CONNECT)
   .then(() => {
     console.log('MongoDB connected...');
   })
+
+
+  app.post("/verify", async (request, response) => {
+    const { captchaValue } = request.body;
+    const { data } = await axios.post(
+      `https://www.google.com/recaptcha/api/siteverify?secret=${SITE_SECRET}&response=${captchaValue}`
+    );
+    response.send(data);
+  });
+  
 
 io.on('connection', (socket) => {
 

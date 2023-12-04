@@ -6,8 +6,11 @@ import './Contact-responsive.css';
 import Layout from '../../components/Layout';
 import { Footer } from '../../components/Footer';
 import axios from 'axios';
+import ReCAPTCHA from "react-google-recaptcha";
+import { useRef } from 'react';
 
 const Contact = () => {
+    const recaptcha = useRef();
     useEffect(() => {
 
     }, []);
@@ -49,12 +52,31 @@ const Contact = () => {
         setCredentials({...credentials, [name]:value});
     }
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         console.log(credentials);
-        sendMessage(credentials);
-
-    }
+        const captchaValue = recaptcha.current.getValue();
+      
+        if (!captchaValue) {
+          alert('Please verify the reCAPTCHA!');
+        } else {
+          try {
+            const response = await axios.post('http://localhost:5002/verify', {
+              captchaValue,
+            });
+      
+            const data = response.data;
+      
+            if (data.success) {
+              sendMessage();
+            } else {
+              alert('reCAPTCHA validation failed!');
+            }
+          } catch (error) {
+            console.error('Error during API call:', error);
+          }
+        }
+      };
 
     return (
         <div>
@@ -222,6 +244,7 @@ const Contact = () => {
                                                     </svg>
                                                 </div>
                                             </button>
+                                            <ReCAPTCHA ref={recaptcha} sitekey={process.env.REACT_APP_SITE_KEY} />
                                         </div>
                                     </form>
                                 </div>
