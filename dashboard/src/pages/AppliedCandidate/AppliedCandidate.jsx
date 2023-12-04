@@ -19,7 +19,7 @@ const AppliedCandidate = () => {
     const [selectedJobs, setSelectedJobs] = useState([]);
     const [reqCands, setReqCands] = useState([]);
     const [job, setJob] = useState();
-    
+
     const [x, setX] = useState([0, 4]);
 
     const navigate = useNavigate();
@@ -493,12 +493,12 @@ const AppliedCandidate = () => {
         getCandidateImg();
     }, []);
 
-    useEffect(()=>{
-        if(id){
+    useEffect(() => {
+        if (id) {
             axios.get(`https://skillety.onrender.com/job/${id}`, {
                 headers: {
-                // Authorization: `Bearer ${clientToken}`,
-                Accept: 'application/json'
+                    // Authorization: `Bearer ${clientToken}`,
+                    Accept: 'application/json'
                 }
             })
                 .then(res => {
@@ -509,7 +509,7 @@ const AppliedCandidate = () => {
                     console.log(err)
                 })
         }
-    },[id])
+    }, [id])
 
     const getLoginClientDetail = async () => {
         try {
@@ -588,14 +588,14 @@ const AppliedCandidate = () => {
             const appliedCandIds = selectedJobs.map(job => job.candidateId);
             console.log(appliedCandIds)
             const appliedCands = candidateDetail.filter(cand => appliedCandIds.includes(cand.id));
-            if(appliedCands){
+            if (appliedCands) {
                 // setLoading(false);
                 setReqCands(appliedCands);
-            }else{
+            } else {
                 // setLoading(false);
                 // setPageNotFound(true);
             }
-            
+
         }
     }, [selectedJobs])
 
@@ -603,7 +603,7 @@ const AppliedCandidate = () => {
     return (
         <div>
             {/* {loading && <div>Loading...</div>} */}
-            {reqCands.length>0 && <div class="main-wrapper main-wrapper-1">
+            {reqCands.length > 0 && <div class="main-wrapper main-wrapper-1">
                 <div class="navbar-bg"></div>
                 <ClientLayout />
 
@@ -624,11 +624,11 @@ const AppliedCandidate = () => {
                                         return (matchingSkills.length / skills1.length) * 100;
                                     }
                                     const percentage = calculateMatchPercentage(job?.skills, candidate.skills);
-                                    
+
                                     return (
-                                        <article className="talent--profile-card" key={candidate.id}>
-                                            <div className="tal--pro-card-left-area">
-                                                <div className='card-split-line'></div>
+                                        <article className="talent--profile-card applied" key={candidate.id}>
+                                            <div className="tal--pro-card-left-area applied">
+                                                <div className='card-split-line applied'></div>
                                                 <div className="tal--pro-card-name-area">
                                                     {/* <label className="tal--pro-card-name-check-container">
                                                         <input type="checkbox" class="tal--checkbox" />
@@ -636,7 +636,7 @@ const AppliedCandidate = () => {
                                                     </label> */}
                                                     <h6 className='tal--pro-card-name'>{candidate.firstName + ' ' + candidate.lastName}</h6>
                                                 </div>
-                                                <div className="tal--pro-card-tags">
+                                                <div className="tal--pro-card-tags applied">
                                                     <h6 className='tal--pro-card-exp'>
                                                         Experience : {candidate.year > 0 ? candidate.year + 'years' : "" + candidate.month > 0 ? candidate.month + 'months' : ""}
                                                     </h6>
@@ -644,14 +644,14 @@ const AppliedCandidate = () => {
                                                         9.5 LPA
                                                     </h6> */}
                                                     <h6 className='tal--pro-card-location'>
-                                                        <i class="bx bxs-map"></i>
+                                                        <i class="bi bi-geo-alt-fill"></i>
                                                         <span>{candidate.location}</span>
                                                     </h6>
                                                     {/* <h6 className='tal--pro-card-role'>
                                                         {candidate.designation[0]}
                                                     </h6> */}
                                                 </div>
-                                                <div className="tal--pro-card-desc-area">
+                                                <div className="tal--pro-card-desc-area applied">
                                                     <div className="row tal--pro-card-desc-row">
                                                         <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
                                                             <h6 className='tal--pro-card-desc-title'>Previous&nbsp;:</h6>
@@ -706,11 +706,11 @@ const AppliedCandidate = () => {
                                                 </div> */}
                                             </div>
 
-                                            <div className="tal--pro-card-right-area">
-                                                <div className="tal--pro-card-right-cover-area">
+                                            <div className="tal--pro-card-right-area applied">
+                                                <div className="tal--pro-card-right-cover-area applied">
                                                     <div className='tal--pro-card-profile-img-role-area'>
-                                                        <img src={imgSrc} className='tal--pro-card-profile-img' alt="" />
-                                                        <p className='tal--pro-card-role-name'>{candidate.designation[0]}</p>
+                                                        <img src={imgSrc} className='tal--pro-card-profile-img applied' alt="" />
+                                                        <p className='tal--pro-card-role-name mb-0'>{candidate.designation[0]}</p>
                                                     </div>
                                                     <div className="tal--pro-card-contact-btn-area">
                                                         <button className='tal--pro-card-contact-btn' onClick={() => navigate(`/talents/${candidate.id}`, { state: { percentage } })}>View Profile</button>
@@ -725,14 +725,14 @@ const AppliedCandidate = () => {
                                                             Call Candidate
                                                         </button> */}
                                                     </div>
-                                                    <div className="tal--pro-card-ability-number-area">
-                                                        <div className="tal--pro-card-ability-number-left">
+                                                    <div className="tal--pro-card-ability-number-area applied">
+                                                        <div className="tal--pro-card-ability-number-left applied">
                                                             <h6 className='tal--pro-card-ability'>Skill matched</h6>
-                                                            <h2 className='tal--pro-card-percentage'>{percentage}%</h2>
+                                                            <h2 className='tal--pro-card-percentage custom'>{percentage}%</h2>
                                                         </div>
-                                                        <div className="tal--pro-card-ability-number-right">
+                                                        <div className="tal--pro-card-ability-number-right applied">
                                                             <h6 className='tal--pro-card-ability'>Can join in</h6>
-                                                            <h2 className='tal--pro-card-days'><span>{candidate.days}</span></h2>
+                                                            <h2 className='tal--pro-card-days custom'><span>{candidate.days}</span></h2>
                                                         </div>
                                                     </div>
 
@@ -753,25 +753,25 @@ const AppliedCandidate = () => {
                                     )
                                 })}
 
-                                                        <div className="tal--pro-paginate-btn-area" >
-                                                            <h6 className='tal--pro-total-result-text'>Total Items : <span>{reqCands.length}</span></h6>
-                                                            <div className='tal--pro-slider-btn-sub'>
-                                                                {x[0] > 0 && <button className="tal--pro-slider-btn" onClick={() => setX([x[0] - 4, x[1] - 4])}>
-                                                                    <svg className='arrow-left' xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 27 27" fill="none">
-                                                                        <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#5C3B2E" stroke-width="2" />
-                                                                        <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#5C3B2E" stroke-width="2" />
-                                                                        <path d="M1 26L25.1667 1" stroke="#5C3B2E" stroke-width="2" />
-                                                                    </svg>
-                                                                </button>}
-                                                                {((reqCands.slice(x[0], x[1]).length === 4 && reqCands.length > x[1])) && < button className="tal--pro-slider-btn" onClick={() => setX([x[0] + 4, x[1] + 4])}>
-                                                                    <svg className='arrow-right' xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 27 27" fill="none">
-                                                                        <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#5C3B2E" stroke-width="2" />
-                                                                        <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#5C3B2E" stroke-width="2" />
-                                                                        <path d="M1 26L25.1667 1" stroke="#5C3B2E" stroke-width="2" />
-                                                                    </svg>
-                                                                </button>}
-                                                            </div>
-                                                        </div>
+                                <div className="tal--pro-paginate-btn-area" >
+                                    <h6 className='tal--pro-total-result-text'>Total Items : <span>{reqCands.length}</span></h6>
+                                    <div className='tal--pro-slider-btn-sub'>
+                                        {x[0] > 0 && <button className="tal--pro-slider-btn" onClick={() => setX([x[0] - 4, x[1] - 4])}>
+                                            <svg className='arrow-left' xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 27 27" fill="none">
+                                                <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#5C3B2E" stroke-width="2" />
+                                                <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#5C3B2E" stroke-width="2" />
+                                                <path d="M1 26L25.1667 1" stroke="#5C3B2E" stroke-width="2" />
+                                            </svg>
+                                        </button>}
+                                        {((reqCands.slice(x[0], x[1]).length === 4 && reqCands.length > x[1])) && < button className="tal--pro-slider-btn" onClick={() => setX([x[0] + 4, x[1] + 4])}>
+                                            <svg className='arrow-right' xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 27 27" fill="none">
+                                                <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#5C3B2E" stroke-width="2" />
+                                                <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#5C3B2E" stroke-width="2" />
+                                                <path d="M1 26L25.1667 1" stroke="#5C3B2E" stroke-width="2" />
+                                            </svg>
+                                        </button>}
+                                    </div>
+                                </div>
 
                             </div>
                         </div>
