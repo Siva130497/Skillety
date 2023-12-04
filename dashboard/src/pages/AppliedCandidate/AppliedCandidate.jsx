@@ -18,6 +18,9 @@ const AppliedCandidate = () => {
     const [candidateDetail, setCandidateDetail] = useState([]);
     const [selectedJobs, setSelectedJobs] = useState([]);
     const [reqCands, setReqCands] = useState([]);
+    const [job, setJob] = useState();
+    
+    const [x, setX] = useState([0, 4]);
 
     const navigate = useNavigate();
 
@@ -444,24 +447,24 @@ const AppliedCandidate = () => {
 
             ////
 
-            $('.talent--profile-card .tal--pro-card-contact-btn').hover(
-                function () {
-                    // Check if the checkbox is not checked
-                    if (!$(this).closest('.talent--profile-card').find('.tal--checkbox').prop('checked')) {
-                        // On hover in
-                        var newText = $(this).next('.profile-credits-title').text();
-                        $(this).text(newText);
-                    }
-                },
-                function () {
-                    // Check if the checkbox is not checked
-                    if (!$(this).closest('.talent--profile-card').find('.tal--checkbox').prop('checked')) {
-                        // On hover out
-                        var originalText = "View Profile"; // Replace with your original text
-                        $(this).text(originalText);
-                    }
-                }
-            );
+            // $('.talent--profile-card .tal--pro-card-contact-btn').hover(
+            //     function () {
+            //         // Check if the checkbox is not checked
+            //         if (!$(this).closest('.talent--profile-card').find('.tal--checkbox').prop('checked')) {
+            //             // On hover in
+            //             var newText = $(this).next('.profile-credits-title').text();
+            //             $(this).text(newText);
+            //         }
+            //     },
+            //     function () {
+            //         // Check if the checkbox is not checked
+            //         if (!$(this).closest('.talent--profile-card').find('.tal--checkbox').prop('checked')) {
+            //             // On hover out
+            //             var originalText = "View Profile"; // Replace with your original text
+            //             $(this).text(originalText);
+            //         }
+            //     }
+            // );
 
         });
     }, [selectedJobs]);
@@ -489,6 +492,24 @@ const AppliedCandidate = () => {
         getAllCandidateDetail();
         getCandidateImg();
     }, []);
+
+    useEffect(()=>{
+        if(id){
+            axios.get(`https://skillety.onrender.com/job/${id}`, {
+                headers: {
+                // Authorization: `Bearer ${clientToken}`,
+                Accept: 'application/json'
+                }
+            })
+                .then(res => {
+                    console.log(res.data)
+                    setJob(res.data)
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+        }
+    },[id])
 
     const getLoginClientDetail = async () => {
         try {
@@ -581,8 +602,8 @@ const AppliedCandidate = () => {
 
     return (
         <div>
-            {/* {loading && <div id="preloader"></div>} */}
-            {reqCands && <div class="main-wrapper main-wrapper-1">
+            {/* {loading && <div>Loading...</div>} */}
+            {reqCands.length>0 && <div class="main-wrapper main-wrapper-1">
                 <div class="navbar-bg"></div>
                 <ClientLayout />
 
@@ -597,15 +618,22 @@ const AppliedCandidate = () => {
                                 {reqCands.map((candidate) => {
                                     const matchingImg = candidateImg ? candidateImg.find(img => img.id === candidate.id) : null;
                                     const imgSrc = matchingImg ? `https://skillety.onrender.com/candidate_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
+
+                                    const calculateMatchPercentage = (skills1, skills2) => {
+                                        const matchingSkills = skills2.filter(skill => skills1.includes(skill));
+                                        return (matchingSkills.length / skills1.length) * 100;
+                                    }
+                                    const percentage = calculateMatchPercentage(job?.skills, candidate.skills);
+                                    
                                     return (
                                         <article className="talent--profile-card" key={candidate.id}>
                                             <div className="tal--pro-card-left-area">
                                                 <div className='card-split-line'></div>
                                                 <div className="tal--pro-card-name-area">
-                                                    <label className="tal--pro-card-name-check-container">
+                                                    {/* <label className="tal--pro-card-name-check-container">
                                                         <input type="checkbox" class="tal--checkbox" />
                                                         <div className="tal--pro-card-name-checkmark"></div>
-                                                    </label>
+                                                    </label> */}
                                                     <h6 className='tal--pro-card-name'>{candidate.firstName + ' ' + candidate.lastName}</h6>
                                                 </div>
                                                 <div className="tal--pro-card-tags">
@@ -685,8 +713,8 @@ const AppliedCandidate = () => {
                                                         <p className='tal--pro-card-role-name'>{candidate.designation[0]}</p>
                                                     </div>
                                                     <div className="tal--pro-card-contact-btn-area">
-                                                        <button className='tal--pro-card-contact-btn' onClick={() => navigate(`/talents/${candidate.id}`)}>View Profile</button>
-                                                        <span className="profile-credits-title">&#129031; 01 Credit</span>
+                                                        <button className='tal--pro-card-contact-btn' onClick={() => navigate(`/talents/${candidate.id}`, { state: { percentage } })}>View Profile</button>
+                                                        {/* <span className="profile-credits-title">&#129031; 01 Credit</span> */}
 
                                                         {/* <div className="profile-credits-area">
                                                             <div className="profile-credits-title">Credits</div>
@@ -698,10 +726,10 @@ const AppliedCandidate = () => {
                                                         </button> */}
                                                     </div>
                                                     <div className="tal--pro-card-ability-number-area">
-                                                        {/* <div className="tal--pro-card-ability-number-left">
+                                                        <div className="tal--pro-card-ability-number-left">
                                                             <h6 className='tal--pro-card-ability'>Skill matched</h6>
-                                                            <h2 className='tal--pro-card-percentage'>90%</h2>
-                                                        </div> */}
+                                                            <h2 className='tal--pro-card-percentage'>{percentage}%</h2>
+                                                        </div>
                                                         <div className="tal--pro-card-ability-number-right">
                                                             <h6 className='tal--pro-card-ability'>Can join in</h6>
                                                             <h2 className='tal--pro-card-days'><span>{candidate.days}</span></h2>
@@ -725,25 +753,25 @@ const AppliedCandidate = () => {
                                     )
                                 })}
 
-                                <div className="tal--pro-paginate-btn-area">
-                                    <h6 className='tal--pro-total-result-text'>Total Items : <span>{reqCands.length}</span></h6>
-                                    <div className='tal--pro-slider-btn-sub'>
-                                        <button className="tal--pro-slider-btn">
-                                            <svg className='arrow-left' xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 27 27" fill="none">
-                                                <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#5C3B2E" stroke-width="2" />
-                                                <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#5C3B2E" stroke-width="2" />
-                                                <path d="M1 26L25.1667 1" stroke="#5C3B2E" stroke-width="2" />
-                                            </svg>
-                                        </button>
-                                        <button className="tal--pro-slider-btn">
-                                            <svg className='arrow-right' xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 27 27" fill="none">
-                                                <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#5C3B2E" stroke-width="2" />
-                                                <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#5C3B2E" stroke-width="2" />
-                                                <path d="M1 26L25.1667 1" stroke="#5C3B2E" stroke-width="2" />
-                                            </svg>
-                                        </button>
-                                    </div>
-                                </div>
+                                                        <div className="tal--pro-paginate-btn-area" >
+                                                            <h6 className='tal--pro-total-result-text'>Total Items : <span>{reqCands.length}</span></h6>
+                                                            <div className='tal--pro-slider-btn-sub'>
+                                                                {x[0] > 0 && <button className="tal--pro-slider-btn" onClick={() => setX([x[0] - 4, x[1] - 4])}>
+                                                                    <svg className='arrow-left' xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 27 27" fill="none">
+                                                                        <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#5C3B2E" stroke-width="2" />
+                                                                        <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#5C3B2E" stroke-width="2" />
+                                                                        <path d="M1 26L25.1667 1" stroke="#5C3B2E" stroke-width="2" />
+                                                                    </svg>
+                                                                </button>}
+                                                                {((reqCands.slice(x[0], x[1]).length === 4 && reqCands.length > x[1])) && < button className="tal--pro-slider-btn" onClick={() => setX([x[0] + 4, x[1] + 4])}>
+                                                                    <svg className='arrow-right' xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 27 27" fill="none">
+                                                                        <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#5C3B2E" stroke-width="2" />
+                                                                        <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#5C3B2E" stroke-width="2" />
+                                                                        <path d="M1 26L25.1667 1" stroke="#5C3B2E" stroke-width="2" />
+                                                                    </svg>
+                                                                </button>}
+                                                            </div>
+                                                        </div>
 
                             </div>
                         </div>

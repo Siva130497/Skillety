@@ -343,9 +343,9 @@ const PackagePlans = () => {
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        {packageType !== "Micro" && <div className="col-12 col-xl-3 col-lg-3 col-md-3 custom-width1">
+                                                        <div className="col-12 col-xl-3 col-lg-3 col-md-3 custom-width1">
                                                             <div className="pl--package-detail-area">
-                                                                <div className='pl--package-info-area starter-info-area'>
+                                                                <div className={packageType === "Micro" ? 'pl--package-info-area active starter-info-area':'pl--package-info-area starter-info-area'}>
                                                                     <img src="../assets/img/packages/Starter.png" className="pl--package-img" alt="" />
                                                                     <h5 className="pl--package-name">MICRO</h5>
 
@@ -395,7 +395,7 @@ const PackagePlans = () => {
                                                                     </div>
                                                                 </div>
 
-                                                                <div className="pl--package-btn-area starter-btn-area">
+                                                                {packageType !== "Micro" && <div className="pl--package-btn-area starter-btn-area">
                                                                     <button className='pl--package-btn-sub buy-now'
                                                                         onClick={handleBuyMicro}>
                                                                         <div className='pl--package-btn buy-now'>
@@ -409,12 +409,12 @@ const PackagePlans = () => {
                                                                             </svg>
                                                                         </div>
                                                                     </button>
-                                                                </div>
+                                                                </div>}
                                                             </div>
-                                                        </div>}
-                                                        {packageType !== "Small" && <div className="col-12 col-xl-3 col-lg-3 col-md-3 custom-width1">
+                                                        </div>
+                                                       <div className="col-12 col-xl-3 col-lg-3 col-md-3 custom-width1">
                                                             <div className="pl--package-detail-area">
-                                                                <div className='pl--package-info-area professional-info-area'>
+                                                                <div className={packageType === "Small" ? 'pl--package-info-area active starter-info-area':'pl--package-info-area starter-info-area'}>
                                                                     <img src="../assets/img/packages/Professional.png" className="pl--package-img" alt="" />
                                                                     <h5 className="pl--package-name">SMALL</h5>
 
@@ -464,7 +464,7 @@ const PackagePlans = () => {
                                                                     </div>
                                                                 </div>
 
-                                                                <div className="pl--package-btn-area professional-btn-area">
+                                                                {packageType !== "Small" && <div className="pl--package-btn-area professional-btn-area">
                                                                     <button className='pl--package-btn-sub buy-now'
                                                                         onClick={handleBuySmall}>
                                                                         <div className='pl--package-btn buy-now'>
@@ -478,12 +478,12 @@ const PackagePlans = () => {
                                                                             </svg>
                                                                         </div>
                                                                     </button>
-                                                                </div>
+                                                                </div>}
                                                             </div>
-                                                        </div>}
-                                                        {packageType !== "Large" && <div className="col-12 col-xl-3 col-lg-3 col-md-3 custom-width1">
+                                                        </div>
+                                                      <div className="col-12 col-xl-3 col-lg-3 col-md-3 custom-width1">
                                                             <div className="pl--package-detail-area">
-                                                                <div className='pl--package-info-area premium-info-area'>
+                                                                <div className={packageType === "Large" ? 'pl--package-info-area active starter-info-area':'pl--package-info-area starter-info-area'}>
                                                                     <img src="../assets/img/packages/premium.png" className="pl--package-img" alt="" />
                                                                     <h5 className="pl--package-name">LARGE</h5>
 
@@ -533,7 +533,7 @@ const PackagePlans = () => {
                                                                     </div>
                                                                 </div>
 
-                                                                <div className="pl--package-btn-area premium-btn-area">
+                                                                {packageType !== "Large" && <div className="pl--package-btn-area premium-btn-area">
                                                                     <button className='pl--package-btn-sub buy-now'
                                                                         onClick={handleBuyLarge}>
                                                                         <div className='pl--package-btn buy-now'>
@@ -547,9 +547,9 @@ const PackagePlans = () => {
                                                                             </svg>
                                                                         </div>
                                                                     </button>
-                                                                </div>
+                                                                </div>}
                                                             </div>
-                                                        </div>}
+                                                        </div>
                                                     </div>
 
                                                     {/* <p className='pl--package-desc part'>*Base unit prices of all inventory heads are fixed and same for all the companies registered in India.</p> */}

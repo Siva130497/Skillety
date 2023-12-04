@@ -39,6 +39,13 @@ const CandidateRegister = () => {
     const [totalMonths, setTotalMonths] = useState();
     const [maxSkillNum, setMaxSkillNum] = useState();
     const [minSkillNum, setMinSkillNum] = useState();
+    
+    let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const [passwordErrorMsg, setPasswordErrorMsg] = useState(false);
+    const [confirmPasswordErrorMsg, setConfirmPasswordErrorMsg] = useState(false);
+    const [require, setRequire] = useState(false)
+    const [skillAlert, setSkillAlert] = useState("");
+    const [designationAlert, setDesignationAlert] = useState("");
 
     const fileInputRef = useRef(null);
 
@@ -106,18 +113,19 @@ const CandidateRegister = () => {
 
     useEffect(() => {
         if (totalMonths) {
+            setSkillError("")
             console.log(totalMonths)
             setMaxSkillNum(totalMonths <= 24 ? 6 : totalMonths <= 48 ? 8 : totalMonths <= 96 ? 10 : 12)
             setMinSkillNum(totalMonths <= 24 ? 4 : totalMonths <= 48 ? 6 : totalMonths <= 96 ? 8 : 10)
 
             if (totalMonths <= 24) {
-                showErrorMessage("You can select min of 4 & max of 6 skills")
+                setSkillAlert("You can select min of 4 & max of 6 skills")
             } else if (totalMonths <= 48) {
-                showErrorMessage("You can select min of 6 & max of 8 skills")
+                setSkillAlert("You can select min of 6 & max of 8 skills")
             } else if (totalMonths <= 96) {
-                showErrorMessage("You can select min of 8 & max of 10 skills")
+                setSkillAlert("You can select min of 8 & max of 10 skills")
             } else {
-                showErrorMessage("You can select min of 10 & max of 12 skills")
+                setSkillAlert("You can select min of 10 & max of 12 skills")
             }
         }
     }, [totalMonths])
@@ -208,6 +216,31 @@ const CandidateRegister = () => {
     const handleInputChange = (event) => {
         const { name, value, type, checked } = event.target;
 
+        if (name === "password") {
+            if (value.length < 8) {
+                setPasswordErrorMsg(true);
+            } else {
+                setPasswordErrorMsg(false);
+            }
+        }
+
+        if (name === "confirmPassword") {
+            if (value !== credentials.password) {
+                setConfirmPasswordErrorMsg(true);
+            } else {
+                setConfirmPasswordErrorMsg(false);
+            }
+        }
+    
+
+        if (name === "confirmPassword") {
+            if (value.length < 8) {
+                setPasswordErrorMsg(true);
+            } else {
+                setPasswordErrorMsg(false);
+            }
+        }
+        
         if (type === "checkbox") {
             setCredentials((prevCredentials) => ({
                 ...prevCredentials,
@@ -243,6 +276,7 @@ const CandidateRegister = () => {
     }
 
     const handleDesignationSearch = (e) => {
+        setDesignationAlert("")
         const inputValue = e.target.value;
         setSearchDesignationInput(inputValue);
         if (inputValue.length > 0) {
@@ -259,12 +293,13 @@ const CandidateRegister = () => {
 
     const handleSkillClick = (skill) => {
         if (totalMonths > 0) {
+            setSkillError("")
             if (selectedSkills.includes(skill)) {
                 setSelectedSkills([...selectedSkills]);
                 setSearchSkillInput("");
                 setFilteredSkills([]);
             } else {
-                selectedSkills.length === maxSkillNum && showErrorMessage(`You can select max of ${maxSkillNum} skills`)
+                selectedSkills.length === maxSkillNum && setSkillError(`You can select max of ${maxSkillNum} skills`)
                 setSearchSkillInput("");
                 setFilteredSkills([]);
                 if (selectedSkills.length < maxSkillNum) {
@@ -274,7 +309,7 @@ const CandidateRegister = () => {
                 }
             }
         } else {
-            showErrorMessage("Please enter the experience first...");
+            setSkillError("Please enter the experience first...");
             setSearchSkillInput("");
             setFilteredSkills([]);
         }
@@ -297,29 +332,37 @@ const CandidateRegister = () => {
     }
 
     const handleManualSkill = () => {
-        setSearchSkillInput("");
-        if (selectedSkills.length === maxSkillNum) {
-            showErrorMessage(`You can select max of ${maxSkillNum} skills`);
-            setNewSkill("");
-        }
-        if (selectedSkills.length < maxSkillNum) {
-            const foundObject = skillArray.find(item => item.skill.toLowerCase() === newSkill.toLowerCase());
-            if (foundObject) {
-                showErrorMessage(`Skill "${newSkill}" already in list, please search...`);
-                setNewSkill("");
-            } else {
-                setOtherSkill([...otherSkill, newSkill]);
-                setSelectedSkills([...selectedSkills, newSkill]);
+        if (totalMonths > 0) {
+            setSkillError("")
+            setSearchSkillInput("");
+            if (selectedSkills.length === maxSkillNum) {
+                setSkillError(`You can select max of ${maxSkillNum} skills`);
                 setNewSkill("");
             }
+            if (selectedSkills.length < maxSkillNum) {
+                setSkillError("")
+                const foundObject = skillArray.find(item => item.skill.toLowerCase() === newSkill.toLowerCase());
+                if (foundObject) {
+                    setSkillError(`Skill "${newSkill}" already in list, please search...`);
+                    setNewSkill("");
+                } else {
+                    setOtherSkill([...otherSkill, newSkill]);
+                    setSelectedSkills([...selectedSkills, newSkill]);
+                    setNewSkill("");
+                }
+            }
+        }else {
+            setSkillError("Please enter the experience first...");
+            setNewSkill("");
         }
+        
     }
 
     const handleManualDesignation = () => {
         setSearchDesignationInput("");
         const foundObject = designationArray.find(item => item.designation.toLowerCase() === newDesignation.toLowerCase());
         if (foundObject) {
-            showErrorMessage(`Designation "${newDesignation}" already in list, please search...`);
+            setDesignationAlert(`Designation "${newDesignation}" already in list, please search...`);
             setNewDesignation("");
         } else {
             setOtherDesignation([newDesignation]);
@@ -411,51 +454,46 @@ const CandidateRegister = () => {
                 axios.post('https://skillety.onrender.com/upload', formData)
                     .then(res => console.log(res))
                     .catch(err => console.log(err));
-            } else {
-                showErrorMessage("Agree the terms & condition before register");
-            }
+            } 
 
-        } else {
-            showErrorMessage("Please complete all the required fields before proceeding...");
-        }
+        } 
 
     };
 
     const handleNext = () => {
         let isValid = true;
         if (step === 1) {
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (credentials.days === "" || credentials.firstName === "" || credentials.lastName === "" || credentials.phone === "" || credentials.email === "" || credentials.password === "" || credentials.confirmPassword === "" || credentials.password !== credentials.confirmPassword || !resume.length === 0 || credentials.password.length < 8 || !(emailRegex.test(credentials.email))) {
-                if (credentials.password.length < 8) {
-                    return showErrorMessage("password must be atleast 8 characters long")
-                } else if (credentials.password !== credentials.confirmPassword) {
-                    return showErrorMessage("Please check that both password and confirm password are same")
-                } else if (!(emailRegex.test(credentials.email))) {
-                    return showErrorMessage("Please enter a valid email address")
-                }
+            
+            if (credentials.days === "" || credentials.firstName === "" || credentials.lastName === "" || credentials.phone === "" || credentials.email === "" || credentials.password === "" || credentials.confirmPassword === "" || credentials.password !== credentials.confirmPassword || resume.length === 0 || credentials.password.length < 8 || !(emailRegex.test(credentials.email))) {
+                // if (credentials.password.length < 8) {
+                //     return showErrorMessage("password must be atleast 8 characters long")
+                // } else if (credentials.password !== credentials.confirmPassword) {
+                //     return showErrorMessage("Please check that both password and confirm password are same")
+                // } else if (!(emailRegex.test(credentials.email))) {
+                //     return showErrorMessage("Please enter a valid email address")
+                // }
+                setRequire(true)
                 isValid = false;
             }
         }
         if (step === 2) {
             if (selectedDesignations.length === 0 || credentials.companyName === "" || selectedLocations.length === 0 || credentials.year === "" || credentials.month === "" || selectedSkills.length === 0 || selectedEducation.length === 0 || credentials.college === "" || selectedSkills.length < minSkillNum) {
                 if (selectedSkills.length < minSkillNum) {
-                    return showErrorMessage(`Please select atleast ${minSkillNum} skills`)
+                    return setSkillError(`Please select atleast ${minSkillNum} skills`) 
                 }
+                setRequire(false)
                 isValid = false;
+                
             }
         }
         // if (step === 3) {
         //     if (credentials.profileHeadline === "") {
-        //         isValid = false;
+        //         setRequire(true);
         //     }
         // }
         if (isValid) {
             setStep(step + 1);
-        } else {
-
-            showErrorMessage("Please complete all the required fields before proceeding...");
-
-        }
+        } 
     };
 
 
@@ -526,6 +564,8 @@ const CandidateRegister = () => {
                                             </div>
                                         </div>
 
+                                        {require && <small className='text-danger'>{credentials.days === "" && "required"}</small>}
+
                                         <div className="form-check form-switch imediate-switch">
                                             <input
                                                 className="form-check-input imediate-switch-input"
@@ -565,6 +605,7 @@ const CandidateRegister = () => {
                                             onChange={handleInputChange}
                                             placeholder="Enter your first name" className='cand--reg-form-input' required />
                                         <label htmlFor="first_name" className='cand--reg-form-label'>First Name</label>
+                                        {require && <small className='text-danger'>{credentials.firstName === "" && "required"}</small>}
                                     </div>
                                 </div>
                                 <div className="col-12 col-lg-6 col-md-6 col-sm-6 custom-padding-left">
@@ -574,6 +615,7 @@ const CandidateRegister = () => {
                                             onChange={handleInputChange}
                                             placeholder="Enter your last name" className='cand--reg-form-input' required />
                                         <label htmlFor="last_name" className='cand--reg-form-label'>Last Name</label>
+                                        {require && <small className='text-danger'>{credentials.lastName === "" && "required"}</small>}
                                     </div>
                                 </div>
                                 <div className="col-12 col-lg-6 col-md-6 col-sm-6 custom-padding-right">
@@ -582,6 +624,7 @@ const CandidateRegister = () => {
                                             value={credentials.phone}
                                             onChange={handleInputChange} placeholder="Enter your mobile number" className='cand--reg-form-input' min="0" required />
                                         <label htmlFor="mobile_number" className='cand--reg-form-label'>Mobile Number</label>
+                                        {require && <small className='text-danger'>{credentials.phone === "" && "required"}</small>}
                                     </div>
                                 </div>
                                 <div className="col-12 col-lg-6 col-md-6 col-sm-6 custom-padding-left">
@@ -590,6 +633,8 @@ const CandidateRegister = () => {
                                             value={credentials.email}
                                             onChange={handleInputChange} placeholder="Enter your e-mail id" className='cand--reg-form-input' required />
                                         <label htmlFor="email_id" className='cand--reg-form-label'>Email ID</label>
+                                        {require && <small className='text-danger'>{credentials.email === "" && "required"}</small>}
+                                        {require && <small className='text-danger'>{!(emailRegex.test(credentials.email)) && "enter valid email address"}</small>}
                                     </div>
                                 </div>
                                 <div className="col-12 col-lg-6 col-md-6 col-sm-6 custom-padding-right">
@@ -600,6 +645,8 @@ const CandidateRegister = () => {
                                             onPaste={(e) => e.preventDefault()}
                                             placeholder="Enter your password" className='cand--reg-form-input' required />
                                         <label htmlFor="password" className='cand--reg-form-label'>Password</label>
+                                            {passwordErrorMsg && <small className='text-danger'>password must be 8 characters long...</small>}
+                                            {require && <small className='text-danger'>{credentials.password === "" && "required"}</small>}
                                     </div>
                                 </div>
                                 <div className="col-12 col-lg-6 col-md-6 col-sm-6 custom-padding-left">
@@ -610,6 +657,8 @@ const CandidateRegister = () => {
                                             onPaste={(e) => e.preventDefault()}
                                             placeholder="Enter your confirmPassword" className='cand--reg-form-input' required />
                                         <label htmlFor="confirm_password" className='cand--reg-form-label'>Confirm Password</label>
+                                            {confirmPasswordErrorMsg && <small className='text-danger'>Password and Confirm Password must match...</small>}
+                                            {require && <small className='text-danger'>{credentials.confirmPassword === "" && "required"}</small>}
                                     </div>
                                 </div>
                             </div>
@@ -627,6 +676,7 @@ const CandidateRegister = () => {
                                                 Upload your Resume/CV here</label>
                                             <span id="file-chosen">{resume.length > 0 ? resume.name : 'No file chosen'}</span>
                                             <div className='file--upload-text'>Either in .doc/ docx/.pdf format only</div>
+                                            {require && <small className='text-danger'>{resume.length === 0 && "required"}</small>}
                                         </div>
                                     </div>
                                 </div>
@@ -680,6 +730,9 @@ const CandidateRegister = () => {
                                                 <span className="can-reg-form-checkmark"></span>
                                                 If your searched designation not in the list, please enable the checkbox & type manually...
                                             </label>
+                                            {!require && <small className='text-danger'>{selectedDesignations.length === 0 && "required"}</small>}
+                                            <br/>
+                                            <small className='text-danger'>{designationAlert}</small>
                                         </div>
                                     </div>
                                 </div>
@@ -714,6 +767,7 @@ const CandidateRegister = () => {
                                             value={credentials.companyName}
                                             onChange={handleInputChange} placeholder="Enter your current company" className='cand--reg-form-input' required />
                                         <label htmlFor="company" className='cand--reg-form-label'>Current Company</label>
+                                        {!require && <small className='text-danger'>{credentials.companyName === "" && "required"}</small>}
                                     </div>
                                 </div>
 
@@ -773,6 +827,7 @@ const CandidateRegister = () => {
                                                 >{selectLocation}</span>
                                             ))}
                                         </div>
+                                        {!require && <small className='text-danger'>{selectedLocations.length === 0 && "required"}</small>}
                                     </div>
                                 </div>
 
@@ -786,12 +841,14 @@ const CandidateRegister = () => {
                                                         value={credentials.year}
                                                         onChange={handleInputChange} className='cand--reg-exp-input' min="0" />
                                                     <label htmlFor="years" className='cand--reg-form-label-custom'>Years</label>
+                                                    {!require && <small className='text-danger'>{credentials.year === "" && "required"}</small>}
                                                 </div>
                                                 <div className="cand--reg-exp-input-area">
                                                     <input type="number" id='months' name="month"
                                                         value={credentials.month}
                                                         onChange={handleInputChange} className='cand--reg-exp-input' min="0" />
                                                     <label htmlFor="months" className='cand--reg-form-label-custom'>Months</label>
+                                                    {!require && <small className='text-danger'>{credentials.month === "" && "required"}</small>}
                                                 </div>
                                             </div>
                                         </div>
@@ -808,7 +865,8 @@ const CandidateRegister = () => {
                                                     onChange={handleSkillSearch}
                                                     className='cand--reg-flex-input'
                                                     placeholder='Enter your skill name to search here' />
-                                                {skillError && <p className='skills-error-text'>{skillError}</p>}
+                                                {/* {skillError && <p className='skills-error-text'>{skillError}</p>} */}
+                                                <small className='text-danger'>{skillAlert}</small>
                                                 <div className='search-result-data-area'>
                                                     {filteredSkills.length > 0 &&
                                                         filteredSkills.map((filterSkill) => {
@@ -837,10 +895,14 @@ const CandidateRegister = () => {
                                                 <span className="can-reg-form-checkmark"></span>
                                                 If your searched skill not in the list, please enable the checkbox & type manually...
                                             </label>
+                                            
                                         </div>
                                         <div className="cand--reg-skills-text">
                                             Note: These will also be used as the Tags for searching matching jobs for you. So enter all your key skills without fail.
                                         </div>
+                                        {!require && <small className='text-danger'>{selectedSkills.length === 0 && "required"}</small>}
+                                        <br/>
+                                        <small className='text-danger'>{skillError}</small>
                                     </div>
                                 </div>
 
@@ -937,6 +999,7 @@ const CandidateRegister = () => {
                                                         </span>
                                                     ))}
                                                 </div>
+                                                {!require && <small className='text-danger'>{selectedEducation.length === 0 && "required"}</small>}
                                             </div>
                                         </div>
                                     </div>
@@ -950,6 +1013,7 @@ const CandidateRegister = () => {
                                                 value={credentials.college}
                                                 onChange={handleInputChange} className='cand--reg-flex-input' />
                                         </div>
+                                        {!require && <small className='text-danger'>{credentials.college === "" && "required"}</small>}
                                     </div>
                                 </div>
                             </div>
@@ -972,6 +1036,7 @@ const CandidateRegister = () => {
                                             onChange={handleInputChange} id="headline" placeholder='(Example: I am a Best Employee Award winning embedded engineer with over 5 years  of experience in the software development domain, proficient in tools/skills like NXPT1020, C, RS422, VxWORKS, ST-True Studio, STM32F103C8, Embedded C, EEPROM, WIFI.)' className='cand--reg-lg-input'>
                                         </textarea>
                                     </div>
+                                    {!require && <small className='text-danger'>{credentials.profileHeadline === "" && "required"}</small>}
                                 </div>
                             </div>
                         </div>
