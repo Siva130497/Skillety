@@ -11,7 +11,7 @@ import './Talents.css';
 import './Talents-responsive.css';
 import { useLocation, useParams } from 'react-router-dom';
 import axios from 'axios';
-
+ 
 
 const Talents = () => {
     const { id } = useParams();
