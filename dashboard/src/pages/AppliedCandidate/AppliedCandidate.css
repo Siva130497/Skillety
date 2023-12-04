@@ -546,3 +546,12 @@
 .tal--pro-slider-btn:hover .arrow-right path {
     stroke: #fff;
 }
+
+.tal--pro-card-days.custom span{
+    font-size: 16px !important;
+}
+
+.tal--pro-card-ability-number-right.custom{
+    align-items: center !important;
+    gap: 10px !important;
+}

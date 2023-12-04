@@ -567,14 +567,14 @@ const AppliedCandidate = () => {
             const appliedCandIds = selectedJobs.map(job => job.candidateId);
             console.log(appliedCandIds)
             const appliedCands = candidateDetail.filter(cand => appliedCandIds.includes(cand.id));
-            if(appliedCands){
+            if (appliedCands) {
                 // setLoading(false);
                 setReqCands(appliedCands);
-            }else{
+            } else {
                 // setLoading(false);
                 // setPageNotFound(true);
             }
-            
+
         }
     }, [selectedJobs])
 
@@ -598,17 +598,17 @@ const AppliedCandidate = () => {
                                     const matchingImg = candidateImg ? candidateImg.find(img => img.id === candidate.id) : null;
                                     const imgSrc = matchingImg ? `https://skillety.onrender.com/candidate_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
                                     return (
-                                        <article className="talent--profile-card" key={candidate.id}>
-                                            <div className="tal--pro-card-left-area">
-                                                <div className='card-split-line'></div>
+                                        <article className="talent--profile-card applied" key={candidate.id}>
+                                            <div className="tal--pro-card-left-area applied">
+                                                <div className='card-split-line applied'></div>
                                                 <div className="tal--pro-card-name-area">
-                                                    <label className="tal--pro-card-name-check-container">
+                                                    <label className="tal--pro-card-name-check-container applied">
                                                         <input type="checkbox" class="tal--checkbox" />
                                                         <div className="tal--pro-card-name-checkmark"></div>
                                                     </label>
                                                     <h6 className='tal--pro-card-name'>{candidate.firstName + ' ' + candidate.lastName}</h6>
                                                 </div>
-                                                <div className="tal--pro-card-tags">
+                                                <div className="tal--pro-card-tags applied">
                                                     <h6 className='tal--pro-card-exp'>
                                                         Experience : {candidate.year > 0 ? candidate.year + 'years' : "" + candidate.month > 0 ? candidate.month + 'months' : ""}
                                                     </h6>
@@ -616,14 +616,14 @@ const AppliedCandidate = () => {
                                                         9.5 LPA
                                                     </h6> */}
                                                     <h6 className='tal--pro-card-location'>
-                                                        <i class="bx bxs-map"></i>
+                                                        <i class="bi bi-geo-alt-fill"></i>
                                                         <span>{candidate.location}</span>
                                                     </h6>
                                                     {/* <h6 className='tal--pro-card-role'>
                                                         {candidate.designation[0]}
                                                     </h6> */}
                                                 </div>
-                                                <div className="tal--pro-card-desc-area">
+                                                <div className="tal--pro-card-desc-area applied">
                                                     <div className="row tal--pro-card-desc-row">
                                                         <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
                                                             <h6 className='tal--pro-card-desc-title'>Previous&nbsp;:</h6>
@@ -678,8 +678,8 @@ const AppliedCandidate = () => {
                                                 </div> */}
                                             </div>
 
-                                            <div className="tal--pro-card-right-area">
-                                                <div className="tal--pro-card-right-cover-area">
+                                            <div className="tal--pro-card-right-area applied">
+                                                <div className="tal--pro-card-right-cover-area applied">
                                                     <div className='tal--pro-card-profile-img-role-area'>
                                                         <img src={imgSrc} className='tal--pro-card-profile-img' alt="" />
                                                         <p className='tal--pro-card-role-name'>{candidate.designation[0]}</p>
@@ -702,9 +702,9 @@ const AppliedCandidate = () => {
                                                             <h6 className='tal--pro-card-ability'>Skill matched</h6>
                                                             <h2 className='tal--pro-card-percentage'>90%</h2>
                                                         </div> */}
-                                                        <div className="tal--pro-card-ability-number-right">
+                                                        <div className="tal--pro-card-ability-number-right custom">
                                                             <h6 className='tal--pro-card-ability'>Can join in</h6>
-                                                            <h2 className='tal--pro-card-days'><span>{candidate.days}</span></h2>
+                                                            <h2 className='tal--pro-card-days custom'><span>{candidate.days}</span></h2>
                                                         </div>
                                                     </div>
 

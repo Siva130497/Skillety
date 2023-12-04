@@ -187,6 +187,7 @@
     max-height: 100px;
 }
 
+
 .profile-name-edit-input-area.expanded-one {
     margin: 5px 0 10px 0;
     max-height: 200px;
@@ -533,6 +534,7 @@
 }
 
 .profile-content-edit-btn,
+.profile-skill-edit-btn,
 .profile-content-more-inputs-edit-btn {
     background-color: transparent;
     border: none;
@@ -558,6 +560,7 @@
 }
 
 .profile-content-edit-btn:hover,
+.profile-skill-edit-btn:hover,
 .profile-content-more-inputs-edit-btn:hover,
 .personal-det-add-btn:hover {
     color: #000 !important;
@@ -565,6 +568,8 @@
 
 .profile-content-edit-btn:focus,
 .profile-content-edit-btn:active,
+.profile-skill-edit-btn:focus,
+.profile-skill-edit-btn:active,
 .profile-content-more-inputs-edit-btn:focus,
 .profile-content-more-inputs-edit-btn:active,
 .personal-det-add-btn:focus,
@@ -599,18 +604,36 @@
     transition: max-height 0.5s ease-in-out, margin 0.5s ease-in-out;
 }
 
+.profile-content-skill-input-area {
+    margin: 0;
+    display: none;
+    transition: margin 0.5s ease-in-out;
+}
+
+.profile-content-skill-input-area.expanded {
+    margin: 20px 0 15px 0;
+    display: block;
+}
+
 .profile-content-input-area.expanded {
     margin: 20px 0 15px 0;
     max-height: 100px;
 }
 
+.profile-content-input-area.expanded-large {
+    margin: 20px 0 15px 0;
+    max-height: 10000px;
+}
+
 .profile-content-edit-btn.expanded,
+.profile-skill-edit-btn.expanded,
 .profile-content-more-inputs-edit-btn.expanded,
 .personal-det-add-btn.expanded {
     color: red !important;
 }
 
 .profile-content-edit-btn.expanded:hover,
+.profile-skill-edit-btn.expanded:hover,
 .profile-content-more-inputs-edit-btn.expanded:hover,
 .personal-det-add-btn.expanded:hover {
     color: #d40000 !important;
@@ -870,4 +893,51 @@
 .image-view-close:hover .bi-x,
 .image-view-close:focus .bi-x {
     color: red !important;
+}
+
+.profile-content.experince {
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.profile-content.experince span {
+    font-weight: 400;
+}
+
+.experince-head {
+    font-size: 15px;
+    font-weight: 600;
+    color: #714F36;
+    margin-bottom: 10px;
+}
+
+
+
+.search-result-data-area.custom {
+    margin-top: 2px;
+    border-radius: 6px;
+    max-height: 230px;
+}
+
+.search-result-data-area.custom::-webkit-scrollbar {
+    width: 6px;
+    background-color: transparent;
+    border-radius: 10px !important;
+}
+
+.search-result-data-area.custom::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    box-shadow: none !important;
+    background-color: #714f36d3;
+}
+
+.search-result-data-area.custom::-webkit-scrollbar-track {
+    box-shadow: none !important;
+    border-radius: 10px;
+    background-color: transparent;
+}
+
+.search-result-data.custom {
+    border-radius: 6px;
+    margin: 2px;
 }
