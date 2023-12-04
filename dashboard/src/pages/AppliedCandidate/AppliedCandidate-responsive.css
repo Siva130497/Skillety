@@ -117,13 +117,23 @@
         position: relative !important;
         top: auto !important;
     }
-    .tal--pro-card-right-area.applied{
+
+    .tal--pro-card-right-area.applied {
         width: 40% !important;
     }
 
-    .tal--pro-card-tags.applied{
+    .tal--pro-card-tags.applied {
         justify-content: flex-start !important;
         gap: 30px !important;
+    }
+
+    .tal--pro-card-profile-img.applied {
+        width: 85px !important;
+        height: 85px !important;
+    }
+
+    .tal--pro-card-percentage.custom {
+        font-size: 16px !important;
     }
 }
 

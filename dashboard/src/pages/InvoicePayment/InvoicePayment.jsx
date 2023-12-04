@@ -212,49 +212,57 @@ const InvoicePayment = () => {
                                                     Check your payment history here
                                                 </div>
                                             </div>
-                                            <table className="table table-striped table-hover admin-lg-table">
-                                                <tr className='dash-table-row man-app'>
-                                                    <th className='dash-table-head text-left'>Sr.no</th>
-                                                    <th className='dash-table-head text-center'>Package Name</th>
-                                                    <th className='dash-table-head text-center'>Date of Purchase</th>
-                                                    <th className='dash-table-head text-center'>Validity</th>
-                                                    <th className='dash-table-head text-center'>Invoice Amount</th>
-                                                    <th className='text-center'>View</th>
-                                                </tr>
+                                            {packageSelectionDetail ?
+                                                <table className="table table-striped table-hover admin-lg-table">
+                                                    <tr className='dash-table-row man-app'>
+                                                        <th className='dash-table-head text-left'>Sr.no</th>
+                                                        <th className='dash-table-head text-center'>Package Name</th>
+                                                        <th className='dash-table-head text-center'>Date of Purchase</th>
+                                                        <th className='dash-table-head text-center'>Validity</th>
+                                                        <th className='dash-table-head text-center'>Invoice Amount</th>
+                                                        <th className='text-center'>View</th>
+                                                    </tr>
 
-                                                {/* table data */}
-                                                <tr className='dash-table-row client'>
-                                                    <td className='dash-table-data1 text-left'>01.</td>
-                                                    <td className='dash-table-data1 text-center'>
-                                                        {packageSelectionDetail?.packageType}
-                                                    </td>
-                                                    <td className='dash-table-data1 text-center'>
-                                                        {`${new Date(packageSelectionDetail?.createdAt).getDate().toString().padStart(2, '0')}/${(new Date(packageSelectionDetail?.createdAt).getMonth() + 1).toString().padStart(2, '0')}/${new Date(packageSelectionDetail?.createdAt).getFullYear() % 100}`}
-                                                    </td>
+                                                    {/* table data */}
+                                                    <tr className='dash-table-row client'>
+                                                        <td className='dash-table-data1 text-left'>01.</td>
+                                                        <td className='dash-table-data1 text-center'>
+                                                            {packageSelectionDetail?.packageType}
+                                                        </td>
+                                                        <td className='dash-table-data1 text-center'>
+                                                            {`${new Date(packageSelectionDetail?.createdAt).getDate().toString().padStart(2, '0')}/${(new Date(packageSelectionDetail?.createdAt).getMonth() + 1).toString().padStart(2, '0')}/${new Date(packageSelectionDetail?.createdAt).getFullYear() % 100}`}
+                                                        </td>
 
-                                                    <td className='dash-table-data1 text-center'>
-                                                        21-12-2023
-                                                    </td>
+                                                        <td className='dash-table-data1 text-center'>
+                                                            21-12-2023
+                                                        </td>
 
-                                                    <td className='dash-table-data1 text-center'>
-                                                        Rs.&nbsp;<span>{packageSelectionDetail?.amount}/-</span>
-                                                    </td>
+                                                        <td className='dash-table-data1 text-center'>
+                                                            Rs.&nbsp;<span>{packageSelectionDetail?.amount}/-</span>
+                                                        </td>
 
-                                                    <td className='text-center'>
-                                                        <div className="action-btn-area">
-                                                            <button className='job-view-btn' data-toggle="modal" data-target="#invoiceModal">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
-                                                                    <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
-                                                                    <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"
-                                                                    />
-                                                                </svg>
-                                                            </button>
-                                                        </div>
-                                                    </td>
-                                                </tr>
+                                                        <td className='text-center'>
+                                                            <div className="action-btn-area">
+                                                                <button className='job-view-btn' data-toggle="modal" data-target="#invoiceModal">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                                                        <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
+                                                                        <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"
+                                                                        />
+                                                                    </svg>
+                                                                </button>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
 
 
-                                            </table>
+                                                </table> :
+                                                <div className="no-data-created-area">
+                                                    <div className='no-data-created'>
+                                                        <img src="../assets/img/no-data/no-data-img.png" className='no-data-img' alt="" />
+                                                        <div className='no-data-text'>No Packages Yet..!</div>
+                                                    </div>
+                                                </div>
+                                            }
                                         </div>
 
                                         <div className="view-application-btn-area text-center">

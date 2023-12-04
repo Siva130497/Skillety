@@ -190,7 +190,7 @@ const getSkillMatchJobDetail = async() => {
 
       if (!result.error) {
         console.log(result);
-        setJobDetail(result.reverse());
+        setJobDetail(result.reverse().filter(job => job.percentage > 0));
         setMatchJobNum(result.filter(job => job.percentage > 0).length);
       } else {
         console.log(result);
@@ -266,7 +266,7 @@ const getSkillMatchJobDetail = async() => {
                     <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
                       <div className="dash-num-count-area">
                         <p className='dash-num-title'>Jobs Applied</p>
-                        <h4 className='dash-num-count'>{appliedJobDetail.length}</h4>
+                        <a href='/my-application'><h4 className='dash-num-count'>{appliedJobDetail.length}</h4></a>
                       </div>
                     </div>
 
@@ -279,8 +279,8 @@ const getSkillMatchJobDetail = async() => {
 
                     <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
                       <div className="dash-num-count-area">
-                        <p className='dash-num-title'>New matched Jobs</p>
-                        <h4 className='dash-num-count'>{matchJobNum}</h4>
+                        <p className='dash-num-title'>Matched Jobs</p>
+                        <a href='/search-jobs'><h4 className='dash-num-count'>{matchJobNum}</h4></a>
                       </div>
                     </div>
 
@@ -352,7 +352,7 @@ const getSkillMatchJobDetail = async() => {
                   </div>
                 </div>
 
-                <div className="row">
+                {/* <div className="row">
                   <div className="col-12">
                     <div className="dash-table-section">
                       <div className="dash-table-area">
@@ -438,7 +438,7 @@ const getSkillMatchJobDetail = async() => {
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> */}
 
                 <div class="row">
                   <div class="col-12">
@@ -468,12 +468,12 @@ const getSkillMatchJobDetail = async() => {
                               <td className='dash-table-data1 text-center'>{job.industry}</td>
                               <td className='dash-table-data1 text-center'>{job.jobCategory}</td>
                               <td className='dash-table-data1 text-center'>Screening</td>
-                              <td className='text-center dash-table-view-btn-area'>
+                              {/* <td className='text-center dash-table-view-btn-area'>
                                 <button className='dash-table-eye-view-btn'
                                   data-toggle="modal" data-target="">
                                   <i class="bi bi-eye-fill"></i>
                                 </button>
-                              </td>
+                              </td> */}
                               </tr>
                               )})
                             }
@@ -490,7 +490,7 @@ const getSkillMatchJobDetail = async() => {
                       <div className="dash-table-area">
                         <div className="dash-table-top-area">
                           <div className="dash-table-title">
-                            Latest Jobs
+                            Match Jobs
                           </div>
                           <a href='/search-jobs' className="dash-table-see-all-btn">See all</a>
                         </div>
@@ -513,12 +513,12 @@ const getSkillMatchJobDetail = async() => {
                               <td className='dash-table-data1 text-center'>{job.industry}</td>
                               <td className='dash-table-data1 text-center'>{job.jobCategory}</td>
                               <td className='dash-table-data1 text-center'>{job.jobExperience}</td>
-                              <td className='text-center dash-table-view-btn-area'>
+                              {/* <td className='text-center dash-table-view-btn-area'>
                                 <button className='dash-table-eye-view-btn'
                                   data-toggle="modal" data-target="">
                                   <i class="bi bi-eye-fill"></i>
                                 </button>
-                              </td>
+                              </td> */}
                               </tr>
                               )})
                             }
