@@ -85,15 +85,65 @@
         padding-bottom: 20px;
         border-bottom: 1px solid #ffffff;
     }
+
 }
 
-@media (max-width:500px) {
+@media screen and (min-width: 573px) and (max-width: 991.5px) {
+
+    /* //////// */
+    .talent--profile-card.applied {
+        flex-direction: row !important;
+    }
+
+    .tal--pro-card-right-cover-area.applied {
+        flex-direction: column !important;
+        gap: 10px !important;
+    }
+
+    .tal--pro-card-left-area.applied {
+        padding: 25px !important;
+        width: 60% !important;
+    }
+
+    .tal--pro-card-desc-area.applied {
+        margin-top: 0 !important;
+    }
+
+    .card-split-line.applied {
+        display: none !important;
+    }
+
+    .tal--pro-card-name-check-container.applied {
+        position: relative !important;
+        top: auto !important;
+    }
+
+    .tal--pro-card-right-area.applied {
+        width: 40% !important;
+    }
+
+    .tal--pro-card-tags.applied {
+        justify-content: flex-start !important;
+        gap: 30px !important;
+    }
+
+    .tal--pro-card-profile-img.applied {
+        width: 85px !important;
+        height: 85px !important;
+    }
+
+    .tal--pro-card-percentage.custom {
+        font-size: 16px !important;
+    }
+}
+
+@media (max-width:573px) {
     .dash-talent--profile-card-section {
         padding: 30px 0px;
     }
 
     .tal--pro-card-left-area {
-        padding: 0px!important;
+        padding: 0px !important;
     }
 
     .tal--pro-card-right-area {
@@ -174,7 +224,8 @@
         justify-content: center;
         flex-wrap: wrap;
     }
-    .border-bottom-none{
+
+    .border-bottom-none {
         border-bottom: none !important;
     }
 }

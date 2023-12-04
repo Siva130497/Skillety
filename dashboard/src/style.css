@@ -11893,7 +11893,11 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
     .navbar-expand-lg .navbar-nav .dropdown-menu-right {
         padding: 20px !important;
     }
-    .main-sidebar, .navbar, .main-content, .main-footer {
+
+    .main-sidebar,
+    .navbar,
+    .main-content,
+    .main-footer {
         transition: all 0.5s !important;
     }
 }
@@ -11964,30 +11968,52 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
         font-size: 14px !important;
     }
 
-    .dropdown-list{
+    .dropdown-list {
         width: 350px !important;
         padding-bottom: 0;
     }
-    .navbar-expand-lg .navbar-nav .dropdown-menu-right{
-        padding: 15px !important; 
+
+    .navbar-expand-lg .navbar-nav .dropdown-menu-right {
+        padding: 15px !important;
     }
-    .notification-dropdown-head{
+
+    .notification-dropdown-head {
         font-size: 16px !important;
     }
-    .notify-settings-btn.client i{
+
+    .notify-settings-btn.client i {
         font-size: 15px !important;
     }
-    .dropdown-notification-item{
+
+    .dropdown-notification-item {
         font-size: 12px !important;
     }
-    .drpdwn-notify-time{
+
+    .drpdwn-notify-time {
         font-size: 14px !important;
     }
-    .noti-drpdwn-img-area{
+
+    .noti-drpdwn-img-area {
         width: 40px !important;
         height: 40px !important;
     }
-    .noti-drpdwn-img-area i{
+
+    .noti-drpdwn-img-area i {
         font-size: 20px !important;
     }
+}
+
+
+.navbar .nav-link.collapse-btn,
+.navbar .nav-link.fullscreen-btn {
+    outline: none !important;
+    border: none !important;
+}
+
+.navbar .nav-link.collapse-btn:focus,
+.navbar .nav-link.fullscreen-btn:focus,
+.navbar .nav-link.collapse-btn:hover,
+.navbar .nav-link.fullscreen-btn:hover {
+    outline: none !important;
+    border: none !important;
 }

@@ -109,6 +109,23 @@ const CandidateProfile = () => {
         //     }
         // });
 
+
+        function handleEditToggle() {
+            var $changeInputSection = $(this).closest(".profile-content-card");
+            var $changeInputArea = $changeInputSection.find(".profile-content-skill-input-area");
+
+            var type = $(this).data("type");
+            if ($changeInputArea.is(":visible")) {
+                $changeInputArea.slideUp();
+                $(this).removeClass("expanded");
+                $(this).text("Change " + type);
+            } else {
+                $changeInputArea.slideDown();
+                $(this).addClass("expanded");
+                $(this).text("Cancel");
+            }
+        }
+
         $(".profile-content-more-inputs-edit-btn").on("click", function () {
             var $changeInputSection = $(this).closest(".more-inputs-area");
             var $changeInputArea = $changeInputSection.find(".profile-content-more-input-area");
@@ -204,8 +221,11 @@ const CandidateProfile = () => {
         // Attach event listeners when the component mounts
         $('.pro-quick-link').on('click', handleScroll);
 
+        $('.profile-skill-edit-btn').on('click', handleEditToggle);
+
         return () => {
             $('.pro-quick-link').off('click', handleScroll);
+            $('.profile-skill-edit-btn').off('click', handleEditToggle);
         };
 
     }, [loginCandidate]);
@@ -926,38 +946,104 @@ const CandidateProfile = () => {
 
                                         <div className="profile-content-card" id='Key_skills'>
                                             <div className="profile-content-top-area">
-                                                <div className="profile-content-title">Key Skills</div>
+                                                <div className="profile-content-title">Experience & Key Skills</div>
                                                 {loginCandidate?.skills ?
-                                                    <button className={`profile-content-edit-btn ${isSkillExpanded ? 'expanded' : ''}`}
-                                                        onClick={handleSkillChangeToggle}>
-                                                        {isSkillExpanded ? 'Cancel' : 'Change Key Skills'}
+                                                    <button className="profile-skill-edit-btn"
+                                                        data-type='Experience & Key Skills'>
+                                                        Change Experience & Key Skills
                                                     </button>
                                                     :
-                                                    <button className={`profile-content-edit-btn ${isSkillExpanded ? 'expanded' : ''}`}
-                                                        onClick={handleSkillChangeToggle}>
-                                                        {isSkillExpanded ? 'Cancel' : 'Add Key Skills'}
+                                                    <button className="profile-skill-edit-btn"
+                                                        data-type='Experience & Key Skills'>
+                                                        Add Experience & Key Skills
                                                     </button>
                                                 }
                                             </div>
                                             {loginCandidate?.skills ?
                                                 <div className="profile-content-area">
-                                                    <div className='profile-content text-capitalized'>
-                                                        {loginCandidate?.skills.join(", ")}
+                                                    <div className='profile-content experince text-capitalized'>
+                                                        Experience&nbsp;:&nbsp;
+                                                        <span>1 Year 2 Months</span>
+                                                    </div>
+                                                    <div className='profile-content experince  text-capitalized'>
+                                                        Skills&nbsp;:&nbsp;
+                                                        <span>{loginCandidate?.skills.join(", ")}</span>
                                                     </div>
                                                 </div> : null
                                             }
-                                            <div className={`profile-content-input-area ${isSkillExpanded ? 'expanded' : ''}`}>
-                                                <div className="row">
+                                            <div className="profile-content-skill-input-area">
+                                                <hr />
+                                                <div className="row mb-3">
+                                                    <div className="col-12">
+                                                        <div className='experince-head'>Total Experience</div>
+                                                    </div>
                                                     <div className="col-12 d-flex align-items-center gap-10">
-                                                        <input type="text" className="change-setting-input"
-                                                            onChange={(e) => setUserInfo({ ...userInfo, skill: e.target.value })}
-                                                            placeholder={`${loginCandidate?.skills ? 'Change' : 'Add'} key skills`}
+                                                        <input type="number" className="change-setting-input text-center"
+                                                            placeholder="Years"
+                                                        />
+                                                        -
+                                                        <input type="number" className="change-setting-input text-center"
+                                                            placeholder="Months"
                                                         />
                                                         <button className="setting-update-btn"
                                                         // onClick={handleSkillUpdate}
                                                         >
-                                                            {loginCandidate?.skills ? 'Update' : 'Add'}
+                                                            Update
                                                         </button>
+                                                    </div>
+                                                </div>
+
+                                                <div className="row">
+                                                    <div className="col-12">
+                                                        <div className='job-post-form-badge-area'>
+                                                            <span className="job-post-form-badge tal-search">
+                                                                Badge
+                                                            </span>
+                                                        </div>
+                                                        <div className='d-flex align-items-center gap-10 position-relative'>
+                                                            <div className='w-100 position-relative'>
+                                                                <input type="search" className="change-setting-input"
+                                                                    onChange={(e) => setUserInfo({ ...userInfo, skill: e.target.value })}
+                                                                    placeholder="Search Skill"
+                                                                />
+
+                                                                <div className='search-result-data-area custom'>
+                                                                    <div className='search-result-data custom'>
+                                                                        Result 1
+                                                                    </div>
+                                                                    <div className='search-result-data custom'>
+                                                                        Result 1
+                                                                    </div>
+                                                                    <div className='search-result-data custom'>
+                                                                        Result 1
+                                                                    </div>
+                                                                    <div className='search-result-data custom'>
+                                                                        Result 1
+                                                                    </div>
+                                                                    <div className='search-result-data custom'>
+                                                                        Result 1
+                                                                    </div>
+                                                                    <div className='search-result-data custom'>
+                                                                        Result 1
+                                                                    </div>
+                                                                    <div className='search-result-data custom'>
+                                                                        Result 1
+                                                                    </div>
+                                                                    <div className='search-result-data custom'>
+                                                                        Result 1
+                                                                    </div>
+                                                                    <div className='search-result-data custom'>
+                                                                        Result 1
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                            <button className="setting-update-btn"
+                                                            // onClick={handleSkillUpdate}
+                                                            >
+                                                                {loginCandidate?.skills ? 'Update' : 'Add'}
+                                                            </button>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1004,14 +1090,14 @@ const CandidateProfile = () => {
                                             <div className="profile-content-top-area">
                                                 <div className="profile-content-title">Education</div>
                                                 {loginCandidate?.education ?
-                                                    <button className={`profile-content-edit-btn ${isEducationExpanded ? 'expanded' : ''}`}
-                                                        onClick={handleEducationChangeToggle}>
-                                                        {isEducationExpanded ? 'Cancel' : 'Change Education Detail'}
+                                                    <button className="profile-skill-edit-btn"
+                                                        data-type='Experience & Key Skills'>
+                                                        Change Experience & Key Skills
                                                     </button>
                                                     :
-                                                    <button className={`profile-content-edit-btn ${isEducationExpanded ? 'expanded' : ''}`}
-                                                        onClick={handleEducationChangeToggle}>
-                                                        {isEducationExpanded ? 'Cancel' : 'Add Education Detail'}
+                                                    <button className="profile-skill-edit-btn"
+                                                        data-type='Experience & Key Skills'>
+                                                        Add Experience & Key Skills
                                                     </button>
                                                 }
                                             </div>
@@ -1022,14 +1108,55 @@ const CandidateProfile = () => {
                                                     </div>
                                                 </div> : null
                                             }
-                                            <div className={`profile-content-input-area ${isEducationExpanded ? 'expanded' : ''}`}>
+                                            <div className="profile-content-skill-input-area">
+                                                <hr />
                                                 <div className="row">
-                                                    <div className="col-12 d-flex align-items-center gap-10">
-                                                        <input type="text" className="change-setting-input"
-                                                            placeholder={`${loginCandidate?.education ? 'Change' : 'Add'} education`} />
-                                                        <button className="setting-update-btn">
-                                                            {loginCandidate?.education ? 'Update' : 'Add'}
-                                                        </button>
+                                                    <div className="col-12">
+                                                        <div className='job-post-form-badge-area'>
+                                                            <span className="job-post-form-badge tal-search">
+                                                                Badge
+                                                            </span>
+                                                        </div>
+
+                                                        <div className='d-flex align-items-center gap-10 position-relative'>
+                                                            <div className='w-100 position-relative'>
+                                                                <input type="search" className="change-setting-input"
+                                                                    placeholder={`${loginCandidate?.education ? 'Change' : 'Add'} education`} />
+
+                                                                <div className='search-result-data-area custom'>
+                                                                    <div className='search-result-data custom'>
+                                                                        Result 1
+                                                                    </div>
+                                                                    <div className='search-result-data custom'>
+                                                                        Result 1
+                                                                    </div>
+                                                                    <div className='search-result-data custom'>
+                                                                        Result 1
+                                                                    </div>
+                                                                    <div className='search-result-data custom'>
+                                                                        Result 1
+                                                                    </div>
+                                                                    <div className='search-result-data custom'>
+                                                                        Result 1
+                                                                    </div>
+                                                                    <div className='search-result-data custom'>
+                                                                        Result 1
+                                                                    </div>
+                                                                    <div className='search-result-data custom'>
+                                                                        Result 1
+                                                                    </div>
+                                                                    <div className='search-result-data custom'>
+                                                                        Result 1
+                                                                    </div>
+                                                                    <div className='search-result-data custom'>
+                                                                        Result 1
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <button className="setting-update-btn">
+                                                                {loginCandidate?.education ? 'Update' : 'Add'}
+                                                            </button>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>

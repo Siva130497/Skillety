@@ -370,7 +370,8 @@
     width: 100%;
     transition: opacity ease-in-out 0.3s;
 }
-.tal--pro-card-contact-btn-area .tal--pro-card-contact-btn:hover +.profile-credits-area{
+
+.tal--pro-card-contact-btn-area .tal--pro-card-contact-btn:hover+.profile-credits-area {
     opacity: 1;
 }
 
@@ -427,7 +428,7 @@
 .tal--pro-card-percentage,
 .tal--pro-card-days {
     color: #714F36;
-    font-size:16px;
+    font-size: 16px;
     font-weight: 700;
     transition: 0.8s ease-in-out;
     margin-bottom: 0;
@@ -545,4 +546,33 @@
 .tal--pro-slider-btn:hover .arrow-left path,
 .tal--pro-slider-btn:hover .arrow-right path {
     stroke: #fff;
+}
+
+.tal--pro-card-days.custom span {
+    font-size: 16px !important;
+}
+
+.tal--pro-card-ability-number-right.custom {
+    align-items: center !important;
+    gap: 10px !important;
+}
+
+.tal--pro-card-ability-number-area.applied {
+    flex-direction: column;
+}
+
+.tal--pro-card-ability-number-right.applied {
+    align-items: center;
+    gap: 10px;
+}
+
+.tal--pro-card-ability-number-left.applied {
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+}
+
+.tal--pro-card-left-area.applied {
+    display: flex;
+    flex-direction: column;
 }
