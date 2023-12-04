@@ -257,7 +257,7 @@
 
 .cli--tal-pro-filter-input::placeholder {
     color: #A5A5A5 !important;
-    font-size: 11px !important;
+    font-size: 12px !important;
     font-weight: 400 !important;
     vertical-align: middle !important;
     padding-top: -5px !important;
@@ -378,7 +378,7 @@
 
 .cli-tal-pro-exp-input::placeholder {
     color: #A5A5A5 !important;
-    font-size: 11px !important;
+    font-size: 12px !important;
     font-weight: 400 !important;
     vertical-align: middle !important;
     padding-top: -5px !important;
@@ -464,7 +464,7 @@
 
 .cli-tal-pro-search-filter-input::placeholder {
     color: #A5A5A5 !important;
-    font-size: 11px !important;
+    font-size: 12px !important;
     font-weight: 400 !important;
     vertical-align: middle !important;
     padding-top: -5px !important;
@@ -624,6 +624,7 @@
     flex-wrap: wrap;
     justify-content: flex-start;
     gap: 8px;
+    row-gap: 12px;
 }
 
 .tal--search-options-area .tal--search-option-container {
@@ -675,7 +676,7 @@
     text-align: center;
     white-space: nowrap;
     color: #313131;
-    font-size: 10px;
+    font-size: 12px;
     font-weight: 500;
     margin-bottom: 0;
 }
@@ -1576,12 +1577,104 @@
     flex-direction: column;
 } */
 
-.search-result-data-area.low-height{
+.search-result-data-area.low-height {
     max-height: 130px;
 }
-.tal-head-desc{
+
+.tal-head-desc {
     font-size: 16px;
     font-weight: 400;
     color: #714F36;
     padding: 20px 15px;
+}
+
+
+
+
+/* ///////// */
+.nav-pills .nav-item .nav-link.education-button {
+    background-color: #ffffff !important;
+    border: 1px solid #714F36;
+    border-radius: 50px !important;
+    color: #313131 !important;
+    font-size: 12px !important;
+    font-weight: 500 !important;
+    box-shadow: 0px 4px 10px 0px rgba(150, 150, 150, 0.25) !important;
+    padding: 10px 20px !important;
+}
+
+.nav-pills .nav-item .nav-link.education-button.active {
+    background-color: #F9C833 !important;
+}
+
+.tal-education-select-area {
+    gap: 8px !important;
+}
+
+.education-info {
+    font-size: 12px;
+    color: #313131;
+    font-weight: 600;
+    margin-bottom: 30px;
+}
+
+.education-info span {
+    font-weight: 400;
+}
+
+.education-tab-content {
+    margin: 20px 0 !important;
+}
+
+.education-type-area {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+input.education-type-input[type=checkbox] {
+    display: none;
+}
+
+input.education-type-input[type=checkbox]+.education-type-label {
+    border: solid 1px #714F36;
+    border-radius: 50px;
+    color: #313131;
+    padding: 13px 20px;
+    font-size: 12px;
+    background-color: #ffffff;
+    cursor: pointer;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+    font-weight: 500;
+}
+
+input.education-type-input[type=checkbox]+.education-type-label::after {
+    content: "\f4fe";
+    display: inline-block;
+    font-family: 'bootstrap-icons' !important;
+    font-style: normal;
+    font-weight: normal !important;
+    font-feature-settings: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    vertical-align: middle;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: #313131;
+    font-size: 16px;
+    margin-left: 10px;
+}
+
+input.education-type-input[type=checkbox]:checked+.education-type-label {
+    background-color: #F9C833;
+}
+
+input.education-type-input[type=checkbox]:checked+.education-type-label::after {
+    content: "\f633";
+    color: #714F36;
+    font-size: 14px;
 }

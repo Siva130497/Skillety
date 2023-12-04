@@ -551,3 +551,7 @@
 .home-search-badge.candidate:hover::after {
     color: #FFF !important;
 }
+
+.home--testimonial-section.candidate{
+    padding-top: 20px;
+}

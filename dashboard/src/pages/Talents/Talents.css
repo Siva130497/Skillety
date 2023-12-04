@@ -478,7 +478,7 @@
 
 .client-talent--profile-ability-number-area .client-talent--profile-number {
     color: #714F36;
-    font-size: 40px;
+    font-size: 35px;
     font-weight: 500;
     margin-bottom: 0;
 }
@@ -812,10 +812,15 @@
     /* width: 100%; */
 }
 
-.client-talent--profile-desc.link{
+.client-talent--profile-desc.link {
     transition: ease-in-out 0.5s;
 }
-.client-talent--profile-desc.link:hover{
+
+.client-talent--profile-desc.link:hover {
     color: #1394DF !important;
     text-decoration: underline;
+}
+
+.client-talent--profile-ability-number-left.talent {
+    align-items: center;
 }
