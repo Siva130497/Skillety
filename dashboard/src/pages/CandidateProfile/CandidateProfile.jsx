@@ -684,7 +684,7 @@ const CandidateProfile = () => {
                                                                                 <i class="bi bi-chevron-down toggle-icon"></i>
                                                                                 <select className='change-setting-input more-det select'>
                                                                                     <option value="" disabled selected>-- Select availablity to join --</option>
-                                                                                    <option value="">0 to 7 days</option>
+                                                                                    <option value="0 to 7 days">0 to 7 days</option>
                                                                                     <option value="">0 to 15 days</option>
                                                                                     <option value="">0 to 21 days</option>
                                                                                     <option value="">0 to 30 days</option>

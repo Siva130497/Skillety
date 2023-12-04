@@ -23,7 +23,7 @@ import {
 } from 'chart.js';
 
 import { Line } from 'react-chartjs-2';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import AuthContext from '../../context/AuthContext';
 import PackagePlans from '../PackagePlans/PackagePlans';
@@ -346,14 +346,14 @@ const ClientDashboard = () => {
                                             <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
                                                 <div className="dash-num-count-area">
                                                     <p className='dash-num-title'>Job Posted</p>
-                                                    <h4 className='dash-num-count'>{postedJobs?.length}</h4>
+                                                    <a href="/manage-job"><h4 className='dash-num-count'>{postedJobs?.length}</h4></a>
                                                 </div>
                                             </div>
     
                                             <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
                                                 <div className="dash-num-count-area">
                                                     <p className='dash-num-title'>Total Applications</p>
-                                                    <h4 className='dash-num-count'>{candidateDetail?.length}</h4>
+                                                    <a href="/manage-job"><h4 className='dash-num-count'>{appliedOfPostedJobs?.length}</h4></a>
                                                 </div>
                                             </div>
     

@@ -1186,10 +1186,9 @@ const TalentsProfileSearch = () => {
     //     // }
     //   }
 
-    const viewCandidateDetail = async (id) => {
+    const viewCandidateDetail = async (id, percentage) => {
         try {
             const packageSelectionDetail = await getClientChoosenPlan(loginClientDetail.companyId);
-            if (clientToken) {
                 if (packageSelectionDetail) {
                     if (viewedCandidate.length > 0) {
                         const alreadyViewedCandidate = viewedCandidate.find(cand => cand.candidateId === id);
@@ -1212,7 +1211,8 @@ const TalentsProfileSearch = () => {
                                 const result = response.data;
                                 console.log(result);
                                 getViewedCandidates();
-                                window.open(`https://skillety-dashboard.onrender.com/talents/${id}`, '_blank');
+                                // window.open(`https://skillety-dashboard.onrender.com/talents/${id}`, '_blank');
+                                navigate(`/talents/${id}`, {state : {percentage}})
                             } else {
                                 await new Promise(() => {
                                     Swal.fire({
@@ -1222,7 +1222,8 @@ const TalentsProfileSearch = () => {
                                         confirmButtonColor: '#3085d6',
                                         confirmButtonText: 'OK',
                                     }).then(() => {
-                                        window.open(`https://skillety-dashboard.onrender.com/package-plans`, '_blank');
+                                        // window.open(`https://skillety-dashboard.onrender.com/package-plans`, '_blank');
+                                        navigate("/package-plans");
                                     });
                                 });
                             }
@@ -1242,7 +1243,8 @@ const TalentsProfileSearch = () => {
                         const result = response.data;
                         console.log(result);
                         getViewedCandidates();
-                        window.open(`https://skillety-dashboard.onrender.com/talents/${id}`, '_blank');
+                        // window.open(`https://skillety-dashboard.onrender.com/talents/${id}`, '_blank');
+                        navigate(`/talents/${id}`, {state : {percentage}})
                     }
                 } else {
                     await new Promise(() => {
@@ -1253,13 +1255,11 @@ const TalentsProfileSearch = () => {
                             confirmButtonColor: '#3085d6',
                             confirmButtonText: 'OK',
                         }).then(() => {
-                            window.open(`https://skillety-dashboard.onrender.com/package-plans`, '_blank');
+                            // window.open(`https://skillety-dashboard.onrender.com/package-plans`, '_blank');
+                            navigate("/package-plans");
                         });
                     });
                 }
-            } else {
-                navigate("/client-login");
-            }
         } catch (error) {
             console.error(error);
         }
@@ -2856,7 +2856,7 @@ const TalentsProfileSearch = () => {
                                                                                             <p className='tal--pro-card-role-name'>{candidate.designation[0]}</p>
                                                                                         </div>
                                                                                         <div className="tal--pro-card-contact-btn-area search">
-                                                                                            <button className='tal--pro-card-contact-btn search' onClick={() => viewCandidateDetail(candidate.id)}>View Profile</button>
+                                                                                            <button className='tal--pro-card-contact-btn search' onClick={() => viewCandidateDetail(candidate.id, percentage)}>View Profile</button>
                                                                                             <span className="profile-credits-title">&#129031; 01 Credit</span>
                                                                                             {/* <button className='tal--pro-card-contact-btn search'>
                                                                                         <img src="assets/img/talent-profile/call.png" alt="" />

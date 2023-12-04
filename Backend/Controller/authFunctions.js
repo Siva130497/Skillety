@@ -27,6 +27,7 @@ const activeJob = require("../Database/activeJob");
 const searchResult = require("../Database/searchResult");
 const popularSearch = require("../Database/popularSearch");
 const companyDetail = require("../Database/companyDetail");
+const clientUrlWithEmail = require("../Database/clientUrlWithEmail");
 
 // const hash = async() => {
 //   const pass = 'newpassword'
@@ -40,8 +41,8 @@ const clientRegister = async(req, res) => {
   try {
     console.log(req.body);
     const {email, name, phone} = req.body;
-    const clientAvailable = await client.findOne({ $or: [{ email }, { name }, {phone}] });
-    const allUserAvailable = await allUsers.findOne({ $or: [{ email }, { name }, { phone }] });
+    const clientAvailable = await client.findOne({ $or: [{ email },  {phone}] });
+    const allUserAvailable = await allUsers.findOne({ $or: [{ email },  { phone }] });
 
     if (clientAvailable || allUserAvailable) {
       return res.status(404).json({ message: "User already registered" });
@@ -106,6 +107,22 @@ const createClient = async (req, res) => {
       await newTempClient.save();
       console.log(newTempClient);
 
+      const existingClientUrlWithEmail = await clientUrlWithEmail.findOne({ email: newTempClient.email });
+
+      if (existingClientUrlWithEmail) {
+        existingClientUrlWithEmail.url.push(newTempClient.url);
+        await existingClientUrlWithEmail.save();
+        console.log(existingClientUrlWithEmail);
+      } else {
+        const newClientUrlWithEmail = new clientUrlWithEmail({
+          email: newTempClient.email,
+          url: [newTempClient.url],
+        });
+
+        await newClientUrlWithEmail.save();
+        console.log(newClientUrlWithEmail);
+      }
+
       const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
@@ -145,8 +162,8 @@ const createClientStaff = async (req, res) => {
   
   try {
     const {email, name, phone} = req.body; 
-    const userAvailable = await finalClient.findOne(({ $or: [{ email }, { name }, {phone}] }));
-    const allUserAvailable = await allUsers.findOne({ $or: [{ email }, { name }, { phone }] });
+    const userAvailable = await finalClient.findOne(({ $or: [{ email }, {phone}] }));
+    const allUserAvailable = await allUsers.findOne({ $or: [{ email },  { phone }] });
 
     if (userAvailable || allUserAvailable) {
       return res.status(404).json({ message: "User already registered" });
@@ -453,8 +470,8 @@ const candidateReg = async(req, res) => {
   try {
     console.log(req.body);
     const {firstName, lastName, email, id, password, phone} = req.body; 
-    const candidateAvailable = await candidate.findOne({ $or: [{ email }, { firstName }, {lastName}, {phone}] });
-    const allUserAvailable = await allUsers.findOne({ $or: [{ email }, { name:firstName }, { name:lastName }, { phone }] });
+    const candidateAvailable = await candidate.findOne({ $or: [{ email },  {phone}] });
+    const allUserAvailable = await allUsers.findOne({ $or: [{ email },  { phone }] });
 
     if (candidateAvailable || allUserAvailable) {
       return res.status(404).json({ message: "User already registered" });
@@ -1132,10 +1149,11 @@ const createRecruiter = async(req, res) => {
   try {
     console.log(req.body);
     const {email, password, id, name, phone} = req.body; 
-    const employeeAvailable = await employee.findOne(({ $or: [{ email }, { name }, {phone}] }));
-    console.log(employeeAvailable);
-    if(employeeAvailable){
-      return res.status(404).json({message: "employee already registered"});
+    const employeeAvailable = await employee.findOne(({ $or: [{ email },  {phone}] }));
+    const allUserAvailable = await allUsers.findOne({ $or: [{ email },  { phone }] });
+
+    if (employeeAvailable || allUserAvailable) {
+      return res.status(404).json({ message: "User already registered" });
     }
     const hashPassword = await bcrypt.hash(password, 12);
     const newEmployee = new employee({
@@ -2406,10 +2424,10 @@ const userLogin = async (req, role, res) => {
   console.log(role);
   console.log(userId, password);
   try {
-    let user = await allUsers.findOne({ name: userId });
-    if (!user) {
-      user = await allUsers.findOne({ email: userId });
-    }
+    // let user = await allUsers.findOne({ name: userId });
+    
+    let user = await allUsers.findOne({ email: userId });
+    
     if (!user) {
       user = await allUsers.findOne({ phone: userId });
     }

@@ -1235,7 +1235,7 @@ const TalentsProfileSearch = () => {
     //     // }
     //   }
 
-    const viewCandidateDetail = async (id) => {
+    const viewCandidateDetail = async (id, percentage) => {
         try {
             const packageSelectionDetail = await getClientChoosenPlan(loginClientDetail.companyId);
             if (clientToken) {
@@ -1243,7 +1243,8 @@ const TalentsProfileSearch = () => {
                     if (viewedCandidate.length > 0) {
                         const alreadyViewedCandidate = viewedCandidate.find(cand => cand.candidateId === id);
                         if (alreadyViewedCandidate) {
-                            window.open(`https://skillety-dashboard.onrender.com/talents/${id}`, '_blank');
+                            window.open(`https://skillety-dashboard.onrender.com/talents/${id}?percentage=${percentage}`, '_blank');
+                            
                         } else {
                             console.log(viewedCandidate.length)
                             if (viewedCandidate.length < cvViews) {
@@ -1261,7 +1262,7 @@ const TalentsProfileSearch = () => {
                                 const result = response.data;
                                 console.log(result);
                                 getViewedCandidates();
-                                window.open(`https://skillety-dashboard.onrender.com/talents/${id}`, '_blank');
+                                window.open(`https://skillety-dashboard.onrender.com/talents/${id}?percentage=${percentage}`, '_blank');
                             } else {
                                 await new Promise(() => {
                                     Swal.fire({
@@ -1291,7 +1292,8 @@ const TalentsProfileSearch = () => {
                         const result = response.data;
                         console.log(result);
                         getViewedCandidates();
-                        window.open(`https://skillety-dashboard.onrender.com/talents/${id}`, '_blank');
+                        window.open(`https://skillety-dashboard.onrender.com/talents/${id}?percentage=${percentage}`, '_blank');
+                        
                     }
                 } else {
                     await new Promise(() => {
@@ -2915,7 +2917,7 @@ const TalentsProfileSearch = () => {
                                                                                     <p className='tal--pro-card-role-name'>{candidate.designation[0]}</p>
                                                                                 </div>
                                                                                 <div className="tal--pro-card-contact-btn-area search">
-                                                                                    <button className='tal--pro-card-contact-btn search' onClick={() => viewCandidateDetail(candidate.id)}>View Profile</button>
+                                                                                    <button className='tal--pro-card-contact-btn search' onClick={() => viewCandidateDetail(candidate.id, percentage)}>View Profile</button>
                                                                                     <span className="profile-credits-title">&#129031; 01 Credit</span>
                                                                                     {/* <button className='tal--pro-card-contact-btn search'>
                                                                                         <img src="assets/img/talent-profile/call.png" alt="" />

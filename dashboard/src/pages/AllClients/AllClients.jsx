@@ -6,13 +6,15 @@ import './AllClients.css';
 import './AllClients-responsive.css';
 import $ from 'jquery';
 import axios from 'axios';
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.css';
 
 const AllClients = () => {
     const [staffToken, setStaffToken] = useState("");
     const [clientDetail, setClientDetail] = useState([]);
-    const [clientWithTempPass, setClientWithTempPass] = useState([]);
-    const [emailStatus, setEmailStatus] = useState(true);
-    const [emailMsg, setEmailMsg] = useState("");
+    const [clientUrlWithEmail, setClientUrlWithEmail] = useState([]);
+    // const [emailStatus, setEmailStatus] = useState(true);
+    // const [emailMsg, setEmailMsg] = useState("");
     const [commonEmails, setCommonEmails] = useState([]);
     const [aClient, setAClient] = useState();
 
@@ -30,6 +32,28 @@ const AllClients = () => {
         });
 
     }, []);
+
+     //for show success message for payment
+     function showSuccessMessage(message) {
+        Swal.fire({
+            title: 'Success!',
+            text: message,
+            icon: 'success',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'OK',
+        });
+    }
+
+    //for show error message for payment
+    function showErrorMessage(message) {
+        Swal.fire({
+            title: 'Error!',
+            text: message,
+            icon: 'error',
+            confirmButtonColor: '#d33',
+            confirmButtonText: 'OK',
+        });
+    }
 
     const getAllClientDetails = async () => {
         try {
@@ -51,9 +75,9 @@ const AllClients = () => {
         }
     }
 
-    const getAllClient = async () => {
+    const getAllClientUrlWithEmail = async () => {
         try {
-            const response = await axios.get(`https://skillety.onrender.com/clientWithUrl-Detail`, {
+            const response = await axios.get(`https://skillety.onrender.com/clientUrlWithEmail`, {
                 headers: {
                     Authorization: `Bearer ${staffToken}`,
                     Accept: 'application/json'
@@ -62,7 +86,7 @@ const AllClients = () => {
             const result = response.data;
             if (!result.error) {
                 console.log(result);
-                setClientWithTempPass(result);
+                setClientUrlWithEmail(result);
             } else {
                 console.log(result);
             }
@@ -72,25 +96,27 @@ const AllClients = () => {
     }
 
     const handleCheckForEmailStatus = () => {
-        const newCommonEmails = clientDetail
-            .filter(obj1 => clientWithTempPass.some(obj2 => obj2.email === obj1.email))
+        const commonEmails = clientDetail
+            .filter(obj1 => clientUrlWithEmail.some(obj2 => obj2.email === obj1.email))
             .map(obj => obj.email);
-        setCommonEmails(newCommonEmails);
+    
+        setCommonEmails(commonEmails);
     }
+    
 
     useEffect(() => {
         if (staffToken) {
             getAllClientDetails();
-            getAllClient();
+            getAllClientUrlWithEmail();
         }
 
     }, [staffToken]);
 
     useEffect(() => {
-        if (clientDetail.length > 0 && clientWithTempPass.length > 0) {
+        if (clientDetail.length > 0 && clientUrlWithEmail.length > 0) {
             handleCheckForEmailStatus();
         }
-    }, [clientDetail, clientWithTempPass]);
+    }, [clientDetail, clientUrlWithEmail]);
 
 
     const createClient = async (id) => {
@@ -111,10 +137,15 @@ const AllClients = () => {
                 // Access emailSent status
                 if (result.emailSent) {
                     console.log('Email has been sent successfully.');
-                    setEmailStatus(false);
-                    setEmailMsg("Email has been sent successfully.")
+                    showSuccessMessage('Email has been sent successfully.')
+                    // setEmailStatus(false);
+                    // setEmailMsg("Email has been sent successfully.")
+                    getAllClientDetails();
+                    getAllClientUrlWithEmail();
                 } else {
                     console.log('Email sending failed.');
+                    showErrorMessage('Email sending failed.')
+                    
                 }
             } else {
                 console.log(result);
@@ -201,14 +232,14 @@ const AllClients = () => {
 
                                                                         <span className='text-success p-0'>
                                                                             <i class="bi bi-check-circle mr-2"></i>
-                                                                            {commonEmails.includes(client.email) ? "Email already sent" : emailStatus ? "Email still not sent" : emailMsg}
+                                                                            {commonEmails.includes(client.email) ? "Email sent." : "Email not yet sent." }
                                                                         </span>
                                                                     </td>
 
                                                                     <td className='dash-table-data1 text-center'>
                                                                         <button className='send-email-btn' onClick={() => handleGeneratePasswordAndTempUrl(client._id)}>
                                                                             <i class="bi bi-send-fill send-icon"></i>
-                                                                            Send
+                                                                            {commonEmails.includes(client.email) ? "ReSend" : "Send"}
                                                                         </button>
                                                                     </td>
 

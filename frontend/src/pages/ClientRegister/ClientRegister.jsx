@@ -29,6 +29,9 @@ const ClientRegister = () => {
     const [filteredIndustry, setFilteredindustry] = useState([]);
     const [selectedIndustry, setSelectedIndustry] = useState([]);
 
+    let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    // const [require, setRequire] = useState(false)
+
     //for show error message for payment
     function showErrorMessage(message) {
         Swal.fire({
@@ -134,36 +137,29 @@ const ClientRegister = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (emailRegex.test(credentials.email)) {
-            console.log(credentials.email)
-            if (
-                credentials.name &&
-                credentials.companyName &&
-                credentials.count &&
-                credentials.email &&
-                credentials.phone &&
-                credentials.text &&
-                selectedIndustry.length > 0
-            ) {
-                if (isAgreed) {
-                    const updatedCredentials = {
-                        ...credentials,
-                        industry: selectedIndustry[0],
-                    };
-                    console.log(updatedCredentials);
-                    registerUser(updatedCredentials);
-                } else {
-                    showErrorMessage("Agree to the terms & conditions before registering");
-                }
-            } else {
-                showErrorMessage("Please complete all the required fields before proceeding...");
-            }
-        } else {
-            showErrorMessage('Please enter a valid email address');
-        }
+        
+        if (
+            credentials.name &&
+            credentials.companyName &&
+            credentials.count &&
+            credentials.email &&
+            credentials.phone &&
+            credentials.text &&
+            selectedIndustry.length > 0 &&
+            emailRegex.test(credentials.email) &&
+            isAgreed
+        ) {
+           
+                const updatedCredentials = {
+                    ...credentials,
+                    industry: selectedIndustry[0],
+                };
+                console.log(updatedCredentials);
+                registerUser(updatedCredentials);
+            
+        } 
+        
     };
-
 
     useEffect(() => {
         $('.sel').each(function () {
@@ -212,6 +208,7 @@ const ClientRegister = () => {
             $currentSel.children('select').prop('selectedIndex', index + 1);
         });
     }, []);
+
     return (
         <div>
             <Layout />
@@ -249,24 +246,30 @@ const ClientRegister = () => {
                                                 <div className='reg--form-group custom'>
                                                     <input type="text" id='full_name' name="name" value={credentials.name} onChange={handleInputChange} placeholder="Enter your full name" className='reg--form-input' required />
                                                     <label htmlFor="full_name" className='reg--form-label'>Your Full Name</label>
+                                                    <small className='text-danger'>{credentials.name === "" && "required"}</small>
                                                 </div>
                                             </div>
                                             <div className="col-12 col-lg-6 col-md-6 col-sm-6 custom-padding-left">
                                                 <div className='reg--form-group'>
                                                     <input type="email" id='email' name="email" value={credentials.email} onChange={handleInputChange} placeholder="Enter your email address" className='reg--form-input' required />
                                                     <label htmlFor="email" className='reg--form-label'>Email ID</label>
+                                                    {require && <small className='text-danger'>{credentials.email === "" && "required"}</small>}
+                                                    <br/>
+                                                   <small className='text-danger'>{!(emailRegex.test(credentials.email)) && "enter valid email address"}</small>
                                                 </div>
                                             </div>
                                             <div className="col-12 col-lg-6 col-md-6 col-sm-6 custom-padding-right">
                                                 <div className='reg--form-group'>
                                                     <input type="number" id='phone_no' name="phone" value={credentials.phone} onChange={handleInputChange} placeholder="Enter your mobile number" className='reg--form-input' required />
                                                     <label htmlFor="phone_no" className='reg--form-label'>Mobile Number</label>
+                                                    <small className='text-danger'>{credentials.phone === "" && "required"}</small>
                                                 </div>
                                             </div>
                                             <div className="col-12 col-lg-6 col-md-6 col-sm-6 custom-padding-left">
                                                 <div className='reg--form-group'>
                                                     <input type="text" id='subject' name="companyName" value={credentials.companyName} onChange={handleInputChange} placeholder="Enter the company name" className='reg--form-input' required />
                                                     <label htmlFor="subject" className='reg--form-label'>Company Name</label>
+                                                     <small className='text-danger'>{credentials.companyName === "" && "required"}</small>
                                                 </div>
                                             </div>
                                             <div className="col-12 col-lg-6 col-md-8 col-sm-8 custom-padding-right1">
@@ -332,6 +335,7 @@ const ClientRegister = () => {
                                                                 >{selectIndustry}</span>
                                                             ))}
                                                         </div>
+                                                        <small className='text-danger'>{selectedIndustry.length === 0 && "required"}</small>
                                                     </div>
 
                                                     {/* <div className='search-result-data-area'>
@@ -349,12 +353,14 @@ const ClientRegister = () => {
                                                 <div className='reg--form-group'>
                                                     <input type="number" id='subject' name="count" value={credentials.count} min="0" onChange={handleInputChange} placeholder="Enter the headcount" className='reg--form-input' required />
                                                     <label htmlFor="subject" className='reg--form-label'>Headcount</label>
+                                                    <small className='text-danger'>{credentials.count === "" && "required"}</small>
                                                 </div>
                                             </div>
                                             <div className="col-12 col-lg-12 col-md-12 col-sm-12 custom-padding-left-right mt-4">
                                                 <div className='reg--form-group'>
                                                     <input type="text" id='message' name="text" value={credentials.text} onChange={handleInputChange} placeholder="Where did you acquire knowledge about Skillety?" className='reg--form-input' />
                                                     <label htmlFor="message" className='reg--form-label'>From where did you learn about Skillety?</label>
+                                                   <small className='text-danger'>{credentials.text === "" && "required"}</small>
                                                 </div>
                                             </div>
                                         </div>

@@ -9,13 +9,14 @@ import 'swiper/css/navigation';
 import $ from 'jquery';
 import './Talents.css';
 import './Talents-responsive.css';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import axios from 'axios';
 
 
 const Talents = () => {
     const { id } = useParams();
-
+    const location = useLocation();
+    
     const [loginCandidate, setLoginCandidate] = useState();
     const [candidateImg, setCandidateImg] = useState();
     const [candidateImgUrl, setCandidateImgUrl] = useState("");
@@ -23,6 +24,8 @@ const Talents = () => {
     const [resume, setResume] = useState();
     const [loading, setLoading] = useState(true);
     const [pageNotFound, setPageNotFound] = useState(false);
+    const [skillMatchPercentage, setSkillMatchPercentage] = useState()
+    const [skillMatch, setSkillMatch] = useState()
 
     useEffect(() => {
         const preloader = $('#preloader');
@@ -115,6 +118,33 @@ const Talents = () => {
 
     }, [id, loginCandidate]);
 
+    useEffect(()=>{
+            const { percentage } = location.state || {};
+
+            if(percentage){
+                setSkillMatchPercentage(percentage)
+        }
+    
+    },[id, location.state])
+
+    useEffect(() => {
+        
+            const searchParams = new URLSearchParams(location.search);
+            const percentage = searchParams.get('percentage');
+
+            if(percentage){
+                console.log(id, percentage);
+                setSkillMatch(percentage)
+            }
+            
+      }, [id, location.search]);
+
+      useEffect(()=>{
+        if(skillMatchPercentage){
+            
+        }
+      },[setSkillMatchPercentage])
+
     useEffect(() => {
         if (id) {
             axios.get(`https://skillety.onrender.com/candidate/${id}`)
@@ -153,6 +183,13 @@ const Talents = () => {
         }
 
     }, [loginCandidate]);
+
+    useEffect(() => {
+        if (resume) {
+            setCandidateResumeUrl(`https://skillety.onrender.com/files/${resume.file}`)
+        }
+
+    }, [resume]);
 
 
 
@@ -256,10 +293,13 @@ const Talents = () => {
                                                             </div> */}
                                                             </div>
                                                             <div className="client-talent--profile-ability-number-area">
-                                                                <div className="client-talent--profile-ability-number-left">
-                                                                    <h6 className='client-talent--profile-ability'>Skill matched</h6>
-                                                                    <h2 className='client-talent--profile-number'>90%</h2>
-                                                                </div>
+                                                                {(skillMatchPercentage || skillMatch) ? <div className="client-talent--profile-ability-number-left">
+                                                                    <h6 className='client-talent--profile-ability'>Skill or Keyword matched</h6>
+                                                                    <h2 className='client-talent--profile-number'>{skillMatchPercentage ? skillMatchPercentage : skillMatch}%</h2> 
+                                                                </div> : <div className="client-talent--profile-ability-number-left">
+                                                                    <h6 className='client-talent--profile-ability'>Skill  matched</h6>
+                                                                    <h2 className='client-talent--profile-number'>0%</h2> 
+                                                                </div>}
                                                                 <div className="hr-line"></div>
                                                                 <div className="client-talent--profile-ability-number-right">
                                                                     <h6 className='client-talent--profile-ability'>Can join in</h6>
@@ -454,8 +494,14 @@ const Talents = () => {
                                                                     </div>
 
                                                                     <div id="attachedCV" class="client-talent--profile-detail-tab-content">
-                                                                        Content-2 for Attached CV
+                                                                        {resume?.file}
                                                                     </div>
+                                                                    <button className='download-cv-btn' onClick={() => {
+                                                                        window.open(candidateResumeUrl);
+                                                                    }}>
+                                                                        <i class="bi bi-download download-cv-icon"></i>
+                                                                        Download CV
+                                                                    </button>
                                                                 </div>
                                                             </div>
                                                         </div>

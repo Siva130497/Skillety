@@ -13,7 +13,7 @@ import 'sweetalert2/dist/sweetalert2.css';
 
 const ManageJobs = () => {
     const [clientToken, setClientToken] = useState("");
-    const { getProtectedData } = useContext(AuthContext);
+    const { getProtectedData, getClientChoosenPlan, packageSelectionDetail } = useContext(AuthContext);
     const [employeeId, setEmployeeId] = useState("");
     const [loginClientDetail, setLoginClientDetail] = useState([]);
 
@@ -221,6 +221,7 @@ const ManageJobs = () => {
         getOwnActivejobs();
         getAppliedOfPostedJobs();
         allStaffFromCompany();
+        getClientChoosenPlan(loginClientDetail?.companyId);
     }, [loginClientDetail]);
 
     useEffect(() => {
@@ -439,6 +440,15 @@ const ManageJobs = () => {
         setSelectedPostedJobViewDetail(selectedPostedJob);
     }
 
+    const handleViewApplicant = (id) => {
+        
+        if(packageSelectionDetail){
+            navigate(`/applied-candidate/${id}`)
+        }else{
+            navigate("/package-plans");
+        }
+    }
+
     return (
         <div>
             {clientToken && <div class="main-wrapper main-wrapper-1">
@@ -480,7 +490,7 @@ const ManageJobs = () => {
                                                                 {`${new Date(job.createdAt).getDate().toString().padStart(2, '0')}/${(new Date(job.createdAt).getMonth() + 1).toString().padStart(2, '0')}/${new Date(job.createdAt).getFullYear() % 100}`}
                                                             </td>
                                                             <td className='dash-table-data1 text-center'>
-                                                                {(job?.active) ? <button className='application-btn with-modal' onClick={() => numApplicants > 0 && navigate(`/applied-candidate/${job.id}`)}>
+                                                                {(job?.active) ? <button className='application-btn with-modal' onClick={()=>numApplicants>0 && handleViewApplicant(job.id)}>
                                                                     <span>{numApplicants}</span>&nbsp;&nbsp;&nbsp;
                                                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-file-earmark-text-fill" viewBox="0 0 16 16">
                                                                         <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM4.5 9a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 1 0-1h4a.5.5 0 0 1 0 1h-4z" fill='#0879bc' />
