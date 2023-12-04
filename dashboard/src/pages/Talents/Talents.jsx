@@ -16,7 +16,7 @@ import axios from 'axios';
 const Talents = () => {
     const { id } = useParams();
     const location = useLocation();
-    
+
     const [loginCandidate, setLoginCandidate] = useState();
     const [candidateImg, setCandidateImg] = useState();
     const [candidateImgUrl, setCandidateImgUrl] = useState("");
@@ -118,32 +118,32 @@ const Talents = () => {
 
     }, [id, loginCandidate]);
 
-    useEffect(()=>{
-            const { percentage } = location.state || {};
+    useEffect(() => {
+        const { percentage } = location.state || {};
 
-            if(percentage){
-                setSkillMatchPercentage(percentage)
+        if (percentage) {
+            setSkillMatchPercentage(percentage)
         }
-    
-    },[id, location.state])
+
+    }, [id, location.state])
 
     useEffect(() => {
-        
-            const searchParams = new URLSearchParams(location.search);
-            const percentage = searchParams.get('percentage');
 
-            if(percentage){
-                console.log(id, percentage);
-                setSkillMatch(percentage)
-            }
-            
-      }, [id, location.search]);
+        const searchParams = new URLSearchParams(location.search);
+        const percentage = searchParams.get('percentage');
 
-      useEffect(()=>{
-        if(skillMatchPercentage){
-            
+        if (percentage) {
+            console.log(id, percentage);
+            setSkillMatch(percentage)
         }
-      },[setSkillMatchPercentage])
+
+    }, [id, location.search]);
+
+    useEffect(() => {
+        if (skillMatchPercentage) {
+
+        }
+    }, [setSkillMatchPercentage])
 
     useEffect(() => {
         if (id) {
@@ -304,24 +304,24 @@ const Talents = () => {
                                                                 <img src="assets/img/talent-profile/email-b.png" alt="" />
                                                                 <div className='client-talent--profile-contact-email'>{candidateDetail.email}</div>
                                                             </div> */}
-                                                            </div>
-                                                            <div className="client-talent--profile-ability-number-area">
-                                                                {(skillMatchPercentage || skillMatch) ? <div className="client-talent--profile-ability-number-left">
-                                                                    <h6 className='client-talent--profile-ability'>Skill or Keyword matched</h6>
-                                                                    <h2 className='client-talent--profile-number'>{skillMatchPercentage ? skillMatchPercentage : skillMatch}%</h2> 
-                                                                </div> : <div className="client-talent--profile-ability-number-left">
-                                                                    <h6 className='client-talent--profile-ability'>Skill  matched</h6>
-                                                                    <h2 className='client-talent--profile-number'>0%</h2> 
-                                                                </div>}
-                                                                <div className="hr-line"></div>
-                                                                <div className="client-talent--profile-ability-number-right">
-                                                                    <h6 className='client-talent--profile-ability'>Can join in</h6>
-                                                                    <h2 className='client-talent--profile-days'>
-                                                                        <span>{loginCandidate?.days}</span>
-                                                                    </h2>
                                                                 </div>
-                                                            </div>
-                                                            {/* <div className="client-talent--profile-save-btn-area">
+                                                                <div className="client-talent--profile-ability-number-area">
+                                                                    {(skillMatchPercentage || skillMatch) ? <div className="client-talent--profile-ability-number-left talent">
+                                                                        <h6 className='client-talent--profile-ability'>Skill or Keyword matched</h6>
+                                                                        <h2 className='client-talent--profile-number'>{skillMatchPercentage ? skillMatchPercentage : skillMatch}%</h2>
+                                                                    </div> : <div className="client-talent--profile-ability-number-left talent">
+                                                                        <h6 className='client-talent--profile-ability'>Skill  matched</h6>
+                                                                        <h2 className='client-talent--profile-number'>0%</h2>
+                                                                    </div>}
+                                                                    <div className="hr-line mobile"></div>
+                                                                    <div className="client-talent--profile-ability-number-right">
+                                                                        <h6 className='client-talent--profile-ability'>Can join in</h6>
+                                                                        <h2 className='client-talent--profile-days'>
+                                                                            <span>{loginCandidate?.days}</span>
+                                                                        </h2>
+                                                                    </div>
+                                                                </div>
+                                                                {/* <div className="client-talent--profile-save-btn-area">
                                                             <form method="" action="">
                                                                 <input type="hidden" name="" value={"add"} />
                                                                 <input type="hidden" name="action" value={"remove"} />
@@ -372,7 +372,7 @@ const Talents = () => {
                                                                     <div class="client-talent--profile-detail-tab-content-area">
                                                                         <div id="profileDetail" class="client-talent--profile-detail-tab-content">
                                                                             <div className="client-talent--profile-tab-desc-area">
-                                                                                <p className='client-talent--profile-tab-desc'>{loginCandidate?.profileHeadline}</p>
+                                                                                <p className='client-talent--profile-tab-desc text-capitalized'>{loginCandidate?.profileHeadline}</p>
                                                                             </div>
                                                                             <div className="client-talent--profile-tab-toggle-content-section">
                                                                                 <div className="client-talent--profile-tab-toggle-content-area">
@@ -506,19 +506,19 @@ const Talents = () => {
                                                                             </div>
                                                                         </div>
 
-                                                                    <div id="attachedCV" class="client-talent--profile-detail-tab-content">
-                                                                        {resume?.file}
+                                                                        <div id="attachedCV" class="client-talent--profile-detail-tab-content">
+                                                                            <div>{resume?.file}</div>
+                                                                            <button className='download-cv-btn mt-3' onClick={() => {
+                                                                                window.open(candidateResumeUrl);
+                                                                            }}>
+                                                                                <i class="bi bi-download download-cv-icon"></i>
+                                                                                Download CV
+                                                                            </button>
+                                                                        </div>
                                                                     </div>
-                                                                    <button className='download-cv-btn' onClick={() => {
-                                                                        window.open(candidateResumeUrl);
-                                                                    }}>
-                                                                        <i class="bi bi-download download-cv-icon"></i>
-                                                                        Download CV
-                                                                    </button>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
 
                                                     </div>
                                                 </div>
