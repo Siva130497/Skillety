@@ -295,7 +295,7 @@
     font-size: 14px;
     font-weight: 500;
     margin-bottom: 8px;
-    height: 100px;
+    max-height: 100px;
     overflow-y: scroll;
     padding-right: 10px;
 }
