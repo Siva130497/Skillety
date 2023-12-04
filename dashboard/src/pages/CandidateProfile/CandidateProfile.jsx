@@ -1091,13 +1091,13 @@ const CandidateProfile = () => {
                                                 <div className="profile-content-title">Education</div>
                                                 {loginCandidate?.education ?
                                                     <button className="profile-skill-edit-btn"
-                                                        data-type='Experience & Key Skills'>
-                                                        Change Experience & Key Skills
+                                                        data-type='Education'>
+                                                        Change Education
                                                     </button>
                                                     :
                                                     <button className="profile-skill-edit-btn"
-                                                        data-type='Experience & Key Skills'>
-                                                        Add Experience & Key Skills
+                                                        data-type='Education'>
+                                                        Add Education
                                                     </button>
                                                 }
                                             </div>
