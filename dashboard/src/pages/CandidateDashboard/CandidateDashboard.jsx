@@ -10,6 +10,9 @@ import { Pagination, Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
 
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
+
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -86,8 +89,8 @@ const options = {
 };
 
 const ClientDashboard = () => {
-  const {token} = useParams();
-  const {getProtectedData, getClientImg, clientImg} = useContext(AuthContext);
+  const { token } = useParams();
+  const { getProtectedData, getClientImg, clientImg } = useContext(AuthContext);
   const [candidateId, setCandidateId] = useState("");
   const [jobDetail, setJobDetail] = useState([]);
   const [appliedJobDetail, setAppliedJobDetail] = useState([]);
@@ -95,22 +98,25 @@ const ClientDashboard = () => {
   const [matchJobNum, setMatchJobNum] = useState("");
 
   const [loading, setLoading] = useState(true);
-    const [pageNotFound, setPageNotFound] = useState(false);
 
-    useEffect(() => {
-        const preloader = $('#preloader');
+  const [contentloading, setContentLoading] = useState(true);
+
+  const [pageNotFound, setPageNotFound] = useState(false);
+
+  useEffect(() => {
+    const preloader = $('#preloader');
     if (preloader.length) {
-    setTimeout(function () {
+      setTimeout(function () {
         preloader.fadeOut('slow', function () {
-        preloader.remove();
+          preloader.remove();
         });
-    }, 500);
+      }, 500);
     }
-    }, []);
+  }, []);
 
-  useEffect(()=>{
+  useEffect(() => {
     localStorage.setItem("candidateToken", JSON.stringify(token));
-  },[token])
+  }, [token])
 
   useEffect(() => {
     $(document).ready(function () {
@@ -150,40 +156,46 @@ const ClientDashboard = () => {
   }, []);
 
   useEffect(() => {
-    if(token){
-        const fetchData = async () => {
-            try {
-              const user = await getProtectedData(token);
-              console.log(user);
-              setCandidateId(user.id);
-              setLoading(false);
-            } catch (error) {
-              console.log(error);
-              setLoading(false);
-              setPageNotFound(true);
-            }
-        };
-    
-        fetchData();
+    if (token) {
+      const fetchData = async () => {
+        try {
+          setContentLoading(true);
+          const user = await getProtectedData(token);
+          console.log(user);
+          setCandidateId(user.id);
+          setLoading(false);
+
+          setContentLoading(false);
+        } catch (error) {
+          console.log(error);
+          setLoading(false);
+          setPageNotFound(true);
+
+          setContentLoading(false);
+        }
+      };
+
+      fetchData();
     }
-}, [token]);
+  }, [token]);
 
-useEffect(()=>{
-  axios.get("https://skillety.onrender.com/clients")
-  .then(res=>{
-    console.log(res.data)
-    setAllClient(res.data)
-    
-  })
-  .catch(err=>console.log(err))
-},[])
+  useEffect(() => {
+    axios.get("https://skillety.onrender.com/clients")
+      .then(res => {
+        console.log(res.data)
+        setAllClient(res.data)
 
-const getSkillMatchJobDetail = async() => {
-  try {
+      })
+      .catch(err => console.log(err))
+  }, [])
+
+  const getSkillMatchJobDetail = async () => {
+    try {
+      setContentLoading(true);
       const response = await axios.get(`https://skillety.onrender.com/skill-match-job-Detail/${candidateId}`, {
         headers: {
-            Authorization: `Bearer ${token}`,
-            Accept: 'application/json'
+          Authorization: `Bearer ${token}`,
+          Accept: 'application/json'
         }
       });
       const result = response.data;
@@ -195,38 +207,47 @@ const getSkillMatchJobDetail = async() => {
       } else {
         console.log(result);
       }
+
+      setContentLoading(false);
     } catch (error) {
       console.log(error);
-    }
-};
 
-  const getAppliedjobs = async() => {
-    try{
-        const res = await axios.get(`https://skillety.onrender.com/my-applied-jobs/${candidateId}`, {
-          headers: {
-              Authorization: `Bearer ${token}`,
-              Accept: 'application/json'
-          }
-        });
-        const result = res.data;
-        if (!result.error) {
-          console.log(result);
-          setAppliedJobDetail(result.reverse());
-        } else {
-          console.log(result);
+      setContentLoading(false);
+    }
+  };
+
+  const getAppliedjobs = async () => {
+    try {
+      setContentLoading(true);
+      const res = await axios.get(`https://skillety.onrender.com/my-applied-jobs/${candidateId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: 'application/json'
         }
-    }catch(err){
+      });
+      const result = res.data;
+      if (!result.error) {
+        console.log(result);
+        setAppliedJobDetail(result.reverse());
+      } else {
+        console.log(result);
+      }
+
+      setContentLoading(false);
+    } catch (err) {
       console.log(err);
+
+      setContentLoading(false);
     }
   }
 
-  useEffect(()=>{
-    if(candidateId){
+  useEffect(() => {
+    if (candidateId) {
       getAppliedjobs();
       getSkillMatchJobDetail();
       getClientImg();
     }
-  },[candidateId])
+  }, [candidateId])
 
   return (
     <div>
@@ -261,38 +282,68 @@ const getSkillMatchJobDetail = async() => {
                   </div> */}
                 </div>
 
-                <div className="dash-num-count-section">
-                  <div className="row">
-                    <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
-                      <div className="dash-num-count-area">
-                        <p className='dash-num-title'>Jobs Applied</p>
-                        <a href='/my-application'><h4 className='dash-num-count'>{appliedJobDetail.length}</h4></a>
+                {contentloading ? (
+                  <div className='dash-tile-skeleton'>
+                    <div className="row">
+                      <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
+                        <div className='m-b-30'>
+                          <Skeleton height={15} width={100} />
+                        </div>
+                        <Skeleton height={40} width={60} />
                       </div>
-                    </div>
-
-                    <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
-                      <div className="dash-num-count-area">
-                        <p className='dash-num-title'>Upcoming Interviews</p>
-                        <h4 className='dash-num-count'>00</h4>
+                      <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
+                        <div className='m-b-30'>
+                          <Skeleton height={15} width={100} />
+                        </div>
+                        <Skeleton height={40} width={60} />
                       </div>
-                    </div>
-
-                    <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
-                      <div className="dash-num-count-area">
-                        <p className='dash-num-title'>Matched Jobs</p>
-                        <a href='/search-jobs'><h4 className='dash-num-count'>{matchJobNum}</h4></a>
+                      <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
+                        <div className='m-b-30'>
+                          <Skeleton height={15} width={100} />
+                        </div>
+                        <Skeleton height={40} width={60} />
                       </div>
-                    </div>
-
-                    <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
-                      <div className="dash-num-count-area">
-                        <p className='dash-num-title'>New Notification</p>
-                        <h4 className='dash-num-count'>00</h4>
+                      <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
+                        <div className='m-b-30'>
+                          <Skeleton height={15} width={100} />
+                        </div>
+                        <Skeleton height={40} width={60} />
                       </div>
                     </div>
                   </div>
+                ) : (
+                  <div className="dash-num-count-section">
+                    <div className="row">
+                      <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
+                        <div className="dash-num-count-area">
+                          <p className='dash-num-title'>Jobs Applied</p>
+                          <a href='/my-application'><h4 className='dash-num-count'>{appliedJobDetail.length}</h4></a>
+                        </div>
+                      </div>
 
-                  {/* <button className="dash-num-count-more-btn" id="showHiddenRow">
+                      <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
+                        <div className="dash-num-count-area">
+                          <p className='dash-num-title'>Upcoming Interviews</p>
+                          <h4 className='dash-num-count'>00</h4>
+                        </div>
+                      </div>
+
+                      <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
+                        <div className="dash-num-count-area">
+                          <p className='dash-num-title'>Matched Jobs</p>
+                          <a href='/search-jobs'><h4 className='dash-num-count'>{matchJobNum}</h4></a>
+                        </div>
+                      </div>
+
+                      <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
+                        <div className="dash-num-count-area">
+                          <p className='dash-num-title'>New Notification</p>
+                          <h4 className='dash-num-count'>00</h4>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* <button className="dash-num-count-more-btn" id="showHiddenRow">
                     <svg xmlns="http://www.w3.org/2000/svg" width="30" height="8" viewBox="0 0 30 8" fill="none">
                       <circle cx="4" cy="4" r="4" fill="#714F36" />
                       <circle cx="15" cy="4" r="4" fill="#714F36" />
@@ -300,39 +351,40 @@ const getSkillMatchJobDetail = async() => {
                     </svg>
                   </button> */}
 
-                  <div className='hidden-row'>
-                    <div className="through-line"></div>
-                    <div className="row">
-                      <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
-                        <div className="dash-num-count-area">
-                          <p className='dash-num-title'>Jobs Applied</p>
-                          <h4 className='dash-num-count'>14</h4>
+                    <div className='hidden-row'>
+                      <div className="through-line"></div>
+                      <div className="row">
+                        <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
+                          <div className="dash-num-count-area">
+                            <p className='dash-num-title'>Jobs Applied</p>
+                            <h4 className='dash-num-count'>14</h4>
+                          </div>
                         </div>
-                      </div>
 
-                      <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
-                        <div className="dash-num-count-area">
-                          <p className='dash-num-title'>Upcoming Interviews</p>
-                          <h4 className='dash-num-count'>04</h4>
+                        <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
+                          <div className="dash-num-count-area">
+                            <p className='dash-num-title'>Upcoming Interviews</p>
+                            <h4 className='dash-num-count'>04</h4>
+                          </div>
                         </div>
-                      </div>
 
-                      <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
-                        <div className="dash-num-count-area">
-                          <p className='dash-num-title'>New matched Jobs</p>
-                          <h4 className='dash-num-count'>08</h4>
+                        <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
+                          <div className="dash-num-count-area">
+                            <p className='dash-num-title'>New matched Jobs</p>
+                            <h4 className='dash-num-count'>08</h4>
+                          </div>
                         </div>
-                      </div>
 
-                      <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
-                        <div className="dash-num-count-area">
-                          <p className='dash-num-title'>New Notification</p>
-                          <h4 className='dash-num-count'>28</h4>
+                        <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
+                          <div className="dash-num-count-area">
+                            <p className='dash-num-title'>New Notification</p>
+                            <h4 className='dash-num-count'>28</h4>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
+                )}
 
                 <div className="dash-chart-section">
                   <div className="dash-chart-area">
@@ -452,30 +504,31 @@ const getSkillMatchJobDetail = async() => {
                         </div>
                         <div class="table-responsive mt-4">
                           <table class="table table-striped table-hover dash-table">
-                            {appliedJobDetail.slice(0,10).map((job)=>{
+                            {appliedJobDetail.slice(0, 10).map((job) => {
                               const matchingImg = clientImg ? clientImg.find(img => img.id === job.companyId) : null;
                               const imgSrc = matchingImg ? `https://skillety.onrender.com/client_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
-                              const client= allClient.find(obj => obj.companyId === job.companyId);
-                              return(
-                              <tr className='dash-table-row'>
-                              <td>
-                                <img src={imgSrc} className='dash-table-avatar-img' alt="" />
-                              </td>
-                              <td className='dash-table-data'>
-                                {job.jobRole[0]} <br />
-                                <span className='dash-table-sub'>{client?.companyName}</span>
-                              </td>
-                              <td className='dash-table-data1 text-center'>{job.industry}</td>
-                              <td className='dash-table-data1 text-center'>{job.jobCategory}</td>
-                              <td className='dash-table-data1 text-center'>Screening</td>
-                              {/* <td className='text-center dash-table-view-btn-area'>
+                              const client = allClient.find(obj => obj.companyId === job.companyId);
+                              return (
+                                <tr className='dash-table-row'>
+                                  <td>
+                                    <img src={imgSrc} className='dash-table-avatar-img' alt="" />
+                                  </td>
+                                  <td className='dash-table-data'>
+                                    {job.jobRole[0]} <br />
+                                    <span className='dash-table-sub'>{client?.companyName}</span>
+                                  </td>
+                                  <td className='dash-table-data1 text-center'>{job.industry}</td>
+                                  <td className='dash-table-data1 text-center'>{job.jobCategory}</td>
+                                  <td className='dash-table-data1 text-center'>Screening</td>
+                                  {/* <td className='text-center dash-table-view-btn-area'>
                                 <button className='dash-table-eye-view-btn'
                                   data-toggle="modal" data-target="">
                                   <i class="bi bi-eye-fill"></i>
                                 </button>
                               </td> */}
-                              </tr>
-                              )})
+                                </tr>
+                              )
+                            })
                             }
                           </table>
                         </div>
@@ -496,31 +549,32 @@ const getSkillMatchJobDetail = async() => {
                         </div>
                         <div class="table-responsive mt-4">
                           <table class="table table-striped table-hover dash-table">
-                            {jobDetail.slice(0,10).map(job=>{
+                            {jobDetail.slice(0, 10).map(job => {
                               const matchingImg = clientImg ? clientImg.find(img => img.id === job.companyId) : null;
                               const imgSrc = matchingImg ? `https://skillety.onrender.com/client_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
-                              const client= allClient.find(obj => obj.companyId === job.companyId);
-                              
-                              return(
-                              <tr className='dash-table-row'>
-                              <td>
-                                <img src={imgSrc} className='dash-table-avatar-img' alt="" />
-                              </td>
-                              <td className='dash-table-data'>
-                                {job.jobRole} <br />
-                                <span className='dash-table-sub'>{client?.companyName}</span>
-                              </td>
-                              <td className='dash-table-data1 text-center'>{job.industry}</td>
-                              <td className='dash-table-data1 text-center'>{job.jobCategory}</td>
-                              <td className='dash-table-data1 text-center'>{job.jobExperience}</td>
-                              {/* <td className='text-center dash-table-view-btn-area'>
+                              const client = allClient.find(obj => obj.companyId === job.companyId);
+
+                              return (
+                                <tr className='dash-table-row'>
+                                  <td>
+                                    <img src={imgSrc} className='dash-table-avatar-img' alt="" />
+                                  </td>
+                                  <td className='dash-table-data'>
+                                    {job.jobRole} <br />
+                                    <span className='dash-table-sub'>{client?.companyName}</span>
+                                  </td>
+                                  <td className='dash-table-data1 text-center'>{job.industry}</td>
+                                  <td className='dash-table-data1 text-center'>{job.jobCategory}</td>
+                                  <td className='dash-table-data1 text-center'>{job.jobExperience}</td>
+                                  {/* <td className='text-center dash-table-view-btn-area'>
                                 <button className='dash-table-eye-view-btn'
                                   data-toggle="modal" data-target="">
                                   <i class="bi bi-eye-fill"></i>
                                 </button>
                               </td> */}
-                              </tr>
-                              )})
+                                </tr>
+                              )
+                            })
                             }
                           </table>
                         </div>
@@ -747,10 +801,10 @@ const getSkillMatchJobDetail = async() => {
         <Footer />
       </div>}
       {pageNotFound && <div>
-                    <h1>404</h1>
-                    <p>Not Found</p>
-                    <small>The resource requested could not be found on this server!</small>
-                </div>}
+        <h1>404</h1>
+        <p>Not Found</p>
+        <small>The resource requested could not be found on this server!</small>
+      </div>}
     </div>
   )
 }

@@ -53,7 +53,7 @@
     font-style: normal;
     font-weight: 300;
     line-height: normal;
-    max-width: 724px;
+    max-width: 90%;
     padding: 15px 15px 15px 60px;
     transition: ease-in-out 0.8s !important;
     position: relative;
@@ -2237,4 +2237,30 @@
 
 .home-search-badge.client:hover::after {
     color: #714F36 !important;
+}
+
+.short-cut {
+    position: absolute;
+    right: 12.5%;
+    top: 16px;
+    transition: all 0.5s;
+    opacity: 1;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.short-cut .short-cut-key {
+    color: #b0b0b0;
+    font-size: 11px;
+    font-weight: 500;
+    /* border: 1px solid #b0b0b0; */
+    border-radius: 6px;
+    padding: 3px 6px;
+    /* border-bottom-width: 2px; */
+    box-shadow: inset 0px 0px 5px 0px rgba(150, 150, 150, 0.355);
+}
+
+.home--search-area .home--search-box:focus~.short-cut,
+.home--search-area .home--search-box:active~.short-cut {
+    display: none;
 }

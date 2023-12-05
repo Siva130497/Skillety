@@ -33,24 +33,96 @@
 .dash-table-top-area.candidates .dash-table-see-all-btn:hover {
     color: #ffffff !important;
 }
-.dash-table-view-btn.with-border{
+
+.dash-table-view-btn.with-border {
     border: #714F36 1px solid;
 }
-.dash-table-data1.heading{
+
+.dash-table-data1.heading {
     font-weight: 700 !important;
     color: #714F36 !important;
 }
-.dash-table-row.heading{
+
+.dash-table-row.heading {
     border: none;
     background-color: #ededed !important;
     border-radius: 16px;
 }
-.dash-table-row.heading th:first-child{
+
+.dash-table-row.heading th:first-child {
     border-radius: 16px 0px 0px 16px !important;
 }
-.dash-table-row.heading th:last-child{
+
+.dash-table-row.heading th:last-child {
     border-radius: 0px 16px 16px 0px !important;
 }
-.dash-table-row.heading th{
+
+.dash-table-row.heading th {
     padding: 25px 10px !important;
+}
+
+/* Skeleton.css */
+@keyframes loadingAnimation {
+    0% {
+        background-position: -200px 0;
+    }
+
+    100% {
+        background-position: 200px 0;
+    }
+}
+
+@keyframes loadingAnimationAvatar {
+    0% {
+        background-position: -50px 0;
+    }
+
+    100% {
+        background-position: 50px 0;
+    }
+}
+
+.skeleton-container {
+    display: flex;
+    flex-direction: column;
+    max-width: 300px;
+    margin: 20px;
+}
+
+.skeleton-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #ddd;
+    margin-bottom: 10px;
+    animation: loadingAnimationAvatar 5s infinite linear;
+}
+
+.skeleton-text {
+    height: 15px;
+    width: 80%;
+    background-color: #ddd;
+    margin-bottom: 10px;
+    animation: loadingAnimation 1.5s infinite linear;
+}
+
+.animated {
+    background: linear-gradient(90deg, #ddd 25%, #eee 50%, #ddd 75%);
+    background-size: 200% 100%;
+    animation: loadingAnimation 1.5s infinite linear;
+}
+
+.animated-avatar {
+    background: linear-gradient(90deg, #ddd 25%, #eee 50%, #ddd 75%);
+    background-size: 200% 100%;
+    animation: loadingAnimationAvatar 1.5s infinite linear;
+}
+
+
+/* //////////////////// */
+.dash-tile-skeleton {
+    border-radius: 16px;
+    background-color: #FFF;
+    padding: 25px;
+    margin-top: 23px;
 }

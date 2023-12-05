@@ -9,6 +9,12 @@
 
     .home--search-area .home--search-box {
         padding: 13px 15px 13px 60px;
+        max-width: 95%;
+    }
+
+    .short-cut {
+        right: 8%;
+        top: 14px;
     }
 
     .home--search-area .home--search-btn {
@@ -276,6 +282,15 @@
         padding-right: 20px;
     }
 
+    .home--search-area .home--search-box {
+        max-width: 100%;
+    }
+
+    .short-cut {
+        right: 2.5%;
+        top: 15px;
+    }
+
     .home--service-head-area {
         padding: 0 20px;
     }
@@ -524,6 +539,12 @@
     .home--search-area .home--search-box {
         padding: 15px 15px 15px 50px;
         font-size: 15px;
+    }
+
+    .short-cut {
+        right: 4%;
+        top: 14px;
+        display: none;
     }
 
     .home--search-area .home--search-btn {

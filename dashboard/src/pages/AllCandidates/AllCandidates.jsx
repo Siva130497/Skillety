@@ -6,6 +6,8 @@ import './AllCandidates.css';
 import $ from 'jquery';
 import axios from 'axios';
 import AuthContext from '../../context/AuthContext';
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 
 const AllCandidates = () => {
     const { getProtectedData } = useContext(AuthContext);
@@ -20,6 +22,7 @@ const AllCandidates = () => {
     const [filteredSearchResultsMsg, setFilteredSearchResultsMsg] = useState("");
 
     const [x, setX] = useState([0, 10]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         $(document).ready(function () {
@@ -49,6 +52,7 @@ const AllCandidates = () => {
 
     const getAllCandidateDetail = async () => {
         try {
+            setLoading(true);
             const response = await axios.get('https://skillety.onrender.com/candidate-Detail', {
                 headers: {
                     Authorization: `Bearer ${staffToken}`,
@@ -62,8 +66,12 @@ const AllCandidates = () => {
             } else {
                 console.log(result);
             }
+
+            setLoading(false);
         } catch (error) {
             console.log(error);
+
+            setLoading(false);
         }
     };
 
@@ -194,175 +202,251 @@ const AllCandidates = () => {
                                 All Candidates
                             </div>
 
-                            <div className="row">
-                                <div className="col-12">
-                                    <div className="admin-lg-table-section">
-                                        <div className='admin-lg-table-area man-app'>
-                                            <div className='man-app-title-area candidate'>
-                                                <div>
-                                                    <div className="man-app-title">
-                                                        All Candidates Details
-                                                    </div>
-                                                    <div className="man-app-sub-title">
-                                                        Total Candidates :&nbsp;
-                                                        <span>{filteredSearchResultsMsg ? "0" : filteredSearchResults.length > 0 ? filteredSearchResults.length : !searchInput ? candidateDetail.length : null}</span>
+                            {loading ? (
+                                <div className="table-skeleton-area">
+                                    <div className="row">
+                                        <div className="col-12">
+                                            <div className="table-data-skeleton-area">
+                                                <div className="custom-flex-area">
+                                                    <div>
+                                                        <div className='pt-3'>
+                                                            <Skeleton height={25} width={250} />
+                                                        </div>
+                                                        <div className='pt-3'>
+                                                            <Skeleton height={15} width={120} />
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                {candidateDetail.length > 0 && <div className="recruiter-search-input-area">
-                                                    <input type="search" className='recruiter-search-input' placeholder='Search skills/designations...'
-                                                        value={searchInput}
-                                                        onChange={(e) => {
-                                                            setSearchInput(e.target.value);
-                                                            setFilteredSearchResults([]);
-                                                            setFilteredSearchResultsMsg("");
-                                                        }}
-                                                        onKeyPress={(event) => {
-                                                            event.key === "Enter" && handleSkillSearch();
-                                                        }} />
-                                                    <i className='bi bi-search search-icon'></i>
-                                                    <button className='recruiter-search-btn' onClick={handleSkillSearch}>Search</button>
-                                                </div>}
+
+                                                <div className="table-responsive table-scroll-area mt-4 skeleton-table">
+                                                    <div className="table skeleton-table table-striped table-hover admin-lg-table">
+                                                        <tr className="skeleton-table-row">
+                                                            <th className='w-5'>
+                                                                <Skeleton height={18} width={30} />
+                                                            </th>
+                                                            <th className='w-25'>
+                                                                <Skeleton height={18} width={100} />
+                                                            </th>
+                                                            <th className='w-25'>
+                                                                <Skeleton height={18} width={100} />
+                                                            </th>
+                                                            <th className='w-25'>
+                                                                <Skeleton height={18} width={100} />
+                                                            </th>
+                                                            <th className='w-20'>
+                                                                <Skeleton height={18} width={80} />
+                                                            </th>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <Skeleton height={18} width={30} />
+                                                            </td>
+                                                            <td>
+                                                                <Skeleton height={18} width={100} />
+                                                            </td>
+                                                            <td>
+                                                                <Skeleton height={18} width={100} />
+                                                            </td>
+                                                            <td>
+                                                                <Skeleton height={18} width={100} />
+                                                            </td>
+                                                            <td>
+                                                                <Skeleton height={18} width={80} />
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <Skeleton height={18} width={30} />
+                                                            </td>
+                                                            <td>
+                                                                <Skeleton height={18} width={100} />
+                                                            </td>
+                                                            <td>
+                                                                <Skeleton height={18} width={100} />
+                                                            </td>
+                                                            <td>
+                                                                <Skeleton height={18} width={100} />
+                                                            </td>
+                                                            <td>
+                                                                <Skeleton height={18} width={80} />
+                                                            </td>
+                                                        </tr>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            ) : (
+                                <div className="row">
+                                    <div className="col-12">
+                                        <div className="admin-lg-table-section">
+                                            <div className='admin-lg-table-area man-app'>
+                                                <div className='man-app-title-area candidate'>
+                                                    <div>
+                                                        <div className="man-app-title">
+                                                            All Candidates Details
+                                                        </div>
+                                                        <div className="man-app-sub-title">
+                                                            Total Candidates :&nbsp;
+                                                            <span>{filteredSearchResultsMsg ? "0" : filteredSearchResults.length > 0 ? filteredSearchResults.length : !searchInput ? candidateDetail.length : null}</span>
+                                                        </div>
+                                                    </div>
+                                                    {candidateDetail.length > 0 && <div className="recruiter-search-input-area">
+                                                        <input type="search" className='recruiter-search-input' placeholder='Search skills/designations...'
+                                                            value={searchInput}
+                                                            onChange={(e) => {
+                                                                setSearchInput(e.target.value);
+                                                                setFilteredSearchResults([]);
+                                                                setFilteredSearchResultsMsg("");
+                                                            }}
+                                                            onKeyPress={(event) => {
+                                                                event.key === "Enter" && handleSkillSearch();
+                                                            }} />
+                                                        <i className='bi bi-search search-icon'></i>
+                                                        <button className='recruiter-search-btn' onClick={handleSkillSearch}>Search</button>
+                                                    </div>}
+                                                </div>
+
+                                                {candidateDetail.length > 0 ?
+                                                    <div className="table-responsive table-scroll-area">
+                                                        <table className="table table-striped table-hover admin-lg-table">
+                                                            <tr className='dash-table-row candidate'>
+                                                                <th className='dash-table-head'>No.</th>
+                                                                <th className='dash-table-head'>Full Name</th>
+                                                                <th className='dash-table-head'>Email ID</th>
+                                                                <th className='dash-table-head'>Phone No.</th>
+                                                                <th className='dash-table-head text-center'>Send an interview invitation</th>
+                                                                <th className='dash-table-head text-center'>View</th>
+                                                            </tr>
+
+
+                                                            {/* table data */}
+                                                            {filteredSearchResultsMsg ?
+                                                                <tr>
+                                                                    <td colSpan={6} className='text-secondary text-center'>
+                                                                        {filteredSearchResultsMsg}
+                                                                    </td>
+                                                                </tr> :
+                                                                filteredSearchResults.length > 0 ?
+                                                                    filteredSearchResults.slice(x[0], x[1]).map((candidate, index) => {
+
+                                                                        return (
+                                                                            <tr className='dash-table-row client' key={candidate.id}>
+                                                                                <td className='dash-table-data1'>{index + 1}.</td>
+                                                                                <td className='dash-table-data1 text-capitalized'>
+                                                                                    {candidate.firstName + ' ' + candidate.lastName}
+                                                                                </td>
+                                                                                <td className='dash-table-data1'>
+                                                                                    <a href={`mailto:${candidate.email}`}
+                                                                                        className='dash-table-data1 link is-link'>
+                                                                                        {candidate.email}
+                                                                                    </a>
+                                                                                </td>
+
+                                                                                {/* <td className='dash-table-data1'>
+                                                                        <span className='text-warning p-0'>
+                                                                        <i class="bi bi-exclamation-circle mr-2"></i>
+                                                                        Email still not sent!
+                                                                    </span>
+
+                                                                        <span className='text-success p-0'>
+                                                                            <i class="bi bi-check-circle mr-2"></i>
+                                                                            Email already sent
+                                                                        </span>
+                                                                    </td> */}
+                                                                                <td className='dash-table-data1'>
+                                                                                    <a href={`tel:${candidate.phone}`}
+                                                                                        className='dash-table-data1 link is-link'>
+                                                                                        {candidate.phone}
+                                                                                    </a>
+                                                                                </td>
+
+                                                                                <td className='dash-table-data1 text-center'>
+                                                                                    <button className='send-email-btn' onClick={() => handleSend(candidate.id)}>
+                                                                                        <i class="bi bi-send-fill send-icon"></i>
+                                                                                        Send
+                                                                                    </button>
+                                                                                </td>
+
+                                                                                <td className='text-center'>
+                                                                                    <div className="action-btn-area">
+                                                                                        <button className='job-view-btn' data-toggle="modal" title='View Candidate Details...' data-target="#candidatesViewModal" onClick={() => viewCandidateDetail(candidate.id)}>
+                                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                                                                                <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
+                                                                                                <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
+                                                                                            </svg>
+                                                                                        </button>
+                                                                                    </div>
+                                                                                </td>
+                                                                            </tr>
+                                                                        )
+                                                                    }) :
+                                                                    !searchInput ? candidateDetail.slice(x[0], x[1]).map((candidate, index) => {
+                                                                        return (
+                                                                            <tr className='dash-table-row client' key={candidate.id}>
+                                                                                <td className='dash-table-data1'>{index + 1}.</td>
+                                                                                <td className='dash-table-data1 text-capitalized'>
+                                                                                    {candidate.firstName + ' ' + candidate.lastName}
+                                                                                </td>
+                                                                                <td className='dash-table-data1'>
+                                                                                    <a href={`mailto:${candidate.email}`}
+                                                                                        className='dash-table-data1 link is-link'>
+                                                                                        {candidate.email}
+                                                                                    </a>
+                                                                                </td>
+
+                                                                                {/* <td className='dash-table-data1'>
+                                                                        <span className='text-warning p-0'>
+                                                                        <i class="bi bi-exclamation-circle mr-2"></i>
+                                                                        Email still not sent!
+                                                                    </span>
+
+                                                                        <span className='text-success p-0'>
+                                                                            <i class="bi bi-check-circle mr-2"></i>
+                                                                            Email already sent
+                                                                        </span>
+                                                                    </td> */}
+                                                                                <td className='dash-table-data1'>
+                                                                                    <a href={`tel:${candidate.phone}`}
+                                                                                        className='dash-table-data1 link is-link'>
+                                                                                        {candidate.phone}
+                                                                                    </a>
+                                                                                </td>
+
+                                                                                <td className='dash-table-data1 text-center'>
+                                                                                    <button className='send-email-btn' onClick={() => handleSend(candidate.id)}>
+                                                                                        <i class="bi bi-send-fill send-icon"></i>
+                                                                                        Send
+                                                                                    </button>
+                                                                                </td>
+
+                                                                                <td className='text-center'>
+                                                                                    <div className="action-btn-area">
+                                                                                        <button className='job-view-btn' data-toggle="modal" title='View Candidate Details...' data-target="#candidatesViewModal" onClick={() => viewCandidateDetail(candidate.id)}>
+                                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                                                                                <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
+                                                                                                <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
+                                                                                            </svg>
+                                                                                        </button>
+                                                                                    </div>
+                                                                                </td>
+                                                                            </tr>
+                                                                        )
+                                                                    })
+                                                                        : null}
+                                                        </table>
+                                                    </div> :
+                                                    <div className="no-data-created-area">
+                                                        <div className='no-data-created'>
+                                                            <img src="../assets/img/no-data/no-data-img.png" className='no-data-img' alt="" />
+                                                            <div className='no-data-text'>No Candidates Created Yet..!</div>
+                                                        </div>
+                                                    </div>
+                                                }
                                             </div>
 
-                                            {candidateDetail.length > 0 ?
-                                                <div className="table-responsive table-scroll-area">
-                                                    <table className="table table-striped table-hover admin-lg-table">
-                                                        <tr className='dash-table-row candidate'>
-                                                            <th className='dash-table-head'>No.</th>
-                                                            <th className='dash-table-head'>Full Name</th>
-                                                            <th className='dash-table-head'>Email ID</th>
-                                                            <th className='dash-table-head'>Phone No.</th>
-                                                            <th className='dash-table-head text-center'>Send an interview invitation</th>
-                                                            <th className='dash-table-head text-center'>View</th>
-                                                        </tr>
-
-
-                                                        {/* table data */}
-                                                        {filteredSearchResultsMsg ?
-                                                            <tr>
-                                                                <td colSpan={6} className='text-secondary text-center'>
-                                                                    {filteredSearchResultsMsg}
-                                                                </td>
-                                                            </tr> :
-                                                            filteredSearchResults.length > 0 ?
-                                                                filteredSearchResults.slice(x[0], x[1]).map((candidate, index) => {
-
-                                                                    return (
-                                                                        <tr className='dash-table-row client' key={candidate.id}>
-                                                                            <td className='dash-table-data1'>{index + 1}.</td>
-                                                                            <td className='dash-table-data1 text-capitalized'>
-                                                                                {candidate.firstName + ' ' + candidate.lastName}
-                                                                            </td>
-                                                                            <td className='dash-table-data1'>
-                                                                                <a href={`mailto:${candidate.email}`}
-                                                                                    className='dash-table-data1 link is-link'>
-                                                                                    {candidate.email}
-                                                                                </a>
-                                                                            </td>
-
-                                                                            {/* <td className='dash-table-data1'>
-                                                                        <span className='text-warning p-0'>
-                                                                        <i class="bi bi-exclamation-circle mr-2"></i>
-                                                                        Email still not sent!
-                                                                    </span>
-
-                                                                        <span className='text-success p-0'>
-                                                                            <i class="bi bi-check-circle mr-2"></i>
-                                                                            Email already sent
-                                                                        </span>
-                                                                    </td> */}
-                                                                            <td className='dash-table-data1'>
-                                                                                <a href={`tel:${candidate.phone}`}
-                                                                                    className='dash-table-data1 link is-link'>
-                                                                                    {candidate.phone}
-                                                                                </a>
-                                                                            </td>
-
-                                                                            <td className='dash-table-data1 text-center'>
-                                                                                <button className='send-email-btn' onClick={() => handleSend(candidate.id)}>
-                                                                                    <i class="bi bi-send-fill send-icon"></i>
-                                                                                    Send
-                                                                                </button>
-                                                                            </td>
-
-                                                                            <td className='text-center'>
-                                                                                <div className="action-btn-area">
-                                                                                    <button className='job-view-btn' data-toggle="modal" title='View Candidate Details...' data-target="#candidatesViewModal" onClick={() => viewCandidateDetail(candidate.id)}>
-                                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
-                                                                                            <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
-                                                                                            <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
-                                                                                        </svg>
-                                                                                    </button>
-                                                                                </div>
-                                                                            </td>
-                                                                        </tr>
-                                                                    )
-                                                                }) :
-                                                                !searchInput ? candidateDetail.slice(x[0], x[1]).map((candidate, index) => {
-                                                                    return (
-                                                                        <tr className='dash-table-row client' key={candidate.id}>
-                                                                            <td className='dash-table-data1'>{index + 1}.</td>
-                                                                            <td className='dash-table-data1 text-capitalized'>
-                                                                                {candidate.firstName + ' ' + candidate.lastName}
-                                                                            </td>
-                                                                            <td className='dash-table-data1'>
-                                                                                <a href={`mailto:${candidate.email}`}
-                                                                                    className='dash-table-data1 link is-link'>
-                                                                                    {candidate.email}
-                                                                                </a>
-                                                                            </td>
-
-                                                                            {/* <td className='dash-table-data1'>
-                                                                        <span className='text-warning p-0'>
-                                                                        <i class="bi bi-exclamation-circle mr-2"></i>
-                                                                        Email still not sent!
-                                                                    </span>
-
-                                                                        <span className='text-success p-0'>
-                                                                            <i class="bi bi-check-circle mr-2"></i>
-                                                                            Email already sent
-                                                                        </span>
-                                                                    </td> */}
-                                                                            <td className='dash-table-data1'>
-                                                                                <a href={`tel:${candidate.phone}`}
-                                                                                    className='dash-table-data1 link is-link'>
-                                                                                    {candidate.phone}
-                                                                                </a>
-                                                                            </td>
-
-                                                                            <td className='dash-table-data1 text-center'>
-                                                                                <button className='send-email-btn' onClick={() => handleSend(candidate.id)}>
-                                                                                    <i class="bi bi-send-fill send-icon"></i>
-                                                                                    Send
-                                                                                </button>
-                                                                            </td>
-
-                                                                            <td className='text-center'>
-                                                                                <div className="action-btn-area">
-                                                                                    <button className='job-view-btn' data-toggle="modal" title='View Candidate Details...' data-target="#candidatesViewModal" onClick={() => viewCandidateDetail(candidate.id)}>
-                                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
-                                                                                            <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
-                                                                                            <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
-                                                                                        </svg>
-                                                                                    </button>
-                                                                                </div>
-                                                                            </td>
-                                                                        </tr>
-                                                                    )
-                                                                })
-                                                                    : null}
-                                                    </table>
-                                                </div> :
-                                                <div className="no-data-created-area">
-                                                    <div className='no-data-created'>
-                                                        <img src="../assets/img/no-data/no-data-img.png" className='no-data-img' alt="" />
-                                                        <div className='no-data-text'>No Candidates Created Yet..!</div>
-                                                    </div>
-                                                </div>
-                                            }
-                                        </div>
-
-                                        {/* <div className="view-application-btn-area text-center">
+                                            {/* <div className="view-application-btn-area text-center">
                                             <a href='#' className='view-app-btn'>
                                                 View More&nbsp;&nbsp;
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="13" height="8" viewBox="0 0 13 8" fill="none">
@@ -370,23 +454,25 @@ const AllCandidates = () => {
                                                 </svg>
                                             </a>
                                         </div> */}
-                                        <div className="table-pagination-area pt-3">
-                                            <div className="pagination-btn-area">
-                                                {x[0] > 0 && <button className='pag-prev-btn' onClick={() => setX([x[0] - 10, x[1] - 10])}>
-                                                    <i class="bi bi-chevron-left"></i>
-                                                </button>}
-                                                {!filteredSearchResultsMsg && <div className='pag-page'>
-                                                    <span className='current-page'>{Math.ceil(x[0] / 10) + 1}</span>&nbsp;/&nbsp;
-                                                    <span className='total-page'>{filteredSearchResults.length > 0 ? Math.ceil(filteredSearchResults.length / 10) : Math.ceil(candidateDetail.length / 10)}</span>
-                                                </div>}
-                                                {(filteredSearchResultsMsg ? !filteredSearchResultsMsg : filteredSearchResults.length > 0 ? (filteredSearchResults.slice(x[0], x[1]).length === 10 && filteredSearchResults.length > x[1]) : (candidateDetail.slice(x[0], x[1]).length === 10 && candidateDetail.length > x[1])) && <button className='pag-next-btn' onClick={() => setX([x[0] + 10, x[1] + 10])}>
-                                                    <i class="bi bi-chevron-right"></i>
-                                                </button>}
+                                            <div className="table-pagination-area pt-3">
+                                                <div className="pagination-btn-area">
+                                                    {x[0] > 0 && <button className='pag-prev-btn' onClick={() => setX([x[0] - 10, x[1] - 10])}>
+                                                        <i class="bi bi-chevron-left"></i>
+                                                    </button>}
+                                                    {!filteredSearchResultsMsg && <div className='pag-page'>
+                                                        <span className='current-page'>{Math.ceil(x[0] / 10) + 1}</span>&nbsp;/&nbsp;
+                                                        <span className='total-page'>{filteredSearchResults.length > 0 ? Math.ceil(filteredSearchResults.length / 10) : Math.ceil(candidateDetail.length / 10)}</span>
+                                                    </div>}
+                                                    {(filteredSearchResultsMsg ? !filteredSearchResultsMsg : filteredSearchResults.length > 0 ? (filteredSearchResults.slice(x[0], x[1]).length === 10 && filteredSearchResults.length > x[1]) : (candidateDetail.slice(x[0], x[1]).length === 10 && candidateDetail.length > x[1])) && <button className='pag-next-btn' onClick={() => setX([x[0] + 10, x[1] + 10])}>
+                                                        <i class="bi bi-chevron-right"></i>
+                                                    </button>}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            )}
+
                         </div>
                     </section>
                 </div>

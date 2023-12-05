@@ -8,6 +8,8 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 
 import {
     Chart as ChartJS,
@@ -87,6 +89,7 @@ const RecruiterDashboard = () => {
     const { token } = useParams();
     const [clientDetail, setClientDetail] = useState([]);
     const [candidateDetail, setCandidateDetail] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         $(document).ready(function () {
@@ -109,6 +112,8 @@ const RecruiterDashboard = () => {
 
     const getAllClientDetails = async () => {
         try {
+            setLoading(true);
+
             const response = await axios.get(`https://skillety.onrender.com/client-Detail`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -122,13 +127,17 @@ const RecruiterDashboard = () => {
             } else {
                 console.log(result);
             }
+            setLoading(false);
         } catch (err) {
             console.log(err);
+
+            setLoading(false);
         }
     }
 
     const getAllCandidateDetail = async () => {
         try {
+            setLoading(true);
             const response = await axios.get('https://skillety.onrender.com/candidate-Detail', {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -142,8 +151,12 @@ const RecruiterDashboard = () => {
             } else {
                 console.log(result);
             }
+
+            setLoading(false);
         } catch (error) {
             console.log(error);
+
+            setLoading(false);
         }
     };
 
@@ -187,38 +200,75 @@ const RecruiterDashboard = () => {
                                     </div> */}
                                 </div>
 
-                                <div className="dash-num-count-section">
-                                    <div className="row">
-                                        <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
-                                            <div className="dash-num-count-area">
-                                                <p className='dash-num-title'>Clients</p>
-                                                <h4 className='dash-num-count'>{clientDetail.length}</h4>
-                                            </div>
-                                        </div>
+                                {/* <h1>
+                                    <Skeleton height={40} width={200} />
+                                    <Skeleton count={3} />
+                                    <Skeleton circle={true} height={50} width={50} />
+                                </h1> */}
 
-                                        <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
-                                            <div className="dash-num-count-area">
-                                                <p className='dash-num-title'>Candidates</p>
-                                                <h4 className='dash-num-count'>{candidateDetail.length}</h4>
-                                            </div>
-                                        </div>
 
-                                        <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
-                                            <div className="dash-num-count-area">
-                                                <p className='dash-num-title'>Upcoming Interview</p>
-                                                <h4 className='dash-num-count'>00</h4>
+                                {loading ? (
+                                    <div className='dash-tile-skeleton'>
+                                        <div className="row">
+                                            <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
+                                                <div className='m-b-30'>
+                                                    <Skeleton height={15} width={100} />
+                                                </div>
+                                                <Skeleton height={40} width={60} />
                                             </div>
-                                        </div>
-
-                                        <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
-                                            <div className="dash-num-count-area">
-                                                <p className='dash-num-title'>New Notification</p>
-                                                <h4 className='dash-num-count'>00</h4>
+                                            <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
+                                                <div className='m-b-30'>
+                                                    <Skeleton height={15} width={100} />
+                                                </div>
+                                                <Skeleton height={40} width={60} />
+                                            </div>
+                                            <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
+                                                <div className='m-b-30'>
+                                                    <Skeleton height={15} width={100} />
+                                                </div>
+                                                <Skeleton height={40} width={60} />
+                                            </div>
+                                            <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
+                                                <div className='m-b-30'>
+                                                    <Skeleton height={15} width={100} />
+                                                </div>
+                                                <Skeleton height={40} width={60} />
                                             </div>
                                         </div>
                                     </div>
+                                ) : (
+                                    <div className="dash-num-count-section">
+                                        <div className="row">
+                                            <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
+                                                <div className="dash-num-count-area">
+                                                    <p className='dash-num-title'>Clients</p>
+                                                    <h4 className='dash-num-count'>{clientDetail.length}</h4>
+                                                </div>
+                                            </div>
 
-                                    {/* <button className="dash-num-count-more-btn" id="showHiddenRow">
+                                            <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
+                                                <div className="dash-num-count-area">
+                                                    <p className='dash-num-title'>Candidates</p>
+                                                    <h4 className='dash-num-count'>{candidateDetail.length}</h4>
+                                                </div>
+                                            </div>
+
+                                            <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
+                                                <div className="dash-num-count-area">
+                                                    <p className='dash-num-title'>Upcoming Interview</p>
+                                                    <h4 className='dash-num-count'>00</h4>
+                                                </div>
+                                            </div>
+
+                                            <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
+                                                <div className="dash-num-count-area">
+                                                    <p className='dash-num-title'>New Notification</p>
+                                                    <h4 className='dash-num-count'>00</h4>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {/* <button className="dash-num-count-more-btn" id="showHiddenRow">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="30" height="8" viewBox="0 0 30 8" fill="none">
                                             <circle cx="4" cy="4" r="4" fill="#714F36" />
                                             <circle cx="15" cy="4" r="4" fill="#714F36" />
@@ -226,39 +276,41 @@ const RecruiterDashboard = () => {
                                         </svg>
                                     </button> */}
 
-                                    <div className='hidden-row'>
-                                        <div className="through-line"></div>
-                                        <div className="row">
-                                            <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
-                                                <div className="dash-num-count-area">
-                                                    <p className='dash-num-title'>Job Posted</p>
-                                                    <h4 className='dash-num-count'>14</h4>
+                                        <div className='hidden-row'>
+                                            <div className="through-line"></div>
+                                            <div className="row">
+                                                <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
+                                                    <div className="dash-num-count-area">
+                                                        <p className='dash-num-title'>Job Posted</p>
+                                                        <h4 className='dash-num-count'>14</h4>
+                                                    </div>
                                                 </div>
-                                            </div>
 
-                                            <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
-                                                <div className="dash-num-count-area">
-                                                    <p className='dash-num-title'>Unread Applications</p>
-                                                    <h4 className='dash-num-count'>04</h4>
+                                                <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
+                                                    <div className="dash-num-count-area">
+                                                        <p className='dash-num-title'>Unread Applications</p>
+                                                        <h4 className='dash-num-count'>04</h4>
+                                                    </div>
                                                 </div>
-                                            </div>
 
-                                            <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
-                                                <div className="dash-num-count-area">
-                                                    <p className='dash-num-title'>Upcoming Interview</p>
-                                                    <h4 className='dash-num-count'>08</h4>
+                                                <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
+                                                    <div className="dash-num-count-area">
+                                                        <p className='dash-num-title'>Upcoming Interview</p>
+                                                        <h4 className='dash-num-count'>08</h4>
+                                                    </div>
                                                 </div>
-                                            </div>
 
-                                            <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
-                                                <div className="dash-num-count-area">
-                                                    <p className='dash-num-title'>New Notification</p>
-                                                    <h4 className='dash-num-count'>28</h4>
+                                                <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
+                                                    <div className="dash-num-count-area">
+                                                        <p className='dash-num-title'>New Notification</p>
+                                                        <h4 className='dash-num-count'>28</h4>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                )}
+
 
                                 <div className="dash-chart-section">
                                     <div className="dash-chart-area">
@@ -296,7 +348,7 @@ const RecruiterDashboard = () => {
                                                             <th className='dash-table-data1 text-center heading'>Company</th>
                                                             {/* <th className='dash-table-data1 text-center heading'>View</th> */}
                                                         </tr>
-                                                        {clientDetail.slice(0,10).map(client => {
+                                                        {clientDetail.slice(0, 10).map(client => {
                                                             return (
                                                                 <tr className='dash-table-row'>
                                                                     <td className='dash-table-data1'>
@@ -338,7 +390,7 @@ const RecruiterDashboard = () => {
                                                             <th className='dash-table-data1 text-center heading'>Designation</th>
                                                             {/* <th className='dash-table-data1 text-center heading'>View</th> */}
                                                         </tr>
-                                                        {candidateDetail.slice(0,10).map(candidate => {
+                                                        {candidateDetail.slice(0, 10).map(candidate => {
                                                             return (
                                                                 <tr className='dash-table-row'>
                                                                     <td className='dash-table-data1'>

@@ -9,6 +9,8 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
 import { useNavigate, useParams } from 'react-router-dom';
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 
 
 const PostedEvents = () => {
@@ -20,6 +22,14 @@ const PostedEvents = () => {
     const [staffToken, setStaffToken] = useState("");
 
     const [x, setX] = useState([0, 10]);
+
+    const [loading, setLoading] = useState(true);
+
+    // useEffect(()=>{
+    //     if(eventDetail){
+    //         setLoading(false);
+    //     }
+    // },[eventDetail])
 
     useEffect(() => {
         $(document).ready(function () {
@@ -167,6 +177,82 @@ const PostedEvents = () => {
                                 Posted {type}s
                             </div>
 
+                            {loading ? (
+                                <div className="table-skeleton-area">
+                                    <div className="row">
+                                        <div className="col-12">
+                                            <div className="table-data-skeleton-area">
+                                                <div className="custom-flex-area">
+                                                    <div>
+                                                        <div className='pt-3'>
+                                                            <Skeleton height={25} width={250} />
+                                                        </div>
+                                                        <div className='pt-3'>
+                                                            <Skeleton height={15} width={120} />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div className="table-responsive table-scroll-area mt-4 skeleton-table">
+                                                    <div className="table skeleton-table table-striped table-hover admin-lg-table">
+                                                        <tr className="skeleton-table-row">
+                                                            <th className='w-5'>
+                                                                <Skeleton height={18} width={30} />
+                                                            </th>
+                                                            <th className='w-25'>
+                                                                <Skeleton height={18} width={100} />
+                                                            </th>
+                                                            <th className='w-25'>
+                                                                <Skeleton height={18} width={100} />
+                                                            </th>
+                                                            <th className='w-25'>
+                                                                <Skeleton height={18} width={100} />
+                                                            </th>
+                                                            <th className='w-20'>
+                                                                <Skeleton height={18} width={80} />
+                                                            </th>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <Skeleton height={18} width={30} />
+                                                            </td>
+                                                            <td>
+                                                                <Skeleton height={18} width={100} />
+                                                            </td>
+                                                            <td>
+                                                                <Skeleton height={18} width={100} />
+                                                            </td>
+                                                            <td>
+                                                                <Skeleton height={18} width={100} />
+                                                            </td>
+                                                            <td>
+                                                                <Skeleton height={18} width={80} />
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <Skeleton height={18} width={30} />
+                                                            </td>
+                                                            <td>
+                                                                <Skeleton height={18} width={100} />
+                                                            </td>
+                                                            <td>
+                                                                <Skeleton height={18} width={100} />
+                                                            </td>
+                                                            <td>
+                                                                <Skeleton height={18} width={100} />
+                                                            </td>
+                                                            <td>
+                                                                <Skeleton height={18} width={80} />
+                                                            </td>
+                                                        </tr>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            ) : (
                             <div className="row">
                                 <div className="col-12">
                                     <div className="admin-lg-table-section">
@@ -272,6 +358,8 @@ const PostedEvents = () => {
                                     </div>
                                 </div>
                             </div>
+                            )}
+                            
                         </div>
                     </section>
                 </div>

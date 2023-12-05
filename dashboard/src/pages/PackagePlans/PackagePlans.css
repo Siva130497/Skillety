@@ -894,5 +894,6 @@
 }
 
 .pl--package-info-area.active {
-    background-color: #F9C833;
+    border: 3px solid #F9C833;
+    border-bottom-width: 8px;
 }

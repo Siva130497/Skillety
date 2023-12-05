@@ -707,6 +707,64 @@ input[type="number"]::-webkit-outer-spin-button {
 .reg--form-btn-sub[disabled] .reg--form-arrow-area {
     display: none !important;
 }
-.text-uppercase{
+
+.text-uppercase {
     text-transform: uppercase !important;
+}
+
+.reg--form-btn svg {
+    display: inline;
+    width: 28px;
+    height: 28px;
+    margin-right: 1rem;
+    color: transparent;
+    animation: spin_357 1s linear infinite;
+    transition: ease-in-out 0.5s;
+}
+
+.reg--form-btn svg path {
+    transition: ease-in-out 0.5s;
+    border-radius: 10px;
+}
+
+.reg--form-btn.client svg path:first-child {
+    fill: #714F36 !important;
+}
+
+.reg--form-btn.client svg path:last-child {
+    fill: #F9C833 !important;
+}
+
+.reg--form-btn.candidate svg path:first-child {
+    fill: #F9C833 !important;
+}
+
+.reg--form-btn.candidate svg path:last-child {
+    fill: #714F36 !important;
+}
+
+@keyframes spin_357 {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.reg--form-btn.client:hover svg path:last-child {
+    fill: #714F36 !important;
+}
+
+.reg--form-btn.client:hover svg path:first-child {
+    fill: #F9C833 !important;
+}
+
+.reg--form-btn.candidate:hover svg path:last-child {
+    fill: #F9C833 !important;
+}
+
+.reg--form-btn.candidate:hover svg path:first-child {
+    fill: #714F36 !important;
 }

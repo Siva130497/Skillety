@@ -7,12 +7,16 @@ import axios from 'axios';
 import { useState } from 'react';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 
 const CandidateContact = () => {
     const [contactMsgDetails, setContactMsgDetails] = useState([]);
     const [staffToken, setStaffToken] = useState("");
     const [selectedViewDetail, setSelectedViewDetail] = useState();
     const [x, setX] = useState([0, 10]);
+
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         $(document).ready(function () {
@@ -25,6 +29,7 @@ const CandidateContact = () => {
 
     const getAllContactMessages = async () => {
         try {
+            setLoading(true);
             const response = await axios.get('https://skillety.onrender.com/candidate-contact', {
                 headers: {
                     Authorization: `Bearer ${staffToken}`,
@@ -40,13 +45,19 @@ const CandidateContact = () => {
             } else {
                 console.log(result);
             }
+
+            setLoading(false);
         } catch (error) {
             console.log(error);
+
+            setLoading(false);
         }
     };
 
     useEffect(() => {
-        getAllContactMessages();
+        if (staffToken) {
+            getAllContactMessages();
+        }
     }, [staffToken])
 
     const handleViewMsg = (id) => {
@@ -97,88 +108,164 @@ const CandidateContact = () => {
                                 Contact Message Details - Candidate
                             </div>
 
-                            <div className="row">
-                                <div className="col-12">
-                                    <div className="admin-lg-table-section">
-                                        <div className='admin-lg-table-area man-app'>
-
-                                            <div className='man-app-title-area candidate'>
-                                                <div>
-                                                    <div className="man-app-title">
-                                                        Contact Message Details
+                            {loading ? (
+                                <div className="table-skeleton-area">
+                                    <div className="row">
+                                        <div className="col-12">
+                                            <div className="table-data-skeleton-area">
+                                                <div className="custom-flex-area">
+                                                    <div>
+                                                        <div className='pt-3'>
+                                                            <Skeleton height={25} width={250} />
+                                                        </div>
+                                                        <div className='pt-3'>
+                                                            <Skeleton height={15} width={120} />
+                                                        </div>
                                                     </div>
-                                                    <div className="man-app-sub-title">
-                                                        Total Contact Message Data :&nbsp;
-                                                        <span>{contactMsgDetails.length}</span>
+                                                </div>
+
+                                                <div className="table-responsive table-scroll-area mt-4 skeleton-table">
+                                                    <div className="table skeleton-table table-striped table-hover admin-lg-table">
+                                                        <tr className="skeleton-table-row">
+                                                            <th className='w-5'>
+                                                                <Skeleton height={18} width={30} />
+                                                            </th>
+                                                            <th className='w-25'>
+                                                                <Skeleton height={18} width={100} />
+                                                            </th>
+                                                            <th className='w-25'>
+                                                                <Skeleton height={18} width={100} />
+                                                            </th>
+                                                            <th className='w-25'>
+                                                                <Skeleton height={18} width={100} />
+                                                            </th>
+                                                            <th className='w-20'>
+                                                                <Skeleton height={18} width={80} />
+                                                            </th>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <Skeleton height={18} width={30} />
+                                                            </td>
+                                                            <td>
+                                                                <Skeleton height={18} width={100} />
+                                                            </td>
+                                                            <td>
+                                                                <Skeleton height={18} width={100} />
+                                                            </td>
+                                                            <td>
+                                                                <Skeleton height={18} width={100} />
+                                                            </td>
+                                                            <td>
+                                                                <Skeleton height={18} width={80} />
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <Skeleton height={18} width={30} />
+                                                            </td>
+                                                            <td>
+                                                                <Skeleton height={18} width={100} />
+                                                            </td>
+                                                            <td>
+                                                                <Skeleton height={18} width={100} />
+                                                            </td>
+                                                            <td>
+                                                                <Skeleton height={18} width={100} />
+                                                            </td>
+                                                            <td>
+                                                                <Skeleton height={18} width={80} />
+                                                            </td>
+                                                        </tr>
                                                     </div>
                                                 </div>
                                             </div>
-                                            {contactMsgDetails.length === 0 ?
-                                                <div className="no-data-created-area">
-                                                    <div className='no-data-created'>
-                                                        <img src="../assets/img/no-data/no-data-img.png" className='no-data-img' alt="" />
-                                                        <div className='no-data-text'>No Contact Msgs Found Yet..!</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            ) : (
+                                <div className="row">
+                                    <div className="col-12">
+                                        <div className="admin-lg-table-section">
+                                            <div className='admin-lg-table-area man-app'>
+
+                                                <div className='man-app-title-area candidate'>
+                                                    <div>
+                                                        <div className="man-app-title">
+                                                            Contact Message Details
+                                                        </div>
+                                                        <div className="man-app-sub-title">
+                                                            Total Contact Message Data :&nbsp;
+                                                            <span>{contactMsgDetails.length}</span>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                :
-                                                <div className="table-responsive table-scroll-area">
-                                                    <table className="table table-striped table-hover admin-lg-table">
-                                                        <tr className='dash-table-row man-app candidate'>
-                                                            <th className='dash-table-head'>No.</th>
-                                                            <th className='dash-table-head'>Full Name</th>
-                                                            <th className='dash-table-head'>Mobile No.</th>
-                                                            <th className='dash-table-head'>Email</th>
-                                                            <th className='dash-table-head text-center'>Action</th>
-                                                        </tr>
+                                                {contactMsgDetails.length === 0 ?
+                                                    <div className="no-data-created-area">
+                                                        <div className='no-data-created'>
+                                                            <img src="../assets/img/no-data/no-data-img.png" className='no-data-img' alt="" />
+                                                            <div className='no-data-text'>No Contact Msgs Found Yet..!</div>
+                                                        </div>
+                                                    </div>
+                                                    :
+                                                    <div className="table-responsive table-scroll-area">
+                                                        <table className="table table-striped table-hover admin-lg-table">
+                                                            <tr className='dash-table-row man-app candidate'>
+                                                                <th className='dash-table-head'>No.</th>
+                                                                <th className='dash-table-head'>Full Name</th>
+                                                                <th className='dash-table-head'>Mobile No.</th>
+                                                                <th className='dash-table-head'>Email</th>
+                                                                <th className='dash-table-head text-center'>Action</th>
+                                                            </tr>
 
-                                                        {/* table data */}
-                                                        {contactMsgDetails.map((msg, index) => {
-                                                            return (
-                                                                <tr className='dash-table-row client' key={msg._id}>
-                                                                    <td className='dash-table-data1'>{index + 1}.</td>
-                                                                    <td className='dash-table-data1 text-capitalized'>
-                                                                        {msg.fullName}
-                                                                    </td>
-                                                                    <td className='dash-table-data1'>
-                                                                        <a href={`tel:${msg.phoneNo}`}
-                                                                            className='dash-table-data1 link is-link'>
-                                                                            {msg.phoneNo}
-                                                                        </a>
-                                                                    </td>
-                                                                    <td className='dash-table-data1'>
-                                                                        <a href={`mailto:${msg.email}`}
-                                                                            className='dash-table-data1 link is-link'>
-                                                                            {msg.email}
-                                                                        </a>
-                                                                    </td>
+                                                            {/* table data */}
+                                                            {contactMsgDetails.map((msg, index) => {
+                                                                return (
+                                                                    <tr className='dash-table-row client' key={msg._id}>
+                                                                        <td className='dash-table-data1'>{index + 1}.</td>
+                                                                        <td className='dash-table-data1 text-capitalized'>
+                                                                            {msg.fullName}
+                                                                        </td>
+                                                                        <td className='dash-table-data1'>
+                                                                            <a href={`tel:${msg.phoneNo}`}
+                                                                                className='dash-table-data1 link is-link'>
+                                                                                {msg.phoneNo}
+                                                                            </a>
+                                                                        </td>
+                                                                        <td className='dash-table-data1'>
+                                                                            <a href={`mailto:${msg.email}`}
+                                                                                className='dash-table-data1 link is-link'>
+                                                                                {msg.email}
+                                                                            </a>
+                                                                        </td>
 
-                                                                    <td className='text-center'>
-                                                                        <div className="action-btn-area">
-                                                                            <button className='job-view-btn' data-toggle="modal" title='View contact message details...' data-target="#contactMsgviewModal" onClick={() => handleViewMsg(msg._id)}>
-                                                                                <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
-                                                                                    <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
-                                                                                    <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"
-                                                                                    />
-                                                                                </svg>
-                                                                            </button>
+                                                                        <td className='text-center'>
+                                                                            <div className="action-btn-area">
+                                                                                <button className='job-view-btn' data-toggle="modal" title='View contact message details...' data-target="#contactMsgviewModal" onClick={() => handleViewMsg(msg._id)}>
+                                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                                                                        <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
+                                                                                        <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"
+                                                                                        />
+                                                                                    </svg>
+                                                                                </button>
 
-                                                                            <button className='job-delete-btn' data-toggle="modal" title='Delete contact message data...' data-target="#contactMsgdeleteModal" onClick={() => handleDelete(msg._id)}>
-                                                                                <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
-                                                                                    <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
-                                                                                </svg>
-                                                                            </button>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                            )
-                                                        })}
+                                                                                <button className='job-delete-btn' data-toggle="modal" title='Delete contact message data...' data-target="#contactMsgdeleteModal" onClick={() => handleDelete(msg._id)}>
+                                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                                                                                        <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
+                                                                                    </svg>
+                                                                                </button>
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                )
+                                                            })}
 
-                                                    </table>
-                                                </div>
-                                            }
-                                        </div>
+                                                        </table>
+                                                    </div>
+                                                }
+                                            </div>
 
-                                        {/* <div className="view-application-btn-area text-center">
+                                            {/* <div className="view-application-btn-area text-center">
                                             <a href='#' className='view-app-btn'>
                                                 View More&nbsp;&nbsp;
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="13" height="8" viewBox="0 0 13 8" fill="none">
@@ -186,23 +273,25 @@ const CandidateContact = () => {
                                                 </svg>
                                             </a>
                                         </div> */}
-                                        <div className="table-pagination-area pt-3">
-                                            <div className="pagination-btn-area">
-                                                {x[0] > 0 && <button className='pag-prev-btn' onClick={() => setX([x[0] - 10, x[1] - 10])}>
-                                                    <i class="bi bi-chevron-left"></i>
-                                                </button>}
-                                                <div className='pag-page'>
-                                                    <span className='current-page'>{Math.ceil(x[0] / 10) + 1}</span>&nbsp;/&nbsp;
-                                                    <span className='total-page'>{Math.ceil(contactMsgDetails.length / 10)}</span>
+                                            <div className="table-pagination-area pt-3">
+                                                <div className="pagination-btn-area">
+                                                    {x[0] > 0 && <button className='pag-prev-btn' onClick={() => setX([x[0] - 10, x[1] - 10])}>
+                                                        <i class="bi bi-chevron-left"></i>
+                                                    </button>}
+                                                    <div className='pag-page'>
+                                                        <span className='current-page'>{Math.ceil(x[0] / 10) + 1}</span>&nbsp;/&nbsp;
+                                                        <span className='total-page'>{Math.ceil(contactMsgDetails.length / 10)}</span>
+                                                    </div>
+                                                    {((contactMsgDetails.slice(x[0], x[1]).length === 10 && contactMsgDetails.length > x[1])) && <button className='pag-next-btn' onClick={() => setX([x[0] + 10, x[1] + 10])}>
+                                                        <i class="bi bi-chevron-right"></i>
+                                                    </button>}
                                                 </div>
-                                                {((contactMsgDetails.slice(x[0], x[1]).length === 10 && contactMsgDetails.length > x[1])) && <button className='pag-next-btn' onClick={() => setX([x[0] + 10, x[1] + 10])}>
-                                                    <i class="bi bi-chevron-right"></i>
-                                                </button>}
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            )}
+
                         </div>
                     </section>
                 </div>
