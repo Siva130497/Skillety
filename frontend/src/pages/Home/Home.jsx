@@ -148,6 +148,22 @@ const Home = () => {
         $("html, body").animate({ scrollTop: 0 }, 500);
       }, 0);
     });
+
+    const handleKeyDown = (event) => {
+      if (event.key === 's' && event.altKey) {
+        event.preventDefault();
+        const inputElement = document.getElementById('searchSkillInput');
+        if (inputElement) {
+          inputElement.focus();
+        }
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
   }, []);
 
   const getPopularSearches = async () => {
@@ -278,11 +294,17 @@ const Home = () => {
                       >{selectResult}</span>
                     ))}
                   </div>
-                  <input type="search" data-aos="fade-up" data-aos-delay="200" className='home--search-box form-control'
-                    placeholder='Enter keywords like skills, designation'
-                    value={searchInput}
-                    onChange={handleSearch} />
-                  <i class="bi bi-search home--search-icon" data-aos="zoom-in" data-aos-delay="200"></i>
+                  <div className='position-relative'>
+                    <input type="search" data-aos="fade-up" data-aos-delay="200" className='home--search-box form-control'
+                      placeholder='Enter keywords like skills, designation'
+                      value={searchInput}
+                      id='searchSkillInput'
+                      onChange={handleSearch} />
+                    <div className="short-cut" data-aos="zoom-in">
+                      <span className="short-cut-key">Alt + S</span>
+                    </div>
+                    <i className="bi bi-search home--search-icon" data-aos="zoom-in" data-aos-delay="200"></i>
+                  </div>
 
                   <div className='home-search-result-data-area client'>
                     {filteredList.length > 0 &&
