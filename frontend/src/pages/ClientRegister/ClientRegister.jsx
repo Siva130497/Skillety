@@ -137,7 +137,7 @@ const ClientRegister = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        
+
         if (
             credentials.name &&
             credentials.companyName &&
@@ -149,16 +149,16 @@ const ClientRegister = () => {
             emailRegex.test(credentials.email) &&
             isAgreed
         ) {
-           
-                const updatedCredentials = {
-                    ...credentials,
-                    industry: selectedIndustry[0],
-                };
-                console.log(updatedCredentials);
-                registerUser(updatedCredentials);
-            
-        } 
-        
+
+            const updatedCredentials = {
+                ...credentials,
+                industry: selectedIndustry[0],
+            };
+            console.log(updatedCredentials);
+            registerUser(updatedCredentials);
+
+        }
+
     };
 
     useEffect(() => {
@@ -254,8 +254,8 @@ const ClientRegister = () => {
                                                     <input type="email" id='email' name="email" value={credentials.email} onChange={handleInputChange} placeholder="Enter your email address" className='reg--form-input' required />
                                                     <label htmlFor="email" className='reg--form-label'>Email ID</label>
                                                     {require && <small className='text-danger'>{credentials.email === "" && "required"}</small>}
-                                                    <br/>
-                                                   <small className='text-danger'>{!(emailRegex.test(credentials.email)) && "enter valid email address"}</small>
+                                                    <br />
+                                                    <small className='text-danger'>{!(emailRegex.test(credentials.email)) && "enter valid email address"}</small>
                                                 </div>
                                             </div>
                                             <div className="col-12 col-lg-6 col-md-6 col-sm-6 custom-padding-right">
@@ -269,7 +269,7 @@ const ClientRegister = () => {
                                                 <div className='reg--form-group'>
                                                     <input type="text" id='subject' name="companyName" value={credentials.companyName} onChange={handleInputChange} placeholder="Enter the company name" className='reg--form-input' required />
                                                     <label htmlFor="subject" className='reg--form-label'>Company Name</label>
-                                                     <small className='text-danger'>{credentials.companyName === "" && "required"}</small>
+                                                    <small className='text-danger'>{credentials.companyName === "" && "required"}</small>
                                                 </div>
                                             </div>
                                             <div className="col-12 col-lg-6 col-md-8 col-sm-8 custom-padding-right1">
@@ -360,7 +360,7 @@ const ClientRegister = () => {
                                                 <div className='reg--form-group'>
                                                     <input type="text" id='message' name="text" value={credentials.text} onChange={handleInputChange} placeholder="Where did you acquire knowledge about Skillety?" className='reg--form-input' />
                                                     <label htmlFor="message" className='reg--form-label'>From where did you learn about Skillety?</label>
-                                                   <small className='text-danger'>{credentials.text === "" && "required"}</small>
+                                                    <small className='text-danger'>{credentials.text === "" && "required"}</small>
                                                 </div>
                                             </div>
                                         </div>
