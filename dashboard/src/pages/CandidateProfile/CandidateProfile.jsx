@@ -738,7 +738,7 @@ const CandidateProfile = () => {
                 console.log(res.data)
                 if (!res.data.error) {
                     showSuccessMessage("Education updated!")
-                    selectedEducation([])
+                    setSelectedEducation([])
 
                     axios.get(`https://skillety.onrender.com/candidate/${id}`)
                         .then(res => {

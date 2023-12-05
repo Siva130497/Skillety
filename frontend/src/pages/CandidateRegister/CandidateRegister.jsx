@@ -625,7 +625,7 @@ const CandidateRegister = () => {
                                                 onChange={handleDateChange}
                                                 dateFormat="dd/MM/yyyy"
                                                 placeholderText='dd/mm/yyyy'
-                                                disabled={credentials.days === "0 to 7 days" && credentials.checkbox}
+                                                disabled={(credentials.days === "0 to 7 days" && credentials.checkbox) || credentials.days === "Currently not serving notice period"}
                                             />
                                         </div>
                                     </div>

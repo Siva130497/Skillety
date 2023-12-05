@@ -196,8 +196,8 @@ const PackagePlans = () => {
         setPackageInfo({
             id: loginClientDetail?.companyId,
             packageType: "Micro",
-            logins: "3",
-            cvViews: "3",
+            logins: "1",
+            cvViews: "5000",
             // jobPost:"2",
             amount: "32,804",
         })
@@ -207,8 +207,8 @@ const PackagePlans = () => {
         setPackageInfo({
             id: loginClientDetail?.companyId,
             packageType: "Small",
-            logins: "5",
-            cvViews: "5",
+            logins: "2",
+            cvViews: "20000",
             // jobPost:"3",
             amount: "91,568",
         })
@@ -218,8 +218,8 @@ const PackagePlans = () => {
         setPackageInfo({
             id: loginClientDetail?.companyId,
             packageType: "Large",
-            logins: "10",
-            cvViews: "10",
+            logins: "4",
+            cvViews: "40000",
             // jobPost:"4",
             amount: "161,483",
         })
@@ -356,13 +356,13 @@ const PackagePlans = () => {
 
                                                                     <div className='pl--package-mobile-flex'>
                                                                         <h6 className='pl--package-mobile-title'>Job Postings</h6>
-                                                                        <h6 className='pl--package-info'>10</h6>
+                                                                        <h6 className='pl--package-info'>UNLIMITED</h6>
                                                                     </div>
 
-                                                                    <div className='pl--package-mobile-flex'>
+                                                                    {/* <div className='pl--package-mobile-flex'>
                                                                         <h6 className='pl--package-mobile-title'>Mass Mailers</h6>
                                                                         <h6 className='pl--package-info'>10,000</h6>
-                                                                    </div>
+                                                                    </div> */}
 
                                                                     <div className='pl--package-mobile-flex'>
                                                                         <h6 className='pl--package-mobile-title'>Login IDs</h6>
@@ -425,13 +425,13 @@ const PackagePlans = () => {
 
                                                                     <div className='pl--package-mobile-flex'>
                                                                         <h6 className='pl--package-mobile-title'>Job Postings</h6>
-                                                                        <h6 className='pl--package-info'>25</h6>
+                                                                        <h6 className='pl--package-info'>UNLIMITED</h6>
                                                                     </div>
 
-                                                                    <div className='pl--package-mobile-flex'>
+                                                                    {/* <div className='pl--package-mobile-flex'>
                                                                         <h6 className='pl--package-mobile-title'>Mass Mailers</h6>
                                                                         <h6 className='pl--package-info'>25,000</h6>
-                                                                    </div>
+                                                                    </div> */}
 
                                                                     <div className='pl--package-mobile-flex'>
                                                                         <h6 className='pl--package-mobile-title'>Login IDs</h6>
@@ -494,13 +494,13 @@ const PackagePlans = () => {
 
                                                                     <div className='pl--package-mobile-flex'>
                                                                         <h6 className='pl--package-mobile-title'>Job Postings</h6>
-                                                                        <h6 className='pl--package-info'>100</h6>
+                                                                        <h6 className='pl--package-info'>UNLIMITED</h6>
                                                                     </div>
 
-                                                                    <div className='pl--package-mobile-flex'>
+                                                                    {/* <div className='pl--package-mobile-flex'>
                                                                         <h6 className='pl--package-mobile-title'>Mass Mailers</h6>
                                                                         <h6 className='pl--package-info'>50,000</h6>
-                                                                    </div>
+                                                                    </div> */}
 
                                                                     <div className='pl--package-mobile-flex'>
                                                                         <h6 className='pl--package-mobile-title'>Login IDs</h6>
