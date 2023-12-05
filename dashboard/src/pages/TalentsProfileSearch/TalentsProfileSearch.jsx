@@ -283,7 +283,7 @@ const TalentsProfileSearch = () => {
         ////
 
         ///add multi input fields for qualification
-        $(".cli--tal-search-qualification-add-input-button").click(function () {
+        const addEducationInputField = () => {
             // Create a new input area
             var newInputArea = $("<div>", {
                 class: "cli-tal-pro-search-filter-multi-input-area",
@@ -324,7 +324,7 @@ const TalentsProfileSearch = () => {
                     newInputArea.remove();
                 }, 300); // Adjust the time to match your transition duration
             });
-        });
+        }
         ////
 
         ///add multi input fields for keyword in search page
@@ -503,12 +503,14 @@ const TalentsProfileSearch = () => {
 
 
         $('.cli-tal-pro-search-filter-toggle-area').on('click', handleFilterToggle);
+        $(".cli--tal-search-qualification-add-input-button").click(addEducationInputField);
 
         // Cleanup function to remove event listeners when the component unmounts
         return () => {
             $(".tal--pro-slider-btn").off("click");
             $(".cli-tal-pro-search-page-btn").off("click");
             $('.cli-tal-pro-search-filter-toggle-area').off('click', handleFilterToggle);
+            $(".cli--tal-search-qualification-add-input-button").off('click', addEducationInputField);
         };
         // });
     }, [searchResult]);
@@ -1221,77 +1223,77 @@ const TalentsProfileSearch = () => {
     const viewCandidateDetail = async (id, percentage) => {
         try {
             const packageSelectionDetail = await getClientChoosenPlan(loginClientDetail.companyId);
-                if (packageSelectionDetail) {
-                    if (viewedCandidate.length > 0) {
-                        const alreadyViewedCandidate = viewedCandidate.find(cand => cand.candidateId === id);
-                        if (alreadyViewedCandidate) {
-                            window.open(`https://skillety-dashboard.onrender.com/talents/${id}`, '_blank');
-                        } else {
-                            console.log(viewedCandidate.length)
-                            if (viewedCandidate.length < cvViews) {
-                                const idData = {
-                                    candidateId: id,
-                                    companyId: loginClientDetail.companyId,
-                                };
-                                const response = await axios.post("https://skillety.onrender.com/cv-views", idData, {
-                                    headers: {
-                                        Authorization: `Bearer ${clientToken}`,
-                                        Accept: 'application/json'
-                                    }
-                                });
-
-                                const result = response.data;
-                                console.log(result);
-                                getViewedCandidates();
-                                // window.open(`https://skillety-dashboard.onrender.com/talents/${id}`, '_blank');
-                                navigate(`/talents/${id}`, {state : {percentage}})
-                            } else {
-                                await new Promise(() => {
-                                    Swal.fire({
-                                        title: 'Buy Package Plan',
-                                        text: 'You reached your max cv-views in your plan, upgrade your plan',
-                                        icon: 'info',
-                                        confirmButtonColor: '#3085d6',
-                                        confirmButtonText: 'OK',
-                                    }).then(() => {
-                                        // window.open(`https://skillety-dashboard.onrender.com/package-plans`, '_blank');
-                                        navigate("/package-plans");
-                                    });
-                                });
-                            }
-                        }
+            if (packageSelectionDetail) {
+                if (viewedCandidate.length > 0) {
+                    const alreadyViewedCandidate = viewedCandidate.find(cand => cand.candidateId === id);
+                    if (alreadyViewedCandidate) {
+                        window.open(`https://skillety-dashboard.onrender.com/talents/${id}`, '_blank');
                     } else {
-                        const idData = {
-                            candidateId: id,
-                            companyId: loginClientDetail.companyId,
-                        };
-                        const response = await axios.post("https://skillety.onrender.com/cv-views", idData, {
-                            headers: {
-                                Authorization: `Bearer ${clientToken}`,
-                                Accept: 'application/json'
-                            }
-                        });
+                        console.log(viewedCandidate.length)
+                        if (viewedCandidate.length < cvViews) {
+                            const idData = {
+                                candidateId: id,
+                                companyId: loginClientDetail.companyId,
+                            };
+                            const response = await axios.post("https://skillety.onrender.com/cv-views", idData, {
+                                headers: {
+                                    Authorization: `Bearer ${clientToken}`,
+                                    Accept: 'application/json'
+                                }
+                            });
 
-                        const result = response.data;
-                        console.log(result);
-                        getViewedCandidates();
-                        // window.open(`https://skillety-dashboard.onrender.com/talents/${id}`, '_blank');
-                        navigate(`/talents/${id}`, {state : {percentage}})
+                            const result = response.data;
+                            console.log(result);
+                            getViewedCandidates();
+                            // window.open(`https://skillety-dashboard.onrender.com/talents/${id}`, '_blank');
+                            navigate(`/talents/${id}`, { state: { percentage } })
+                        } else {
+                            await new Promise(() => {
+                                Swal.fire({
+                                    title: 'Buy Package Plan',
+                                    text: 'You reached your max cv-views in your plan, upgrade your plan',
+                                    icon: 'info',
+                                    confirmButtonColor: '#3085d6',
+                                    confirmButtonText: 'OK',
+                                }).then(() => {
+                                    // window.open(`https://skillety-dashboard.onrender.com/package-plans`, '_blank');
+                                    navigate("/package-plans");
+                                });
+                            });
+                        }
                     }
                 } else {
-                    await new Promise(() => {
-                        Swal.fire({
-                            title: 'Buy Package Plan',
-                            text: '',
-                            icon: 'info',
-                            confirmButtonColor: '#3085d6',
-                            confirmButtonText: 'OK',
-                        }).then(() => {
-                            // window.open(`https://skillety-dashboard.onrender.com/package-plans`, '_blank');
-                            navigate("/package-plans");
-                        });
+                    const idData = {
+                        candidateId: id,
+                        companyId: loginClientDetail.companyId,
+                    };
+                    const response = await axios.post("https://skillety.onrender.com/cv-views", idData, {
+                        headers: {
+                            Authorization: `Bearer ${clientToken}`,
+                            Accept: 'application/json'
+                        }
                     });
+
+                    const result = response.data;
+                    console.log(result);
+                    getViewedCandidates();
+                    // window.open(`https://skillety-dashboard.onrender.com/talents/${id}`, '_blank');
+                    navigate(`/talents/${id}`, { state: { percentage } })
                 }
+            } else {
+                await new Promise(() => {
+                    Swal.fire({
+                        title: 'Buy Package Plan',
+                        text: '',
+                        icon: 'info',
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'OK',
+                    }).then(() => {
+                        // window.open(`https://skillety-dashboard.onrender.com/package-plans`, '_blank');
+                        navigate("/package-plans");
+                    });
+                });
+            }
         } catch (error) {
             console.error(error);
         }
@@ -1343,22 +1345,36 @@ const TalentsProfileSearch = () => {
                                                                         <div class='info-icon-area'>
                                                                             <h6 class='cli-tal-pro-search-filter-title'>Notice period / Availability to join</h6>
                                                                             <button class='info-icon-button'>
-                                                                                <i class="ri-information-line info-icon"></i>
+                                                                                <i class="bi bi-info-circle info-icon"></i>
                                                                             </button>
                                                                             <div class="tooltip">This is the information about the notice period & availability to join.</div>
                                                                         </div>
                                                                     </div>
                                                                     <div className="tal--search-options-area">
-                                                                        <div className="tal--search-option-container">
+                                                                        {/* <div className="tal--search-option-container">
                                                                             <input id="notice_period_1" className="tal--search-radio" type="radio" name="notice_period"
                                                                                 value="any"
                                                                                 onChange={(e) => setFilters({ ...filters, days: e.target.value })} />
                                                                             <div className="tal--search-tile">
                                                                                 <label for="notice_period_1" className="tal--search-tile-label pe-2 ps-2">Any</label>
                                                                             </div>
+                                                                        </div> */}
+
+                                                                        <div className='education-type-option'>
+                                                                            <input type="checkbox"
+                                                                                className='education-type-input'
+                                                                                id="notice_period_1"
+                                                                                name="notice_period"
+                                                                                value="any"
+                                                                                onChange={(e) => setFilters({ ...filters, days: e.target.value })} />
+                                                                            <label for="notice_period_1"
+                                                                                className='education-type-label'>
+                                                                                Any
+                                                                            </label>
                                                                         </div>
 
-                                                                        <div className="tal--search-option-container">
+
+                                                                        {/* <div className="tal--search-option-container">
                                                                             <input id="notice_period_2" className="tal--search-radio" type="radio" name="notice_period"
                                                                                 value="0-7"
                                                                                 onChange={(e) => setFilters({ ...filters, days: e.target.value })} />
@@ -1366,9 +1382,22 @@ const TalentsProfileSearch = () => {
                                                                                 <label for="notice_period_2" className="tal--search-tile-label">0-07 days</label>
                                                                                 <i class="bi bi-plus"></i>
                                                                             </div>
+                                                                        </div> */}
+
+                                                                        <div className='education-type-option'>
+                                                                            <input type="checkbox"
+                                                                                className='education-type-input'
+                                                                                id="notice_period_2"
+                                                                                name="notice_period"
+                                                                                value="0-7"
+                                                                                onChange={(e) => setFilters({ ...filters, days: e.target.value })} />
+                                                                            <label for="notice_period_2"
+                                                                                className='education-type-label'>
+                                                                                0-07 days
+                                                                            </label>
                                                                         </div>
 
-                                                                        <div className="tal--search-option-container">
+                                                                        {/* <div className="tal--search-option-container">
                                                                             <input id="notice_period_3" className="tal--search-radio" type="radio" name="notice_period"
                                                                                 value="8-15"
                                                                                 onChange={(e) => setFilters({ ...filters, days: e.target.value })} />
@@ -1376,8 +1405,22 @@ const TalentsProfileSearch = () => {
                                                                                 <label for="notice_period_3" className="tal--search-tile-label">08 to 15 days</label>
                                                                                 <i class="bi bi-plus"></i>
                                                                             </div>
+                                                                        </div> */}
+
+                                                                        <div className='education-type-option'>
+                                                                            <input type="checkbox"
+                                                                                className='education-type-input'
+                                                                                id="notice_period_3"
+                                                                                name="notice_period"
+                                                                                value="8-15"
+                                                                                onChange={(e) => setFilters({ ...filters, days: e.target.value })} />
+                                                                            <label for="notice_period_3"
+                                                                                className='education-type-label'>
+                                                                                08 to 15 days
+                                                                            </label>
                                                                         </div>
-                                                                        <div className="tal--search-option-container">
+
+                                                                        {/* <div className="tal--search-option-container">
                                                                             <input id="notice_period_4" className="tal--search-radio" type="radio" name="notice_period"
                                                                                 value="16-30"
                                                                                 onChange={(e) => setFilters({ ...filters, days: e.target.value })} />
@@ -1385,8 +1428,22 @@ const TalentsProfileSearch = () => {
                                                                                 <label for="notice_period_4" className="tal--search-tile-label">16 to 30 days</label>
                                                                                 <i class="bi bi-plus"></i>
                                                                             </div>
+                                                                        </div> */}
+
+                                                                        <div className='education-type-option'>
+                                                                            <input type="checkbox"
+                                                                                className='education-type-input'
+                                                                                id="notice_period_4"
+                                                                                name="notice_period"
+                                                                                value="16-30"
+                                                                                onChange={(e) => setFilters({ ...filters, days: e.target.value })} />
+                                                                            <label for="notice_period_4"
+                                                                                className='education-type-label'>
+                                                                                16 to 30 days
+                                                                            </label>
                                                                         </div>
-                                                                        <div className="tal--search-option-container">
+
+                                                                        {/* <div className="tal--search-option-container">
                                                                             <input id="notice_period_5" className="tal--search-radio" type="radio" name="notice_period"
                                                                                 value="beyond-30"
                                                                                 onChange={(e) => setFilters({ ...filters, days: e.target.value })} />
@@ -1394,8 +1451,22 @@ const TalentsProfileSearch = () => {
                                                                                 <label for="notice_period_5" className="tal--search-tile-label">beyond 30 days</label>
                                                                                 <i class="bi bi-plus"></i>
                                                                             </div>
+                                                                        </div> */}
+
+                                                                        <div className='education-type-option'>
+                                                                            <input type="checkbox"
+                                                                                className='education-type-input'
+                                                                                id="notice_period_5"
+                                                                                name="notice_period"
+                                                                                value="beyond-30"
+                                                                                onChange={(e) => setFilters({ ...filters, days: e.target.value })} />
+                                                                            <label for="notice_period_5"
+                                                                                className='education-type-label'>
+                                                                                Beyond 30 days
+                                                                            </label>
                                                                         </div>
-                                                                        <div className="tal--search-option-container">
+
+                                                                        {/* <div className="tal--search-option-container">
                                                                             <input id="notice_period_6" className="tal--search-radio" type="radio" name="notice_period"
                                                                                 value="noticePeriod"
                                                                                 onChange={(e) => setFilters({ ...filters, days: e.target.value })} />
@@ -1403,6 +1474,19 @@ const TalentsProfileSearch = () => {
                                                                                 <label for="notice_period_6" className="tal--search-tile-label">Currently serving notice Period</label>
                                                                                 <i class="bi bi-plus"></i>
                                                                             </div>
+                                                                        </div> */}
+
+                                                                        <div className='education-type-option'>
+                                                                            <input type="checkbox"
+                                                                                className='education-type-input'
+                                                                                id="notice_period_6"
+                                                                                name="notice_period"
+                                                                                value="noticePeriod"
+                                                                                onChange={(e) => setFilters({ ...filters, days: e.target.value })} />
+                                                                            <label for="notice_period_6"
+                                                                                className='education-type-label'>
+                                                                                Currently serving notice Period
+                                                                            </label>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -2009,7 +2093,7 @@ const TalentsProfileSearch = () => {
                                                                                 <h6 className='cli-tal-pro-search-filter-title'>UG Qualification</h6>
                                                                             </div>
 
-                                                                            <div className="tal--search-options-area">
+                                                                            {/* <div className="tal--search-options-area">
                                                                                 <div className="tal--search-option-container">
                                                                                     <input id="any_ug" className="tal--search-radio" type="radio" name="ug_qualification" />
                                                                                     <div className="tal--search-tile">
@@ -2030,6 +2114,250 @@ const TalentsProfileSearch = () => {
                                                                                         <label for="no_ug" className="tal--search-tile-label">No UG Qualification</label>
                                                                                     </div>
                                                                                 </div>
+                                                                            </div> */}
+
+                                                                            <ul className="nav nav-pills tal-education-select-area" id="ug-education-tab-btn" role="tablist">
+                                                                                <li className="nav-item">
+                                                                                    <a className="nav-link education-button" id="any-ug" data-toggle="tab" href="#any-ug-education" role="tab"
+                                                                                        aria-controls="any-ug-education" aria-selected="false">Any UG Qualification</a>
+                                                                                </li>
+                                                                                <li className="nav-item">
+                                                                                    <a className="nav-link education-button" id="specific-ug" data-toggle="tab" href="#specific-ug-education" role="tab"
+                                                                                        aria-controls="specific-ug-education" aria-selected="false">Specific UG Qualification</a>
+                                                                                </li>
+                                                                                <li className="nav-item">
+                                                                                    <a className="nav-link education-button" id="no-ug" data-toggle="tab" href="#no-ug-education" role="tab"
+                                                                                        aria-controls="no-ug-education" aria-selected="false">No UG Qualification</a>
+                                                                                </li>
+                                                                            </ul>
+
+                                                                            <div className="tab-content education-tab-content" id="ug-education-tab">
+                                                                                <div className="tab-pane fade" id="any-ug-education" role="tabpanel" aria-labelledby="any-ug">
+                                                                                    <div className="education-info">Any UG qualification
+                                                                                        <span> - Candidates with any UG qualification will appear in the result.</span>
+                                                                                    </div>
+
+                                                                                    <div className="cli-tal-pro-search-filter-content">
+                                                                                        <div className="cli-tal-pro-search-filter-title-area">
+                                                                                            <h6 className='cli-tal-pro-search-filter-title'>Institute</h6>
+                                                                                        </div>
+
+                                                                                        <div className='job-post-form-badge-area mb-3'>
+                                                                                            <span className="job-post-form-badge tal-search">
+                                                                                                Badge 1
+                                                                                            </span>
+                                                                                        </div>
+
+                                                                                        <div className="cli-tal-pro-search-filter-input-area">
+                                                                                            <input type="search" className='cli-tal-pro-search-filter-input' placeholder='Select institute' />
+
+                                                                                            {/* <div className='search-result-data-area'>
+                                                                                                <div className='search-result-data'>
+                                                                                                    Result 1
+                                                                                                </div>
+                                                                                            </div> */}
+
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                    <div className="cli-tal-pro-search-filter-content">
+                                                                                        <div className="cli-tal-pro-search-filter-title-area">
+                                                                                            <h6 className='cli-tal-pro-search-filter-title'>Education Type</h6>
+                                                                                        </div>
+
+                                                                                        <div className="education-type-area">
+                                                                                            <div className='education-type-option'>
+                                                                                                <input type="checkbox"
+                                                                                                    className='education-type-input'
+                                                                                                    id="full-time-any-ug"
+                                                                                                    name="education_type_any_ug" />
+                                                                                                <label for="full-time-any-ug"
+                                                                                                    className='education-type-label'>
+                                                                                                    Full Time
+                                                                                                </label>
+                                                                                            </div>
+                                                                                            <div className='education-type-option'>
+                                                                                                <input type="checkbox"
+                                                                                                    className='education-type-input'
+                                                                                                    id="part-time-any-ug"
+                                                                                                    name="education_type_any_ug" />
+                                                                                                <label for="part-time-any-ug"
+                                                                                                    className='education-type-label'>
+                                                                                                    Part Time
+                                                                                                </label>
+                                                                                            </div>
+                                                                                            <div className='education-type-option'>
+                                                                                                <input type="checkbox"
+                                                                                                    className='education-type-input'
+                                                                                                    id="correspondence-any-ug"
+                                                                                                    name="education_type_any_ug" />
+                                                                                                <label for="correspondence-any-ug"
+                                                                                                    className='education-type-label'>
+                                                                                                    Correspondence
+                                                                                                </label>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                    <div className="cli-tal-pro-search-filter-content">
+                                                                                        <div className="cli-tal-pro-search-filter-title-area">
+                                                                                            <h6 className='cli-tal-pro-search-filter-title'>Year of degree completion</h6>
+                                                                                        </div>
+
+                                                                                        <div className="row">
+                                                                                            <div className="col-12 col-xxl-4 col-xl-6 col-lg-6 col-md-12 mb-md-4 mb-lg-0 mb-xl-0">
+                                                                                                <div className="cli-tal-pro-search-filter-input-area">
+                                                                                                    <select name="job_type" id="candidate_seek"
+                                                                                                        className='cli-tal-pro-search-filter-input cand--seek-select'>
+                                                                                                        <option value="" disabled selected>From</option>
+                                                                                                        <option value="1">Option 1</option>
+                                                                                                        <option value="2">Option 2</option>
+                                                                                                        <option value="3">Option 3</option>
+                                                                                                    </select>
+                                                                                                </div>
+                                                                                            </div>
+
+                                                                                            <div className="col-12 col-xxl-4 col-xl-6 col-lg-6 col-md-12">
+                                                                                                <div className="cli-tal-pro-search-filter-input-area">
+                                                                                                    <select name="employee_type" id="candidate_seek"
+                                                                                                        className='cli-tal-pro-search-filter-input cand--seek-select'>
+                                                                                                        <option value="" disabled selected>To</option>
+                                                                                                        <option value="1">Option 1</option>
+                                                                                                        <option value="2">Option 2</option>
+                                                                                                        <option value="3">Option 3</option>
+                                                                                                    </select>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <div className="tab-pane fade" id="specific-ug-education" role="tabpanel" aria-labelledby="specific-ug">
+                                                                                    <div className="cli-tal-pro-search-filter-content">
+                                                                                        <div className="cli-tal-pro-search-filter-title-area">
+                                                                                            <h6 className='cli-tal-pro-search-filter-title'>Choose Course</h6>
+                                                                                        </div>
+
+                                                                                        <div className='job-post-form-badge-area mb-3'>
+                                                                                            <span className="job-post-form-badge tal-search">
+                                                                                                Badge 1
+                                                                                            </span>
+                                                                                        </div>
+
+                                                                                        <div className="cli-tal-pro-search-filter-input-area">
+                                                                                            <input type="search" className='cli-tal-pro-search-filter-input'
+                                                                                                placeholder='Type to select UG course from list' />
+
+                                                                                            {/* <div className='search-result-data-area'>
+                                                                                                <div className='search-result-data'>
+                                                                                                    Result 1
+                                                                                                </div>
+                                                                                            </div> */}
+
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                    <div className="cli-tal-pro-search-filter-content">
+                                                                                        <div className="cli-tal-pro-search-filter-title-area">
+                                                                                            <h6 className='cli-tal-pro-search-filter-title'>Institute</h6>
+                                                                                        </div>
+
+                                                                                        <div className='job-post-form-badge-area mb-3'>
+                                                                                            <span className="job-post-form-badge tal-search">
+                                                                                                Badge 1
+                                                                                            </span>
+                                                                                        </div>
+
+                                                                                        <div className="cli-tal-pro-search-filter-input-area">
+                                                                                            <input type="search" className='cli-tal-pro-search-filter-input' placeholder='Select institute' />
+
+                                                                                            {/* <div className='search-result-data-area'>
+                                                                                                <div className='search-result-data'>
+                                                                                                    Result 1
+                                                                                                </div>
+                                                                                            </div> */}
+
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                    <div className="cli-tal-pro-search-filter-content">
+                                                                                        <div className="cli-tal-pro-search-filter-title-area">
+                                                                                            <h6 className='cli-tal-pro-search-filter-title'>Education Type</h6>
+                                                                                        </div>
+
+                                                                                        <div className="education-type-area">
+                                                                                            <div className='education-type-option'>
+                                                                                                <input type="checkbox"
+                                                                                                    className='education-type-input'
+                                                                                                    id="full-time-sp-ug"
+                                                                                                    name="education_type_sp_ug" />
+                                                                                                <label for="full-time-sp-ug"
+                                                                                                    className='education-type-label'>
+                                                                                                    Full Time
+                                                                                                </label>
+                                                                                            </div>
+                                                                                            <div className='education-type-option'>
+                                                                                                <input type="checkbox"
+                                                                                                    className='education-type-input'
+                                                                                                    id="part-time-sp-ug"
+                                                                                                    name="education_type_sp_ug" />
+                                                                                                <label for="part-time-sp-ug"
+                                                                                                    className='education-type-label'>
+                                                                                                    Part Time
+                                                                                                </label>
+                                                                                            </div>
+                                                                                            <div className='education-type-option'>
+                                                                                                <input type="checkbox"
+                                                                                                    className='education-type-input'
+                                                                                                    id="correspondence-sp-ug"
+                                                                                                    name="education_type_sp_ug" />
+                                                                                                <label for="correspondence-sp-ug"
+                                                                                                    className='education-type-label'>
+                                                                                                    Correspondence
+                                                                                                </label>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                    <div className="cli-tal-pro-search-filter-content">
+                                                                                        <div className="cli-tal-pro-search-filter-title-area">
+                                                                                            <h6 className='cli-tal-pro-search-filter-title'>Year of degree completion</h6>
+                                                                                        </div>
+
+                                                                                        <div className="row">
+                                                                                            <div className="col-12 col-xxl-4 col-xl-6 col-lg-6 col-md-12 mb-md-4 mb-lg-0 mb-xl-0">
+                                                                                                <div className="cli-tal-pro-search-filter-input-area">
+                                                                                                    <select name="job_type" id="candidate_seek"
+                                                                                                        className='cli-tal-pro-search-filter-input cand--seek-select'>
+                                                                                                        <option value="" disabled selected>From</option>
+                                                                                                        <option value="1">Option 1</option>
+                                                                                                        <option value="2">Option 2</option>
+                                                                                                        <option value="3">Option 3</option>
+                                                                                                    </select>
+                                                                                                </div>
+                                                                                            </div>
+
+                                                                                            <div className="col-12 col-xxl-4 col-xl-6 col-lg-6 col-md-12">
+                                                                                                <div className="cli-tal-pro-search-filter-input-area">
+                                                                                                    <select name="employee_type" id="candidate_seek"
+                                                                                                        className='cli-tal-pro-search-filter-input cand--seek-select'>
+                                                                                                        <option value="" disabled selected>To</option>
+                                                                                                        <option value="1">Option 1</option>
+                                                                                                        <option value="2">Option 2</option>
+                                                                                                        <option value="3">Option 3</option>
+                                                                                                    </select>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <div className="tab-pane fade" id="no-ug-education" role="tabpanel" aria-labelledby="no-ug">
+                                                                                    <div className="education-info">No UG qualification
+                                                                                        <span> - Candidates who have only completed 10th or 12th but are not pursuing/ have pursued
+                                                                                            graduation will appear in the result</span>
+                                                                                    </div>
+                                                                                </div>
                                                                             </div>
                                                                         </div>
 
@@ -2038,7 +2366,7 @@ const TalentsProfileSearch = () => {
                                                                                 <h6 className='cli-tal-pro-search-filter-title'>PG Qualification</h6>
                                                                             </div>
 
-                                                                            <div className="tal--search-options-area">
+                                                                            {/* <div className="tal--search-options-area">
                                                                                 <div className="tal--search-option-container">
                                                                                     <input id="any_pg" className="tal--search-radio" type="radio" name="pg_qualification" />
                                                                                     <div className="tal--search-tile">
@@ -2059,7 +2387,9 @@ const TalentsProfileSearch = () => {
                                                                                         <label for="no_pg" className="tal--search-tile-label">No PG Qualification</label>
                                                                                     </div>
                                                                                 </div>
-                                                                            </div>
+                                                                            </div> */}
+
+
 
                                                                             <div id="container3" className='multi-input-container'>
                                                                                 <div className="cli--tal-search-add-input-area">
