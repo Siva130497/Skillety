@@ -471,9 +471,9 @@ const ManageJobs = () => {
                                             <table className="table table-striped table-hover admin-lg-table">
                                                 <tr className='dash-table-row man-job'>
                                                     <th className='dash-table-head'>Job Title</th>
-                                                    <th className='dash-table-head text-center'>DOC</th>
+                                                    <th className='dash-table-head text-center'>Posted Date</th>
                                                     <th className='dash-table-head text-center'>Applicants</th>
-                                                    <th className='dash-table-head text-center'>Posted by <br /> Who?</th>
+                                                    <th className='dash-table-head text-center'>Posted by</th>
                                                     <th className='dash-table-head text-center'>Status</th>
                                                     <th className='dash-table-head text-center'>Action</th>
                                                 </tr>
