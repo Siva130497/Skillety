@@ -8,6 +8,8 @@ import $ from 'jquery';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 
 const AllClients = () => {
     const [staffToken, setStaffToken] = useState("");
@@ -19,6 +21,7 @@ const AllClients = () => {
     const [aClient, setAClient] = useState();
 
     const [x, setX] = useState([0, 10]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         setStaffToken(JSON.parse(localStorage.getItem('staffToken')))
@@ -33,8 +36,8 @@ const AllClients = () => {
 
     }, []);
 
-     //for show success message for payment
-     function showSuccessMessage(message) {
+    //for show success message for payment
+    function showSuccessMessage(message) {
         Swal.fire({
             title: 'Success!',
             text: message,
@@ -57,6 +60,7 @@ const AllClients = () => {
 
     const getAllClientDetails = async () => {
         try {
+            setLoading(true);
             const response = await axios.get(`https://skillety.onrender.com/client-Detail`, {
                 headers: {
                     Authorization: `Bearer ${staffToken}`,
@@ -70,8 +74,11 @@ const AllClients = () => {
             } else {
                 console.log(result);
             }
+            setLoading(false);
         } catch (err) {
             console.log(err);
+
+            setLoading(false);
         }
     }
 
@@ -99,10 +106,10 @@ const AllClients = () => {
         const commonEmails = clientDetail
             .filter(obj1 => clientUrlWithEmail.some(obj2 => obj2.email === obj1.email))
             .map(obj => obj.email);
-    
+
         setCommonEmails(commonEmails);
     }
-    
+
 
     useEffect(() => {
         if (staffToken) {
@@ -145,7 +152,7 @@ const AllClients = () => {
                 } else {
                     console.log('Email sending failed.');
                     showErrorMessage('Email sending failed.')
-                    
+
                 }
             } else {
                 console.log(result);
@@ -180,91 +187,167 @@ const AllClients = () => {
                                 All Clients
                             </div>
 
-                            <div className="row">
-                                <div className="col-12">
-                                    <div className="admin-lg-table-section">
-                                        <div className='admin-lg-table-area man-app'>
-                                            <div className='man-app-title-area'>
-                                                <div className="man-app-title">
-                                                    All Clients Details
-                                                </div>
-                                                <div className="man-app-sub-title">
-                                                    Total Clients :&nbsp;
-                                                    <span>{clientDetail.length}</span>
-                                                </div>
-                                            </div>
-                                            {clientDetail.length === 0 ?
-                                                <div className="no-data-created-area">
-                                                    <div className='no-data-created'>
-                                                        <img src="../assets/img/no-data/no-data-img.png" className='no-data-img' alt="" />
-                                                        <div className='no-data-text'>No Client Created Yet..!</div>
+                            {loading ? (
+                                <div className="table-skeleton-area">
+                                    <div className="row">
+                                        <div className="col-12">
+                                            <div className="table-data-skeleton-area">
+                                                <div className="custom-flex-area">
+                                                    <div>
+                                                        <div className='pt-3'>
+                                                            <Skeleton height={25} width={250} />
+                                                        </div>
+                                                        <div className='pt-3'>
+                                                            <Skeleton height={15} width={120} />
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                :
-                                                <div className="table-responsive table-scroll-area">
-                                                    <table className="table table-striped table-hover admin-lg-table">
-                                                        <tr className='dash-table-row man-app'>
-                                                            <th className='dash-table-head'>No.</th>
-                                                            <th className='dash-table-head'>Full Name</th>
-                                                            <th className='dash-table-head'>Email ID</th>
-                                                            <th className='dash-table-head'>Email Status</th>
-                                                            <th className='dash-table-head text-center'>Send Email</th>
-                                                            <th className='dash-table-head text-center'>View</th>
+
+                                                <div className="table-responsive table-scroll-area mt-4 skeleton-table">
+                                                    <div className="table skeleton-table table-striped table-hover admin-lg-table">
+                                                        <tr className="skeleton-table-row">
+                                                            <th className='w-5'>
+                                                                <Skeleton height={18} width={30} />
+                                                            </th>
+                                                            <th className='w-25'>
+                                                                <Skeleton height={18} width={100} />
+                                                            </th>
+                                                            <th className='w-25'>
+                                                                <Skeleton height={18} width={100} />
+                                                            </th>
+                                                            <th className='w-25'>
+                                                                <Skeleton height={18} width={100} />
+                                                            </th>
+                                                            <th className='w-20'>
+                                                                <Skeleton height={18} width={80} />
+                                                            </th>
                                                         </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <Skeleton height={18} width={30} />
+                                                            </td>
+                                                            <td>
+                                                                <Skeleton height={18} width={100} />
+                                                            </td>
+                                                            <td>
+                                                                <Skeleton height={18} width={100} />
+                                                            </td>
+                                                            <td>
+                                                                <Skeleton height={18} width={100} />
+                                                            </td>
+                                                            <td>
+                                                                <Skeleton height={18} width={80} />
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <Skeleton height={18} width={30} />
+                                                            </td>
+                                                            <td>
+                                                                <Skeleton height={18} width={100} />
+                                                            </td>
+                                                            <td>
+                                                                <Skeleton height={18} width={100} />
+                                                            </td>
+                                                            <td>
+                                                                <Skeleton height={18} width={100} />
+                                                            </td>
+                                                            <td>
+                                                                <Skeleton height={18} width={80} />
+                                                            </td>
+                                                        </tr>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            ) : (
+                                <div className="row">
+                                    <div className="col-12">
+                                        <div className="admin-lg-table-section">
+                                            <div className='admin-lg-table-area man-app'>
+                                                <div className='man-app-title-area'>
+                                                    <div className="man-app-title">
+                                                        All Clients Details
+                                                    </div>
+                                                    <div className="man-app-sub-title">
+                                                        Total Clients :&nbsp;
+                                                        <span>{clientDetail.length}</span>
+                                                    </div>
+                                                </div>
+                                                {clientDetail.length === 0 ?
+                                                    <div className="no-data-created-area">
+                                                        <div className='no-data-created'>
+                                                            <img src="../assets/img/no-data/no-data-img.png" className='no-data-img' alt="" />
+                                                            <div className='no-data-text'>No Client Created Yet..!</div>
+                                                        </div>
+                                                    </div>
+                                                    :
+                                                    <div className="table-responsive table-scroll-area">
+                                                        <table className="table table-striped table-hover admin-lg-table">
+                                                            <tr className='dash-table-row man-app'>
+                                                                <th className='dash-table-head'>No.</th>
+                                                                <th className='dash-table-head'>Full Name</th>
+                                                                <th className='dash-table-head'>Email ID</th>
+                                                                <th className='dash-table-head'>Email Status</th>
+                                                                <th className='dash-table-head text-center'>Send Email</th>
+                                                                <th className='dash-table-head text-center'>View</th>
+                                                            </tr>
 
-                                                        {/* table data */}
-                                                        {clientDetail.slice(x[0], x[1]).map((client, index) => {
-                                                            return (
-                                                                <tr className='dash-table-row client'>
-                                                                    <td className='dash-table-data1'>{index + 1}.</td>
-                                                                    <td className='dash-table-data1 text-capitalized'>
-                                                                        {client.name}
-                                                                    </td>
-                                                                    <td className='dash-table-data1'>
-                                                                        <a href={`mailto:${client.email}`}
-                                                                            className='dash-table-data1 link is-link'>
-                                                                            {client.email}
-                                                                        </a>
-                                                                    </td>
+                                                            {/* table data */}
+                                                            {clientDetail.slice(x[0], x[1]).map((client, index) => {
+                                                                return (
+                                                                    <tr className='dash-table-row client'>
+                                                                        <td className='dash-table-data1'>{index + 1}.</td>
+                                                                        <td className='dash-table-data1 text-capitalized'>
+                                                                            {client.name}
+                                                                        </td>
+                                                                        <td className='dash-table-data1'>
+                                                                            <a href={`mailto:${client.email}`}
+                                                                                className='dash-table-data1 link is-link'>
+                                                                                {client.email}
+                                                                            </a>
+                                                                        </td>
 
-                                                                    <td className='dash-table-data1'>
-                                                                        {/* <span className='text-warning p-0'>
+                                                                        <td className='dash-table-data1'>
+                                                                            {/* <span className='text-warning p-0'>
                                                                     <i class="bi bi-exclamation-circle mr-2"></i>
                                                                     Email still not sent!
                                                                 </span> */}
 
-                                                                        <span className='text-success p-0'>
-                                                                            <i class="bi bi-check-circle mr-2"></i>
-                                                                            {commonEmails.includes(client.email) ? "Email sent." : "Email not yet sent." }
-                                                                        </span>
-                                                                    </td>
+                                                                            <span className='text-success p-0'>
+                                                                                <i class="bi bi-check-circle mr-2"></i>
+                                                                                {commonEmails.includes(client.email) ? "Email sent." : "Email not yet sent."}
+                                                                            </span>
+                                                                        </td>
 
-                                                                    <td className='dash-table-data1 text-center'>
-                                                                        <button className='send-email-btn' onClick={() => handleGeneratePasswordAndTempUrl(client._id)}>
-                                                                            <i class="bi bi-send-fill send-icon"></i>
-                                                                            {commonEmails.includes(client.email) ? "ReSend" : "Send"}
-                                                                        </button>
-                                                                    </td>
-
-                                                                    <td className='text-center'>
-                                                                        <div className="action-btn-area">
-                                                                            <button className='job-view-btn' title='View Client Details...' data-toggle="modal" data-target="#clientsViewModal" onClick={() => handleCard(client._id)}>
-                                                                                <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
-                                                                                    <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
-                                                                                    <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
-                                                                                </svg>
+                                                                        <td className='dash-table-data1 text-center'>
+                                                                            <button className='send-email-btn' onClick={() => handleGeneratePasswordAndTempUrl(client._id)}>
+                                                                                <i class="bi bi-send-fill send-icon"></i>
+                                                                                {commonEmails.includes(client.email) ? "ReSend" : "Send"}
                                                                             </button>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                            )
-                                                        })}
-                                                    </table>
-                                                </div>
-                                            }
-                                        </div>
+                                                                        </td>
 
-                                        {/* <div className="view-application-btn-area text-center">
+                                                                        <td className='text-center'>
+                                                                            <div className="action-btn-area">
+                                                                                <button className='job-view-btn' title='View Client Details...' data-toggle="modal" data-target="#clientsViewModal" onClick={() => handleCard(client._id)}>
+                                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                                                                        <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
+                                                                                        <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
+                                                                                    </svg>
+                                                                                </button>
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                )
+                                                            })}
+                                                        </table>
+                                                    </div>
+                                                }
+                                            </div>
+
+                                            {/* <div className="view-application-btn-area text-center">
                                             <a href='#' className='view-app-btn'>
                                                 View More&nbsp;&nbsp;
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="13" height="8" viewBox="0 0 13 8" fill="none">
@@ -272,23 +355,25 @@ const AllClients = () => {
                                                 </svg>
                                             </a>
                                         </div> */}
-                                        <div className="table-pagination-area pt-3">
-                                            <div className="pagination-btn-area">
-                                                {x[0] > 0 && <button className='pag-prev-btn' onClick={() => setX([x[0] - 10, x[1] - 10])}>
-                                                    <i class="bi bi-chevron-left"></i>
-                                                </button>}
-                                                <div className='pag-page'>
-                                                    <span className='current-page'>{Math.ceil(x[0] / 10) + 1}</span>&nbsp;/&nbsp;
-                                                    <span className='total-page'>{Math.ceil(clientDetail.length / 10)}</span>
+                                            <div className="table-pagination-area pt-3">
+                                                <div className="pagination-btn-area">
+                                                    {x[0] > 0 && <button className='pag-prev-btn' onClick={() => setX([x[0] - 10, x[1] - 10])}>
+                                                        <i class="bi bi-chevron-left"></i>
+                                                    </button>}
+                                                    <div className='pag-page'>
+                                                        <span className='current-page'>{Math.ceil(x[0] / 10) + 1}</span>&nbsp;/&nbsp;
+                                                        <span className='total-page'>{Math.ceil(clientDetail.length / 10)}</span>
+                                                    </div>
+                                                    {(clientDetail.slice(x[0], x[1]).length === 10 && clientDetail.length > x[1]) && <button className='pag-next-btn' onClick={() => setX([x[0] + 10, x[1] + 10])}>
+                                                        <i class="bi bi-chevron-right"></i>
+                                                    </button>}
                                                 </div>
-                                                {(clientDetail.slice(x[0], x[1]).length === 10 && clientDetail.length > x[1]) && <button className='pag-next-btn' onClick={() => setX([x[0] + 10, x[1] + 10])}>
-                                                    <i class="bi bi-chevron-right"></i>
-                                                </button>}
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            )}
+
                         </div>
                     </section>
                 </div>

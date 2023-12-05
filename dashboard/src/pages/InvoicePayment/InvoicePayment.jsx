@@ -8,6 +8,9 @@ import $ from 'jquery';
 import AuthContext from '../../context/AuthContext';
 import axios from 'axios';
 
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
+
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 
@@ -22,6 +25,8 @@ const InvoicePayment = () => {
     const [allStaff, setAllStaff] = useState([]);
 
     const [invoice, setInvoice] = useState([]);
+
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const calculateInvoice = () => {
@@ -77,6 +82,7 @@ const InvoicePayment = () => {
 
     const getLoginClientDetail = async () => {
         try {
+            setLoading(true);
             const res = await axios.get(`https://skillety.onrender.com/client/${employeeId}`, {
                 headers: {
                     Authorization: `Bearer ${clientToken}`,
@@ -90,13 +96,18 @@ const InvoicePayment = () => {
             } else {
                 console.log(result);
             }
+
+            setLoading(false);
         } catch (err) {
             console.log(err);
+
+            setLoading(false);
         }
     }
 
     const getViewedCandidates = async () => {
         try {
+            setLoading(true);
             const res = await axios.get(`https://skillety.onrender.com/cv-views/${loginClientDetail?.companyId}`, {
                 headers: {
                     Authorization: `Bearer ${clientToken}`,
@@ -110,8 +121,12 @@ const InvoicePayment = () => {
             } else {
                 console.log(result);
             }
+
+            setLoading(false);
         } catch (err) {
             console.log(err);
+
+            setLoading(false);
         }
     }
 
@@ -137,6 +152,7 @@ const InvoicePayment = () => {
 
     const allStaffFromCompany = async () => {
         try {
+            setLoading(true);
             const res = await axios.get(`https://skillety.onrender.com/all-staff/${loginClientDetail?.companyId}`, {
                 headers: {
                     Authorization: `Bearer ${clientToken}`,
@@ -150,8 +166,12 @@ const InvoicePayment = () => {
             } else {
                 console.log(result);
             }
+
+            setLoading(false);
         } catch (err) {
             console.log(err);
+
+            setLoading(false);
         }
     }
 
@@ -159,11 +179,16 @@ const InvoicePayment = () => {
         if (clientToken) {
             const fetchData = async () => {
                 try {
+                    setLoading(true);
                     const user = await getProtectedData(clientToken);
                     console.log(user);
                     setEmployeeId(user.id);
+
+                    setLoading(false);
                 } catch (error) {
                     console.log(error);
+
+                    setLoading(false);
                 }
             };
 
@@ -200,96 +225,174 @@ const InvoicePayment = () => {
                                 Invoices
                             </div>
 
-                            <div className="row">
-                                <div className="col-12">
-                                    <div className="admin-lg-table-section">
-                                        <div className="table-responsive admin-lg-table-area man-app">
-                                            <div className='man-app-title-area'>
-                                                <div className="man-app-title">
-                                                    Invoice History
-                                                </div>
-                                                <div className="man-app-sub-title">
-                                                    Check your payment history here
-                                                </div>
-                                            </div>
-                                            {packageSelectionDetail ?
-                                                <table className="table table-striped table-hover admin-lg-table">
-                                                    <tr className='dash-table-row man-app'>
-                                                        <th className='dash-table-head text-left'>Sr.no</th>
-                                                        <th className='dash-table-head text-center'>Package Name</th>
-                                                        <th className='dash-table-head text-center'>Date of Purchase</th>
-                                                        <th className='dash-table-head text-center'>Validity</th>
-                                                        <th className='dash-table-head text-center'>Invoice Amount</th>
-                                                        <th className='text-center'>View</th>
-                                                    </tr>
-
-                                                    {/* table data */}
-                                                    <tr className='dash-table-row client'>
-                                                        <td className='dash-table-data1 text-left'>01.</td>
-                                                        <td className='dash-table-data1 text-center'>
-                                                            {packageSelectionDetail?.packageType}
-                                                        </td>
-                                                        <td className='dash-table-data1 text-center'>
-                                                            {`${new Date(packageSelectionDetail?.createdAt).getDate().toString().padStart(2, '0')}/${(new Date(packageSelectionDetail?.createdAt).getMonth() + 1).toString().padStart(2, '0')}/${new Date(packageSelectionDetail?.createdAt).getFullYear() % 100}`}
-                                                        </td>
-
-                                                        <td className='dash-table-data1 text-center'>
-                                                            21-12-2023
-                                                        </td>
-
-                                                        <td className='dash-table-data1 text-center'>
-                                                            Rs.&nbsp;<span>{packageSelectionDetail?.amount}/-</span>
-                                                        </td>
-
-                                                        <td className='text-center'>
-                                                            <div className="action-btn-area">
-                                                                <button className='job-view-btn' data-toggle="modal" data-target="#invoiceModal">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
-                                                                        <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
-                                                                        <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"
-                                                                        />
-                                                                    </svg>
-                                                                </button>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-
-
-                                                </table> :
-                                                <div className="no-data-created-area">
-                                                    <div className='no-data-created'>
-                                                        <img src="../assets/img/no-data/no-data-img.png" className='no-data-img' alt="" />
-                                                        <div className='no-data-text'>No Packages Yet..!</div>
+                            {loading ? (
+                                <div className="table-skeleton-area">
+                                    <div className="row">
+                                        <div className="col-12">
+                                            <div className="table-data-skeleton-area">
+                                                <div className="custom-flex-area">
+                                                    <div>
+                                                        <div className='pt-3'>
+                                                            <Skeleton height={25} width={250} />
+                                                        </div>
+                                                        <div className='pt-3'>
+                                                            <Skeleton height={15} width={120} />
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            }
-                                        </div>
 
-                                        <div className="view-application-btn-area text-center">
-                                            <a href='#' className='view-app-btn'>
-                                                View More&nbsp;&nbsp;
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="13" height="8" viewBox="0 0 13 8" fill="none">
-                                                    <path d="M12.3536 4.35355C12.5488 4.15829 12.5488 3.84171 12.3536 3.64645L9.17157 0.464466C8.97631 0.269204 8.65973 0.269204 8.46447 0.464466C8.2692 0.659728 8.2692 0.976311 8.46447 1.17157L11.2929 4L8.46447 6.82843C8.2692 7.02369 8.2692 7.34027 8.46447 7.53553C8.65973 7.7308 8.97631 7.7308 9.17157 7.53553L12.3536 4.35355ZM0 4.5L12 4.5V3.5L0 3.5L0 4.5Z" fill="#0F75C5" />
-                                                </svg>
-                                            </a>
-                                        </div>
-                                        <div className="table-pagination-area pt-3">
-                                            <div className="pagination-btn-area">
-                                                <button className='pag-prev-btn'>
-                                                    <i class="bi bi-chevron-left"></i>
-                                                </button>
-                                                <div className='pag-page'>
-                                                    <span className='current-page'>1</span>&nbsp;/&nbsp;
-                                                    <span className='total-page'>7</span>
+                                                <div className="table-responsive table-scroll-area mt-4 skeleton-table">
+                                                    <div className="table skeleton-table table-striped table-hover admin-lg-table">
+                                                        <tr className="skeleton-table-row">
+                                                            <th className='w-5'>
+                                                                <Skeleton height={18} width={30} />
+                                                            </th>
+                                                            <th className='w-25'>
+                                                                <Skeleton height={18} width={100} />
+                                                            </th>
+                                                            <th className='w-25'>
+                                                                <Skeleton height={18} width={100} />
+                                                            </th>
+                                                            <th className='w-25'>
+                                                                <Skeleton height={18} width={100} />
+                                                            </th>
+                                                            <th className='w-20'>
+                                                                <Skeleton height={18} width={80} />
+                                                            </th>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <Skeleton height={18} width={30} />
+                                                            </td>
+                                                            <td>
+                                                                <Skeleton height={18} width={100} />
+                                                            </td>
+                                                            <td>
+                                                                <Skeleton height={18} width={100} />
+                                                            </td>
+                                                            <td>
+                                                                <Skeleton height={18} width={100} />
+                                                            </td>
+                                                            <td>
+                                                                <Skeleton height={18} width={80} />
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <Skeleton height={18} width={30} />
+                                                            </td>
+                                                            <td>
+                                                                <Skeleton height={18} width={100} />
+                                                            </td>
+                                                            <td>
+                                                                <Skeleton height={18} width={100} />
+                                                            </td>
+                                                            <td>
+                                                                <Skeleton height={18} width={100} />
+                                                            </td>
+                                                            <td>
+                                                                <Skeleton height={18} width={80} />
+                                                            </td>
+                                                        </tr>
+                                                    </div>
                                                 </div>
-                                                <button className='pag-next-btn'>
-                                                    <i class="bi bi-chevron-right"></i>
-                                                </button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            ) : (
+                                <div className="row">
+                                    <div className="col-12">
+                                        <div className="admin-lg-table-section">
+                                            <div className="table-responsive admin-lg-table-area man-app">
+                                                <div className='man-app-title-area'>
+                                                    <div className="man-app-title">
+                                                        Invoice History
+                                                    </div>
+                                                    <div className="man-app-sub-title">
+                                                        Check your payment history here
+                                                    </div>
+                                                </div>
+                                                {packageSelectionDetail ?
+                                                    <table className="table table-striped table-hover admin-lg-table">
+                                                        <tr className='dash-table-row man-app'>
+                                                            <th className='dash-table-head text-left'>Sr.no</th>
+                                                            <th className='dash-table-head text-center'>Package Name</th>
+                                                            <th className='dash-table-head text-center'>Date of Purchase</th>
+                                                            <th className='dash-table-head text-center'>Validity</th>
+                                                            <th className='dash-table-head text-center'>Invoice Amount</th>
+                                                            <th className='text-center'>View</th>
+                                                        </tr>
+
+                                                        {/* table data */}
+                                                        <tr className='dash-table-row client'>
+                                                            <td className='dash-table-data1 text-left'>01.</td>
+                                                            <td className='dash-table-data1 text-center'>
+                                                                {packageSelectionDetail?.packageType}
+                                                            </td>
+                                                            <td className='dash-table-data1 text-center'>
+                                                                {`${new Date(packageSelectionDetail?.createdAt).getDate().toString().padStart(2, '0')}/${(new Date(packageSelectionDetail?.createdAt).getMonth() + 1).toString().padStart(2, '0')}/${new Date(packageSelectionDetail?.createdAt).getFullYear() % 100}`}
+                                                            </td>
+
+                                                            <td className='dash-table-data1 text-center'>
+                                                                21-12-2023
+                                                            </td>
+
+                                                            <td className='dash-table-data1 text-center'>
+                                                                Rs.&nbsp;<span>{packageSelectionDetail?.amount}/-</span>
+                                                            </td>
+
+                                                            <td className='text-center'>
+                                                                <div className="action-btn-area">
+                                                                    <button className='job-view-btn' data-toggle="modal" data-target="#invoiceModal">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                                                            <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
+                                                                            <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"
+                                                                            />
+                                                                        </svg>
+                                                                    </button>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+
+
+                                                    </table> :
+                                                    <div className="no-data-created-area">
+                                                        <div className='no-data-created'>
+                                                            <img src="../assets/img/no-data/no-data-img.png" className='no-data-img' alt="" />
+                                                            <div className='no-data-text'>No Packages Yet..!</div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            </div>
+
+                                            <div className="view-application-btn-area text-center">
+                                                <a href='#' className='view-app-btn'>
+                                                    View More&nbsp;&nbsp;
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="13" height="8" viewBox="0 0 13 8" fill="none">
+                                                        <path d="M12.3536 4.35355C12.5488 4.15829 12.5488 3.84171 12.3536 3.64645L9.17157 0.464466C8.97631 0.269204 8.65973 0.269204 8.46447 0.464466C8.2692 0.659728 8.2692 0.976311 8.46447 1.17157L11.2929 4L8.46447 6.82843C8.2692 7.02369 8.2692 7.34027 8.46447 7.53553C8.65973 7.7308 8.97631 7.7308 9.17157 7.53553L12.3536 4.35355ZM0 4.5L12 4.5V3.5L0 3.5L0 4.5Z" fill="#0F75C5" />
+                                                    </svg>
+                                                </a>
+                                            </div>
+                                            <div className="table-pagination-area pt-3">
+                                                <div className="pagination-btn-area">
+                                                    <button className='pag-prev-btn'>
+                                                        <i class="bi bi-chevron-left"></i>
+                                                    </button>
+                                                    <div className='pag-page'>
+                                                        <span className='current-page'>1</span>&nbsp;/&nbsp;
+                                                        <span className='total-page'>7</span>
+                                                    </div>
+                                                    <button className='pag-next-btn'>
+                                                        <i class="bi bi-chevron-right"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+
                         </div>
                     </section>
                 </div>

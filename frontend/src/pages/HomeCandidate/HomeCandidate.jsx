@@ -18,8 +18,8 @@ const HomeCandidate = () => {
 
   const navigate = useNavigate();
 
-  const { eventDetail, getEventDetail, getEventImg, eventImg, blogDetail, getBlogsDetail,  
-    videoDetail, getVideoDetail,  podcastDetail, getPodcastDetail,  newsDetail, getNewsDetail,  getClientImg, clientImg } = useContext(AuthContext);
+  const { eventDetail, getEventDetail, getEventImg, eventImg, blogDetail, getBlogsDetail,
+    videoDetail, getVideoDetail, podcastDetail, getPodcastDetail, newsDetail, getNewsDetail, getClientImg, clientImg } = useContext(AuthContext);
   const [allJobs, setAllJobs] = useState([]);
   const [allCompany, setAllCompany] = useState([]);
 
@@ -148,13 +148,13 @@ const HomeCandidate = () => {
     //   .catch(err => console.log(err));
 
     axios.get("https://skillety.onrender.com/company-details")
-    .then(res=>{
-      console.log(res.data);
-      setAllCompany(res.data);
-    })
-    .catch(err=>{
-      console.log(err);
-    })
+      .then(res => {
+        console.log(res.data);
+        setAllCompany(res.data);
+      })
+      .catch(err => {
+        console.log(err);
+      })
 
 
   }, []);
@@ -288,6 +288,22 @@ const HomeCandidate = () => {
         $("html, body").animate({ scrollTop: 0 }, 500);
       }, 0);
     });
+
+    const handleKeyDown = (event) => {
+      if (event.key === 's' && event.altKey) {
+        event.preventDefault();
+        const inputElement = document.getElementById('searchSkillInput');
+        if (inputElement) {
+          inputElement.focus();
+        }
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
   }, []);
 
   return (
@@ -300,14 +316,14 @@ const HomeCandidate = () => {
               <div className="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-7 col-xxl-7 home--left-cover">
                 <div className="home--head candidate">
                   <h4 data-aos="fade-left" data-aos-delay="200">
-                  Welcome to the only Job Portal for Immediate Joiners in the world.
+                    Welcome to the only Job Portal for Immediate Joiners in the world.
                   </h4>
                   {/* <h3 data-aos="fade-left" data-aos-delay="200">Choose from over 2400+ Jobs.</h3>
                   <h5 data-aos="fade-left" data-aos-delay="200">
                     Welcome to the place where you get hired in less than 7 days. Grab your Interview in 24 hours.
                   </h5> */}
                   <h6 data-aos="fade-right" data-aos-delay="300">
-                  Choose from over 2400+ Jobs. Get Interviewed within 24 Hours.
+                    Choose from over 2400+ Jobs. Get Interviewed within 24 Hours.
                   </h6>
                 </div>
                 <div className="home--search-area candidate">
@@ -319,12 +335,20 @@ const HomeCandidate = () => {
                       >{selectResult}</span>
                     ))}
                   </div>
-                  <input type="search" data-aos="fade-up" data-aos-delay="200" className='home--search-box candidate form-control'
-                    placeholder='Enter keywords like skills, designation'
-                    value={searchInput}
-                    onChange={handleSearch}
-                  />
-                  <i class="bi bi-search home--search-icon" data-aos="zoom-in" data-aos-delay="200"></i>
+
+                  <div className='position-relative'>
+                    <input type="search" data-aos="fade-up" data-aos-delay="200" className='home--search-box candidate form-control'
+                      placeholder='Enter keywords like skills, designation'
+                      value={searchInput}
+                      id='searchSkillInput'
+                      onChange={handleSearch}
+                    />
+                    <div className="short-cut" data-aos="zoom-in">
+                      <span className="short-cut-key">Alt + S</span>
+                    </div>
+                    <i class="bi bi-search home--search-icon" data-aos="zoom-in" data-aos-delay="200"></i>
+                  </div>
+                  
                   <div className='home-search-result-data-area candidate'>
                     {filteredList.length > 0 &&
                       filteredList.map((filterResult) => (
@@ -966,8 +990,8 @@ const HomeCandidate = () => {
         </div>
       </div >
 
-      
-      {(eventDetail.length > 0 || blogDetail.length> 0 || videoDetail.length>0 || podcastDetail.length> 0 || newsDetail.length>0) &&
+
+      {(eventDetail.length > 0 || blogDetail.length > 0 || videoDetail.length > 0 || podcastDetail.length > 0 || newsDetail.length > 0) &&
         <section className='custom--mobile-padding candidate cand--home-event-section'>
           <div className='candidate--section candidate'>
             <div className='home--about-toparea'>
@@ -1435,7 +1459,7 @@ const HomeCandidate = () => {
               })}
             </Swiper>
 
-          </div> 
+          </div>
 
           <div className="home--slider-btn-area" data-aos="fade-up">
             <div className='tal--pro-slider-btn-sub'>
