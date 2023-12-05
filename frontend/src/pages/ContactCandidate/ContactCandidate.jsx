@@ -13,7 +13,7 @@ import 'sweetalert2/dist/sweetalert2.css';
 
 const ContactCandidate = () => {
     const recaptcha = useRef();
-    
+
     //for show success message for payment
     function showSuccessMessage(message) {
         Swal.fire({
@@ -43,9 +43,9 @@ const ContactCandidate = () => {
                     'Content-Type': 'application/json',
                 },
             });
-    
+
             const result = response.data;
-    
+
             if (!result.error) {
                 console.log(result);
                 showSuccessMessage("your message sent to company")
@@ -59,49 +59,49 @@ const ContactCandidate = () => {
     };
 
     const initialCredentials = {
-        fullName:"",
-        email:"",
-        phoneNo:"",
-        subject:"",
-        message:"",
+        fullName: "",
+        email: "",
+        phoneNo: "",
+        subject: "",
+        message: "",
     }
 
     const [credentials, setCredentials] = useState(initialCredentials);
 
     const handleInputChange = (event) => {
-        const {name, value} = event.target;
-        setCredentials({...credentials, [name]:value});
+        const { name, value } = event.target;
+        setCredentials({ ...credentials, [name]: value });
     }
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         console.log(credentials);
         const captchaValue = recaptcha.current.getValue();
-      
+
         if (!captchaValue) {
-          showErrorMessage('Please verify the reCAPTCHA!');
+            showErrorMessage('Please verify the reCAPTCHA!');
         } else {
-          try {
-            const response = await axios.post('https://skillety.onrender.com/verify', {
-              captchaValue,
-            });
-      
-            const data = response.data;
-      
-            if (data.success) {
-              sendMessage(credentials);
-            } else {
-              showErrorMessage('reCAPTCHA validation failed!');
+            try {
+                const response = await axios.post('https://skillety.onrender.com/verify', {
+                    captchaValue,
+                });
+
+                const data = response.data;
+
+                if (data.success) {
+                    sendMessage(credentials);
+                } else {
+                    showErrorMessage('reCAPTCHA validation failed!');
+                }
+            } catch (error) {
+                console.error('Error during API call:', error);
             }
-          } catch (error) {
-            console.error('Error during API call:', error);
-          }
         }
-      };
+    };
 
     return (
         <div>
-            <LayoutNew contact={true}/>
+            <LayoutNew contact={true} />
             <div>
                 <div className='container-fluid contact--section'>
                     <div className='container-fluid container-section'>
@@ -150,15 +150,15 @@ const ContactCandidate = () => {
                                 </div>
                                 <div className="con--where-desc-area">
                                     <p className="con--where-desc" data-aos="fade-left">
-                                    Hello!, seekers of wisdom and answers! Welcome to the Contact Us page at Skillety - the space where your questions meet their match, and your curiosity gets a VIP pass to the front of the line!
+                                        Hello!, seekers of wisdom and answers! Welcome to the Contact Us page at Skillety - the space where your questions meet their match, and your curiosity gets a VIP pass to the front of the line!
                                     </p>
 
                                     <p className="con--where-desc mt-4" data-aos="fade-left">
-                                    Need assistance, guidance, or just want to drop us a virtual high-five? We've got you covered like a cozy blanket on a chilly night. Our Contact Us page is more than just a form; it's a direct hotline to the wizards behind the career-curtain, ready to sprinkle a little magic on your queries.
+                                        Need assistance, guidance, or just want to drop us a virtual high-five? We've got you covered like a cozy blanket on a chilly night. Our Contact Us page is more than just a form; it's a direct hotline to the wizards behind the career-curtain, ready to sprinkle a little magic on your queries.
                                     </p>
 
                                     <p className="con--where-desc mt-4" data-aos="fade-left">
-                                    Whether you're navigating the labyrinth of Job listings, seeking career advice, or just want to share your latest cat meme (we love those too), this is the place where pixels become handshakes. So, put on your typing gloves, flex those fingers, and let the conversation begin!
+                                        Whether you're navigating the labyrinth of Job listings, seeking career advice, or just want to share your latest cat meme (we love those too), this is the place where pixels become handshakes. So, put on your typing gloves, flex those fingers, and let the conversation begin!
                                     </p>
 
                                     <p className="con--where-desc mt-4" data-aos="fade-left">
@@ -242,13 +242,13 @@ const ContactCandidate = () => {
                                             </div>
                                             <div className="col-12 col-lg-6 col-md-6 custom-padding-left">
                                                 <div className='con--form-group' data-aos="fade-up">
-                                                    <input type="text" id='email' name="email" value={credentials.email} onChange={handleInputChange}  placeholder="Enter you email address" className='con--form-input' required />
+                                                    <input type="text" id='email' name="email" value={credentials.email} onChange={handleInputChange} placeholder="Enter you email address" className='con--form-input' required />
                                                     <label htmlFor="email" className='con--form-label'>E mail <span>*</span> </label>
                                                 </div>
                                             </div>
                                             <div className="col-12 col-lg-6 col-md-6 custom-padding-right">
                                                 <div className='con--form-group' data-aos="fade-up">
-                                                    <input type="number" id='phone_no' name="phoneNo" value={credentials.phoneNo} onChange={handleInputChange}placeholder="Enter you phone number" className='con--form-input' min='0' required />
+                                                    <input type="number" id='phone_no' name="phoneNo" value={credentials.phoneNo} onChange={handleInputChange} placeholder="Enter you phone number" className='con--form-input' min='0' required />
                                                     <label htmlFor="phone_no" className='con--form-label'>Phone Number <span>*</span> </label>
                                                 </div>
                                             </div>
@@ -265,6 +265,11 @@ const ContactCandidate = () => {
                                                 </div>
                                             </div>
                                         </div>
+
+                                        <div className='d-flex align-items-center justify-content-center mb-4'>
+                                            <ReCAPTCHA ref={recaptcha} sitekey={process.env.REACT_APP_SITE_KEY} />
+                                        </div>
+
                                         <div className="con--form-btn-area candidate">
                                             <button type='submit' className='con--form-btn-sub candidate' data-aos="fade-down">
                                                 <div className='con--form-btn candidate'>
@@ -278,7 +283,6 @@ const ContactCandidate = () => {
                                                     </svg>
                                                 </div>
                                             </button>
-                                            <ReCAPTCHA ref={recaptcha} sitekey={process.env.REACT_APP_SITE_KEY} />
                                         </div>
                                     </form>
                                 </div>

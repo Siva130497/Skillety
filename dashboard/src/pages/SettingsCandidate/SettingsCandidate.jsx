@@ -237,9 +237,9 @@ const SettingsCandidate = () => {
                 console.log(res.data)
                 if (!res.data.error) {
                     showSuccessMessage("password updated")
-                    setUserInfo(prevUserInfo => ({ ...prevUserInfo, currentPassword: "", newPassword:"", confirmPassword:"" }));
+                    setUserInfo(prevUserInfo => ({ ...prevUserInfo, currentPassword: "", newPassword: "", confirmPassword: "" }));
                     getAllCandidateDetail();
-                    
+
                 }
             })
             .catch(err => {
@@ -345,10 +345,10 @@ const SettingsCandidate = () => {
                                             <a className="nav-link active" id="account-tab" data-toggle="tab" href="#Account" role="tab"
                                                 aria-controls="account" aria-selected="true">Account</a>
                                         </li>
-                                        <li className="nav-item">
+                                        {/* <li className="nav-item">
                                             <a className="nav-link" id="job-pref-tab" data-toggle="tab" href="#JobPref" role="tab"
                                                 aria-controls="jobpref" aria-selected="false">Job Preferences</a>
-                                        </li>
+                                        </li> */}
                                         {/* <li className="nav-item">
                                             <a className="nav-link" id="notification-tab" data-toggle="tab" href="#Notification" role="tab"
                                                 aria-controls="notification" aria-selected="false">Notifications</a>
@@ -381,7 +381,11 @@ const SettingsCandidate = () => {
 
                                             <div className="setting-content">
                                                 <div className='setting-name'>Email Address</div>
-                                                <div className='setting-value' onClick={()=> window.location.href = `mailto:${candidateDetail.email}`}><a className='setting-value link' href={`mailto:${candidateDetail.email}`}>{candidateDetail.email}</a></div>
+                                                <div className='setting-value' onClick={() => window.location.href = `mailto:${candidateDetail.email}`}>
+                                                    <a className='setting-value link is-link' href={`mailto:${candidateDetail.email}`}>
+                                                        {candidateDetail.email}
+                                                    </a>
+                                                </div>
                                                 <div className={`change-input-area ${isEmailExpanded ? 'expanded' : ''}`}>
                                                     <div className="row">
                                                         <div className="col-12 col-xl-5 col-lg-5 col-md-6 d-flex align-items-center gap-10 mt-4 mb-2">
@@ -397,7 +401,11 @@ const SettingsCandidate = () => {
 
                                             <div className="setting-content">
                                                 <div className='setting-name'>Mobile Number</div>
-                                                <div className='setting-value' onClick={()=>window.location.href = `tel:${candidateDetail.phone}`}><a className='setting-value link' href={`tel:${candidateDetail.phone}`}>{candidateDetail.phone}</a></div>
+                                                <div className='setting-value' onClick={() => window.location.href = `tel:${candidateDetail.phone}`}>
+                                                    <a className='setting-value link is-link' href={`tel:${candidateDetail.phone}`}>
+                                                        {candidateDetail.phone}
+                                                    </a>
+                                                </div>
                                                 <div className={`change-input-area ${isMobileExpanded ? 'expanded' : ''}`}>
                                                     <div className="row">
                                                         <div className="col-12 col-xl-5 col-lg-5 col-md-6 d-flex align-items-center gap-10 mt-4 mb-2">
@@ -448,7 +456,7 @@ const SettingsCandidate = () => {
                                             </div>
                                         </div>
 
-                                        <div className="tab-pane fade" id="JobPref" role="tabpanel" aria-labelledby="job-pref-tab">
+                                        {/* <div className="tab-pane fade" id="JobPref" role="tabpanel" aria-labelledby="job-pref-tab">
                                             <div className="setting-content">
                                                 <div className='setting-title'>Job Preferences</div>
                                                 <div className='setting-sub'>Skillety would show the recommendation basis on your job preferences mentioned in your job profile. Editing it would also change your desired career profile.</div>
@@ -490,7 +498,7 @@ const SettingsCandidate = () => {
                                                 </button>
                                             </div>
 
-                                        </div>
+                                        </div> */}
 
                                         {/* <div className="tab-pane fade" id="Notification" role="tabpanel" aria-labelledby="notification-tab">
                                             

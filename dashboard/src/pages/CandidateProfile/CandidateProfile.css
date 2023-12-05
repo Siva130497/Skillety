@@ -941,3 +941,26 @@
     border-radius: 6px;
     margin: 2px;
 }
+
+.candidate-skill-note {
+    color: #714F36;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.candidate-skill-note span {
+    font-weight: 600;
+}
+
+.setting-update-btn:disabled {
+    background-color: #cccccc !important;
+    color: #4d4d4d !important;
+    border-color: #4d4d4d !important;
+    cursor: not-allowed;
+}
+
+.change-setting-input:disabled {
+    background-color: #eeeeee !important;
+    border-color: #4d4d4d !important;
+    cursor: not-allowed;
+}

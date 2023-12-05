@@ -13,7 +13,7 @@ import 'sweetalert2/dist/sweetalert2.css';
 
 const Contact = () => {
     const recaptcha = useRef();
-    
+
     //for show success message for payment
     function showSuccessMessage(message) {
         Swal.fire({
@@ -43,9 +43,9 @@ const Contact = () => {
                     'Content-Type': 'application/json',
                 },
             });
-    
+
             const result = response.data;
-    
+
             if (!result.error) {
                 console.log(result);
                 showSuccessMessage("your message sent to company")
@@ -59,49 +59,49 @@ const Contact = () => {
     };
 
     const initialCredentials = {
-        fullName:"",
-        email:"",
-        phoneNo:"",
-        subject:"",
-        message:"",
+        fullName: "",
+        email: "",
+        phoneNo: "",
+        subject: "",
+        message: "",
     }
 
     const [credentials, setCredentials] = useState(initialCredentials);
 
     const handleInputChange = (event) => {
-        const {name, value} = event.target;
-        setCredentials({...credentials, [name]:value});
+        const { name, value } = event.target;
+        setCredentials({ ...credentials, [name]: value });
     }
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         console.log(credentials);
         const captchaValue = recaptcha.current.getValue();
-      
+
         if (!captchaValue) {
-          showErrorMessage('Please verify the reCAPTCHA!');
+            showErrorMessage('Please verify the reCAPTCHA!');
         } else {
-          try {
-            const response = await axios.post('https://skillety.onrender.com/verify', {
-              captchaValue,
-            });
-      
-            const data = response.data;
-      
-            if (data.success) {
-              sendMessage(credentials);
-            } else {
-              showErrorMessage('reCAPTCHA validation failed!');
+            try {
+                const response = await axios.post('https://skillety.onrender.com/verify', {
+                    captchaValue,
+                });
+
+                const data = response.data;
+
+                if (data.success) {
+                    sendMessage(credentials);
+                } else {
+                    showErrorMessage('reCAPTCHA validation failed!');
+                }
+            } catch (error) {
+                console.error('Error during API call:', error);
             }
-          } catch (error) {
-            console.error('Error during API call:', error);
-          }
         }
-      };
+    };
 
     return (
         <div>
-            <Layout contact={true}/>
+            <Layout contact={true} />
             <div>
                 <div className='container-fluid contact--section'>
                     <div className='container-fluid container-section'>
@@ -252,6 +252,9 @@ const Contact = () => {
                                                 </div>
                                             </div>
                                         </div>
+                                        <div className='d-flex align-items-center justify-content-center mb-4'> 
+                                            <ReCAPTCHA ref={recaptcha} sitekey={process.env.REACT_APP_SITE_KEY} />
+                                        </div>
                                         <div className="con--form-btn-area">
                                             <button type='submit' className='con--form-btn-sub' data-aos="fade-down">
                                                 <div className='con--form-btn'>
@@ -265,7 +268,6 @@ const Contact = () => {
                                                     </svg>
                                                 </div>
                                             </button>
-                                            <ReCAPTCHA ref={recaptcha} sitekey={process.env.REACT_APP_SITE_KEY} />
                                         </div>
                                     </form>
                                 </div>
@@ -275,7 +277,7 @@ const Contact = () => {
                     </div>
                 </div>
             </div>
-            <Footer/>
+            <Footer />
         </div>
 
 
