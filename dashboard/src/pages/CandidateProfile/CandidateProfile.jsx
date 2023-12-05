@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useEffect } from 'react';
 import Layout from '../../components/Layout';
 import './CandidateProfile.css';
@@ -9,6 +9,7 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
 import Footer from '../../components/Footer';
+import AuthContext from '../../context/AuthContext';
 
 
 const CandidateProfile = () => {
@@ -23,12 +24,36 @@ const CandidateProfile = () => {
     const [candidateResumeUrl, setCandidateResumeUrl] = useState("");
     const [resume, setResume] = useState();
 
+    const [skillArray, setSkillArray] = useState([]);
+    const [selectedSkills, setSelectedSkills] = useState([]);
+    const [searchSkillInput, setSearchSkillInput] = useState("");
+    const [filteredSkills, setFilteredSkills] = useState([]);
+    const [skillError, setSkillError] = useState("");
+    const [isCheckedSkill, setIsCheckedSkill] = useState(false);
+    const [newSkill, setNewSkill] = useState("");
+    const [otherSkill, setOtherSkill] = useState([]);
+    const [totalMonths, setTotalMonths] = useState();
+    const [maxSkillNum, setMaxSkillNum] = useState();
+    const [minSkillNum, setMinSkillNum] = useState();
+    const [skillAlert, setSkillAlert] = useState("");
+
+    const [educationArray, setEducationArray] = useState([]);
+    const [searchEducationInput, setSearchEducationInput] = useState("");
+    const [filteredEducation, setFilteredEducation] = useState([]);
+    const [selectedEducation, setSelectedEducation] = useState([]);
+
+    const [locationArray, setLocationArray] = useState([]);
+    const [filteredLocations, setFilteredLocations] = useState([]);
+    const [selectedLocations, setSelectedLocations] = useState([]);
+    const [searchLocationInput, setSearchLocationInput] = useState("");
+
     const [userInfo, setUserInfo] = useState({
         firstName: "",
         lastName: "",
-        location: "",
-        skill: "",
         profileHeadline: "",
+        days:"",
+        year: "",
+        month: "",
     })
 
     const [loading, setLoading] = useState(true);
@@ -45,16 +70,119 @@ const CandidateProfile = () => {
     //     }
     // }, []);
 
+    useEffect(() => {
+       
+        setTotalMonths(parseInt(userInfo.year * 12) + parseInt(userInfo.month))
+         console.log(totalMonths)
+        
+    }, [userInfo])
 
     useEffect(() => {
-        setUserInfo({
+        if (totalMonths) {
+            setSkillError("")
+            console.log(totalMonths)
+            setMaxSkillNum(totalMonths <= 24 ? 6 : totalMonths <= 48 ? 8 : totalMonths <= 96 ? 10 : 12)
+            setMinSkillNum(totalMonths <= 24 ? 4 : totalMonths <= 48 ? 6 : totalMonths <= 96 ? 8 : 10)
+
+            if (totalMonths <= 24) {
+                setSkillAlert("You can select min of 4 & max of 6 skills")
+            } else if (totalMonths <= 48) {
+                setSkillAlert("You can select min of 6 & max of 8 skills")
+            } else if (totalMonths <= 96) {
+                setSkillAlert("You can select min of 8 & max of 10 skills")
+            } else {
+                setSkillAlert("You can select min of 10 & max of 12 skills")
+            }
+        }
+    }, [totalMonths]) 
+
+    const getAllSkills = async () => {
+        try {
+            const res = await axios.get("https://skillety.onrender.com/skills");
+            setSkillArray(res.data);
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    const getAllEducation = async () => {
+        try {
+            const res = await axios.get("https://skillety.onrender.com/educations", {
+                headers: {
+                    Accept: 'application/json'
+                }
+            });
+            const result = res.data;
+            if (!result.error) {
+                console.log(result);
+                setEducationArray(result);
+            } else {
+                console.log(result);
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+    const getAllLocations = async () => {
+        try {
+            const res = await axios.get("https://skillety.onrender.com/locations", {
+                headers: {
+                    Accept: 'application/json'
+                }
+            });
+            const result = res.data;
+            if (!result.error) {
+                console.log(result);
+                setLocationArray(result);
+            } else {
+                console.log(result);
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+    //post new skill
+  const postOtherSkills = async (skills) => {
+    try {
+      const res = await axios.post("https://skillety.onrender.com/skills", skills, {
+        headers: {
+          
+          Accept: 'application/json'
+        }
+      });
+      const result = res.data;
+      if (!result.error) {
+        console.log(result);
+      } else {
+        console.log(result);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+    useEffect(()=>{
+        getAllSkills();
+        getAllEducation();
+        getAllLocations();
+    },[])
+
+    useEffect(() => {
+        setSelectedSkills(loginCandidate?.skills)
+        setSelectedEducation([loginCandidate?.education])
+        setSelectedLocations([loginCandidate?.location])
+        setUserInfo({ 
             ...userInfo,
             firstName: loginCandidate?.firstName,
             lastName: loginCandidate?.lastName,
-            location: loginCandidate?.location,
-            skill: loginCandidate?.skills.join(", "),
-            profileHeadline: loginCandidate?.profileHeadline
+            profileHeadline: loginCandidate?.profileHeadline,
+            month:loginCandidate?.month,
+            year:loginCandidate?.year,
+            days:loginCandidate?.days,
         })
+        
     }, [loginCandidate])
 
     useEffect(() => {
@@ -376,7 +504,7 @@ const CandidateProfile = () => {
     const handleLocationUpdate = () => {
         const userData = {
             id: id,
-            location: userInfo.location,
+            location: selectedLocations[0],
         }
         axios.patch("https://skillety.onrender.com/update-candidate-location", userData, {
             headers: {
@@ -388,8 +516,7 @@ const CandidateProfile = () => {
                 console.log(res.data)
                 if (!res.data.error) {
                     showSuccessMessage("Location updated!")
-                    setUserInfo(prevUserInfo => ({ ...prevUserInfo, location: "" }));
-
+                    setSelectedLocations([])
 
                     axios.get(`https://skillety.onrender.com/candidate/${id}`)
                         .then(res => {
@@ -461,33 +588,40 @@ const CandidateProfile = () => {
         }
     }
 
-    // const handleSkillUpdate = () => {
-    //     const userData = {
-    //         id: id,
-    //         skill: userInfo.skill,
-    //     }
-    //     axios.patch("https://skillety.onrender.com/update-candidate-skill", userData, {
-    //         headers: {
-    //             Authorization: `Bearer ${candidateToken}`,
-    //             Accept: 'application/json'
-    //         }
-    //     })
-    //         .then(res => {
-    //             console.log(res.data)
-    //             if (!res.data.error) {
-    //                 alert("location updated")
-    //                 setUserInfo({ ...userInfo, skill: "" })
+    const handleSkillUpdate = () => {
+        if (selectedSkills.length < minSkillNum) {
+            setSkillError(`Please select atleast ${minSkillNum} skills`) 
+        }else{
+            const userData = {
+                id: id,
+                skill: selectedSkills,
+            }
+            axios.patch("https://skillety.onrender.com/update-candidate-skill", userData, {
+                headers: {
+                    Authorization: `Bearer ${candidateToken}`,
+                    Accept: 'application/json'
+                }
+            })
+                .then(res => {
+                    console.log(res.data)
+                    if (!res.data.error) {
+                        showSuccessMessage("Skill updated")
+                        setSelectedSkills([])
+    
+                        axios.get(`https://skillety.onrender.com/candidate/${id}`)
+                        .then(res=>{
+                            console.log(res.data)
+                            setLoginCandidate(res.data)
+                        })
+                        .catch(err=>console.log(err))
+                    }
+                })
+                .catch(err => console.log(err))
 
-    //                 axios.get(`https://skillety.onrender.com/candidate/${id}`)
-    //                 .then(res=>{
-    //                     console.log(res.data)
-    //                     setLoginCandidate(res.data)
-    //                 })
-    //                 .catch(err=>console.log(err))
-    //             }
-    //         })
-    //         .catch(err => console.log(err))
-    // }
+            otherSkill.length > 0 && postOtherSkills(otherSkill);
+
+        }
+    }
 
     const handleProfileHeadlineUpdate = () => {
         const userData = {
@@ -518,6 +652,227 @@ const CandidateProfile = () => {
                 console.log(err)
                 showErrorMessage()
             })
+    }
+
+    const handleDaysUpdate = () => {
+        const userData = {
+            id: id,
+            days: userInfo.days,
+        }
+        axios.patch("https://skillety.onrender.com/update-candidate-days", userData, {
+            headers: {
+                Authorization: `Bearer ${candidateToken}`,
+                Accept: 'application/json'
+            }
+        })
+            .then(res => {
+                console.log(res.data)
+                if (!res.data.error) {
+                    showSuccessMessage("Availablity to join Updated!")
+                    setUserInfo(prevUserInfo => ({ ...prevUserInfo, days: "" }));
+
+                    axios.get(`https://skillety.onrender.com/candidate/${id}`)
+                        .then(res => {
+                            console.log(res.data)
+                            setLoginCandidate(res.data)
+                        })
+                        .catch(err => {
+                            console.log(err)
+
+                        })
+                }
+            })
+            .catch(err => {
+                console.log(err)
+                showErrorMessage()
+            })
+    }
+
+    const handleExperienceUpdate = () => {
+        const userData = {
+            id: id,
+            year: userInfo.year,
+            month:userInfo.month,
+        }
+        axios.patch("https://skillety.onrender.com/update-candidate-experience", userData, {
+            headers: {
+                Authorization: `Bearer ${candidateToken}`,
+                Accept: 'application/json'
+            }
+        })
+            .then(res => {
+                console.log(res.data)
+                if (!res.data.error) {
+                    showSuccessMessage("Experience Updated!")
+                    setUserInfo(prevUserInfo => ({ ...prevUserInfo, month: "", year:"" }));
+
+                    axios.get(`https://skillety.onrender.com/candidate/${id}`)
+                        .then(res => {
+                            console.log(res.data)
+                            setLoginCandidate(res.data)
+                        })
+                        .catch(err => {
+                            console.log(err)
+
+                        })
+                }
+            })
+            .catch(err => {
+                console.log(err)
+                showErrorMessage()
+            })
+    }
+
+    const handleEducationUpdate = () => {
+        const userData = {
+            id: id,
+            education: selectedEducation[0],
+        }
+        axios.patch("https://skillety.onrender.com/update-candidate-education", userData, {
+            headers: {
+                Authorization: `Bearer ${candidateToken}`,
+                Accept: 'application/json'
+            }
+        })
+            .then(res => {
+                console.log(res.data)
+                if (!res.data.error) {
+                    showSuccessMessage("Education updated!")
+                    selectedEducation([])
+
+                    axios.get(`https://skillety.onrender.com/candidate/${id}`)
+                        .then(res => {
+                            console.log(res.data)
+                            setLoginCandidate(res.data)
+                        })
+                        .catch(err => console.log(err))
+                }
+            })
+            .catch(err => {
+                console.log(err)
+                showErrorMessage()
+            })
+    }
+
+    const handleSkillSearch = (e) => {
+        const inputValue = e.target.value;
+        setSearchSkillInput(inputValue);
+        if (inputValue.length > 0) {
+            const candidateSkills = skillArray.filter((obj) => {
+                return obj.skill.toLowerCase().includes(inputValue.toLowerCase());
+            });
+            if (candidateSkills.length > 0) {
+                setFilteredSkills(candidateSkills);
+            }
+        } else {
+            setFilteredSkills([]);
+        }
+    }
+
+    const handleSkillClick = (skill) => {
+        if (totalMonths > 0) {
+            setSkillError("")
+            if (selectedSkills.includes(skill)) {
+                setSelectedSkills([...selectedSkills]);
+                setSearchSkillInput("");
+                setFilteredSkills([]);
+            } else {
+                selectedSkills.length === maxSkillNum && setSkillError(`You can select max of ${maxSkillNum} skills`)
+                setSearchSkillInput("");
+                setFilteredSkills([]);
+                if (selectedSkills.length < maxSkillNum) {
+                    setSelectedSkills([...selectedSkills, skill]);
+                    setSearchSkillInput("");
+                    setFilteredSkills([]);
+                }
+            }
+        } else {
+            setSkillError("Please enter the experience first...");
+            setSearchSkillInput("");
+            setFilteredSkills([]);
+        }
+    }
+
+    const handleDeselect = (skill) => {
+        setSelectedSkills(selectedSkills.filter(selectedSkill => selectedSkill !== skill));
+        setOtherSkill(otherSkill.filter(other => other !== skill));
+    }
+
+    const handleManualSkill = () => {
+        if (totalMonths > 0) {
+            setSkillError("")
+            setSearchSkillInput("");
+            if (selectedSkills.length === maxSkillNum) {
+                setSkillError(`You can select max of ${maxSkillNum} skills`);
+                setNewSkill("");
+            }
+            if (selectedSkills.length < maxSkillNum) {
+                setSkillError("")
+                const foundObject = skillArray.find(item => item.skill.toLowerCase() === newSkill.toLowerCase());
+                if (foundObject) {
+                    setSkillError(`Skill "${newSkill}" already in list, please search...`);
+                    setNewSkill("");
+                } else {
+                    setOtherSkill([...otherSkill, newSkill]);
+                    setSelectedSkills([...selectedSkills, newSkill]);
+                    setNewSkill("");
+                }
+            }
+        }else {
+            setSkillError("Please enter the experience first...");
+            setNewSkill("");
+        }
+        
+    }
+
+    const handleEducationSearch = (e) => {
+        const inputValue = e.target.value;
+        setSearchEducationInput(inputValue);
+        if (inputValue.length > 0) {
+            const educations = educationArray.filter((obj) => {
+                return obj.education.toLowerCase().includes(inputValue.toLowerCase());
+            });
+            if (educations.length > 0) {
+                setFilteredEducation(educations);
+            }
+        } else {
+            setFilteredEducation([]);
+        }
+    };
+
+    const handleEducationClick = (education) => {
+        setSelectedEducation([education]);
+        setSearchEducationInput("");
+        setFilteredEducation([]);
+    }
+
+    const handleDeselectEducation = (education) => {
+        setSelectedEducation(selectedEducation.filter(selectEducation => selectEducation !== education));
+    }
+
+    const handleDeselectLocation = (location) => {
+        setSelectedLocations(selectedLocations.filter(selectedLocation => selectedLocation !== location));
+    }
+
+    const handleLocationSearch = (e) => {
+        const inputValue = e.target.value;
+        setSearchLocationInput(inputValue);
+        if (inputValue.length > 0) {
+            const Locations = locationArray.filter((obj) => {
+                return obj.location.toLowerCase().includes(inputValue.toLowerCase());
+            });
+            if (Locations.length > 0) {
+                setFilteredLocations(Locations);
+            }
+        } else {
+            setFilteredLocations([]);
+        }
+    }
+
+    const handleLocationClick = (location) => {
+        setSelectedLocations([location]);
+        setSearchLocationInput("");
+        setFilteredLocations([]);
     }
 
 
@@ -606,7 +961,7 @@ const CandidateProfile = () => {
                                                                             value={userInfo.firstName}
                                                                             onChange={(e) => setUserInfo({ ...userInfo, firstName: e.target.value })}
                                                                             placeholder="Change Profile First Name" />
-                                                                        <button className="setting-update-btn" onClick={handleFirstNameUpdate}>Update</button>
+                                                                        <button className="setting-update-btn" onClick={handleFirstNameUpdate} disabled={!userInfo.firstName}>Update</button>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -618,7 +973,7 @@ const CandidateProfile = () => {
                                                                             value={userInfo.lastName}
                                                                             onChange={(e) => setUserInfo({ ...userInfo, lastName: e.target.value })}
                                                                             placeholder="Change Profile Last Name" />
-                                                                        <button className="setting-update-btn" onClick={handleLastNameUpdate}>Update</button>
+                                                                        <button className="setting-update-btn" onClick={handleLastNameUpdate} disabled={!userInfo.lastName}>Update</button>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -630,58 +985,46 @@ const CandidateProfile = () => {
                                                         <div className="prof-page-divider"></div>
                                                         <div className="prof-more-det-section">
                                                             <div className="prof-more-det-left-area">
-                                                                {loginCandidate?.location ?
+                                                                
                                                                     <div className="prof-more-det-area">
                                                                         <div className="prof-more-det">
                                                                             <i class="bi bi-geo-alt"></i>
                                                                             <div className="prof-more-det-title text-capitalized">{loginCandidate?.location}</div>
-                                                                            <button className={`prof-more-det-edit-btn ${isLocationExpanded ? 'expanded' : ''}`}
+                                                                            {/* <button className={`prof-more-det-edit-btn ${isLocationExpanded ? 'expanded' : ''}`}
                                                                                 onClick={handleLocationChangeToggle}>
                                                                                 <i class={`${isLocationExpanded ? 'bi-x' : 'bi bi-pencil'} profile--name-edit-icon`}></i>
-                                                                            </button>
+                                                                            </button> */}
                                                                         </div>
-                                                                        <div className={`prof-more-det-input-area ${isLocationExpanded ? 'expanded' : ''}`}>
+                                                                        {/* <div className={`prof-more-det-input-area ${isLocationExpanded ? 'expanded' : ''}`}>
                                                                             <div className="row">
+                                                                            {selectedLocations?.map(selectedLocation => (
+                                                                                    <span className="job-post-form-badge tal-search"
+                                                                                        key={selectedLocation}
+                                                                                        onClick={() => handleDeselectLocation(selectedLocation)}
+                                                                                    >{selectedLocation}
+                                                                                    </span>
+                                                                                ))}
                                                                                 <div className="col-12 d-flex align-items-center gap-10">
                                                                                     <input
                                                                                         type="text"
                                                                                         className="change-setting-input more-det"
                                                                                         placeholder="Change Location"
-                                                                                        value={userInfo.location}
-                                                                                        onChange={(e) => setUserInfo({ ...userInfo, location: e.target.value })} />
+                                                                                        value={searchLocationInput}
+                                                                                        onChange={handleLocationSearch}
+                                                                                        />
+                                                                                    {filteredLocations.length > 0 &&
+                                                                                        filteredLocations.map((filterLocation) => {
+                                                                                            return <div className='search-result-data custom' key={filterLocation._id} onClick={() => handleLocationClick(filterLocation.location)}>
+                                                                                                {filterLocation.location}
+                                                                                            </div>
+                                                                                        })
+                                                                                    }
                                                                                     <button className="setting-update-btn more-det" onClick={handleLocationUpdate}>Update</button>
                                                                                 </div>
                                                                             </div>
-                                                                        </div>
+                                                                        </div> */}
                                                                     </div>
-                                                                    :
-                                                                    <div className="prof-more-det-area">
-                                                                        <div className="prof-more-det">
-                                                                            <i class="bi bi-geo-alt"></i>
-                                                                            {/* <div className="prof-more-det-title text-capitalized">{loginCandidate?.location}</div> */}
-                                                                            <button className={`prof-more-det-edit-btn ${isLocationExpanded ? 'expanded' : ''}`}
-                                                                                onClick={handleLocationChangeToggle}>
-                                                                                <span className="add-detail">
-                                                                                    {isLocationExpanded ? 'Cancel' : 'Add Location'}
-                                                                                </span>
-                                                                            </button>
-                                                                        </div>
-                                                                        <div className={`prof-more-det-input-area ${isLocationExpanded ? 'expanded' : ''}`}>
-                                                                            <div className="row">
-                                                                                <div className="col-12 d-flex align-items-center gap-10">
-                                                                                    <input
-                                                                                        type="text"
-                                                                                        className="change-setting-input more-det"
-                                                                                        placeholder="Add Location"
-                                                                                        value={userInfo.location}
-                                                                                        onChange={(e) => setUserInfo({ ...userInfo, location: e.target.value })} />
-                                                                                    <button className="setting-update-btn more-det" onClick={handleLocationUpdate}>Update</button>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                }
-
+                                                                    
                                                                 <div className="prof-more-det-area">
                                                                     <div className="prof-more-det">
                                                                         <i class="bi bi-briefcase"></i>
@@ -702,14 +1045,17 @@ const CandidateProfile = () => {
                                                                         <div className="row">
                                                                             <div className="col-12 d-flex align-items-center gap-10">
                                                                                 <i class="bi bi-chevron-down toggle-icon"></i>
-                                                                                <select className='change-setting-input more-det select'>
+                                                                                <select className='change-setting-input more-det select'
+                                                                                value={userInfo.days}
+                                                                                onChange={(e) => setUserInfo({ ...userInfo, days: e.target.value })}>
                                                                                     <option value="" disabled selected>-- Select availablity to join --</option>
                                                                                     <option value="0 to 7 days">0 to 7 days</option>
-                                                                                    <option value="">0 to 15 days</option>
-                                                                                    <option value="">0 to 21 days</option>
-                                                                                    <option value="">0 to 30 days</option>
+                                                                                    <option value="8 to 15 days">8 to 15 days</option>
+                                                                                    <option value="16 to 30 days">16 to 30 days</option>
+                                                                                    <option value="More than 30 days">More than 30 days</option>
+                                                                                    <option value="Currently not serving notice period">Currently not serving notice period</option>
                                                                                 </select>
-                                                                                <button className="setting-update-btn more-det">Update</button>
+                                                                                <button className="setting-update-btn more-det" onClick={handleDaysUpdate} disabled={!userInfo.days}>Update</button>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -909,8 +1255,8 @@ const CandidateProfile = () => {
                                                         Update resume
                                                     </span>
                                                 </label>
-                                                {resume?.length > 0 ? <span id="file-chosen">{resume.name}</span> : loginCandidate?.file ? <span id="file-chosen">{loginCandidate?.file}</span> : <span id="file-chosen">no file choosen</span>}
-                                                <button className="setting-update-btn more-det" onClick={handleResumeUpdate}>Update</button>
+                                                {resume ? <span id="file-chosen">{resume.name}</span> : loginCandidate?.file ? <span id="file-chosen">{loginCandidate?.file}</span> : <span id="file-chosen">no file choosen</span>}
+                                                <button className="setting-update-btn more-det" onClick={handleResumeUpdate} disabled={!resume}>Update</button>
                                                 {/* <div className="file-upload-btn-area">
                                                 <button id="clear-file" className='clear-file-btn'>
                                                     <i class="bi bi-x"></i>Clear File
@@ -963,7 +1309,7 @@ const CandidateProfile = () => {
                                                 <div className="profile-content-area">
                                                     <div className='profile-content experince text-capitalized'>
                                                         Experience&nbsp;:&nbsp;
-                                                        <span>1 Year 2 Months</span>
+                                                        <span>{loginCandidate?.year} Year {loginCandidate?.month} Months</span>
                                                     </div>
                                                     <div className='profile-content experince  text-capitalized'>
                                                         Skills&nbsp;:&nbsp;
@@ -980,13 +1326,18 @@ const CandidateProfile = () => {
                                                     <div className="col-12 d-flex align-items-center gap-10">
                                                         <input type="number" className="change-setting-input text-center"
                                                             placeholder="Years"
+                                                            value={userInfo.year}
+                                                            onChange={(e) => setUserInfo({ ...userInfo, year: e.target.value })}
                                                         />
                                                         -
                                                         <input type="number" className="change-setting-input text-center"
                                                             placeholder="Months"
+                                                            value={userInfo.month}
+                                                            onChange={(e) => setUserInfo({ ...userInfo, month: e.target.value })}
                                                         />
                                                         <button className="setting-update-btn"
-                                                        // onClick={handleSkillUpdate}
+                                                        onClick={handleExperienceUpdate}
+                                                        disabled={!userInfo.year || !userInfo.month}
                                                         >
                                                             Update
                                                         </button>
@@ -996,50 +1347,74 @@ const CandidateProfile = () => {
                                                 <div className="row">
                                                     <div className="col-12">
                                                         <div className='job-post-form-badge-area'>
-                                                            <span className="job-post-form-badge tal-search">
-                                                                Badge
-                                                            </span>
+                                                            {selectedSkills?.map(selectSkill => (
+                                                                <span className="job-post-form-badge tal-search"
+                                                                    key={selectSkill}
+                                                                    onClick={() => handleDeselect(selectSkill)}
+                                                                >{selectSkill}</span>   
+                                                            ))}
                                                         </div>
                                                         <div className='d-flex align-items-center gap-10 position-relative'>
                                                             <div className='w-100 position-relative'>
                                                                 <input type="search" className="change-setting-input"
-                                                                    onChange={(e) => setUserInfo({ ...userInfo, skill: e.target.value })}
+                                                                    value={searchSkillInput}
+                                                                    onChange={handleSkillSearch}
                                                                     placeholder="Search Skill"
                                                                 />
-
+                                                                <small className='text-danger'>{skillAlert}</small>
                                                                 <div className='search-result-data-area custom'>
-                                                                    <div className='search-result-data custom'>
-                                                                        Result 1
-                                                                    </div>
-                                                                    <div className='search-result-data custom'>
-                                                                        Result 1
-                                                                    </div>
-                                                                    <div className='search-result-data custom'>
-                                                                        Result 1
-                                                                    </div>
-                                                                    <div className='search-result-data custom'>
-                                                                        Result 1
-                                                                    </div>
-                                                                    <div className='search-result-data custom'>
-                                                                        Result 1
-                                                                    </div>
-                                                                    <div className='search-result-data custom'>
-                                                                        Result 1
-                                                                    </div>
-                                                                    <div className='search-result-data custom'>
-                                                                        Result 1
-                                                                    </div>
-                                                                    <div className='search-result-data custom'>
-                                                                        Result 1
-                                                                    </div>
-                                                                    <div className='search-result-data custom'>
-                                                                        Result 1
+                                                                    {filteredSkills.length > 0 &&
+                                                                        filteredSkills.map((filterSkill) => {
+                                                                            return <div className='search-result-data custom' key={filterSkill._id} onClick={() => handleSkillClick(filterSkill.skill)}>{filterSkill.skill}</div>
+                                                                        })
+                                                                    }
+                                                                </div>
+                                                            </div>
+
+                                                            {/* <div className="can-reg-form-chechbox-area">
+                                                                <label className="can-reg-form-check-input">
+                                                                    <input
+                                                                        type="checkbox"
+                                                                        checked={isCheckedSkill}
+                                                                        onChange={() => setIsCheckedSkill(!isCheckedSkill)}
+                                                                    />
+                                                                    <span className="can-reg-form-checkmark"></span>
+                                                                    If your searched skill not in the list, please enable the checkbox & type manually...
+                                                                </label>
+                                                                
+                                                            </div>
+                                                            <div className="cand--reg-skills-text">
+                                                                Note: These will also be used as the Tags for searching matching jobs for you. So enter all your key skills without fail.
+                                                            </div>
+                                                            <small className='text-danger'>{skillError}</small>
+
+                                                            <div className="col-12 col-xl-4 custom-padding-left2">
+                                                                <div className='cand--reg-form-group cand--reg-custom-padding'>
+                                                                    <div className='cand--reg-multi-input-form-group'>
+                                                                        <input
+                                                                            type='text'
+                                                                            name='manualSkillInput'
+                                                                            id='manualSkillInput'
+                                                                            className='cand--reg-form-input'
+                                                                            placeholder='Enter your skills...'
+                                                                            value={newSkill}
+                                                                            onChange={(e) => setNewSkill(e.target.value)}
+                                                                            disabled={!isCheckedSkill}
+                                                                        />
+                                                                        <label htmlFor="manualDesignationInput" className='cand--reg-form-label'>Enter your skill manually</label>
+                                                                        <button
+                                                                            type="button"
+                                                                            className="multi-form-add-btn"
+                                                                            onClick={handleManualSkill}
+                                                                            disabled={!isCheckedSkill}
+                                                                        >Add</button>
                                                                     </div>
                                                                 </div>
+                                                            </div> */}
 
-                                                            </div>
                                                             <button className="setting-update-btn"
-                                                            // onClick={handleSkillUpdate}
+                                                            onClick={handleSkillUpdate}
+                                                            disabled={totalMonths ? (selectedSkills.length<minSkillNum || selectedSkills.length>maxSkillNum) : true}
                                                             >
                                                                 {loginCandidate?.skills ? 'Update' : 'Add'}
                                                             </button>
@@ -1078,7 +1453,8 @@ const CandidateProfile = () => {
                                                             placeholder={`${loginCandidate?.profileHeadline ? 'Change' : 'Add'} profile headline`}
                                                             value={userInfo.profileHeadline}
                                                             onChange={(e) => setUserInfo({ ...userInfo, profileHeadline: e.target.value })} />
-                                                        <button className="setting-update-btn" onClick={handleProfileHeadlineUpdate}>
+                                                        <button className="setting-update-btn" onClick={handleProfileHeadlineUpdate}
+                                                        disabled={!userInfo.profileHeadline}>
                                                             {loginCandidate?.profileHeadline ? 'Update' : 'Add'}
                                                         </button>
                                                     </div>
@@ -1113,47 +1489,35 @@ const CandidateProfile = () => {
                                                 <div className="row">
                                                     <div className="col-12">
                                                         <div className='job-post-form-badge-area'>
-                                                            <span className="job-post-form-badge tal-search">
-                                                                Badge
+                                                            {selectedEducation?.map(selectEducation => (
+                                                            <span className="job-post-form-badge tal-search"
+                                                                key={selectEducation}
+                                                                onClick={() => handleDeselectEducation(selectEducation)}
+                                                            >{selectEducation}
                                                             </span>
+                                                        ))}
                                                         </div>
 
                                                         <div className='d-flex align-items-center gap-10 position-relative'>
                                                             <div className='w-100 position-relative'>
                                                                 <input type="search" className="change-setting-input"
+                                                                value={searchEducationInput}
+                                                                onChange={handleEducationSearch}
                                                                     placeholder={`${loginCandidate?.education ? 'Change' : 'Add'} education`} />
 
                                                                 <div className='search-result-data-area custom'>
-                                                                    <div className='search-result-data custom'>
-                                                                        Result 1
-                                                                    </div>
-                                                                    <div className='search-result-data custom'>
-                                                                        Result 1
-                                                                    </div>
-                                                                    <div className='search-result-data custom'>
-                                                                        Result 1
-                                                                    </div>
-                                                                    <div className='search-result-data custom'>
-                                                                        Result 1
-                                                                    </div>
-                                                                    <div className='search-result-data custom'>
-                                                                        Result 1
-                                                                    </div>
-                                                                    <div className='search-result-data custom'>
-                                                                        Result 1
-                                                                    </div>
-                                                                    <div className='search-result-data custom'>
-                                                                        Result 1
-                                                                    </div>
-                                                                    <div className='search-result-data custom'>
-                                                                        Result 1
-                                                                    </div>
-                                                                    <div className='search-result-data custom'>
-                                                                        Result 1
-                                                                    </div>
+                                                                    
+                                                                    {filteredEducation.length > 0 &&
+                                                                        filteredEducation.map((filterEducation) => {
+                                                                            return <div className='search-result-data custom' key={filterEducation._id} onClick={() => handleEducationClick(filterEducation.education)}>
+                                                                                {filterEducation.education}
+                                                                            </div>
+                                                                        })
+                                                                    }
                                                                 </div>
                                                             </div>
-                                                            <button className="setting-update-btn">
+                                                            <button className="setting-update-btn" onClick={handleEducationUpdate}
+                                                            disabled={selectedEducation.length===0}>
                                                                 {loginCandidate?.education ? 'Update' : 'Add'}
                                                             </button>
                                                         </div>
@@ -1203,6 +1567,70 @@ const CandidateProfile = () => {
                                             </div>
                                         </div>
                                     </div> */}
+                                        </div>
+
+                                        <div className="profile-content-card" id='Location'>
+                                            <div className="profile-content-top-area">
+                                                <div className="profile-content-title">Location</div>
+                                                {loginCandidate?.location ?
+                                                    <button className="profile-skill-edit-btn"
+                                                        data-type='Location'>
+                                                        Change Location
+                                                    </button>
+                                                    :
+                                                    <button className="profile-skill-edit-btn"
+                                                        data-type='Location'>
+                                                        Add Location
+                                                    </button>
+                                                }
+                                            </div>
+                                            {loginCandidate?.location ?
+                                                <div className="profile-content-area">
+                                                    <div className='profile-content'>
+                                                        {loginCandidate?.location}
+                                                    </div>
+                                                </div> : null
+                                            }
+                                            <div className="profile-content-skill-input-area">
+                                                <hr />
+                                                <div className="row">
+                                                    <div className="col-12">
+                                                        <div className='job-post-form-badge-area'>
+                                                            {selectedLocations?.map(selectLocation => (
+                                                            <span className="job-post-form-badge tal-search"
+                                                                key={selectLocation}
+                                                                onClick={() => handleDeselectLocation(selectLocation)}
+                                                            >{selectLocation}
+                                                            </span>
+                                                        ))}
+                                                        </div>
+
+                                                        <div className='d-flex align-items-center gap-10 position-relative'>
+                                                            <div className='w-100 position-relative'>
+                                                                <input type="search" className="change-setting-input"
+                                                                value={searchLocationInput}
+                                                                onChange={handleLocationSearch}
+                                                                    placeholder={`${loginCandidate?.location ? 'Change' : 'Add'} education`} />
+
+                                                                <div className='search-result-data-area custom'>
+                                                                    
+                                                                    {filteredLocations.length > 0 &&
+                                                                        filteredLocations.map((filterLocation) => {
+                                                                            return <div className='search-result-data custom' key={filterLocation._id} onClick={() => handleLocationClick(filterLocation.location)}>
+                                                                                {filterLocation.location}
+                                                                            </div>
+                                                                        })
+                                                                    }
+                                                                </div>
+                                                            </div>
+                                                            <button className="setting-update-btn" onClick={handleLocationUpdate}
+                                                            disabled={selectedLocations.length===0}>
+                                                                {loginCandidate?.location ? 'Update' : 'Add'}
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
 
                                         {/* <div className="profile-content-card" id='It_skills'>

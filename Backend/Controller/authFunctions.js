@@ -2254,22 +2254,69 @@ const updatingCandidateLocation = async (req, res) => {
   }
 };
 
+const updatingCandidateSkill = async (req, res) => {
+  const { id, skill } = req.body;
 
-// const updatingCandidateSkill = async (req, res) => {
-//   const { id, skill } = req.body;
+  try {
+    const finalCandidateDoc = await candidate.findOneAndUpdate(
+      { id: id },
+      { skills: skill },
+      { new: true }
+    );
+    res.status(200).json({ finalCandidateDoc });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: 'Internal Server Error' });
+  }
+};
 
-//   try {
-//     const finalCandidateDoc = await candidate.findOneAndUpdate(
-//       { id: id },
-//       { skill: skill },
-//       { new: true }
-//     );
-//     res.status(200).json({ finalCandidateDoc });
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).send({ error: 'Internal Server Error' });
-//   }
-// };
+const updatingCandidateDays = async (req, res) => {
+  const { id, days } = req.body;
+
+  try {
+    const finalCandidateDoc = await candidate.findOneAndUpdate(
+      { id: id },
+      { days: days },
+      { new: true }
+    );
+    res.status(200).json({ finalCandidateDoc });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: 'Internal Server Error' });
+  }
+};
+
+const updatingCandidateExperience = async (req, res) => {
+  const { id, year, month } = req.body;
+
+  try {
+    const finalCandidateDoc = await candidate.findOneAndUpdate(
+      { id: id },
+      { $set: { year: year, month: month } }, 
+      { new: true }
+    );
+    res.status(200).json({ finalCandidateDoc });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: 'Internal Server Error' });
+  }
+};
+
+const updatingCandidateEducation = async (req, res) => {
+  const { id, education } = req.body;
+
+  try {
+    const finalCandidateDoc = await candidate.findOneAndUpdate(
+      { id: id },
+      { education: education },
+      { new: true }
+    );
+    res.status(200).json({ finalCandidateDoc });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: 'Internal Server Error' });
+  }
+};
 
 const updatingCandidateProfileHeadline = async (req, res) => {
   const { id, profileHeadline } = req.body;
@@ -2650,6 +2697,10 @@ module.exports = {
    updatingCandidateFirstName,
    updatingCandidateLastName,
    updatingCandidateLocation,
+   updatingCandidateSkill,
+   updatingCandidateDays,
+   updatingCandidateExperience,
+   updatingCandidateEducation,
    updatingCandidateProfileHeadline,
    updatingCandidatePassword,
    searchResultSave,

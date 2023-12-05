@@ -16,7 +16,7 @@ import 'sweetalert2/dist/sweetalert2.css';
 const CandidateRegister = () => {
     const [step, setStep] = useState(1);
     const [isAgreed, setIsAgreed] = useState(false);
-    const { candidateReg, postOtherSkills, postOtherDesignation } = useContext(AuthContext);
+    const { candidateReg } = useContext(AuthContext);
     const [skillArray, setSkillArray] = useState([]);
     const [designationArray, setDesignationArray] = useState([])
     const [selectedDate, setSelectedDate] = useState(null);
@@ -185,6 +185,47 @@ const CandidateRegister = () => {
             console.log(err);
         }
     };
+
+
+    //post new skill
+  const postOtherSkills = async (skills) => {
+    try {
+      const res = await axios.post("https://skillety.onrender.com/skills", skills, {
+        headers: {
+          
+          Accept: 'application/json'
+        }
+      });
+      const result = res.data;
+      if (!result.error) {
+        console.log(result);
+      } else {
+        console.log(result);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  //post new designation
+  const postOtherDesignation = async (designation) => {
+    try {
+      const res = await axios.post("https://skillety.onrender.com/designations", designation, {
+        headers: {
+          
+          Accept: 'application/json'
+        }
+      });
+      const result = res.data;
+      if (!result.error) {
+        console.log(result);
+      } else {
+        console.log(result);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
     useEffect(() => {
         getAllSkills();
@@ -416,16 +457,9 @@ const CandidateRegister = () => {
     }
 
     const handleLocationClick = (location) => {
-        if (selectedLocations.includes(location)) {
-            setSelectedLocations([...selectedLocations]);
-            setSearchLocationInput("");
-            setFilteredLocations([]);
-
-        } else {
-            setSelectedLocations([...selectedLocations, location]);
-            setSearchLocationInput("");
-            setFilteredLocations([]);
-        }
+        setSelectedLocations([location]);
+        setSearchLocationInput("");
+        setFilteredLocations([]);
     }
 
 
