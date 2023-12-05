@@ -46,6 +46,7 @@ const TalentsProfileSearch = () => {
     const [selectedIndustryResults, setSelectedIndustryResults] = useState([]);
 
     const [recentSearches, setRecentSearches] = useState([]);
+    const [checkBoxfilters, setCheckBoxFilters] = useState([]);
 
     const [x, setX] = useState([0, 4]);
 
@@ -859,9 +860,16 @@ const TalentsProfileSearch = () => {
     }, [loginClientDetail]);
     console.log(filters)
 
-
+    const handleCheckboxChange = (category) => {
+        console.log(category)
+        const updatedFilters = checkBoxfilters.includes(category)
+            ? checkBoxfilters.filter((filter) => filter !== category)
+            : [...checkBoxfilters, category];
+        setCheckBoxFilters(updatedFilters);
+    };
+console.log(checkBoxfilters)
     const handleSkillSearch = () => {
-        if (filters.days || selectedResults.length > 0 || selectedLocationResults.length > 0 || (filters.minExperienceYr && filters.minExperienceMonth) || (filters.maxExperienceYr && filters.maxExperienceMonth) || (filters.minSalary && filters.maxSalary) || selectedDepartmentResults.length > 0 || selectedRoleResults.length > 0 || filters.industry || filters.company || filters.candidateType || filters.gender) {
+        if (checkBoxfilters.length>0 || selectedResults.length > 0 || selectedLocationResults.length > 0 || (filters.minExperienceYr && filters.minExperienceMonth) || (filters.maxExperienceYr && filters.maxExperienceMonth) || (filters.minSalary && filters.maxSalary) || selectedDepartmentResults.length > 0 || selectedRoleResults.length > 0 || filters.industry || filters.company || filters.candidateType || filters.gender) {
 
             const recentSearch = {
                 days: filters.days,
@@ -890,21 +898,31 @@ const TalentsProfileSearch = () => {
                 setFilteredSearchResults(newRegistrationResults);
             } else {
                 const filteredResults = candidateDetail
+                    // .filter(candidate => {
+                    //     if (filters.days) {
+                    //         if (filters.days === "0-7") {
+                    //             return candidate.dayDifference >= 0 && candidate.dayDifference <= 7;
+                    //         } else if (filters.days === "8-15") {
+                    //             return candidate.dayDifference >= 8 && candidate.dayDifference <= 15;
+                    //         } else if (filters.days === "16-30") {
+                    //             return candidate.dayDifference >= 16 && candidate.dayDifference <= 30;
+                    //         } else if (filters.days === "beyond-30") {
+                    //             return candidate.dayDifference > 30;
+                    //         } else if (filters.days === "noticePeriod") {
+                    //             return candidate.checkbox;
+                    //         } else {
+                    //             return true;
+                    //         }
+                    //     }
+                    //     return true;
+                    // })
                     .filter(candidate => {
-                        if (filters.days) {
-                            if (filters.days === "0-7") {
-                                return candidate.dayDifference >= 0 && candidate.dayDifference <= 7;
-                            } else if (filters.days === "8-15") {
-                                return candidate.dayDifference >= 8 && candidate.dayDifference <= 15;
-                            } else if (filters.days === "16-30") {
-                                return candidate.dayDifference >= 16 && candidate.dayDifference <= 30;
-                            } else if (filters.days === "beyond-30") {
-                                return candidate.dayDifference > 30;
-                            } else if (filters.days === "noticePeriod") {
-                                return candidate.checkbox;
-                            } else {
+                        if (checkBoxfilters.length > 0) {
+                            const anyFilterPresent = checkBoxfilters.includes('Any');
+                            if (anyFilterPresent) {
                                 return true;
                             }
+                            return checkBoxfilters.includes(candidate.days);
                         }
                         return true;
                     })
@@ -1408,18 +1426,21 @@ const TalentsProfileSearch = () => {
                                                                     </div>
                                                                 </div> */}
 
-                                                                <div className='education-type-option'>
-                                                                    <input type="checkbox"
-                                                                        className='education-type-input'
-                                                                        id="notice_period_1"
-                                                                        name="notice_period"
-                                                                        value="any"
-                                                                        onChange={(e) => setFilters({ ...filters, days: e.target.value })} />
-                                                                    <label for="notice_period_1"
-                                                                        className='education-type-label'>
-                                                                        Any
-                                                                    </label>
-                                                                </div>
+                                                                        <div className='education-type-option'>
+                                                                            <input type="checkbox"
+                                                                                className='education-type-input'
+                                                                                id="notice_period_1"
+                                                                                name="notice_period"
+                                                                                // value="any"
+                                                                                // onChange={(e) => setFilters({ ...filters, days: e.target.value })}
+                                                                                checked={checkBoxfilters.includes('Any')}
+                                                                                onChange={() => handleCheckboxChange('Any')} 
+                                                                                />
+                                                                            <label for="notice_period_1"
+                                                                                className='education-type-label'>
+                                                                                Any
+                                                                            </label>
+                                                                        </div>
 
                                                                 {/* <div className="tal--search-option-container">
                                                                     <input id="notice_period_2" className="tal--search-radio" type="radio" name="notice_period"
@@ -1431,18 +1452,21 @@ const TalentsProfileSearch = () => {
                                                                     </div>
                                                                 </div> */}
 
-                                                                <div className='education-type-option'>
-                                                                    <input type="checkbox"
-                                                                        className='education-type-input'
-                                                                        id="notice_period_2"
-                                                                        name="notice_period"
-                                                                        value="0-7"
-                                                                        onChange={(e) => setFilters({ ...filters, days: e.target.value })} />
-                                                                    <label for="notice_period_2"
-                                                                        className='education-type-label'>
-                                                                        0-07 days
-                                                                    </label>
-                                                                </div>
+                                                                        <div className='education-type-option'>
+                                                                            <input type="checkbox"
+                                                                                className='education-type-input'
+                                                                                id="notice_period_2"
+                                                                                // name="notice_period"
+                                                                                // value="0-7"
+                                                                                // onChange={(e) => setFilters({ ...filters, days: e.target.value })} 
+                                                                                checked={checkBoxfilters.includes('0 to 7 days')}
+                                                                                onChange={() => handleCheckboxChange('0 to 7 days')}
+                                                                                />
+                                                                            <label for="notice_period_2"
+                                                                                className='education-type-label'>
+                                                                                0-07 days
+                                                                            </label>
+                                                                        </div>
 
                                                                 {/* <div className="tal--search-option-container">
                                                                     <input id="notice_period_3" className="tal--search-radio" type="radio" name="notice_period"
@@ -1454,18 +1478,21 @@ const TalentsProfileSearch = () => {
                                                                     </div>
                                                                 </div> */}
 
-                                                                <div className='education-type-option'>
-                                                                    <input type="checkbox"
-                                                                        className='education-type-input'
-                                                                        id="notice_period_3"
-                                                                        name="notice_period"
-                                                                        value="8-15"
-                                                                        onChange={(e) => setFilters({ ...filters, days: e.target.value })} />
-                                                                    <label for="notice_period_3"
-                                                                        className='education-type-label'>
-                                                                        08 to 15 days
-                                                                    </label>
-                                                                </div>
+                                                                        <div className='education-type-option'>
+                                                                            <input type="checkbox"
+                                                                                className='education-type-input'
+                                                                                id="notice_period_3"
+                                                                                // name="notice_period"
+                                                                                // value="8-15"
+                                                                                // onChange={(e) => setFilters({ ...filters, days: e.target.value })} 
+                                                                                checked={checkBoxfilters.includes('8 to 15 days')}
+                                                                                onChange={() => handleCheckboxChange('8 to 15 days')}
+                                                                                />
+                                                                            <label for="notice_period_3"
+                                                                                className='education-type-label'>
+                                                                                08 to 15 days
+                                                                            </label>
+                                                                        </div>
 
                                                                 {/* <div className="tal--search-option-container">
                                                                     <input id="notice_period_4" className="tal--search-radio" type="radio" name="notice_period"
@@ -1477,18 +1504,21 @@ const TalentsProfileSearch = () => {
                                                                     </div>
                                                                 </div> */}
 
-                                                                <div className='education-type-option'>
-                                                                    <input type="checkbox"
-                                                                        className='education-type-input'
-                                                                        id="notice_period_4"
-                                                                        name="notice_period"
-                                                                        value="16-30"
-                                                                        onChange={(e) => setFilters({ ...filters, days: e.target.value })} />
-                                                                    <label for="notice_period_4"
-                                                                        className='education-type-label'>
-                                                                        16 to 30 days
-                                                                    </label>
-                                                                </div>
+                                                                        <div className='education-type-option'>
+                                                                            <input type="checkbox"
+                                                                                className='education-type-input'
+                                                                                id="notice_period_4"
+                                                                                // name="notice_period"
+                                                                                // value="16-30"
+                                                                                // onChange={(e) => setFilters({ ...filters, days: e.target.value })} 
+                                                                                checked={checkBoxfilters.includes('16 to 30 days')}
+                                                                                onChange={() => handleCheckboxChange('16 to 30 days')}
+                                                                                />
+                                                                            <label for="notice_period_4"
+                                                                                className='education-type-label'>
+                                                                                16 to 30 days
+                                                                            </label>
+                                                                        </div>
 
                                                                 {/* <div className="tal--search-option-container">
                                                                     <input id="notice_period_5" className="tal--search-radio" type="radio" name="notice_period"
@@ -1500,18 +1530,20 @@ const TalentsProfileSearch = () => {
                                                                     </div>
                                                                 </div> */}
 
-                                                                <div className='education-type-option'>
-                                                                    <input type="checkbox"
-                                                                        className='education-type-input'
-                                                                        id="notice_period_5"
-                                                                        name="notice_period"
-                                                                        value="beyond-30"
-                                                                        onChange={(e) => setFilters({ ...filters, days: e.target.value })} />
-                                                                    <label for="notice_period_5"
-                                                                        className='education-type-label'>
-                                                                        Beyond 30 days
-                                                                    </label>
-                                                                </div>
+                                                                        <div className='education-type-option'>
+                                                                            <input type="checkbox"
+                                                                                className='education-type-input'
+                                                                                id="notice_period_5"
+                                                                                // name="notice_period"
+                                                                                // value="beyond-30"
+                                                                                // onChange={(e) => setFilters({ ...filters, days: e.target.value })}
+                                                                                checked={checkBoxfilters.includes('More than 30 days')}
+                                                                                onChange={() => handleCheckboxChange('More than 30 days')}/>
+                                                                            <label for="notice_period_5"
+                                                                                className='education-type-label'>
+                                                                                Beyond 30 days
+                                                                            </label>
+                                                                        </div>
 
                                                                 {/* <div className="tal--search-option-container">
                                                                     <input id="notice_period_6" className="tal--search-radio" type="radio" name="notice_period"
@@ -1523,18 +1555,21 @@ const TalentsProfileSearch = () => {
                                                                     </div>
                                                                 </div> */}
 
-                                                                <div className='education-type-option'>
-                                                                    <input type="checkbox"
-                                                                        className='education-type-input'
-                                                                        id="notice_period_6"
-                                                                        name="notice_period"
-                                                                        value="noticePeriod"
-                                                                        onChange={(e) => setFilters({ ...filters, days: e.target.value })} />
-                                                                    <label for="notice_period_6"
-                                                                        className='education-type-label'>
-                                                                        Currently serving notice Period
-                                                                    </label>
-                                                                </div>
+                                                                        <div className='education-type-option'>
+                                                                            <input type="checkbox"
+                                                                                className='education-type-input'
+                                                                                id="notice_period_6"
+                                                                                // name="notice_period"
+                                                                                // value="noticePeriod"
+                                                                                // onChange={(e) => setFilters({ ...filters, days: e.target.value })} 
+                                                                                checked={checkBoxfilters.includes('Currently not serving notice period')}
+                                                                                onChange={() => handleCheckboxChange('Currently not serving notice period')}
+                                                                                />
+                                                                            <label for="notice_period_6"
+                                                                                className='education-type-label'>
+                                                                                Currently serving notice Period
+                                                                            </label>
+                                                                        </div>
                                                             </div>
                                                         </div>
 

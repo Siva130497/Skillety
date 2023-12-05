@@ -405,7 +405,7 @@ const Talents = () => {
                                                                                     <div className="client-talent--profile-tab-expand-area">
                                                                                         <div className="client-talent--profile-tab-expand-sub-area">
                                                                                             <p className="client-talent--profile-tab-expand-desc">
-                                                                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+                                                                                                {loginCandidate?.workSummary}
                                                                                             </p>
                                                                                             <div className="client-talent--profile-tab-expand-table-area">
                                                                                                 <div className="row">
@@ -422,7 +422,7 @@ const Talents = () => {
                                                                                                         <div className='client-talent--profile-tab-expand-table-title'>Department</div>
                                                                                                     </div>
                                                                                                     <div className="col-md-10">
-                                                                                                        <div className='client-talent--profile-tab-expand-table-content'>Junior Frontend Developer at Cognizant</div>
+                                                                                                        <div className='client-talent--profile-tab-expand-table-content'>{loginCandidate?.department}</div>
                                                                                                     </div>
                                                                                                 </div>
 
