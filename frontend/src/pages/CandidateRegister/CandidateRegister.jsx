@@ -457,16 +457,9 @@ const CandidateRegister = () => {
     }
 
     const handleLocationClick = (location) => {
-        if (selectedLocations.includes(location)) {
-            setSelectedLocations([...selectedLocations]);
-            setSearchLocationInput("");
-            setFilteredLocations([]);
-
-        } else {
-            setSelectedLocations([...selectedLocations, location]);
-            setSearchLocationInput("");
-            setFilteredLocations([]);
-        }
+        setSelectedLocations([location]);
+        setSearchLocationInput("");
+        setFilteredLocations([]);
     }
 
 
