@@ -95,6 +95,10 @@ const {
   updatingCandidateFirstName,
   updatingCandidateLastName,
   updatingCandidateLocation,
+  updatingCandidateSkill,
+   updatingCandidateDays,
+   updatingCandidateExperience,
+   updatingCandidateEducation,
   updatingCandidateProfileHeadline,
   updatingCandidatePassword,
   searchResultSave,
@@ -366,6 +370,14 @@ router.patch("/update-candidate-first-name", updatingCandidateFirstName);
 router.patch("/update-candidate-last-name", updatingCandidateLastName);
 
 router.patch("/update-candidate-location", updatingCandidateLocation);
+
+router.patch("/update-candidate-skill", updatingCandidateSkill);
+
+router.patch("/update-candidate-days", updatingCandidateDays);
+
+router.patch("/update-candidate-experience", updatingCandidateExperience);
+
+router.patch("/update-candidate-education", updatingCandidateEducation);
 
 router.patch("/update-candidate-profileHeadline", updatingCandidateProfileHeadline);
 

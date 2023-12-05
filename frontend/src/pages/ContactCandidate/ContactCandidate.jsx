@@ -6,11 +6,35 @@ import './ContactCandidate-responsive.css';
 import { CandidateFooter } from '../../components/CandidateFooter';
 import LayoutNew from '../../components/LayoutNew';
 import axios from 'axios';
+import ReCAPTCHA from "react-google-recaptcha";
+import { useRef } from 'react';
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.css';
 
 const ContactCandidate = () => {
-    useEffect(() => {
+    const recaptcha = useRef();
+    
+    //for show success message for payment
+    function showSuccessMessage(message) {
+        Swal.fire({
+            title: 'Success!',
+            text: message,
+            icon: 'success',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'OK',
+        });
+    }
 
-    }, []);
+    //for show error message for payment
+    function showErrorMessage(message) {
+        Swal.fire({
+            title: 'Error!',
+            text: message,
+            icon: 'error',
+            confirmButtonColor: '#d33',
+            confirmButtonText: 'OK',
+        });
+    }
 
     const sendMessage = async (messageDetail) => {
         try {
@@ -24,7 +48,7 @@ const ContactCandidate = () => {
     
             if (!result.error) {
                 console.log(result);
-                alert("your message sent to company")
+                showSuccessMessage("your message sent to company")
                 setCredentials(initialCredentials);
             } else {
                 console.log(result);
@@ -49,12 +73,31 @@ const ContactCandidate = () => {
         setCredentials({...credentials, [name]:value});
     }
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         console.log(credentials);
-        sendMessage(credentials);
-
-    }
+        const captchaValue = recaptcha.current.getValue();
+      
+        if (!captchaValue) {
+          showErrorMessage('Please verify the reCAPTCHA!');
+        } else {
+          try {
+            const response = await axios.post('https://skillety.onrender.com/verify', {
+              captchaValue,
+            });
+      
+            const data = response.data;
+      
+            if (data.success) {
+              sendMessage(credentials);
+            } else {
+              showErrorMessage('reCAPTCHA validation failed!');
+            }
+          } catch (error) {
+            console.error('Error during API call:', error);
+          }
+        }
+      };
 
     return (
         <div>
@@ -235,6 +278,7 @@ const ContactCandidate = () => {
                                                     </svg>
                                                 </div>
                                             </button>
+                                            <ReCAPTCHA ref={recaptcha} sitekey={process.env.REACT_APP_SITE_KEY} />
                                         </div>
                                     </form>
                                 </div>
