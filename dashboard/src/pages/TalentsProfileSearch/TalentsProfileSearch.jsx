@@ -11,6 +11,9 @@ import AuthContext from '../../context/AuthContext';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
 
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
+
 const TalentsProfileSearch = () => {
     const clientToken = JSON.parse(localStorage.getItem("clientToken"));
     const { getProtectedData, getClientChoosenPlan, packageSelectionDetail, getCandidateImg, candidateImg } = useContext(AuthContext);
@@ -44,6 +47,8 @@ const TalentsProfileSearch = () => {
     const [checkBoxfilters, setCheckBoxFilters] = useState([]);
 
     const [x, setX] = useState([0, 4]);
+
+    const [loading, setLoading] = useState(true);
 
     const [filters, setFilters] = useState({
         searchInput: "",
@@ -699,6 +704,7 @@ const TalentsProfileSearch = () => {
 
     const getAllRecentSearch = async () => {
         try {
+            setLoading(true);
             const response = await axios.get('https://skillety.onrender.com/recent-search', {
                 headers: {
                     Accept: 'application/json'
@@ -711,8 +717,12 @@ const TalentsProfileSearch = () => {
             } else {
                 console.log(result);
             }
+
+            setLoading(false);
         } catch (error) {
             console.log(error);
+
+            setLoading(false);
         }
     };
 
@@ -819,7 +829,7 @@ const TalentsProfileSearch = () => {
     };
 
     const handleSkillSearch = () => {
-        if (checkBoxfilters.length>0 || selectedResults.length > 0 || selectedLocationResults.length > 0 || (filters.minExperienceYr && filters.minExperienceMonth) || (filters.maxExperienceYr && filters.maxExperienceMonth) || (filters.minSalary && filters.maxSalary) || selectedDepartmentResults.length > 0 || selectedRoleResults.length > 0 || filters.industry || filters.company || filters.candidateType || filters.gender) {
+        if (checkBoxfilters.length > 0 || selectedResults.length > 0 || selectedLocationResults.length > 0 || (filters.minExperienceYr && filters.minExperienceMonth) || (filters.maxExperienceYr && filters.maxExperienceMonth) || (filters.minSalary && filters.maxSalary) || selectedDepartmentResults.length > 0 || selectedRoleResults.length > 0 || filters.industry || filters.company || filters.candidateType || filters.gender) {
 
             const recentSearch = {
                 days: filters.days,
@@ -1385,8 +1395,8 @@ const TalentsProfileSearch = () => {
                                                                                 // value="any"
                                                                                 // onChange={(e) => setFilters({ ...filters, days: e.target.value })}
                                                                                 checked={checkBoxfilters.includes('Any')}
-                                                                                onChange={() => handleCheckboxChange('Any')} 
-                                                                                />
+                                                                                onChange={() => handleCheckboxChange('Any')}
+                                                                            />
                                                                             <label for="notice_period_1"
                                                                                 className='education-type-label'>
                                                                                 Any
@@ -1413,7 +1423,7 @@ const TalentsProfileSearch = () => {
                                                                                 // onChange={(e) => setFilters({ ...filters, days: e.target.value })} 
                                                                                 checked={checkBoxfilters.includes('0 to 7 days')}
                                                                                 onChange={() => handleCheckboxChange('0 to 7 days')}
-                                                                                />
+                                                                            />
                                                                             <label for="notice_period_2"
                                                                                 className='education-type-label'>
                                                                                 0-07 days
@@ -1439,7 +1449,7 @@ const TalentsProfileSearch = () => {
                                                                                 // onChange={(e) => setFilters({ ...filters, days: e.target.value })} 
                                                                                 checked={checkBoxfilters.includes('8 to 15 days')}
                                                                                 onChange={() => handleCheckboxChange('8 to 15 days')}
-                                                                                />
+                                                                            />
                                                                             <label for="notice_period_3"
                                                                                 className='education-type-label'>
                                                                                 08 to 15 days
@@ -1465,7 +1475,7 @@ const TalentsProfileSearch = () => {
                                                                                 // onChange={(e) => setFilters({ ...filters, days: e.target.value })} 
                                                                                 checked={checkBoxfilters.includes('16 to 30 days')}
                                                                                 onChange={() => handleCheckboxChange('16 to 30 days')}
-                                                                                />
+                                                                            />
                                                                             <label for="notice_period_4"
                                                                                 className='education-type-label'>
                                                                                 16 to 30 days
@@ -1490,7 +1500,7 @@ const TalentsProfileSearch = () => {
                                                                                 // value="beyond-30"
                                                                                 // onChange={(e) => setFilters({ ...filters, days: e.target.value })}
                                                                                 checked={checkBoxfilters.includes('More than 30 days')}
-                                                                                onChange={() => handleCheckboxChange('More than 30 days')}/>
+                                                                                onChange={() => handleCheckboxChange('More than 30 days')} />
                                                                             <label for="notice_period_5"
                                                                                 className='education-type-label'>
                                                                                 Beyond 30 days
@@ -1516,7 +1526,7 @@ const TalentsProfileSearch = () => {
                                                                                 // onChange={(e) => setFilters({ ...filters, days: e.target.value })} 
                                                                                 checked={checkBoxfilters.includes('Currently not serving notice period')}
                                                                                 onChange={() => handleCheckboxChange('Currently not serving notice period')}
-                                                                                />
+                                                                            />
                                                                             <label for="notice_period_6"
                                                                                 className='education-type-label'>
                                                                                 Currently serving notice Period
@@ -2519,22 +2529,50 @@ const TalentsProfileSearch = () => {
                                                             <h4 className='cli-tal-pro-recent-search-head mb-0'>Recent Searches </h4>
                                                         </div>
 
-                                                        <div className="cli-tal-pro-recent-search-container">
-                                                            {recentSearches.map(search => {
-                                                                return (
-                                                                    <div className="cli-tal-pro-recent-search-area" key={search._id}>
-                                                                        <div className="cli-tal-pro-recent-search-btn-area">
-                                                                            <button className='cli-tal-pro-recent-search-btn' onClick={() => handleFill(search._id)}>Fill this search</button>
-                                                                            {/* <button className='cli-tal-pro-recent-search-btn'>Search profile</button> */}
+                                                        {loading ? (
+                                                            <div className="cli-tal-pro-recent-search-container">
+                                                                <div className="cli-tal-pro-recent-search-area">
+                                                                    <Skeleton height={20} width={120} />
+                                                                    <Skeleton className='mt-4' height={15} width={200} />
+                                                                </div>
+                                                                <div className="cli-tal-pro-recent-search-area">
+                                                                    <Skeleton height={20} width={120} />
+                                                                    <Skeleton className='mt-4' height={15} width={200} />
+                                                                </div>
+                                                                <div className="cli-tal-pro-recent-search-area">
+                                                                    <Skeleton height={20} width={120} />
+                                                                    <Skeleton className='mt-4' height={15} width={200} />
+                                                                </div>
+                                                                <div className="cli-tal-pro-recent-search-area">
+                                                                    <Skeleton height={20} width={120} />
+                                                                    <Skeleton className='mt-4' height={15} width={200} />
+                                                                </div>
+                                                                <div className="cli-tal-pro-recent-search-area">
+                                                                    <Skeleton height={20} width={120} />
+                                                                    <Skeleton className='mt-4' height={15} width={200} />
+                                                                </div>
+                                                                <div className="cli-tal-pro-recent-search-area">
+                                                                    <Skeleton height={20} width={120} />
+                                                                    <Skeleton className='mt-4' height={15} width={200} />
+                                                                </div>
+                                                            </div>
+                                                        ) : (
+                                                            <div className="cli-tal-pro-recent-search-container">
+                                                                {recentSearches.map(search => {
+                                                                    return (
+                                                                        <div className="cli-tal-pro-recent-search-area" key={search._id}>
+                                                                            <div className="cli-tal-pro-recent-search-btn-area">
+                                                                                <button className='cli-tal-pro-recent-search-btn' onClick={() => handleFill(search._id)}>Fill this search</button>
+                                                                                {/* <button className='cli-tal-pro-recent-search-btn'>Search profile</button> */}
+                                                                            </div>
+                                                                            <div className="cli-tal-pro-recent-search-tags">
+                                                                                <span>{search.selectedResults.join(", ")}|{search.selectedRoleResults.join(", ")}|{search.selectedLocationResults.join(", ")}|{search.selectedDepartmentResults.join(", ")}|{search.industry.join(", ")}....</span>
+                                                                            </div>
                                                                         </div>
-                                                                        <div className="cli-tal-pro-recent-search-tags">
-                                                                            <span>{search.selectedResults.join(", ")}|{search.selectedRoleResults.join(", ")}|{search.selectedLocationResults.join(", ")}|{search.selectedDepartmentResults.join(", ")}|{search.industry.join(", ")}....</span>
-                                                                        </div>
-                                                                    </div>
-                                                                )
-                                                            })}
+                                                                    )
+                                                                })}
 
-                                                            {/* <div className="cli-tal-pro-recent-search-area">
+                                                                {/* <div className="cli-tal-pro-recent-search-area">
                                                         <div className="cli-tal-pro-recent-search-btn-area">
                                                             <button className='cli-tal-pro-recent-search-btn'>Fill this search</button>
                                                             <button className='cli-tal-pro-recent-search-btn'>Search profile</button>
@@ -2573,7 +2611,9 @@ const TalentsProfileSearch = () => {
                                                             <span>azure, Azure Devops | .NET, MVC, C#, Angualr, sql, cloud, aws | 9-12 years | Bangalore/Bengaluru,....</span>
                                                         </div>
                                                     </div> */}
-                                                        </div>
+                                                            </div>
+                                                        )}
+
                                                     </div>
                                                 </div>
                                             </div>
