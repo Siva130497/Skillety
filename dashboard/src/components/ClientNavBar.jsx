@@ -300,7 +300,7 @@ const ClientNavBar = () => {
                   window.location.href = 'https://skillety-frontend.onrender.com/client-login'
                   }} className="dropdown-logout-btn">
                   <i class="bi bi-box-arrow-right mr-3"></i>
-                  Log Out pls
+                  Log Out 
                 </a>
               </div>
             </div>

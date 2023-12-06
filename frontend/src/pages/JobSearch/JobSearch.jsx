@@ -1565,7 +1565,7 @@ const JobSearch = () => {
                                                                 const matchingSkills = skills2.filter(skill => skills1.includes(skill));
                                                                 return (matchingSkills.length / skills1.length) * 100;
                                                             }
-                                                            const percentage = calculateMatchPercentage(selectedResults, [...job.skills, ...job.jobRole]);
+                                                            const percentage = Math.round(calculateMatchPercentage(selectedResults, [...job.skills, ...job.jobRole]));
 
                                                             return (
                                                                 <article className='job--detail-card mb-4'>

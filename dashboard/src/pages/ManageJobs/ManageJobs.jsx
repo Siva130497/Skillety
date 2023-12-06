@@ -70,16 +70,16 @@ const ManageJobs = () => {
         if (clientToken) {
             const fetchData = async () => {
                 try {
-                    setLoading(true);
+                    // setLoading(true);
                     const user = await getProtectedData(clientToken);
                     console.log(user);
                     setEmployeeId(user.id);
 
-                    setLoading(false);
-                } catch (error) {
+                    // setLoading(false);
+                } catch (error) { 
                     console.log(error);
 
-                    setLoading(false);
+                    // setLoading(false);
                 }
             };
 
@@ -89,7 +89,7 @@ const ManageJobs = () => {
 
     const getLoginClientDetail = async () => {
         try {
-            setLoading(true);
+            // setLoading(true);
             const res = await axios.get(`https://skillety.onrender.com/client/${employeeId}`, {
                 headers: {
                     Authorization: `Bearer ${clientToken}`,
@@ -104,11 +104,11 @@ const ManageJobs = () => {
                 console.log(result);
             }
 
-            setLoading(false);
+            // setLoading(false);
         } catch (err) {
             console.log(err);
 
-            setLoading(false);
+            // setLoading(false);
         }
     }
 
@@ -120,7 +120,7 @@ const ManageJobs = () => {
 
     const getOwnPostedjobs = async () => {
         try {
-            setLoading(true);
+            // setLoading(true);
             const res = await axios.get(`https://skillety.onrender.com/my-posted-jobs/${loginClientDetail.companyId}`, {
                 headers: {
                     Authorization: `Bearer ${clientToken}`,
@@ -135,17 +135,17 @@ const ManageJobs = () => {
                 console.log(result);
             }
 
-            setLoading(false);
+            // setLoading(false);
         } catch (err) {
             console.log(err);
 
-            setLoading(false);
+            // setLoading(false);
         }
     }
 
     const getOwnActivejobs = async () => {
         try {
-            setLoading(true);
+            // setLoading(true);
             const res = await axios.get(`https://skillety.onrender.com/my-active-jobs/${loginClientDetail.companyId}`, {
                 headers: {
                     Authorization: `Bearer ${clientToken}`,
@@ -160,17 +160,17 @@ const ManageJobs = () => {
                 console.log(result);
             }
 
-            setLoading(false);
+            // setLoading(false);
         } catch (err) {
             console.log(err);
 
-            setLoading(false);
+            // setLoading(false);
         }
     }
 
     const getNonApprovaljobs = async () => {
         try {
-            setLoading(true);
+            // setLoading(true);
             const res = await axios.get(`https://skillety.onrender.com/non-approval-jobs`, {
                 headers: {
                     Authorization: `Bearer ${clientToken}`,
@@ -184,10 +184,10 @@ const ManageJobs = () => {
             } else {
                 console.log(result);
             }
-            setLoading(false);
+            // setLoading(false);
         } catch (err) {
             console.log(err);
-            setLoading(false);
+            // setLoading(false);
         }
     }
 
@@ -204,7 +204,7 @@ const ManageJobs = () => {
 
     const getAppliedOfPostedJobs = async () => {
         try {
-            setLoading(true);
+            // setLoading(true);
             const res = await axios.get(`https://skillety.onrender.com/applied-jobs-of-posted/${loginClientDetail.companyId}`, {
                 headers: {
                     Authorization: `Bearer ${clientToken}`,
@@ -219,17 +219,17 @@ const ManageJobs = () => {
                 console.log(result);
             }
 
-            setLoading(false);
+            // setLoading(false);
         } catch (err) {
             console.log(err);
 
-            setLoading(false);
+            // setLoading(false);
         }
     }
 
     const allStaffFromCompany = async () => {
         try {
-            setLoading(true);
+            // setLoading(true);
             const res = await axios.get(`https://skillety.onrender.com/all-staff/${loginClientDetail.companyId}`, {
                 headers: {
                     Authorization: `Bearer ${clientToken}`,
@@ -244,11 +244,11 @@ const ManageJobs = () => {
                 console.log(result);
             }
 
-            setLoading(false);
+            // setLoading(false);
         } catch (err) {
             console.log(err);
 
-            setLoading(false);
+            // setLoading(false);
         }
     }
 
@@ -277,6 +277,7 @@ const ManageJobs = () => {
             return false;
         });
         setPostedJobs(newArray)
+        setLoading(newArray.length === 0);
     }, [updatePostedJobs]);
 
     console.log(postedJobs)

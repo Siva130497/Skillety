@@ -836,6 +836,17 @@ const getActivejobs = async(req, res) => {
   }
 }
 
+/* get all posted jobs */
+const getApprovedInActivejobs = async(req, res) => {
+  try{
+    const approvedInActivejobs = await jobDetail.find();
+    
+    res.status(200).json(approvedInActivejobs); 
+  }catch(err) {
+    res.status(500).json({error: err.message})
+  }
+}
+
 /* get all non approval jobs */
 const getNonApprovaljobs = async(req, res) => {
   try {
@@ -901,8 +912,24 @@ const updateJob = async (req, res) => {
   const { id } = req.params;
 
   try {
+    // Find the job in activeJob schema
+    let jobToUpdate = await activeJob.findOne({ id });
 
-    const updatedActiveJob = await activeJob.findOneAndUpdate(
+    // Find the job in jobDetail schema if not found in activeJob
+    if (!jobToUpdate) {
+      jobToUpdate = await jobDetail.findOne({ id });
+    }
+
+    // Find the job in nonApprovalJob schema if not found in activeJob or jobDetail
+    if (!jobToUpdate) {
+      jobToUpdate = await nonApprovalJob.findOne({ id });
+    }
+
+    // Check if the found job has a recruiterId
+    const hasRecruiterId = jobToUpdate.recruiterId;
+
+    // Update the job
+    const updatedJob = await jobToUpdate.findOneAndUpdate(
       { id },
       {
         $set: {
@@ -925,70 +952,22 @@ const updateJob = async (req, res) => {
       { new: true }
     );
 
-    if (updatedActiveJob) {
-      return res.status(200).json(updatedActiveJob);
-    }
-    
-    const updatedJobDetail = await jobDetail.findOneAndUpdate(
-      { id },
-      {
-        $set: {
-          jobRole: req.body.jobRole,
-          skills: req.body.skills,
-          location: req.body.location,
-          department: req.body.department,
-          role: req.body.role,
-          minExperience: req.body.minExperience,
-          maxExperience: req.body.maxExperience,
-          jobCategory: req.body.jobCategory,
-          jobDescription: req.body.jobDescription,
-          currencyType: req.body.currencyType,
-          minSalary: req.body.minSalary,
-          maxSalary: req.body.maxSalary,
-          industry: req.body.industry,
-          education: req.body.education,
-        },
-      },
-      { new: true }
-    );
-
-    if (updatedJobDetail) {
-      return res.status(200).json(updatedJobDetail);
+    // If the found job has recruiterId or it's in nonApprovalJob schema, update only and return
+    if (hasRecruiterId || jobToUpdate === nonApprovalJob) {
+      return res.status(200).json(updatedJob);
     }
 
-    const updatedNonApprovalJob = await nonApprovalJob.findOneAndUpdate(
-      { id },
-      {
-        $set: {
-          jobRole: req.body.jobRole,
-          skills: req.body.skills,
-          location: req.body.location,
-          department: req.body.department,
-          role: req.body.role,
-          minExperience: req.body.minExperience,
-          maxExperience: req.body.maxExperience,
-          jobCategory: req.body.jobCategory,
-          jobDescription: req.body.jobDescription,
-          currencyType: req.body.currencyType,
-          minSalary: req.body.minSalary,
-          maxSalary: req.body.maxSalary,
-          industry: req.body.industry,
-          education: req.body.education,
-        },
-      },
-      { new: true }
-    );
+    // Add the updated job to nonApprovalJob schema
+    const updatedNonApprovalJob = await nonApprovalJob.create(updatedJob);
 
-    if (updatedNonApprovalJob) {
-      return res.status(200).json(updatedNonApprovalJob);
-    }
+    // Delete the job from the previous schema
+    await jobToUpdate.deleteOne({ id });
 
-    return res.status(404).json({ error: 'Job not found' });
+    return res.status(200).json(updatedNonApprovalJob);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
-
 
 
 /* get own posted jobs  */
@@ -2661,6 +2640,7 @@ module.exports = {
    updateJob,
    getSkillMatchJobDetail,
    getActivejobs,
+   getApprovedInActivejobs,
    getNonApprovaljobs,
    getOwnActivejobs,
    getOwnPostedjobs,

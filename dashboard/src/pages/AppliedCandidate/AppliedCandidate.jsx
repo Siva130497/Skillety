@@ -646,7 +646,7 @@ const AppliedCandidate = () => {
                                         const matchingSkills = skills2.filter(skill => skills1.includes(skill));
                                         return (matchingSkills.length / skills1.length) * 100;
                                     }
-                                    const percentage = calculateMatchPercentage(job?.skills, candidate.skills);
+                                    const percentage = Math.round(calculateMatchPercentage(job?.skills, candidate.skills));
 
                                     return (
                                         <article className="talent--profile-card applied" key={candidate.id}>

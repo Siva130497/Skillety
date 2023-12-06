@@ -31,6 +31,8 @@ const AllJobs = () => {
     const [searchCandidateByNameMsg, setSearchCandidateByNameMsg] = useState("");
     const [searchCandidateInput, setSearchCandidateInput] = useState("");
 
+    const [updatePostedJobs, setUpdatePostedJobs] = useState([]);
+
     const [x, setX] = useState([0, 10]);
     const [loading, setLoading] = useState(true);
 
@@ -62,7 +64,7 @@ const AllJobs = () => {
 
     const getPostedjobs = async () => {
         try {
-            setLoading(true);
+            // setLoading(true);
             const res = await axios.get(`https://skillety.onrender.com/posted-jobs`, {
                 headers: {
                     Authorization: `Bearer ${staffToken}`,
@@ -72,16 +74,43 @@ const AllJobs = () => {
             const result = res.data;
             if (!result.error) {
                 console.log(result);
-                setAllJobs(result.reverse());
+                const updatedJobsWithActive = result.map(job => ({ ...job, active: true }));
+
+                setUpdatePostedJobs(prevPostedJobs => [...prevPostedJobs, ...updatedJobsWithActive.reverse()]);
             } else {
                 console.log(result);
             }
 
-            setLoading(false);
+            // setLoading(false);
         } catch (err) {
             console.log(err);
 
-            setLoading(false);
+            // setLoading(false);
+        }
+    }
+
+    const getPostedApprovedInactiveJobs = async () => {
+        try {
+            // setLoading(true);
+            const res = await axios.get(`https://skillety.onrender.com/posted-approved-inactive-jobs`, {
+                headers: {
+                    Authorization: `Bearer ${staffToken}`,
+                    Accept: 'application/json'
+                }
+            });
+            const result = res.data;
+            if (!result.error) {
+                console.log(result);
+                setUpdatePostedJobs(prevPostedJobs => [...prevPostedJobs, ...result.reverse()]);
+            } else {
+                console.log(result);
+            }
+
+            // setLoading(false);
+        } catch (err) {
+            console.log(err);
+
+            // setLoading(false);
         }
     }
 
@@ -129,11 +158,28 @@ const AllJobs = () => {
     useEffect(() => {
         if (staffToken) {
             getPostedjobs();
+            getPostedApprovedInactiveJobs();
             getAllCandidateDetail();
             getAssignedCandidates();
         }
 
     }, [staffToken])
+
+    useEffect(() => {
+        const uniqueIds = {};
+        const newArray = updatePostedJobs.filter(obj => {
+            // Check if the ID is already in the uniqueIds object
+            if (!uniqueIds[obj.id]) {
+                // If not, mark it as seen and include it in the new array
+                uniqueIds[obj.id] = true;
+                return true;
+            }
+            // If the ID is already in the uniqueIds object, filter it out
+            return false;
+        });
+        setAllJobs(newArray)
+        setLoading(newArray.length === 0);
+    }, [updatePostedJobs]);
 
     const getRecruiterNameWhoAssignedCandidate = async (id) => {
         try {
@@ -447,6 +493,7 @@ const AllJobs = () => {
                                                                 <th className='dash-table-head'>No.</th>
                                                                 <th className='dash-table-head'>Job Role</th>
                                                                 <th className='dash-table-head'>Job Category</th>
+                                                                <th className='dash-table-head text-center'>Status</th>
                                                                 <th className='dash-table-head text-center'>View</th>
                                                             </tr>
 
@@ -468,7 +515,13 @@ const AllJobs = () => {
                                                                                 <td className='dash-table-data1 text-capitalized'>
                                                                                     {Job?.jobCategory}
                                                                                 </td>
-
+                                                                                <td className='text-center'>
+                                                                                            {Job?.active ?
+                                                                                                    <span className='man-job-status-btn theme-success'>Approved & Active</span>
+                                                                                                    :
+                                                                                                    <span className='man-job-status-btn theme-info'>Approved & InActive</span>
+                                                                                            }
+                                                                                        </td>
                                                                                 <td className='text-center'>
                                                                                     <div className="action-btn-area">
                                                                                         <button className='job-view-btn' data-toggle="modal" title='View Candidate Details...' data-target="#invoiceModal" onClick={() => handleViewJobDetail(Job.id)}>
@@ -501,7 +554,13 @@ const AllJobs = () => {
                                                                                         <td className='dash-table-data1 text-capitalized'>
                                                                                             {Job?.jobCategory}
                                                                                         </td>
-
+                                                                                        <td className='text-center'>
+                                                                                            {Job?.active ?
+                                                                                                    <span className='man-job-status-btn theme-success'>Approved & Active</span>
+                                                                                                    :
+                                                                                                    <span className='man-job-status-btn theme-info'>Approved & InActive</span>
+                                                                                            }
+                                                                                        </td>
                                                                                         <td className='text-center'>
                                                                                             <div className="action-btn-area">
                                                                                                 <button className='job-view-btn' data-toggle="modal" title='View Candidate Details...' data-target="#invoiceModal" onClick={() => handleViewJobDetail(Job.id)}>
@@ -526,7 +585,13 @@ const AllJobs = () => {
                                                                                             <td className='dash-table-data1 text-capitalized'>
                                                                                                 {Job?.jobCategory}
                                                                                             </td>
-
+                                                                                            <td className='text-center'>
+                                                                                                {Job?.active ?
+                                                                                                        <span className='man-job-status-btn theme-success'>Approved & Active</span>
+                                                                                                        :
+                                                                                                        <span className='man-job-status-btn theme-info'>Approved & InActive</span>
+                                                                                                }
+                                                                                            </td>
                                                                                             <td className='text-center'>
                                                                                                 <div className="action-btn-area">
                                                                                                     <button className='job-view-btn' data-toggle="modal" title='View Candidate Details...' data-target="#invoiceModal" onClick={() => handleViewJobDetail(Job.id)}>
