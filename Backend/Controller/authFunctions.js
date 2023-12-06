@@ -954,7 +954,7 @@ const updateJob = async (req, res) => {
         // Move job to nonApprovalJob schema and delete from activeJob schema
         const newNonApprovalJob = new nonApprovalJob(updatedActiveJob.toObject());
         await newNonApprovalJob.save();
-        await activeJob.findOneAndDelete({ id });
+        await activeJob.deleteOne({ id });
         return res.status(200).json({ updatedActiveJob });
       }
     } else if (inActiveJobToUpdate) {
@@ -1009,7 +1009,7 @@ const updateJob = async (req, res) => {
         // Move job to nonApprovalJob schema and delete from jobDetail schema
         const newNonApprovalJob = new nonApprovalJob(updatedInActiveJob.toObject());
         await newNonApprovalJob.save();
-        await jobDetail.findOneAndDelete({ id });
+        await jobDetail.deleteOne({ id });
         return res.status(200).json({ updatedInActiveJob });
       }
     } else if (nonApprovalJobToUpdate) {
