@@ -928,8 +928,11 @@ const updateJob = async (req, res) => {
     // Check if the found job has a recruiterId
     const hasRecruiterId = jobToUpdate.recruiterId;
 
-    // Update the job
-    const updatedJob = await jobToUpdate.findOneAndUpdate(
+    // Get the model corresponding to the schema
+    const jobModel = jobToUpdate.constructor;
+
+    // Update the job using the model
+    const updatedJob = await jobModel.findOneAndUpdate(
       { id },
       {
         $set: {
@@ -953,10 +956,10 @@ const updateJob = async (req, res) => {
     );
 
     // If the found job has recruiterId or it's in nonApprovalJob schema, update only and return
-    if (hasRecruiterId || jobToUpdate === nonApprovalJob) {
+    if (hasRecruiterId || jobToUpdate instanceof nonApprovalJob) {
       return res.status(200).json(updatedJob);
     }
-
+    
     // Add the updated job to nonApprovalJob schema
     const updatedNonApprovalJob = await nonApprovalJob.create(updatedJob);
 
@@ -968,6 +971,7 @@ const updateJob = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
 
 
 /* get own posted jobs  */
