@@ -246,7 +246,7 @@ function showErrorMessage() {
   //jobupdating
   const jobUpdating = async (jobdetail) => {
     try {
-      const res = await axios.patch(`http://skillety.onrender.com/job-detail/${id}`, jobdetail, {
+      const res = await axios.patch(`https://skillety.onrender.com/job-detail/${id}`, jobdetail, {
         headers: {
           Authorization: `Bearer ${clientToken}`,
           Accept: 'application/json'

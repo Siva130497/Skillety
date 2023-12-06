@@ -32,6 +32,8 @@ const {
   getOwnPostedjobs,
   getOwnActivejobs,
   applyingjob,
+  updatingApplicationStatusForJob,
+  getAllApplicationStatusForJobId,
   getAppliedjobs,
   getAppliedOfPostedJobs,
   deleteAppliedJob,
@@ -144,7 +146,6 @@ router.post("/verify-temp-password", verifyTempPassword);
 // client register after setup new password
 router.post("/finalRegister-Client", finalClientRegister);
 
-
 // candidate register 
 router.post("/candidate-reg", candidateReg);
 
@@ -210,6 +211,12 @@ router.get('/my-active-jobs/:id', getOwnActivejobs)
 
 //candidate applied for job
 router.post('/job-applying',  applyingjob)
+
+//updating the application status for job
+router.patch('/update-application-status', employeeAuth, updatingApplicationStatusForJob);
+
+//get all the application status document for that particular job id
+router.get('/application-status/:id', getAllApplicationStatusForJobId);
 
 //get applied jobs
 router.get('/my-applied-jobs/:candidateId', employeeAuth, getAppliedjobs)

@@ -28,7 +28,7 @@ const searchResult = require("../Database/searchResult");
 const popularSearch = require("../Database/popularSearch");
 const companyDetail = require("../Database/companyDetail");
 const clientUrlWithEmail = require("../Database/clientUrlWithEmail");
-
+const applicationStatus = require("../Database/applicationStatus");
 
 // const hash = async() => {
 //   const pass = 'newpassword'
@@ -1098,11 +1098,62 @@ const applyingjob = async(req, res) => {
       ...req.body,
     });
     await newAppliedJob.save();
-    return res.status(201).json(newAppliedJob);
+
+    const newApplicationStatusForJob = new applicationStatus({
+      jobId:req.body.jobId,
+      status:"Screening",
+      candidateId:req.body.candidateId
+    });
+    await newApplicationStatusForJob.save();
+
+    return res.status(201).json({newAppliedJob, newApplicationStatusForJob});
   }catch(err){
     res.status(500).json({error: err.message});
   }
 }
+
+const updatingApplicationStatusForJob = async (req, res) => {
+  try {
+    const { jobId, status, candidateIdArray } = req.body;
+
+    if (!jobId || !status || !candidateIdArray || !Array.isArray(candidateIdArray)) {
+      return res.status(400).json({ error: 'Invalid input data' });
+    }
+
+    for (const candidateId of candidateIdArray) {
+    
+      const existingApplicationStatus = await applicationStatus.findOne({
+        jobId: jobId,
+        candidateId: candidateId,
+      });
+
+      if (existingApplicationStatus) {
+        existingApplicationStatus.status = status;
+        await existingApplicationStatus.save();
+      } else {
+    
+        console.log(`No document found for jobId: ${jobId}, candidateId: ${candidateId}`);
+      }
+    }
+
+    res.status(200).json({ message: 'Application status updated successfully' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+const getAllApplicationStatusForJobId = async (req, res) => {
+  try {
+    const {id} = req.params;
+
+    const applicationStatusList = await applicationStatus.find({ jobId:id });
+
+    res.status(200).json(applicationStatusList);
+
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
 
 /* get applied jobs */
 const getAppliedjobs = async(req, res) => {
@@ -2717,6 +2768,8 @@ module.exports = {
    getOwnActivejobs,
    getOwnPostedjobs,
    applyingjob,
+   updatingApplicationStatusForJob,
+   getAllApplicationStatusForJobId,
    getAppliedjobs,
    getAppliedOfPostedJobs,
    deleteAppliedJob,
