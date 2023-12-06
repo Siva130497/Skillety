@@ -614,7 +614,30 @@ const AppliedCandidate = () => {
                                 Applicants
                             </div>
 
+
                             <div className="dash-talent--profile-card-section">
+                                <div className="card change-status-card">
+                                    <div className="card-change-status-title">
+                                        Change Application Status
+                                    </div>
+                                    <div className="card-change-status-input-area">
+                                        <div className='select-option-area position-relative w-100'>
+                                            <i class="bi bi-chevron-down toggle-icon"></i>
+                                            <select className='change-setting-input select'
+                                                value="">
+                                                <option value="" disabled selected>-- Select application status --</option>
+                                                <option value="screened">Screened</option>
+                                                <option value="interviews">Interviews in Process</option>
+                                                <option value="offered">Offered</option>
+                                                <option value="rejected">Rejected</option>
+                                                <option value="joined">Joined</option>
+                                                <option value="absconded">Absconded</option>
+                                            </select>
+                                        </div>
+                                        <button className="setting-update-btn more-det">Change</button>
+                                    </div>
+                                </div>
+
                                 {reqCands.map((candidate) => {
                                     const matchingImg = candidateImg ? candidateImg.find(img => img.id === candidate.id) : null;
                                     const imgSrc = matchingImg ? `https://skillety.onrender.com/candidate_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
@@ -630,10 +653,10 @@ const AppliedCandidate = () => {
                                             <div className="tal--pro-card-left-area applied">
                                                 <div className='card-split-line applied'></div>
                                                 <div className="tal--pro-card-name-area">
-                                                    {/* <label className="tal--pro-card-name-check-container">
+                                                    <label className="tal--pro-card-name-check-container no-absolute">
                                                         <input type="checkbox" class="tal--checkbox" />
                                                         <div className="tal--pro-card-name-checkmark"></div>
-                                                    </label> */}
+                                                    </label>
                                                     <h6 className='tal--pro-card-name'>{candidate.firstName + ' ' + candidate.lastName}</h6>
                                                 </div>
                                                 <div className="tal--pro-card-tags applied">
@@ -690,6 +713,14 @@ const AppliedCandidate = () => {
                                                         </div>
                                                         <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
                                                             <p className='tal--pro-card-desc'>{candidate.profileHeadline}</p>
+                                                        </div>
+                                                    </div>
+                                                    <div className="row tal--pro-card-desc-row">
+                                                        <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
+                                                            <h6 className='tal--pro-card-desc-title font-weight-700'>Status&nbsp;:</h6>
+                                                        </div>
+                                                        <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
+                                                            <p className='tal--pro-card-desc font-weight-700'>Screening</p>
                                                         </div>
                                                     </div>
                                                 </div>
