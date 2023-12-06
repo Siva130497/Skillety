@@ -86,14 +86,22 @@
 }
 
 .app-status-point.point2 {
-    left: 30%;
+    left: 19.5%;
 }
 
 .app-status-point.point3 {
-    right: 30%;
+    left: 38.5%;
 }
 
 .app-status-point.point4 {
+    right: 38%;
+}
+
+.app-status-point.point5 {
+    right: 18.5%;
+}
+
+.app-status-point.point6 {
     right: 0%;
 }
 
@@ -103,6 +111,10 @@
 
 .app-status-point.active {
     background-color: #F9C833;
+}
+
+.application-status-container{
+    width: 40% !important;
 }
 
 .app-status-point::after {
@@ -118,7 +130,7 @@
 }
 
 .app-status-point.point1::after {
-    content: "Screening";
+    content: "Screened";
 
 }
 
@@ -127,11 +139,19 @@
 }
 
 .app-status-point.point3::after {
-    content: "Offer";
+    content: "Offered";
 }
 
 .app-status-point.point4::after {
-    content: "Joining";
+    content: "Rejected";
+}
+
+.app-status-point.point5::after {
+    content: "Joined";
+}
+
+.app-status-point.point6::after {
+    content: "Absconded";
 }
 
 .app-status-point.active::before {
@@ -173,7 +193,7 @@
 
 .pag-prev-btn i,
 .pag-next-btn i {
-    
+
     color: #0F75C5;
     font-size: 25px;
 }

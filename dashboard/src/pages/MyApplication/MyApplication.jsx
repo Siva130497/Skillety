@@ -296,7 +296,7 @@ const MyApplication = () => {
                                                             <th className='dash-table-head'>COMPANY</th>
                                                             <th className='dash-table-head'>JOB TITLE</th>
                                                             <th className='dash-table-head'>APPLIED ON</th>
-                                                            <th className='dash-table-head text-center'>APPLICATION STATUS</th>
+                                                            <th className='dash-table-head text-center application-status-container'>APPLICATION STATUS</th>
                                                             {/* <th className='dash-table-head text-center'>REVIEW <br /> APPLICATION</th> */}
                                                         </tr>
 
@@ -320,17 +320,23 @@ const MyApplication = () => {
                                                                         <div className="application-status-area">
                                                                             <div className="app-status-line"></div>
 
-                                                                            {/* for Screening */}
+                                                                            {/* for Screened */}
                                                                             <div className="app-status-point point1 finished"></div>
 
-                                                                            {/* for Interview */}
+                                                                            {/* for Interviews in Process */}
                                                                             <div className="app-status-point point2 active"></div>
 
-                                                                            {/* for Offer */}
+                                                                            {/* for Offered */}
                                                                             <div className="app-status-point point3"></div>
 
-                                                                            {/* for Joining */}
+                                                                            {/* for Rejected */}
                                                                             <div className="app-status-point point4"></div>
+
+                                                                            {/* for Joined */}
+                                                                            <div className="app-status-point point5"></div>
+
+                                                                            {/* for Absconded */}
+                                                                            <div className="app-status-point point6"></div>
                                                                         </div>
                                                                     </td>
                                                                     {/* <td className='text-center'>
