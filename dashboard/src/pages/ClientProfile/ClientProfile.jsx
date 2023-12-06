@@ -10,6 +10,9 @@ import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
 import Footer from '../../components/Footer';
 
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
+
 const ClientProfile = () => {
     const { id } = useParams();
     const [clientToken, setClientToken] = useState("");
@@ -19,6 +22,8 @@ const ClientProfile = () => {
     const [checkBox, setCheckBox] = useState(["Health Insurance", "Work From Home", "Sick Leave", "Maternity/Parental Leave", "Job Training"]);
     const [selectedBenefits, setSelectedBenefits] = useState([]);
     const [awardList, setAwardlist] = useState([]);
+
+    const [loading, setLoading] = useState(true);
 
 
     const [companyInfo, setCompanyInfo] = useState({
@@ -62,6 +67,9 @@ const ClientProfile = () => {
 
     useEffect(() => {
         if (id && clientToken) {
+
+            setLoading(true);
+
             axios.get(`https://skillety.onrender.com/company-detail/${id}`, {
                 headers: {
                     Authorization: `Bearer ${clientToken}`,
@@ -77,9 +85,17 @@ const ClientProfile = () => {
                 })
                 .catch(err => console.log(err))
 
+                .finally(() => {
+                    setLoading(false);
+                });
+
             axios.get(`https://skillety.onrender.com/client-image/${id}`)
                 .then(res => setClientImg(res.data))
                 .catch(err => console.log(err))
+
+                .finally(() => {
+                    setLoading(false);
+                });
         }
     }, [id, clientToken])
 
@@ -631,58 +647,189 @@ const ClientProfile = () => {
             <div class="main-wrapper main-wrapper-1">
                 <div class="navbar-bg"></div>
                 <ClientLayout />
-                {companyDetail && <div class="main-content">
+                <div class="main-content">
                     <section class="section">
                         <div className="candidate-prrofile-section">
                             <div className="profile-head-area">
                                 <div className='profile-head'>Profile Details</div>
                             </div>
-                            <div className="row">
-                                <div className="col-12">
-                                    <div className="profile-card">
-                                        <div className="card-flex-area">
-                                            <div className="card-right-area">
-                                                <div className="profile-det-image-area">
-                                                    <div className="profile-det-image-container">
-                                                        {/* <button className='prof-img-btn'>
-                                                        <i class="bi bi-pencil edit-icon"></i>
-                                                    </button> */}
-                                                        <div className="image-view-area">
-                                                            <button className='image-view-btn'>
-                                                                <i class="bi bi-fullscreen img-view-icon"></i>
-                                                            </button>
+                            {loading ? (
+                                <div>
+                                    <div className="row">
+                                        <div className="col-12">
+                                            <div className="profile-card">
+                                                <div className="card-flex-area">
+                                                    <div className="card-right-area">
+                                                        <div className="profile-det-image-area">
+                                                            <Skeleton circle={true} height={150} width={150} />
                                                         </div>
-                                                        <img src={clientImgUrl ? clientImgUrl : "../assets/img/talents-images/avatar.jpg"} className='profile-det-image' alt="" />
-                                                    </div>
-                                                    <div id="imageModal" className="image-view-modal">
-                                                        <span className="image-view-close">
-                                                            <i class="bi bi-x"></i>
-                                                        </span>
-                                                        <img className="image-view-modal-content" id="modalImage" />
-                                                    </div>
-                                                </div>
-                                                <div className="profile-det-area">
-                                                    <div className="profile--name-edit-section">
-                                                        <div className="profile--name-area">
-                                                            <div className="profile--name text-capitalized">{companyDetail?.companyName}</div>
-                                                            <button
-                                                                className={`profile--name-edit-btn ${isNameExpanded ? 'expanded' : ''}`}
-                                                                onClick={handleNameChangeToggle}>
-                                                                <i class={`${isNameExpanded ? 'bi-x' : 'bi bi-pencil'} profile--name-edit-icon`}></i>
-                                                            </button>
-                                                        </div>
-                                                        <div className={`profile-name-edit-input-area ${isNameExpanded ? 'expanded' : ''}`}>
-                                                            <div className="row">
-                                                                <div className="col-12 d-flex align-items-center gap-10">
-                                                                    <input type="text" className="change-setting-input"
-                                                                        placeholder="Change Company Name"
-                                                                        value={companyInfo.companyName}
-                                                                        onChange={(e) => setCompanyInfo({ ...companyInfo, companyName: e.target.value })} />
-                                                                    <button className="setting-update-btn" onClick={handleCompanyNameUpdate}>Update</button>
+
+                                                        <div className="profile-det-area">
+                                                            <div className="profile--name-edit-section">
+                                                                <div className="profile--name-area">
+                                                                    <Skeleton height={25} width={150} />
+                                                                </div>
+                                                            </div>
+                                                            <div className="profile-update-status mt-3">
+                                                                <Skeleton height={15} width={250} />
+                                                            </div>
+                                                            <div className="prof-page-divider"></div>
+                                                            <div className="prof-more-det-section">
+                                                                <div className="prof-more-det-left-area">
+                                                                    <div className="prof-more-det-area">
+                                                                        <div className="prof-more-det">
+                                                                            <Skeleton height={20} width={20} />
+                                                                            <Skeleton height={15} width={150} />
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="prof-more-det-area">
+                                                                        <div className="prof-more-det">
+                                                                            <Skeleton height={20} width={20} />
+                                                                            <Skeleton height={15} width={150} />
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div className="p-0 p-lg-5 p-md-3"></div>
+                                                                <div className="prof-more-det-right-area">
+                                                                    <div className="prof-more-det-area">
+                                                                        <div className="prof-more-det">
+                                                                            <Skeleton height={20} width={20} />
+                                                                            <Skeleton height={15} width={150} />
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="prof-more-det-area">
+                                                                        <div className="prof-more-det">
+                                                                            <Skeleton height={20} width={20} />
+                                                                            <Skeleton height={15} width={150} />
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        {/* <div className="profile-name-edit-input-area">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className="row">
+                                        <div className="col-12 col-xl-4 col-lg-4 col-md-4">
+                                            <div className="profile-side-card">
+                                                <div className="quick-link-head">
+                                                    <Skeleton height={25} width={200} />
+                                                </div>
+                                                <div className="pro-quick-links-area">
+                                                    <div className='pro-quick-link-content'>
+                                                        <Skeleton height={15} width={150} />
+                                                    </div>
+                                                    <div className='pro-quick-link-content'>
+                                                        <Skeleton height={15} width={150} />
+                                                    </div>
+                                                    <div className='pro-quick-link-content'>
+                                                        <Skeleton height={15} width={150} />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="col-12 col-xl-8 col-lg-8 col-md-8">
+                                            <div className="profile-content-card">
+                                                <div className="profile-content-top-area with-toggle">
+                                                    <div className="profile-content-title">
+                                                        <Skeleton height={25} width={150} />
+                                                    </div>
+                                                    <div className="profile-content-title">
+                                                        <Skeleton height={20} width={100} />
+                                                    </div>
+                                                </div>
+                                                <div className="pt-5">
+                                                    <Skeleton height={15} width={400} />
+                                                </div>
+                                            </div>
+
+                                            <div className="profile-content-card">
+                                                <div className="profile-content-top-area with-toggle">
+                                                    <div className="profile-content-title">
+                                                        <Skeleton height={25} width={150} />
+                                                    </div>
+                                                    <div className="profile-content-title">
+                                                        <Skeleton height={20} width={100} />
+                                                    </div>
+                                                </div>
+                                                <div className="pt-5">
+                                                    <Skeleton height={15} width={400} />
+                                                </div>
+                                            </div>
+                                            <div className="profile-content-card">
+                                                <div className="profile-content-top-area with-toggle">
+                                                    <div className="profile-content-title">
+                                                        <Skeleton height={25} width={150} />
+                                                    </div>
+                                                    <div className="profile-content-title">
+                                                        <Skeleton height={20} width={100} />
+                                                    </div>
+                                                </div>
+                                                <div className="pt-5">
+                                                    <Skeleton height={15} width={400} />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            ) : (
+                                <div>
+                                    {companyDetail &&
+                                        <div>
+                                            <div className="row">
+                                                <div className="col-12">
+                                                    <div className="profile-card">
+                                                        <div className="card-flex-area">
+                                                            <div className="card-right-area">
+                                                                <div className="profile-det-image-area">
+                                                                    <div className="profile-det-image-container">
+                                                                        {/* <button className='prof-img-btn'>
+                                                        <i class="bi bi-pencil edit-icon"></i>
+                                                    </button> */}
+                                                                        <div className="image-view-area">
+                                                                            <button className='image-view-btn'>
+                                                                                <i class="bi bi-fullscreen img-view-icon"></i>
+                                                                            </button>
+                                                                        </div>
+                                                                        <img src={clientImgUrl ? clientImgUrl : "../assets/img/talents-images/avatar.jpg"}
+                                                                            className='profile-det-image'
+                                                                            loading='lazy'
+                                                                            alt="" />
+                                                                    </div>
+                                                                    <div id="imageModal" className="image-view-modal">
+                                                                        <span className="image-view-close">
+                                                                            <i class="bi bi-x"></i>
+                                                                        </span>
+                                                                        <img className="image-view-modal-content" id="modalImage" />
+                                                                    </div>
+                                                                </div>
+
+                                                                <div className="profile-det-area">
+                                                                    <div className="profile--name-edit-section">
+                                                                        <div className="profile--name-area">
+                                                                            <div className="profile--name text-capitalized">{companyDetail?.companyName}</div>
+                                                                            <button
+                                                                                className={`profile--name-edit-btn ${isNameExpanded ? 'expanded' : ''}`}
+                                                                                onClick={handleNameChangeToggle}>
+                                                                                <i class={`${isNameExpanded ? 'bi-x' : 'bi bi-pencil'} profile--name-edit-icon`}></i>
+                                                                            </button>
+                                                                        </div>
+                                                                        <div className={`profile-name-edit-input-area ${isNameExpanded ? 'expanded' : ''}`}>
+                                                                            <div className="row">
+                                                                                <div className="col-12 d-flex align-items-center gap-10">
+                                                                                    <input type="text" className="change-setting-input"
+                                                                                        placeholder="Change Company Name"
+                                                                                        value={companyInfo.companyName}
+                                                                                        onChange={(e) => setCompanyInfo({ ...companyInfo, companyName: e.target.value })} />
+                                                                                    <button className="setting-update-btn" onClick={handleCompanyNameUpdate}>Update</button>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        {/* <div className="profile-name-edit-input-area">
                                                             <div className="row">
                                                                 <div className="col-12 d-flex align-items-center gap-10">
                                                                     <input type="text"
@@ -692,120 +839,120 @@ const ClientProfile = () => {
                                                                 </div>
                                                             </div>
                                                         </div> */}
-                                                    </div>
-                                                    <div className="profile-update-status">
-                                                        Profile Last Updated :&nbsp;
-                                                        <span>{`${new Date(companyDetail?.updatedAt).getDate().toString().padStart(2, '0')}/${(new Date(companyDetail?.updatedAt).getMonth() + 1).toString().padStart(2, '0')}/${new Date(companyDetail?.updatedAt).getFullYear() % 100}`}</span>
-                                                    </div>
-                                                    <div className="prof-page-divider"></div>
-                                                    <div className="prof-more-det-section">
-                                                        <div className="prof-more-det-left-area">
-                                                            {companyDetail?.industry ?
-                                                                <div className="prof-more-det-area">
-                                                                    <div className="prof-more-det">
-                                                                        <i class="bi bi-building"></i>
-                                                                        <div className="prof-more-det-title text-capitalized">{companyDetail?.industry}</div>
-                                                                        <button
-                                                                            className={`prof-more-det-edit-btn ${isComTypeExpanded ? 'expanded' : ''}`}
-                                                                            onClick={handleComTypeChangeToggle}
-                                                                        >
-                                                                            <i class={`${isComTypeExpanded ? 'bi-x' : 'bi bi-pencil'} profile--name-edit-icon`}></i>
-                                                                        </button>
                                                                     </div>
-                                                                    <div className={`prof-more-det-input-area ${isComTypeExpanded ? 'expanded' : ''}`}>
-                                                                        <div className="row">
-                                                                            <div className="col-12 d-flex align-items-center gap-10">
-                                                                                <input type="text" className="change-setting-input more-det" placeholder="Change Company Type"
-                                                                                    value={companyInfo.industry}
-                                                                                    onChange={(e) => setCompanyInfo({ ...companyInfo, industry: e.target.value })} />
-                                                                                <button className="setting-update-btn more-det" onClick={handleIndustryUpdate}>Update</button>
-                                                                            </div>
-                                                                        </div>
+                                                                    <div className="profile-update-status">
+                                                                        Profile Last Updated :&nbsp;
+                                                                        <span>{`${new Date(companyDetail?.updatedAt).getDate().toString().padStart(2, '0')}/${(new Date(companyDetail?.updatedAt).getMonth() + 1).toString().padStart(2, '0')}/${new Date(companyDetail?.updatedAt).getFullYear() % 100}`}</span>
                                                                     </div>
-                                                                </div> :
-                                                                <div className="prof-more-det-area">
-                                                                    <div className="prof-more-det">
-                                                                        <i class="bi bi-building"></i>
-                                                                        <div className="prof-more-det-title text-capitalized">{companyDetail?.industry}</div>
-                                                                        <button
-                                                                            className={`prof-more-det-edit-btn ${isComTypeExpanded ? 'expanded' : ''}`}
-                                                                            onClick={handleComTypeChangeToggle}
-                                                                        >
-                                                                            <span className="add-detail">
-                                                                                {isComTypeExpanded ? 'Cancel' : 'Add Company Type'}
-                                                                            </span>
-                                                                        </button>
-                                                                    </div>
-                                                                    <div className={`prof-more-det-input-area ${isComTypeExpanded ? 'expanded' : ''}`}>
-                                                                        <div className="row">
-                                                                            <div className="col-12 d-flex align-items-center gap-10">
-                                                                                <input type="text" className="change-setting-input more-det" placeholder="Add Company Type"
-                                                                                    value={companyInfo.industry}
-                                                                                    onChange={(e) => setCompanyInfo({ ...companyInfo, industry: e.target.value })} />
-                                                                                <button className="setting-update-btn more-det" onClick={handleIndustryUpdate}>Add</button>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            }
+                                                                    <div className="prof-page-divider"></div>
+                                                                    <div className="prof-more-det-section">
+                                                                        <div className="prof-more-det-left-area">
+                                                                            {companyDetail?.industry ?
+                                                                                <div className="prof-more-det-area">
+                                                                                    <div className="prof-more-det">
+                                                                                        <i class="bi bi-building"></i>
+                                                                                        <div className="prof-more-det-title text-capitalized">{companyDetail?.industry}</div>
+                                                                                        <button
+                                                                                            className={`prof-more-det-edit-btn ${isComTypeExpanded ? 'expanded' : ''}`}
+                                                                                            onClick={handleComTypeChangeToggle}
+                                                                                        >
+                                                                                            <i class={`${isComTypeExpanded ? 'bi-x' : 'bi bi-pencil'} profile--name-edit-icon`}></i>
+                                                                                        </button>
+                                                                                    </div>
+                                                                                    <div className={`prof-more-det-input-area ${isComTypeExpanded ? 'expanded' : ''}`}>
+                                                                                        <div className="row">
+                                                                                            <div className="col-12 d-flex align-items-center gap-10">
+                                                                                                <input type="text" className="change-setting-input more-det" placeholder="Change Company Type"
+                                                                                                    value={companyInfo.industry}
+                                                                                                    onChange={(e) => setCompanyInfo({ ...companyInfo, industry: e.target.value })} />
+                                                                                                <button className="setting-update-btn more-det" onClick={handleIndustryUpdate}>Update</button>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div> :
+                                                                                <div className="prof-more-det-area">
+                                                                                    <div className="prof-more-det">
+                                                                                        <i class="bi bi-building"></i>
+                                                                                        <div className="prof-more-det-title text-capitalized">{companyDetail?.industry}</div>
+                                                                                        <button
+                                                                                            className={`prof-more-det-edit-btn ${isComTypeExpanded ? 'expanded' : ''}`}
+                                                                                            onClick={handleComTypeChangeToggle}
+                                                                                        >
+                                                                                            <span className="add-detail">
+                                                                                                {isComTypeExpanded ? 'Cancel' : 'Add Company Type'}
+                                                                                            </span>
+                                                                                        </button>
+                                                                                    </div>
+                                                                                    <div className={`prof-more-det-input-area ${isComTypeExpanded ? 'expanded' : ''}`}>
+                                                                                        <div className="row">
+                                                                                            <div className="col-12 d-flex align-items-center gap-10">
+                                                                                                <input type="text" className="change-setting-input more-det" placeholder="Add Company Type"
+                                                                                                    value={companyInfo.industry}
+                                                                                                    onChange={(e) => setCompanyInfo({ ...companyInfo, industry: e.target.value })} />
+                                                                                                <button className="setting-update-btn more-det" onClick={handleIndustryUpdate}>Add</button>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            }
 
-                                                            {companyDetail?.location ?
-                                                                <div className="prof-more-det-area">
-                                                                    <div className="prof-more-det">
-                                                                        <i class="bi bi-geo-alt"></i>
-                                                                        <div className="prof-more-det-title text-capitalized">{companyDetail?.location}</div>
-                                                                        <button
-                                                                            className={`prof-more-det-edit-btn ${isLocationExpanded ? 'expanded' : ''}`}
-                                                                            onClick={handleLocationChangeToggle}
-                                                                        >
-                                                                            <i class={`${isLocationExpanded ? 'bi-x' : 'bi bi-pencil'} profile--name-edit-icon`}></i>
-                                                                        </button>
-                                                                    </div>
-                                                                    <div className={`prof-more-det-input-area ${isLocationExpanded ? 'expanded' : ''}`}>
-                                                                        <div className="row">
-                                                                            <div className="col-12 d-flex align-items-center gap-10">
-                                                                                <input type="text" className="change-setting-input more-det" placeholder="Change Location"
-                                                                                    value={companyInfo.location}
-                                                                                    onChange={(e) => setCompanyInfo({ ...companyInfo, location: e.target.value })} />
-                                                                                <button className="setting-update-btn more-det" onClick={handleLocationUpdate}>Update</button>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div> :
-                                                                <div className="prof-more-det-area">
-                                                                    <div className="prof-more-det">
-                                                                        <i class="bi bi-geo-alt"></i>
-                                                                        <div className="prof-more-det-title text-capitalized">{companyDetail?.location}</div>
-                                                                        <button
-                                                                            className={`prof-more-det-edit-btn ${isLocationExpanded ? 'expanded' : ''}`}
-                                                                            onClick={handleLocationChangeToggle}
-                                                                        >
-                                                                            <span className="add-detail">
-                                                                                {isLocationExpanded ? 'Cancel' : 'Add Location'}
-                                                                            </span>
-                                                                        </button>
-                                                                    </div>
-                                                                    <div className={`prof-more-det-input-area ${isLocationExpanded ? 'expanded' : ''}`}>
-                                                                        <div className="row">
-                                                                            <div className="col-12 d-flex align-items-center gap-10">
-                                                                                <input type="text" className="change-setting-input more-det" placeholder="Add Location"
-                                                                                    value={companyInfo.location}
-                                                                                    onChange={(e) => setCompanyInfo({ ...companyInfo, location: e.target.value })} />
-                                                                                <button className="setting-update-btn more-det" onClick={handleLocationUpdate}>Add</button>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            }
+                                                                            {companyDetail?.location ?
+                                                                                <div className="prof-more-det-area">
+                                                                                    <div className="prof-more-det">
+                                                                                        <i class="bi bi-geo-alt"></i>
+                                                                                        <div className="prof-more-det-title text-capitalized">{companyDetail?.location}</div>
+                                                                                        <button
+                                                                                            className={`prof-more-det-edit-btn ${isLocationExpanded ? 'expanded' : ''}`}
+                                                                                            onClick={handleLocationChangeToggle}
+                                                                                        >
+                                                                                            <i class={`${isLocationExpanded ? 'bi-x' : 'bi bi-pencil'} profile--name-edit-icon`}></i>
+                                                                                        </button>
+                                                                                    </div>
+                                                                                    <div className={`prof-more-det-input-area ${isLocationExpanded ? 'expanded' : ''}`}>
+                                                                                        <div className="row">
+                                                                                            <div className="col-12 d-flex align-items-center gap-10">
+                                                                                                <input type="text" className="change-setting-input more-det" placeholder="Change Location"
+                                                                                                    value={companyInfo.location}
+                                                                                                    onChange={(e) => setCompanyInfo({ ...companyInfo, location: e.target.value })} />
+                                                                                                <button className="setting-update-btn more-det" onClick={handleLocationUpdate}>Update</button>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div> :
+                                                                                <div className="prof-more-det-area">
+                                                                                    <div className="prof-more-det">
+                                                                                        <i class="bi bi-geo-alt"></i>
+                                                                                        <div className="prof-more-det-title text-capitalized">{companyDetail?.location}</div>
+                                                                                        <button
+                                                                                            className={`prof-more-det-edit-btn ${isLocationExpanded ? 'expanded' : ''}`}
+                                                                                            onClick={handleLocationChangeToggle}
+                                                                                        >
+                                                                                            <span className="add-detail">
+                                                                                                {isLocationExpanded ? 'Cancel' : 'Add Location'}
+                                                                                            </span>
+                                                                                        </button>
+                                                                                    </div>
+                                                                                    <div className={`prof-more-det-input-area ${isLocationExpanded ? 'expanded' : ''}`}>
+                                                                                        <div className="row">
+                                                                                            <div className="col-12 d-flex align-items-center gap-10">
+                                                                                                <input type="text" className="change-setting-input more-det" placeholder="Add Location"
+                                                                                                    value={companyInfo.location}
+                                                                                                    onChange={(e) => setCompanyInfo({ ...companyInfo, location: e.target.value })} />
+                                                                                                <button className="setting-update-btn more-det" onClick={handleLocationUpdate}>Add</button>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            }
 
-                                                            {/* <div className="prof-more-det-area">
+                                                                            {/* <div className="prof-more-det-area">
                                                                 <div className="prof-more-det">
                                                                     <i class="bi bi-briefcase"></i>
                                                                     <div className="prof-more-det-title"></div>
                                                                 </div>
                                                             </div> */}
 
-                                                            {/* <div className="prof-more-det-area">
+                                                                            {/* <div className="prof-more-det-area">
                                                                 <div className="prof-more-det">
                                                                     <i class="bi bi-file-earmark-text"></i>
                                                                     <div className="prof-more-det-title"></div>
@@ -823,40 +970,40 @@ const ClientProfile = () => {
                                                                     </div>
                                                                 </div>
                                                             </div> */}
-                                                        </div>
+                                                                        </div>
 
-                                                        <div className="prof-more-det-line"></div>
+                                                                        <div className="prof-more-det-line"></div>
 
-                                                        <div className="prof-more-det-right-area">
-                                                            {/* <div className="prof-more-det-area">
+                                                                        <div className="prof-more-det-right-area">
+                                                                            {/* <div className="prof-more-det-area">
                                                                 <div className="prof-more-det">
                                                                     <i class="bi bi-telephone"></i>
                                                                     <div className="prof-more-det-title">Phone</div>
                                                                 </div>
                                                             </div> */}
 
-                                                            {/* <div className="prof-more-det-area">
+                                                                            {/* <div className="prof-more-det-area">
                                                                 <div className="prof-more-det">
                                                                     <i class="bi bi-envelope"></i>
                                                                     <div className="prof-more-det-title">Email</div>
                                                                 </div>
                                                             </div> */}
 
-                                                            <div className="prof-more-det-area">
-                                                                <div className="prof-more-det">
-                                                                    <i class="bi bi-telephone"></i>
-                                                                    <div className="prof-more-det-title"
-                                                                        onClick={() => window.location.href = `tel:${companyDetail?.phone}`}
-                                                                    >
-                                                                        <a className='prof-more-det-title link' href={`tel:${companyDetail?.phone}`}>
-                                                                            {companyDetail?.phone}
-                                                                        </a>
-                                                                    </div>
-                                                                    {/* <button className="prof-more-det-edit-btn">
+                                                                            <div className="prof-more-det-area">
+                                                                                <div className="prof-more-det">
+                                                                                    <i class="bi bi-telephone"></i>
+                                                                                    <div className="prof-more-det-title"
+                                                                                        onClick={() => window.location.href = `tel:${companyDetail?.phone}`}
+                                                                                    >
+                                                                                        <a className='prof-more-det-title link' href={`tel:${companyDetail?.phone}`}>
+                                                                                            {companyDetail?.phone}
+                                                                                        </a>
+                                                                                    </div>
+                                                                                    {/* <button className="prof-more-det-edit-btn">
                                                                         <i class="bi bi-pencil profile--name-edit-icon"></i>
                                                                     </button> */}
-                                                                </div>
-                                                                {/* <div className="prof-more-det-input-area">
+                                                                                </div>
+                                                                                {/* <div className="prof-more-det-input-area">
                                                                     <div className="row">
                                                                         <div className="col-12 d-flex align-items-center gap-10">
                                                                             <input type="number" className="change-setting-input more-det" placeholder="Change Mobile Number" 
@@ -866,17 +1013,17 @@ const ClientProfile = () => {
                                                                         </div>
                                                                     </div>
                                                                 </div> */}
-                                                            </div>
+                                                                            </div>
 
-                                                            <div className="prof-more-det-area">
-                                                                <div className="prof-more-det">
-                                                                    <i class="bi bi-envelope"></i>
-                                                                    <div className="prof-more-det-title" onClick={() => window.location.href = `mailto:${companyDetail?.email}`}><a className='prof-more-det-title link' href={`mailto:${companyDetail?.email}`}>{companyDetail?.email}</a></div>
-                                                                    {/* <button className="prof-more-det-edit-btn">
+                                                                            <div className="prof-more-det-area">
+                                                                                <div className="prof-more-det">
+                                                                                    <i class="bi bi-envelope"></i>
+                                                                                    <div className="prof-more-det-title" onClick={() => window.location.href = `mailto:${companyDetail?.email}`}><a className='prof-more-det-title link' href={`mailto:${companyDetail?.email}`}>{companyDetail?.email}</a></div>
+                                                                                    {/* <button className="prof-more-det-edit-btn">
                                                                         <i class="bi bi-pencil profile--name-edit-icon"></i>
                                                                     </button> */}
-                                                                </div>
-                                                                {/* <div className="prof-more-det-input-area">
+                                                                                </div>
+                                                                                {/* <div className="prof-more-det-input-area">
                                                                     <div className="row">
                                                                         <div className="col-12 d-flex align-items-center gap-10">
                                                                             <input type="email" className="change-setting-input more-det" placeholder="Change Email Address"
@@ -886,169 +1033,169 @@ const ClientProfile = () => {
                                                                         </div>
                                                                     </div>
                                                                 </div> */}
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
                                                             </div>
+
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div className="row">
+                                                <div className="col-12 col-xl-4 col-lg-4 col-md-4">
+                                                    <div className="profile-side-card">
+                                                        <div className="quick-link-head">Quick Links</div>
+                                                        <div className="pro-quick-links-area">
+                                                            <div className='pro-quick-link-content'>
+                                                                <a href="#About_Company" className='pro-quick-link'>About Company
+                                                                    <i class="bi bi-arrow-right"></i>
+                                                                </a>
+                                                            </div>
 
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="row">
-                                <div className="col-12 col-xl-4 col-lg-4 col-md-4">
-                                    <div className="profile-side-card">
-                                        <div className="quick-link-head">Quick Links</div>
-                                        <div className="pro-quick-links-area">
-                                            <div className='pro-quick-link-content'>
-                                                <a href="#About_Company" className='pro-quick-link'>About Company
-                                                    <i class="bi bi-arrow-right"></i>
-                                                </a>
-                                            </div>
+                                                            <div className='pro-quick-link-content'>
+                                                                <a href="#Add_Benefits" className='pro-quick-link'>Add Benefits
+                                                                    <i class="bi bi-arrow-right"></i>
+                                                                </a>
+                                                            </div>
+                                                            <div className='pro-quick-link-content'>
+                                                                <a href="#Add_Awards" className='pro-quick-link'>Add Awards and Recognitions
+                                                                    <i class="bi bi-arrow-right"></i>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
 
-                                            <div className='pro-quick-link-content'>
-                                                <a href="#Add_Benefits" className='pro-quick-link'>Add Benefits
-                                                    <i class="bi bi-arrow-right"></i>
-                                                </a>
-                                            </div>
-                                            <div className='pro-quick-link-content'>
-                                                <a href="#Add_Awards" className='pro-quick-link'>Add Awards and Recognitions
-                                                    <i class="bi bi-arrow-right"></i>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="col-12 col-xl-8 col-lg-8 col-md-8">
+                                                <div className="col-12 col-xl-8 col-lg-8 col-md-8">
+                                                    <div className="profile-content-card" id='About_Company'>
+                                                        <div className="profile-content-top-area with-toggle">
+                                                            <div className="profile-content-title">About Company</div>
+                                                            <button className="profile-content-edit-btn">
+                                                                <i class="bi bi-chevron-down toggle-icon"></i>
+                                                            </button>
+                                                        </div>
+                                                        <div className="cli-profile-content-area">
 
-                                    <div className="profile-content-card" id='About_Company'>
-                                        <div className="profile-content-top-area with-toggle">
-                                            <div className="profile-content-title">About Company</div>
-                                            <button className="profile-content-edit-btn">
-                                                <i class="bi bi-chevron-down toggle-icon"></i>
-                                            </button>
-                                        </div>
-                                        <div className="cli-profile-content-area">
-
-                                            <div className="cli-pro-detail-area m-b-40">
-                                                <div className="cli-pro-title">{companyDetail?.website ? "Change" : "Add"} Website</div>
-                                                <div className='profile-content mt-4'>
-                                                    <a href={`${companyDetail?.website}`}
-                                                        target='_blank'
-                                                        className='profile-content link is-link'>
-                                                        {companyDetail?.website}
-                                                    </a>
-                                                </div>
-                                                <div className="cli-pro-input-area">
-                                                    <input
-                                                        type="text"
-                                                        className='cli-pro-input'
-                                                        placeholder={`${companyDetail?.website ? 'Change' : 'Add'} website`}
-                                                        value={companyInfo.website}
-                                                        onChange={(e) => setCompanyInfo({ ...companyInfo, website: e.target.value })} />
-                                                    <button className='cli-pro-add-btn' onClick={handleWebsiteUpdate}>{companyDetail?.website ? "Change" : "Add"}</button>
-                                                </div>
-                                            </div>
-
-                                            <div className="cli-pro-detail-area m-b-40">
-                                                <div className="cli-pro-title">{companyDetail?.shortDescription ? "Change" : "Add"} Short description</div>
-                                                <div className='profile-content mt-4'>
-                                                    {companyDetail?.shortDescription}
-                                                </div>
-                                                <div className="cli-pro-input-area">
-                                                    <textarea
-                                                        type="text"
-                                                        className='cli-pro-input'
-                                                        rows={1}
-                                                        placeholder={`${companyDetail?.shortDescription ? 'Change' : 'Add'} description`}
-                                                        value={companyInfo.shortDescription}
-                                                        onChange={(e) => setCompanyInfo({ ...companyInfo, shortDescription: e.target.value })} />
-                                                    <button className='cli-pro-add-btn text-area' onClick={handleShortDescriptionUpdate}>{companyDetail?.shortDescription ? "Change" : "Add"}</button>
-                                                </div>
-                                            </div>
-
-                                            <div className="cli-pro-detail-area m-b-40">
-                                                <div className="cli-pro-title">{companyDetail?.longDescription ? "Change" : "Add"} Long description</div>
-                                                <div className='profile-content mt-4'>
-                                                    {companyDetail?.longDescription}
-                                                </div>
-                                                <div className="cli-pro-input-area">
-                                                    <textarea
-                                                        type="text"
-                                                        rows={1}
-                                                        className='cli-pro-input'
-                                                        placeholder={`${companyDetail?.longDescription ? 'Change' : 'Add'} description`}
-                                                        value={companyInfo.longDescription}
-                                                        onChange={(e) => setCompanyInfo({ ...companyInfo, longDescription: e.target.value })} />
-                                                    <button className='cli-pro-add-btn text-area' onClick={handleLongDescriptionUpdate}>{companyDetail?.longDescription ? "Change" : "Add"}</button>
-                                                </div>
-                                            </div>
-
-                                            <div className="cli-pro-detail-area m-b-40">
-                                                <div className="cli-pro-title">Mission</div>
-                                                <div className='profile-content mt-4'>
-                                                    {companyDetail?.mission}
-                                                </div>
-                                                <div className="cli-pro-input-area">
-                                                    <textarea
-                                                        type="text"
-                                                        rows={1}
-                                                        className='cli-pro-input'
-                                                        placeholder={`${companyDetail?.mission ? 'Change' : 'Add'} Mission`}
-                                                        value={companyInfo.mission}
-                                                        onChange={(e) => setCompanyInfo({ ...companyInfo, mission: e.target.value })} />
-                                                    <button className='cli-pro-add-btn text-area' onClick={handleMissionUpdate}>{companyDetail?.mission ? "Change" : "Add"}</button>
-                                                </div>
-                                            </div>
-
-                                            <div className="cli-pro-detail-area m-b-20">
-                                                <div className="cli-pro-title">Vision</div>
-                                                <div className='profile-content mt-4'>
-                                                    {companyDetail?.vision}
-                                                </div>
-                                                <div className="cli-pro-input-area">
-                                                    <textarea
-                                                        type="text"
-                                                        rows={1}
-                                                        className='cli-pro-input'
-                                                        placeholder={`${companyDetail?.vision ? 'Change' : 'Add'} Vision`}
-                                                        value={companyInfo.vision}
-                                                        onChange={(e) => setCompanyInfo({ ...companyInfo, vision: e.target.value })} />
-                                                    <button className='cli-pro-add-btn text-area' onClick={handleVisionUpdate}>{companyDetail?.vision ? "Change" : "Add"}</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div className="profile-content-card" id='Add_Benefits'>
-                                        <div className="profile-content-top-area with-toggle">
-                                            <div className="profile-content-title">Add Benefits</div>
-                                            <button className="profile-content-edit-btn">
-                                                <i class="bi bi-chevron-down toggle-icon"></i>
-                                            </button>
-                                        </div>
-                                        <div className="cli-profile-content-area">
-                                            <div className="cli-pro-detail-area m-b-10">
-                                                <div className="cli-pro-checkbox-area">
-                                                    <div className="row">
-                                                        {checkBox.map(box => {
-                                                            return (
-                                                                <div className="col-12 col-md-6">
-                                                                    <label className="cli-pro-checkbox-input">
-                                                                        <input type="checkbox"
-                                                                            value={box}
-                                                                            checked={selectedBenefits.includes(box)}
-                                                                            onChange={() => handleCheckboxChange(box)} />
-                                                                        <span className="cli-pro-checkbox-checkmark"></span>
-                                                                        {box}
-                                                                    </label>
+                                                            <div className="cli-pro-detail-area m-b-40">
+                                                                <div className="cli-pro-title">{companyDetail?.website ? "Change" : "Add"} Website</div>
+                                                                <div className='profile-content mt-4'>
+                                                                    <a href={`${companyDetail?.website}`}
+                                                                        target='_blank'
+                                                                        className='profile-content link is-link'>
+                                                                        {companyDetail?.website}
+                                                                    </a>
                                                                 </div>
-                                                            )
-                                                        })}
+                                                                <div className="cli-pro-input-area">
+                                                                    <input
+                                                                        type="text"
+                                                                        className='cli-pro-input'
+                                                                        placeholder={`${companyDetail?.website ? 'Change' : 'Add'} website`}
+                                                                        value={companyInfo.website}
+                                                                        onChange={(e) => setCompanyInfo({ ...companyInfo, website: e.target.value })} />
+                                                                    <button className='cli-pro-add-btn' onClick={handleWebsiteUpdate}>{companyDetail?.website ? "Change" : "Add"}</button>
+                                                                </div>
+                                                            </div>
+
+                                                            <div className="cli-pro-detail-area m-b-40">
+                                                                <div className="cli-pro-title">{companyDetail?.shortDescription ? "Change" : "Add"} Short description</div>
+                                                                <div className='profile-content mt-4'>
+                                                                    {companyDetail?.shortDescription}
+                                                                </div>
+                                                                <div className="cli-pro-input-area">
+                                                                    <textarea
+                                                                        type="text"
+                                                                        className='cli-pro-input'
+                                                                        rows={1}
+                                                                        placeholder={`${companyDetail?.shortDescription ? 'Change' : 'Add'} description`}
+                                                                        value={companyInfo.shortDescription}
+                                                                        onChange={(e) => setCompanyInfo({ ...companyInfo, shortDescription: e.target.value })} />
+                                                                    <button className='cli-pro-add-btn text-area' onClick={handleShortDescriptionUpdate}>{companyDetail?.shortDescription ? "Change" : "Add"}</button>
+                                                                </div>
+                                                            </div>
+
+                                                            <div className="cli-pro-detail-area m-b-40">
+                                                                <div className="cli-pro-title">{companyDetail?.longDescription ? "Change" : "Add"} Long description</div>
+                                                                <div className='profile-content mt-4'>
+                                                                    {companyDetail?.longDescription}
+                                                                </div>
+                                                                <div className="cli-pro-input-area">
+                                                                    <textarea
+                                                                        type="text"
+                                                                        rows={1}
+                                                                        className='cli-pro-input'
+                                                                        placeholder={`${companyDetail?.longDescription ? 'Change' : 'Add'} description`}
+                                                                        value={companyInfo.longDescription}
+                                                                        onChange={(e) => setCompanyInfo({ ...companyInfo, longDescription: e.target.value })} />
+                                                                    <button className='cli-pro-add-btn text-area' onClick={handleLongDescriptionUpdate}>{companyDetail?.longDescription ? "Change" : "Add"}</button>
+                                                                </div>
+                                                            </div>
+
+                                                            <div className="cli-pro-detail-area m-b-40">
+                                                                <div className="cli-pro-title">Mission</div>
+                                                                <div className='profile-content mt-4'>
+                                                                    {companyDetail?.mission}
+                                                                </div>
+                                                                <div className="cli-pro-input-area">
+                                                                    <textarea
+                                                                        type="text"
+                                                                        rows={1}
+                                                                        className='cli-pro-input'
+                                                                        placeholder={`${companyDetail?.mission ? 'Change' : 'Add'} Mission`}
+                                                                        value={companyInfo.mission}
+                                                                        onChange={(e) => setCompanyInfo({ ...companyInfo, mission: e.target.value })} />
+                                                                    <button className='cli-pro-add-btn text-area' onClick={handleMissionUpdate}>{companyDetail?.mission ? "Change" : "Add"}</button>
+                                                                </div>
+                                                            </div>
+
+                                                            <div className="cli-pro-detail-area m-b-20">
+                                                                <div className="cli-pro-title">Vision</div>
+                                                                <div className='profile-content mt-4'>
+                                                                    {companyDetail?.vision}
+                                                                </div>
+                                                                <div className="cli-pro-input-area">
+                                                                    <textarea
+                                                                        type="text"
+                                                                        rows={1}
+                                                                        className='cli-pro-input'
+                                                                        placeholder={`${companyDetail?.vision ? 'Change' : 'Add'} Vision`}
+                                                                        value={companyInfo.vision}
+                                                                        onChange={(e) => setCompanyInfo({ ...companyInfo, vision: e.target.value })} />
+                                                                    <button className='cli-pro-add-btn text-area' onClick={handleVisionUpdate}>{companyDetail?.vision ? "Change" : "Add"}</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div className="profile-content-card" id='Add_Benefits'>
+                                                        <div className="profile-content-top-area with-toggle">
+                                                            <div className="profile-content-title">Add Benefits</div>
+                                                            <button className="profile-content-edit-btn">
+                                                                <i class="bi bi-chevron-down toggle-icon"></i>
+                                                            </button>
+                                                        </div>
+                                                        <div className="cli-profile-content-area">
+                                                            <div className="cli-pro-detail-area m-b-10">
+                                                                <div className="cli-pro-checkbox-area">
+                                                                    <div className="row">
+                                                                        {checkBox.map(box => {
+                                                                            return (
+                                                                                <div className="col-12 col-md-6">
+                                                                                    <label className="cli-pro-checkbox-input">
+                                                                                        <input type="checkbox"
+                                                                                            value={box}
+                                                                                            checked={selectedBenefits.includes(box)}
+                                                                                            onChange={() => handleCheckboxChange(box)} />
+                                                                                        <span className="cli-pro-checkbox-checkmark"></span>
+                                                                                        {box}
+                                                                                    </label>
+                                                                                </div>
+                                                                            )
+                                                                        })}
 
 
-                                                        {/* <div className="col-12 col-md-6">
+                                                                        {/* <div className="col-12 col-md-6">
                                                             <label className="cli-pro-checkbox-input">
                                                                 <input type="checkbox" />
                                                                 <span className="cli-pro-checkbox-checkmark"></span>
@@ -1079,74 +1226,78 @@ const ClientProfile = () => {
                                                                 Job Training
                                                             </label>
                                                         </div> */}
+                                                                    </div>
+                                                                    <div className="add-more-input-field-area">
+                                                                        <button className={`cli-pro-add-input-btn ${isBenefitExpanded ? 'expanded' : ''}`}
+                                                                            onClick={handleBenefitChangeToggle}
+                                                                        >
+                                                                            {isBenefitExpanded ? 'Cancel' : 'Add More Benefits'}
+                                                                        </button>
+                                                                        <div className={`add-more-input-area ${isBenefitExpanded ? 'expanded' : ''}`}>
+                                                                            <div className="row">
+                                                                                <div className="col-12 d-flex align-items-center gap-10">
+                                                                                    <input type="text" className="change-setting-input" placeholder="Add Benefit"
+                                                                                        value={companyInfo.manuallyAddedBenefit}
+                                                                                        onChange={(e) => setCompanyInfo({ ...companyInfo, manuallyAddedBenefit: e.target.value })} />
+                                                                                    <button className="setting-update-btn"
+                                                                                        onClick={handleAddManually}>Add</button>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
                                                     </div>
-                                                    <div className="add-more-input-field-area">
-                                                        <button className={`cli-pro-add-input-btn ${isBenefitExpanded ? 'expanded' : ''}`}
-                                                            onClick={handleBenefitChangeToggle}
-                                                        >
-                                                            {isBenefitExpanded ? 'Cancel' : 'Add More Benefits'}
-                                                        </button>
-                                                        <div className={`add-more-input-area ${isBenefitExpanded ? 'expanded' : ''}`}>
-                                                            <div className="row">
-                                                                <div className="col-12 d-flex align-items-center gap-10">
-                                                                    <input type="text" className="change-setting-input" placeholder="Add Benefit"
-                                                                        value={companyInfo.manuallyAddedBenefit}
-                                                                        onChange={(e) => setCompanyInfo({ ...companyInfo, manuallyAddedBenefit: e.target.value })} />
-                                                                    <button className="setting-update-btn"
-                                                                        onClick={handleAddManually}>Add</button>
+
+                                                    <div className="profile-content-card" id='Add_Awards'>
+                                                        <div className="profile-content-top-area with-toggle">
+                                                            <div className="profile-content-title">Add Awards and Recognitions</div>
+                                                            <button className="profile-content-edit-btn">
+                                                                <i class="bi bi-chevron-down toggle-icon"></i>
+                                                            </button>
+                                                        </div>
+
+                                                        <div className="cli-profile-content-area">
+                                                            <div className="cli-pro-detail-area m-b-10">
+                                                                {awardList.map(award => {
+                                                                    return (
+                                                                        <div className='profile-content mb-4'>
+                                                                            {award}
+                                                                        </div>
+                                                                    )
+                                                                })}
+                                                                <div className="add-more-input-field-area">
+                                                                    <button className={`cli-pro-add-input-btn ${isDetailExpanded ? 'expanded' : ''}`}
+                                                                        onClick={handleDetailChangeToggle}
+                                                                    >
+                                                                        {isDetailExpanded ? 'Cancel' : 'Add Details'}
+                                                                    </button>
+                                                                    <div className={`add-more-input-area ${isDetailExpanded ? 'expanded' : ''}`}>
+                                                                        <div className="row">
+                                                                            <div className="col-12 d-flex align-items-center gap-10">
+                                                                                <input type="text" className="change-setting-input" placeholder="Add Details"
+                                                                                    value={companyInfo.awards}
+                                                                                    onChange={(e) => setCompanyInfo({ ...companyInfo, awards: e.target.value })} />
+                                                                                <button className="setting-update-btn" onClick={handleAwardUpdate}>Add</button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </div>
 
-                                        </div>
-                                    </div>
-
-                                    <div className="profile-content-card" id='Add_Awards'>
-                                        <div className="profile-content-top-area with-toggle">
-                                            <div className="profile-content-title">Add Awards and Recognitions</div>
-                                            <button className="profile-content-edit-btn">
-                                                <i class="bi bi-chevron-down toggle-icon"></i>
-                                            </button>
-                                        </div>
-
-                                        <div className="cli-profile-content-area">
-                                            <div className="cli-pro-detail-area m-b-10">
-                                                {awardList.map(award => {
-                                                    return (
-                                                        <div className='profile-content mb-4'>
-                                                            {award}
-                                                        </div>
-                                                    )
-                                                })}
-                                                <div className="add-more-input-field-area">
-                                                    <button className={`cli-pro-add-input-btn ${isDetailExpanded ? 'expanded' : ''}`}
-                                                        onClick={handleDetailChangeToggle}
-                                                    >
-                                                        {isDetailExpanded ? 'Cancel' : 'Add Details'}
-                                                    </button>
-                                                    <div className={`add-more-input-area ${isDetailExpanded ? 'expanded' : ''}`}>
-                                                        <div className="row">
-                                                            <div className="col-12 d-flex align-items-center gap-10">
-                                                                <input type="text" className="change-setting-input" placeholder="Add Details"
-                                                                    value={companyInfo.awards}
-                                                                    onChange={(e) => setCompanyInfo({ ...companyInfo, awards: e.target.value })} />
-                                                                <button className="setting-update-btn" onClick={handleAwardUpdate}>Add</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-
+                                    }
                                 </div>
-                            </div>
+                            )}
                         </div>
                     </section>
-                </div>}
+                </div>
                 <Footer />
             </div >
         </div >

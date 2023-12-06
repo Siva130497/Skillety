@@ -11,6 +11,9 @@ import 'sweetalert2/dist/sweetalert2.css';
 import Footer from '../../components/Footer';
 import AuthContext from '../../context/AuthContext';
 
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
+
 
 const CandidateProfile = () => {
     const { id } = useParams();
@@ -46,6 +49,8 @@ const CandidateProfile = () => {
     const [filteredLocations, setFilteredLocations] = useState([]);
     const [selectedLocations, setSelectedLocations] = useState([]);
     const [searchLocationInput, setSearchLocationInput] = useState("");
+
+    const [contentloading, setContentLoading] = useState(true);
 
     const [userInfo, setUserInfo] = useState({
         firstName: "",
@@ -407,6 +412,8 @@ const CandidateProfile = () => {
 
     useEffect(() => {
         if (id && candidateToken) {
+
+            setContentLoading(true);
             axios.get(`https://skillety.onrender.com/candidate/${id}`)
                 .then(res => {
                     console.log(res.data)
@@ -419,6 +426,10 @@ const CandidateProfile = () => {
                     // setPageNotFound(true);
                 })
 
+                .finally(() => {
+                    setContentLoading(false);
+                });
+
 
             axios.get(`https://skillety.onrender.com/candidate-image/${id}`)
                 .then(res => {
@@ -427,12 +438,20 @@ const CandidateProfile = () => {
                 })
                 .catch(err => console.log(err))
 
+                .finally(() => {
+                    setContentLoading(false);
+                });
+
             axios.get(`https://skillety.onrender.com/candidate-resume/${id}`)
                 .then(res => {
                     console.log(res.data)
                     setResume(res.data)
                 })
                 .catch(err => console.log(err))
+
+                .finally(() => {
+                    setContentLoading(false);
+                });
         }
     }, [id, candidateToken])
 
@@ -936,87 +955,295 @@ const CandidateProfile = () => {
                 <Layout />
                 <div class="main-content">
                     {/* {loading && <div id="preloader" className='candidate'></div>} */}
-                    {loginCandidate &&
-                        <section class="section">
-                            <div className="candidate-prrofile-section">
-                                <div className="profile-head-area">
-                                    <div className='profile-head'>Profile details</div>
-                                </div>
-                                <div className="row">
-                                    <div className="col-12">
-                                        <div className="profile-card">
-                                            <div className="card-flex-area">
-                                                <div className="card-right-area">
-                                                    <div className="profile-det-image-area">
-                                                        <div className="profile-det-image-container">
-                                                            {/* <button className='prof-img-btn'>
-                                                        <i class="bi bi-pencil edit-icon"></i>
-                                                    </button> */}
-                                                            <div className="image-view-area">
-                                                                <button className='image-view-btn'>
-                                                                    <i class="bi bi-fullscreen img-view-icon"></i>
-                                                                </button>
-                                                            </div>
-                                                            <img src={candidateImgUrl ? candidateImgUrl : "../assets/img/talents-images/avatar.jpg"} className='profile-det-image' alt="" />
+
+                    <section class="section">
+                        <div className="candidate-prrofile-section">
+                            <div className="profile-head-area">
+                                <div className='profile-head'>Profile details</div>
+                            </div>
+                            {contentloading ? (
+                                <div>
+                                    <div className="row">
+                                        <div className="col-12">
+                                            <div className="profile-card">
+                                                <div className="card-flex-area">
+                                                    <div className="card-right-area">
+                                                        <div className="profile-det-image-area">
+                                                            <Skeleton circle={true} height={150} width={150} />
                                                         </div>
-                                                        <div id="imageModal" className="image-view-modal">
-                                                            <span className="image-view-close">
-                                                                <i class="bi bi-x"></i>
-                                                            </span>
-                                                            <img className="image-view-modal-content" id="modalImage" />
+
+                                                        <div className="profile-det-area">
+                                                            <div className="profile--name-edit-section">
+                                                                <div className="profile--name-area">
+                                                                    <Skeleton height={25} width={150} />
+                                                                </div>
+                                                            </div>
+                                                            <div className="profile-update-status mt-3">
+                                                                <Skeleton height={15} width={250} />
+                                                            </div>
+                                                            <div className="prof-page-divider"></div>
+                                                            <div className="prof-more-det-section">
+                                                                <div className="prof-more-det-left-area">
+                                                                    <div className="prof-more-det-area">
+                                                                        <div className="prof-more-det">
+                                                                            <Skeleton height={20} width={20} />
+                                                                            <Skeleton height={15} width={150} />
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="prof-more-det-area">
+                                                                        <div className="prof-more-det">
+                                                                            <Skeleton height={20} width={20} />
+                                                                            <Skeleton height={15} width={150} />
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="prof-more-det-area">
+                                                                        <div className="prof-more-det">
+                                                                            <Skeleton height={20} width={20} />
+                                                                            <Skeleton height={15} width={150} />
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div className="p-0 p-lg-5 p-md-3"></div>
+                                                                <div className="prof-more-det-right-area">
+                                                                    <div className="prof-more-det-area">
+                                                                        <div className="prof-more-det">
+                                                                            <Skeleton height={20} width={20} />
+                                                                            <Skeleton height={15} width={150} />
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="prof-more-det-area">
+                                                                        <div className="prof-more-det">
+                                                                            <Skeleton height={20} width={20} />
+                                                                            <Skeleton height={15} width={150} />
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                    <div className="profile-det-area">
-                                                        <div className="profile--name-edit-section">
-                                                            <div className="profile--name-area">
-                                                                <div className="profile--name text-capitalized">{loginCandidate?.firstName + " " + loginCandidate?.lastName}</div>
-                                                                <button className={`profile--name-edit-btn ${isNameExpanded ? 'expanded' : ''}`}
-                                                                    onClick={handleNameChangeToggle}>
-                                                                    <i class={`${isNameExpanded ? 'bi-x' : 'bi bi-pencil'} profile--name-edit-icon`}></i>
-                                                                </button>
-                                                            </div>
-                                                            <div className={`profile-name-edit-input-area ${isNameExpanded ? 'expanded-one' : ''}`}>
-                                                                <div className="row">
-                                                                    <div className="col-12 d-flex align-items-center gap-10">
-                                                                        <input type="text" className="change-setting-input"
-                                                                            value={userInfo.firstName}
-                                                                            onChange={(e) => setUserInfo({ ...userInfo, firstName: e.target.value })}
-                                                                            placeholder="Change Profile First Name" />
-                                                                        <button className="setting-update-btn" onClick={handleFirstNameUpdate} disabled={!userInfo.firstName}>Update</button>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div className={`profile-name-edit-input-area ${isNameExpanded ? 'expanded-two' : ''}`}>
-                                                                <div className="row">
-                                                                    <div className="col-12 d-flex align-items-center gap-10">
-                                                                        <input type="text"
-                                                                            className="change-setting-input"
-                                                                            value={userInfo.lastName}
-                                                                            onChange={(e) => setUserInfo({ ...userInfo, lastName: e.target.value })}
-                                                                            placeholder="Change Profile Last Name" />
-                                                                        <button className="setting-update-btn" onClick={handleLastNameUpdate} disabled={!userInfo.lastName}>Update</button>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div className="profile-update-status">
-                                                            Profile Last Updated :&nbsp;
-                                                            <span>{`${new Date(loginCandidate?.updatedAt).getDate().toString().padStart(2, '0')}/${(new Date(loginCandidate?.updatedAt).getMonth() + 1).toString().padStart(2, '0')}/${new Date(loginCandidate?.updatedAt).getFullYear() % 100}`}</span>
-                                                        </div>
-                                                        <div className="prof-page-divider"></div>
-                                                        <div className="prof-more-det-section">
-                                                            <div className="prof-more-det-left-area">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
 
-                                                                <div className="prof-more-det-area">
-                                                                    <div className="prof-more-det">
-                                                                        <i class="bi bi-geo-alt"></i>
-                                                                        <div className="prof-more-det-title text-capitalized">{loginCandidate?.location}</div>
-                                                                        {/* <button className={`prof-more-det-edit-btn ${isLocationExpanded ? 'expanded' : ''}`}
+                                    <div className="row">
+                                        <div className="col-12 col-xl-4 col-lg-4 col-md-4">
+                                            <div className="profile-side-card">
+                                                <div className="quick-link-head">
+                                                    <Skeleton height={25} width={200} />
+                                                </div>
+                                                <div className="pro-quick-links-area">
+                                                    <div className='pro-quick-link-content'>
+                                                        <Skeleton height={15} width={150} />
+                                                    </div>
+                                                    <div className='pro-quick-link-content'>
+                                                        <Skeleton height={15} width={150} />
+                                                    </div>
+                                                    <div className='pro-quick-link-content'>
+                                                        <Skeleton height={15} width={150} />
+                                                    </div>
+                                                    <div className='pro-quick-link-content'>
+                                                        <Skeleton height={15} width={150} />
+                                                    </div>
+                                                    <div className='pro-quick-link-content'>
+                                                        <Skeleton height={15} width={150} />
+                                                    </div>
+                                                    <div className='pro-quick-link-content'>
+                                                        <Skeleton height={15} width={150} />
+                                                    </div>
+                                                    <div className='pro-quick-link-content'>
+                                                        <Skeleton height={15} width={150} />
+                                                    </div>
+                                                    <div className='pro-quick-link-content'>
+                                                        <Skeleton height={15} width={150} />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="col-12 col-xl-8 col-lg-8 col-md-8">
+                                            <div className="profile-content-card">
+                                                <div className="profile-content-top-area with-toggle">
+                                                    <div className="profile-content-title">
+                                                        <Skeleton height={25} width={150} />
+                                                    </div>
+                                                    <div className="profile-content-title">
+                                                        <Skeleton height={20} width={100} />
+                                                    </div>
+                                                </div>
+                                                <div className="pt-5">
+                                                    <Skeleton height={15} width={400} />
+                                                </div>
+                                            </div>
+
+                                            <div className="profile-content-card">
+                                                <div className="profile-content-top-area with-toggle">
+                                                    <div className="profile-content-title">
+                                                        <Skeleton height={25} width={150} />
+                                                    </div>
+                                                    <div className="profile-content-title">
+                                                        <Skeleton height={20} width={100} />
+                                                    </div>
+                                                </div>
+                                                <div className="pt-5">
+                                                    <Skeleton height={15} width={400} />
+                                                </div>
+                                            </div>
+
+                                            <div className="profile-content-card">
+                                                <div className="profile-content-top-area with-toggle">
+                                                    <div className="profile-content-title">
+                                                        <Skeleton height={25} width={150} />
+                                                    </div>
+                                                    <div className="profile-content-title">
+                                                        <Skeleton height={20} width={100} />
+                                                    </div>
+                                                </div>
+                                                <div className="pt-5">
+                                                    <Skeleton height={15} width={400} />
+                                                </div>
+                                            </div>
+
+                                            <div className="profile-content-card">
+                                                <div className="profile-content-top-area with-toggle">
+                                                    <div className="profile-content-title">
+                                                        <Skeleton height={25} width={150} />
+                                                    </div>
+                                                    <div className="profile-content-title">
+                                                        <Skeleton height={20} width={100} />
+                                                    </div>
+                                                </div>
+                                                <div className="pt-5">
+                                                    <Skeleton height={15} width={400} />
+                                                </div>
+                                            </div>
+
+                                            <div className="profile-content-card">
+                                                <div className="profile-content-top-area with-toggle">
+                                                    <div className="profile-content-title">
+                                                        <Skeleton height={25} width={150} />
+                                                    </div>
+                                                    <div className="profile-content-title">
+                                                        <Skeleton height={20} width={100} />
+                                                    </div>
+                                                </div>
+                                                <div className="pt-5">
+                                                    <Skeleton height={15} width={400} />
+                                                </div>
+                                            </div>
+
+                                            <div className="profile-content-card">
+                                                <div className="profile-content-top-area with-toggle">
+                                                    <div className="profile-content-title">
+                                                        <Skeleton height={25} width={150} />
+                                                    </div>
+                                                    <div className="profile-content-title">
+                                                        <Skeleton height={20} width={100} />
+                                                    </div>
+                                                </div>
+                                                <div className="pt-5">
+                                                    <Skeleton height={15} width={400} />
+                                                </div>
+                                            </div>
+
+                                            <div className="profile-content-card">
+                                                <div className="profile-content-top-area with-toggle">
+                                                    <div className="profile-content-title">
+                                                        <Skeleton height={25} width={150} />
+                                                    </div>
+                                                    <div className="profile-content-title">
+                                                        <Skeleton height={20} width={100} />
+                                                    </div>
+                                                </div>
+                                                <div className="pt-5">
+                                                    <Skeleton height={15} width={400} />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            ) : (
+                                <div>
+                                    {loginCandidate &&
+                                        <div>
+                                            <div className="row">
+                                                <div className="col-12">
+                                                    <div className="profile-card">
+                                                        <div className="card-flex-area">
+                                                            <div className="card-right-area">
+                                                                <div className="profile-det-image-area">
+                                                                    <div className="profile-det-image-container">
+                                                                        {/* <button className='prof-img-btn'>
+                                                        <i class="bi bi-pencil edit-icon"></i>
+                                                    </button> */}
+                                                                        <div className="image-view-area">
+                                                                            <button className='image-view-btn'>
+                                                                                <i class="bi bi-fullscreen img-view-icon"></i>
+                                                                            </button>
+                                                                        </div>
+                                                                        <img src={candidateImgUrl ? candidateImgUrl : "../assets/img/talents-images/avatar.jpg"}
+                                                                            className='profile-det-image'
+                                                                            loading='lazy'
+                                                                            alt="" />
+                                                                    </div>
+                                                                    <div id="imageModal" className="image-view-modal">
+                                                                        <span className="image-view-close">
+                                                                            <i class="bi bi-x"></i>
+                                                                        </span>
+                                                                        <img className="image-view-modal-content" id="modalImage" />
+                                                                    </div>
+                                                                </div>
+                                                                <div className="profile-det-area">
+                                                                    <div className="profile--name-edit-section">
+                                                                        <div className="profile--name-area">
+                                                                            <div className="profile--name text-capitalized">{loginCandidate?.firstName + " " + loginCandidate?.lastName}</div>
+                                                                            <button className={`profile--name-edit-btn ${isNameExpanded ? 'expanded' : ''}`}
+                                                                                onClick={handleNameChangeToggle}>
+                                                                                <i class={`${isNameExpanded ? 'bi-x' : 'bi bi-pencil'} profile--name-edit-icon`}></i>
+                                                                            </button>
+                                                                        </div>
+                                                                        <div className={`profile-name-edit-input-area ${isNameExpanded ? 'expanded-one' : ''}`}>
+                                                                            <div className="row">
+                                                                                <div className="col-12 d-flex align-items-center gap-10">
+                                                                                    <input type="text" className="change-setting-input"
+                                                                                        value={userInfo.firstName}
+                                                                                        onChange={(e) => setUserInfo({ ...userInfo, firstName: e.target.value })}
+                                                                                        placeholder="Change Profile First Name" />
+                                                                                    <button className="setting-update-btn" onClick={handleFirstNameUpdate} disabled={!userInfo.firstName}>Update</button>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div className={`profile-name-edit-input-area ${isNameExpanded ? 'expanded-two' : ''}`}>
+                                                                            <div className="row">
+                                                                                <div className="col-12 d-flex align-items-center gap-10">
+                                                                                    <input type="text"
+                                                                                        className="change-setting-input"
+                                                                                        value={userInfo.lastName}
+                                                                                        onChange={(e) => setUserInfo({ ...userInfo, lastName: e.target.value })}
+                                                                                        placeholder="Change Profile Last Name" />
+                                                                                    <button className="setting-update-btn" onClick={handleLastNameUpdate} disabled={!userInfo.lastName}>Update</button>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="profile-update-status">
+                                                                        Profile Last Updated :&nbsp;
+                                                                        <span>{`${new Date(loginCandidate?.updatedAt).getDate().toString().padStart(2, '0')}/${(new Date(loginCandidate?.updatedAt).getMonth() + 1).toString().padStart(2, '0')}/${new Date(loginCandidate?.updatedAt).getFullYear() % 100}`}</span>
+                                                                    </div>
+                                                                    <div className="prof-page-divider"></div>
+                                                                    <div className="prof-more-det-section">
+                                                                        <div className="prof-more-det-left-area">
+
+                                                                            <div className="prof-more-det-area">
+                                                                                <div className="prof-more-det">
+                                                                                    <i class="bi bi-geo-alt"></i>
+                                                                                    <div className="prof-more-det-title text-capitalized">{loginCandidate?.location}</div>
+                                                                                    {/* <button className={`prof-more-det-edit-btn ${isLocationExpanded ? 'expanded' : ''}`}
                                                                                 onClick={handleLocationChangeToggle}>
                                                                                 <i class={`${isLocationExpanded ? 'bi-x' : 'bi bi-pencil'} profile--name-edit-icon`}></i>
                                                                             </button> */}
-                                                                    </div>
-                                                                    {/* <div className={`prof-more-det-input-area ${isLocationExpanded ? 'expanded' : ''}`}>
+                                                                                </div>
+                                                                                {/* <div className={`prof-more-det-input-area ${isLocationExpanded ? 'expanded' : ''}`}>
                                                                             <div className="row">
                                                                             {selectedLocations?.map(selectedLocation => (
                                                                                     <span className="job-post-form-badge tal-search"
@@ -1044,59 +1271,59 @@ const CandidateProfile = () => {
                                                                                 </div>
                                                                             </div>
                                                                         </div> */}
-                                                                </div>
+                                                                            </div>
 
-                                                                <div className="prof-more-det-area">
-                                                                    <div className="prof-more-det">
-                                                                        <i class="bi bi-briefcase"></i>
-                                                                        <div className="prof-more-det-title text-capitalized">{loginCandidate?.designation[0]}</div>
-                                                                    </div>
-                                                                </div>
+                                                                            <div className="prof-more-det-area">
+                                                                                <div className="prof-more-det">
+                                                                                    <i class="bi bi-briefcase"></i>
+                                                                                    <div className="prof-more-det-title text-capitalized">{loginCandidate?.designation[0]}</div>
+                                                                                </div>
+                                                                            </div>
 
-                                                                <div className="prof-more-det-area">
-                                                                    <div className="prof-more-det">
-                                                                        <i class="bi bi-file-earmark-text"></i>
-                                                                        <div className="prof-more-det-title">{loginCandidate?.days}</div>
-                                                                        <button className={`prof-more-det-edit-btn ${isDaysExpanded ? 'expanded' : ''}`}
-                                                                            onClick={handleDaysChangeToggle}>
-                                                                            <i class={`${isDaysExpanded ? 'bi-x' : 'bi bi-pencil'} profile--name-edit-icon`}></i>
-                                                                        </button>
-                                                                    </div>
-                                                                    <div className={`prof-more-det-input-area ${isDaysExpanded ? 'expanded' : ''}`}>
-                                                                        <div className="row">
-                                                                            <div className="col-12 d-flex align-items-center gap-10">
-                                                                                <i class="bi bi-chevron-down toggle-icon"></i>
-                                                                                <select className='change-setting-input more-det select'
-                                                                                    value={userInfo.days}
-                                                                                    onChange={(e) => setUserInfo({ ...userInfo, days: e.target.value })}>
-                                                                                    <option value="" disabled selected>-- Select availablity to join --</option>
-                                                                                    <option value="0 to 7 days">0 to 7 days</option>
-                                                                                    <option value="8 to 15 days">8 to 15 days</option>
-                                                                                    <option value="16 to 30 days">16 to 30 days</option>
-                                                                                    <option value="More than 30 days">More than 30 days</option>
-                                                                                    <option value="Currently not serving notice period">Currently not serving notice period</option>
-                                                                                </select>
-                                                                                <button className="setting-update-btn more-det" onClick={handleDaysUpdate} disabled={!userInfo.days}>Update</button>
+                                                                            <div className="prof-more-det-area">
+                                                                                <div className="prof-more-det">
+                                                                                    <i class="bi bi-file-earmark-text"></i>
+                                                                                    <div className="prof-more-det-title">{loginCandidate?.days}</div>
+                                                                                    <button className={`prof-more-det-edit-btn ${isDaysExpanded ? 'expanded' : ''}`}
+                                                                                        onClick={handleDaysChangeToggle}>
+                                                                                        <i class={`${isDaysExpanded ? 'bi-x' : 'bi bi-pencil'} profile--name-edit-icon`}></i>
+                                                                                    </button>
+                                                                                </div>
+                                                                                <div className={`prof-more-det-input-area ${isDaysExpanded ? 'expanded' : ''}`}>
+                                                                                    <div className="row">
+                                                                                        <div className="col-12 d-flex align-items-center gap-10">
+                                                                                            <i class="bi bi-chevron-down toggle-icon"></i>
+                                                                                            <select className='change-setting-input more-det select'
+                                                                                                value={userInfo.days}
+                                                                                                onChange={(e) => setUserInfo({ ...userInfo, days: e.target.value })}>
+                                                                                                <option value="" disabled selected>-- Select availablity to join --</option>
+                                                                                                <option value="0 to 7 days">0 to 7 days</option>
+                                                                                                <option value="8 to 15 days">8 to 15 days</option>
+                                                                                                <option value="16 to 30 days">16 to 30 days</option>
+                                                                                                <option value="More than 30 days">More than 30 days</option>
+                                                                                                <option value="Currently not serving notice period">Currently not serving notice period</option>
+                                                                                            </select>
+                                                                                            <button className="setting-update-btn more-det" onClick={handleDaysUpdate} disabled={!userInfo.days}>Update</button>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
                                                                             </div>
                                                                         </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
 
-                                                            <div className="prof-more-det-line"></div>
+                                                                        <div className="prof-more-det-line"></div>
 
-                                                            <div className="prof-more-det-right-area">
-                                                                <div className="prof-more-det-area">
-                                                                    <div className="prof-more-det">
-                                                                        <i class="bi bi-telephone"></i>
-                                                                        <div className="prof-more-det-title" onClick={() => window.location.href = `tel:${loginCandidate?.phone}`}>
-                                                                            <a className='prof-more-det-title link' href={`tel:${loginCandidate?.phone}`}>
-                                                                                {loginCandidate?.phone}
-                                                                            </a>
-                                                                        </div>
-                                                                        {/* <button className="prof-more-det-edit-btn" data-type="mobile number">Add mobile number</button> */}
-                                                                    </div>
-                                                                    {/* <div className="prof-more-det-input-area">
+                                                                        <div className="prof-more-det-right-area">
+                                                                            <div className="prof-more-det-area">
+                                                                                <div className="prof-more-det">
+                                                                                    <i class="bi bi-telephone"></i>
+                                                                                    <div className="prof-more-det-title" onClick={() => window.location.href = `tel:${loginCandidate?.phone}`}>
+                                                                                        <a className='prof-more-det-title link' href={`tel:${loginCandidate?.phone}`}>
+                                                                                            {loginCandidate?.phone}
+                                                                                        </a>
+                                                                                    </div>
+                                                                                    {/* <button className="prof-more-det-edit-btn" data-type="mobile number">Add mobile number</button> */}
+                                                                                </div>
+                                                                                {/* <div className="prof-more-det-input-area">
                                                                 <div className="row">
                                                                     <div className="col-12 d-flex align-items-center gap-10">
                                                                         <input type="number" className="change-setting-input more-det" placeholder="Add mobile number" />
@@ -1104,19 +1331,19 @@ const CandidateProfile = () => {
                                                                     </div>
                                                                 </div>
                                                             </div> */}
-                                                                </div>
+                                                                            </div>
 
-                                                                <div className="prof-more-det-area">
-                                                                    <div className="prof-more-det">
-                                                                        <i class="bi bi-envelope"></i>
-                                                                        <div className="prof-more-det-title" onClick={() => window.location.href = `mailto:${loginCandidate?.email}`}>
-                                                                            <a className='prof-more-det-title link' href={`mailto:${loginCandidate?.email}`}>
-                                                                                {loginCandidate?.email}
-                                                                            </a>
-                                                                        </div>
-                                                                        {/* <button className="prof-more-det-edit-btn" data-type="your email">Add your email</button> */}
-                                                                    </div>
-                                                                    {/* <div className="prof-more-det-input-area">
+                                                                            <div className="prof-more-det-area">
+                                                                                <div className="prof-more-det">
+                                                                                    <i class="bi bi-envelope"></i>
+                                                                                    <div className="prof-more-det-title" onClick={() => window.location.href = `mailto:${loginCandidate?.email}`}>
+                                                                                        <a className='prof-more-det-title link' href={`mailto:${loginCandidate?.email}`}>
+                                                                                            {loginCandidate?.email}
+                                                                                        </a>
+                                                                                    </div>
+                                                                                    {/* <button className="prof-more-det-edit-btn" data-type="your email">Add your email</button> */}
+                                                                                </div>
+                                                                                {/* <div className="prof-more-det-input-area">
                                                                 <div className="row">
                                                                     <div className="col-12 d-flex align-items-center gap-10">
                                                                         <input type="email" className="change-setting-input more-det" placeholder="Add your email" />
@@ -1124,13 +1351,13 @@ const CandidateProfile = () => {
                                                                     </div>
                                                                 </div>
                                                             </div> */}
-                                                                </div>
+                                                                            </div>
 
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                {/* <div className="card-left-area">
+                                                            {/* <div className="card-left-area">
                                             <div className="missing-det-content-section">
                                                 <div className="missing-det-content-area">
                                                     <div className="missing-det-content">
@@ -1185,61 +1412,61 @@ const CandidateProfile = () => {
                                                 <button className='missing-det-btn'>Add missing details</button>
                                             </div>
                                         </div> */}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="row">
-                                    <div className="col-12 col-xl-4 col-lg-4 col-md-4">
-                                        <div className="profile-side-card">
-                                            <div className="quick-link-head">Quick Links</div>
-                                            <div className="pro-quick-links-area">
-                                                <div className='pro-quick-link-content'>
-                                                    <a href="#Resume" className='pro-quick-link'>Resume
-                                                        <i class="bi bi-arrow-right"></i>
-                                                    </a>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                {/* <div className='pro-quick-link-content'>
+                                            </div>
+                                            <div className="row">
+                                                <div className="col-12 col-xl-4 col-lg-4 col-md-4">
+                                                    <div className="profile-side-card">
+                                                        <div className="quick-link-head">Quick Links</div>
+                                                        <div className="pro-quick-links-area">
+                                                            <div className='pro-quick-link-content'>
+                                                                <a href="#Resume" className='pro-quick-link'>Resume
+                                                                    <i class="bi bi-arrow-right"></i>
+                                                                </a>
+                                                            </div>
+                                                            {/* <div className='pro-quick-link-content'>
                                             <a href="#Resume_headline" className='pro-quick-link'>Resume Headline
                                                 <i class="bi bi-arrow-right"></i>
                                             </a>
                                         </div> */}
-                                                <div className='pro-quick-link-content'>
-                                                    <a href="#Key_skills" className='pro-quick-link'>Key Skills
-                                                        <i class="bi bi-arrow-right"></i>
-                                                    </a>
-                                                </div>
-                                                <div className='pro-quick-link-content'>
-                                                    <a href="#Profile_headline" className='pro-quick-link'>Profile Headline
-                                                        <i class="bi bi-arrow-right"></i>
-                                                    </a>
-                                                </div>
-                                                <div className='pro-quick-link-content'>
-                                                    <a href="#Education" className='pro-quick-link'>Education
-                                                        <i class="bi bi-arrow-right"></i>
-                                                    </a>
-                                                </div>
-                                                <div className='pro-quick-link-content'>
-                                                    <a href="#Location" className='pro-quick-link'>Location
-                                                        <i class="bi bi-arrow-right"></i>
-                                                    </a>
-                                                </div>
-                                                <div className='pro-quick-link-content'>
-                                                    <a href="#Work_prefered_location" className='pro-quick-link'>Preferred Work Location
-                                                        <i class="bi bi-arrow-right"></i>
-                                                    </a>
-                                                </div>
-                                                <div className='pro-quick-link-content'>
-                                                    <a href="#Expected_salary" className='pro-quick-link'>Expected Salary
-                                                        <i class="bi bi-arrow-right"></i>
-                                                    </a>
-                                                </div>
-                                                {/* <div className='pro-quick-link-content'>
+                                                            <div className='pro-quick-link-content'>
+                                                                <a href="#Key_skills" className='pro-quick-link'>Key Skills
+                                                                    <i class="bi bi-arrow-right"></i>
+                                                                </a>
+                                                            </div>
+                                                            <div className='pro-quick-link-content'>
+                                                                <a href="#Profile_headline" className='pro-quick-link'>Profile Headline
+                                                                    <i class="bi bi-arrow-right"></i>
+                                                                </a>
+                                                            </div>
+                                                            <div className='pro-quick-link-content'>
+                                                                <a href="#Education" className='pro-quick-link'>Education
+                                                                    <i class="bi bi-arrow-right"></i>
+                                                                </a>
+                                                            </div>
+                                                            <div className='pro-quick-link-content'>
+                                                                <a href="#Location" className='pro-quick-link'>Location
+                                                                    <i class="bi bi-arrow-right"></i>
+                                                                </a>
+                                                            </div>
+                                                            <div className='pro-quick-link-content'>
+                                                                <a href="#Work_prefered_location" className='pro-quick-link'>Preferred Work Location
+                                                                    <i class="bi bi-arrow-right"></i>
+                                                                </a>
+                                                            </div>
+                                                            <div className='pro-quick-link-content'>
+                                                                <a href="#Expected_salary" className='pro-quick-link'>Expected Salary
+                                                                    <i class="bi bi-arrow-right"></i>
+                                                                </a>
+                                                            </div>
+                                                            {/* <div className='pro-quick-link-content'>
                                             <a href="#It_skills" className='pro-quick-link'>IT Skills
                                                 <i class="bi bi-arrow-right"></i>
                                             </a>
                                         </div> */}
-                                                {/* <div className='pro-quick-link-content'>
+                                                            {/* <div className='pro-quick-link-content'>
                                             <a href="#Project" className='pro-quick-link'>Project
                                                 <i class="bi bi-arrow-right"></i>
                                             </a>
@@ -1264,36 +1491,36 @@ const CandidateProfile = () => {
                                                 <i class="bi bi-arrow-right"></i>
                                             </a>
                                         </div> */}
-                                                <div className='pro-quick-link-content'>
-                                                    <a href="#View_Cv" className='pro-quick-link'>View or Download CV
-                                                        <i class="bi bi-arrow-right"></i>
-                                                    </a>
+                                                            <div className='pro-quick-link-content'>
+                                                                <a href="#View_Cv" className='pro-quick-link'>View or Download CV
+                                                                    <i class="bi bi-arrow-right"></i>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                    </div>
 
-                                    <div className="col-12 col-xl-8 col-lg-8 col-md-8">
-                                        <div className="profile-content-card" id='Resume'>
-                                            <div className="profile-content-title">Resume</div>
-                                            {/* <div className="profile-content-sub-title">
+                                                <div className="col-12 col-xl-8 col-lg-8 col-md-8">
+                                                    <div className="profile-content-card" id='Resume'>
+                                                        <div className="profile-content-title">Resume</div>
+                                                        {/* <div className="profile-content-sub-title">
                                         Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature
                                     </div> */}
-                                            <div className="prof-page-file-upload-area">
+                                                        <div className="prof-page-file-upload-area">
 
-                                                {/* <iframe src={candidateResumeUrl ? candidateResumeUrl : ""} title="Event Image iframe" ></iframe> */}
-                                                <input type="file" id="file_upload" accept=".doc,.docx,.pdf,.rtf"
-                                                    style={{ display: 'none' }}
-                                                    onChange={e => setResume(e.target.files[0])}
-                                                    required />
-                                                <label for="file_upload" className='prof-page-file-upload-label'>
-                                                    <span className='file-upload-btn'>
-                                                        Update resume
-                                                    </span>
-                                                </label>
-                                                {resume ? <span id="file-chosen">{resume.name}</span> : loginCandidate?.file ? <span id="file-chosen">{loginCandidate?.file}</span> : <span id="file-chosen">no file choosen</span>}
-                                                <button className="setting-update-btn more-det" onClick={handleResumeUpdate} disabled={!resume}>Update</button>
-                                                {/* <div className="file-upload-btn-area">
+                                                            {/* <iframe src={candidateResumeUrl ? candidateResumeUrl : ""} title="Event Image iframe" ></iframe> */}
+                                                            <input type="file" id="file_upload" accept=".doc,.docx,.pdf,.rtf"
+                                                                style={{ display: 'none' }}
+                                                                onChange={e => setResume(e.target.files[0])}
+                                                                required />
+                                                            <label for="file_upload" className='prof-page-file-upload-label'>
+                                                                <span className='file-upload-btn'>
+                                                                    Update resume
+                                                                </span>
+                                                            </label>
+                                                            {resume ? <span id="file-chosen">{resume.name}</span> : loginCandidate?.file ? <span id="file-chosen">{loginCandidate?.file}</span> : <span id="file-chosen">no file choosen</span>}
+                                                            <button className="setting-update-btn more-det" onClick={handleResumeUpdate} disabled={!resume}>Update</button>
+                                                            {/* <div className="file-upload-btn-area">
                                                 <button id="clear-file" className='clear-file-btn'>
                                                     <i class="bi bi-x"></i>Clear File
                                                 </button>
@@ -1303,10 +1530,10 @@ const CandidateProfile = () => {
                                                 </button>
                                             </div> */}
 
-                                            </div>
-                                        </div>
+                                                        </div>
+                                                    </div>
 
-                                        {/* <div className="profile-content-card" id='Resume_headline'>
+                                                    {/* <div className="profile-content-card" id='Resume_headline'>
                                     <div className="profile-content-top-area">
                                         <div className="profile-content-title">Resume Headline</div>
                                         <button className="profile-content-edit-btn" data-type="Resume headline">Add Resume headline</button>
@@ -1326,250 +1553,250 @@ const CandidateProfile = () => {
                                     </div>
                                 </div> */}
 
-                                        <div className="profile-content-card" id='Key_skills'>
-                                            <div className="profile-content-top-area">
-                                                <div className="profile-content-title">Experience & Key Skills</div>
-                                                {loginCandidate?.skills ?
-                                                    <button className="profile-skill-edit-btn"
-                                                        data-type='Experience & Key Skills'>
-                                                        Change Experience & Key Skills
-                                                    </button>
-                                                    :
-                                                    <button className="profile-skill-edit-btn"
-                                                        data-type='Experience & Key Skills'>
-                                                        Add Experience & Key Skills
-                                                    </button>
-                                                }
-                                            </div>
-                                            {loginCandidate?.skills ?
-                                                <div className="profile-content-area">
-                                                    <div className='profile-content experince text-capitalized'>
-                                                        Experience&nbsp;:&nbsp;
-                                                        <span>{loginCandidate?.year} Year {loginCandidate?.month} Months</span>
-                                                    </div>
-                                                    <div className='profile-content experince  text-capitalized'>
-                                                        Skills&nbsp;:&nbsp;
-                                                        <span>{loginCandidate?.skills.join(", ")}</span>
-                                                    </div>
-                                                </div> : null
-                                            }
-                                            <div className="profile-content-skill-input-area">
-                                                <hr />
-                                                <div className="row mb-3">
-                                                    <div className="col-12">
-                                                        <div className='experince-head'>Total Experience</div>
-                                                    </div>
-                                                    <div className="col-12 d-flex align-items-center gap-10">
-                                                        <input type="number" className="change-setting-input text-center"
-                                                            placeholder="Years"
-                                                            value={userInfo.year}
-                                                            onChange={(e) => setUserInfo({ ...userInfo, year: e.target.value })}
-                                                        />
-                                                        -
-                                                        <input type="number" className="change-setting-input text-center"
-                                                            placeholder="Months"
-                                                            value={userInfo.month}
-                                                            onChange={(e) => setUserInfo({ ...userInfo, month: e.target.value })}
-                                                        />
-                                                        <button className="setting-update-btn"
-                                                            onClick={handleExperienceUpdate}
-                                                            disabled={!userInfo.year || !userInfo.month}
-                                                        >
-                                                            Update
-                                                        </button>
-                                                    </div>
-                                                </div>
-
-                                                <div className="row">
-                                                    <div className="col-12">
-                                                        <div className='job-post-form-badge-area'>
-                                                            {selectedSkills?.map(selectSkill => (
-                                                                <span className="job-post-form-badge tal-search"
-                                                                    key={selectSkill}
-                                                                    onClick={() => handleDeselect(selectSkill)}
-                                                                >{selectSkill}</span>
-                                                            ))}
+                                                    <div className="profile-content-card" id='Key_skills'>
+                                                        <div className="profile-content-top-area">
+                                                            <div className="profile-content-title">Experience & Key Skills</div>
+                                                            {loginCandidate?.skills ?
+                                                                <button className="profile-skill-edit-btn"
+                                                                    data-type='Experience & Key Skills'>
+                                                                    Change Experience & Key Skills
+                                                                </button>
+                                                                :
+                                                                <button className="profile-skill-edit-btn"
+                                                                    data-type='Experience & Key Skills'>
+                                                                    Add Experience & Key Skills
+                                                                </button>
+                                                            }
                                                         </div>
-                                                        <div className='d-flex align-items-center gap-10 position-relative'>
-                                                            <div className='w-100 position-relative'>
-                                                                <input type="search" className="change-setting-input"
-                                                                    value={searchSkillInput}
-                                                                    onChange={handleSkillSearch}
-                                                                    placeholder="Search Skill"
-                                                                />
-                                                                <div className='search-result-data-area custom'>
-                                                                    {filteredSkills.length > 0 &&
-                                                                        filteredSkills.map((filterSkill) => {
-                                                                            return <div className='search-result-data custom' key={filterSkill._id} onClick={() => handleSkillClick(filterSkill.skill)}>{filterSkill.skill}</div>
-                                                                        })
-                                                                    }
+                                                        {loginCandidate?.skills ?
+                                                            <div className="profile-content-area">
+                                                                <div className='profile-content experince text-capitalized'>
+                                                                    Experience&nbsp;:&nbsp;
+                                                                    <span>{loginCandidate?.year} Year {loginCandidate?.month} Months</span>
                                                                 </div>
-                                                            </div>
-
-
-                                                            <button className="setting-update-btn"
-                                                                onClick={handleSkillUpdate}
-                                                                disabled={totalMonths ? (selectedSkills.length < minSkillNum || selectedSkills.length > maxSkillNum) : true}
-                                                            >
-                                                                {loginCandidate?.skills ? 'Update' : 'Add'}
-                                                            </button>
-                                                        </div>
-                                                        {skillError ?
-                                                            <small className='text-danger mt-3'>{skillError}</small>
-                                                            :
-                                                            <small className='text-danger'>{skillAlert}</small>
+                                                                <div className='profile-content experince  text-capitalized'>
+                                                                    Skills&nbsp;:&nbsp;
+                                                                    <span>{loginCandidate?.skills.join(", ")}</span>
+                                                                </div>
+                                                            </div> : null
                                                         }
-
-                                                        <div className='mt-3 change-setting-input-form-group'>
-                                                            <div className="job-post-form-chechbox-area">
-                                                                <label className="job-post-form-check-input view-disabled-input">
-                                                                    <input
-                                                                        type="checkbox"
-                                                                        checked={isCheckedSkill}
-                                                                        onChange={() => setIsCheckedSkill(!isCheckedSkill)}
-                                                                        className="toggleDisabledInput"
+                                                        <div className="profile-content-skill-input-area">
+                                                            <hr />
+                                                            <div className="row mb-3">
+                                                                <div className="col-12">
+                                                                    <div className='experince-head'>Total Experience</div>
+                                                                </div>
+                                                                <div className="col-12 d-flex align-items-center gap-10">
+                                                                    <input type="number" className="change-setting-input text-center"
+                                                                        placeholder="Years"
+                                                                        value={userInfo.year}
+                                                                        onChange={(e) => setUserInfo({ ...userInfo, year: e.target.value })}
                                                                     />
-                                                                    <span className="job-post-form-checkmark"></span>
-                                                                    If your searched skill not in the list, please enable the checkbox & type manually...
-                                                                </label>
-                                                            </div>
-
-                                                            <div className="candidate-skill-note mt-3">
-                                                                <span>Note</span> : These will also be used as the tags for searching matching jobs for you. So enter all your key skills without fail.
-                                                            </div>
-
-                                                            <div className="disabled-input-area">
-                                                                <div className='d-flex align-items-center gap-10 position-relative mt-3'>
-                                                                    <div className='w-100 position-relative'>
-                                                                        <input
-                                                                            type='text'
-                                                                            name='manualSkillInput'
-                                                                            id='manualSkillInput'
-                                                                            className='change-setting-input'
-                                                                            placeholder='Enter your skill manually...'
-                                                                            value={newSkill}
-                                                                            onChange={(e) => setNewSkill(e.target.value)}
-                                                                            disabled={!isCheckedSkill}
-                                                                        />
-                                                                        {/* <label htmlFor="manualDesignationInput" className='cand--reg-form-label'>Enter your skill manually</label> */}
-                                                                    </div>
-                                                                    <button
-                                                                        type="button"
-                                                                        className="setting-update-btn"
-                                                                        onClick={handleManualSkill}
-                                                                        disabled={!isCheckedSkill}>
-                                                                        Add
+                                                                    -
+                                                                    <input type="number" className="change-setting-input text-center"
+                                                                        placeholder="Months"
+                                                                        value={userInfo.month}
+                                                                        onChange={(e) => setUserInfo({ ...userInfo, month: e.target.value })}
+                                                                    />
+                                                                    <button className="setting-update-btn"
+                                                                        onClick={handleExperienceUpdate}
+                                                                        disabled={!userInfo.year || !userInfo.month}
+                                                                    >
+                                                                        Update
                                                                     </button>
                                                                 </div>
                                                             </div>
 
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div className="profile-content-card" id='Profile_headline'>
-                                            <div className="profile-content-top-area">
-                                                <div className="profile-content-title">Profile Headline</div>
-                                                {loginCandidate?.profileHeadline ?
-                                                    <button className={`profile-content-edit-btn ${isHeadlineExpanded ? 'expanded' : ''}`}
-                                                        onClick={handleHeadlineChangeToggle}>
-                                                        {isHeadlineExpanded ? 'Cancel' : 'Change Profile Headline'}
-                                                    </button>
-                                                    :
-                                                    <button className={`profile-content-edit-btn ${isHeadlineExpanded ? 'expanded' : ''}`}
-                                                        onClick={handleHeadlineChangeToggle}>
-                                                        {isHeadlineExpanded ? 'Cancel' : 'Add Profile Headline'}
-                                                    </button>
-                                                }
-                                            </div>
-                                            {loginCandidate?.profileHeadline ?
-                                                <div className="profile-content-area">
-                                                    <div className='profile-content text-capitalized'>
-                                                        {loginCandidate?.profileHeadline}
-                                                    </div>
-                                                </div> : null
-                                            }
-                                            <div className={`profile-content-input-area ${isHeadlineExpanded ? 'expanded' : ''}`}>
-                                                <div className="row">
-                                                    <div className="col-12 d-flex align-items-center gap-10">
-                                                        <input type="text" className="change-setting-input"
-                                                            placeholder={`${loginCandidate?.profileHeadline ? 'Change' : 'Add'} profile headline`}
-                                                            value={userInfo.profileHeadline}
-                                                            onChange={(e) => setUserInfo({ ...userInfo, profileHeadline: e.target.value })} />
-                                                        <button className="setting-update-btn" onClick={handleProfileHeadlineUpdate}
-                                                            disabled={!userInfo.profileHeadline}>
-                                                            {loginCandidate?.profileHeadline ? 'Update' : 'Add'}
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div className="profile-content-card" id='Education'>
-                                            <div className="profile-content-top-area">
-                                                <div className="profile-content-title">Education</div>
-                                                {loginCandidate?.education ?
-                                                    <button className="profile-skill-edit-btn"
-                                                        data-type='Education'>
-                                                        Change Education
-                                                    </button>
-                                                    :
-                                                    <button className="profile-skill-edit-btn"
-                                                        data-type='Education'>
-                                                        Add Education
-                                                    </button>
-                                                }
-                                            </div>
-                                            {loginCandidate?.education ?
-                                                <div className="profile-content-area">
-                                                    <div className='profile-content'>
-                                                        {loginCandidate?.education}
-                                                    </div>
-                                                </div> : null
-                                            }
-                                            <div className="profile-content-skill-input-area">
-                                                <hr />
-                                                <div className="row">
-                                                    <div className="col-12">
-                                                        <div className='job-post-form-badge-area'>
-                                                            {selectedEducation?.map(selectEducation => (
-                                                                <span className="job-post-form-badge tal-search"
-                                                                    key={selectEducation}
-                                                                    onClick={() => handleDeselectEducation(selectEducation)}
-                                                                >{selectEducation}
-                                                                </span>
-                                                            ))}
-                                                        </div>
-
-                                                        <div className='d-flex align-items-center gap-10 position-relative'>
-                                                            <div className='w-100 position-relative'>
-                                                                <input type="search" className="change-setting-input"
-                                                                    value={searchEducationInput}
-                                                                    onChange={handleEducationSearch}
-                                                                    placeholder={`${loginCandidate?.education ? 'Change' : 'Add'} education`} />
-
-                                                                <div className='search-result-data-area custom'>
-
-                                                                    {filteredEducation.length > 0 &&
-                                                                        filteredEducation.map((filterEducation) => {
-                                                                            return <div className='search-result-data custom' key={filterEducation._id} onClick={() => handleEducationClick(filterEducation.education)}>
-                                                                                {filterEducation.education}
+                                                            <div className="row">
+                                                                <div className="col-12">
+                                                                    <div className='job-post-form-badge-area'>
+                                                                        {selectedSkills?.map(selectSkill => (
+                                                                            <span className="job-post-form-badge tal-search"
+                                                                                key={selectSkill}
+                                                                                onClick={() => handleDeselect(selectSkill)}
+                                                                            >{selectSkill}</span>
+                                                                        ))}
+                                                                    </div>
+                                                                    <div className='d-flex align-items-center gap-10 position-relative'>
+                                                                        <div className='w-100 position-relative'>
+                                                                            <input type="search" className="change-setting-input"
+                                                                                value={searchSkillInput}
+                                                                                onChange={handleSkillSearch}
+                                                                                placeholder="Search Skill"
+                                                                            />
+                                                                            <div className='search-result-data-area custom'>
+                                                                                {filteredSkills.length > 0 &&
+                                                                                    filteredSkills.map((filterSkill) => {
+                                                                                        return <div className='search-result-data custom' key={filterSkill._id} onClick={() => handleSkillClick(filterSkill.skill)}>{filterSkill.skill}</div>
+                                                                                    })
+                                                                                }
                                                                             </div>
-                                                                        })
+                                                                        </div>
+
+
+                                                                        <button className="setting-update-btn"
+                                                                            onClick={handleSkillUpdate}
+                                                                            disabled={totalMonths ? (selectedSkills.length < minSkillNum || selectedSkills.length > maxSkillNum) : true}
+                                                                        >
+                                                                            {loginCandidate?.skills ? 'Update' : 'Add'}
+                                                                        </button>
+                                                                    </div>
+                                                                    {skillError ?
+                                                                        <small className='text-danger mt-3'>{skillError}</small>
+                                                                        :
+                                                                        <small className='text-danger'>{skillAlert}</small>
                                                                     }
+
+                                                                    <div className='mt-3 change-setting-input-form-group'>
+                                                                        <div className="job-post-form-chechbox-area">
+                                                                            <label className="job-post-form-check-input view-disabled-input">
+                                                                                <input
+                                                                                    type="checkbox"
+                                                                                    checked={isCheckedSkill}
+                                                                                    onChange={() => setIsCheckedSkill(!isCheckedSkill)}
+                                                                                    className="toggleDisabledInput"
+                                                                                />
+                                                                                <span className="job-post-form-checkmark"></span>
+                                                                                If your searched skill not in the list, please enable the checkbox & type manually...
+                                                                            </label>
+                                                                        </div>
+
+                                                                        <div className="candidate-skill-note mt-3">
+                                                                            <span>Note</span> : These will also be used as the tags for searching matching jobs for you. So enter all your key skills without fail.
+                                                                        </div>
+
+                                                                        <div className="disabled-input-area">
+                                                                            <div className='d-flex align-items-center gap-10 position-relative mt-3'>
+                                                                                <div className='w-100 position-relative'>
+                                                                                    <input
+                                                                                        type='text'
+                                                                                        name='manualSkillInput'
+                                                                                        id='manualSkillInput'
+                                                                                        className='change-setting-input'
+                                                                                        placeholder='Enter your skill manually...'
+                                                                                        value={newSkill}
+                                                                                        onChange={(e) => setNewSkill(e.target.value)}
+                                                                                        disabled={!isCheckedSkill}
+                                                                                    />
+                                                                                    {/* <label htmlFor="manualDesignationInput" className='cand--reg-form-label'>Enter your skill manually</label> */}
+                                                                                </div>
+                                                                                <button
+                                                                                    type="button"
+                                                                                    className="setting-update-btn"
+                                                                                    onClick={handleManualSkill}
+                                                                                    disabled={!isCheckedSkill}>
+                                                                                    Add
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                            <button className="setting-update-btn" onClick={handleEducationUpdate}
-                                                                disabled={selectedEducation.length === 0}>
-                                                                {loginCandidate?.education ? 'Update' : 'Add'}
-                                                            </button>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </div>
-                                            {/* <div className="more-inputs-section">
+
+                                                    <div className="profile-content-card" id='Profile_headline'>
+                                                        <div className="profile-content-top-area">
+                                                            <div className="profile-content-title">Profile Headline</div>
+                                                            {loginCandidate?.profileHeadline ?
+                                                                <button className={`profile-content-edit-btn ${isHeadlineExpanded ? 'expanded' : ''}`}
+                                                                    onClick={handleHeadlineChangeToggle}>
+                                                                    {isHeadlineExpanded ? 'Cancel' : 'Change Profile Headline'}
+                                                                </button>
+                                                                :
+                                                                <button className={`profile-content-edit-btn ${isHeadlineExpanded ? 'expanded' : ''}`}
+                                                                    onClick={handleHeadlineChangeToggle}>
+                                                                    {isHeadlineExpanded ? 'Cancel' : 'Add Profile Headline'}
+                                                                </button>
+                                                            }
+                                                        </div>
+                                                        {loginCandidate?.profileHeadline ?
+                                                            <div className="profile-content-area">
+                                                                <div className='profile-content text-capitalized'>
+                                                                    {loginCandidate?.profileHeadline}
+                                                                </div>
+                                                            </div> : null
+                                                        }
+                                                        <div className={`profile-content-input-area ${isHeadlineExpanded ? 'expanded' : ''}`}>
+                                                            <div className="row">
+                                                                <div className="col-12 d-flex align-items-center gap-10">
+                                                                    <input type="text" className="change-setting-input"
+                                                                        placeholder={`${loginCandidate?.profileHeadline ? 'Change' : 'Add'} profile headline`}
+                                                                        value={userInfo.profileHeadline}
+                                                                        onChange={(e) => setUserInfo({ ...userInfo, profileHeadline: e.target.value })} />
+                                                                    <button className="setting-update-btn" onClick={handleProfileHeadlineUpdate}
+                                                                        disabled={!userInfo.profileHeadline}>
+                                                                        {loginCandidate?.profileHeadline ? 'Update' : 'Add'}
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div className="profile-content-card" id='Education'>
+                                                        <div className="profile-content-top-area">
+                                                            <div className="profile-content-title">Education</div>
+                                                            {loginCandidate?.education ?
+                                                                <button className="profile-skill-edit-btn"
+                                                                    data-type='Education'>
+                                                                    Change Education
+                                                                </button>
+                                                                :
+                                                                <button className="profile-skill-edit-btn"
+                                                                    data-type='Education'>
+                                                                    Add Education
+                                                                </button>
+                                                            }
+                                                        </div>
+                                                        {loginCandidate?.education ?
+                                                            <div className="profile-content-area">
+                                                                <div className='profile-content'>
+                                                                    {loginCandidate?.education}
+                                                                </div>
+                                                            </div> : null
+                                                        }
+                                                        <div className="profile-content-skill-input-area">
+                                                            <hr />
+                                                            <div className="row">
+                                                                <div className="col-12">
+                                                                    <div className='job-post-form-badge-area'>
+                                                                        {selectedEducation?.map(selectEducation => (
+                                                                            <span className="job-post-form-badge tal-search"
+                                                                                key={selectEducation}
+                                                                                onClick={() => handleDeselectEducation(selectEducation)}
+                                                                            >{selectEducation}
+                                                                            </span>
+                                                                        ))}
+                                                                    </div>
+
+                                                                    <div className='d-flex align-items-center gap-10 position-relative'>
+                                                                        <div className='w-100 position-relative'>
+                                                                            <input type="search" className="change-setting-input"
+                                                                                value={searchEducationInput}
+                                                                                onChange={handleEducationSearch}
+                                                                                placeholder={`${loginCandidate?.education ? 'Change' : 'Add'} education`} />
+
+                                                                            <div className='search-result-data-area custom'>
+
+                                                                                {filteredEducation.length > 0 &&
+                                                                                    filteredEducation.map((filterEducation) => {
+                                                                                        return <div className='search-result-data custom' key={filterEducation._id} onClick={() => handleEducationClick(filterEducation.education)}>
+                                                                                            {filterEducation.education}
+                                                                                        </div>
+                                                                                    })
+                                                                                }
+                                                                            </div>
+                                                                        </div>
+                                                                        <button className="setting-update-btn" onClick={handleEducationUpdate}
+                                                                            disabled={selectedEducation.length === 0}>
+                                                                            {loginCandidate?.education ? 'Update' : 'Add'}
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        {/* <div className="more-inputs-section">
                                         <div className="more-inputs-area">
                                             <div className="more-inputs-btn-area">
                                                 <button className="profile-content-more-inputs-edit-btn" data-type="Education">Add Education</button>
@@ -1612,179 +1839,179 @@ const CandidateProfile = () => {
                                             </div>
                                         </div>
                                     </div> */}
-                                        </div>
-
-                                        <div className="profile-content-card" id='Location'>
-                                            <div className="profile-content-top-area">
-                                                <div className="profile-content-title">Location</div>
-                                                {loginCandidate?.location ?
-                                                    <button className="profile-skill-edit-btn"
-                                                        data-type='Location'>
-                                                        Change Location
-                                                    </button>
-                                                    :
-                                                    <button className="profile-skill-edit-btn"
-                                                        data-type='Location'>
-                                                        Add Location
-                                                    </button>
-                                                }
-                                            </div>
-                                            {loginCandidate?.location ?
-                                                <div className="profile-content-area">
-                                                    <div className='profile-content'>
-                                                        {loginCandidate?.location}
                                                     </div>
-                                                </div> : null
-                                            }
-                                            <div className="profile-content-skill-input-area">
-                                                <hr />
-                                                <div className="row">
-                                                    <div className="col-12">
-                                                        <div className='job-post-form-badge-area'>
-                                                            {selectedLocations?.map(selectLocation => (
-                                                                <span className="job-post-form-badge tal-search"
-                                                                    key={selectLocation}
-                                                                    onClick={() => handleDeselectLocation(selectLocation)}
-                                                                >{selectLocation}
-                                                                </span>
-                                                            ))}
+
+                                                    <div className="profile-content-card" id='Location'>
+                                                        <div className="profile-content-top-area">
+                                                            <div className="profile-content-title">Location</div>
+                                                            {loginCandidate?.location ?
+                                                                <button className="profile-skill-edit-btn"
+                                                                    data-type='Location'>
+                                                                    Change Location
+                                                                </button>
+                                                                :
+                                                                <button className="profile-skill-edit-btn"
+                                                                    data-type='Location'>
+                                                                    Add Location
+                                                                </button>
+                                                            }
                                                         </div>
+                                                        {loginCandidate?.location ?
+                                                            <div className="profile-content-area">
+                                                                <div className='profile-content'>
+                                                                    {loginCandidate?.location}
+                                                                </div>
+                                                            </div> : null
+                                                        }
+                                                        <div className="profile-content-skill-input-area">
+                                                            <hr />
+                                                            <div className="row">
+                                                                <div className="col-12">
+                                                                    <div className='job-post-form-badge-area'>
+                                                                        {selectedLocations?.map(selectLocation => (
+                                                                            <span className="job-post-form-badge tal-search"
+                                                                                key={selectLocation}
+                                                                                onClick={() => handleDeselectLocation(selectLocation)}
+                                                                            >{selectLocation}
+                                                                            </span>
+                                                                        ))}
+                                                                    </div>
 
-                                                        <div className='d-flex align-items-center gap-10 position-relative'>
-                                                            <div className='w-100 position-relative'>
-                                                                <input type="search" className="change-setting-input"
-                                                                    value={searchLocationInput}
-                                                                    onChange={handleLocationSearch}
-                                                                    placeholder="Search and select location" />
+                                                                    <div className='d-flex align-items-center gap-10 position-relative'>
+                                                                        <div className='w-100 position-relative'>
+                                                                            <input type="search" className="change-setting-input"
+                                                                                value={searchLocationInput}
+                                                                                onChange={handleLocationSearch}
+                                                                                placeholder="Search and select location" />
 
-                                                                <div className='search-result-data-area custom'>
+                                                                            <div className='search-result-data-area custom'>
 
-                                                                    {filteredLocations.length > 0 &&
-                                                                        filteredLocations.map((filterLocation) => {
-                                                                            return <div className='search-result-data custom' key={filterLocation._id} onClick={() => handleLocationClick(filterLocation.location)}>
-                                                                                {filterLocation.location}
+                                                                                {filteredLocations.length > 0 &&
+                                                                                    filteredLocations.map((filterLocation) => {
+                                                                                        return <div className='search-result-data custom' key={filterLocation._id} onClick={() => handleLocationClick(filterLocation.location)}>
+                                                                                            {filterLocation.location}
+                                                                                        </div>
+                                                                                    })
+                                                                                }
                                                                             </div>
-                                                                        })
-                                                                    }
+                                                                        </div>
+                                                                        <button className="setting-update-btn" onClick={handleLocationUpdate}
+                                                                            disabled={selectedLocations.length === 0}>
+                                                                            {loginCandidate?.location ? 'Update' : 'Add'}
+                                                                        </button>
+                                                                    </div>
+
                                                                 </div>
                                                             </div>
-                                                            <button className="setting-update-btn" onClick={handleLocationUpdate}
-                                                                disabled={selectedLocations.length === 0}>
-                                                                {loginCandidate?.location ? 'Update' : 'Add'}
-                                                            </button>
                                                         </div>
-
                                                     </div>
-                                                </div>
-                                            </div>
-                                        </div>
 
-                                        <div className="profile-content-card" id='Work_prefered_location'>
-                                            <div className="profile-content-top-area">
-                                                <div className="profile-content-title">Preferred Work Location</div>
-                                                {loginCandidate?.location ?
-                                                    <button className="profile-skill-edit-btn"
-                                                        data-type='Location'>
-                                                        Change Location
-                                                    </button>
-                                                    :
-                                                    <button className="profile-skill-edit-btn"
-                                                        data-type='Location'>
-                                                        Add Location
-                                                    </button>
-                                                }
-                                            </div>
-                                            {loginCandidate?.location ?
-                                                <div className="profile-content-area">
-                                                    <div className='profile-content'>
-                                                        {loginCandidate?.location}
-                                                    </div>
-                                                </div> : null
-                                            }
-                                            <div className="profile-content-skill-input-area">
-                                                <hr />
-                                                <div className="row">
-                                                    <div className="col-12">
-                                                        <div className='job-post-form-badge-area'>
-                                                            {selectedLocations?.map(selectLocation => (
-                                                                <span className="job-post-form-badge tal-search"
-                                                                    key={selectLocation}
-                                                                    onClick={() => handleDeselectLocation(selectLocation)}
-                                                                >{selectLocation}
-                                                                </span>
-                                                            ))}
+                                                    <div className="profile-content-card" id='Work_prefered_location'>
+                                                        <div className="profile-content-top-area">
+                                                            <div className="profile-content-title">Preferred Work Location</div>
+                                                            {loginCandidate?.location ?
+                                                                <button className="profile-skill-edit-btn"
+                                                                    data-type='Location'>
+                                                                    Change Location
+                                                                </button>
+                                                                :
+                                                                <button className="profile-skill-edit-btn"
+                                                                    data-type='Location'>
+                                                                    Add Location
+                                                                </button>
+                                                            }
                                                         </div>
+                                                        {loginCandidate?.location ?
+                                                            <div className="profile-content-area">
+                                                                <div className='profile-content'>
+                                                                    {loginCandidate?.location}
+                                                                </div>
+                                                            </div> : null
+                                                        }
+                                                        <div className="profile-content-skill-input-area">
+                                                            <hr />
+                                                            <div className="row">
+                                                                <div className="col-12">
+                                                                    <div className='job-post-form-badge-area'>
+                                                                        {selectedLocations?.map(selectLocation => (
+                                                                            <span className="job-post-form-badge tal-search"
+                                                                                key={selectLocation}
+                                                                                onClick={() => handleDeselectLocation(selectLocation)}
+                                                                            >{selectLocation}
+                                                                            </span>
+                                                                        ))}
+                                                                    </div>
 
-                                                        <div className='d-flex align-items-center gap-10 position-relative'>
-                                                            <div className='w-100 position-relative'>
-                                                                <input type="search" className="change-setting-input"
-                                                                    value={searchLocationInput}
-                                                                    onChange={handleLocationSearch}
-                                                                    placeholder="Search and select location" />
+                                                                    <div className='d-flex align-items-center gap-10 position-relative'>
+                                                                        <div className='w-100 position-relative'>
+                                                                            <input type="search" className="change-setting-input"
+                                                                                value={searchLocationInput}
+                                                                                onChange={handleLocationSearch}
+                                                                                placeholder="Search and select location" />
 
-                                                                <div className='search-result-data-area custom'>
+                                                                            <div className='search-result-data-area custom'>
 
-                                                                    {filteredLocations.length > 0 &&
-                                                                        filteredLocations.map((filterLocation) => {
-                                                                            return <div className='search-result-data custom' key={filterLocation._id} onClick={() => handleLocationClick(filterLocation.location)}>
-                                                                                {filterLocation.location}
+                                                                                {filteredLocations.length > 0 &&
+                                                                                    filteredLocations.map((filterLocation) => {
+                                                                                        return <div className='search-result-data custom' key={filterLocation._id} onClick={() => handleLocationClick(filterLocation.location)}>
+                                                                                            {filterLocation.location}
+                                                                                        </div>
+                                                                                    })
+                                                                                }
                                                                             </div>
-                                                                        })
-                                                                    }
+                                                                        </div>
+                                                                        <button className="setting-update-btn" onClick={handleLocationUpdate}
+                                                                            disabled={selectedLocations.length === 0}>
+                                                                            {loginCandidate?.location ? 'Update' : 'Add'}
+                                                                        </button>
+                                                                    </div>
+                                                                    <small className='text-danger'>You can select max of 10 locations</small>
                                                                 </div>
                                                             </div>
-                                                            <button className="setting-update-btn" onClick={handleLocationUpdate}
-                                                                disabled={selectedLocations.length === 0}>
-                                                                {loginCandidate?.location ? 'Update' : 'Add'}
-                                                            </button>
                                                         </div>
-                                                        <small className='text-danger'>You can select max of 10 locations</small>
                                                     </div>
-                                                </div>
-                                            </div>
-                                        </div>
 
-                                        <div className="profile-content-card" id='Expected_salary'>
-                                            <div className="profile-content-top-area">
-                                                <div className="profile-content-title">Expected Salary(Annual)</div>
-                                                {loginCandidate?.profileHeadline ?
-                                                    <button className={`profile-content-edit-btn ${isSalaryExpanded ? 'expanded' : ''}`}
-                                                        onClick={handleSalaryChangeToggle}>
-                                                        {isSalaryExpanded ? 'Cancel' : 'Change Salary'}
-                                                    </button>
-                                                    :
-                                                    <button className={`profile-content-edit-btn ${isSalaryExpanded ? 'expanded' : ''}`}
-                                                        onClick={handleHeadlineChangeToggle}>
-                                                        {isSalaryExpanded ? 'Cancel' : 'Add Salary'}
-                                                    </button>
-                                                }
-                                            </div>
-                                            {loginCandidate?.profileHeadline ?
-                                                <div className="profile-content-area">
-                                                    <div className='profile-content text-capitalized'>
-                                                        5.5 - 6.8 LPA Annual
+                                                    <div className="profile-content-card" id='Expected_salary'>
+                                                        <div className="profile-content-top-area">
+                                                            <div className="profile-content-title">Expected Salary(Annual)</div>
+                                                            {loginCandidate?.profileHeadline ?
+                                                                <button className={`profile-content-edit-btn ${isSalaryExpanded ? 'expanded' : ''}`}
+                                                                    onClick={handleSalaryChangeToggle}>
+                                                                    {isSalaryExpanded ? 'Cancel' : 'Change Salary'}
+                                                                </button>
+                                                                :
+                                                                <button className={`profile-content-edit-btn ${isSalaryExpanded ? 'expanded' : ''}`}
+                                                                    onClick={handleHeadlineChangeToggle}>
+                                                                    {isSalaryExpanded ? 'Cancel' : 'Add Salary'}
+                                                                </button>
+                                                            }
+                                                        </div>
+                                                        {loginCandidate?.profileHeadline ?
+                                                            <div className="profile-content-area">
+                                                                <div className='profile-content text-capitalized'>
+                                                                    5.5 - 6.8 LPA Annual
+                                                                </div>
+                                                            </div> : null
+                                                        }
+                                                        <div className={`profile-content-input-area ${isSalaryExpanded ? 'expanded' : ''}`}>
+                                                            <div className="row">
+                                                                <div className="col-12 d-flex align-items-center gap-10">
+                                                                    <input type="number" className="change-setting-input text-center"
+                                                                        placeholder="Min"
+                                                                    />
+                                                                    -
+                                                                    <input type="number" className="change-setting-input text-center"
+                                                                        placeholder="Max"
+                                                                    />
+                                                                    <button className="setting-update-btn">
+                                                                        {loginCandidate?.profileHeadline ? 'Update' : 'Add'}
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                </div> : null
-                                            }
-                                            <div className={`profile-content-input-area ${isSalaryExpanded ? 'expanded' : ''}`}>
-                                                <div className="row">
-                                                    <div className="col-12 d-flex align-items-center gap-10">
-                                                        <input type="number" className="change-setting-input text-center"
-                                                            placeholder="Min"
-                                                        />
-                                                        -
-                                                        <input type="number" className="change-setting-input text-center"
-                                                            placeholder="Max"
-                                                        />
-                                                        <button className="setting-update-btn">
-                                                            {loginCandidate?.profileHeadline ? 'Update' : 'Add'}
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
 
-                                        {/* <div className="profile-content-card" id='It_skills'>
+                                                    {/* <div className="profile-content-card" id='It_skills'>
                                     <div className="profile-content-top-area">
                                         <div className="profile-content-title">IT Skills</div>
                                         <button className="profile-content-edit-btn" data-type="IT Skills">Add IT Skills</button>
@@ -2000,12 +2227,12 @@ const CandidateProfile = () => {
                                     </div>
                                 </div> */}
 
-                                        <div className="profile-action-btn-area" id='View_Cv'>
-                                            <button className='view-cv-btn' >
-                                                <i class="bi bi-eye-fill view-cv-icon"></i>
-                                                View CV
-                                            </button>
-                                            {/* {showViewer && (
+                                                    <div className="profile-action-btn-area" id='View_Cv'>
+                                                        <button className='view-cv-btn' >
+                                                            <i class="bi bi-eye-fill view-cv-icon"></i>
+                                                            View CV
+                                                        </button>
+                                                        {/* {showViewer && (
                                         <object
                                         data={candidateResumeUrl}
                                         type="application/pdf"
@@ -2014,18 +2241,22 @@ const CandidateProfile = () => {
                                         >
                                         </object>
                                     )} */}
-                                            <button className='download-cv-btn' onClick={() => {
-                                                window.open(candidateResumeUrl);
-                                            }}>
-                                                <i class="bi bi-download download-cv-icon"></i>
-                                                Download CV
-                                            </button>
+                                                        <button className='download-cv-btn' onClick={() => {
+                                                            window.open(candidateResumeUrl);
+                                                        }}>
+                                                            <i class="bi bi-download download-cv-icon"></i>
+                                                            Download CV
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
+                                    }
                                 </div>
-                            </div>
-                        </section>
-                    }
+                            )}
+
+                        </div>
+                    </section>
                     {/* {pageNotFound && <div>
                 <h1>404</h1>
                 <p>Not Found</p>

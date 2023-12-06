@@ -241,6 +241,7 @@
     font-size: 14px;
     color: #714F36;
     font-weight: 500;
+    word-break: break-all;
 }
 
 .prof-more-det-title.link::after {
