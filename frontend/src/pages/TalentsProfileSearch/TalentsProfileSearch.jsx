@@ -3496,7 +3496,7 @@ console.log(checkBoxfilters)
                                                                 const matchingSkills = skills2.filter(skill => skills1.includes(skill));
                                                                 return (matchingSkills.length / skills1.length) * 100;
                                                             }
-                                                            const percentage = calculateMatchPercentage(selectedResults, [...candidate.skills, ...candidate.designation]);
+                                                            const percentage = Math.round(calculateMatchPercentage(selectedResults, [...candidate.skills, ...candidate.designation]));
                                                             return (
                                                                 <article className="talent--profile-card search" data-aos="fade-left" key={candidate.id}>
                                                                     <div className="tal--pro-card-left-area search">

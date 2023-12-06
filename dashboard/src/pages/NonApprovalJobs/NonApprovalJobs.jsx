@@ -271,7 +271,7 @@ const NonApprovalJobs = () => {
                                                                 <Skeleton height={18} width={100} />
                                                             </td>
                                                             <td>
-                                                                <Skeleton height={18} width={80} />
+                                                                <Skeleton height={18} width={80} /> 
                                                             </td>
                                                         </tr>
                                                     </div>

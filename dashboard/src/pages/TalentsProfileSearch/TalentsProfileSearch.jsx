@@ -3220,7 +3220,7 @@ const TalentsProfileSearch = () => {
                                                                         const matchingSkills = skills2.filter(skill => skills1.includes(skill));
                                                                         return (matchingSkills.length / skills1.length) * 100;
                                                                     }
-                                                                    const percentage = calculateMatchPercentage(selectedResults, [...candidate.skills, ...candidate.designation]);
+                                                                    const percentage = Math.round(calculateMatchPercentage(selectedResults, [...candidate.skills, ...candidate.designation]));
 
                                                                     return (
                                                                         <article className="talent--profile-card search" key={candidate.id}>

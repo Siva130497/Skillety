@@ -27,6 +27,7 @@ const {
   updateJob,
   getSkillMatchJobDetail,
   getActivejobs,
+  getApprovedInActivejobs,
   getNonApprovaljobs,
   getOwnPostedjobs,
   getOwnActivejobs,
@@ -187,6 +188,8 @@ router.get('/skill-match-job-Detail/:candidateId',  getSkillMatchJobDetail)
 
 //get all posted job details
 router.get('/posted-jobs', getActivejobs)
+
+router.get('/posted-approved-inactive-jobs', getApprovedInActivejobs)
 
 //get client posted job details
 router.get('/non-approval-jobs', getNonApprovaljobs)

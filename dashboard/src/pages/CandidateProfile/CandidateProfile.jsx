@@ -186,7 +186,7 @@ const CandidateProfile = () => {
         setSelectedSkills(loginCandidate?.skills)
         setSelectedEducation([loginCandidate?.education])
         setSelectedLocations([loginCandidate?.location])
-        setSelectedPreferedLocations(loginCandidate?.preferedLocations)
+        setSelectedPreferedLocations(loginCandidate?.preferedlocations)
         setUserInfo({
             ...userInfo,
             firstName: loginCandidate?.firstName,
@@ -2015,51 +2015,51 @@ const CandidateProfile = () => {
                                                         </div>
                                                     </div>
 
-                                                    <div className="profile-content-card" id='Work_prefered_location'>
-                                                        <div className="profile-content-top-area">
-                                                            <div className="profile-content-title">Preferred Work Location</div>
-                                                            {loginCandidate?.preferedLocations ?
-                                                                <button className="profile-skill-edit-btn"
-                                                                    data-type='Location'>
-                                                                    Change Location
-                                                                </button>
-                                                                :
-                                                                <button className="profile-skill-edit-btn"
-                                                                    data-type='Location'>
-                                                                    Add Location
-                                                                </button>
-                                                            }
+                                        <div className="profile-content-card" id='Work_prefered_location'>
+                                            <div className="profile-content-top-area">
+                                                <div className="profile-content-title">Preferred Work Location</div>
+                                                {loginCandidate?.preferedlocations ?
+                                                    <button className="profile-skill-edit-btn"
+                                                        data-type='Location'>
+                                                        Change Location
+                                                    </button>
+                                                    :
+                                                    <button className="profile-skill-edit-btn"
+                                                        data-type='Location'>
+                                                        Add Location
+                                                    </button>
+                                                }
+                                            </div>
+                                            {loginCandidate?.preferedlocations ?
+                                                <div className="profile-content-area">
+                                                    <div className='profile-content'>
+                                                        {loginCandidate?.preferedlocations.join(", ")}
+                                                    </div>
+                                                </div> : null
+                                            }
+                                            <div className="profile-content-skill-input-area">
+                                                <hr />
+                                                <div className="row">
+                                                    <div className="col-12">
+                                                    {selectedPreferedLocations && selectedPreferedLocations.length > 0 && (
+                                                        <div className='job-post-form-badge-area'>
+                                                            {selectedPreferedLocations.map(selectLocation => (
+                                                            <span
+                                                                className="job-post-form-badge tal-search"
+                                                                key={selectLocation}
+                                                                onClick={() => handleDeselectPreferedLocation(selectLocation)}
+                                                            >
+                                                                {selectLocation}
+                                                            </span>
+                                                            ))}
                                                         </div>
-                                                        {loginCandidate?.preferedLocations ?
-                                                            <div className="profile-content-area">
-                                                                <div className='profile-content'>
-                                                                    {loginCandidate?.preferedLocations}
-                                                                </div>
-                                                            </div> : null
-                                                        }
-                                                        <div className="profile-content-skill-input-area">
-                                                            <hr />
-                                                            <div className="row">
-                                                                <div className="col-12">
-                                                                    {selectedPreferedLocations && selectedPreferedLocations.length > 0 && (
-                                                                        <div className='job-post-form-badge-area'>
-                                                                            {selectedPreferedLocations.map(selectLocation => (
-                                                                                <span
-                                                                                    className="job-post-form-badge tal-search"
-                                                                                    key={selectLocation}
-                                                                                    onClick={() => handleDeselectPreferedLocation(selectLocation)}
-                                                                                >
-                                                                                    {selectLocation}
-                                                                                </span>
-                                                                            ))}
-                                                                        </div>
-                                                                    )}
-                                                                    <div className='d-flex align-items-center gap-10 position-relative'>
-                                                                        <div className='w-100 position-relative'>
-                                                                            <input type="search" className="change-setting-input"
-                                                                                value={searchPreferedLocationInput}
-                                                                                onChange={handlePreferedLocationSearch}
-                                                                                placeholder="Search and select prefered location" />
+                                                        )}
+                                                        <div className='d-flex align-items-center gap-10 position-relative'>
+                                                            <div className='w-100 position-relative'>
+                                                                <input type="search" className="change-setting-input"
+                                                                    value={searchPreferedLocationInput}
+                                                                    onChange={handlePreferedLocationSearch}
+                                                                    placeholder="Search and select prefered location" />
 
                                                                             <div className='search-result-data-area custom'>
 
@@ -2083,33 +2083,32 @@ const CandidateProfile = () => {
                                                         </div>
                                                     </div>
 
-                                                    <div className="profile-content-card" id='Expected_salary'>
-                                                        <div className="profile-content-top-area">
-                                                            <div className="profile-content-title">Expected Salary(Annual)</div>
-                                                            {(loginCandidate?.minSalary && loginCandidate?.maxSalary) ?
-                                                                <button className={`profile-content-edit-btn ${isSalaryExpanded ? 'expanded' : ''}`}
-                                                                    onClick={handleSalaryChangeToggle}>
-                                                                    {isSalaryExpanded ? 'Cancel' : 'Change Salary'}
-                                                                </button>
-                                                                :
-                                                                <button className={`profile-content-edit-btn ${isSalaryExpanded ? 'expanded' : ''}`}
-                                                                    onClick={handleSalaryChangeToggle}>
-                                                                    {isSalaryExpanded ? 'Cancel' : 'Add Salary'}
-                                                                </button>
-                                                            }
-                                                        </div>
-                                                        {(loginCandidate?.minSalary && loginCandidate?.maxSalary) ?
-                                                            <div className="profile-content-area">
-                                                                <div className='profile-content text-capitalized'>
-                                                                    {loginCandidate?.currencyType}{loginCandidate?.minSalary} - {loginCandidate?.currencyType}{loginCandidate?.maxSalary} Annual
-                                                                </div>
-                                                            </div> : null
-                                                        }
-
-                                                        <div className={`profile-content-input-area ${isSalaryExpanded ? 'expanded-large' : ''}`}>
-                                                            <div className="row">
-                                                                <div className="col-12 d-flex align-items-center gap-10 mobile-flex-group">
-                                                                    <div className='w-50 position-relative mobile-select-area'>
+                                        <div className="profile-content-card" id='Expected_salary'>
+                                            <div className="profile-content-top-area">
+                                                <div className="profile-content-title">Expected Salary(Annual)</div>
+                                                {(loginCandidate?.minSalary && loginCandidate?.maxSalary) ?
+                                                    <button className={`profile-content-edit-btn ${isSalaryExpanded ? 'expanded' : ''}`}
+                                                        onClick={handleSalaryChangeToggle}>
+                                                        {isSalaryExpanded ? 'Cancel' : 'Change Salary'}
+                                                    </button>
+                                                    :
+                                                    <button className={`profile-content-edit-btn ${isSalaryExpanded ? 'expanded' : ''}`}
+                                                        onClick={handleSalaryChangeToggle}>
+                                                        {isSalaryExpanded ? 'Cancel' : 'Add Salary'}
+                                                    </button>
+                                                }
+                                            </div>
+                                            {(loginCandidate?.minSalary && loginCandidate?.maxSalary) ?
+                                                <div className="profile-content-area">
+                                                    <div className='profile-content text-capitalized'>
+                                                        {loginCandidate?.currencyType}{loginCandidate?.minSalary} - {loginCandidate?.currencyType}{loginCandidate?.maxSalary} Annual
+                                                    </div>
+                                                </div> : null
+                                            }
+                                            <div className={`profile-content-input-area ${isSalaryExpanded ? 'expanded' : ''}`}>
+                                                <div className="row">
+                                                    <div className="col-12 d-flex align-items-center gap-10">
+                                                    <div className='w-50 position-relative mobile-select-area'>
                                                                         <select className='change-setting-input select'
                                                                             name="currencyType"
                                                                             value={userInfo.currencyType}
@@ -2119,26 +2118,30 @@ const CandidateProfile = () => {
                                                                             <option value="$">$</option>
                                                                         </select>
                                                                         <i className="bi bi-chevron-down toggle-icon"></i>
-                                                                    </div>
-
+                                                                    </div>                                                        
                                                                     <input type="number" className="change-setting-input text-center"
-                                                                        placeholder="Min"
-                                                                        value={userInfo.minSalary}
-                                                                        onChange={(e) => setUserInfo({ ...userInfo, minSalary: e.target.value })}
-                                                                    />
-                                                                    -
-                                                                    <input type="number" className="change-setting-input text-center"
-                                                                        placeholder="Max"
-                                                                        value={userInfo.maxSalary}
-                                                                        onChange={(e) => setUserInfo({ ...userInfo, maxSalary: e.target.value })}
-                                                                    />
-                                                                    <button className="setting-update-btn" onClick={handleSalaryUpdate}>
-                                                                        {loginCandidate?.profileHeadline ? 'Update' : 'Add'}
-                                                                    </button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                                                            placeholder="Min"
+                                                            value={userInfo.minSalary}
+                                                            onChange={(e) => setUserInfo({ ...userInfo, minSalary: e.target.value })}
+                                                        />
+                                                        -
+                                                        <input type="number" className="change-setting-input text-center"
+                                                            placeholder="Max"
+                                                            value={userInfo.maxSalary}
+                                                            onChange={(e) => setUserInfo({ ...userInfo, maxSalary: e.target.value })}
+                                                        />
+                                                        <button className="setting-update-btn" onClick={handleSalaryUpdate}
+                                                        disabled={
+                                                            userInfo.currencyType === '' ||
+                                                            userInfo.minSalary === '' || 
+                                                            userInfo.maxSalary === '' || 
+                                                            parseFloat(userInfo.minSalary) > parseFloat(userInfo.maxSalary)}>
+                                                            {loginCandidate?.profileHeadline ? 'Update' : 'Add'}
+                                                        </button>
                                                     </div>
+                                                </div>
+                                            </div>
+                                        </div>
 
                                                     {/* <div className="profile-content-card" id='It_skills'>
                                     <div className="profile-content-top-area">

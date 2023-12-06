@@ -54,19 +54,46 @@ const PostedEvents = () => {
 
     }, []);
 
+    // useEffect(() => {
+    //     getEventImg();
+    //     if (type === "event") {
+    //         getEventDetail();
+    //     } else if (type === "blog") {
+    //         getBlogsDetail();
+    //     } else if (type === "video") {
+    //         getVideoDetail();
+    //     } else if (type === "podcast") {
+    //         getPodcastDetail();
+    //     } else if (type === "news") {
+    //         getNewsDetail();
+    //     }
+    // }, [type]);
+
     useEffect(() => {
-        getEventImg();
-        if (type === "event") {
-            getEventDetail();
-        } else if (type === "blog") {
-            getBlogsDetail();
-        } else if (type === "video") {
-            getVideoDetail();
-        } else if (type === "podcast") {
-            getPodcastDetail();
-        } else if (type === "news") {
-            getNewsDetail();
-        }
+        const fetchData = async () => {
+            try {
+                await getEventImg();
+    
+                if (type === "event") {
+                    await getEventDetail();
+                } else if (type === "blog") {
+                    await getBlogsDetail();
+                } else if (type === "video") {
+                    await getVideoDetail();
+                } else if (type === "podcast") {
+                    await getPodcastDetail();
+                } else if (type === "news") {
+                    await getNewsDetail();
+                }
+    
+                setLoading(false); // Set loading to false after fetching data
+            } catch (error) {
+                console.error("Error fetching data:", error);
+                setLoading(false); // Handle error and set loading to false
+            }
+        };
+    
+        fetchData();
     }, [type]);
 
     useEffect(() => {
@@ -77,6 +104,7 @@ const PostedEvents = () => {
         switch (type) {
             case 'event':
                 return eventDetail;
+                
             case 'blog':
                 return blogDetail;
             case 'video':
