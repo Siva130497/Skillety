@@ -1,8 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { useEffect } from 'react';
 import $ from 'jquery';
-import './AppliedCandidate.css';
-import './AppliedCandidate-responsive.css';
 import ClientLayout from '../../components/ClientLayout';
 import Footer from '../../components/Footer';
 import axios from 'axios';

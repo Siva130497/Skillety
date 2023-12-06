@@ -1,4 +1,16 @@
-@media screen and (min-width: 992px) and (max-width: 1399px) {}
+@media screen and (min-width: 992px) and (max-width: 1399px) {
+    .card-change-status-title{
+        width: 50% !important;
+    }
+
+    .card-change-status-input-area{
+        width: 50% !important; 
+    }
+
+    .card-change-status-title{
+        font-size: 19px !important;
+    }
+}
 
 @media (max-width:991.5px) {
     .dash-talent--profile-card-section {
@@ -86,6 +98,18 @@
         border-bottom: 1px solid #ffffff;
     }
 
+    .card-change-status-title{
+        width: 40% !important;
+    }
+
+    .card-change-status-input-area{
+        width: 60% !important; 
+    }
+
+    .card-change-status-title{
+        font-size: 18px !important;
+    }
+
 }
 
 @media screen and (min-width: 573px) and (max-width: 991.5px) {
@@ -134,6 +158,11 @@
 
     .tal--pro-card-percentage.custom {
         font-size: 16px !important;
+    }
+
+    .tal--pro-card-name-check-container.no-absolute{
+        position: relative !important;
+        top: auto !important;
     }
 }
 
@@ -227,5 +256,19 @@
 
     .border-bottom-none {
         border-bottom: none !important;
+    }
+
+    .change-status-card{
+        flex-direction: column;
+        gap: 25px;
+        padding: 25px;
+    }
+    .card-change-status-title,
+    .card-change-status-input-area{
+        width: 100% !important;
+    }
+    .card-change-status-input-area {
+        align-items: stretch;
+        flex-direction: column;
     }
 }

@@ -125,7 +125,7 @@
 
 .talent--profile-card:hover .tal--pro-card-left-area .tal--pro-card-name {
     /* color: #714F36; */
-    letter-spacing: 1px;
+    /* letter-spacing: 1px; */
 }
 
 .tal--pro-card-tags {
@@ -575,4 +575,40 @@
 .tal--pro-card-left-area.applied {
     display: flex;
     flex-direction: column;
+}
+
+.tal--pro-card-desc-title.font-weight-700,
+.tal--pro-card-desc.font-weight-700 {
+    font-weight: 700 !important;
+}
+
+.change-status-card {
+    border-radius: 12px;
+    padding: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+    gap: 50px;
+}
+.card-change-status-title{
+    font-size: 20px;
+    font-weight: 600;
+    color: #714F36;
+    width: 60%;
+}
+
+.select-option-area .toggle-icon {
+    position: absolute;
+    right: 15px;
+    z-index: 3;
+    font-size: 14px;
+    color: #714F36;
+    top: 12px;
+}
+.card-change-status-input-area{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 40%;
 }
