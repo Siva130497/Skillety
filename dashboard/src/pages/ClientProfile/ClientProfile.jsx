@@ -742,8 +742,8 @@ const ClientProfile = () => {
                                                         <Skeleton height={20} width={100} />
                                                     </div>
                                                 </div>
-                                                <div className="pt-5">
-                                                    <Skeleton height={15} width={400} />
+                                                <div className="p-t-35">
+                                                    <Skeleton height={15} />
                                                 </div>
                                             </div>
 
@@ -756,8 +756,8 @@ const ClientProfile = () => {
                                                         <Skeleton height={20} width={100} />
                                                     </div>
                                                 </div>
-                                                <div className="pt-5">
-                                                    <Skeleton height={15} width={400} />
+                                                <div className="p-t-35">
+                                                    <Skeleton height={15} />
                                                 </div>
                                             </div>
                                             <div className="profile-content-card">
@@ -769,8 +769,8 @@ const ClientProfile = () => {
                                                         <Skeleton height={20} width={100} />
                                                     </div>
                                                 </div>
-                                                <div className="pt-5">
-                                                    <Skeleton height={15} width={400} />
+                                                <div className="p-t-35">
+                                                    <Skeleton height={15} />
                                                 </div>
                                             </div>
                                         </div>

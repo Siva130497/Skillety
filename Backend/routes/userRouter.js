@@ -100,6 +100,8 @@ const {
    updatingCandidateExperience,
    updatingCandidateEducation,
   updatingCandidateProfileHeadline,
+  updatingCandidatePreferedLocation,
+   updatingCandidateSalary,
   updatingCandidatePassword,
   searchResultSave,
   getAllRecentSearches,
@@ -378,6 +380,10 @@ router.patch("/update-candidate-days", updatingCandidateDays);
 router.patch("/update-candidate-experience", updatingCandidateExperience);
 
 router.patch("/update-candidate-education", updatingCandidateEducation);
+
+router.patch("/update-candidate-salary", updatingCandidateSalary);
+
+router.patch("/update-candidate-prefered-location", updatingCandidatePreferedLocation);
 
 router.patch("/update-candidate-profileHeadline", updatingCandidateProfileHeadline);
 

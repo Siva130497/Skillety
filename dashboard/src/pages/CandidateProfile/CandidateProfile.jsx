@@ -50,7 +50,9 @@ const CandidateProfile = () => {
     const [selectedLocations, setSelectedLocations] = useState([]);
     const [searchLocationInput, setSearchLocationInput] = useState("");
 
-    const [contentloading, setContentLoading] = useState(true);
+    const [filteredPreferedLocations, setFilteredPreferedLocations] = useState([]);
+    const [selectedPreferedLocations, setSelectedPreferedLocations] = useState([]);
+    const [searchPreferedLocationInput, setSearchPreferedLocationInput] = useState("");
 
     const [userInfo, setUserInfo] = useState({
         firstName: "",
@@ -59,9 +61,15 @@ const CandidateProfile = () => {
         days: "",
         year: "",
         month: "",
+        minSalary: "",
+        maxSalary: "",
+        currencyType: "₹",
     })
 
     const [loading, setLoading] = useState(true);
+
+    const [contentloading, setContentLoading] = useState(true);
+
     // const [pageNotFound, setPageNotFound] = useState(false);
 
     // useEffect(() => {
@@ -178,6 +186,7 @@ const CandidateProfile = () => {
         setSelectedSkills(loginCandidate?.skills)
         setSelectedEducation([loginCandidate?.education])
         setSelectedLocations([loginCandidate?.location])
+        setSelectedPreferedLocations(loginCandidate?.preferedLocations)
         setUserInfo({
             ...userInfo,
             firstName: loginCandidate?.firstName,
@@ -186,6 +195,9 @@ const CandidateProfile = () => {
             month: loginCandidate?.month,
             year: loginCandidate?.year,
             days: loginCandidate?.days,
+            currencyType: loginCandidate?.currencyType,
+            minSalary: loginCandidate?.minSalary,
+            maxSalary: loginCandidate?.maxSalary
         })
 
     }, [loginCandidate])
@@ -572,6 +584,37 @@ const CandidateProfile = () => {
             })
     }
 
+    const handlePreferedLocationUpdate = () => {
+        const userData = {
+            id: id,
+            preferedLocations: selectedPreferedLocations,
+        }
+        axios.patch("https://skillety.onrender.com/update-candidate-prefered-location", userData, {
+            headers: {
+                Authorization: `Bearer ${candidateToken}`,
+                Accept: 'application/json'
+            }
+        })
+            .then(res => {
+                console.log(res.data)
+                if (!res.data.error) {
+                    showSuccessMessage("Prefered Location updated!")
+                    setSelectedPreferedLocations([])
+
+                    axios.get(`https://skillety.onrender.com/candidate/${id}`)
+                        .then(res => {
+                            console.log(res.data)
+                            setLoginCandidate(res.data)
+                        })
+                        .catch(err => console.log(err))
+                }
+            })
+            .catch(err => {
+                console.log(err)
+                showErrorMessage();
+            })
+    }
+
     const handleResumeUpdate = () => {
         if (resume) {
             const formData = new FormData()
@@ -763,6 +806,42 @@ const CandidateProfile = () => {
             })
     }
 
+    const handleSalaryUpdate = () => {
+        const userData = {
+            id: id,
+            currencyType: userInfo.currencyType,
+            minSalary: userInfo.minSalary,
+            maxSalary: userInfo.maxSalary,
+        }
+        axios.patch("https://skillety.onrender.com/update-candidate-salary", userData, {
+            headers: {
+                Authorization: `Bearer ${candidateToken}`,
+                Accept: 'application/json'
+            }
+        })
+            .then(res => {
+                console.log(res.data)
+                if (!res.data.error) {
+                    showSuccessMessage("Expected Annual Salary Updated!")
+                    setUserInfo(prevUserInfo => ({ ...prevUserInfo, currencyType: "", minSalary: "", maxSalary: "" }));
+
+                    axios.get(`https://skillety.onrender.com/candidate/${id}`)
+                        .then(res => {
+                            console.log(res.data)
+                            setLoginCandidate(res.data)
+                        })
+                        .catch(err => {
+                            console.log(err)
+
+                        })
+                }
+            })
+            .catch(err => {
+                console.log(err)
+                showErrorMessage()
+            })
+    }
+
     const handleEducationUpdate = () => {
         const userData = {
             id: id,
@@ -915,6 +994,36 @@ const CandidateProfile = () => {
         setFilteredLocations([]);
     }
 
+    const handleDeselectPreferedLocation = (location) => {
+        setSelectedPreferedLocations(selectedPreferedLocations.filter(selectedLocation => selectedLocation !== location));
+    }
+
+    const handlePreferedLocationSearch = (e) => {
+        const inputValue = e.target.value;
+        setSearchPreferedLocationInput(inputValue);
+        if (inputValue.length > 0) {
+            const Locations = locationArray.filter((obj) => {
+                return obj.location.toLowerCase().includes(inputValue.toLowerCase());
+            });
+            if (Locations.length > 0) {
+                setFilteredPreferedLocations(Locations);
+            }
+        } else {
+            setFilteredPreferedLocations([]);
+        }
+    }
+
+    const handlePreferedLocationClick = (location) => {
+        if (!selectedPreferedLocations) {
+            setSelectedPreferedLocations([location]);
+            setSearchPreferedLocationInput("");
+            setFilteredPreferedLocations([]);
+        } else if (!selectedPreferedLocations.includes(location)) {
+            setSelectedPreferedLocations([...selectedPreferedLocations, location]);
+            setSearchPreferedLocationInput("");
+            setFilteredPreferedLocations([]);
+        }
+    };
 
     /////////////
     const [isNameExpanded, setisNameExpanded] = useState(false);
@@ -1071,8 +1180,8 @@ const CandidateProfile = () => {
                                                         <Skeleton height={20} width={100} />
                                                     </div>
                                                 </div>
-                                                <div className="pt-5">
-                                                    <Skeleton height={15} width={400} />
+                                                <div className="p-t-35">
+                                                    <Skeleton height={15} className="w-80" />
                                                 </div>
                                             </div>
 
@@ -1085,8 +1194,8 @@ const CandidateProfile = () => {
                                                         <Skeleton height={20} width={100} />
                                                     </div>
                                                 </div>
-                                                <div className="pt-5">
-                                                    <Skeleton height={15} width={400} />
+                                                <div className="p-t-35">
+                                                    <Skeleton height={15} className="w-80" />
                                                 </div>
                                             </div>
 
@@ -1099,8 +1208,8 @@ const CandidateProfile = () => {
                                                         <Skeleton height={20} width={100} />
                                                     </div>
                                                 </div>
-                                                <div className="pt-5">
-                                                    <Skeleton height={15} width={400} />
+                                                <div className="p-t-35">
+                                                    <Skeleton height={15} className="w-80" />
                                                 </div>
                                             </div>
 
@@ -1113,8 +1222,8 @@ const CandidateProfile = () => {
                                                         <Skeleton height={20} width={100} />
                                                     </div>
                                                 </div>
-                                                <div className="pt-5">
-                                                    <Skeleton height={15} width={400} />
+                                                <div className="p-t-35">
+                                                    <Skeleton height={15} className="w-80" />
                                                 </div>
                                             </div>
 
@@ -1127,8 +1236,8 @@ const CandidateProfile = () => {
                                                         <Skeleton height={20} width={100} />
                                                     </div>
                                                 </div>
-                                                <div className="pt-5">
-                                                    <Skeleton height={15} width={400} />
+                                                <div className="p-t-35">
+                                                    <Skeleton height={15} className="w-80" />
                                                 </div>
                                             </div>
 
@@ -1141,8 +1250,8 @@ const CandidateProfile = () => {
                                                         <Skeleton height={20} width={100} />
                                                     </div>
                                                 </div>
-                                                <div className="pt-5">
-                                                    <Skeleton height={15} width={400} />
+                                                <div className="p-t-35">
+                                                    <Skeleton height={15} className="w-80" />
                                                 </div>
                                             </div>
 
@@ -1155,8 +1264,8 @@ const CandidateProfile = () => {
                                                         <Skeleton height={20} width={100} />
                                                     </div>
                                                 </div>
-                                                <div className="pt-5">
-                                                    <Skeleton height={15} width={400} />
+                                                <div className="p-t-35">
+                                                    <Skeleton height={15} className="w-80" />
                                                 </div>
                                             </div>
                                         </div>
@@ -1909,7 +2018,7 @@ const CandidateProfile = () => {
                                                     <div className="profile-content-card" id='Work_prefered_location'>
                                                         <div className="profile-content-top-area">
                                                             <div className="profile-content-title">Preferred Work Location</div>
-                                                            {loginCandidate?.location ?
+                                                            {loginCandidate?.preferedLocations ?
                                                                 <button className="profile-skill-edit-btn"
                                                                     data-type='Location'>
                                                                     Change Location
@@ -1921,10 +2030,10 @@ const CandidateProfile = () => {
                                                                 </button>
                                                             }
                                                         </div>
-                                                        {loginCandidate?.location ?
+                                                        {loginCandidate?.preferedLocations ?
                                                             <div className="profile-content-area">
                                                                 <div className='profile-content'>
-                                                                    {loginCandidate?.location}
+                                                                    {loginCandidate?.preferedLocations}
                                                                 </div>
                                                             </div> : null
                                                         }
@@ -1932,40 +2041,43 @@ const CandidateProfile = () => {
                                                             <hr />
                                                             <div className="row">
                                                                 <div className="col-12">
-                                                                    <div className='job-post-form-badge-area'>
-                                                                        {selectedLocations?.map(selectLocation => (
-                                                                            <span className="job-post-form-badge tal-search"
-                                                                                key={selectLocation}
-                                                                                onClick={() => handleDeselectLocation(selectLocation)}
-                                                                            >{selectLocation}
-                                                                            </span>
-                                                                        ))}
-                                                                    </div>
-
+                                                                    {selectedPreferedLocations && selectedPreferedLocations.length > 0 && (
+                                                                        <div className='job-post-form-badge-area'>
+                                                                            {selectedPreferedLocations.map(selectLocation => (
+                                                                                <span
+                                                                                    className="job-post-form-badge tal-search"
+                                                                                    key={selectLocation}
+                                                                                    onClick={() => handleDeselectPreferedLocation(selectLocation)}
+                                                                                >
+                                                                                    {selectLocation}
+                                                                                </span>
+                                                                            ))}
+                                                                        </div>
+                                                                    )}
                                                                     <div className='d-flex align-items-center gap-10 position-relative'>
                                                                         <div className='w-100 position-relative'>
                                                                             <input type="search" className="change-setting-input"
-                                                                                value={searchLocationInput}
-                                                                                onChange={handleLocationSearch}
-                                                                                placeholder="Search and select location" />
+                                                                                value={searchPreferedLocationInput}
+                                                                                onChange={handlePreferedLocationSearch}
+                                                                                placeholder="Search and select prefered location" />
 
                                                                             <div className='search-result-data-area custom'>
 
-                                                                                {filteredLocations.length > 0 &&
-                                                                                    filteredLocations.map((filterLocation) => {
-                                                                                        return <div className='search-result-data custom' key={filterLocation._id} onClick={() => handleLocationClick(filterLocation.location)}>
+                                                                                {filteredPreferedLocations?.length > 0 &&
+                                                                                    filteredPreferedLocations?.map((filterLocation) => {
+                                                                                        return <div className='search-result-data custom' key={filterLocation._id} onClick={() => handlePreferedLocationClick(filterLocation.location)}>
                                                                                             {filterLocation.location}
                                                                                         </div>
                                                                                     })
                                                                                 }
                                                                             </div>
                                                                         </div>
-                                                                        <button className="setting-update-btn" onClick={handleLocationUpdate}
-                                                                            disabled={selectedLocations.length === 0}>
-                                                                            {loginCandidate?.location ? 'Update' : 'Add'}
+                                                                        <button className="setting-update-btn" onClick={handlePreferedLocationUpdate}
+                                                                            disabled={selectedPreferedLocations?.length === 0}
+                                                                        >
+                                                                            {loginCandidate?.preferedlocations ? 'Update' : 'Add'}
                                                                         </button>
                                                                     </div>
-                                                                    <small className='text-danger'>You can select max of 10 locations</small>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -1974,36 +2086,53 @@ const CandidateProfile = () => {
                                                     <div className="profile-content-card" id='Expected_salary'>
                                                         <div className="profile-content-top-area">
                                                             <div className="profile-content-title">Expected Salary(Annual)</div>
-                                                            {loginCandidate?.profileHeadline ?
+                                                            {(loginCandidate?.minSalary && loginCandidate?.maxSalary) ?
                                                                 <button className={`profile-content-edit-btn ${isSalaryExpanded ? 'expanded' : ''}`}
                                                                     onClick={handleSalaryChangeToggle}>
                                                                     {isSalaryExpanded ? 'Cancel' : 'Change Salary'}
                                                                 </button>
                                                                 :
                                                                 <button className={`profile-content-edit-btn ${isSalaryExpanded ? 'expanded' : ''}`}
-                                                                    onClick={handleHeadlineChangeToggle}>
+                                                                    onClick={handleSalaryChangeToggle}>
                                                                     {isSalaryExpanded ? 'Cancel' : 'Add Salary'}
                                                                 </button>
                                                             }
                                                         </div>
-                                                        {loginCandidate?.profileHeadline ?
+                                                        {(loginCandidate?.minSalary && loginCandidate?.maxSalary) ?
                                                             <div className="profile-content-area">
                                                                 <div className='profile-content text-capitalized'>
-                                                                    5.5 - 6.8 LPA Annual
+                                                                    {loginCandidate?.currencyType}{loginCandidate?.minSalary} - {loginCandidate?.currencyType}{loginCandidate?.maxSalary} Annual
                                                                 </div>
                                                             </div> : null
                                                         }
-                                                        <div className={`profile-content-input-area ${isSalaryExpanded ? 'expanded' : ''}`}>
+
+                                                        <div className={`profile-content-input-area ${isSalaryExpanded ? 'expanded-large' : ''}`}>
                                                             <div className="row">
-                                                                <div className="col-12 d-flex align-items-center gap-10">
+                                                                <div className="col-12 d-flex align-items-center gap-10 mobile-flex-group">
+                                                                    <div className='w-50 position-relative mobile-select-area'>
+                                                                        <select className='change-setting-input select'
+                                                                            name="currencyType"
+                                                                            value={userInfo.currencyType}
+                                                                            onChange={(e) => setUserInfo({ ...userInfo, currencyType: e.target.value })}
+                                                                        >
+                                                                            <option value="₹" selected>₹</option>
+                                                                            <option value="$">$</option>
+                                                                        </select>
+                                                                        <i className="bi bi-chevron-down toggle-icon"></i>
+                                                                    </div>
+
                                                                     <input type="number" className="change-setting-input text-center"
                                                                         placeholder="Min"
+                                                                        value={userInfo.minSalary}
+                                                                        onChange={(e) => setUserInfo({ ...userInfo, minSalary: e.target.value })}
                                                                     />
                                                                     -
                                                                     <input type="number" className="change-setting-input text-center"
                                                                         placeholder="Max"
+                                                                        value={userInfo.maxSalary}
+                                                                        onChange={(e) => setUserInfo({ ...userInfo, maxSalary: e.target.value })}
                                                                     />
-                                                                    <button className="setting-update-btn">
+                                                                    <button className="setting-update-btn" onClick={handleSalaryUpdate}>
                                                                         {loginCandidate?.profileHeadline ? 'Update' : 'Add'}
                                                                     </button>
                                                                 </div>
@@ -2254,7 +2383,6 @@ const CandidateProfile = () => {
                                     }
                                 </div>
                             )}
-
                         </div>
                     </section>
                     {/* {pageNotFound && <div>

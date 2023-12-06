@@ -463,7 +463,7 @@ function showErrorMessage() {
       setSearchLocationInput("");
       setFilteredLocations([]);
     } else if (selectedLocations.length === 3) {
-      alert(`You can select max of 3 locations`);
+      showErrorMessage(`You can select max of 3 locations`);
 
     } else if (selectedLocations.length < 3) {
       setSelectedLocations([...selectedLocations, location]);

@@ -38,7 +38,7 @@
         gap: 10px;
     }
 
-    .profile-content-top-area{
+    .profile-content-top-area {
         flex-wrap: wrap;
         row-gap: 10px;
     }
@@ -144,5 +144,19 @@
 
     .file-upload-btn {
         font-size: 12px;
+    }
+
+    .mobile-flex-group {
+        flex-wrap: wrap;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .mobile-flex-group .mobile-select-area {
+        width: 100% !important;
+    }
+
+    .mobile-flex-group .setting-update-btn {
+        align-self: normal;
     }
 }

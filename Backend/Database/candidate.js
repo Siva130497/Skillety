@@ -38,6 +38,22 @@ const candidateSchema = new Schema(
         type: String,
         required: true
     },
+    currencyType: {
+        type: String,
+        required: true
+    },
+    minSalary: {
+        type: String,
+        required: true
+    },
+    maxSalary: {
+        type: String,
+        required: true
+    },
+    preferedlocations: {
+        type: Array,
+        required: true
+    },
     year: {
         type: Number,
         required: true

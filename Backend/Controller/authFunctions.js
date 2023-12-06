@@ -2270,6 +2270,22 @@ const updatingCandidateSkill = async (req, res) => {
   }
 };
 
+const updatingCandidatePreferedLocation = async (req, res) => {
+  const { id, preferedLocations } = req.body;
+
+  try {
+    const finalCandidateDoc = await candidate.findOneAndUpdate(
+      { id: id },
+      { preferedlocations: preferedLocations },
+      { new: true }
+    );
+    res.status(200).json({ finalCandidateDoc });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: 'Internal Server Error' });
+  }
+};
+
 const updatingCandidateDays = async (req, res) => {
   const { id, days } = req.body;
 
@@ -2293,6 +2309,22 @@ const updatingCandidateExperience = async (req, res) => {
     const finalCandidateDoc = await candidate.findOneAndUpdate(
       { id: id },
       { $set: { year: year, month: month } }, 
+      { new: true }
+    );
+    res.status(200).json({ finalCandidateDoc });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: 'Internal Server Error' });
+  }
+};
+
+const updatingCandidateSalary = async (req, res) => {
+  const { id, currencyType, minSalary, maxSalary } = req.body;
+
+  try {
+    const finalCandidateDoc = await candidate.findOneAndUpdate(
+      { id: id },
+      { $set: { currencyType: currencyType, minSalary: minSalary, maxSalary: maxSalary } }, 
       { new: true }
     );
     res.status(200).json({ finalCandidateDoc });
@@ -2702,6 +2734,8 @@ module.exports = {
    updatingCandidateExperience,
    updatingCandidateEducation,
    updatingCandidateProfileHeadline,
+   updatingCandidatePreferedLocation,
+   updatingCandidateSalary,
    updatingCandidatePassword,
    searchResultSave,
    getAllRecentSearches,
