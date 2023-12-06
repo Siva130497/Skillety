@@ -180,7 +180,7 @@ const CandidateProfile = () => {
         setSelectedSkills(loginCandidate?.skills)
         setSelectedEducation([loginCandidate?.education])
         setSelectedLocations([loginCandidate?.location])
-        setSelectedPreferedLocations(loginCandidate?.preferedLocations)
+        setSelectedPreferedLocations(loginCandidate?.preferedlocations)
         setUserInfo({
             ...userInfo,
             firstName: loginCandidate?.firstName,
@@ -1790,7 +1790,7 @@ const CandidateProfile = () => {
                                         <div className="profile-content-card" id='Work_prefered_location'>
                                             <div className="profile-content-top-area">
                                                 <div className="profile-content-title">Preferred Work Location</div>
-                                                {loginCandidate?.preferedLocations ?
+                                                {loginCandidate?.preferedlocations ?
                                                     <button className="profile-skill-edit-btn"
                                                         data-type='Location'>
                                                         Change Location
@@ -1802,10 +1802,10 @@ const CandidateProfile = () => {
                                                     </button>
                                                 }
                                             </div>
-                                            {loginCandidate?.preferedLocations ?
+                                            {loginCandidate?.preferedlocations ?
                                                 <div className="profile-content-area">
                                                     <div className='profile-content'>
-                                                        {loginCandidate?.preferedLocations}
+                                                        {loginCandidate?.preferedlocations.join(", ")}
                                                     </div>
                                                 </div> : null
                                             }
@@ -1899,7 +1899,13 @@ const CandidateProfile = () => {
                                                             value={userInfo.maxSalary}
                                                             onChange={(e) => setUserInfo({ ...userInfo, maxSalary: e.target.value })}
                                                         />
-                                                        <button className="setting-update-btn" onClick={handleSalaryUpdate}>
+                                                        <button className="setting-update-btn" onClick={handleSalaryUpdate}
+                                                        disabled={
+                                                            userInfo.currencyType === '' ||
+                                                            userInfo.minSalary === '' || 
+                                                            userInfo.maxSalary === '' || 
+                                                            parseFloat(userInfo.minSalary) > parseFloat(userInfo.maxSalary) 
+                                                          }>
                                                             {loginCandidate?.profileHeadline ? 'Update' : 'Add'}
                                                         </button>
                                                     </div>
