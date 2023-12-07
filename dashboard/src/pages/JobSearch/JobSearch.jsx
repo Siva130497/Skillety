@@ -2436,7 +2436,7 @@ const JobSearch = () => {
                                                                                     </div>
 
                                                                                     <div className='flex-reverse-md'>
-                                                                                        {selectedResults &&
+                                                                                        {selectedResults.length>0 &&
                                                                                             <div className="tal--pro-card-ability-number-left mobile-flex mb-3 job">
                                                                                                 <h6 className='tal--pro-card-ability search'>Keywords Matched</h6>
                                                                                                 <h2 className='tal--pro-card-percentage search custom-font-size'>{Math.round(percentage)}%</h2>

@@ -34,6 +34,7 @@ const {
   applyingjob,
   updatingApplicationStatusForJob,
   getAllApplicationStatusForJobId,
+  getAllApplicationStatusForCandId,
   getAppliedjobs,
   getAppliedOfPostedJobs,
   deleteAppliedJob,
@@ -217,6 +218,9 @@ router.patch('/update-application-status', employeeAuth, updatingApplicationStat
 
 //get all the application status document for that particular job id
 router.get('/application-status/:id', getAllApplicationStatusForJobId);
+
+//get all the application status document for that particular cand id
+router.get('/application-status-cand/:id', getAllApplicationStatusForCandId);
 
 //get applied jobs
 router.get('/my-applied-jobs/:candidateId', employeeAuth, getAppliedjobs)
