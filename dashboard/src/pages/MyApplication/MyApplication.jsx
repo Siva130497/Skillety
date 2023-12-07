@@ -76,7 +76,7 @@ const MyApplication = () => {
 
     const getPostedjobs = async () => {
         try {
-            
+
             const res = await axios.get(`https://skillety.onrender.com/posted-jobs`, {
                 headers: {
                     Authorization: `Bearer ${candidateToken}`,
@@ -133,13 +133,13 @@ const MyApplication = () => {
                     Accept: 'application/json'
                 }
             })
-            .then(res=>{
-                console.log(res.data)
-                setApplicationStatus(res.data)
-            })
-            .catch(err=>{
-                console.log(err)
-            })
+                .then(res => {
+                    console.log(res.data)
+                    setApplicationStatus(res.data)
+                })
+                .catch(err => {
+                    console.log(err)
+                })
 
         }
     }, [candidateId])
@@ -332,7 +332,7 @@ const MyApplication = () => {
                                         <div className="admin-lg-table-section">
                                             {appliedJobDetail.length > 0 ?
                                                 <div className="table-responsive admin-lg-table-area">
-                                                    <table className="table table-striped table-hover admin-lg-table">
+                                                    <table className="table table-striped table-hover admin-lg-table w-1000">
                                                         <tr className='dash-table-row head-row'>
                                                             <th className='dash-table-head'>COMPANY</th>
                                                             <th className='dash-table-head'>JOB TITLE</th>
@@ -343,15 +343,18 @@ const MyApplication = () => {
                                                         </tr>
 
                                                         {/* table data */}
-                                                        {appliedJobDetail.map(job => {
+                                                        {appliedJobDetail.map((job, index) => {
                                                             const client = allClient.find(obj => obj.companyId === job.companyId)
 
-                                                            const status = applicationStatus.find(status=>status.jobId === job.jobId)?.status;
+                                                            const status = applicationStatus.find(status => status.jobId === job.jobId)?.status;
 
-                                                            const active =  activeJobs.find(actv=>actv.id === job.jobId)
-                                                            
+                                                            const active = activeJobs.find(actv => actv.id === job.jobId)
+
+                                                            // Define the status points and their corresponding classes
+                                                            const statusPoints = ["screening", "screened", "interviews", "offered", "rejected", "joined", "absconded"];
+
                                                             return (
-                                                                <tr className='dash-table-row custom'>
+                                                                <tr className='dash-table-row custom' key={index}>
                                                                     <td className='dash-table-data1 text-capitalized'>{client?.companyName}</td>
                                                                     <td className='dash-table-data1 text-capitalized'>
                                                                         {job.jobRole[0]} &nbsp;&nbsp;
@@ -365,35 +368,26 @@ const MyApplication = () => {
                                                                     <td className='dash-table-data1'>{`${new Date(job.createdAt).getDate().toString().padStart(2, '0')}/${(new Date(job.createdAt).getMonth() + 1).toString().padStart(2, '0')}/${new Date(job.createdAt).getFullYear() % 100}`}</td>
                                                                     <td className='text-center'>
                                                                         {active ?
-                                                                            <span className='man-job-status-btn theme-warning'>Active</span>
+                                                                            <span className='man-job-status-btn theme-success'>Active</span>
                                                                             :
-                                                                                <span className='man-job-status-btn theme-success'>Temporarly Inactive Contact Company For Further Enquiry</span>
+                                                                            <div className='text-approval'>Temporarly Inactive Contact Company For Further Enquiry</div>
                                                                         }
                                                                     </td>
                                                                     <td className='text-center application-status-data'>
                                                                         <div className="application-status-area">
                                                                             <div className="app-status-line"></div>
 
-                                                                            {/* for Screening
-                                                                            <div className={status === "screening" ? "app-status-point point1 finished active" : "app-status-point point1 finished"}></div> */}
+                                                                            {statusPoints.map((point, i) => {
+                                                                                const isActive = status === point;
+                                                                                const isFinished = i < statusPoints.indexOf(status);
 
-                                                                            {/* for Screened */}
-                                                                            <div className={status === "screened" ? "app-status-point point1 finished active" : "app-status-point point1 finished"}></div>
-
-                                                                            {/* for Interviews in Process */}
-                                                                            <div className={status === "interviews" ? "app-status-point point2 active" : "app-status-point point2"}></div>
-
-                                                                            {/* for Offered */}
-                                                                            <div className={status === "offered" ? "app-status-point point3 active" : "app-status-point point3"}></div>
-
-                                                                            {/* for Rejected */}
-                                                                            <div className={status === "rejected" ? "app-status-point point4 active" : "app-status-point point4"}></div>
-
-                                                                            {/* for Joined */}
-                                                                            <div className={status === "joined" ?"app-status-point point5 active" : "app-status-point point5"}></div>
-
-                                                                            {/* for Absconded */}
-                                                                            <div className={status === "absconded" ? "app-status-point point6 active" : "app-status-point point6"}></div>
+                                                                                return (
+                                                                                    <div
+                                                                                        key={i}
+                                                                                        className={`app-status-point point${i + 1} ${isActive ? 'active' : ''} ${isFinished ? 'finished' : ''}`}
+                                                                                    ></div>
+                                                                                );
+                                                                            })}
                                                                         </div>
                                                                     </td>
                                                                     {/* <td className='text-center'>

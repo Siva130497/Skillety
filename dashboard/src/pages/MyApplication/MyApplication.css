@@ -86,22 +86,27 @@
 }
 
 .app-status-point.point2 {
-    left: 19.5%;
+    left: 16.5%;
 }
 
 .app-status-point.point3 {
-    left: 38.5%;
+    left: 32.5%;
 }
 
 .app-status-point.point4 {
-    right: 38%;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .app-status-point.point5 {
-    right: 18.5%;
+    right: 32.5%;
 }
 
 .app-status-point.point6 {
+    right: 16.5%;
+}
+
+.app-status-point.point7 {
     right: 0%;
 }
 
@@ -113,8 +118,8 @@
     background-color: #F9C833;
 }
 
-.application-status-container{
-    width: 40% !important;
+.application-status-container {
+    width: 50% !important;
 }
 
 .app-status-point::after {
@@ -130,27 +135,32 @@
 }
 
 .app-status-point.point1::after {
-    content: "Screened";
+    content: "Screening";
 
 }
 
 .app-status-point.point2::after {
-    content: "Interview";
+    content: "Screened";
+
 }
 
 .app-status-point.point3::after {
-    content: "Offered";
+    content: "Interview";
 }
 
 .app-status-point.point4::after {
-    content: "Rejected";
+    content: "Offered";
 }
 
 .app-status-point.point5::after {
-    content: "Joined";
+    content: "Rejected";
 }
 
 .app-status-point.point6::after {
+    content: "Joined";
+}
+
+.app-status-point.point7::after {
     content: "Absconded";
 }
 

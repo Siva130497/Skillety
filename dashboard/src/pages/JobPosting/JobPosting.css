@@ -404,6 +404,7 @@
     cursor: pointer;
     transition: ease-in-out 0.5s;
     position: relative;
+    text-transform: capitalize;
 }
 
 .job-post-form-badge:hover {

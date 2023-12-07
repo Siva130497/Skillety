@@ -1102,6 +1102,36 @@ p {
 .main-sidebar.recruiter {
   padding-bottom: 100px !important;
 }
+
 .swal2-html-container::first-letter {
   text-transform: capitalize !important;
 }
+
+
+.table-responsive::-webkit-scrollbar {
+  width: 8px;
+  height: 6px;
+  background-color: transparent;
+  border-radius: 10px !important;
+  /* visibility: hidden; */
+}
+
+.table-responsive::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: none;
+  background-color: #a8a8a8d3;
+  /* visibility: hidden; */
+}
+
+.table-responsive::-webkit-scrollbar-track {
+  -webkit-box-shadow: none;
+  border-radius: 10px;
+  background-color: transparent;
+  /* visibility: hidden; */
+}
+
+/* .table-responsive:hover::-webkit-scrollbar,
+.table-responsive:hover::-webkit-scrollbar-thumb,
+.table-responsive:hover::-webkit-scrollbar-track {
+  visibility: visible;
+} */
