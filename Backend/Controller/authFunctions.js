@@ -28,6 +28,7 @@ const searchResult = require("../Database/searchResult");
 const popularSearch = require("../Database/popularSearch");
 const companyDetail = require("../Database/companyDetail");
 const clientUrlWithEmail = require("../Database/clientUrlWithEmail");
+const applicationStatus = require("../Database/applicationStatus");
 
 // const hash = async() => {
 //   const pass = 'newpassword'
@@ -810,21 +811,6 @@ const getSkillMatchJobDetail = async (req, res) => {
   }
 }
 
-/* sending email alert to candidate */
-// const sendingJobAlertMail = async (req, res) => {
-//   try {
-//     const { id } = req.body;
-//     console.log(id)
-    
-    
-//   } catch (err) {
-//     res.status(500).json({ error: err.message });
-//   }
-// };
-
-
-
-
 /* get all posted jobs */
 const getActivejobs = async(req, res) => {
   try{
@@ -912,63 +898,149 @@ const updateJob = async (req, res) => {
   const { id } = req.params;
 
   try {
-    // Find the job in activeJob schema
-    let jobToUpdate = await activeJob.findOne({ id });
+    const activeJobToUpdate = await activeJob.findOne({ id });
+    const inActiveJobToUpdate = await jobDetail.findOne({ id });
+    const nonApprovalJobToUpdate = await nonApprovalJob.findOne({ id });
 
-    // Find the job in jobDetail schema if not found in activeJob
-    if (!jobToUpdate) {
-      jobToUpdate = await jobDetail.findOne({ id });
-    }
-
-    // Find the job in nonApprovalJob schema if not found in activeJob or jobDetail
-    if (!jobToUpdate) {
-      jobToUpdate = await nonApprovalJob.findOne({ id });
-    }
-
-    // Check if the found job has a recruiterId
-    const hasRecruiterId = jobToUpdate.recruiterId;
-
-    // Update the job
-    const updatedJob = await jobToUpdate.findOneAndUpdate(
-      { id },
-      {
-        $set: {
-          jobRole: req.body.jobRole,
-          skills: req.body.skills,
-          location: req.body.location,
-          department: req.body.department,
-          role: req.body.role,
-          minExperience: req.body.minExperience,
-          maxExperience: req.body.maxExperience,
-          jobCategory: req.body.jobCategory,
-          jobDescription: req.body.jobDescription,
-          currencyType: req.body.currencyType,
-          minSalary: req.body.minSalary,
-          maxSalary: req.body.maxSalary,
-          industry: req.body.industry,
-          education: req.body.education,
+    if (activeJobToUpdate) {
+      // Check if the update job has recruiterId
+      if (activeJobToUpdate.recruiterId) {
+        const updatedActiveJob = await activeJob.findOneAndUpdate(
+          { id },
+          {
+            $set: {
+              jobRole: req.body.jobRole,
+              skills: req.body.skills,
+              location: req.body.location,
+              department: req.body.department,
+              role: req.body.role,
+              minExperience: req.body.minExperience,
+              maxExperience: req.body.maxExperience,
+              jobCategory: req.body.jobCategory,
+              jobDescription: req.body.jobDescription,
+              currencyType: req.body.currencyType,
+              minSalary: req.body.minSalary,
+              maxSalary: req.body.maxSalary,
+              industry: req.body.industry,
+              education: req.body.education,
+            },
+          },
+          { new: true }
+        );
+        return res.status(200).json({ updatedActiveJob });
+      } else {
+        const updatedActiveJob = await activeJob.findOneAndUpdate(
+          { id },
+          {
+            $set: {
+              jobRole: req.body.jobRole,
+              skills: req.body.skills,
+              location: req.body.location,
+              department: req.body.department,
+              role: req.body.role,
+              minExperience: req.body.minExperience,
+              maxExperience: req.body.maxExperience,
+              jobCategory: req.body.jobCategory,
+              jobDescription: req.body.jobDescription,
+              currencyType: req.body.currencyType,
+              minSalary: req.body.minSalary,
+              maxSalary: req.body.maxSalary,
+              industry: req.body.industry,
+              education: req.body.education,
+            },
+          },
+          { new: true }
+        );
+        // Move job to nonApprovalJob schema and delete from activeJob schema
+        const newNonApprovalJob = new nonApprovalJob(updatedActiveJob.toObject());
+        await newNonApprovalJob.save();
+        await activeJob.deleteOne({ id });
+        return res.status(200).json({ updatedActiveJob });
+      }
+    } else if (inActiveJobToUpdate) {
+      // Check if the update job has recruiterId
+      if (inActiveJobToUpdate.recruiterId) {
+        const updatedInActiveJob = await jobDetail.findOneAndUpdate(
+          { id },
+          {
+            $set: {
+              jobRole: req.body.jobRole,
+              skills: req.body.skills,
+              location: req.body.location,
+              department: req.body.department,
+              role: req.body.role,
+              minExperience: req.body.minExperience,
+              maxExperience: req.body.maxExperience,
+              jobCategory: req.body.jobCategory,
+              jobDescription: req.body.jobDescription,
+              currencyType: req.body.currencyType,
+              minSalary: req.body.minSalary,
+              maxSalary: req.body.maxSalary,
+              industry: req.body.industry,
+              education: req.body.education,
+            },
+          },
+          { new: true }
+        );
+        return res.status(200).json({ updatedInActiveJob });
+      } else {
+        const updatedInActiveJob = await jobDetail.findOneAndUpdate(
+          { id },
+          {
+            $set: {
+              jobRole: req.body.jobRole,
+              skills: req.body.skills,
+              location: req.body.location,
+              department: req.body.department,
+              role: req.body.role,
+              minExperience: req.body.minExperience,
+              maxExperience: req.body.maxExperience,
+              jobCategory: req.body.jobCategory,
+              jobDescription: req.body.jobDescription,
+              currencyType: req.body.currencyType,
+              minSalary: req.body.minSalary,
+              maxSalary: req.body.maxSalary,
+              industry: req.body.industry,
+              education: req.body.education,
+            },
+          },
+          { new: true }
+        );
+        // Move job to nonApprovalJob schema and delete from jobDetail schema
+        const newNonApprovalJob = new nonApprovalJob(updatedInActiveJob.toObject());
+        await newNonApprovalJob.save();
+        await jobDetail.deleteOne({ id });
+        return res.status(200).json({ updatedInActiveJob });
+      }
+    } else if (nonApprovalJobToUpdate) {
+      const updatedNonApprovalJob = await nonApprovalJob.findOneAndUpdate(
+        { id },
+        {
+          $set: {
+            jobRole: req.body.jobRole,
+            skills: req.body.skills,
+            location: req.body.location,
+            department: req.body.department,
+            role: req.body.role,
+            minExperience: req.body.minExperience,
+            maxExperience: req.body.maxExperience,
+            jobCategory: req.body.jobCategory,
+            jobDescription: req.body.jobDescription,
+            currencyType: req.body.currencyType,
+            minSalary: req.body.minSalary,
+            maxSalary: req.body.maxSalary,
+            industry: req.body.industry,
+            education: req.body.education,
+          },
         },
-      },
-      { new: true }
-    );
-
-    // If the found job has recruiterId or it's in nonApprovalJob schema, update only and return
-    if (hasRecruiterId || jobToUpdate === nonApprovalJob) {
-      return res.status(200).json(updatedJob);
+        { new: true }
+      );
+      return res.status(200).json({ updatedNonApprovalJob });
     }
-
-    // Add the updated job to nonApprovalJob schema
-    const updatedNonApprovalJob = await nonApprovalJob.create(updatedJob);
-
-    // Delete the job from the previous schema
-    await jobToUpdate.deleteOne({ id });
-
-    return res.status(200).json(updatedNonApprovalJob);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
-
 
 /* get own posted jobs  */
 const getOwnPostedjobs = async (req, res) => {
@@ -1026,11 +1098,62 @@ const applyingjob = async(req, res) => {
       ...req.body,
     });
     await newAppliedJob.save();
-    return res.status(201).json(newAppliedJob);
+
+    const newApplicationStatusForJob = new applicationStatus({
+      jobId:req.body.jobId,
+      status:"Screening",
+      candidateId:req.body.candidateId
+    });
+    await newApplicationStatusForJob.save();
+
+    return res.status(201).json({newAppliedJob, newApplicationStatusForJob});
   }catch(err){
     res.status(500).json({error: err.message});
   }
 }
+
+const updatingApplicationStatusForJob = async (req, res) => {
+  try {
+    const { jobId, status, candidateIdArray } = req.body;
+
+    if (!jobId || !status || !candidateIdArray || !Array.isArray(candidateIdArray)) {
+      return res.status(400).json({ error: 'Invalid input data' });
+    }
+
+    for (const candidateId of candidateIdArray) {
+    
+      const existingApplicationStatus = await applicationStatus.findOne({
+        jobId: jobId,
+        candidateId: candidateId,
+      });
+
+      if (existingApplicationStatus) {
+        existingApplicationStatus.status = status;
+        await existingApplicationStatus.save();
+      } else {
+    
+        console.log(`No document found for jobId: ${jobId}, candidateId: ${candidateId}`);
+      }
+    }
+
+    res.status(200).json({ message: 'Application status updated successfully' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+const getAllApplicationStatusForJobId = async (req, res) => {
+  try {
+    const {id} = req.params;
+
+    const applicationStatusList = await applicationStatus.find({ jobId:id });
+
+    res.status(200).json(applicationStatusList);
+
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
 
 /* get applied jobs */
 const getAppliedjobs = async(req, res) => {
@@ -2645,6 +2768,8 @@ module.exports = {
    getOwnActivejobs,
    getOwnPostedjobs,
    applyingjob,
+   updatingApplicationStatusForJob,
+   getAllApplicationStatusForJobId,
    getAppliedjobs,
    getAppliedOfPostedJobs,
    deleteAppliedJob,
