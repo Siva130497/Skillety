@@ -119,6 +119,8 @@ const AllClients = () => {
 
     }, [staffToken]);
 
+    console.log(commonEmails)
+
     useEffect(() => {
         if (clientDetail.length > 0 && clientUrlWithEmail.length > 0) {
             handleCheckForEmailStatus();
@@ -163,7 +165,19 @@ const AllClients = () => {
     };
 
     const handleGeneratePasswordAndTempUrl = (id) => {
-        createClient(id);
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'You won\'t be able to revert this!',
+            icon: 'info',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, send mail!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                createClient(id);
+            }
+        });
     };
 
     const handleCard = (id) => {
