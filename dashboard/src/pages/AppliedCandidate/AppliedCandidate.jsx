@@ -583,7 +583,7 @@ const AppliedCandidate = () => {
 
     useEffect(()=>{
         if(id && clientToken){
-            axios.get(`https://skillety.onrender.com//application-status/${id}`, {
+            axios.get(`https://skillety.onrender.com/application-status/${id}`, {
                 headers: {
                     Authorization: `Bearer ${clientToken}`,
                     Accept: 'application/json'
@@ -736,7 +736,7 @@ const AppliedCandidate = () => {
                                     }
                                     const percentage = Math.round(calculateMatchPercentage(job?.skills, candidate.skills));
 
-                                    const status = applicationStatus.find(status=>status.candidateId === candidate.id).status;
+                                    const status = applicationStatus.find(status=>status.candidateId === candidate.id)?.status;
 
                                     return (
                                         <article className="talent--profile-card applied" key={candidate.id}>
