@@ -7,6 +7,7 @@ const {
   clientRegister,
   getAllClientDetails,
   createClient,
+  getAllClientUrlWithEmail,
   createClientStaff,
   getAllClient,
   getClient,
@@ -134,6 +135,9 @@ router.post("/tempPass-Client-staff/:id", employeeAuth, createClientStaff);
 router.get("/clientWithUrl-Detail/:id", getClient);
 
 router.get("/clientWithUrl-Detail", getAllClient);
+
+//get all client url having emails
+router.get("/clientUrlWithEmail", employeeAuth, getAllClientUrlWithEmail);
 
 //finding all staff detail from particular companyId
 router.get("/all-staff/:id", employeeAuth, getAllStaff);

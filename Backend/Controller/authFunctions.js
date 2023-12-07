@@ -157,6 +157,16 @@ const createClient = async (req, res) => {
   }
 };
 
+/* get all clienturl emails */
+const getAllClientUrlWithEmail = async(req, res) => {
+  try{
+    const allClientUrlWithEmail = await clientUrlWithEmail.find();
+    return res.status(200).json(allClientUrlWithEmail);
+  }catch(err){
+    return res.status(500).json({ error: err.message });
+  }
+}
+
 /* client_staff create */
 const createClientStaff = async (req, res) => {
   const {id} = req.params;
@@ -2756,6 +2766,7 @@ module.exports = {
    clientRegister,
    getAllClientDetails,
    createClient,
+   getAllClientUrlWithEmail,
    createClientStaff,
    getAllClient,
    getClient,
