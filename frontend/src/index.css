@@ -1600,9 +1600,11 @@ section {
   transition: ease 0.5s;
   z-index: 1;
 }
-.logo--subarea a{
+
+.logo--subarea a {
   outline: none !important;
 }
+
 .nav--logo {
   width: 90px;
   height: 90px;
@@ -1981,7 +1983,7 @@ section {
   -webkit-backdrop-filter: blur(10px);
 }
 
-.navbar .dropdown .loged-in{
+.navbar .dropdown .loged-in {
   left: unset;
   right: -10%;
 }
@@ -2030,13 +2032,15 @@ section {
   padding: 12px 25px;
   transition: ease-in-out 0.8s !important;
 }
-.navbar .login--btn.client{
+
+.navbar .login--btn.client {
   background-color: #F9C833 !important;
   border: 1px solid #F9C833;
   color: #714F36 !important;
   font-weight: 600 !important;
   transition: ease-in-out 0.8s !important;
 }
+
 .navbar.candidate.navbar-mobile .login--btn {
   padding: 18px 30px !important;
   border-radius: 20px;
@@ -2064,6 +2068,7 @@ section {
   color: #714F36 !important;
   background-color: #F9C833 !important;
 }
+
 .navbar.client .login--btn.client:hover {
   border-color: #FFF;
 }
@@ -2090,9 +2095,11 @@ section {
 .navbar .login--btn:focus .login--icon {
   font-size: 22px !important;
 }
+
 .navbar.client .login--btn:active .login--icon {
   color: #ffffff;
 }
+
 .navbar .login--btn:active .login--icon {
   color: #F9C833;
 }
@@ -3730,4 +3737,8 @@ section {
   #footer .credits {
     padding-top: 4px;
   }
+}
+
+.swal2-html-container::first-letter {
+  text-transform: capitalize !important;
 }

@@ -293,7 +293,7 @@
 }
 
 .cand--job-card:hover .cand--job-card-logo-loc-area,
-.cand--job-card:hover  .cand--job-card-logo-area{
+.cand--job-card:hover .cand--job-card-logo-area {
     border-color: #F9C833;
 }
 
@@ -552,6 +552,64 @@
     color: #FFF !important;
 }
 
-.home--testimonial-section.candidate{
+.home--testimonial-section.candidate {
     padding-top: 20px;
+}
+
+.media-label {
+    transition: max-width ease-in-out 1s, background-color ease-in-out 0.8s, border-radius ease-in-out 0.8s;
+    border-radius: 30px;
+    height: 46px;
+    max-width: 46px;
+    background-color: #FFF;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    overflow: hidden;
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    box-shadow: 1px 5px 15px #00000013;
+}
+
+.media-label i {
+    color: #FFF;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background-color: #714F36;
+    border: 2px solid #714F36;
+    width: 36px;
+    height: 36px;
+    margin-left: 5px;
+    vertical-align: middle;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: ease-in-out 0.8s;
+}
+
+.media-label span {
+    color: #714F36;
+    font-size: 15px;
+    font-weight: 600;
+    padding-right: 20px;
+    transition: opacity 2s;
+    opacity: 0;
+}
+
+.cand--events-card:hover .media-label {
+    max-width: 200px;
+    background-color: #F9C833;
+    border-radius: 20px 0px 20px 0px;
+}
+
+.cand--events-card:hover .media-label i {
+    background-color: #F9C833;
+    color: #714F36;
+    border-color: #F9C833;
+}
+
+.cand--events-card:hover .media-label span {
+    opacity: 1;
 }

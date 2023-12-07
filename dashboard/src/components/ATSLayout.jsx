@@ -744,12 +744,10 @@ const ATSLayout = () => {
 
     return (
         <div>
-
             <div id="preloader"></div>
             <ATSNavBar />
 
             <ATSSideBar />
-
         </div>
     )
 }
