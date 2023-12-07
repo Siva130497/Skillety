@@ -676,6 +676,20 @@ const AppliedCandidate = () => {
         .then(res=>{
             console.log(res.data);
             showSuccessMessage(`The updated application status for the selected candidate is now marked as ${selectedStatus}.`)
+
+            axios.get(`https://skillety.onrender.com/application-status/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${clientToken}`,
+                    Accept: 'application/json'
+                }
+            })
+            .then(res=>{
+                console.log(res.data);
+                setApplicationStatus(res.data)
+            })
+            .catch(err=>{
+                console.log(err);
+            })
         })
         .catch(err=>{
             console.log(err)
@@ -737,7 +751,7 @@ const AppliedCandidate = () => {
                                     const percentage = Math.round(calculateMatchPercentage(job?.skills, candidate.skills));
 
                                     const status = applicationStatus.find(status=>status.candidateId === candidate.id)?.status;
-
+                                    
                                     return (
                                         <article className="talent--profile-card applied" key={candidate.id}>
                                             <div className="tal--pro-card-left-area applied">
