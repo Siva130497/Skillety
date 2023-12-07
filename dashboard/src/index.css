@@ -1081,18 +1081,24 @@ p {
 
 .swal2-html-container {
   background-color: #F0F0F0;
-  padding:15px 10px !important;
+  padding: 15px 10px !important;
   border-radius: 10px;
   font-size: 16px !important;
 }
 
-.swal2-popup.swal2-modal{
+.swal2-popup.swal2-modal {
   border-bottom: #714F36 4px solid;
   border-radius: 10px !important;
 }
-.swal2-actions button{
+
+.swal2-actions button {
   font-size: 15px !important;
 }
-.swal2-title{
+
+.swal2-title {
   font-size: 25px !important;
+}
+
+.main-sidebar.recruiter {
+  padding-bottom: 100px !important;
 }

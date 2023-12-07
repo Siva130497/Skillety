@@ -41,6 +41,9 @@ import JobEditingRecruiter from './pages/EditJob recruiter/JobEditingRecruiter';
 import AppliedCandidateRecruiter from './pages/AppliedCandidate Recruiter/AppliedCandidateRecruiter';
 import AllCompanyStaff from './pages/AllCompanyStaff/AllCompanyStaff';
 
+import CandidateChat from './pages/Chat/CandidateChat';
+import ClientChat from './pages/Chat/ClientChat';
+
 
 function App() {
   return (
@@ -84,6 +87,8 @@ function App() {
         <Route path='/client-contact-message' element={<ClientContact />} />
         <Route path='/edit-job-recruiter/:id' element={<JobEditingRecruiter />} />
         <Route path='/applied-candidate-recruiter/:id' element={<AppliedCandidateRecruiter />} />
+        <Route path='/chat-candidate' element={<CandidateChat />} />
+        <Route path='/chat-client' element={<ClientChat />} />
 
         {/* admin pages */}
         <Route path='/all-company-staff' element={<AllCompanyStaff />} />
