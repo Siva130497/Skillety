@@ -286,4 +286,8 @@
     .reg--form-btn.candidate{
         width: 100%;
     }
+
+    .form-no-padding{
+        padding: 0;
+    }
 }
