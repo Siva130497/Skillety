@@ -17,6 +17,8 @@ const MyApplication = () => {
     const [appliedJobDetail, setAppliedJobDetail] = useState([]);
     const { getProtectedData } = useContext(AuthContext);
     const [allClient, setAllClient] = useState([]);
+    const [applicationStatus, setApplicationStatus] = useState([]);
+    const [activeJobs, setActiveJobs] = useState([]);
 
     const [loading, setLoading] = useState(true);
 
@@ -72,6 +74,29 @@ const MyApplication = () => {
         }
     }, [candidateToken]);
 
+    const getPostedjobs = async () => {
+        try {
+            
+            const res = await axios.get(`https://skillety.onrender.com/posted-jobs`, {
+                headers: {
+                    Authorization: `Bearer ${candidateToken}`,
+                    Accept: 'application/json'
+                }
+            });
+            const result = res.data;
+            if (!result.error) {
+                console.log(result);
+                setActiveJobs(res.data)
+            } else {
+                console.log(result);
+            }
+
+        } catch (err) {
+            console.log(err);
+
+        }
+    }
+
     const getAppliedjobs = async () => {
         try {
             setLoading(true);
@@ -100,6 +125,22 @@ const MyApplication = () => {
     useEffect(() => {
         if (candidateId) {
             getAppliedjobs();
+            getPostedjobs();
+
+            axios.get(`https://skillety.onrender.com/application-status-cand/${candidateId}`, {
+                headers: {
+                    Authorization: `Bearer ${candidateToken}`,
+                    Accept: 'application/json'
+                }
+            })
+            .then(res=>{
+                console.log(res.data)
+                setApplicationStatus(res.data)
+            })
+            .catch(err=>{
+                console.log(err)
+            })
+
         }
     }, [candidateId])
 
@@ -296,6 +337,7 @@ const MyApplication = () => {
                                                             <th className='dash-table-head'>COMPANY</th>
                                                             <th className='dash-table-head'>JOB TITLE</th>
                                                             <th className='dash-table-head'>APPLIED ON</th>
+                                                            <th className='dash-table-head text-center'>Status</th>
                                                             <th className='dash-table-head text-center application-status-container'>APPLICATION STATUS</th>
                                                             {/* <th className='dash-table-head text-center'>REVIEW <br /> APPLICATION</th> */}
                                                         </tr>
@@ -303,6 +345,10 @@ const MyApplication = () => {
                                                         {/* table data */}
                                                         {appliedJobDetail.map(job => {
                                                             const client = allClient.find(obj => obj.companyId === job.companyId)
+
+                                                            const status = applicationStatus.find(status=>status.jobId === job.id)?.status;
+
+                                                            const active =  activeJobs.find(actv=>actv.id === job.id)
                                                             return (
                                                                 <tr className='dash-table-row custom'>
                                                                     <td className='dash-table-data1 text-capitalized'>{client?.companyName}</td>
@@ -316,27 +362,35 @@ const MyApplication = () => {
                                                         </a>  */}
                                                                     </td>
                                                                     <td className='dash-table-data1'>{`${new Date(job.createdAt).getDate().toString().padStart(2, '0')}/${(new Date(job.createdAt).getMonth() + 1).toString().padStart(2, '0')}/${new Date(job.createdAt).getFullYear() % 100}`}</td>
+                                                                    <td className='text-center'>
+                                                                        {active ?
+                                                                            <span className='man-job-status-btn theme-warning'>Active</span>
+                                                                            :
+                                                                                <span className='man-job-status-btn theme-success'>Temporarly Inactive Contact Company For Further Enquiry</span>
+                                                                        }
+                                                                        {/* <span className='man-job-status-btn theme-info'>{job?.pending ? "Approval Pending & InActive" : job?.active ? "Approved & Active" : "Approved & InActive"}</span> */}
+                                                                    </td>
                                                                     <td className='text-center application-status-data'>
                                                                         <div className="application-status-area">
                                                                             <div className="app-status-line"></div>
 
                                                                             {/* for Screened */}
-                                                                            <div className="app-status-point point1 finished"></div>
+                                                                            <div className={status === "screened" ? "app-status-point point1 finished active" : "app-status-point point1 finished"}></div>
 
                                                                             {/* for Interviews in Process */}
-                                                                            <div className="app-status-point point2 active"></div>
+                                                                            <div className={status === "interviews" ? "app-status-point point2 active" : "app-status-point point2"}></div>
 
                                                                             {/* for Offered */}
-                                                                            <div className="app-status-point point3"></div>
+                                                                            <div className={status === "offered" ? "app-status-point point3 active" : "app-status-point point3"}></div>
 
                                                                             {/* for Rejected */}
-                                                                            <div className="app-status-point point4"></div>
+                                                                            <div className={status === "rejected" ? "app-status-point point4 active" : "app-status-point point4"}></div>
 
                                                                             {/* for Joined */}
-                                                                            <div className="app-status-point point5"></div>
+                                                                            <div className={status === "joined" ?"app-status-point point5 active" : "app-status-point point5"}></div>
 
                                                                             {/* for Absconded */}
-                                                                            <div className="app-status-point point6"></div>
+                                                                            <div className={status === "absconded" ? "app-status-point point6 active" : "app-status-point point6"}></div>
                                                                         </div>
                                                                     </td>
                                                                     {/* <td className='text-center'>
