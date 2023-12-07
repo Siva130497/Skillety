@@ -270,8 +270,8 @@ const ClientNavBar = () => {
             <div className="dropdown-top-area">
               <img src={clientImgUrl ? clientImgUrl : "../assets/img/talents-images/avatar.jpg"} className='dropdown-user-img' alt="" />
               <div className='dropdown-user-detail-area'>
-                <div className="dropdown-user-name">{extractLastName()}</div>
-                <div className="dropdown-user-role">{loginClientDetail?.companyName}</div>
+                <div className="dropdown-user-name text-capitalized">{extractLastName()}</div>
+                <div className="dropdown-user-role text-capitalized">{loginClientDetail?.companyName}</div>
               </div>
             </div>
             <a href={`/client-profile/${loginClientDetail.companyId}`} className="dropdown-view-pro-btn">

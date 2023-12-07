@@ -223,7 +223,7 @@ const ATSNavBar = () => {
                         <div className="dropdown-top-area mb-4">
                             <img src="../assets/img/talents-images/avatar.jpg" className='dropdown-user-img' alt="" />
                             <div className='dropdown-user-detail-area'>
-                                <div className="dropdown-user-name">{extractLastName()}</div>
+                                <div className="dropdown-user-name text-capitalized">{extractLastName()}</div>
                                 {/* <div className="dropdown-user-role">UX Designer, India</div> */}
                             </div>
                         </div>

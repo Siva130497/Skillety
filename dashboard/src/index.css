@@ -1102,3 +1102,6 @@ p {
 .main-sidebar.recruiter {
   padding-bottom: 100px !important;
 }
+.swal2-html-container::first-letter {
+  text-transform: capitalize !important;
+}

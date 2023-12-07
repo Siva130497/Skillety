@@ -250,8 +250,8 @@ const NavBar = () => {
             <div className="dropdown-top-area">
               <img src={candidateImgUrl ? candidateImgUrl : "../assets/img/talents-images/avatar.jpg"} className='dropdown-user-img' alt="" />
               <div className='dropdown-user-detail-area'>
-                <div className="dropdown-user-name">{extractLastName()}</div>
-                <div className="dropdown-user-role">{loginCandidate?.designation + "@" + loginCandidate?.companyName}</div>
+                <div className="dropdown-user-name text-capitalized">{extractLastName()}</div>
+                <div className="dropdown-user-role text-capitalized">{loginCandidate?.designation + " - " + loginCandidate?.companyName}</div>
               </div>
             </div>
             <a href={`/candidate-profile/${candidateId}`} className="dropdown-view-pro-btn">
