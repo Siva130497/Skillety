@@ -206,7 +206,7 @@
 .con--note-form-area .con--form-input {
     outline: none;
     width: 100%;
-    padding: 22px 0;
+    padding: 13px 0;
     border: none;
     border-bottom: 1px solid #714F36;
     color: #5C3B2E;
@@ -218,7 +218,7 @@
 
 .con--note-form-area .con--form-label {
     color: #5C3B2E;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 600;
     line-height: normal;
     text-transform: capitalize;
@@ -245,7 +245,7 @@
 
 .con--note-form-area .con--form-input::placeholder {
     opacity: 0;
-    font-size: 18px;
+    font-size: 16px;
     color: #a99790;
     transition: opacity 0.5s;
 }
@@ -280,7 +280,7 @@
 }
 
 .con--form-btn {
-    font-size: 24px;
+    font-size: 20px;
     font-weight: 500;
     border-radius: 48px;
     background-color: #714F36;

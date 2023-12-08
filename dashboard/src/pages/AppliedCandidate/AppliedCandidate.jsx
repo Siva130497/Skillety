@@ -826,7 +826,7 @@ const AppliedCandidate = () => {
                                                             <h6 className='tal--pro-card-desc-title font-weight-700'>Status&nbsp;:</h6>
                                                         </div>
                                                         <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
-                                                            <p className='tal--pro-card-desc font-weight-700'>{status?status:"screening"}</p>
+                                                            <p className='tal--pro-card-desc font-weight-700'>{status?status:"Screening"}</p>
                                                         </div>
                                                     </div>
                                                 </div>

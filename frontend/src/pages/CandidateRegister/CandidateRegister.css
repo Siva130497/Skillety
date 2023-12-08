@@ -15,7 +15,7 @@
 
 .cand--reg-form-label-custom {
     color: #714F36;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 500;
     white-space: nowrap;
 }
@@ -111,7 +111,7 @@
 .cand--reg-radio-input-group .cand--reg-input-container .radio-tile-label {
     text-align: center;
     color: #714F36;
-    font-size: 18px;
+    font-size: 17px;
     font-weight: 500;
     white-space: nowrap;
 }
@@ -148,7 +148,7 @@
     border-bottom: #714F36 2px solid;
     padding: 0px;
     color: #714F36;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 500;
 }
 
@@ -208,7 +208,7 @@
 
 .cand--reg-input-group .react-datepicker-wrapper .react-datepicker__input-container input::placeholder {
     color: #714F36;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 500;
 }
 
@@ -231,7 +231,7 @@
 
 .cand--reg-form-area .cand--reg-form-label {
     color: #714F36;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 500;
     line-height: normal;
     text-transform: capitalize;
@@ -279,7 +279,7 @@
     border: 2px dashed #714F36;
     background-color: #F4F4F4;
     color: #714F36;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 500;
     padding: 20px 30px;
     cursor: pointer;
@@ -287,14 +287,14 @@
 
 .cand--reg-file-upload-label i {
     margin-right: 25px;
-    font-size: 30px;
+    font-size:25px;
     vertical-align: middle;
 }
 
 .cand--reg-file-upload-area .file--upload-text {
     margin-top: 23px;
     color: rgba(101, 101, 101, 0.65);
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 500;
 }
 

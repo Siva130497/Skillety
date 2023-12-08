@@ -314,6 +314,7 @@
     font-size: 14px;
     color: #714F36;
     top: 12px;
+    pointer-events:none;
 }
 
 .change-setting-input.select option {
@@ -973,4 +974,5 @@
     font-size: 14px;
     color: #714F36;
     top: 12px;
+    pointer-events: none;
 }

@@ -347,7 +347,7 @@ const Enquiry = () => {
                                                             value={credentials.premisesType}
                                                             onChange={handleInputChange}
                                                             placeholder="Would you like our dedicated Account Manager to work from your premises or our premises?" className='reg--form-input' />
-                                                        <label htmlFor="message" className='reg--form-label pb-5 pb-md-5 pb-lg-4'>Would you like our dedicated Account Manager to work from your premises or our premises?</label>
+                                                        <label htmlFor="message" className='reg--form-label'>Would you like our dedicated Account Manager to work from your premises or our premises?</label>
                                                     </div>
                                                 </div>
                                             </div>
