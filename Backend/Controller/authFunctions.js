@@ -1905,31 +1905,87 @@ const candidateChatRoomId = async(req, res) => {
 }
 
 /* get all the candidate want chat */
-const getAllCandidateWantChat = async(req, res) => {
+// const getAllCandidateWantChat = async(req, res) => {
+//   try {
+//     const allCandidatesWantChat = await candidateChat.find();
+
+//     const candidatesWithNewMessage = await Promise.all(allCandidatesWantChat.map(async (candidate) => {
+//       const lastChatDetail = await roomIdChatDetail.findOne({ roomId: candidate.roomId }).sort({createdAt: -1});
+
+//       if (lastChatDetail && lastChatDetail.userId === candidate.roomId) {
+//         return { ...candidate.toObject(), newMessage: true };
+//       } else {
+//         return { ...candidate.toObject(), newMessage: false };
+//       }
+//     }));
+
+//     const sortedCandidates = candidatesWithNewMessage.sort((a, b) => {
+//       if (a.newMessage && !b.newMessage) return -1;
+//       if (!a.newMessage && b.newMessage) return 1;
+//       return 0;
+//     });
+
+//     console.log(sortedCandidates);
+
+//     return res.status(200).json(sortedCandidates);
+//   } catch(err) {
+//     return res.status(500).json({ error: err.message });
+//   }
+// };
+
+const getAllCandidateWantChat = async (req, res) => {
   try {
     const allCandidatesWantChat = await candidateChat.find();
 
-    const candidatesWithNewMessage = await Promise.all(allCandidatesWantChat.map(async (candidate) => {
-      const lastChatDetail = await roomIdChatDetail.findOne({ roomId: candidate.roomId }).sort({createdAt: -1});
+    const candidatesWithNewMessage = await Promise.all(
+      allCandidatesWantChat.map(async (candidate) => {
+        const chatDetails = await roomIdChatDetail.find({
+          roomId: candidate.roomId,
+        }).sort({ createdAt: 'desc' }); // Sorting chatDetails in descending order of createdAt
 
-      if (lastChatDetail && lastChatDetail.userId === candidate.roomId) {
-        return { ...candidate.toObject(), newMessage: true };
-      } else {
-        return { ...candidate.toObject(), newMessage: false };
-      }
-    }));
+        let newMessageCount = 0;
+        let lastMessage = null;
 
-    const sortedCandidates = candidatesWithNewMessage.sort((a, b) => {
-      if (a.newMessage && !b.newMessage) return -1;
-      if (!a.newMessage && b.newMessage) return 1;
-      return 0;
-    });
+        if (chatDetails.length > 0) {
+          // Finding the last document where userId is not equal to candidate.roomId
+          const lastNonCandidateMessage = chatDetails.find(
+            (detail) => detail.userId !== candidate.roomId
+          );
 
-    console.log(sortedCandidates);
+          if (lastNonCandidateMessage) {
+            // Counting the number of documents created after the lastNonCandidateMessage
+            newMessageCount = chatDetails.filter(
+              (detail) => detail.createdAt > lastNonCandidateMessage.createdAt
+            ).length;
 
-    return res.status(200).json(sortedCandidates);
-  } catch(err) {
-    return res.status(500).json({ error: err.message });
+            // Setting the message property based on the last created document
+            lastMessage = chatDetails[0].message;
+          } else {
+            // If no document where userId is not equal to candidate.roomId
+            newMessageCount = chatDetails.length;
+
+            // Setting the message property based on the last document where userId is equal to candidate.roomId
+            lastMessage = chatDetails.length > 0 ? chatDetails[0].message : '';
+          }
+        }
+
+        return {
+          ...candidate.toObject(),
+          newMessageCount,
+          lastMessage,
+        };
+      })
+    );
+
+    // Sorting candidates in descending order of newMessageCount
+    const sortedCandidates = candidatesWithNewMessage.sort(
+      (a, b) => b.newMessageCount - a.newMessageCount
+    );
+
+    res.json(sortedCandidates);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 };
 

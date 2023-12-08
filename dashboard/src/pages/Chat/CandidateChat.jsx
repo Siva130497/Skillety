@@ -189,7 +189,7 @@ const CandidateChat = () => {
                                     <p>Real-Time Chat </p>
                                 </div>
                                 <div className="chat-body">
-                                    {disableMode && <p>This candidate attended by {connectedRecruiterName}</p>}
+                                    {(disableMode) && <p>This candidate attended by {connectedRecruiterName}</p>}
                                     <ScrollToBottom className="message-container">
                                         {messages.map((messageContent, index) => {
                                             return (

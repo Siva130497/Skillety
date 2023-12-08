@@ -19,6 +19,7 @@ export const AuthContextProvider = ({children}) => {
     const [candidateImg, setCandidateImg] = useState();
     const [clientImg, setClientImg] = useState();
     const [packageSelectionDetail, setPackageSelectionDetail] = useState();
+    const [result, setResult] = useState();
 
     //for show success message for payment
   function showSuccessMessage(message) {
@@ -112,6 +113,7 @@ export const AuthContextProvider = ({children}) => {
 
             if (!result.error) {
                 console.log(result);
+                setResult(result)
                 await new Promise(() => {
                     Swal.fire({
                         title: 'Congratulations!',
@@ -269,7 +271,7 @@ export const AuthContextProvider = ({children}) => {
       }
 
 
-    return<AuthContext.Provider value={{candidateReg, loginUser, getProtectedData, errorMsg, setErrorMsg, eventDetail, getEventDetail, getEventImg, eventImg, blogDetail, getBlogsDetail,videoDetail, getVideoDetail, podcastDetail, getPodcastDetail, newsDetail, getNewsDetail, getCandidateImg, candidateImg, getClientImg, clientImg, getClientChoosenPlan, packageSelectionDetail}}>
+    return<AuthContext.Provider value={{candidateReg, loginUser, getProtectedData, errorMsg, setErrorMsg, eventDetail, getEventDetail, getEventImg, eventImg, blogDetail, getBlogsDetail,videoDetail, getVideoDetail, podcastDetail, getPodcastDetail, newsDetail, getNewsDetail, getCandidateImg, candidateImg, getClientImg, clientImg, getClientChoosenPlan, packageSelectionDetail, result}}>
             {children}
         </AuthContext.Provider>
 }
