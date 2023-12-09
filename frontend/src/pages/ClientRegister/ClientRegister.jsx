@@ -247,15 +247,15 @@ const ClientRegister = () => {
                                             <div className="col-12 col-lg-6 col-md-6 col-sm-6 custom-padding-right">
                                                 <div className='reg--form-group custom'>
                                                     <input type="text" id='full_name' name="name" value={credentials.name} onChange={handleInputChange} placeholder="Enter your full name" className='reg--form-input' required />
-                                                    <label htmlFor="full_name" className='reg--form-label'>Your Full Name</label>
-                                                    <small className='text-danger'>{credentials.name === "" && "required"}</small>
+                                                    <label htmlFor="full_name" className='reg--form-label'>Your Full Name&nbsp;<span className='is-required'>*</span></label>
+                                                    <small className='text-danger text-capitalized form-error-message'>{credentials.name === "" && "required"}</small>
                                                 </div>
                                             </div>
                                             <div className="col-12 col-lg-6 col-md-6 col-sm-6 custom-padding-left">
                                                 <div className='reg--form-group'>
                                                     <input type="email" id='email' name="email" value={credentials.email} onChange={handleInputChange} placeholder="Enter your email address" className='reg--form-input' required />
-                                                    <label htmlFor="email" className='reg--form-label'>Email ID</label>
-                                                    {require && <small className='text-danger'>{credentials.email === "" && "required"}</small>}
+                                                    <label htmlFor="email" className='reg--form-label'>Email ID&nbsp;<span className='is-required'>*</span></label>
+                                                    {require && <small className='text-danger text-capitalized form-error-message'>{credentials.email === "" && "required"}</small>}
                                                     <br />
                                                     <small className='text-danger'>{credentials.email && !(emailRegex.test(credentials.email)) && "enter valid email address"}</small>
                                                 </div>
@@ -263,15 +263,15 @@ const ClientRegister = () => {
                                             <div className="col-12 col-lg-6 col-md-6 col-sm-6 custom-padding-right">
                                                 <div className='reg--form-group'>
                                                     <input type="number" id='phone_no' name="phone" value={credentials.phone} onChange={handleInputChange} placeholder="Enter your mobile number" className='reg--form-input' required />
-                                                    <label htmlFor="phone_no" className='reg--form-label'>Mobile Number</label>
-                                                    <small className='text-danger'>{credentials.phone === "" && "required"}</small>
+                                                    <label htmlFor="phone_no" className='reg--form-label'>Mobile Number&nbsp;<span className='is-required'>*</span></label>
+                                                    <small className='text-danger text-capitalized form-error-message'>{credentials.phone === "" && "required"}</small>
                                                 </div>
                                             </div>
                                             <div className="col-12 col-lg-6 col-md-6 col-sm-6 custom-padding-left">
                                                 <div className='reg--form-group'>
                                                     <input type="text" id='subject' name="companyName" value={credentials.companyName} onChange={handleInputChange} placeholder="Enter the company name" className='reg--form-input' required />
-                                                    <label htmlFor="subject" className='reg--form-label'>Company Name</label>
-                                                    <small className='text-danger'>{credentials.companyName === "" && "required"}</small>
+                                                    <label htmlFor="subject" className='reg--form-label'>Company Name&nbsp;<span className='is-required'>*</span></label>
+                                                    <small className='text-danger text-capitalized form-error-message'>{credentials.companyName === "" && "required"}</small>
                                                 </div>
                                             </div>
                                             <div className="col-12 col-lg-6 col-md-8 col-sm-8 custom-padding-right1">
@@ -337,7 +337,7 @@ const ClientRegister = () => {
                                                                 >{selectIndustry}</span>
                                                             ))}
                                                         </div>
-                                                        <small className='text-danger'>{selectedIndustry.length === 0 && "required"}</small>
+                                                        <small className='text-danger text-capitalized'>{selectedIndustry.length === 0 && "required"}</small>
                                                     </div>
 
                                                     {/* <div className='search-result-data-area'>
@@ -354,15 +354,15 @@ const ClientRegister = () => {
                                             <div className="col-12 col-lg-6 col-md-4 col-sm-4 custom-padding-left">
                                                 <div className='reg--form-group'>
                                                     <input type="number" id='subject' name="count" value={credentials.count} min="0" onChange={handleInputChange} placeholder="Enter the headcount" className='reg--form-input' required />
-                                                    <label htmlFor="subject" className='reg--form-label'>Headcount</label>
-                                                    <small className='text-danger'>{credentials.count === "" && "required"}</small>
+                                                    <label htmlFor="subject" className='reg--form-label'>Headcount&nbsp;<span className='is-required'>*</span></label>
+                                                    <small className='text-danger text-capitalized form-error-message'>{credentials.count === "" && "required"}</small>
                                                 </div>
                                             </div>
                                             <div className="col-12 col-lg-12 col-md-12 col-sm-12 custom-padding-left-right mt-4">
                                                 <div className='reg--form-group'>
                                                     <input type="text" id='message' name="text" value={credentials.text} onChange={handleInputChange} placeholder="Where did you acquire knowledge about Skillety?" className='reg--form-input' />
-                                                    <label htmlFor="message" className='reg--form-label'>From where did you learn about Skillety?</label>
-                                                    <small className='text-danger'>{credentials.text === "" && "required"}</small>
+                                                    <label htmlFor="message" className='reg--form-label'>From where did you learn about Skillety?&nbsp;<span className='is-required'>*</span></label>
+                                                    <small className='text-danger text-capitalized form-error-message'>{credentials.text === "" && "required"}</small>
                                                 </div>
                                             </div>
                                         </div>

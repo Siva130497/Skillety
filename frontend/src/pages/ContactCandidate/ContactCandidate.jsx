@@ -266,17 +266,17 @@ const ContactCandidate = () => {
                                             </div>
                                         </div>
 
-                                        <div className='d-flex align-items-center justify-content-center mb-4'>
+                                        <div className='d-flex align-items-center justify-content-center mb-4' data-aos="zoom-in">
                                             <ReCAPTCHA ref={recaptcha} sitekey={process.env.REACT_APP_SITE_KEY} />
                                         </div>
 
                                         <div className="con--form-btn-area candidate">
-                                            <button type='submit' className='con--form-btn-sub candidate' data-aos="fade-down">
+                                            <button type='submit' className='con--form-btn-sub candidate' data-aos="fade-up">
                                                 <div className='con--form-btn candidate'>
                                                     Send Us Message
                                                 </div>
                                                 <div className='con--form-arrow-area candidate'>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 27 27" fill="none">
                                                         <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#714F36" stroke-width="2" />
                                                         <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#714F36" stroke-width="2" />
                                                         <path d="M1 26L25.1667 1" stroke="#714F36" stroke-width="2" />

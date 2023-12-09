@@ -62,7 +62,7 @@
 
 .custom--select-area .custom--select-label {
     color: #714F36;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 500;
     transition: ease-in-out 0.8s;
     pointer-events: none;
@@ -116,7 +116,7 @@ input[type="number"]::-webkit-outer-spin-button {
 
 .cli--reg-form-area .reg--form-label {
     color: #714F36;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 500;
     line-height: normal;
     text-transform: capitalize;
@@ -127,12 +127,12 @@ input[type="number"]::-webkit-outer-spin-button {
     transform: translateY(-50%);
     pointer-events: none;
     transition: top 0.5s, font-size 0.5s, color 0.5s;
-    padding-bottom: 20px;
+    /* padding-bottom: 20px; */
 }
 
 .reg--form-label-custom {
     color: #714F36;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 500;
     line-height: normal;
     text-transform: capitalize;
@@ -280,7 +280,7 @@ input[type="number"]::-webkit-outer-spin-button {
 
 .sel__placeholder {
     display: block;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 500;
     color: #714F36;
     padding: 10px 0;
@@ -317,7 +317,7 @@ input[type="number"]::-webkit-outer-spin-button {
     display: none;
     list-style-type: none;
     text-align: left;
-    font-size: 20px;
+    font-size: 18px;
     background-color: #714f36f0;
     width: calc(100% + 8px);
     box-sizing: border-box;
@@ -334,7 +334,7 @@ input[type="number"]::-webkit-outer-spin-button {
 
 .sel__box__options {
     display: list-item;
-    font-size: 20px;
+    font-size: 18px;
     color: #FFF;
     padding: 0.5em 1em;
     -webkit-user-select: none;
