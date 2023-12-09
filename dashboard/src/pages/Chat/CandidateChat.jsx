@@ -170,22 +170,19 @@ const CandidateChat = () => {
 
               <div className="chat-container" >
                 <div >
-                  {candidatesWantedChat.length > 0 &&
-                    <table className="table table-hover">
-                      <tbody>
-                        {candidatesWantedChat.map((candidate) => {
-                          return <tr key={candidate.roomId} onClick={() => {
-                            setRoomId(candidate.roomId);
-                          }}>
-                            <th scope="row">{candidate.userName}</th>
-                            {candidate.newMessage && <th scope="col"><span className="badge rounded-pill bg-dark">New msg</span></th>}
-                          </tr>
-                        })}
-                      </tbody>
-                    </table>
-                  }
+                  {candidatesWantedChat.length > 0 && <table className="table table-hover">
+                    <tbody>
+                      {candidatesWantedChat.map((candidate) => {
+                        return <tr key={candidate.roomId} onClick={() => {
+                          setRoomId(candidate.roomId);
+                        }}>
+                          <th scope="row">{candidate.userName}</th>
+                          {candidate.newMessage && <th scope="col"><span className="badge rounded-pill bg-dark">New msg</span></th>}
+                        </tr>
+                      })}
+                    </tbody>
+                  </table>}
                 </div>
-
                 {roomId && <div >
 
                   <div className="chat-window">
@@ -193,7 +190,7 @@ const CandidateChat = () => {
                       <p>Real-Time Chat </p>
                     </div>
                     <div className="chat-body">
-                      {disableMode && <p>This candidate attended by {connectedRecruiterName}</p>}
+                      {(disableMode) && <p>This candidate attended by {connectedRecruiterName}</p>}
                       <ScrollToBottom className="message-container">
                         {messages.map((messageContent, index) => {
                           return (
@@ -242,7 +239,7 @@ const CandidateChat = () => {
                 </div>}
               </div>
 
-              {/* //////////////////////////////////// */}
+              {/* /////////////////////////////////// */}
 
               <div className="chat-section">
                 <div className="row">
@@ -343,7 +340,7 @@ const CandidateChat = () => {
 
                           {disableMode &&
                             <div className='chat-not-available-area'>
-                              <p>This candidate attended by <b>{connectedRecruiterName}</b></p>
+                              <p>This candidate attended by <b>{connectedRecruiterName}.</b></p>
                             </div>
                           }
                         </ScrollToBottom>
@@ -383,6 +380,7 @@ const CandidateChat = () => {
                   </div>
                 </div>
               </div>
+
             </div>
           </section>
         </div>
