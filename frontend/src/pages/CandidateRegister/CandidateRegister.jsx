@@ -710,7 +710,7 @@ const CandidateRegister = () => {
                                                 required />
                                             <label for="file_upload" className='cand--reg-file-upload-label'>
                                                 <i class="bi bi-upload" onClick={() => fileInputRef.current.click()}></i>
-                                                Upload your Resume/CV here</label>
+                                                Upload your Resume/CV here&nbsp;<span className='is-required'>*</span></label>
                                             <span id="file-chosen">{resume.length > 0 ? resume.name : 'No file chosen'}</span>
                                             <div className='file--upload-text'>Either in .doc/ docx/.pdf format only</div>
                                             {require && <small className='text-danger text-capitalized'>{resume.length === 0 && "required"}</small>}
