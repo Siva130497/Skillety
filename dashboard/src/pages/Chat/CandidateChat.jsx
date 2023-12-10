@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import ATSLayout from '../../components/ATSLayout';
 import Footer from '../../components/Footer';
 import './Chat.css';
@@ -29,6 +28,8 @@ const CandidateChat = () => {
   const [candidatesWantedChat, setCandidatesWantedChat] = useState([]);
   const [roomId, setRoomId] = useState("");
   const [connectedRecruiterName, setConnectedRecruiterName] = useState("");
+  const inputRef = useRef(null);
+  const chatInputRef = useRef(null);
 
   useEffect(() => {
     setStaffToken(JSON.parse(localStorage.getItem('staffToken')))
@@ -115,6 +116,58 @@ const CandidateChat = () => {
     });
   }, [socket]);
 
+  useEffect(() => {
+    //close chat
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        setRoomId(null);
+      }
+    };
+
+    //focus seacrh input
+    const handleSearchKeyDown = (event) => {
+      if (event.altKey && event.key === 's') {
+        inputRef.current.focus();
+      }
+    };
+
+    //focus message input
+    const handleChatKeyDown = (event) => {
+      if (event.ctrlKey && event.key === '/' && roomId !== null && chatInputRef.current) {
+        chatInputRef.current.focus();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    document.addEventListener('keydown', handleSearchKeyDown);
+    document.addEventListener('keydown', handleChatKeyDown);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener('keydown', handleSearchKeyDown);
+      document.removeEventListener('keydown', handleChatKeyDown);
+    };
+  }, []);
+
+  useEffect(() => {
+    // Function to handle scrolling to the target
+    const handleScroll = (event) => {
+      const target = $($(event.currentTarget).attr('href'));
+      if (target.length) {
+        event.preventDefault();
+        $('html, body').animate({
+          scrollTop: target.offset().top - 100
+        }, 800);
+      }
+    };
+
+    $('.navigate-to-chat').on('click', handleScroll);
+
+    return () => {
+      $('.navigate-to-chat').off('click', handleScroll);
+    };
+  }, [staffToken, roomId]);
+
   const sendMessage = async () => {
     try {
       if (inputMessage !== '') {
@@ -168,7 +221,7 @@ const CandidateChat = () => {
           <section class="section">
             <div className="my-app-section">
 
-              <div className="chat-container" >
+              {/* <div className="chat-container" >
                 <div >
                   {candidatesWantedChat.length > 0 && <table className="table table-hover">
                     <tbody>
@@ -237,20 +290,24 @@ const CandidateChat = () => {
                     setDisableMode(false);
                   }}>Back</button>
                 </div>}
-              </div>
+              </div> */}
 
               {/* /////////////////////////////////// */}
 
               <div className="chat-section">
                 <div className="row">
-                  <div className="col-12 col-md-4 col-lg-4">
+                  <div className="col-12 col-md-12 col-lg-4">
                     <div className="card chat--card left">
                       <div className="card-header chat--card-header">
                         <div className="chat-search-container">
                           <input type="search"
                             className='form-control chat-search-input'
-                            placeholder='Seach here...' />
+                            placeholder='Seach here...'
+                            ref={inputRef} />
                           <i class="bi bi-search"></i>
+                          <div className="search-short-cut">
+                            <span className="search-short-cut-key">Alt + S</span>
+                          </div>
                         </div>
                       </div>
                       <div className="card-body chat--card-body">
@@ -258,7 +315,7 @@ const CandidateChat = () => {
                           {candidatesWantedChat.length > 0 ?
                             <>
                               {candidatesWantedChat.map((candidate) => {
-                                return <div className={`recent-chat-area ${candidate.roomId == roomId ? 'active' : ''}`}
+                                return <a href='#chat_window' className={`recent-chat-area ${window.innerWidth <= 991 ? 'navigate-to-chat' : ''} ${candidate.roomId == roomId ? 'active' : ''}`}
                                   key={candidate.roomId}
                                   onClick={() => {
                                     setRoomId(candidate.roomId);
@@ -276,7 +333,7 @@ const CandidateChat = () => {
                                       New Msg
                                     </div>
                                   }
-                                </div>
+                                </a>
                               })}
 
                               {/* <div className="recent-chat-area">
@@ -306,9 +363,9 @@ const CandidateChat = () => {
                     </div>
                   </div>
 
-                  <div className="col-12 col-md-8 col-lg-8">
+                  <div className="col-12 col-md-12 col-lg-8">
                     {roomId ?
-                      <div className="card chat--card right">
+                      <div className="card chat--card right" id={`${window.innerWidth <= 991 ? 'chat_window' : ''}`}>
                         <div className="card-header chatting-card-header">
                           <img src='../assets/img/user/user.png' className="chatting-person-image" />
                           <div className="chatting-person-name">
@@ -357,6 +414,7 @@ const CandidateChat = () => {
                             onKeyPress={(event) => {
                               event.key === "Enter" && sendMessage();
                             }}
+                            ref={chatInputRef}
                           />
 
                           <button className='btn msg-send-btn'
@@ -364,6 +422,10 @@ const CandidateChat = () => {
                             onClick={sendMessage}>
                             <i class="bi bi-send"></i>
                           </button>
+
+                          <div className="chat-short-cut">
+                            <span className="chat-short-cut-key">Ctrl + /</span>
+                          </div>
 
                         </div>
                       </div>

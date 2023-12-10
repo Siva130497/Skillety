@@ -2245,8 +2245,9 @@
     top: 16px;
     transition: all 0.5s;
     opacity: 1;
-    user-select: none;
     -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
 }
 
 .short-cut .short-cut-key {
