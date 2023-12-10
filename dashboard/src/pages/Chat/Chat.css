@@ -394,6 +394,7 @@ ul {
   text-overflow: ellipsis;
   overflow: hidden;
   text-transform: capitalize;
+  max-width: 180px;
 }
 
 .no-result-found-area {
@@ -640,7 +641,7 @@ ul {
   position: absolute;
   display: inline-block;
   bottom: 0px;
-  right: -8px;
+  right: -7px;
   width: 0px;
   height: 0px;
   top: 0;
@@ -655,7 +656,7 @@ ul {
   position: absolute;
   display: inline-block;
   bottom: 0px;
-  left: -8px;
+  left: -7px;
   width: 0px;
   height: 0px;
   top: 0;
@@ -817,4 +818,49 @@ ul {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #FFF;
+}
+
+.search-short-cut {
+  position: absolute;
+  right: 10px;
+  top: 6px;
+  transition: all 0.5s;
+  opacity: 1;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+  pointer-events: none;
+}
+
+.chat-short-cut {
+  position: absolute;
+  right: 80px;
+  top: 29px;
+  transition: all 0.5s;
+  opacity: 1;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+  pointer-events: none;
+}
+
+.search-short-cut .search-short-cut-key,
+.chat-short-cut .chat-short-cut-key {
+  color: #b0b0b0;
+  font-size: 9px;
+  font-weight: 500;
+  /* border: 1px solid #b0b0b0; */
+  border-radius: 6px;
+  padding: 3px 6px;
+  /* border-bottom-width: 2px; */
+  box-shadow: inset 0px 0px 5px 0px rgba(150, 150, 150, 0.355);
+  pointer-events: none;
+}
+
+.chat-search-input:focus~.search-short-cut,
+.chat-search-input:active~.search-short-cut,
+.message-input:focus~.chat-short-cut,
+.message-input:disabled~.chat-short-cut,
+.message-input:active~.chat-short-cut {
+  display: none;
 }
