@@ -17,7 +17,7 @@ import AuthContext from '../../context/AuthContext';
 const socket = io.connect('https://skillety.onrender.com');
 
 const CandidateChat = () => {
-  const { getProtectedData } = useContext(AuthContext);
+  const { getProtectedData, getCandidateImg, candidateImg } = useContext(AuthContext);
 
   const [staffToken, setStaffToken] = useState("");
   const [userId, setUserId] = useState("");
@@ -30,6 +30,10 @@ const CandidateChat = () => {
   const [connectedRecruiterName, setConnectedRecruiterName] = useState("");
   const inputRef = useRef(null);
   const chatInputRef = useRef(null);
+  const [chattingPersonName, setChattingPersonName] = useState("");
+  const [chattingPersonImg, setChattingPersonImg] = useState("");
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filteredCandidates, setFilteredCandidates] = useState(candidatesWantedChat);
 
   useEffect(() => {
     setStaffToken(JSON.parse(localStorage.getItem('staffToken')))
@@ -50,6 +54,7 @@ const CandidateChat = () => {
       };
 
       fetchData();
+      getCandidateImg();
     }
   }, [staffToken]);
 
@@ -64,6 +69,7 @@ const CandidateChat = () => {
         .then(res => {
           console.log(res.data);
           setCandidatesWantedChat(res.data);
+          setFilteredCandidates(res.data);
         })
         .catch(err => console.log(err));
     }
@@ -210,6 +216,20 @@ const CandidateChat = () => {
     }
   }
 
+  const handleSearch = (e) => {
+    const query = e.target.value;
+    setSearchQuery(query);
+
+    const filtered = candidatesWantedChat.filter(
+      (candidate) =>
+        candidate.userName.toLowerCase().includes(query.toLowerCase()) ||
+        (candidate.lastMessage &&
+          candidate.lastMessage.toLowerCase().includes(query.toLowerCase()))
+    );
+
+    setFilteredCandidates(filtered);
+  };
+
   return (
     <div>
       <div class="main-wrapper main-wrapper-1">
@@ -303,7 +323,10 @@ const CandidateChat = () => {
                           <input type="search"
                             className='form-control chat-search-input'
                             placeholder='Seach here...'
-                            ref={inputRef} />
+                            ref={inputRef}
+                            value={searchQuery}
+                            onChange={handleSearch}
+                          />
                           <i class="bi bi-search"></i>
                           <div className="search-short-cut">
                             <span className="search-short-cut-key">Alt + S</span>
@@ -312,25 +335,35 @@ const CandidateChat = () => {
                       </div>
                       <div className="card-body chat--card-body">
                         <div className="recent-chat-container">
-                          {candidatesWantedChat.length > 0 ?
+                          {filteredCandidates.length > 0 ?
                             <>
-                              {candidatesWantedChat.map((candidate) => {
+                              {filteredCandidates.map((candidate) => {
+                                const matchingImg = candidateImg ? candidateImg.find(img => img.id === candidate.roomId) : null;
+                                const imgSrc = matchingImg ? `https://skillety.onrender.com/candidate_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
+
                                 return <a href='#chat_window' className={`recent-chat-area ${window.innerWidth <= 991 ? 'navigate-to-chat' : ''} ${candidate.roomId == roomId ? 'active' : ''}`}
                                   key={candidate.roomId}
                                   onClick={() => {
                                     setRoomId(candidate.roomId);
+                                    setChattingPersonName(candidate.userName)
+                                    setChattingPersonImg(imgSrc)
                                     setMessages([]);
                                     setDisableMode(false);
                                   }}>
                                   <div className="chat-person-info-area">
-                                    <img src='../assets/img/user/user.png' className="chat-person-image" />
+                                    <img src={imgSrc} className="chat-person-image" />
                                     <div className="chat-person-name">
                                       {candidate.userName}
                                     </div>
                                   </div>
-                                  {candidate.newMessage &&
+                                  {/* {candidate.lastMessage &&
+                                    <small>
+                                      {candidate.lastMessage}
+                                    </small>
+                                  } */}
+                                  {candidate.newMessageCount > 0 &&
                                     <div className="chat-msg-badge">
-                                      New Msg
+                                      {candidate.newMessageCount}
                                     </div>
                                   }
                                 </a>
@@ -367,9 +400,9 @@ const CandidateChat = () => {
                     {roomId ?
                       <div className="card chat--card right" id={`${window.innerWidth <= 991 ? 'chat_window' : ''}`}>
                         <div className="card-header chatting-card-header">
-                          <img src='../assets/img/user/user.png' className="chatting-person-image" />
+                          <img src={chattingPersonImg} className="chatting-person-image" />
                           <div className="chatting-person-name">
-                            Name
+                            {chattingPersonName}
                           </div>
                         </div>
 
@@ -390,7 +423,7 @@ const CandidateChat = () => {
                                     <p id="time">{messageContent.time}</p>
                                   </div>
                                 </div>
-                                <img src='../assets/img/user/skillety-logo.png' className='chat-avatar' />
+                                <img src={userId === messageContent.userId ? '../assets/img/user/skillety-logo.png' : chattingPersonImg} className='chat-avatar' />
                               </div>
                             );
                           })}

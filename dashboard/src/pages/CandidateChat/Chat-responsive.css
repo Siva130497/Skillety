@@ -1,0 +1,30 @@
+@media screen and (min-width: 991.98px) and (max-width: 1399.98px) {
+    .chat-person-name {
+        max-width: 120px;
+    }
+}
+
+@media (max-width:991.5px) {
+
+    .search-short-cut,
+    .chat-short-cut {
+        display: none;
+    }
+
+    .chat-person-name {
+        max-width: 200px;
+    }
+
+}
+
+@media (max-width:573px) {
+
+    .search-short-cut,
+    .chat-short-cut {
+        display: none;
+    }
+
+    .chat-person-name {
+        max-width: 150px;
+    }
+}
