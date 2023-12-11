@@ -31,6 +31,8 @@ const CandidateChat = () => {
   const inputRef = useRef(null);
   const chatInputRef = useRef(null);
 
+  const [contentloading, setContentLoading] = useState(true);
+
   useEffect(() => {
     setStaffToken(JSON.parse(localStorage.getItem('staffToken')))
   }, [staffToken])
@@ -39,13 +41,18 @@ const CandidateChat = () => {
     if (staffToken) {
       const fetchData = async () => {
         try {
+          setContentLoading(true);
 
           const user = await getProtectedData(staffToken);
           console.log(user);
           setUserId(user.id);
           setUserName(user.name)
+
+          setContentLoading(false);
         } catch (error) {
           console.log(error);
+
+          setContentLoading(false);
         }
       };
 
@@ -311,32 +318,117 @@ const CandidateChat = () => {
                         </div>
                       </div>
                       <div className="card-body chat--card-body">
-                        <div className="recent-chat-container">
-                          {candidatesWantedChat.length > 0 ?
-                            <>
-                              {candidatesWantedChat.map((candidate) => {
-                                return <a href='#chat_window' className={`recent-chat-area ${window.innerWidth <= 991 ? 'navigate-to-chat' : ''} ${candidate.roomId == roomId ? 'active' : ''}`}
-                                  key={candidate.roomId}
-                                  onClick={() => {
-                                    setRoomId(candidate.roomId);
-                                    setMessages([]);
-                                    setDisableMode(false);
-                                  }}>
-                                  <div className="chat-person-info-area">
-                                    <img src='../assets/img/user/user.png' className="chat-person-image" />
-                                    <div className="chat-person-name">
-                                      {candidate.userName}
-                                    </div>
-                                  </div>
-                                  {candidate.newMessage &&
-                                    <div className="chat-msg-badge">
-                                      New Msg
-                                    </div>
-                                  }
-                                </a>
-                              })}
 
-                              {/* <div className="recent-chat-area">
+                        {contentloading ? (
+                          <div className="recent-chat-container-skeleton">
+                            <div className="recent-chat-area-skeleton">
+                              <div className="chat-person-info-area-skeleton">
+                                <Skeleton circle={true} height={50} width={50} />
+                                <div>
+                                  <Skeleton height={16} width={150} />
+                                  <Skeleton className='pt-2' height={10} width={100} />
+                                </div>
+                              </div>
+                              <Skeleton circle={true} height={20} width={20} />
+                            </div>
+                            <div className="recent-chat-area-skeleton">
+                              <div className="chat-person-info-area-skeleton">
+                                <Skeleton circle={true} height={50} width={50} />
+                                <div>
+                                  <Skeleton height={16} width={150} />
+                                  <Skeleton className='pt-2' height={10} width={100} />
+                                </div>
+                              </div>
+                              <Skeleton circle={true} height={20} width={20} />
+                            </div>
+                            <div className="recent-chat-area-skeleton">
+                              <div className="chat-person-info-area-skeleton">
+                                <Skeleton circle={true} height={50} width={50} />
+                                <div>
+                                  <Skeleton height={16} width={150} />
+                                  <Skeleton className='pt-2' height={10} width={100} />
+                                </div>
+                              </div>
+                              <Skeleton circle={true} height={20} width={20} />
+                            </div>
+                            <div className="recent-chat-area-skeleton">
+                              <div className="chat-person-info-area-skeleton">
+                                <Skeleton circle={true} height={50} width={50} />
+                                <div>
+                                  <Skeleton height={16} width={150} />
+                                  <Skeleton className='pt-2' height={10} width={100} />
+                                </div>
+                              </div>
+                              <Skeleton circle={true} height={20} width={20} />
+                            </div>
+                            <div className="recent-chat-area-skeleton">
+                              <div className="chat-person-info-area-skeleton">
+                                <Skeleton circle={true} height={50} width={50} />
+                                <div>
+                                  <Skeleton height={16} width={150} />
+                                  <Skeleton className='pt-2' height={10} width={100} />
+                                </div>
+                              </div>
+                              <Skeleton circle={true} height={20} width={20} />
+                            </div>
+                            <div className="recent-chat-area-skeleton">
+                              <div className="chat-person-info-area-skeleton">
+                                <Skeleton circle={true} height={50} width={50} />
+                                <div>
+                                  <Skeleton height={16} width={150} />
+                                  <Skeleton className='pt-2' height={10} width={100} />
+                                </div>
+                              </div>
+                              <Skeleton circle={true} height={20} width={20} />
+                            </div>
+                            <div className="recent-chat-area-skeleton">
+                              <div className="chat-person-info-area-skeleton">
+                                <Skeleton circle={true} height={50} width={50} />
+                                <div>
+                                  <Skeleton height={16} width={150} />
+                                  <Skeleton className='pt-2' height={10} width={100} />
+                                </div>
+                              </div>
+                              <Skeleton circle={true} height={20} width={20} />
+                            </div>
+                            <div className="recent-chat-area-skeleton">
+                              <div className="chat-person-info-area-skeleton">
+                                <Skeleton circle={true} height={50} width={50} />
+                                <div>
+                                  <Skeleton height={16} width={150} />
+                                  <Skeleton className='pt-2' height={10} width={100} />
+                                </div>
+                              </div>
+                              <Skeleton circle={true} height={20} width={20} />
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="recent-chat-container">
+                            {candidatesWantedChat.length > 0 ?
+                              <>
+                                {candidatesWantedChat.map((candidate) => {
+                                  return <a href='#chat_window' className={`recent-chat-area ${window.innerWidth <= 991 ? 'navigate-to-chat' : ''} ${candidate.roomId == roomId ? 'active' : ''}`}
+                                    key={candidate.roomId}
+                                    onClick={() => {
+                                      setRoomId(candidate.roomId);
+                                      setMessages([]);
+                                      setDisableMode(false);
+                                    }}>
+                                    <div className="chat-person-info-area">
+                                      <img src='../assets/img/user/user.png' className="chat-person-image" />
+                                      <div className="chat-person-name">
+                                        {candidate.userName}
+                                      </div>
+                                    </div>
+                                    {candidate.newMessage &&
+                                      <div className="chat-msg-badge">
+                                        New Msg
+                                      </div>
+                                    }
+                                  </a>
+                                })}
+
+                                {/* <div className="recent-chat-area">
                                   <div className="chat-person-info-area">
                                     <img src='../assets/img/user/user.png' className="chat-person-image"></img>
                                     <div className="chat-person-name">
@@ -347,16 +439,17 @@ const CandidateChat = () => {
                                     New Msg
                                   </div>
                                 </div> */}
-                            </>
-                            :
-                            <div className="no-result-found-area">
-                              <i class="bi bi-exclamation-circle"></i>
-                              <div className="no-result-text">
-                                No results..!
+                              </>
+                              :
+                              <div className="no-result-found-area">
+                                <i class="bi bi-exclamation-circle"></i>
+                                <div className="no-result-text">
+                                  No results..!
+                                </div>
                               </div>
-                            </div>
-                          }
-                        </div>
+                            }
+                          </div>
+                        )}
 
                       </div>
                       <div className="card-footer chat--card-footer"></div>
@@ -373,34 +466,46 @@ const CandidateChat = () => {
                           </div>
                         </div>
 
-                        <ScrollToBottom className="card-body chatting-card-body">
-                          {messages.map((messageContent, index) => {
-                            return (
-                              <div className={`chat--message-container ${userId === messageContent.userId ? 'send' : 'receive'}`}
-                                key={index}>
-                                <div className="chat--message-area">
-                                  <div className="chat-message-info">
-                                    <p id="date">{messageContent.date}</p>
-                                  </div>
-                                  <div className="chat-message-content">
-                                    <p>
-                                      {messageContent.message}</p>
-                                  </div>
-                                  <div className="chat-message-info">
-                                    <p id="time">{messageContent.time}</p>
-                                  </div>
-                                </div>
-                                <img src='../assets/img/user/skillety-logo.png' className='chat-avatar' />
-                              </div>
-                            );
-                          })}
-
-                          {disableMode &&
-                            <div className='chat-not-available-area'>
-                              <p>This candidate attended by <b>{connectedRecruiterName}.</b></p>
+                        {contentloading ? (
+                          <div className="chatting-card-body-skeloton">
+                            <div className="chat-info-loading-skeleton">
+                              <Skeleton circle={true} height={10} width={10} />
+                              <Skeleton circle={true} height={10} width={10} />
+                              <Skeleton circle={true} height={10} width={10} />
+                              <Skeleton circle={true} height={10} width={10} />
+                              <Skeleton circle={true} height={10} width={10} />
                             </div>
-                          }
-                        </ScrollToBottom>
+                          </div>
+                        ) : (
+                          <ScrollToBottom className="card-body chatting-card-body">
+                            {messages.map((messageContent, index) => {
+                              return (
+                                <div className={`chat--message-container ${userId === messageContent.userId ? 'send' : 'receive'}`}
+                                  key={index}>
+                                  <div className="chat--message-area">
+                                    <div className="chat-message-info">
+                                      <p id="date">{messageContent.date}</p>
+                                    </div>
+                                    <div className="chat-message-content">
+                                      <p>
+                                        {messageContent.message}</p>
+                                    </div>
+                                    <div className="chat-message-info">
+                                      <p id="time">{messageContent.time}</p>
+                                    </div>
+                                  </div>
+                                  <img src='../assets/img/user/skillety-logo.png' className='chat-avatar' />
+                                </div>
+                              );
+                            })}
+
+                            {disableMode &&
+                              <div className='chat-not-available-area'>
+                                <p>This candidate attended by <b>{connectedRecruiterName}.</b></p>
+                              </div>
+                            }
+                          </ScrollToBottom>
+                        )}
 
                         <div className="card-footer chatting-card-footer">
                           <input type="text"
