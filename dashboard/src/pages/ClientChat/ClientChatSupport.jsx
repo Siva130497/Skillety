@@ -220,7 +220,12 @@ useEffect(() => {
         console.log(res.data);
 
         if(clientToken){
-          const response = await axios.post(`https://skillety.onrender.com/client-chat`, {roomId, userName}, {
+          const clientData = {
+            roomId,
+            userName,
+            companyId:loginClientDetail?.companyId,
+          }
+          const response = await axios.post(`https://skillety.onrender.com/client-chat`, clientData, {
           headers: {
             Authorization: `Bearer ${clientToken}`,
             Accept: 'application/json'
