@@ -194,6 +194,16 @@ const ClientSidebar = () => {
                     <button className="live-chat-btn client" onClick={() => navigate("/package-plans")}>Upgrade Package</button>
                 </div>
 
+                <div className='live-chat-area'>
+                    <img src="../assets/img/home/live-chat.png" className='live-chat-img' alt="" />
+                    <div className="live-chat-text">
+                        Have any query ? <br />
+                            we are there for you 24*7
+                    </div>
+
+                    <a className="live-chat-btn client" href="/client-chat-support">Live Chat Support</a>
+                </div>
+
             </aside>
         </div>
     )

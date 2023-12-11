@@ -22,6 +22,8 @@ const viewedCandidate = require("../Database/viewedCandidate");
 const enquiryFormDetail = require("../Database/enquiryFormDetail");
 const candidateChat = require("../Database/candidateChat");
 const roomIdChatDetail = require("../Database/roomIdChatDetail");
+const clientChat = require("../Database/clientChat");
+const roomIdChatDetailClient = require("../Database/roomIdChatDetailClient");
 const nonApprovalJob = require("../Database/nonApprovalJob");
 const activeJob = require("../Database/activeJob");
 const searchResult = require("../Database/searchResult");
@@ -1904,6 +1906,24 @@ const candidateChatRoomId = async(req, res) => {
   }
 }
 
+const clientChatRoomId = async(req, res) => {
+  console.log(req.body);
+  const {roomId} = req.body;
+  try {
+    const alreadyClientWantChat = await clientChat.findOne({roomId});
+    if(!alreadyClientWantChat){
+      const newClientChat = new clientChat({
+        ...req.body,
+      });
+      await newClientChat.save();
+      console.log(newClientChat);
+      return res.status(201).json(newClientChat);
+    }
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+}
+
 /* get all the candidate want chat */
 // const getAllCandidateWantChat = async(req, res) => {
 //   try {
@@ -1989,6 +2009,62 @@ const getAllCandidateWantChat = async (req, res) => {
   }
 };
 
+const getAllClientWantChat = async (req, res) => {
+  try {
+    const allClientsWantChat = await clientChat.find();
+
+    const clientsWithNewMessage = await Promise.all(
+      allClientsWantChat.map(async (client) => {
+        const chatDetails = await roomIdChatDetailClient.find({
+          roomId: client.roomId,
+        }).sort({ createdAt: 'desc' }); // Sorting chatDetails in descending order of createdAt
+
+        let newMessageCount = 0;
+        let lastMessage = null;
+
+        if (chatDetails.length > 0) {
+          // Finding the last document where userId is not equal to candidate.roomId
+          const lastNonClientMessage = chatDetails.find(
+            (detail) => detail.userId !== client.roomId
+          );
+
+          if (lastNonClientMessage) {
+            // Counting the number of documents created after the lastNonCandidateMessage
+            newMessageCount = chatDetails.filter(
+              (detail) => detail.createdAt > lastNonClientMessage.createdAt
+            ).length;
+
+            // Setting the message property based on the last created document
+            lastMessage = chatDetails[0].message;
+          } else {
+            // If no document where userId is not equal to candidate.roomId
+            newMessageCount = chatDetails.length;
+
+            // Setting the message property based on the last document where userId is equal to candidate.roomId
+            lastMessage = chatDetails.length > 0 ? chatDetails[0].message : '';
+          }
+        }
+
+        return {
+          ...client.toObject(),
+          newMessageCount,
+          lastMessage,
+        };
+      })
+    );
+
+    // Sorting candidates in descending order of newMessageCount
+    const sortedClients = clientsWithNewMessage.sort(
+      (a, b) => b.newMessageCount - a.newMessageCount
+    );
+
+    res.json(sortedClients);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
 /* messages of the particular chat room id*/
 const roomIdChatDetailCreate = async(req, res) => {
   console.log(req.body);
@@ -2005,11 +2081,38 @@ const roomIdChatDetailCreate = async(req, res) => {
   }
 }
 
+const roomIdChatDetailCreateClient = async(req, res) => {
+  console.log(req.body);
+  try {
+      const newRoomIdChatDetail = new roomIdChatDetailClient({
+        ...req.body,
+      });
+      await newRoomIdChatDetail.save();
+      console.log(newRoomIdChatDetail);
+      return res.status(201).json(newRoomIdChatDetail);
+    
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+}
+
 /* get all the chat detail for the room id */
 const getAllChatDetailOfRoomId = async(req, res) => {
   const {id} = req.params;
   try {
     const allChatDetailOfRoomId = await roomIdChatDetail.find({ roomId: id });
+    const nonMatchingUserId = allChatDetailOfRoomId.filter(obj => obj.userId !== id);
+    console.log(allChatDetailOfRoomId, nonMatchingUserId);
+    return res.status(200).json({ allChatDetailOfRoomId, nonMatchingUserId });
+  } catch(err) {
+    return res.status(500).json({ error: err.message });
+  }
+};
+
+const getAllChatDetailOfRoomIdClient = async(req, res) => {
+  const {id} = req.params;
+  try {
+    const allChatDetailOfRoomId = await roomIdChatDetailClient.find({ roomId: id });
     const nonMatchingUserId = allChatDetailOfRoomId.filter(obj => obj.userId !== id);
     console.log(allChatDetailOfRoomId, nonMatchingUserId);
     return res.status(200).json({ allChatDetailOfRoomId, nonMatchingUserId });
@@ -2893,9 +2996,13 @@ module.exports = {
    postEnquiryFormDetail,
    getEnquiryFormDetails,
    candidateChatRoomId,
+   clientChatRoomId,
    getAllCandidateWantChat,
+   getAllClientWantChat,
    roomIdChatDetailCreate,
+   roomIdChatDetailCreateClient,
    getAllChatDetailOfRoomId,
+   getAllChatDetailOfRoomIdClient,
    sendingMailToCSE,
    updatingClientEmail,
    updatingClientPhone,

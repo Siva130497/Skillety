@@ -45,6 +45,7 @@ import AllCompanyStaff from './pages/AllCompanyStaff/AllCompanyStaff';
 import CandidateChat from './pages/Chat/CandidateChat';
 import ClientChat from './pages/Chat/ClientChat';
 import CandidateChatSupport from './pages/CandidateChat/CandidateChatSupport';
+import ClientChatSupport from './pages/ClientChat/ClientChatSupport';
 
 
 function App() {
@@ -73,6 +74,7 @@ function App() {
         <Route path='/company-detail/:id' element={<CompanyDetail />} />
         <Route path='/client-staff' element={<AllClientStaff />} />
         <Route path='/candidate-chat-support' element={<CandidateChatSupport/>} />
+        <Route path='/client-chat-support' element={<ClientChatSupport/>} />
 
         {/* for recruiter */}
         <Route path='/' element={<RecruiterLogin />} />

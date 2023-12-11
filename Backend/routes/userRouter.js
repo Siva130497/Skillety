@@ -78,9 +78,13 @@ const {
   deletingEnquiryForm,
   getEnquiryFormDetails,
   candidateChatRoomId,
+  clientChatRoomId,
   getAllCandidateWantChat,
+  getAllClientWantChat,
   roomIdChatDetailCreate,
+  roomIdChatDetailCreateClient,
   getAllChatDetailOfRoomId,
+  getAllChatDetailOfRoomIdClient,
   sendingMailToCSE,
   updatingClientEmail,
   updatingClientPhone,
@@ -341,14 +345,25 @@ router.delete('/enquiry-form/:id', employeeAuth, deletingEnquiryForm)
 //candidate join the chat 
 router.post("/candidate-chat", employeeAuth, candidateChatRoomId);
 
+router.post("/client-chat", employeeAuth, clientChatRoomId);
+
 //get all candidates want chat
 router.get("/candidate-chat", employeeAuth, getAllCandidateWantChat);
+
+//get all candidates want chat
+router.get("/client-chat", employeeAuth, getAllClientWantChat);
 
 //save the detail of the partricular room id chat
 router.post("/roomId-chat", employeeAuth, roomIdChatDetailCreate);
 
+//save the detail of the partricular room id chat
+router.post("/roomId-chat-client", employeeAuth, roomIdChatDetailCreateClient);
+
 //get all the detail chat of the room id 
 router.get("/roomId-chat/:id", employeeAuth, getAllChatDetailOfRoomId);
+
+//get all the detail chat of the room id 
+router.get("/roomId-chat-client/:id", employeeAuth, getAllChatDetailOfRoomIdClient);
 
 //sending mail to cse endpoint
 router.post("/enquiry-form/cse", sendingMailToCSE)

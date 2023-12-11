@@ -73,7 +73,7 @@ const Sidebar = () => {
             we are there for you 24*7
           </div>
 
-          <a href="/candidate-chat-support"className="live-chat-btn">Live Chat Support</a>
+          <a href="/candidate-chat-support" className="live-chat-btn">Live Chat Support</a>
         </div>
       </aside>
     </div>
