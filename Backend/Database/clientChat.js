@@ -9,6 +9,10 @@ const clientChatSchema = new Schema(
     userName: {
       type: String,
       required: true,
+    },
+    companyId: {
+      type: String,
+      required: true,
     }
   },
   { timestamps: true }

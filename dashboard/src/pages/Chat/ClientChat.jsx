@@ -364,7 +364,7 @@ const ClientChat = () => {
                           {filteredclients.length > 0 ?
                             <>
                               {filteredclients.map((client) => {
-                                const matchingImg = clientImg ? clientImg.find(img => img.id === client.roomId) : null;
+                                const matchingImg = clientImg ? clientImg.find(img => img.id === client.companyId) : null;
                                 const imgSrc = matchingImg ? `https://skillety.onrender.com/client_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
 
                                 return <a href='#chat_window' className={`recent-chat-area ${window.innerWidth <= 991 ? 'navigate-to-chat' : ''} ${client.roomId == roomId ? 'active' : ''}`}
