@@ -33,7 +33,9 @@ const CandidateChat = () => {
   const [chattingPersonName, setChattingPersonName] = useState("");
   const [chattingPersonImg, setChattingPersonImg] = useState("");
   const [searchQuery, setSearchQuery] = useState('');
-  const [filteredCandidates, setFilteredCandidates] = useState(candidatesWantedChat);
+  const [filteredCandidates, setFilteredCandidates] = useState([]);
+  const [contentloading, setContentLoading] = useState(true);
+  const [msgloading, setMsgLoading] = useState(true);
 
   useEffect(() => {
     setStaffToken(JSON.parse(localStorage.getItem('staffToken')))
@@ -43,13 +45,18 @@ const CandidateChat = () => {
     if (staffToken) {
       const fetchData = async () => {
         try {
+          
 
           const user = await getProtectedData(staffToken);
           console.log(user);
           setUserId(user.id);
           setUserName(user.name)
+
+          
         } catch (error) {
           console.log(error);
+
+          
         }
       };
 
@@ -68,6 +75,7 @@ const CandidateChat = () => {
       })
         .then(res => {
           console.log(res.data);
+          setContentLoading(false)
           setCandidatesWantedChat(res.data);
           setFilteredCandidates(res.data);
         })
@@ -90,6 +98,7 @@ const CandidateChat = () => {
           console.log(result.nonMatchingUserId, result.allChatDetailOfRoomId);
           if (result.nonMatchingUserId.length > 0) {
             if (result.nonMatchingUserId[0].userId === userId) {
+              setMsgLoading(false);
               setMessages(result.allChatDetailOfRoomId);
             } else {
               setDisableMode(true);
@@ -107,6 +116,7 @@ const CandidateChat = () => {
             }
           } else {
             if (result.allChatDetailOfRoomId.length > 0) {
+              setMsgLoading(false);
               setMessages(result.allChatDetailOfRoomId);
             }
           }
@@ -334,6 +344,90 @@ const CandidateChat = () => {
                         </div>
                       </div>
                       <div className="card-body chat--card-body">
+                      {contentloading ? (
+                          <div className="recent-chat-container-skeleton">
+                            <div className="recent-chat-area-skeleton">
+                              <div className="chat-person-info-area-skeleton">
+                                <Skeleton circle={true} height={50} width={50} />
+                                <div>
+                                  <Skeleton height={16} width={150} />
+                                  <Skeleton className='pt-2' height={10} width={100} />
+                                </div>
+                              </div>
+                              <Skeleton circle={true} height={20} width={20} />
+                            </div>
+                            <div className="recent-chat-area-skeleton">
+                              <div className="chat-person-info-area-skeleton">
+                                <Skeleton circle={true} height={50} width={50} />
+                                <div>
+                                  <Skeleton height={16} width={150} />
+                                  <Skeleton className='pt-2' height={10} width={100} />
+                                </div>
+                              </div>
+                              <Skeleton circle={true} height={20} width={20} />
+                            </div>
+                            <div className="recent-chat-area-skeleton">
+                              <div className="chat-person-info-area-skeleton">
+                                <Skeleton circle={true} height={50} width={50} />
+                                <div>
+                                  <Skeleton height={16} width={150} />
+                                  <Skeleton className='pt-2' height={10} width={100} />
+                                </div>
+                              </div>
+                              <Skeleton circle={true} height={20} width={20} />
+                            </div>
+                            <div className="recent-chat-area-skeleton">
+                              <div className="chat-person-info-area-skeleton">
+                                <Skeleton circle={true} height={50} width={50} />
+                                <div>
+                                  <Skeleton height={16} width={150} />
+                                  <Skeleton className='pt-2' height={10} width={100} />
+                                </div>
+                              </div>
+                              <Skeleton circle={true} height={20} width={20} />
+                            </div>
+                            <div className="recent-chat-area-skeleton">
+                              <div className="chat-person-info-area-skeleton">
+                                <Skeleton circle={true} height={50} width={50} />
+                                <div>
+                                  <Skeleton height={16} width={150} />
+                                  <Skeleton className='pt-2' height={10} width={100} />
+                                </div>
+                              </div>
+                              <Skeleton circle={true} height={20} width={20} />
+                            </div>
+                            <div className="recent-chat-area-skeleton">
+                              <div className="chat-person-info-area-skeleton">
+                                <Skeleton circle={true} height={50} width={50} />
+                                <div>
+                                  <Skeleton height={16} width={150} />
+                                  <Skeleton className='pt-2' height={10} width={100} />
+                                </div>
+                              </div>
+                              <Skeleton circle={true} height={20} width={20} />
+                            </div>
+                            <div className="recent-chat-area-skeleton">
+                              <div className="chat-person-info-area-skeleton">
+                                <Skeleton circle={true} height={50} width={50} />
+                                <div>
+                                  <Skeleton height={16} width={150} />
+                                  <Skeleton className='pt-2' height={10} width={100} />
+                                </div>
+                              </div>
+                              <Skeleton circle={true} height={20} width={20} />
+                            </div>
+                            <div className="recent-chat-area-skeleton">
+                              <div className="chat-person-info-area-skeleton">
+                                <Skeleton circle={true} height={50} width={50} />
+                                <div>
+                                  <Skeleton height={16} width={150} />
+                                  <Skeleton className='pt-2' height={10} width={100} />
+                                </div>
+                              </div>
+                              <Skeleton circle={true} height={20} width={20} />
+                            </div>
+                          </div>
+                        ) : (
                         <div className="recent-chat-container">
                           {filteredCandidates.length > 0 ?
                             <>
@@ -369,7 +463,7 @@ const CandidateChat = () => {
                                 </a>
                               })}
 
-                              {/* <div className="recent-chat-area">
+                                {/* <div className="recent-chat-area">
                                   <div className="chat-person-info-area">
                                     <img src='../assets/img/user/user.png' className="chat-person-image"></img>
                                     <div className="chat-person-name">
@@ -380,16 +474,17 @@ const CandidateChat = () => {
                                     New Msg
                                   </div>
                                 </div> */}
-                            </>
-                            :
-                            <div className="no-result-found-area">
-                              <i class="bi bi-exclamation-circle"></i>
-                              <div className="no-result-text">
-                                No results..!
+                              </>
+                              :
+                              <div className="no-result-found-area">
+                                <i class="bi bi-exclamation-circle"></i>
+                                <div className="no-result-text">
+                                  No results..!
+                                </div>
                               </div>
-                            </div>
-                          }
-                        </div>
+                            }
+                          </div>
+                        )}
 
                       </div>
                       <div className="card-footer chat--card-footer"></div>
@@ -406,6 +501,17 @@ const CandidateChat = () => {
                           </div>
                         </div>
 
+                        {msgloading ? (
+                          <div className="chatting-card-body-skeloton">
+                            <div className="chat-info-loading-skeleton">
+                              <Skeleton circle={true} height={10} width={10} />
+                              <Skeleton circle={true} height={10} width={10} />
+                              <Skeleton circle={true} height={10} width={10} />
+                              <Skeleton circle={true} height={10} width={10} />
+                              <Skeleton circle={true} height={10} width={10} />
+                            </div>
+                          </div>
+                        ) : (
                         <ScrollToBottom className="card-body chatting-card-body">
                           {messages.map((messageContent, index) => {
                             return (
@@ -428,12 +534,13 @@ const CandidateChat = () => {
                             );
                           })}
 
-                          {disableMode &&
-                            <div className='chat-not-available-area'>
-                              <p>This candidate attended by <b>{connectedRecruiterName}.</b></p>
-                            </div>
-                          }
-                        </ScrollToBottom>
+                            {disableMode &&
+                              <div className='chat-not-available-area'>
+                                <p>This candidate attended by <b>{connectedRecruiterName}.</b></p>
+                              </div>
+                            }
+                          </ScrollToBottom>
+                        )}
 
                         <div className="card-footer chatting-card-footer">
                           <input type="text"

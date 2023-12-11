@@ -29,6 +29,7 @@ const CandidateChatSupport = () => {
   const chatInputRef = useRef(null);
   const [candidateImg, setCandidateImg] = useState();
   const [candidateImgUrl, setCandidateImgUrl] = useState("");
+  const [contentloading, setContentLoading] = useState(true);
 
   useEffect(() => {
     setcandidateToken(JSON.parse(localStorage.getItem('candidateToken')))
@@ -78,11 +79,13 @@ const CandidateChatSupport = () => {
           console.log(result.nonMatchingUserId, result.allChatDetailOfRoomId);
           
             if (result.allChatDetailOfRoomId.length > 0) {
+              setContentLoading(false);
               setMessages(result.allChatDetailOfRoomId);
             }
           
         })
         .catch(err => console.log(err));
+        setContentLoading(false);
     }
   }, [userName, roomId])
 
@@ -204,7 +207,7 @@ const CandidateChatSupport = () => {
               <div className="chat-section">
                 <div className="row">
                   <div className="col-12">
-                    {roomId ?
+                  {roomId ?
                       <div className="card chat--card right" id={`${window.innerWidth <= 991 ? 'chat_window' : ''}`}>
                         <div className="card-header chatting-card-header">
                           <img src={candidateImgUrl} className="chatting-person-image" />
@@ -213,7 +216,20 @@ const CandidateChatSupport = () => {
                           </div>
                         </div>
 
-                        <ScrollToBottom className="card-body chatting-card-body">
+                        {contentloading ? (
+                          <div className="chatting-card-body-skeloton">
+                            <div className="chat-info-loading-skeleton">
+                              <Skeleton circle={true} height={10} width={10} />
+                              <Skeleton circle={true} height={10} width={10} />
+                              <Skeleton circle={true} height={10} width={10} />
+                              <Skeleton circle={true} height={10} width={10} />
+                              <Skeleton circle={true} height={10} width={10} />
+                            </div>
+                          </div>
+                        ) : (
+                          messages.length>0 ? (
+                            <ScrollToBottom className="card-body chatting-card-body">
+                          
                           {messages.map((messageContent, index) => {
                             return (
                               <div className={`chat--message-container ${userId === messageContent.userId ? 'send' : 'receive'}`}
@@ -234,7 +250,17 @@ const CandidateChatSupport = () => {
                               </div>
                             );
                           })}
-                        </ScrollToBottom>
+
+                          </ScrollToBottom>
+                          ) : 
+                          (
+                          
+                          <div >
+                            No messages..!
+                          </div>
+                        )
+                        
+                        )}
 
                         <div className="card-footer chatting-card-footer">
                           <input type="text"
