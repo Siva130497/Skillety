@@ -184,6 +184,17 @@ const CandidateChatSupport = () => {
 
         console.log(res.data);
 
+        if(candidateToken){
+          const response = await axios.post(`https://skillety.onrender.com/candidate-chat`, {roomId, userName}, {
+          headers: {
+            Authorization: `Bearer ${candidateToken}`,
+            Accept: 'application/json'
+          }
+          });
+  
+          console.log(response.data);
+        }
+
       }
     } catch (error) {
       console.error(error);
