@@ -41,8 +41,10 @@ import JobEditingRecruiter from './pages/EditJob recruiter/JobEditingRecruiter';
 import AppliedCandidateRecruiter from './pages/AppliedCandidate Recruiter/AppliedCandidateRecruiter';
 import AllCompanyStaff from './pages/AllCompanyStaff/AllCompanyStaff';
 
+
 import CandidateChat from './pages/Chat/CandidateChat';
 import ClientChat from './pages/Chat/ClientChat';
+import CandidateChatSupport from './pages/CandidateChat/CandidateChatSupport';
 
 
 function App() {
@@ -70,6 +72,7 @@ function App() {
         <Route path='/client-profile/:id' element={<ClientProfile />} />
         <Route path='/company-detail/:id' element={<CompanyDetail />} />
         <Route path='/client-staff' element={<AllClientStaff />} />
+        <Route path='/candidate-chat-support' element={<CandidateChatSupport/>} />
 
         {/* for recruiter */}
         <Route path='/' element={<RecruiterLogin />} />

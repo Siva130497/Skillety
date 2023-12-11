@@ -17,7 +17,7 @@ import AuthContext from '../../context/AuthContext';
 const socket = io.connect('https://skillety.onrender.com');
 
 const CandidateChat = () => {
-  const { getProtectedData } = useContext(AuthContext);
+  const { getProtectedData, getCandidateImg, candidateImg } = useContext(AuthContext);
 
   const [staffToken, setStaffToken] = useState("");
   const [userId, setUserId] = useState("");
@@ -30,8 +30,12 @@ const CandidateChat = () => {
   const [connectedRecruiterName, setConnectedRecruiterName] = useState("");
   const inputRef = useRef(null);
   const chatInputRef = useRef(null);
-
+  const [chattingPersonName, setChattingPersonName] = useState("");
+  const [chattingPersonImg, setChattingPersonImg] = useState("");
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filteredCandidates, setFilteredCandidates] = useState([]);
   const [contentloading, setContentLoading] = useState(true);
+  const [msgloading, setMsgLoading] = useState(true);
 
   useEffect(() => {
     setStaffToken(JSON.parse(localStorage.getItem('staffToken')))
@@ -41,22 +45,23 @@ const CandidateChat = () => {
     if (staffToken) {
       const fetchData = async () => {
         try {
-          setContentLoading(true);
+          
 
           const user = await getProtectedData(staffToken);
           console.log(user);
           setUserId(user.id);
           setUserName(user.name)
 
-          setContentLoading(false);
+          
         } catch (error) {
           console.log(error);
 
-          setContentLoading(false);
+          
         }
       };
 
       fetchData();
+      getCandidateImg();
     }
   }, [staffToken]);
 
@@ -70,7 +75,9 @@ const CandidateChat = () => {
       })
         .then(res => {
           console.log(res.data);
+          setContentLoading(false)
           setCandidatesWantedChat(res.data);
+          setFilteredCandidates(res.data);
         })
         .catch(err => console.log(err));
     }
@@ -91,6 +98,7 @@ const CandidateChat = () => {
           console.log(result.nonMatchingUserId, result.allChatDetailOfRoomId);
           if (result.nonMatchingUserId.length > 0) {
             if (result.nonMatchingUserId[0].userId === userId) {
+              setMsgLoading(false);
               setMessages(result.allChatDetailOfRoomId);
             } else {
               setDisableMode(true);
@@ -108,6 +116,7 @@ const CandidateChat = () => {
             }
           } else {
             if (result.allChatDetailOfRoomId.length > 0) {
+              setMsgLoading(false);
               setMessages(result.allChatDetailOfRoomId);
             }
           }
@@ -217,6 +226,20 @@ const CandidateChat = () => {
     }
   }
 
+  const handleSearch = (e) => {
+    const query = e.target.value;
+    setSearchQuery(query);
+
+    const filtered = candidatesWantedChat.filter(
+      (candidate) =>
+        candidate.userName.toLowerCase().includes(query.toLowerCase()) ||
+        (candidate.lastMessage &&
+          candidate.lastMessage.toLowerCase().includes(query.toLowerCase()))
+    );
+
+    setFilteredCandidates(filtered);
+  };
+
   return (
     <div>
       <div class="main-wrapper main-wrapper-1">
@@ -310,7 +333,10 @@ const CandidateChat = () => {
                           <input type="search"
                             className='form-control chat-search-input'
                             placeholder='Seach here...'
-                            ref={inputRef} />
+                            ref={inputRef}
+                            value={searchQuery}
+                            onChange={handleSearch}
+                          />
                           <i class="bi bi-search"></i>
                           <div className="search-short-cut">
                             <span className="search-short-cut-key">Alt + S</span>
@@ -318,8 +344,7 @@ const CandidateChat = () => {
                         </div>
                       </div>
                       <div className="card-body chat--card-body">
-
-                        {contentloading ? (
+                      {contentloading ? (
                           <div className="recent-chat-container-skeleton">
                             <div className="recent-chat-area-skeleton">
                               <div className="chat-person-info-area-skeleton">
@@ -403,30 +428,40 @@ const CandidateChat = () => {
                             </div>
                           </div>
                         ) : (
-                          <div className="recent-chat-container">
-                            {candidatesWantedChat.length > 0 ?
-                              <>
-                                {candidatesWantedChat.map((candidate) => {
-                                  return <a href='#chat_window' className={`recent-chat-area ${window.innerWidth <= 991 ? 'navigate-to-chat' : ''} ${candidate.roomId == roomId ? 'active' : ''}`}
-                                    key={candidate.roomId}
-                                    onClick={() => {
-                                      setRoomId(candidate.roomId);
-                                      setMessages([]);
-                                      setDisableMode(false);
-                                    }}>
-                                    <div className="chat-person-info-area">
-                                      <img src='../assets/img/user/user.png' className="chat-person-image" />
-                                      <div className="chat-person-name">
-                                        {candidate.userName}
-                                      </div>
+                        <div className="recent-chat-container">
+                          {filteredCandidates.length > 0 ?
+                            <>
+                              {filteredCandidates.map((candidate) => {
+                                const matchingImg = candidateImg ? candidateImg.find(img => img.id === candidate.roomId) : null;
+                                const imgSrc = matchingImg ? `https://skillety.onrender.com/candidate_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
+
+                                return <a href='#chat_window' className={`recent-chat-area ${window.innerWidth <= 991 ? 'navigate-to-chat' : ''} ${candidate.roomId == roomId ? 'active' : ''}`}
+                                  key={candidate.roomId}
+                                  onClick={() => {
+                                    setRoomId(candidate.roomId);
+                                    setChattingPersonName(candidate.userName)
+                                    setChattingPersonImg(imgSrc)
+                                    setMessages([]);
+                                    setDisableMode(false);
+                                  }}>
+                                  <div className="chat-person-info-area">
+                                    <img src={imgSrc} className="chat-person-image" />
+                                    <div className="chat-person-name">
+                                      {candidate.userName}
                                     </div>
-                                    {candidate.newMessage &&
-                                      <div className="chat-msg-badge">
-                                        New Msg
-                                      </div>
-                                    }
-                                  </a>
-                                })}
+                                  </div>
+                                  {/* {candidate.lastMessage &&
+                                    <small>
+                                      {candidate.lastMessage}
+                                    </small>
+                                  } */}
+                                  {candidate.newMessageCount > 0 &&
+                                    <div className="chat-msg-badge">
+                                      {candidate.newMessageCount}
+                                    </div>
+                                  }
+                                </a>
+                              })}
 
                                 {/* <div className="recent-chat-area">
                                   <div className="chat-person-info-area">
@@ -460,13 +495,13 @@ const CandidateChat = () => {
                     {roomId ?
                       <div className="card chat--card right" id={`${window.innerWidth <= 991 ? 'chat_window' : ''}`}>
                         <div className="card-header chatting-card-header">
-                          <img src='../assets/img/user/user.png' className="chatting-person-image" />
+                          <img src={chattingPersonImg} className="chatting-person-image" />
                           <div className="chatting-person-name">
-                            Name
+                            {chattingPersonName}
                           </div>
                         </div>
 
-                        {contentloading ? (
+                        {msgloading ? (
                           <div className="chatting-card-body-skeloton">
                             <div className="chat-info-loading-skeleton">
                               <Skeleton circle={true} height={10} width={10} />
@@ -477,27 +512,27 @@ const CandidateChat = () => {
                             </div>
                           </div>
                         ) : (
-                          <ScrollToBottom className="card-body chatting-card-body">
-                            {messages.map((messageContent, index) => {
-                              return (
-                                <div className={`chat--message-container ${userId === messageContent.userId ? 'send' : 'receive'}`}
-                                  key={index}>
-                                  <div className="chat--message-area">
-                                    <div className="chat-message-info">
-                                      <p id="date">{messageContent.date}</p>
-                                    </div>
-                                    <div className="chat-message-content">
-                                      <p>
-                                        {messageContent.message}</p>
-                                    </div>
-                                    <div className="chat-message-info">
-                                      <p id="time">{messageContent.time}</p>
-                                    </div>
+                        <ScrollToBottom className="card-body chatting-card-body">
+                          {messages.map((messageContent, index) => {
+                            return (
+                              <div className={`chat--message-container ${userId === messageContent.userId ? 'send' : 'receive'}`}
+                                key={index}>
+                                <div className="chat--message-area">
+                                  <div className="chat-message-info">
+                                    <p id="date">{messageContent.date}</p>
                                   </div>
-                                  <img src='../assets/img/user/skillety-logo.png' className='chat-avatar' />
+                                  <div className="chat-message-content">
+                                    <p>
+                                      {messageContent.message}</p>
+                                  </div>
+                                  <div className="chat-message-info">
+                                    <p id="time">{messageContent.time}</p>
+                                  </div>
                                 </div>
-                              );
-                            })}
+                                <img src={userId === messageContent.userId ? '../assets/img/user/skillety-logo.png' : chattingPersonImg} className='chat-avatar' />
+                              </div>
+                            );
+                          })}
 
                             {disableMode &&
                               <div className='chat-not-available-area'>
