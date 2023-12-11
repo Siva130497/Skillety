@@ -202,7 +202,8 @@ useEffect(() => {
           userId,
           message: inputMessage,
           time: formattedTime,
-          date: formattedDate
+          date: formattedDate,
+          companyId:loginClientDetail?.companyId,
         };
 
         await socket.emit('send_message', messageData);

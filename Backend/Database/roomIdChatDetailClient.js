@@ -25,7 +25,10 @@ const roomIdChatDetailClientSchema = new Schema(
     date: {
       type: String,
       required: true,
-  }
+  },
+  companyId: {
+    type: String,
+}
   },
   { timestamps: true }
 );
