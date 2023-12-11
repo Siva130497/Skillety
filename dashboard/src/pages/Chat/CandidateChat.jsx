@@ -79,7 +79,10 @@ const CandidateChat = () => {
           setCandidatesWantedChat(res.data);
           setFilteredCandidates(res.data);
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+          console.log(err)
+          setContentLoading(false)
+      });
     }
   }, [staffToken])
 
