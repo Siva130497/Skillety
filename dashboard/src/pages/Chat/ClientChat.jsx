@@ -104,6 +104,7 @@ const ClientChat = () => {
               setMsgLoading(false);
               setMessages(result.allChatDetailOfRoomId);
             } else {
+              setMsgLoading(false);
               setDisableMode(true);
               axios.get(`https://skillety.onrender.com/staff/${result.nonMatchingUserId[0].userId}`, {
                 headers: {
