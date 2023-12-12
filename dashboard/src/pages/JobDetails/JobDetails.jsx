@@ -10,6 +10,7 @@ import axios from 'axios';
 import AuthContext from '../../context/AuthContext';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
+import {io} from "socket.io-client";
 
 const JobDetails = () => {
     const { id } = useParams();
@@ -25,6 +26,17 @@ const JobDetails = () => {
 
     const [loading, setLoading] = useState(true);
     const [pageNotFound, setPageNotFound] = useState(false);
+
+    const [userName, setUserName] = useState("");
+    const [socket, setSocket] = useState(null);
+
+    useEffect(()=>{
+        setSocket(io("https://skillety.onrender.com"));
+    },[]);
+
+    useEffect(()=>{
+        socket?.emit("newUser", userName)
+    },[socket, userName])
 
     useEffect(() => {
         $(document).ready(function () {
@@ -75,6 +87,7 @@ const JobDetails = () => {
                     const user = await getProtectedData(candidateToken);
                     console.log(user);
                     setCandidateId(user.id);
+                    setUserName(user.name);
                     getClientImg();
                 } catch (error) {
                     console.log(error);
@@ -207,7 +220,7 @@ const JobDetails = () => {
 
     }, [job])
 
-    const handleApply = () => {
+    const handleApply = (type) => {
         if (!alreadyApplied) {
             Swal.fire({
                 title: 'Are you sure?',
@@ -219,7 +232,12 @@ const JobDetails = () => {
                 confirmButtonText: 'Yes, apply it!'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    applyingjob({ ...job, candidateId: candidateId });
+                    socket.emit("sendNotification", {
+                        senderName:userName,
+                        receiverName:clientCompanyName,
+                        type,
+                    })
+                    // applyingjob({ ...job, candidateId: candidateId });
                     
                 }
     
@@ -531,7 +549,7 @@ const JobDetails = () => {
                                             </button>
                                             :
                                             <button className='pl--package-btn-sub buy-now m-t-40'
-                                                onClick={handleApply}>
+                                                onClick={()=>handleApply(1)}>
                                                 <div className='pl--package-btn buy-now candidate'>
                                                     Apply Now
                                                 </div>

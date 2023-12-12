@@ -2,6 +2,8 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
 import axios from 'axios';
+import {io} from "socket.io-client";
+import { data } from 'jquery';
 
 const ClientNavBar = () => {
   const [token, setToken] = useState("");
@@ -13,6 +15,24 @@ const ClientNavBar = () => {
   const navigate = useNavigate();
 
   const [userName, setUserName] = useState('');
+  const [socket, setSocket] = useState(null);
+  const [notifications, setNotifications] = useState([]);
+
+    useEffect(()=>{
+        setSocket(io("https://skillety.onrender.com"));
+    },[]);
+
+    useEffect(()=>{
+        socket?.emit("newUser", userName)
+    },[socket, userName])
+
+    useEffect(()=>{
+      socket.on("getNotification", data=>{
+        setNotifications(prev=>[...prev, data]);
+      })
+    },[socket]);
+
+    console.log(notifications)
 
   useEffect(() => {
     setToken(JSON.parse(localStorage.getItem('clientToken')))

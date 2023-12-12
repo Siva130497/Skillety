@@ -88,20 +88,36 @@ mongoose.connect(process.env.DB_CONNECT)
     response.send(data);
   });
   
+let onlineUsers = [];
+
+const addNewUser = (userName, socketId) => {
+  !onlineUsers.some((user)=>user.userName === userName) && 
+    onlineUsers.push({userName, socketId});
+};
+
+const removeUser = (socketId) => {
+  onlineUsers = onlineUsers.filter((user) => user.socketId !== socketId);
+};
+
+const getUser = (userName) => {
+  return onlineUsers.find((user)=>user.userName === userName);
+};
 
 io.on('connection', (socket) => {
 
   console.log(`user connected: ${socket.id}`);
-  // socket.on('join_room', (user) => {
-  //   // Join a room based on the user's role
-  //   socket.join(`${user.role}Room`);
-  //   console.log(`A user connected: ${user.id}, Name: ${user.name}, Role:${user.role}`);
-  // });
+  
+  socket.on("newUser", (userName) => {
+    addNewUser(userName, socket.id);
+  });
 
-  // socket.on('send_message', (data) => {
-  //   // Broadcast the message to the appropriate room
-  //   socket.to(`${data.senderRole}Room`).emit('receive_message', data);
-  // });
+  socket.on("sendNotification", ({senderName, receiverName, type}) => {
+    const receiver = getUser(receiverName)
+    io.to(receiver.socketId).emit("getNotification", {
+      senderName,
+      type,
+    });
+  });
 
   socket.on('join_room', (data) => {
     socket.join(data);
@@ -115,49 +131,10 @@ io.on('connection', (socket) => {
 
   socket.on('disconnect', () => {
     console.log("user disconnect", socket.id);
+    removeUser(socket.id);
   });
 
 });
-
-
-// app.get('/clientRecruiterChat', validateToken, (req, res) => {
-//   try {
-//     // Notify the client that they have connected
-//     io.to(req.user.id).emit('join_room', req.user);
-
-//     // Send an HTTP response to acknowledge the request (not related to WebSocket)
-//     res.status(200).json({ message: 'WebSocket connection initiated', user: req.user });
-//   } catch (err) {
-//     return res.status(500).json({ error: err.message });
-//   }
-// });
-
-
-// io.on("connection", (socket)=>{
-//   console.log("a user connected.");
-  
-// })
-
-// const authorization = (req, res, next) => {
-//   const token = req.cookies.jwt;
-//   if (!token) {
-//     return res.sendStatus(403);
-//   }
-//   try {
-//     const data = jwt.verify(token, process.env.APP_SECRET);
-//     req.userId = data.id;
-//     return next();
-//   } catch {
-//     return res.sendStatus(403);
-//   }
-// };
-
-// app.get("/protected", authorization, (req, res) => {
-//   return res.json({ user: { id: req.userId} });
-// });
-
-
-
 
 
 const storage = multer.diskStorage({
