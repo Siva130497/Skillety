@@ -105,7 +105,7 @@ const SettingsCandidate = () => {
             });
         });
 
-    }, []);
+    }, [candidateToken]);
 
     useEffect(() => {
         setCandidateToken(JSON.parse(localStorage.getItem('candidateToken')))

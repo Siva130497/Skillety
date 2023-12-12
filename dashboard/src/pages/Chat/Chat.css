@@ -378,11 +378,15 @@ ul {
 }
 
 .chat-msg-badge {
-  border-radius: 20px;
+  border-radius: 50%;
   background-color: #714F36;
   color: #FFF;
   font-size: 10px;
-  padding: 4px 8px;
+  width: 23px;
+  height: 23px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
 }
 

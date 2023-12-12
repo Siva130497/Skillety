@@ -194,7 +194,7 @@ const ClientSidebar = () => {
                     <button className="live-chat-btn client" onClick={() => navigate("/package-plans")}>Upgrade Package</button>
                 </div>
 
-                <div className='live-chat-area'>
+                <div className='live-chat-area pt-0'>
                     <img src="../assets/img/home/live-chat.png" className='live-chat-img' alt="" />
                     <div className="live-chat-text">
                         Have any query ? <br />

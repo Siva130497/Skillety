@@ -459,9 +459,18 @@ const CandidateChat = () => {
                                       {candidate.lastMessage}
                                     </small>
                                   } */}
-                                  {candidate.newMessageCount > 0 &&
+                                  {/* {candidate.newMessageCount > 0 &&
                                     <div className="chat-msg-badge">
                                       {candidate.newMessageCount}
+                                    </div>
+                                  } */}
+                                  {candidate.newMessageCount > 0 &&
+                                    <div className="chat-msg-badge">
+                                      {candidate.newMessageCount < 100 ?
+                                      <span>{candidate.newMessageCount}</span>
+                                      : 
+                                      <span>99+</span>
+                                      }
                                     </div>
                                   }
                                 </a>
@@ -540,7 +549,7 @@ const CandidateChat = () => {
 
                             {disableMode &&
                               <div className='chat-not-available-area'>
-                                <p>This candidate attended by <b>{connectedRecruiterName}.</b></p>
+                                <p>This candidate attended by <b className='text-capitalized'>{connectedRecruiterName}.</b></p>
                               </div>
                             }
                           </ScrollToBottom>
