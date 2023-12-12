@@ -5,7 +5,7 @@ import 'jquery.nicescroll';
 import ClientNavBar from './ClientNavBar'
 import ClientSidebar from './ClientSidebar'
 
-const ClientLayout = () => {
+const ClientLayout = ({notification}) => {
 
     useEffect(() => {
         // $(window).on("load", function () {
@@ -742,7 +742,7 @@ const ClientLayout = () => {
     return (
         <div>
             <div id="preloader"></div>
-            <ClientNavBar />
+            <ClientNavBar notification={notification}/>
 
             <ClientSidebar/>
         </div>

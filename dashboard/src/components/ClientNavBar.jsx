@@ -5,7 +5,7 @@ import axios from 'axios';
 import {io} from "socket.io-client";
 import { data } from 'jquery';
 
-const ClientNavBar = () => {
+const ClientNavBar = ({notification}) => {
   const [token, setToken] = useState("");
   const { getProtectedData } = useContext(AuthContext);
   const [employeeId, setEmployeeId] = useState("");
@@ -15,24 +15,77 @@ const ClientNavBar = () => {
   const navigate = useNavigate();
 
   const [userName, setUserName] = useState('');
-  const [socket, setSocket] = useState(null);
+  const [companyName, setCompanyName] = useState("");
+  // const [socket, setSocket] = useState(null);
   const [notifications, setNotifications] = useState([]);
 
-    useEffect(()=>{
-        setSocket(io("https://skillety.onrender.com"));
-    },[]);
+  useEffect(()=>{
+    setNotifications(notification)
+  },[notification])
 
-    useEffect(()=>{
-        socket?.emit("newUser", userName)
-    },[socket, userName])
+  //   useEffect(()=>{
+  //       setSocket(io("https://skillety.onrender.com"));
+  //   },[]);
 
-    useEffect(()=>{
-      socket?.on("getNotification", data=>{
-        setNotifications(prev=>[...prev, data]);
-      })
-    },[socket]);
+  //   useEffect(()=>{
+  //       socket?.emit("newUser", companyName)
+  //   },[socket, companyName])
 
-    console.log(notifications)
+  //   useEffect(()=>{
+  //     socket?.on("getNotification", data=>{
+  //       console.log(data)
+  //       setNotifications(prev=>[...prev, data]);
+  //     })
+  //   },[socket]);
+
+    
+
+  //   console.log(notifications)
+
+    const displayNotification = ({senderName, type, time, date}) => {
+      let action;
+
+      if(type === "1"){
+        action = "applied"
+      }
+      return (
+            <div className="notification-dropdown-content">
+                    <div className="notification-dropdown-content-left">
+                      <div className="noti-drpdwn-img-area">
+                        {/* <img src="assets/img/layout/user-img.png" className='noti-drpdwn-img' alt="" /> */}
+                        <i class="bi bi-person"></i>
+                      </div>
+                      <div className="dropdown-notification-item">
+                        {`${senderName} ${action} for your job`}
+                      </div>
+                    </div>
+                    <div className="notification-dropdown-content-right">
+                      <div className="drpdwn-notify-time">
+                        {`${time} ${date}`}
+                      </div>
+                    </div>
+            </div>
+      )
+    }
+
+    const handleClearNotifications = () => {
+      setNotifications([]);
+      if(notifications.length>0){
+        axios.delete("https://skillety.onrender.com/notifications/delete-all", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Accept: 'application/json'
+          }
+        })
+        .then(res=>{
+          console.log(res.data)
+        })
+        .catch(err=>{
+          console.log(err)
+        })
+      }
+      
+    }
 
   useEffect(() => {
     setToken(JSON.parse(localStorage.getItem('clientToken')))
@@ -51,8 +104,21 @@ const ClientNavBar = () => {
           console.log(error)
         }
       };
-
+      
       fetchData();
+      axios.get("https://skillety.onrender.com/candidate-to-client-notification", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: 'application/json'
+        }
+      })
+      .then(res=>{
+        console.log(res.data);
+        setNotifications(res.data)
+      })
+      .catch(err=>{
+        console.log(err)
+      })
     }
   }, [token]);
 
@@ -68,6 +134,7 @@ const ClientNavBar = () => {
       if (!result.error) {
         console.log(result);
         setLoginClientDetail(result);
+        setCompanyName(result.companyName);
       } else {
         console.log(result);
       }
@@ -142,135 +209,27 @@ const ClientNavBar = () => {
           <div className="dropdown-menu dropdown-list dropdown-menu-right pullDown notification-dropdown">
             <div className="notification-dropdown-header">
               <div className="notification-dropdown-head">
-                Notification&nbsp;<span>(2)</span>
+                Notification&nbsp;<span>({notifications.length})</span>
               </div>
               <a href="#" className='notify-settings-btn client'>
                 <i class="bi bi-gear-fill"></i>
               </a>
             </div>
             <div className="notification-dropdown-content-area">
-              <div className="notification-dropdown-content">
-                <div className="notification-dropdown-content-left">
-                  <div className="noti-drpdwn-img-area">
-                    {/* <img src="assets/img/layout/user-img.png" className='noti-drpdwn-img' alt="" /> */}
-                    <i class="bi bi-person"></i>
-                  </div>
-                  <div className="dropdown-notification-item">
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
-                  </div>
-                </div>
-                <div className="notification-dropdown-content-right">
-                  <div className="drpdwn-notify-time">
-                    Now
-                  </div>
-                </div>
-              </div>
-
-              <div className="notification-dropdown-content">
-                <div className="notification-dropdown-content-left">
-                  <div className="noti-drpdwn-img-area">
-                    {/* <img src="assets/img/layout/user-img.png" className='noti-drpdwn-img' alt="" /> */}
-                    <i class="bi bi-person"></i>
-                  </div>
-                  <div className="dropdown-notification-item">
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
-                  </div>
-                </div>
-                <div className="notification-dropdown-content-right">
-                  <div className="drpdwn-notify-time">
-                    Now
-                  </div>
-                </div>
-              </div>
-
-              <div className="notification-dropdown-content">
-                <div className="notification-dropdown-content-left">
-                  <div className="noti-drpdwn-img-area">
-                    {/* <img src="assets/img/layout/user-img.png" className='noti-drpdwn-img' alt="" /> */}
-                    <i class="bi bi-person"></i>
-                  </div>
-                  <div className="dropdown-notification-item">
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
-                  </div>
-                </div>
-                <div className="notification-dropdown-content-right">
-                  <div className="drpdwn-notify-time">
-                    Now
-                  </div>
-                </div>
-              </div>
-
-              <div className="notification-dropdown-content">
-                <div className="notification-dropdown-content-left">
-                  <div className="noti-drpdwn-img-area">
-                    {/* <img src="assets/img/layout/user-img.png" className='noti-drpdwn-img' alt="" /> */}
-                    <i class="bi bi-person"></i>
-                  </div>
-                  <div className="dropdown-notification-item">
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
-                  </div>
-                </div>
-                <div className="notification-dropdown-content-right">
-                  <div className="drpdwn-notify-time">
-                    Now
-                  </div>
-                </div>
-              </div>
-
-              <div className="notification-dropdown-content">
-                <div className="notification-dropdown-content-left">
-                  <div className="noti-drpdwn-img-area">
-                    {/* <img src="assets/img/layout/user-img.png" className='noti-drpdwn-img' alt="" /> */}
-                    <i class="bi bi-person"></i>
-                  </div>
-                  <div className="dropdown-notification-item">
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
-                  </div>
-                </div>
-                <div className="notification-dropdown-content-right">
-                  <div className="drpdwn-notify-time">
-                    Now
-                  </div>
-                </div>
-              </div>
-
-              <div className="notification-dropdown-content">
-                <div className="notification-dropdown-content-left">
-                  <div className="noti-drpdwn-img-area">
-                    {/* <img src="assets/img/layout/user-img.png" className='noti-drpdwn-img' alt="" /> */}
-                    <i class="bi bi-person"></i>
-                  </div>
-                  <div className="dropdown-notification-item">
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
-                  </div>
-                </div>
-                <div className="notification-dropdown-content-right">
-                  <div className="drpdwn-notify-time">
-                    Now
-                  </div>
-                </div>
-              </div>
-
-              <div className="notification-dropdown-content">
-                <div className="notification-dropdown-content-left">
-                  <div className="noti-drpdwn-img-area">
-                    {/* <img src="assets/img/layout/user-img.png" className='noti-drpdwn-img' alt="" /> */}
-                    <i class="bi bi-person"></i>
-                  </div>
-                  <div className="dropdown-notification-item">
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
-                  </div>
-                </div>
-                <div className="notification-dropdown-content-right">
-                  <div className="drpdwn-notify-time">
-                    Now
-                  </div>
-                </div>
-              </div>
+              {notifications.length > 0 ? (
+                notifications.reverse().slice(0,10).map((notification) => (
+                  <div key={notification.id}>{displayNotification(notification)}</div>
+                ))
+              ) : (
+                <p>no new notifications</p>
+              )}
             </div>
 
+
             <div className="dropdown-footer notification-dropdown-footer text-center">
-              <a href="#" className='drp-dwn-view-all-btn'>View All
+              <a className='drp-dwn-view-all-btn'
+              onClick={handleClearNotifications}
+              >View All
                 <i class="bi bi-chevron-right ml-3"></i>
               </a>
             </div>

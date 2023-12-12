@@ -12,6 +12,7 @@ import 'swiper/css/pagination';
 
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
+import {io} from "socket.io-client";
 
 import {
     Chart as ChartJS,
@@ -105,6 +106,9 @@ const ClientDashboard = () => {
     const [pageNotFound, setPageNotFound] = useState(false);
 
     const [contentloading, setContentLoading] = useState(true);
+    const [notifications, setNotifications] = useState([]);
+    const [companyName, setCompanyName] = useState("");
+    const [socket, setSocket] = useState(null);
 
     useEffect(() => {
         const preloader = $('#preloader');
@@ -137,6 +141,23 @@ const ClientDashboard = () => {
         });
     }, []);
 
+    useEffect(()=>{
+        setSocket(io("https://skillety.onrender.com"));
+    },[]);
+
+    useEffect(()=>{
+        socket?.emit("newUser", companyName)
+        console.log(companyName)
+    },[socket, companyName])
+
+    useEffect(()=>{
+      socket?.on("getNotification", data=>{
+        console.log(data)
+        setNotifications(prev=>[...prev, data]);
+      })
+    },[socket]);
+
+
     useEffect(() => {
         if (token) {
             const fetchData = async () => {
@@ -161,6 +182,20 @@ const ClientDashboard = () => {
             };
 
             fetchData();
+
+            axios.get("https://skillety.onrender.com/candidate-to-client-notification", {
+                headers: {
+                Authorization: `Bearer ${token}`,
+                Accept: 'application/json'
+                }
+            })
+            .then(res=>{
+                console.log(res.data);
+                setNotifications(res.data)
+            })
+            .catch(err=>{
+                console.log(err)
+            })
         }
     }, [token]);
 
@@ -177,6 +212,7 @@ const ClientDashboard = () => {
             if (!result.error) {
                 console.log(result);
                 setLoginClientDetail(result);
+                setCompanyName(result.companyName)
             } else {
                 console.log(result);
             }
@@ -346,6 +382,24 @@ const ClientDashboard = () => {
         setPostedJobs(newArray)
     }, [updatePostedJobs]);
 
+    const displayNotification = ({senderName, type, time, date}) => {
+        let action;
+  
+        if(type === "1"){
+          action = "applied"
+        }
+        return (
+            <tr className='dash-table-row'>
+                <td className='dash-table-sub-data data-nowrap'>{`${time} ${date}`}</td>
+                <td className='dash-table-sub-data'>{`${senderName} ${action} for your job`}....................</td>
+                {/* <td className='text-right dash-table-view-btn-area'>
+                    <button className='dash-table-view-btn client'
+                        data-toggle="modal">View</button>
+                </td> */}
+            </tr>
+        )
+      }
+
 
     return (
         <div>
@@ -355,7 +409,7 @@ const ClientDashboard = () => {
 
                 <div class="main-wrapper main-wrapper-1">
                     <div class="navbar-bg"></div>
-                    <ClientLayout />
+                    <ClientLayout notification={notifications}/>
 
                     <div class="main-content">
                         <section class="section">
@@ -516,50 +570,13 @@ const ClientDashboard = () => {
                                                     </div>
                                                     <div class="table-responsive dash-table-container client mt-4">
                                                         <table class="table table-striped table-hover dash-table">
-                                                            <tr className='dash-table-row'>
-                                                                <td className='dash-table-sub-data data-nowrap'>05:15 PM</td>
-                                                                <td className='dash-table-sub-data'>Lorem Ipsum is simply dummy text of the printing and typesetting ....................</td>
-                                                                {/* <td className='text-right dash-table-view-btn-area'>
-                                                                    <button className='dash-table-view-btn client'
-                                                                        data-toggle="modal">View</button>
-                                                                </td> */}
-                                                            </tr>
-
-                                                            <tr className='dash-table-row'>
-                                                                <td className='dash-table-sub-data data-nowrap'>05:15 PM</td>
-                                                                <td className='dash-table-sub-data'>Lorem Ipsum is simply dummy text of the printing and typesetting ....................</td>
-                                                                {/* <td className='text-right dash-table-view-btn-area'>
-                                                                    <button className='dash-table-view-btn client'
-                                                                        data-toggle="modal">View</button>
-                                                                </td> */}
-                                                            </tr>
-
-                                                            <tr className='dash-table-row'>
-                                                                <td className='dash-table-sub-data data-nowrap'>05:15 PM</td>
-                                                                <td className='dash-table-sub-data'>Lorem Ipsum is simply dummy text of the printing and typesetting ....................</td>
-                                                                {/* <td className='text-right dash-table-view-btn-area'>
-                                                                    <button className='dash-table-view-btn client'
-                                                                        data-toggle="modal">View</button>
-                                                                </td> */}
-                                                            </tr>
-
-                                                            <tr className='dash-table-row'>
-                                                                <td className='dash-table-sub-data data-nowrap'>05:15 PM</td>
-                                                                <td className='dash-table-sub-data'>Lorem Ipsum is simply dummy text of the printing and typesetting ....................</td>
-                                                                {/* <td className='text-right dash-table-view-btn-area'>
-                                                                    <button className='dash-table-view-btn client'
-                                                                        data-toggle="modal">View</button>
-                                                                </td> */}
-                                                            </tr>
-
-                                                            <tr className='dash-table-row'>
-                                                                <td className='dash-table-sub-data data-nowrap'>05:15 PM</td>
-                                                                <td className='dash-table-sub-data'>Lorem Ipsum is simply dummy text of the printing and typesetting ....................</td>
-                                                                {/* <td className='text-right dash-table-view-btn-area'>
-                                                                    <button className='dash-table-view-btn client'
-                                                                        data-toggle="modal">View</button>
-                                                                </td> */}
-                                                            </tr>
+                                                            {notifications.length > 0 ? (
+                                                                notifications.reverse().slice(0,10).map((notification) => (
+                                                                <div key={notification.id}>{displayNotification(notification)}</div>
+                                                                ))
+                                                            ) : (
+                                                                <p>no new notifications</p>
+                                                            )}
                                                         </table>
                                                     </div>
                                                 </div>

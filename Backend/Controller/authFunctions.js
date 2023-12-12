@@ -31,6 +31,7 @@ const popularSearch = require("../Database/popularSearch");
 const companyDetail = require("../Database/companyDetail");
 const clientUrlWithEmail = require("../Database/clientUrlWithEmail");
 const applicationStatus = require("../Database/applicationStatus");
+const candidateToClientNotification = require("../Database/candidateToClientNotificationData");
 
 // const hash = async() => {
 //   const pass = 'newpassword'
@@ -2768,6 +2769,45 @@ const getAllCompanyDetails = async(req, res) => {
   }
 }
 
+const candidateToClientNotificationCreate = async(req, res) => {
+  try {
+    console.log(req.body);
+    const newNotification = new candidateToClientNotification({
+      ...req.body,
+    });
+    await newNotification.save();
+    console.log(newNotification);
+    return res.status(201).json(newNotification);
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+}
+
+const getAllcandidateToClientNotification = async(req, res) => {
+  try{
+    const allCandidateToClientNotification = await candidateToClientNotification.find();
+    
+    res.status(200).json(allCandidateToClientNotification); 
+  }catch(err) {
+    res.status(500).json({error: err.message})
+  }
+}
+
+const deleteAllNotifications = async (req, res) => {
+  try {
+    const deleteResult = await candidateToClientNotification.deleteMany({});
+
+    if (deleteResult.deletedCount > 0) {
+      return res.status(200).json({ message: 'All notifications deleted successfully.' });
+    } else {
+      return res.status(404).json({ message: 'No notifications found to delete.' });
+    }
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+};
+
+
 /* random password generate */
 const generateRandomPassword = (req, res) => {
   const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=[]{}|;:,.<>?';
@@ -3037,4 +3077,7 @@ module.exports = {
    saveCompanyDetail,
    getCompanyDetailByCompanyId,
    getAllCompanyDetails,
+   candidateToClientNotificationCreate,
+   getAllcandidateToClientNotification,
+   deleteAllNotifications,
 };
