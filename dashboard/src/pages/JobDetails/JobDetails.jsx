@@ -142,6 +142,38 @@ const JobDetails = () => {
                 })
                 .catch(err => console.log(err))
 
+                const now = new Date();
+                const hours = now.getHours();
+                const minutes = now.getMinutes();
+
+                const amPm = hours >= 12 ? 'PM' : 'AM';
+                const formattedHours = hours % 12 || 12; // Convert 0 to 12 for 12-hour format
+
+                const formattedTime = `${formattedHours}:${String(minutes).padStart(2, '0')} ${amPm}`;
+
+                const formattedDate = `${String(now.getDate()).padStart(2, '0')}/${String(now.getMonth() + 1).padStart(2, '0')}/${String(now.getFullYear()).slice(-2)}`;
+
+                const notificationData = {
+                    senderId:candidateId,
+                    senderName:userName,
+                    receiverId:job?.companyId,
+                    receiverName:clientCompanyName,
+                    type:"1",
+                    time: formattedTime,
+                    date: formattedDate,
+                }
+
+                await socket.emit("sendNotification", notificationData)
+
+                const res = await axios.post(`https://skillety.onrender.com/candidate-to-client-notification`, notificationData, {
+                    headers: {
+                        Authorization: `Bearer ${candidateToken}`,
+                        Accept: 'application/json'
+                    }
+                    });
+
+                    console.log(res.data);
+
             } else {
                 console.log(result);
             }
@@ -220,7 +252,7 @@ const JobDetails = () => {
 
     }, [job])
 
-    const handleApply = (type) => {
+    const handleApply = () => {
         if (!alreadyApplied) {
             Swal.fire({
                 title: 'Are you sure?',
@@ -232,12 +264,8 @@ const JobDetails = () => {
                 confirmButtonText: 'Yes, apply it!'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    socket.emit("sendNotification", {
-                        senderName:userName,
-                        receiverName:clientCompanyName,
-                        type,
-                    })
-                    // applyingjob({ ...job, candidateId: candidateId });
+                    
+                    applyingjob({ ...job, candidateId: candidateId });
                     
                 }
     
@@ -549,7 +577,7 @@ const JobDetails = () => {
                                             </button>
                                             :
                                             <button className='pl--package-btn-sub buy-now m-t-40'
-                                                onClick={()=>handleApply(1)}>
+                                                onClick={handleApply}>
                                                 <div className='pl--package-btn buy-now candidate'>
                                                     Apply Now
                                                 </div>

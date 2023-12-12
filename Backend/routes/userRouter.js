@@ -119,6 +119,9 @@ const {
   saveCompanyDetail,
   getCompanyDetailByCompanyId,
   getAllCompanyDetails,
+  candidateToClientNotificationCreate,
+  getAllcandidateToClientNotification,
+  deleteAllNotifications,
   
 } = require("../Controller/authFunctions");
 const employeeAuth = require("../middleware/employeeAuth");
@@ -441,6 +444,15 @@ router.get("/company-detail/:id", getCompanyDetailByCompanyId)
 
 //get all company details
 router.get("/company-details", getAllCompanyDetails);
+
+//creating new notification from candidate to client
+router.post("/candidate-to-client-notification", candidateToClientNotificationCreate);
+
+//get all candidate to client notifications
+router.get("/candidate-to-client-notification", getAllcandidateToClientNotification);
+
+//delete all notification
+router.delete("/notifications/delete-all", deleteAllNotifications);
 
 // Client, Client-staff Login Route
 router.post("/login-Client", async (req, res) => {

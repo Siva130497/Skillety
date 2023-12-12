@@ -64,7 +64,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: "https://skillety-dashboard.onrender.com",
+    origin: ['https://skillety-frontend.onrender.com', 'https://skillety-dashboard.onrender.com', 'http://localhost:3000', 'http://localhost:3001'],
     methods: ["GET", "POST"],
   },
 });
@@ -108,14 +108,19 @@ io.on('connection', (socket) => {
   console.log(`user connected: ${socket.id}`);
   
   socket.on("newUser", (userName) => {
+    console.log(userName);
     addNewUser(userName, socket.id);
   });
 
-  socket.on("sendNotification", ({senderName, receiverName, type}) => {
+  socket.on("sendNotification", ({senderId, senderName, receiverId, receiverName, type, time, date}) => {
+    console.log({senderId, senderName, receiverId, receiverName, type, time, date})
     const receiver = getUser(receiverName)
-    io.to(receiver.socketId).emit("getNotification", {
+    io.to(receiver?.socketId).emit("getNotification", {
+      senderId,
       senderName,
       type,
+      time,
+      date,
     });
   });
 
