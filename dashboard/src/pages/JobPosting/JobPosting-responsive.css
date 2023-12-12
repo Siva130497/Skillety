@@ -20,3 +20,9 @@
         text-align: center;
     }
 }
+
+@media (max-width:407.5px) {
+    .job-post-form-group.with-sub-label i {
+        top: 93px;
+    }
+}

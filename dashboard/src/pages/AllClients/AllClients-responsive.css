@@ -24,4 +24,20 @@
     .no-data-created-area {
         padding: 25px 20px 20px 20px;
     }
+    .view-det-sub-head.link {
+        padding-left: 0 !important;
+    }
+
+    .recruiter-view-modal .recruiter-view-modal-header,
+        .recruiter-view-modal .recruiter-view-modal-footer{
+        padding: 15px !important;
+    }
+
+    .recruiter-view-modal .modal-body{
+        padding:7px 15px 15px 15px !important;
+    }
+
+    .recruiter-view-card{
+        padding: 15px !important;
+    }
 }
