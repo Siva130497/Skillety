@@ -684,14 +684,18 @@ p {
   color: #FFF !important;
 }
 
-.live-chat-btn.client:hover {
+.live-chat-btn.client:hover,
+  .live-chat-btn.client:focus,
+    .live-chat-btn.client:active {
   background-color: #F9C833 !important;
   color: #714F36 !important;
 }
 
-.live-chat-btn:hover {
-  background-color: #714F36;
-  color: #F9C833;
+.live-chat-btn:hover,
+.live-chat-btn:focus,
+  .live-chat-btn:active {
+  background-color: #714F36 !important;
+  color: #F9C833 !important;
 }
 
 .live-chat-btn:focus,

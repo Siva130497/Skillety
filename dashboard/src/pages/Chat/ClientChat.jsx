@@ -390,7 +390,11 @@ const ClientChat = () => {
                                   } */}
                                   {client.newMessageCount > 0 &&
                                     <div className="chat-msg-badge">
-                                      {client.newMessageCount}
+                                      {client.newMessageCount < 100 ?
+                                      <span>{client.newMessageCount}</span>
+                                      : 
+                                      <span>99+</span>
+                                      }
                                     </div>
                                   }
                                 </a>
@@ -469,7 +473,7 @@ const ClientChat = () => {
 
                             {disableMode &&
                               <div className='chat-not-available-area'>
-                                <p>This client attended by <b>{connectedRecruiterName}.</b></p>
+                                <p>This client attended by <b className='text-capitalized'>{connectedRecruiterName}.</b></p>
                               </div>
                             }
                           </ScrollToBottom>

@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import ClientLayout from '../../components/ClientLayout';
 import Footer from '../../components/Footer';
-import './Chat.css';
-import './Chat-responsive.css';
 import $ from 'jquery';
 import axios from 'axios';
 import Swal from 'sweetalert2';
@@ -281,34 +279,34 @@ useEffect(() => {
                           messages.length>0 ? (
                             <ScrollToBottom className="card-body chatting-card-body">
                           
-                          {messages.map((messageContent, index) => {
-                            return (
-                              <div className={`chat--message-container ${userId === messageContent.userId ? 'send' : 'receive'}`}
-                                key={index}>
-                                <div className="chat--message-area">
-                                  <div className="chat-message-info">
-                                    <p id="date">{messageContent.date}</p> 
+                              {messages.map((messageContent, index) => {
+                                return (
+                                  <div className={`chat--message-container ${userId === messageContent.userId ? 'send' : 'receive'}`}
+                                    key={index}>
+                                    <div className="chat--message-area">
+                                      <div className="chat-message-info">
+                                        <p id="date">{messageContent.date}</p> 
+                                      </div>
+                                      <div className="chat-message-content"> 
+                                        <p>
+                                          {messageContent.message}</p>
+                                      </div>
+                                      <div className="chat-message-info">
+                                        <p id="time">{messageContent.time}</p>
+                                      </div>
+                                    </div>
+                                    <img src={userId === messageContent.userId ? clientImgUrl : '../assets/img/user/skillety-logo.png'} className='chat-avatar' />
                                   </div>
-                                  <div className="chat-message-content"> 
-                                    <p>
-                                      {messageContent.message}</p>
-                                  </div>
-                                  <div className="chat-message-info">
-                                    <p id="time">{messageContent.time}</p>
-                                  </div>
-                                </div>
-                                <img src={userId === messageContent.userId ? clientImgUrl : '../assets/img/user/skillety-logo.png'} className='chat-avatar' />
-                              </div>
-                            );
-                          })}
+                                );
+                              })}
 
-                          </ScrollToBottom>
-                          ) : 
-                          (
-                          
-                          <div >
-                            No messages..!
-                          </div>
+                            </ScrollToBottom>
+                          ) : (
+                            <div className='card-body chatting-card-body'>
+                              <div className='chat-not-available-area'>
+                                <p> No messages..!</p>
+                              </div>
+                            </div>
                         )
                         
                         )}
