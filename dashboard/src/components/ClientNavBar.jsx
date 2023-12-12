@@ -27,7 +27,7 @@ const ClientNavBar = () => {
     },[socket, userName])
 
     useEffect(()=>{
-      socket.on("getNotification", data=>{
+      socket?.on("getNotification", data=>{
         setNotifications(prev=>[...prev, data]);
       })
     },[socket]);
