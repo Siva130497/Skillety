@@ -12002,9 +12002,11 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
     }
 
     .drpdwn-notify-time {
-        font-size: 14px !important;
+        font-size: 11px !important;
     }
-
+    .notification-dropdown-content{
+        gap: 20px;
+    }
     .noti-drpdwn-img-area {
         width: 40px !important;
         height: 40px !important;
@@ -12014,7 +12016,9 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
         font-size: 20px !important;
     }
 }
-
+.notification-dropdown-content-right{
+    flex-shrink: 0;
+}
 
 .navbar .nav-link.collapse-btn,
 .navbar .nav-link.fullscreen-btn {
