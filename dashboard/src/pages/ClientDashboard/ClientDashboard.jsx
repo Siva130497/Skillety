@@ -389,14 +389,14 @@ const ClientDashboard = () => {
           action = "applied"
         }
         return (
-            <tr className='dash-table-row'>
+            <>
                 <td className='dash-table-sub-data data-nowrap'>{`${time} ${date}`}</td>
                 <td className='dash-table-sub-data'>{`${senderName} ${action} for your job`}....................</td>
                 {/* <td className='text-right dash-table-view-btn-area'>
                     <button className='dash-table-view-btn client'
                         data-toggle="modal">View</button>
                 </td> */}
-            </tr>
+            </>
         )
       }
 
@@ -572,10 +572,12 @@ const ClientDashboard = () => {
                                                         <table class="table table-striped table-hover dash-table">
                                                             {notifications?.length > 0 ? (
                                                                 notifications.reverse().slice(0,10).map((notification) => (
-                                                                <div key={notification.id}>{displayNotification(notification)}</div>
+                                                                <tr className='dash-table-row' key={notification.id}>{displayNotification(notification)}</tr>
                                                                 ))
                                                             ) : (
-                                                                <p>no new notifications</p>
+                                                                <tr>
+                                                                    <td colSpan={2} className='text-secondary text-center'>No new notifications..!</td>
+                                                                </tr>
                                                             )}
                                                         </table>
                                                     </div>

@@ -97,7 +97,10 @@ const NavBar = () => {
         <li className="dropdown dropdown-list-toggle">
           <a href="#" data-toggle="dropdown"
             className="nav-link notification-toggle nav-link-lg notify-btn">
-            <i data-feather="bell" className="bell"></i>
+            <i data-feather="bell" className="bell ring"></i>
+            <div className='notification-badge candidate'>
+              <span>00</span>
+            </div>
           </a>
           <div className="dropdown-menu dropdown-list dropdown-menu-right pullDown notification-dropdown">
             <div className="notification-dropdown-header">
