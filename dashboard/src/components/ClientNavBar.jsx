@@ -70,7 +70,7 @@ const ClientNavBar = ({notification}) => {
 
     const handleClearNotifications = () => {
       setNotifications([]);
-      if(notifications.length>0){
+      if(notifications?.length>0){
         axios.delete("https://skillety.onrender.com/notifications/delete-all", {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -209,14 +209,14 @@ const ClientNavBar = ({notification}) => {
           <div className="dropdown-menu dropdown-list dropdown-menu-right pullDown notification-dropdown">
             <div className="notification-dropdown-header">
               <div className="notification-dropdown-head">
-                Notification&nbsp;<span>({notifications.length})</span>
+                Notification&nbsp;<span>({notifications?.length})</span>
               </div>
               <a href="#" className='notify-settings-btn client'>
                 <i class="bi bi-gear-fill"></i>
               </a>
             </div>
             <div className="notification-dropdown-content-area">
-              {notifications.length > 0 ? (
+              {notifications?.length > 0 ? (
                 notifications.reverse().slice(0,10).map((notification) => (
                   <div key={notification.id}>{displayNotification(notification)}</div>
                 ))
