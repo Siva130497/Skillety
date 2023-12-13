@@ -19,9 +19,59 @@ const ClientNavBar = ({notification}) => {
   // const [socket, setSocket] = useState(null);
   const [notifications, setNotifications] = useState([]);
 
+  // const [audio] = useState(new Audio('../assets/media/notify-ring.mp3'));
+  // const [audio, setAudio] = useState(null);
+  const [audioContext, setAudioContext] = useState(null);
+  const [audioBuffer, setAudioBuffer] = useState(null);
+  // const [playedNotificationIds, setPlayedNotificationIds] = useState([]);
+
   useEffect(()=>{
-    setNotifications(notification)
-  },[notification])
+    setNotifications(notification);
+
+    if (notification && notification.length > 0) {
+      if (audioContext === null) {
+        const context = new (window.AudioContext || window.webkitAudioContext)();
+        setAudioContext(context);
+
+        fetch('../assets/media/notify-ring.mp3')
+          .then((response) => response.arrayBuffer())
+          .then((data) => {
+            context.decodeAudioData(data, (buffer) => {
+              setAudioBuffer(buffer);
+              playSound(context, buffer);
+            });
+          });
+      } else {
+        playSound(audioContext, audioBuffer);
+      }
+    }
+  },[notification, audioContext, audioBuffer]);
+
+  const playSound = (context, buffer) => {
+    const source = context.createBufferSource();
+    source.buffer = buffer;
+    source.connect(context.destination);
+    source.start(0);
+  };
+
+  // useEffect(() => {
+  //   audio.load();
+  // }, [audio]);
+
+  // useEffect(() => {
+  //   if (notifications?.length > 0) {
+  //     notifications.forEach(({ id }) => {
+  //       if (!playedNotificationIds.includes(id)) {
+  //         setTimeout(() => {
+  //           audio.play().catch(error => {
+  //             console.error('Failed to play audio:', error.message);
+  //           });
+  //           setPlayedNotificationIds(prevIds => [...prevIds, id]);
+  //         }, 1000);
+  //       }
+  //     });
+  //   }
+  // }, [notifications, audio, playedNotificationIds]);
 
   //   useEffect(()=>{
   //       setSocket(io("https://skillety.onrender.com"));
@@ -49,22 +99,23 @@ const ClientNavBar = ({notification}) => {
         action = "applied"
       }
       return (
-            <div className="notification-dropdown-content">
-                    <div className="notification-dropdown-content-left">
-                      <div className="noti-drpdwn-img-area">
-                        {/* <img src="assets/img/layout/user-img.png" className='noti-drpdwn-img' alt="" /> */}
-                        <i class="bi bi-person"></i>
-                      </div>
-                      <div className="dropdown-notification-item">
-                        {`${senderName} ${action} for your job`}
-                      </div>
-                    </div>
-                    <div className="notification-dropdown-content-right">
-                      <div className="drpdwn-notify-time">
-                        {`${time} ${date}`}
-                      </div>
-                    </div>
+        <div className="notification-dropdown-content">
+            <div className="notification-dropdown-content-left">
+              <div className="noti-drpdwn-img-area">
+                {/* <img src="assets/img/layout/user-img.png" className='noti-drpdwn-img' alt="" /> */}
+                <i class="bi bi-person"></i>
+              </div>
+              <div className="dropdown-notification-item">
+                {`${senderName} ${action} for your job`}
+              </div>
             </div>
+            <div className="notification-dropdown-content-right">
+              <div className="drpdwn-notify-time">
+                {`${time}`}
+                <span>{`${date}`}</span>
+              </div>
+            </div>
+        </div>
       )
     }
 
@@ -204,7 +255,10 @@ const ClientNavBar = ({notification}) => {
         <li className="dropdown dropdown-list-toggle">
           <a href="#" data-toggle="dropdown"
             className="nav-link notification-toggle nav-link-lg notify-btn client">
-            <i data-feather="bell" className="bell"></i>
+            <i data-feather="bell" className="bell ring"></i>
+            <div className='notification-badge'>
+              <span>{notifications?.length}</span>
+            </div>
           </a>
           <div className="dropdown-menu dropdown-list dropdown-menu-right pullDown notification-dropdown">
             <div className="notification-dropdown-header">
@@ -221,10 +275,12 @@ const ClientNavBar = ({notification}) => {
                   <div key={notification.id}>{displayNotification(notification)}</div>
                 ))
               ) : (
-                <p>no new notifications</p>
+                <p className='no-notification'>
+                  <i className='bi bi-exclamation-circle mr-2'></i>
+                  No new notifications.
+                </p>
               )}
             </div>
-
 
             <div className="dropdown-footer notification-dropdown-footer text-center">
               <a className='drp-dwn-view-all-btn'
