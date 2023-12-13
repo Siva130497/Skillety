@@ -570,7 +570,7 @@ const ClientDashboard = () => {
                                                     </div>
                                                     <div class="table-responsive dash-table-container client mt-4">
                                                         <table class="table table-striped table-hover dash-table">
-                                                            {notifications.length > 0 ? (
+                                                            {notifications?.length > 0 ? (
                                                                 notifications.reverse().slice(0,10).map((notification) => (
                                                                 <div key={notification.id}>{displayNotification(notification)}</div>
                                                                 ))
