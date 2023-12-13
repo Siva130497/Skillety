@@ -2265,3 +2265,113 @@
 .home--search-area .home--search-box:active~.short-cut {
     display: none;
 }
+
+.media-modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    outline: none;
+    transform: translate(-50%, -50%);
+    background-color: rgba(255, 255, 255, 0.712);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    padding: 20px;
+    border-radius: 16px;
+    width: 80%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    flex-direction: column;
+    opacity: 0;
+    animation: fadeIn 0.5s ease-in-out;
+    border: 2px solid #ffffff;
+}
+
+.media-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 99999 !important;
+    background-color: rgba(0, 0, 0, 0.6);
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+    /* animation: overlayFadeIn 0.5s ease-in-out; */
+  }
+  
+  .media-close-button {
+    background-color: #ffffff;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: red;
+    width: 35px;
+    height: 35px;
+    border: none;
+    outline: none;
+    border-radius: 50%;
+    flex-shrink: 0;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    transition: ease-in-out 0.5s;
+  }
+  .media-close-button:hover,
+  .media-close-button:focus,
+  .media-close-button:active{
+    border: none;
+    outline: none;
+  }
+  .media-close-button i{
+    font-size: 24px;
+    color: red;
+    vertical-align: middle;
+    transition: ease-in-out 0.5s;
+  }
+
+  .media-close-button:hover{
+    background-color: red;
+  }
+
+  .media-close-button:hover i{
+    color: #fff;
+  }
+  .media-modal-content.open {
+    opacity: 1;
+  }
+  
+  .media-modal-overlay.open {
+    opacity: 1;
+  }
+  .media-modal-content video,
+    .media-modal-content audio{
+    filter: drop-shadow(0px 4px 10px rgba(0, 0, 0, 0.1));
+    border: 2px solid #FFF;
+    padding-bottom: 0 !important;
+  }
+
+  .media-modal-content audio{
+    border-radius: 50px;
+  }
+
+  .media-modal-content video{
+    border-radius: 12px;
+  }
+
+@keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translate(-50%, -60%);
+    }
+    to {
+      opacity: 1;
+      transform: translate(-50%, -50%);
+    }
+  }

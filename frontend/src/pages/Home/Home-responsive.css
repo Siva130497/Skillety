@@ -996,4 +996,9 @@
         letter-spacing: normal;
     }
 
+    .media-modal-content {
+        padding: 10px !important;
+        width: 90% !important;
+        border-radius: 10px;
+    }
 }
