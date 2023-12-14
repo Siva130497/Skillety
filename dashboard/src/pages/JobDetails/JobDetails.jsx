@@ -261,7 +261,7 @@ const JobDetails = () => {
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, apply it!'
+                confirmButtonText: 'Yes, Apply it!'
             }).then((result) => {
                 if (result.isConfirmed) {
                     
@@ -283,7 +283,7 @@ const JobDetails = () => {
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, apply it!'
+                confirmButtonText: 'Yes, Discard it!'
             }).then((result) => {
                 if (result.isConfirmed) {
                     deletingjob();
