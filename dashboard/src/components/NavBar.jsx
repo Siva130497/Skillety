@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import AuthContext from '../context/AuthContext';
 import axios from 'axios';
 
-const NavBar = () => {
+const NavBar = ({notification, socket}) => {
   const [token, setToken] = useState("");
   const { getProtectedData } = useContext(AuthContext);
   const [candidateId, setCandidateId] = useState("");
@@ -11,6 +11,39 @@ const NavBar = () => {
   const [loginCandidate, setLoginCandidate] = useState();
 
   const [userName, setUserName] = useState('');
+  const [notifications, setNotifications] = useState([]);
+
+  useEffect(()=>{
+    setNotifications(notification);
+
+  },[notification]);
+
+  const displayNotification = ({senderName, type, time, date}) => {
+    let action;
+
+    if(type === "1"){
+      action = "message"
+    }
+    return (
+      <div className="notification-dropdown-content">
+          <div className="notification-dropdown-content-left">
+            <div className="noti-drpdwn-img-area">
+              {/* <img src="assets/img/layout/user-img.png" className='noti-drpdwn-img' alt="" /> */}
+              <i class="bi bi-person"></i>
+            </div>
+            <div className="dropdown-notification-item">
+              {`${senderName} ${action} you`}
+            </div>
+          </div>
+          <div className="notification-dropdown-content-right">
+            <div className="drpdwn-notify-time">
+              {`${time}`}
+              <span>{`${date}`}</span>
+            </div>
+          </div>
+      </div>
+    )
+  }
 
   useEffect(() => {
     setToken(JSON.parse(localStorage.getItem('candidateToken')))
@@ -30,6 +63,20 @@ const NavBar = () => {
       };
 
       fetchData();
+
+      axios.get("https://skillety.onrender.com/candidate-notification", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: 'application/json'
+        }
+      })
+      .then(res=>{
+        console.log(res.data);
+        setNotifications(res.data)
+      })
+      .catch(err=>{
+        console.log(err)
+      })
     }
   }, [token]);
 
@@ -97,37 +144,31 @@ const NavBar = () => {
         <li className="dropdown dropdown-list-toggle">
           <a href="#" data-toggle="dropdown"
             className="nav-link notification-toggle nav-link-lg notify-btn">
-            <i data-feather="bell" className="bell ring"></i>
+            <i data-feather="bell" className={socket ? "bell ring" : "bell"}></i>
             <div className='notification-badge candidate'>
-              <span>00</span>
+              <span>{notifications?.length}</span>
             </div>
           </a>
           <div className="dropdown-menu dropdown-list dropdown-menu-right pullDown notification-dropdown">
             <div className="notification-dropdown-header">
               <div className="notification-dropdown-head">
-                Notification&nbsp;<span>(2)</span>
+                Notification&nbsp;<span>({notifications?.length})</span>
               </div>
               {/* <a href="#" className='notify-settings-btn'>
                 <i class="bi bi-gear-fill"></i>
               </a> */}
             </div>
             <div className="notification-dropdown-content-area">
-              <div className="notification-dropdown-content">
-                <div className="notification-dropdown-content-left">
-                  <div className="noti-drpdwn-img-area">
-                    {/* <img src="assets/img/layout/user-img.png" className='noti-drpdwn-img' alt="" /> */}
-                    <i class="bi bi-person"></i>
-                  </div>
-                  <div className="dropdown-notification-item">
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
-                  </div>
-                </div>
-                <div className="notification-dropdown-content-right">
-                  <div className="drpdwn-notify-time">
-                    Now
-                  </div>
-                </div>
-              </div>
+            {notifications?.length > 0 ? (
+                notifications.reverse().slice(0,10).map((notification) => (
+                  <div key={notification.id}>{displayNotification(notification)}</div>
+                ))
+              ) : (
+                <p className='no-notification'>
+                  <i className='bi bi-exclamation-circle mr-2'></i>
+                  No new notifications.
+                </p>
+              )}
 
               <div className="notification-dropdown-content">
                 <div className="notification-dropdown-content-left">

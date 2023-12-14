@@ -8,7 +8,7 @@ import feather from 'feather-icons';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
-const Layout = () => {
+const Layout = ({notification, socket}) => { 
 
   useEffect(() => {
     // $(window).on("load", function () {
@@ -753,7 +753,7 @@ const Layout = () => {
   return (
     <div>
       <div id="preloader" className='candidate'></div>
-      <NavBar />
+      <NavBar notification={notification} socket={socket}/>
 
       <Sidebar />
     </div>
