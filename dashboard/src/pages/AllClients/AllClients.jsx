@@ -329,11 +329,16 @@ const AllClients = () => {
                                                                     <i class="bi bi-exclamation-circle mr-2"></i>
                                                                     Email still not sent!
                                                                 </span> */}
-
+                                                                            {commonEmails.includes(client.email) ?
                                                                             <span className='text-success p-0'>
                                                                                 <i class="bi bi-check-circle mr-2"></i>
-                                                                                {commonEmails.includes(client.email) ? "Email sent." : "Email not yet sent."}
+                                                                                Email sent.
+                                                                            </span> :
+                                                                            <span className='text-warning p-0'>
+                                                                                <i class="bi bi-exclamation-circle mr-2"></i>
+                                                                                Email not yet sent.
                                                                             </span>
+                                                                            }
                                                                         </td>
 
                                                                         <td className='dash-table-data1 text-center'>

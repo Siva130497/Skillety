@@ -7,6 +7,10 @@
         padding-top: 40px;
     }
 
+    .con--where-container.media{
+        padding-top: 20px;
+    }
+
     .cand--events-card .cand--events-card-title-area {
         margin-top: 30px;
         height: 130px;
@@ -15,7 +19,7 @@
     .cand--events-card-title-area .cand--events-card-title,
     .cand--events-card .cand--events-card-date,
     .cand--events-card .cand--events-card-bottom-area .cand--event-sys {
-        font-size: 20px;
+        font-size: 18px;
     }
 
     .cand--events-card-arrow-area svg {
@@ -30,7 +34,7 @@
 
 @media (max-width:991.5px) {
     .cand--events-card-section {
-        margin-bottom: 100px;
+        margin-bottom: 0px;
     }
 
     .cand--event-login-card {
@@ -76,8 +80,17 @@
     }
     .cand--events-card-section {
         overflow: hidden;
-        padding-top: 40px;
-        margin-bottom: 60px;
+        padding-top: 20px;
+        margin-bottom: 0px;
+    }
+    .con--where-container.media{
+        padding-top: 0px;
+    }
+    .con--where-container.media:first-child{
+        padding-top: 40px !important;
+    }
+    .media--content-title{
+        font-size: 24px !important;
     }
     .cand--events-card-title-area .cand--events-card-title,
     .cand--events-card .cand--events-card-date,

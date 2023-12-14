@@ -270,9 +270,9 @@ const ClientNavBar = ({notification}) => {
               <div className="notification-dropdown-head">
                 Notification&nbsp;<span>({notifications?.length})</span>
               </div>
-              <a href="#" className='notify-settings-btn client'>
+              {/* <a href="#" className='notify-settings-btn client'>
                 <i class="bi bi-gear-fill"></i>
-              </a>
+              </a> */}
             </div>
             <div className="notification-dropdown-content-area">
               {notifications?.length > 0 ? (
