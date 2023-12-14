@@ -1,6 +1,6 @@
 const { Schema, model } = require("mongoose");
 
-const candidateToClientNotificationSchema = new Schema(
+const candidateToRecruiterNotificationSchema = new Schema(
   {
     senderId: {
       type: String,
@@ -46,4 +46,4 @@ const candidateToClientNotificationSchema = new Schema(
   { timestamps: true }
 );
 
-module.exports = model("candidateToClientNotification", candidateToClientNotificationSchema);
+module.exports = model("candidateToRecruiterNotification", candidateToRecruiterNotificationSchema);

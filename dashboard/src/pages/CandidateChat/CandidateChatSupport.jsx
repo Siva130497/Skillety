@@ -12,7 +12,7 @@ import io from 'socket.io-client';
 import { useContext } from 'react';
 import AuthContext from '../../context/AuthContext';
 
-const socket = io.connect('https://skillety.onrender.com');
+// const socket = io.connect('https://skillety.onrender.com');
 
 const CandidateChatSupport = () => {
   const { getProtectedData } = useContext(AuthContext);
@@ -28,6 +28,17 @@ const CandidateChatSupport = () => {
   const [candidateImg, setCandidateImg] = useState();
   const [candidateImgUrl, setCandidateImgUrl] = useState("");
   const [contentloading, setContentLoading] = useState(true);
+  const [allEmployee, setAllEmployee] = useState([]);
+
+  const [socket, setSocket] = useState(null);
+
+    useEffect(()=>{
+        setSocket(io("https://skillety.onrender.com"));
+    },[]);
+
+    useEffect(()=>{
+        socket?.emit("newUser", userName)
+    },[socket, userName])
 
   useEffect(() => {
     setcandidateToken(JSON.parse(localStorage.getItem('candidateToken')))
@@ -52,6 +63,13 @@ const CandidateChatSupport = () => {
       };
 
       fetchData();
+
+      axios.get("https://skillety.onrender.com/all-employee")
+      .then(res=>{
+        console.log(res.data);
+        setAllEmployee(res.data);
+      })
+      .catch(err=>console.log(err))
       
     }
   }, [candidateToken]);
@@ -88,7 +106,7 @@ const CandidateChatSupport = () => {
   }, [userName, roomId])
 
   useEffect(() => {
-    socket.on('receive_message', (data) => {
+    socket?.on('receive_message', (data) => {
       console.log(data);
       setMessages((prevMessages) => [...prevMessages, data]);
     });
@@ -146,6 +164,11 @@ const CandidateChatSupport = () => {
     };
   }, [candidateToken, roomId]);
 
+  const receiverData = allEmployee.map(employee => ({
+    receiverId: employee.id,
+    receiverName: employee.name,
+  }));
+
   const sendMessage = async () => {
     try {
       if (inputMessage !== '') {
@@ -169,30 +192,54 @@ const CandidateChatSupport = () => {
           date: formattedDate
         };
 
+        const notificationData = {
+          senderId: userId,
+          senderName: userName,
+          receiverId: receiverData.map(data => data.receiverId),
+          receiverName: receiverData.map(data => data.receiverName),
+          type: "2",
+          time: formattedTime,
+          date: formattedDate,
+        }
+
         await socket.emit('send_message', messageData);
         setMessages((prevMessages) => [...prevMessages, messageData]);
         setInputMessage("");
 
-        const res = await axios.post(`https://skillety.onrender.com/roomId-chat`, messageData, {
+        await socket.emit("sendNotification", notificationData)
+
+        // API call 1
+      const response1 = await axios.post(`https://skillety.onrender.com/roomId-chat`, messageData, {
+        headers: {
+          Authorization: `Bearer ${candidateToken}`,
+          Accept: 'application/json'
+        }
+      });
+
+      console.log(response1.data);
+
+      // API call 2
+      const response2 = await axios.post(`https://skillety.onrender.com/candidate-to-recruiter-notification`, notificationData, {
+        headers: {
+          Authorization: `Bearer ${candidateToken}`,
+          Accept: 'application/json'
+        }
+      });
+
+      console.log(response2.data);
+
+      if (candidateToken) {
+        // API call 3
+        const response3 = await axios.post(`https://skillety.onrender.com/candidate-chat`, { roomId, userName }, {
           headers: {
             Authorization: `Bearer ${candidateToken}`,
             Accept: 'application/json'
           }
         });
 
-        console.log(res.data);
-
-        if(candidateToken){
-          const response = await axios.post(`https://skillety.onrender.com/candidate-chat`, {roomId, userName}, {
-          headers: {
-            Authorization: `Bearer ${candidateToken}`,
-            Accept: 'application/json'
-          }
-          });
-  
-          console.log(response.data);
-        }
-
+        console.log(response3.data);
+      }
+      
       }
     } catch (error) {
       console.error(error);

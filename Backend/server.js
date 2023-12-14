@@ -112,16 +112,36 @@ io.on('connection', (socket) => {
     addNewUser(userName, socket.id);
   });
 
-  socket.on("sendNotification", ({senderId, senderName, receiverId, receiverName, type, time, date}) => {
-    console.log({senderId, senderName, receiverId, receiverName, type, time, date})
-    const receiver = getUser(receiverName)
-    io.to(receiver?.socketId).emit("getNotification", {
-      senderId,
-      senderName,
-      type,
-      time,
-      date,
-    });
+  socket.on("sendNotification", ({ senderId, senderName, receiverId, receiverName, type, time, date }) => {
+    console.log({ senderId, senderName, receiverId, receiverName, type, time, date });
+  
+    if (Array.isArray(receiverName)) {
+      // If receiverName is an array, iterate through each name
+      receiverName.forEach((name) => {
+        const receiver = getUser(name);
+        if (receiver) {
+          io.to(receiver?.socketId).emit("getNotification", {
+            senderId,
+            senderName,
+            type,
+            time,
+            date,
+          });
+        }
+      });
+    } else {
+      // If receiverName is not an array, handle it as a single user
+      const receiver = getUser(receiverName);
+      if (receiver) {
+        io.to(receiver?.socketId).emit("getNotification", {
+          senderId,
+          senderName,
+          type,
+          time,
+          date,
+        });
+      }
+    }
   });
 
   socket.on('join_room', (data) => {
@@ -140,6 +160,7 @@ io.on('connection', (socket) => {
   });
 
 });
+
 
 
 const storage = multer.diskStorage({

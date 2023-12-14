@@ -70,20 +70,20 @@ const ClientNavBar = ({notification}) => {
 
     const handleClearNotifications = () => {
       setNotifications([]);
-      if(notifications?.length>0){
-        axios.delete("https://skillety.onrender.com/notifications/delete-all", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            Accept: 'application/json'
-          }
-        })
-        .then(res=>{
-          console.log(res.data)
-        })
-        .catch(err=>{
-          console.log(err)
-        })
-      }
+      // if(notifications?.length>0){
+      //   axios.delete("https://skillety.onrender.com/notifications/delete-all", {
+      //     headers: {
+      //       Authorization: `Bearer ${token}`,
+      //       Accept: 'application/json'
+      //     }
+      //   })
+      //   .then(res=>{
+      //     console.log(res.data)
+      //   })
+      //   .catch(err=>{
+      //     console.log(err)
+      //   })
+      // }
       
     }
 
