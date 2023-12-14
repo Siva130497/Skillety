@@ -46,6 +46,7 @@ const {
   deleteRecruiter,
   getAllRecruiters,
   getAnIndividualRecruiter,
+  getAllEmployee,
   getAllCSERecruiters,
   assigningCandidate,
   getAssignedCandidates,
@@ -121,6 +122,8 @@ const {
   getAllCompanyDetails,
   candidateToClientNotificationCreate,
   getAllcandidateToClientNotification,
+  candidateToRecruiterNotificationCreate,
+   getAllcandidateToRecruiterNotification,
   deleteAllNotifications,
   
 } = require("../Controller/authFunctions");
@@ -253,6 +256,8 @@ router.delete('/delete-non-approval-job/:jobId', employeeAuth, deletingNonApprov
 
 //get an individual recruiter by id
 router.get('/staff/:recruiterId',employeeAuth, getAnIndividualRecruiter);
+
+router.get("/all-employee", getAllEmployee)
 
 //get all cse type recruiters endpoint
 router.get('/staff-cse', getAllCSERecruiters);
@@ -450,6 +455,12 @@ router.post("/candidate-to-client-notification", candidateToClientNotificationCr
 
 //get all candidate to client notifications
 router.get("/candidate-to-client-notification", getAllcandidateToClientNotification);
+
+//creating new notification from candidate to client
+router.post("/candidate-to-recruiter-notification", candidateToRecruiterNotificationCreate);
+
+//get all candidate to client notifications
+router.get("/candidate-to-recruiter-notification", getAllcandidateToRecruiterNotification);
 
 //delete all notification
 router.delete("/notifications/delete-all", deleteAllNotifications);

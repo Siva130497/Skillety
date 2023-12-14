@@ -32,6 +32,7 @@ const companyDetail = require("../Database/companyDetail");
 const clientUrlWithEmail = require("../Database/clientUrlWithEmail");
 const applicationStatus = require("../Database/applicationStatus");
 const candidateToClientNotification = require("../Database/candidateToClientNotificationData");
+const candidateToRecruiterNotification = require("../Database/candidateToRecruiterNotificationData");
 
 // const hash = async() => {
 //   const pass = 'newpassword'
@@ -1326,6 +1327,16 @@ const getAllRecruiters = async(req, res) => {
     const allRecruiters = await employee.find({role:"Recruiter"});
     
     res.status(200).json(allRecruiters); 
+  }catch(err) {
+    res.status(500).json({error: err.message})
+  }
+}
+
+const getAllEmployee = async(req, res) => {
+  try{
+    const allEmployees = await employee.find();
+    
+    res.status(200).json(allEmployees); 
   }catch(err) {
     res.status(500).json({error: err.message})
   }
@@ -2793,6 +2804,30 @@ const getAllcandidateToClientNotification = async(req, res) => {
   }
 }
 
+const candidateToRecruiterNotificationCreate = async(req, res) => {
+  try {
+    console.log(req.body);
+    const newNotification = new candidateToRecruiterNotification({
+      ...req.body,
+    });
+    await newNotification.save();
+    console.log(newNotification);
+    return res.status(201).json(newNotification);
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+}
+
+const getAllcandidateToRecruiterNotification = async(req, res) => {
+  try{
+    const allCandidateToRecruiterNotification = await candidateToRecruiterNotification.find();
+    
+    res.status(200).json(allCandidateToRecruiterNotification); 
+  }catch(err) {
+    res.status(500).json({error: err.message})
+  }
+}
+
 const deleteAllNotifications = async (req, res) => {
   try {
     const deleteResult = await candidateToClientNotification.deleteMany({});
@@ -3005,6 +3040,7 @@ module.exports = {
    getAllRecruiters,
    getAnIndividualRecruiter,
    getAllCSERecruiters,
+   getAllEmployee,
    assigningCandidate,
    getAssignedCandidates,
    getLoginClientDetail,
@@ -3079,5 +3115,7 @@ module.exports = {
    getAllCompanyDetails,
    candidateToClientNotificationCreate,
    getAllcandidateToClientNotification,
+   candidateToRecruiterNotificationCreate,
+   getAllcandidateToRecruiterNotification,
    deleteAllNotifications,
 };
