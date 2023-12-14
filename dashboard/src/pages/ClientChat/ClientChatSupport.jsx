@@ -141,7 +141,7 @@ useEffect(() => {
   }, [userName, roomId])
 
   useEffect(() => {
-    socket.on('receive_message', (data) => {
+    socket?.on('receive_message', (data) => {
       console.log(data);
       setMessages((prevMessages) => [...prevMessages, data]);
     });
