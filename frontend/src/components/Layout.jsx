@@ -122,10 +122,10 @@ const Layout = ({ newNavBarClientRegister, newNavBarClientLogin, newNavBarCandid
 
 
     /////////
-    $(document).on('click', '.mobile-nav-toggle', function (e) {
+    const handleMobileNavToggle = () => {
       $('#navbar').toggleClass('navbar-mobile');
-      $(this).toggleClass('bi-list bi-x');
-    });
+      $('.mobile-nav-toggle').toggleClass('bi-list bi-x');
+    };
 
     ////////
     $(document).on('click', '.navbar .dropdown > a', function (e) {
@@ -231,6 +231,11 @@ const Layout = ({ newNavBarClientRegister, newNavBarClientLogin, newNavBarCandid
       mirror: false
     });
 
+    $('.mobile-nav-toggle').on('click', handleMobileNavToggle);
+
+    return () => {
+      $('.mobile-nav-toggle').off('click', handleMobileNavToggle);
+    };
   }, []);
 
   return (
