@@ -260,7 +260,7 @@ const ClientNavBar = ({notification}) => {
         <li className="dropdown dropdown-list-toggle">
           <a href="#" data-toggle="dropdown"
             className="nav-link notification-toggle nav-link-lg notify-btn client">
-            <i data-feather="bell" className={notifications.length > 0 ? "bell ring" : "bell"}></i>
+            <i data-feather="bell" className={notifications?.length > 0 ? "bell ring" : "bell"}></i>
             <div className='notification-badge'>
               <span>{notifications?.length}</span>
             </div>
