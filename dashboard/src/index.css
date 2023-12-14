@@ -872,7 +872,7 @@ p {
 
 .notification-dropdown-head {
   color: #714F36;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 600;
 }
 
@@ -896,7 +896,7 @@ p {
 
 .notification-dropdown-content-area {
   margin-top: 20px;
-  max-height: 455px;
+  max-height: 380px;
   padding-right: 10px;
   overflow-y: scroll;
 }
@@ -931,7 +931,7 @@ p {
 
 .notification-dropdown-content {
   border-bottom: #714F36 1px solid;
-  padding: 15px 0;
+  padding: 10px 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -946,8 +946,8 @@ p {
 
 .noti-drpdwn-img-area {
   overflow: hidden;
-  width: 45px;
-  height: 45px;
+  width: 35px;
+  height: 35px;
   background-color: #F0F0F0;
   border-radius: 50%;
   display: flex;
@@ -957,10 +957,12 @@ p {
   position: relative;
   flex-shrink: 0;
 }
-
+.noti-drpdwn-img-area i{
+  font-size: 20px !important;
+}
 .noti-drpdwn-img-area .noti-drpdwn-img {
-  width: 45px;
-  height: 45px;
+  width: 30px;
+  height: 30px;
   object-fit: cover;
 }
 
@@ -993,7 +995,7 @@ p {
 
 .drp-dwn-view-all-btn {
   color: #714F36 !important;
-  font-size: 16px !important;
+  font-size: 14px !important;
   font-weight: 600;
 }
 

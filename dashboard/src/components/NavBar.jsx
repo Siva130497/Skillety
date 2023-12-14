@@ -107,9 +107,9 @@ const NavBar = () => {
               <div className="notification-dropdown-head">
                 Notification&nbsp;<span>(2)</span>
               </div>
-              <a href="#" className='notify-settings-btn'>
+              {/* <a href="#" className='notify-settings-btn'>
                 <i class="bi bi-gear-fill"></i>
-              </a>
+              </a> */}
             </div>
             <div className="notification-dropdown-content-area">
               <div className="notification-dropdown-content">

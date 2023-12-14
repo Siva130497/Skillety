@@ -8527,9 +8527,9 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
 }
 
 .bell.ring{
-    -webkit-animation: ring 4s 0.7s ease-in-out infinite;
-    -moz-animation: ring 4s 0.7s ease-in-out infinite;
-    animation: ring 4s 0.7s ease-in-out infinite;
+    -webkit-animation: ring 4s 0.7s ease-in-out infinite !important;
+    -moz-animation: ring 4s 0.7s ease-in-out infinite !important;
+    animation: ring 4s 0.7s ease-in-out infinite !important;
 }
 
 @-webkit-keyframes ring {
