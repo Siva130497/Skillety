@@ -13,6 +13,9 @@ const ATSNavBar = () => {
     const [socket, setSocket] = useState(null);
     const [notifications, setNotifications] = useState([]);
 
+    const [audioContext, setAudioContext] = useState(null);
+    const [audioBuffer, setAudioBuffer] = useState(null);
+
     useEffect(()=>{
         setSocket(io("https://skillety.onrender.com"));
     },[]);
@@ -27,6 +30,34 @@ const ATSNavBar = () => {
         setNotifications(prev=>[...prev, data]);
       })
     },[socket]);
+
+    useEffect(()=>{
+        if (notifications.length > 0) {
+            if (audioContext === null) {
+              const context = new (window.AudioContext || window.webkitAudioContext)();
+              setAudioContext(context);
+      
+              fetch('../assets/media/notify-ring.mp3')
+                .then((response) => response.arrayBuffer())
+                .then((data) => {
+                  context.decodeAudioData(data, (buffer) => {
+                    setAudioBuffer(buffer);
+                    playSound(context, buffer);
+                  });
+                });
+            } else {
+              playSound(audioContext, audioBuffer);
+            }
+        }
+
+    },[notifications, audioContext, audioBuffer])
+
+    const playSound = (context, buffer) => {
+        const source = context.createBufferSource();
+        source.buffer = buffer;
+        source.connect(context.destination);
+        source.start(0);
+      };
 
     const displayNotification = ({senderName, type, time, date}) => {
         let action;
@@ -130,6 +161,9 @@ const ATSNavBar = () => {
                     <a href="#" data-toggle="dropdown"
                         className="nav-link notification-toggle nav-link-lg notify-btn client">
                         <i data-feather="bell" className="bell"></i>
+                        <div className='notification-badge candidate'>
+                            <span>{notifications?.length}</span>
+                        </div>
                     </a>
                     <div className="dropdown-menu dropdown-list dropdown-menu-right pullDown notification-dropdown">
                         <div className="notification-dropdown-header">
