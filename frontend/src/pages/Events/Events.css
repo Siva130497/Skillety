@@ -14,11 +14,20 @@
     margin-top: 60px;
     margin-bottom: 60px;
 }
-
+.con--where-container.media{
+    padding-top: 40px;
+}
+.media--content-title{
+    color: #714F36 !important;
+    font-size: 30px !important;
+    font-weight: 600 !important;
+    text-align: center;
+    margin-bottom: 20px;
+}
 .cand--events-card-section {
     overflow: hidden;
     padding-top: 60px;
-    margin-bottom: 120px;
+    /* margin-bottom: 60px; */
 }
 .cand--events-card-area{
     padding: 0 30px;
