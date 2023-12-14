@@ -13,6 +13,8 @@ import 'swiper/css/pagination';
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 
+import {io} from "socket.io-client";
+
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -103,6 +105,13 @@ const ClientDashboard = () => {
 
   const [pageNotFound, setPageNotFound] = useState(false);
 
+  const [notifications, setNotifications] = useState([]);
+  const [userName, setUserName] = useState("");
+  const [socket, setSocket] = useState(null);
+
+    const [audioContext, setAudioContext] = useState(null);
+    const [audioBuffer, setAudioBuffer] = useState(null);
+
   useEffect(() => {
     const preloader = $('#preloader');
     if (preloader.length) {
@@ -113,6 +122,65 @@ const ClientDashboard = () => {
       }, 500);
     }
   }, []);
+
+  useEffect(()=>{
+    setSocket(io("https://skillety.onrender.com"));
+  },[]);
+
+  useEffect(()=>{
+      socket?.emit("newUser", userName)
+      console.log(userName)
+  },[socket, userName])
+
+  const playSound = (context, buffer) => {
+    const source = context.createBufferSource();
+    source.buffer = buffer;
+    source.connect(context.destination);
+    source.start(0);
+  };
+
+  useEffect(()=>{
+    socket?.on("getNotification", data=>{
+      console.log(data)
+      setNotifications(prev=>[...prev, data]);
+
+      if (audioContext === null) {
+        const context = new (window.AudioContext || window.webkitAudioContext)();
+        setAudioContext(context);
+
+        fetch('../assets/media/notify-ring.mp3')
+          .then((response) => response.arrayBuffer())
+          .then((data) => {
+            context.decodeAudioData(data, (buffer) => {
+              setAudioBuffer(buffer);
+              playSound(context, buffer);
+            });
+          });
+      } else {
+        playSound(audioContext, audioBuffer);
+      }
+
+    })
+
+  },[socket]);
+
+  const displayNotification = ({senderName, type, time, date}) => {
+    let action;
+
+    if(type === "2"){
+      action = "message"
+    }
+    return (
+        <>
+            <td className='dash-table-sub-data data-nowrap'>{`${time} ${date}`}</td>
+            <td className='dash-table-sub-data'>{`${senderName} ${action} you`}....................</td>
+            {/* <td className='text-right dash-table-view-btn-area'>
+                <button className='dash-table-view-btn client'
+                    data-toggle="modal">View</button>
+            </td> */}
+        </>
+    )
+  }
 
   useEffect(() => {
     localStorage.setItem("candidateToken", JSON.stringify(token));
@@ -163,6 +231,7 @@ const ClientDashboard = () => {
           const user = await getProtectedData(token);
           console.log(user);
           setCandidateId(user.id);
+          setUserName(user.id);
           setLoading(false);
 
           setContentLoading(false);
@@ -176,6 +245,20 @@ const ClientDashboard = () => {
       };
 
       fetchData();
+
+      axios.get("https://skillety.onrender.com/candidate-notification", {
+                headers: {
+                Authorization: `Bearer ${token}`,
+                Accept: 'application/json'
+                }
+            })
+            .then(res=>{
+                console.log(res.data);
+                setNotifications(res.data)
+            })
+            .catch(err=>{
+                console.log(err)
+            })
     }
   }, [token]);
 
@@ -255,7 +338,7 @@ const ClientDashboard = () => {
       {candidateId && <div className="main-wrapper main-wrapper-1">
         <div className="navbar-bg"></div>
 
-        <Layout />
+        <Layout notification={notifications} socket={socket}/> 
 
         <div className="main-content">
           <section className="section">
@@ -491,6 +574,34 @@ const ClientDashboard = () => {
                     </div>
                   </div>
                 </div> */}
+
+                                      <div class="row">
+                                        <div class="col-12">
+                                            <div className="dash-table-section">
+                                                <div className="dash-table-area">
+                                                    <div className="dash-table-top-area">
+                                                        <div className="dash-table-title">
+                                                            New Notifications
+                                                        </div>
+                                                        <a href='#' className="dash-table-see-all-btn">See all</a>
+                                                    </div>
+                                                    <div class="table-responsive dash-table-container client mt-4">
+                                                        <table class="table table-striped table-hover dash-table">
+                                                            {notifications?.length > 0 ? (
+                                                                notifications.reverse().slice(0,10).map((notification) => (
+                                                                <tr className='dash-table-row' key={notification.id}>{displayNotification(notification)}</tr>
+                                                                ))
+                                                            ) : (
+                                                                <tr>
+                                                                    <td colSpan={2} className='text-secondary text-center'>No new notifications..!</td>
+                                                                </tr>
+                                                            )}
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                      </div>
 
                 <div class="row">
                   <div class="col-12">

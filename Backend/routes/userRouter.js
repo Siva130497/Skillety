@@ -123,7 +123,9 @@ const {
   candidateToClientNotificationCreate,
   getAllcandidateToClientNotification,
   candidateToRecruiterNotificationCreate,
-   getAllcandidateToRecruiterNotification,
+  getAllcandidateToRecruiterNotification,
+  getAllcandidateNotification,
+  candidateNotificationCreate,
   deleteAllNotifications,
   
 } = require("../Controller/authFunctions");
@@ -461,6 +463,12 @@ router.post("/candidate-to-recruiter-notification", candidateToRecruiterNotifica
 
 //get all candidate to client notifications
 router.get("/candidate-to-recruiter-notification", getAllcandidateToRecruiterNotification);
+
+//creating new notification from candidate to client
+router.post("/candidate-notification", candidateNotificationCreate);
+
+//get all candidate to client notifications
+router.get("/candidate-notification", getAllcandidateNotification);
 
 //delete all notification
 router.delete("/notifications/delete-all", deleteAllNotifications);

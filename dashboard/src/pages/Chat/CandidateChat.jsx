@@ -14,7 +14,7 @@ import io from 'socket.io-client';
 import { useContext } from 'react';
 import AuthContext from '../../context/AuthContext';
 
-const socket = io.connect('https://skillety.onrender.com');
+// const socket = io.connect('https://skillety.onrender.com');
 
 const CandidateChat = () => {
   const { getProtectedData, getCandidateImg, candidateImg } = useContext(AuthContext);
@@ -36,6 +36,16 @@ const CandidateChat = () => {
   const [filteredCandidates, setFilteredCandidates] = useState([]);
   const [contentloading, setContentLoading] = useState(true);
   const [msgloading, setMsgLoading] = useState(true);
+
+  const [socket, setSocket] = useState(null);
+
+  useEffect(()=>{
+    setSocket(io("https://skillety.onrender.com"));
+  },[]);
+
+useEffect(()=>{
+    socket?.emit("newUser", userName)
+},[socket, userName])
 
   useEffect(() => {
     setStaffToken(JSON.parse(localStorage.getItem('staffToken')))
@@ -130,7 +140,7 @@ const CandidateChat = () => {
   }, [userName, roomId])
 
   useEffect(() => {
-    socket.on('receive_message', (data) => {
+    socket?.on('receive_message', (data) => {
       console.log(data);
       setMessages((prevMessages) => [...prevMessages, data]);
     });
@@ -211,18 +221,39 @@ const CandidateChat = () => {
           date: formattedDate
         };
 
+        const notificationData = {
+          senderId: userId,
+          senderName: userName,
+          receiverId: roomId,
+          receiverName: chattingPersonName,
+          type: "2",
+          time: formattedTime,
+          date: formattedDate,
+        }
+
         await socket.emit('send_message', messageData);
         setMessages((prevMessages) => [...prevMessages, messageData]);
         setInputMessage("");
 
-        const res = await axios.post(`https://skillety.onrender.com/roomId-chat`, messageData, {
+        await socket.emit("sendNotification", notificationData)
+
+        const response1 = await axios.post(`https://skillety.onrender.com/roomId-chat`, messageData, {
           headers: {
             Authorization: `Bearer ${staffToken}`,
             Accept: 'application/json'
           }
         });
 
-        console.log(res.data);
+        console.log(response1.data);
+
+        const response2 = await axios.post(`https://skillety.onrender.com/candidate-notification`, notificationData, {
+          headers: {
+            Authorization: `Bearer ${staffToken}`,
+            Accept: 'application/json'
+          }
+        });
+
+      console.log(response2.data);
 
       }
     } catch (error) {

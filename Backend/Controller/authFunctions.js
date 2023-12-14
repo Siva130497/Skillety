@@ -33,6 +33,7 @@ const clientUrlWithEmail = require("../Database/clientUrlWithEmail");
 const applicationStatus = require("../Database/applicationStatus");
 const candidateToClientNotification = require("../Database/candidateToClientNotificationData");
 const candidateToRecruiterNotification = require("../Database/candidateToRecruiterNotificationData");
+const candidateNotification = require("../Database/candidateNotificationData");
 
 // const hash = async() => {
 //   const pass = 'newpassword'
@@ -2828,6 +2829,30 @@ const getAllcandidateToRecruiterNotification = async(req, res) => {
   }
 }
 
+const candidateNotificationCreate = async(req, res) => {
+  try {
+    console.log(req.body);
+    const newNotification = new candidateNotification({
+      ...req.body,
+    });
+    await newNotification.save();
+    console.log(newNotification);
+    return res.status(201).json(newNotification);
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+}
+
+const getAllcandidateNotification = async(req, res) => {
+  try{
+    const allCandidateNotification = await candidateNotification.find();
+    
+    res.status(200).json(allCandidateNotification); 
+  }catch(err) {
+    res.status(500).json({error: err.message})
+  }
+}
+
 const deleteAllNotifications = async (req, res) => {
   try {
     const deleteResult = await candidateToClientNotification.deleteMany({});
@@ -3117,5 +3142,7 @@ module.exports = {
    getAllcandidateToClientNotification,
    candidateToRecruiterNotificationCreate,
    getAllcandidateToRecruiterNotification,
+   candidateNotificationCreate,
+   getAllcandidateNotification,
    deleteAllNotifications,
 };
