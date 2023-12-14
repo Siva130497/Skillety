@@ -12,7 +12,7 @@ import io from 'socket.io-client';
 import { useContext } from 'react';
 import AuthContext from '../../context/AuthContext';
 
-const socket = io.connect('https://skillety.onrender.com');
+// const socket = io.connect('https://skillety.onrender.com');
 
 const ClientChatSupport = () => {
   const { getProtectedData } = useContext(AuthContext);
@@ -29,6 +29,18 @@ const ClientChatSupport = () => {
   const [clientImgUrl, setClientImgUrl] = useState("");
   const [loginClientDetail, setLoginClientDetail] = useState();
   const [contentloading, setContentLoading] = useState(true);
+  const [allEmployee, setAllEmployee] = useState([]);
+
+  const [socket, setSocket] = useState(null);
+
+    useEffect(()=>{
+        setSocket(io("https://skillety.onrender.com"));
+    },[]);
+
+    useEffect(()=>{
+        socket?.emit("newUser", userName)
+    },[socket, userName])
+
 
   useEffect(() => {
     setclientToken(JSON.parse(localStorage.getItem('clientToken')))
@@ -50,6 +62,13 @@ const ClientChatSupport = () => {
       };
 
       fetchData();
+
+      axios.get("https://skillety.onrender.com/all-employee")
+      .then(res=>{
+        console.log(res.data);
+        setAllEmployee(res.data);
+      })
+      .catch(err=>console.log(err))
       
     }
   }, [clientToken]);
@@ -180,6 +199,11 @@ useEffect(() => {
     };
   }, [clientToken, roomId]);
 
+  const receiverData = allEmployee.map(employee => ({
+    receiverId: employee.id,
+    receiverName: employee.name,
+  }));
+
   const sendMessage = async () => {
     try {
       if (inputMessage !== '') {
@@ -204,18 +228,39 @@ useEffect(() => {
           companyId:loginClientDetail?.companyId,
         };
 
+        const notificationData = {
+          senderId: userId,
+          senderName: userName,
+          receiverId: receiverData.map(data => data.receiverId),
+          receiverName: receiverData.map(data => data.receiverName),
+          type: "2",
+          time: formattedTime,
+          date: formattedDate,
+        }
+
         await socket.emit('send_message', messageData);
         setMessages((prevMessages) => [...prevMessages, messageData]);
         setInputMessage("");
 
-        const res = await axios.post(`https://skillety.onrender.com/roomId-chat-client`, messageData, {
+        await socket.emit("sendNotification", notificationData)
+
+        const response1 = await axios.post(`https://skillety.onrender.com/roomId-chat-client`, messageData, {
           headers: {
             Authorization: `Bearer ${clientToken}`,
             Accept: 'application/json'
           }
         });
 
-        console.log(res.data);
+        console.log(response1.data);
+
+        const response2 = await axios.post(`https://skillety.onrender.com/candidate-to-recruiter-notification`,   notificationData, {
+          headers: {
+            Authorization: `Bearer ${clientToken}`,
+            Accept: 'application/json'
+          }
+        });
+
+        console.log(response2.data);
 
         if(clientToken){
           const clientData = {
@@ -224,10 +269,10 @@ useEffect(() => {
             companyId:loginClientDetail?.companyId,
           }
           const response = await axios.post(`https://skillety.onrender.com/client-chat`, clientData, {
-          headers: {
-            Authorization: `Bearer ${clientToken}`,
-            Accept: 'application/json'
-          }
+            headers: {
+              Authorization: `Bearer ${clientToken}`,
+              Accept: 'application/json'
+            }
           });
   
           console.log(response.data);
