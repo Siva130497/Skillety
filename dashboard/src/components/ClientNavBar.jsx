@@ -21,39 +21,44 @@ const ClientNavBar = ({notification}) => {
 
   // const [audio] = useState(new Audio('../assets/media/notify-ring.mp3'));
   // const [audio, setAudio] = useState(null);
-  const [audioContext, setAudioContext] = useState(null);
-  const [audioBuffer, setAudioBuffer] = useState(null);
+  // const [audioContext, setAudioContext] = useState(null);
+  // const [audioBuffer, setAudioBuffer] = useState(null);
   // const [playedNotificationIds, setPlayedNotificationIds] = useState([]);
 
   useEffect(()=>{
     setNotifications(notification);
 
-    if (notification && notification.length > 0) {
-      if (audioContext === null) {
-        const context = new (window.AudioContext || window.webkitAudioContext)();
-        setAudioContext(context);
+  },[notification]);
 
-        fetch('../assets/media/notify-ring.mp3')
-          .then((response) => response.arrayBuffer())
-          .then((data) => {
-            context.decodeAudioData(data, (buffer) => {
-              setAudioBuffer(buffer);
-              playSound(context, buffer);
-            });
-          });
-      } else {
-        playSound(audioContext, audioBuffer);
-      }
-    }
-  },[notification, audioContext, audioBuffer]);
+  // const playSound = (context, buffer) => {
+  //   const source = context.createBufferSource();
+  //   source.buffer = buffer;
+  //   source.connect(context.destination);
+  //   source.start(0);
+  // };
 
-  const playSound = (context, buffer) => {
-    const source = context.createBufferSource();
-    source.buffer = buffer;
-    source.connect(context.destination);
-    source.start(0);
-  };
+  // useEffect(()=>{
+  //   if (notifications.length > 0) {
+  //     if (audioContext === null) {
+  //       const context = new (window.AudioContext || window.webkitAudioContext)();
+  //       setAudioContext(context);
 
+  //       fetch('../assets/media/notify-ring.mp3')
+  //         .then((response) => response.arrayBuffer())
+  //         .then((data) => {
+  //           context.decodeAudioData(data, (buffer) => {
+  //             setAudioBuffer(buffer);
+  //             playSound(context, buffer);
+  //           });
+  //         });
+  //     } else {
+  //       playSound(audioContext, audioBuffer);
+  //     }
+  //   }
+
+  // },[notifications, audioContext, audioBuffer])
+
+  
   // useEffect(() => {
   //   audio.load();
   // }, [audio]);
@@ -255,7 +260,7 @@ const ClientNavBar = ({notification}) => {
         <li className="dropdown dropdown-list-toggle">
           <a href="#" data-toggle="dropdown"
             className="nav-link notification-toggle nav-link-lg notify-btn client">
-            <i data-feather="bell" className="bell ring"></i>
+            <i data-feather="bell" className={(notifications.length>0) ? "bell ring" : ""}></i>
             <div className='notification-badge'>
               <span>{notifications?.length}</span>
             </div>
@@ -285,7 +290,7 @@ const ClientNavBar = ({notification}) => {
             <div className="dropdown-footer notification-dropdown-footer text-center">
               <a className='drp-dwn-view-all-btn'
               onClick={handleClearNotifications}
-              >View All
+              >Mark All As Read.
                 <i class="bi bi-chevron-right ml-3"></i>
               </a>
             </div>
