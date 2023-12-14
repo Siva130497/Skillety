@@ -110,6 +110,9 @@ const ClientDashboard = () => {
     const [companyName, setCompanyName] = useState("");
     const [socket, setSocket] = useState(null);
 
+    const [audioContext, setAudioContext] = useState(null);
+    const [audioBuffer, setAudioBuffer] = useState(null);
+
     useEffect(() => {
         const preloader = $('#preloader');
         if (preloader.length) {
@@ -156,6 +159,34 @@ const ClientDashboard = () => {
         setNotifications(prev=>[...prev, data]);
       })
     },[socket]);
+
+    useEffect(()=>{
+        if (notifications.length > 0 || socket) {
+            if (audioContext === null) {
+              const context = new (window.AudioContext || window.webkitAudioContext)();
+              setAudioContext(context);
+      
+              fetch('../assets/media/notify-ring.mp3')
+                .then((response) => response.arrayBuffer())
+                .then((data) => {
+                  context.decodeAudioData(data, (buffer) => {
+                    setAudioBuffer(buffer);
+                    playSound(context, buffer);
+                  });
+                });
+            } else {
+              playSound(audioContext, audioBuffer);
+            }
+        }
+
+    },[notifications, audioContext, audioBuffer, socket])
+
+    const playSound = (context, buffer) => {
+        const source = context.createBufferSource();
+        source.buffer = buffer;
+        source.connect(context.destination);
+        source.start(0);
+      };
 
 
     useEffect(() => {

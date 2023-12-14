@@ -32,7 +32,7 @@ const ATSNavBar = () => {
     },[socket]);
 
     useEffect(()=>{
-        if (notifications.length > 0) {
+        if (notifications.length > 0 || socket) {
             if (audioContext === null) {
               const context = new (window.AudioContext || window.webkitAudioContext)();
               setAudioContext(context);
@@ -50,7 +50,7 @@ const ATSNavBar = () => {
             }
         }
 
-    },[notifications, audioContext, audioBuffer])
+    },[notifications, audioContext, audioBuffer, socket])
 
     const playSound = (context, buffer) => {
         const source = context.createBufferSource();
@@ -78,7 +78,8 @@ const ATSNavBar = () => {
                       </div>
                       <div className="notification-dropdown-content-right">
                         <div className="drpdwn-notify-time">
-                          {`${time} ${date}`}
+                            {`${time}`}
+                            <span>{`${date}`}</span>
                         </div>
                       </div>
               </div>
@@ -180,12 +181,17 @@ const ATSNavBar = () => {
                                 <div key={notification.id}>{displayNotification(notification)}</div>
                                 ))
                             ) : (
-                                <p>no new notifications</p>
+                                <p className='no-notification'>
+                                    <i className='bi bi-exclamation-circle mr-2'></i>
+                                    No new notifications.
+                                    </p>
                             )}
                             </div>
 
                         <div className="dropdown-footer notification-dropdown-footer text-center">
-                            <a href="#" className='drp-dwn-view-all-btn'>View All
+                        <a className='drp-dwn-view-all-btn'
+                            onClick={()=>setNotifications([])}
+                            >Mark All As Read.
                                 <i class="bi bi-chevron-right ml-3"></i>
                             </a>
                         </div>
