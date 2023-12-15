@@ -140,26 +140,32 @@ const ClientDashboard = () => {
   };
 
   useEffect(()=>{
+    const context = new (window.AudioContext || window.webkitAudioContext)();
+    setAudioContext(context);
+  },[])
+
+  useEffect(()=>{
+    if(audioContext !== null){
+      fetch('../assets/media/notify-ring.mp3')
+            .then((response) => response.arrayBuffer())
+            .then((data) => {
+              audioContext.decodeAudioData(data, (buffer) => {
+                setAudioBuffer(buffer);
+              });
+            });
+    }
+  },[audioContext])
+
+  useEffect(()=>{
+    
     socket?.on("getNotification", data=>{
       console.log(data)
       setNotifications(prev=>[...prev, data]);
-
-      if (audioContext === null) {
-        const context = new (window.AudioContext || window.webkitAudioContext)();
-        setAudioContext(context);
-
-        fetch('../assets/media/notify-ring.mp3')
-          .then((response) => response.arrayBuffer())
-          .then((data) => {
-            context.decodeAudioData(data, (buffer) => {
-              setAudioBuffer(buffer);
-              playSound(context, buffer);
-            });
-          });
-      } else {
+      
+      if(audioBuffer && audioContext){
         playSound(audioContext, audioBuffer);
       }
-
+      
     })
 
   },[socket]);
