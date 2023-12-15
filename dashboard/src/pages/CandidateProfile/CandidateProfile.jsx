@@ -11,9 +11,13 @@ import 'sweetalert2/dist/sweetalert2.css';
 import Footer from '../../components/Footer';
 import AuthContext from '../../context/AuthContext';
 
-import Skeleton from 'react-loading-skeleton'
-import 'react-loading-skeleton/dist/skeleton.css'
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 
+import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
+import Modal from 'react-modal';
+
+Modal.setAppElement('#root');
 
 const CandidateProfile = () => {
     const { id } = useParams();
@@ -54,6 +58,8 @@ const CandidateProfile = () => {
     const [selectedPreferedLocations, setSelectedPreferedLocations] = useState([]);
     const [searchPreferedLocationInput, setSearchPreferedLocationInput] = useState("");
 
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
     const [userInfo, setUserInfo] = useState({
         firstName: "",
         lastName: "",
@@ -69,6 +75,16 @@ const CandidateProfile = () => {
     const [loading, setLoading] = useState(true);
 
     const [contentloading, setContentLoading] = useState(true);
+
+    const handleViewCV = (fileUrl) => {
+        setCandidateResumeUrl(fileUrl);
+        setIsModalOpen(true);
+      };
+    
+      const closeModal = () => {
+        // setCandidateResumeUrl(null);
+        setIsModalOpen(false);
+      };
 
     // const [pageNotFound, setPageNotFound] = useState(false);
 
@@ -1627,7 +1643,7 @@ const CandidateProfile = () => {
                                                                     Update resume
                                                                 </span>
                                                             </label>
-                                                            {resume ? <span id="file-chosen">{resume.name}</span> : loginCandidate?.file ? <span id="file-chosen">{loginCandidate?.file}</span> : <span id="file-chosen">no file choosen</span>}
+                                                            {resume ? <span id="file-chosen">{resume.name}</span> : loginCandidate?.file ? <span id="file-chosen">{loginCandidate?.file}</span> : <span id="file-chosen">No file choosen..!</span>}
                                                             <button className="setting-update-btn more-det" onClick={handleResumeUpdate} disabled={!resume}>Update</button>
                                                             {/* <div className="file-upload-btn-area">
                                                 <button id="clear-file" className='clear-file-btn'>
@@ -2360,10 +2376,11 @@ const CandidateProfile = () => {
                                 </div> */}
 
                                                     <div className="profile-action-btn-area" id='View_Cv'>
-                                                        <button className='view-cv-btn' >
+                                                        <button className='view-cv-btn' onClick={() => handleViewCV(candidateResumeUrl)}>
                                                             <i class="bi bi-eye-fill view-cv-icon"></i>
                                                             View CV
                                                         </button>
+
                                                         {/* {showViewer && (
                                         <object
                                         data={candidateResumeUrl}
@@ -2394,6 +2411,26 @@ const CandidateProfile = () => {
                 <small>The resource requested could not be found on this server!</small>
             </div>} */}
                 </div>
+
+                <Modal
+                    isOpen={isModalOpen}
+                    onRequestClose={closeModal}
+                    className={`doc-view-modal-content ${isModalOpen ? 'open' : ''}`}
+                    overlayClassName={`doc-view-modal-overlay ${isModalOpen ? 'open' : ''}`}
+                >
+                    
+                    {candidateResumeUrl && (
+                    <DocViewer
+                        documents={[{ uri: candidateResumeUrl }]}
+                        renderers={DocViewerRenderers}
+                        className='document'
+                    />
+                    )}
+
+                    <button className="doc-view-close-button" onClick={closeModal}>
+                        <i className='bi bi-x'></i>
+                    </button>
+                </Modal>
                 <Footer />
             </div >
         </div >

@@ -824,3 +824,82 @@
 .client-talent--profile-ability-number-left.talent {
     align-items: center;
 }
+.cv-file-name{
+    font-size: 14px;
+    font-weight: 400;
+    background-color: #f7f7f7;
+    border-radius: 6px;
+    padding: 5px 10px;
+    margin-bottom: 10px;
+}
+.view-cv-toparea{
+    padding: 0px 0 25px 0;
+    display: flex;
+    justify-content: flex-start;
+    border-bottom: #c2c2c2 1px solid;
+}
+
+.cv-view-area{
+    margin-top: 30px;
+    border-radius: 16px;
+    padding: 10px;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    border: 1px solid #f7f7f7;
+    box-shadow: 0px 5px 25px rgba(0, 0, 0, 0.1);
+}
+.cv-view-area div{
+    height: 100% !important;
+}
+.no-cv-uploaded-area{
+    padding: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f7f7f7;
+    border-radius: 16px;
+}
+
+.no-cv-uploaded-area i{
+    font-size: 20px;
+    vertical-align: middle;
+}
+
+.no-cv-uploaded-area span{
+    color: rgb(141, 141, 141);
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.cv-view-area div::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+    background-color: transparent;
+    border-radius: 10px;
+    visibility: hidden;
+    /* display: none; */
+  }
+  
+  .cv-view-area div::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: none;
+    background-color: #8b8b8bd3;
+    visibility: hidden;
+    /* display: none; */
+  }
+  
+  .cv-view-area div::-webkit-scrollbar-track {
+    -webkit-box-shadow: none;
+    border-radius: 10px;
+    background-color: transparent;
+    visibility: hidden;
+    /* display: none; */
+  }
+  
+  .cv-view-area div:hover::-webkit-scrollbar,
+  .cv-view-area div:hover::-webkit-scrollbar-thumb,
+  .cv-view-area div:hover::-webkit-scrollbar-track {
+    visibility: visible;
+    /* display: block; */
+  }

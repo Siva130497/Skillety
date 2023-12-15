@@ -159,4 +159,14 @@
     .mobile-flex-group .setting-update-btn {
         align-self: normal;
     }
+
+    .doc-view-modal-content {
+        padding: 10px !important;
+        width: 90% !important;
+        border-radius: 10px;
+    }
+    .doc-view-close-button {
+        width: 30px;
+    height: 30px;
+    }
 }
