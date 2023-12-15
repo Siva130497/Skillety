@@ -9,6 +9,8 @@ import axios from 'axios';
 import AuthContext from '../../context/AuthContext';
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.css';
 
 const AllJobs = () => {
     const { getProtectedData } = useContext(AuthContext);
@@ -32,6 +34,8 @@ const AllJobs = () => {
     const [searchCandidateInput, setSearchCandidateInput] = useState("");
 
     const [updatePostedJobs, setUpdatePostedJobs] = useState([]);
+    const [allEmployee, setAllEmployee] = useState([]);
+    const [allCompany, setAllCompany] = useState([]);
 
     const [x, setX] = useState([0, 10]);
     const [loading, setLoading] = useState(true);
@@ -41,6 +45,28 @@ const AllJobs = () => {
         });
 
     }, []);
+
+     //for show success message for payment
+     function showSuccessMessage(message) {
+        Swal.fire({
+            title: 'Success!',
+            text: message,
+            icon: 'success',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'OK',
+        });
+    }
+
+    //for show error message for payment
+    function showErrorMessage() {
+        Swal.fire({
+            title: 'Error!',
+            text: "An error occured!",
+            icon: 'error',
+            confirmButtonColor: '#d33',
+            confirmButtonText: 'OK',
+        });
+    }
 
     useEffect(() => {
         setStaffToken(JSON.parse(localStorage.getItem('staffToken')))
@@ -59,6 +85,23 @@ const AllJobs = () => {
             };
 
             fetchData();
+
+            axios.get("https://skillety.onrender.com/all-employee")
+            .then(res=>{
+                console.log(res.data);
+                setAllEmployee(res.data);
+            })
+            .catch(err=>console.log(err))
+
+            axios.get("https://skillety.onrender.com/company-details")
+            .then(res => {
+                console.log(res.data);
+                setAllCompany(res.data);
+            })
+            .catch(err => {
+                console.log(err);
+            })
+
         }
     }, [staffToken]);
 
@@ -214,11 +257,12 @@ const AllJobs = () => {
             const result = res.data;
             if (!result.error) {
                 console.log(result);
-                alert("candidate assigned successfully!");
+                showSuccessMessage("candidate assigned successfully!");
                 getAssignedCandidates();
                 setSearchCandidateInput("")
             } else {
                 console.log(result);
+                showErrorMessage();
             }
         } catch (err) {
             console.log(err);
@@ -326,8 +370,13 @@ const AllJobs = () => {
         if (alreadyAssignedCandidate) {
             getRecruiterNameWhoAssignedCandidate(alreadyAssignedCandidate.recruiterId);
         } else {
-            const newAssignedCandidate = { ...AssignedCandidate, recruiterId: employeeId, jobId: selectedJobViewDetail.id }
+            const { updatedAt, __v, _id, ...cleanAssignedCandidate } = AssignedCandidate;
+
+            const newAssignedCandidate = { ...cleanAssignedCandidate, recruiterId: employeeId, jobId: selectedJobViewDetail.id };
+
+            console.log(newAssignedCandidate);
             assigningCandidate(newAssignedCandidate);
+
         }
     }
 
@@ -493,6 +542,7 @@ const AllJobs = () => {
                                                                 <th className='dash-table-head'>No.</th>
                                                                 <th className='dash-table-head'>Job Role</th>
                                                                 <th className='dash-table-head'>Job Category</th>
+                                                                <th className='dash-table-head text-center'>Posted by</th>
                                                                 <th className='dash-table-head text-center'>Status</th>
                                                                 <th className='dash-table-head text-center'>View</th>
                                                             </tr>
@@ -576,6 +626,10 @@ const AllJobs = () => {
                                                                             })) :
                                                                             (!searchJobRoleInput && checkBoxfilters.length === 0) ?
                                                                                 (allJobs.slice(x[0], x[1]).map((Job, index) => {
+                                                                                    const postedBy = Job.companyId
+                                                                                        ? (allCompany.find(company => company.companyId === Job.companyId)?.companyName || "Unknown Company")
+                                                                                        : (allEmployee.find(employee => employee.id === Job.recruiterId)?.name || "Unknown Employee");
+
                                                                                     return (
                                                                                         <tr className='dash-table-row client' key={Job.id}>
                                                                                             <td className='dash-table-data1'>{index + 1}.</td>
@@ -584,6 +638,9 @@ const AllJobs = () => {
                                                                                             </td>
                                                                                             <td className='dash-table-data1 text-capitalized'>
                                                                                                 {Job?.jobCategory}
+                                                                                            </td>
+                                                                                            <td className='dash-table-data1 text-center text-capitalized'>
+                                                                                                {postedBy}
                                                                                             </td>
                                                                                             <td className='text-center'>
                                                                                                 {Job?.active ?

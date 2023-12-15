@@ -231,7 +231,7 @@ const ClientDashboard = () => {
           const user = await getProtectedData(token);
           console.log(user);
           setCandidateId(user.id);
-          setUserName(user.id);
+          setUserName(user.name);
           setLoading(false);
 
           setContentLoading(false);
