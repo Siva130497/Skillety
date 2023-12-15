@@ -510,7 +510,7 @@ const Talents = () => {
                                                                         <div id="attachedCV" class="client-talent--profile-detail-tab-content">
                                                                             {resume?.file ? 
                                                                             <>
-                                                                            <div className='cv-file-name'>{resume?.file}defefef</div>
+                                                                            <div className='cv-file-name'>{resume?.file}</div>
                                                                             <div className="view-cv-toparea">
                                                                                 <button className='download-cv-btn mt-3' onClick={() => {
                                                                                     window.open(candidateResumeUrl);
