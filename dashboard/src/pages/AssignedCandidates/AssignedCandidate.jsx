@@ -642,7 +642,7 @@ const AssignedCandidate = () => {
 
                                     const status = applicationStatus.find(status=>status.candidateId === candidate.id)?.status;
 
-                                    const name = allEmployee.find(emp => emp.id === candidate.recruiterId).name
+                                    const name = allEmployee.find(emp => emp.id === candidate.recruiterId)?.name
                                     
                                     return (
                                         <article className="talent--profile-card applied" key={candidate.id}>
@@ -726,7 +726,7 @@ const AssignedCandidate = () => {
                                                             <h6 className='tal--pro-card-desc-title font-weight-700'>Assigned By&nbsp;:</h6>
                                                         </div>
                                                         <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
-                                                            <p className='tal--pro-card-desc font-weight-700'>{name}</p>
+                                                            <p className='tal--pro-card-desc font-weight-700'>{name && name}</p>
                                                         </div>
                                                     </div>
                                                 </div>
