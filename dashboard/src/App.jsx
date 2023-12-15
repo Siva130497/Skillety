@@ -14,6 +14,7 @@ import ManageApplication from './pages/ManageApplication/ManageApplication';
 import CandidateProfile from './pages/CandidateProfile/CandidateProfile';
 import Talents from './pages/Talents/Talents';
 import AppliedCandidate from './pages/AppliedCandidate/AppliedCandidate';
+import AssignedCandidate from './pages/AssignedCandidates/AssignedCandidate';
 import JobEditing from './pages/EditJob/JobEditing';
 import InvoicePayment from './pages/InvoicePayment/InvoicePayment';
 import PackagePlans from './pages/PackagePlans/PackagePlans';
@@ -66,6 +67,7 @@ function App() {
         <Route path='/talents/:id' element={<Talents />} />
         <Route path='/job-detail/:id' element={<JobDetails />} />
         <Route path='/applied-candidate/:id' element={<AppliedCandidate />} />
+        <Route path='/assigned-candidate/:id' element={<AssignedCandidate />} />
         <Route path='/edit-job/:id' element={<JobEditing />} />
         <Route path='/invoice-payment' element={<InvoicePayment />} />
         <Route path='/package-plans' element={<PackagePlans />} />

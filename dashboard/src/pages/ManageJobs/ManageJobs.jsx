@@ -26,7 +26,8 @@ const ManageJobs = () => {
     const [selectedJobViewDetail, setSelectedPostedJobViewDetail] = useState();
     const [appliedOfPostedJobs, setAppliedOfPostedJobs] = useState([]);
     const [allStaff, setAllStaff] = useState([]);
-
+    const [assignedCandidates, setAssignedCandidates] = useState([]);
+    
     const [x, setX] = useState([0, 10]);
 
     const [loading, setLoading] = useState(true);
@@ -62,6 +63,26 @@ const ManageJobs = () => {
 
     }, []);
 
+    const getAssignedCandidates = async () => {
+        try {
+            const res = await axios.get(`https://skillety.onrender.com/assigned-candidates`, {
+                headers: {
+                    Authorization: `Bearer ${clientToken}`,
+                    Accept: 'application/json'
+                }
+            });
+            const result = res.data;
+            if (!result.error) {
+                console.log(result);
+                setAssignedCandidates(result);
+            } else {
+                console.log(result);
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
     useEffect(() => {
         setClientToken(JSON.parse(localStorage.getItem('clientToken')))
     }, [clientToken])
@@ -84,6 +105,8 @@ const ManageJobs = () => {
             };
 
             fetchData();
+            getAssignedCandidates();
+
         }
     }, [clientToken]);
 
@@ -251,6 +274,8 @@ const ManageJobs = () => {
             // setLoading(false);
         }
     }
+
+    
 
 
     useEffect(() => {
@@ -490,6 +515,15 @@ const ManageJobs = () => {
         }
     }
 
+    const handleViewAssignedApplicant = (id, assignCand) => {
+
+        if (packageSelectionDetail) {
+            navigate(`/assigned-candidate/${id}`, { state: { assignedCandidates: assignCand } })
+        } else {
+            navigate("/package-plans");
+        }
+    }
+
     return (
         <div>
             {clientToken && <div class="main-wrapper main-wrapper-1">
@@ -590,6 +624,7 @@ const ManageJobs = () => {
                                                             <th className='dash-table-head'>Job Title</th>
                                                             <th className='dash-table-head text-center'>Posted Date</th>
                                                             <th className='dash-table-head text-center'>Applicants</th>
+                                                            <th className='dash-table-head text-center'>Assigned applicants</th>
                                                             <th className='dash-table-head text-center'>Posted by</th>
                                                             <th className='dash-table-head text-center'>Status</th>
                                                             <th className='dash-table-head text-center'>Action</th>
@@ -599,7 +634,12 @@ const ManageJobs = () => {
 
                                                         {postedJobs.map((job) => {
                                                             const numApplicants = appliedOfPostedJobs.filter(appliedOfPostedJob => appliedOfPostedJob.jobId === job.id).length;
+
                                                             const staff = allStaff.find(obj => obj.id === (job.clientId || job.clientStaffId));
+
+                                                            const assignedCand = assignedCandidates
+                                                            .filter(cand => cand.jobId === job.id);
+
                                                             return (
                                                                 <tr className='dash-table-row client' key={job.id}>
                                                                     <td className='dash-table-data1 text-capitalized'>{job.jobRole[0]}</td>
@@ -613,6 +653,15 @@ const ManageJobs = () => {
                                                                                 <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM4.5 9a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 1 0-1h4a.5.5 0 0 1 0 1h-4z" fill='#0879bc' />
                                                                             </svg>
                                                                         </button> : <div className='text-approval'>This job still not shown <br /> on job portal</div>}
+                                                                    </td>
+                                                                    <td className='dash-table-data1 text-center'>
+                                                                        {assignedCand?.length > 0 ? <button className='application-btn with-modal' onClick={() => handleViewAssignedApplicant(job.id, assignedCand)}>
+                                                                            <span>{assignedCand?.length}</span>&nbsp;&nbsp;&nbsp;
+                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-file-earmark-text-fill" viewBox="0 0 16 16">
+                                                                                <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM4.5 9a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 1 0-1h4a.5.5 0 0 1 0 1h-4z" fill='#0879bc' />
+                                                                            </svg>
+
+                                                                        </button> : <div className='text-approval'>No candidates  <br /> assigned yet!</div>}
                                                                     </td>
                                                                     <td className='dash-table-data1 text-center text-capitalized'>
                                                                         {staff && staff.name}
