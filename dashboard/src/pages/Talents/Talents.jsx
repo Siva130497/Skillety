@@ -12,6 +12,7 @@ import './Talents-responsive.css';
 import { useLocation, useParams } from 'react-router-dom';
 import axios from 'axios';
  
+import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
 
 const Talents = () => {
     const { id } = useParams();
@@ -507,13 +508,33 @@ const Talents = () => {
                                                                         </div>
 
                                                                         <div id="attachedCV" class="client-talent--profile-detail-tab-content">
-                                                                            <div>{resume?.file}</div>
-                                                                            <button className='download-cv-btn mt-3' onClick={() => {
-                                                                                window.open(candidateResumeUrl);
-                                                                            }}>
-                                                                                <i class="bi bi-download download-cv-icon"></i>
-                                                                                Download CV
-                                                                            </button>
+                                                                            {resume?.file ? 
+                                                                            <>
+                                                                            <div className='cv-file-name'>{resume?.file}defefef</div>
+                                                                            <div className="view-cv-toparea">
+                                                                                <button className='download-cv-btn mt-3' onClick={() => {
+                                                                                    window.open(candidateResumeUrl);
+                                                                                }}>
+                                                                                    <i class="bi bi-download download-cv-icon"></i>
+                                                                                    Download CV
+                                                                                </button>
+                                                                            </div>
+                                                                            {candidateResumeUrl && (
+                                                                            <DocViewer
+                                                                                documents={[{ uri: candidateResumeUrl }]}
+                                                                                renderers={DocViewerRenderers}
+                                                                                className='cv-view-area'
+                                                                            />
+                                                                            )}
+                                                                            </>
+                                                                            :
+                                                                            <div className='no-cv-uploaded-area'>
+                                                                                <div className='no-cv-uploaded'>
+                                                                                    <i className='bi bi-exclamation-circle mr-2'></i>
+                                                                                    <span>No CV Uploaded..!</span>
+                                                                                </div>
+                                                                            </div>
+                                                                            }
                                                                         </div>
                                                                     </div>
                                                                 </div>

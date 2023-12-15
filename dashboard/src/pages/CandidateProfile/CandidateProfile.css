@@ -976,3 +976,141 @@
     top: 12px;
     pointer-events: none;
 }
+
+.doc-view-modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    outline: none;
+    transform: translate(-50%, -50%);
+    background-color: rgba(255, 255, 255, 0.712);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    padding: 10px;
+    border-radius: 16px;
+    width: 80%;
+    height: 90%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    flex-direction: column;
+    opacity: 0;
+    animation: fadeIn 0.5s ease-in-out;
+    border: 2px solid #ffffff;
+    /* overflow: hidden; */
+}
+.doc-view-modal-content .document{
+    height:100% !important;
+    width: 100% !important;
+    border-radius: 10px;
+    overflow: hidden;
+
+  }
+.doc-view-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 99999 !important;
+    background-color: rgba(0, 0, 0, 0.6);
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+    /* animation: overlayFadeIn 0.5s ease-in-out; */
+  }
+  
+  .doc-view-close-button {
+    background-color: #ffffff;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: red;
+    width: 35px;
+    height: 35px;
+    border: none;
+    outline: none;
+    border-radius: 50%;
+    flex-shrink: 0;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    transition: ease-in-out 0.5s;
+    z-index: 1;
+  }
+  .doc-view-close-button:hover,
+  .doc-view-close-button:focus,
+  .doc-view-close-button:active{
+    border: none;
+    outline: none;
+  }
+  .doc-view-close-button i{
+    font-size: 25px;
+    color: red;
+    vertical-align: middle !important;
+    transition: ease-in-out 0.5s;
+  }
+
+  .doc-view-close-button:hover{
+    background-color: red;
+  }
+
+  .doc-view-close-button:hover i{
+    color: #fff;
+  }
+  .doc-view-modal-content.open {
+    opacity: 1;
+  }
+  
+  .doc-view-modal-overlay.open {
+    opacity: 1;
+  }
+
+
+.doc-view-modal-content .document div::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+  background-color: transparent;
+  border-radius: 10px;
+  visibility: hidden;
+  /* display: none; */
+}
+
+.doc-view-modal-content .document div::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: none;
+  background-color: #8b8b8bd3;
+  visibility: hidden;
+  /* display: none; */
+}
+
+.doc-view-modal-content .document div::-webkit-scrollbar-track {
+  -webkit-box-shadow: none;
+  border-radius: 10px;
+  background-color: transparent;
+  visibility: hidden;
+  /* display: none; */
+}
+
+.doc-view-modal-content .document div:hover::-webkit-scrollbar,
+.doc-view-modal-content .document div:hover::-webkit-scrollbar-thumb,
+.doc-view-modal-content .document div:hover::-webkit-scrollbar-track {
+  visibility: visible;
+  /* display: block; */
+}
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translate(-50%, -60%);
+    }
+    to {
+      opacity: 1;
+      transform: translate(-50%, -50%);
+    }
+  }
