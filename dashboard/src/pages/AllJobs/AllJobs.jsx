@@ -40,6 +40,36 @@ const AllJobs = () => {
     const [x, setX] = useState([0, 10]);
     const [loading, setLoading] = useState(true);
 
+    const [filteredSkillMatchCandidates, setFilteredSkillMatchCandidates] = useState([]);
+
+    const calculateSkillPercentage = (candidateSkills) => {
+        const totalSkills = selectedJobViewDetail.skills.length;
+        const matchedSkills = candidateSkills.filter(skill =>
+          selectedJobViewDetail.skills.includes(skill)
+        ).length;
+    
+        return (matchedSkills / totalSkills) * 100;
+      };
+
+      const filterCandidates = () => {
+        const sortedCandidates = candidateDetail
+          .filter(candidate => calculateSkillPercentage(candidate.skills) > 0)
+          .sort((a, b) => {
+            const percentageA = calculateSkillPercentage(a.skills);
+            const percentageB = calculateSkillPercentage(b.skills);
+            return percentageB - percentageA; // Sort in descending order
+          });
+    
+        setFilteredSkillMatchCandidates(sortedCandidates);
+      };
+
+    useEffect(()=>{
+        if(selectedJobViewDetail){
+            filterCandidates();
+        }
+
+    },[selectedJobViewDetail])
+
     useEffect(() => {
         $(document).ready(function () {
         });
@@ -223,6 +253,8 @@ const AllJobs = () => {
         setAllJobs(newArray)
         setLoading(newArray.length === 0);
     }, [updatePostedJobs]);
+
+    
 
     const getRecruiterNameWhoAssignedCandidate = async (id) => {
         try {
@@ -555,7 +587,9 @@ const AllJobs = () => {
                                                                     </td>
                                                                 </tr> :
                                                                 searchFilteredJobs.length > 0 ?
-                                                                    searchFilteredJobs.slice(x[0], x[1]).map((Job, index) => {
+                                                                    searchFilteredJobs.slice(x[0], x[1])
+                                                                    .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
+                                                                    .map((Job, index) => {
                                                                         return (
                                                                             <tr className='dash-table-row client' key={Job.id}>
                                                                                 <td className='dash-table-data1'>{index + 1}.</td>
@@ -594,7 +628,9 @@ const AllJobs = () => {
                                                                             </tr>
                                                                         ) :
                                                                         checkBoxFilteredJobs.length > 0 ?
-                                                                            (checkBoxFilteredJobs.slice(x[0], x[1]).map((Job, index) => {
+                                                                            (checkBoxFilteredJobs.slice(x[0], x[1])
+                                                                            .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
+                                                                            .map((Job, index) => {
                                                                                 return (
                                                                                     <tr className='dash-table-row client' key={Job.id}>
                                                                                         <td className='dash-table-data1'>{index + 1}.</td>
@@ -625,7 +661,10 @@ const AllJobs = () => {
                                                                                 );
                                                                             })) :
                                                                             (!searchJobRoleInput && checkBoxfilters.length === 0) ?
-                                                                                (allJobs.slice(x[0], x[1]).map((Job, index) => {
+                                                                            
+                                                                                (allJobs.slice(x[0], x[1])
+                                                                                .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
+                                                                                .map((Job, index) => {
                                                                                     const postedBy = Job.companyId
                                                                                         ? (allCompany.find(company => company.companyId === Job.companyId)?.companyName || "Unknown Company")
                                                                                         : (allEmployee.find(employee => employee.id === Job.recruiterId)?.name || "Unknown Employee");
@@ -884,10 +923,48 @@ const AllJobs = () => {
                                                             setSearchCandidateByName([]);
                                                             setSearchCandidateByNameMsg("");
                                                         }}
+                                                        onKeyPress={(event) => {
+                                                            event.key === "Enter" && handleCandidateSearch();
+                                                        }}
                                                     />
                                                     <i className='bi bi-search search-icon'></i>
-                                                    <button className="btn search-candidate-btn my-2" type="submit" onClick={handleCandidateSearch}>Search</button>
+                                                    <button className="btn search-candidate-btn my-2" type="submit" onClick={handleCandidateSearch}
+                                                    >Search</button>
                                                 </div>
+
+                                                {!searchCandidateInput &&
+                                                    filteredSkillMatchCandidates.length > 0 ?
+                                                    <div className="table-responsive sm-table-area table-scroll-area mt-3">
+                                                        <table className="table sm-table mb-0">
+                                                            <tbody className='sm-table-body'>
+                                                                <tr className='sm-table-head-row'>
+                                                                    <th className='sm-table-head'>Suggested Candidate Full Name</th>
+                                                                    <th className='sm-table-head text-center'>Skill Percentage</th>
+                                                                    <th className='sm-table-head text-center'>Assign Candidate</th>
+                                                                </tr>
+                                                                {filteredSkillMatchCandidates
+                                                                .slice(0,10)
+                                                                .sort((a, b) => b.percentage - a.percentage)
+                                                                .map(searchedCandidate => {
+                                                                    return (
+                                                                        <tr className='sm-table-data-row' key={searchedCandidate.id} >
+                                                                            <td className='sm-table-data text-capitalized'>{searchedCandidate.firstName + " " + searchedCandidate.lastName}</td>
+                                                                            <td className='sm-table-data text-center'>
+                                                                            {Math.round(calculateSkillPercentage(searchedCandidate.skills))}%
+                                                                            </td>
+                                                                            <td className='sm-table-data text-center'>
+                                                                                <button className='assign-btn' title='Assign this candidate to the job' onClick={() => handleAssigning(searchedCandidate.id)}>
+                                                                                    Assign
+                                                                                </button>
+                                                                            </td>
+                                                                        </tr>)
+                                                                })}
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    :
+                                                    <div className='text-center text-secondary m-4 font-size-14'>{searchCandidateByNameMsg}</div>
+                                                }
 
                                                 {searchCandidateInput &&
                                                     searchCandidateByName.length > 0 ?
