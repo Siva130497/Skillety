@@ -443,7 +443,7 @@ const Home = () => {
                         Search for Candidates with any skill and experience, from any sector and location through seamless filter options. Search for Immediate Joiner CVs from 3 buckets - 7 days, 15 days & 30 days joiners.
                       </p>
                       <div className='service-know-morearea'>
-                        <a href="/services" className='service--know-more'>
+                        <a href="/cv-sourcing" className='service--know-more'>
                           <div className='service--know-more-btn'>Know more
                           </div>
                           <div className='service--know-more-arrow'>
@@ -497,7 +497,7 @@ const Home = () => {
                         Post multiple Jobs easily and publish it on 172 partner job-boards & social media platforms, in just one click. CVs would flow in from all sides into your Dashboard and Inbox.
                       </p>
                       <div className='service-know-morearea'>
-                        <a href="/services" className='service--know-more'>
+                        <a href="/job-posting" className='service--know-more'>
                           <div className='service--know-more-btn'>Know more
                           </div>
                           <div className='service--know-more-arrow'>
@@ -524,7 +524,7 @@ const Home = () => {
                         Send Technical Assessment test links to multiple candidates, simultaneously. The Test Report comes with a comprehensive analysis of their aptitude, knowledge and proficiency.
                       </p>
                       <div className='service-know-morearea'>
-                        <a href="/services" className='service--know-more'>
+                        <a href="/skill-assessment" className='service--know-more'>
                           <div className='service--know-more-btn'>Know more
                           </div>
                           <div className='service--know-more-arrow'>
@@ -554,7 +554,7 @@ const Home = () => {
                         Get instant access to the Interview Outsourcing services of Skillety. Do thorough L1 Interviews with a coding round conducted by panels from FAANG companies. The Feedback comes as a comprehensive report along with the playback of the video interview.
                       </p>
                       <div className='service-know-morearea'>
-                        <a href="/services" className='service--know-more'>
+                        <a href="/interview-as-a-service" className='service--know-more'>
                           <div className='service--know-more-btn'>Know more
                           </div>
                           <div className='service--know-more-arrow'>
@@ -581,7 +581,7 @@ const Home = () => {
                         Before releasing the Offer, do a quick sanity check if it's a fake profile or not, with our BGV-Lite services. Also do a detailed 360-degree Background Verification after the candidate joins – all from the Skillety platform.
                       </p>
                       <div className='service-know-morearea'>
-                        <a href="/services" className='service--know-more'>
+                        <a href="/background-verification" className='service--know-more'>
                           <div className='service--know-more-btn'>Know more
                           </div>
                           <div className='service--know-more-arrow'>
@@ -610,7 +610,7 @@ const Home = () => {
                       <p className='service--content'>
                         This Is Specifically Designed For Companies Who Would Want To Test Run The RPO Model First, And Then Decide. We Take Up Hiring Requirements From One Or Few Projects On Exclusivity, And Close Them In Record Time, First. The Results Will Determine Whether You Want To Upgrade To An Enterprise RPO (Or Not), Based On Solid Proof.                      </p>
                       <div className='service-know-morearea'>
-                        <a href="/services" className='service--know-more'>
+                        <a href="/" className='service--know-more'>
                           <div className='service--know-more-btn'>Know more
                           </div>
                           <div className='service--know-more-arrow'>
