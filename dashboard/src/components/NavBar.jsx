@@ -21,7 +21,7 @@ const NavBar = ({notification, socket}) => {
   const displayNotification = ({senderName, type, time, date}) => {
     let action;
 
-    if(type === "1"){
+    if(type === "2"){
       action = "message"
     }
     return (
@@ -169,114 +169,14 @@ const NavBar = ({notification, socket}) => {
                   No new notifications.
                 </p>
               )}
-
-              <div className="notification-dropdown-content">
-                <div className="notification-dropdown-content-left">
-                  <div className="noti-drpdwn-img-area">
-                    {/* <img src="assets/img/layout/user-img.png" className='noti-drpdwn-img' alt="" /> */}
-                    <i class="bi bi-person"></i>
-                  </div>
-                  <div className="dropdown-notification-item">
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
-                  </div>
-                </div>
-                <div className="notification-dropdown-content-right">
-                  <div className="drpdwn-notify-time">
-                    Now
-                  </div>
-                </div>
-              </div>
-
-              <div className="notification-dropdown-content">
-                <div className="notification-dropdown-content-left">
-                  <div className="noti-drpdwn-img-area">
-                    {/* <img src="assets/img/layout/user-img.png" className='noti-drpdwn-img' alt="" /> */}
-                    <i class="bi bi-person"></i>
-                  </div>
-                  <div className="dropdown-notification-item">
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
-                  </div>
-                </div>
-                <div className="notification-dropdown-content-right">
-                  <div className="drpdwn-notify-time">
-                    Now
-                  </div>
-                </div>
-              </div>
-
-              <div className="notification-dropdown-content">
-                <div className="notification-dropdown-content-left">
-                  <div className="noti-drpdwn-img-area">
-                    {/* <img src="assets/img/layout/user-img.png" className='noti-drpdwn-img' alt="" /> */}
-                    <i class="bi bi-person"></i>
-                  </div>
-                  <div className="dropdown-notification-item">
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
-                  </div>
-                </div>
-                <div className="notification-dropdown-content-right">
-                  <div className="drpdwn-notify-time">
-                    Now
-                  </div>
-                </div>
-              </div>
-
-              <div className="notification-dropdown-content">
-                <div className="notification-dropdown-content-left">
-                  <div className="noti-drpdwn-img-area">
-                    {/* <img src="assets/img/layout/user-img.png" className='noti-drpdwn-img' alt="" /> */}
-                    <i class="bi bi-person"></i>
-                  </div>
-                  <div className="dropdown-notification-item">
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
-                  </div>
-                </div>
-                <div className="notification-dropdown-content-right">
-                  <div className="drpdwn-notify-time">
-                    Now
-                  </div>
-                </div>
-              </div>
-
-              <div className="notification-dropdown-content">
-                <div className="notification-dropdown-content-left">
-                  <div className="noti-drpdwn-img-area">
-                    {/* <img src="assets/img/layout/user-img.png" className='noti-drpdwn-img' alt="" /> */}
-                    <i class="bi bi-person"></i>
-                  </div>
-                  <div className="dropdown-notification-item">
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
-                  </div>
-                </div>
-                <div className="notification-dropdown-content-right">
-                  <div className="drpdwn-notify-time">
-                    Now
-                  </div>
-                </div>
-              </div>
-
-              <div className="notification-dropdown-content">
-                <div className="notification-dropdown-content-left">
-                  <div className="noti-drpdwn-img-area">
-                    {/* <img src="assets/img/layout/user-img.png" className='noti-drpdwn-img' alt="" /> */}
-                    <i class="bi bi-person"></i>
-                  </div>
-                  <div className="dropdown-notification-item">
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
-                  </div>
-                </div>
-                <div className="notification-dropdown-content-right">
-                  <div className="drpdwn-notify-time">
-                    Now
-                  </div>
-                </div>
-              </div>
             </div>
 
             <div className="dropdown-footer notification-dropdown-footer text-center">
-              <a href="#" className='drp-dwn-view-all-btn'>View All
-                <i class="bi bi-chevron-right ml-3"></i>
-              </a>
+              <a className='drp-dwn-view-all-btn'
+                onClick={()=>setNotifications([])}
+                >Mark All As Read.
+                  <i class="bi bi-chevron-right ml-3"></i>
+                </a>
             </div>
           </div>
         </li>

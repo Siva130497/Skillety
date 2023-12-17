@@ -1,0 +1,293 @@
+@media screen and (min-width: 992px) and (max-width: 1367px) {
+
+    .cand--reg-form-label-custom,
+    .cand--reg-form-area .cand--reg-form-label {
+        font-size: 20px;
+    }
+
+    .cand--reg-form-area .cand--reg-form-input {
+        padding: 10px 0;
+    }
+
+    .cand--reg-radio-input-group {
+        padding-bottom: 20px;
+    }
+
+    .cand--reg-radio-input-group .cand--reg-input-container .radio-tile-label {
+        font-size: 18px;
+    }
+
+    .cand--reg-radio-input-group .cand--reg-input-container {
+        height: 50px;
+        width: 210px;
+    }
+
+    .cand--reg-input-group .react-datepicker-wrapper .react-datepicker__input-container input::placeholder {
+        font-size: 20px;
+    }
+
+    .cand--reg-form-group {
+        margin-bottom: 70px;
+    }
+
+    .cand--reg-file-upload-label i {
+        font-size: 30px;
+    }
+
+    .cand--reg-file-upload-label {
+        font-size: 20px;
+        padding: 15px 25px;
+    }
+
+    .cand--reg-file-upload-area .file--upload-text {
+        font-size: 16px;
+    }
+
+    .cand--reg-skills-text {
+        padding-top: 25px;
+        font-size: 16px;
+    }
+
+    .cand--reg-lg-input {
+        margin-top: 25px;
+    }
+
+    .cand--reg-lg-input::placeholder {
+        font-size: 16px;
+    }
+}
+
+@media (max-width:991.5px) {
+    .cand--reg-form-area {
+        padding-top: 60px;
+    }
+
+    .cand--reg-form-group {
+        position: relative;
+        margin-bottom: 70px;
+    }
+
+    .cand--reg-radio-input-group .cand--reg-input-container .radio-tile-label {
+        font-size: 18px;
+    }
+
+    .cand--reg-radio-input-group .cand--reg-input-container {
+        height: 50px;
+        width: 220px;
+    }
+
+    .cand--reg-file-upload-label {
+        font-size: 20px;
+        padding: 16px 26px;
+    }
+
+    .cand--reg-form-label-custom {
+        font-size: 20px;
+    }
+
+    .cand--reg-form-area .cand--reg-form-label {
+        font-size: 20px;
+    }
+
+    .cand--reg-form-area .cand--reg-form-input {
+        padding: 10px 0;
+    }
+
+    .cand--reg-input-group .react-datepicker-wrapper .react-datepicker__input-container input::placeholder {
+        font-size: 20px;
+    }
+
+    .cand--reg-file-upload-label i {
+        margin-right: 20px;
+        font-size: 30px;
+    }
+
+    .cand--reg-file-upload-area .file--upload-text {
+        font-size: 18px;
+    }
+
+    .cand--reg-skills-text {
+        padding-top: 30px;
+        font-size: 18px;
+    }
+
+    .cand--reg-exp-area {
+        flex-wrap: wrap;
+    }
+
+    .cand--reg-lg-input {
+        margin-top: 25px;
+    }
+
+    .cand--reg-lg-input::placeholder {
+        font-size: 18px;
+    }
+
+    .custom-padding-right2 {
+        padding-right: 10px;
+    }
+
+    .custom-padding-left2 {
+        padding-left: 10px;
+    }
+}
+
+@media (max-width:500px) {
+    .cand--reg-form-area {
+        padding-top: 40px;
+    }
+
+    .login--with-g-area {
+        padding: 20px 0;
+    }
+
+    .cand--reg-radio-input-group {
+        justify-content: center;
+    }
+
+    .cand--reg-form-label-custom {
+        font-size: 18px;
+        white-space: inherit;
+    }
+
+    .cand--reg-radio-input-group .cand--reg-input-container .radio-tile-label {
+        font-size: 16px;
+    }
+
+    .cand--reg-radio-input-group .cand--reg-input-container {
+        height: 40px;
+        width: 100%;
+    }
+
+    .cand--reg-input-group .react-datepicker-wrapper .react-datepicker__input-container input {
+        text-align: left;
+    }
+
+    .cand--reg-input-group .react-datepicker-wrapper .react-datepicker__input-container input::placeholder {
+        font-size: 18px;
+    }
+
+    .cand--reg-form-group.can--reg-date {
+        gap: 25px;
+        flex-wrap: wrap;
+        padding: 0 12px;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .cand--reg-form-group.can--reg-date .cand--reg-input-group {
+        width: 100%;
+    }
+
+    .cand--reg-form-group.can--reg-date .react-datepicker-wrapper {
+        width: 100%;
+    }
+
+    .cand--reg-form-group {
+        margin-bottom: 60px;
+    }
+
+    .cand--reg-custom-padding {
+        padding: 0 12px;
+    }
+
+    .cand--reg-form-area .cand--reg-form-input,
+    .cand--reg-form-area .cand--reg-form-label {
+        font-size: 18px !important;
+    }
+
+    .cand--reg-file-upload-label i {
+        margin-right: 20px;
+        font-size: 22px;
+    }
+
+    .cand--reg-file-upload-label {
+        font-size: 16px;
+        padding: 12px 20px;
+    }
+
+    .cand--reg-file-upload-area .file--upload-text {
+        margin-top: 15px;
+        font-size: 15px;
+    }
+
+    #file-chosen {
+        position: relative;
+        font-size: 12px;
+        display: flex;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .cand--reg-exp-input-flex-area {
+        flex-direction: column;
+        align-items: normal;
+    }
+
+    .cand--reg-exp-area {
+        gap: 30px;
+    }
+
+    .cand--reg-exp-input-area {
+        justify-content: flex-start;
+    }
+
+    .cand--reg-exp-input {
+        width: 70%;
+        font-size: 18px;
+    }
+
+    .cand--reg-form-flex-grp {
+        gap: 5px;
+        flex-wrap: wrap;
+    }
+
+    .cand--reg-flex-input {
+        font-size: 18px;
+    }
+
+    .cand--reg-skills-text {
+        font-size: 15px;
+    }
+
+    .cand--reg-lg-input {
+        margin-top: 15px;
+    }
+
+    .cand--reg-lg-input::placeholder {
+        font-size: 15px;
+    }
+
+    .cand--reg-lg-input {
+        font-size: 18px;
+    }
+
+    .cand--reg-btn-area {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 25px;
+    }
+
+    .reg--form-btn-sub.candidate.back {
+        align-self: flex-start;
+        width: 100%;
+    }
+
+    .reg--form-btn-sub.candidate.next,
+    .reg--form-btn-sub.candidate.register {
+        align-self: flex-end;
+        width: 100%;
+    }
+
+    .cand--reg-input-group .react-datepicker-wrapper .react-datepicker__input-container input {
+        padding: 8px 0;
+        width: 100%;
+    }
+    .reg--form-btn.candidate{
+        width: 100%;
+    }
+
+    .form-no-padding{
+        padding: 0;
+    }
+}
