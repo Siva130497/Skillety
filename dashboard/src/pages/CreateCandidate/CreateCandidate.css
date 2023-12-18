@@ -173,7 +173,7 @@
     position: relative;
     display: flex;
     align-items: center;
-    border-radius: 8px;
+    border-radius: 0px;
     border: 2px dashed #714F36;
     background-color: #F4F4F4;
     color: #714F36;

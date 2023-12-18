@@ -19,6 +19,12 @@
         width: 100%;
         text-align: center;
     }
+    .post-job-title {
+        font-size: 20px;
+    }
+    .post-job-card{
+        padding: 20px !important;
+    }
 }
 
 @media (max-width:407.5px) {
