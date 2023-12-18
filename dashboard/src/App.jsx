@@ -41,8 +41,8 @@ import RecruiterLogin from './pages/RecruiterLogin/RecruiterLogin';
 import JobEditingRecruiter from './pages/EditJob recruiter/JobEditingRecruiter';
 import AppliedCandidateRecruiter from './pages/AppliedCandidate Recruiter/AppliedCandidateRecruiter';
 import AllCompanyStaff from './pages/AllCompanyStaff/AllCompanyStaff';
+import CandidateCreate from './pages/CandidateCreate/CandidateCreate';
 import CreateCandidate from './pages/CreateCandidate/CreateCandidate';
-
 
 import CandidateChat from './pages/Chat/CandidateChat';
 import ClientChat from './pages/Chat/ClientChat';
@@ -97,6 +97,7 @@ function App() {
         <Route path='/applied-candidate-recruiter/:id' element={<AppliedCandidateRecruiter />} />
         <Route path='/chat-candidate' element={<CandidateChat />} />
         <Route path='/chat-client' element={<ClientChat />} />
+        <Route path='/candidate-create' element={<CandidateCreate />} />
         <Route path='/create-candidate' element={<CreateCandidate />} />
 
         {/* admin pages */}

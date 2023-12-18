@@ -31,6 +31,7 @@ import { Line } from 'react-chartjs-2';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import AuthContext from '../../context/AuthContext';
+import notificationSound from "./media/notify-ring.mp3";
 
 
 ChartJS.register(
@@ -162,8 +163,12 @@ const ClientDashboard = () => {
       console.log(data)
       setNotifications(prev=>[...prev, data]);
       
-      if(audioBuffer && audioContext){
-        playSound(audioContext, audioBuffer);
+      // if(audioBuffer && audioContext){
+      //   playSound(audioContext, audioBuffer);
+      // }
+      if (!document.hasFocus()) {
+        const sound = new Audio(notificationSound);
+        sound.play();
       }
       
     })

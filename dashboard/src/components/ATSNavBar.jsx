@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
 import {io} from "socket.io-client";
 import axios from 'axios';
+import notificationSound from "./media/notify-ring.mp3";
 
 const ATSNavBar = () => {
     const navigate = useNavigate()
@@ -28,29 +29,34 @@ const ATSNavBar = () => {
       socket?.on("getNotification", data=>{
         console.log(data)
         setNotifications(prev=>[...prev, data]);
+
+        if (!document.hasFocus()) {
+            const sound = new Audio(notificationSound);
+            sound.play();
+          }
       })
     },[socket]);
 
-    useEffect(()=>{
-        if (notifications.length > 0 || socket) {
-            if (audioContext === null) {
-              const context = new (window.AudioContext || window.webkitAudioContext)();
-              setAudioContext(context);
+    // useEffect(()=>{
+    //     if (notifications.length > 0 || socket) {
+    //         if (audioContext === null) {
+    //           const context = new (window.AudioContext || window.webkitAudioContext)();
+    //           setAudioContext(context);
       
-              fetch('../assets/media/notify-ring.mp3')
-                .then((response) => response.arrayBuffer())
-                .then((data) => {
-                  context.decodeAudioData(data, (buffer) => {
-                    setAudioBuffer(buffer);
-                    playSound(context, buffer);
-                  });
-                });
-            } else {
-              playSound(audioContext, audioBuffer);
-            }
-        }
+    //           fetch('../assets/media/notify-ring.mp3')
+    //             .then((response) => response.arrayBuffer())
+    //             .then((data) => {
+    //               context.decodeAudioData(data, (buffer) => {
+    //                 setAudioBuffer(buffer);
+    //                 playSound(context, buffer);
+    //               });
+    //             });
+    //         } else {
+    //           playSound(audioContext, audioBuffer);
+    //         }
+    //     }
 
-    },[notifications, audioContext, audioBuffer, socket])
+    // },[notifications, audioContext, audioBuffer, socket])
 
     const playSound = (context, buffer) => {
         const source = context.createBufferSource();
