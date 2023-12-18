@@ -198,8 +198,20 @@ const AllCandidates = () => {
                 <div class="main-content">
                     <section class="section">
                         <div className="my-app-section">
-                            <div className="admin-component-name">
-                                All Candidates
+                            <div className='d-flex align-items-end justify-content-between pt-4'>
+                                <div className="admin-component-name pt-0">
+                                    All Candidates
+                                </div>
+                                <div className="create-btn-area">
+                                    <a
+                                        href="/create-candidate"
+                                        className='btn creat-data-btn'
+                                        title='Create new candidate...'
+                                    >
+                                        <i class="bi bi-person-plus-fill"></i>
+                                        <span>Create New</span>
+                                    </a>
+                                </div>
                             </div>
 
                             {loading ? (

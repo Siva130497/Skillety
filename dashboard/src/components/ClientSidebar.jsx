@@ -195,7 +195,7 @@ const ClientSidebar = () => {
                 </div>
 
                 <div className='live-chat-area pt-0'>
-                    <img src="../assets/img/home/live-chat.png" className='live-chat-img' alt="" />
+                    <img src="../assets/img/home/live-chat-dark.png" className='live-chat-img' alt="" />
                     <div className="live-chat-text">
                         Have any query ? <br />
                             we are there for you 24*7
