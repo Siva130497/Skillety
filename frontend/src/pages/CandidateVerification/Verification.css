@@ -1,0 +1,49 @@
+.verify--input-box-area {
+    display: flex;
+    gap: 5px;
+}
+
+.verify--input-box-area .cli--verify-input-box {
+    outline: none;
+    border-radius: 8px;
+    border: 1px solid #714F36;
+    background-color: #FFF3EA;
+    padding: 20px;
+    width: 70px;
+    transition: ease-in-out 0.8s;
+    border-bottom-width: 3px;
+    text-align: center;
+    font-size: 20px;
+    color: black;
+}
+
+.verify--input-box-area input[type="number"]::-webkit-inner-spin-button,
+.verify--input-box-area input[type="number"]::-webkit-outer-spin-button,
+.verify--input-box-area input[type="number"] {
+    appearance: none;
+}
+
+.cli--verify-input-box:focus {
+    transform: translateY(-5px);
+}
+
+.verify-code-resend-area {
+    padding-top: 35px;
+    display: flex;
+    align-items: center;
+}
+
+.verify-code-resend-area .verify-code-resend {
+    color: #714F36;
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.verify-code-resend-area .verify-code-resend-btn {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    color: #714F36;
+    font-size: 20px;
+    font-weight: 700;
+}

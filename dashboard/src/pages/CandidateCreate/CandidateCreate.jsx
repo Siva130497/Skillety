@@ -648,7 +648,8 @@ const CandidateCreate = () => {
                                 </div>
                                 <div className="col-12 col-lg-6 col-md-6 col-sm-6 custom-padding-left">
                                     <div className='cand--reg-form-group'>
-                                        <input type="text" id='last_name' name="lastName"
+                                        <input type="text" id='last_name' 
+                                        name="lastName"
                                             value={credentials.lastName}
                                             onChange={handleInputChange}
                                             placeholder="Enter your last name" className='cand--reg-form-input' required />
@@ -658,7 +659,8 @@ const CandidateCreate = () => {
                                 </div>
                                 <div className="col-12 col-lg-6 col-md-6 col-sm-6 custom-padding-right">
                                     <div className='cand--reg-form-group'>
-                                        <input type="number" id='mobile_number' name="phone"
+                                        <input type="number" id='mobile_number' 
+                                        name="phone"
                                             value={credentials.phone}
                                             onChange={handleInputChange} placeholder="Enter your mobile number" className='cand--reg-form-input' min="0" required />
                                         <label htmlFor="mobile_number" className='cand--reg-form-label'>Mobile Number&nbsp;<span className='is-required'>*</span></label>
@@ -667,7 +669,8 @@ const CandidateCreate = () => {
                                 </div>
                                 <div className="col-12 col-lg-6 col-md-6 col-sm-6 custom-padding-left">
                                     <div className='cand--reg-form-group'>
-                                        <input type="email" id='email_id' name="email"
+                                        <input type="email" id='email_id' 
+                                        name="email"
                                             value={credentials.email}
                                             onChange={handleInputChange} placeholder="Enter your e-mail id" className='cand--reg-form-input' required />
                                         <label htmlFor="email_id" className='cand--reg-form-label'>Email ID&nbsp;<span className='is-required'>*</span></label>
@@ -680,7 +683,8 @@ const CandidateCreate = () => {
                                 </div>
                                 <div className="col-12 col-lg-6 col-md-6 col-sm-6 custom-padding-right">
                                     <div className='cand--reg-form-group'>
-                                        <input type="password" id='password' name="password"
+                                        <input type="password" id='password' 
+                                        name="password"
                                             value={credentials.password}
                                             onChange={handleInputChange}
                                             onPaste={(e) => e.preventDefault()}
@@ -707,7 +711,8 @@ const CandidateCreate = () => {
                                 <div className="col-12">
                                     <div className='cand--reg-form-group cand--reg-custom-padding'>
                                         <div className="cand--reg-file-upload-area">
-                                            <input type="file" id="file_upload" accept=".doc,.docx,.pdf,.rtf"
+                                            <input type="file" id="file_upload" 
+                                            accept=".doc,.docx,.pdf,.rtf"
                                                 ref={fileInputRef}
                                                 style={{ display: 'none' }}
                                                 onChange={handleFileChange}
@@ -736,7 +741,8 @@ const CandidateCreate = () => {
                                 <div className="col-12 col-lg-6 custom-padding-right2">
                                     <div className='cand--reg-form-group cand--reg-custom-padding'>
                                         <div className='cand--reg-multi-input-form-group'>
-                                            <input type="text" name='searchDesignationInput'
+                                            <input type="text" 
+                                            name='searchDesignationInput'
                                                 id='searchDesignationInput'
                                                 placeholder='Search designation...'
                                                 value={searchDesignationInput}
@@ -805,7 +811,8 @@ const CandidateCreate = () => {
                             <div className="row">
                                 <div className="col-12 col-lg-6 col-md-6 col-sm-6 custom-padding-right">
                                     <div className='cand--reg-form-group custom'>
-                                        <input type="text" id='company' name="companyName"
+                                        <input type="text" id='company' 
+                                        name="companyName"
                                             value={credentials.companyName}
                                             onChange={handleInputChange} placeholder="Enter your current company" className='cand--reg-form-input' required />
                                         <label htmlFor="company" className='cand--reg-form-label'>Current Company&nbsp;<span className='is-required'>*</span></label>
@@ -879,14 +886,20 @@ const CandidateCreate = () => {
                                             <label htmlFor="experience" className='cand--reg-form-label-custom'>Total Experience</label>
                                             <div className="cand--reg-exp-input-flex-area">
                                                 <div className="cand--reg-exp-input-area">
-                                                    <input type="number" id='years' name="year"
+                                                    <input 
+                                                    type="number" 
+                                                    id='years' 
+                                                    name="year"
                                                         value={credentials.year}
                                                         onChange={handleInputChange} className='cand--reg-exp-input' min="0" />
                                                     <label htmlFor="years" className='cand--reg-form-label-custom'>Years&nbsp;<span className='is-required'>*</span></label>
                                                     {!require && <small className='text-danger text-capitalized'>{credentials.year === "" && "required"}</small>}
                                                 </div>
                                                 <div className="cand--reg-exp-input-area">
-                                                    <input type="number" id='months' name="month"
+                                                    <input 
+                                                    type="number" 
+                                                    id='months' 
+                                                    name="month"
                                                         value={credentials.month}
                                                         onChange={handleInputChange} className='cand--reg-exp-input' min="0" />
                                                     <label htmlFor="months" className='cand--reg-form-label-custom'>Months&nbsp;<span className='is-required'>*</span></label>
@@ -902,7 +915,8 @@ const CandidateCreate = () => {
                                         <div className="cand--reg-form-flex-grp">
                                             <label htmlFor="skills" className='cand--reg-form-label-custom'>Skills</label>
                                             <div className='cand--reg-multi-input-form-group'>
-                                                <input type="text" id='skills' name='skills'
+                                                <input type="text" id='skills' 
+                                                name='skills'
                                                     value={searchSkillInput}
                                                     onChange={handleSkillSearch}
                                                     className='cand--reg-flex-input'

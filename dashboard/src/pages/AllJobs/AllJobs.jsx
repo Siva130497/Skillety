@@ -883,7 +883,7 @@ const AllJobs = () => {
                                             <div className="view-det-sub-head text-capitalized">{selectedJobViewDetail?.workMode}</div>
                                         </div>
                                     </div>
-                                    <hr />
+                                    {/* <hr />
                                     <div className="row">
                                         <div className="col-12 col-sm-5 col-md-5 col-lg-4">
                                             <div className="view-det-head">Assigned Candidates to this job</div>
@@ -994,7 +994,7 @@ const AllJobs = () => {
                                                 }
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> */}
                                 </div>
                             </div>
                             <div className="modal-footer recruiter-view-modal-footer bg-whitesmoke br">

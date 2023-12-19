@@ -92,7 +92,7 @@ export const AuthContextProvider = ({ children }) => {
   //candidate register
   const candidateReg = async (userData) => {
     try {
-        const response = await axios.post('https://skillety.onrender.com/candidate-reg', userData, {
+        const response = await axios.post('https://skillety.onrender.com/candidate-create', userData, {
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -106,7 +106,7 @@ export const AuthContextProvider = ({ children }) => {
             await new Promise(() => {
                 Swal.fire({
                     title: 'Congratulations!',
-                    text: 'Successfully registered.',
+                    text: 'Email sent.',
                     icon: 'success',
                     confirmButtonColor: '#3085d6',
                     confirmButtonText: 'OK',
@@ -121,7 +121,7 @@ export const AuthContextProvider = ({ children }) => {
         console.log(error);
         await new Promise(() => {
             Swal.fire({
-                title: 'User Not Registered',
+                title: '!',
                 text: '',
                 icon: 'error',
                 confirmButtonColor: '#3085d6',
