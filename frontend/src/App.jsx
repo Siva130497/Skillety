@@ -47,6 +47,7 @@ import HomeCandidate from './pages/HomeCandidate/HomeCandidate';
 import { PrimeReactProvider } from 'primereact/api';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import ClientVerification from './pages/ClientVerification/ClientVerification';
+import CandidateVerification from './pages/CandidateVerification/CandidateVerification';
 import Chat from './pages/Chat/Chat';
 import ClientDashboard from './pages/ClientDashboard/ClientDashboard';
 import CandidateDashboard from './pages/CandidateDashboard/CandidateDashboard';
@@ -107,6 +108,7 @@ function App() {
             <Route path='/candidate-login' element={<CandidateLogin />} />
             <Route path='/packages' element={<Packages />} />
             <Route path='/verification/:id' element={<ClientVerification />} />
+            <Route path='/verification-cand/:id' element={<CandidateVerification />} />
             <Route path='/admin-login' element={<AdminLogin />} />
             {/* <Route path='/recruiter-login' element={<RecruiterLogin />} /> */}
             <Route path='/forgot-password/:role' element={<ForgotPassword />} />

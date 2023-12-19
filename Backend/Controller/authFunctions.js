@@ -34,6 +34,7 @@ const applicationStatus = require("../Database/applicationStatus");
 const candidateToClientNotification = require("../Database/candidateToClientNotificationData");
 const candidateToRecruiterNotification = require("../Database/candidateToRecruiterNotificationData");
 const candidateNotification = require("../Database/candidateNotificationData");
+const candidateCreate = require("../Database/candidateCreate");
 
 // const hash = async() => {
 //   const pass = 'newpassword'
@@ -2867,6 +2868,162 @@ const deleteAllNotifications = async (req, res) => {
   }
 };
 
+/* recruiter creating candidate */
+const createCandidate = async (req, res) => {
+  
+  const { email, id, phone } = req.body; 
+    const candidateAvailable = await candidate.findOne({ $or: [{ email },  {phone}] });
+    const allUserAvailable = await allUsers.findOne({ $or: [{ email },  { phone }] });
+
+    if (candidateAvailable || allUserAvailable) {
+      return res.status(404).json({ message: "User already registered" });
+    }
+  try {
+  
+      const baseUrl = "https://skillety-frontend.onrender.com/verification-cand/";
+      const tempUrl = baseUrl + id;
+
+      const newCreateCandidate = new candidateCreate({
+        ...req.body,
+        role: "Candidate",   
+        url: tempUrl 
+      });
+
+      await newCreateCandidate.save();
+      console.log(newCreateCandidate);
+
+      
+      const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: 'demoemail1322@gmail.com',
+          pass: 'znsdgrmwzskpatwz'
+        }
+      });
+
+      const mailOptions = {
+        from: 'demoemail1322@gmail.com',
+        to: `${newCreateCandidate.email}`,
+        subject: 'Mail from SKILLITY!',
+        text: '',
+        html: `<p>Temporary URL: ${newCreateCandidate.url}</p>`
+      };
+
+      transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+          console.log(error);
+          return res.status(500).json({ error: error.message, newCreateCandidate });
+        } else {
+          console.log('Email sent: ' + info.response);
+          res.status(201).json({ newCreateCandidate, emailSent: true });
+        }
+      });
+    
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+};
+
+const getCandidate = async(req, res) => {
+  const {id} = req.params;
+  try{
+    const cand = await candidateCreate.findOne({id});
+    console.log(cand);
+    return res.status(200).json(cand);
+  }catch(err){
+    console.log(err);
+    return res.status(500).json({ error: err.message });
+  }
+}
+
+/* register the candidate after setting new password */
+const finalCandRegister = async (req, res) => {
+  try {
+    console.log(req.body);
+
+    const { id, password } = req.body;
+    const cand = await candidateCreate.findOne({ id });
+
+    if (!cand) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    const {
+      _id,
+      url,
+      createdAt,
+      updatedAt,
+      __v,
+      ...candidateProperties
+    } = cand._doc;
+
+    const hashPassword = await bcrypt.hash(password, 12);
+    
+      const newCandidate = new candidate({
+        ...candidateProperties,
+        currencyType: "dummy",
+        minSalary: "dummy",
+        maxSalary: "dummy",
+        preferedlocations: ["dummy"],
+        password: hashPassword,
+      });
+    
+    await newCandidate.save();
+    console.log(newCandidate);
+
+    const {
+      email,
+      phone,
+      firstName,
+      lastName,
+      role
+    } = candidateProperties;
+
+    const updatedUser = new allUsers({
+      id,   
+      name: firstName+" "+lastName,
+      email,
+      phone,
+      role,
+      password:hashPassword,
+    });
+
+    await updatedUser.save();
+    console.log(updatedUser);
+
+    await candidateCreate.deleteOne({ id });
+
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: 'demoemail1322@gmail.com',
+        pass: 'znsdgrmwzskpatwz'
+      }
+    });
+
+    const mailOptions = {
+      from: 'demoemail1322@gmail.com',
+      to: `${updatedUser.email}`,
+      subject: 'Mail from SKILLITY!',
+      text: 'Welcome to Skillety!',
+      html: `<p>Congratulations! </p><p>We are happy to have you with us. Please find your Login details below :</p>`
+    };
+
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+        return res.status(500).json({ error: error.message, newCandidate, updatedUser });
+      } else {
+        console.log('Email sent: ' + info.response);
+        res.status(201).json({ newCandidate, updatedUser, emailSent: true });
+      }
+    })
+
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+};
+
 
 /* random password generate */
 const generateRandomPassword = (req, res) => {
@@ -3145,4 +3302,7 @@ module.exports = {
    candidateNotificationCreate,
    getAllcandidateNotification,
    deleteAllNotifications,
+   createCandidate,
+   finalCandRegister,
+   getCandidate,
 };

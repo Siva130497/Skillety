@@ -127,6 +127,9 @@ const {
   getAllcandidateNotification,
   candidateNotificationCreate,
   deleteAllNotifications,
+  createCandidate,
+  finalCandRegister,
+  getCandidate,
   
 } = require("../Controller/authFunctions");
 const employeeAuth = require("../middleware/employeeAuth");
@@ -210,7 +213,7 @@ router.get('/posted-jobs', getActivejobs)
 router.get('/posted-approved-inactive-jobs', getApprovedInActivejobs)
 
 //get client posted job details
-router.get('/non-approval-jobs', getNonApprovaljobs)
+router.get('/approval-jobs', getNonApprovaljobs)
 
 //get a job detail
 router.get('/job/:id', getJob)
@@ -472,6 +475,15 @@ router.get("/candidate-notification", getAllcandidateNotification);
 
 //delete all notification
 router.delete("/notifications/delete-all", deleteAllNotifications);
+
+//create candidate by recruiter
+router.post("/candidate-create", createCandidate);
+
+//register candidate after setting password
+router.post("/finalRegister-Candidate", finalCandRegister);
+
+// recruiter route for client detail
+router.get("/CandidateWithUrl-Detail/:id", getCandidate);
 
 // Client, Client-staff Login Route
 router.post("/login-Client", async (req, res) => {

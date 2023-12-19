@@ -10,7 +10,7 @@ import NewNavBar from './NewNavBar';
 
 
 
-const Layout = ({ newNavBarClientRegister, newNavBarClientLogin, newNavBarCandidateLogin, newNavBarCandidateRegister, newNavBarAdminLogin, newNavBarRecruiterLogin, forgotPassword, ClientNewPassword, home, aboutUs, searchCV, service, RPO, contact}) => {
+const Layout = ({ newNavBarClientRegister, newNavBarClientLogin, newNavBarCandidateLogin, newNavBarCandidateRegister, newNavBarAdminLogin, newNavBarRecruiterLogin, forgotPassword, ClientNewPassword, home, aboutUs, searchCV, service, RPO, contact, candVerification}) => {
   useEffect(() => {
     ///////////
     const select = (el, all = false) => {
@@ -241,7 +241,7 @@ const Layout = ({ newNavBarClientRegister, newNavBarClientLogin, newNavBarCandid
   return (
     <div>
 
-    {newNavBarClientRegister ? <NewNavBar clientLogin = {true} />: newNavBarClientLogin ? <NewNavBar clientRegister = {true} />: newNavBarCandidateLogin ? <NewNavBar candidateRegister = {true} /> : newNavBarAdminLogin ? <NewNavBar /> : newNavBarRecruiterLogin ? <NewNavBar /> : newNavBarCandidateRegister ? <NewNavBar candidateLogin ={true}/> : forgotPassword ? <NewNavBar /> : ClientNewPassword ? <NewNavBar /> : <NewNav homeActive={home} aboutUsActive={aboutUs} searchCVActive={searchCV} serviceActive={service} RPOActive={RPO} contactActive={contact}/>}
+    {newNavBarClientRegister ? <NewNavBar clientLogin = {true} />: newNavBarClientLogin ? <NewNavBar clientRegister = {true} />: newNavBarCandidateLogin ? <NewNavBar candidateRegister = {true} /> : newNavBarAdminLogin ? <NewNavBar /> : newNavBarRecruiterLogin ? <NewNavBar /> : newNavBarCandidateRegister ? <NewNavBar candidateLogin ={true}/> : forgotPassword ? <NewNavBar /> : candVerification ? <NewNavBar candVerification = {true}/>: ClientNewPassword ? <NewNavBar /> : <NewNav homeActive={home} aboutUsActive={aboutUs} searchCVActive={searchCV} serviceActive={service} RPOActive={RPO} contactActive={contact}/>}
       
       {/* <div className='container-fluid'>{children}</div> */}
       {/* <div id="preloader"></div> */}
