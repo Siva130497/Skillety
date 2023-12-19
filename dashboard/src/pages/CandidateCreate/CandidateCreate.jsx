@@ -5,8 +5,6 @@ import 'react-datepicker/dist/react-datepicker.css';
 import axios from 'axios';
 import { v4 as uuidv4 } from "uuid";
 import $ from 'jquery';
-import './CandidateRegister.css';
-import './CandidateRegister-responsive.css';
 import ATSLayout from '../../components/ATSLayout';
 import Footer from '../../components/Footer';
 import Swal from 'sweetalert2';

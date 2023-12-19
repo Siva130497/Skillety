@@ -351,11 +351,18 @@ const EventPosting = () => {
                                 {type} Posting
                             </div>
                             <div className="card post-job-card">
-                                {type === "event" ?
-                                    <div className="post-job-title">Post an {type} </div>
+                                {editingEventId ? 
+                                    <div className="post-job-title update">Update the {type} detail</div>
                                     :
-                                    <div className="post-job-title">Post a {type} </div>
+                                <>
+                                    {type === "event" ?
+                                        <div className="post-job-title">Post an {type} </div>
+                                        :
+                                        <div className="post-job-title">Post a {type} </div>
+                                    }
+                                </>
                                 }
+
                                 {/* <div className="post-job-sub-title">Begin from scratch</div> */}
 
                                 <div className="job-post-form-area p-t-40">
@@ -455,7 +462,7 @@ const EventPosting = () => {
                                                     {(eventImgUrl.length > 0 || editingEventId) &&
                                                         <div className="event-preview-area">
                                                             <div className='event-preview-image-area'>
-                                                                <img src={eventImgUrl} className='event-preview-image' title='Event Image' alt="Event Image" />
+                                                                <img src={eventImgUrl} className='event-preview-image' title={`${type} image`} alt={`${type} image`} />
                                                             </div>
                                                             <button id='clear-file' className='clear-image-btn'
                                                                 title='Clear the image file...' onClick={handleClearFile}>
@@ -476,7 +483,7 @@ const EventPosting = () => {
                             </div>
                             <div className="post-job-btn-area">
                                 {editingEventId ? <button className='post-job-btn' onClick={handleSubmit}>Update</button> : <button className='post-job-btn' onClick={handleSubmit}>Post</button>}
-                                <a href={`/posted-media/${type}`} className='post-job-btn yellow'>
+                                <a href={`/posted-media/${type}`} className='post-job-btn yellow text-capitalized'>
                                     Posted {type}
                                     <i class="bi bi-box-arrow-up-right ml-3"></i>
                                 </a>

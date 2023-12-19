@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
-import {io} from "socket.io-client";
+import { io } from "socket.io-client";
 import axios from 'axios';
 import notificationSound from "./media/notify-ring.mp3";
 
@@ -17,32 +17,45 @@ const ATSNavBar = () => {
     const [audioContext, setAudioContext] = useState(null);
     const [audioBuffer, setAudioBuffer] = useState(null);
 
-    useEffect(()=>{
+    useEffect(() => {
         setSocket(io("https://skillety.onrender.com"));
-    },[]);
+    }, []);
 
-    useEffect(()=>{
+    useEffect(() => {
         socket?.emit("newUser", userName)
-    },[socket, userName])
+    }, [socket, userName]);
 
-    useEffect(()=>{
-      socket?.on("getNotification", data=>{
-        console.log(data)
-        setNotifications(prev=>[...prev, data]);
+    useEffect(() => {
+        const handleNotification = (data) => {
+            console.log(data);
+            setNotifications((prev) => [...prev, data]);
 
-        if (!document.hasFocus()) {
-            const sound = new Audio(notificationSound);
-            sound.play();
-          }
-      })
-    },[socket]);
+            if (!document.hasFocus()) {
+                playNotificationSound();
+            }
+        };
+
+        socket?.on("getNotification", handleNotification);
+
+        return () => {
+            socket?.off("getNotification", handleNotification);
+        };
+    }, [socket]);
+
+    const playNotificationSound = () => {
+        const sound = new Audio(notificationSound);
+
+        sound.play().catch((error) => {
+            console.error("Error playing notification sound:", error);
+        });
+    };
 
     // useEffect(()=>{
     //     if (notifications.length > 0 || socket) {
     //         if (audioContext === null) {
     //           const context = new (window.AudioContext || window.webkitAudioContext)();
     //           setAudioContext(context);
-      
+
     //           fetch('../assets/media/notify-ring.mp3')
     //             .then((response) => response.arrayBuffer())
     //             .then((data) => {
@@ -58,39 +71,39 @@ const ATSNavBar = () => {
 
     // },[notifications, audioContext, audioBuffer, socket])
 
-    const playSound = (context, buffer) => {
-        const source = context.createBufferSource();
-        source.buffer = buffer;
-        source.connect(context.destination);
-        source.start(0);
-      };
+    // const playSound = (context, buffer) => {
+    //     const source = context.createBufferSource();
+    //     source.buffer = buffer;
+    //     source.connect(context.destination);
+    //     source.start(0);
+    //   };
 
-    const displayNotification = ({senderName, type, time, date}) => {
+    const displayNotification = ({ senderName, type, time, date }) => {
         let action;
-  
-        if(type === "2"){
-          action = "message"
+
+        if (type === "2") {
+            action = "message"
         }
         return (
-              <div className="notification-dropdown-content">
-                      <div className="notification-dropdown-content-left">
-                        <div className="noti-drpdwn-img-area">
-                          {/* <img src="assets/img/layout/user-img.png" className='noti-drpdwn-img' alt="" /> */}
-                          <i class="bi bi-person"></i>
-                        </div>
-                        <div className="dropdown-notification-item">
-                          {`${senderName} ${action} you`}
-                        </div>
-                      </div>
-                      <div className="notification-dropdown-content-right">
-                        <div className="drpdwn-notify-time">
-                            {`${time}`}
-                            <span>{`${date}`}</span>
-                        </div>
-                      </div>
-              </div>
+            <div className="notification-dropdown-content">
+                <div className="notification-dropdown-content-left">
+                    <div className="noti-drpdwn-img-area">
+                        {/* <img src="assets/img/layout/user-img.png" className='noti-drpdwn-img' alt="" /> */}
+                        <i class="bi bi-person"></i>
+                    </div>
+                    <div className="dropdown-notification-item">
+                        {`${senderName} ${action} you`}
+                    </div>
+                </div>
+                <div className="notification-dropdown-content-right">
+                    <div className="drpdwn-notify-time">
+                        {`${time}`}
+                        <span>{`${date}`}</span>
+                    </div>
+                </div>
+            </div>
         )
-      }
+    }
 
     useEffect(() => {
         setToken(JSON.parse(localStorage.getItem('staffToken')))
@@ -113,17 +126,17 @@ const ATSNavBar = () => {
 
             axios.get("https://skillety.onrender.com/candidate-to-recruiter-notification", {
                 headers: {
-                Authorization: `Bearer ${token}`,
-                Accept: 'application/json'
+                    Authorization: `Bearer ${token}`,
+                    Accept: 'application/json'
                 }
             })
-            .then(res=>{
-                console.log(res.data);
-                setNotifications(res.data)
-            })
-            .catch(err=>{
-                console.log(err)
-            })
+                .then(res => {
+                    console.log(res.data);
+                    setNotifications(res.data)
+                })
+                .catch(err => {
+                    console.log(err)
+                })
         }
     }, [token]);
 
@@ -175,7 +188,7 @@ const ATSNavBar = () => {
                     <div className="dropdown-menu dropdown-list dropdown-menu-right pullDown notification-dropdown">
                         <div className="notification-dropdown-header">
                             <div className="notification-dropdown-head">
-                            Notification&nbsp;<span>({notifications?.length})</span>
+                                Notification&nbsp;<span>({notifications?.length})</span>
                             </div>
                             {/* <a href="#" className='notify-settings-btn client'>
                                 <i class="bi bi-gear-fill"></i>
@@ -183,20 +196,20 @@ const ATSNavBar = () => {
                         </div>
                         <div className="notification-dropdown-content-area">
                             {notifications?.length > 0 ? (
-                                notifications.reverse().slice(0,10).map((notification) => (
-                                <div key={notification.id}>{displayNotification(notification)}</div>
+                                notifications.reverse().slice(0, 10).map((notification) => (
+                                    <div key={notification.id}>{displayNotification(notification)}</div>
                                 ))
                             ) : (
                                 <p className='no-notification'>
                                     <i className='bi bi-exclamation-circle mr-2'></i>
                                     No new notifications.
-                                    </p>
+                                </p>
                             )}
-                            </div>
+                        </div>
 
                         <div className="dropdown-footer notification-dropdown-footer text-center">
-                        <a className='drp-dwn-view-all-btn'
-                            onClick={()=>setNotifications([])}
+                            <a className='drp-dwn-view-all-btn'
+                                onClick={() => setNotifications([])}
                             >Mark All As Read.
                                 <i class="bi bi-chevron-right ml-3"></i>
                             </a>

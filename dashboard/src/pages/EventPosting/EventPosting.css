@@ -52,6 +52,12 @@
     font-size: 14px;
     font-weight: 400;
     width: 100% !important;
+    transition: ease-in-out 0.5s !important;
+    cursor: pointer;
+}
+
+.job-post-form-group .react-datepicker-wrapper .react-datepicker__input-container input:focus{
+    box-shadow: 0px 0px 0px 4px #f9c73338 !important;
 }
 
 .job-post-form-group .react-datepicker-wrapper .react-datepicker__input-container input::placeholder {
@@ -64,10 +70,10 @@
 }
 
 .job-post-form-group .react-datepicker-wrapper .react-datepicker__input-container input:disabled {
-    border-color: #a5a5a5;
-    cursor: not-allowed;
-    background-color: #FFF;
-    color: #7e7e7e;
+    border-color: #a5a5a5 !important;
+    cursor: not-allowed !important;
+    background-color: #FFF !important;
+    color: #7e7e7e !important;
 }
 
 .job-post-form-group .react-datepicker__day--selected {

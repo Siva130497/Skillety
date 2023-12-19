@@ -700,7 +700,7 @@ const CandidateRegister = () => {
                                             value={credentials.confirmPassword}
                                             onChange={handleInputChange}
                                             onPaste={(e) => e.preventDefault()}
-                                            placeholder="Enter your confirmPassword" className='cand--reg-form-input' required />
+                                            placeholder="Confirm your password" className='cand--reg-form-input' required />
                                         <label htmlFor="confirm_password" className='cand--reg-form-label'>Confirm Password&nbsp;<span className='is-required'>*</span></label>
                                         {confirmPasswordErrorMsg && <small className='text-danger text-capitalized form-error-message'>Password and Confirm Password must match...</small>}
                                         {require && <small className='text-danger text-capitalized form-error-message'>{credentials.confirmPassword === "" && "required"}</small>}

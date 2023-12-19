@@ -11,7 +11,7 @@
 
 .post-job-title {
     color: #714F36;
-    font-size: 25px;
+    font-size: 23px;
     font-weight: 600;
 }
 
@@ -103,6 +103,7 @@
     font-weight: 400 !important;
     width: 100%;
     position: relative;
+    transition: ease-in-out 0.5s;
 }
 
 .job-post-form-input::placeholder {
@@ -112,6 +113,10 @@
 .job-post-form-input:focus,
 .job-post-form-input:active {
     outline: none !important;
+}
+
+.job-post-form-input:focus{
+    box-shadow: 0px 0px 0px 4px #f9c73338 !important;
 }
 
 .job-post-form-input.select-input option {
