@@ -125,12 +125,12 @@ const ATSSideBar = () => {
                     <li className="dropdown" id='all_candidates'>
                         <a href="/all-candidates" className="nav-link"><i data-feather="users"></i><span>All Candidates</span></a>
                     </li>
-                    <li className="dropdown" id='search_candidate'>
+                    {/* <li className="dropdown" id='search_candidate'>
                         <a href="/talent-profile-search" className="nav-link"><i data-feather="search"></i><span>Search Candidates</span></a>
                     </li>
                     <li className="dropdown" id="search_jobs">
             <a href="/search-jobs" className="nav-link"><i data-feather="briefcase"></i><span>Search Jobs</span></a>
-          </li>
+          </li> */}
                     <li className="dropdown" id='all_jobs'>
                         <a href="/all-jobs" className="nav-link"><i data-feather="briefcase"></i><span>All Jobs</span></a>
                     </li>
