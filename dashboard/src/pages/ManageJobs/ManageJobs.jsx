@@ -624,7 +624,7 @@ const ManageJobs = () => {
                                                             <th className='dash-table-head'>Job Title</th>
                                                             <th className='dash-table-head text-center'>Posted Date</th>
                                                             <th className='dash-table-head text-center'>Applicants</th>
-                                                            <th className='dash-table-head text-center'>Assigned applicants</th>
+                                                            {/* <th className='dash-table-head text-center'>Assigned applicants</th> */}
                                                             <th className='dash-table-head text-center'>Posted by</th>
                                                             <th className='dash-table-head text-center'>Status</th>
                                                             <th className='dash-table-head text-center'>Action</th>
@@ -654,7 +654,7 @@ const ManageJobs = () => {
                                                                             </svg>
                                                                         </button> : <div className='text-approval'>This job still not shown <br /> on job portal</div>}
                                                                     </td>
-                                                                    <td className='dash-table-data1 text-center'>
+                                                                    {/* <td className='dash-table-data1 text-center'>
                                                                         {assignedCand?.length > 0 ? <button className='application-btn with-modal' onClick={() => handleViewAssignedApplicant(job.id, assignedCand)}>
                                                                             <span>{assignedCand?.length}</span>&nbsp;&nbsp;&nbsp;
                                                                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-file-earmark-text-fill" viewBox="0 0 16 16">
@@ -662,7 +662,7 @@ const ManageJobs = () => {
                                                                             </svg>
 
                                                                         </button> : <div className='text-approval'>No candidates  <br /> assigned yet!</div>}
-                                                                    </td>
+                                                                    </td> */}
                                                                     <td className='dash-table-data1 text-center text-capitalized'>
                                                                         {staff && staff.name}
                                                                     </td>

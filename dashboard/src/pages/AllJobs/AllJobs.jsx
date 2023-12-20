@@ -423,7 +423,7 @@ const AllJobs = () => {
             confirmButtonText: 'Yes, Boost Job!'
         }).then((result) => {
             if (result.isConfirmed) {
-                
+                job(id);
             }
         });
     };
