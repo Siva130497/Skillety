@@ -410,10 +410,23 @@ const AllJobs = () => {
             assigningCandidate(newAssignedCandidate);
 
         }
-        const handleBoostJob = (jobId) => {
-            console.log(`Boosting job with ID: ${jobId}`);
-        }
     }
+
+    const handleBoostJob = (id) => {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'You won\'t be able to revert this!',
+            icon: 'info',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, Boost Job!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                
+            }
+        });
+    };
 
     return (
         <div>
@@ -695,7 +708,7 @@ const AllJobs = () => {
                                                                                             </td>
                                                                                             <td className='text-center'>
                             {/* Boost Job Button */}
-                            <button className='btn btn-primary' onClick={() =>(Job.id)}>
+                            <button className='btn btn-primary' onClick={() => handleBoostJob(Job.id)}>
                                 Boost Job
                             </button>
                         </td>
