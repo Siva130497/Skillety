@@ -410,6 +410,9 @@ const AllJobs = () => {
             assigningCandidate(newAssignedCandidate);
 
         }
+        const handleBoostJob = (jobId) => {
+            console.log(`Boosting job with ID: ${jobId}`);
+        }
     }
 
     return (
@@ -690,6 +693,12 @@ const AllJobs = () => {
                                                                                                         <span className='man-job-status-btn theme-info'>Approved & InActive</span>
                                                                                                 }
                                                                                             </td>
+                                                                                            <td className='text-center'>
+                            {/* Boost Job Button */}
+                            <button className='btn btn-primary' onClick={() =>(Job.id)}>
+                                Boost Job
+                            </button>
+                        </td>
                                                                                             <td className='text-center'>
                                                                                                 <div className="action-btn-area">
                                                                                                     <button className='job-view-btn' data-toggle="modal" title='View Candidate Details...' data-target="#invoiceModal" onClick={() => handleViewJobDetail(Job.id)}>
