@@ -576,6 +576,7 @@ const AllJobs = () => {
                                                                 <th className='dash-table-head'>Job Category</th>
                                                                 <th className='dash-table-head text-center'>Posted by</th>
                                                                 <th className='dash-table-head text-center'>Status</th>
+                                                                <th className='dash-table-head text-center'>Boost</th>
                                                                 <th className='dash-table-head text-center'>View</th>
                                                             </tr>
 
@@ -660,6 +661,8 @@ const AllJobs = () => {
                                                                                     </tr>
                                                                                 );
                                                                             })) :
+
+
                                                                             (!searchJobRoleInput && checkBoxfilters.length === 0) ?
                                                                             
                                                                                 (allJobs.slice(x[0], x[1])
@@ -688,6 +691,13 @@ const AllJobs = () => {
                                                                                                         <span className='man-job-status-btn theme-info'>Approved & InActive</span>
                                                                                                 }
                                                                                             </td>
+                                                                                            <tr className='dash-table-row client' key={Job.id}></tr>
+                                                                                            <td className='text-center'>
+                                                                                                <div className="action-btn-area"></div>
+                                                                                            <button className='status-change-btn deactive' title='Deactivate' onClick={() => handleDeActivate(Job.id)}>
+                                                                                                            Boost job
+                                                                                                        </button> 
+                                                                                                        </td>
                                                                                             <td className='text-center'>
                                                                                                 <div className="action-btn-area">
                                                                                                     <button className='job-view-btn' data-toggle="modal" title='View Candidate Details...' data-target="#invoiceModal" onClick={() => handleViewJobDetail(Job.id)}>
