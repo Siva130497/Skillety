@@ -828,15 +828,17 @@ const getSkillMatchJobDetail = async (req, res) => {
 }
 
 /* get all posted jobs */
-const getActivejobs = async(req, res) => {
-  try{
-    const avtiveJobs = await activeJob.find();
+const getActivejobs = async (req, res) => {
+  try {
+    // Use sort to order by updatedAt in descending order (-1)
+    const avtiveJobs = await activeJob.find().sort({ updatedAt: -1 });
     
     res.status(200).json(avtiveJobs); 
-  }catch(err) {
-    res.status(500).json({error: err.message})
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 }
+
 
 /* get all posted jobs */
 const getApprovedInActivejobs = async(req, res) => {
@@ -1057,6 +1059,32 @@ const updateJob = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+/* boost a job  */
+const boostJob = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const activeJobToUpdate = await activeJob.findOne({ id });
+    
+    if (activeJobToUpdate) {
+      // Update the updatedAt field to the current date in MongoDB Atlas format
+      activeJobToUpdate.updatedAt = new Date().toISOString();
+      
+      // Save the updated job
+      const updatedJob = await activeJobToUpdate.save();
+      
+      // Return the updated job as a response
+      res.status(200).json(updatedJob);
+    } else {
+      // If the job is not found, return a message
+      res.status(404).json({ message: 'No such job found' });
+    }
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
 
 /* get own posted jobs  */
 const getOwnPostedjobs = async (req, res) => {
@@ -3305,4 +3333,5 @@ module.exports = {
    createCandidate,
    finalCandRegister,
    getCandidate,
+   boostJob,
 };

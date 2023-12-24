@@ -427,8 +427,8 @@ const JobSearch = () => {
             const result = res.data;
             if (!result.error) {
                 console.log(result);
-                setAllJobs(result.reverse());
-                setLatestJob(result.reverse().slice(0, 10))
+                setAllJobs(result);
+                setLatestJob(result.slice(0, 10))
             } else {
                 console.log(result);
             }

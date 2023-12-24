@@ -130,6 +130,7 @@ const {
   createCandidate,
   finalCandRegister,
   getCandidate,
+  boostJob,
   
 } = require("../Controller/authFunctions");
 const employeeAuth = require("../middleware/employeeAuth");
@@ -222,6 +223,9 @@ router.get('/applied-job/:id', getAppliedJobByJobId)
 
 //edit the job using id
 router.patch("/job-detail/:id", employeeAuth, updateJob);
+
+//boot the job
+router.patch("/boost/:id", boostJob);
 
 //get posted job details
 router.get('/my-posted-jobs/:id', employeeAuth, getOwnPostedjobs)

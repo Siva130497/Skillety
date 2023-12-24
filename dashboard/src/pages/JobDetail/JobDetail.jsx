@@ -27,7 +27,7 @@ const JobDetail = () => {
             const result = res.data;
             if (!result.error) {
               console.log(result);
-              setAllJobs(result.reverse());
+              setAllJobs(result);
               const jobDetail = result.find(job=>job.id === id)
               setJob(jobDetail);
             } else {

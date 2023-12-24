@@ -149,7 +149,7 @@ const AllJobs = () => {
                 console.log(result);
                 const updatedJobsWithActive = result.map(job => ({ ...job, active: true }));
 
-                setUpdatePostedJobs(prevPostedJobs => [...prevPostedJobs, ...updatedJobsWithActive.reverse()]);
+                setUpdatePostedJobs(prevPostedJobs => [...prevPostedJobs, ...updatedJobsWithActive]);
             } else {
                 console.log(result);
             }
@@ -174,7 +174,7 @@ const AllJobs = () => {
             const result = res.data;
             if (!result.error) {
                 console.log(result);
-                setUpdatePostedJobs(prevPostedJobs => [...prevPostedJobs, ...result.reverse()]);
+                setUpdatePostedJobs(prevPostedJobs => [...prevPostedJobs, ...result]);
             } else {
                 console.log(result);
             }
@@ -423,7 +423,21 @@ const AllJobs = () => {
             confirmButtonText: 'Yes, Boost Job!'
         }).then((result) => {
             if (result.isConfirmed) {
-             
+                axios.patch(`https://skillety.onrender.com/boost/${id}`, {
+                    headers: {
+                        // Authorization: `Bearer ${staffToken}`,
+                        Accept: 'application/json'
+                    }
+                })
+                    .then((res) => {
+                        console.log(res.data);
+                        showSuccessMessage("Job has been boosted!");
+                        getPostedjobs();
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                        showErrorMessage();
+                    });
             }
         });
     };
@@ -707,11 +721,15 @@ const AllJobs = () => {
                                                                                                 }
                                                                                             </td>
                                                                                             <td className='text-center'>
-                            {/* Boost Job Button */}
-                            <button className='btn btn-primary' onClick={() => handleBoostJob(Job.id)}>
-                                Boost Job
-                            </button>
-                        </td>
+                                                                                            {/* Boost Job Button */}
+                                                                                            <button 
+                                                                                            className='btn btn-primary' 
+                                                                                            onClick={() => handleBoostJob(Job.id)}
+                                                                                            disabled={!Job?.active}
+                                                                                            >
+                                                                                                Boost Job
+                                                                                            </button>
+                                                                                        </td>
                                                                                             <td className='text-center'>
                                                                                                 <div className="action-btn-area">
                                                                                                     <button className='job-view-btn' data-toggle="modal" title='View Candidate Details...' data-target="#invoiceModal" onClick={() => handleViewJobDetail(Job.id)}>
