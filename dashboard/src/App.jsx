@@ -43,6 +43,7 @@ import AppliedCandidateRecruiter from './pages/AppliedCandidate Recruiter/Applie
 import AllCompanyStaff from './pages/AllCompanyStaff/AllCompanyStaff';
 import CandidateCreate from './pages/CandidateCreate/CandidateCreate';
 import CreateCandidate from './pages/CreateCandidate/CreateCandidate';
+import CreateClient from './pages/CreateClient/CreateClient';
 
 import CandidateChat from './pages/Chat/CandidateChat';
 import ClientChat from './pages/Chat/ClientChat';
@@ -97,8 +98,10 @@ function App() {
         <Route path='/applied-candidate-recruiter/:id' element={<AppliedCandidateRecruiter />} />
         <Route path='/chat-candidate' element={<CandidateChat />} />
         <Route path='/chat-client' element={<ClientChat />} />
-        <Route path='/candidate-create' element={<CandidateCreate />} />
+        {/* <Route path='/candidate-create' element={<CandidateCreate />} /> */}
         <Route path='/create-candidate' element={<CreateCandidate />} />
+        <Route path='/create-client' element={<CreateClient />} />
+
 
         {/* admin pages */}
         <Route path='/all-company-staff' element={<AllCompanyStaff />} />
