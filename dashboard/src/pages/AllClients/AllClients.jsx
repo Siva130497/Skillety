@@ -197,8 +197,20 @@ const AllClients = () => {
                 <div class="main-content">
                     <section class="section">
                         <div className="my-app-section">
-                            <div className="admin-component-name">
-                                All Clients
+                        <div className='d-flex align-items-end justify-content-between pt-4'>
+                                <div className="admin-component-name pt-0">
+                                    All Clients
+                                </div>
+                                <div className="create-btn-area">
+                                    <a
+                                        href="/create-client"
+                                        className='btn creat-data-btn'
+                                        title='Create new client...'
+                                    >
+                                        <i class="bi bi-person-plus-fill"></i>
+                                        <span>Create New</span>
+                                    </a>
+                                </div>
                             </div>
 
                             {loading ? (
