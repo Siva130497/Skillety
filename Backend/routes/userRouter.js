@@ -133,6 +133,8 @@ const {
   boostJob,
   getAllClientTableColumnData,
   allClientTableColumnData,
+  getAllCandidateTableColumnData,
+   allCandidateTableColumnData,
   
 } = require("../Controller/authFunctions");
 const employeeAuth = require("../middleware/employeeAuth");
@@ -495,6 +497,10 @@ router.get("/CandidateWithUrl-Detail/:id", getCandidate);
 router.post("/all-clients-column", allClientTableColumnData);
 
 router.get("/all-clients-column/:id", getAllClientTableColumnData);
+
+router.post("/all-candidates-column", allCandidateTableColumnData);
+
+router.get("/all-candidates-column/:id", getAllCandidateTableColumnData);
 
 // Client, Client-staff Login Route
 router.post("/login-Client", async (req, res) => {

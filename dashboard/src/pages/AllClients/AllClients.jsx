@@ -97,9 +97,9 @@ const AllClients = () => {
                 console.log(res.data);
                 if(res.data){
                     setSelectedColumns(res.data.column);
-                    setLoading(false);
+                    
                 }
-                
+                setLoading(false);
             })
             .catch(err=>{
                 console.log(err)

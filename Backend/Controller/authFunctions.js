@@ -36,6 +36,7 @@ const candidateToRecruiterNotification = require("../Database/candidateToRecruit
 const candidateNotification = require("../Database/candidateNotificationData");
 const candidateCreate = require("../Database/candidateCreate");
 const allClientTable = require("../Database/allClientTable");
+const allCandidateTable = require("../Database/allCandidateTable");
 
 // const hash = async() => {
 //   const pass = 'newpassword'
@@ -3092,6 +3093,45 @@ const getAllClientTableColumnData = async(req, res) => {
   }
 }
 
+/* all client table column data create */
+const allCandidateTableColumnData = async (req, res) => {
+  try {
+    const { id, column } = req.body;
+
+    const existingDocument = await allCandidateTable.findOne({ id });
+
+    if (existingDocument) {
+      existingDocument.column = column;
+      await existingDocument.save();
+      res.status(200).json(existingDocument);
+    } else {
+      const newAllCandidateTableData = new allCandidateTable({
+        id,
+        column,
+      });
+
+      await newAllCandidateTableData.save();
+      res.status(201).json(newAllCandidateTableData);
+    }
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+};
+
+
+/* get all client table column data */
+const getAllCandidateTableColumnData = async(req, res) => {
+  const {id} = req.params;
+  try{
+    const allCandidateTableColumnData = await allCandidateTable.findOne({id});
+    console.log(allCandidateTableColumnData);
+    return res.status(200).json(allCandidateTableColumnData);
+  }catch(err){
+    console.log(err);
+    return res.status(500).json({ error: err.message });
+  }
+}
+
 /* random password generate */
 const generateRandomPassword = (req, res) => {
   const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=[]{}|;:,.<>?';
@@ -3375,4 +3415,6 @@ module.exports = {
    boostJob,
    getAllClientTableColumnData,
    allClientTableColumnData,
+   getAllCandidateTableColumnData,
+   allCandidateTableColumnData,
 };

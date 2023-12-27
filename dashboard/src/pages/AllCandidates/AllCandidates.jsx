@@ -24,12 +24,40 @@ const AllCandidates = () => {
     const [x, setX] = useState([0, 10]);
     const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        $(document).ready(function () {
+    const [selectedColumns, setSelectedColumns] = useState([]);
+    let columns = ["Email ID", "Mobile Number",  "Send an interview invitation", "Current Job Role", "Skills", "Experience", "Current/Previous Working/Worked Company Name", "College", "Education", "Location", "About him/her", "Last Working Day", "Available To Join In", "Applied jobs of your posted"]
+
+    const handleCheckboxChange = (value) => {
+        
+        const updatedColumns = selectedColumns ? [...selectedColumns] : [];
+
+        if (updatedColumns.includes(value)) {
+            updatedColumns.splice(updatedColumns.indexOf(value), 1);
+        } else {
+            updatedColumns.length<3 && updatedColumns.push(value);
+        }
+    
+        setSelectedColumns(updatedColumns);
+    
+        const columnData = {
+            id: employeeId,
+            column: updatedColumns,
+        };
+    
+        axios.post("http://localhost:5002/all-candidates-column", columnData, {
+            headers: {
+                Authorization: `Bearer ${staffToken}`,
+                Accept: 'application/json'
+            }
+        })
+        .then(res => {
+            console.log(res.data)
+        })
+        .catch(err => {
+            console.log(err)
         });
-
-    }, []);
-
+    }
+    
     useEffect(() => {
         setStaffToken(JSON.parse(localStorage.getItem('staffToken')))
     }, [staffToken])
@@ -50,6 +78,24 @@ const AllCandidates = () => {
         }
     }, [staffToken]);
 
+    useEffect(()=>{
+        if(employeeId){
+            axios.get(`http://localhost:5002/all-candidates-column/${employeeId}`)
+            .then(res=>{
+                console.log(res.data);
+                if(res.data){
+                    setSelectedColumns(res.data.column);
+                    
+                }
+                setLoading(false);
+            })
+            .catch(err=>{
+                console.log(err)
+                setLoading(false);
+            })
+        }
+    },[employeeId])
+
     const getAllCandidateDetail = async () => {
         try {
             setLoading(true);
@@ -67,11 +113,11 @@ const AllCandidates = () => {
                 console.log(result);
             }
 
-            setLoading(false);
+            
         } catch (error) {
             console.log(error);
 
-            setLoading(false);
+            
         }
     };
 
@@ -318,6 +364,17 @@ const AllCandidates = () => {
                                                         <i className='bi bi-search search-icon'></i>
                                                         <button className='recruiter-search-btn' onClick={handleSkillSearch}>Search</button>
                                                     </div>}
+                                                    {columns.map(column=>{
+                                                        return(
+                                                            <label >
+                                                                <input type="checkbox"
+                                                                checked={selectedColumns?.includes(column)}
+                                                                onChange={() => handleCheckboxChange(column)} />
+                                                                <span ></span>
+                                                                    {column}
+                                                            </label>
+                                                        )
+                                                    })}
                                                 </div>
 
                                                 {candidateDetail.length > 0 ?
@@ -326,9 +383,13 @@ const AllCandidates = () => {
                                                             <tr className='dash-table-row candidate'>
                                                                 <th className='dash-table-head'>No.</th>
                                                                 <th className='dash-table-head'>Full Name</th>
-                                                                <th className='dash-table-head'>Email ID</th>
-                                                                <th className='dash-table-head'>Phone No.</th>
-                                                                <th className='dash-table-head text-center'>Send an interview invitation</th>
+                                                                {columns.map(column=>{
+                                                                    if(selectedColumns?.includes(column)){
+                                                                        return(
+                                                                            <th className='dash-table-head'>{column}</th>  
+                                                                        )
+                                                                    }
+                                                                })}
                                                                 <th className='dash-table-head text-center'>View</th>
                                                             </tr>
 
@@ -349,37 +410,80 @@ const AllCandidates = () => {
                                                                                 <td className='dash-table-data1 text-capitalized'>
                                                                                     {candidate.firstName + ' ' + candidate.lastName}
                                                                                 </td>
-                                                                                <td className='dash-table-data1'>
+                                                                                {selectedColumns?.includes("Email ID") &&<td className='dash-table-data1'>
                                                                                     <a href={`mailto:${candidate.email}`}
                                                                                         className='dash-table-data1 link is-link'>
                                                                                         {candidate.email}
                                                                                     </a>
-                                                                                </td>
+                                                                                </td>}
 
-                                                                                {/* <td className='dash-table-data1'>
-                                                                        <span className='text-warning p-0'>
-                                                                        <i class="bi bi-exclamation-circle mr-2"></i>
-                                                                        Email still not sent!
-                                                                    </span>
-
-                                                                        <span className='text-success p-0'>
-                                                                            <i class="bi bi-check-circle mr-2"></i>
-                                                                            Email already sent
-                                                                        </span>
-                                                                    </td> */}
-                                                                                <td className='dash-table-data1'>
+                                                                                {selectedColumns?.includes("Mobile Number") &&<td className='dash-table-data1'>
                                                                                     <a href={`tel:${candidate.phone}`}
                                                                                         className='dash-table-data1 link is-link'>
                                                                                         {candidate.phone}
                                                                                     </a>
-                                                                                </td>
+                                                                                </td>}
 
-                                                                                <td className='dash-table-data1 text-center'>
+                                                                                {selectedColumns?.includes("Send an interview invitation") &&<td className='dash-table-data1 text-center'>
                                                                                     <button className='send-email-btn' onClick={() => handleSend(candidate.id)}>
                                                                                         <i class="bi bi-send-fill send-icon"></i>
                                                                                         Send
                                                                                     </button>
-                                                                                </td>
+                                                                                </td>}
+
+                                                                                {selectedColumns?.includes("Current Job Role") &&<td className='dash-table-data1 text-center'>
+                                                                                    {candidate?.designation[0]}
+                                                                                </td>}
+
+                                                                                {selectedColumns?.includes("Skills") &&<td className='dash-table-data1 text-center'>
+                                                                                {candidate?.skills.join(", ")}
+                                                                                </td>}
+
+                                                                                {selectedColumns?.includes("Experience") &&<td className='dash-table-data1 text-center'>
+                                                                                <span>{candidate?.year}</span>&nbsp;years and&nbsp;<span>{candidate?.month}</span>&nbsp;months
+                                                                                </td>}
+
+                                                                                {selectedColumns?.includes("Current/Previous Working/Worked Company Name") &&<td className='dash-table-data1 text-center'>
+                                                                                    {candidate?.companyName}
+                                                                                </td>}
+
+                                                                                {selectedColumns?.includes("College") &&<td className='dash-table-data1 text-center'>
+                                                                                    {candidate?.college}
+                                                                                </td>}
+
+                                                                                {selectedColumns?.includes("Education") &&<td className='dash-table-data1 text-center'>
+                                                                                    {candidate?.education}
+                                                                                </td>}
+
+                                                                                {selectedColumns?.includes("Location") &&<td className='dash-table-data1 text-center'>
+                                                                                    {candidate?.location}
+                                                                                </td>}
+
+                                                                                {selectedColumns?.includes("About him/her") &&<td className='dash-table-data1 text-center'>
+                                                                                    {candidate?.profileHeadline}
+                                                                                </td>}
+
+                                                                                {selectedColumns?.includes("Last Working Day") &&<td className='dash-table-data1 text-center'>
+                                                                                    {candidate?.selectedDate}
+                                                                                </td>}
+
+                                                                                {selectedColumns?.includes("Available To Join In") &&<td className='dash-table-data1 text-center'>
+                                                                                    {candidate?.days}
+                                                                                </td>}
+
+                                                                                {selectedColumns?.includes("Applied jobs of your posted") &&<td className='dash-table-data1 text-center'>
+                                                                                {appliedOfPostedJobs
+                                                                                    .filter((appliedOfPostedJob) => appliedOfPostedJob.candidateId === candidate?.id).length > 0 ?
+                                                                                    appliedOfPostedJobs
+                                                                                        .filter((appliedOfPostedJob) => appliedOfPostedJob.candidateId === candidate?.id)
+                                                                                        .map((appliedOfPostedJob) => {
+                                                                                            return (
+                                                                                                <span className='cand-skill text-capitalized'>{appliedOfPostedJob.jobRole[0]}</span>
+                                                                                            )
+                                                                                        }) :
+                                                                                    <p className='text-secondary'>Still not applied for your posted jobs</p>
+                                                                                }
+                                                                                </td>}
 
                                                                                 <td className='text-center'>
                                                                                     <div className="action-btn-area">
@@ -401,37 +505,80 @@ const AllCandidates = () => {
                                                                                 <td className='dash-table-data1 text-capitalized'>
                                                                                     {candidate.firstName + ' ' + candidate.lastName}
                                                                                 </td>
-                                                                                <td className='dash-table-data1'>
+                                                                                {selectedColumns?.includes("Email ID") &&<td className='dash-table-data1'>
                                                                                     <a href={`mailto:${candidate.email}`}
                                                                                         className='dash-table-data1 link is-link'>
                                                                                         {candidate.email}
                                                                                     </a>
-                                                                                </td>
+                                                                                </td>}
 
-                                                                                {/* <td className='dash-table-data1'>
-                                                                        <span className='text-warning p-0'>
-                                                                        <i class="bi bi-exclamation-circle mr-2"></i>
-                                                                        Email still not sent!
-                                                                    </span>
-
-                                                                        <span className='text-success p-0'>
-                                                                            <i class="bi bi-check-circle mr-2"></i>
-                                                                            Email already sent
-                                                                        </span>
-                                                                    </td> */}
-                                                                                <td className='dash-table-data1'>
+                                                                                {selectedColumns?.includes("Mobile Number") &&<td className='dash-table-data1'>
                                                                                     <a href={`tel:${candidate.phone}`}
                                                                                         className='dash-table-data1 link is-link'>
                                                                                         {candidate.phone}
                                                                                     </a>
-                                                                                </td>
+                                                                                </td>}
 
-                                                                                <td className='dash-table-data1 text-center'>
+                                                                                {selectedColumns?.includes("Send an interview invitation") &&<td className='dash-table-data1 text-center'>
                                                                                     <button className='send-email-btn' onClick={() => handleSend(candidate.id)}>
                                                                                         <i class="bi bi-send-fill send-icon"></i>
                                                                                         Send
                                                                                     </button>
-                                                                                </td>
+                                                                                </td>}
+
+                                                                                {selectedColumns?.includes("Current Job Role") &&<td className='dash-table-data1 text-center'>
+                                                                                    {candidate?.designation[0]}
+                                                                                </td>}
+
+                                                                                {selectedColumns?.includes("Skills") &&<td className='dash-table-data1 text-center'>
+                                                                                {candidate?.skills.join(", ")}
+                                                                                </td>}
+
+                                                                                {selectedColumns?.includes("Experience") &&<td className='dash-table-data1 text-center'>
+                                                                                <span>{candidate?.year}</span>&nbsp;years and&nbsp;<span>{candidate?.month}</span>&nbsp;months
+                                                                                </td>}
+
+                                                                                {selectedColumns?.includes("Current/Previous Working/Worked Company Name") &&<td className='dash-table-data1 text-center'>
+                                                                                    {candidate?.companyName}
+                                                                                </td>}
+
+                                                                                {selectedColumns?.includes("College") &&<td className='dash-table-data1 text-center'>
+                                                                                    {candidate?.college}
+                                                                                </td>}
+
+                                                                                {selectedColumns?.includes("Education") &&<td className='dash-table-data1 text-center'>
+                                                                                    {candidate?.education}
+                                                                                </td>}
+
+                                                                                {selectedColumns?.includes("Location") &&<td className='dash-table-data1 text-center'>
+                                                                                    {candidate?.location}
+                                                                                </td>}
+
+                                                                                {selectedColumns?.includes("About him/her") &&<td className='dash-table-data1 text-center'>
+                                                                                    {candidate?.profileHeadline}
+                                                                                </td>}
+
+                                                                                {selectedColumns?.includes("Last Working Day") &&<td className='dash-table-data1 text-center'>
+                                                                                    {candidate?.selectedDate}
+                                                                                </td>}
+
+                                                                                {selectedColumns?.includes("Available To Join In") &&<td className='dash-table-data1 text-center'>
+                                                                                    {candidate?.days}
+                                                                                </td>}
+
+                                                                                {selectedColumns?.includes("Applied jobs of your posted") &&<td className='dash-table-data1 text-center'>
+                                                                                {appliedOfPostedJobs
+                                                                                    .filter((appliedOfPostedJob) => appliedOfPostedJob.candidateId === candidate?.id).length > 0 ?
+                                                                                    appliedOfPostedJobs
+                                                                                        .filter((appliedOfPostedJob) => appliedOfPostedJob.candidateId === candidate?.id)
+                                                                                        .map((appliedOfPostedJob) => {
+                                                                                            return (
+                                                                                                <span className='cand-skill text-capitalized'>{appliedOfPostedJob.jobRole[0]}</span>
+                                                                                            )
+                                                                                        }) :
+                                                                                    <p className='text-secondary'>Still not applied for your posted jobs</p>
+                                                                                }
+                                                                                </td>}
 
                                                                                 <td className='text-center'>
                                                                                     <div className="action-btn-area">
