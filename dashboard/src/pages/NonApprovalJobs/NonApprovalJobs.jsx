@@ -21,16 +21,46 @@ const NonApprovalJobs = () => {
     const [prevSearchFilteredJobs, setPrevSearchFilteredJobs] = useState([]);
     const [checkBoxFilteredJobMsg, setCheckBoxFilteredJobMsg] = useState("");
     const [searchJobRoleInput, setSearchJobRoleInput] = useState("");
+    const [employeeId, setEmployeeId] = useState("");
 
     const [x, setX] = useState([0, 10]);
     const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        $(document).ready(function () {
+    const [selectedColumns, setSelectedColumns] = useState([]);
+    let columns = ["Job Category", "Send Approval", "Job Mandatory Skills", "Needed Experience", "Job Description", "Salary Range", "Department", "Education", "Industry", "Locations", "Role", "Working Mode"]
+
+    const handleColumnChange = (value) => {
+        
+        const updatedColumns = selectedColumns ? [...selectedColumns] : [];
+
+        if (updatedColumns.includes(value)) {
+            updatedColumns.splice(updatedColumns.indexOf(value), 1);
+        } else {
+            updatedColumns.length<3 && updatedColumns.push(value);
+        }
+    
+        setSelectedColumns(updatedColumns);
+    
+        const columnData = {
+            id: employeeId,
+            column: updatedColumns,
+        };
+    
+        axios.post("https://skillety.onrender.com/non-approval-jobs-column", columnData, {
+            headers: {
+                Authorization: `Bearer ${staffToken}`,
+                Accept: 'application/json'
+            }
+        })
+        .then(res => {
+            console.log(res.data)
+        })
+        .catch(err => {
+            console.log(err)
         });
+    }
 
-    }, []);
-
+    
     //for show success message for payment
     function showSuccessMessage(message) {
         Swal.fire({
@@ -57,6 +87,24 @@ const NonApprovalJobs = () => {
         setStaffToken(JSON.parse(localStorage.getItem('staffToken')))
     }, [staffToken])
 
+    useEffect(()=>{
+        if(employeeId){
+            axios.get(`https://skillety.onrender.com/non-approval-jobs-column/${employeeId}`)
+            .then(res=>{
+                console.log(res.data);
+                if(res.data){
+                    setSelectedColumns(res.data.column);
+                    
+                }
+                setLoading(false);
+            })
+            .catch(err=>{
+                console.log(err)
+                setLoading(false);
+            })
+        }
+    },[employeeId])
+
     const getNonApprovaljobs = async () => {
         try {
             setLoading(true);
@@ -74,11 +122,10 @@ const NonApprovalJobs = () => {
                 console.log(result);
             }
 
-            setLoading(false);
+            
         } catch (err) {
             console.log(err);
 
-            setLoading(false);
         }
     }
 
@@ -310,7 +357,17 @@ const NonApprovalJobs = () => {
                                                         <i className='bi bi-search search-icon'></i>
                                                         <button className='recruiter-search-btn' onClick={handleJobSearch}>Search</button>
                                                     </div>}
-
+                                                    {columns.map(column=>{
+                                                        return(
+                                                            <label >
+                                                                <input type="checkbox"
+                                                                checked={selectedColumns?.includes(column)}
+                                                                onChange={() => handleColumnChange(column)} />
+                                                                <span ></span>
+                                                                    {column}
+                                                            </label>
+                                                        )
+                                                    })}
                                                 </div>
                                                 {allJobs.length > 0 && <div className="rec-work-mode-area">
                                                     <label className="recruite-form-check-input">
@@ -351,8 +408,13 @@ const NonApprovalJobs = () => {
                                                         <tr className='dash-table-row man-app'>
                                                             <th className='dash-table-head'>No.</th>
                                                             <th className='dash-table-head'>Job Role</th>
-                                                            <th className='dash-table-head'>Job Category</th>
-                                                            <th className='dash-table-head text-center'>Send Approval</th>
+                                                            {columns.map(column=>{
+                                                                    if(selectedColumns?.includes(column)){
+                                                                        return(
+                                                                            <th className='dash-table-head'>{column}</th>  
+                                                                        )
+                                                                    }
+                                                                })}
                                                             <th className='dash-table-head text-center'>View</th>
                                                         </tr>
 
@@ -372,17 +434,48 @@ const NonApprovalJobs = () => {
                                                                             <td className='dash-table-data1 text-capitalized'>
                                                                                 {Job?.jobRole[0]}
                                                                             </td>
-                                                                            <td className='dash-table-data1 text-capitalized'>
+                                                                            {selectedColumns?.includes("Job Category") &&<td className='dash-table-data1 text-capitalized'>
                                                                                 {Job?.jobCategory}
-                                                                            </td>
-                                                                            <td className='dash-table-data1 text-center'>
+                                                                            </td>}
+                                                                            {selectedColumns?.includes("Send Approval") &&<td className='dash-table-data1 text-center'>
                                                                                 <button
                                                                                     className='send-email-btn'
                                                                                     onClick={() => handleApproval(Job.id)}>
                                                                                     <i class="bi bi-check2-square send-icon"></i>
                                                                                     Approve
                                                                                 </button>
-                                                                            </td>
+                                                                            </td>}
+                                                                            {selectedColumns?.includes("Job Mandatory Skills") &&<td className='dash-table-data1 text-capitalized'>
+                                                                                                {Job?.skills.join(", ")}
+                                                                                            </td>}
+                                                                                            {selectedColumns?.includes("Needed Experience") &&<td className='dash-table-data1 text-capitalized'>
+                                                                                            <span>{Job?.minExperience} - {Job?.maxExperience}</span>
+                                                                                            &nbsp;years&nbsp;
+                                                                                            </td>} 
+                                                                                            {selectedColumns?.includes("Job Description") &&<td className='dash-table-data1 text-capitalized'>
+                                                                                            {Job?.jobDescription}
+                                                                                            </td>}
+                                                                                            {selectedColumns?.includes("Salary Range") &&<td className='dash-table-data1 text-capitalized'>
+                                                                                            {Job?.currencyType}{Job?.minSalary} - {Job?.currencyType}{Job?.maxSalary}
+                                                                                            </td>}
+                                                                                            {selectedColumns?.includes("Department") &&<td className='dash-table-data1 text-capitalized'>
+                                                                                            {Job?.department}
+                                                                                            </td>}
+                                                                                            {selectedColumns?.includes("Education") &&<td className='dash-table-data1 text-capitalized'>
+                                                                                            {Job?.education}
+                                                                                            </td>}
+                                                                                            {selectedColumns?.includes("Industry") &&<td className='dash-table-data1 text-capitalized'>
+                                                                                            {Job?.industry}
+                                                                                            </td>}
+                                                                                            {selectedColumns?.includes("Locations") &&<td className='dash-table-data1 text-capitalized'>
+                                                                                            {Job?.location.join(", ")}
+                                                                                            </td>}
+                                                                                            {selectedColumns?.includes("Role") &&<td className='dash-table-data1 text-capitalized'>
+                                                                                            {Job?.role}
+                                                                                            </td>}
+                                                                                            {selectedColumns?.includes("Working Mode") &&<td className='dash-table-data1 text-capitalized'>
+                                                                                            {Job?.workMode}
+                                                                                            </td>}
                                                                             <td className='text-center'>
                                                                                 <div className="action-btn-area">
                                                                                     <button className='job-view-btn' data-toggle="modal" title='View Candidate Details...' data-target="#invoiceModal" onClick={() => handleViewJobDetail(Job.id)}>
@@ -408,66 +501,126 @@ const NonApprovalJobs = () => {
                                                                         (checkBoxFilteredJobs.slice(x[0], x[1]).map((Job, index) => {
                                                                             return (
                                                                                 <tr className='dash-table-row client' key={Job.id}>
-                                                                                    <td className='dash-table-data1'>{index + 1}.</td>
-                                                                                    <td className='dash-table-data1 text-capitalized'>
-                                                                                        {Job?.jobRole[0]}
-                                                                                    </td>
-                                                                                    <td className='dash-table-data1 text-capitalized'>
-                                                                                        {Job?.jobCategory}
-                                                                                    </td>
-                                                                                    <td className='dash-table-data1 text-center'>
-                                                                                        <button
-                                                                                            className='send-email-btn'
-                                                                                            onClick={() => handleApproval(Job.id)}>
-                                                                                            <i class="bi bi-check2-square send-icon"></i>
-                                                                                            Approve
-                                                                                        </button>
-                                                                                    </td>
-
-                                                                                    <td className='text-center'>
-                                                                                        <div className="action-btn-area">
-                                                                                            <button className='job-view-btn' data-toggle="modal" title='View Candidate Details...' data-target="#invoiceModal" onClick={() => handleViewJobDetail(Job.id)}>
-                                                                                                <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
-                                                                                                    <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
-                                                                                                    <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
-                                                                                                </svg>
-                                                                                            </button>
-                                                                                        </div>
-                                                                                    </td>
-                                                                                </tr>
+                                                                            <td className='dash-table-data1'>{index + 1}.</td>
+                                                                            <td className='dash-table-data1 text-capitalized'>
+                                                                                {Job?.jobRole[0]}
+                                                                            </td>
+                                                                            {selectedColumns?.includes("Job Category") &&<td className='dash-table-data1 text-capitalized'>
+                                                                                {Job?.jobCategory}
+                                                                            </td>}
+                                                                            {selectedColumns?.includes("Send Approval") &&<td className='dash-table-data1 text-center'>
+                                                                                <button
+                                                                                    className='send-email-btn'
+                                                                                    onClick={() => handleApproval(Job.id)}>
+                                                                                    <i class="bi bi-check2-square send-icon"></i>
+                                                                                    Approve
+                                                                                </button>
+                                                                            </td>}
+                                                                            {selectedColumns?.includes("Job Mandatory Skills") &&<td className='dash-table-data1 text-capitalized'>
+                                                                                                {Job?.skills.join(", ")}
+                                                                                            </td>}
+                                                                                            {selectedColumns?.includes("Needed Experience") &&<td className='dash-table-data1 text-capitalized'>
+                                                                                            <span>{Job?.minExperience} - {Job?.maxExperience}</span>
+                                                                                            &nbsp;years&nbsp;
+                                                                                            </td>} 
+                                                                                            {selectedColumns?.includes("Job Description") &&<td className='dash-table-data1 text-capitalized'>
+                                                                                            {Job?.jobDescription}
+                                                                                            </td>}
+                                                                                            {selectedColumns?.includes("Salary Range") &&<td className='dash-table-data1 text-capitalized'>
+                                                                                            {Job?.currencyType}{Job?.minSalary} - {Job?.currencyType}{Job?.maxSalary}
+                                                                                            </td>}
+                                                                                            {selectedColumns?.includes("Department") &&<td className='dash-table-data1 text-capitalized'>
+                                                                                            {Job?.department}
+                                                                                            </td>}
+                                                                                            {selectedColumns?.includes("Education") &&<td className='dash-table-data1 text-capitalized'>
+                                                                                            {Job?.education}
+                                                                                            </td>}
+                                                                                            {selectedColumns?.includes("Industry") &&<td className='dash-table-data1 text-capitalized'>
+                                                                                            {Job?.industry}
+                                                                                            </td>}
+                                                                                            {selectedColumns?.includes("Locations") &&<td className='dash-table-data1 text-capitalized'>
+                                                                                            {Job?.location.join(", ")}
+                                                                                            </td>}
+                                                                                            {selectedColumns?.includes("Role") &&<td className='dash-table-data1 text-capitalized'>
+                                                                                            {Job?.role}
+                                                                                            </td>}
+                                                                                            {selectedColumns?.includes("Working Mode") &&<td className='dash-table-data1 text-capitalized'>
+                                                                                            {Job?.workMode}
+                                                                                            </td>}
+                                                                            <td className='text-center'>
+                                                                                <div className="action-btn-area">
+                                                                                    <button className='job-view-btn' data-toggle="modal" title='View Candidate Details...' data-target="#invoiceModal" onClick={() => handleViewJobDetail(Job.id)}>
+                                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                                                                            <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
+                                                                                            <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
+                                                                                        </svg>
+                                                                                    </button>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
                                                                             );
                                                                         })) :
                                                                         (!searchJobRoleInput && checkBoxfilters.length === 0) ?
                                                                             (allJobs.slice(x[0], x[1]).map((Job, index) => {
                                                                                 return (
                                                                                     <tr className='dash-table-row client' key={Job.id}>
-                                                                                        <td className='dash-table-data1'>{index + 1}.</td>
-                                                                                        <td className='dash-table-data1 text-capitalized'>
-                                                                                            {Job?.jobRole[0]}
-                                                                                        </td>
-                                                                                        <td className='dash-table-data1 text-capitalized'>
-                                                                                            {Job?.jobCategory}
-                                                                                        </td>
-                                                                                        <td className='dash-table-data1 text-center'>
-                                                                                            <button
-                                                                                                className='send-email-btn'
-                                                                                                onClick={() => handleApproval(Job.id)}>
-                                                                                                <i class="bi bi-check2-square send-icon"></i>
-                                                                                                Approve
-                                                                                            </button>
-                                                                                        </td>
-
-                                                                                        <td className='text-center'>
-                                                                                            <div className="action-btn-area">
-                                                                                                <button className='job-view-btn' data-toggle="modal" title='View Candidate Details...' data-target="#invoiceModal" onClick={() => handleViewJobDetail(Job.id)}>
-                                                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
-                                                                                                        <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
-                                                                                                        <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
-                                                                                                    </svg>
-                                                                                                </button>
-                                                                                            </div>
-                                                                                        </td>
-                                                                                    </tr>
+                                                                            <td className='dash-table-data1'>{index + 1}.</td>
+                                                                            <td className='dash-table-data1 text-capitalized'>
+                                                                                {Job?.jobRole[0]}
+                                                                            </td>
+                                                                            {selectedColumns?.includes("Job Category") &&<td className='dash-table-data1 text-capitalized'>
+                                                                                {Job?.jobCategory}
+                                                                            </td>}
+                                                                            {selectedColumns?.includes("Send Approval") &&<td className='dash-table-data1 text-center'>
+                                                                                <button
+                                                                                    className='send-email-btn'
+                                                                                    onClick={() => handleApproval(Job.id)}>
+                                                                                    <i class="bi bi-check2-square send-icon"></i>
+                                                                                    Approve
+                                                                                </button>
+                                                                            </td>}
+                                                                            {selectedColumns?.includes("Job Mandatory Skills") &&<td className='dash-table-data1 text-capitalized'>
+                                                                                                {Job?.skills.join(", ")}
+                                                                                            </td>}
+                                                                                            {selectedColumns?.includes("Needed Experience") &&<td className='dash-table-data1 text-capitalized'>
+                                                                                            <span>{Job?.minExperience} - {Job?.maxExperience}</span>
+                                                                                            &nbsp;years&nbsp;
+                                                                                            </td>} 
+                                                                                            {selectedColumns?.includes("Job Description") &&<td className='dash-table-data1 text-capitalized'>
+                                                                                            {Job?.jobDescription}
+                                                                                            </td>}
+                                                                                            {selectedColumns?.includes("Salary Range") &&<td className='dash-table-data1 text-capitalized'>
+                                                                                            {Job?.currencyType}{Job?.minSalary} - {Job?.currencyType}{Job?.maxSalary}
+                                                                                            </td>}
+                                                                                            {selectedColumns?.includes("Department") &&<td className='dash-table-data1 text-capitalized'>
+                                                                                            {Job?.department}
+                                                                                            </td>}
+                                                                                            {selectedColumns?.includes("Education") &&<td className='dash-table-data1 text-capitalized'>
+                                                                                            {Job?.education}
+                                                                                            </td>}
+                                                                                            {selectedColumns?.includes("Industry") &&<td className='dash-table-data1 text-capitalized'>
+                                                                                            {Job?.industry}
+                                                                                            </td>}
+                                                                                            {selectedColumns?.includes("Locations") &&<td className='dash-table-data1 text-capitalized'>
+                                                                                            {Job?.location.join(", ")}
+                                                                                            </td>}
+                                                                                            {selectedColumns?.includes("Role") &&<td className='dash-table-data1 text-capitalized'>
+                                                                                            {Job?.role}
+                                                                                            </td>}
+                                                                                            {selectedColumns?.includes("Working Mode") &&<td className='dash-table-data1 text-capitalized'>
+                                                                                            {Job?.workMode}
+                                                                                            </td>}
+                                                                            <td className='text-center'>
+                                                                                <div className="action-btn-area">
+                                                                                    <button className='job-view-btn' data-toggle="modal" title='View Candidate Details...' data-target="#invoiceModal" onClick={() => handleViewJobDetail(Job.id)}>
+                                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                                                                            <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
+                                                                                            <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
+                                                                                        </svg>
+                                                                                    </button>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
                                                                                 );
                                                                             })) :
                                                                             null}
