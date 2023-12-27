@@ -27,15 +27,16 @@ const AllClients = () => {
     const [employeeId, setEmployeeId] = useState("");
 
     const [selectedColumns, setSelectedColumns] = useState([]);
-    let columns = ["Mobile Number", "Email ID", "Company Name", "Industry", "Headcount", "From where did you learn about Skillety?", "Send Email", "Email Status"]
+    let columns = ["Email ID", "Email Status", "Send Email", "Mobile Number",  "Company Name", "Industry", "Headcount", "From where did you learn about Skillety?"]
 
     const handleCheckboxChange = (value) => {
+        
         const updatedColumns = selectedColumns ? [...selectedColumns] : [];
-    
+
         if (updatedColumns.includes(value)) {
             updatedColumns.splice(updatedColumns.indexOf(value), 1);
         } else {
-            updatedColumns.push(value);
+            updatedColumns.length<3 && updatedColumns.push(value);
         }
     
         setSelectedColumns(updatedColumns);
