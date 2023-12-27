@@ -44,7 +44,7 @@ const AllCandidates = () => {
             column: updatedColumns,
         };
     
-        axios.post("http://localhost:5002/all-candidates-column", columnData, {
+        axios.post("https://skillety.onrender.com/all-candidates-column", columnData, {
             headers: {
                 Authorization: `Bearer ${staffToken}`,
                 Accept: 'application/json'
@@ -80,7 +80,7 @@ const AllCandidates = () => {
 
     useEffect(()=>{
         if(employeeId){
-            axios.get(`http://localhost:5002/all-candidates-column/${employeeId}`)
+            axios.get(`https://skillety.onrender.com/all-candidates-column/${employeeId}`)
             .then(res=>{
                 console.log(res.data);
                 if(res.data){
