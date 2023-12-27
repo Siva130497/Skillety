@@ -55,7 +55,7 @@ export const AuthContextProvider = ({ children }) => {
         },
       });
 
-      const result = response.data;
+      const result = response?.data;
 
       if (result.accessToken) {
         console.log(result);

@@ -629,7 +629,16 @@ const AllCandidates = () => {
                                             <div className="view-det-sub-head">{selectedCandidate?.selectedDate}</div>
                                         </div>
                                     </div>}
-                                    {selectedCandidate?.selectedDate && <hr />}
+                                    <hr />
+                                    {selectedCandidate?.days && <div className="row">
+                                        <div className="col-12 col-sm-5">
+                                            <div className="view-det-head">Available To Join In</div>
+                                        </div>
+                                        <div className="col-12 col-sm-7">
+                                            <div className="view-det-sub-head">{selectedCandidate?.days}</div>
+                                        </div>
+                                    </div>}
+                                    {selectedCandidate?.days && <hr />}
                                     <div className="row">
                                         <div className="col-12 col-sm-5">
                                             <div className="view-det-head">Applied jobs of your posted</div>
