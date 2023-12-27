@@ -131,6 +131,8 @@ const {
   finalCandRegister,
   getCandidate,
   boostJob,
+  getAllClientTableColumnData,
+  allClientTableColumnData,
   
 } = require("../Controller/authFunctions");
 const employeeAuth = require("../middleware/employeeAuth");
@@ -488,6 +490,11 @@ router.post("/finalRegister-Candidate", finalCandRegister);
 
 // recruiter route for client detail
 router.get("/CandidateWithUrl-Detail/:id", getCandidate);
+
+//create all client table column data
+router.post("/all-clients-column", allClientTableColumnData);
+
+router.get("/all-clients-column/:id", getAllClientTableColumnData);
 
 // Client, Client-staff Login Route
 router.post("/login-Client", async (req, res) => {

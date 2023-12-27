@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useEffect } from 'react';
 import ATSLayout from '../../components/ATSLayout';
 import Footer from '../../components/Footer';
@@ -10,8 +10,10 @@ import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
+import AuthContext from '../../context/AuthContext';
 
 const AllClients = () => {
+    const { getProtectedData } = useContext(AuthContext);
     const [staffToken, setStaffToken] = useState("");
     const [clientDetail, setClientDetail] = useState([]);
     const [clientUrlWithEmail, setClientUrlWithEmail] = useState([]);
@@ -22,6 +24,41 @@ const AllClients = () => {
 
     const [x, setX] = useState([0, 10]);
     const [loading, setLoading] = useState(true);
+    const [employeeId, setEmployeeId] = useState("");
+
+    const [selectedColumns, setSelectedColumns] = useState([]);
+    let columns = ["Mobile Number", "Email ID", "Company Name", "Industry", "Headcount", "From where did you learn about Skillety?", "Send Email", "Email Status"]
+
+    const handleCheckboxChange = (value) => {
+        const updatedColumns = selectedColumns ? [...selectedColumns] : [];
+    
+        if (updatedColumns.includes(value)) {
+            updatedColumns.splice(updatedColumns.indexOf(value), 1);
+        } else {
+            updatedColumns.push(value);
+        }
+    
+        setSelectedColumns(updatedColumns);
+    
+        const columnData = {
+            id: employeeId,
+            column: updatedColumns,
+        };
+    
+        axios.post("https://skillety.onrender.com/all-clients-column", columnData, {
+            headers: {
+                Authorization: `Bearer ${staffToken}`,
+                Accept: 'application/json'
+            }
+        })
+        .then(res => {
+            console.log(res.data)
+        })
+        .catch(err => {
+            console.log(err)
+        });
+    }
+    
 
     useEffect(() => {
         setStaffToken(JSON.parse(localStorage.getItem('staffToken')))
@@ -35,6 +72,40 @@ const AllClients = () => {
         });
 
     }, []);
+
+    useEffect(() => {
+        if (staffToken) {
+            const fetchData = async () => {
+                try {
+                    const userData = await getProtectedData(staffToken);
+                    console.log(userData);
+                    setEmployeeId(userData.id);
+                } catch (error) {
+                    console.log(error)
+                }
+            };
+
+            fetchData();
+        }
+    }, [staffToken]);
+
+    useEffect(()=>{
+        if(employeeId){
+            axios.get(`https://skillety.onrender.com/all-clients-column/${employeeId}`)
+            .then(res=>{
+                console.log(res.data);
+                if(res.data){
+                    setSelectedColumns(res.data.column);
+                    setLoading(false);
+                }
+                
+            })
+            .catch(err=>{
+                console.log(err)
+                setLoading(false);
+            })
+        }
+    },[employeeId])
 
     //for show success message for payment
     function showSuccessMessage(message) {
@@ -60,7 +131,7 @@ const AllClients = () => {
 
     const getAllClientDetails = async () => {
         try {
-            setLoading(true);
+            
             const response = await axios.get(`https://skillety.onrender.com/client-Detail`, {
                 headers: {
                     Authorization: `Bearer ${staffToken}`,
@@ -74,11 +145,10 @@ const AllClients = () => {
             } else {
                 console.log(result);
             }
-            setLoading(false);
+            
         } catch (err) {
             console.log(err);
 
-            setLoading(false);
         }
     }
 
@@ -211,6 +281,8 @@ const AllClients = () => {
                                         <span>Create New</span>
                                     </a>
                                 </div>
+
+                                
                             </div>
 
                             {loading ? (
@@ -301,6 +373,17 @@ const AllClients = () => {
                                                         Total Clients :&nbsp;
                                                         <span>{clientDetail.length}</span>
                                                     </div>
+                                                    {columns.map(column=>{
+                                                        return(
+                                                            <label >
+                                                                <input type="checkbox"
+                                                                checked={selectedColumns?.includes(column)}
+                                                                onChange={() => handleCheckboxChange(column)} />
+                                                                <span ></span>
+                                                                    {column}
+                                                            </label>
+                                                        )
+                                                    })}
                                                 </div>
                                                 {clientDetail.length === 0 ?
                                                     <div className="no-data-created-area">
@@ -315,9 +398,13 @@ const AllClients = () => {
                                                             <tr className='dash-table-row man-app'>
                                                                 <th className='dash-table-head'>No.</th>
                                                                 <th className='dash-table-head'>Full Name</th>
-                                                                <th className='dash-table-head'>Email ID</th>
-                                                                <th className='dash-table-head'>Email Status</th>
-                                                                <th className='dash-table-head text-center'>Send Email</th>
+                                                                {columns.map(column=>{
+                                                                    if(selectedColumns?.includes(column)){
+                                                                        return(
+                                                                            <th className='dash-table-head text-center'>{column}</th>  
+                                                                        )
+                                                                    }
+                                                                })}
                                                                 <th className='dash-table-head text-center'>View</th>
                                                             </tr>
 
@@ -329,14 +416,13 @@ const AllClients = () => {
                                                                         <td className='dash-table-data1 text-capitalized'>
                                                                             {client.name}
                                                                         </td>
-                                                                        <td className='dash-table-data1'>
+                                                                        {selectedColumns?.includes("Email ID") && <td className='dash-table-data1'>
                                                                             <a href={`mailto:${client.email}`}
                                                                                 className='dash-table-data1 link is-link'>
                                                                                 {client.email}
                                                                             </a>
-                                                                        </td>
-
-                                                                        <td className='dash-table-data1'>
+                                                                        </td>}
+                                                                        {selectedColumns?.includes("Email Status") && <td className='dash-table-data1'>
                                                                             {/* <span className='text-warning p-0'>
                                                                     <i class="bi bi-exclamation-circle mr-2"></i>
                                                                     Email still not sent!
@@ -351,15 +437,23 @@ const AllClients = () => {
                                                                                 Email not yet sent.
                                                                             </span>
                                                                             }
-                                                                        </td>
-
-                                                                        <td className='dash-table-data1 text-center'>
+                                                                        </td>}
+                                                                        {selectedColumns?.includes("Send Email") &&<td className='dash-table-data1 text-center'>
                                                                             <button className='send-email-btn' onClick={() => handleGeneratePasswordAndTempUrl(client._id)}>
                                                                                 <i class="bi bi-send-fill send-icon"></i>
                                                                                 {commonEmails.includes(client.email) ? "ReSend" : "Send"}
                                                                             </button>
-                                                                        </td>
-
+                                                                        </td>}
+                                                                        {selectedColumns?.includes("Mobile Number") &&<td className='dash-table-data1 text-center'>
+                                                                        {client.phone}                                      </td>}
+                                                                        {selectedColumns?.includes("Company Name") &&<td className='dash-table-data1 text-center'>
+                                                                        {client.companyName}                                </td>}
+                                                                        {selectedColumns?.includes("Industry") &&<td className='dash-table-data1 text-center'>
+                                                                        {client.industry}                                   </td>}
+                                                                        {selectedColumns?.includes("Headcount") &&<td className='dash-table-data1 text-center'>
+                                                                        {client.count}                                      </td>}
+                                                                        {selectedColumns?.includes("From where did you learn about Skillety?") &&<td className='dash-table-data1 text-center'>
+                                                                        {client.text}                                       </td>}
                                                                         <td className='text-center'>
                                                                             <div className="action-btn-area">
                                                                                 <button className='job-view-btn' title='View Client Details...' data-toggle="modal" data-target="#clientsViewModal" onClick={() => handleCard(client._id)}>
