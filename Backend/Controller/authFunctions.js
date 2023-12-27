@@ -37,6 +37,9 @@ const candidateNotification = require("../Database/candidateNotificationData");
 const candidateCreate = require("../Database/candidateCreate");
 const allClientTable = require("../Database/allClientTable");
 const allCandidateTable = require("../Database/allCandidateTable");
+const allJobTable = require("../Database/allJobTable");
+const nonApprovalJobTable = require("../Database/nonApprovalJobTable");
+const postedJobTable = require("../Database/postedJobTable");
 
 // const hash = async() => {
 //   const pass = 'newpassword'
@@ -3132,6 +3135,122 @@ const getAllCandidateTableColumnData = async(req, res) => {
   }
 }
 
+/* all client table column data create */
+const allJobTableColumnData = async (req, res) => {
+  try {
+    const { id, column } = req.body;
+
+    const existingDocument = await allJobTable.findOne({ id });
+
+    if (existingDocument) {
+      existingDocument.column = column;
+      await existingDocument.save();
+      res.status(200).json(existingDocument);
+    } else {
+      const newAllJobTableData = new allJobTable({
+        id,
+        column,
+      });
+
+      await newAllJobTableData.save();
+      res.status(201).json(newAllJobTableData);
+    }
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+};
+
+
+/* get all client table column data */
+const getAllJobTableColumnData = async(req, res) => {
+  const {id} = req.params;
+  try{
+    const allJobTableColumnData = await allJobTable.findOne({id});
+    console.log(allJobTableColumnData);
+    return res.status(200).json(allJobTableColumnData);
+  }catch(err){
+    console.log(err);
+    return res.status(500).json({ error: err.message });
+  }
+}
+
+/* all client table column data create */
+const allNonApprovalJobTableColumnData = async (req, res) => {
+  try {
+    const { id, column } = req.body;
+
+    const existingDocument = await nonApprovalJobTable.findOne({ id });
+
+    if (existingDocument) {
+      existingDocument.column = column;
+      await existingDocument.save();
+      res.status(200).json(existingDocument);
+    } else {
+      const newNonApprovalJobTableData = new nonApprovalJobTable({
+        id,
+        column,
+      });
+
+      await newNonApprovalJobTableData.save();
+      res.status(201).json(newNonApprovalJobTableData);
+    }
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+};
+
+
+/* get all client table column data */
+const getAllNonApprovalJobTableColumnData = async(req, res) => {
+  const {id} = req.params;
+  try{
+    const allNonApprovalJobTableColumnData = await nonApprovalJobTable.findOne({id});
+    console.log(allNonApprovalJobTableColumnData);
+    return res.status(200).json(allNonApprovalJobTableColumnData);
+  }catch(err){
+    console.log(err);
+    return res.status(500).json({ error: err.message });
+  }
+}
+
+/* all client table column data create */
+const allPostedJobTableColumnData = async (req, res) => {
+  try {
+    const { id, column } = req.body;
+
+    const existingDocument = await postedJobTable.findOne({ id });
+
+    if (existingDocument) {
+      existingDocument.column = column;
+      await existingDocument.save();
+      res.status(200).json(existingDocument);
+    } else {
+      const newPostedJobTableData = new postedJobTable({
+        id,
+        column,
+      });
+
+      await newPostedJobTableData.save();
+      res.status(201).json(newPostedJobTableData);
+    }
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+};
+
+
+/* get all client table column data */
+const getAllPostedJobTableColumnData = async(req, res) => {
+  const {id} = req.params;
+  try{
+    const allPostedJobTableColumnData = await postedJobTable.findOne({id});
+    console.log(allPostedJobTableColumnData);
+    return res.status(200).json(allPostedJobTableColumnData);
+  }catch(err){
+    console.log(err);
+    return res.status(500).json({ error: err.message });
+  }
+}
 /* random password generate */
 const generateRandomPassword = (req, res) => {
   const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=[]{}|;:,.<>?';
@@ -3417,4 +3536,10 @@ module.exports = {
    allClientTableColumnData,
    getAllCandidateTableColumnData,
    allCandidateTableColumnData,
+   allJobTableColumnData,
+   getAllJobTableColumnData,
+   getAllNonApprovalJobTableColumnData,
+   allNonApprovalJobTableColumnData,
+   allPostedJobTableColumnData,
+   getAllPostedJobTableColumnData,
 };
