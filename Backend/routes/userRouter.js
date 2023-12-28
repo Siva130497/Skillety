@@ -515,9 +515,9 @@ router.post("/all-jobs-column", allJobTableColumnData);
 
 router.get("/all-jobs-column/:id", getAllJobTableColumnData);
 
-router.post("/non-approval-jobs", allNonApprovalJobTableColumnData);
+router.post("/non-approval-jobs-column", allNonApprovalJobTableColumnData);
 
-router.get("/non-approval-jobs/:id", getAllNonApprovalJobTableColumnData);
+router.get("/non-approval-jobs-column/:id", getAllNonApprovalJobTableColumnData);
 
 router.post("/posted-jobs-column", allPostedJobTableColumnData);
 
