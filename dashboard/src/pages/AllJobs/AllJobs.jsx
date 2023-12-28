@@ -42,67 +42,69 @@ const AllJobs = () => {
 
     const [filteredSkillMatchCandidates, setFilteredSkillMatchCandidates] = useState([]);
 
+    const [isExpanded, setIsExpanded] = useState(false);
+
     const [selectedColumns, setSelectedColumns] = useState([]);
-    let columns = ["Job Category", "Posted by",  "Status", "Boost", "Job Mandatory Skills", "Needed Experience", "Job Description", "Salary Range", "Department", "Education", "Industry", "Locations", "Role", "Working Mode"]
+    let columns = ["Job Category", "Posted by", "Status", "Boost", "Job Mandatory Skills", "Needed Experience", "Job Description", "Salary Range", "Department", "Education", "Industry", "Locations", "Role", "Working Mode"]
 
     const handleColumnChange = (value) => {
-        
+
         const updatedColumns = selectedColumns ? [...selectedColumns] : [];
 
         if (updatedColumns.includes(value)) {
             updatedColumns.splice(updatedColumns.indexOf(value), 1);
         } else {
-            updatedColumns.length<3 && updatedColumns.push(value);
+            updatedColumns.length < 3 && updatedColumns.push(value);
         }
-    
+
         setSelectedColumns(updatedColumns);
-    
+
         const columnData = {
             id: employeeId,
             column: updatedColumns,
         };
-    
+
         axios.post("https://skillety.onrender.com/all-jobs-column", columnData, {
             headers: {
                 Authorization: `Bearer ${staffToken}`,
                 Accept: 'application/json'
             }
         })
-        .then(res => {
-            console.log(res.data)
-        })
-        .catch(err => {
-            console.log(err)
-        });
+            .then(res => {
+                console.log(res.data)
+            })
+            .catch(err => {
+                console.log(err)
+            });
     }
 
     const calculateSkillPercentage = (candidateSkills) => {
         const totalSkills = selectedJobViewDetail.skills.length;
         const matchedSkills = candidateSkills.filter(skill =>
-          selectedJobViewDetail.skills.includes(skill)
+            selectedJobViewDetail.skills.includes(skill)
         ).length;
-    
+
         return (matchedSkills / totalSkills) * 100;
-      };
+    };
 
-      const filterCandidates = () => {
+    const filterCandidates = () => {
         const sortedCandidates = candidateDetail
-          .filter(candidate => calculateSkillPercentage(candidate.skills) > 0)
-          .sort((a, b) => {
-            const percentageA = calculateSkillPercentage(a.skills);
-            const percentageB = calculateSkillPercentage(b.skills);
-            return percentageB - percentageA; // Sort in descending order
-          });
-    
-        setFilteredSkillMatchCandidates(sortedCandidates);
-      };
+            .filter(candidate => calculateSkillPercentage(candidate.skills) > 0)
+            .sort((a, b) => {
+                const percentageA = calculateSkillPercentage(a.skills);
+                const percentageB = calculateSkillPercentage(b.skills);
+                return percentageB - percentageA; // Sort in descending order
+            });
 
-    useEffect(()=>{
-        if(selectedJobViewDetail){
+        setFilteredSkillMatchCandidates(sortedCandidates);
+    };
+
+    useEffect(() => {
+        if (selectedJobViewDetail) {
             filterCandidates();
         }
 
-    },[selectedJobViewDetail])
+    }, [selectedJobViewDetail])
 
     useEffect(() => {
         $(document).ready(function () {
@@ -110,8 +112,8 @@ const AllJobs = () => {
 
     }, []);
 
-     //for show success message for payment
-     function showSuccessMessage(message) {
+    //for show success message for payment
+    function showSuccessMessage(message) {
         Swal.fire({
             title: 'Success!',
             text: message,
@@ -151,41 +153,41 @@ const AllJobs = () => {
             fetchData();
 
             axios.get("https://skillety.onrender.com/all-employee")
-            .then(res=>{
-                console.log(res.data);
-                setAllEmployee(res.data);
-            })
-            .catch(err=>console.log(err))
+                .then(res => {
+                    console.log(res.data);
+                    setAllEmployee(res.data);
+                })
+                .catch(err => console.log(err))
 
             axios.get("https://skillety.onrender.com/company-details")
-            .then(res => {
-                console.log(res.data);
-                setAllCompany(res.data);
-            })
-            .catch(err => {
-                console.log(err);
-            })
+                .then(res => {
+                    console.log(res.data);
+                    setAllCompany(res.data);
+                })
+                .catch(err => {
+                    console.log(err);
+                })
 
         }
     }, [staffToken]);
 
-    useEffect(()=>{
-        if(employeeId){
+    useEffect(() => {
+        if (employeeId) {
             axios.get(`https://skillety.onrender.com/all-jobs-column/${employeeId}`)
-            .then(res=>{
-                console.log(res.data);
-                if(res.data){
-                    setSelectedColumns(res.data.column);
-                    
-                }
-                setLoading(false);
-            })
-            .catch(err=>{
-                console.log(err)
-                setLoading(false);
-            })
+                .then(res => {
+                    console.log(res.data);
+                    if (res.data) {
+                        setSelectedColumns(res.data.column);
+
+                    }
+                    setLoading(false);
+                })
+                .catch(err => {
+                    console.log(err)
+                    setLoading(false);
+                })
         }
-    },[employeeId])
+    }, [employeeId])
 
     const getPostedjobs = async () => {
         try {
@@ -306,7 +308,7 @@ const AllJobs = () => {
         // setLoading(newArray.length === 0);
     }, [updatePostedJobs]);
 
-    
+
 
     const getRecruiterNameWhoAssignedCandidate = async (id) => {
         try {
@@ -494,6 +496,10 @@ const AllJobs = () => {
         });
     };
 
+    const handlelayoutToggle = () => {
+        setIsExpanded(prevState => !prevState);
+    };
+
     return (
         <div>
             <div class="main-wrapper main-wrapper-1">
@@ -613,18 +619,8 @@ const AllJobs = () => {
                                                         <i className='bi bi-search search-icon'></i>
                                                         <button className='recruiter-search-btn' onClick={handleJobSearch}>Search</button>
                                                     </div>}
-                                                    {columns.map(column=>{
-                                                        return(
-                                                            <label >
-                                                                <input type="checkbox"
-                                                                checked={selectedColumns?.includes(column)}
-                                                                onChange={() => handleColumnChange(column)} />
-                                                                <span ></span>
-                                                                    {column}
-                                                            </label>
-                                                        )
-                                                    })}
                                                 </div>
+
                                                 {allJobs.length > 0 && <div className="rec-work-mode-area">
                                                     <label className="recruite-form-check-input">
                                                         <input type="checkbox"
@@ -659,16 +655,50 @@ const AllJobs = () => {
                                                     </label>
                                                 </div>}
 
+                                                <div className='customize-table-layout-area mb-3'>
+                                                    <div className="customize-table-layout-top">
+                                                        <div className='customize-table-layout-head'>Customize Table Layout</div>
+                                                        <button className='customize-table-layout-btn' type='button' onClick={handlelayoutToggle}>
+                                                            Customize
+                                                            <i class="bi bi-pencil-square"></i>
+                                                        </button>
+                                                    </div>
+                                                    <div className={`customize-table-layout-content ${isExpanded ? 'opened' : ''}`}>
+                                                        <div className='p-2'>
+                                                            <div className='row'>
+                                                                {columns.map(column => {
+                                                                    return (
+                                                                        <div className="col-12 col-sm-6 col-lg-6 col-xl-4 col-md-6">
+                                                                            <label className={`layout-form-check-input ${selectedColumns && selectedColumns.length === 3 && !selectedColumns.includes(column) ? 'disabled' : ''}`}>
+                                                                                <input type="checkbox"
+                                                                                    disabled={selectedColumns && selectedColumns.length === 3 && !selectedColumns.includes(column)}
+                                                                                    checked={selectedColumns?.includes(column)}
+                                                                                    onChange={() => handleColumnChange(column)} />
+                                                                                <span className="layout-form-checkmark"></span>
+                                                                                {column}
+                                                                            </label>
+                                                                        </div>
+                                                                    )
+                                                                })}
+                                                            </div>
+                                                            <hr />
+                                                            <div className='customize-table-layout-note'>
+                                                                *Note: You can add a maximum of 3 column fields
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
                                                 {allJobs.length > 0 ?
                                                     <div className="table-responsive table-scroll-area">
                                                         <table className="table table-striped table-hover admin-lg-table">
                                                             <tr className='dash-table-row man-app'>
                                                                 <th className='dash-table-head'>No.</th>
                                                                 <th className='dash-table-head'>Job Role</th>
-                                                                {columns.map(column=>{
-                                                                    if(selectedColumns?.includes(column)){
-                                                                        return(
-                                                                            <th className='dash-table-head'>{column}</th>  
+                                                                {columns.map(column => {
+                                                                    if (selectedColumns?.includes(column)) {
+                                                                        return (
+                                                                            <th className='dash-table-head'>{column}</th>
                                                                         )
                                                                     }
                                                                 })}
@@ -684,84 +714,84 @@ const AllJobs = () => {
                                                                 </tr> :
                                                                 searchFilteredJobs.length > 0 ?
                                                                     searchFilteredJobs.slice(x[0], x[1])
-                                                                    .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
-                                                                    .map((Job, index) => {
-                                                                        const postedBy = Job.companyId
-                                                                                        ? (allCompany.find(company => company.companyId === Job.companyId)?.companyName || "Unknown Company")
-                                                                                        : (allEmployee.find(employee => employee.id === Job.recruiterId)?.name || "Unknown Employee");
-                                                                        return (
-                                                                            <tr className='dash-table-row client' key={Job.id}>
-                                                                                            <td className='dash-table-data1'>{index + 1}.</td>
-                                                                                            <td className='dash-table-data1 text-capitalized'>
-                                                                                                {Job?.jobRole[0]}
-                                                                                            </td>
-                                                                                            {selectedColumns?.includes("Job Category") &&<td className='dash-table-data1 text-capitalized'>
-                                                                                                {Job?.jobCategory}
-                                                                                            </td>}
-                                                                                            {selectedColumns?.includes("Posted by") &&<td className='dash-table-data1 text-center text-capitalized'>
-                                                                                                {postedBy}
-                                                                                            </td>}
-                                                                                            {selectedColumns?.includes("Status") &&<td className='text-center'>
-                                                                                                {Job?.active ?
-                                                                                                        <span className='man-job-status-btn theme-success'>Approved & Active</span>
-                                                                                                        :
-                                                                                                        <span className='man-job-status-btn theme-info'>Approved & InActive</span>
-                                                                                                }
-                                                                                            </td>}
-                                                                                            {selectedColumns?.includes("Boost") &&<td className='text-center'>
-                                                                                            {/* Boost Job Button */}
-                                                                                            <button 
-                                                                                            className='btn btn-primary' 
+                                                                        .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
+                                                                        .map((Job, index) => {
+                                                                            const postedBy = Job.companyId
+                                                                                ? (allCompany.find(company => company.companyId === Job.companyId)?.companyName || "Unknown Company")
+                                                                                : (allEmployee.find(employee => employee.id === Job.recruiterId)?.name || "Unknown Employee");
+                                                                            return (
+                                                                                <tr className='dash-table-row client' key={Job.id}>
+                                                                                    <td className='dash-table-data1'>{index + 1}.</td>
+                                                                                    <td className='dash-table-data1 text-capitalized'>
+                                                                                        {Job?.jobRole[0]}
+                                                                                    </td>
+                                                                                    {selectedColumns?.includes("Job Category") && <td className='dash-table-data1 text-capitalized'>
+                                                                                        {Job?.jobCategory}
+                                                                                    </td>}
+                                                                                    {selectedColumns?.includes("Posted by") && <td className='dash-table-data1 text-left text-capitalized'>
+                                                                                        {postedBy}
+                                                                                    </td>}
+                                                                                    {selectedColumns?.includes("Status") && <td className='text-left'>
+                                                                                        {Job?.active ?
+                                                                                            <span className='man-job-status-btn theme-success'>Approved & Active</span>
+                                                                                            :
+                                                                                            <span className='man-job-status-btn theme-info'>Approved & InActive</span>
+                                                                                        }
+                                                                                    </td>}
+                                                                                    {selectedColumns?.includes("Boost") && <td className='text-left'>
+                                                                                        {/* Boost Job Button */}
+                                                                                        <button
+                                                                                            className='btn btn-primary'
                                                                                             onClick={() => handleBoostJob(Job.id)}
                                                                                             disabled={!Job?.active}
-                                                                                            >
-                                                                                                Boost Job
+                                                                                        >
+                                                                                            Boost Job
+                                                                                        </button>
+                                                                                    </td>}
+                                                                                    {selectedColumns?.includes("Job Mandatory Skills") && <td className='dash-table-data1 text-capitalized'>
+                                                                                        {Job?.skills.join(", ")}
+                                                                                    </td>}
+                                                                                    {selectedColumns?.includes("Needed Experience") && <td className='dash-table-data1 text-capitalized'>
+                                                                                        <span>{Job?.minExperience} - {Job?.maxExperience}</span>
+                                                                                        &nbsp;years&nbsp;
+                                                                                    </td>}
+                                                                                    {selectedColumns?.includes("Job Description") && <td className='dash-table-data1 text-capitalized'>
+                                                                                        {Job?.jobDescription}
+                                                                                    </td>}
+                                                                                    {selectedColumns?.includes("Salary Range") && <td className='dash-table-data1 text-capitalized'>
+                                                                                        {Job?.currencyType}{Job?.minSalary} - {Job?.currencyType}{Job?.maxSalary}
+                                                                                    </td>}
+                                                                                    {selectedColumns?.includes("Department") && <td className='dash-table-data1 text-capitalized'>
+                                                                                        {Job?.department}
+                                                                                    </td>}
+                                                                                    {selectedColumns?.includes("Education") && <td className='dash-table-data1 text-capitalized'>
+                                                                                        {Job?.education ? Job?.education : "---------"}
+                                                                                    </td>}
+                                                                                    {selectedColumns?.includes("Industry") && <td className='dash-table-data1 text-capitalized'>
+                                                                                        {Job?.industry}
+                                                                                    </td>}
+                                                                                    {selectedColumns?.includes("Locations") && <td className='dash-table-data1 text-capitalized'>
+                                                                                        {Job?.location.join(", ")}
+                                                                                    </td>}
+                                                                                    {selectedColumns?.includes("Role") && <td className='dash-table-data1 text-capitalized'>
+                                                                                        {Job?.role}
+                                                                                    </td>}
+                                                                                    {selectedColumns?.includes("Working Mode") && <td className='dash-table-data1 text-capitalized'>
+                                                                                        {Job?.workMode}
+                                                                                    </td>}
+                                                                                    <td className='text-center'>
+                                                                                        <div className="action-btn-area">
+                                                                                            <button className='job-view-btn' data-toggle="modal" title='View Candidate Details...' data-target="#invoiceModal" onClick={() => handleViewJobDetail(Job.id)}>
+                                                                                                <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                                                                                    <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
+                                                                                                    <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
+                                                                                                </svg>
                                                                                             </button>
-                                                                                        </td>}
-                                                                                        {selectedColumns?.includes("Job Mandatory Skills") &&<td className='dash-table-data1 text-capitalized'>
-                                                                                                {Job?.skills.join(", ")}
-                                                                                            </td>}
-                                                                                            {selectedColumns?.includes("Needed Experience") &&<td className='dash-table-data1 text-capitalized'>
-                                                                                            <span>{Job?.minExperience} - {Job?.maxExperience}</span>
-                                                                                            &nbsp;years&nbsp;
-                                                                                            </td>} 
-                                                                                            {selectedColumns?.includes("Job Description") &&<td className='dash-table-data1 text-capitalized'>
-                                                                                            {Job?.jobDescription}
-                                                                                            </td>}
-                                                                                            {selectedColumns?.includes("Salary Range") &&<td className='dash-table-data1 text-capitalized'>
-                                                                                            {Job?.currencyType}{Job?.minSalary} - {Job?.currencyType}{Job?.maxSalary}
-                                                                                            </td>}
-                                                                                            {selectedColumns?.includes("Department") &&<td className='dash-table-data1 text-capitalized'>
-                                                                                            {Job?.department}
-                                                                                            </td>}
-                                                                                            {selectedColumns?.includes("Education") &&<td className='dash-table-data1 text-capitalized'>
-                                                                                            {Job?.education}
-                                                                                            </td>}
-                                                                                            {selectedColumns?.includes("Industry") &&<td className='dash-table-data1 text-capitalized'>
-                                                                                            {Job?.industry}
-                                                                                            </td>}
-                                                                                            {selectedColumns?.includes("Locations") &&<td className='dash-table-data1 text-capitalized'>
-                                                                                            {Job?.location.join(", ")}
-                                                                                            </td>}
-                                                                                            {selectedColumns?.includes("Role") &&<td className='dash-table-data1 text-capitalized'>
-                                                                                            {Job?.role}
-                                                                                            </td>}
-                                                                                            {selectedColumns?.includes("Working Mode") &&<td className='dash-table-data1 text-capitalized'>
-                                                                                            {Job?.workMode}
-                                                                                            </td>}
-                                                                                            <td className='text-center'>
-                                                                                                <div className="action-btn-area">
-                                                                                                    <button className='job-view-btn' data-toggle="modal" title='View Candidate Details...' data-target="#invoiceModal" onClick={() => handleViewJobDetail(Job.id)}>
-                                                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
-                                                                                                            <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
-                                                                                                            <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
-                                                                                                        </svg>
-                                                                                                    </button>
-                                                                                                </div>
-                                                                                            </td>
-                                                                                        </tr>
-                                                                        );
-                                                                    }) :
+                                                                                        </div>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            );
+                                                                        }) :
                                                                     checkBoxFilteredJobMsg ?
                                                                         (
                                                                             <tr>
@@ -772,153 +802,70 @@ const AllJobs = () => {
                                                                         ) :
                                                                         checkBoxFilteredJobs.length > 0 ?
                                                                             (checkBoxFilteredJobs.slice(x[0], x[1])
-                                                                            .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
-                                                                            .map((Job, index) => {
-                                                                                const postedBy = Job.companyId
-                                                                                        ? (allCompany.find(company => company.companyId === Job.companyId)?.companyName || "Unknown Company")
-                                                                                        : (allEmployee.find(employee => employee.id === Job.recruiterId)?.name || "Unknown Employee");
-                                                                                return (
-                                                                                    <tr className='dash-table-row client' key={Job.id}>
-                                                                                            <td className='dash-table-data1'>{index + 1}.</td>
-                                                                                            <td className='dash-table-data1 text-capitalized'>
-                                                                                                {Job?.jobRole[0]}
-                                                                                            </td>
-                                                                                            {selectedColumns?.includes("Job Category") &&<td className='dash-table-data1 text-capitalized'>
-                                                                                                {Job?.jobCategory}
-                                                                                            </td>}
-                                                                                            {selectedColumns?.includes("Posted by") &&<td className='dash-table-data1 text-center text-capitalized'>
-                                                                                                {postedBy}
-                                                                                            </td>}
-                                                                                            {selectedColumns?.includes("Status") &&<td className='text-center'>
-                                                                                                {Job?.active ?
-                                                                                                        <span className='man-job-status-btn theme-success'>Approved & Active</span>
-                                                                                                        :
-                                                                                                        <span className='man-job-status-btn theme-info'>Approved & InActive</span>
-                                                                                                }
-                                                                                            </td>}
-                                                                                            {selectedColumns?.includes("Boost") &&<td className='text-center'>
-                                                                                            {/* Boost Job Button */}
-                                                                                            <button 
-                                                                                            className='btn btn-primary' 
-                                                                                            onClick={() => handleBoostJob(Job.id)}
-                                                                                            disabled={!Job?.active}
-                                                                                            >
-                                                                                                Boost Job
-                                                                                            </button>
-                                                                                        </td>}
-                                                                                        {selectedColumns?.includes("Job Mandatory Skills") &&<td className='dash-table-data1 text-capitalized'>
-                                                                                                {Job?.skills.join(", ")}
-                                                                                            </td>}
-                                                                                            {selectedColumns?.includes("Needed Experience") &&<td className='dash-table-data1 text-capitalized'>
-                                                                                            <span>{Job?.minExperience} - {Job?.maxExperience}</span>
-                                                                                            &nbsp;years&nbsp;
-                                                                                            </td>} 
-                                                                                            {selectedColumns?.includes("Job Description") &&<td className='dash-table-data1 text-capitalized'>
-                                                                                            {Job?.jobDescription}
-                                                                                            </td>}
-                                                                                            {selectedColumns?.includes("Salary Range") &&<td className='dash-table-data1 text-capitalized'>
-                                                                                            {Job?.currencyType}{Job?.minSalary} - {Job?.currencyType}{Job?.maxSalary}
-                                                                                            </td>}
-                                                                                            {selectedColumns?.includes("Department") &&<td className='dash-table-data1 text-capitalized'>
-                                                                                            {Job?.department}
-                                                                                            </td>}
-                                                                                            {selectedColumns?.includes("Education") &&<td className='dash-table-data1 text-capitalized'>
-                                                                                            {Job?.education}
-                                                                                            </td>}
-                                                                                            {selectedColumns?.includes("Industry") &&<td className='dash-table-data1 text-capitalized'>
-                                                                                            {Job?.industry}
-                                                                                            </td>}
-                                                                                            {selectedColumns?.includes("Locations") &&<td className='dash-table-data1 text-capitalized'>
-                                                                                            {Job?.location.join(", ")}
-                                                                                            </td>}
-                                                                                            {selectedColumns?.includes("Role") &&<td className='dash-table-data1 text-capitalized'>
-                                                                                            {Job?.role}
-                                                                                            </td>}
-                                                                                            {selectedColumns?.includes("Working Mode") &&<td className='dash-table-data1 text-capitalized'>
-                                                                                            {Job?.workMode}
-                                                                                            </td>}
-                                                                                            <td className='text-center'>
-                                                                                                <div className="action-btn-area">
-                                                                                                    <button className='job-view-btn' data-toggle="modal" title='View Candidate Details...' data-target="#invoiceModal" onClick={() => handleViewJobDetail(Job.id)}>
-                                                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
-                                                                                                            <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
-                                                                                                            <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
-                                                                                                        </svg>
-                                                                                                    </button>
-                                                                                                </div>
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                );
-                                                                            })) :
-                                                                            
-                                                                            (!searchJobRoleInput && checkBoxfilters.length === 0) ?
-                                                                            
-                                                                                (allJobs.slice(x[0], x[1])
                                                                                 .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
                                                                                 .map((Job, index) => {
                                                                                     const postedBy = Job.companyId
                                                                                         ? (allCompany.find(company => company.companyId === Job.companyId)?.companyName || "Unknown Company")
                                                                                         : (allEmployee.find(employee => employee.id === Job.recruiterId)?.name || "Unknown Employee");
-
                                                                                     return (
                                                                                         <tr className='dash-table-row client' key={Job.id}>
                                                                                             <td className='dash-table-data1'>{index + 1}.</td>
                                                                                             <td className='dash-table-data1 text-capitalized'>
                                                                                                 {Job?.jobRole[0]}
                                                                                             </td>
-                                                                                            {selectedColumns?.includes("Job Category") &&<td className='dash-table-data1 text-capitalized'>
+                                                                                            {selectedColumns?.includes("Job Category") && <td className='dash-table-data1 text-capitalized'>
                                                                                                 {Job?.jobCategory}
                                                                                             </td>}
-                                                                                            {selectedColumns?.includes("Posted by") &&<td className='dash-table-data1 text-center text-capitalized'>
+                                                                                            {selectedColumns?.includes("Posted by") && <td className='dash-table-data1 text-left text-capitalized'>
                                                                                                 {postedBy}
                                                                                             </td>}
-                                                                                            {selectedColumns?.includes("Status") &&<td className='text-center'>
+                                                                                            {selectedColumns?.includes("Status") && <td className='text-left'>
                                                                                                 {Job?.active ?
-                                                                                                        <span className='man-job-status-btn theme-success'>Approved & Active</span>
-                                                                                                        :
-                                                                                                        <span className='man-job-status-btn theme-info'>Approved & InActive</span>
+                                                                                                    <span className='man-job-status-btn theme-success'>Approved & Active</span>
+                                                                                                    :
+                                                                                                    <span className='man-job-status-btn theme-info'>Approved & InActive</span>
                                                                                                 }
                                                                                             </td>}
-                                                                                            {selectedColumns?.includes("Boost") &&<td className='text-center'>
-                                                                                            {/* Boost Job Button */}
-                                                                                            <button 
-                                                                                            className='btn btn-primary' 
-                                                                                            onClick={() => handleBoostJob(Job.id)}
-                                                                                            disabled={!Job?.active}
-                                                                                            >
-                                                                                                Boost Job
-                                                                                            </button>
-                                                                                        </td>}
-                                                                                        {selectedColumns?.includes("Job Mandatory Skills") &&<td className='dash-table-data1 text-capitalized'>
+                                                                                            {selectedColumns?.includes("Boost") && <td className='text-left'>
+                                                                                                {/* Boost Job Button */}
+                                                                                                <button
+                                                                                                    className='btn btn-primary'
+                                                                                                    onClick={() => handleBoostJob(Job.id)}
+                                                                                                    disabled={!Job?.active}
+                                                                                                >
+                                                                                                    Boost Job
+                                                                                                </button>
+                                                                                            </td>}
+                                                                                            {selectedColumns?.includes("Job Mandatory Skills") && <td className='dash-table-data1 text-capitalized'>
                                                                                                 {Job?.skills.join(", ")}
                                                                                             </td>}
-                                                                                            {selectedColumns?.includes("Needed Experience") &&<td className='dash-table-data1 text-capitalized'>
-                                                                                            <span>{Job?.minExperience} - {Job?.maxExperience}</span>
-                                                                                            &nbsp;years&nbsp;
-                                                                                            </td>} 
-                                                                                            {selectedColumns?.includes("Job Description") &&<td className='dash-table-data1 text-capitalized'>
-                                                                                            {Job?.jobDescription}
+                                                                                            {selectedColumns?.includes("Needed Experience") && <td className='dash-table-data1 text-capitalized'>
+                                                                                                <span>{Job?.minExperience} - {Job?.maxExperience}</span>
+                                                                                                &nbsp;years&nbsp;
                                                                                             </td>}
-                                                                                            {selectedColumns?.includes("Salary Range") &&<td className='dash-table-data1 text-capitalized'>
-                                                                                            {Job?.currencyType}{Job?.minSalary} - {Job?.currencyType}{Job?.maxSalary}
+                                                                                            {selectedColumns?.includes("Job Description") && <td className='dash-table-data1 text-capitalized'>
+                                                                                                {Job?.jobDescription}
                                                                                             </td>}
-                                                                                            {selectedColumns?.includes("Department") &&<td className='dash-table-data1 text-capitalized'>
-                                                                                            {Job?.department}
+                                                                                            {selectedColumns?.includes("Salary Range") && <td className='dash-table-data1 text-capitalized'>
+                                                                                                {Job?.currencyType}{Job?.minSalary} - {Job?.currencyType}{Job?.maxSalary}
                                                                                             </td>}
-                                                                                            {selectedColumns?.includes("Education") &&<td className='dash-table-data1 text-capitalized'>
-                                                                                            {Job?.education}
+                                                                                            {selectedColumns?.includes("Department") && <td className='dash-table-data1 text-capitalized'>
+                                                                                                {Job?.department}
                                                                                             </td>}
-                                                                                            {selectedColumns?.includes("Industry") &&<td className='dash-table-data1 text-capitalized'>
-                                                                                            {Job?.industry}
+                                                                                            {selectedColumns?.includes("Education") && <td className='dash-table-data1 text-capitalized'>
+                                                                                                {Job?.education ? Job?.education : "---------"}
                                                                                             </td>}
-                                                                                            {selectedColumns?.includes("Locations") &&<td className='dash-table-data1 text-capitalized'>
-                                                                                            {Job?.location.join(", ")}
+                                                                                            {selectedColumns?.includes("Industry") && <td className='dash-table-data1 text-capitalized'>
+                                                                                                {Job?.industry}
                                                                                             </td>}
-                                                                                            {selectedColumns?.includes("Role") &&<td className='dash-table-data1 text-capitalized'>
-                                                                                            {Job?.role}
+                                                                                            {selectedColumns?.includes("Locations") && <td className='dash-table-data1 text-capitalized'>
+                                                                                                {Job?.location.join(", ")}
                                                                                             </td>}
-                                                                                            {selectedColumns?.includes("Working Mode") &&<td className='dash-table-data1 text-capitalized'>
-                                                                                            {Job?.workMode}
+                                                                                            {selectedColumns?.includes("Role") && <td className='dash-table-data1 text-capitalized'>
+                                                                                                {Job?.role}
+                                                                                            </td>}
+                                                                                            {selectedColumns?.includes("Working Mode") && <td className='dash-table-data1 text-capitalized'>
+                                                                                                {Job?.workMode}
                                                                                             </td>}
                                                                                             <td className='text-center'>
                                                                                                 <div className="action-btn-area">
@@ -933,6 +880,90 @@ const AllJobs = () => {
                                                                                         </tr>
                                                                                     );
                                                                                 })) :
+
+                                                                            (!searchJobRoleInput && checkBoxfilters.length === 0) ?
+
+                                                                                (allJobs.slice(x[0], x[1])
+                                                                                    .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
+                                                                                    .map((Job, index) => {
+                                                                                        const postedBy = Job.companyId
+                                                                                            ? (allCompany.find(company => company.companyId === Job.companyId)?.companyName || "Unknown Company")
+                                                                                            : (allEmployee.find(employee => employee.id === Job.recruiterId)?.name || "Unknown Employee");
+
+                                                                                        return (
+                                                                                            <tr className='dash-table-row client' key={Job.id}>
+                                                                                                <td className='dash-table-data1'>{index + 1}.</td>
+                                                                                                <td className='dash-table-data1 text-capitalized'>
+                                                                                                    {Job?.jobRole[0]}
+                                                                                                </td>
+                                                                                                {selectedColumns?.includes("Job Category") && <td className='dash-table-data1 text-capitalized'>
+                                                                                                    {Job?.jobCategory}
+                                                                                                </td>}
+                                                                                                {selectedColumns?.includes("Posted by") && <td className='dash-table-data1 text-left text-capitalized'>
+                                                                                                    {postedBy}
+                                                                                                </td>}
+                                                                                                {selectedColumns?.includes("Status") && <td className='text-left'>
+                                                                                                    {Job?.active ?
+                                                                                                        <span className='man-job-status-btn theme-success'>Approved & Active</span>
+                                                                                                        :
+                                                                                                        <span className='man-job-status-btn theme-info'>Approved & InActive</span>
+                                                                                                    }
+                                                                                                </td>}
+                                                                                                {selectedColumns?.includes("Boost") && <td className='text-left'>
+                                                                                                    {/* Boost Job Button */}
+                                                                                                    <button
+                                                                                                        className='btn btn-boost-job'
+                                                                                                        onClick={() => handleBoostJob(Job.id)}
+                                                                                                        disabled={!Job?.active}
+                                                                                                    >
+                                                                                                        <i class="bi bi-rocket-takeoff mr-2"></i>
+                                                                                                        Boost Job
+                                                                                                    </button>
+                                                                                                </td>}
+                                                                                                {selectedColumns?.includes("Job Mandatory Skills") && <td className='dash-table-data1 text-capitalized'>
+                                                                                                    {Job?.skills.join(", ")}
+                                                                                                </td>}
+                                                                                                {selectedColumns?.includes("Needed Experience") && <td className='dash-table-data1 text-capitalized'>
+                                                                                                    <span>{Job?.minExperience} - {Job?.maxExperience}</span>
+                                                                                                    &nbsp;years&nbsp;
+                                                                                                </td>}
+                                                                                                {selectedColumns?.includes("Job Description") && <td className='dash-table-data1 text-capitalized'>
+                                                                                                    {Job?.jobDescription}
+                                                                                                </td>}
+                                                                                                {selectedColumns?.includes("Salary Range") && <td className='dash-table-data1 text-capitalized'>
+                                                                                                    {Job?.currencyType}{Job?.minSalary} - {Job?.currencyType}{Job?.maxSalary}
+                                                                                                </td>}
+                                                                                                {selectedColumns?.includes("Department") && <td className='dash-table-data1 text-capitalized'>
+                                                                                                    {Job?.department}
+                                                                                                </td>}
+                                                                                                {selectedColumns?.includes("Education") && <td className='dash-table-data1 text-capitalized'>
+                                                                                                    {Job?.education ? Job?.education : "---------"}
+                                                                                                </td>}
+                                                                                                {selectedColumns?.includes("Industry") && <td className='dash-table-data1 text-capitalized'>
+                                                                                                    {Job?.industry}
+                                                                                                </td>}
+                                                                                                {selectedColumns?.includes("Locations") && <td className='dash-table-data1 text-capitalized'>
+                                                                                                    {Job?.location.join(", ")}
+                                                                                                </td>}
+                                                                                                {selectedColumns?.includes("Role") && <td className='dash-table-data1 text-capitalized'>
+                                                                                                    {Job?.role}
+                                                                                                </td>}
+                                                                                                {selectedColumns?.includes("Working Mode") && <td className='dash-table-data1 text-capitalized'>
+                                                                                                    {Job?.workMode}
+                                                                                                </td>}
+                                                                                                <td className='text-center'>
+                                                                                                    <div className="action-btn-area">
+                                                                                                        <button className='job-view-btn' data-toggle="modal" title='View Candidate Details...' data-target="#invoiceModal" onClick={() => handleViewJobDetail(Job.id)}>
+                                                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                                                                                                <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
+                                                                                                                <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
+                                                                                                            </svg>
+                                                                                                        </button>
+                                                                                                    </div>
+                                                                                                </td>
+                                                                                            </tr>
+                                                                                        );
+                                                                                    })) :
                                                                                 null}
                                                         </table>
                                                     </div> :
@@ -971,7 +1002,7 @@ const AllJobs = () => {
                                     </div>
                                 </div>
                             )}
-                            
+
                         </div>
                     </section>
                 </div>

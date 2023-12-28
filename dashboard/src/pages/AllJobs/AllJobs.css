@@ -223,3 +223,37 @@
     border-radius: 16px;
     padding: 10px;
 }
+
+.btn-boost-job{
+    background-color: #714F36 !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    color: #FFF !important;
+    border-radius: 100px;
+    padding: 5px 10px !important;
+    transition: ease-in-out 0.5s !important;
+    box-shadow: inset 0px 0px 5px #00000015 !important;
+    white-space: nowrap;
+}
+
+.btn-boost-job:hover{
+    background-color: #F9C833 !important;
+    color: #714F36 !important;
+}
+
+.btn-boost-job i{
+    transition: ease-in-out 0.5s !important;
+    color: #FFF;
+}
+
+.btn-boost-job:hover i{
+    color: #714F36 !important;
+}
+.btn-boost-job:disabled{
+    cursor: not-allowed;
+    background-color: #d5d5d5 !important;
+    color: #444444 !important;
+}
+.btn-boost-job:disabled i{
+    color: #444444 !important;
+}
