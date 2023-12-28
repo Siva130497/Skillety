@@ -20,12 +20,52 @@ const AllCandidates = () => {
     const [searchInput, setSearchInput] = useState("");
     const [filteredSearchResults, setFilteredSearchResults] = useState([]);
     const [filteredSearchResultsMsg, setFilteredSearchResultsMsg] = useState("");
+    
 
     const [x, setX] = useState([0, 10]);
     const [loading, setLoading] = useState(true);
+    const [appliedJobForCandId, setAppliedJobForCandId] = useState([]);
+    const [appliedJobLoading, setAppliedJobLoading] = useState(true);
+    const [allEmployee, setAllEmployee] = useState([]);
+    const [allCompany, setAllCompany] = useState([]);
+
+    const [appliedJob, setAppliedJob] = useState([]);
+    // const [appliedJobLoad, setAppliedJobLoad] = useState(true);
 
     const [selectedColumns, setSelectedColumns] = useState([]);
-    let columns = ["Email ID", "Mobile Number",  "Send an interview invitation", "Current Job Role", "Skills", "Experience", "Current/Previous Working/Worked Company Name", "College", "Education", "Location", "About him/her", "Last Working Day", "Available To Join In", "Applied jobs of your posted"]
+    let columns = ["Email ID", "Mobile Number",  "Send an interview invitation", "Current Job Role", "Skills", "Experience", "Current/Previous Working/Worked Company Name", "College", "Education", "Location", "About him/her", "Last Working Day", "Available To Join In", "Applied jobs of your posted", "Applied jobs"]
+
+    // const fetchAppliedJobs = async (candidateId) => {
+    //     try {
+    //       const res = await axios.get(`https://skillety.onrender.com/my-applied-jobs/${candidateId}`, {
+    //         headers: {
+    //           Authorization: `Bearer ${staffToken}`,
+    //           Accept: 'application/json'
+    //         }
+    //       });
+    //       console.log(res.data);
+    //     //   return(
+    //     //     <td className='dash-table-data1 text-center'>
+    //     //         {res.data?.length > 0 ?
+    //     //             res.data?.map((appliedJob) => {
+    //     //                 const postedBy = appliedJob.companyId
+    //     //                     ? (allCompany.find(company => company.companyId === appliedJob.companyId)?.companyName)
+    //     //                     : (allEmployee.find(employee => employee.id === appliedJob.recruiterId)?.name);
+    //     //                     return (
+    //     //                         <span className='cand-skill text-capitalized'><strong>{appliedJob.jobRole[0]}</strong><br/>Posted By:{postedBy}</span>
+    //     //                         )
+    //     //         }) :
+    //     //             <p className='text-secondary'>Still not applied for any posted jobs</p>
+    //     //         }
+    //     //     </td>
+    //     //   )
+    //     } catch (err) {
+    //       console.error(err);
+    //     //   return(
+    //     //     <p className='text-secondary'>Still not applied for any posted jobs</p>
+    //     //   )
+    //     }
+    //   };
 
     const handleCheckboxChange = (value) => {
         
@@ -75,6 +115,29 @@ const AllCandidates = () => {
             };
 
             fetchData();
+
+            axios.get("https://skillety.onrender.com/all-employee")
+            .then(res=>{
+                console.log(res.data);
+                setAllEmployee(res.data);
+            })
+            .catch(err=>console.log(err))
+
+            axios.get("https://skillety.onrender.com/company-details")
+            .then(res => {
+                console.log(res.data);
+                setAllCompany(res.data);
+            })
+            .catch(err => {
+                console.log(err);
+            })
+
+            axios.get("https://skillety.onrender.com/applied-jobs")
+            .then(res=>{
+                console.log(res.data)
+                setAppliedJob(res.data);
+            })
+            .catch(err=>console.log(err));
         }
     }, [staffToken]);
 
@@ -203,8 +266,23 @@ const AllCandidates = () => {
     }
 
     const viewCandidateDetail = (id) => {
+        setAppliedJobForCandId([]);
+        setAppliedJobLoading(true);
         const Candidate = candidateDetail.find(filteredCandidate => filteredCandidate.id === id);
         setSelectedCandidate(Candidate);
+
+        axios.get(`https://skillety.onrender.com/my-applied-jobs/${id}`, {
+            headers: {
+                Authorization: `Bearer ${staffToken}`,
+                Accept: 'application/json'
+            }
+        })
+        .then(res=>{
+            console.log(res.data);
+            setAppliedJobLoading(false);
+            setAppliedJobForCandId(res.data);
+        })
+        .catch(err=>console.log(err));
     }
 
     const handleSkillSearch = () => {
@@ -404,6 +482,8 @@ const AllCandidates = () => {
                                                                 filteredSearchResults.length > 0 ?
                                                                     filteredSearchResults.slice(x[0], x[1]).map((candidate, index) => {
 
+                                                                        const appJobs = appliedJob.filter(job=>job.candidateId === candidate.id)
+
                                                                         return (
                                                                             <tr className='dash-table-row client' key={candidate.id}>
                                                                                 <td className='dash-table-data1'>{index + 1}.</td>
@@ -484,7 +564,22 @@ const AllCandidates = () => {
                                                                                     <p className='text-secondary'>Still not applied for your posted jobs</p>
                                                                                 }
                                                                                 </td>}
-
+                                                                                {selectedColumns?.includes("Applied jobs") && <td className='dash-table-data1 text-center'>
+                                                                                {appJobs
+                                                                                .length > 0 ?
+                                                                                appJobs
+                                                                                        .map((appliedJob) => {
+                                                                                            const postedBy = appliedJob.companyId
+                                                                                            ? (allCompany.find(company => company.companyId === appliedJob.companyId)?.companyName)
+                                                                                            : (allEmployee.find(employee => employee.id === appliedJob.recruiterId)?.name);
+                                                                                            return (
+                                                                                                <div className='cand-skill text-capitalized'><strong>{appliedJob.jobRole[0]}</strong><br/>Posted By:{postedBy}</div>
+                                                                                                
+                                                                                            )
+                                                                                        }) :
+                                                                                    <p className='text-secondary'>Still not applied for any posted jobs</p>}
+                                                                                    </td>
+                                                                                }
                                                                                 <td className='text-center'>
                                                                                     <div className="action-btn-area">
                                                                                         <button className='job-view-btn' data-toggle="modal" title='View Candidate Details...' data-target="#candidatesViewModal" onClick={() => viewCandidateDetail(candidate.id)}>
@@ -499,6 +594,9 @@ const AllCandidates = () => {
                                                                         )
                                                                     }) :
                                                                     !searchInput ? candidateDetail.slice(x[0], x[1]).map((candidate, index) => {
+                                                                        
+                                                                        const appJobs = appliedJob.filter(job=>job.candidateId === candidate.id)
+
                                                                         return (
                                                                             <tr className='dash-table-row client' key={candidate.id}>
                                                                                 <td className='dash-table-data1'>{index + 1}.</td>
@@ -580,6 +678,22 @@ const AllCandidates = () => {
                                                                                 }
                                                                                 </td>}
 
+                                                                                {selectedColumns?.includes("Applied jobs") && <td className='dash-table-data1 text-center'>
+                                                                                {appJobs
+                                                                                .length > 0 ?
+                                                                                appJobs
+                                                                                        .map((appliedJob) => {
+                                                                                            const postedBy = appliedJob.companyId
+                                                                                            ? (allCompany.find(company => company.companyId === appliedJob.companyId)?.companyName)
+                                                                                            : (allEmployee.find(employee => employee.id === appliedJob.recruiterId)?.name);
+                                                                                            return (
+                                                                                                <div className='cand-skill text-capitalized'><strong>{appliedJob.jobRole[0]}</strong><br/>Posted By:{postedBy}</div>
+                                                                                                
+                                                                                            )
+                                                                                        }) :
+                                                                                    <p className='text-secondary'>Still not applied for any posted jobs</p>}
+                                                                                    </td>
+                                                                                }
                                                                                 <td className='text-center'>
                                                                                     <div className="action-btn-area">
                                                                                         <button className='job-view-btn' data-toggle="modal" title='View Candidate Details...' data-target="#candidatesViewModal" onClick={() => viewCandidateDetail(candidate.id)}>
@@ -803,6 +917,32 @@ const AllCandidates = () => {
                                                         }) :
                                                     <p className='text-secondary'>Still not applied for your posted jobs</p>
                                                 }
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div className="row">
+                                        <div className="col-12 col-sm-5">
+                                            <div className="view-det-head">Applied jobs</div>
+                                        </div>
+                                        <div className="col-12 col-sm-7">
+                                            <div className="cand-skills-area">
+                                                {appliedJobLoading ? <p>Loading...</p>
+                                                :<>
+                                                {appliedJobForCandId
+                                                   .length > 0 ?
+                                                   appliedJobForCandId
+                                                        .map((appliedJob) => {
+                                                            const postedBy = appliedJob.companyId
+                                                                                        ? (allCompany.find(company => company.companyId === appliedJob.companyId)?.companyName)
+                                                                                        : (allEmployee.find(employee => employee.id === appliedJob.recruiterId)?.name);
+                                                            return (
+                                                                <span className='cand-skill text-capitalized'><strong>{appliedJob.jobRole[0]}</strong><br/>Posted By:{postedBy}</span>
+                                                                
+                                                            )
+                                                        }) :
+                                                    <p className='text-secondary'>Still not applied for any posted jobs</p>
+                                                }</>}
                                             </div>
                                         </div>
                                     </div>

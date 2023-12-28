@@ -44,6 +44,10 @@ import AllCompanyStaff from './pages/AllCompanyStaff/AllCompanyStaff';
 import CandidateCreate from './pages/CandidateCreate/CandidateCreate';
 import CreateCandidate from './pages/CreateCandidate/CreateCandidate';
 import CreateClient from './pages/CreateClient/CreateClient';
+import TalentsProfileSearchAts from './pages/TalentsProfileSearchAts/TalentsProfileSearchAts';
+import TalentsAts from './pages/TalentsAts/TalentsAts';
+import JobSearchAts from './pages/JobSearchAts/JobSearchAts';
+import JobDetailsAts from './pages/JobDetailsAts/JobDetailsAts';
 
 import CandidateChat from './pages/Chat/CandidateChat';
 import ClientChat from './pages/Chat/ClientChat';
@@ -101,7 +105,10 @@ function App() {
         {/* <Route path='/candidate-create' element={<CandidateCreate />} /> */}
         <Route path='/create-candidate' element={<CreateCandidate />} />
         <Route path='/create-client' element={<CreateClient />} />
-
+        <Route path='/talent-profile-search-ats' element={<TalentsProfileSearchAts />} />
+        <Route path='/talents-ats/:id' element={<TalentsAts />} />
+        <Route path='/search-jobs-ats' element={<JobSearchAts />} />
+        <Route path='/job-detail-ats/:id' element={<JobDetailsAts />} />
 
         {/* admin pages */}
         <Route path='/all-company-staff' element={<AllCompanyStaff />} />
