@@ -37,6 +37,7 @@ const {
   getAllApplicationStatusForJobId,
   getAllApplicationStatusForCandId,
   getAppliedjobs,
+  getAllAppliedjobs,
   getAppliedOfPostedJobs,
   deleteAppliedJob,
   deletingPostedJob,
@@ -257,6 +258,8 @@ router.get('/application-status-cand/:id', getAllApplicationStatusForCandId);
 
 //get applied jobs
 router.get('/my-applied-jobs/:candidateId', employeeAuth, getAppliedjobs)
+
+router.get('/applied-jobs',  getAllAppliedjobs)
 
 //get applied of posted jobs
 router.get('/applied-jobs-of-posted/:id', employeeAuth, getAppliedOfPostedJobs)

@@ -25,9 +25,13 @@ const ATSSideBar = () => {
                 $('#all_clients').addClass('active');
             } else if (path === '/all-candidates') {
                 $('#all_candidates').addClass('active');
-            } else if (path === '/all-jobs') {
+            } else if (path === '/talent-profile-search-ats') {
+                $('#search_candidates').addClass('active');
+            }else if (path === '/all-jobs') {
                 $('#all_jobs').addClass('active');
-            } else if (path === '/non-approval-jobs') {
+            } else if (path === '/search-jobs-ats') {
+                $('#search_jobs').addClass('active');
+            }else if (path === '/non-approval-jobs') {
                 $('#non_approval_jobs').addClass('active');
             } else if (path === '/posted-jobs') {
                 $('#posted_jobs').addClass('active');
@@ -125,6 +129,9 @@ const ATSSideBar = () => {
                     <li className="dropdown" id='all_candidates'>
                         <a href="/all-candidates" className="nav-link"><i data-feather="users"></i><span>All Candidates</span></a>
                     </li>
+                    <li className="dropdown" id='search_candidates'>
+                        <a href="/talent-profile-search-ats" className="nav-link"><i data-feather="search"></i><span>Search Candidates</span></a>
+                    </li>
                     {/* <li className="dropdown" id='search_candidate'>
                         <a href="/talent-profile-search" className="nav-link"><i data-feather="search"></i><span>Search Candidates</span></a>
                     </li>
@@ -133,6 +140,9 @@ const ATSSideBar = () => {
           </li> */}
                     <li className="dropdown" id='all_jobs'>
                         <a href="/all-jobs" className="nav-link"><i data-feather="briefcase"></i><span>All Jobs</span></a>
+                    </li>
+                    <li className="dropdown" id='search_jobs'>
+                        <a href="/search-jobs-ats" className="nav-link"><i data-feather="briefcase"></i><span>Search Jobs</span></a>
                     </li>
                     <li className="dropdown" id='non_approval_jobs'>
                         <a href="/non-approval-jobs" className="nav-link"><i data-feather="alert-circle"></i><span>Non Approval Jobs</span></a>

@@ -1,0 +1,131 @@
+@media screen and (min-width: 992px) and (max-width: 1399px) {}
+
+@media (max-width:991.5px) {
+    .job-match-score-radio-select-area {
+        gap: unset;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 20px;
+        row-gap: 30px;
+    }
+}
+
+@media (max-width:573px) {
+    .dash-job-det-card {
+        padding: 20px;
+    }
+
+    .dash-job-det-card-header {
+        flex-direction: column-reverse;
+        align-items: normal;
+        gap: 30px;
+    }
+
+    .dash-job-det-card-img-area {
+        width: 100% !important;
+        height: 100px;
+    }
+
+    .dash-job-det-card-img-area .dash-job-det-card-img {
+        height: 90px;
+        object-fit: contain;
+    }
+
+    .dash-job-det-head {
+        font-size: 20px;
+    }
+
+    .dash-job-det-card-com-area {
+        flex-direction: column;
+        gap: 30px;
+        align-items: flex-start;
+        padding-top: 20px;
+    }
+
+    .dash-job-det-card-det-area {
+        gap: 20px;
+    }
+
+    .dash-job-det-card-det span {
+        white-space: nowrap;
+    }
+
+    .dash-job-det-card-body {
+        padding-top: 30px;
+        align-items: flex-start;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 30px;
+    }
+
+    .dash-job-det-card-tags-area {
+        gap: 20px;
+    }
+
+    .dash-job-det-card-footer {
+        flex-direction: column;
+        gap: 20px;
+        width: 100%;
+    }
+
+    .dash-job-det-card-status-area {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        border-bottom: 1px solid #714F36;
+        padding-bottom: 20px;
+        width: 100%;
+    }
+
+    .dash-job-det-card-status.with-border-padding {
+        border-right: none;
+        padding-right: 0;
+    }
+
+    .dash-job-det-card-btn-area,
+    .dash-job-det-card-apply-btn {
+        width: 100%;
+    }
+
+    .job-match-score-radio-select-area {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 25px;
+    }
+
+    .dash-job-det-content-area {
+        padding: 20px 20px 30px 20px;
+    }
+
+    .dash-job-desc-area ul {
+        padding-left: 10px !important;
+    }
+
+    .dash-job-desc-list-item::before {
+        margin-right: 10px;
+    }
+
+    .dash-job-det-info {
+        font-size: 15px;
+        display: flex;
+    }
+
+    .dash-job-det-info-area {
+        margin-top: 30px;
+    }
+
+    .dash-job-det-info div {
+        margin-top: 0 !important;
+    }
+
+
+    .dash-job-desc-area span {
+        display: none;
+    }
+
+    .dash-job-desc-area.flex {
+        flex-direction: column;
+        align-items: flex-start;
+        margin-bottom: 20px;
+    }
+}

@@ -1229,6 +1229,17 @@ const getAppliedjobs = async(req, res) => {
   }
 }
 
+const getAllAppliedjobs = async(req, res) => {
+  try{
+    
+    const allAppliedJobs = await appliedJob.find();
+    
+    res.status(200).json(allAppliedJobs); 
+  }catch(err) {
+    res.status(500).json({error: err.message})
+  }
+}
+
 /* get applied jobs from posted jobs  */
 const getAppliedOfPostedJobs = async (req, res) => {
   try {
@@ -3438,6 +3449,7 @@ module.exports = {
    getAllApplicationStatusForJobId,
    getAllApplicationStatusForCandId,
    getAppliedjobs,
+   getAllAppliedjobs,
    getAppliedOfPostedJobs,
    deleteAppliedJob,
    deletingPostedJob,
