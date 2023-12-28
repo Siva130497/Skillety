@@ -8,9 +8,10 @@ import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
+import AuthContext from '../../context/AuthContext';
 
 const NonApprovalJobs = () => {
-
+    const { getProtectedData } = useContext(AuthContext);
     const [staffToken, setStaffToken] = useState("");
     const [allJobs, setAllJobs] = useState([]);
     const [checkBoxfilters, setCheckBoxFilters] = useState([]);
@@ -89,6 +90,22 @@ const NonApprovalJobs = () => {
     useEffect(() => {
         setStaffToken(JSON.parse(localStorage.getItem('staffToken')))
     }, [staffToken])
+
+    useEffect(() => {
+        if (staffToken) {
+            const fetchData = async () => {
+                try {
+                    const userData = await getProtectedData(staffToken);
+                    console.log(userData);
+                    setEmployeeId(userData.id);
+                } catch (error) {
+                    console.log(error)
+                }
+            };
+
+            fetchData();
+        }
+    }, [staffToken]);
 
     useEffect(() => {
         if (employeeId) {
