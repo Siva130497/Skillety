@@ -40,4 +40,10 @@
     .recruiter-view-card{
         padding: 15px !important;
     }
+
+    .customize-table-layout-top{
+        flex-direction: column;
+        align-items: flex-start;
+        row-gap: 10px;
+    }
 }

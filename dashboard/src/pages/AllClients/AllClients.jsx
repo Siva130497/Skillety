@@ -26,53 +26,76 @@ const AllClients = () => {
     const [loading, setLoading] = useState(true);
     const [employeeId, setEmployeeId] = useState("");
 
+    const [isExpanded, setIsExpanded] = useState(false);
+
     const [selectedColumns, setSelectedColumns] = useState([]);
-    let columns = ["Email ID", "Email Status", "Send Email", "Mobile Number",  "Company Name", "Industry", "Headcount", "From where did you learn about Skillety?"]
+    let columns = ["Email ID", "Email Status", "Send Email", "Mobile Number", "Company Name", "Industry", "Headcount", "From where did you learn about Skillety?"]
 
     const handleCheckboxChange = (value) => {
-        
+
         const updatedColumns = selectedColumns ? [...selectedColumns] : [];
 
         if (updatedColumns.includes(value)) {
             updatedColumns.splice(updatedColumns.indexOf(value), 1);
         } else {
-            updatedColumns.length<3 && updatedColumns.push(value);
+            updatedColumns.length < 3 && updatedColumns.push(value);
         }
-    
+
         setSelectedColumns(updatedColumns);
-    
+
         const columnData = {
             id: employeeId,
             column: updatedColumns,
         };
-    
+
         axios.post("https://skillety.onrender.com/all-clients-column", columnData, {
             headers: {
                 Authorization: `Bearer ${staffToken}`,
                 Accept: 'application/json'
             }
         })
-        .then(res => {
-            console.log(res.data)
-        })
-        .catch(err => {
-            console.log(err)
-        });
+            .then(res => {
+                console.log(res.data)
+            })
+            .catch(err => {
+                console.log(err)
+            });
     }
-    
+
 
     useEffect(() => {
         setStaffToken(JSON.parse(localStorage.getItem('staffToken')))
     }, [staffToken])
 
-    useEffect(() => {
-        $(document).ready(function () {
-            $(".cli-tal-pro-search-page-btn").on("click", function () {
-                $("html, body").animate({ scrollTop: 0 }, "slow");
-            });
-        });
+    // useEffect(() => {
+    //     ///toggle customize layout
+    //     function handlelayoutToggle() {
+    //         var expandArea = $(this).closest('.customize-table-layout-area').find('.customize-table-layout-content');
 
-    }, []);
+    //         if (expandArea.hasClass('opened')) {
+    //             expandArea.slideUp();
+    //             expandArea.removeClass('opened');
+    //             $(this).removeClass('opened');
+    //         } else {
+    //             expandArea.slideDown();
+    //             expandArea.addClass('opened');
+    //             $(this).addClass('opened');
+    //         }
+    //     }
+    //     ////
+
+    //     $('.customize-table-layout-btn').on('click', handlelayoutToggle);
+
+    //     // Cleanup function to remove event listeners when the component unmounts
+    //     return () => {
+    //         $('.customize-table-layout-btn').off('click', handlelayoutToggle);
+    //     };
+
+    // }, [staffToken]);
+
+    const handlelayoutToggle = () => {
+        setIsExpanded(prevState => !prevState);
+    };
 
     useEffect(() => {
         if (staffToken) {
@@ -90,23 +113,23 @@ const AllClients = () => {
         }
     }, [staffToken]);
 
-    useEffect(()=>{
-        if(employeeId){
+    useEffect(() => {
+        if (employeeId) {
             axios.get(`https://skillety.onrender.com/all-clients-column/${employeeId}`)
-            .then(res=>{
-                console.log(res.data);
-                if(res.data){
-                    setSelectedColumns(res.data.column);
-                    
-                }
-                setLoading(false);
-            })
-            .catch(err=>{
-                console.log(err)
-                setLoading(false);
-            })
+                .then(res => {
+                    console.log(res.data);
+                    if (res.data) {
+                        setSelectedColumns(res.data.column);
+
+                    }
+                    setLoading(false);
+                })
+                .catch(err => {
+                    console.log(err)
+                    setLoading(false);
+                })
         }
-    },[employeeId])
+    }, [employeeId])
 
     //for show success message for payment
     function showSuccessMessage(message) {
@@ -132,7 +155,7 @@ const AllClients = () => {
 
     const getAllClientDetails = async () => {
         try {
-            
+
             const response = await axios.get(`https://skillety.onrender.com/client-Detail`, {
                 headers: {
                     Authorization: `Bearer ${staffToken}`,
@@ -146,7 +169,7 @@ const AllClients = () => {
             } else {
                 console.log(result);
             }
-            
+
         } catch (err) {
             console.log(err);
 
@@ -268,7 +291,7 @@ const AllClients = () => {
                 <div class="main-content">
                     <section class="section">
                         <div className="my-app-section">
-                        <div className='d-flex align-items-end justify-content-between pt-4'>
+                            <div className='d-flex align-items-end justify-content-between pt-4'>
                                 <div className="admin-component-name pt-0">
                                     All Clients
                                 </div>
@@ -283,7 +306,6 @@ const AllClients = () => {
                                     </a>
                                 </div>
 
-                                
                             </div>
 
                             {loading ? (
@@ -374,17 +396,39 @@ const AllClients = () => {
                                                         Total Clients :&nbsp;
                                                         <span>{clientDetail.length}</span>
                                                     </div>
-                                                    {columns.map(column=>{
-                                                        return(
-                                                            <label >
-                                                                <input type="checkbox"
-                                                                checked={selectedColumns?.includes(column)}
-                                                                onChange={() => handleCheckboxChange(column)} />
-                                                                <span ></span>
-                                                                    {column}
-                                                            </label>
-                                                        )
-                                                    })}
+                                                    <div className='customize-table-layout-area'>
+                                                        <div className="customize-table-layout-top">
+                                                            <div className='customize-table-layout-head'>Customize Table Layout</div>
+                                                            <button className='customize-table-layout-btn' type='button' onClick={handlelayoutToggle}>
+                                                                Customize
+                                                                <i class="bi bi-pencil-square"></i>
+                                                            </button>
+                                                        </div>
+                                                        <div className={`customize-table-layout-content ${isExpanded ? 'opened' : ''}`}>
+                                                            <div className='p-2'>
+                                                                <div className='row'>
+                                                                    {columns.map(column => {
+                                                                        return (
+                                                                            <div className="col-12 col-sm-6 col-lg-6 col-md-6">
+                                                                                <label className={`layout-form-check-input ${selectedColumns && selectedColumns.length === 3 && !selectedColumns.includes(column) ? 'disabled' : ''}`}>
+                                                                                    <input type="checkbox"
+                                                                                        disabled={selectedColumns && selectedColumns.length === 3 && !selectedColumns.includes(column)}
+                                                                                        checked={selectedColumns?.includes(column)}
+                                                                                        onChange={() => handleCheckboxChange(column)} />
+                                                                                    <span className="layout-form-checkmark"></span>
+                                                                                    {column}
+                                                                                </label>
+                                                                            </div>
+                                                                        )
+                                                                    })}
+                                                                </div>
+                                                                <hr />
+                                                                <div className='customize-table-layout-note'>
+                                                                    *Note: You can add a maximum of 3 column fields
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                                 {clientDetail.length === 0 ?
                                                     <div className="no-data-created-area">
@@ -399,10 +443,10 @@ const AllClients = () => {
                                                             <tr className='dash-table-row man-app'>
                                                                 <th className='dash-table-head'>No.</th>
                                                                 <th className='dash-table-head'>Full Name</th>
-                                                                {columns.map(column=>{
-                                                                    if(selectedColumns?.includes(column)){
-                                                                        return(
-                                                                            <th className='dash-table-head text-center'>{column}</th>  
+                                                                {columns.map(column => {
+                                                                    if (selectedColumns?.includes(column)) {
+                                                                        return (
+                                                                            <th className='dash-table-head text-left'>{column}</th>
                                                                         )
                                                                     }
                                                                 })}
@@ -419,7 +463,7 @@ const AllClients = () => {
                                                                         </td>
                                                                         {selectedColumns?.includes("Email ID") && <td className='dash-table-data1'>
                                                                             <a href={`mailto:${client.email}`}
-                                                                                className='dash-table-data1 link is-link'>
+                                                                                className='dash-table-data1 link is-link p-0'>
                                                                                 {client.email}
                                                                             </a>
                                                                         </td>}
@@ -429,32 +473,37 @@ const AllClients = () => {
                                                                     Email still not sent!
                                                                 </span> */}
                                                                             {commonEmails.includes(client.email) ?
-                                                                            <span className='text-success p-0'>
-                                                                                <i class="bi bi-check-circle mr-2"></i>
-                                                                                Email sent.
-                                                                            </span> :
-                                                                            <span className='text-warning p-0'>
-                                                                                <i class="bi bi-exclamation-circle mr-2"></i>
-                                                                                Email not yet sent.
-                                                                            </span>
+                                                                                <span className='text-success p-0'>
+                                                                                    <i class="bi bi-check-circle mr-2"></i>
+                                                                                    Email sent.
+                                                                                </span> :
+                                                                                <span className='text-warning p-0'>
+                                                                                    <i class="bi bi-exclamation-circle mr-2"></i>
+                                                                                    Email not yet sent.
+                                                                                </span>
                                                                             }
                                                                         </td>}
-                                                                        {selectedColumns?.includes("Send Email") &&<td className='dash-table-data1 text-center'>
+                                                                        {selectedColumns?.includes("Send Email") && <td className='dash-table-data1 text-left'>
                                                                             <button className='send-email-btn' onClick={() => handleGeneratePasswordAndTempUrl(client._id)}>
                                                                                 <i class="bi bi-send-fill send-icon"></i>
                                                                                 {commonEmails.includes(client.email) ? "ReSend" : "Send"}
                                                                             </button>
                                                                         </td>}
-                                                                        {selectedColumns?.includes("Mobile Number") &&<td className='dash-table-data1 text-center'>
-                                                                        {client.phone}                                      </td>}
-                                                                        {selectedColumns?.includes("Company Name") &&<td className='dash-table-data1 text-center'>
-                                                                        {client.companyName}                                </td>}
-                                                                        {selectedColumns?.includes("Industry") &&<td className='dash-table-data1 text-center'>
-                                                                        {client.industry}                                   </td>}
-                                                                        {selectedColumns?.includes("Headcount") &&<td className='dash-table-data1 text-center'>
-                                                                        {client.count}                                      </td>}
-                                                                        {selectedColumns?.includes("From where did you learn about Skillety?") &&<td className='dash-table-data1 text-center'>
-                                                                        {client.text}                                       </td>}
+                                                                        {selectedColumns?.includes("Mobile Number") &&
+                                                                            <td className='dash-table-data1 text-left'>
+                                                                                <a href={`tel:${client.phone}`}
+                                                                                    className='dash-table-data1 link is-link p-0'>
+                                                                                    {client.phone}
+                                                                                </a>
+                                                                            </td>}
+                                                                        {selectedColumns?.includes("Company Name") && <td className='dash-table-data1 text-left'>
+                                                                            {client.companyName}                                </td>}
+                                                                        {selectedColumns?.includes("Industry") && <td className='dash-table-data1 text-left'>
+                                                                            {client.industry}                                   </td>}
+                                                                        {selectedColumns?.includes("Headcount") && <td className='dash-table-data1 text-left'>
+                                                                            {client.count}                                      </td>}
+                                                                        {selectedColumns?.includes("From where did you learn about Skillety?") && <td className='dash-table-data1 text-left'>
+                                                                            {client.text}                                       </td>}
                                                                         <td className='text-center'>
                                                                             <div className="action-btn-area">
                                                                                 <button className='job-view-btn' title='View Client Details...' data-toggle="modal" data-target="#clientsViewModal" onClick={() => handleCard(client._id)}>
