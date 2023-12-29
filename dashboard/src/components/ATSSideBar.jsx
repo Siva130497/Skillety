@@ -3,11 +3,13 @@ import { useEffect } from 'react';
 import $ from 'jquery';
 import feather from 'feather-icons';
 import AuthContext from '../context/AuthContext';
+import axios from 'axios';
 
 const ATSSideBar = () => {
     const [staffToken, setStaffToken] = useState("");
     const { getProtectedData } = useContext(AuthContext);
     const [role, setRole] = useState("");
+    const [employeeId, setEmployeeId] = useState("");
 
     useEffect(() => {
         setStaffToken(JSON.parse(localStorage.getItem('staffToken')))
@@ -88,13 +90,35 @@ const ATSSideBar = () => {
 
     }, [staffToken, role]);
 
+    const getAnIndividualRecruiter = async() => {
+        try{
+            const res = await axios.get(`https://skillety-n6r1.onrender.com/staff/${employeeId}`, {
+              headers: {
+                  Authorization: `Bearer ${staffToken}`,
+                  Accept: 'application/json'
+              }
+            });
+            const result = res.data;
+            if (!result.error) {
+              console.log(result);
+              setRole(result.companyStaff);
+              
+            } else {
+              console.log(result);
+            }
+        }catch(err){
+          console.log(err);
+        }
+      }
+
     useEffect(() => {
         if (staffToken) {
             const fetchData = async () => {
                 try {
                     const userData = await getProtectedData(staffToken);
                     console.log(userData);
-                    setRole(userData.role);
+                    setEmployeeId(userData.id);
+                    // setRole(userData.role);
                 } catch (error) {
                     console.log(error)
                 }
@@ -103,6 +127,12 @@ const ATSSideBar = () => {
             fetchData();
         }
     }, [staffToken]);
+
+    useEffect(()=>{
+        if(employeeId){
+            getAnIndividualRecruiter();
+        }
+    },[employeeId])
 
     return (
         <div className="main-sidebar recruiter client sidebar-style-2">

@@ -111,7 +111,7 @@ const AllCandidates = () => {
                     const userData = await getProtectedData(staffToken);
                     console.log(userData);
                     setEmployeeId(userData.id);
-                    setRole(userData.role);
+                    // setRole(userData.role);
                 } catch (error) {
                     console.log(error)
                 }
@@ -144,8 +144,31 @@ const AllCandidates = () => {
         }
     }, [staffToken]);
 
+    const getAnIndividualRecruiter = async() => {
+        try{
+            const res = await axios.get(`https://skillety-n6r1.onrender.com/staff/${employeeId}`, {
+              headers: {
+                  Authorization: `Bearer ${staffToken}`,
+                  Accept: 'application/json'
+              }
+            });
+            const result = res.data;
+            if (!result.error) {
+              console.log(result);
+              setRole(result.companyStaff);
+              
+            } else {
+              console.log(result);
+            }
+        }catch(err){
+          console.log(err);
+        }
+      }
+
     useEffect(() => {
         if (employeeId) {
+            getAnIndividualRecruiter();
+            getAppliedOfPostedJobs();
             axios.get(`https://skillety-n6r1.onrender.com/all-candidates-column/${employeeId}`)
                 .then(res => {
                     console.log(res.data);
@@ -153,14 +176,24 @@ const AllCandidates = () => {
                         setSelectedColumns(res.data.column);
 
                     }
-                    setLoading(false);
+                    
                 })
                 .catch(err => {
                     console.log(err)
-                    setLoading(false);
+                   
                 })
         }
     }, [employeeId])
+
+    useEffect(()=>{
+        if(role){
+            if(role === "Recruiter"){
+                getAllRecruiterCandidateDetail();
+            }else{
+                getAllCandidateDetail();
+            }
+        }
+    },[role])
 
     const getAllCandidateDetail = async () => {
         try {
@@ -175,14 +208,16 @@ const AllCandidates = () => {
             if (!result.error) {
                 console.log(result);
                 setCandidateDetail(result.reverse());
+                setLoading(false);
             } else {
                 console.log(result);
+                setLoading(false);
             }
 
 
         } catch (error) {
             console.log(error);
-
+            setLoading(false);
 
         }
     };
@@ -200,15 +235,17 @@ const AllCandidates = () => {
             if (!result.error) {
                 console.log(result);
                 setCandidateDetail(result.reverse());
+                setLoading(false);
             } else {
                 console.log(result);
+                setLoading(false);
             }
 
 
         } catch (error) {
             console.log(error);
 
-
+            setLoading(false);
         }
     };
 
@@ -231,18 +268,6 @@ const AllCandidates = () => {
             console.log(err);
         }
     }
-
-    useEffect(() => {
-        if (employeeId) {
-            if(role === "Recruiter"){
-                getAllRecruiterCandidateDetail();
-            }else{
-                getAllCandidateDetail();
-            }
-            getAppliedOfPostedJobs();
-        }
-
-    }, [employeeId]);
 
     const handleApiCall = (candData) => {
         const accessToken = 'CJT85DoAcFM22rKrrQdrGkdWvWNUY_Xf';
