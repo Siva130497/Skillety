@@ -1955,7 +1955,7 @@ const JobSearch = () => {
                                             <div class="pl--package-btn job">Back to Search
                                             </div>
                                         </button> */}
-                                            
+
                                                 <h4 className="cli-tal-pro-search-heading m-b-40">Job Search</h4>
 
                                                 <div className="row row-border-custom">
@@ -2436,7 +2436,7 @@ const JobSearch = () => {
                                                                                     </div>
 
                                                                                     <div className='flex-reverse-md'>
-                                                                                        {selectedResults.length>0 &&
+                                                                                        {selectedResults.length > 0 &&
                                                                                             <div className="tal--pro-card-ability-number-left mobile-flex mb-3 job">
                                                                                                 <h6 className='tal--pro-card-ability search'>Keywords Matched</h6>
                                                                                                 <h2 className='tal--pro-card-percentage search custom-font-size'>{Math.round(percentage)}%</h2>
@@ -2531,7 +2531,14 @@ const JobSearch = () => {
                                                                                     </div>
                                                                                 </article>
                                                                             )
-                                                                        })) : <p>No match jobs found!</p>}
+                                                                        })) :
+                                                                        <div className="no-data-created-area">
+                                                                            <div className='no-data-created'>
+                                                                                <img src="../assets/img/no-data/no-data-img.png" className='no-data-img' alt="" />
+                                                                                <div className='no-data-text'>No Match Jobs Found..!</div>
+                                                                            </div>
+                                                                        </div>
+                                                            }
                                                             <div className="tal--pro-paginate-btn-area" data-aos="fade-up">
                                                                 <h6 className='tal--pro-total-result-text'>Total Items : <span>{filteredSearchResultsMsg ? "0" : filteredSearchResults.length > 0 ? filteredSearchResults.length : matchJobs.length > 0 ? matchJobs.length : "0"}</span></h6>
                                                                 <div className='tal--pro-slider-btn-sub'>

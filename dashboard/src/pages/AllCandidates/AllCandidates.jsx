@@ -585,13 +585,13 @@ const AllCandidates = () => {
                                                                                             .filter((appliedOfPostedJob) => appliedOfPostedJob.candidateId === candidate?.id)
                                                                                             .map((appliedOfPostedJob) => {
                                                                                                 return (
-                                                                                                    <span className='cand-skill text-capitalized'>{appliedOfPostedJob.jobRole[0]}</span>
+                                                                                                    <span className='dash-table-data1 text-capitalized'>{appliedOfPostedJob.jobRole[0]}</span>
                                                                                                 )
                                                                                             }) :
-                                                                                        <p className='text-secondary'>Still not applied for your posted jobs</p>
+                                                                                        <span className='text-secondary'>Still not applied for your posted jobs</span>
                                                                                     }
                                                                                 </td>}
-                                                                                {selectedColumns?.includes("Applied jobs") && <td className='dash-table-data1 text-center'>
+                                                                                {selectedColumns?.includes("Applied jobs") && <td className='dash-table-data1 text-left'>
                                                                                 {appJobs
                                                                                 .length > 0 ?
                                                                                 appJobs
@@ -600,11 +600,11 @@ const AllCandidates = () => {
                                                                                             ? (allCompany.find(company => company.companyId === appliedJob.companyId)?.companyName)
                                                                                             : (allEmployee.find(employee => employee.id === appliedJob.recruiterId)?.name);
                                                                                             return (
-                                                                                                <div className='cand-skill text-capitalized'><strong>{appliedJob.jobRole[0]}</strong><br/>Posted By:{postedBy}</div>
+                                                                                                <div className='dash-table-data1 text-capitalized'><strong>{appliedJob.jobRole[0]}</strong><br/>Posted By:{postedBy}</div>
                                                                                                 
                                                                                             )
                                                                                         }) :
-                                                                                    <p className='text-secondary'>Still not applied for any posted jobs</p>}
+                                                                                    <span className='text-secondary'>Still not applied for any posted jobs</span>}
                                                                                     </td>
                                                                                 }
                                                                                 <td className='text-center'>
@@ -698,14 +698,14 @@ const AllCandidates = () => {
                                                                                             .filter((appliedOfPostedJob) => appliedOfPostedJob.candidateId === candidate?.id)
                                                                                             .map((appliedOfPostedJob) => {
                                                                                                 return (
-                                                                                                    <span className='cand-skill text-capitalized'>{appliedOfPostedJob.jobRole[0]}</span>
+                                                                                                    <span className='dash-table-data1 text-capitalized'>{appliedOfPostedJob.jobRole[0]}</span>
                                                                                                 )
                                                                                             }) :
-                                                                                        <p className='text-secondary'>Still not applied for your posted jobs</p>
+                                                                                        <span className='text-secondary'>Still not applied for your posted jobs</span>
                                                                                     }
                                                                                 </td>}
 
-                                                                                {selectedColumns?.includes("Applied jobs") && <td className='dash-table-data1 text-center'>
+                                                                                {selectedColumns?.includes("Applied jobs") && <td className='dash-table-data1 text-left'>
                                                                                 {appJobs
                                                                                 .length > 0 ?
                                                                                 appJobs
@@ -714,11 +714,11 @@ const AllCandidates = () => {
                                                                                             ? (allCompany.find(company => company.companyId === appliedJob.companyId)?.companyName)
                                                                                             : (allEmployee.find(employee => employee.id === appliedJob.recruiterId)?.name);
                                                                                             return (
-                                                                                                <div className='cand-skill text-capitalized'><strong>{appliedJob.jobRole[0]}</strong><br/>Posted By:{postedBy}</div>
+                                                                                                <div className='dash-table-data1 text-capitalized'><strong>{appliedJob.jobRole[0]}</strong><br/>Posted By : {postedBy}</div>
                                                                                                 
                                                                                             )
                                                                                         }) :
-                                                                                    <p className='text-secondary'>Still not applied for any posted jobs</p>}
+                                                                                    <span className='text-secondary'>Still not applied for any posted jobs</span>}
                                                                                     </td>
                                                                                 }
                                                                                 <td className='text-center'>
