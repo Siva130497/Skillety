@@ -2,6 +2,10 @@ const { Schema, model } = require("mongoose");
 
 const candidateCreateSchema = new Schema(
   {
+    recruiterId: {
+        type: String,
+        required: true
+    },
     days: {
         type: String,
         required: true
