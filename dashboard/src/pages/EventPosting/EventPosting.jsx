@@ -86,7 +86,7 @@ const EventPosting = () => {
     useEffect(() => {
         if (editingEventId) {
 
-            axios.get(`https://skillety.onrender.com/event/${editingEventId}`, {
+            axios.get(`https://skillety-n6r1.onrender.com/event/${editingEventId}`, {
                 headers: {
                     Authorization: `Bearer ${staffToken}`,
                     Accept: 'application/json'
@@ -98,7 +98,7 @@ const EventPosting = () => {
                 })
                 .catch(err => console.log(err));
 
-            axios.get(`https://skillety.onrender.com/event-image/${editingEventId}`)
+            axios.get(`https://skillety-n6r1.onrender.com/event-image/${editingEventId}`)
                 .then(res => setEditingEventImg(res.data))
                 .catch(err => console.log(err))
 
@@ -120,7 +120,7 @@ const EventPosting = () => {
 
     useEffect(() => {
         if (editingEventImg) {
-            setEventImgUrl(`https://skillety.onrender.com/images/${editingEventImg.image}`)
+            setEventImgUrl(`https://skillety-n6r1.onrender.com/images/${editingEventImg.image}`)
         }
 
     }, [editingEventImg]);
@@ -187,7 +187,7 @@ const EventPosting = () => {
         console.log(media)
         if (image && dateString) {
             try {
-                const response = await axios.post(`https://skillety.onrender.com/media`, media, {
+                const response = await axios.post(`https://skillety-n6r1.onrender.com/media`, media, {
                     headers: {
                         Authorization: `Bearer ${staffToken}`,
                         Accept: 'application/json'
@@ -218,7 +218,7 @@ const EventPosting = () => {
     const changingEvent = async (event) => {
         if (eventDate) {
             try {
-                const response = await axios.patch(`https://skillety.onrender.com/event/${editingEventId}`, event, {
+                const response = await axios.patch(`https://skillety-n6r1.onrender.com/event/${editingEventId}`, event, {
                     headers: {
                         Authorization: `Bearer ${staffToken}`,
                         Accept: 'application/json'
@@ -276,7 +276,7 @@ const EventPosting = () => {
                 const formData = new FormData()
                 formData.append('image', image);
                 formData.append('id', id)
-                axios.post("https://skillety.onrender.com/upload-image", formData, {
+                axios.post("https://skillety-n6r1.onrender.com/upload-image", formData, {
                     headers: {
                         Authorization: `Bearer ${staffToken}`,
                         Accept: 'application/json'
@@ -317,7 +317,7 @@ const EventPosting = () => {
             if (image) {
                 const formData = new FormData()
                 formData.append('image', image);
-                axios.patch(`https://skillety.onrender.com/update-image/${editingEventId}`, formData, {
+                axios.patch(`https://skillety-n6r1.onrender.com/update-image/${editingEventId}`, formData, {
                     headers: {
                         Authorization: `Bearer ${staffToken}`,
                         Accept: 'application/json'

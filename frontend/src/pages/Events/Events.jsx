@@ -27,7 +27,7 @@ const Events = () => {
     }, []);
 
     // const handleDelete = (id) => {
-    //     axios.delete(`https://skillety.onrender.com/events/${id}`, {
+    //     axios.delete(`https://skillety-n6r1.onrender.com/events/${id}`, {
     //         headers: {
     //             Authorization: `Bearer ${staffToken}`,
     //             Accept: 'application/json'
@@ -40,7 +40,7 @@ const Events = () => {
     //         )
     //         .catch(err => console.log(err));
 
-    //     axios.delete(`https://skillety.onrender.com/event-image-delete/${id}`, {
+    //     axios.delete(`https://skillety-n6r1.onrender.com/event-image-delete/${id}`, {
     //         headers: {
     //             Authorization: `Bearer ${staffToken}`,
     //             Accept: 'application/json'
@@ -154,7 +154,7 @@ const Events = () => {
                                             <div className="row" key={index}>
                                                 {eventDetail.slice(index * 3, (index + 1) * 3).map((eve) => {
                                                     const matchingImg = eventImg ? eventImg.find(img => img.id === eve.id) : null;
-                                                    const imgSrc = matchingImg ? `https://skillety.onrender.com/images/${matchingImg.image}` : "assets/img/events/event-img.jpg";
+                                                    const imgSrc = matchingImg ? `https://skillety-n6r1.onrender.com/images/${matchingImg.image}` : "assets/img/events/event-img.jpg";
 
                                                     return (
                                                         <div key={eve.id} className="col-12 col-lg-4 col-xl-4 col-md-6 col-sm-10 offset-sm-1 offset-md-0 offset-lg-0 offset-xl-0 cand--events-card-area" data-aos="fade-up">
@@ -196,7 +196,7 @@ const Events = () => {
                                             <div className="row" key={index}>
                                                 {blogDetail.slice(index * 3, (index + 1) * 3).map((blog) => {
                                                     const matchingImg = eventImg ? eventImg.find(img => img.id === blog.id) : null;
-                                                    const imgSrc = matchingImg ? `https://skillety.onrender.com/images/${matchingImg.image}` : "assets/img/events/event-img.jpg";
+                                                    const imgSrc = matchingImg ? `https://skillety-n6r1.onrender.com/images/${matchingImg.image}` : "assets/img/events/event-img.jpg";
 
                                                     return (
                                                         <div key={blog.id} className="col-12 col-lg-4 col-xl-4 col-md-6 col-sm-10 offset-sm-1 offset-md-0 offset-lg-0 offset-xl-0 cand--events-card-area" data-aos="fade-up">
@@ -238,7 +238,7 @@ const Events = () => {
                                             <div className="row" key={index}>
                                                 {videoDetail.slice(index * 3, (index + 1) * 3).map((vdo) => {
                                                     const matchingImg = eventImg ? eventImg.find(img => img.id === vdo.id) : null;
-                                                    const imgSrc = matchingImg ? `https://skillety.onrender.com/images/${matchingImg.image}` : "assets/img/events/event-img.jpg";
+                                                    const imgSrc = matchingImg ? `https://skillety-n6r1.onrender.com/images/${matchingImg.image}` : "assets/img/events/event-img.jpg";
 
                                                     return (
                                                         <div key={vdo.id} className="col-12 col-lg-4 col-xl-4 col-md-6 col-sm-10 offset-sm-1 offset-md-0 offset-lg-0 offset-xl-0 cand--events-card-area" data-aos="fade-up">
@@ -280,7 +280,7 @@ const Events = () => {
                                             <div className="row" key={index}>
                                                 {podcastDetail.slice(index * 3, (index + 1) * 3).map((pod) => {
                                                     const matchingImg = eventImg ? eventImg.find(img => img.id === pod.id) : null;
-                                                    const imgSrc = matchingImg ? `https://skillety.onrender.com/images/${matchingImg.image}` : "assets/img/events/event-img.jpg";
+                                                    const imgSrc = matchingImg ? `https://skillety-n6r1.onrender.com/images/${matchingImg.image}` : "assets/img/events/event-img.jpg";
 
                                                     return (
                                                         <div key={pod.id} className="col-12 col-lg-4 col-xl-4 col-md-6 col-sm-10 offset-sm-1 offset-md-0 offset-lg-0 offset-xl-0 cand--events-card-area" data-aos="fade-up">
@@ -322,7 +322,7 @@ const Events = () => {
                                             <div className="row" key={index}>
                                                 {newsDetail.slice(index * 3, (index + 1) * 3).map((news) => {
                                                     const matchingImg = eventImg ? eventImg.find(img => img.id === news.id) : null;
-                                                    const imgSrc = matchingImg ? `https://skillety.onrender.com/images/${matchingImg.image}` : "assets/img/events/event-img.jpg";
+                                                    const imgSrc = matchingImg ? `https://skillety-n6r1.onrender.com/images/${matchingImg.image}` : "assets/img/events/event-img.jpg";
 
                                                     return (
                                                         <div key={news.id} className="col-12 col-lg-4 col-xl-4 col-md-6 col-sm-10 offset-sm-1 offset-md-0 offset-lg-0 offset-xl-0 cand--events-card-area" data-aos="fade-up">

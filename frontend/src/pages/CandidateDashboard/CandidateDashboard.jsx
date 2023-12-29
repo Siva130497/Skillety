@@ -49,7 +49,7 @@ const CandidateDashboard = () => {
 
     const getSkillMatchJobDetail = async() => {
         try {
-            const response = await axios.get(`https://skillety.onrender.com/skill-match-job-Detail/${candidateId}`, {
+            const response = await axios.get(`https://skillety-n6r1.onrender.com/skill-match-job-Detail/${candidateId}`, {
               headers: {
                   Authorization: `Bearer ${candidateToken}`,
                   Accept: 'application/json'
@@ -71,7 +71,7 @@ const CandidateDashboard = () => {
     //get candidate applied jobs
     const getAppliedjobs = async() => {
       try{
-          const res = await axios.get(`https://skillety.onrender.com/my-applied-jobs/${candidateId}`, {
+          const res = await axios.get(`https://skillety-n6r1.onrender.com/my-applied-jobs/${candidateId}`, {
             headers: {
                 Authorization: `Bearer ${candidateToken}`,
                 Accept: 'application/json'
@@ -92,7 +92,7 @@ const CandidateDashboard = () => {
     //candidate apply for job
     const applyingjob = async(job) => {
       try{
-          const res = await axios.post('https://skillety.onrender.com/job-applying', job, {
+          const res = await axios.post('https://skillety-n6r1.onrender.com/job-applying', job, {
             headers: {
                 Authorization: `Bearer ${candidateToken}`,
                 Accept: 'application/json'
@@ -116,7 +116,7 @@ const CandidateDashboard = () => {
     //candidate delete the job
     const deletingjob = async(id) => {
       try {
-        const response = await axios.delete(`https://skillety.onrender.com/delete-job/${candidateId}/${id}`, {
+        const response = await axios.delete(`https://skillety-n6r1.onrender.com/delete-job/${candidateId}/${id}`, {
           headers: {
               Authorization: `Bearer ${candidateToken}`,
               Accept: 'application/json'

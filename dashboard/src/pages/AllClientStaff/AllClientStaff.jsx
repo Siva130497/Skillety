@@ -72,7 +72,7 @@ const AllClientStaff = () => {
 
     const createClientStaff = async (userData) => {
         try {
-            const response = await axios.post(`https://skillety.onrender.com/tempPass-Client-staff/${employeeId}`, userData, {
+            const response = await axios.post(`https://skillety-n6r1.onrender.com/tempPass-Client-staff/${employeeId}`, userData, {
                 headers: {
                     Authorization: `Bearer ${clientToken}`,
                     Accept: 'application/json'
@@ -104,7 +104,7 @@ const AllClientStaff = () => {
     const getLoginClientDetail = async () => {
         try {
             setLoading(true);
-            const res = await axios.get(`https://skillety.onrender.com/client/${employeeId}`, {
+            const res = await axios.get(`https://skillety-n6r1.onrender.com/client/${employeeId}`, {
                 headers: {
                     Authorization: `Bearer ${clientToken}`,
                     Accept: 'application/json'
@@ -129,7 +129,7 @@ const AllClientStaff = () => {
     const getAllClientStaffs = async () => {
         try {
             setLoading(true);
-            const res = await axios.get(`https://skillety.onrender.com/all-client-staffs/${loginClientDetail?.companyId}`, {
+            const res = await axios.get(`https://skillety-n6r1.onrender.com/all-client-staffs/${loginClientDetail?.companyId}`, {
                 headers: {
                     Authorization: `Bearer ${clientToken}`,
                     Accept: 'application/json'
@@ -198,7 +198,7 @@ const AllClientStaff = () => {
     //     }).then((result) => {
     //         if (result.isConfirmed) {
 
-    //             axios.delete(`https://skillety.onrender.com/delete-recruiter/${id}`, {
+    //             axios.delete(`https://skillety-n6r1.onrender.com/delete-recruiter/${id}`, {
     //                 headers: {
     //                     Authorization: `Bearer ${clientToken}`,
     //                     Accept: 'application/json'

@@ -46,7 +46,7 @@ const CompanyInformation = () => {
 
     useEffect(() => {
         if (id) {
-            axios.get(`https://skillety.onrender.com/company-detail/${id}`, {
+            axios.get(`https://skillety-n6r1.onrender.com/company-detail/${id}`, {
                 headers: {
                     Accept: 'application/json'
                 }
@@ -58,11 +58,11 @@ const CompanyInformation = () => {
                 })
                 .catch(err => console.log(err))
 
-            axios.get(`https://skillety.onrender.com/client-image/${id}`)
+            axios.get(`https://skillety-n6r1.onrender.com/client-image/${id}`)
                 .then(res => setClientImg(res.data))
                 .catch(err => console.log(err))
 
-            axios.get(`https://skillety.onrender.com/my-active-jobs/${id}`)
+            axios.get(`https://skillety-n6r1.onrender.com/my-active-jobs/${id}`)
                 .then((res => {
                     console.log(res.data)
                     setJobs(res.data);
@@ -75,7 +75,7 @@ const CompanyInformation = () => {
 
     useEffect(() => {
         if (clientImg) {
-            setClientImgUrl(`https://skillety.onrender.com/client_profile/${clientImg.image}`)
+            setClientImgUrl(`https://skillety-n6r1.onrender.com/client_profile/${clientImg.image}`)
         }
 
     }, [clientImg]);

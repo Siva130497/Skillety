@@ -34,7 +34,7 @@ const HomeCandidate = () => {
 
   const getPostedjobs = async () => {
     try {
-      const res = await axios.get(`https://skillety.onrender.com/posted-jobs`, {
+      const res = await axios.get(`https://skillety-n6r1.onrender.com/posted-jobs`, {
         headers: {
           Accept: 'application/json'
         }
@@ -53,7 +53,7 @@ const HomeCandidate = () => {
 
   const getAllSkills = async () => {
     try {
-      const res = await axios.get("https://skillety.onrender.com/skills", {
+      const res = await axios.get("https://skillety-n6r1.onrender.com/skills", {
         headers: {
 
           Accept: 'application/json'
@@ -73,7 +73,7 @@ const HomeCandidate = () => {
 
   const getAllJobRoles = async () => {
     try {
-      const res = await axios.get("https://skillety.onrender.com/designations", {
+      const res = await axios.get("https://skillety-n6r1.onrender.com/designations", {
         headers: {
 
           Accept: 'application/json'
@@ -93,7 +93,7 @@ const HomeCandidate = () => {
 
   const getPopularSearches = async () => {
     try {
-      const response = await axios.get('https://skillety.onrender.com/popular-search', {
+      const response = await axios.get('https://skillety-n6r1.onrender.com/popular-search', {
         headers: {
           Accept: 'application/json'
         }
@@ -127,7 +127,7 @@ const HomeCandidate = () => {
     getAllJobRoles();
     getPopularSearches();
 
-    // axios.get("https://skillety.onrender.com/clients")
+    // axios.get("https://skillety-n6r1.onrender.com/clients")
     //   .then(res => {
     //     const allClients = res.data;
 
@@ -147,7 +147,7 @@ const HomeCandidate = () => {
     //   })
     //   .catch(err => console.log(err));
 
-    axios.get("https://skillety.onrender.com/company-details")
+    axios.get("https://skillety-n6r1.onrender.com/company-details")
       .then(res => {
         console.log(res.data);
         setAllCompany(res.data);
@@ -272,7 +272,7 @@ const HomeCandidate = () => {
   }
 
   const handlePopularSearch = () => {
-    axios.post("https://skillety.onrender.com/popular-search", selectedResults)
+    axios.post("https://skillety-n6r1.onrender.com/popular-search", selectedResults)
       .then(res => {
         console.log(res.data)
         getPopularSearches();
@@ -546,7 +546,7 @@ const HomeCandidate = () => {
                 .slice(0, 5)
                 .map(company => {
                   const matchingImg = clientImg ? clientImg.find(img => img.id === company.companyId) : null;
-                  const imgSrc = matchingImg ? `https://skillety.onrender.com/client_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
+                  const imgSrc = matchingImg ? `https://skillety-n6r1.onrender.com/client_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
                   const jobOpening = allJobs.filter(job => job.companyId === company.companyId).length;
 
                   return (
@@ -632,7 +632,7 @@ const HomeCandidate = () => {
           >
             {allJobs.map((job) => {
               const matchingImg = clientImg ? clientImg.find(img => img.id === job.companyId) : null;
-              const imgSrc = matchingImg ? `https://skillety.onrender.com/client_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
+              const imgSrc = matchingImg ? `https://skillety-n6r1.onrender.com/client_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
               return (
                 <SwiperSlide key={job.id}>
                   <article className='cand--job-card'>
@@ -1045,7 +1045,7 @@ const HomeCandidate = () => {
 
                 return lastTwoItems.map((item) => {
                   const matchingImg = eventImg ? eventImg.find((img) => img.id === item.id) : null;
-                  const imgSrc = matchingImg ? `https://skillety.onrender.com/images/${matchingImg.image}` : "assets/img/events/event-img.jpg";
+                  const imgSrc = matchingImg ? `https://skillety-n6r1.onrender.com/images/${matchingImg.image}` : "assets/img/events/event-img.jpg";
 
                   return (
                     <SwiperSlide key={item.id}>

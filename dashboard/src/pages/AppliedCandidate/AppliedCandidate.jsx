@@ -499,7 +499,7 @@ const AppliedCandidate = () => {
 
     const getAllCandidateDetail = async () => {
         try {
-            const response = await axios.get('https://skillety.onrender.com/candidate-Detail', {
+            const response = await axios.get('https://skillety-n6r1.onrender.com/candidate-Detail', {
                 headers: {
                     Accept: 'application/json'
                 }
@@ -523,7 +523,7 @@ const AppliedCandidate = () => {
 
     useEffect(() => {
         if (id) {
-            axios.get(`https://skillety.onrender.com/job/${id}`, {
+            axios.get(`https://skillety-n6r1.onrender.com/job/${id}`, {
                 headers: {
                     // Authorization: `Bearer ${clientToken}`,
                     Accept: 'application/json'
@@ -541,7 +541,7 @@ const AppliedCandidate = () => {
 
     const getLoginClientDetail = async () => {
         try {
-            const res = await axios.get(`https://skillety.onrender.com/client/${employeeId}`, {
+            const res = await axios.get(`https://skillety-n6r1.onrender.com/client/${employeeId}`, {
                 headers: {
                     Authorization: `Bearer ${clientToken}`,
                     Accept: 'application/json'
@@ -561,7 +561,7 @@ const AppliedCandidate = () => {
 
     const getAppliedOfPostedJobs = async () => {
         try {
-            const res = await axios.get(`https://skillety.onrender.com/applied-jobs-of-posted/${loginClientDetail.companyId}`, {
+            const res = await axios.get(`https://skillety-n6r1.onrender.com/applied-jobs-of-posted/${loginClientDetail.companyId}`, {
                 headers: {
                     Authorization: `Bearer ${clientToken}`,
                     Accept: 'application/json'
@@ -583,7 +583,7 @@ const AppliedCandidate = () => {
 
     useEffect(()=>{
         if(id && clientToken){
-            axios.get(`https://skillety.onrender.com/application-status/${id}`, {
+            axios.get(`https://skillety-n6r1.onrender.com/application-status/${id}`, {
                 headers: {
                     Authorization: `Bearer ${clientToken}`,
                     Accept: 'application/json'
@@ -667,7 +667,7 @@ const AppliedCandidate = () => {
             candidateIdArray:selectedCandidates,
         }
 
-        axios.patch("https://skillety.onrender.com/update-application-status", applicationData, {
+        axios.patch("https://skillety-n6r1.onrender.com/update-application-status", applicationData, {
             headers: {
                 Authorization: `Bearer ${clientToken}`,
                 Accept: 'application/json'
@@ -677,7 +677,7 @@ const AppliedCandidate = () => {
             console.log(res.data);
             showSuccessMessage(`The updated application status for the selected candidate is now marked as ${selectedStatus}.`)
 
-            axios.get(`https://skillety.onrender.com/application-status/${id}`, {
+            axios.get(`https://skillety-n6r1.onrender.com/application-status/${id}`, {
                 headers: {
                     Authorization: `Bearer ${clientToken}`,
                     Accept: 'application/json'
@@ -742,7 +742,7 @@ const AppliedCandidate = () => {
 
                                 {reqCands.map((candidate) => {
                                     const matchingImg = candidateImg ? candidateImg.find(img => img.id === candidate.id) : null;
-                                    const imgSrc = matchingImg ? `https://skillety.onrender.com/candidate_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
+                                    const imgSrc = matchingImg ? `https://skillety-n6r1.onrender.com/candidate_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
 
                                     const calculateMatchPercentage = (skills1, skills2) => {
                                         const matchingSkills = skills2.filter(skill => skills1.includes(skill));

@@ -23,7 +23,7 @@ const CompanyDetails = () => {
     }, [candidateToken])
 
     useEffect(() => {
-        axios.get(`https://skillety.onrender.com/my-active-jobs/${id}`)
+        axios.get(`https://skillety-n6r1.onrender.com/my-active-jobs/${id}`)
             .then((res => {
                 console.log(res.data)
                 setLoading(false);
@@ -35,7 +35,7 @@ const CompanyDetails = () => {
                 setPageNotFound(true);
             })
 
-        axios.get(`https://skillety.onrender.com/company-detail/${id}`)
+        axios.get(`https://skillety-n6r1.onrender.com/company-detail/${id}`)
             .then((res => {
                 console.log(res.data)
                 setCompanyDetail(res.data);

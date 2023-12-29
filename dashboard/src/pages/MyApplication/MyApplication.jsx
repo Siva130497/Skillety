@@ -45,7 +45,7 @@ const MyApplication = () => {
     }, [candidateToken])
 
     useEffect(() => {
-        axios.get("https://skillety.onrender.com/clients")
+        axios.get("https://skillety-n6r1.onrender.com/clients")
             .then(res => {
                 console.log(res.data)
                 setAllClient(res.data);
@@ -77,7 +77,7 @@ const MyApplication = () => {
     const getPostedjobs = async () => {
         try {
 
-            const res = await axios.get(`https://skillety.onrender.com/posted-jobs`, {
+            const res = await axios.get(`https://skillety-n6r1.onrender.com/posted-jobs`, {
                 headers: {
                     Authorization: `Bearer ${candidateToken}`,
                     Accept: 'application/json'
@@ -100,7 +100,7 @@ const MyApplication = () => {
     const getAppliedjobs = async () => {
         try {
             setLoading(true);
-            const res = await axios.get(`https://skillety.onrender.com/my-applied-jobs/${candidateId}`, {
+            const res = await axios.get(`https://skillety-n6r1.onrender.com/my-applied-jobs/${candidateId}`, {
                 headers: {
                     Authorization: `Bearer ${candidateToken}`,
                     Accept: 'application/json'
@@ -127,7 +127,7 @@ const MyApplication = () => {
             getAppliedjobs();
             getPostedjobs();
 
-            axios.get(`https://skillety.onrender.com/application-status-cand/${candidateId}`, {
+            axios.get(`https://skillety-n6r1.onrender.com/application-status-cand/${candidateId}`, {
                 headers: {
                     Authorization: `Bearer ${candidateToken}`,
                     Accept: 'application/json'

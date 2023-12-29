@@ -64,7 +64,7 @@ const AllJobs = () => {
             column: updatedColumns,
         };
 
-        axios.post("https://skillety.onrender.com/all-jobs-column", columnData, {
+        axios.post("https://skillety-n6r1.onrender.com/all-jobs-column", columnData, {
             headers: {
                 Authorization: `Bearer ${staffToken}`,
                 Accept: 'application/json'
@@ -152,14 +152,14 @@ const AllJobs = () => {
 
             fetchData();
 
-            axios.get("https://skillety.onrender.com/all-employee")
+            axios.get("https://skillety-n6r1.onrender.com/all-employee")
                 .then(res => {
                     console.log(res.data);
                     setAllEmployee(res.data);
                 })
                 .catch(err => console.log(err))
 
-            axios.get("https://skillety.onrender.com/company-details")
+            axios.get("https://skillety-n6r1.onrender.com/company-details")
                 .then(res => {
                     console.log(res.data);
                     setAllCompany(res.data);
@@ -173,7 +173,7 @@ const AllJobs = () => {
 
     useEffect(() => {
         if (employeeId) {
-            axios.get(`https://skillety.onrender.com/all-jobs-column/${employeeId}`)
+            axios.get(`https://skillety-n6r1.onrender.com/all-jobs-column/${employeeId}`)
                 .then(res => {
                     console.log(res.data);
                     if (res.data) {
@@ -192,7 +192,7 @@ const AllJobs = () => {
     const getPostedjobs = async () => {
         try {
             // setLoading(true);
-            const res = await axios.get(`https://skillety.onrender.com/posted-jobs`, {
+            const res = await axios.get(`https://skillety-n6r1.onrender.com/posted-jobs`, {
                 headers: {
                     Authorization: `Bearer ${staffToken}`,
                     Accept: 'application/json'
@@ -219,7 +219,7 @@ const AllJobs = () => {
     const getPostedApprovedInactiveJobs = async () => {
         try {
             // setLoading(true);
-            const res = await axios.get(`https://skillety.onrender.com/posted-approved-inactive-jobs`, {
+            const res = await axios.get(`https://skillety-n6r1.onrender.com/posted-approved-inactive-jobs`, {
                 headers: {
                     Authorization: `Bearer ${staffToken}`,
                     Accept: 'application/json'
@@ -243,7 +243,7 @@ const AllJobs = () => {
 
     const getAllCandidateDetail = async () => {
         try {
-            const response = await axios.get('https://skillety.onrender.com/candidate-Detail', {
+            const response = await axios.get('https://skillety-n6r1.onrender.com/candidate-Detail', {
                 headers: {
                     Authorization: `Bearer ${staffToken}`,
                     Accept: 'application/json'
@@ -263,7 +263,7 @@ const AllJobs = () => {
 
     const getAssignedCandidates = async () => {
         try {
-            const res = await axios.get(`https://skillety.onrender.com/assigned-candidates`, {
+            const res = await axios.get(`https://skillety-n6r1.onrender.com/assigned-candidates`, {
                 headers: {
                     Authorization: `Bearer ${staffToken}`,
                     Accept: 'application/json'
@@ -312,7 +312,7 @@ const AllJobs = () => {
 
     const getRecruiterNameWhoAssignedCandidate = async (id) => {
         try {
-            const res = await axios.get(`https://skillety.onrender.com/staff/${id}`, {
+            const res = await axios.get(`https://skillety-n6r1.onrender.com/staff/${id}`, {
                 headers: {
                     Authorization: `Bearer ${staffToken}`,
                     Accept: 'application/json'
@@ -334,7 +334,7 @@ const AllJobs = () => {
 
     const assigningCandidate = async (candidate) => {
         try {
-            const res = await axios.post('https://skillety.onrender.com/candidate-assigning', candidate, {
+            const res = await axios.post('https://skillety-n6r1.onrender.com/candidate-assigning', candidate, {
                 headers: {
                     Authorization: `Bearer ${staffToken}`,
                     Accept: 'application/json'
@@ -477,7 +477,7 @@ const AllJobs = () => {
             confirmButtonText: 'Yes, Boost Job!'
         }).then((result) => {
             if (result.isConfirmed) {
-                axios.patch(`https://skillety.onrender.com/boost/${id}`, {
+                axios.patch(`https://skillety-n6r1.onrender.com/boost/${id}`, {
                     headers: {
                         // Authorization: `Bearer ${staffToken}`,
                         Accept: 'application/json'

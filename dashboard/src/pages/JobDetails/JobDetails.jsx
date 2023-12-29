@@ -31,7 +31,7 @@ const JobDetails = () => {
     const [socket, setSocket] = useState(null);
 
     useEffect(()=>{
-        setSocket(io("https://skillety.onrender.com"));
+        setSocket(io("https://skillety-n6r1.onrender.com"));
     },[]);
 
     useEffect(()=>{
@@ -101,7 +101,7 @@ const JobDetails = () => {
     //get candidate applied jobs
     const getAppliedjobs = async () => {
         try {
-            const res = await axios.get(`https://skillety.onrender.com/my-applied-jobs/${candidateId}`, {
+            const res = await axios.get(`https://skillety-n6r1.onrender.com/my-applied-jobs/${candidateId}`, {
                 headers: {
                     Authorization: `Bearer ${candidateToken}`,
                     Accept: 'application/json'
@@ -123,7 +123,7 @@ const JobDetails = () => {
     //candidate apply for job
     const applyingjob = async (job) => {
         try {
-            const res = await axios.post('https://skillety.onrender.com/job-applying', job, {
+            const res = await axios.post('https://skillety-n6r1.onrender.com/job-applying', job, {
                 headers: {
                     Authorization: `Bearer ${candidateToken}`,
                     Accept: 'application/json'
@@ -135,7 +135,7 @@ const JobDetails = () => {
                 showSuccessMessage("Successfully Applied.")
                 getAppliedjobs()
 
-                axios.get(`https://skillety.onrender.com/applied-job/${id}`)
+                axios.get(`https://skillety-n6r1.onrender.com/applied-job/${id}`)
                 .then(res => {
                     console.log(res.data)
                     setApplicants(res.data?.length)
@@ -165,7 +165,7 @@ const JobDetails = () => {
 
                 await socket.emit("sendNotification", notificationData)
 
-                const res = await axios.post(`https://skillety.onrender.com/candidate-to-client-notification`, notificationData, {
+                const res = await axios.post(`https://skillety-n6r1.onrender.com/candidate-to-client-notification`, notificationData, {
                     headers: {
                         Authorization: `Bearer ${candidateToken}`,
                         Accept: 'application/json'
@@ -186,7 +186,7 @@ const JobDetails = () => {
     //candidate delete the job
     const deletingjob = async () => {
         try {
-            const response = await axios.delete(`https://skillety.onrender.com/delete-job/${candidateId}/${id}`, {
+            const response = await axios.delete(`https://skillety-n6r1.onrender.com/delete-job/${candidateId}/${id}`, {
                 headers: {
                     Authorization: `Bearer ${candidateToken}`,
                     Accept: 'application/json'
@@ -196,7 +196,7 @@ const JobDetails = () => {
             showSuccessMessage("Job successfully deleted..!")
             getAppliedjobs();
 
-            axios.get(`https://skillety.onrender.com/applied-job/${id}`)
+            axios.get(`https://skillety-n6r1.onrender.com/applied-job/${id}`)
                 .then(res => {
                     console.log(res.data)
                     setApplicants(res.data?.length)
@@ -213,7 +213,7 @@ const JobDetails = () => {
         if (candidateId) {
             getAppliedjobs()
 
-            axios.get(`https://skillety.onrender.com/skill-match-job-Detail/${candidateId}`)
+            axios.get(`https://skillety-n6r1.onrender.com/skill-match-job-Detail/${candidateId}`)
                 .then(res => {
                     console.log(res.data)
                     const reqJob = res.data.find(job => job.jobId === id)
@@ -227,7 +227,7 @@ const JobDetails = () => {
                 })
                 .catch(err => console.log(err))
 
-            axios.get(`https://skillety.onrender.com/applied-job/${id}`)
+            axios.get(`https://skillety-n6r1.onrender.com/applied-job/${id}`)
                 .then(res => {
                     console.log(res.data)
                     setApplicants(res.data?.length)
@@ -241,7 +241,7 @@ const JobDetails = () => {
 
     useEffect(() => {
         if (job) {
-            axios.get("https://skillety.onrender.com/clients")
+            axios.get("https://skillety-n6r1.onrender.com/clients")
                 .then(res => {
                     console.log(res.data)
                     setClientCompanyName((res.data.find(cli => cli.companyId === job.companyId)).companyName)
@@ -336,7 +336,7 @@ const JobDetails = () => {
                                                 </div>
                                                 <div className="dash-job-det-card-header-rgt">
                                                     <div className="dash-job-det-card-img-area">
-                                                        <img src={companyImg ? `https://skillety.onrender.com/client_profile/${companyImg.image}` : "../assets/img/talents-images/avatar.jpg"} className='dash-job-det-card-img' alt="" />
+                                                        <img src={companyImg ? `https://skillety-n6r1.onrender.com/client_profile/${companyImg.image}` : "../assets/img/talents-images/avatar.jpg"} className='dash-job-det-card-img' alt="" />
                                                     </div>
                                                 </div>
                                             </div>

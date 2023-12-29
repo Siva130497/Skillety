@@ -561,7 +561,7 @@ const TalentsProfileSearchAts = () => {
 
     const getAllSkills = async () => {
         try {
-            const res = await axios.get("https://skillety.onrender.com/skills", {
+            const res = await axios.get("https://skillety-n6r1.onrender.com/skills", {
                 headers: {
                     Authorization: `Bearer ${staffToken}`,
                     Accept: 'application/json'
@@ -581,7 +581,7 @@ const TalentsProfileSearchAts = () => {
 
     const getAllJobRoles = async () => {
         try {
-            const res = await axios.get("https://skillety.onrender.com/designations", {
+            const res = await axios.get("https://skillety-n6r1.onrender.com/designations", {
                 headers: {
                     Authorization: `Bearer ${staffToken}`,
                     Accept: 'application/json'
@@ -601,7 +601,7 @@ const TalentsProfileSearchAts = () => {
 
     const getAllLocations = async () => {
         try {
-            const res = await axios.get("https://skillety.onrender.com/locations", {
+            const res = await axios.get("https://skillety-n6r1.onrender.com/locations", {
                 headers: {
                     Authorization: `Bearer ${staffToken}`,
                     Accept: 'application/json'
@@ -621,7 +621,7 @@ const TalentsProfileSearchAts = () => {
 
     const getAllDepartments = async () => {
         try {
-            const res = await axios.get("https://skillety.onrender.com/departments", {
+            const res = await axios.get("https://skillety-n6r1.onrender.com/departments", {
                 headers: {
                     Authorization: `Bearer ${staffToken}`,
                     Accept: 'application/json'
@@ -641,7 +641,7 @@ const TalentsProfileSearchAts = () => {
 
     const getAllRoles = async () => {
         try {
-            const res = await axios.get("https://skillety.onrender.com/roles", {
+            const res = await axios.get("https://skillety-n6r1.onrender.com/roles", {
                 headers: {
                     Authorization: `Bearer ${staffToken}`,
                     Accept: 'application/json'
@@ -661,7 +661,7 @@ const TalentsProfileSearchAts = () => {
 
     const getAllIndustries = async () => {
         try {
-            const res = await axios.get("https://skillety.onrender.com/industries", {
+            const res = await axios.get("https://skillety-n6r1.onrender.com/industries", {
                 headers: {
                     Authorization: `Bearer ${staffToken}`,
                     Accept: 'application/json'
@@ -681,7 +681,7 @@ const TalentsProfileSearchAts = () => {
 
     const getAllCandidateDetail = async () => {
         try {
-            const response = await axios.get('https://skillety.onrender.com/candidate-Detail', {
+            const response = await axios.get('https://skillety-n6r1.onrender.com/candidate-Detail', {
                 headers: {
                     Accept: 'application/json'
                 }
@@ -701,7 +701,7 @@ const TalentsProfileSearchAts = () => {
     const getAllRecentSearch = async () => {
         try {
             setLoading(true);
-            const response = await axios.get('https://skillety.onrender.com/recent-search', {
+            const response = await axios.get('https://skillety-n6r1.onrender.com/recent-search', {
                 headers: {
                     Accept: 'application/json'
                 }
@@ -897,7 +897,7 @@ const TalentsProfileSearchAts = () => {
 
                 if (filteredResults.length > 0) {
                     setFilteredSearchResults(filteredResults);
-                    axios.post("https://skillety.onrender.com/recent-search", recentSearch)
+                    axios.post("https://skillety-n6r1.onrender.com/recent-search", recentSearch)
                         .then(res => {
                             console.log(res.data)
                             getAllRecentSearch();
@@ -3065,7 +3065,7 @@ const TalentsProfileSearchAts = () => {
                                                                 filteredSearchResults.slice(x[0], x[1]).map((candidate) => {
                                                                     
                                                                     const matchingImg = candidateImg ? candidateImg.find(img => img.id === candidate.id) : null;
-                                                                    const imgSrc = matchingImg ? `https://skillety.onrender.com/candidate_profile/${matchingImg.image}` : "assets/img/talents-images/avatar.jpg";
+                                                                    const imgSrc = matchingImg ? `https://skillety-n6r1.onrender.com/candidate_profile/${matchingImg.image}` : "assets/img/talents-images/avatar.jpg";
 
                                                                     const calculateMatchPercentage = (skills1, skills2) => {
                                                                         const matchingSkills = skills2.filter(skill => skills1.includes(skill));

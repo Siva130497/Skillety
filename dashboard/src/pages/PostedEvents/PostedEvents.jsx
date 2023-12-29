@@ -128,7 +128,7 @@ const PostedEvents = () => {
         const matchingImg = eventImg ? eventImg.find(img => img.id === id) : null;
 
         if (matchingImg) {
-            setImage(`https://skillety.onrender.com/images/${matchingImg.image}`);
+            setImage(`https://skillety-n6r1.onrender.com/images/${matchingImg.image}`);
         } else {
             setImage("assets/img/events/event-img.jpg");
         }
@@ -146,7 +146,7 @@ const PostedEvents = () => {
             confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
             if (result.isConfirmed) {
-                axios.delete(`https://skillety.onrender.com/events/${id}`, {
+                axios.delete(`https://skillety-n6r1.onrender.com/events/${id}`, {
                     headers: {
                         Authorization: `Bearer ${staffToken}`,
                         Accept: 'application/json'
@@ -169,7 +169,7 @@ const PostedEvents = () => {
                     )
                     .catch(err => console.log(err));
 
-                axios.delete(`https://skillety.onrender.com/event-image-delete/${id}`, {
+                axios.delete(`https://skillety-n6r1.onrender.com/event-image-delete/${id}`, {
                     headers: {
                         Authorization: `Bearer ${staffToken}`,
                         Accept: 'application/json'

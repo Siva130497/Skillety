@@ -11,7 +11,7 @@ function PDFViewer() {
   console.log(pdfUrl);
   useEffect(() => {
     // Make a request to fetch the PDF file when the component mounts
-    axios.get('https://skillety.onrender.com/api/getpdf', { responseType: 'blob' })
+    axios.get('https://skillety-n6r1.onrender.com/api/getpdf', { responseType: 'blob' })
       .then(response => {
         // Create a URL for the PDF blob and set it to 'pdfUrl' state
         const blob = new Blob([response.data], { type: 'application/pdf' });

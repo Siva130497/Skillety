@@ -22,7 +22,7 @@ const AllCandidates = ({employeeId, staffToken, clientToken, companyId}) => {
 
   const getAllCandidateDetail = async () => {
     try{
-        const response = await axios.get('https://skillety.onrender.com/candidate-Detail', {
+        const response = await axios.get('https://skillety-n6r1.onrender.com/candidate-Detail', {
           headers: {
               Authorization: `Bearer ${staffToken ? staffToken : clientToken}`,
               Accept: 'application/json'
@@ -42,7 +42,7 @@ const AllCandidates = ({employeeId, staffToken, clientToken, companyId}) => {
 
   const getAppliedOfPostedJobs = async() => {
     try{
-        const res = await axios.get(`https://skillety.onrender.com/applied-jobs-of-posted/${employeeId ? employeeId : companyId}`, {
+        const res = await axios.get(`https://skillety-n6r1.onrender.com/applied-jobs-of-posted/${employeeId ? employeeId : companyId}`, {
           headers: {
               Authorization: `Bearer ${staffToken ? staffToken : clientToken}`,
               Accept: 'application/json'
@@ -62,7 +62,7 @@ const AllCandidates = ({employeeId, staffToken, clientToken, companyId}) => {
 
   const getViewedCandidates = async() => {
     try{
-        const res = await axios.get(`https://skillety.onrender.com/cv-views/${companyId}`, {
+        const res = await axios.get(`https://skillety-n6r1.onrender.com/cv-views/${companyId}`, {
           headers: {
               Authorization: `Bearer ${clientToken}`,
               Accept: 'application/json'
@@ -201,7 +201,7 @@ const AllCandidates = ({employeeId, staffToken, clientToken, companyId}) => {
             candidateId:id,
             companyId,
           }
-          axios.post("https://skillety.onrender.com/cv-views", idData, {
+          axios.post("https://skillety-n6r1.onrender.com/cv-views", idData, {
             headers: {
                 Authorization: `Bearer ${clientToken}`,
                 Accept: 'application/json'

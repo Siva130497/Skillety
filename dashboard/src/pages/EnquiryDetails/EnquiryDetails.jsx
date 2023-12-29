@@ -31,7 +31,7 @@ const EnquiryDetails = () => {
     const getAllEnquiryForms = async () => {
         try {
             setLoading(true);
-            const response = await axios.get('https://skillety.onrender.com/enquiry-form', {
+            const response = await axios.get('https://skillety-n6r1.onrender.com/enquiry-form', {
                 headers: {
                     Authorization: `Bearer ${staffToken}`,
                     Accept: 'application/json'
@@ -79,7 +79,7 @@ const EnquiryDetails = () => {
             confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
             if (result.isConfirmed) {
-                axios.delete(`https://skillety.onrender.com/enquiry-form/${id}`, {
+                axios.delete(`https://skillety-n6r1.onrender.com/enquiry-form/${id}`, {
                     headers: {
                         Authorization: `Bearer ${staffToken}`,
                         Accept: 'application/json'

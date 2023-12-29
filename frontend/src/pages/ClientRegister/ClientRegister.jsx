@@ -46,7 +46,7 @@ const ClientRegister = () => {
 
     const getAllIndustry = async () => {
         try {
-            const res = await axios.get("https://skillety.onrender.com/industries", {
+            const res = await axios.get("https://skillety-n6r1.onrender.com/industries", {
                 headers: {
                     Accept: 'application/json'
                 }
@@ -77,7 +77,7 @@ const ClientRegister = () => {
 
     const registerUser = async (userData) => {
         try {
-            const response = await axios.post('https://skillety.onrender.com/register-Client', userData, {
+            const response = await axios.post('https://skillety-n6r1.onrender.com/register-Client', userData, {
                 headers: {
                     'Content-Type': 'application/json',
                 },

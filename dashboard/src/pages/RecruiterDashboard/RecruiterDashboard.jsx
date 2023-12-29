@@ -114,7 +114,7 @@ const RecruiterDashboard = () => {
         try {
             setLoading(true);
 
-            const response = await axios.get(`https://skillety.onrender.com/client-Detail`, {
+            const response = await axios.get(`https://skillety-n6r1.onrender.com/client-Detail`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     Accept: 'application/json'
@@ -138,7 +138,7 @@ const RecruiterDashboard = () => {
     const getAllCandidateDetail = async () => {
         try {
             setLoading(true);
-            const response = await axios.get('https://skillety.onrender.com/candidate-Detail', {
+            const response = await axios.get('https://skillety-n6r1.onrender.com/candidate-Detail', {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     Accept: 'application/json'

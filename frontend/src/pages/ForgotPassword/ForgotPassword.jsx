@@ -25,7 +25,7 @@ const ForgotPassword = () => {
 
     const requestTemporaryPassword = async (userData) => {
         try {
-            const response = await axios.post('https://skillety.onrender.com/forgotpassword', userData, {
+            const response = await axios.post('https://skillety-n6r1.onrender.com/forgotpassword', userData, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -47,7 +47,7 @@ const ForgotPassword = () => {
 
     const verify = async (userData) => {
         try {
-            const response = await axios.post('https://skillety.onrender.com/verification', userData, {
+            const response = await axios.post('https://skillety-n6r1.onrender.com/verification', userData, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -68,7 +68,7 @@ const ForgotPassword = () => {
 
     const changePassword = async (userData) => {
         try {
-            const response = await axios.patch(`https://skillety.onrender.com/newpassword/${tempPasswordUserId}`, userData, {
+            const response = await axios.patch(`https://skillety-n6r1.onrender.com/newpassword/${tempPasswordUserId}`, userData, {
                 headers: {
                     'Content-Type': 'application/json',
                 },

@@ -125,7 +125,7 @@ const ClientDashboard = () => {
   }, []);
 
   useEffect(()=>{
-    setSocket(io("https://skillety.onrender.com"));
+    setSocket(io("https://skillety-n6r1.onrender.com"));
   },[]);
 
   useEffect(()=>{
@@ -257,7 +257,7 @@ const ClientDashboard = () => {
 
       fetchData();
 
-      axios.get("https://skillety.onrender.com/candidate-notification", {
+      axios.get("https://skillety-n6r1.onrender.com/candidate-notification", {
                 headers: {
                 Authorization: `Bearer ${token}`,
                 Accept: 'application/json'
@@ -274,7 +274,7 @@ const ClientDashboard = () => {
   }, [token]);
 
   useEffect(() => {
-    axios.get("https://skillety.onrender.com/clients")
+    axios.get("https://skillety-n6r1.onrender.com/clients")
       .then(res => {
         console.log(res.data)
         setAllClient(res.data)
@@ -286,7 +286,7 @@ const ClientDashboard = () => {
   const getSkillMatchJobDetail = async () => {
     try {
       setContentLoading(true);
-      const response = await axios.get(`https://skillety.onrender.com/skill-match-job-Detail/${candidateId}`, {
+      const response = await axios.get(`https://skillety-n6r1.onrender.com/skill-match-job-Detail/${candidateId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
           Accept: 'application/json'
@@ -313,7 +313,7 @@ const ClientDashboard = () => {
   const getAppliedjobs = async () => {
     try {
       setContentLoading(true);
-      const res = await axios.get(`https://skillety.onrender.com/my-applied-jobs/${candidateId}`, {
+      const res = await axios.get(`https://skillety-n6r1.onrender.com/my-applied-jobs/${candidateId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
           Accept: 'application/json'
@@ -628,7 +628,7 @@ const ClientDashboard = () => {
                           <table class="table table-striped table-hover dash-table">
                             {appliedJobDetail.slice(0, 10).map((job) => {
                               const matchingImg = clientImg ? clientImg.find(img => img.id === job.companyId) : null;
-                              const imgSrc = matchingImg ? `https://skillety.onrender.com/client_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
+                              const imgSrc = matchingImg ? `https://skillety-n6r1.onrender.com/client_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
                               const client = allClient.find(obj => obj.companyId === job.companyId);
                               return (
                                 <tr className='dash-table-row'>
@@ -673,7 +673,7 @@ const ClientDashboard = () => {
                           <table class="table table-striped table-hover dash-table">
                             {jobDetail.slice(0, 10).map(job => {
                               const matchingImg = clientImg ? clientImg.find(img => img.id === job.companyId) : null;
-                              const imgSrc = matchingImg ? `https://skillety.onrender.com/client_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
+                              const imgSrc = matchingImg ? `https://skillety-n6r1.onrender.com/client_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
                               const client = allClient.find(obj => obj.companyId === job.companyId);
 
                               return (

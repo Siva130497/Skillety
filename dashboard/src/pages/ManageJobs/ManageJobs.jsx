@@ -65,7 +65,7 @@ const ManageJobs = () => {
 
     const getAssignedCandidates = async () => {
         try {
-            const res = await axios.get(`https://skillety.onrender.com/assigned-candidates`, {
+            const res = await axios.get(`https://skillety-n6r1.onrender.com/assigned-candidates`, {
                 headers: {
                     Authorization: `Bearer ${clientToken}`,
                     Accept: 'application/json'
@@ -113,7 +113,7 @@ const ManageJobs = () => {
     const getLoginClientDetail = async () => {
         try {
             // setLoading(true);
-            const res = await axios.get(`https://skillety.onrender.com/client/${employeeId}`, {
+            const res = await axios.get(`https://skillety-n6r1.onrender.com/client/${employeeId}`, {
                 headers: {
                     Authorization: `Bearer ${clientToken}`,
                     Accept: 'application/json'
@@ -144,7 +144,7 @@ const ManageJobs = () => {
     const getOwnPostedjobs = async () => {
         try {
             // setLoading(true);
-            const res = await axios.get(`https://skillety.onrender.com/my-posted-jobs/${loginClientDetail.companyId}`, {
+            const res = await axios.get(`https://skillety-n6r1.onrender.com/my-posted-jobs/${loginClientDetail.companyId}`, {
                 headers: {
                     Authorization: `Bearer ${clientToken}`,
                     Accept: 'application/json'
@@ -169,7 +169,7 @@ const ManageJobs = () => {
     const getOwnActivejobs = async () => {
         try {
             // setLoading(true);
-            const res = await axios.get(`https://skillety.onrender.com/my-active-jobs/${loginClientDetail.companyId}`, {
+            const res = await axios.get(`https://skillety-n6r1.onrender.com/my-active-jobs/${loginClientDetail.companyId}`, {
                 headers: {
                     Authorization: `Bearer ${clientToken}`,
                     Accept: 'application/json'
@@ -194,7 +194,7 @@ const ManageJobs = () => {
     const getNonApprovaljobs = async () => {
         try {
             // setLoading(true);
-            const res = await axios.get(`https://skillety.onrender.com/non-approval-jobs`, {
+            const res = await axios.get(`https://skillety-n6r1.onrender.com/non-approval-jobs`, {
                 headers: {
                     Authorization: `Bearer ${clientToken}`,
                     Accept: 'application/json'
@@ -228,7 +228,7 @@ const ManageJobs = () => {
     const getAppliedOfPostedJobs = async () => {
         try {
             // setLoading(true);
-            const res = await axios.get(`https://skillety.onrender.com/applied-jobs-of-posted/${loginClientDetail.companyId}`, {
+            const res = await axios.get(`https://skillety-n6r1.onrender.com/applied-jobs-of-posted/${loginClientDetail.companyId}`, {
                 headers: {
                     Authorization: `Bearer ${clientToken}`,
                     Accept: 'application/json'
@@ -253,7 +253,7 @@ const ManageJobs = () => {
     const allStaffFromCompany = async () => {
         try {
             // setLoading(true);
-            const res = await axios.get(`https://skillety.onrender.com/all-staff/${loginClientDetail.companyId}`, {
+            const res = await axios.get(`https://skillety-n6r1.onrender.com/all-staff/${loginClientDetail.companyId}`, {
                 headers: {
                     Authorization: `Bearer ${clientToken}`,
                     Accept: 'application/json'
@@ -320,7 +320,7 @@ const ManageJobs = () => {
         }).then((result) => {
             if (result.isConfirmed) {
 
-                axios.delete(`https://skillety.onrender.com/delete-job/${id}`, {
+                axios.delete(`https://skillety-n6r1.onrender.com/delete-job/${id}`, {
                     headers: {
                         Authorization: `Bearer ${clientToken}`,
                         Accept: 'application/json'
@@ -353,7 +353,7 @@ const ManageJobs = () => {
         }).then((result) => {
             if (result.isConfirmed) {
 
-                axios.delete(`https://skillety.onrender.com/delete-non-approval-job/${id}`, {
+                axios.delete(`https://skillety-n6r1.onrender.com/delete-non-approval-job/${id}`, {
                     headers: {
                         Authorization: `Bearer ${clientToken}`,
                         Accept: 'application/json'
@@ -386,7 +386,7 @@ const ManageJobs = () => {
         }).then((result) => {
             if (result.isConfirmed) {
 
-                axios.delete(`https://skillety.onrender.com/delete-active-job/${id}`, {
+                axios.delete(`https://skillety-n6r1.onrender.com/delete-active-job/${id}`, {
                     headers: {
                         Authorization: `Bearer ${clientToken}`,
                         Accept: 'application/json'
@@ -419,7 +419,7 @@ const ManageJobs = () => {
             confirmButtonText: 'Yes, activate it!'
         }).then((result) => {
             if (result.isConfirmed) {
-                axios.post("https://skillety.onrender.com/job-activate", { id }, {
+                axios.post("https://skillety-n6r1.onrender.com/job-activate", { id }, {
                     headers: {
                         Authorization: `Bearer ${clientToken}`,
                         Accept: 'application/json'
@@ -481,7 +481,7 @@ const ManageJobs = () => {
         }).then((result) => {
             if (result.isConfirmed) {
 
-                axios.post("https://skillety.onrender.com/job-deactivate", { id }, {
+                axios.post("https://skillety-n6r1.onrender.com/job-deactivate", { id }, {
                     headers: {
                         Authorization: `Bearer ${clientToken}`,
                         Accept: 'application/json'

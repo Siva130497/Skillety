@@ -20,7 +20,7 @@ const Company = () => {
 
     const getPostedjobs = async () => {
         try {
-          const res = await axios.get(`https://skillety.onrender.com/posted-jobs`, {
+          const res = await axios.get(`https://skillety-n6r1.onrender.com/posted-jobs`, {
             headers: {
               Accept: 'application/json'
             }
@@ -41,7 +41,7 @@ const Company = () => {
         getClientImg();
         getPostedjobs();
 
-        axios.get("https://skillety.onrender.com/company-details")
+        axios.get("https://skillety-n6r1.onrender.com/company-details")
         .then(res=>{
           console.log(res.data);
           setAllCompany(res.data);
@@ -111,7 +111,7 @@ const Company = () => {
                                 })
                                 .map(company => {
                                 const matchingImg = clientImg ? clientImg.find(img => img.id === company.companyId) : null;
-                                const imgSrc = matchingImg ? `https://skillety.onrender.com/client_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
+                                const imgSrc = matchingImg ? `https://skillety-n6r1.onrender.com/client_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
                                 const jobOpening = allJobs.filter(job => job.companyId === company.companyId).length;
 
                                 return (

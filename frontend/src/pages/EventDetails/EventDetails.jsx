@@ -45,7 +45,7 @@ const CandidateTestimonialDetail = () => {
                 const matchingImg = eventImg ? eventImg.find(img => img.id === foundEvent.id) : null;
     
                 if (matchingImg) {
-                    setImage(`https://skillety.onrender.com/images/${matchingImg.image}`);
+                    setImage(`https://skillety-n6r1.onrender.com/images/${matchingImg.image}`);
                 } else {
                     setImage("assets/img/events/event-img.jpg");
                 }

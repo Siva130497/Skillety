@@ -313,7 +313,7 @@ const JobSearch = () => {
 
     const getAllSkills = async () => {
         try {
-            const res = await axios.get("https://skillety.onrender.com/skills", {
+            const res = await axios.get("https://skillety-n6r1.onrender.com/skills", {
                 headers: {
 
                     Accept: 'application/json'
@@ -333,7 +333,7 @@ const JobSearch = () => {
 
     const getAllJobRoles = async () => {
         try {
-            const res = await axios.get("https://skillety.onrender.com/designations", {
+            const res = await axios.get("https://skillety-n6r1.onrender.com/designations", {
                 headers: {
 
                     Accept: 'application/json'
@@ -353,7 +353,7 @@ const JobSearch = () => {
 
     const getAllLocations = async () => {
         try {
-            const res = await axios.get("https://skillety.onrender.com/locations", {
+            const res = await axios.get("https://skillety-n6r1.onrender.com/locations", {
                 headers: {
 
                     Accept: 'application/json'
@@ -373,7 +373,7 @@ const JobSearch = () => {
 
     const getAllEducation = async () => {
         try {
-            const res = await axios.get("https://skillety.onrender.com/educations", {
+            const res = await axios.get("https://skillety-n6r1.onrender.com/educations", {
                 headers: {
 
                     Accept: 'application/json'
@@ -419,7 +419,7 @@ const JobSearch = () => {
 
     const getPostedjobs = async () => {
         try {
-            const res = await axios.get(`https://skillety.onrender.com/posted-jobs`, {
+            const res = await axios.get(`https://skillety-n6r1.onrender.com/posted-jobs`, {
                 headers: {
                     Accept: 'application/json'
                 }
@@ -439,7 +439,7 @@ const JobSearch = () => {
 
     const getSkillMatchJobDetail = async () => {
         try {
-            const response = await axios.get(`https://skillety.onrender.com/skill-match-job-Detail/${candidateId}`, {
+            const response = await axios.get(`https://skillety-n6r1.onrender.com/skill-match-job-Detail/${candidateId}`, {
                 headers: {
                     Authorization: `Bearer ${candidateToken}`,
                     Accept: 'application/json'
@@ -467,7 +467,7 @@ const JobSearch = () => {
         getAllLocations();
         getAllEducation();
 
-        axios.get("https://skillety.onrender.com/clients")
+        axios.get("https://skillety-n6r1.onrender.com/clients")
             .then(res => {
                 console.log(res.data)
                 setClients(res.data)
@@ -1558,7 +1558,7 @@ const JobSearch = () => {
                                                     filteredSearchResults.length > 0 ?
                                                         (filteredSearchResults.slice(x[0], x[1]).map((job) => {
                                                             const matchingImg = clientImg ? clientImg.find(img => img.id === job.companyId) : null;
-                                                            const imgSrc = matchingImg ? `https://skillety.onrender.com/client_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
+                                                            const imgSrc = matchingImg ? `https://skillety-n6r1.onrender.com/client_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
                                                             const companyName = clients.find(cli => cli.companyId === job.companyId)?.companyName
 
                                                             const calculateMatchPercentage = (skills1, skills2) => {
@@ -1629,7 +1629,7 @@ const JobSearch = () => {
                                                         })) : matchJobs.length > 0 ?
                                                             (matchJobs.slice(x[0], x[1]).map((job) => {
                                                                 const matchingImg = clientImg ? clientImg.find(img => img.id === job.companyId) : null;
-                                                                const imgSrc = matchingImg ? `https://skillety.onrender.com/client_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
+                                                                const imgSrc = matchingImg ? `https://skillety-n6r1.onrender.com/client_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
                                                                 const companyName = clients.find(cli => cli.companyId === job.companyId)?.companyName
                                                                 return (
                                                                     <article className='job--detail-card mb-4'>
@@ -1691,7 +1691,7 @@ const JobSearch = () => {
                                                                 )
                                                             })) : (latestJob.slice(x[0], x[1]).map((job) => {
                                                                 const matchingImg = clientImg ? clientImg.find(img => img.id === job.companyId) : null;
-                                                                const imgSrc = matchingImg ? `https://skillety.onrender.com/client_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
+                                                                const imgSrc = matchingImg ? `https://skillety-n6r1.onrender.com/client_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
                                                                 const companyName = clients.find(cli => cli.companyId === job.companyId)?.companyName
                                                                 return (
                                                                     <article className='job--detail-card mb-4'>

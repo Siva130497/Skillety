@@ -131,7 +131,7 @@ const Packages = ({ companyId }) => {
       cvViews: cvViews
     };
 
-    return axios.post("https://skillety.onrender.com/client-package-plan", packageDetail);
+    return axios.post("https://skillety-n6r1.onrender.com/client-package-plan", packageDetail);
   }
 
   const handleBuy = (companyId, logins, cvViews, packageType) => {
