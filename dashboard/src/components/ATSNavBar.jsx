@@ -182,7 +182,9 @@ const ATSNavBar = () => {
                         className="nav-link notification-toggle nav-link-lg notify-btn client">
                         <i data-feather="bell" className={notifications.length > 0 ? "bell" : "ring bell"}></i>
                         <div className='notification-badge candidate'>
-                            <span>{notifications?.length}</span>
+                            <span>
+                                {notifications?.length < 99 ? notifications?.length : "99+"}
+                            </span>
                         </div>
                     </a>
                     <div className="dropdown-menu dropdown-list dropdown-menu-right pullDown notification-dropdown">

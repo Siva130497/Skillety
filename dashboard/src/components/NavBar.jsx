@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import AuthContext from '../context/AuthContext';
 import axios from 'axios';
 
-const NavBar = ({notification, socket}) => {
+const NavBar = ({ notification, socket }) => {
   const [token, setToken] = useState("");
   const { getProtectedData } = useContext(AuthContext);
   const [candidateId, setCandidateId] = useState("");
@@ -13,34 +13,34 @@ const NavBar = ({notification, socket}) => {
   const [userName, setUserName] = useState('');
   const [notifications, setNotifications] = useState([]);
 
-  useEffect(()=>{
+  useEffect(() => {
     setNotifications(notification);
 
-  },[notification]);
+  }, [notification]);
 
-  const displayNotification = ({senderName, type, time, date}) => {
+  const displayNotification = ({ senderName, type, time, date }) => {
     let action;
 
-    if(type === "2"){
+    if (type === "2") {
       action = "message"
     }
     return (
       <div className="notification-dropdown-content">
-          <div className="notification-dropdown-content-left">
-            <div className="noti-drpdwn-img-area">
-              {/* <img src="assets/img/layout/user-img.png" className='noti-drpdwn-img' alt="" /> */}
-              <i class="bi bi-person"></i>
-            </div>
-            <div className="dropdown-notification-item">
-              {`${senderName} ${action} you`}
-            </div>
+        <div className="notification-dropdown-content-left">
+          <div className="noti-drpdwn-img-area">
+            {/* <img src="assets/img/layout/user-img.png" className='noti-drpdwn-img' alt="" /> */}
+            <i class="bi bi-person"></i>
           </div>
-          <div className="notification-dropdown-content-right">
-            <div className="drpdwn-notify-time">
-              {`${time}`}
-              <span>{`${date}`}</span>
-            </div>
+          <div className="dropdown-notification-item">
+            {`${senderName} ${action} you`}
           </div>
+        </div>
+        <div className="notification-dropdown-content-right">
+          <div className="drpdwn-notify-time">
+            {`${time}`}
+            <span>{`${date}`}</span>
+          </div>
+        </div>
       </div>
     )
   }
@@ -70,13 +70,13 @@ const NavBar = ({notification, socket}) => {
           Accept: 'application/json'
         }
       })
-      .then(res=>{
-        console.log(res.data);
-        setNotifications(res.data)
-      })
-      .catch(err=>{
-        console.log(err)
-      })
+        .then(res => {
+          console.log(res.data);
+          setNotifications(res.data)
+        })
+        .catch(err => {
+          console.log(err)
+        })
     }
   }, [token]);
 
@@ -146,7 +146,9 @@ const NavBar = ({notification, socket}) => {
             className="nav-link notification-toggle nav-link-lg notify-btn">
             <i data-feather="bell" className={socket ? "bell ring" : "bell"}></i>
             <div className='notification-badge candidate'>
-              <span>{notifications?.length}</span>
+              <span>
+                {notifications?.length < 99 ? notifications?.length : "99+"}
+              </span>
             </div>
           </a>
           <div className="dropdown-menu dropdown-list dropdown-menu-right pullDown notification-dropdown">
@@ -159,8 +161,8 @@ const NavBar = ({notification, socket}) => {
               </a> */}
             </div>
             <div className="notification-dropdown-content-area">
-            {notifications?.length > 0 ? (
-                notifications.reverse().slice(0,10).map((notification) => (
+              {notifications?.length > 0 ? (
+                notifications.reverse().slice(0, 10).map((notification) => (
                   <div key={notification.id}>{displayNotification(notification)}</div>
                 ))
               ) : (
@@ -173,10 +175,10 @@ const NavBar = ({notification, socket}) => {
 
             <div className="dropdown-footer notification-dropdown-footer text-center">
               <a className='drp-dwn-view-all-btn'
-                onClick={()=>setNotifications([])}
-                >Mark All As Read.
-                  <i class="bi bi-chevron-right ml-3"></i>
-                </a>
+                onClick={() => setNotifications([])}
+              >Mark All As Read.
+                <i class="bi bi-chevron-right ml-3"></i>
+              </a>
             </div>
           </div>
         </li>

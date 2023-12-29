@@ -1,8 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { useEffect } from 'react';
 import $ from 'jquery';
-import './JobSearch.css';
-import './JobSearch-responsive.css';
 import ATSLayout from '../../components/ATSLayout';
 import Footer from '../../components/Footer';
 // import { Slider } from "primereact/slider";
@@ -1926,7 +1924,7 @@ const JobSearchAts = () => {
                                             <div class="pl--package-btn job">Back to Search
                                             </div>
                                         </button> */}
-                                            
+
                                                 <h4 className="cli-tal-pro-search-heading m-b-40">Job Search</h4>
 
                                                 <div className="row row-border-custom">
@@ -2407,7 +2405,7 @@ const JobSearchAts = () => {
                                                                                     </div>
 
                                                                                     <div className='flex-reverse-md'>
-                                                                                        {selectedResults.length>0 &&
+                                                                                        {selectedResults.length > 0 &&
                                                                                             <div className="tal--pro-card-ability-number-left mobile-flex mb-3 job">
                                                                                                 <h6 className='tal--pro-card-ability search'>Keywords Matched</h6>
                                                                                                 <h2 className='tal--pro-card-percentage search custom-font-size'>{Math.round(percentage)}%</h2>
@@ -2435,9 +2433,16 @@ const JobSearchAts = () => {
                                                                                 </div>
                                                                             </article>
                                                                         )
-                                                                    })) : <p>No match jobs found!</p>}
+                                                                    })) :
+                                                                    <div className="no-data-created-area">
+                                                                        <div className='no-data-created'>
+                                                                            <img src="../assets/img/no-data/no-data-img.png" className='no-data-img' alt="" />
+                                                                            <div className='no-data-text'>No Match Jobs Found..!</div>
+                                                                        </div>
+                                                                    </div>
+                                                            }
                                                             <div className="tal--pro-paginate-btn-area" data-aos="fade-up">
-                                                                <h6 className='tal--pro-total-result-text'>Total Items : <span>{filteredSearchResultsMsg ? "0" : filteredSearchResults.length > 0 &&filteredSearchResults.length }</span></h6>
+                                                                <h6 className='tal--pro-total-result-text'>Total Items : <span>{filteredSearchResultsMsg ? "0" : filteredSearchResults.length > 0 && filteredSearchResults.length}</span></h6>
                                                                 <div className='tal--pro-slider-btn-sub'>
                                                                     {x[0] > 0 && <button className="tal--pro-slider-btn" onClick={() => setX([x[0] - 3, x[1] - 3])}>
                                                                         <svg className='arrow-left' xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 27 27" fill="none">
@@ -2446,7 +2451,7 @@ const JobSearchAts = () => {
                                                                             <path d="M1 26L25.1667 1" stroke="#5C3B2E" stroke-width="2" />
                                                                         </svg>
                                                                     </button>}
-                                                                    {(filteredSearchResultsMsg ? !filteredSearchResultsMsg :  (filteredSearchResults.slice(x[0], x[1]).length === 3 && filteredSearchResults.length > x[1])) && < button className="tal--pro-slider-btn" onClick={() => setX([x[0] + 3, x[1] + 3])}>
+                                                                    {(filteredSearchResultsMsg ? !filteredSearchResultsMsg : (filteredSearchResults.slice(x[0], x[1]).length === 3 && filteredSearchResults.length > x[1])) && < button className="tal--pro-slider-btn" onClick={() => setX([x[0] + 3, x[1] + 3])}>
                                                                         <svg className='arrow-right' xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 27 27" fill="none">
                                                                             <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#5C3B2E" stroke-width="2" />
                                                                             <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#5C3B2E" stroke-width="2" />
