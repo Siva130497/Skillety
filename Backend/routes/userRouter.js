@@ -198,7 +198,7 @@ router.post("/register-Candidate", async (req, res) => {
 //get all candidate detail
 router.get("/candidate-Detail", getAllCandidateDetail);
 
-router.get("recruiter-candidate-Detail/:id", getAllRecruiterCandidateDetail);
+router.get("/recruiter-candidate-Detail/:id", getAllRecruiterCandidateDetail);
 
 //get a candidate 
 router.get("/candidate/:id", getCandidateDetail);
