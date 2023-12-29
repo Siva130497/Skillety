@@ -12,7 +12,7 @@ import io from 'socket.io-client';
 import { useContext } from 'react';
 import AuthContext from '../../context/AuthContext';
 
-// const socket = io.connect('https://skillety.onrender.com');
+// const socket = io.connect('https://skillety-n6r1.onrender.com');
 
 const CandidateChatSupport = () => {
   const { getProtectedData } = useContext(AuthContext);
@@ -33,7 +33,7 @@ const CandidateChatSupport = () => {
   const [socket, setSocket] = useState(null);
 
     useEffect(()=>{
-        setSocket(io("https://skillety.onrender.com"));
+        setSocket(io("https://skillety-n6r1.onrender.com"));
     },[]);
 
     useEffect(()=>{
@@ -54,7 +54,7 @@ const CandidateChatSupport = () => {
           setUserId(user.id);
           setRoomId(user.id);
           setUserName(user.name)
-          axios.get(`https://skillety.onrender.com/candidate-image/${user.id}`)
+          axios.get(`https://skillety-n6r1.onrender.com/candidate-image/${user.id}`)
             .then(res => setCandidateImg(res.data))
             .catch(err => console.log(err))
         } catch (error) {
@@ -64,7 +64,7 @@ const CandidateChatSupport = () => {
 
       fetchData();
 
-      axios.get("https://skillety.onrender.com/all-employee")
+      axios.get("https://skillety-n6r1.onrender.com/all-employee")
       .then(res=>{
         console.log(res.data);
         setAllEmployee(res.data);
@@ -76,7 +76,7 @@ const CandidateChatSupport = () => {
 
   useEffect(() => {
     if (candidateImg) {
-        setCandidateImgUrl(`https://skillety.onrender.com/candidate_profile/${candidateImg.image}`)
+        setCandidateImgUrl(`https://skillety-n6r1.onrender.com/candidate_profile/${candidateImg.image}`)
     }
 
 }, [candidateImg]);
@@ -84,7 +84,7 @@ const CandidateChatSupport = () => {
   useEffect(() => {
     if (userName && roomId) {
       socket.emit('join_room', roomId)
-      axios.get(`https://skillety.onrender.com/roomId-chat/${roomId}`, {
+      axios.get(`https://skillety-n6r1.onrender.com/roomId-chat/${roomId}`, {
         headers: {
           Authorization: `Bearer ${candidateToken}`,
           Accept: 'application/json'
@@ -209,7 +209,7 @@ const CandidateChatSupport = () => {
         await socket.emit("sendNotification", notificationData)
 
         // API call 1
-      const response1 = await axios.post(`https://skillety.onrender.com/roomId-chat`, messageData, {
+      const response1 = await axios.post(`https://skillety-n6r1.onrender.com/roomId-chat`, messageData, {
         headers: {
           Authorization: `Bearer ${candidateToken}`,
           Accept: 'application/json'
@@ -219,7 +219,7 @@ const CandidateChatSupport = () => {
       console.log(response1.data);
 
       // API call 2
-      const response2 = await axios.post(`https://skillety.onrender.com/candidate-to-recruiter-notification`, notificationData, {
+      const response2 = await axios.post(`https://skillety-n6r1.onrender.com/candidate-to-recruiter-notification`, notificationData, {
         headers: {
           Authorization: `Bearer ${candidateToken}`,
           Accept: 'application/json'
@@ -230,7 +230,7 @@ const CandidateChatSupport = () => {
 
       if (candidateToken) {
         // API call 3
-        const response3 = await axios.post(`https://skillety.onrender.com/candidate-chat`, { roomId, userName }, {
+        const response3 = await axios.post(`https://skillety-n6r1.onrender.com/candidate-chat`, { roomId, userName }, {
           headers: {
             Authorization: `Bearer ${candidateToken}`,
             Accept: 'application/json'

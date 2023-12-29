@@ -14,7 +14,7 @@ import io from 'socket.io-client';
 import { useContext } from 'react';
 import AuthContext from '../../context/AuthContext';
 
-// const socket = io.connect('https://skillety.onrender.com');
+// const socket = io.connect('https://skillety-n6r1.onrender.com');
 
 const CandidateChat = () => {
   const { getProtectedData, getCandidateImg, candidateImg } = useContext(AuthContext);
@@ -40,7 +40,7 @@ const CandidateChat = () => {
   const [socket, setSocket] = useState(null);
 
   useEffect(()=>{
-    setSocket(io("https://skillety.onrender.com"));
+    setSocket(io("https://skillety-n6r1.onrender.com"));
   },[]);
 
 useEffect(()=>{
@@ -77,7 +77,7 @@ useEffect(()=>{
 
   useEffect(() => {
     if (staffToken) {
-      axios.get("https://skillety.onrender.com/candidate-chat", {
+      axios.get("https://skillety-n6r1.onrender.com/candidate-chat", {
         headers: {
           Authorization: `Bearer ${staffToken}`,
           Accept: 'application/json'
@@ -100,7 +100,7 @@ useEffect(()=>{
   useEffect(() => {
     if (userName && roomId) {
       socket.emit('join_room', roomId)
-      axios.get(`https://skillety.onrender.com/roomId-chat/${roomId}`, {
+      axios.get(`https://skillety-n6r1.onrender.com/roomId-chat/${roomId}`, {
         headers: {
           Authorization: `Bearer ${staffToken}`,
           Accept: 'application/json'
@@ -116,7 +116,7 @@ useEffect(()=>{
             } else {
               setMsgLoading(false);
               setDisableMode(true);
-              axios.get(`https://skillety.onrender.com/staff/${result.nonMatchingUserId[0].userId}`, {
+              axios.get(`https://skillety-n6r1.onrender.com/staff/${result.nonMatchingUserId[0].userId}`, {
                 headers: {
                   Authorization: `Bearer ${staffToken}`,
                   Accept: 'application/json'
@@ -237,7 +237,7 @@ useEffect(()=>{
 
         await socket.emit("sendNotification", notificationData)
 
-        const response1 = await axios.post(`https://skillety.onrender.com/roomId-chat`, messageData, {
+        const response1 = await axios.post(`https://skillety-n6r1.onrender.com/roomId-chat`, messageData, {
           headers: {
             Authorization: `Bearer ${staffToken}`,
             Accept: 'application/json'
@@ -246,7 +246,7 @@ useEffect(()=>{
 
         console.log(response1.data);
 
-        const response2 = await axios.post(`https://skillety.onrender.com/candidate-notification`, notificationData, {
+        const response2 = await axios.post(`https://skillety-n6r1.onrender.com/candidate-notification`, notificationData, {
           headers: {
             Authorization: `Bearer ${staffToken}`,
             Accept: 'application/json'
@@ -468,7 +468,7 @@ useEffect(()=>{
                             <>
                               {filteredCandidates.map((candidate) => {
                                 const matchingImg = candidateImg ? candidateImg.find(img => img.id === candidate.roomId) : null;
-                                const imgSrc = matchingImg ? `https://skillety.onrender.com/candidate_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
+                                const imgSrc = matchingImg ? `https://skillety-n6r1.onrender.com/candidate_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
 
                                 return <a href='#chat_window' className={`recent-chat-area ${window.innerWidth <= 991 ? 'navigate-to-chat' : ''} ${candidate.roomId == roomId ? 'active' : ''}`}
                                   key={candidate.roomId}

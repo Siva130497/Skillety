@@ -14,7 +14,7 @@ import io from 'socket.io-client';
 import { useContext } from 'react';
 import AuthContext from '../../context/AuthContext';
 
-const socket = io.connect('https://skillety.onrender.com');
+const socket = io.connect('https://skillety-n6r1.onrender.com');
 
 const ClientChat = () => {
   const { getProtectedData, getClientImg, clientImg } = useContext(AuthContext); 
@@ -67,7 +67,7 @@ const ClientChat = () => {
 
   useEffect(() => {
     if (staffToken) {
-      axios.get("https://skillety.onrender.com/client-chat", {
+      axios.get("https://skillety-n6r1.onrender.com/client-chat", {
         headers: {
           Authorization: `Bearer ${staffToken}`,
           Accept: 'application/json'
@@ -90,7 +90,7 @@ const ClientChat = () => {
   useEffect(() => {
     if (userName && roomId) {
       socket.emit('join_room', roomId)
-      axios.get(`https://skillety.onrender.com/roomId-chat-client/${roomId}`, {
+      axios.get(`https://skillety-n6r1.onrender.com/roomId-chat-client/${roomId}`, {
         headers: {
           Authorization: `Bearer ${staffToken}`,
           Accept: 'application/json'
@@ -106,7 +106,7 @@ const ClientChat = () => {
             } else {
               setMsgLoading(false);
               setDisableMode(true);
-              axios.get(`https://skillety.onrender.com/staff/${result.nonMatchingUserId[0].userId}`, {
+              axios.get(`https://skillety-n6r1.onrender.com/staff/${result.nonMatchingUserId[0].userId}`, {
                 headers: {
                   Authorization: `Bearer ${staffToken}`,
                   Accept: 'application/json'
@@ -215,7 +215,7 @@ const ClientChat = () => {
         setMessages((prevMessages) => [...prevMessages, messageData]);
         setInputMessage("");
 
-        const res = await axios.post(`https://skillety.onrender.com/roomId-chat-client`, messageData, {
+        const res = await axios.post(`https://skillety-n6r1.onrender.com/roomId-chat-client`, messageData, {
           headers: {
             Authorization: `Bearer ${staffToken}`,
             Accept: 'application/json'
@@ -366,7 +366,7 @@ const ClientChat = () => {
                             <>
                               {filteredclients.map((client) => {
                                 const matchingImg = clientImg ? clientImg.find(img => img.id === client.companyId) : null;
-                                const imgSrc = matchingImg ? `https://skillety.onrender.com/client_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
+                                const imgSrc = matchingImg ? `https://skillety-n6r1.onrender.com/client_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
 
                                 return <a href='#chat_window' className={`recent-chat-area ${window.innerWidth <= 991 ? 'navigate-to-chat' : ''} ${client.roomId == roomId ? 'active' : ''}`}
                                   key={client.roomId}

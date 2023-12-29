@@ -146,7 +146,7 @@ const ClientDashboard = () => {
     }, []);
 
     useEffect(()=>{
-        setSocket(io("https://skillety.onrender.com"));
+        setSocket(io("https://skillety-n6r1.onrender.com"));
     },[]);
 
     useEffect(()=>{
@@ -220,7 +220,7 @@ const ClientDashboard = () => {
 
             fetchData();
 
-            axios.get("https://skillety.onrender.com/candidate-to-client-notification", {
+            axios.get("https://skillety-n6r1.onrender.com/candidate-to-client-notification", {
                 headers: {
                 Authorization: `Bearer ${token}`,
                 Accept: 'application/json'
@@ -239,7 +239,7 @@ const ClientDashboard = () => {
     const getLoginClientDetail = async () => {
         try {
             setContentLoading(true);
-            const res = await axios.get(`https://skillety.onrender.com/client/${employeeId}`, {
+            const res = await axios.get(`https://skillety-n6r1.onrender.com/client/${employeeId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     Accept: 'application/json'
@@ -270,7 +270,7 @@ const ClientDashboard = () => {
     const getAllCandidateDetail = async () => {
         try {
             setContentLoading(true);
-            const response = await axios.get('https://skillety.onrender.com/candidate-Detail', {
+            const response = await axios.get('https://skillety-n6r1.onrender.com/candidate-Detail', {
                 headers: {
                     Accept: 'application/json'
                 }
@@ -295,7 +295,7 @@ const ClientDashboard = () => {
     const getOwnPostedjobs = async () => {
         try {
             setContentLoading(true);
-            const res = await axios.get(`https://skillety.onrender.com/my-posted-jobs/${loginClientDetail?.companyId}`, {
+            const res = await axios.get(`https://skillety-n6r1.onrender.com/my-posted-jobs/${loginClientDetail?.companyId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     Accept: 'application/json'
@@ -320,7 +320,7 @@ const ClientDashboard = () => {
     const getOwnActivejobs = async () => {
         try {
             setContentLoading(true);
-            const res = await axios.get(`https://skillety.onrender.com/my-active-jobs/${loginClientDetail.companyId}`, {
+            const res = await axios.get(`https://skillety-n6r1.onrender.com/my-active-jobs/${loginClientDetail.companyId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     Accept: 'application/json'
@@ -345,7 +345,7 @@ const ClientDashboard = () => {
     const getAppliedOfPostedJobs = async () => {
         try {
             setContentLoading(true);
-            const res = await axios.get(`https://skillety.onrender.com/applied-jobs-of-posted/${loginClientDetail?.companyId}`, {
+            const res = await axios.get(`https://skillety-n6r1.onrender.com/applied-jobs-of-posted/${loginClientDetail?.companyId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     Accept: 'application/json'
@@ -370,7 +370,7 @@ const ClientDashboard = () => {
     const allStaffFromCompany = async () => {
         try {
             setContentLoading(true);
-            const res = await axios.get(`https://skillety.onrender.com/all-staff/${loginClientDetail?.companyId}`, {
+            const res = await axios.get(`https://skillety-n6r1.onrender.com/all-staff/${loginClientDetail?.companyId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     Accept: 'application/json'
@@ -636,7 +636,7 @@ const ClientDashboard = () => {
                                                         <table class="table table-striped table-hover dash-table">
                                                             {candidateDetail.slice(0, 10).map((cand) => {
                                                                 const matchingImg = candidateImg ? candidateImg.find(img => img.id === cand.id) : null;
-                                                                const imgSrc = matchingImg ? `https://skillety.onrender.com/candidate_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
+                                                                const imgSrc = matchingImg ? `https://skillety-n6r1.onrender.com/candidate_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
                                                                 return (
                                                                     <tr className='dash-table-row' key={cand.id}>
                                                                         <td>

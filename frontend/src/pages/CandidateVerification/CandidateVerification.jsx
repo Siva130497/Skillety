@@ -62,7 +62,7 @@ const CandidateVerification = () => {
 
     const getCandidate = async () => {
         try {
-            const response = await axios.get(`https://skillety.onrender.com/CandidateWithUrl-Detail/${id}`);
+            const response = await axios.get(`https://skillety-n6r1.onrender.com/CandidateWithUrl-Detail/${id}`);
             const result = response.data;
             if (!result.error) {
                 setLoading(false)
@@ -89,7 +89,7 @@ const CandidateVerification = () => {
     
     const verify = async (userData) => {
         try {
-            const response = await axios.post('https://skillety.onrender.com/verify-temp-password', userData, {
+            const response = await axios.post('https://skillety-n6r1.onrender.com/verify-temp-password', userData, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -110,7 +110,7 @@ const CandidateVerification = () => {
 
     const finalCandidateRegister = async (userData) => {
         try {
-            const response = await axios.post(`https://skillety.onrender.com/finalRegister-Candidate`, userData, {
+            const response = await axios.post(`https://skillety-n6r1.onrender.com/finalRegister-Candidate`, userData, {
                 headers: {
                     'Content-Type': 'application/json',
                 },

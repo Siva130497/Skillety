@@ -64,7 +64,7 @@ const NavBar = ({ notification, socket }) => {
 
       fetchData();
 
-      axios.get("https://skillety.onrender.com/candidate-notification", {
+      axios.get("https://skillety-n6r1.onrender.com/candidate-notification", {
         headers: {
           Authorization: `Bearer ${token}`,
           Accept: 'application/json'
@@ -82,11 +82,11 @@ const NavBar = ({ notification, socket }) => {
 
   useEffect(() => {
     if (candidateId) {
-      axios.get(`https://skillety.onrender.com/candidate-image/${candidateId}`)
+      axios.get(`https://skillety-n6r1.onrender.com/candidate-image/${candidateId}`)
         .then(res => setCandidateImg(res.data))
         .catch(err => console.log(err))
 
-      axios.get(`https://skillety.onrender.com/candidate/${candidateId}`)
+      axios.get(`https://skillety-n6r1.onrender.com/candidate/${candidateId}`)
         .then(res => {
           console.log(res.data)
           setLoginCandidate(res.data)
@@ -99,7 +99,7 @@ const NavBar = ({ notification, socket }) => {
 
   useEffect(() => {
     if (candidateImg) {
-      setCandidateImgUrl(`https://skillety.onrender.com/candidate_profile/${candidateImg.image}`)
+      setCandidateImgUrl(`https://skillety-n6r1.onrender.com/candidate_profile/${candidateImg.image}`)
     }
 
   }, [candidateImg]);

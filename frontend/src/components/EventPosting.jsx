@@ -26,7 +26,7 @@ const EventPosting = ({staffToken, employeeId, editingEventId}) => {
     useEffect(()=>{
         if(editingEventId){
 
-            axios.get(`https://skillety.onrender.com/event/${editingEventId}`, {
+            axios.get(`https://skillety-n6r1.onrender.com/event/${editingEventId}`, {
                 headers: {
                     Authorization: `Bearer ${staffToken}`,
                     Accept: 'application/json'
@@ -38,7 +38,7 @@ const EventPosting = ({staffToken, employeeId, editingEventId}) => {
             })
             .catch(err=>console.log(err));
 
-            axios.get(`https://skillety.onrender.com/event-image/${editingEventId}`)
+            axios.get(`https://skillety-n6r1.onrender.com/event-image/${editingEventId}`)
               .then(res=>setEditingEventImg(res.data))
               .catch(err=>console.log(err))
           
@@ -60,7 +60,7 @@ const EventPosting = ({staffToken, employeeId, editingEventId}) => {
 
     useEffect(() => {
       if(editingEventImg){
-        setEventImgUrl(`https://skillety.onrender.com/images/${editingEventImg.image}`)
+        setEventImgUrl(`https://skillety-n6r1.onrender.com/images/${editingEventImg.image}`)
       }
       
     }, [editingEventImg]);
@@ -107,7 +107,7 @@ const EventPosting = ({staffToken, employeeId, editingEventId}) => {
     const eventPosting = async (event) => {
       if(image && dateString){
           try {
-            const response = await axios.post('https://skillety.onrender.com/events', event, {
+            const response = await axios.post('https://skillety-n6r1.onrender.com/events', event, {
               headers: {
                   Authorization: `Bearer ${staffToken}`,
                   Accept: 'application/json'
@@ -137,7 +137,7 @@ const EventPosting = ({staffToken, employeeId, editingEventId}) => {
     const changingEvent = async (event) => {
       if(eventDate){
           try {
-            const response = await axios.patch(`https://skillety.onrender.com/event/${editingEventId}`, event, {
+            const response = await axios.patch(`https://skillety-n6r1.onrender.com/event/${editingEventId}`, event, {
               headers: {
                   Authorization: `Bearer ${staffToken}`,
                   Accept: 'application/json'
@@ -177,7 +177,7 @@ const EventPosting = ({staffToken, employeeId, editingEventId}) => {
             const formData = new FormData()
             formData.append('image', image);
             formData.append('id', id)
-            axios.post("https://skillety.onrender.com/upload-image", formData, {
+            axios.post("https://skillety-n6r1.onrender.com/upload-image", formData, {
               headers: {
                   Authorization: `Bearer ${staffToken}`,
                   Accept: 'application/json'
@@ -202,7 +202,7 @@ const EventPosting = ({staffToken, employeeId, editingEventId}) => {
           if(image){
             const formData = new FormData()
             formData.append('image', image);
-            axios.patch(`https://skillety.onrender.com/update-image/${editingEventId}`, formData, {
+            axios.patch(`https://skillety-n6r1.onrender.com/update-image/${editingEventId}`, formData, {
               headers: {
                   Authorization: `Bearer ${staffToken}`,
                   Accept: 'application/json'

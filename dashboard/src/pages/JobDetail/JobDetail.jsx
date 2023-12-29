@@ -19,7 +19,7 @@ const JobDetail = () => {
 
     const getPostedjobs = async() => {
         try{
-            const res = await axios.get(`https://skillety.onrender.com/posted-jobs`, {
+            const res = await axios.get(`https://skillety-n6r1.onrender.com/posted-jobs`, {
               headers: {
                   Accept: 'application/json'
               }

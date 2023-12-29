@@ -125,7 +125,7 @@ const PostingJob = () => {
 
     const getAllJobRoles = async () => {
         try {
-          const res = await axios.get("https://skillety.onrender.com/designations", {
+          const res = await axios.get("https://skillety-n6r1.onrender.com/designations", {
             headers: {
               Authorization: `Bearer ${staffToken}`,
               Accept: 'application/json'
@@ -145,7 +145,7 @@ const PostingJob = () => {
     
       const getAllSkills = async () => {
         try {
-          const res = await axios.get("https://skillety.onrender.com/skills", {
+          const res = await axios.get("https://skillety-n6r1.onrender.com/skills", {
             headers: {
               Authorization: `Bearer ${staffToken}`,
               Accept: 'application/json'
@@ -165,7 +165,7 @@ const PostingJob = () => {
     
       const getAllDepartments = async () => {
         try {
-          const res = await axios.get("https://skillety.onrender.com/departments", {
+          const res = await axios.get("https://skillety-n6r1.onrender.com/departments", {
             headers: {
               Authorization: `Bearer ${staffToken}`,
               Accept: 'application/json'
@@ -185,7 +185,7 @@ const PostingJob = () => {
     
       const getAllLocations = async () => {
         try {
-          const res = await axios.get("https://skillety.onrender.com/locations", {
+          const res = await axios.get("https://skillety-n6r1.onrender.com/locations", {
             headers: {
               Authorization: `Bearer ${staffToken}`,
               Accept: 'application/json'
@@ -205,7 +205,7 @@ const PostingJob = () => {
     
       const getAllRoles = async () => {
         try {
-          const res = await axios.get("https://skillety.onrender.com/roles", {
+          const res = await axios.get("https://skillety-n6r1.onrender.com/roles", {
             headers: {
               Authorization: `Bearer ${staffToken}`,
               Accept: 'application/json'
@@ -226,7 +226,7 @@ const PostingJob = () => {
     
       const getAllEducation = async () => {
         try {
-          const res = await axios.get("https://skillety.onrender.com/educations", {
+          const res = await axios.get("https://skillety-n6r1.onrender.com/educations", {
             headers: {
               Authorization: `Bearer ${staffToken}`,
               Accept: 'application/json'
@@ -246,7 +246,7 @@ const PostingJob = () => {
     
       const getAllIndustry = async () => {
         try {
-          const res = await axios.get("https://skillety.onrender.com/industries", {
+          const res = await axios.get("https://skillety-n6r1.onrender.com/industries", {
             headers: {
               Authorization: `Bearer ${staffToken}`,
               Accept: 'application/json'
@@ -298,7 +298,7 @@ const PostingJob = () => {
       //jobposting
   const jobPosting = async (jobdetail) => {
     try {
-      const res = await axios.post("https://skillety.onrender.com/job-detail", jobdetail, {
+      const res = await axios.post("https://skillety-n6r1.onrender.com/job-detail", jobdetail, {
         headers: {
           Authorization: `Bearer ${staffToken}`,
           Accept: 'application/json'
@@ -330,7 +330,7 @@ const PostingJob = () => {
   //post new skill
   const postOtherSkills = async (skills) => {
     try {
-      const res = await axios.post("https://skillety.onrender.com/skills", skills, {
+      const res = await axios.post("https://skillety-n6r1.onrender.com/skills", skills, {
         headers: {
           Authorization: `Bearer ${staffToken}`,
           Accept: 'application/json'
@@ -350,7 +350,7 @@ const PostingJob = () => {
   //post new designation
   const postOtherDesignation = async (designation) => {
     try {
-      const res = await axios.post("https://skillety.onrender.com/designations", designation, {
+      const res = await axios.post("https://skillety-n6r1.onrender.com/designations", designation, {
         headers: {
           Authorization: `Bearer ${staffToken}`,
           Accept: 'application/json'

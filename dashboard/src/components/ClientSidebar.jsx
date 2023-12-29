@@ -54,7 +54,7 @@ const ClientSidebar = () => {
 
     // const getLoginClientDetail = async () => {
     //     try {
-    //         const res = await axios.get(`https://skillety.onrender.com/client/${employeeId}`, {
+    //         const res = await axios.get(`https://skillety-n6r1.onrender.com/client/${employeeId}`, {
     //             headers: {
     //                 Authorization: `Bearer ${clientToken}`,
     //                 Accept: 'application/json'

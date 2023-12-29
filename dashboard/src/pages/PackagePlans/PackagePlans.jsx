@@ -170,7 +170,7 @@ const PackagePlans = () => {
   const getLoginClientDetail = async () => {
     try {
       const res = await axios.get(
-        `https://skillety.onrender.com/client/${employeeId}`,
+        `https://skillety-n6r1.onrender.com/client/${employeeId}`,
         {
           headers: {
             Authorization: `Bearer ${clientToken}`,
@@ -243,7 +243,7 @@ const PackagePlans = () => {
 
   const handleBuy = () => {
     axios
-      .post("https://skillety.onrender.com/client-package-plan", packageInfo, {
+      .post("https://skillety-n6r1.onrender.com/client-package-plan", packageInfo, {
         headers: {
           Authorization: `Bearer ${clientToken}`,
           Accept: "application/json",

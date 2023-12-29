@@ -38,7 +38,7 @@ const ContactCandidate = () => {
 
     const sendMessage = async (messageDetail) => {
         try {
-            const response = await axios.post('https://skillety.onrender.com/contact-candidate', messageDetail, {
+            const response = await axios.post('https://skillety-n6r1.onrender.com/contact-candidate', messageDetail, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -82,7 +82,7 @@ const ContactCandidate = () => {
             showErrorMessage('Please verify the reCAPTCHA!');
         } else {
             try {
-                const response = await axios.post('https://skillety.onrender.com/verify', {
+                const response = await axios.post('https://skillety-n6r1.onrender.com/verify', {
                     captchaValue,
                 });
 

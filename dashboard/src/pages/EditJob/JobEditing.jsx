@@ -94,7 +94,7 @@ function showErrorMessage() {
 
   useEffect(() => {
     if (id && clientToken) {
-      axios.get(`https://skillety.onrender.com/job/${id}`, {
+      axios.get(`https://skillety-n6r1.onrender.com/job/${id}`, {
         headers: {
           // Authorization: `Bearer ${clientToken}`,
           Accept: 'application/json'
@@ -137,7 +137,7 @@ function showErrorMessage() {
 
   const getAllJobRoles = async () => {
     try {
-      const res = await axios.get("https://skillety.onrender.com/designations", {
+      const res = await axios.get("https://skillety-n6r1.onrender.com/designations", {
         headers: {
           Authorization: `Bearer ${clientToken}`,
           Accept: 'application/json'
@@ -157,7 +157,7 @@ function showErrorMessage() {
 
   const getAllSkills = async () => {
     try {
-      const res = await axios.get("https://skillety.onrender.com/skills", {
+      const res = await axios.get("https://skillety-n6r1.onrender.com/skills", {
         headers: {
           Authorization: `Bearer ${clientToken}`,
           Accept: 'application/json'
@@ -177,7 +177,7 @@ function showErrorMessage() {
 
   const getAllDepartments = async () => {
     try {
-      const res = await axios.get("https://skillety.onrender.com/departments", {
+      const res = await axios.get("https://skillety-n6r1.onrender.com/departments", {
         headers: {
           Authorization: `Bearer ${clientToken}`,
           Accept: 'application/json'
@@ -197,7 +197,7 @@ function showErrorMessage() {
 
   const getAllLocations = async () => {
     try {
-      const res = await axios.get("https://skillety.onrender.com/locations", {
+      const res = await axios.get("https://skillety-n6r1.onrender.com/locations", {
         headers: {
           Authorization: `Bearer ${clientToken}`,
           Accept: 'application/json'
@@ -217,7 +217,7 @@ function showErrorMessage() {
 
   const getAllRoles = async () => {
     try {
-      const res = await axios.get("https://skillety.onrender.com/roles", {
+      const res = await axios.get("https://skillety-n6r1.onrender.com/roles", {
         headers: {
           Authorization: `Bearer ${clientToken}`,
           Accept: 'application/json'
@@ -246,7 +246,7 @@ function showErrorMessage() {
   //jobupdating
   const jobUpdating = async (jobdetail) => {
     try {
-      const res = await axios.patch(`https://skillety.onrender.com/job-detail/${id}`, jobdetail, {
+      const res = await axios.patch(`https://skillety-n6r1.onrender.com/job-detail/${id}`, jobdetail, {
         headers: {
           Authorization: `Bearer ${clientToken}`,
           Accept: 'application/json'
@@ -276,7 +276,7 @@ function showErrorMessage() {
   //post new skill
   const postOtherSkills = async (skills) => {
     try {
-      const res = await axios.post("https://skillety.onrender.com/skills", skills, {
+      const res = await axios.post("https://skillety-n6r1.onrender.com/skills", skills, {
         headers: {
           Authorization: `Bearer ${clientToken}`,
           Accept: 'application/json'
@@ -296,7 +296,7 @@ function showErrorMessage() {
   //post new designation
   const postOtherDesignation = async (designation) => {
     try {
-      const res = await axios.post("https://skillety.onrender.com/designations", designation, {
+      const res = await axios.post("https://skillety-n6r1.onrender.com/designations", designation, {
         headers: {
           Authorization: `Bearer ${clientToken}`,
           Accept: 'application/json'

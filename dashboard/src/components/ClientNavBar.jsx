@@ -79,7 +79,7 @@ const ClientNavBar = ({ notification }) => {
   // }, [notifications, audio, playedNotificationIds]);
 
   //   useEffect(()=>{
-  //       setSocket(io("https://skillety.onrender.com"));
+  //       setSocket(io("https://skillety-n6r1.onrender.com"));
   //   },[]);
 
   //   useEffect(()=>{
@@ -127,7 +127,7 @@ const ClientNavBar = ({ notification }) => {
   const handleClearNotifications = () => {
     setNotifications([]);
     // if(notifications?.length>0){
-    //   axios.delete("https://skillety.onrender.com/notifications/delete-all", {
+    //   axios.delete("https://skillety-n6r1.onrender.com/notifications/delete-all", {
     //     headers: {
     //       Authorization: `Bearer ${token}`,
     //       Accept: 'application/json'
@@ -162,7 +162,7 @@ const ClientNavBar = ({ notification }) => {
       };
 
       fetchData();
-      axios.get("https://skillety.onrender.com/candidate-to-client-notification", {
+      axios.get("https://skillety-n6r1.onrender.com/candidate-to-client-notification", {
         headers: {
           Authorization: `Bearer ${token}`,
           Accept: 'application/json'
@@ -180,7 +180,7 @@ const ClientNavBar = ({ notification }) => {
 
   const getLoginClientDetail = async () => {
     try {
-      const res = await axios.get(`https://skillety.onrender.com/client/${employeeId}`, {
+      const res = await axios.get(`https://skillety-n6r1.onrender.com/client/${employeeId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
           Accept: 'application/json'
@@ -207,7 +207,7 @@ const ClientNavBar = ({ notification }) => {
 
   useEffect(() => {
     if (loginClientDetail.companyId) {
-      axios.get(`https://skillety.onrender.com/client-image/${loginClientDetail.companyId}`)
+      axios.get(`https://skillety-n6r1.onrender.com/client-image/${loginClientDetail.companyId}`)
         .then(res => setClientImg(res.data))
         .catch(err => console.log(err))
     }
@@ -215,7 +215,7 @@ const ClientNavBar = ({ notification }) => {
 
   useEffect(() => {
     if (clientImg) {
-      setClientImgUrl(`https://skillety.onrender.com/client_profile/${clientImg.image}`)
+      setClientImgUrl(`https://skillety-n6r1.onrender.com/client_profile/${clientImg.image}`)
     }
 
   }, [clientImg]);

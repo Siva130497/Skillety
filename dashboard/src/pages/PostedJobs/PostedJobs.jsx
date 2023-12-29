@@ -56,7 +56,7 @@ const PostedJobs = () => {
             column: updatedColumns,
         };
 
-        axios.post("https://skillety.onrender.com/posted-jobs-column", columnData, {
+        axios.post("https://skillety-n6r1.onrender.com/posted-jobs-column", columnData, {
             headers: {
                 Authorization: `Bearer ${staffToken}`,
                 Accept: 'application/json'
@@ -115,7 +115,7 @@ const PostedJobs = () => {
 
     useEffect(() => {
         if (employeeId) {
-            axios.get(`https://skillety.onrender.com/posted-jobs-column/${employeeId}`)
+            axios.get(`https://skillety-n6r1.onrender.com/posted-jobs-column/${employeeId}`)
                 .then(res => {
                     console.log(res.data);
                     if (res.data) {
@@ -134,7 +134,7 @@ const PostedJobs = () => {
     const getOwnPostedjobs = async () => {
         try {
             setLoading(true);
-            const res = await axios.get(`https://skillety.onrender.com/my-posted-jobs/${employeeId}`, {
+            const res = await axios.get(`https://skillety-n6r1.onrender.com/my-posted-jobs/${employeeId}`, {
                 headers: {
                     Authorization: `Bearer ${staffToken}`,
                     Accept: 'application/json'
@@ -158,7 +158,7 @@ const PostedJobs = () => {
 
     const getOwnActivejobs = async () => {
         try {
-            const res = await axios.get(`https://skillety.onrender.com/my-active-jobs/${employeeId}`, {
+            const res = await axios.get(`https://skillety-n6r1.onrender.com/my-active-jobs/${employeeId}`, {
                 headers: {
                     Authorization: `Bearer ${staffToken}`,
                     Accept: 'application/json'
@@ -178,7 +178,7 @@ const PostedJobs = () => {
 
     const getAppliedOfPostedJobs = async () => {
         try {
-            const res = await axios.get(`https://skillety.onrender.com/applied-jobs-of-posted/${employeeId}`, {
+            const res = await axios.get(`https://skillety-n6r1.onrender.com/applied-jobs-of-posted/${employeeId}`, {
                 headers: {
                     Authorization: `Bearer ${staffToken}`,
                     Accept: 'application/json'
@@ -297,7 +297,7 @@ const PostedJobs = () => {
         }).then((result) => {
             if (result.isConfirmed) {
 
-                axios.delete(`https://skillety.onrender.com/delete-job/${id}`, {
+                axios.delete(`https://skillety-n6r1.onrender.com/delete-job/${id}`, {
                     headers: {
                         Authorization: `Bearer ${staffToken}`,
                         Accept: 'application/json'
@@ -330,7 +330,7 @@ const PostedJobs = () => {
         }).then((result) => {
             if (result.isConfirmed) {
 
-                axios.delete(`https://skillety.onrender.com/delete-active-job/${id}`, {
+                axios.delete(`https://skillety-n6r1.onrender.com/delete-active-job/${id}`, {
                     headers: {
                         Authorization: `Bearer ${staffToken}`,
                         Accept: 'application/json'
@@ -363,7 +363,7 @@ const PostedJobs = () => {
             confirmButtonText: 'Yes, activate it!'
         }).then((result) => {
             if (result.isConfirmed) {
-                axios.post("https://skillety.onrender.com/job-activate", { id }, {
+                axios.post("https://skillety-n6r1.onrender.com/job-activate", { id }, {
                     headers: {
                         Authorization: `Bearer ${staffToken}`,
                         Accept: 'application/json'
@@ -424,7 +424,7 @@ const PostedJobs = () => {
         }).then((result) => {
             if (result.isConfirmed) {
 
-                axios.post("https://skillety.onrender.com/job-deactivate", { id }, {
+                axios.post("https://skillety-n6r1.onrender.com/job-deactivate", { id }, {
                     headers: {
                         Authorization: `Bearer ${staffToken}`,
                         Accept: 'application/json'

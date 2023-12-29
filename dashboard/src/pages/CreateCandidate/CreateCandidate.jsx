@@ -145,7 +145,7 @@ const CreateCandidate = () => {
 
     const getAllSkills = async () => {
         try {
-            const res = await axios.get("https://skillety.onrender.com/skills");
+            const res = await axios.get("https://skillety-n6r1.onrender.com/skills");
             setSkillArray(res.data);
         } catch (err) {
             console.log(err);
@@ -154,7 +154,7 @@ const CreateCandidate = () => {
 
     const getAllDesignations = async () => {
         try {
-            const res = await axios.get("https://skillety.onrender.com/designations");
+            const res = await axios.get("https://skillety-n6r1.onrender.com/designations");
             setDesignationArray(res.data);
         } catch (err) {
             console.log(err);
@@ -163,7 +163,7 @@ const CreateCandidate = () => {
 
     const getAllLocations = async () => {
         try {
-            const res = await axios.get("https://skillety.onrender.com/locations", {
+            const res = await axios.get("https://skillety-n6r1.onrender.com/locations", {
                 headers: {
                     Accept: 'application/json'
                 }
@@ -182,7 +182,7 @@ const CreateCandidate = () => {
 
     const getAllEducation = async () => {
         try {
-            const res = await axios.get("https://skillety.onrender.com/educations", {
+            const res = await axios.get("https://skillety-n6r1.onrender.com/educations", {
                 headers: {
                     Accept: 'application/json'
                 }
@@ -203,7 +203,7 @@ const CreateCandidate = () => {
     //post new skill
     const postOtherSkills = async (skills) => {
         try {
-            const res = await axios.post("https://skillety.onrender.com/skills", skills, {
+            const res = await axios.post("https://skillety-n6r1.onrender.com/skills", skills, {
                 headers: {
 
                     Accept: 'application/json'
@@ -223,7 +223,7 @@ const CreateCandidate = () => {
     //post new designation
     const postOtherDesignation = async (designation) => {
         try {
-            const res = await axios.post("https://skillety.onrender.com/designations", designation, {
+            const res = await axios.post("https://skillety-n6r1.onrender.com/designations", designation, {
                 headers: {
 
                     Accept: 'application/json'
@@ -516,7 +516,7 @@ const CreateCandidate = () => {
                 candidateReg(updatedCredentials);
                 otherSkill.length > 0 && postOtherSkills(otherSkill);
                 otherDesignation.length > 0 && postOtherDesignation(otherDesignation);
-                axios.post('https://skillety.onrender.com/upload', formData)
+                axios.post('https://skillety-n6r1.onrender.com/upload', formData)
                     .then(res => console.log(res))
                     .catch(err => console.log(err));
         }

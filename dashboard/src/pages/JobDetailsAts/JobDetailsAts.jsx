@@ -91,7 +91,7 @@ const JobDetailsAts = () => {
     useEffect(() => {
         
            if(id){
-            axios.get(`https://skillety.onrender.com/posted-jobs`)
+            axios.get(`https://skillety-n6r1.onrender.com/posted-jobs`)
                 .then(res => {
                     console.log(res.data)
                     const reqJob = res.data.find(job => job.id === id)
@@ -105,7 +105,7 @@ const JobDetailsAts = () => {
                 })
                 .catch(err => console.log(err))
 
-            axios.get(`https://skillety.onrender.com/applied-job/${id}`)
+            axios.get(`https://skillety-n6r1.onrender.com/applied-job/${id}`)
                 .then(res => {
                     console.log(res.data)
                     setApplicants(res.data?.length)
@@ -119,7 +119,7 @@ const JobDetailsAts = () => {
 
     useEffect(() => {
         if (job) {
-            axios.get("https://skillety.onrender.com/clients")
+            axios.get("https://skillety-n6r1.onrender.com/clients")
                 .then(res => {
                     console.log(res.data)
                     setClientCompanyName((res.data.find(cli => cli.companyId === job.companyId)).companyName)
@@ -172,7 +172,7 @@ const JobDetailsAts = () => {
                                                 </div>
                                                 <div className="dash-job-det-card-header-rgt">
                                                     <div className="dash-job-det-card-img-area">
-                                                        <img src={companyImg ? `https://skillety.onrender.com/client_profile/${companyImg.image}` : "../assets/img/talents-images/avatar.jpg"} className='dash-job-det-card-img' alt="" />
+                                                        <img src={companyImg ? `https://skillety-n6r1.onrender.com/client_profile/${companyImg.image}` : "../assets/img/talents-images/avatar.jpg"} className='dash-job-det-card-img' alt="" />
                                                     </div>
                                                 </div>
                                             </div>

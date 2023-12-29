@@ -29,7 +29,7 @@ const ClientContact = () => {
     const getAllContactMessages = async () => {
         try {
             setLoading(true);
-            const response = await axios.get('https://skillety.onrender.com/contact', {
+            const response = await axios.get('https://skillety-n6r1.onrender.com/contact', {
                 headers: {
                     Authorization: `Bearer ${staffToken}`,
                     Accept: 'application/json'
@@ -77,7 +77,7 @@ const ClientContact = () => {
             confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
             if (result.isConfirmed) {
-                axios.delete(`https://skillety.onrender.com/client-contact-msg/${id}`, {
+                axios.delete(`https://skillety-n6r1.onrender.com/client-contact-msg/${id}`, {
                     headers: {
                         Authorization: `Bearer ${staffToken}`,
                         Accept: 'application/json'

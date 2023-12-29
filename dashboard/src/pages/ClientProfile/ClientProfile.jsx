@@ -70,7 +70,7 @@ const ClientProfile = () => {
 
             setLoading(true);
 
-            axios.get(`https://skillety.onrender.com/company-detail/${id}`, {
+            axios.get(`https://skillety-n6r1.onrender.com/company-detail/${id}`, {
                 headers: {
                     Authorization: `Bearer ${clientToken}`,
                     Accept: 'application/json'
@@ -89,7 +89,7 @@ const ClientProfile = () => {
                     setLoading(false);
                 });
 
-            axios.get(`https://skillety.onrender.com/client-image/${id}`)
+            axios.get(`https://skillety-n6r1.onrender.com/client-image/${id}`)
                 .then(res => setClientImg(res.data))
                 .catch(err => console.log(err))
 
@@ -101,7 +101,7 @@ const ClientProfile = () => {
 
     useEffect(() => {
         if (clientImg) {
-            setClientImgUrl(`https://skillety.onrender.com/client_profile/${clientImg.image}`)
+            setClientImgUrl(`https://skillety-n6r1.onrender.com/client_profile/${clientImg.image}`)
         }
 
     }, [clientImg]);
@@ -111,7 +111,7 @@ const ClientProfile = () => {
             id: id,
             companyName: companyInfo.companyName,
         }
-        axios.patch("https://skillety.onrender.com/update-company-name", companyData, {
+        axios.patch("https://skillety-n6r1.onrender.com/update-company-name", companyData, {
             headers: {
                 Authorization: `Bearer ${clientToken}`,
                 Accept: 'application/json'
@@ -123,7 +123,7 @@ const ClientProfile = () => {
                     showSuccessMessage("Company Name Updated")
                     setCompanyInfo(prevInfo => ({ ...prevInfo, companyName: "" }));
 
-                    axios.get(`https://skillety.onrender.com/company-detail/${id}`, {
+                    axios.get(`https://skillety-n6r1.onrender.com/company-detail/${id}`, {
                         headers: {
                             Authorization: `Bearer ${clientToken}`,
                             Accept: 'application/json'
@@ -150,7 +150,7 @@ const ClientProfile = () => {
             id: id,
             industry: companyInfo.industry,
         }
-        axios.patch("https://skillety.onrender.com/update-company-industry", companyData, {
+        axios.patch("https://skillety-n6r1.onrender.com/update-company-industry", companyData, {
             headers: {
                 Authorization: `Bearer ${clientToken}`,
                 Accept: 'application/json'
@@ -162,7 +162,7 @@ const ClientProfile = () => {
                     showSuccessMessage("Industry Updated")
                     setCompanyInfo(prevInfo => ({ ...prevInfo, industry: "" }));
 
-                    axios.get(`https://skillety.onrender.com/company-detail/${id}`, {
+                    axios.get(`https://skillety-n6r1.onrender.com/company-detail/${id}`, {
                         headers: {
                             Authorization: `Bearer ${clientToken}`,
                             Accept: 'application/json'
@@ -189,7 +189,7 @@ const ClientProfile = () => {
             id: id,
             location: companyInfo.location,
         }
-        axios.patch("https://skillety.onrender.com/update-company-location", companyData, {
+        axios.patch("https://skillety-n6r1.onrender.com/update-company-location", companyData, {
             headers: {
                 Authorization: `Bearer ${clientToken}`,
                 Accept: 'application/json'
@@ -201,7 +201,7 @@ const ClientProfile = () => {
                     showSuccessMessage("Location Updated")
                     setCompanyInfo(prevInfo => ({ ...prevInfo, location: "" }));
 
-                    axios.get(`https://skillety.onrender.com/company-detail/${id}`, {
+                    axios.get(`https://skillety-n6r1.onrender.com/company-detail/${id}`, {
                         headers: {
                             Authorization: `Bearer ${clientToken}`,
                             Accept: 'application/json'
@@ -228,7 +228,7 @@ const ClientProfile = () => {
             id: id,
             shortDescription: companyInfo.shortDescription,
         }
-        axios.patch("https://skillety.onrender.com/update-company-short-description", companyData, {
+        axios.patch("https://skillety-n6r1.onrender.com/update-company-short-description", companyData, {
             headers: {
                 Authorization: `Bearer ${clientToken}`,
                 Accept: 'application/json'
@@ -240,7 +240,7 @@ const ClientProfile = () => {
                     showSuccessMessage("Short Description Updated!")
                     setCompanyInfo(prevInfo => ({ ...prevInfo, shortDescription: "" }));
 
-                    axios.get(`https://skillety.onrender.com/company-detail/${id}`, {
+                    axios.get(`https://skillety-n6r1.onrender.com/company-detail/${id}`, {
                         headers: {
                             Authorization: `Bearer ${clientToken}`,
                             Accept: 'application/json'
@@ -267,7 +267,7 @@ const ClientProfile = () => {
             id: id,
             longDescription: companyInfo.longDescription,
         }
-        axios.patch("https://skillety.onrender.com/update-company-long-description", companyData, {
+        axios.patch("https://skillety-n6r1.onrender.com/update-company-long-description", companyData, {
             headers: {
                 Authorization: `Bearer ${clientToken}`,
                 Accept: 'application/json'
@@ -279,7 +279,7 @@ const ClientProfile = () => {
                     showSuccessMessage("Long Description Updated!")
                     setCompanyInfo(prevInfo => ({ ...prevInfo, longDescription: "" }));
 
-                    axios.get(`https://skillety.onrender.com/company-detail/${id}`, {
+                    axios.get(`https://skillety-n6r1.onrender.com/company-detail/${id}`, {
                         headers: {
                             Authorization: `Bearer ${clientToken}`,
                             Accept: 'application/json'
@@ -306,7 +306,7 @@ const ClientProfile = () => {
             id: id,
             mission: companyInfo.mission,
         }
-        axios.patch("https://skillety.onrender.com/update-company-mission", companyData, {
+        axios.patch("https://skillety-n6r1.onrender.com/update-company-mission", companyData, {
             headers: {
                 Authorization: `Bearer ${clientToken}`,
                 Accept: 'application/json'
@@ -318,7 +318,7 @@ const ClientProfile = () => {
                     showSuccessMessage("Mission Updated!")
                     setCompanyInfo(prevInfo => ({ ...prevInfo, mission: "" }));
 
-                    axios.get(`https://skillety.onrender.com/company-detail/${id}`, {
+                    axios.get(`https://skillety-n6r1.onrender.com/company-detail/${id}`, {
                         headers: {
                             Authorization: `Bearer ${clientToken}`,
                             Accept: 'application/json'
@@ -345,7 +345,7 @@ const ClientProfile = () => {
             id: id,
             vision: companyInfo.vision,
         }
-        axios.patch("https://skillety.onrender.com/update-company-vision", companyData, {
+        axios.patch("https://skillety-n6r1.onrender.com/update-company-vision", companyData, {
             headers: {
                 Authorization: `Bearer ${clientToken}`,
                 Accept: 'application/json'
@@ -357,7 +357,7 @@ const ClientProfile = () => {
                     showSuccessMessage("Vision Updated!")
                     setCompanyInfo(prevInfo => ({ ...prevInfo, vision: "" }));
 
-                    axios.get(`https://skillety.onrender.com/company-detail/${id}`, {
+                    axios.get(`https://skillety-n6r1.onrender.com/company-detail/${id}`, {
                         headers: {
                             Authorization: `Bearer ${clientToken}`,
                             Accept: 'application/json'
@@ -386,7 +386,7 @@ const ClientProfile = () => {
             id: id,
             awards: [...awardList, companyInfo.awards],
         }
-        axios.patch("https://skillety.onrender.com/update-company-awards", companyData, {
+        axios.patch("https://skillety-n6r1.onrender.com/update-company-awards", companyData, {
             headers: {
                 Authorization: `Bearer ${clientToken}`,
                 Accept: 'application/json'
@@ -398,7 +398,7 @@ const ClientProfile = () => {
                     showSuccessMessage("Awards Updated!")
                     setCompanyInfo(prevInfo => ({ ...prevInfo, awards: "" }));
 
-                    axios.get(`https://skillety.onrender.com/company-detail/${id}`, {
+                    axios.get(`https://skillety-n6r1.onrender.com/company-detail/${id}`, {
                         headers: {
                             Authorization: `Bearer ${clientToken}`,
                             Accept: 'application/json'
@@ -426,7 +426,7 @@ const ClientProfile = () => {
             id: id,
             website: companyInfo.website,
         }
-        axios.patch("https://skillety.onrender.com/update-company-website", companyData, {
+        axios.patch("https://skillety-n6r1.onrender.com/update-company-website", companyData, {
             headers: {
                 Authorization: `Bearer ${clientToken}`,
                 Accept: 'application/json'
@@ -438,7 +438,7 @@ const ClientProfile = () => {
                     showSuccessMessage("Website Updated!")
                     setCompanyInfo(prevInfo => ({ ...prevInfo, website: "" }));
 
-                    axios.get(`https://skillety.onrender.com/company-detail/${id}`, {
+                    axios.get(`https://skillety-n6r1.onrender.com/company-detail/${id}`, {
                         headers: {
                             Authorization: `Bearer ${clientToken}`,
                             Accept: 'application/json'
@@ -478,7 +478,7 @@ const ClientProfile = () => {
             benefits: updatedBenefits,
         }
 
-        axios.patch("https://skillety.onrender.com/company-benefits", companyData, {
+        axios.patch("https://skillety-n6r1.onrender.com/company-benefits", companyData, {
             headers: {
                 Authorization: `Bearer ${clientToken}`,
                 Accept: 'application/json'
@@ -489,7 +489,7 @@ const ClientProfile = () => {
                 if (!res.data.error) {
                     showSuccessMessage("Benefits Updated!")
 
-                    axios.get(`https://skillety.onrender.com/company-detail/${id}`, {
+                    axios.get(`https://skillety-n6r1.onrender.com/company-detail/${id}`, {
                         headers: {
                             Authorization: `Bearer ${clientToken}`,
                             Accept: 'application/json'
@@ -524,7 +524,7 @@ const ClientProfile = () => {
                 benefits: updatedBenefits,
             }
 
-            axios.patch("https://skillety.onrender.com/company-benefits", companyData, {
+            axios.patch("https://skillety-n6r1.onrender.com/company-benefits", companyData, {
                 headers: {
                     Authorization: `Bearer ${clientToken}`,
                     Accept: 'application/json'
@@ -535,7 +535,7 @@ const ClientProfile = () => {
                     if (!res.data.error) {
                         showSuccessMessage("Benefits Updated!")
 
-                        axios.get(`https://skillety.onrender.com/company-detail/${id}`, {
+                        axios.get(`https://skillety-n6r1.onrender.com/company-detail/${id}`, {
                             headers: {
                                 Authorization: `Bearer ${clientToken}`,
                                 Accept: 'application/json'

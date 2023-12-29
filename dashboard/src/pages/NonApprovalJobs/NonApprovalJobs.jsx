@@ -50,7 +50,7 @@ const NonApprovalJobs = () => {
             column: updatedColumns,
         };
 
-        axios.post("https://skillety.onrender.com/non-approval-jobs-column", columnData, {
+        axios.post("https://skillety-n6r1.onrender.com/non-approval-jobs-column", columnData, {
             headers: {
                 Authorization: `Bearer ${staffToken}`,
                 Accept: 'application/json'
@@ -109,7 +109,7 @@ const NonApprovalJobs = () => {
 
     useEffect(() => {
         if (employeeId) {
-            axios.get(`https://skillety.onrender.com/non-approval-jobs-column/${employeeId}`)
+            axios.get(`https://skillety-n6r1.onrender.com/non-approval-jobs-column/${employeeId}`)
                 .then(res => {
                     console.log(res.data);
                     if (res.data) {
@@ -128,7 +128,7 @@ const NonApprovalJobs = () => {
     const getNonApprovaljobs = async () => {
         try {
             setLoading(true);
-            const res = await axios.get(`https://skillety.onrender.com/non-approval-jobs`, {
+            const res = await axios.get(`https://skillety-n6r1.onrender.com/non-approval-jobs`, {
                 headers: {
                     Authorization: `Bearer ${staffToken}`,
                     Accept: 'application/json'
@@ -238,7 +238,7 @@ const NonApprovalJobs = () => {
         }).then((result) => {
             if (result.isConfirmed) {
 
-                axios.post("https://skillety.onrender.com/job-approval", { id }, {
+                axios.post("https://skillety-n6r1.onrender.com/job-approval", { id }, {
                     headers: {
                         Authorization: `Bearer ${staffToken}`,
                         Accept: 'application/json'

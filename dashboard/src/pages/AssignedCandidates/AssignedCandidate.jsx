@@ -489,7 +489,7 @@ const AssignedCandidate = () => {
     useEffect(() => {
         getCandidateImg();
 
-        axios.get("https://skillety.onrender.com/all-employee")
+        axios.get("https://skillety-n6r1.onrender.com/all-employee")
         .then(res=>{
             console.log(res.data);
             setAllEmployee(res.data);
@@ -500,7 +500,7 @@ const AssignedCandidate = () => {
 
     useEffect(() => {
         if (id) {
-            axios.get(`https://skillety.onrender.com/job/${id}`, {
+            axios.get(`https://skillety-n6r1.onrender.com/job/${id}`, {
                 headers: {
                     // Authorization: `Bearer ${clientToken}`,
                     Accept: 'application/json'
@@ -518,7 +518,7 @@ const AssignedCandidate = () => {
 
     useEffect(()=>{
         if(id && clientToken){
-            axios.get(`https://skillety.onrender.com/application-status/${id}`, {
+            axios.get(`https://skillety-n6r1.onrender.com/application-status/${id}`, {
                 headers: {
                     Authorization: `Bearer ${clientToken}`,
                     Accept: 'application/json'
@@ -557,7 +557,7 @@ const AssignedCandidate = () => {
             candidateIdArray:selectedCandidates,
         }
 
-        axios.patch("https://skillety.onrender.com/update-application-status", applicationData, {
+        axios.patch("https://skillety-n6r1.onrender.com/update-application-status", applicationData, {
             headers: {
                 Authorization: `Bearer ${clientToken}`,
                 Accept: 'application/json'
@@ -567,7 +567,7 @@ const AssignedCandidate = () => {
             console.log(res.data);
             showSuccessMessage(`The updated application status for the selected candidate is now marked as ${selectedStatus}.`)
 
-            axios.get(`https://skillety.onrender.com/application-status/${id}`, {
+            axios.get(`https://skillety-n6r1.onrender.com/application-status/${id}`, {
                 headers: {
                     Authorization: `Bearer ${clientToken}`,
                     Accept: 'application/json'
@@ -632,7 +632,7 @@ const AssignedCandidate = () => {
 
                                 {assignedCandidates?.map((candidate) => {
                                     const matchingImg = candidateImg ? candidateImg.find(img => img.id === candidate.id) : null;
-                                    const imgSrc = matchingImg ? `https://skillety.onrender.com/candidate_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
+                                    const imgSrc = matchingImg ? `https://skillety-n6r1.onrender.com/candidate_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
 
                                     const calculateMatchPercentage = (skills1, skills2) => {
                                         const matchingSkills = skills2.filter(skill => skills1?.includes(skill));

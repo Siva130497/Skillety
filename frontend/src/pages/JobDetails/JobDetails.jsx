@@ -95,7 +95,7 @@ const JobDetails = () => {
   const getAppliedjobs = async () => {
     try {
       const res = await axios.get(
-        `https://skillety.onrender.com/my-applied-jobs/${candidateId}`,
+        `https://skillety-n6r1.onrender.com/my-applied-jobs/${candidateId}`,
         {
           headers: {
             Authorization: `Bearer ${candidateToken}`,
@@ -118,7 +118,7 @@ const JobDetails = () => {
   //candidate apply for job
   const applyingjob = async (job) => {
     try {
-      const res = await axios.post("https://skillety.onrender.com/job-applying", job, {
+      const res = await axios.post("https://skillety-n6r1.onrender.com/job-applying", job, {
         headers: {
           Authorization: `Bearer ${candidateToken}`,
           Accept: "application/json",
@@ -130,7 +130,7 @@ const JobDetails = () => {
         showSuccessMessage("Successfully Applied.");
         getAppliedjobs();
 
-        axios.get(`https://skillety.onrender.com/applied-job/${id}`)
+        axios.get(`https://skillety-n6r1.onrender.com/applied-job/${id}`)
           .then(res => {
             console.log(res.data)
             setApplicants(res.data?.length)
@@ -150,7 +150,7 @@ const JobDetails = () => {
   const deletingjob = async () => {
     try {
       const response = await axios.delete(
-        `https://skillety.onrender.com/delete-job/${candidateId}/${id}`,
+        `https://skillety-n6r1.onrender.com/delete-job/${candidateId}/${id}`,
         {
           headers: {
             Authorization: `Bearer ${candidateToken}`,
@@ -162,7 +162,7 @@ const JobDetails = () => {
       showSuccessMessage("Job successfully deleted..!");
       getAppliedjobs();
 
-      axios.get(`https://skillety.onrender.com/applied-job/${id}`)
+      axios.get(`https://skillety-n6r1.onrender.com/applied-job/${id}`)
         .then(res => {
           console.log(res.data)
           setApplicants(res.data?.length)
@@ -180,7 +180,7 @@ const JobDetails = () => {
       getAppliedjobs();
 
       axios
-        .get(`https://skillety.onrender.com/skill-match-job-Detail/${candidateId}`)
+        .get(`https://skillety-n6r1.onrender.com/skill-match-job-Detail/${candidateId}`)
         .then((res) => {
           console.log(res.data);
           const reqJob = res.data.find((job) => job.jobId === id);
@@ -195,7 +195,7 @@ const JobDetails = () => {
         .catch((err) => console.log(err));
 
       axios
-        .get(`https://skillety.onrender.com/applied-job/${id}`)
+        .get(`https://skillety-n6r1.onrender.com/applied-job/${id}`)
         .then((res) => {
           console.log(res.data);
           setApplicants(res.data?.length);
@@ -207,7 +207,7 @@ const JobDetails = () => {
   useEffect(() => {
     if (job) {
       axios
-        .get("https://skillety.onrender.com/clients")
+        .get("https://skillety-n6r1.onrender.com/clients")
         .then((res) => {
           console.log(res.data);
           setClientCompanyName(
@@ -328,7 +328,7 @@ const JobDetails = () => {
                                 <img
                                   src={
                                     companyImg
-                                      ? `https://skillety.onrender.com/client_profile/${companyImg.image}`
+                                      ? `https://skillety-n6r1.onrender.com/client_profile/${companyImg.image}`
                                       : "../assets/img/talents-images/avatar.jpg"
                                   }
                                   className="dash-job-det-card-img"

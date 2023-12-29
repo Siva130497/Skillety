@@ -66,7 +66,7 @@ const AllCompanyStaff = () => {
     const getAllRecruiters = async () => {
         try {
             setLoading(true);
-            const res = await axios.get(`https://skillety.onrender.com/all-recruiters`, {
+            const res = await axios.get(`https://skillety-n6r1.onrender.com/all-recruiters`, {
                 headers: {
                     Authorization: `Bearer ${staffToken}`,
                     Accept: 'application/json'
@@ -112,7 +112,7 @@ const AllCompanyStaff = () => {
         }).then((result) => {
             if (result.isConfirmed) {
 
-                axios.delete(`https://skillety.onrender.com/delete-recruiter/${id}`, {
+                axios.delete(`https://skillety-n6r1.onrender.com/delete-recruiter/${id}`, {
                     headers: {
                         Authorization: `Bearer ${staffToken}`,
                         Accept: 'application/json'
@@ -133,7 +133,7 @@ const AllCompanyStaff = () => {
 
     const createRecruiter = async (userData) => {
         try {
-            const response = await axios.post('https://skillety.onrender.com/recruiter-create', userData, {
+            const response = await axios.post('https://skillety-n6r1.onrender.com/recruiter-create', userData, {
                 headers: {
                     Authorization: `Bearer ${staffToken}`,
                     Accept: 'application/json'
@@ -167,7 +167,7 @@ const AllCompanyStaff = () => {
     }
 
     const handleGeneratePassword = () => {
-        axios.get('https://skillety.onrender.com/random-password')
+        axios.get('https://skillety-n6r1.onrender.com/random-password')
             .then(response => {
                 setcredentials({ ...credentials, password: response.data });
             })

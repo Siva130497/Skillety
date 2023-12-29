@@ -18,7 +18,7 @@ const ATSNavBar = () => {
     const [audioBuffer, setAudioBuffer] = useState(null);
 
     useEffect(() => {
-        setSocket(io("https://skillety.onrender.com"));
+        setSocket(io("https://skillety-n6r1.onrender.com"));
     }, []);
 
     useEffect(() => {
@@ -124,7 +124,7 @@ const ATSNavBar = () => {
 
             fetchData();
 
-            axios.get("https://skillety.onrender.com/candidate-to-recruiter-notification", {
+            axios.get("https://skillety-n6r1.onrender.com/candidate-to-recruiter-notification", {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     Accept: 'application/json'

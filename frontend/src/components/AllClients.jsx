@@ -11,7 +11,7 @@ const AllClients = ({staffToken}) => {
 
     const getAllClientDetails = async() => {
         try{
-            const response = await axios.get(`https://skillety.onrender.com/client-Detail`, {
+            const response = await axios.get(`https://skillety-n6r1.onrender.com/client-Detail`, {
                 headers: {
                     Authorization: `Bearer ${staffToken}`,
                     Accept: 'application/json'
@@ -31,7 +31,7 @@ const AllClients = ({staffToken}) => {
 
     const getAllClient = async() => {
         try{
-            const response = await axios.get(`https://skillety.onrender.com/clientWithUrl-Detail`, {
+            const response = await axios.get(`https://skillety-n6r1.onrender.com/clientWithUrl-Detail`, {
                 headers: {
                     Authorization: `Bearer ${staffToken}`,
                     Accept: 'application/json'
@@ -71,7 +71,7 @@ const AllClients = ({staffToken}) => {
     const createClient = async (id) => {
         const userId = {id};
         try {
-            const response = await axios.post(`https://skillety.onrender.com/tempPass-Client/${id}`, userId, {
+            const response = await axios.post(`https://skillety-n6r1.onrender.com/tempPass-Client/${id}`, userId, {
                 headers: {
                     Authorization: `Bearer ${staffToken}`,
                     'Content-Type': 'application/json',

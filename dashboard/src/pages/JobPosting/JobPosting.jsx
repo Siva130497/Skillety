@@ -94,7 +94,7 @@ const JobPosting = () => {
 
   const getAllJobRoles = async () => {
     try {
-      const res = await axios.get("https://skillety.onrender.com/designations", {
+      const res = await axios.get("https://skillety-n6r1.onrender.com/designations", {
         headers: {
           Authorization: `Bearer ${token}`,
           Accept: 'application/json'
@@ -114,7 +114,7 @@ const JobPosting = () => {
 
   const getAllSkills = async () => {
     try {
-      const res = await axios.get("https://skillety.onrender.com/skills", {
+      const res = await axios.get("https://skillety-n6r1.onrender.com/skills", {
         headers: {
           Authorization: `Bearer ${token}`,
           Accept: 'application/json'
@@ -134,7 +134,7 @@ const JobPosting = () => {
 
   const getAllDepartments = async () => {
     try {
-      const res = await axios.get("https://skillety.onrender.com/departments", {
+      const res = await axios.get("https://skillety-n6r1.onrender.com/departments", {
         headers: {
           Authorization: `Bearer ${token}`,
           Accept: 'application/json'
@@ -154,7 +154,7 @@ const JobPosting = () => {
 
   const getAllLocations = async () => {
     try {
-      const res = await axios.get("https://skillety.onrender.com/locations", {
+      const res = await axios.get("https://skillety-n6r1.onrender.com/locations", {
         headers: {
           Authorization: `Bearer ${token}`,
           Accept: 'application/json'
@@ -174,7 +174,7 @@ const JobPosting = () => {
 
   const getAllRoles = async () => {
     try {
-      const res = await axios.get("https://skillety.onrender.com/roles", {
+      const res = await axios.get("https://skillety-n6r1.onrender.com/roles", {
         headers: {
           Authorization: `Bearer ${token}`,
           Accept: 'application/json'
@@ -195,7 +195,7 @@ const JobPosting = () => {
 
   const getAllEducation = async () => {
     try {
-      const res = await axios.get("https://skillety.onrender.com/educations", {
+      const res = await axios.get("https://skillety-n6r1.onrender.com/educations", {
         headers: {
           Authorization: `Bearer ${token}`,
           Accept: 'application/json'
@@ -215,7 +215,7 @@ const JobPosting = () => {
 
   const getAllIndustry = async () => {
     try {
-      const res = await axios.get("https://skillety.onrender.com/industries", {
+      const res = await axios.get("https://skillety-n6r1.onrender.com/industries", {
         headers: {
           Authorization: `Bearer ${token}`,
           Accept: 'application/json'
@@ -235,7 +235,7 @@ const JobPosting = () => {
 
   const getLoginClientDetail = async () => {
     try {
-      const res = await axios.get(`https://skillety.onrender.com/client/${employeeId}`, {
+      const res = await axios.get(`https://skillety-n6r1.onrender.com/client/${employeeId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
           Accept: 'application/json'
@@ -255,7 +255,7 @@ const JobPosting = () => {
 
   // const getOwnPostedjobs = async () => {
   //   try {
-  //     const res = await axios.get(`https://skillety.onrender.com/my-posted-jobs/${loginClientDetail.companyId}`, {
+  //     const res = await axios.get(`https://skillety-n6r1.onrender.com/my-posted-jobs/${loginClientDetail.companyId}`, {
   //       headers: {
   //         Authorization: `Bearer ${token}`,
   //         Accept: 'application/json'
@@ -330,7 +330,7 @@ const JobPosting = () => {
   //jobposting
   const jobPosting = async (jobdetail) => {
     try {
-      const res = await axios.post("https://skillety.onrender.com/client-job-detail", jobdetail, {
+      const res = await axios.post("https://skillety-n6r1.onrender.com/client-job-detail", jobdetail, {
         headers: {
           Authorization: `Bearer ${token}`,
           Accept: 'application/json'
@@ -363,7 +363,7 @@ const JobPosting = () => {
   //post new skill
   const postOtherSkills = async (skills) => {
     try {
-      const res = await axios.post("https://skillety.onrender.com/skills", skills, {
+      const res = await axios.post("https://skillety-n6r1.onrender.com/skills", skills, {
         headers: {
           Authorization: `Bearer ${token}`,
           Accept: 'application/json'
@@ -383,7 +383,7 @@ const JobPosting = () => {
   //post new designation
   const postOtherDesignation = async (designation) => {
     try {
-      const res = await axios.post("https://skillety.onrender.com/designations", designation, {
+      const res = await axios.post("https://skillety-n6r1.onrender.com/designations", designation, {
         headers: {
           Authorization: `Bearer ${token}`,
           Accept: 'application/json'

@@ -30,7 +30,7 @@ const CandidateContact = () => {
     const getAllContactMessages = async () => {
         try {
             setLoading(true);
-            const response = await axios.get('https://skillety.onrender.com/candidate-contact', {
+            const response = await axios.get('https://skillety-n6r1.onrender.com/candidate-contact', {
                 headers: {
                     Authorization: `Bearer ${staffToken}`,
                     Accept: 'application/json'
@@ -78,7 +78,7 @@ const CandidateContact = () => {
             confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
             if (result.isConfirmed) {
-                axios.delete(`https://skillety.onrender.com/candidate-contact-msg/${id}`, {
+                axios.delete(`https://skillety-n6r1.onrender.com/candidate-contact-msg/${id}`, {
                     headers: {
                         Authorization: `Bearer ${staffToken}`,
                         Accept: 'application/json'

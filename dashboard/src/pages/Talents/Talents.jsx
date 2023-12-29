@@ -148,7 +148,7 @@ const Talents = () => {
 
     useEffect(() => {
         if (id) {
-            axios.get(`https://skillety.onrender.com/candidate/${id}`)
+            axios.get(`https://skillety-n6r1.onrender.com/candidate/${id}`)
                 .then(res => {
                     console.log(res.data)
                     setLoginCandidate(res.data)
@@ -160,11 +160,11 @@ const Talents = () => {
                     setPageNotFound(true);
                 })
 
-            axios.get(`https://skillety.onrender.com/candidate-image/${id}`)
+            axios.get(`https://skillety-n6r1.onrender.com/candidate-image/${id}`)
                 .then(res => setCandidateImg(res.data))
                 .catch(err => console.log(err))
 
-            axios.get(`https://skillety.onrender.com/candidate-resume/${id}`)
+            axios.get(`https://skillety-n6r1.onrender.com/candidate-resume/${id}`)
                 .then(res => setResume(res.data))
                 .catch(err => console.log(err))
         }
@@ -173,21 +173,21 @@ const Talents = () => {
 
     useEffect(() => {
         if (candidateImg) {
-            setCandidateImgUrl(`https://skillety.onrender.com/candidate_profile/${candidateImg.image}`)
+            setCandidateImgUrl(`https://skillety-n6r1.onrender.com/candidate_profile/${candidateImg.image}`)
         }
 
     }, [candidateImg]);
 
     useEffect(() => {
         if (loginCandidate) {
-            setCandidateResumeUrl(`https://skillety.onrender.com/files/${loginCandidate.file}`)
+            setCandidateResumeUrl(`https://skillety-n6r1.onrender.com/files/${loginCandidate.file}`)
         }
 
     }, [loginCandidate]);
 
     useEffect(() => {
         if (resume) {
-            setCandidateResumeUrl(`https://skillety.onrender.com/files/${resume.file}`)
+            setCandidateResumeUrl(`https://skillety-n6r1.onrender.com/files/${resume.file}`)
         }
 
     }, [resume]);

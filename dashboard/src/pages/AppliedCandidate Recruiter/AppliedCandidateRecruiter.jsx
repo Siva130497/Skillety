@@ -469,7 +469,7 @@ const AppliedCandidateRecruiter = () => {
 
     useEffect(() => {
         if (id) {
-            axios.get(`https://skillety.onrender.com/job/${id}`, {
+            axios.get(`https://skillety-n6r1.onrender.com/job/${id}`, {
                 headers: {
                     // Authorization: `Bearer ${clientToken}`,
                     Accept: 'application/json'
@@ -487,7 +487,7 @@ const AppliedCandidateRecruiter = () => {
 
     const getAllCandidateDetail = async () => {
         try {
-            const response = await axios.get('https://skillety.onrender.com/candidate-Detail', {
+            const response = await axios.get('https://skillety-n6r1.onrender.com/candidate-Detail', {
                 headers: {
                     Accept: 'application/json'
                 }
@@ -511,7 +511,7 @@ const AppliedCandidateRecruiter = () => {
 
     // const getLoginClientDetail = async () => {
     //     try {
-    //         const res = await axios.get(`https://skillety.onrender.com/client/${employeeId}`, {
+    //         const res = await axios.get(`https://skillety-n6r1.onrender.com/client/${employeeId}`, {
     //             headers: {
     //                 Authorization: `Bearer ${staffToken}`,
     //                 Accept: 'application/json'
@@ -531,7 +531,7 @@ const AppliedCandidateRecruiter = () => {
 
     const getAppliedOfPostedJobs = async () => {
         try {
-            const res = await axios.get(`https://skillety.onrender.com/applied-jobs-of-posted/${employeeId}`, {
+            const res = await axios.get(`https://skillety-n6r1.onrender.com/applied-jobs-of-posted/${employeeId}`, {
                 headers: {
                     Authorization: `Bearer ${staffToken}`,
                     Accept: 'application/json'
@@ -615,7 +615,7 @@ const AppliedCandidateRecruiter = () => {
                             <div className="dash-talent--profile-card-section">
                                 {reqCands.map((candidate) => {
                                     const matchingImg = candidateImg ? candidateImg.find(img => img.id === candidate.id) : null;
-                                    const imgSrc = matchingImg ? `https://skillety.onrender.com/candidate_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
+                                    const imgSrc = matchingImg ? `https://skillety-n6r1.onrender.com/candidate_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
 
                                     const calculateMatchPercentage = (skills1, skills2) => {
                                         const matchingSkills = skills2.filter(skill => skills1.includes(skill));

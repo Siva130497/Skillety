@@ -49,7 +49,7 @@ const AllClients = () => {
             column: updatedColumns,
         };
 
-        axios.post("https://skillety.onrender.com/all-clients-column", columnData, {
+        axios.post("https://skillety-n6r1.onrender.com/all-clients-column", columnData, {
             headers: {
                 Authorization: `Bearer ${staffToken}`,
                 Accept: 'application/json'
@@ -123,7 +123,7 @@ const AllClients = () => {
                 getAllClientDetails();
             }
             getAllClientUrlWithEmail();
-            axios.get(`https://skillety.onrender.com/all-clients-column/${employeeId}`)
+            axios.get(`https://skillety-n6r1.onrender.com/all-clients-column/${employeeId}`)
                 .then(res => {
                     console.log(res.data);
                     if (res.data) {
@@ -164,7 +164,7 @@ const AllClients = () => {
     const getAllClientDetails = async () => {
         try {
 
-            const response = await axios.get(`https://skillety.onrender.com/client-Detail`, {
+            const response = await axios.get(`https://skillety-n6r1.onrender.com/client-Detail`, {
                 headers: {
                     Authorization: `Bearer ${staffToken}`,
                     Accept: 'application/json'
@@ -187,7 +187,7 @@ const AllClients = () => {
     const getAllRecruiterClientDetails = async () => {
         try {
 
-            const response = await axios.get(`https://skillety.onrender.com/recruiter-client-Detail/${employeeId}`, {
+            const response = await axios.get(`https://skillety-n6r1.onrender.com/recruiter-client-Detail/${employeeId}`, {
                 headers: {
                     Authorization: `Bearer ${staffToken}`,
                     Accept: 'application/json'
@@ -209,7 +209,7 @@ const AllClients = () => {
 
     const getAllClientUrlWithEmail = async () => {
         try {
-            const response = await axios.get(`https://skillety.onrender.com/clientUrlWithEmail`, {
+            const response = await axios.get(`https://skillety-n6r1.onrender.com/clientUrlWithEmail`, {
                 headers: {
                     Authorization: `Bearer ${staffToken}`,
                     Accept: 'application/json'
@@ -247,7 +247,7 @@ const AllClients = () => {
     const createClient = async (id) => {
         const userId = { id };
         try {
-            const response = await axios.post(`https://skillety.onrender.com/tempPass-Client/${id}`, userId, {
+            const response = await axios.post(`https://skillety-n6r1.onrender.com/tempPass-Client/${id}`, userId, {
                 headers: {
                     Authorization: `Bearer ${staffToken}`,
                     'Content-Type': 'application/json',
