@@ -111,7 +111,7 @@ export const AuthContextProvider = ({ children }) => {
                     confirmButtonColor: '#3085d6',
                     confirmButtonText: 'OK',
                 }).then(() => {
-                    // navigate("/candidate-login")
+                    window.location.reload();
                 });
             });
         } else {

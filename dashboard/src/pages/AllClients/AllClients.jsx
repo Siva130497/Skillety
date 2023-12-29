@@ -25,6 +25,7 @@ const AllClients = () => {
     const [x, setX] = useState([0, 10]);
     const [loading, setLoading] = useState(true);
     const [employeeId, setEmployeeId] = useState("");
+    const [role, setRole] = useState("");
 
     const [isExpanded, setIsExpanded] = useState(false);
 
@@ -104,6 +105,7 @@ const AllClients = () => {
                     const userData = await getProtectedData(staffToken);
                     console.log(userData);
                     setEmployeeId(userData.id);
+                    setRole(userData.role);
                 } catch (error) {
                     console.log(error)
                 }
@@ -115,6 +117,12 @@ const AllClients = () => {
 
     useEffect(() => {
         if (employeeId) {
+            if(role === "Recruiter"){
+                getAllRecruiterClientDetails()
+            }else{
+                getAllClientDetails();
+            }
+            getAllClientUrlWithEmail();
             axios.get(`https://skillety.onrender.com/all-clients-column/${employeeId}`)
                 .then(res => {
                     console.log(res.data);
@@ -176,6 +184,29 @@ const AllClients = () => {
         }
     }
 
+    const getAllRecruiterClientDetails = async () => {
+        try {
+
+            const response = await axios.get(`https://skillety.onrender.com/recruiter-client-Detail/${employeeId}`, {
+                headers: {
+                    Authorization: `Bearer ${staffToken}`,
+                    Accept: 'application/json'
+                }
+            });
+            const result = response.data;
+            if (!result.error) {
+                console.log(result);
+                setClientDetail(result.reverse());
+            } else {
+                console.log(result);
+            }
+
+        } catch (err) {
+            console.log(err);
+
+        }
+    }
+
     const getAllClientUrlWithEmail = async () => {
         try {
             const response = await axios.get(`https://skillety.onrender.com/clientUrlWithEmail`, {
@@ -203,15 +234,6 @@ const AllClients = () => {
 
         setCommonEmails(commonEmails);
     }
-
-
-    useEffect(() => {
-        if (staffToken) {
-            getAllClientDetails();
-            getAllClientUrlWithEmail();
-        }
-
-    }, [staffToken]);
 
     console.log(commonEmails)
 
@@ -275,7 +297,7 @@ const AllClients = () => {
     };
 
     const handleCard = (id) => {
-        const client = clientDetail.find(cli => cli._id === id)
+        const client = clientDetail.find(cli => cli.id === id)
         setAClient(client);
     }
 
@@ -484,7 +506,7 @@ const AllClients = () => {
                                                                             }
                                                                         </td>}
                                                                         {selectedColumns?.includes("Send Email") && <td className='dash-table-data1 text-left'>
-                                                                            <button className='send-email-btn' onClick={() => handleGeneratePasswordAndTempUrl(client._id)}>
+                                                                            <button className='send-email-btn' onClick={() => handleGeneratePasswordAndTempUrl(client.id)}>
                                                                                 <i class="bi bi-send-fill send-icon"></i>
                                                                                 {commonEmails.includes(client.email) ? "ReSend" : "Send"}
                                                                             </button>
@@ -506,7 +528,7 @@ const AllClients = () => {
                                                                             {client.text}                                       </td>}
                                                                         <td className='text-center'>
                                                                             <div className="action-btn-area">
-                                                                                <button className='job-view-btn' title='View Client Details...' data-toggle="modal" data-target="#clientsViewModal" onClick={() => handleCard(client._id)}>
+                                                                                <button className='job-view-btn' title='View Client Details...' data-toggle="modal" data-target="#clientsViewModal" onClick={() => handleCard(client.id)}>
                                                                                     <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
                                                                                         <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
                                                                                         <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />

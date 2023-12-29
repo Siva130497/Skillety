@@ -14,6 +14,7 @@ const AllCandidates = () => {
 
     const [staffToken, setStaffToken] = useState("");
     const [employeeId, setEmployeeId] = useState("");
+    const [role, setRole] = useState("");
     const [candidateDetail, setCandidateDetail] = useState([]);
     const [selectedCandidate, setSelectedCandidate] = useState();
     const [appliedOfPostedJobs, setAppliedOfPostedJobs] = useState([]);
@@ -110,6 +111,7 @@ const AllCandidates = () => {
                     const userData = await getProtectedData(staffToken);
                     console.log(userData);
                     setEmployeeId(userData.id);
+                    setRole(userData.role);
                 } catch (error) {
                     console.log(error)
                 }
@@ -185,6 +187,31 @@ const AllCandidates = () => {
         }
     };
 
+    const getAllRecruiterCandidateDetail = async () => {
+        try {
+            setLoading(true);
+            const response = await axios.get(`https://skillety.onrender.com/recruiter-candidate-Detail/${employeeId}`, {
+                headers: {
+                    Authorization: `Bearer ${staffToken}`,
+                    Accept: 'application/json'
+                }
+            });
+            const result = response.data;
+            if (!result.error) {
+                console.log(result);
+                setCandidateDetail(result.reverse());
+            } else {
+                console.log(result);
+            }
+
+
+        } catch (error) {
+            console.log(error);
+
+
+        }
+    };
+
     const getAppliedOfPostedJobs = async () => {
         try {
             const res = await axios.get(`https://skillety.onrender.com/applied-jobs-of-posted/${employeeId}`, {
@@ -206,15 +233,12 @@ const AllCandidates = () => {
     }
 
     useEffect(() => {
-        if (staffToken) {
-            getAllCandidateDetail();
-        }
-
-    }, [staffToken]);
-
-
-    useEffect(() => {
         if (employeeId) {
+            if(role === "Recruiter"){
+                getAllRecruiterCandidateDetail();
+            }else{
+                getAllCandidateDetail();
+            }
             getAppliedOfPostedJobs();
         }
 

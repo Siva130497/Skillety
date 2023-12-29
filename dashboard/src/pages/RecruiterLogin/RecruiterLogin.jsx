@@ -102,7 +102,7 @@ const RecruiterLogin = () => {
                                                     <div className="login-form-group">
                                                         <label htmlFor="email" className='login-form-label'>Email Address</label>
                                                         <input
-                                                            type="email"
+                                                            type="text"
                                                             id="email"
                                                             aria-describedby="email"
                                                             name="userId"

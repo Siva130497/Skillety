@@ -6,6 +6,7 @@ const {
   jwtauth,
   clientRegister,
   getAllClientDetails,
+  getAllRecruiterClientDetails,
   createClient,
   getAllClientUrlWithEmail,
   createClientStaff,
@@ -17,6 +18,7 @@ const {
   finalClientRegister,
   candidateReg,
   getAllCandidateDetail,
+  getAllRecruiterCandidateDetail,
   getCandidateDetail,
   clientJobPosting,
   jobPosting,
@@ -152,6 +154,8 @@ router.post("/register-Client", clientRegister);
 // recruiter route for client detail
 router.get("/client-Detail", employeeAuth, getAllClientDetails)
 
+router.get("/recruiter-client-Detail/:id", employeeAuth, getAllRecruiterClientDetails)
+
 // Client Registeration Route
 router.post("/tempPass-Client/:id", employeeAuth, createClient);
 
@@ -193,6 +197,8 @@ router.post("/register-Candidate", async (req, res) => {
 
 //get all candidate detail
 router.get("/candidate-Detail", getAllCandidateDetail);
+
+router.get("/recruiter-candidate-Detail/:id", getAllRecruiterCandidateDetail);
 
 //get a candidate 
 router.get("/candidate/:id", getCandidateDetail);
