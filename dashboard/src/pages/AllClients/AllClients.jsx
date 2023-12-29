@@ -98,6 +98,27 @@ const AllClients = () => {
         setIsExpanded(prevState => !prevState);
     };
 
+    const getAnIndividualRecruiter = async() => {
+        try{
+            const res = await axios.get(`https://skillety-n6r1.onrender.com/staff/${employeeId}`, {
+              headers: {
+                  Authorization: `Bearer ${staffToken}`,
+                  Accept: 'application/json'
+              }
+            });
+            const result = res.data;
+            if (!result.error) {
+              console.log(result);
+              setRole(result.companyStaff);
+              
+            } else {
+              console.log(result);
+            }
+        }catch(err){
+          console.log(err);
+        }
+      }
+
     useEffect(() => {
         if (staffToken) {
             const fetchData = async () => {
@@ -105,7 +126,7 @@ const AllClients = () => {
                     const userData = await getProtectedData(staffToken);
                     console.log(userData);
                     setEmployeeId(userData.id);
-                    setRole(userData.role);
+                    // setRole(userData.role);
                 } catch (error) {
                     console.log(error)
                 }
@@ -115,13 +136,19 @@ const AllClients = () => {
         }
     }, [staffToken]);
 
-    useEffect(() => {
-        if (employeeId) {
+    useEffect(()=>{
+        if(role){
             if(role === "Recruiter"){
                 getAllRecruiterClientDetails()
             }else{
                 getAllClientDetails();
             }
+        }
+    },[role])
+
+    useEffect(() => {
+        if (employeeId) {
+            getAnIndividualRecruiter();
             getAllClientUrlWithEmail();
             axios.get(`https://skillety-n6r1.onrender.com/all-clients-column/${employeeId}`)
                 .then(res => {
@@ -130,11 +157,11 @@ const AllClients = () => {
                         setSelectedColumns(res.data.column);
 
                     }
-                    setLoading(false);
+                   
                 })
                 .catch(err => {
                     console.log(err)
-                    setLoading(false);
+                    
                 })
         }
     }, [employeeId])
@@ -174,8 +201,10 @@ const AllClients = () => {
             if (!result.error) {
                 console.log(result);
                 setClientDetail(result.reverse());
+                setLoading(false);
             } else {
                 console.log(result);
+                setLoading(false);
             }
 
         } catch (err) {
@@ -197,12 +226,15 @@ const AllClients = () => {
             if (!result.error) {
                 console.log(result);
                 setClientDetail(result.reverse());
+                setLoading(false);
             } else {
                 console.log(result);
+                setLoading(false);
             }
 
         } catch (err) {
             console.log(err);
+            setLoading(false);
 
         }
     }
