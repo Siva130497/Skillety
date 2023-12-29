@@ -66,6 +66,7 @@ const clientRegister = async(req, res) => {
     const newClient = new client({
       ...clientData,
       id,
+      companyId:"none",
       role:"Client", 
     });
     await newClient.save();
@@ -75,6 +76,7 @@ const clientRegister = async(req, res) => {
       const newRecruiterClient = new recruiterClient({
         ...req.body,
         id,
+        companyId:"none",
         role:"Client",
       });
 
@@ -116,7 +118,7 @@ const createClient = async (req, res) => {
     const neededClient = await client.findOne({id:id});
     
     if (neededClient){
-      const { _id, createdAt, updatedAt, __v, ...clientProperties } = neededClient._doc;
+      const { _id, createdAt, updatedAt, __v, companyId, ...clientProperties } = neededClient._doc;
       console.log(clientProperties);
 
       const baseUrl = "https://skillety-frontend.onrender.com/verification/";
@@ -425,6 +427,22 @@ const finalClientRegister = async (req, res) => {
     await updatedUser.save();
     console.log('Updated User:', updatedUser);
 
+    const initialClientDetail = await client.findOne({ id });
+
+    if (initialClientDetail) {
+      initialClientDetail.companyId = companyId;
+
+      await initialClientDetail.save();
+    }
+
+    const RecruiterClientDetail = await recruiterClient.findOne({ id });
+
+    if (RecruiterClientDetail) {
+      RecruiterClientDetail.companyId = companyId;
+
+      await RecruiterClientDetail.save();
+    }
+
     await TempClient.deleteOne({ id });
 
     const transporter = nodemailer.createTransport({
@@ -456,6 +474,7 @@ const finalClientRegister = async (req, res) => {
         const responseData = {
           updatedClient,
           updatedUser,
+          initialClientDetail,
           emailSent: true,
         };
 
@@ -529,6 +548,10 @@ const candidateReg = async(req, res) => {
     const hashPassword = await bcrypt.hash(password, 12);
     const newCandidate = new candidate({
       ...req.body,
+      currencyType: "dummy",
+      minSalary: "dummy",
+      maxSalary: "dummy",
+      preferedlocations: ["dummy"],
       role: "Candidate",
       password:hashPassword,
     });
@@ -2307,7 +2330,23 @@ const updatingClientEmail = async (req, res) => {
       { email: email },
       { new: true }
     );
-    res.status(200).json({ allUsersDoc, finalClientDoc });
+    const ClientDoc = await client.findOneAndUpdate(
+      { id: id },
+      { email: email },
+      { new: true }
+    );
+    const recruiterClientDoc = await recruiterClient.findOne({ id: id });
+    if(recruiterClientDoc){
+      const updatedRecruiterClientDoc  = await recruiterClient.findOneAndUpdate(
+        { id: id },
+        { email: email },
+        { new: true }
+      );
+      res.status(200).json({ allUsersDoc, finalClientDoc, ClientDoc, updatedRecruiterClientDoc });
+    }else{
+      res.status(200).json({ allUsersDoc, finalClientDoc, ClientDoc });
+    }
+    
   } catch (error) {
     console.error(error);
     res.status(500).send({ error: 'Internal Server Error' });
@@ -2328,7 +2367,22 @@ const updatingClientPhone = async (req, res) => {
       { phone: phone },
       { new: true }
     );
-    res.status(200).json({ allUsersDoc, finalClientDoc });
+    const ClientDoc = await client.findOneAndUpdate(
+      { id: id },
+      { phone: phone },
+      { new: true }
+    );
+    const recruiterClientDoc = await recruiterClient.findOne({ id: id });
+    if(recruiterClientDoc){
+      const updatedRecruiterClientDoc  = await recruiterClient.findOneAndUpdate(
+        { id: id },
+        { phone: phone },
+        { new: true }
+      );
+      res.status(200).json({ allUsersDoc, finalClientDoc, ClientDoc, updatedRecruiterClientDoc });
+    }else{
+      res.status(200).json({ allUsersDoc, finalClientDoc, ClientDoc });
+    }
   } catch (error) {
     console.error(error);
     res.status(500).send({ error: 'Internal Server Error' });
@@ -2373,13 +2427,29 @@ const updatingCompanyName = async (req, res) => {
       { companyName: companyName },
       { new: true }
     );
+    const ClientDoc = await client.findOneAndUpdate(
+      { companyId: id },
+      { companyName: companyName },
+      { new: true }
+    );
 
     const companyDetailDoc = await companyDetail.findOneAndUpdate(
       { companyId: id },
       { companyName: companyName },
       { new: true }
     );
-    res.status(200).json({ finalClientDoc, companyDetailDoc });
+
+    const recruiterClientDoc = await recruiterClient.findOne({ companyId: id });
+    if(recruiterClientDoc){
+      const updatedRecruiterClientDoc  = await recruiterClient.findOneAndUpdate(
+        { companyId: id },
+        { companyName: companyName },
+        { new: true }
+      );
+      res.status(200).json({ companyDetailDoc, finalClientDoc, ClientDoc, updatedRecruiterClientDoc });
+    }else{
+      res.status(200).json({ companyDetailDoc, finalClientDoc, ClientDoc });
+    }
   } catch (error) {
     console.error(error);
     res.status(500).send({ error: 'Internal Server Error' });
@@ -2401,7 +2471,22 @@ const updatingCompanyIndustry = async (req, res) => {
       { industry: industry },
       { new: true }
     );
-    res.status(200).json({ finalClientDoc, companyDetailDoc });
+    const ClientDoc = await client.findOneAndUpdate(
+      { companyId: id },
+      { industry: industry },
+      { new: true }
+    );
+    const recruiterClientDoc = await recruiterClient.findOne({ companyId: id });
+    if(recruiterClientDoc){
+      const updatedRecruiterClientDoc  = await recruiterClient.findOneAndUpdate(
+        { companyId: id },
+        { industry: industry },
+        { new: true }
+      );
+      res.status(200).json({ companyDetailDoc, finalClientDoc, ClientDoc, updatedRecruiterClientDoc });
+    }else{
+      res.status(200).json({ companyDetailDoc, finalClientDoc, ClientDoc });
+    }
   } catch (error) {
     console.error(error);
     res.status(500).send({ error: 'Internal Server Error' });
@@ -2551,7 +2636,17 @@ const updatingCandidateEmail = async (req, res) => {
       { email: email },
       { new: true }
     );
-    res.status(200).json({ allUsersDoc, finalCandidateDoc });
+    const recruiterCandDoc = await candidateCreate.findOne({ id: id });
+    if(recruiterCandDoc){
+      const updatedRecruiterCandDoc  = await candidateCreate.findOneAndUpdate(
+        { id: id },
+        { email: email },
+        { new: true }
+      );
+      res.status(200).json({ allUsersDoc, finalCandidateDoc, updatedRecruiterCandDoc });
+    }else{
+      res.status(200).json({ allUsersDoc, finalCandidateDoc });
+    }
   } catch (error) {
     console.error(error);
     res.status(500).send({ error: 'Internal Server Error' });
@@ -2572,7 +2667,17 @@ const updatingCandidatePhone = async (req, res) => {
       { phone: phone },
       { new: true }
     );
-    res.status(200).json({ allUsersDoc, finalCandidateDoc });
+    const recruiterCandDoc = await candidateCreate.findOne({ id: id });
+    if(recruiterCandDoc){
+      const updatedRecruiterCandDoc  = await candidateCreate.findOneAndUpdate(
+        { id: id },
+        { phone: phone },
+        { new: true }
+      );
+      res.status(200).json({ allUsersDoc, finalCandidateDoc, updatedRecruiterCandDoc });
+    }else{
+      res.status(200).json({ allUsersDoc, finalCandidateDoc });
+    }
   } catch (error) {
     console.error(error);
     res.status(500).send({ error: 'Internal Server Error' });
@@ -2607,7 +2712,17 @@ const updatingCandidateFirstName = async (req, res) => {
       { new: true }
     );
 
-    res.status(200).json({ updatedAllUsersDoc, finalCandidateDoc });
+    const recruiterCandDoc = await candidateCreate.findOne({ id: id });
+    if(recruiterCandDoc){
+      const updatedRecruiterCandDoc  = await candidateCreate.findOneAndUpdate(
+        { id: id },
+        { firstName: firstName },
+        { new: true }
+      );
+      res.status(200).json({ updatedAllUsersDoc, finalCandidateDoc, updatedRecruiterCandDoc });
+    }else{
+      res.status(200).json({ updatedAllUsersDoc, finalCandidateDoc });
+    }
   } catch (error) {
     console.error(error);
     res.status(500).send({ error: 'Internal Server Error' });
@@ -2642,7 +2757,17 @@ const updatingCandidateLastName = async (req, res) => {
       { new: true }
     );
 
-    res.status(200).json({ updatedAllUsersDoc, finalCandidateDoc });
+    const recruiterCandDoc = await candidateCreate.findOne({ id: id });
+    if(recruiterCandDoc){
+      const updatedRecruiterCandDoc  = await candidateCreate.findOneAndUpdate(
+        { id: id },
+        { lastName: lastName },
+        { new: true }
+      );
+      res.status(200).json({ updatedAllUsersDoc, finalCandidateDoc, updatedRecruiterCandDoc });
+    }else{
+      res.status(200).json({ updatedAllUsersDoc, finalCandidateDoc });
+    }
   } catch (error) {
     console.error(error);
     res.status(500).send({ error: 'Internal Server Error' });
@@ -2658,7 +2783,17 @@ const updatingCandidateLocation = async (req, res) => {
       { location: location },
       { new: true }
     );
-    res.status(200).json({ finalCandidateDoc });
+    const recruiterCandDoc = await candidateCreate.findOne({ id: id });
+    if(recruiterCandDoc){
+      const updatedRecruiterCandDoc  = await candidateCreate.findOneAndUpdate(
+        { id: id },
+        { location: location },
+        { new: true }
+      );
+      res.status(200).json({ finalCandidateDoc, updatedRecruiterCandDoc });
+    }else{
+      res.status(200).json({ finalCandidateDoc });
+    }
   } catch (error) {
     console.error(error);
     res.status(500).send({ error: 'Internal Server Error' });
@@ -2674,7 +2809,17 @@ const updatingCandidateSkill = async (req, res) => {
       { skills: skill },
       { new: true }
     );
-    res.status(200).json({ finalCandidateDoc });
+    const recruiterCandDoc = await candidateCreate.findOne({ id: id });
+    if(recruiterCandDoc){
+      const updatedRecruiterCandDoc  = await candidateCreate.findOneAndUpdate(
+        { id: id },
+        { skills: skill },
+        { new: true }
+      );
+      res.status(200).json({ finalCandidateDoc, updatedRecruiterCandDoc });
+    }else{
+      res.status(200).json({ finalCandidateDoc });
+    }
   } catch (error) {
     console.error(error);
     res.status(500).send({ error: 'Internal Server Error' });
@@ -2706,7 +2851,17 @@ const updatingCandidateDays = async (req, res) => {
       { days: days },
       { new: true }
     );
-    res.status(200).json({ finalCandidateDoc });
+    const recruiterCandDoc = await candidateCreate.findOne({ id: id });
+    if(recruiterCandDoc){
+      const updatedRecruiterCandDoc  = await candidateCreate.findOneAndUpdate(
+        { id: id },
+        { days: days },
+        { new: true }
+      );
+      res.status(200).json({ finalCandidateDoc, updatedRecruiterCandDoc });
+    }else{
+      res.status(200).json({ finalCandidateDoc });
+    }
   } catch (error) {
     console.error(error);
     res.status(500).send({ error: 'Internal Server Error' });
@@ -2722,7 +2877,17 @@ const updatingCandidateExperience = async (req, res) => {
       { $set: { year: year, month: month } }, 
       { new: true }
     );
-    res.status(200).json({ finalCandidateDoc });
+    const recruiterCandDoc = await candidateCreate.findOne({ id: id });
+    if(recruiterCandDoc){
+      const updatedRecruiterCandDoc  = await candidateCreate.findOneAndUpdate(
+        { id: id },
+        { $set: { year: year, month: month } },
+        { new: true }
+      );
+      res.status(200).json({ finalCandidateDoc, updatedRecruiterCandDoc });
+    }else{
+      res.status(200).json({ finalCandidateDoc });
+    }
   } catch (error) {
     console.error(error);
     res.status(500).send({ error: 'Internal Server Error' });
@@ -2754,7 +2919,17 @@ const updatingCandidateEducation = async (req, res) => {
       { education: education },
       { new: true }
     );
-    res.status(200).json({ finalCandidateDoc });
+    const recruiterCandDoc = await candidateCreate.findOne({ id: id });
+    if(recruiterCandDoc){
+      const updatedRecruiterCandDoc  = await candidateCreate.findOneAndUpdate(
+        { id: id },
+        { education: education },
+        { new: true }
+      );
+      res.status(200).json({ finalCandidateDoc, updatedRecruiterCandDoc });
+    }else{
+      res.status(200).json({ finalCandidateDoc });
+    }
   } catch (error) {
     console.error(error);
     res.status(500).send({ error: 'Internal Server Error' });
@@ -2770,7 +2945,17 @@ const updatingCandidateProfileHeadline = async (req, res) => {
       { profileHeadline: profileHeadline },
       { new: true }
     );
-    res.status(200).json({ finalCandidateDoc });
+    const recruiterCandDoc = await candidateCreate.findOne({ id: id });
+    if(recruiterCandDoc){
+      const updatedRecruiterCandDoc  = await candidateCreate.findOneAndUpdate(
+        { id: id },
+        { profileHeadline: profileHeadline },
+        { new: true }
+      );
+      res.status(200).json({ finalCandidateDoc, updatedRecruiterCandDoc });
+    }else{
+      res.status(200).json({ finalCandidateDoc });
+    }
   } catch (error) {
     console.error(error);
     res.status(500).send({ error: 'Internal Server Error' });
@@ -2998,6 +3183,10 @@ const createCandidate = async (req, res) => {
 
       const newCreateCandidate = new candidateCreate({
         ...req.body,
+        currencyType: "dummy",
+        minSalary: "dummy",
+        maxSalary: "dummy",
+        preferedlocations: ["dummy"],
         role: "Candidate",   
         url: tempUrl 
       });
@@ -3075,10 +3264,6 @@ const finalCandRegister = async (req, res) => {
     
       const newCandidate = new candidate({
         ...candidateProperties,
-        currencyType: "dummy",
-        minSalary: "dummy",
-        maxSalary: "dummy",
-        preferedlocations: ["dummy"],
         password: hashPassword,
       });
     
