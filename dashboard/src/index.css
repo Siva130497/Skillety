@@ -1173,7 +1173,8 @@ p {
   top: -10px;
   right: -10px;
   color: #FFF;
-  font-size: 13px;
+  font-size: 11px;
+  line-height: 0;
   font-weight: 500;
 
 }

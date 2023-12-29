@@ -2,10 +2,10 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
 import axios from 'axios';
-import {io} from "socket.io-client";
+import { io } from "socket.io-client";
 import { data } from 'jquery';
 
-const ClientNavBar = ({notification}) => {
+const ClientNavBar = ({ notification }) => {
   const [token, setToken] = useState("");
   const { getProtectedData } = useContext(AuthContext);
   const [employeeId, setEmployeeId] = useState("");
@@ -25,10 +25,10 @@ const ClientNavBar = ({notification}) => {
   // const [audioBuffer, setAudioBuffer] = useState(null);
   // const [playedNotificationIds, setPlayedNotificationIds] = useState([]);
 
-  useEffect(()=>{
+  useEffect(() => {
     setNotifications(notification);
 
-  },[notification]);
+  }, [notification]);
 
   // const playSound = (context, buffer) => {
   //   const source = context.createBufferSource();
@@ -58,7 +58,7 @@ const ClientNavBar = ({notification}) => {
 
   // },[notifications, audioContext, audioBuffer])
 
-  
+
   // useEffect(() => {
   //   audio.load();
   // }, [audio]);
@@ -93,55 +93,55 @@ const ClientNavBar = ({notification}) => {
   //     })
   //   },[socket]);
 
-    
+
 
   //   console.log(notifications)
 
-    const displayNotification = ({senderName, type, time, date}) => {
-      let action;
+  const displayNotification = ({ senderName, type, time, date }) => {
+    let action;
 
-      if(type === "1"){
-        action = "applied"
-      }
-      return (
-        <div className="notification-dropdown-content">
-            <div className="notification-dropdown-content-left">
-              <div className="noti-drpdwn-img-area">
-                {/* <img src="assets/img/layout/user-img.png" className='noti-drpdwn-img' alt="" /> */}
-                <i class="bi bi-person"></i>
-              </div>
-              <div className="dropdown-notification-item">
-                {`${senderName} ${action} for your job`}
-              </div>
-            </div>
-            <div className="notification-dropdown-content-right">
-              <div className="drpdwn-notify-time">
-                {`${time}`}
-                <span>{`${date}`}</span>
-              </div>
-            </div>
+    if (type === "1") {
+      action = "applied"
+    }
+    return (
+      <div className="notification-dropdown-content">
+        <div className="notification-dropdown-content-left">
+          <div className="noti-drpdwn-img-area">
+            {/* <img src="assets/img/layout/user-img.png" className='noti-drpdwn-img' alt="" /> */}
+            <i class="bi bi-person"></i>
+          </div>
+          <div className="dropdown-notification-item">
+            {`${senderName} ${action} for your job`}
+          </div>
         </div>
-      )
-    }
+        <div className="notification-dropdown-content-right">
+          <div className="drpdwn-notify-time">
+            {`${time}`}
+            <span>{`${date}`}</span>
+          </div>
+        </div>
+      </div>
+    )
+  }
 
-    const handleClearNotifications = () => {
-      setNotifications([]);
-      // if(notifications?.length>0){
-      //   axios.delete("https://skillety.onrender.com/notifications/delete-all", {
-      //     headers: {
-      //       Authorization: `Bearer ${token}`,
-      //       Accept: 'application/json'
-      //     }
-      //   })
-      //   .then(res=>{
-      //     console.log(res.data)
-      //   })
-      //   .catch(err=>{
-      //     console.log(err)
-      //   })
-      // }
-      
-    }
+  const handleClearNotifications = () => {
+    setNotifications([]);
+    // if(notifications?.length>0){
+    //   axios.delete("https://skillety.onrender.com/notifications/delete-all", {
+    //     headers: {
+    //       Authorization: `Bearer ${token}`,
+    //       Accept: 'application/json'
+    //     }
+    //   })
+    //   .then(res=>{
+    //     console.log(res.data)
+    //   })
+    //   .catch(err=>{
+    //     console.log(err)
+    //   })
+    // }
+
+  }
 
   useEffect(() => {
     setToken(JSON.parse(localStorage.getItem('clientToken')))
@@ -160,7 +160,7 @@ const ClientNavBar = ({notification}) => {
           console.log(error)
         }
       };
-      
+
       fetchData();
       axios.get("https://skillety.onrender.com/candidate-to-client-notification", {
         headers: {
@@ -168,13 +168,13 @@ const ClientNavBar = ({notification}) => {
           Accept: 'application/json'
         }
       })
-      .then(res=>{
-        console.log(res.data);
-        setNotifications(res.data)
-      })
-      .catch(err=>{
-        console.log(err)
-      })
+        .then(res => {
+          console.log(res.data);
+          setNotifications(res.data)
+        })
+        .catch(err => {
+          console.log(err)
+        })
     }
   }, [token]);
 
@@ -262,7 +262,9 @@ const ClientNavBar = ({notification}) => {
             className="nav-link notification-toggle nav-link-lg notify-btn client">
             <i data-feather="bell" className={notifications?.length > 0 ? "bell ring" : "bell"}></i>
             <div className='notification-badge'>
-              <span>{notifications?.length}</span>
+              <span>
+                {notifications?.length < 99 ? notifications?.length : "99+"}
+              </span>
             </div>
           </a>
           <div className="dropdown-menu dropdown-list dropdown-menu-right pullDown notification-dropdown">
@@ -276,7 +278,7 @@ const ClientNavBar = ({notification}) => {
             </div>
             <div className="notification-dropdown-content-area">
               {notifications?.length > 0 ? (
-                notifications.reverse().slice(0,10).map((notification) => (
+                notifications.reverse().slice(0, 10).map((notification) => (
                   <div key={notification.id}>{displayNotification(notification)}</div>
                 ))
               ) : (
@@ -289,7 +291,7 @@ const ClientNavBar = ({notification}) => {
 
             <div className="dropdown-footer notification-dropdown-footer text-center">
               <a className='drp-dwn-view-all-btn'
-              onClick={handleClearNotifications}
+                onClick={handleClearNotifications}
               >Mark All As Read.
                 <i class="bi bi-chevron-right ml-3"></i>
               </a>

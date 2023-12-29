@@ -1,8 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { useEffect } from 'react';
 import $ from 'jquery';
-import './TalentsProfileSearch.css';
-import './TalentsProfileSearch-responsive.css';
 import ATSLayout from '../../components/ATSLayout';
 import Footer from '../../components/Footer';
 import axios from 'axios';
@@ -906,7 +904,7 @@ const TalentsProfileSearchAts = () => {
                         })
                         .catch(err => console.log(err))
                 } else {
-                    setFilteredSearchResultsMsg("no such candidates found")
+                    setFilteredSearchResultsMsg("No such candidates found..!")
                 }
             }
         } else {
