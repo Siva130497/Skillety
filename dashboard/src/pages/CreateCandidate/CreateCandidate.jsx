@@ -13,8 +13,12 @@ import AuthContext from '../../context/AuthContext';
 import { v4 as uuidv4 } from "uuid";
 
 const CreateCandidate = () => {
+    const { getProtectedData } = useContext(AuthContext);
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+    const [staffToken, setStaffToken] = useState("");
+    const [employeeId, setEmployeeId] = useState("");
 
     const { candidateReg } = useContext(AuthContext);
     const [skillArray, setSkillArray] = useState([]);
@@ -93,6 +97,26 @@ const CreateCandidate = () => {
             confirmButtonText: 'OK',
         });
     }
+
+    useEffect(() => {
+        setStaffToken(JSON.parse(localStorage.getItem('staffToken')))
+    }, [staffToken])
+
+    useEffect(() => {
+        if (staffToken) {
+            const fetchData = async () => {
+                try {
+                    const userData = await getProtectedData(staffToken);
+                    console.log(userData);
+                    setEmployeeId(userData.id);
+                } catch (error) {
+                    console.log(error)
+                }
+            };
+
+            fetchData();
+        }
+    }, [staffToken]);
 
     useEffect(() => {
         if (credentials.year && credentials.month) {
@@ -486,6 +510,7 @@ const CreateCandidate = () => {
                     education: selectedEducation[0],
                     location: selectedLocations[0],
                     id: id,
+                    recruiterId:employeeId,
                 };
                 console.log(updatedCredentials);
                 candidateReg(updatedCredentials);

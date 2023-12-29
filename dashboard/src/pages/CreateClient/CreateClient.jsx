@@ -8,10 +8,13 @@ import $ from 'jquery';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
 import 'react-datepicker/dist/react-datepicker.css';
+import AuthContext from '../../context/AuthContext';
 
 
 const CreateClient = () => {
-
+    const { getProtectedData } = useContext(AuthContext);
+    const [staffToken, setStaffToken] = useState("");
+    const [employeeId, setEmployeeId] = useState("");
     const [industryArray, setIndustryArray] = useState([])
     const [selectedIndustry, setSelectedIndustry] = useState([]);
     const [searchIndustryInput, setSearchIndustryInput] = useState("");
@@ -55,6 +58,26 @@ const CreateClient = () => {
             confirmButtonText: 'OK',
         });
     }
+
+    useEffect(() => {
+        setStaffToken(JSON.parse(localStorage.getItem('staffToken')))
+    }, [staffToken])
+
+    useEffect(() => {
+        if (staffToken) {
+            const fetchData = async () => {
+                try {
+                    const userData = await getProtectedData(staffToken);
+                    console.log(userData);
+                    setEmployeeId(userData.id);
+                } catch (error) {
+                    console.log(error)
+                }
+            };
+
+            fetchData();
+        }
+    }, [staffToken]);
 
     const registerUser = async (userData) => {
         try {
@@ -165,6 +188,7 @@ const CreateClient = () => {
                 const updatedCredentials = {
                     ...credentials,
                     industry: selectedIndustry[0],
+                    recruiterId:employeeId,
                 };
                 console.log(updatedCredentials);
                 registerUser(updatedCredentials);

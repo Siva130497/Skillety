@@ -40,6 +40,7 @@ const allCandidateTable = require("../Database/allCandidateTable");
 const allJobTable = require("../Database/allJobTable");
 const nonApprovalJobTable = require("../Database/nonApprovalJobTable");
 const postedJobTable = require("../Database/postedJobTable");
+const recruiterClient = require("../Database/recruiterClient");
 
 // const hash = async() => {
 //   const pass = 'newpassword'
@@ -50,21 +51,37 @@ const postedJobTable = require("../Database/postedJobTable");
 
 /* client register */
 const clientRegister = async(req, res) => {
+  
+  const {recruiterId, ...clientData} = req.body;
   try {
     console.log(req.body);
-    const {email, name, phone} = req.body;
+    const {email, name, phone} = clientData;
     const clientAvailable = await client.findOne({ $or: [{ email },  {phone}] });
     const allUserAvailable = await allUsers.findOne({ $or: [{ email },  { phone }] });
 
     if (clientAvailable || allUserAvailable) {
       return res.status(404).json({ message: "User already registered" });
     }
+    const id = uuidv4();
     const newClient = new client({
-      ...req.body,
+      ...clientData,
+      id,
       role:"Client", 
     });
     await newClient.save();
     console.log(newClient);
+
+    if (recruiterId) {
+      const newRecruiterClient = new recruiterClient({
+        ...req.body,
+        id,
+        role:"Client",
+      });
+
+      await newRecruiterClient.save();
+
+      console.log(newRecruiterClient);
+    }
     return res.status(201).json(newClient);
   } catch (err) {
     return res.status(500).json({ error: err.message });
@@ -81,19 +98,29 @@ const getAllClientDetails = async(req, res) => {
   }
 }
 
+const getAllRecruiterClientDetails = async(req, res) => {
+  const {id} = req.params;
+  try{
+    const clients = await recruiterClient.find({recruiterId:id});
+    return res.status(200).json(clients);
+  }catch(err){
+    return res.status(500).json({ error: err.message });
+  }
+}
+
 //create client with temp password
 const createClient = async (req, res) => {
   const {id} = req.params;
   
   try {
-    const neededClient = await client.findById(id);
+    const neededClient = await client.findOne({id:id});
     
     if (neededClient){
       const { _id, createdAt, updatedAt, __v, ...clientProperties } = neededClient._doc;
       console.log(clientProperties);
 
       const baseUrl = "https://skillety-frontend.onrender.com/verification/";
-      const token = uuidv4();
+      const token = clientProperties.id;
       const tempUrl = baseUrl + token;
 
       // const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=[]{}|;:,.<>?';
@@ -554,6 +581,48 @@ const candidateReg = async(req, res) => {
 const getAllCandidateDetail = async (req, res) => {
   try {
     const allCandidates = await candidate.find();
+    const allCandidatesResume = await resume.find();
+
+    const resumeDict = {}; 
+    allCandidatesResume.forEach(resume => {
+      resumeDict[resume.id] = resume._doc;
+    });
+
+    const allCandidatesDetail = await Promise.all(allCandidates.map(async cand => {
+      const matchingResume = resumeDict[cand.id];
+
+      if (matchingResume) {
+        if(cand.selectedDate.length > 1){
+          // const selectedDateStr = cand.selectedDate;
+        // const selectedDay = parseInt(selectedDateStr.split("/")[0], 10);
+        // const dayDifference = currentDay - selectedDay;
+          const dayDifference = 10;
+          const candidateData = { ...cand._doc };
+          const resumeData = { ...matchingResume };
+
+          return { ...candidateData, ...resumeData, dayDifference };
+        }
+        else{
+          const candidateData = { ...cand._doc };
+          const resumeData = { ...matchingResume };
+
+          return { ...candidateData, ...resumeData};
+        }
+      } else {
+        return { ...cand._doc };
+      }
+    }));
+
+    return res.status(200).json(allCandidatesDetail);
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+}
+
+const getAllRecruiterCandidateDetail = async (req, res) => {
+  const {id} = req.params;
+  try {
+    const allCandidates = await candidateCreate.find({recruiterId:id});
     const allCandidatesResume = await resume.find();
 
     const resumeDict = {}; 
@@ -2998,6 +3067,7 @@ const finalCandRegister = async (req, res) => {
       createdAt,
       updatedAt,
       __v,
+      recruiterId,
       ...candidateProperties
     } = cand._doc;
 
@@ -3418,6 +3488,7 @@ module.exports = {
    jwtauth,
    clientRegister,
    getAllClientDetails,
+   getAllRecruiterClientDetails,
    createClient,
    getAllClientUrlWithEmail,
    createClientStaff,
@@ -3429,6 +3500,7 @@ module.exports = {
    finalClientRegister,
    candidateReg,
    getAllCandidateDetail,
+   getAllRecruiterCandidateDetail,
    getCandidateDetail,
    clientJobPosting,
    jobPosting,

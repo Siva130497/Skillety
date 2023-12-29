@@ -573,6 +573,7 @@ const AllCompanyStaff = () => {
                                                         className='form-control dash-form-input select-input'
                                                         required>
                                                         <option value="" disabled selected>-- Select type of company staff --</option>
+                                                        <option value="Recruiter">Recruiter</option>
                                                         <option value="HR">HR</option>
                                                         <option value="Operator">Operator</option>
                                                         <option value="Finance">Finance</option>

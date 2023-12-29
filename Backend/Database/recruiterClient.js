@@ -1,11 +1,15 @@
 const { Schema, model } = require("mongoose");
 
-const clientSchema = new Schema(
-  { 
+const recruiterClientSchema = new Schema(
+  {
     id: {
       type: String,
       required: true
     },
+    recruiterId: {
+        type: String,
+        required: true
+      },
     name: {
       type: String,
       required: true
@@ -45,4 +49,4 @@ const clientSchema = new Schema(
   { timestamps: true }
 );
 
-module.exports = model("Client", clientSchema);
+module.exports = model("recruiterClient", recruiterClientSchema);
