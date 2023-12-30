@@ -116,7 +116,7 @@ const NewNav = ({homeActive, aboutUsActive, searchCVActive, serviceActive, RPOAc
                         {userName ? 
                             <li className="dropdown"><a href='#'><span>{extractLastName()}</span><i className="bi bi-chevron-down"></i></a>
                                 <ul className='loged-in'>
-                                    <li><a href={`https://skillety-dashboard.onrender.com/client-dashboard/${clientToken}`} target='_blank'>Dash Board</a></li>
+                                    <li><a href={`https://skillety-dashboard-tk2y.onrender.com/client-dashboard/${clientToken}`} target='_blank'>Dash Board</a></li>
                                     <li onClick={()=>{
                                         localStorage.removeItem("clientToken");
                                         // window.location.reload();

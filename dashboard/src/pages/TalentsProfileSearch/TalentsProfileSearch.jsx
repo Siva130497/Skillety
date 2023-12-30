@@ -1254,7 +1254,7 @@ const TalentsProfileSearch = () => {
                 if (viewedCandidate.length > 0) {
                     const alreadyViewedCandidate = viewedCandidate.find(cand => cand.candidateId === id);
                     if (alreadyViewedCandidate) {
-                        window.open(`https://skillety-dashboard.onrender.com/talents/${id}`, '_blank');
+                        window.open(`https://skillety-dashboard-tk2y.onrender.com/talents/${id}`, '_blank');
                     } else {
                         console.log(viewedCandidate.length)
                         if (viewedCandidate.length < cvViews) {
@@ -1272,7 +1272,7 @@ const TalentsProfileSearch = () => {
                             const result = response.data;
                             console.log(result);
                             getViewedCandidates();
-                            // window.open(`https://skillety-dashboard.onrender.com/talents/${id}`, '_blank');
+                            // window.open(`https://skillety-dashboard-tk2y.onrender.com/talents/${id}`, '_blank');
                             navigate(`/talents/${id}`, { state: { percentage } })
                         } else {
                             await new Promise(() => {
@@ -1283,7 +1283,7 @@ const TalentsProfileSearch = () => {
                                     confirmButtonColor: '#3085d6',
                                     confirmButtonText: 'OK',
                                 }).then(() => {
-                                    // window.open(`https://skillety-dashboard.onrender.com/package-plans`, '_blank');
+                                    // window.open(`https://skillety-dashboard-tk2y.onrender.com/package-plans`, '_blank');
                                     navigate("/package-plans");
                                 });
                             });
@@ -1304,7 +1304,7 @@ const TalentsProfileSearch = () => {
                     const result = response.data;
                     console.log(result);
                     getViewedCandidates();
-                    // window.open(`https://skillety-dashboard.onrender.com/talents/${id}`, '_blank');
+                    // window.open(`https://skillety-dashboard-tk2y.onrender.com/talents/${id}`, '_blank');
                     navigate(`/talents/${id}`, { state: { percentage } })
                 }
             } else {
@@ -1316,7 +1316,7 @@ const TalentsProfileSearch = () => {
                         confirmButtonColor: '#3085d6',
                         confirmButtonText: 'OK',
                     }).then(() => {
-                        // window.open(`https://skillety-dashboard.onrender.com/package-plans`, '_blank');
+                        // window.open(`https://skillety-dashboard-tk2y.onrender.com/package-plans`, '_blank');
                         navigate("/package-plans");
                     });
                 });

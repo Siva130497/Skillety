@@ -707,7 +707,7 @@ const JobPosting = () => {
     //         confirmButtonColor: '#3085d6',
     //         confirmButtonText: 'OK',
     //       }).then(() => {
-    //         window.open(`https://skillety-dashboard.onrender.com/package-plans`, '_blank');
+    //         window.open(`https://skillety-dashboard-tk2y.onrender.com/package-plans`, '_blank');
     //       });
     //     });
     //   }
@@ -720,7 +720,7 @@ const JobPosting = () => {
     //       confirmButtonColor: '#3085d6',
     //       confirmButtonText: 'OK',
     //     }).then(() => {
-    //       window.open(`https://skillety-dashboard.onrender.com/package-plans`, '_blank');
+    //       window.open(`https://skillety-dashboard-tk2y.onrender.com/package-plans`, '_blank');
     //     });
     //   });
     // }

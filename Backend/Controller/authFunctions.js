@@ -121,7 +121,7 @@ const createClient = async (req, res) => {
       const { _id, createdAt, updatedAt, __v, companyId, ...clientProperties } = neededClient._doc;
       console.log(clientProperties);
 
-      const baseUrl = "https://skillety-frontend.onrender.com/verification/";
+      const baseUrl = "https://skillety-frontend-wcth.onrender.com/verification/";
       const token = clientProperties.id;
       const tempUrl = baseUrl + token;
 
@@ -229,7 +229,7 @@ const createClientStaff = async (req, res) => {
       const createdAccounts = await finalClient.find({companyId});
       
       if(createdAccounts.length < packageDetailForCompanyId.logins){
-        const baseUrl = "https://skillety-frontend.onrender.com/verification/";
+        const baseUrl = "https://skillety-frontend-wcth.onrender.com/verification/";
         const token = uuidv4();
         const tempUrl = baseUrl + token;
 
@@ -3178,7 +3178,7 @@ const createCandidate = async (req, res) => {
     }
   try {
   
-      const baseUrl = "https://skillety-frontend.onrender.com/verification-cand/";
+      const baseUrl = "https://skillety-frontend-wcth.onrender.com/verification-cand/";
       const tempUrl = baseUrl + id;
 
       const newCreateCandidate = new candidateCreate({
