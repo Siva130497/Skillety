@@ -215,7 +215,7 @@ const NavBar = ({ notification, socket }) => {
 
               <a href="" onClick={() => {
                 localStorage.removeItem("candidateToken");
-                window.location.href = 'https://skillety-frontend.onrender.com/candidate-login'
+                window.location.href = 'https://skillety-frontend-wcth.onrender.com/candidate-login'
               }} className="dropdown-logout-btn">
                 <i class="bi bi-box-arrow-right mr-3"></i>
                 Log Out

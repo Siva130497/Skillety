@@ -59,18 +59,18 @@ export const AuthContextProvider = ({children}) => {
                 console.log(result);
                 if (userData[1] === "staff") {
                     localStorage.setItem("staffToken", JSON.stringify(result.accessToken));
-                    window.open(`https://skillety-dashboard.onrender.com/recruiter-dashboard/${result.accessToken}`, '_blank');
+                    window.open(`https://skillety-dashboard-tk2y.onrender.com/recruiter-dashboard/${result.accessToken}`, '_blank');
                 } else if (userData[1] === "admin") {
                     localStorage.setItem("adminToken",  JSON.stringify(result.accessToken));
                     navigate("/admin-dashboard");
                 } else if (userData[1] === "login-Candidate") {
                     localStorage.setItem("candidateToken",  JSON.stringify(result.accessToken));
-                    window.open(`https://skillety-dashboard.onrender.com/${result.accessToken}`, '_blank');
+                    window.open(`https://skillety-dashboard-tk2y.onrender.com/${result.accessToken}`, '_blank');
                     navigate("/candidate-home")
                 } else if (userData[1] === "login-Client") {
                     localStorage.setItem("clientToken",  JSON.stringify(result.accessToken));
-                    // window.open(`https://skillety-dashboard.onrender.com/client-dashboard/${result.accessToken}`, '_blank');
-                    window.open(`https://skillety-dashboard.onrender.com/post-job/${result.accessToken}`, '_blank');
+                    // window.open(`https://skillety-dashboard-tk2y.onrender.com/client-dashboard/${result.accessToken}`, '_blank');
+                    window.open(`https://skillety-dashboard-tk2y.onrender.com/post-job/${result.accessToken}`, '_blank');
                     navigate("/")
                     
                 }

@@ -331,14 +331,14 @@ const ClientNavBar = ({ notification }) => {
 
               {/* <a href="" onClick={()=>{
                   localStorage.removeItem("clientToken");
-                  window.open(`https://skillety-frontend.onrender.com/client-login`);
+                  window.open(`https://skillety-frontend-wcth.onrender.com/client-login`);
                   }} className="dropdown-logout-btn">
                   <i class="bi bi-box-arrow-right mr-3"></i>
                   Log Out
                 </a> */}
               <a href="#" onClick={() => {
                 localStorage.removeItem("clientToken");
-                window.location.href = 'https://skillety-frontend.onrender.com/client-login'
+                window.location.href = 'https://skillety-frontend-wcth.onrender.com/client-login'
               }} className="dropdown-logout-btn">
                 <i class="bi bi-box-arrow-right mr-3"></i>
                 Log Out

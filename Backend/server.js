@@ -36,7 +36,7 @@ const axios = require("axios");
 
 
 const corsOptions = {
-  origin: ['https://skillety-frontend.onrender.com', 'https://skillety-dashboard.onrender.com', 'http://localhost:3000', 'http://localhost:3001'],
+  origin: ['https://skillety-frontend-wcth.onrender.com', 'https://skillety-dashboard-tk2y.onrender.com', 'http://localhost:3000', 'http://localhost:3001'],
   credentials: true,
   methods: ['GET', 'POST', 'PATCH', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization', 'Access-Control-Allow-Credentials']
@@ -64,7 +64,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: ['https://skillety-frontend.onrender.com', 'https://skillety-dashboard.onrender.com', 'http://localhost:3000', 'http://localhost:3001'],
+    origin: ['https://skillety-frontend-wcth.onrender.com', 'https://skillety-dashboard-tk2y.onrender.com', 'http://localhost:3000', 'http://localhost:3001'],
     methods: ["GET", "POST"],
   },
 });
