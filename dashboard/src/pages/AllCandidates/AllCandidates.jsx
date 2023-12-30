@@ -9,6 +9,11 @@ import AuthContext from '../../context/AuthContext';
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 
+import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
+import Modal from 'react-modal';
+
+Modal.setAppElement('#root');
+
 const AllCandidates = () => {
     const { getProtectedData } = useContext(AuthContext);
 
@@ -35,7 +40,10 @@ const AllCandidates = () => {
     const [isExpanded, setIsExpanded] = useState(false);
 
     const [selectedColumns, setSelectedColumns] = useState([]);
-    let columns = ["Email ID", "Mobile Number",  "Send an interview invitation", "Current Job Role", "Skills", "Experience", "Current/Previous Working/Worked Company Name", "College", "Education", "Location", "About him/her", "Last Working Day", "Available To Join In", "Applied jobs of your posted", "Applied jobs"]
+    let columns = ["Email ID", "Mobile Number",  "Send an interview invitation", "Current Job Role", "Skills", "Experience", "Current/Previous Working/Worked Company Name", "College", "Education", "Location", "About him/her", "Last Working Day", "Available To Join In", "Applied jobs of your posted", "Applied jobs", "View CV", "Status"]
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [candidateResumeUrl, setCandidateResumeUrl] = useState("");
 
     // const fetchAppliedJobs = async (candidateId) => {
     //     try {
@@ -68,6 +76,16 @@ const AllCandidates = () => {
     //     //   )
     //     }
     //   };
+
+    const handleViewCV = (fileUrl) => {
+        setCandidateResumeUrl(fileUrl);
+        setIsModalOpen(true);
+      };
+    
+      const closeModal = () => {
+        // setCandidateResumeUrl(null);
+        setIsModalOpen(false);
+      };
 
     const handleCheckboxChange = (value) => {
 
@@ -656,6 +674,28 @@ const AllCandidates = () => {
                                                                                     <span className='text-secondary'>Still not applied for any posted jobs</span>}
                                                                                     </td>
                                                                                 }
+                                                                                {selectedColumns?.includes("View CV") &&<td className='text-center'>
+                                                                                    <button className='application-btn with-modal' onClick={() => handleViewCV(`https://skillety-n6r1.onrender.com/files/${candidate?.file}`)}>
+                                                                                        <span></span>&nbsp;&nbsp;&nbsp;
+                                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-file-earmark-text-fill" viewBox="0 0 16 16">
+                                                                                            <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM4.5 9a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 1 0-1h4a.5.5 0 0 1 0 1h-4z" fill='#0879bc' />
+                                                                                        </svg>
+                                                                                    </button>
+                                                                                </td>}
+                                                                                {selectedColumns?.includes("Status") &&<td className='text-center'>
+                                                                                    <select>
+                                                                                    <option selected disabled>Select one.</option>
+                                                                                        <option >New CV Upload</option>
+                                                                                        <option >Applied Online</option>
+                                                                                        <option>Submitted to Client</option>
+                                                                                        <option >Interviews in Process</option>
+                                                                                        <option >Offered</option>
+                                                                                        <option >Rejected</option>
+                                                                                        <option >Joined</option>
+                                                                                        <option >Invoiced</option>
+                                                                                        <option >Payment Received</option>
+                                                                                    </select>
+                                                                                </td>}
                                                                                 <td className='text-center'>
                                                                                     <div className="action-btn-area">
                                                                                         <button className='job-view-btn' data-toggle="modal" title='View Candidate Details...' data-target="#candidatesViewModal" onClick={() => viewCandidateDetail(candidate.id)}>
@@ -770,6 +810,28 @@ const AllCandidates = () => {
                                                                                     <span className='text-secondary'>Still not applied for any posted jobs</span>}
                                                                                     </td>
                                                                                 }
+                                                                                {selectedColumns?.includes("View CV") &&<td className='text-center'>
+                                                                                    <button className='application-btn with-modal' onClick={() => handleViewCV(`https://skillety-n6r1.onrender.com/files/${candidate?.file}`)}>
+                                                                                        <span></span>&nbsp;&nbsp;&nbsp;
+                                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-file-earmark-text-fill" viewBox="0 0 16 16">
+                                                                                            <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM4.5 9a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 1 0-1h4a.5.5 0 0 1 0 1h-4z" fill='#0879bc' />
+                                                                                        </svg>
+                                                                                    </button>
+                                                                                </td>}
+                                                                                {selectedColumns?.includes("Status") &&<td className='text-center'>
+                                                                                    <select>
+                                                                                    <option selected disabled>Select one.</option>
+                                                                                        <option >New CV Upload</option>
+                                                                                        <option >Applied Online</option>
+                                                                                        <option>Submitted to Client</option>
+                                                                                        <option >Interviews in Process</option>
+                                                                                        <option >Offered</option>
+                                                                                        <option >Rejected</option>
+                                                                                        <option >Joined</option>
+                                                                                        <option >Invoiced</option>
+                                                                                        <option >Payment Received</option>
+                                                                                    </select>
+                                                                                </td>}
                                                                                 <td className='text-center'>
                                                                                     <div className="action-btn-area">
                                                                                         <button className='job-view-btn' data-toggle="modal" title='View Candidate Details...' data-target="#candidatesViewModal" onClick={() => viewCandidateDetail(candidate.id)}>
@@ -1030,7 +1092,25 @@ const AllCandidates = () => {
                         </div>
                     </div>
                 </div>
+                <Modal
+                    isOpen={isModalOpen}
+                    onRequestClose={closeModal}
+                    className={`doc-view-modal-content ${isModalOpen ? 'open' : ''}`}
+                    overlayClassName={`doc-view-modal-overlay ${isModalOpen ? 'open' : ''}`}
+                >
+                    
+                    {candidateResumeUrl && (
+                    <DocViewer
+                        documents={[{ uri: candidateResumeUrl }]}
+                        renderers={DocViewerRenderers}
+                        className='document'
+                    />
+                    )}
 
+                    <button className="doc-view-close-button" onClick={closeModal}>
+                        <i className='bi bi-x'></i>
+                    </button>
+                </Modal>
                 <Footer />
             </div >
         </div >
