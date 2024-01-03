@@ -11,16 +11,19 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import AuthContext from '../../context/AuthContext';
 import { v4 as uuidv4 } from "uuid";
+import { useLocation } from 'react-router-dom';
 
 const CreateCandidate = () => {
-    const { getProtectedData } = useContext(AuthContext);
+    const location = useLocation();
+    const { id } = location.state || {};
+    const [cand, setCand] = useState();
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
     const [staffToken, setStaffToken] = useState("");
     const [employeeId, setEmployeeId] = useState("");
 
-    const { candidateReg } = useContext(AuthContext);
+    const { getProtectedData, candidateReg, candidateUpdate } = useContext(AuthContext);
     const [skillArray, setSkillArray] = useState([]);
     const [designationArray, setDesignationArray] = useState([])
     const [selectedDate, setSelectedDate] = useState(null);
@@ -117,6 +120,57 @@ const CreateCandidate = () => {
             fetchData();
         }
     }, [staffToken]);
+
+    useEffect(() => {
+        if (id && staffToken) {
+          axios.get(`https://skillety-n6r1.onrender.com/CandidateWithUrl-Detail/${id}`, {
+            headers: {
+              // Authorization: `Bearer ${staffToken}`,
+              Accept: 'application/json'
+            }
+          })
+            .then(res => {
+              console.log(res.data)
+              setCand(res.data)
+            })
+            .catch(err => {
+              console.log(err)
+            })
+
+            axios.get(`https://skillety-n6r1.onrender.com/candidate-resume/${id}`)
+                .then(res => {
+                    console.log(res.data)
+                    setResume(res.data)
+                })
+                .catch(err => console.log(err))
+        }
+      }, [id, staffToken])
+    
+      useEffect(() => {
+        if (cand) {
+          setDateString(cand.selectedDate)
+          setSelectedSkills(cand.skills)
+          setSelectedDesignations(cand.designation)
+          setSelectedEducation([cand.education])
+          setSelectedLocations([cand.location])
+          setCredentials({
+            ...credentials,
+            days: cand.days,
+            firstName: cand.firstName,
+            lastName: cand.lastName,
+            phone: cand.phone,
+            email: cand.email,
+            companyName: cand.companyName,
+            year: cand.year,
+            month: cand.month,
+            profileHeadline: cand.profileHeadline,
+            college: cand.college,
+            checkbox: cand.checkbox,
+          })
+        }
+      }, [cand])
+
+      console.log(credentials)
 
     useEffect(() => {
         if (credentials.year && credentials.month) {
@@ -522,6 +576,36 @@ const CreateCandidate = () => {
         }
     };
 
+    const handleUpdate = (event) => {
+        event.preventDefault();
+        
+        if (credentials.days === "" || credentials.firstName === "" || credentials.lastName === "" || credentials.phone === "" || credentials.email === "" || !resume || !(emailRegex.test(credentials.email)) || selectedDesignations.length === 0 || credentials.companyName === "" || selectedLocations.length === 0 || credentials.year === "" || credentials.month === "" || selectedSkills.length === 0 || selectedEducation.length === 0 || credentials.college === "" || selectedSkills.length < minSkillNum || credentials.profileHeadline === "") {
+            setRequire(true)
+            if (selectedSkills.length < minSkillNum) {
+                setSkillError(`Please select atleast ${minSkillNum} skills`)
+            }
+            
+        }else{
+            const formData = new FormData();
+                formData.append('resume', resume);
+                const updatedCredentials = {
+                    ...credentials,
+                    selectedDate: dateString,
+                    skills: selectedSkills,
+                    designation: selectedDesignations,
+                    education: selectedEducation[0],
+                    location: selectedLocations[0],
+                };
+                console.log(updatedCredentials);
+                candidateUpdate([updatedCredentials, id]);
+                otherSkill.length > 0 && postOtherSkills(otherSkill);
+                otherDesignation.length > 0 && postOtherDesignation(otherDesignation);
+                axios.patch(`https://skillety-n6r1.onrender.com/update-candidate-resume/${id}`, formData)
+                    .then(res => console.log(res))
+                    .catch(err => console.log(err));
+        }
+    };
+
 
     return (
         <div>
@@ -548,7 +632,8 @@ const CreateCandidate = () => {
                                                     <label htmlFor="" className='job-post-form-label'>In How many days can Join? Please select one bucket<span className='form-required'>*</span></label>
                                                     <div className="create-cand-radio-input-group">
                                                         <div className="create-cand-input-container">
-                                                            <input id="day_option_1" className="radio-button" type="radio" name="days" value="0 to 7 days" onChange={handleInputChange} />
+                                                            <input id="day_option_1" className="radio-button" type="radio" name="days" value="0 to 7 days" onChange={handleInputChange} 
+                                                            checked={(credentials.days === "0 to 7 days")}/>
                                                             <div className="radio-tile">
                                                                 <label for="day_option_1" className="radio-tile-label">0 to 7 days</label>
                                                             </div>
@@ -559,6 +644,7 @@ const CreateCandidate = () => {
                                                             name="days"
                                                             value="8 to 15 days"
                                                             onChange={handleInputChange}
+                                                            checked={(credentials.days === "8 to 15 days")}
                                                             />
                                                             <div className="radio-tile">
                                                                 <label for="day_option_2" className="radio-tile-label">8 to 15 days</label>
@@ -570,6 +656,8 @@ const CreateCandidate = () => {
                                                             name="days"
                                                             value="16 to 30 days"
                                                             onChange={handleInputChange}
+                                                            checked={(credentials.days === "16 to 30 days")}
+                                                            
                                                             />
                                                             <div className="radio-tile">
                                                                 <label for="day_option_3" className="radio-tile-label">16 to 30 days</label>
@@ -581,6 +669,7 @@ const CreateCandidate = () => {
                                                             name="days"
                                                             value="More than 30 days"
                                                             onChange={handleInputChange}
+                                                            checked={(credentials.days === "More than 30 days")}
                                                             />
                                                             <div className="radio-tile">
                                                                 <label for="day_option_4" className="radio-tile-label">More than 30 days</label>
@@ -592,6 +681,7 @@ const CreateCandidate = () => {
                                                             name="days"
                                                             value="Currently not serving notice period"
                                                             onChange={handleInputChange}
+                                                            checked={(credentials.days === "Currently not serving notice period")}
                                                             />
                                                             <div className="radio-tile">
                                                                 <label for="day_option_4" className="radio-tile-label"> Currently not serving notice period</label>
@@ -629,6 +719,7 @@ const CreateCandidate = () => {
                                                         <DatePicker
                                                             selected={selectedDate}
                                                             onChange={handleDateChange}
+                                                            value={dateString}
                                                             dateFormat="dd/MM/yyyy"
                                                             placeholderText='dd/mm/yyyy'
                                                             disabled={(credentials.days === "0 to 7 days" && credentials.checkbox) || credentials.days === "Currently not serving notice period"}
@@ -752,8 +843,8 @@ const CreateCandidate = () => {
                                                             required />
                                                         <label for="file_upload" className='cand--reg-file-upload-label'>
                                                             <i class="bi bi-upload" onClick={() => fileInputRef.current.click()}></i>
-                                                            Upload the Resume/CV here&nbsp;<span className='is-form-required'>*</span></label>
-                                                        <span id="file-chosen">{resume ? resume.name : 'No file chosen'}</span>
+                                                            {resume?"Update":"Upload"} the Resume/CV here&nbsp;<span className='is-form-required'>*</span></label>
+                                                        <span id="file-chosen">{resume ? (resume.name||resume.file) : 'No file chosen'}</span>
                                                         <div className='file--upload-text'>Either in .doc/ docx/.pdf format only</div>
                                                     </div>
                                                     {require && <small className='text-danger text-capitalized'>{!resume && "required"}</small>}
@@ -1063,7 +1154,7 @@ const CreateCandidate = () => {
                                 </div>
                             </div>
                             <div className="post-job-btn-area">
-                                <button className='post-job-btn' onClick={handleSubmit}>Create</button>
+                                {id?<button className='post-job-btn' onClick={handleUpdate}>Update</button>:<button className='post-job-btn' onClick={handleSubmit}>Create</button>}
                             </div>
                         </div>
                     </section>

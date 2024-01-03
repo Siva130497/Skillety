@@ -102,7 +102,7 @@ export const AuthContextProvider = ({ children }) => {
 
         if (!result.error) {
             console.log(result);
-            setResult(result)
+            
             await new Promise(() => {
                 Swal.fire({
                     title: 'Congratulations!',
@@ -131,6 +131,49 @@ export const AuthContextProvider = ({ children }) => {
             });
         });
     }
+};
+
+const candidateUpdate = async (userData) => {
+  try {
+      const response = await axios.patch(`https://skillety-n6r1.onrender.com/recruiter-cand-update/${userData[1]}`, userData[0], {
+          headers: {
+              'Content-Type': 'application/json',
+          },
+      });
+
+      const result = response.data;
+
+      if (!result.error) {
+          console.log(result);
+          
+          await new Promise(() => {
+              Swal.fire({
+                  title: 'Updated!',
+                  text: '',
+                  icon: 'success',
+                  confirmButtonColor: '#3085d6',
+                  confirmButtonText: 'OK',
+              }).then(() => {
+                  navigate("/all-candidates");
+              });
+          });
+      } else {
+          console.log(result);
+      }
+  } catch (error) {
+      console.log(error);
+      await new Promise(() => {
+          Swal.fire({
+              title: '!',
+              text: '',
+              icon: 'error',
+              confirmButtonColor: '#3085d6',
+              confirmButtonText: 'OK',
+          }).then(() => {
+              // navigate("/candiate-register")
+          });
+      });
+  }
 };
 
   const getEventDetail = async () => {
@@ -280,7 +323,7 @@ export const AuthContextProvider = ({ children }) => {
   }
 
 
-  return <AuthContext.Provider value={{ candidateReg, loginUser, getProtectedData, errorMsg, setErrorMsg, eventDetail, getEventDetail, getEventImg, eventImg, blogDetail, getBlogsDetail, videoDetail, getVideoDetail, podcastDetail, getPodcastDetail, newsDetail, getNewsDetail, getCandidateImg, candidateImg, getClientImg, clientImg, getClientChoosenPlan, packageSelectionDetail, result }}>
+  return <AuthContext.Provider value={{ candidateReg, loginUser, getProtectedData, errorMsg, setErrorMsg, eventDetail, getEventDetail, getEventImg, eventImg, blogDetail, getBlogsDetail, videoDetail, getVideoDetail, podcastDetail, getPodcastDetail, newsDetail, getNewsDetail, getCandidateImg, candidateImg, getClientImg, clientImg, getClientChoosenPlan, packageSelectionDetail, result, candidateUpdate }}>
     {children}
   </AuthContext.Provider>
 }

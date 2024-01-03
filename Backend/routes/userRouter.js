@@ -133,6 +133,8 @@ const {
   createCandidate,
   finalCandRegister,
   getCandidate,
+  updateCand,
+  deletingCand,
   boostJob,
   getAllClientTableColumnData,
   allClientTableColumnData,
@@ -507,6 +509,10 @@ router.post("/finalRegister-Candidate", finalCandRegister);
 
 // recruiter route for client detail
 router.get("/CandidateWithUrl-Detail/:id", getCandidate);
+
+router.patch("/recruiter-cand-update/:id", updateCand);
+
+router.delete("/del-recruiter-cand/:id", employeeAuth, deletingCand);
 
 //create all client table column data
 router.post("/all-clients-column", allClientTableColumnData);

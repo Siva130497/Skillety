@@ -3323,6 +3323,59 @@ const finalCandRegister = async (req, res) => {
   }
 };
 
+const updateCand = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const candToUpdate = await candidateCreate.findOne({ id });
+
+    if (candToUpdate) {
+      const updatedCand = await candidateCreate.findOneAndUpdate(
+        { id },
+        {
+          $set: {
+            days: req.body.days,
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            phone: req.body.phone,
+            email: req.body.email,
+            designation: req.body.designation,
+            companyName: req.body.companyName,
+            location: req.body.location,
+            year: req.body.year,
+            month: req.body.month,
+            education: req.body.education,
+            profileHeadline: req.body.profileHeadline,
+            college: req.body.college,
+            selectedDate: req.body.selectedDate,
+            skills: req.body.skills,
+            checkbox: req.body.checkbox,
+          },
+        },
+        { new: true }
+      );
+
+      return res.status(200).json({ updatedCand });
+    } else {
+      return res.status(404).json({ error: 'Candidate not found' });
+    }
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+const deletingCand = async(req, res) => {
+  try{
+    const {id} = req.params;
+    const deletedCand = await candidateCreate.deleteOne({id});
+    
+      res.status(204).json(deletedCand); 
+    
+  }catch(err) {
+    res.status(500).json({error: err.message})
+  }
+}
+
 /* all client table column data create */
 const allClientTableColumnData = async (req, res) => {
   try {
@@ -3800,6 +3853,8 @@ module.exports = {
    createCandidate,
    finalCandRegister,
    getCandidate,
+   updateCand,
+   deletingCand,
    boostJob,
    getAllClientTableColumnData,
    allClientTableColumnData,
