@@ -19,6 +19,9 @@ const {
   candidateReg,
   getAllCandidateDetail,
   getAllRecruiterCandidateDetail,
+  getARecruiterClientDetails,
+  updateRecruiterClient,
+  deletingRecruiterClient,
   getCandidateDetail,
   clientJobPosting,
   jobPosting,
@@ -157,6 +160,12 @@ router.post("/register-Client", clientRegister);
 router.get("/client-Detail", employeeAuth, getAllClientDetails)
 
 router.get("/recruiter-client-Detail/:id", employeeAuth, getAllRecruiterClientDetails)
+
+router.get("/recruiter-client/:id", getARecruiterClientDetails)
+
+router.patch("/update-Client/:id", updateRecruiterClient)
+
+router.delete("/del-recruiter-client/:id", deletingRecruiterClient)
 
 // Client Registeration Route
 router.post("/tempPass-Client/:id", employeeAuth, createClient);
