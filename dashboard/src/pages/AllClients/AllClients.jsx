@@ -11,11 +11,16 @@ import 'sweetalert2/dist/sweetalert2.css';
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import AuthContext from '../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const AllClients = () => {
+    const navigate = useNavigate();
     const { getProtectedData } = useContext(AuthContext);
     const [staffToken, setStaffToken] = useState("");
     const [clientDetail, setClientDetail] = useState([]);
+    const [registeredClientDetail, setRegisteredClientDetail] = useState([]);
+    const [activeJobs, setActiveJobs] = useState([]);
+    const [inActiveJobs, setInActiveJobs] = useState([]);
     const [clientUrlWithEmail, setClientUrlWithEmail] = useState([]);
     // const [emailStatus, setEmailStatus] = useState(true);
     // const [emailMsg, setEmailMsg] = useState("");
@@ -30,7 +35,26 @@ const AllClients = () => {
     const [isExpanded, setIsExpanded] = useState(false);
 
     const [selectedColumns, setSelectedColumns] = useState([]);
-    let columns = ["Email ID", "Email Status", "Send Email", "Mobile Number", "Company Name", "Industry", "Headcount", "From where did you learn about Skillety?"]
+    let columns = ["Email ID", "Email Status", "Send Email", "Mobile Number", "Company Name", "Industry", "Headcount", "From where did you learn about Skillety?", "Registered Status", "Active Jobs", "In-Active Jobs"]
+
+    const [searchTerm, setSearchTerm] = useState('');
+    const [filteredData, setFilteredData] = useState([]);
+
+    const handleInputChange = (e) => {
+        const term = e.target.value;
+        setSearchTerm(term);
+        filterData(term);
+      };
+    
+      const filterData = (term) => {
+        const filteredArray = clientDetail.filter((item) => {
+          const lowerCaseTerm = term.toLowerCase();
+          return Object.values(item)
+        .map((value) => (value || '').toString().toLowerCase())
+        .some((value) => value.includes(lowerCaseTerm));
+        });
+        setFilteredData(filteredArray);
+      };
 
     const handleCheckboxChange = (value) => {
 
@@ -133,6 +157,9 @@ const AllClients = () => {
             };
 
             fetchData();
+            getAllRegisteredClientDetails();
+            getAllActiveJobs();
+            getAllInActiveJobs();
         }
     }, [staffToken]);
 
@@ -188,6 +215,81 @@ const AllClients = () => {
         });
     }
 
+    const getAllRegisteredClientDetails = async () => {
+        try {
+
+            const response = await axios.get(`https://skillety-n6r1.onrender.com/clients`, {
+                headers: {
+                    Authorization: `Bearer ${staffToken}`,
+                    Accept: 'application/json'
+                }
+            });
+            const result = response.data;
+            if (!result.error) {
+                console.log(result);
+                setRegisteredClientDetail(result);
+                
+            } else {
+                console.log(result);
+                
+            }
+
+        } catch (err) {
+            console.log(err);
+
+        }
+    }
+
+    const getAllActiveJobs = async () => {
+        try {
+
+            const response = await axios.get(`https://skillety-n6r1.onrender.com/posted-jobs`, {
+                headers: {
+                    Authorization: `Bearer ${staffToken}`,
+                    Accept: 'application/json'
+                }
+            });
+            const result = response.data;
+            if (!result.error) {
+                console.log(result);
+                setActiveJobs(result);
+                
+            } else {
+                console.log(result);
+                
+            }
+
+        } catch (err) {
+            console.log(err);
+
+        }
+    }
+
+    const getAllInActiveJobs = async () => {
+        try {
+
+            const response = await axios.get(`https://skillety-n6r1.onrender.com/posted-approved-inactive-jobs`, {
+                headers: {
+                    Authorization: `Bearer ${staffToken}`,
+                    Accept: 'application/json'
+                }
+            });
+            const result = response.data;
+            if (!result.error) {
+                console.log(result);
+                setInActiveJobs(result);
+                
+            } else {
+                console.log(result);
+                
+            }
+
+        } catch (err) {
+            console.log(err);
+
+        }
+    }
+
     const getAllClientDetails = async () => {
         try {
 
@@ -201,6 +303,7 @@ const AllClients = () => {
             if (!result.error) {
                 console.log(result);
                 setClientDetail(result.reverse());
+                setFilteredData(result.reverse());
                 setLoading(false);
             } else {
                 console.log(result);
@@ -226,6 +329,7 @@ const AllClients = () => {
             if (!result.error) {
                 console.log(result);
                 setClientDetail(result.reverse());
+                setFilteredData(result.reverse());
                 setLoading(false);
             } else {
                 console.log(result);
@@ -260,7 +364,7 @@ const AllClients = () => {
     }
 
     const handleCheckForEmailStatus = () => {
-        const commonEmails = clientDetail
+        const commonEmails = filteredData
             .filter(obj1 => clientUrlWithEmail.some(obj2 => obj2.email === obj1.email))
             .map(obj => obj.email);
 
@@ -270,10 +374,10 @@ const AllClients = () => {
     console.log(commonEmails)
 
     useEffect(() => {
-        if (clientDetail.length > 0 && clientUrlWithEmail.length > 0) {
+        if (filteredData.length > 0 && clientUrlWithEmail.length > 0) {
             handleCheckForEmailStatus();
         }
-    }, [clientDetail, clientUrlWithEmail]);
+    }, [filteredData, clientUrlWithEmail]);
 
 
     const createClient = async (id) => {
@@ -329,12 +433,11 @@ const AllClients = () => {
     };
 
     const handleCard = (id) => {
-        const client = clientDetail.find(cli => cli.id === id)
+        const client = filteredData.find(cli => cli.id === id)
         setAClient(client);
     }
 
-    console.log(aClient)
-
+    
     return (
         <div>
             <div class="main-wrapper main-wrapper-1">
@@ -359,7 +462,13 @@ const AllClients = () => {
                                         <span>Create New</span>
                                     </a>
                                 </div>
-
+                                <div className="recruiter-search-input-area">
+                                    <input type="search" className='recruiter-search-input' placeholder='Search...'
+                                        value={searchTerm}
+                                        onChange={handleInputChange}
+                                     />
+                                    <i className='bi bi-search search-icon'></i>
+                                </div>
                             </div>
 
                             {loading ? (
@@ -448,7 +557,7 @@ const AllClients = () => {
                                                     </div>
                                                     <div className="man-app-sub-title">
                                                         Total Clients :&nbsp;
-                                                        <span>{clientDetail.length}</span>
+                                                        <span>{filteredData.length}</span>
                                                     </div>
                                                     <div className='customize-table-layout-area'>
                                                         <div className="customize-table-layout-top">
@@ -484,7 +593,7 @@ const AllClients = () => {
                                                         </div>
                                                     </div>
                                                 </div>
-                                                {clientDetail.length === 0 ?
+                                                {filteredData.length === 0 ?
                                                     <div className="no-data-created-area">
                                                         <div className='no-data-created'>
                                                             <img src="../assets/img/no-data/no-data-img.png" className='no-data-img' alt="" />
@@ -508,7 +617,17 @@ const AllClients = () => {
                                                             </tr>
 
                                                             {/* table data */}
-                                                            {clientDetail.slice(x[0], x[1]).map((client, index) => {
+                                                            {filteredData.slice(x[0], x[1]).map((client, index) => {
+                                                                const RegisteredUser = registeredClientDetail.find(regCli => regCli.email === client.email);
+
+                                                                const companyId = RegisteredUser ? RegisteredUser.companyId : null;
+                                                                const ActJobs = companyId
+                                                                    ? activeJobs.filter(job => job.companyId === companyId)
+                                                                    : null;
+                                                                const InActJobs = companyId
+                                                                    ? inActiveJobs.filter(job => job.companyId === companyId)
+                                                                    : null;
+
                                                                 return (
                                                                     <tr className='dash-table-row client'>
                                                                         <td className='dash-table-data1'>{index + 1}.</td>
@@ -522,10 +641,6 @@ const AllClients = () => {
                                                                             </a>
                                                                         </td>}
                                                                         {selectedColumns?.includes("Email Status") && <td className='dash-table-data1'>
-                                                                            {/* <span className='text-warning p-0'>
-                                                                    <i class="bi bi-exclamation-circle mr-2"></i>
-                                                                    Email still not sent!
-                                                                </span> */}
                                                                             {commonEmails.includes(client.email) ?
                                                                                 <span className='text-success p-0'>
                                                                                     <i class="bi bi-check-circle mr-2"></i>
@@ -558,6 +673,34 @@ const AllClients = () => {
                                                                             {client.count}                                      </td>}
                                                                         {selectedColumns?.includes("From where did you learn about Skillety?") && <td className='dash-table-data1 text-left'>
                                                                             {client.text}                                       </td>}
+                                                                        {selectedColumns?.includes("Registered Status") && <td className='dash-table-data1'>
+                                                                            {RegisteredUser ?
+                                                                                <span className='text-success p-0'>
+                                                                                    <i class="bi bi-check-circle mr-2"></i>
+                                                                                    Registered.
+                                                                                </span> :
+                                                                                <span className='text-warning p-0'>
+                                                                                    <i class="bi bi-exclamation-circle mr-2"></i>
+                                                                                    Not Registered.
+                                                                                </span>
+                                                                            }
+                                                                        </td>}
+                                                                        {selectedColumns?.includes("Active Jobs") && <td className='dash-table-data1 text-left'>
+                                                                                    <button className='application-btn with-modal' onClick={() => ActJobs.length > 0 && navigate(`/all-jobs`, { state: { jobs: ActJobs } })}>
+                                                                                        <span>{ActJobs?.length}</span>&nbsp;&nbsp;&nbsp;
+                                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-file-earmark-text-fill" viewBox="0 0 16 16">
+                                                                                            <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM4.5 9a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 1 0-1h4a.5.5 0 0 1 0 1h-4z" fill='#0879bc' />
+                                                                                        </svg>
+                                                                                    </button>
+                                                                                </td>}
+                                                                                {selectedColumns?.includes("In-Active Jobs") && <td className='dash-table-data1 text-left'>
+                                                                                    <button className='application-btn with-modal' onClick={() => InActJobs.length > 0 && navigate(`/all-jobs`, { state: { jobs: InActJobs } })}>
+                                                                                        <span>{InActJobs?.length}</span>&nbsp;&nbsp;&nbsp;
+                                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-file-earmark-text-fill" viewBox="0 0 16 16">
+                                                                                            <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM4.5 9a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 1 0-1h4a.5.5 0 0 1 0 1h-4z" fill='#0879bc' />
+                                                                                        </svg>
+                                                                                    </button>
+                                                                                </td>}
                                                                         <td className='text-center'>
                                                                             <div className="action-btn-area">
                                                                                 <button className='job-view-btn' title='View Client Details...' data-toggle="modal" data-target="#clientsViewModal" onClick={() => handleCard(client.id)}>
@@ -591,9 +734,9 @@ const AllClients = () => {
                                                     </button>}
                                                     <div className='pag-page'>
                                                         <span className='current-page'>{Math.ceil(x[0] / 10) + 1}</span>&nbsp;/&nbsp;
-                                                        <span className='total-page'>{Math.ceil(clientDetail.length / 10)}</span>
+                                                        <span className='total-page'>{Math.ceil(filteredData.length / 10)}</span>
                                                     </div>
-                                                    {(clientDetail.slice(x[0], x[1]).length === 10 && clientDetail.length > x[1]) && <button className='pag-next-btn' onClick={() => setX([x[0] + 10, x[1] + 10])}>
+                                                    {(filteredData.slice(x[0], x[1]).length === 10 && filteredData.length > x[1]) && <button className='pag-next-btn' onClick={() => setX([x[0] + 10, x[1] + 10])}>
                                                         <i class="bi bi-chevron-right"></i>
                                                     </button>}
                                                 </div>

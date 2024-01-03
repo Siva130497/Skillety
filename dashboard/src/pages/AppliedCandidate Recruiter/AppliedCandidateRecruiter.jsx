@@ -6,6 +6,8 @@ import Footer from '../../components/Footer';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import AuthContext from '../../context/AuthContext';
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.css';
 
 const AppliedCandidateRecruiter = () => {
     const [staffToken, setstaffToken] = useState("");
@@ -17,6 +19,10 @@ const AppliedCandidateRecruiter = () => {
     const [selectedJobs, setSelectedJobs] = useState([]);
     const [reqCands, setReqCands] = useState([]);
     const [job, setJob] = useState();
+
+    const [selectedCandidates, setSelectedCandidates] = useState([]);
+    const [selectedStatus, setSelectedStatus] = useState("");
+    const [applicationStatus, setApplicationStatus] = useState([]);
 
     const [x, setX] = useState([0, 4]);
 
@@ -35,6 +41,28 @@ const AppliedCandidateRecruiter = () => {
     // }, 500);
     // }
     // }, []);
+
+    //for show success message for payment
+    function showSuccessMessage(message) {
+        Swal.fire({
+            title: 'Success!',
+            text: message,
+            icon: 'success',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'OK',
+        });
+    }
+
+    //for show error message for payment
+    function showErrorMessage() {
+        Swal.fire({
+            title: 'Error!',
+            text: "An error occured!",
+            icon: 'error',
+            confirmButtonColor: '#d33',
+            confirmButtonText: 'OK',
+        });
+    }
 
     useEffect(() => {
         setstaffToken(JSON.parse(localStorage.getItem('staffToken')))
@@ -551,6 +579,24 @@ const AppliedCandidateRecruiter = () => {
         }
     }
 
+    useEffect(()=>{
+        if(id && staffToken){
+            axios.get(`https://skillety-n6r1.onrender.com/application-status/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${staffToken}`,
+                    Accept: 'application/json'
+                }
+            })
+            .then(res=>{
+                console.log(res.data);
+                setApplicationStatus(res.data)
+            })
+            .catch(err=>{
+                console.log(err);
+            })
+        }
+    },[id, staffToken])
+
     useEffect(() => {
         if (staffToken) {
             const fetchData = async () => {
@@ -597,6 +643,59 @@ const AppliedCandidateRecruiter = () => {
         }
     }, [selectedJobs])
 
+    const handleCheckboxChange = (candidateId) => {
+        
+        const isSelected = selectedCandidates.includes(candidateId);
+      
+        setSelectedCandidates((prevSelected) =>
+          isSelected
+            ? prevSelected.filter((id) => id !== candidateId)
+            : [...prevSelected, candidateId]
+        );
+      };
+      
+      const handleChangeStatus = () => {
+        
+        console.log("Selected Candidates: ", selectedCandidates);
+        console.log("Selected Status: ", selectedStatus);
+      
+        const applicationData = {
+            jobId:id,
+            status:selectedStatus,
+            candidateIdArray:selectedCandidates,
+        }
+
+        axios.patch("https://skillety-n6r1.onrender.com/update-application-status", applicationData, {
+            headers: {
+                Authorization: `Bearer ${staffToken}`,
+                Accept: 'application/json'
+            }
+        })
+        .then(res=>{
+            console.log(res.data);
+            showSuccessMessage(`The updated application status for the selected candidate is now marked as ${selectedStatus}.`)
+
+            axios.get(`https://skillety-n6r1.onrender.com/application-status/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${staffToken}`,
+                    Accept: 'application/json'
+                }
+            })
+            .then(res=>{
+                console.log(res.data);
+                setApplicationStatus(res.data)
+            })
+            .catch(err=>{
+                console.log(err);
+            })
+        })
+        .catch(err=>{
+            console.log(err)
+            showErrorMessage();
+        })
+        
+      };
+
 
     return (
         <div>
@@ -613,6 +712,30 @@ const AppliedCandidateRecruiter = () => {
                             </div>
 
                             <div className="dash-talent--profile-card-section">
+                                <div className="card change-status-card">
+                                    <div className="card-change-status-title">
+                                        Change Application Status
+                                    </div>
+                                    <div className="card-change-status-input-area">
+                                        <div className='select-option-area position-relative w-100'>
+                                            <i class="bi bi-chevron-down toggle-icon"></i>
+                                            <select className='change-setting-input select'
+                                                value={selectedStatus}
+                                                onChange={(e) =>setSelectedStatus(e.target.value)}
+                                            >
+                                                <option value="" disabled selected>-- Select application status --</option>
+                                                <option value="screened">Screened</option>
+                                                <option value="interviews">Interviews in Process</option>
+                                                <option value="offered">Offered</option>
+                                                <option value="rejected">Rejected</option>
+                                                <option value="joined">Joined</option>
+                                                <option value="absconded">Absconded</option>
+                                            </select>
+                                        </div>
+                                        <button className="setting-update-btn more-det"
+                                        onClick={handleChangeStatus}>Change</button>
+                                    </div>
+                                </div>
                                 {reqCands.map((candidate) => {
                                     const matchingImg = candidateImg ? candidateImg.find(img => img.id === candidate.id) : null;
                                     const imgSrc = matchingImg ? `https://skillety-n6r1.onrender.com/candidate_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
@@ -622,16 +745,19 @@ const AppliedCandidateRecruiter = () => {
                                         return (matchingSkills.length / skills1.length) * 100;
                                     }
                                     const percentage = Math.round(calculateMatchPercentage(job?.skills, candidate.skills));
+                                    const status = applicationStatus.find(status=>status.candidateId === candidate.id)?.status;
 
                                     return (
                                         <article className="talent--profile-card applied" key={candidate.id}>
                                             <div className="tal--pro-card-left-area applied">
                                                 <div className='card-split-line applied'></div>
                                                 <div className="tal--pro-card-name-area">
-                                                    {/* <label className="tal--pro-card-name-check-container">
-                                                        <input type="checkbox" class="tal--checkbox" />
+                                                <label className="tal--pro-card-name-check-container no-absolute">
+                                                        <input type="checkbox" class="tal--checkbox" 
+                                                        checked={selectedCandidates.includes(candidate.id)}
+                                                        onChange={() => handleCheckboxChange(candidate.id)}/>
                                                         <div className="tal--pro-card-name-checkmark"></div>
-                                                    </label> */}
+                                                    </label>
                                                     <h6 className='tal--pro-card-name'>{candidate.firstName + ' ' + candidate.lastName}</h6>
                                                 </div>
                                                 <div className="tal--pro-card-tags applied">
@@ -688,6 +814,14 @@ const AppliedCandidateRecruiter = () => {
                                                         </div>
                                                         <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
                                                             <p className='tal--pro-card-desc'>{candidate.profileHeadline}</p>
+                                                        </div>
+                                                    </div>
+                                                    <div className="row tal--pro-card-desc-row">
+                                                        <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
+                                                            <h6 className='tal--pro-card-desc-title font-weight-700'>Status&nbsp;:</h6>
+                                                        </div>
+                                                        <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
+                                                            <p className='tal--pro-card-desc font-weight-700'>{status?status:"Screening"}</p>
                                                         </div>
                                                     </div>
                                                 </div>

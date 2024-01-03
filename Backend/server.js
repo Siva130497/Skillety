@@ -187,7 +187,7 @@ app.post('/upload', upload.single('file'), (req, res) => {
   .catch(err => console.log(err))
 });
 
-app.patch('/update-candidate-resume/:id', employeeAuth, upload.single('resume'), (req, res) => {
+app.patch('/update-candidate-resume/:id', upload.single('resume'), (req, res) => {
   const uploadedId = req.params.id;
   const newResumeFilename = req.file.filename;
 
@@ -202,7 +202,7 @@ app.patch('/update-candidate-resume/:id', employeeAuth, upload.single('resume'),
       }
 
       if (!updatedResume) {
-        return res.status(404).json({ error: 'Image not found' });
+        return res.status(404).json({ error: 'Resume not found' });
       }
 
       console.log('Updated Resume:', updatedResume);

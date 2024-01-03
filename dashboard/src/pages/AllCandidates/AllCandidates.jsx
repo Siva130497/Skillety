@@ -8,19 +8,23 @@ import axios from 'axios';
 import AuthContext from '../../context/AuthContext';
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.css';
 
 import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
 import Modal from 'react-modal';
+import { useNavigate } from 'react-router-dom';
 
 Modal.setAppElement('#root');
 
 const AllCandidates = () => {
     const { getProtectedData } = useContext(AuthContext);
-
+    const navigate = useNavigate();
     const [staffToken, setStaffToken] = useState("");
     const [employeeId, setEmployeeId] = useState("");
     const [role, setRole] = useState("");
     const [candidateDetail, setCandidateDetail] = useState([]);
+    const [allCand, setAllCand] = useState([]);
     const [selectedCandidate, setSelectedCandidate] = useState();
     const [appliedOfPostedJobs, setAppliedOfPostedJobs] = useState([]);
     const [searchInput, setSearchInput] = useState("");
@@ -77,6 +81,28 @@ const AllCandidates = () => {
     //     }
     //   };
 
+    //for show success message for payment
+    function showSuccessMessage(message) {
+        Swal.fire({
+            title: 'Success!',
+            text: message,
+            icon: 'success',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'OK',
+        });
+    }
+
+    //for show error message for payment
+    function showErrorMessage() {
+        Swal.fire({
+            title: 'Error!',
+            text: "An error occured!",
+            icon: 'error',
+            confirmButtonColor: '#d33',
+            confirmButtonText: 'OK',
+        });
+    }
+
     const handleViewCV = (fileUrl) => {
         setCandidateResumeUrl(fileUrl);
         setIsModalOpen(true);
@@ -116,6 +142,39 @@ const AllCandidates = () => {
             .catch(err => {
                 console.log(err)
             });
+    }
+
+    const handleDeleteCand = (id) => {
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'You won\'t be able to revert this!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete Candidate!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+
+                axios.delete(`https://skillety-n6r1.onrender.com/del-recruiter-cand/${id}`, {
+                    headers: {
+                        Authorization: `Bearer ${staffToken}`,
+                        Accept: 'application/json'
+                    }
+                })
+                    .then((res) => {
+                        console.log(res.data);
+                        showSuccessMessage("Candidate has been deleted!");
+                        window.location.reload();
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                        showErrorMessage();
+                    });
+            }
+
+        });
     }
 
     useEffect(() => {
@@ -207,6 +266,7 @@ const AllCandidates = () => {
         if(role){
             if(role === "Recruiter"){
                 getAllRecruiterCandidateDetail();
+                getAllCandidateDetail();
             }else{
                 getAllCandidateDetail();
             }
@@ -225,7 +285,12 @@ const AllCandidates = () => {
             const result = response.data;
             if (!result.error) {
                 console.log(result);
-                setCandidateDetail(result.reverse());
+                if(role === "Recruiter"){
+                    setAllCand(result);
+                }else{
+                    setCandidateDetail(result.reverse());
+                }
+
                 setLoading(false);
             } else {
                 console.log(result);
@@ -576,142 +641,9 @@ const AllCandidates = () => {
                                                                 filteredSearchResults.length > 0 ?
                                                                     filteredSearchResults.slice(x[0], x[1]).map((candidate, index) => {
 
-                                                                        const appJobs = appliedJob.filter(job=>job.candidateId === candidate.id)
+                                                                        const appJobs = appliedJob.filter(job=>job.candidateId === candidate.id);
 
-                                                                        return (
-                                                                            <tr className='dash-table-row client' key={candidate.id}>
-                                                                                <td className='dash-table-data1'>{index + 1}.</td>
-                                                                                <td className='dash-table-data1 text-capitalized'>
-                                                                                    {candidate.firstName + ' ' + candidate.lastName}
-                                                                                </td>
-                                                                                {selectedColumns?.includes("Email ID") && <td className='dash-table-data1'>
-                                                                                    <a href={`mailto:${candidate.email}`}
-                                                                                        className='dash-table-data1 link is-link p-0'>
-                                                                                        {candidate.email}
-                                                                                    </a>
-                                                                                </td>}
-
-                                                                                {selectedColumns?.includes("Mobile Number") && <td className='dash-table-data1'>
-                                                                                    <a href={`tel:${candidate.phone}`}
-                                                                                        className='dash-table-data1 link is-link p-0'>
-                                                                                        {candidate.phone}
-                                                                                    </a>
-                                                                                </td>}
-
-                                                                                {selectedColumns?.includes("Send an interview invitation") && <td className='dash-table-data1 text-center'>
-                                                                                    <button className='send-email-btn' onClick={() => handleSend(candidate.id)}>
-                                                                                        <i class="bi bi-send-fill send-icon"></i>
-                                                                                        Send
-                                                                                    </button>
-                                                                                </td>}
-
-                                                                                {selectedColumns?.includes("Current Job Role") && <td className='dash-table-data1 text-left'>
-                                                                                    {candidate?.designation[0]}
-                                                                                </td>}
-
-                                                                                {selectedColumns?.includes("Skills") && <td className='dash-table-data1 text-left'>
-                                                                                    {candidate?.skills.join(", ")}
-                                                                                </td>}
-
-                                                                                {selectedColumns?.includes("Experience") && <td className='dash-table-data1 text-left'>
-                                                                                    <span>{candidate?.year}</span>&nbsp;years and&nbsp;<span>{candidate?.month}</span>&nbsp;months
-                                                                                </td>}
-
-                                                                                {selectedColumns?.includes("Current/Previous Working/Worked Company Name") && <td className='dash-table-data1 text-left'>
-                                                                                    {candidate?.companyName}
-                                                                                </td>}
-
-                                                                                {selectedColumns?.includes("College") && <td className='dash-table-data1 text-left'>
-                                                                                    {candidate?.college}
-                                                                                </td>}
-
-                                                                                {selectedColumns?.includes("Education") && <td className='dash-table-data1 text-left'>
-                                                                                    {candidate?.education}
-                                                                                </td>}
-
-                                                                                {selectedColumns?.includes("Location") && <td className='dash-table-data1 text-left'>
-                                                                                    {candidate?.location}
-                                                                                </td>}
-
-                                                                                {selectedColumns?.includes("About him/her") && <td className='dash-table-data1 text-left'>
-                                                                                    {candidate?.profileHeadline}
-                                                                                </td>}
-
-                                                                                {selectedColumns?.includes("Last Working Day") && <td className='dash-table-data1 text-left'>
-                                                                                    {candidate?.selectedDate}
-                                                                                </td>}
-
-                                                                                {selectedColumns?.includes("Available To Join In") && <td className='dash-table-data1 text-left'>
-                                                                                    {candidate?.days}
-                                                                                </td>}
-
-                                                                                {selectedColumns?.includes("Applied jobs of your posted") && <td className='dash-table-data1 text-left'>
-                                                                                    {appliedOfPostedJobs
-                                                                                        .filter((appliedOfPostedJob) => appliedOfPostedJob.candidateId === candidate?.id).length > 0 ?
-                                                                                        appliedOfPostedJobs
-                                                                                            .filter((appliedOfPostedJob) => appliedOfPostedJob.candidateId === candidate?.id)
-                                                                                            .map((appliedOfPostedJob) => {
-                                                                                                return (
-                                                                                                    <span className='dash-table-data1 text-capitalized'>{appliedOfPostedJob.jobRole[0]}</span>
-                                                                                                )
-                                                                                            }) :
-                                                                                        <span className='text-secondary'>Still not applied for your posted jobs</span>
-                                                                                    }
-                                                                                </td>}
-                                                                                {selectedColumns?.includes("Applied jobs") && <td className='dash-table-data1 text-left'>
-                                                                                {appJobs
-                                                                                .length > 0 ?
-                                                                                appJobs
-                                                                                        .map((appliedJob) => {
-                                                                                            const postedBy = appliedJob.companyId
-                                                                                            ? (allCompany.find(company => company.companyId === appliedJob.companyId)?.companyName)
-                                                                                            : (allEmployee.find(employee => employee.id === appliedJob.recruiterId)?.name);
-                                                                                            return (
-                                                                                                <div className='dash-table-data1 text-capitalized'><strong>{appliedJob.jobRole[0]}</strong><br/>Posted By:{postedBy}</div>
-                                                                                                
-                                                                                            )
-                                                                                        }) :
-                                                                                    <span className='text-secondary'>Still not applied for any posted jobs</span>}
-                                                                                    </td>
-                                                                                }
-                                                                                {selectedColumns?.includes("View CV") &&<td className='text-center'>
-                                                                                    <button className='application-btn with-modal' onClick={() => handleViewCV(`https://skillety-n6r1.onrender.com/files/${candidate?.file}`)}>
-                                                                                        <span></span>&nbsp;&nbsp;&nbsp;
-                                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-file-earmark-text-fill" viewBox="0 0 16 16">
-                                                                                            <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM4.5 9a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 1 0-1h4a.5.5 0 0 1 0 1h-4z" fill='#0879bc' />
-                                                                                        </svg>
-                                                                                    </button>
-                                                                                </td>}
-                                                                                {selectedColumns?.includes("Status") &&<td className='text-center'>
-                                                                                    <select>
-                                                                                    <option selected disabled>Select one.</option>
-                                                                                        <option >New CV Upload</option>
-                                                                                        <option >Applied Online</option>
-                                                                                        <option>Submitted to Client</option>
-                                                                                        <option >Interviews in Process</option>
-                                                                                        <option >Offered</option>
-                                                                                        <option >Rejected</option>
-                                                                                        <option >Joined</option>
-                                                                                        <option >Invoiced</option>
-                                                                                        <option >Payment Received</option>
-                                                                                    </select>
-                                                                                </td>}
-                                                                                <td className='text-center'>
-                                                                                    <div className="action-btn-area">
-                                                                                        <button className='job-view-btn' data-toggle="modal" title='View Candidate Details...' data-target="#candidatesViewModal" onClick={() => viewCandidateDetail(candidate.id)}>
-                                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
-                                                                                                <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
-                                                                                                <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
-                                                                                            </svg>
-                                                                                        </button>
-                                                                                    </div>
-                                                                                </td>
-                                                                            </tr>
-                                                                        )
-                                                                    }) :
-                                                                    !searchInput ? candidateDetail.slice(x[0], x[1]).map((candidate, index) => {
-                                                                        
-                                                                        const appJobs = appliedJob.filter(job=>job.candidateId === candidate.id)
+                                                                        const registered = allCand.find(cand=>cand.id === candidate.id);
 
                                                                         return (
                                                                             <tr className='dash-table-row client' key={candidate.id}>
@@ -840,6 +772,170 @@ const AllCandidates = () => {
                                                                                                 <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
                                                                                             </svg>
                                                                                         </button>
+                                                                                        {(role === "Recruiter") &&<button className='job-edit-btn' title='Edit candidate details...' onClick={() => navigate(`/create-candidate`, { state: { id: candidate.id } })}
+                                                                                        disabled={registered}>
+                                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
+                                                                                                <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
+                                                                                            </svg>
+                                                                                        </button>}
+                                                                                        {(role === "Recruiter") &&<button className='job-delete-btn' title='Delete candidate data...' onClick={() => handleDeleteCand(candidate.id)}
+                                                                                        disabled={registered}
+                                                                                        >
+                                                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                                                                                                        <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
+                                                                                                    </svg>
+                                                                                        </button>}
+                                                                                    </div>
+                                                                                </td>
+                                                                            </tr>
+                                                                        )
+                                                                    }) :
+                                                                    !searchInput ? candidateDetail.slice(x[0], x[1]).map((candidate, index) => {
+                                                                        
+                                                                        const appJobs = appliedJob.filter(job=>job.candidateId === candidate.id)
+
+                                                                        const registered = allCand.find(cand=>cand.id === candidate.id);
+
+                                                                        return (
+                                                                            <tr className='dash-table-row client' key={candidate.id}>
+                                                                                <td className='dash-table-data1'>{index + 1}.</td>
+                                                                                <td className='dash-table-data1 text-capitalized'>
+                                                                                    {candidate.firstName + ' ' + candidate.lastName}
+                                                                                </td>
+                                                                                {selectedColumns?.includes("Email ID") && <td className='dash-table-data1'>
+                                                                                    <a href={`mailto:${candidate.email}`}
+                                                                                        className='dash-table-data1 link is-link p-0'>
+                                                                                        {candidate.email}
+                                                                                    </a>
+                                                                                </td>}
+
+                                                                                {selectedColumns?.includes("Mobile Number") && <td className='dash-table-data1'>
+                                                                                    <a href={`tel:${candidate.phone}`}
+                                                                                        className='dash-table-data1 link is-link p-0'>
+                                                                                        {candidate.phone}
+                                                                                    </a>
+                                                                                </td>}
+
+                                                                                {selectedColumns?.includes("Send an interview invitation") && <td className='dash-table-data1 text-left'>
+                                                                                    <button className='send-email-btn' onClick={() => handleSend(candidate.id)}>
+                                                                                        <i class="bi bi-send-fill send-icon"></i>
+                                                                                        Send
+                                                                                    </button>
+                                                                                </td>}
+
+                                                                                {selectedColumns?.includes("Current Job Role") && <td className='dash-table-data1 text-left'>
+                                                                                    {candidate?.designation[0]}
+                                                                                </td>}
+
+                                                                                {selectedColumns?.includes("Skills") && <td className='dash-table-data1 text-left'>
+                                                                                    {candidate?.skills.join(", ")}
+                                                                                </td>}
+
+                                                                                {selectedColumns?.includes("Experience") && <td className='dash-table-data1 text-left'>
+                                                                                    <span>{candidate?.year}</span>&nbsp;years and&nbsp;<span>{candidate?.month}</span>&nbsp;months
+                                                                                </td>}
+
+                                                                                {selectedColumns?.includes("Current/Previous Working/Worked Company Name") && <td className='dash-table-data1 text-left'>
+                                                                                    {candidate?.companyName}
+                                                                                </td>}
+
+                                                                                {selectedColumns?.includes("College") && <td className='dash-table-data1 text-left'>
+                                                                                    {candidate?.college}
+                                                                                </td>}
+
+                                                                                {selectedColumns?.includes("Education") && <td className='dash-table-data1 text-left'>
+                                                                                    {candidate?.education}
+                                                                                </td>}
+
+                                                                                {selectedColumns?.includes("Location") && <td className='dash-table-data1 text-left'>
+                                                                                    {candidate?.location}
+                                                                                </td>}
+
+                                                                                {selectedColumns?.includes("About him/her") && <td className='dash-table-data1 text-left'>
+                                                                                    {candidate?.profileHeadline}
+                                                                                </td>}
+
+                                                                                {selectedColumns?.includes("Last Working Day") && <td className='dash-table-data1 text-left'>
+                                                                                    {candidate?.selectedDate}
+                                                                                </td>}
+
+                                                                                {selectedColumns?.includes("Available To Join In") && <td className='dash-table-data1 text-left'>
+                                                                                    {candidate?.days}
+                                                                                </td>}
+
+                                                                                {selectedColumns?.includes("Applied jobs of your posted") && <td className='dash-table-data1 text-left'>
+                                                                                    {appliedOfPostedJobs
+                                                                                        .filter((appliedOfPostedJob) => appliedOfPostedJob.candidateId === candidate?.id).length > 0 ?
+                                                                                        appliedOfPostedJobs
+                                                                                            .filter((appliedOfPostedJob) => appliedOfPostedJob.candidateId === candidate?.id)
+                                                                                            .map((appliedOfPostedJob) => {
+                                                                                                return (
+                                                                                                    <span className='dash-table-data1 text-capitalized'>{appliedOfPostedJob.jobRole[0]}</span>
+                                                                                                )
+                                                                                            }) :
+                                                                                        <span className='text-secondary'>Still not applied for your posted jobs</span>
+                                                                                    }
+                                                                                </td>}
+
+                                                                                {selectedColumns?.includes("Applied jobs") && <td className='dash-table-data1 text-left'>
+                                                                                {appJobs
+                                                                                .length > 0 ?
+                                                                                appJobs
+                                                                                        .map((appliedJob) => {
+                                                                                            const postedBy = appliedJob.companyId
+                                                                                            ? (allCompany.find(company => company.companyId === appliedJob.companyId)?.companyName)
+                                                                                            : (allEmployee.find(employee => employee.id === appliedJob.recruiterId)?.name);
+                                                                                            return (
+                                                                                                <div className='dash-table-data1 text-capitalized'><strong>{appliedJob.jobRole[0]}</strong><br/>Posted By : {postedBy}</div>
+                                                                                                
+                                                                                            )
+                                                                                        }) :
+                                                                                    <span className='text-secondary'>Still not applied for any posted jobs</span>}
+                                                                                    </td>
+                                                                                }
+                                                                                {selectedColumns?.includes("View CV") &&<td className='text-center'>
+                                                                                    <button className='application-btn with-modal' onClick={() => handleViewCV(`https://skillety-n6r1.onrender.com/files/${candidate?.file}`)}>
+                                                                                        <span></span>&nbsp;&nbsp;&nbsp;
+                                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-file-earmark-text-fill" viewBox="0 0 16 16">
+                                                                                            <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM4.5 9a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 1 0-1h4a.5.5 0 0 1 0 1h-4z" fill='#0879bc' />
+                                                                                        </svg>
+                                                                                    </button>
+                                                                                </td>}
+                                                                                {selectedColumns?.includes("Status") &&<td className='text-center'>
+                                                                                    <select>
+                                                                                    <option selected disabled>Select one.</option>
+                                                                                        <option >New CV Upload</option>
+                                                                                        <option >Applied Online</option>
+                                                                                        <option>Submitted to Client</option>
+                                                                                        <option >Interviews in Process</option>
+                                                                                        <option >Offered</option>
+                                                                                        <option >Rejected</option>
+                                                                                        <option >Joined</option>
+                                                                                        <option >Invoiced</option>
+                                                                                        <option >Payment Received</option>
+                                                                                    </select>
+                                                                                </td>}
+                                                                                <td className='text-center'>
+                                                                                    <div className="action-btn-area">
+                                                                                        <button className='job-view-btn' data-toggle="modal" title='View Candidate Details...' data-target="#candidatesViewModal" onClick={() => viewCandidateDetail(candidate.id)}>
+                                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                                                                                <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
+                                                                                                <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
+                                                                                            </svg>
+                                                                                        </button>
+                                                                                        {(role === "Recruiter") &&<button className='job-edit-btn' title='Edit candidate details...' onClick={() => navigate(`/create-candidate`, { state: { id: candidate.id } })}
+                                                                                        disabled={registered}>
+                                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
+                                                                                                <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
+                                                                                            </svg>
+                                                                                        </button>}
+                                                                                        {(role === "Recruiter") &&<button className='job-delete-btn' title='Delete candidate data...' onClick={() => handleDeleteCand(candidate.id)}
+                                                                                        disabled={registered}
+                                                                                        >
+                                                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                                                                                                        <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
+                                                                                                    </svg>
+                                                                                        </button>}
                                                                                     </div>
                                                                                 </td>
                                                                             </tr>
