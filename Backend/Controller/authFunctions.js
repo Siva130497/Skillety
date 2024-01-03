@@ -110,6 +110,60 @@ const getAllRecruiterClientDetails = async(req, res) => {
   }
 }
 
+const getARecruiterClientDetails = async(req, res) => {
+  const {id} = req.params;
+  try{
+    const client = await recruiterClient.findOne({id:id});
+    return res.status(200).json(client);
+  }catch(err){
+    return res.status(500).json({ error: err.message });
+  }
+}
+
+const updateRecruiterClient = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const clientToUpdate = await recruiterClient.findOne({ id });
+
+    if (clientToUpdate) {
+      const updatedClient = await recruiterClient.findOneAndUpdate(
+        { id },
+        {
+          $set: {
+            name: req.body.name,
+            email: req.body.email,
+            industry: req.body.industry,
+            phone: req.body.phone,
+            count: req.body.count,
+            companyName: req.body.companyName,
+            text: req.body.text,
+          },
+        },
+        { new: true }
+      );
+
+      return res.status(200).json({ updatedClient });
+    } else {
+      return res.status(404).json({ error: 'Client not found' });
+    }
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+const deletingRecruiterClient = async(req, res) => {
+  try{
+    const {id} = req.params;
+    const deletedClient = await recruiterClient.deleteOne({id});
+    
+      res.status(204).json(deletedClient); 
+    
+  }catch(err) {
+    res.status(500).json({error: err.message})
+  }
+}
+
 //create client with temp password
 const createClient = async (req, res) => {
   const {id} = req.params;
@@ -3727,6 +3781,9 @@ module.exports = {
    clientRegister,
    getAllClientDetails,
    getAllRecruiterClientDetails,
+   getARecruiterClientDetails,
+   updateRecruiterClient,
+   deletingRecruiterClient,
    createClient,
    getAllClientUrlWithEmail,
    createClientStaff,

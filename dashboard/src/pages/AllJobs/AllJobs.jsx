@@ -288,8 +288,8 @@ const AllJobs = () => {
             getAllCandidateDetail();
             getAssignedCandidates();
             if(jobs){
-                const updatedJobs = jobs.map(job => ({ ...job, active: true }));
-                setAllJobs(updatedJobs);
+                // const updatedJobs = jobs.map(job => ({ ...job, active: true }));
+                setAllJobs(jobs);
             }else{
                 getPostedjobs();
                 getPostedApprovedInactiveJobs();
@@ -673,6 +673,9 @@ const AllJobs = () => {
                                                         <div className='p-2'>
                                                             <div className='row'>
                                                                 {columns.map(column => {
+                                                                    if (column === "Status" && jobs) {
+                                                                        return null;
+                                                                    }
                                                                     return (
                                                                         <div className="col-12 col-sm-6 col-lg-6 col-xl-4 col-md-6">
                                                                             <label className={`layout-form-check-input ${selectedColumns && selectedColumns.length === 3 && !selectedColumns.includes(column) ? 'disabled' : ''}`}>
@@ -702,10 +705,12 @@ const AllJobs = () => {
                                                                 <th className='dash-table-head'>No.</th>
                                                                 <th className='dash-table-head'>Job Role</th>
                                                                 {columns.map(column => {
-                                                                    if (selectedColumns?.includes(column)) {
+                                                                    if (column === "Status" && jobs) {
+                                                                        return null;
+                                                                    } else if (selectedColumns.includes(column)) {
                                                                         return (
-                                                                            <th className='dash-table-head'>{column}</th>
-                                                                        )
+                                                                            <th key={column} className='dash-table-head'>{column}</th>
+                                                                        );
                                                                     }
                                                                 })}
                                                                 <th className='dash-table-head text-center'>View</th>
@@ -737,7 +742,7 @@ const AllJobs = () => {
                                                                                                 {selectedColumns?.includes("Posted by") && <td className='dash-table-data1 text-left text-capitalized'>
                                                                                                     {postedBy}
                                                                                                 </td>}
-                                                                                                {selectedColumns?.includes("Status") && <td className='text-left'>
+                                                                                                {(selectedColumns?.includes("Status") && !jobs) && <td className='text-left'>
                                                                                                     {Job?.active ?
                                                                                                         <span className='man-job-status-btn theme-success'>Approved & Active</span>
                                                                                                         :
@@ -826,7 +831,7 @@ const AllJobs = () => {
                                                                                                 {selectedColumns?.includes("Posted by") && <td className='dash-table-data1 text-left text-capitalized'>
                                                                                                     {postedBy}
                                                                                                 </td>}
-                                                                                                {selectedColumns?.includes("Status") && <td className='text-left'>
+                                                                                                {(selectedColumns?.includes("Status") && !jobs) && <td className='text-left'>
                                                                                                     {Job?.active ?
                                                                                                         <span className='man-job-status-btn theme-success'>Approved & Active</span>
                                                                                                         :
@@ -910,7 +915,7 @@ const AllJobs = () => {
                                                                                                 {selectedColumns?.includes("Posted by") && <td className='dash-table-data1 text-left text-capitalized'>
                                                                                                     {postedBy}
                                                                                                 </td>}
-                                                                                                {selectedColumns?.includes("Status") && <td className='text-left'>
+                                                                                                {(selectedColumns?.includes("Status") && !jobs) && <td className='text-left'>
                                                                                                     {Job?.active ?
                                                                                                         <span className='man-job-status-btn theme-success'>Approved & Active</span>
                                                                                                         :

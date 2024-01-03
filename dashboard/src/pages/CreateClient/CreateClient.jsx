@@ -9,9 +9,14 @@ import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
 import 'react-datepicker/dist/react-datepicker.css';
 import AuthContext from '../../context/AuthContext';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 
 const CreateClient = () => {
+    const navigate = useNavigate();
+    const location = useLocation();
+    const { id } = location.state || {};
+    const [client, setClient] = useState();
     const { getProtectedData } = useContext(AuthContext);
     const [staffToken, setStaffToken] = useState("");
     const [employeeId, setEmployeeId] = useState("");
@@ -60,6 +65,40 @@ const CreateClient = () => {
     }
 
     useEffect(() => {
+        if (id && staffToken) {
+          axios.get(`https://skillety-n6r1.onrender.com/recruiter-client/${id}`, {
+            headers: {
+              // Authorization: `Bearer ${staffToken}`,
+              Accept: 'application/json'
+            }
+          })
+            .then(res => {
+              console.log(res.data)
+              setClient(res.data)
+            })
+            .catch(err => {
+              console.log(err)
+            })
+        }
+      }, [id, staffToken])
+    
+      useEffect(() => {
+        if (client) {
+            console.log(client)
+          setSelectedIndustry([client.industry])
+          setCredentials({
+            ...credentials,
+            name: client.name,
+            phone: client.phone,
+            email: client.email,
+            companyName: client.companyName,
+            count: client.count,
+            text: client.text,
+          })
+        }
+      }, [client])
+
+    useEffect(() => {
         setStaffToken(JSON.parse(localStorage.getItem('staffToken')))
     }, [staffToken])
 
@@ -101,6 +140,37 @@ const CreateClient = () => {
                     }).then(() => {
                         setCredentials(initialCredentials);
                         setSelectedIndustry([]);
+                    });
+                });
+            } else {
+                console.log(result);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const updateClient = async (userData) => {
+        try {
+            const response = await axios.patch(`https://skillety-n6r1.onrender.com/update-Client/${id}`, userData, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            const result = response.data;
+
+            if (!result.error) {
+                console.log(result);
+                await new Promise(() => {
+                    Swal.fire({
+                        title: 'Updated!',
+                        text: '',
+                        icon: 'success',
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'OK',
+                    }).then(() => {
+                        navigate("/all-clients")
                     });
                 });
             } else {
@@ -192,6 +262,21 @@ const CreateClient = () => {
                 };
                 console.log(updatedCredentials);
                 registerUser(updatedCredentials);
+        }
+    };
+
+    const handleUpdate = (event) => {
+        event.preventDefault();
+        
+        if (credentials.name === "" || credentials.phone === "" || credentials.email === "" || !(emailRegex.test(credentials.email)) || selectedIndustry.length === 0 || credentials.companyName === "" || credentials.count === "") {
+            setRequire(true)
+        }else{
+                const updatedCredentials = {
+                    ...credentials,
+                    industry: selectedIndustry[0],
+                };
+                console.log(updatedCredentials);
+                updateClient(updatedCredentials);
         }
     };
 
@@ -340,7 +425,7 @@ const CreateClient = () => {
                                 </div>
                             </div>
                             <div className="post-job-btn-area">
-                                <button className='post-job-btn' onClick={handleSubmit}>Create</button>
+                                {id ? <button className='post-job-btn' onClick={handleUpdate}>Update</button> : <button className='post-job-btn' onClick={handleSubmit}>Create</button>}
                             </div>
                         </div>
                     </section>
