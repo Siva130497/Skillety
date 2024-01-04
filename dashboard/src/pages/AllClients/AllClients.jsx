@@ -26,7 +26,7 @@ const AllClients = () => {
     // const [emailMsg, setEmailMsg] = useState("");
     const [commonEmails, setCommonEmails] = useState([]);
     const [aClient, setAClient] = useState();
-    
+
     const [x, setX] = useState([0, 10]);
     const [loading, setLoading] = useState(true);
     const [employeeId, setEmployeeId] = useState("");
@@ -44,17 +44,17 @@ const AllClients = () => {
         const term = e.target.value;
         setSearchTerm(term);
         filterData(term);
-      };
-    
-      const filterData = (term) => {
+    };
+
+    const filterData = (term) => {
         const filteredArray = clientDetail.filter((item) => {
-          const lowerCaseTerm = term.toLowerCase();
-          return Object.values(item)
-        .map((value) => (value || '').toString().toLowerCase())
-        .some((value) => value.includes(lowerCaseTerm));
+            const lowerCaseTerm = term.toLowerCase();
+            return Object.values(item)
+                .map((value) => (value || '').toString().toLowerCase())
+                .some((value) => value.includes(lowerCaseTerm));
         });
         setFilteredData(filteredArray);
-      };
+    };
 
     const handleCheckboxChange = (value) => {
 
@@ -122,26 +122,26 @@ const AllClients = () => {
         setIsExpanded(prevState => !prevState);
     };
 
-    const getAnIndividualRecruiter = async() => {
-        try{
+    const getAnIndividualRecruiter = async () => {
+        try {
             const res = await axios.get(`https://skillety-n6r1.onrender.com/staff/${employeeId}`, {
-              headers: {
-                  Authorization: `Bearer ${staffToken}`,
-                  Accept: 'application/json'
-              }
+                headers: {
+                    Authorization: `Bearer ${staffToken}`,
+                    Accept: 'application/json'
+                }
             });
             const result = res.data;
             if (!result.error) {
-              console.log(result);
-              setRole(result.companyStaff);
-              
+                console.log(result);
+                setRole(result.companyStaff);
+
             } else {
-              console.log(result);
+                console.log(result);
             }
-        }catch(err){
-          console.log(err);
+        } catch (err) {
+            console.log(err);
         }
-      }
+    }
 
     useEffect(() => {
         if (staffToken) {
@@ -163,15 +163,15 @@ const AllClients = () => {
         }
     }, [staffToken]);
 
-    useEffect(()=>{
-        if(role){
-            if(role === "Recruiter"){
+    useEffect(() => {
+        if (role) {
+            if (role === "Recruiter") {
                 getAllRecruiterClientDetails()
-            }else{
+            } else {
                 getAllClientDetails();
             }
         }
-    },[role])
+    }, [role])
 
     useEffect(() => {
         if (employeeId) {
@@ -184,11 +184,11 @@ const AllClients = () => {
                         setSelectedColumns(res.data.column);
 
                     }
-                   
+
                 })
                 .catch(err => {
                     console.log(err)
-                    
+
                 })
         }
     }, [employeeId])
@@ -228,10 +228,10 @@ const AllClients = () => {
             if (!result.error) {
                 console.log(result);
                 setRegisteredClientDetail(result);
-                
+
             } else {
                 console.log(result);
-                
+
             }
 
         } catch (err) {
@@ -253,10 +253,10 @@ const AllClients = () => {
             if (!result.error) {
                 console.log(result);
                 setActiveJobs(result);
-                
+
             } else {
                 console.log(result);
-                
+
             }
 
         } catch (err) {
@@ -278,10 +278,10 @@ const AllClients = () => {
             if (!result.error) {
                 console.log(result);
                 setInActiveJobs(result);
-                
+
             } else {
                 console.log(result);
-                
+
             }
 
         } catch (err) {
@@ -470,7 +470,7 @@ const AllClients = () => {
         });
     }
 
-    
+
     return (
         <div>
             <div class="main-wrapper main-wrapper-1">
@@ -495,13 +495,7 @@ const AllClients = () => {
                                         <span>Create New</span>
                                     </a>
                                 </div>
-                                <div className="recruiter-search-input-area">
-                                    <input type="search" className='recruiter-search-input' placeholder='Search...'
-                                        value={searchTerm}
-                                        onChange={handleInputChange}
-                                     />
-                                    <i className='bi bi-search search-icon'></i>
-                                </div>
+
                             </div>
 
                             {loading ? (
@@ -584,13 +578,23 @@ const AllClients = () => {
                                     <div className="col-12">
                                         <div className="admin-lg-table-section">
                                             <div className='admin-lg-table-area man-app'>
-                                                <div className='man-app-title-area'>
-                                                    <div className="man-app-title">
-                                                        All Clients Details
+                                                <div className='man-app-title-area candidate'>
+                                                    <div>
+                                                        <div className="man-app-title">
+                                                            All Clients Details
+                                                        </div>
+                                                        <div className="man-app-sub-title">
+                                                            Total Clients :&nbsp;
+                                                            <span>{filteredData.length}</span>
+                                                        </div>
                                                     </div>
-                                                    <div className="man-app-sub-title">
-                                                        Total Clients :&nbsp;
-                                                        <span>{filteredData.length}</span>
+                                                    <div className="recruiter-search-input-area">
+                                                        <input type="search" className='recruiter-search-input' placeholder='Search...'
+                                                            value={searchTerm}
+                                                            onChange={handleInputChange}
+                                                        />
+                                                        <i className='bi bi-search search-icon'></i>
+                                                        <button className='recruiter-search-btn'>Search</button>
                                                     </div>
                                                     <div className='customize-table-layout-area'>
                                                         <div className="customize-table-layout-top">
@@ -719,21 +723,32 @@ const AllClients = () => {
                                                                             }
                                                                         </td>}
                                                                         {selectedColumns?.includes("Active Jobs") && <td className='dash-table-data1 text-left'>
-                                                                                    <button className='application-btn with-modal' onClick={() => ActJobs.length > 0 && navigate(`/all-jobs`, { state: { jobs: ActJobs } })}>
-                                                                                        <span>{ActJobs?.length}</span>&nbsp;&nbsp;&nbsp;
-                                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-file-earmark-text-fill" viewBox="0 0 16 16">
-                                                                                            <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM4.5 9a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 1 0-1h4a.5.5 0 0 1 0 1h-4z" fill='#0879bc' />
-                                                                                        </svg>
-                                                                                    </button>
-                                                                                </td>}
-                                                                                {selectedColumns?.includes("In-Active Jobs") && <td className='dash-table-data1 text-left'>
-                                                                                    <button className='application-btn with-modal' onClick={() => InActJobs.length > 0 && navigate(`/all-jobs`, { state: { jobs: InActJobs } })}>
-                                                                                        <span>{InActJobs?.length}</span>&nbsp;&nbsp;&nbsp;
-                                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-file-earmark-text-fill" viewBox="0 0 16 16">
-                                                                                            <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM4.5 9a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 1 0-1h4a.5.5 0 0 1 0 1h-4z" fill='#0879bc' />
-                                                                                        </svg>
-                                                                                    </button>
-                                                                                </td>}
+                                                                            <button className='application-btn with-modal' onClick={() => ActJobs?.length > 0 && navigate(`/all-jobs`, { state: { jobs: ActJobs } })}>
+                                                                                {/* <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-file-earmark-text-fill" viewBox="0 0 16 16">
+                                                                                    <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM4.5 9a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 1 0-1h4a.5.5 0 0 1 0 1h-4z" fill='#0879bc' />
+                                                                                </svg> */}
+
+                                                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-briefcase-fill" viewBox="0 0 16 16">
+                                                                                    <path d="M6.5 1A1.5 1.5 0 0 0 5 2.5V3H1.5A1.5 1.5 0 0 0 0 4.5v1.384l7.614 2.03a1.5 1.5 0 0 0 .772 0L16 5.884V4.5A1.5 1.5 0 0 0 14.5 3H11v-.5A1.5 1.5 0 0 0 9.5 1zm0 1h3a.5.5 0 0 1 .5.5V3H6v-.5a.5.5 0 0 1 .5-.5" fill='#0879bc' />
+                                                                                    <path d="M0 12.5A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5V6.85L8.129 8.947a.5.5 0 0 1-.258 0L0 6.85z" fill='#0879bc' />
+                                                                                </svg>
+                                                                                &nbsp;&nbsp;&nbsp;
+                                                                                <span>{ActJobs?.length}</span>
+                                                                            </button>
+                                                                        </td>}
+                                                                        {selectedColumns?.includes("In-Active Jobs") && <td className='dash-table-data1 text-left'>
+                                                                            <button className='application-btn with-modal' onClick={() => InActJobs?.length > 0 && navigate(`/all-jobs`, { state: { jobs: InActJobs } })}>
+                                                                                {/* <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-file-earmark-text-fill" viewBox="0 0 16 16">
+                                                                                    <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM4.5 9a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 1 0-1h4a.5.5 0 0 1 0 1h-4z" fill='#0879bc' />
+                                                                                </svg> */}
+
+                                                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-briefcase" viewBox="0 0 16 16">
+                                                                                    <path d="M6.5 1A1.5 1.5 0 0 0 5 2.5V3H1.5A1.5 1.5 0 0 0 0 4.5v8A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-8A1.5 1.5 0 0 0 14.5 3H11v-.5A1.5 1.5 0 0 0 9.5 1zm0 1h3a.5.5 0 0 1 .5.5V3H6v-.5a.5.5 0 0 1 .5-.5m1.886 6.914L15 7.151V12.5a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5V7.15l6.614 1.764a1.5 1.5 0 0 0 .772 0M1.5 4h13a.5.5 0 0 1 .5.5v1.616L8.129 7.948a.5.5 0 0 1-.258 0L1 6.116V4.5a.5.5 0 0 1 .5-.5" fill='#0879bc' />
+                                                                                </svg>
+                                                                                &nbsp;&nbsp;&nbsp;
+                                                                                <span>{InActJobs?.length}</span>
+                                                                            </button>
+                                                                        </td>}
                                                                         <td className='text-center'>
                                                                             <div className="action-btn-area">
                                                                                 <button className='job-view-btn' title='View Client Details...' data-toggle="modal" data-target="#clientsViewModal" onClick={() => handleCard(client.id)}>
@@ -742,19 +757,19 @@ const AllClients = () => {
                                                                                         <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
                                                                                     </svg>
                                                                                 </button>
-                                                                                {(role === "Recruiter") &&<button className='job-edit-btn' title='Edit client details...' onClick={() => navigate(`/create-client`, { state: { id: client.id } })}
-                                                                                        disabled={RegisteredUser}>
-                                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
-                                                                                                <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
-                                                                                            </svg>
-                                                                                        </button>}
-                                                                                        {(role === "Recruiter") &&<button className='job-delete-btn' title='Delete client data...' onClick={() => handleDeleteClient(client.id)}
-                                                                                        disabled={RegisteredUser}
-                                                                                        >
-                                                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
-                                                                                                        <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
-                                                                                                    </svg>
-                                                                                        </button>}
+                                                                                {(role === "Recruiter") && <button className='job-edit-btn' title='Edit client details...' onClick={() => navigate(`/create-client`, { state: { id: client.id } })}
+                                                                                    disabled={RegisteredUser}>
+                                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
+                                                                                        <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
+                                                                                    </svg>
+                                                                                </button>}
+                                                                                {(role === "Recruiter") && <button className='job-delete-btn' title='Delete client data...' onClick={() => handleDeleteClient(client.id)}
+                                                                                    disabled={RegisteredUser}
+                                                                                >
+                                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                                                                                        <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
+                                                                                    </svg>
+                                                                                </button>}
                                                                             </div>
                                                                         </td>
                                                                     </tr>
