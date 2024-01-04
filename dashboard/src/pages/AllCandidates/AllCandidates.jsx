@@ -30,7 +30,7 @@ const AllCandidates = () => {
     const [searchInput, setSearchInput] = useState("");
     const [filteredSearchResults, setFilteredSearchResults] = useState([]);
     const [filteredSearchResultsMsg, setFilteredSearchResultsMsg] = useState("");
-    
+
 
     const [x, setX] = useState([0, 10]);
     const [loading, setLoading] = useState(true);
@@ -44,7 +44,7 @@ const AllCandidates = () => {
     const [isExpanded, setIsExpanded] = useState(false);
 
     const [selectedColumns, setSelectedColumns] = useState([]);
-    let columns = ["Email ID", "Mobile Number",  "Send an interview invitation", "Current Job Role", "Skills", "Experience", "Current/Previous Working/Worked Company Name", "College", "Education", "Location", "About him/her", "Last Working Day", "Available To Join In", "Applied jobs of your posted", "Applied jobs", "View CV", "Status"]
+    let columns = ["Email ID", "Mobile Number", "Send an interview invitation", "Current Job Role", "Skills", "Experience", "Current/Previous Working/Worked Company Name", "College", "Education", "Location", "About him/her", "Last Working Day", "Available To Join In", "Applied jobs of your posted", "Applied jobs", "View CV", "Status"]
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [candidateResumeUrl, setCandidateResumeUrl] = useState("");
@@ -106,12 +106,12 @@ const AllCandidates = () => {
     const handleViewCV = (fileUrl) => {
         setCandidateResumeUrl(fileUrl);
         setIsModalOpen(true);
-      };
-    
-      const closeModal = () => {
+    };
+
+    const closeModal = () => {
         // setCandidateResumeUrl(null);
         setIsModalOpen(false);
-      };
+    };
 
     const handleCheckboxChange = (value) => {
 
@@ -197,50 +197,50 @@ const AllCandidates = () => {
             fetchData();
 
             axios.get("https://skillety-n6r1.onrender.com/all-employee")
-            .then(res=>{
-                console.log(res.data);
-                setAllEmployee(res.data);
-            })
-            .catch(err=>console.log(err))
+                .then(res => {
+                    console.log(res.data);
+                    setAllEmployee(res.data);
+                })
+                .catch(err => console.log(err))
 
             axios.get("https://skillety-n6r1.onrender.com/company-details")
-            .then(res => {
-                console.log(res.data);
-                setAllCompany(res.data);
-            })
-            .catch(err => {
-                console.log(err);
-            })
+                .then(res => {
+                    console.log(res.data);
+                    setAllCompany(res.data);
+                })
+                .catch(err => {
+                    console.log(err);
+                })
 
             axios.get("https://skillety-n6r1.onrender.com/applied-jobs")
-            .then(res=>{
-                console.log(res.data)
-                setAppliedJob(res.data);
-            })
-            .catch(err=>console.log(err));
+                .then(res => {
+                    console.log(res.data)
+                    setAppliedJob(res.data);
+                })
+                .catch(err => console.log(err));
         }
     }, [staffToken]);
 
-    const getAnIndividualRecruiter = async() => {
-        try{
+    const getAnIndividualRecruiter = async () => {
+        try {
             const res = await axios.get(`https://skillety-n6r1.onrender.com/staff/${employeeId}`, {
-              headers: {
-                  Authorization: `Bearer ${staffToken}`,
-                  Accept: 'application/json'
-              }
+                headers: {
+                    Authorization: `Bearer ${staffToken}`,
+                    Accept: 'application/json'
+                }
             });
             const result = res.data;
             if (!result.error) {
-              console.log(result);
-              setRole(result.companyStaff);
-              
+                console.log(result);
+                setRole(result.companyStaff);
+
             } else {
-              console.log(result);
+                console.log(result);
             }
-        }catch(err){
-          console.log(err);
+        } catch (err) {
+            console.log(err);
         }
-      }
+    }
 
     useEffect(() => {
         if (employeeId) {
@@ -253,25 +253,25 @@ const AllCandidates = () => {
                         setSelectedColumns(res.data.column);
 
                     }
-                    
+
                 })
                 .catch(err => {
                     console.log(err)
-                   
+
                 })
         }
     }, [employeeId])
 
-    useEffect(()=>{
-        if(role){
-            if(role === "Recruiter"){
+    useEffect(() => {
+        if (role) {
+            if (role === "Recruiter") {
                 getAllRecruiterCandidateDetail();
                 getAllCandidateDetail();
-            }else{
+            } else {
                 getAllCandidateDetail();
             }
         }
-    },[role])
+    }, [role])
 
     const getAllCandidateDetail = async () => {
         try {
@@ -285,9 +285,9 @@ const AllCandidates = () => {
             const result = response.data;
             if (!result.error) {
                 console.log(result);
-                if(role === "Recruiter"){
+                if (role === "Recruiter") {
                     setAllCand(result);
-                }else{
+                } else {
                     setCandidateDetail(result.reverse());
                 }
 
@@ -410,12 +410,12 @@ const AllCandidates = () => {
                 Accept: 'application/json'
             }
         })
-        .then(res=>{
-            console.log(res.data);
-            setAppliedJobLoading(false);
-            setAppliedJobForCandId(res.data);
-        })
-        .catch(err=>console.log(err));
+            .then(res => {
+                console.log(res.data);
+                setAppliedJobLoading(false);
+                setAppliedJobForCandId(res.data);
+            })
+            .catch(err => console.log(err));
     }
 
     const handleSkillSearch = () => {
@@ -641,9 +641,9 @@ const AllCandidates = () => {
                                                                 filteredSearchResults.length > 0 ?
                                                                     filteredSearchResults.slice(x[0], x[1]).map((candidate, index) => {
 
-                                                                        const appJobs = appliedJob.filter(job=>job.candidateId === candidate.id);
+                                                                        const appJobs = appliedJob.filter(job => job.candidateId === candidate.id);
 
-                                                                        const registered = allCand.find(cand=>cand.id === candidate.id);
+                                                                        const registered = allCand.find(cand => cand.id === candidate.id);
 
                                                                         return (
                                                                             <tr className='dash-table-row client' key={candidate.id}>
@@ -727,22 +727,22 @@ const AllCandidates = () => {
                                                                                 </td>}
 
                                                                                 {selectedColumns?.includes("Applied jobs") && <td className='dash-table-data1 text-left'>
-                                                                                {appJobs
-                                                                                .length > 0 ?
-                                                                                appJobs
-                                                                                        .map((appliedJob) => {
-                                                                                            const postedBy = appliedJob.companyId
-                                                                                            ? (allCompany.find(company => company.companyId === appliedJob.companyId)?.companyName)
-                                                                                            : (allEmployee.find(employee => employee.id === appliedJob.recruiterId)?.name);
-                                                                                            return (
-                                                                                                <div className='dash-table-data1 text-capitalized'><strong>{appliedJob.jobRole[0]}</strong><br/>Posted By : {postedBy}</div>
-                                                                                                
-                                                                                            )
-                                                                                        }) :
-                                                                                    <span className='text-secondary'>Still not applied for any posted jobs</span>}
-                                                                                    </td>
+                                                                                    {appJobs
+                                                                                        .length > 0 ?
+                                                                                        appJobs
+                                                                                            .map((appliedJob) => {
+                                                                                                const postedBy = appliedJob.companyId
+                                                                                                    ? (allCompany.find(company => company.companyId === appliedJob.companyId)?.companyName)
+                                                                                                    : (allEmployee.find(employee => employee.id === appliedJob.recruiterId)?.name);
+                                                                                                return (
+                                                                                                    <div className='dash-table-data1 text-capitalized'><strong>{appliedJob.jobRole[0]}</strong><br />Posted By : {postedBy}</div>
+
+                                                                                                )
+                                                                                            }) :
+                                                                                        <span className='text-secondary'>Still not applied for any posted jobs</span>}
+                                                                                </td>
                                                                                 }
-                                                                                {selectedColumns?.includes("View CV") &&<td className='text-center'>
+                                                                                {selectedColumns?.includes("View CV") && <td className='text-center'>
                                                                                     <button className='application-btn with-modal' onClick={() => handleViewCV(`https://skillety-n6r1.onrender.com/files/${candidate?.file}`)}>
                                                                                         <span></span>&nbsp;&nbsp;&nbsp;
                                                                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-file-earmark-text-fill" viewBox="0 0 16 16">
@@ -750,19 +750,21 @@ const AllCandidates = () => {
                                                                                         </svg>
                                                                                     </button>
                                                                                 </td>}
-                                                                                {selectedColumns?.includes("Status") &&<td className='text-center'>
-                                                                                    <select>
-                                                                                    <option selected disabled>Select one.</option>
-                                                                                        <option >New CV Upload</option>
-                                                                                        <option >Applied Online</option>
-                                                                                        <option>Submitted to Client</option>
-                                                                                        <option >Interviews in Process</option>
-                                                                                        <option >Offered</option>
-                                                                                        <option >Rejected</option>
-                                                                                        <option >Joined</option>
-                                                                                        <option >Invoiced</option>
-                                                                                        <option >Payment Received</option>
-                                                                                    </select>
+                                                                                {selectedColumns?.includes("Status") && <td className='text-left'>
+                                                                                    <div className='table-select-input-area'>
+                                                                                        <select className='table-select-input'>
+                                                                                            <option selected disabled>Select one.</option>
+                                                                                            <option >New CV Upload</option>
+                                                                                            <option >Applied Online</option>
+                                                                                            <option>Submitted to Client</option>
+                                                                                            <option >Interviews in Process</option>
+                                                                                            <option >Offered</option>
+                                                                                            <option >Rejected</option>
+                                                                                            <option >Joined</option>
+                                                                                            <option >Invoiced</option>
+                                                                                            <option >Payment Received</option>
+                                                                                        </select>
+                                                                                    </div>
                                                                                 </td>}
                                                                                 <td className='text-center'>
                                                                                     <div className="action-btn-area">
@@ -772,18 +774,18 @@ const AllCandidates = () => {
                                                                                                 <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
                                                                                             </svg>
                                                                                         </button>
-                                                                                        {(role === "Recruiter") &&<button className='job-edit-btn' title='Edit candidate details...' onClick={() => navigate(`/create-candidate`, { state: { id: candidate.id } })}
-                                                                                        disabled={registered}>
+                                                                                        {(role === "Recruiter") && <button className='job-edit-btn' title='Edit candidate details...' onClick={() => navigate(`/create-candidate`, { state: { id: candidate.id } })}
+                                                                                            disabled={registered}>
                                                                                             <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
                                                                                                 <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
                                                                                             </svg>
                                                                                         </button>}
-                                                                                        {(role === "Recruiter") &&<button className='job-delete-btn' title='Delete candidate data...' onClick={() => handleDeleteCand(candidate.id)}
-                                                                                        disabled={registered}
+                                                                                        {(role === "Recruiter") && <button className='job-delete-btn' title='Delete candidate data...' onClick={() => handleDeleteCand(candidate.id)}
+                                                                                            disabled={registered}
                                                                                         >
-                                                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
-                                                                                                        <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
-                                                                                                    </svg>
+                                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                                                                                                <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
+                                                                                            </svg>
                                                                                         </button>}
                                                                                     </div>
                                                                                 </td>
@@ -791,10 +793,10 @@ const AllCandidates = () => {
                                                                         )
                                                                     }) :
                                                                     !searchInput ? candidateDetail.slice(x[0], x[1]).map((candidate, index) => {
-                                                                        
-                                                                        const appJobs = appliedJob.filter(job=>job.candidateId === candidate.id)
 
-                                                                        const registered = allCand.find(cand=>cand.id === candidate.id);
+                                                                        const appJobs = appliedJob.filter(job => job.candidateId === candidate.id)
+
+                                                                        const registered = allCand.find(cand => cand.id === candidate.id);
 
                                                                         return (
                                                                             <tr className='dash-table-row client' key={candidate.id}>
@@ -878,22 +880,22 @@ const AllCandidates = () => {
                                                                                 </td>}
 
                                                                                 {selectedColumns?.includes("Applied jobs") && <td className='dash-table-data1 text-left'>
-                                                                                {appJobs
-                                                                                .length > 0 ?
-                                                                                appJobs
-                                                                                        .map((appliedJob) => {
-                                                                                            const postedBy = appliedJob.companyId
-                                                                                            ? (allCompany.find(company => company.companyId === appliedJob.companyId)?.companyName)
-                                                                                            : (allEmployee.find(employee => employee.id === appliedJob.recruiterId)?.name);
-                                                                                            return (
-                                                                                                <div className='dash-table-data1 text-capitalized'><strong>{appliedJob.jobRole[0]}</strong><br/>Posted By : {postedBy}</div>
-                                                                                                
-                                                                                            )
-                                                                                        }) :
-                                                                                    <span className='text-secondary'>Still not applied for any posted jobs</span>}
-                                                                                    </td>
+                                                                                    {appJobs
+                                                                                        .length > 0 ?
+                                                                                        appJobs
+                                                                                            .map((appliedJob) => {
+                                                                                                const postedBy = appliedJob.companyId
+                                                                                                    ? (allCompany.find(company => company.companyId === appliedJob.companyId)?.companyName)
+                                                                                                    : (allEmployee.find(employee => employee.id === appliedJob.recruiterId)?.name);
+                                                                                                return (
+                                                                                                    <div className='dash-table-data1 text-capitalized'><strong>{appliedJob.jobRole[0]}</strong><br />Posted By : {postedBy}</div>
+
+                                                                                                )
+                                                                                            }) :
+                                                                                        <span className='text-secondary'>Still not applied for any posted jobs</span>}
+                                                                                </td>
                                                                                 }
-                                                                                {selectedColumns?.includes("View CV") &&<td className='text-center'>
+                                                                                {selectedColumns?.includes("View CV") && <td className='text-center'>
                                                                                     <button className='application-btn with-modal' onClick={() => handleViewCV(`https://skillety-n6r1.onrender.com/files/${candidate?.file}`)}>
                                                                                         <span></span>&nbsp;&nbsp;&nbsp;
                                                                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-file-earmark-text-fill" viewBox="0 0 16 16">
@@ -901,19 +903,21 @@ const AllCandidates = () => {
                                                                                         </svg>
                                                                                     </button>
                                                                                 </td>}
-                                                                                {selectedColumns?.includes("Status") &&<td className='text-center'>
-                                                                                    <select>
-                                                                                    <option selected disabled>Select one.</option>
-                                                                                        <option >New CV Upload</option>
-                                                                                        <option >Applied Online</option>
-                                                                                        <option>Submitted to Client</option>
-                                                                                        <option >Interviews in Process</option>
-                                                                                        <option >Offered</option>
-                                                                                        <option >Rejected</option>
-                                                                                        <option >Joined</option>
-                                                                                        <option >Invoiced</option>
-                                                                                        <option >Payment Received</option>
-                                                                                    </select>
+                                                                                {selectedColumns?.includes("Status") && <td className='text-left'>
+                                                                                    <div className='table-select-input-area'>
+                                                                                        <select className='table-select-input'>
+                                                                                            <option selected disabled>Select one.</option>
+                                                                                            <option >New CV Upload</option>
+                                                                                            <option >Applied Online</option>
+                                                                                            <option>Submitted to Client</option>
+                                                                                            <option >Interviews in Process</option>
+                                                                                            <option >Offered</option>
+                                                                                            <option >Rejected</option>
+                                                                                            <option >Joined</option>
+                                                                                            <option >Invoiced</option>
+                                                                                            <option >Payment Received</option>
+                                                                                        </select>
+                                                                                    </div>
                                                                                 </td>}
                                                                                 <td className='text-center'>
                                                                                     <div className="action-btn-area">
@@ -923,18 +927,18 @@ const AllCandidates = () => {
                                                                                                 <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
                                                                                             </svg>
                                                                                         </button>
-                                                                                        {(role === "Recruiter") &&<button className='job-edit-btn' title='Edit candidate details...' onClick={() => navigate(`/create-candidate`, { state: { id: candidate.id } })}
-                                                                                        disabled={registered}>
+                                                                                        {(role === "Recruiter") && <button className='job-edit-btn' title='Edit candidate details...' onClick={() => navigate(`/create-candidate`, { state: { id: candidate.id } })}
+                                                                                            disabled={registered}>
                                                                                             <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
                                                                                                 <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
                                                                                             </svg>
                                                                                         </button>}
-                                                                                        {(role === "Recruiter") &&<button className='job-delete-btn' title='Delete candidate data...' onClick={() => handleDeleteCand(candidate.id)}
-                                                                                        disabled={registered}
+                                                                                        {(role === "Recruiter") && <button className='job-delete-btn' title='Delete candidate data...' onClick={() => handleDeleteCand(candidate.id)}
+                                                                                            disabled={registered}
                                                                                         >
-                                                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
-                                                                                                        <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
-                                                                                                    </svg>
+                                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                                                                                                <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
+                                                                                            </svg>
                                                                                         </button>}
                                                                                     </div>
                                                                                 </td>
@@ -1162,21 +1166,21 @@ const AllCandidates = () => {
                                         <div className="col-12 col-sm-7">
                                             <div className="cand-skills-area">
                                                 {appliedJobLoading ? <p>Loading...</p>
-                                                :<>
-                                                {appliedJobForCandId
-                                                   .length > 0 ?
-                                                   appliedJobForCandId
-                                                        .map((appliedJob) => {
-                                                            const postedBy = appliedJob.companyId
-                                                                                        ? (allCompany.find(company => company.companyId === appliedJob.companyId)?.companyName)
-                                                                                        : (allEmployee.find(employee => employee.id === appliedJob.recruiterId)?.name);
-                                                            return (
-                                                                <span className='cand-skill text-capitalized'><strong>{appliedJob.jobRole[0]}</strong><br/>Posted By:{postedBy}</span>
-                                                                
-                                                            )
-                                                        }) :
-                                                    <p className='text-secondary'>Still not applied for any posted jobs</p>
-                                                }</>}
+                                                    : <>
+                                                        {appliedJobForCandId
+                                                            .length > 0 ?
+                                                            appliedJobForCandId
+                                                                .map((appliedJob) => {
+                                                                    const postedBy = appliedJob.companyId
+                                                                        ? (allCompany.find(company => company.companyId === appliedJob.companyId)?.companyName)
+                                                                        : (allEmployee.find(employee => employee.id === appliedJob.recruiterId)?.name);
+                                                                    return (
+                                                                        <span className='cand-skill text-capitalized'><strong>{appliedJob.jobRole[0]}</strong><br />Posted By:{postedBy}</span>
+
+                                                                    )
+                                                                }) :
+                                                            <p className='text-secondary'>Still not applied for any posted jobs</p>
+                                                        }</>}
                                             </div>
                                         </div>
                                     </div>
@@ -1194,13 +1198,13 @@ const AllCandidates = () => {
                     className={`doc-view-modal-content ${isModalOpen ? 'open' : ''}`}
                     overlayClassName={`doc-view-modal-overlay ${isModalOpen ? 'open' : ''}`}
                 >
-                    
+
                     {candidateResumeUrl && (
-                    <DocViewer
-                        documents={[{ uri: candidateResumeUrl }]}
-                        renderers={DocViewerRenderers}
-                        className='document'
-                    />
+                        <DocViewer
+                            documents={[{ uri: candidateResumeUrl }]}
+                            renderers={DocViewerRenderers}
+                            className='document'
+                        />
                     )}
 
                     <button className="doc-view-close-button" onClick={closeModal}>
