@@ -68,22 +68,26 @@
     vertical-align: middle;
     transition: ease-in-out 0.5s;
 }
-.recruiter-search-input-area .search-icon{
+
+.recruiter-search-input-area .search-icon {
     color: #714F36;
-    font-size:18px;
+    font-size: 18px;
     position: absolute;
     left: 15px;
     top: 10px;
 }
-.recruiter-search-input:focus{
+
+.recruiter-search-input:focus {
     outline: none;
     /* box-shadow: inset 0px 0px 10px #714f366e;
     border: none; */
 }
-.recruiter-search-input::placeholder{
+
+.recruiter-search-input::placeholder {
     color: #bebebe !important;
 }
-.recruiter-search-btn{
+
+.recruiter-search-btn {
     color: #FFF !important;
     background-color: #714F36 !important;
     outline: none;
@@ -95,10 +99,57 @@
     border: #714F36 1px solid;
     border-left: none;
 }
-.recruiter-search-btn:focus{
+
+.recruiter-search-btn:focus {
     outline: none;
 }
-.recruiter-search-btn:hover{
+
+.recruiter-search-btn:hover {
     background-color: #F9C833 !important;
     color: #714F36 !important;
+}
+
+.table-select-input-area {
+    position: relative;
+    display: inline-block;
+    padding: 0 !important;
+}
+
+.table-select-input {
+    outline: none;
+    position: relative;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: 100px;
+    border: #714F36 1px solid !important;
+    padding: 7px 12px !important;
+    color: #714F36;
+    box-shadow: 0px 4px 10px 0px rgba(150, 150, 150, 0.15) !important;
+}
+
+.table-select-input:focus,
+.table-select-input:hover {
+    outline: none;
+}
+
+.table-select-input-area::after {
+    content: "\f282";
+    display: inline-block;
+    font-family: 'bootstrap-icons' !important;
+    font-style: normal;
+    font-weight: normal !important;
+    font-feature-settings: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    vertical-align: middle;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-size: 12px;
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+    pointer-events: none;
 }
