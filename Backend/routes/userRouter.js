@@ -149,6 +149,22 @@ const {
    allNonApprovalJobTableColumnData,
    allPostedJobTableColumnData,
    getAllPostedJobTableColumnData,
+
+   //MOBILE APP API............
+
+   candidateDashboardTopBar,
+   searchJob,
+
+   //MOBILE APP API............
+
+   //ATS............
+
+   offlineClientRegister,
+   getAnOfflineClientDetails,
+   updateOfflineClient,
+   deletingOfflineClient,
+
+   //ATS...............
   
 } = require("../Controller/authFunctions");
 const employeeAuth = require("../middleware/employeeAuth");
@@ -544,6 +560,31 @@ router.post("/posted-jobs-column", allPostedJobTableColumnData);
 
 router.get("/posted-jobs-column/:id", getAllPostedJobTableColumnData);
 
+//MOBILE APP API............
+
+//fetching candidate dashboard topbar
+router.get("/candidate-dashboard-topbar/:candidateId", employeeAuth, candidateDashboardTopBar);
+
+//job search 
+router.post("/job-search-candidate", employeeAuth, searchJob);
+
+//MOBILE APP API............
+
+//ATS....................
+
+//offline client register
+router.post("/offline-client-reg", employeeAuth, offlineClientRegister);
+
+//find an offline client
+router.get("/an-offline-client/:id", employeeAuth, getAnOfflineClientDetails);
+
+//update the exiesting offline client details
+router.patch("/update-exiesting-offline-client/:id", employeeAuth, updateOfflineClient);
+
+//deleting exiesting offline client
+router.delete("/delete-exiesting-offline-client/:id", employeeAuth, deletingOfflineClient);
+
+//ATS..................
 
 // Client, Client-staff Login Route
 router.post("/login-Client", async (req, res) => {

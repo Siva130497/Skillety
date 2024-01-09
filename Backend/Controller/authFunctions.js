@@ -41,6 +41,8 @@ const allJobTable = require("../Database/allJobTable");
 const nonApprovalJobTable = require("../Database/nonApprovalJobTable");
 const postedJobTable = require("../Database/postedJobTable");
 const recruiterClient = require("../Database/recruiterClient");
+const offlineClient = require("../Database/offlineClient");
+
 
 // const hash = async() => {
 //   const pass = 'newpassword'
@@ -3624,6 +3626,212 @@ const getAllPostedJobTableColumnData = async(req, res) => {
     return res.status(500).json({ error: err.message });
   }
 }
+
+/*MOBILE APP TEAM NEW API */
+
+//candidate dashboard topbar api
+const candidateDashboardTopBar = async (req, res) => {
+  try {
+    const id = req.params.candidateId;
+
+    // Function to calculate match percentage
+    const calculateMatchPercentage = (skills1, skills2) => {
+      const matchingSkills = skills2.filter(skill => skills1.includes(skill));
+      return (matchingSkills.length / skills1.length) * 100;
+    };
+
+    // Function to filter skill match jobs with percentage > 0
+    const filterSkillMatchJobs = (jobDetails, candidateSkills) => {
+      return jobDetails
+        .map(obj => {
+          const percentage = calculateMatchPercentage(obj.skills, candidateSkills);
+
+          return {
+            jobId: obj.id,
+            percentage: Math.round(percentage),
+          };
+        })
+        .filter(job => job.percentage > 0);
+    };
+
+    // Get applied jobs
+    const appliedJobs = await appliedJob.find({ candidateId: id });
+
+    // Get candidate details
+    const candidateDetail = await candidate.findOne({ id });
+
+    // Get all active jobs
+    const jobDetails = await activeJob.find();
+
+    // Find all applied jobs for the candidate
+    const numAppliedJobs = appliedJobs.length;
+
+    // Find all skill match jobs for the candidate with percentage > 0
+    const skillMatchJobs = filterSkillMatchJobs(jobDetails, candidateDetail.skills);
+    const numSkillMatchJobs = skillMatchJobs.length;
+
+    // Prepare the final response
+    const finalResponse = {
+      appliedJobs: numAppliedJobs,
+      skillMatchJobs: numSkillMatchJobs,
+      upcomingInterviews:0,
+      newNotification:0
+    };
+
+    // Send the response as JSON
+    res.status(200).json(finalResponse);
+
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+//job search
+const searchJob = async(req, res) => {
+  try{
+    const { filterArray } = req.body;
+    console.log(filterArray)
+
+    const lowercasedFilterArray = filterArray.map((item) => item.toLowerCase());
+
+    const query = {
+      $or: [
+        { jobRole: { $in: lowercasedFilterArray } },
+        { skills: { $in: lowercasedFilterArray } },
+      ],
+    };
+
+    // Convert jobRole and skills array elements to lowercase before filtering
+    const result = await activeJob.find(query).lean();
+    res.status(200).json(result);
+  }catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+}
+
+
+/* MOBILE APP TEAM NEW API */
+
+/* ATS.................. */
+
+/* offline client register */
+const offlineClientRegister = async (req, res) => {
+  const { companyName, email, mobile } = req.body;
+
+  try {
+    
+    const existingClient = await offlineClient.findOne({ companyName, email, mobile });
+
+    if (existingClient) {
+      return res.status(400).json({ error: 'Company already exists with the same combination of companyName, email, and mobile' });
+    }
+
+    const newOfflineClient = new offlineClient({
+      ...req.body,
+    });
+
+    await newOfflineClient.save();
+
+    res.status(201).json(newOfflineClient);
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+};
+
+/* find an offline client */
+const getAnOfflineClientDetails = async(req, res) => {
+  const {id} = req.params;
+  try{
+    const offlineClientDetails = await offlineClient.findOne({clientId:id});
+    if(offlineClientDetails){
+      return res.status(200).json(offlineClientDetails);
+    }else{
+      return res.status(404).json({ error: 'No such offline client found!' });
+    }
+    
+  }catch(err){
+    return res.status(500).json({ error: err.message });
+  }
+}
+
+/* update the exiesting offline client detail */
+const updateOfflineClient = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const offlineClientToUpdate = await offlineClient.findOne({ clientId:id });
+
+    if (offlineClientToUpdate) {
+      const updatedOfflineClient = await offlineClient.findOneAndUpdate(
+        { clientId:id },
+        {
+          $set: {
+            companyName: req.body.companyName,
+            address: req.body.address,
+            companyWebsite: req.body.companyWebsite,
+            contactPerson: req.body.contactPerson,
+            email: req.body.email,
+            mobile: req.body.mobile,
+            industry: req.body.industry,
+            headCount: req.body.headCount,
+            aboutClient: req.body.aboutClient,
+            GSTNumber: req.body.GSTNumber,
+            CINNumber: req.body.CINNumber,
+            paymentCategory: req.body.paymentCategory,
+          },
+        },
+        { new: true }
+      );
+
+      return res.status(200).json({ updatedOfflineClient });
+    } else {
+      return res.status(404).json({ error: 'Offline Client not found' });
+    }
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+/* deleting exiesting offline client */
+const deletingOfflineClient = async(req, res) => {
+  try{
+    const {id} = req.params;
+    const offlineClientToDelete = await offlineClient.findOne({ clientId: id });
+
+    if (!offlineClientToDelete) {
+      return res.status(404).json({ error: 'Offline Client not found' });
+    }
+
+    const deletedOfflineClient = await offlineClient.deleteOne({ clientId: id });
+
+    if (deletedOfflineClient.deletedCount === 1) {
+      return res.status(204).json({ message: 'offline Client deleted successfully' });
+    } else {
+      return res.status(500).json({ error: 'Failed to delete offline client' });
+    } 
+    
+  }catch(err) {
+    res.status(500).json({error: err.message})
+  }
+}
+
+//job upload for particular client
+// const jobPosting = async(req, res) => {
+//   try{
+//     console.log(req.body);
+//     const newJobDetail = new jobDetail({
+//       ...req.body,
+//     });
+//     await newJobDetail.save();
+//     console.log(newJobDetail);
+//     return res.status(201).json(newJobDetail);
+//   }catch(err){
+//     return res.status(500).json({ error: err.message })
+//   }
+// }
+
+/*ATS................... */
+
 /* random password generate */
 const generateRandomPassword = (req, res) => {
   const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=[]{}|;:,.<>?';
@@ -3923,4 +4131,20 @@ module.exports = {
    allNonApprovalJobTableColumnData,
    allPostedJobTableColumnData,
    getAllPostedJobTableColumnData,
+
+   //MOBILE APP API............
+
+   candidateDashboardTopBar,
+   searchJob,
+
+   //MOBILE APP API............
+
+   //ATS...............
+
+   offlineClientRegister,
+   getAnOfflineClientDetails,
+   updateOfflineClient,
+   deletingOfflineClient,
+
+  //ATS...........
 };

@@ -34,6 +34,12 @@ const employeeAuth = require('./middleware/employeeAuth');
 const {Server} = require('socket.io');
 const axios = require("axios");
 
+//ATS.............
+
+const offlineClientDoc = require("./Database/offlineClientDoc");
+const offlineClientLogo = require("./Database/offlineClientLogo");
+//ATS................
+
 
 const corsOptions = {
   origin: ['https://skillety-frontend-wcth.onrender.com', 'https://skillety-dashboard-tk2y.onrender.com', 'http://localhost:3000', 'http://localhost:3001'],
@@ -425,6 +431,128 @@ app.patch('/update-client-profile-image/:id', employeeAuth, uploadClientImg.sing
     }
   );
 });
+
+//ATS.....................
+
+//offlinet client doc save
+const offlineClientDocStorage = multer.diskStorage({
+  destination: function(req, file, cb) {
+    return cb(null, "./public/offline_client_doc")
+  },
+  filename: function(req, file, cb) {
+    return cb(null, `${Date.now()}_${file.originalname}`)
+  }
+})
+
+const offlineClientDocUpload = multer({storage:offlineClientDocStorage});
+app.post('/offline-client-doc/upload', employeeAuth, offlineClientDocUpload.single('doc'), (req, res) => {
+  const uploadedId = req.body.clientId; 
+  console.log("Uploaded ID:", uploadedId);
+  console.log("Uploaded File:", req.file);
+
+  offlineClientDoc.create({
+    doc: req.file.filename,
+    clientId: uploadedId,
+  })
+  .then((result) => console.log(result))
+  .then(result => res.json(result))
+  .catch(err => console.log(err))
+});
+
+//update the exiesting offline client document
+app.patch('/update-exiesting-offline-client-doc/:id', employeeAuth, offlineClientDocUpload.single('doc'), (req, res) => {
+  const uploadedId = req.params.id;
+  const newDocumentFilename = req.file.filename;
+
+  offlineClientDoc.findOneAndUpdate(
+    { clientId: uploadedId },
+    { $set: { doc: newDocumentFilename } },
+    { new: true },
+    (err, updatedDocument) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).json({ error: 'Internal Server Error' });
+      }
+
+      if (!updatedDocument) {
+        return res.status(404).json({ error: 'Document not found' });
+      }
+
+      console.log('Updated Document:', updatedDocument);
+
+      res.json(updatedDocument);
+    }
+  );
+});
+
+//find an offline client document
+app.get('/offline-client-doc/:id', employeeAuth, (req, res)=>{
+  const {id} = req.params;
+  offlineClientDoc.findOne({clientId:id})
+  .then(offlineClientDocument=>res.json(offlineClientDocument))
+  .catch(err=>res.json(err))
+});
+
+//offline_client logo handling
+const offlineClientLogoStorage = multer.diskStorage({
+  destination: function(req, file, cb) {
+    return cb(null, "./public/offline_client_logo")
+  },
+  filename: function(req, file, cb) {
+    return cb(null, `${Date.now()}_${file.originalname}`)
+  }
+})
+
+const offlineClientLogoUpload = multer({storage: offlineClientLogoStorage})
+app.post('/offline-client-logo/upload', employeeAuth, offlineClientLogoUpload.single('logo'), (req, res) => {
+  const uploadedId = req.body.clientId; 
+  console.log("Uploaded ID:", uploadedId);
+  console.log("Uploaded File:", req.file);
+
+  offlineClientLogo.create({
+    logo: req.file.filename,
+    clientId: uploadedId,
+  })
+  .then((result) => console.log(result))
+  .then(result => res.json(result))
+  .catch(err => console.log(err)) 
+})
+
+//find an offline client logo
+app.get('/an-offline-client-logo/:id', employeeAuth, (req, res)=>{
+  const {id} = req.params;
+  offlineClientLogo.findOne({clientId:id})
+  .then(offlineClientLogo=>res.json(offlineClientLogo))
+  .catch(err=>res.json(err))
+});
+
+//update an exiesting offline client logo
+app.patch('/update-exiesting-offline-client-logo/:id', employeeAuth, offlineClientLogoUpload.single('logo'), (req, res) => {
+  const uploadedId = req.params.id;
+  const newLogoFilename = req.file.filename;
+
+  offlineClientLogo.findOneAndUpdate(
+    { clientId: uploadedId },
+    { $set: { logo: newLogoFilename } },
+    { new: true },
+    (err, updatedLogo) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).json({ error: 'Internal Server Error' });
+      }
+
+      if (!updatedLogo) {
+        return res.status(404).json({ error: 'Logo not found' });
+      }
+
+      console.log('Updated Logo:', updatedLogo);
+
+      res.json(updatedLogo);
+    }
+  );
+});
+
+//ATS.........................
 
 
 // const storage = multer.memoryStorage();
