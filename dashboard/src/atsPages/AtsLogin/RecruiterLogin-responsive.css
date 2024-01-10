@@ -1,0 +1,26 @@
+@media (max-width:991.5px) {
+    .footer-absolute {
+        /* position: absolute; */
+        /* bottom: 0; */
+    }
+
+    .flex-col-reverse {
+        flex-direction: column-reverse;
+    }
+}
+
+@media (max-width:500px) {
+    .footer-absolute {
+        position: relative;
+        bottom: 0 !important;
+    }
+
+    .login-card-body-area {
+        padding: 0;
+        box-shadow: none;
+    }
+
+    .login-form-btn {
+        width: 100%;
+    }
+}

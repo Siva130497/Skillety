@@ -161,6 +161,7 @@ const {
 
    offlineClientRegister,
    getAnOfflineClientDetails,
+   getAllOfflineClientDetails,
    updateOfflineClient,
    deletingOfflineClient,
 
@@ -570,13 +571,21 @@ router.post("/job-search-candidate", employeeAuth, searchJob);
 
 //MOBILE APP API............
 
-//ATS....................
+//ATS......................................
+
+//login
+router.post("/ats", async (req, res) => {
+  await userLogin(req.body, ["Super-Admin", "Managers", "Recruiter-ATS"], res);
+});
 
 //offline client register
 router.post("/offline-client-reg", employeeAuth, offlineClientRegister);
 
 //find an offline client
 router.get("/an-offline-client/:id", employeeAuth, getAnOfflineClientDetails);
+
+//find all offline clients
+router.get("/offline-client-Details", employeeAuth, getAllOfflineClientDetails);
 
 //update the exiesting offline client details
 router.patch("/update-exiesting-offline-client/:id", employeeAuth, updateOfflineClient);

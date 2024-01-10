@@ -24,6 +24,10 @@ import ClientProfile from './pages/ClientProfile/ClientProfile';
 import CompanyDetail from './pages/CompanyDetail/CompanyDetail';
 import AllClientStaff from './pages/AllClientStaff/AllClientStaff';
 
+//ATS
+import AtsLogin from './atsPages/AtsLogin/AtsLogin';
+import AtsDashboard from './atsPages/AtsDashboard/AtsDashboard';
+
 ////for recruiter
 import RecruiterDashboard from './pages/RecruiterDashboard/RecruiterDashboard';
 import AllClients from './pages/AllClients/AllClients';
@@ -54,7 +58,6 @@ import ClientChat from './pages/Chat/ClientChat';
 import CandidateChatSupport from './pages/CandidateChat/CandidateChatSupport';
 import ClientChatSupport from './pages/ClientChat/ClientChatSupport';
 
-
 function App() {
   return (
     <AuthContextProvider>
@@ -83,6 +86,10 @@ function App() {
         <Route path='/client-staff' element={<AllClientStaff />} />
         <Route path='/candidate-chat-support' element={<CandidateChatSupport/>} />
         <Route path='/client-chat-support' element={<ClientChatSupport/>} />
+
+        {/*ATS*/}
+        <Route path='/ats' element={<AtsLogin />} />
+        
 
         {/* for recruiter */}
         <Route path='/' element={<RecruiterLogin />} />

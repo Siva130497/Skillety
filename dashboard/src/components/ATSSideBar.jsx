@@ -9,6 +9,7 @@ const ATSSideBar = () => {
     const [staffToken, setStaffToken] = useState("");
     const { getProtectedData } = useContext(AuthContext);
     const [role, setRole] = useState("");
+    const [userRole, setUserRole] = useState("");
     const [employeeId, setEmployeeId] = useState("");
 
     useEffect(() => {
@@ -88,7 +89,7 @@ const ATSSideBar = () => {
             feather.replace();
         });
 
-    }, [staffToken, role]);
+    }, [staffToken, role, userRole]);
 
     const getAnIndividualRecruiter = async() => {
         try{
@@ -118,7 +119,7 @@ const ATSSideBar = () => {
                     const userData = await getProtectedData(staffToken);
                     console.log(userData);
                     setEmployeeId(userData.id);
-                    // setRole(userData.role);
+                    setUserRole(userData.role);
                 } catch (error) {
                     console.log(error)
                 }
@@ -147,7 +148,7 @@ const ATSSideBar = () => {
                     <li className="dropdown" id='recruiter_dashboard'>
                         <a href={`/recruiter-dashboard/${staffToken}`} className="nav-link"><i data-feather="home"></i><span>Dashboard</span></a>
                     </li>
-                    {role === "Admin" && <li className="dropdown" id='all-company-staff'>
+                    {userRole === "Admin" && <li className="dropdown" id='all-company-staff'>
                         <a href="/all-company-staff" className="nav-link"><i data-feather="user-check"></i><span>Company Staffs</span></a>
                     </li>}
                     {/* {role === "Admin" && <li className="dropdown" id='company-staff-create'>
