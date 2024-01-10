@@ -3754,6 +3754,21 @@ const getAnOfflineClientDetails = async(req, res) => {
   }
 }
 
+/* find all the offline clients */
+const getAllOfflineClientDetails = async(req, res) => {
+  try{
+    const allOfflineClientDetails = await offlineClient.find();
+    if(allOfflineClientDetails){
+      return res.status(200).json(allOfflineClientDetails);
+    }else{
+      return res.status(404).json({ error: 'No more offline clients !' });
+    }
+    
+  }catch(err){
+    return res.status(500).json({ error: err.message });
+  }
+}
+
 /* update the exiesting offline client detail */
 const updateOfflineClient = async (req, res) => {
   const { id } = req.params;
@@ -4143,6 +4158,7 @@ module.exports = {
 
    offlineClientRegister,
    getAnOfflineClientDetails,
+   getAllOfflineClientDetails,
    updateOfflineClient,
    deletingOfflineClient,
 
