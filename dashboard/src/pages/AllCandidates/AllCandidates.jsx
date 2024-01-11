@@ -742,7 +742,7 @@ const AllCandidates = () => {
                                                                                         <span className='text-secondary'>Still not applied for any posted jobs</span>}
                                                                                 </td>
                                                                                 }
-                                                                                {selectedColumns?.includes("View CV") && <td className='text-center'>
+                                                                                {selectedColumns?.includes("View CV") && <td className='text-left'>
                                                                                     <button className='application-btn with-modal' onClick={() => handleViewCV(`https://skillety-n6r1.onrender.com/files/${candidate?.file}`)}>
                                                                                         <span></span>&nbsp;&nbsp;&nbsp;
                                                                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-file-earmark-text-fill" viewBox="0 0 16 16">
@@ -895,7 +895,7 @@ const AllCandidates = () => {
                                                                                         <span className='text-secondary'>Still not applied for any posted jobs</span>}
                                                                                 </td>
                                                                                 }
-                                                                                {selectedColumns?.includes("View CV") && <td className='text-center'>
+                                                                                {selectedColumns?.includes("View CV") && <td className='text-left'>
                                                                                     <button className='application-btn with-modal' onClick={() => handleViewCV(`https://skillety-n6r1.onrender.com/files/${candidate?.file}`)}>
                                                                                         <span></span>&nbsp;&nbsp;&nbsp;
                                                                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-file-earmark-text-fill" viewBox="0 0 16 16">
