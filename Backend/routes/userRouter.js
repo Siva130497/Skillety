@@ -154,6 +154,7 @@ const {
 
    candidateDashboardTopBar,
    searchJob,
+   getACandidateDetail,
 
    //MOBILE APP API............
 
@@ -164,6 +165,10 @@ const {
    getAllOfflineClientDetails,
    updateOfflineClient,
    deletingOfflineClient,
+   allOfflineClientTableColumnData,
+   getAllOfflineClientTableColumnData,
+   jobPostingATS,
+   getAtsInActivejobs,
 
    //ATS...............
   
@@ -569,6 +574,9 @@ router.get("/candidate-dashboard-topbar/:candidateId", employeeAuth, candidateDa
 //job search 
 router.post("/job-search-candidate", employeeAuth, searchJob);
 
+//find a candidate detail
+router.get("/candidate-full-detail/:id", employeeAuth, getACandidateDetail);
+
 //MOBILE APP API............
 
 //ATS......................................
@@ -592,6 +600,18 @@ router.patch("/update-exiesting-offline-client/:id", employeeAuth, updateOffline
 
 //deleting exiesting offline client
 router.delete("/delete-exiesting-offline-client/:id", employeeAuth, deletingOfflineClient);
+
+//all offline client table column data create
+router.post("/all-offline-clients-column", employeeAuth, allOfflineClientTableColumnData);
+
+//get all offline client table column data
+router.get("/all-offline-clients-column/:id", getAllOfflineClientTableColumnData);
+
+//ats job posting
+router.post("/job-posting-ats", employeeAuth, jobPostingATS);
+
+//in active jobs ats
+router.get("/ats-inactive-jobs/:id", employeeAuth, getAtsInActivejobs);
 
 //ATS..................
 

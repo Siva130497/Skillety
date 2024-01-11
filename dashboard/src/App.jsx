@@ -29,6 +29,7 @@ import AtsLogin from './atsPages/AtsLogin/AtsLogin';
 import AtsDashboard from './atsPages/AtsDashboard/AtsDashboard';
 import OfflineClientCreate from './atsPages/OfflineClientCreate/OfflineClientCreate';
 import AllOfflineClients from './atsPages/AllOfflineClients/AllOfflineClients';
+import JobPostingATS from './atsPages/JobPostingATS/JobPostingATS';
 
 ////for recruiter
 import RecruiterDashboard from './pages/RecruiterDashboard/RecruiterDashboard';
@@ -94,6 +95,7 @@ function App() {
         <Route path='/ats-dashboard/:token' element={<AtsDashboard />} />
         <Route path='/offline-client-create' element={<OfflineClientCreate />} />
         <Route path='/all-offline-clients' element={<AllOfflineClients />} />
+        <Route path='/job-posting-ats' element={<JobPostingATS />} />
 
         {/* for recruiter */}
         <Route path='/' element={<RecruiterLogin />} />

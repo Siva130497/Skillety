@@ -91,11 +91,11 @@ const OfflineClientCreate = () => {
 
     useEffect(() => {
         if (editingLogo) {
-            setEditingLogoUrl(`https://skillety-n6r1.onrender.com/offline_client_logo/${editingLogo.logo}`);
+            setEditingLogoUrl(`https://skillety-n6r1.onrender.com/offline_client_logo/${editingLogo?.logo}`);
 
-            setFileName(editingLogo.logo);
+            setFileName(editingLogo?.logo);
         }
-    }, [logo]);
+    }, [editingLogo]);
 
     useEffect(() => {
         if (id && atsToken) {
@@ -413,7 +413,7 @@ const OfflineClientCreate = () => {
                         })
                         .catch(err => console.log(err));
                 }
-                
+
                 updateClient(updatedCredentials);
 
         }

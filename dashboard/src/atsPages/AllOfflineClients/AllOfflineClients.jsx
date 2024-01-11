@@ -138,13 +138,15 @@ const AllOfflineClients = () => {
 
             fetchData();
             getAllClientDetails();
-            getAllActiveJobs();
-            getAllInActiveJobs();
+            
         }
     }, [atsToken]);
 
     useEffect(() => {
         if (employeeId) {
+
+            getAllActiveJobs();
+            getAllInActiveJobs();
            
             axios.get(`https://skillety-n6r1.onrender.com/all-offline-clients-column/${employeeId}`)
                 .then(res => {
@@ -212,7 +214,7 @@ const AllOfflineClients = () => {
     const getAllInActiveJobs = async () => {
         try {
 
-            const response = await axios.get(`https://skillety-n6r1.onrender.com/ats-inactive-jobs`, {
+            const response = await axios.get(`http://localhost:5002/ats-inactive-jobs/${employeeId}`, {
                 headers: {
                     Authorization: `Bearer ${atsToken}`,
                     Accept: 'application/json'
@@ -256,12 +258,12 @@ const AllOfflineClients = () => {
 
         } catch (err) {
             console.log(err);
-
+            setLoading(false);
         }
     }
 
     const handleCard = (id) => {
-        const client = filteredData.find(cli => cli.id === id)
+        const client = filteredData.find(cli => cli.clientId === id)
         setAClient(client);
     }
 
@@ -496,9 +498,9 @@ const AllOfflineClients = () => {
                                                             
                                                                 const ActJobs = activeJobs.filter(job => job.clientId === client.clientId)
                                                                 const updatedActJobs = ActJobs?.map(job => ({ ...job, active: true }));
-                                                                const InActJobs = inActiveJobs.filter(job => job.clientId === client.clientId)
+                                                                const InActJobs = inActiveJobs.filter(job => job.clientId === client.clientId);
                                                                 
-                                                                const clientLogo  = (client?.logo) ? `https://skillety-n6r1.onrender.com/offline_client_logo/${client?.logo}` : "../assets/img/talents-images/avatar.jpg"
+                                                                const clientLogo  = (client?.clientLogo) ? `https://skillety-n6r1.onrender.com/offline_client_logo/${client?.clientLogo}` : "../assets/img/talents-images/avatar.jpg"
                                                                 return (
                                                                     <tr className='dash-table-row client'>
                                                                         <td className='dash-table-data1'>{index + 1}.</td>
@@ -508,7 +510,11 @@ const AllOfflineClients = () => {
                                                                         </td>
                                                                 
                                                                         {selectedColumns?.includes("Company Website") && <td className='dash-table-data1 text-left'>
-                                                                            {client.companyWebsite}                                </td>}                                                               {selectedColumns?.includes("Mobile Number") &&
+                                                                            <a href={`${client?.companyWebsite}`}
+                                                                                className='view-det-sub-head link is-link'
+                                                                                target='_blank'>
+                                                                                {client?.companyWebsite}
+                                                                            </a>                                </td>}                                                               {selectedColumns?.includes("Mobile Number") &&
                                                                             <td className='dash-table-data1 text-left'>
                                                                                 <a href={`tel:${client.mobile}`}
                                                                                     className='dash-table-data1 link is-link p-0'>
@@ -537,7 +543,7 @@ const AllOfflineClients = () => {
                                                                             {selectedColumns?.includes("CIN Number") && <td className='dash-table-data1 text-left'>
                                                                             {client.CINNumber}                                      </td>}
                                                                             {selectedColumns?.includes("Documents (NDA, Agreements etc...)") && <td className='dash-table-data1 text-left'>
-                                                                            <button className='application-btn with-modal' onClick={() => handleViewDOC(`https://skillety-n6r1.onrender.com/offline_client_doc/${client?.doc}`)}>
+                                                                            <button className='application-btn with-modal' onClick={() => handleViewDOC(`https://skillety-n6r1.onrender.com/offline_client_doc/${client?.clientDoc}`)}>
                                                                                         <span></span>&nbsp;&nbsp;&nbsp;
                                                                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-file-earmark-text-fill" viewBox="0 0 16 16">
                                                                                             <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM4.5 9a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 1 0-1h4a.5.5 0 0 1 0 1h-4z" fill='#0879bc' />
@@ -582,6 +588,12 @@ const AllOfflineClients = () => {
                                                                          >
                                                                                     <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
                                                                                         <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
+                                                                                    </svg>
+                                                                                </button>
+                                                                                <button className='job-edit-btn' title='Post job for client...' onClick={() => navigate(`/job-posting-ats`, { state: { id: client.clientId } })}
+                >
+                                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bag-plus-fill" viewBox="0 0 16 16">
+                                                                                    <path fill-rule="evenodd" d="M10.5 3.5a2.5 2.5 0 0 0-5 0V4h5zm1 0V4H15v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V4h3.5v-.5a3.5 3.5 0 1 1 7 0M8.5 8a.5.5 0 0 0-1 0v1.5H6a.5.5 0 0 0 0 1h1.5V12a.5.5 0 0 0 1 0v-1.5H10a.5.5 0 0 0 0-1H8.5z"/>
                                                                                     </svg>
                                                                                 </button>
                                                                             </div>
@@ -637,6 +649,19 @@ const AllOfflineClients = () => {
                                         </div>
                                         <div className="col-12 col-sm-6">
                                             <div className="view-det-sub-head text-capitalized">{aClient?.companyName}</div>
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div className="row">
+                                        <div className="col-12 col-sm-6">
+                                            <div className="view-det-head">Company Website</div>
+                                        </div>
+                                        <div className="col-12 col-sm-6">
+                                            <div className="view-det-sub-head text-capitalized"><a href={`${aClient?.companyWebsite}`}
+                                                className='view-det-sub-head link is-link'
+                                                target='_blank'>
+                                                {aClient?.companyWebsite}
+                                            </a></div>
                                         </div>
                                     </div>
                                     <hr />
