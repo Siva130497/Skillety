@@ -48,7 +48,7 @@ const offlineClientSchema = new Schema(
       },
     },
     industry: {
-      type: String,
+      type: Array,
       required: true
     },
     headCount: {
@@ -81,7 +81,7 @@ const offlineClientSchema = new Schema(
     },
     paymentCategory : {
       type: String,
-      enum: ["NEFT", "RTGS", "Cheque"],
+      enum: ["NEFT/RTGS", "Cheque"],
       required: true
     },
     paymentTerms: {

@@ -25,8 +25,8 @@ const ATSSideBar = () => {
                 $('#all-ats-staff').addClass('active');
             } else if (path === '/all-offline-clients') {
                 $('#all_offline_clients').addClass('active');
-            } else if (path === '/all-offline-jobs') {
-                $('#all_offline_jobs').addClass('active');
+            } else if (path === '/all-ats-jobs') {
+                $('#all_ats_jobs').addClass('active');
             }
             feather.replace();
         });
@@ -99,8 +99,8 @@ const ATSSideBar = () => {
                     <li className="dropdown" id='all_offline_clients'>
                         <a href="/all-offline-clients" className="nav-link"><i data-feather="user"></i><span>All Clients</span></a>
                     </li>
-                    <li className="dropdown" id='all_offline_jobs'>
-                        <a href="/all-offline-jobs" className="nav-link"><i data-feather="mail"></i><span>All Jobs</span></a>
+                    <li className="dropdown" id='all_ats_jobs'>
+                        <a href="/all-ats-jobs" className="nav-link"><i data-feather="mail"></i><span>All Jobs</span></a>
                     </li>
                 </ul>
 

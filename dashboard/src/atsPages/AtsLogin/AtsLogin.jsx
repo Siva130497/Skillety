@@ -94,7 +94,7 @@ const AtsLogin = () => {
                                     <div className="col-12 col-md-12 col-lg-6 m-t-30 mt-lg-0">
                                         <div className="login-form-area">
                                             <div className="login-greeting">
-                                                Welcome
+                                                Welcome back to ATS
                                                 <span>Please enter your details.</span>
                                             </div>
                                             <div className="login-form">
