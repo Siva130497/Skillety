@@ -1,0 +1,47 @@
+@media screen and (min-width: 992px) and (max-width: 1367px) {}
+
+@media (max-width:991.5px) {
+    .custom--width{
+        width: 50% !important;
+    }
+}
+
+@media (max-width:500px) {
+    .create-cand-radio-input-group {
+        justify-content: center;
+    }
+
+    .create-cand-radio-input-group .create-cand-input-container {
+        height: 40px;
+        width: 100%;
+    }
+
+    .create-cand-radio-input-group .create-cand-input-container .radio-tile-label {
+        font-size: 14px;
+    }
+    .custom--width{
+        width: 100% !important;
+    }
+    .cand--reg-file-upload-area .file--upload-text {
+        margin-top: 15px;
+        font-size: 14px;
+    }
+
+    #file-chosen {
+        position: relative;
+        font-size: 12px;
+        display: flex;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .cand--reg-file-upload-label i {
+        margin-right: 20px;
+        font-size: 22px;
+    }
+
+    .cand--reg-file-upload-label {
+        font-size: 15px;
+        padding: 15px 20px;
+    }
+}

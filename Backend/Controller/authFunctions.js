@@ -42,6 +42,8 @@ const nonApprovalJobTable = require("../Database/nonApprovalJobTable");
 const postedJobTable = require("../Database/postedJobTable");
 const recruiterClient = require("../Database/recruiterClient");
 const offlineClient = require("../Database/offlineClient");
+const offlineClientDoc = require("../Database/offlineClientDoc");
+const offlineClientLogo = require("../Database/offlineClientLogo");
 
 
 // const hash = async() => {
@@ -3755,19 +3757,44 @@ const getAnOfflineClientDetails = async(req, res) => {
 }
 
 /* find all the offline clients */
-const getAllOfflineClientDetails = async(req, res) => {
-  try{
+const getAllOfflineClientDetails = async (req, res) => {
+  try {
     const allOfflineClientDetails = await offlineClient.find();
-    if(allOfflineClientDetails){
-      return res.status(200).json(allOfflineClientDetails);
-    }else{
-      return res.status(404).json({ error: 'No more offline clients !' });
+
+    if (allOfflineClientDetails.length > 0) {
+      
+      const enhancedClientDetails = await Promise.all(
+        allOfflineClientDetails.map(async (client) => {
+          
+          const clientDoc = await offlineClientDoc.findOne({
+            clientId: client.clientId,
+          });
+
+         
+          const clientLogo = await offlineClientLogo.findOne({
+            clientId: client.clientId,
+          });
+
+         
+          const enhancedClient = {
+            ...client._doc,
+            clientDoc: clientDoc ? clientDoc.doc : null, 
+            clientLogo: clientLogo ? clientLogo.logo : null, 
+          };
+
+          return enhancedClient;
+        })
+      );
+
+      return res.status(200).json(enhancedClientDetails);
+    } else {
+      return res.status(404).json({ error: 'No more offline clients!' });
     }
-    
-  }catch(err){
+  } catch (err) {
     return res.status(500).json({ error: err.message });
   }
-}
+};
+
 
 /* update the exiesting offline client detail */
 const updateOfflineClient = async (req, res) => {

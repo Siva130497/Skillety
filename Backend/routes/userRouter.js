@@ -575,7 +575,7 @@ router.post("/job-search-candidate", employeeAuth, searchJob);
 
 //login
 router.post("/ats", async (req, res) => {
-  await userLogin(req.body, ["Super-Admin", "Managers", "Recruiter-ATS"], res);
+  await userLogin(req.body, ["Super-Admin", "Manager", "Recruiter-ATS"], res);
 });
 
 //offline client register
