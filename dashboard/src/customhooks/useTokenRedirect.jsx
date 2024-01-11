@@ -20,11 +20,13 @@ const useTokenRedirect = () => {
   useEffect(() => {
     
     const staffToken = JSON.parse(localStorage.getItem('staffToken'));
+    const atsToken = JSON.parse(localStorage.getItem('atsToken'));
 
 
-    if (staffToken) {
+    if (staffToken || atsToken) {
       // navigate("/");
       localStorage.removeItem("staffToken");
+      localStorage.removeItem("atsToken");
       showErrorMessage("You have been logged out from the previous user!")
     }
 

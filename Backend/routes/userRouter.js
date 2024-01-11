@@ -149,6 +149,28 @@ const {
    allNonApprovalJobTableColumnData,
    allPostedJobTableColumnData,
    getAllPostedJobTableColumnData,
+
+   //MOBILE APP API............
+
+   candidateDashboardTopBar,
+   searchJob,
+   getACandidateDetail,
+
+   //MOBILE APP API............
+
+   //ATS............
+
+   offlineClientRegister,
+   getAnOfflineClientDetails,
+   getAllOfflineClientDetails,
+   updateOfflineClient,
+   deletingOfflineClient,
+   allOfflineClientTableColumnData,
+   getAllOfflineClientTableColumnData,
+   jobPostingATS,
+   getAtsInActivejobs,
+
+   //ATS...............
   
 } = require("../Controller/authFunctions");
 const employeeAuth = require("../middleware/employeeAuth");
@@ -544,6 +566,54 @@ router.post("/posted-jobs-column", allPostedJobTableColumnData);
 
 router.get("/posted-jobs-column/:id", getAllPostedJobTableColumnData);
 
+//MOBILE APP API............
+
+//fetching candidate dashboard topbar
+router.get("/candidate-dashboard-topbar/:candidateId", employeeAuth, candidateDashboardTopBar);
+
+//job search 
+router.post("/job-search-candidate", employeeAuth, searchJob);
+
+//find a candidate detail
+router.get("/candidate-full-detail/:id", employeeAuth, getACandidateDetail);
+
+//MOBILE APP API............
+
+//ATS......................................
+
+//login
+router.post("/ats", async (req, res) => {
+  await userLogin(req.body, ["Super-Admin", "Manager", "Recruiter-ATS"], res);
+});
+
+//offline client register
+router.post("/offline-client-reg", employeeAuth, offlineClientRegister);
+
+//find an offline client
+router.get("/an-offline-client/:id", employeeAuth, getAnOfflineClientDetails);
+
+//find all offline clients
+router.get("/offline-client-Details", employeeAuth, getAllOfflineClientDetails);
+
+//update the exiesting offline client details
+router.patch("/update-exiesting-offline-client/:id", employeeAuth, updateOfflineClient);
+
+//deleting exiesting offline client
+router.delete("/delete-exiesting-offline-client/:id", employeeAuth, deletingOfflineClient);
+
+//all offline client table column data create
+router.post("/all-offline-clients-column", employeeAuth, allOfflineClientTableColumnData);
+
+//get all offline client table column data
+router.get("/all-offline-clients-column/:id", getAllOfflineClientTableColumnData);
+
+//ats job posting
+router.post("/job-posting-ats", employeeAuth, jobPostingATS);
+
+//in active jobs ats
+router.get("/ats-inactive-jobs/:id", employeeAuth, getAtsInActivejobs);
+
+//ATS..................
 
 // Client, Client-staff Login Route
 router.post("/login-Client", async (req, res) => {

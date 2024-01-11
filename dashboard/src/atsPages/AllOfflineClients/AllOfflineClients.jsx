@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { useEffect } from 'react';
-import ATSLayout from '../../components/ATSLayout';
+import ATSLayout from '../../atsComponents/ATSLayout';
 import Footer from '../../components/Footer';
 import './AllClients.css';
 import './AllClients-responsive.css';
@@ -12,33 +12,34 @@ import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import AuthContext from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
+import Modal from 'react-modal';
 
-const AllClients = () => {
+Modal.setAppElement('#root');
+
+const AllOfflineClients = () => {
     const navigate = useNavigate();
     const { getProtectedData } = useContext(AuthContext);
-    const [staffToken, setStaffToken] = useState("");
+    const [atsToken, setatsToken] = useState("");
     const [clientDetail, setClientDetail] = useState([]);
-    const [registeredClientDetail, setRegisteredClientDetail] = useState([]);
     const [activeJobs, setActiveJobs] = useState([]);
     const [inActiveJobs, setInActiveJobs] = useState([]);
-    const [clientUrlWithEmail, setClientUrlWithEmail] = useState([]);
-    // const [emailStatus, setEmailStatus] = useState(true);
-    // const [emailMsg, setEmailMsg] = useState("");
-    const [commonEmails, setCommonEmails] = useState([]);
     const [aClient, setAClient] = useState();
 
     const [x, setX] = useState([0, 10]);
     const [loading, setLoading] = useState(true);
     const [employeeId, setEmployeeId] = useState("");
-    const [role, setRole] = useState("");
 
     const [isExpanded, setIsExpanded] = useState(false);
 
     const [selectedColumns, setSelectedColumns] = useState([]);
-    let columns = ["Email ID", "Email Status", "Send Email", "Mobile Number", "Company Name", "Industry", "Headcount", "From where did you learn about Skillety?", "Registered Status", "Active Jobs", "In-Active Jobs"]
+    let columns = ["Company Website", "Mobile Number", "Email ID", "Industry", "Address", "Head Count", "Contact Person", "GST Number", "About Client", "CIN Number", "Documents (NDA, Agreements etc...)", "Payment Category", "Active Jobs", "In-Active Jobs"]
 
     const [searchTerm, setSearchTerm] = useState('');
     const [filteredData, setFilteredData] = useState([]);
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [clientDocUrl, setClientDocUrl] = useState("");
 
     const handleInputChange = (e) => {
         const term = e.target.value;
@@ -73,9 +74,9 @@ const AllClients = () => {
             column: updatedColumns,
         };
 
-        axios.post("https://skillety-n6r1.onrender.com/all-clients-column", columnData, {
+        axios.post("https://skillety-n6r1.onrender.com/all-offline-clients-column", columnData, {
             headers: {
-                Authorization: `Bearer ${staffToken}`,
+                Authorization: `Bearer ${atsToken}`,
                 Accept: 'application/json'
             }
         })
@@ -89,8 +90,8 @@ const AllClients = () => {
 
 
     useEffect(() => {
-        setStaffToken(JSON.parse(localStorage.getItem('staffToken')))
-    }, [staffToken])
+        setatsToken(JSON.parse(localStorage.getItem('atsToken')))
+    }, [atsToken])
 
     // useEffect(() => {
     //     ///toggle customize layout
@@ -116,38 +117,17 @@ const AllClients = () => {
     //         $('.customize-table-layout-btn').off('click', handlelayoutToggle);
     //     };
 
-    // }, [staffToken]);
+    // }, [atsToken]);
 
     const handlelayoutToggle = () => {
         setIsExpanded(prevState => !prevState);
     };
 
-    const getAnIndividualRecruiter = async () => {
-        try {
-            const res = await axios.get(`https://skillety-n6r1.onrender.com/staff/${employeeId}`, {
-                headers: {
-                    Authorization: `Bearer ${staffToken}`,
-                    Accept: 'application/json'
-                }
-            });
-            const result = res.data;
-            if (!result.error) {
-                console.log(result);
-                setRole(result.companyStaff);
-
-            } else {
-                console.log(result);
-            }
-        } catch (err) {
-            console.log(err);
-        }
-    }
-
     useEffect(() => {
-        if (staffToken) {
+        if (atsToken) {
             const fetchData = async () => {
                 try {
-                    const userData = await getProtectedData(staffToken);
+                    const userData = await getProtectedData(atsToken);
                     console.log(userData);
                     setEmployeeId(userData.id);
                     // setRole(userData.role);
@@ -157,27 +137,18 @@ const AllClients = () => {
             };
 
             fetchData();
-            getAllRegisteredClientDetails();
-            getAllActiveJobs();
-            getAllInActiveJobs();
+            getAllClientDetails();
+            
         }
-    }, [staffToken]);
-
-    useEffect(() => {
-        if (role) {
-            if (role === "Recruiter") {
-                getAllRecruiterClientDetails()
-            } else {
-                getAllClientDetails();
-            }
-        }
-    }, [role])
+    }, [atsToken]);
 
     useEffect(() => {
         if (employeeId) {
-            getAnIndividualRecruiter();
-            getAllClientUrlWithEmail();
-            axios.get(`https://skillety-n6r1.onrender.com/all-clients-column/${employeeId}`)
+
+            getAllActiveJobs();
+            getAllInActiveJobs();
+           
+            axios.get(`https://skillety-n6r1.onrender.com/all-offline-clients-column/${employeeId}`)
                 .then(res => {
                     console.log(res.data);
                     if (res.data) {
@@ -215,37 +186,12 @@ const AllClients = () => {
         });
     }
 
-    const getAllRegisteredClientDetails = async () => {
-        try {
-
-            const response = await axios.get(`https://skillety-n6r1.onrender.com/clients`, {
-                headers: {
-                    Authorization: `Bearer ${staffToken}`,
-                    Accept: 'application/json'
-                }
-            });
-            const result = response.data;
-            if (!result.error) {
-                console.log(result);
-                setRegisteredClientDetail(result);
-
-            } else {
-                console.log(result);
-
-            }
-
-        } catch (err) {
-            console.log(err);
-
-        }
-    }
-
     const getAllActiveJobs = async () => {
         try {
 
-            const response = await axios.get(`https://skillety-n6r1.onrender.com/posted-jobs`, {
+            const response = await axios.get(`https://skillety-n6r1.onrender.com/ats-active-jobs`, {
                 headers: {
-                    Authorization: `Bearer ${staffToken}`,
+                    Authorization: `Bearer ${atsToken}`,
                     Accept: 'application/json'
                 }
             });
@@ -268,9 +214,9 @@ const AllClients = () => {
     const getAllInActiveJobs = async () => {
         try {
 
-            const response = await axios.get(`https://skillety-n6r1.onrender.com/posted-approved-inactive-jobs`, {
+            const response = await axios.get(`http://localhost:5002/ats-inactive-jobs/${employeeId}`, {
                 headers: {
-                    Authorization: `Bearer ${staffToken}`,
+                    Authorization: `Bearer ${atsToken}`,
                     Accept: 'application/json'
                 }
             });
@@ -293,35 +239,9 @@ const AllClients = () => {
     const getAllClientDetails = async () => {
         try {
 
-            const response = await axios.get(`https://skillety-n6r1.onrender.com/client-Detail`, {
+            const response = await axios.get(`https://skillety-n6r1.onrender.com/offline-client-Details`, {
                 headers: {
-                    Authorization: `Bearer ${staffToken}`,
-                    Accept: 'application/json'
-                }
-            });
-            const result = response.data;
-            if (!result.error) {
-                console.log(result);
-                setClientDetail(result.reverse());
-                setFilteredData(result.reverse());
-                setLoading(false);
-            } else {
-                console.log(result);
-                setLoading(false);
-            }
-
-        } catch (err) {
-            console.log(err);
-
-        }
-    }
-
-    const getAllRecruiterClientDetails = async () => {
-        try {
-
-            const response = await axios.get(`https://skillety-n6r1.onrender.com/recruiter-client-Detail/${employeeId}`, {
-                headers: {
-                    Authorization: `Bearer ${staffToken}`,
+                    Authorization: `Bearer ${atsToken}`,
                     Accept: 'application/json'
                 }
             });
@@ -339,103 +259,23 @@ const AllClients = () => {
         } catch (err) {
             console.log(err);
             setLoading(false);
-
         }
     }
-
-    const getAllClientUrlWithEmail = async () => {
-        try {
-            const response = await axios.get(`https://skillety-n6r1.onrender.com/clientUrlWithEmail`, {
-                headers: {
-                    Authorization: `Bearer ${staffToken}`,
-                    Accept: 'application/json'
-                }
-            });
-            const result = response.data;
-            if (!result.error) {
-                console.log(result);
-                setClientUrlWithEmail(result);
-            } else {
-                console.log(result);
-            }
-        } catch (err) {
-            console.log(err);
-        }
-    }
-
-    const handleCheckForEmailStatus = () => {
-        const commonEmails = filteredData
-            .filter(obj1 => clientUrlWithEmail.some(obj2 => obj2.email === obj1.email))
-            .map(obj => obj.email);
-
-        setCommonEmails(commonEmails);
-    }
-
-    console.log(commonEmails)
-
-    useEffect(() => {
-        if (filteredData.length > 0 && clientUrlWithEmail.length > 0) {
-            handleCheckForEmailStatus();
-        }
-    }, [filteredData, clientUrlWithEmail]);
-
-
-    const createClient = async (id) => {
-        const userId = { id };
-        try {
-            const response = await axios.post(`https://skillety-n6r1.onrender.com/tempPass-Client/${id}`, userId, {
-                headers: {
-                    Authorization: `Bearer ${staffToken}`,
-                    'Content-Type': 'application/json',
-                },
-            });
-
-            const result = response.data;
-
-            if (!result.error) {
-                console.log(result);
-
-                // Access emailSent status
-                if (result.emailSent) {
-                    console.log('Email has been sent successfully.');
-                    showSuccessMessage('Email has been sent successfully.')
-                    // setEmailStatus(false);
-                    // setEmailMsg("Email has been sent successfully.")
-                    getAllClientDetails();
-                    getAllClientUrlWithEmail();
-                } else {
-                    console.log('Email sending failed.');
-                    showErrorMessage('Email sending failed.')
-
-                }
-            } else {
-                console.log(result);
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
-    const handleGeneratePasswordAndTempUrl = (id) => {
-        Swal.fire({
-            title: 'Are you sure?',
-            text: 'You won\'t be able to revert this!',
-            icon: 'info',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, send mail!'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                createClient(id);
-            }
-        });
-    };
 
     const handleCard = (id) => {
-        const client = filteredData.find(cli => cli.id === id)
+        const client = filteredData.find(cli => cli.clientId === id)
         setAClient(client);
     }
+
+    const handleViewDOC = (fileUrl) => {
+        setClientDocUrl(fileUrl);
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        // setCandidateResumeUrl(null);
+        setIsModalOpen(false);
+    };
 
     const handleDeleteClient = (id) => {
 
@@ -450,9 +290,9 @@ const AllClients = () => {
         }).then((result) => {
             if (result.isConfirmed) {
 
-                axios.delete(`https://skillety-n6r1.onrender.com/del-recruiter-client/${id}`, {
+                axios.delete(`https://skillety-n6r1.onrender.com/delete-exiesting-offline-client/${id}`, {
                     headers: {
-                        Authorization: `Bearer ${staffToken}`,
+                        Authorization: `Bearer ${atsToken}`,
                         Accept: 'application/json'
                     }
                 })
@@ -487,7 +327,7 @@ const AllClients = () => {
                                 </div>
                                 <div className="create-btn-area">
                                     <a
-                                        href="/create-client"
+                                        href="/offline-client-create"
                                         className='btn creat-data-btn'
                                         title='Create new client...'
                                     >
@@ -642,7 +482,7 @@ const AllClients = () => {
                                                         <table className="table table-striped table-hover admin-lg-table">
                                                             <tr className='dash-table-row man-app'>
                                                                 <th className='dash-table-head'>No.</th>
-                                                                <th className='dash-table-head'>Full Name</th>
+                                                                <th className='dash-table-head'>Company Name</th>
                                                                 {columns.map(column => {
                                                                     if (selectedColumns?.includes(column)) {
                                                                         return (
@@ -650,86 +490,70 @@ const AllClients = () => {
                                                                         )
                                                                     }
                                                                 })}
-                                                                <th className='dash-table-head text-center'>View</th>
+                                                                <th className='dash-table-head text-center'>Action</th>
                                                             </tr>
 
                                                             {/* table data */}
                                                             {filteredData.slice(x[0], x[1]).map((client, index) => {
-                                                                const RegisteredUser = registeredClientDetail.find(regCli => regCli.email === client.email);
-
-                                                                const companyId = RegisteredUser ? RegisteredUser.companyId : null;
-                                                                const ActJobs = companyId
-                                                                    ? activeJobs.filter(job => job.companyId === companyId)
-                                                                    : null;
+                                                            
+                                                                const ActJobs = activeJobs.filter(job => job.clientId === client.clientId)
                                                                 const updatedActJobs = ActJobs?.map(job => ({ ...job, active: true }));
-                                                                const InActJobs = companyId
-                                                                    ? inActiveJobs.filter(job => job.companyId === companyId)
-                                                                    : null;
+                                                                const InActJobs = inActiveJobs.filter(job => job.clientId === client.clientId);
                                                                 
+                                                                const clientLogo  = (client?.clientLogo) ? `https://skillety-n6r1.onrender.com/offline_client_logo/${client?.clientLogo}` : "../assets/img/talents-images/avatar.jpg"
                                                                 return (
                                                                     <tr className='dash-table-row client'>
                                                                         <td className='dash-table-data1'>{index + 1}.</td>
                                                                         <td className='dash-table-data1 text-capitalized'>
-                                                                            {client.name}
+                                                                            <img src={clientLogo} className='dash-table-avatar-img' alt="" />
+                                                                            {client.companyName}
                                                                         </td>
-                                                                        {selectedColumns?.includes("Email ID") && <td className='dash-table-data1'>
+                                                                
+                                                                        {selectedColumns?.includes("Company Website") && <td className='dash-table-data1 text-left'>
+                                                                            <a href={`${client?.companyWebsite}`}
+                                                                                className='view-det-sub-head link is-link'
+                                                                                target='_blank'>
+                                                                                {client?.companyWebsite}
+                                                                            </a>                                </td>}                                                               {selectedColumns?.includes("Mobile Number") &&
+                                                                            <td className='dash-table-data1 text-left'>
+                                                                                <a href={`tel:${client.mobile}`}
+                                                                                    className='dash-table-data1 link is-link p-0'>
+                                                                                    {client.mobile}
+                                                                                </a>
+                                                                            </td>}
+                                                                            {selectedColumns?.includes("Email ID") && <td className='dash-table-data1'>
                                                                             <a href={`mailto:${client.email}`}
                                                                                 className='dash-table-data1 link is-link p-0'>
                                                                                 {client.email}
                                                                             </a>
                                                                         </td>}
-                                                                        {selectedColumns?.includes("Email Status") && <td className='dash-table-data1'>
-                                                                            {commonEmails.includes(client.email) ?
-                                                                                <span className='text-success p-0'>
-                                                                                    <i class="bi bi-check-circle mr-2"></i>
-                                                                                    Email sent.
-                                                                                </span> :
-                                                                                <span className='text-warning p-0'>
-                                                                                    <i class="bi bi-exclamation-circle mr-2"></i>
-                                                                                    Email not yet sent.
-                                                                                </span>
-                                                                            }
-                                                                        </td>}
-                                                                        {selectedColumns?.includes("Send Email") && <td className='dash-table-data1 text-left'>
-                                                                            <button className='send-email-btn' onClick={() => handleGeneratePasswordAndTempUrl(client.id)}>
-                                                                                <i class="bi bi-send-fill send-icon"></i>
-                                                                                {commonEmails.includes(client.email) ? "ReSend" : "Send"}
-                                                                            </button>
-                                                                        </td>}
-                                                                        {selectedColumns?.includes("Mobile Number") &&
-                                                                            <td className='dash-table-data1 text-left'>
-                                                                                <a href={`tel:${client.phone}`}
-                                                                                    className='dash-table-data1 link is-link p-0'>
-                                                                                    {client.phone}
-                                                                                </a>
-                                                                            </td>}
-                                                                        {selectedColumns?.includes("Company Name") && <td className='dash-table-data1 text-left'>
-                                                                            {client.companyName}                                </td>}
+      
                                                                         {selectedColumns?.includes("Industry") && <td className='dash-table-data1 text-left'>
                                                                             {client.industry}                                   </td>}
-                                                                        {selectedColumns?.includes("Headcount") && <td className='dash-table-data1 text-left'>
-                                                                            {client.count}                                      </td>}
-                                                                        {selectedColumns?.includes("From where did you learn about Skillety?") && <td className='dash-table-data1 text-left'>
-                                                                            {client.text}                                       </td>}
-                                                                        {selectedColumns?.includes("Registered Status") && <td className='dash-table-data1'>
-                                                                            {RegisteredUser ?
-                                                                                <span className='text-success p-0'>
-                                                                                    <i class="bi bi-check-circle mr-2"></i>
-                                                                                    Registered.
-                                                                                </span> :
-                                                                                <span className='text-warning p-0'>
-                                                                                    <i class="bi bi-exclamation-circle mr-2"></i>
-                                                                                    Not Registered.
-                                                                                </span>
-                                                                            }
-                                                                        </td>}
+                                                                        {selectedColumns?.includes("Address") && <td className='dash-table-data1 text-left'>
+                                                                            {client.address}                                      </td>}
+                                                                        {selectedColumns?.includes("Head Count") && <td className='dash-table-data1 text-left'>
+                                                                            {client.headCount}                                       </td>}
+                                                                            {selectedColumns?.includes("Contact Person") && <td className='dash-table-data1 text-left'>
+                                                                            {client.contactPerson}                                      </td>}
+                                                                            {selectedColumns?.includes("GST Number") && <td className='dash-table-data1 text-left'>
+                                                                            {client.GSTNumber}                                      </td>}
+                                                                            {selectedColumns?.includes("About Client") && <td className='dash-table-data1 text-left'>
+                                                                            {client.aboutClient}                                      </td>}
+                                                                            {selectedColumns?.includes("CIN Number") && <td className='dash-table-data1 text-left'>
+                                                                            {client.CINNumber}                                      </td>}
+                                                                            {selectedColumns?.includes("Documents (NDA, Agreements etc...)") && <td className='dash-table-data1 text-left'>
+                                                                            <button className='application-btn with-modal' onClick={() => handleViewDOC(`https://skillety-n6r1.onrender.com/offline_client_doc/${client?.clientDoc}`)}>
+                                                                                        <span></span>&nbsp;&nbsp;&nbsp;
+                                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-file-earmark-text-fill" viewBox="0 0 16 16">
+                                                                                            <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM4.5 9a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 1 0-1h4a.5.5 0 0 1 0 1h-4z" fill='#0879bc' />
+                                                                                        </svg>
+                                                                                    </button>                                      </td>}
+                                                                            {selectedColumns?.includes("Payment Category") && <td className='dash-table-data1 text-left'>
+                                                                            {client.paymentCategory}                                      </td>}
                                                                         {selectedColumns?.includes("Active Jobs") && <td className='dash-table-data1 text-left'>
-                                                                        <button className='application-btn with-modal' onClick={() => updatedActJobs?.length > 0 && navigate(`/all-jobs`, { state: { jobs: updatedActJobs } })}>
-                                                                                {/* <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-file-earmark-text-fill" viewBox="0 0 16 16">
-                                                                                    <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM4.5 9a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 1 0-1h4a.5.5 0 0 1 0 1h-4z" fill='#0879bc' />
-                                                                                </svg> */}
-
-                                                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-briefcase-fill" viewBox="0 0 16 16">
+                                                                        <button className='application-btn with-modal' onClick={() => updatedActJobs?.length > 0 && navigate(`/all-ats-jobs`, { state: { jobs: updatedActJobs } })}>
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-briefcase-fill" viewBox="0 0 16 16">
                                                                                     <path d="M6.5 1A1.5 1.5 0 0 0 5 2.5V3H1.5A1.5 1.5 0 0 0 0 4.5v1.384l7.614 2.03a1.5 1.5 0 0 0 .772 0L16 5.884V4.5A1.5 1.5 0 0 0 14.5 3H11v-.5A1.5 1.5 0 0 0 9.5 1zm0 1h3a.5.5 0 0 1 .5.5V3H6v-.5a.5.5 0 0 1 .5-.5" fill='#0879bc' />
                                                                                     <path d="M0 12.5A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5V6.85L8.129 8.947a.5.5 0 0 1-.258 0L0 6.85z" fill='#0879bc' />
                                                                                 </svg>
@@ -738,12 +562,8 @@ const AllClients = () => {
                                                                             </button>
                                                                         </td>}
                                                                         {selectedColumns?.includes("In-Active Jobs") && <td className='dash-table-data1 text-left'>
-                                                                            <button className='application-btn with-modal' onClick={() => InActJobs?.length > 0 && navigate(`/all-jobs`, { state: { jobs: InActJobs } })}>
-                                                                                {/* <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-file-earmark-text-fill" viewBox="0 0 16 16">
-                                                                                    <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM4.5 9a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 1 0-1h4a.5.5 0 0 1 0 1h-4z" fill='#0879bc' />
-                                                                                </svg> */}
-
-                                                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-briefcase" viewBox="0 0 16 16">
+                                                                            <button className='application-btn with-modal' onClick={() => InActJobs?.length > 0 && navigate(`/all-ats-jobs`, { state: { jobs: InActJobs } })}>
+                                                                              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-briefcase" viewBox="0 0 16 16">
                                                                                     <path d="M6.5 1A1.5 1.5 0 0 0 5 2.5V3H1.5A1.5 1.5 0 0 0 0 4.5v8A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-8A1.5 1.5 0 0 0 14.5 3H11v-.5A1.5 1.5 0 0 0 9.5 1zm0 1h3a.5.5 0 0 1 .5.5V3H6v-.5a.5.5 0 0 1 .5-.5m1.886 6.914L15 7.151V12.5a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5V7.15l6.614 1.764a1.5 1.5 0 0 0 .772 0M1.5 4h13a.5.5 0 0 1 .5.5v1.616L8.129 7.948a.5.5 0 0 1-.258 0L1 6.116V4.5a.5.5 0 0 1 .5-.5" fill='#0879bc' />
                                                                                 </svg>
                                                                                 &nbsp;&nbsp;&nbsp;
@@ -752,25 +572,30 @@ const AllClients = () => {
                                                                                 </td>}
                                                                         <td className='text-center'>
                                                                             <div className="action-btn-area">
-                                                                                <button className='job-view-btn' title='View Client Details...' data-toggle="modal" data-target="#clientsViewModal" onClick={() => handleCard(client.id)}>
+                                                                                <button className='job-view-btn' title='View Client Details...' data-toggle="modal" data-target="#clientsViewModal" onClick={() => handleCard(client.clientId)}>
                                                                                     <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
                                                                                         <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
                                                                                         <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
                                                                                     </svg>
                                                                                 </button>
-                                                                                {(role === "Recruiter") && <button className='job-edit-btn' title='Edit client details...' onClick={() => navigate(`/create-client`, { state: { id: client.id } })}
-                                                                                    disabled={RegisteredUser}>
+                                                                                <button className='job-edit-btn' title='Edit client details...' onClick={() => navigate(`/offline-client-create`, { state: { id: client.clientId } })}
+                >
                                                                                     <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
                                                                                         <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
                                                                                     </svg>
-                                                                                </button>}
-                                                                                {(role === "Recruiter") && <button className='job-delete-btn' title='Delete client data...' onClick={() => handleDeleteClient(client.id)}
-                                                                                    disabled={RegisteredUser}
-                                                                                >
+                                                                                </button>
+                                                                                <button className='job-delete-btn' title='Delete client data...' onClick={() => handleDeleteClient(client.clientId)}
+                                                                         >
                                                                                     <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
                                                                                         <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
                                                                                     </svg>
-                                                                                </button>}
+                                                                                </button>
+                                                                                <button className='job-edit-btn' title='Post job for client...' onClick={() => navigate(`/job-posting-ats`, { state: { id: client.clientId } })}
+                >
+                                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bag-plus-fill" viewBox="0 0 16 16">
+                                                                                    <path fill-rule="evenodd" d="M10.5 3.5a2.5 2.5 0 0 0-5 0V4h5zm1 0V4H15v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V4h3.5v-.5a3.5 3.5 0 1 1 7 0M8.5 8a.5.5 0 0 0-1 0v1.5H6a.5.5 0 0 0 0 1h1.5V12a.5.5 0 0 0 1 0v-1.5H10a.5.5 0 0 0 0-1H8.5z"/>
+                                                                                    </svg>
+                                                                                </button>
                                                                             </div>
                                                                         </td>
                                                                     </tr>
@@ -780,15 +605,6 @@ const AllClients = () => {
                                                     </div>
                                                 }
                                             </div>
-
-                                            {/* <div className="view-application-btn-area text-center">
-                                            <a href='#' className='view-app-btn'>
-                                                View More&nbsp;&nbsp;
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="13" height="8" viewBox="0 0 13 8" fill="none">
-                                                    <path d="M12.3536 4.35355C12.5488 4.15829 12.5488 3.84171 12.3536 3.64645L9.17157 0.464466C8.97631 0.269204 8.65973 0.269204 8.46447 0.464466C8.2692 0.659728 8.2692 0.976311 8.46447 1.17157L11.2929 4L8.46447 6.82843C8.2692 7.02369 8.2692 7.34027 8.46447 7.53553C8.65973 7.7308 8.97631 7.7308 9.17157 7.53553L12.3536 4.35355ZM0 4.5L12 4.5V3.5L0 3.5L0 4.5Z" fill="#0F75C5" />
-                                                </svg>
-                                            </a>
-                                        </div> */}
                                             <div className="table-pagination-area pt-3">
                                                 <div className="pagination-btn-area">
                                                     {x[0] > 0 && <button className='pag-prev-btn' onClick={() => setX([x[0] - 10, x[1] - 10])}>
@@ -829,10 +645,23 @@ const AllClients = () => {
                                 <div className="card p-4 recruiter-view-card">
                                     <div className="row">
                                         <div className="col-12 col-sm-6">
-                                            <div className="view-det-head">Full Name</div>
+                                            <div className="view-det-head">Company Name</div>
                                         </div>
                                         <div className="col-12 col-sm-6">
-                                            <div className="view-det-sub-head text-capitalized">{aClient?.name}</div>
+                                            <div className="view-det-sub-head text-capitalized">{aClient?.companyName}</div>
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div className="row">
+                                        <div className="col-12 col-sm-6">
+                                            <div className="view-det-head">Company Website</div>
+                                        </div>
+                                        <div className="col-12 col-sm-6">
+                                            <div className="view-det-sub-head text-capitalized"><a href={`${aClient?.companyWebsite}`}
+                                                className='view-det-sub-head link is-link'
+                                                target='_blank'>
+                                                {aClient?.companyWebsite}
+                                            </a></div>
                                         </div>
                                     </div>
                                     <hr />
@@ -842,9 +671,9 @@ const AllClients = () => {
                                         </div>
                                         <div className="col-12 col-sm-6">
                                             <div className="view-det-sub-head">
-                                                <a href={`tel:${aClient?.phone}`}
+                                                <a href={`tel:${aClient?.mobile}`}
                                                     className='view-det-sub-head link is-link'>
-                                                    {aClient?.phone}
+                                                    {aClient?.mobile}
                                                 </a>
                                             </div>
                                         </div>
@@ -866,10 +695,10 @@ const AllClients = () => {
                                     <hr />
                                     <div className="row">
                                         <div className="col-12 col-sm-6">
-                                            <div className="view-det-head">Company Name</div>
+                                            <div className="view-det-head">Address</div>
                                         </div>
                                         <div className="col-12 col-sm-6">
-                                            <div className="view-det-sub-head text-capitalized">{aClient?.companyName}</div>
+                                            <div className="view-det-sub-head text-capitalized">{aClient?.address}</div>
                                         </div>
                                     </div>
                                     <hr />
@@ -884,19 +713,55 @@ const AllClients = () => {
                                     <hr />
                                     <div className="row">
                                         <div className="col-12 col-sm-6">
-                                            <div className="view-det-head">Headcount</div>
+                                            <div className="view-det-head">Head Count</div>
                                         </div>
                                         <div className="col-12 col-sm-6">
-                                            <div className="view-det-sub-head">{aClient?.count}</div>
+                                            <div className="view-det-sub-head">{aClient?.headCount}</div>
                                         </div>
                                     </div>
                                     <hr />
                                     <div className="row">
                                         <div className="col-12 col-sm-6">
-                                            <div className="view-det-head">From where did you learn about Skillety?</div>
+                                            <div className="view-det-head">Contact Person</div>
                                         </div>
                                         <div className="col-12 col-sm-6">
-                                            <div className="view-det-sub-head text-capitalized">{aClient?.text}</div>
+                                            <div className="view-det-sub-head text-capitalized">{aClient?.contactPerson}</div>
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div className="row">
+                                        <div className="col-12 col-sm-6">
+                                            <div className="view-det-head">GST Number</div>
+                                        </div>
+                                        <div className="col-12 col-sm-6">
+                                            <div className="view-det-sub-head text-capitalized">{aClient?.GSTNumber}</div>
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div className="row">
+                                        <div className="col-12 col-sm-6">
+                                            <div className="view-det-head">About Client</div>
+                                        </div>
+                                        <div className="col-12 col-sm-6">
+                                            <div className="view-det-sub-head text-capitalized">{aClient?.aboutClient}</div>
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div className="row">
+                                        <div className="col-12 col-sm-6">
+                                            <div className="view-det-head">CIN Number</div>
+                                        </div>
+                                        <div className="col-12 col-sm-6">
+                                            <div className="view-det-sub-head text-capitalized">{aClient?.CINNumber}</div>
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div className="row">
+                                        <div className="col-12 col-sm-6">
+                                            <div className="view-det-head">Payment Category</div>
+                                        </div>
+                                        <div className="col-12 col-sm-6">
+                                            <div className="view-det-sub-head text-capitalized">{aClient?.paymentCategory}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -907,11 +772,29 @@ const AllClients = () => {
                         </div>
                     </div>
                 </div>
+                <Modal
+                    isOpen={isModalOpen}
+                    onRequestClose={closeModal}
+                    className={`doc-view-modal-content ${isModalOpen ? 'open' : ''}`}
+                    overlayClassName={`doc-view-modal-overlay ${isModalOpen ? 'open' : ''}`}
+                >
 
+                    {clientDocUrl && (
+                        <DocViewer
+                            documents={[{ uri: clientDocUrl }]}
+                            renderers={DocViewerRenderers}
+                            className='document'
+                        />
+                    )}
+
+                    <button className="doc-view-close-button" onClick={closeModal}>
+                        <i className='bi bi-x'></i>
+                    </button>
+                </Modal>
                 <Footer />
             </div >
         </div >
     )
 }
 
-export default AllClients
+export default AllOfflineClients
