@@ -49,6 +49,10 @@ const JobPosting = () => {
   const [filteredEducation, setFilteredEducation] = useState([]);
   const [selectedEducation, setSelectedEducation] = useState([]);
 
+  const [designationAlert, setDesignationAlert] = useState("");
+    const [skillError, setSkillError] = useState("");
+    const [locationError, setLocationError] = useState("");
+
   // const [postedJobs, setPostedJobs] = useState([]);
 
   const initialCredentials = {
@@ -401,6 +405,7 @@ const JobPosting = () => {
   }
 
   const handleJobRoleSearch = (e) => {
+    setDesignationAlert("");
     const inputValue = e.target.value;
     setSearchJobRoleInput(inputValue);
     if (inputValue.length > 0) {
@@ -432,7 +437,7 @@ const JobPosting = () => {
       setFilteredJobRoles([]);
       const foundObject = jobRoleArray.find(item => item.designation.toLowerCase() === newJobRole.toLowerCase());
       if (foundObject) {
-        alert(`Job role "${newJobRole}" already in list, please search...`);
+        designationAlert(`Job role "${newJobRole}" already in list, please search...`);
         setNewJobRole("");
       } else {
         setOtherJobRole([newJobRole]);
@@ -460,6 +465,7 @@ const JobPosting = () => {
   };
 
   const handleSkillSearch = (e) => {
+    setSkillError("");
     const inputValue = e.target.value;
     setSearchSkillInput(inputValue);
     if (inputValue.length > 0) {
@@ -494,7 +500,7 @@ const JobPosting = () => {
       setFilteredSkills([]);
       const foundObject = skillArray.find(item => item.skill.toLowerCase() === newSkill.toLowerCase());
       if (foundObject) {
-        alert(`Skill "${newSkill}" already in list, please search...`);
+        skillError(`Skill "${newSkill}" already in list, please search...`);
       } else {
         if (selectedSkills.includes(newSkill.toLowerCase())) {
           setSelectedSkills([...selectedSkills]);
@@ -564,7 +570,7 @@ const JobPosting = () => {
       setSearchLocationInput("");
       setFilteredLocations([]);
     } else if (selectedLocations.length === 3) {
-      showErrorMessage(`You can select max of 3 locations`);
+      setLocationError(`You can select max of 3 locations`);
 
     } else if (selectedLocations.length < 3) {
       setSelectedLocations([...selectedLocations, location]);
@@ -863,7 +869,7 @@ const JobPosting = () => {
                               })
                             }
                           </div>
-
+                          <small className='text-danger text-capitalized'>{designationAlert}</small>
                           <div className="job-post-form-chechbox-area">
                             <label className="job-post-form-check-input view-disabled-input">
                               <input
@@ -969,7 +975,7 @@ const JobPosting = () => {
                               })
                             }
                           </div>
-
+                          <small className='text-danger text-capitalized'>{skillError}</small>
                           <div className="job-post-form-chechbox-area">
                             <label className="job-post-form-check-input view-disabled-input">
                               <input
@@ -1137,7 +1143,7 @@ const JobPosting = () => {
                               })
                             }
                           </div>
-
+                          <small className='text-danger text-capitalized'>{locationError}</small>
                           <div className="job-post-form-chechbox-area">
                             <label className="job-post-form-check-input">
                               <input type="checkbox" />

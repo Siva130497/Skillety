@@ -41,9 +41,21 @@ const allJobTable = require("../Database/allJobTable");
 const nonApprovalJobTable = require("../Database/nonApprovalJobTable");
 const postedJobTable = require("../Database/postedJobTable");
 const recruiterClient = require("../Database/recruiterClient");
+
+//MOBILE APP..........
+const candidateProfile = require("../Database/candidateProfile");
+
+//MOBILE APP........
+
+//ATS..................................
+
 const offlineClient = require("../Database/offlineClient");
 const offlineClientDoc = require("../Database/offlineClientDoc");
 const offlineClientLogo = require("../Database/offlineClientLogo");
+const offlineClientTable = require("../Database/offlineClientTable");
+
+//ATS...............................................
+
 
 
 // const hash = async() => {
@@ -3711,6 +3723,64 @@ const searchJob = async(req, res) => {
   }
 }
 
+//individual candidate detail
+const getACandidateDetail = async (req, res) => {
+  try {
+    const {id} = req.params;
+
+    const cand = await candidate.findOne({id});
+    if (!cand) {
+      return res.status(404).json({ error: "Candidate not found" });
+    }
+
+    const resumeData = await resume.findOne({id});
+    if (!resumeData) {
+      return res.status(404).json({ error: "Cv not found" });
+    }
+
+    const profile = await candidateProfile.findOne({id});
+    if (!profile) {
+      return res.status(404).json({ error: "Profile photo not found" });
+    }
+
+    if (cand && resumeData && profile) { 
+      const candidateDetail = { 
+        ...cand._doc, 
+        ...resumeData._doc,
+        ...profile._doc,
+       };
+
+      const finalResponse = {
+        candidateId: candidateDetail.id,
+        lastProfileUpdateDate: new Date(cand.updatedAt).toISOString().split('T')[0],
+        avatar: `https://skillety-n6r1.onrender.com/candidate_profile/${candidateDetail.image}`,
+        joinPeriod: candidateDetail.days,
+        lastDayWorked: candidateDetail.selectedDate,
+        fName: candidateDetail.firstName,
+        lName: candidateDetail.lastName,
+        email: candidateDetail.email,
+        phone: candidateDetail.phone,
+        preferedLocations: candidateDetail.preferedlocations.join(", "),
+        cv: `https://skillety-n6r1.onrender.com/files/${candidateDetail.file}`,
+        currentDesignation: candidateDetail.designation[0],
+        currentCompany: candidateDetail.companyName,
+        currentLocation: candidateDetail.location,
+        expYr: candidateDetail.year,
+        expMonth: candidateDetail.month,
+        skills: candidateDetail.skills,
+        educations: candidateDetail.education,
+        profileHeadline: candidateDetail.profileHeadline
+      }
+      return res.status(200).json(finalResponse);
+    } else {
+      return res.status(200).json(cand._doc);
+    }
+
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+}
+
 
 /* MOBILE APP TEAM NEW API */
 
@@ -3857,20 +3927,77 @@ const deletingOfflineClient = async(req, res) => {
   }
 }
 
-//job upload for particular client
-// const jobPosting = async(req, res) => {
-//   try{
-//     console.log(req.body);
-//     const newJobDetail = new jobDetail({
-//       ...req.body,
-//     });
-//     await newJobDetail.save();
-//     console.log(newJobDetail);
-//     return res.status(201).json(newJobDetail);
-//   }catch(err){
-//     return res.status(500).json({ error: err.message })
-//   }
-// }
+/* all offline client table column data create */
+const allOfflineClientTableColumnData = async (req, res) => {
+  try {
+    const { id, column } = req.body;
+
+    const existingDocument = await offlineClientTable.findOne({ id });
+
+    if (existingDocument) {
+      existingDocument.column = column;
+      await existingDocument.save();
+      res.status(200).json(existingDocument);
+    } else {
+      const newOfflineClientTableData = new offlineClientTable({
+        id,
+        column,
+      });
+
+      await newOfflineClientTableData.save();
+      res.status(201).json(newOfflineClientTableData);
+    }
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+};
+
+
+/* get all offline client table column data */
+const getAllOfflineClientTableColumnData = async(req, res) => {
+  const {id} = req.params;
+  try{
+    const allOfflineClientTableColumnData = await offlineClientTable.findOne({id});
+    console.log(allOfflineClientTableColumnData);
+    return res.status(200).json(allOfflineClientTableColumnData);
+  }catch(err){
+    console.log(err);
+    return res.status(500).json({ error: err.message });
+  }
+}
+
+// job upload for particular client
+const jobPostingATS = async(req, res) => {
+  try{
+    console.log(req.body);
+    const newJobDetail = new jobDetail({
+      ...req.body,
+    });
+    await newJobDetail.save();
+    console.log(newJobDetail);
+    return res.status(201).json(newJobDetail);
+  }catch(err){
+    return res.status(500).json({ error: err.message })
+  }
+}
+
+//find all active jobs in ats
+const getAtsInActivejobs = async (req, res) => {
+  try {
+    const id = req.params.id; 
+    
+    const inActiveJobs = await jobDetail.find({managerId:id});
+
+    if (inActiveJobs.length > 0) {
+      return res.status(200).json(inActiveJobs);
+    }
+
+      return res.status(404).json({ message: 'No in-active job found' });
+    
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+}
 
 /*ATS................... */
 
@@ -4178,7 +4305,8 @@ module.exports = {
 
    candidateDashboardTopBar,
    searchJob,
-
+   getACandidateDetail,
+  
    //MOBILE APP API............
 
    //ATS...............
@@ -4188,6 +4316,10 @@ module.exports = {
    getAllOfflineClientDetails,
    updateOfflineClient,
    deletingOfflineClient,
+   allOfflineClientTableColumnData,
+   getAllOfflineClientTableColumnData,
+   jobPostingATS,
+   getAtsInActivejobs,
 
   //ATS...........
 };

@@ -242,7 +242,7 @@ const AtsDashboard = () => {
                                             <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
                                                 <div className="dash-num-count-area">
                                                     <p className='dash-num-title'>Clients</p>
-                                                    <h4 className='dash-num-count'>{offlineClientDetail.length}</h4>
+                                                    <a href="/all-offline-clients"><h4 className='dash-num-count'>{offlineClientDetail.length}</h4></a>
                                                 </div>
                                             </div>
 
@@ -338,25 +338,33 @@ const AtsDashboard = () => {
                                                     <div className="dash-table-title">
                                                         New Clients
                                                     </div>
-                                                    <a href='/all-clients' className="dash-table-see-all-btn">See all</a>
+                                                    <a href='/all-offline-clients' className="dash-table-see-all-btn">See all</a>
                                                 </div>
                                                 <div class="table-responsive mt-4">
                                                     <table class="table table-striped table-hover dash-table">
                                                         <tr className='dash-table-row heading'>
                                                             <th className='dash-table-data1 heading'>DOU.</th>
                                                             <th className='dash-table-data1 text-center heading'>Company Name</th>
-                                                            <th className='dash-table-data1 text-center heading'>Email</th>
+                                                            <th className='dash-table-data1 text-center heading'>Company Website</th>
                                                             {/* <th className='dash-table-data1 text-center heading'>View</th> */}
                                                         </tr>
                                                         {offlineClientDetail.length>0 ? 
                                                             offlineClientDetail.slice(0, 10).map(client => {
+                                                                const clientLogo  = (client?.clientLogo) ? `https://skillety-n6r1.onrender.com/offline_client_logo/${client?.clientLogo}` : "../assets/img/talents-images/avatar.jpg"
                                                             return (
                                                                 <tr className='dash-table-row'>
                                                                     <td className='dash-table-data1'>
                                                                         {`${new Date(client.updatedAt).getDate().toString().padStart(2, '0')}/${(new Date(client.updatedAt).getMonth() + 1).toString().padStart(2, '0')}/${new Date(client.updatedAt).getFullYear() % 100}`}
                                                                     </td>
-                                                                    <td className='dash-table-data1 text-center text-capitalized'>{client.companyName}</td>
-                                                                    <td className='dash-table-data1 text-center text-capitalized'>{client.email}</td>
+                                                                    <td className='dash-table-data1 text-center text-capitalized'>
+                                                                        <img src={clientLogo} className='dash-table-avatar-img' alt="" />
+                                                                        {client.companyName}
+                                                                        </td>
+                                                                    <td className='dash-table-data1 text-center text-capitalized'><a href={`${client?.companyWebsite}`}
+                                                                                className='view-det-sub-head link is-link'
+                                                                                target='_blank'>
+                                                                                {client?.companyWebsite}
+                                                                            </a></td>
                                                                     {/* <td className='text-center dash-table-view-btn-area'>
                                                                         <button className='dash-table-view-btn client with-border pl-4 pr-4'
                                                                             data-toggle="modal">View
@@ -382,7 +390,7 @@ const AtsDashboard = () => {
                                                     <div className="dash-table-title">
                                                         New Jobs
                                                     </div>
-                                                    <a href='/all-candidates' className="dash-table-see-all-btn">See all</a>
+                                                    <a href='' className="dash-table-see-all-btn">See all</a>
                                                 </div>
                                                 <div class="table-responsive mt-4">
 
