@@ -53,6 +53,7 @@ const offlineClient = require("../Database/offlineClient");
 const offlineClientDoc = require("../Database/offlineClientDoc");
 const offlineClientLogo = require("../Database/offlineClientLogo");
 const offlineClientTable = require("../Database/offlineClientTable");
+const atsJobsTable = require("../Database/atsJobsTable")
 
 //ATS...............................................
 
@@ -1089,7 +1090,7 @@ const updateJob = async (req, res) => {
 
     if (activeJobToUpdate) {
       // Check if the update job has recruiterId
-      if (activeJobToUpdate.recruiterId) {
+      if (activeJobToUpdate.recruiterId ||activeJobToUpdate.managerId) {
         const updatedActiveJob = await activeJob.findOneAndUpdate(
           { id },
           {
@@ -1144,7 +1145,7 @@ const updateJob = async (req, res) => {
       }
     } else if (inActiveJobToUpdate) {
       // Check if the update job has recruiterId
-      if (inActiveJobToUpdate.recruiterId) {
+      if (inActiveJobToUpdate.recruiterId || inActiveJobToUpdate.managerId) {
         const updatedInActiveJob = await jobDetail.findOneAndUpdate(
           { id },
           {
@@ -1261,7 +1262,8 @@ const getOwnPostedjobs = async (req, res) => {
     const postedJobs = await jobDetail.find({
       $or: [
         { companyId: id },
-        { recruiterId: id }
+        { recruiterId: id },
+        { managerId: id }
       ]
     });
 
@@ -1284,7 +1286,8 @@ const getOwnActivejobs = async (req, res) => {
     const activeJobs = await activeJob.find({
       $or: [
         { companyId: id },
-        { recruiterId: id }
+        { recruiterId: id },
+        { managerId: id }
       ]
     });
 
@@ -3966,36 +3969,42 @@ const getAllOfflineClientTableColumnData = async(req, res) => {
   }
 }
 
-// job upload for particular client
-const jobPostingATS = async(req, res) => {
-  try{
-    console.log(req.body);
-    const newJobDetail = new jobDetail({
-      ...req.body,
-    });
-    await newJobDetail.save();
-    console.log(newJobDetail);
-    return res.status(201).json(newJobDetail);
-  }catch(err){
-    return res.status(500).json({ error: err.message })
-  }
-}
-
-//find all active jobs in ats
-const getAtsInActivejobs = async (req, res) => {
+//save column data for ATSJobs table
+const allATSJobsTableColumnData = async (req, res) => {
   try {
-    const id = req.params.id; 
-    
-    const inActiveJobs = await jobDetail.find({managerId:id});
+    const { id, column } = req.body;
 
-    if (inActiveJobs.length > 0) {
-      return res.status(200).json(inActiveJobs);
+    const existingDocument = await atsJobsTable.findOne({ id });
+
+    if (existingDocument) {
+      existingDocument.column = column;
+      await existingDocument.save();
+      res.status(200).json(existingDocument);
+    } else {
+      const newATSJobsTableData = new atsJobsTable({
+        id,
+        column,
+      });
+
+      await newATSJobsTableData.save();
+      res.status(201).json(newATSJobsTableData);
     }
-
-      return res.status(404).json({ message: 'No in-active job found' });
-    
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    return res.status(500).json({ error: err.message });
+  }
+};
+
+
+/* get all ATSJobs table column data */
+const getAllATSJobsTableColumnData = async(req, res) => {
+  const {id} = req.params;
+  try{
+    const allATSJobsTableColumnData = await atsJobsTable.findOne({id});
+    console.log(allATSJobsTableColumnData);
+    return res.status(200).json(allATSJobsTableColumnData);
+  }catch(err){
+    console.log(err);
+    return res.status(500).json({ error: err.message });
   }
 }
 
@@ -4318,8 +4327,9 @@ module.exports = {
    deletingOfflineClient,
    allOfflineClientTableColumnData,
    getAllOfflineClientTableColumnData,
-   jobPostingATS,
-   getAtsInActivejobs,
+   allATSJobsTableColumnData,
+   getAllATSJobsTableColumnData,
+   
 
   //ATS...........
 };
