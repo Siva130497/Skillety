@@ -1,0 +1,27 @@
+@media (max-width:573px) {
+    .rec-work-mode-area {
+        flex-direction: column;
+        gap: 20px;
+        align-items: flex-start;
+    }
+
+    .recruite-form-check-input {
+        width: 100%;
+    }
+
+    .add-candidate-area{
+        margin-top: 15px;
+        flex-direction: column;
+        gap: 10px;
+    }
+    .search-candidate-input{
+        border-radius: 50px !important;
+    }
+    .search-candidate-btn{
+        border-radius: 50px !important;
+        width: 100%;
+    }
+    .add-candidate-area .search-icon{
+        top: 10px;
+    }
+}

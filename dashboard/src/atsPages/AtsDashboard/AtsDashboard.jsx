@@ -26,6 +26,7 @@ import {
 import { Line } from 'react-chartjs-2';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
+import AuthContext from '../../context/AuthContext';
 
 
 ChartJS.register(
@@ -90,6 +91,10 @@ const AtsDashboard = () => {
     const [offlineClientDetail, setofflineClientDetail] = useState([]);
     const [atsJobDetail, setatsJobDetail] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [updatePostedJobs, setUpdatePostedJobs] = useState([]);
+    const [employeeId, setEmployeeId] = useState("");
+    const { getProtectedData } = useContext(AuthContext);
+    const [atsToken, setatsToken] = useState("")
 
     useEffect(() => {
         $(document).ready(function () {
@@ -108,7 +113,94 @@ const AtsDashboard = () => {
 
     useEffect(() => {
         localStorage.setItem("atsToken", JSON.stringify(token));
+        setatsToken(token)
     }, [token])
+
+    useEffect(() => {
+        if (atsToken) {
+            const fetchData = async () => {
+                try {
+                    const userData = await getProtectedData(atsToken);
+                    console.log(userData);
+                    setEmployeeId(userData.id);
+                } catch (error) {
+                    console.log(error)
+                }
+            };
+
+            fetchData();
+            getAllofflineClientDetails();
+            
+        }
+    }, [atsToken]);
+
+    const getATSInactiveJobs = async () => {
+        try {
+            // setLoading(true);
+            const res = await axios.get(`https://skillety-n6r1.onrender.com/my-posted-jobs/${employeeId}`, {
+                headers: {
+                    Authorization: `Bearer ${atsToken}`,
+                    Accept: 'application/json'
+                }
+            });
+            const result = res.data;
+            if (!result.error) {
+                console.log(result);
+                setUpdatePostedJobs(prevPostedJobs => [...prevPostedJobs, ...result]);
+            } else {
+                console.log(result);
+            }
+
+            // setLoading(false);
+        } catch (err) {
+            console.log(err);
+
+            // setLoading(false);
+        }
+    }
+
+    const getATSActiveJobs = async () => {
+        try {
+            // setLoading(true);
+            const res = await axios.get(`https://skillety-n6r1.onrender.com/my-active-jobs/${employeeId}`, {
+                headers: {
+                    Authorization: `Bearer ${atsToken}`,
+                    Accept: 'application/json'
+                }
+            });
+            const result = res.data;
+            if (!result.error) {
+                console.log(result);
+                const updatedJobsWithActive = result.map(job => ({ ...job, active: true }));
+
+                setUpdatePostedJobs(prevPostedJobs => [...prevPostedJobs, ...updatedJobsWithActive]);
+            } else {
+                console.log(result);
+            }
+
+            // setLoading(false);
+        } catch (err) {
+            console.log(err);
+
+            // setLoading(false);
+        }
+    }
+
+    useEffect(() => {
+        const uniqueIds = {};
+        const newArray = updatePostedJobs.filter(obj => {
+            // Check if the ID is already in the uniqueIds object
+            if (!uniqueIds[obj.id]) {
+                // If not, mark it as seen and include it in the new array
+                uniqueIds[obj.id] = true;
+                return true;
+            }
+            // If the ID is already in the uniqueIds object, filter it out
+            return false;
+        });
+        setatsJobDetail(newArray)
+        // setLoading(newArray.length === 0);
+    }, [updatePostedJobs]);
 
     const getAllofflineClientDetails = async () => {
         try {
@@ -116,7 +208,7 @@ const AtsDashboard = () => {
 
             const response = await axios.get(`https://skillety-n6r1.onrender.com/offline-client-Details`, {
                 headers: {
-                    Authorization: `Bearer ${token}`,
+                    Authorization: `Bearer ${atsToken}`,
                     Accept: 'application/json'
                 }
             });
@@ -135,39 +227,13 @@ const AtsDashboard = () => {
         }
     }
 
-    const getAllatsJobDetail = async () => {
-        try {
-            setLoading(true);
-            const response = await axios.get('https://skillety-n6r1.onrender.com/ats-job-Details', {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    Accept: 'application/json'
-                }
-            });
-            const result = response.data;
-            if (!result.error) {
-                console.log(result);
-                setatsJobDetail(result.reverse());
-            } else {
-                console.log(result);
-            }
-
-            setLoading(false);
-        } catch (error) {
-            console.log(error);
-
-            setLoading(false);
+    
+    useEffect(()=>{
+        if(employeeId){
+            getATSActiveJobs();
+            getATSInactiveJobs();
         }
-    };
-
-    useEffect(() => {
-        if (token) {
-            getAllofflineClientDetails();
-            getAllatsJobDetail();
-        }
-
-    }, [token]);
-
+    },[employeeId])
 
     return (
         <div>
@@ -399,7 +465,7 @@ const AtsDashboard = () => {
                                                             <th className='dash-table-data1 heading'>DOU</th>
                                                             <th className='dash-table-data1 text-center heading'>Job Role</th>
                                                             <th className='dash-table-data1 text-center heading'>Job Category</th>
-                                                            {/* <th className='dash-table-data1 text-center heading'>View</th> */}
+                                                            <th className='dash-table-data1 text-center heading'>Status</th>
                                                         </tr>
                                                         {atsJobDetail.length>0 ? 
                                                             atsJobDetail.slice(0, 10).map(job => {
@@ -410,11 +476,7 @@ const AtsDashboard = () => {
                                                                     </td>
                                                                     <td className='dash-table-data1 text-center text-capitalized'>{job.jobRole}</td>
                                                                     <td className='dash-table-data1 text-center text-capitalized'>{job.jobCategory}</td>
-                                                                    {/* <td className='text-center dash-table-view-btn-area'>
-                                                                        <button className='dash-table-view-btn client with-border pl-4 pr-4'
-                                                                            data-toggle="modal">View
-                                                                        </button>
-                                                                    </td> */}
+                                                                    <td className='dash-table-data1 text-center text-capitalized'>{job.active ? "Active" : "In-Active"}</td>
                                                                 </tr>
                                                             )
                                                             }) :

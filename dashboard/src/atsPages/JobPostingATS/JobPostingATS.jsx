@@ -9,11 +9,13 @@ import $ from 'jquery';
 import AuthContext from '../../context/AuthContext';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 const JobPostingATS = () => {
+  const navigate = useNavigate();
   const location = useLocation();
     const { id } = location.state || {};
+    const { job } = location.state || {};
   const [atsToken, setatsToken] = useState("");
     const { getProtectedData} = useContext(AuthContext);
     const [employeeId, setEmployeeId] = useState("");
@@ -70,6 +72,91 @@ const JobPostingATS = () => {
       const [isCheckedSkill, setIsCheckedSkill] = useState(false);
       const [newSkill, setNewSkill] = useState("");
       const [otherSkill, setOtherSkill] = useState([]);
+
+      useState(()=>{
+        if(job){
+          setSelectedJobRoles(job.jobRole)
+          setSelectedSkills(job.skills)
+          setSelectedDepartment(job.department)
+          setSelectedRoles(job.role)
+          setSelectedLocations(job.location)
+          setSelectedIndustry([job.industry])
+          setSelectedEducation([job.education])
+          setCredentials({
+            ...credentials,
+            jobCategory: job.jobCategory,
+            jobDescription: job.jobDescription,
+            minExperience: job.minExperience,
+            maxExperience: job.maxExperience,
+            workMode: job.workMode,
+            currencyType: job.currencyType,
+            minSalary: job.minSalary,
+            maxSalary: job.maxSalary,
+          })
+        }
+      },[job]);
+
+      const jobUpdating = async (jobdetail) => {
+        try {
+          const res = await axios.patch(`https://skillety-n6r1.onrender.com/job-detail/${job.id}`, jobdetail, {
+            headers: {
+              Authorization: `Bearer ${atsToken}`,
+              Accept: 'application/json'
+            }
+          });
+          const result = res.data;
+          if (!result.error) {
+            console.log(result);
+            showSuccessMessage("Job has been updated successfully!")
+            navigate("/all-ats-jobs");
+          } else {
+            console.log(result);
+          }
+        } catch (err) {
+          console.log(err);
+          showErrorMessage();
+        }
+      }
+
+      const handleUpdate = (event) => {
+        event.preventDefault();
+        if (
+          selectedJobRoles.length === 0 ||
+          credentials.minExperience === "" ||
+          credentials.maxExperience === "" ||
+          credentials.jobCategory === "" ||
+          credentials.jobDescription === "" ||
+          credentials.workMode === "" ||
+          credentials.currencyType === "" ||
+          credentials.minSalary === "" ||
+          credentials.maxSalary === "" ||
+          selectedSkills.length === 0 ||
+          selectedDepartment.length === 0 ||
+          selectedLocations.length === 0 ||
+          selectedIndustry.length === 0 ||
+          selectedEducation.length === 0
+        ) {
+          showErrorMessage("Please fill in all required fields.");
+          return;
+        }
+    
+        const updatedCredentials = {
+          ...credentials,
+          skills: selectedSkills,
+          jobRole: selectedJobRoles,
+          location: selectedLocations,
+          department: selectedDepartment,
+          role: selectedRoles,
+          industry: selectedIndustry[0],
+          education: selectedEducation[0],
+    
+        };
+    
+        console.log(updatedCredentials, otherJobRole, otherSkill);
+        jobUpdating(updatedCredentials);
+        otherSkill.length > 0 && postOtherSkills(otherSkill);
+        otherJobRole.length > 0 && postOtherDesignation(otherJobRole);
+      };
 
     //for show success message for payment
     function showSuccessMessage(message) {
@@ -306,7 +393,7 @@ const JobPostingATS = () => {
       //jobposting
   const jobPosting = async (jobdetail) => {
     try {
-      const res = await axios.post("https://skillety-n6r1.onrender.com/job-posting-ats", jobdetail, {
+      const res = await axios.post("https://skillety-n6r1.onrender.com/job-detail", jobdetail, {
         headers: {
           Authorization: `Bearer ${atsToken}`,
           Accept: 'application/json'
@@ -316,16 +403,7 @@ const JobPostingATS = () => {
       if (!result.error) {
         console.log(result);
         showSuccessMessage("Job has been posted successfully!")
-        setCredentials(initialCredentials);
-        setSelectedJobRoles([]);
-        setSelectedDepartment([]);
-        setSelectedLocations([]);
-        setSelectedRoles([]);
-        setSelectedEducation([]);
-        setSelectedIndustry([]);
-        setOtherJobRole([]);
-        setSelectedSkills([]);
-        setOtherSkill([]);
+        navigate("/all-ats-jobs");
       } else {
         console.log(result);
       }
@@ -1324,7 +1402,7 @@ const JobPostingATS = () => {
                             </div>
                         </div>
                         <div className="post-job-btn-area">
-                            <button className='post-job-btn' onClick={handleSubmit}>Post a Job</button>
+                            {job? <button className='post-job-btn' onClick={handleUpdate}>Update a Job</button> : <button className='post-job-btn' onClick={handleSubmit}>Post a Job</button>}
                         </div>
                         </div>
                     </section>

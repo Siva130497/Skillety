@@ -167,8 +167,9 @@ const {
    deletingOfflineClient,
    allOfflineClientTableColumnData,
    getAllOfflineClientTableColumnData,
-   jobPostingATS,
-   getAtsInActivejobs,
+   allATSJobsTableColumnData,
+   getAllATSJobsTableColumnData,
+   
 
    //ATS...............
   
@@ -607,11 +608,12 @@ router.post("/all-offline-clients-column", employeeAuth, allOfflineClientTableCo
 //get all offline client table column data
 router.get("/all-offline-clients-column/:id", getAllOfflineClientTableColumnData);
 
-//ats job posting
-router.post("/job-posting-ats", employeeAuth, jobPostingATS);
+//all offline client table column data create
+router.post("/ats-jobs-column", employeeAuth, allATSJobsTableColumnData);
 
-//in active jobs ats
-router.get("/ats-inactive-jobs/:id", employeeAuth, getAtsInActivejobs);
+//get all offline client table column data
+router.get("/ats-jobs-column/:id", getAllATSJobsTableColumnData);
+
 
 //ATS..................
 
