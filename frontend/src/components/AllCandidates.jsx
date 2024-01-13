@@ -407,7 +407,7 @@ const AllCandidates = ({employeeId, staffToken, clientToken, companyId}) => {
                       <div>Experience: {`${selectedCandidateArray.year} years and ${selectedCandidateArray.month} months`}</div>
                       <div>Current/Previous Working/Worked Company Name : {selectedCandidateArray.companyName}</div>
                       <div>College: {selectedCandidateArray.college}</div>
-                      <div>Education: {selectedCandidateArray.education}</div>
+                      <div>Education: {selectedCandidateArray.education.join(", ")}</div>
                       <div>Location: {selectedCandidateArray.location}</div>
                       <div>About him/her: {selectedCandidateArray.profileHeadline}</div>
                       <div>Last Working Day: {selectedCandidateArray.selectedDate}</div>

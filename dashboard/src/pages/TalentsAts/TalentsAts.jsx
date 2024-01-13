@@ -464,7 +464,7 @@ const TalentsAts = () => {
                                                                                     <div className="client-talent--profile-tab-expand-area">
                                                                                         <div className="client-talent--profile-tab-expand-sub-area">
                                                                                             <p className="client-talent--profile-tab-expand-desc">
-                                                                                                {loginCandidate?.education}
+                                                                                                {loginCandidate?.education.join(", ")}
                                                                                             </p>
                                                                                         </div>
                                                                                     </div>

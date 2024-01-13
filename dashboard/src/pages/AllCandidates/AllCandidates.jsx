@@ -693,7 +693,7 @@ const AllCandidates = () => {
                                                                                 </td>}
 
                                                                                 {selectedColumns?.includes("Education") && <td className='dash-table-data1 text-left'>
-                                                                                    {candidate?.education}
+                                                                                    {candidate?.education.join(", ")}
                                                                                 </td>}
 
                                                                                 {selectedColumns?.includes("Location") && <td className='dash-table-data1 text-left'>
@@ -1098,7 +1098,7 @@ const AllCandidates = () => {
                                             <div className="view-det-head">Education</div>
                                         </div>
                                         <div className="col-12 col-sm-7">
-                                            <div className="view-det-sub-head text-capitalized">{selectedCandidate?.education}</div>
+                                            <div className="view-det-sub-head text-capitalized">{selectedCandidate?.education.join(", ")}</div>
                                         </div>
                                     </div>
                                     <hr />

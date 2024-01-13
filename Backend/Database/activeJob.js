@@ -9,13 +9,19 @@ const activeJobSchema = new Schema(
     clientId: {
         type: String,
         required: function() {
-            return this.Role === 'Client';
+            return this.Role === 'Client' || this.Role === 'Manager';
         } 
     },
     recruiterId: {
         type: String,
         required: function() {
             return this.Role === 'Recruiter';
+          }
+    },
+    managerId: {
+        type: String,
+        required: function() {
+            return this.Role === 'Manager';
           }
     },
     clientStaffId: {

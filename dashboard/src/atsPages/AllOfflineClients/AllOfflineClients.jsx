@@ -189,7 +189,7 @@ const AllOfflineClients = () => {
     const getAllActiveJobs = async () => {
         try {
 
-            const response = await axios.get(`https://skillety-n6r1.onrender.com/ats-active-jobs`, {
+            const response = await axios.get(`https://skillety-n6r1.onrender.com/my-active-jobs/${employeeId}`, {
                 headers: {
                     Authorization: `Bearer ${atsToken}`,
                     Accept: 'application/json'
@@ -214,7 +214,7 @@ const AllOfflineClients = () => {
     const getAllInActiveJobs = async () => {
         try {
 
-            const response = await axios.get(`http://localhost:5002/ats-inactive-jobs/${employeeId}`, {
+            const response = await axios.get(`https://skillety-n6r1.onrender.com/my-posted-jobs/${employeeId}`, {
                 headers: {
                     Authorization: `Bearer ${atsToken}`,
                     Accept: 'application/json'

@@ -435,7 +435,7 @@ const CandidateRegister = () => {
     };
 
     const handleEducationClick = (education) => {
-        setSelectedEducation([education]);
+        setSelectedEducation([...selectedEducation, education]);
         setSearchEducationInput("");
         setFilteredEducation([]);
     }
@@ -485,7 +485,7 @@ const CandidateRegister = () => {
                     selectedDate: dateString,
                     skills: selectedSkills,
                     designation: selectedDesignations,
-                    education: selectedEducation[0],
+                    education: selectedEducation,
                     location: selectedLocations[0],
                     id: id,
                 };
