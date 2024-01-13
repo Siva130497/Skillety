@@ -289,7 +289,7 @@ router.patch("/boost/:id", boostJob);
 router.get('/my-posted-jobs/:id', employeeAuth, getOwnPostedjobs)
 
 //get active job details
-router.get(':id', getOwnActivejobs)
+router.get('/my-active-jobs/:id', getOwnActivejobs)
 
 //candidate applied for job
 router.post('/job-applying',  applyingjob)
