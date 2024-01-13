@@ -200,7 +200,7 @@ const CandidateProfile = () => {
 
     useEffect(() => {
         setSelectedSkills(loginCandidate?.skills)
-        setSelectedEducation([loginCandidate?.education])
+        setSelectedEducation(loginCandidate?.education)
         setSelectedLocations([loginCandidate?.location])
         setSelectedPreferedLocations(loginCandidate?.preferedlocations)
         setUserInfo({
@@ -861,7 +861,7 @@ const CandidateProfile = () => {
     const handleEducationUpdate = () => {
         const userData = {
             id: id,
-            education: selectedEducation[0],
+            education: selectedEducation,
         }
         axios.patch("https://skillety-n6r1.onrender.com/update-candidate-education", userData, {
             headers: {
@@ -976,7 +976,7 @@ const CandidateProfile = () => {
     };
 
     const handleEducationClick = (education) => {
-        setSelectedEducation([education]);
+        setSelectedEducation([...selectedEducation, education]);
         setSearchEducationInput("");
         setFilteredEducation([]);
     }
@@ -1877,7 +1877,7 @@ const CandidateProfile = () => {
                                                         {loginCandidate?.education ?
                                                             <div className="profile-content-area">
                                                                 <div className='profile-content'>
-                                                                    {loginCandidate?.education}
+                                                                    {loginCandidate?.education.join(", ")}
                                                                 </div>
                                                             </div> : null
                                                         }

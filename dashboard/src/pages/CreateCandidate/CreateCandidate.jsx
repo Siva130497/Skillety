@@ -151,7 +151,7 @@ const CreateCandidate = () => {
           setDateString(cand.selectedDate)
           setSelectedSkills(cand.skills)
           setSelectedDesignations(cand.designation)
-          setSelectedEducation([cand.education])
+          setSelectedEducation(cand.education)
           setSelectedLocations([cand.location])
           setCredentials({
             ...credentials,
@@ -508,7 +508,7 @@ const CreateCandidate = () => {
     };
 
     const handleEducationClick = (education) => {
-        setSelectedEducation([education]);
+        setSelectedEducation([...selectedEducation, education]);
         setSearchEducationInput("");
         setFilteredEducation([]);
     }
@@ -561,7 +561,7 @@ const CreateCandidate = () => {
                     selectedDate: dateString,
                     skills: selectedSkills,
                     designation: selectedDesignations,
-                    education: selectedEducation[0],
+                    education: selectedEducation,
                     location: selectedLocations[0],
                     id: id,
                     recruiterId:employeeId,
@@ -593,7 +593,7 @@ const CreateCandidate = () => {
                     selectedDate: dateString,
                     skills: selectedSkills,
                     designation: selectedDesignations,
-                    education: selectedEducation[0],
+                    education: selectedEducation,
                     location: selectedLocations[0],
                 };
                 console.log(updatedCredentials);
