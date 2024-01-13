@@ -23,7 +23,7 @@ const allUsersSchema = new Schema(
     },
     role: {
       type: String,
-      enum: ["Client", "Candidate", "Recruiter", "Admin", "Client-staff", "Super-Admin", "Managers", "Recruiter-ATS"]
+      enum: ["Client", "Candidate", "Recruiter", "Admin", "Client-staff", "Super-Admin", "Manager", "Recruiter-ATS"]
     },
     password: {
       type: String,
