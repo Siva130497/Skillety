@@ -189,7 +189,7 @@ const AllOfflineClients = () => {
     const getAllActiveJobs = async () => {
         try {
 
-            const response = await axios.get(`https://skillety-n6r1.onrender.com/my-active-jobs/${employeeId}`, {
+            const response = await axios.get(`https://skillety-n6r1.onrender.com/ats-active-jobs/${employeeId}`, {
                 headers: {
                     Authorization: `Bearer ${atsToken}`,
                     Accept: 'application/json'

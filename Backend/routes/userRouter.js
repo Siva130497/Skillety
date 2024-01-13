@@ -174,6 +174,8 @@ const {
    getAllOfflineClientTableColumnData,
    allATSJobsTableColumnData,
    getAllATSJobsTableColumnData,
+   getOwnActivejobsInATS,
+   getOwnInActivejobsInATS,
    
 
    //ATS...............
@@ -634,6 +636,12 @@ router.post("/ats-jobs-column", employeeAuth, allATSJobsTableColumnData);
 //get all offline client table column data
 router.get("/ats-jobs-column/:id", getAllATSJobsTableColumnData);
 
+//get all active jobs in ats
+router.get("/ats-active-jobs/:id", employeeAuth, getOwnActivejobsInATS);
+
+//get all in active jobs in ats
+router.get("/ats-in-active-jobs/:id", employeeAuth, getOwnInActivejobsInATS);
+
 
 //ATS..................
 
@@ -653,7 +661,7 @@ router.post("/login-Candidate", async (req, res) => {
 // });
 
 router.post("/staff", async (req, res) => {
-  await userLogin(req.body, ["Recruiter", "Admin"], res);
+  await userLogin(req.body, ["Recruiter", "Admin", "Manager"], res);
 });
 
 //protected route

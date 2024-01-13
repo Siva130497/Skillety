@@ -4180,6 +4180,44 @@ const getAllATSJobsTableColumnData = async(req, res) => {
   }
 }
 
+
+//find all active jobs in ats
+const getOwnActivejobsInATS = async (req, res) => {
+  try {
+    const id = req.params.id; 
+    
+    const activeJobs = await activeJob.find({managerId: id});
+
+    if (activeJobs.length > 0) {
+      const activeJobWithStatus = activeJobs.map(job => ({ ...job.toObject(), active: true }));
+      return res.status(200).json(activeJobWithStatus);
+    }
+
+      return res.status(404).json({ message: 'No active job found' });
+    
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+}
+
+//find all inactive jobs in ats
+const getOwnInActivejobsInATS = async (req, res) => {
+  try {
+    const id = req.params.id; 
+    
+    const inActiveJobs = await jobDetail.find({managerId: id});
+
+    if (inActiveJobs.length > 0) {
+      return res.status(200).json(inActiveJobs);
+    }
+
+      return res.status(404).json({ message: 'No in-active job found' });
+    
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+}
+
 /*ATS................... */
 
 /* random password generate */
@@ -4507,6 +4545,8 @@ module.exports = {
    getAllOfflineClientTableColumnData,
    allATSJobsTableColumnData,
    getAllATSJobsTableColumnData,
+   getOwnActivejobsInATS,
+   getOwnInActivejobsInATS,
    
 
   //ATS...........
