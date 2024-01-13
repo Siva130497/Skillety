@@ -174,7 +174,7 @@ const AllJobs = () => {
     const getATSActiveJobs = async () => {
         try {
             // setLoading(true);
-            const res = await axios.get(`https://skillety-n6r1.onrender.com/my-active-jobs/${employeeId}`, {
+            const res = await axios.get(`https://skillety-n6r1.onrender.com/ats-active-jobs/${employeeId}`, {
                 headers: {
                     Authorization: `Bearer ${atsToken}`,
                     Accept: 'application/json'
