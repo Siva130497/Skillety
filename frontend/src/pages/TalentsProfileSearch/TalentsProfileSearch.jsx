@@ -3537,7 +3537,7 @@ console.log(checkBoxfilters)
                                                                                     <h6 className='tal--pro-card-desc-title'>Education&nbsp;:</h6>
                                                                                 </div>
                                                                                 <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
-                                                                                    <p className='tal--pro-card-desc text-capitalized'>{candidate.education}</p>
+                                                                                    <p className='tal--pro-card-desc text-capitalized'>{candidate.education.join(", ")}</p>
                                                                                 </div>
                                                                             </div>
                                                                             <div className="row tal--pro-card-desc-row">

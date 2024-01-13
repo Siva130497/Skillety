@@ -433,7 +433,7 @@ const CandidateCreate = () => {
     };
 
     const handleEducationClick = (education) => {
-        setSelectedEducation([education]);
+        setSelectedEducation([...selectedEducation, education]);
         setSearchEducationInput("");
         setFilteredEducation([]);
     }
@@ -483,7 +483,7 @@ const CandidateCreate = () => {
                     selectedDate: dateString,
                     skills: selectedSkills,
                     designation: selectedDesignations,
-                    education: selectedEducation[0],
+                    education: selectedEducation,
                     location: selectedLocations[0],
                     id: id,
                 };

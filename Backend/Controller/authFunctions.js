@@ -3737,14 +3737,14 @@ const getACandidateDetail = async (req, res) => {
     }
 
     const resumeData = await resume.findOne({id});
-    if (!resumeData) {
-      return res.status(404).json({ error: "Cv not found" });
-    }
+    // if (!resumeData) {
+    //   return res.status(404).json({ error: "Cv not found" });
+    // }
 
     const profile = await candidateProfile.findOne({id});
-    if (!profile) {
-      return res.status(404).json({ error: "Profile photo not found" });
-    }
+    // if (!profile) {
+    //   return res.status(404).json({ error: "Profile photo not found" });
+    // }
 
     if (cand && resumeData && profile) { 
       const candidateDetail = { 
@@ -3756,7 +3756,7 @@ const getACandidateDetail = async (req, res) => {
       const finalResponse = {
         candidateId: candidateDetail.id,
         lastProfileUpdateDate: new Date(cand.updatedAt).toISOString().split('T')[0],
-        avatar: `https://skillety-n6r1.onrender.com/candidate_profile/${candidateDetail.image}`,
+        avatar: candidateDetail.image ? `https://skillety-n6r1.onrender.com/candidate_profile/${candidateDetail.image}` : null,
         joinPeriod: candidateDetail.days,
         lastDayWorked: candidateDetail.selectedDate,
         fName: candidateDetail.firstName,
@@ -3764,7 +3764,7 @@ const getACandidateDetail = async (req, res) => {
         email: candidateDetail.email,
         phone: candidateDetail.phone,
         preferedLocations: candidateDetail.preferedlocations.join(", "),
-        cv: `https://skillety-n6r1.onrender.com/files/${candidateDetail.file}`,
+        cv: candidateDetail.file ? `https://skillety-n6r1.onrender.com/files/${candidateDetail.file}` : null,
         currentDesignation: candidateDetail.designation[0],
         currentCompany: candidateDetail.companyName,
         currentLocation: candidateDetail.location,
@@ -3783,6 +3783,178 @@ const getACandidateDetail = async (req, res) => {
     return res.status(500).json({ error: err.message });
   }
 }
+
+//update candidate details
+const candidateUpdateDetail = async (req, res) => {
+  const { id } = req.params;
+  const { fName, sName, email, phone, location, experience_years, experience_month, joinDaysPeriod } = req.body;
+
+  try {
+    const allUsersDoc = await allUsers.findOneAndUpdate(
+      { id: id },
+      {
+        $set: {
+          name: fName + " " + sName,
+          email: email,
+          phone: phone,
+        },
+      },
+      { new: true }
+    );
+
+    if (!allUsersDoc) {
+      return res.status(404).json({ error: 'User not found ' });
+    }
+
+    const finalCandidateDoc = await candidate.findOneAndUpdate(
+      { id: id },
+      {
+        $set: {
+          firstName: fName,
+          lastName: sName,
+          email: email,
+          phone: phone,
+          location: location,
+          year: experience_years,
+          month: experience_month,
+          days: joinDaysPeriod,
+        },
+      },
+      { new: true }
+    );
+
+    if (!finalCandidateDoc) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    res.status(200).json({ 
+      message:"account update successful",
+      user:{
+        candidateId:allUsersDoc.id,
+        lastProfileUpdateDate:new Date().toISOString().split('T')[0],
+        joinPeriod:finalCandidateDoc.days,
+        fName:finalCandidateDoc.firstName,
+        lName:finalCandidateDoc.lastName,
+        email:allUsersDoc.email,
+        phone:allUsersDoc.phone,
+        location:finalCandidateDoc.location,
+        expYears:finalCandidateDoc.year,
+        expMonths:finalCandidateDoc.month
+      }
+     });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: 'Internal Server Error' });
+  }
+};
+
+//update candidate skills
+const updatingCandidateSkillsDetail = async (req, res) => {
+  const { id } = req.params;
+  const { skills: newSkills } = req.body;
+
+  try {
+    const existingCandidate = await candidate.findOne({ id });
+
+    if (!existingCandidate) {
+      return res.status(404).json({ error: "Candidate not found" });
+    }
+
+    const updatedSkills = newSkills.map((ns) => ns.skill);
+
+    existingCandidate.skills = updatedSkills;
+    const finalCandidateDoc = await existingCandidate.save();
+
+    res.status(200).json({
+      message: "Skills update successful",
+      skills: finalCandidateDoc.skills.map((skill, index) => ({
+        id: (index + 1).toString(),
+        skill,
+      })),
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: "Internal Server Error" });
+  }
+};
+
+
+
+//update candidate education
+const updatingCandidateEducationsDetail = async (req, res) => {
+  const { id } = req.params;
+  const { educations: newEducations } = req.body;
+
+  try {
+    const existingCandidate = await candidate.findOne({ id });
+
+    if (!existingCandidate) {
+      return res.status(404).json({ error: "Candidate not found" });
+    }
+
+    const updatedEducations = newEducations.map((ns) => ns.education);
+
+    existingCandidate.education = updatedEducations;
+    const finalCandidateDoc = await existingCandidate.save();
+
+    res.status(200).json({
+      message: "education details update successful",
+      educations: finalCandidateDoc.education.map((edu, index) => ({
+        id: (index + 1).toString(),
+        edu,
+      })),
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: "Internal Server Error" });
+  }
+};
+
+
+
+//update candidate profile headline
+const updatingCandidateProfileHeadlineDetail = async (req, res) => {
+  const {id} = req.params;
+  const { headline } = req.body;
+
+  try {
+    const finalCandidateDoc = await candidate.findOneAndUpdate(
+      { id: id },
+      { profileHeadline: headline },
+      { new: true }
+    );
+    
+      res.status(200).json({ 
+        message:"headline change successful",
+        headline:finalCandidateDoc.profileHeadline
+       });
+    
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: 'Internal Server Error' });
+  }
+};
+
+//candidate resume 
+const getCandidateResumeUrl = async (req, res) => {
+  const {id} = req.params;
+
+  try {
+    const candidateResume = await resume.findOne({id})
+    if(candidateResume){
+      res.status(200).json({ 
+        message:"candidate cv get successful",
+        cv:`https://skillety-n6r1.onrender.com/files/${candidateResume.file}`
+       });
+    }else{
+      res.status(404).json({ error: 'Cv not found' });
+    }
+      
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: 'Internal Server Error' });
+  }
+};
 
 
 /* MOBILE APP TEAM NEW API */
@@ -4315,6 +4487,12 @@ module.exports = {
    candidateDashboardTopBar,
    searchJob,
    getACandidateDetail,
+   getCandidateResumeUrl,
+   updatingCandidateProfileHeadlineDetail,
+   updatingCandidateEducationsDetail,
+   updatingCandidateSkillsDetail,
+   candidateUpdateDetail,
+
   
    //MOBILE APP API............
 

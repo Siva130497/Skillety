@@ -638,7 +638,7 @@ const Talents = () => {
                                                                 <h6 className='tal--pro-card-desc-title'>Education&nbsp;:</h6>
                                                             </div>
                                                             <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
-                                                                <p className='tal--pro-card-desc'>{cand.education}</p>
+                                                                <p className='tal--pro-card-desc'>{cand.education.join(", ")}</p>
                                                             </div>
                                                         </div>
                                                         <div className="row tal--pro-card-desc-row">

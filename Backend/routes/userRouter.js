@@ -155,6 +155,11 @@ const {
    candidateDashboardTopBar,
    searchJob,
    getACandidateDetail,
+   getCandidateResumeUrl,
+   updatingCandidateProfileHeadlineDetail,
+   updatingCandidateEducationsDetail,
+   updatingCandidateSkillsDetail,
+   candidateUpdateDetail,
 
    //MOBILE APP API............
 
@@ -577,6 +582,21 @@ router.post("/job-search-candidate", employeeAuth, searchJob);
 
 //find a candidate detail
 router.get("/candidate-full-detail/:id", employeeAuth, getACandidateDetail);
+
+//find the candidate cv 
+router.get("/candidate-resume-find/:id", employeeAuth, getCandidateResumeUrl);
+
+//update cand headline
+router.patch("/update-cand-headline/:id", employeeAuth, updatingCandidateProfileHeadlineDetail);
+
+//update candidate skills
+router.patch("/update-cand-ex-skills/:id", employeeAuth, updatingCandidateSkillsDetail);
+
+//update candidate educations
+router.patch("/update-cand-ex-educations/:id", employeeAuth, updatingCandidateEducationsDetail);
+
+//update cand particular detail
+router.patch("/update-cand-particula-detail/:id", employeeAuth, candidateUpdateDetail);
 
 //MOBILE APP API............
 
