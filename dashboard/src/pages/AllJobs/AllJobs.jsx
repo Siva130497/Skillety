@@ -38,6 +38,7 @@ const AllJobs = () => {
     const [updatePostedJobs, setUpdatePostedJobs] = useState([]);
     const [allEmployee, setAllEmployee] = useState([]);
     const [allCompany, setAllCompany] = useState([]);
+    const [allOfflineClient, setAllOfflineClient] = useState([]);
 
     const [x, setX] = useState([0, 10]);
     const [loading, setLoading] = useState(true);
@@ -123,6 +124,31 @@ const AllJobs = () => {
             confirmButtonColor: '#3085d6',
             confirmButtonText: 'OK',
         });
+    }
+
+
+    const getAllClientDetails = async () => {
+        try {
+
+            const response = await axios.get(`https://skillety-n6r1.onrender.com/offline-client-Details`, {
+                headers: {
+                    Authorization: `Bearer ${staffToken}`,
+                    Accept: 'application/json'
+                }
+            });
+            const result = response.data;
+            if (!result.error) {
+                console.log(result);
+                setAllOfflineClient(result);
+            } else {
+                console.log(result);
+               
+            }
+
+        } catch (err) {
+            console.log(err);
+            setLoading(false);
+        }
     }
 
     //for show error message for payment
@@ -287,6 +313,7 @@ const AllJobs = () => {
         if (staffToken) {
             getAllCandidateDetail();
             getAssignedCandidates();
+            getAllClientDetails();
             if(jobs){
                 // const updatedJobs = jobs.map(job => ({ ...job, active: true }));
                 setAllJobs(jobs);
@@ -726,8 +753,8 @@ const AllJobs = () => {
                                                                         .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
                                                                         .map((Job, index) => {
                                                                             const postedBy = Job.companyId
-                                                                                ? (allCompany.find(company => company.companyId === Job.companyId)?.companyName || "Unknown Company")
-                                                                                : (allEmployee.find(employee => employee.id === Job.recruiterId)?.name || "Unknown Employee");
+                                                                                            ? allCompany.find(company => company.companyId === Job.companyId)?.companyName 
+                                                                                            : Job.managerId ? allOfflineClient.find(client=>client.clientId === Job.clientId)?.companyName : allEmployee.find(employee => employee.id === Job.recruiterId)?.name 
                                                                             return (
                                                                                 <tr className='dash-table-row client' key={Job.id}>
                                                                                                 <td className='dash-table-data1'>{index + 1}.</td>
@@ -815,8 +842,8 @@ const AllJobs = () => {
                                                                                 .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
                                                                                 .map((Job, index) => {
                                                                                     const postedBy = Job.companyId
-                                                                                        ? (allCompany.find(company => company.companyId === Job.companyId)?.companyName || "Unknown Company")
-                                                                                        : (allEmployee.find(employee => employee.id === Job.recruiterId)?.name || "Unknown Employee");
+                                                                                            ? allCompany.find(company => company.companyId === Job.companyId)?.companyName 
+                                                                                            : Job.managerId ? allOfflineClient.find(client=>client.clientId === Job.clientId)?.companyName : allEmployee.find(employee => employee.id === Job.recruiterId)?.name 
                                                                                     return (
                                                                                         <tr className='dash-table-row client' key={Job.id}>
                                                                                                 <td className='dash-table-data1'>{index + 1}.</td>
@@ -898,8 +925,8 @@ const AllJobs = () => {
                                                                                     .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
                                                                                     .map((Job, index) => {
                                                                                         const postedBy = Job.companyId
-                                                                                            ? (allCompany.find(company => company.companyId === Job.companyId)?.companyName || "Unknown Company")
-                                                                                            : (allEmployee.find(employee => employee.id === Job.recruiterId)?.name || "Unknown Employee");
+                                                                                            ? allCompany.find(company => company.companyId === Job.companyId)?.companyName 
+                                                                                            : Job.managerId ? allOfflineClient.find(client=>client.clientId === Job.clientId)?.companyName : allEmployee.find(employee => employee.id === Job.recruiterId)?.name 
 
                                                                                         return (
                                                                                             <tr className='dash-table-row client' key={Job.id}>
