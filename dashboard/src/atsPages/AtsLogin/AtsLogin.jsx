@@ -2,11 +2,11 @@ import React, { useState, useContext } from 'react';
 import { useEffect } from 'react';
 import AuthContext from '../../context/AuthContext';
 import $ from 'jquery';
-import './RecruiterLogin.css';
-import './RecruiterLogin-responsive.css';
+import { useNavigate } from 'react-router-dom';
 import useTokenRedirect from '../../customhooks/useTokenRedirect';
 
 const AtsLogin = () => {
+    const navigate = useNavigate();
     useTokenRedirect();
     const { loginUser } = useContext(AuthContext)
     const [credentials, setcredentials] = useState({
@@ -80,7 +80,35 @@ const AtsLogin = () => {
         <div>
             <div id="preloader"></div>
             <div className="container-fluid">
-                <div className="row mt-5">
+            <div className='ats-cms-switch-area row'>
+                    <div className="col-12">
+                        <div className="switches-container">
+                            <input
+                                type="radio"
+                                id="switchAts"
+                                name="switchRecruiter"
+                                value="ATS"
+                                checked
+                                />
+                            <input
+                                type="radio"
+                                id="switchCms"
+                                name="switchRecruiter"
+                                value="CMS"
+                                onChange={() => navigate("/")}
+                            />
+                            <label htmlFor="switchAts" className='scroll-to-top'>ATS</label>
+                            <label htmlFor="switchCms" className='scroll-to-top'>CMS</label>
+                            <div className="switch-wrapper">
+                                <div className="switch">
+                                    <div>ATS</div>
+                                    <div>CMS</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="row mt-4">
                     <div className="col-12 col-xl-9 col-md-8 col-lg-10 mx-auto ">
                         <div className="card rec-login-card">
                             <div className="login-card-head-area">
@@ -148,7 +176,7 @@ const AtsLogin = () => {
                                         </div>
                                     </div>
                                     <div className="col-12 col-md-12 col-lg-6 login-card-image-area">
-                                        <img src="../assets/img/login/login-img.png" className='login-card-image' alt="" />
+                                        <img src="../assets/img/login/login-img2.webp" className='login-card-image' alt="" />
                                     </div>
                                 </div>
                             </div>
