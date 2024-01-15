@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { useEffect } from 'react';
 import $ from 'jquery';
-import ATSLayout from '../../components/ATSLayout';
+import ATSLayout from '../../atsComponents/ATSLayout';
 import Footer from '../../components/Footer';
 import axios from 'axios';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
@@ -9,16 +9,14 @@ import AuthContext from '../../context/AuthContext';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
 
-const AppliedCandidateRecruiter = () => {
+const AppliedCandidateATS = () => {
     const location = useLocation();
-    const {atsJob} = location.state || {};
-    const [staffToken, setstaffToken] = useState("");
-    const { id } = useParams();
+    const {id} = useParams();
+    const {selectedCandidatesForJob} = location.state || {};
+    const [atsToken, setatsToken] = useState("");
     const { getProtectedData, getCandidateImg, candidateImg } = useContext(AuthContext);
     const [employeeId, setEmployeeId] = useState("");
-    // const [loginClientDetail, setLoginClientDetail] = useState();
-    const [candidateDetail, setCandidateDetail] = useState([]);
-    const [selectedJobs, setSelectedJobs] = useState([]);
+    
     const [reqCands, setReqCands] = useState([]);
     const [job, setJob] = useState();
 
@@ -29,20 +27,6 @@ const AppliedCandidateRecruiter = () => {
     const [x, setX] = useState([0, 4]);
 
     const navigate = useNavigate();
-
-    // const [loading, setLoading] = useState(true);
-    // const [pageNotFound, setPageNotFound] = useState(false);
-
-    // useEffect(() => {
-    //     const preloader = $('#preloader');
-    // if (preloader.length) {
-    // setTimeout(function () {
-    //     preloader.fadeOut('slow', function () {
-    //     preloader.remove();
-    //     });
-    // }, 500);
-    // }
-    // }, []);
 
     //for show success message for payment
     function showSuccessMessage(message) {
@@ -67,8 +51,8 @@ const AppliedCandidateRecruiter = () => {
     }
 
     useEffect(() => {
-        setstaffToken(JSON.parse(localStorage.getItem('staffToken')))
-    }, [staffToken])
+        setatsToken(JSON.parse(localStorage.getItem('atsToken')))
+    }, [atsToken])
 
     useEffect(() => {
         $(document).ready(function () {
@@ -495,7 +479,35 @@ const AppliedCandidateRecruiter = () => {
             // );
 
         });
-    }, [selectedJobs]);
+    }, []);
+
+    const getAllCandidateDetail = async () => {
+        try {
+            const response = await axios.get('https://skillety-n6r1.onrender.com/candidate-Detail', {
+                headers: {
+                    Accept: 'application/json'
+                }
+            });
+            const result = response.data;
+            if (!result.error) {
+                console.log(result);
+                const filtered = result.filter(candidate =>
+                    selectedCandidatesForJob.some(anotherCandidate => anotherCandidate.candidateId === candidate.id)
+                  );
+                console.log(filtered)
+                setReqCands(filtered);
+            } else {
+                console.log(result);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    useEffect(() => {
+        getAllCandidateDetail();
+        getCandidateImg();
+    }, []);
 
     useEffect(() => {
         if (id) {
@@ -514,78 +526,12 @@ const AppliedCandidateRecruiter = () => {
                 })
         }
     }, [id])
-
-    const getAllCandidateDetail = async () => {
-        try {
-            const response = await axios.get('https://skillety-n6r1.onrender.com/candidate-Detail', {
-                headers: {
-                    Accept: 'application/json'
-                }
-            });
-            const result = response.data;
-            if (!result.error) {
-                console.log(result);
-                setCandidateDetail(result);
-            } else {
-                console.log(result);
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
-    useEffect(() => {
-        getAllCandidateDetail();
-        getCandidateImg();
-    }, []);
-
-    // const getLoginClientDetail = async () => {
-    //     try {
-    //         const res = await axios.get(`https://skillety-n6r1.onrender.com/client/${employeeId}`, {
-    //             headers: {
-    //                 Authorization: `Bearer ${staffToken}`,
-    //                 Accept: 'application/json'
-    //             }
-    //         });
-    //         const result = res.data;
-    //         if (!result.error) {
-    //             console.log(result);
-    //             setLoginClientDetail(result);
-    //         } else {
-    //             console.log(result);
-    //         }
-    //     } catch (err) {
-    //         console.log(err);
-    //     }
-    // }
-
-    const getAppliedOfPostedJobs = async () => {
-        try {
-            const res = await axios.get(`https://skillety-n6r1.onrender.com/applied-jobs-of-posted/${employeeId}`, {
-                headers: {
-                    Authorization: `Bearer ${staffToken}`,
-                    Accept: 'application/json'
-                }
-            });
-            const result = res.data;
-            if (!result.error) {
-                console.log(result);
-                const jobWithDiffCandId = result.filter(jobs => jobs.jobId === id)
-                console.log(jobWithDiffCandId)
-                setSelectedJobs(jobWithDiffCandId);
-            } else {
-                console.log(result);
-            }
-        } catch (err) {
-            console.log(err);
-        }
-    }
-
+    
     useEffect(()=>{
-        if(id && staffToken){
+        if(id && atsToken){
             axios.get(`https://skillety-n6r1.onrender.com/application-status/${id}`, {
                 headers: {
-                    Authorization: `Bearer ${staffToken}`,
+                    Authorization: `Bearer ${atsToken}`,
                     Accept: 'application/json'
                 }
             })
@@ -597,13 +543,13 @@ const AppliedCandidateRecruiter = () => {
                 console.log(err);
             })
         }
-    },[id, staffToken])
+    },[id, atsToken])
 
     useEffect(() => {
-        if (staffToken) {
+        if (atsToken) {
             const fetchData = async () => {
                 try {
-                    const user = await getProtectedData(staffToken);
+                    const user = await getProtectedData(atsToken);
                     console.log(user);
                     setEmployeeId(user.id);
                 } catch (error) {
@@ -613,37 +559,8 @@ const AppliedCandidateRecruiter = () => {
 
             fetchData();
         }
-    }, [staffToken]);
+    }, [atsToken]);
 
-    useEffect(() => {
-        if (employeeId) {
-            getAppliedOfPostedJobs();
-        }
-    }, [employeeId]);
-
-    // useEffect(() => {
-    //     if (loginClientDetail) {
-
-    //         getAppliedOfPostedJobs();
-    //     }
-
-    // }, [loginClientDetail])
-
-    useEffect(() => {
-        if (selectedJobs && selectedJobs.length > 0) {
-            const appliedCandIds = selectedJobs.map(job => job.candidateId);
-            console.log(appliedCandIds)
-            const appliedCands = candidateDetail.filter(cand => appliedCandIds.includes(cand.id));
-            if(appliedCands){
-                // setLoading(false);
-                setReqCands(appliedCands);
-            }else{
-                // setLoading(false);
-                // setPageNotFound(true);
-            }
-            
-        }
-    }, [selectedJobs])
 
     const handleCheckboxChange = (candidateId) => {
         
@@ -669,7 +586,7 @@ const AppliedCandidateRecruiter = () => {
 
         axios.patch("https://skillety-n6r1.onrender.com/update-application-status", applicationData, {
             headers: {
-                Authorization: `Bearer ${staffToken}`,
+                Authorization: `Bearer ${atsToken}`,
                 Accept: 'application/json'
             }
         })
@@ -679,7 +596,7 @@ const AppliedCandidateRecruiter = () => {
 
             axios.get(`https://skillety-n6r1.onrender.com/application-status/${id}`, {
                 headers: {
-                    Authorization: `Bearer ${staffToken}`,
+                    Authorization: `Bearer ${atsToken}`,
                     Accept: 'application/json'
                 }
             })
@@ -715,12 +632,10 @@ const AppliedCandidateRecruiter = () => {
 
                             <div className="dash-talent--profile-card-section">
                                 <div className="card change-status-card">
-                                    {!atsJob ? <div className="card-change-status-title">
+                                    <div className="card-change-status-title">
                                         Change Application Status
-                                    </div> : <div className="card-change-status-title">
-                                        Select Candidates From View Profile
-                                    </div>}
-                                    {!atsJob && <div className="card-change-status-input-area">
+                                    </div> 
+                                   <div className="card-change-status-input-area">
                                         <div className='select-option-area position-relative w-100'>
                                             <i class="bi bi-chevron-down toggle-icon"></i>
                                             <select className='change-setting-input select'
@@ -738,7 +653,7 @@ const AppliedCandidateRecruiter = () => {
                                         </div>
                                         <button className="setting-update-btn more-det"
                                         onClick={handleChangeStatus}>Change</button>
-                                    </div>}
+                                    </div>
                                 </div>
                                 {reqCands.map((candidate) => {
                                     const matchingImg = candidateImg ? candidateImg.find(img => img.id === candidate.id) : null;
@@ -820,14 +735,14 @@ const AppliedCandidateRecruiter = () => {
                                                             <p className='tal--pro-card-desc'>{candidate.profileHeadline}</p>
                                                         </div>
                                                     </div>
-                                                    {!atsJob &&<div className="row tal--pro-card-desc-row">
+                                                    <div className="row tal--pro-card-desc-row">
                                                         <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
                                                             <h6 className='tal--pro-card-desc-title font-weight-700'>Status&nbsp;:</h6>
                                                         </div>
                                                          <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
                                                             <p className='tal--pro-card-desc font-weight-700'>{status?status:"Screening"}</p>
                                                         </div>
-                                                    </div>}
+                                                    </div>
                                                 </div>
                                                 {/* <div className="tal--pro-card-bottom-btn-area">
                                                     <button className='tal--pro-card-bottom-btn'>
@@ -923,4 +838,4 @@ const AppliedCandidateRecruiter = () => {
         </div>
     )
 }
-export default AppliedCandidateRecruiter;
+export default AppliedCandidateATS;

@@ -11,13 +11,16 @@ import './Talents.css';
 import './Talents-responsive.css';
 import { useLocation, useParams } from 'react-router-dom';
 import axios from 'axios';
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.css';
  
 import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
 
 const TalentsAts = () => {
     const { id } = useParams();
     const location = useLocation();
-
+    const { percentage } = location.state || {};
+    const {jobId} = location.state || {};
     const [loginCandidate, setLoginCandidate] = useState();
     const [candidateImg, setCandidateImg] = useState();
     const [candidateImgUrl, setCandidateImgUrl] = useState("");
@@ -27,6 +30,35 @@ const TalentsAts = () => {
     const [pageNotFound, setPageNotFound] = useState(false);
     const [skillMatchPercentage, setSkillMatchPercentage] = useState()
     const [skillMatch, setSkillMatch] = useState()
+    const [staffToken, setStaffToken] = useState("");
+    const [alreadySelect, setAlreadySelect] = useState();
+
+    //for show success message for payment
+    function showSuccessMessage(message) {
+        Swal.fire({
+            title: 'Success!',
+            text: message,
+            icon: 'success',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'OK',
+        });
+    }
+
+    //for show error message for payment
+    function showErrorMessage() {
+        Swal.fire({
+            title: 'Error!',
+            text: "An error occured!",
+            icon: 'error',
+            confirmButtonColor: '#d33',
+            confirmButtonText: 'OK',
+        });
+    }
+
+
+    useEffect(() => {
+        setStaffToken(JSON.parse(localStorage.getItem('staffToken')))
+    }, [staffToken])
 
     useEffect(() => {
         const preloader = $('#preloader');
@@ -119,14 +151,76 @@ const TalentsAts = () => {
 
     }, [id, loginCandidate]);
 
-    useEffect(() => {
-        const { percentage } = location.state || {};
+    // useEffect(() => {
+    //     const { percentage } = location.state || {};
 
-        if (percentage) {
-            setSkillMatchPercentage(percentage)
+    //     if (percentage) {
+    //         setSkillMatchPercentage(percentage)
+    //     }
+
+    // }, [id, location.state])
+
+    const getSelectedJobs = async () => {
+        try {
+            const res = await axios.get(`https://skillety-n6r1.onrender.com/selected-jobs/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${staffToken}`,
+                    Accept: 'application/json'
+                }
+            });
+            const result = res.data;
+            if (!result.error) {
+                console.log(result);
+                setAlreadySelect(result.find(job => job.jobId === jobId));
+
+            } else {
+                console.log(result);
+            }
+        } catch (err) {
+            console.log(err);
         }
+    }
 
-    }, [id, location.state])
+    const selectngTheCandidate = async (candidateSelectDetail) => {
+        try {
+            const res = await axios.post('https://skillety-n6r1.onrender.com/create-selected-candidate', candidateSelectDetail, {
+                headers: {
+                    Authorization: `Bearer ${staffToken}`,
+                    Accept: 'application/json'
+                }
+            });
+            const result = res.data;
+            if (!result.error) {
+                console.log(result);
+                showSuccessMessage("Successfully Selected.")
+                getSelectedJobs()
+
+            }
+        } catch (err) {
+            console.log(err);
+            showErrorMessage()
+        }
+    }
+
+    const deSelectingCandidate = async () => {
+        try {
+            const response = await axios.delete(`https://skillety-n6r1.onrender.com/deselect-candidate/${id}/${jobId}`, {
+                headers: {
+                    Authorization: `Bearer ${staffToken}`,
+                    Accept: 'application/json'
+                }
+            });
+            console.log(response);
+           
+                showSuccessMessage("Candidate Deselected..!")
+                getSelectedJobs();
+            
+            
+        } catch (error) {
+            console.error(error);
+            showErrorMessage()
+        }
+    }
 
     useEffect(() => {
 
@@ -141,10 +235,53 @@ const TalentsAts = () => {
     }, [id, location.search]);
 
     useEffect(() => {
-        if (skillMatchPercentage) {
-
+        if (id && staffToken && jobId) {
+            getSelectedJobs();
         }
-    }, [setSkillMatchPercentage])
+    }, [id, staffToken, jobId])
+
+    const handleSelect = () => {
+        if (!alreadySelect) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: '',
+                icon: 'info',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, Select the Candidate!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    
+                    selectngTheCandidate({ jobId, candidateId: id });
+                    
+                }
+    
+            });
+            
+        }
+    }
+
+    const handleDeSelect = () => {
+        if (alreadySelect) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: '',
+                icon: 'info',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, Deselect!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    deSelectingCandidate();
+                    
+                }
+    
+            });
+            
+        }
+    }
 
     useEffect(() => {
         if (id) {
@@ -307,9 +444,9 @@ const TalentsAts = () => {
                                                             </div> */}
                                                                 </div>
                                                                 <div className="client-talent--profile-ability-number-area">
-                                                                    {(skillMatchPercentage || skillMatch) ? <div className="client-talent--profile-ability-number-left talent">
+                                                                    {(percentage || skillMatch) ? <div className="client-talent--profile-ability-number-left talent">
                                                                         <h6 className='client-talent--profile-ability'>Skill or Keyword matched</h6>
-                                                                        <h2 className='client-talent--profile-number'>{skillMatchPercentage ? skillMatchPercentage : skillMatch}%</h2>
+                                                                        <h2 className='client-talent--profile-number'>{percentage ? percentage+"%" : skillMatch+"%"}</h2>
                                                                     </div> : <div className="client-talent--profile-ability-number-left talent">
                                                                         <h6 className='client-talent--profile-ability'>Skill  matched</h6>
                                                                         <h2 className='client-talent--profile-number'>0%</h2>
@@ -481,6 +618,31 @@ const TalentsAts = () => {
                                                                                         <div className="client-talent--profile-tab-expand-sub-area">
                                                                                         </div>
                                                                                     </div>
+                                                                                </div>
+
+                                                                                <div className="job--apply-area">
+                                                                                    {alreadySelect ?
+                                                                                        <button className='pl--package-btn-sub buy-now m-t-40'
+                                                                                            onClick={handleDeSelect}>
+                                                                                            <div className='pl--package-btn buy-now candidate'>
+                                                                                                Deselect
+                                                                                            </div>
+                                                                                        </button>
+                                                                                        :
+                                                                                        <button className='pl--package-btn-sub buy-now m-t-40'
+                                                                                            onClick={handleSelect}>
+                                                                                            <div className='pl--package-btn buy-now candidate'>
+                                                                                            Select the Candidate
+                                                                                            </div>
+                                                                                            <div className='pl--package-arrow-area buy-now candidate'>
+                                                                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 27 27" fill="none">
+                                                                                                    <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#714F36" stroke-width="2" />
+                                                                                                    <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#714F36" stroke-width="2" />
+                                                                                                    <path d="M1 26L25.1667 1" stroke="#714F36" stroke-width="2" />
+                                                                                                </svg>
+                                                                                            </div>
+                                                                                        </button>
+                                                                                    }
                                                                                 </div>
 
                                                                                 {/* <div className="tal--pro-btn-area">

@@ -156,7 +156,7 @@ const JobDetails = () => {
                 const notificationData = {
                     senderId:candidateId,
                     senderName:userName,
-                    receiverId:job?.companyId,
+                    receiverId:(job?.managerId || job?.companyId),
                     receiverName:clientCompanyName,
                     type:"1",
                     time: formattedTime,
@@ -217,6 +217,7 @@ const JobDetails = () => {
                 .then(res => {
                     console.log(res.data)
                     const reqJob = res.data.find(job => job.jobId === id)
+                    console.log(reqJob)
                     if (reqJob) {
                         setLoading(false);
                         setJob(reqJob)

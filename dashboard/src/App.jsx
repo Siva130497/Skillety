@@ -30,7 +30,8 @@ import AtsDashboard from './atsPages/AtsDashboard/AtsDashboard';
 import OfflineClientCreate from './atsPages/OfflineClientCreate/OfflineClientCreate';
 import AllOfflineClients from './atsPages/AllOfflineClients/AllOfflineClients';
 import JobPostingATS from './atsPages/JobPostingATS/JobPostingATS';
-import ATSJobs from './atsPages/ATSJobs/ATSJobs'
+import ATSJobs from './atsPages/ATSJobs/ATSJobs';
+import AppliedCandidateATS from './atsPages/AppliedCandidateATS/AppliedCandidateATS';
 
 ////for recruiter
 import RecruiterDashboard from './pages/RecruiterDashboard/RecruiterDashboard';
@@ -98,6 +99,8 @@ function App() {
         <Route path='/all-offline-clients' element={<AllOfflineClients />} />
         <Route path='/job-posting-ats' element={<JobPostingATS />} />
         <Route path='/all-ats-jobs' element={<ATSJobs />} />
+        <Route path='/applied-candidate-ats/:id' element={<AppliedCandidateATS />} />
+
 
         {/* for recruiter */}
         <Route path='/' element={<RecruiterLogin />} />

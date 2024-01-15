@@ -14,6 +14,7 @@ const appliedJobSchema = new Schema(
     clientStaffId: String,  
     companyId: String,  
     recruiterId: String, 
+    managerId: String,
     jobRole: {
         type: Array,
         required: true
@@ -71,8 +72,8 @@ const appliedJobSchema = new Schema(
 );
 
 appliedJobSchema.pre('save', function(next) {
-  if (!this.clientId && !this.clientStaffId && !this.companyId && !this.recruiterId) {
-    next(new Error('At least one of the following fields is required: clientId, clientStaffId, companyId, recruiterId'));
+  if (!this.clientId && !this.clientStaffId && !this.companyId && !this.recruiterId && !this.managerId) {
+    next(new Error('At least one of the following fields is required: clientId, clientStaffId, companyId, recruiterId, managerId'));
   } else {
     next();
   }
