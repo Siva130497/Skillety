@@ -1200,3 +1200,23 @@ p {
   font-size: 18px;
   vertical-align: middle;
 }
+
+@media screen and (min-width: 991.98px) and (max-width: 1399.98px) {}
+
+@media (max-width:991.5px) {
+  .main-footer .footer-left,
+  .main-footer .footer-right {
+    float: none !important;
+  }
+
+  .main-footer .footer-left .footer-text{
+    text-align: center !important;
+  }
+
+  .footer-right-text-area{
+    justify-content: center !important;
+  }
+}
+
+@media (max-width:500px) {
+}
