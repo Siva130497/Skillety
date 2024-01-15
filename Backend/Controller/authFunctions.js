@@ -53,7 +53,8 @@ const offlineClient = require("../Database/offlineClient");
 const offlineClientDoc = require("../Database/offlineClientDoc");
 const offlineClientLogo = require("../Database/offlineClientLogo");
 const offlineClientTable = require("../Database/offlineClientTable");
-const atsJobsTable = require("../Database/atsJobsTable")
+const atsJobsTable = require("../Database/atsJobsTable");
+const selectedCandidateForJob = require("../Database/selectedCandidateForJob");
 
 //ATS...............................................
 
@@ -973,8 +974,9 @@ const getSkillMatchJobDetail = async (req, res) => {
         percentage: Math.round(percentage),
       };
 
-      if (obj.recruiterId) {
-        result.recruiterId = obj.recruiterId;
+      if (obj.recruiterId || obj.managerId) {
+        obj.recruiterId && (result.recruiterId = obj.recruiterId);
+        obj.managerId && (result.managerId = obj.managerId);
       } else if (obj.clientId) {
         result.clientId = obj.clientId;
         result.companyId = obj.companyId;
@@ -1413,7 +1415,8 @@ const getAppliedOfPostedJobs = async (req, res) => {
     const appliedOfPostedJobs = await appliedJob.find({
       $or: [
         { companyId: id },
-        { recruiterId: id }
+        { recruiterId: id },
+        { managerId: id }
       ]
     });
 
@@ -3737,16 +3740,10 @@ const getACandidateDetail = async (req, res) => {
     }
 
     const resumeData = await resume.findOne({id});
-    // if (!resumeData) {
-    //   return res.status(404).json({ error: "Cv not found" });
-    // }
-
+    
     const profile = await candidateProfile.findOne({id});
-    // if (!profile) {
-    //   return res.status(404).json({ error: "Profile photo not found" });
-    // }
-
-    if (cand && resumeData && profile) { 
+   
+     
       const candidateDetail = { 
         ...cand._doc, 
         ...resumeData._doc,
@@ -3775,10 +3772,7 @@ const getACandidateDetail = async (req, res) => {
         profileHeadline: candidateDetail.profileHeadline
       }
       return res.status(200).json(finalResponse);
-    } else {
-      return res.status(200).json(cand._doc);
-    }
-
+    
   } catch (err) {
     return res.status(500).json({ error: err.message });
   }
@@ -4218,6 +4212,82 @@ const getOwnInActivejobsInATS = async (req, res) => {
   }
 }
 
+//create a document to create selected candidate 
+const createSelectedCandidate = async (req, res) => {
+  try {
+    
+    const newSelectedCandidate = new selectedCandidateForJob({
+      ...req.body 
+    });
+    await newSelectedCandidate.save();
+    
+      return res.status(200).json(newSelectedCandidate);
+    
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+}
+
+//find the jobs selected for the candidateId
+const getSelectedJobsForCandidateId = async (req, res) => {
+  try {
+    const id = req.params.id; 
+    
+    const selectedJobs = await selectedCandidateForJob.find({candidateId: id});
+
+    if (selectedJobs.length > 0) {
+      return res.status(200).json(selectedJobs);
+    }
+
+      return res.status(404).json({ message: 'Not selected for any job' });
+    
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+}
+
+//deselect the candidate for particular job
+const deSelectCandidateForJobId = async(req, res) => {
+  try{
+    const candidateId = req.params.candidateId;
+    const jobId = req.params.jobId;
+    console.log(candidateId, jobId)
+    const deslectedCandidateDetail = await selectedCandidateForJob.findOne({candidateId:candidateId, jobId:jobId});
+
+    if (!deslectedCandidateDetail) {
+      return res.status(404).json({ error: 'no such detail found!' });
+    }
+    const deSelectCandidate = await selectedCandidateForJob.deleteOne({candidateId:candidateId, jobId:jobId});
+
+    if (deSelectCandidate.deletedCount === 1) {
+      return res.status(204).json({ message: 'Candidate deselect for the job' });
+    } else {
+      return res.status(500).json({ error: 'Failed to deselect' });
+    } 
+    
+  }catch(err) {
+    res.status(500).json({error: err.message})
+  }
+}
+
+//find all the selected candidates details
+const getAllSelectedCandidateDetails = async (req, res) => {
+  try {
+    
+    const selectedCandidateDetails = await selectedCandidateForJob.find();
+
+    if (selectedCandidateDetails.length > 0) {
+      return res.status(200).json(selectedCandidateDetails);
+    }
+
+      return res.status(404).json({ message: 'no more selected candidates found!' });
+    
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+}
+
+
 /*ATS................... */
 
 /* random password generate */
@@ -4547,6 +4617,10 @@ module.exports = {
    getAllATSJobsTableColumnData,
    getOwnActivejobsInATS,
    getOwnInActivejobsInATS,
+   createSelectedCandidate,
+   getSelectedJobsForCandidateId,
+   deSelectCandidateForJobId,
+   getAllSelectedCandidateDetails,
    
 
   //ATS...........

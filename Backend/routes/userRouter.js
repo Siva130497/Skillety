@@ -176,6 +176,10 @@ const {
    getAllATSJobsTableColumnData,
    getOwnActivejobsInATS,
    getOwnInActivejobsInATS,
+   createSelectedCandidate,
+   getSelectedJobsForCandidateId,
+   deSelectCandidateForJobId,
+   getAllSelectedCandidateDetails,
    
 
    //ATS...............
@@ -642,6 +646,17 @@ router.get("/ats-active-jobs/:id", employeeAuth, getOwnActivejobsInATS);
 //get all in active jobs in ats
 router.get("/ats-in-active-jobs/:id", employeeAuth, getOwnInActivejobsInATS);
 
+//endpoint for creating a selected candidate document for job
+router.post("/create-selected-candidate", employeeAuth, createSelectedCandidate);
+
+//endpoint to find all the selected jobs for candidateId
+router.get("/selected-jobs/:id", employeeAuth, getSelectedJobsForCandidateId);
+
+//end point to deselect the candidate for jobid
+router.delete('/deselect-candidate/:candidateId/:jobId', employeeAuth, deSelectCandidateForJobId);
+
+//end point to find all selected candidate details
+router.get("/all-selected-candidates", employeeAuth, getAllSelectedCandidateDetails);
 
 //ATS..................
 

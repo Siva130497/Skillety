@@ -32,6 +32,7 @@ const AllJobs = () => {
 
     const [updatePostedJobs, setUpdatePostedJobs] = useState([]);
     const [allCompany, setAllCompany] = useState([]);
+    const [selectedCandidate, setSelectedCandidate] = useState([]);
 
     const [x, setX] = useState([0, 10]);
     const [loading, setLoading] = useState(true);
@@ -39,7 +40,7 @@ const AllJobs = () => {
     const [isExpanded, setIsExpanded] = useState(false);
 
     const [selectedColumns, setSelectedColumns] = useState([]);
-    let columns = ["Job Category", "Company", "Status", "Boost", "Job Mandatory Skills", "Needed Experience", "Job Description", "Salary Range", "Department", "Education", "Industry", "Locations", "Role", "Working Mode"]
+    let columns = ["Job Category", "Company", "Status", "Boost", "Job Mandatory Skills", "Needed Experience", "Job Description", "Salary Range", "Department", "Education", "Industry", "Locations", "Role", "Working Mode", "Selected Applicants"]
 
     const handleColumnChange = (value) => {
 
@@ -98,6 +99,31 @@ const AllJobs = () => {
         }
     }
 
+    const getAllSelectedCandidateDetails = async () => {
+        try {
+
+            const response = await axios.get(`https://skillety-n6r1.onrender.com/all-selected-candidates`, {
+                headers: {
+                    Authorization: `Bearer ${atsToken}`,
+                    Accept: 'application/json'
+                }
+            });
+            const result = response.data;
+            if (!result.error) {
+                console.log(result);
+                setSelectedCandidate(result);
+                
+            } else {
+                console.log(result);
+                
+            }
+
+        } catch (err) {
+            console.log(err);
+           
+        }
+    }
+
     useEffect(() => {
         $(document).ready(function () {
         });
@@ -144,6 +170,7 @@ const AllJobs = () => {
 
             fetchData();
             getAllClientDetails();
+            getAllSelectedCandidateDetails();
         }
     }, [atsToken]);
 
@@ -954,6 +981,7 @@ const AllJobs = () => {
 
                                                                                         const companyLogo = allCompany.find(company => company.clientId === Job.clientId)?.clientLogo;
 
+                                                                                        const selectedCandidatesForJob = selectedCandidate.filter(cand=>cand.jobId === Job.id)
 
                                                                                         return (
                                                                                             <tr className='dash-table-row client' key={Job.id}>
@@ -1016,6 +1044,14 @@ const AllJobs = () => {
                                                                                                 </td>}
                                                                                                 {selectedColumns?.includes("Working Mode") && <td className='dash-table-data1 text-capitalized'>
                                                                                                     {Job?.workMode}
+                                                                                                </td>}
+                                                                                                {selectedColumns?.includes("Selected Applicants") && <td className='dash-table-data1 text-left'>
+                                                                                                    <button className='application-btn with-modal' onClick={() => selectedCandidatesForJob.length > 0 && navigate(`/applied-candidate-ats/${Job.id}`, { state: { selectedCandidatesForJob } })}>
+                                                                                                        <span>{selectedCandidatesForJob.length}</span>&nbsp;&nbsp;&nbsp;
+                                                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-file-earmark-text-fill" viewBox="0 0 16 16">
+                                                                                                            <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM4.5 9a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 1 0-1h4a.5.5 0 0 1 0 1h-4z" fill='#0879bc' />
+                                                                                                        </svg>
+                                                                                                    </button> 
                                                                                                 </td>}
                                                                                                 <td className='text-center'>
                                                                                                     <div className="action-btn-area">
