@@ -2,7 +2,6 @@ import React, { useContext, useState } from 'react';
 import { useEffect } from 'react';
 import ATSLayout from '../../atsComponents/ATSLayout'
 import Footer from '../../components/Footer';
-import './RecruiterDashboard.css';
 import $ from 'jquery';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Autoplay } from 'swiper/modules';

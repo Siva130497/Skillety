@@ -7,13 +7,11 @@ import Footer from '../../components/Footer';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import $ from 'jquery';
-import './Talents.css';
-import './Talents-responsive.css';
 import { useLocation, useParams } from 'react-router-dom';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
- 
+
 import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
 import AuthContext from '../../context/AuthContext';
 
@@ -22,7 +20,7 @@ const TalentsAts = () => {
     const location = useLocation();
     const { getProtectedData } = useContext(AuthContext);
     const { percentage } = location.state || {};
-    const {jobId} = location.state || {};
+    const { jobId } = location.state || {};
     const [loginCandidate, setLoginCandidate] = useState();
     const [candidateImg, setCandidateImg] = useState();
     const [candidateImgUrl, setCandidateImgUrl] = useState("");
@@ -227,20 +225,20 @@ const TalentsAts = () => {
     }
 
     const handleCheckboxChange = (jobId) => {
-        
+
         const isSelected = selectedJobs.includes(jobId);
-      
+
         setSelectedJobs((prevSelected) =>
-          isSelected
-            ? prevSelected.filter((id) => id !== jobId)
-            : [...prevSelected, jobId]
+            isSelected
+                ? prevSelected.filter((id) => id !== jobId)
+                : [...prevSelected, jobId]
         );
-      };
+    };
 
     const handleAssigningJobsToCandidate = () => {
         const assigningDetail = {
-            candidateId:id,
-            jobIdArray:selectedJobs
+            candidateId: id,
+            jobIdArray: selectedJobs
         }
 
         axios.post("http://localhost:5002/create-assign-candidate-job", assigningDetail, {
@@ -249,29 +247,29 @@ const TalentsAts = () => {
                 Accept: 'application/json'
             }
         })
-        .then((res)=>{
-            console.log(res.data)
-            showSuccessMessage("Selected Jobs Assigned to Candidate");
-            return getAllAssignedJobsForCandId();
-        })
-        .then(()=>{
-            const updatedActiveATSJobs = [...activeATSJobs];
+            .then((res) => {
+                console.log(res.data)
+                showSuccessMessage("Selected Jobs Assigned to Candidate");
+                return getAllAssignedJobsForCandId();
+            })
+            .then(() => {
+                const updatedActiveATSJobs = [...activeATSJobs];
 
-            updatedActiveATSJobs.map((job) => {
-                const isJobAssigned = assignedJobsForCand.some(
-                    (assignedJob) => assignedJob.jobId === job.id
-                );
+                updatedActiveATSJobs.map((job) => {
+                    const isJobAssigned = assignedJobsForCand.some(
+                        (assignedJob) => assignedJob.jobId === job.id
+                    );
 
-                if (isJobAssigned) {
-                    job.assigned = true;
-                }
-            });
+                    if (isJobAssigned) {
+                        job.assigned = true;
+                    }
+                });
 
-            setActiveATSJobsForCand(updatedActiveATSJobs);
-        })
-        .catch((err)=>{
-            console.log(err);
-        })
+                setActiveATSJobsForCand(updatedActiveATSJobs);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
     }
 
     const deAssigning = (job_id) => {
@@ -281,40 +279,40 @@ const TalentsAts = () => {
                 Accept: 'application/json'
             }
         })
-        .then((res)=>{
-            console.log(res.data);
-            showSuccessMessage("Candidate de-assign from this job")
-            return getAllAssignedJobsForCandId();
-        })
-        .then(()=>{
-            const updatedActiveATSJobs = [...activeATSJobs];
+            .then((res) => {
+                console.log(res.data);
+                showSuccessMessage("Candidate de-assign from this job")
+                return getAllAssignedJobsForCandId();
+            })
+            .then(() => {
+                const updatedActiveATSJobs = [...activeATSJobs];
 
-            updatedActiveATSJobs.map((job) => {
-                const isJobAssigned = assignedJobsForCand.some(
-                    (assignedJob) => assignedJob.jobId === job.id
-                );
+                updatedActiveATSJobs.map((job) => {
+                    const isJobAssigned = assignedJobsForCand.some(
+                        (assignedJob) => assignedJob.jobId === job.id
+                    );
 
-                if (isJobAssigned) {
-                    job.assigned = true;
-                }
-            });
+                    if (isJobAssigned) {
+                        job.assigned = true;
+                    }
+                });
 
-            setActiveATSJobsForCand(updatedActiveATSJobs);
-        })
-        .catch((err)=>{
-            console.log(err);
-        })
+                setActiveATSJobsForCand(updatedActiveATSJobs);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
     }
 
-    useEffect(()=>{
-        if(!jobId && id && employeeId){
+    useEffect(() => {
+        if (!jobId && id && employeeId) {
             getATSActiveJobs();
             getAllAssignedJobsForCandId();
         }
-    },[!jobId, id, employeeId]);
+    }, [!jobId, id, employeeId]);
 
-    useEffect(()=>{
-        if(availableActiveATSJobs){
+    useEffect(() => {
+        if (availableActiveATSJobs) {
             const updatedActiveATSJobs = [...activeATSJobs];
 
             updatedActiveATSJobs.map((job) => {
@@ -329,7 +327,7 @@ const TalentsAts = () => {
 
             setActiveATSJobsForCand(updatedActiveATSJobs);
         }
-    },[availableActiveATSJobs]);
+    }, [availableActiveATSJobs]);
 
     const getSelectedJobs = async () => {
         try {
@@ -382,11 +380,11 @@ const TalentsAts = () => {
                 }
             });
             console.log(response);
-           
-                showSuccessMessage("Candidate Deselected..!")
-                getSelectedJobs();
-            
-            
+
+            showSuccessMessage("Candidate Deselected..!")
+            getSelectedJobs();
+
+
         } catch (error) {
             console.error(error);
             showErrorMessage()
@@ -423,13 +421,13 @@ const TalentsAts = () => {
                 confirmButtonText: 'Yes, Select the Candidate!'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    
+
                     selectngTheCandidate({ jobId, candidateId: id });
-                    
+
                 }
-    
+
             });
-            
+
         }
     }
 
@@ -446,11 +444,11 @@ const TalentsAts = () => {
             }).then((result) => {
                 if (result.isConfirmed) {
                     deSelectingCandidate();
-                    
+
                 }
-    
+
             });
-            
+
         }
     }
 
@@ -617,7 +615,7 @@ const TalentsAts = () => {
                                                                 <div className="client-talent--profile-ability-number-area">
                                                                     {(percentage || skillMatch) ? <div className="client-talent--profile-ability-number-left talent">
                                                                         <h6 className='client-talent--profile-ability'>Skill or Keyword matched</h6>
-                                                                        <h2 className='client-talent--profile-number'>{percentage ? percentage+"%" : skillMatch+"%"}</h2>
+                                                                        <h2 className='client-talent--profile-number'>{percentage ? percentage + "%" : skillMatch + "%"}</h2>
                                                                     </div> : <div className="client-talent--profile-ability-number-left talent">
                                                                         <h6 className='client-talent--profile-ability'>Skill  matched</h6>
                                                                         <h2 className='client-talent--profile-number'>0%</h2>
@@ -676,7 +674,7 @@ const TalentsAts = () => {
                                                                     <div class="client-talent--profile-detail-tab-btn-area">
                                                                         <a href="#profileDetail" class="client-talent--profile-detail-tab-btn">Profile Detail</a>
                                                                         <a href="#attachedCV" class="client-talent--profile-detail-tab-btn">Attached CV</a>
-
+                                                                        <a href="#assignJob" class="client-talent--profile-detail-tab-btn">Assign Job(s)</a>
                                                                     </div>
                                                                     <div class="client-talent--profile-detail-tab-content-area">
                                                                         <div id="profileDetail" class="client-talent--profile-detail-tab-content">
@@ -713,16 +711,24 @@ const TalentsAts = () => {
                                                                                     </div>
                                                                                     <div className="client-talent--profile-tab-expand-area">
                                                                                         <div className="client-talent--profile-tab-expand-sub-area">
-                                                                                            <p className="client-talent--profile-tab-expand-desc">
-                                                                                                {loginCandidate?.workSummary}
-                                                                                            </p>
+                                                                                            {loginCandidate?.workSummary ?
+                                                                                                <p className="client-talent--profile-tab-expand-desc">
+                                                                                                    {loginCandidate?.workSummary}
+                                                                                                </p> :
+                                                                                                <span className='text-secondary'>---------</span>
+                                                                                            }
                                                                                             <div className="client-talent--profile-tab-expand-table-area">
                                                                                                 <div className="row">
                                                                                                     <div className="col-md-2">
                                                                                                         <div className='client-talent--profile-tab-expand-table-title'>College</div>
                                                                                                     </div>
                                                                                                     <div className="col-md-10">
-                                                                                                        <div className='client-talent--profile-tab-expand-table-content'>{loginCandidate?.college}</div>
+                                                                                                        {loginCandidate?.college ?
+                                                                                                            <div className='client-talent--profile-tab-expand-table-content'>
+                                                                                                                {loginCandidate?.college}
+                                                                                                            </div> :
+                                                                                                            <span className='text-secondary'>---------</span>
+                                                                                                        }
                                                                                                     </div>
                                                                                                 </div>
 
@@ -731,7 +737,12 @@ const TalentsAts = () => {
                                                                                                         <div className='client-talent--profile-tab-expand-table-title'>Department</div>
                                                                                                     </div>
                                                                                                     <div className="col-md-10">
-                                                                                                        <div className='client-talent--profile-tab-expand-table-content'>{loginCandidate?.department}</div>
+                                                                                                        {loginCandidate?.department ?
+                                                                                                            <div className='client-talent--profile-tab-expand-table-content'>
+                                                                                                                {loginCandidate?.department}
+                                                                                                            </div> :
+                                                                                                            <span className='text-secondary'>---------</span>
+                                                                                                        }
                                                                                                     </div>
                                                                                                 </div>
 
@@ -740,7 +751,12 @@ const TalentsAts = () => {
                                                                                                         <div className='client-talent--profile-tab-expand-table-title'>Role</div>
                                                                                                     </div>
                                                                                                     <div className="col-md-10">
-                                                                                                        <div className='client-talent--profile-tab-expand-table-content'>{loginCandidate?.designation[0]}</div>
+                                                                                                        {loginCandidate?.designation[0] ?
+                                                                                                            <div className='client-talent--profile-tab-expand-table-content'>
+                                                                                                                {loginCandidate?.designation[0]}
+                                                                                                            </div> :
+                                                                                                            <span className='text-secondary'>---------</span>
+                                                                                                        }
                                                                                                     </div>
                                                                                                 </div>
                                                                                             </div>
@@ -771,9 +787,12 @@ const TalentsAts = () => {
                                                                                     </div>
                                                                                     <div className="client-talent--profile-tab-expand-area">
                                                                                         <div className="client-talent--profile-tab-expand-sub-area">
-                                                                                            <p className="client-talent--profile-tab-expand-desc">
-                                                                                                {loginCandidate?.education.join(", ")}
-                                                                                            </p>
+                                                                                            {loginCandidate?.education ?
+                                                                                                <p className="client-talent--profile-tab-expand-desc">
+                                                                                                    {loginCandidate?.education.join(", ")}
+                                                                                                </p> :
+                                                                                                <span className='text-secondary'>---------</span>
+                                                                                            }
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
@@ -790,31 +809,6 @@ const TalentsAts = () => {
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
-
-                                                                                {(atsAccess === "Manager" && jobId) && <div className="job--apply-area">
-                                                                                    {alreadySelect ?
-                                                                                        <button className='pl--package-btn-sub buy-now m-t-40'
-                                                                                            onClick={handleDeSelect}>
-                                                                                            <div className='pl--package-btn buy-now candidate'>
-                                                                                                In-Share
-                                                                                            </div>
-                                                                                        </button>
-                                                                                        :
-                                                                                        <button className='pl--package-btn-sub buy-now m-t-40'
-                                                                                            onClick={handleSelect}>
-                                                                                            <div className='pl--package-btn buy-now candidate'>
-                                                                                            Share the Candidate to ATS
-                                                                                            </div>
-                                                                                            <div className='pl--package-arrow-area buy-now candidate'>
-                                                                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 27 27" fill="none">
-                                                                                                    <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#714F36" stroke-width="2" />
-                                                                                                    <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#714F36" stroke-width="2" />
-                                                                                                    <path d="M1 26L25.1667 1" stroke="#714F36" stroke-width="2" />
-                                                                                                </svg>
-                                                                                            </div>
-                                                                                        </button>
-                                                                                    }
-                                                                                </div>}
 
                                                                                 {/* <div className="tal--pro-btn-area">
                                                             <div>
@@ -841,33 +835,148 @@ const TalentsAts = () => {
                                                                         </div>
 
                                                                         <div id="attachedCV" class="client-talent--profile-detail-tab-content">
-                                                                            {resume?.file ? 
-                                                                            <>
-                                                                            <div className='cv-file-name'>{resume?.file}</div>
-                                                                            <div className="view-cv-toparea">
-                                                                                <button className='download-cv-btn mt-3' onClick={() => {
-                                                                                    window.open(candidateResumeUrl);
-                                                                                }}>
-                                                                                    <i class="bi bi-download download-cv-icon"></i>
-                                                                                    Download CV
-                                                                                </button>
-                                                                            </div>
-                                                                            {candidateResumeUrl && (
-                                                                            <DocViewer
-                                                                                documents={[{ uri: candidateResumeUrl }]}
-                                                                                renderers={DocViewerRenderers}
-                                                                                className='cv-view-area'
-                                                                            />
-                                                                            )}
-                                                                            </>
-                                                                            :
-                                                                            <div className='no-cv-uploaded-area'>
-                                                                                <div className='no-cv-uploaded'>
-                                                                                    <i className='bi bi-exclamation-circle mr-2'></i>
-                                                                                    <span>No CV Uploaded..!</span>
+                                                                            {resume?.file ?
+                                                                                <>
+                                                                                    <div className='cv-file-name'>{resume?.file}</div>
+                                                                                    <div className="view-cv-toparea">
+                                                                                        <button className='download-cv-btn mt-3' onClick={() => {
+                                                                                            window.open(candidateResumeUrl);
+                                                                                        }}>
+                                                                                            <i class="bi bi-download download-cv-icon"></i>
+                                                                                            Download CV
+                                                                                        </button>
+                                                                                    </div>
+                                                                                    {candidateResumeUrl && (
+                                                                                        <DocViewer
+                                                                                            documents={[{ uri: candidateResumeUrl }]}
+                                                                                            renderers={DocViewerRenderers}
+                                                                                            className='cv-view-area'
+                                                                                        />
+                                                                                    )}
+                                                                                </>
+                                                                                :
+                                                                                <div className='no-cv-uploaded-area'>
+                                                                                    <div className='no-cv-uploaded'>
+                                                                                        <i className='bi bi-exclamation-circle mr-2'></i>
+                                                                                        <span>No CV Uploaded..!</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            }
+                                                                        </div>
+
+                                                                        <div id="assignJob" class="client-talent--profile-detail-tab-content">
+                                                                            <div className="row">
+                                                                                <div className="col-12">
+                                                                                    <div className="admin-lg-table-section pt-0">
+                                                                                        <div className='admin-lg-table-area man-app'>
+
+                                                                                            <div className='man-app-title-area candidate'>
+                                                                                                <div>
+                                                                                                    <div className="man-app-title ats">
+                                                                                                        Assign this candidate to the job(s).
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div className="recruiter-search-input-area">
+                                                                                                    <input type="search" className='recruiter-search-input' placeholder='Search Job...' />
+                                                                                                    <i className='bi bi-search search-icon'></i>
+                                                                                                    <button className='recruiter-search-btn'>Search</button>
+                                                                                                </div>
+                                                                                                <div className='customize-table-layout-area ats'>
+                                                                                                    <div className="customize-table-layout-top">
+                                                                                                        <div className='customize-table-layout-head'>Assign the job(s) to this candidate</div>
+                                                                                                        <button className='customize-table-layout-btn ats' type='button'>
+                                                                                                            Assign
+                                                                                                            <i class="bi bi-person-check-fill"></i>
+                                                                                                        </button>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+
+                                                                                            <div className="table-responsive table-scroll-area">
+                                                                                                <table className="table table-striped table-hover admin-lg-table">
+                                                                                                    <tr className='dash-table-row man-app'>
+                                                                                                        <th className='dash-table-head'>No.</th>
+                                                                                                        <th className='dash-table-head text-center'>Select</th>
+                                                                                                        <th className='dash-table-head'>Job Title</th>
+                                                                                                        <th className='dash-table-head text-center'>Status</th>
+                                                                                                        <th className='dash-table-head text-center'>Dismiss</th>
+                                                                                                        <th className='dash-table-head text-center'>View</th>
+                                                                                                    </tr>
+
+                                                                                                    {/* table data */}
+                                                                                                    <tr className='dash-table-row client'>
+                                                                                                        <td className='dash-table-data1'>01.</td>
+                                                                                                        <td className='dash-table-data1 text-center'>
+                                                                                                            <label className="layout-form-check-input justify-content-center">
+                                                                                                                <input type="checkbox" />
+                                                                                                                <span className="layout-form-checkmark mr-0"></span>
+                                                                                                            </label>
+                                                                                                        </td>
+                                                                                                        <td className='dash-table-data1 text-capitalized'>
+                                                                                                            Job Title
+                                                                                                        </td>
+                                                                                                        <td className='dash-table-data1 text-center'>
+                                                                                                            <span className='text-success p-0'>
+                                                                                                                <i class="bi bi-check-circle mr-2"></i>
+                                                                                                                Assigned.
+                                                                                                            </span>
+                                                                                                            {/* <span className='text-warning p-0'>
+                                                                                                                <i class="bi bi-exclamation-circle mr-2"></i>
+                                                                                                                Not Assigned.
+                                                                                                            </span> */}
+                                                                                                        </td>
+                                                                                                        <td className='dash-table-data1 text-center'>
+                                                                                                            <button className='dismiss-btn'>
+                                                                                                                Dismiss
+                                                                                                            </button>
+                                                                                                        </td>
+                                                                                                        <td className='text-center'>
+                                                                                                            <div className="action-btn-area">
+                                                                                                                <button className='job-view-btn' data-toggle="modal" title='View Job Details...' data-target="#jobViewModal">
+                                                                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                                                                                                        <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
+                                                                                                                        <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
+                                                                                                                    </svg>
+                                                                                                                </button>
+                                                                                                            </div>
+                                                                                                        </td>
+
+                                                                                                    </tr>
+                                                                                                </table>
+                                                                                            </div>
+
+                                                                                            {/* No data found */}
+                                                                                            <div className="no-data-created-area">
+                                                                                                <div className='no-data-created'>
+                                                                                                    <img src="../assets/img/no-data/no-data-img.png" className='no-data-img' alt="" />
+                                                                                                    <div className='no-data-text'>No Jobs Found..!</div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            {/*  */}
+
+                                                                                        </div>
+
+                                                                                        {/* for pagination */}
+                                                                                        <div className="table-pagination-area pt-3">
+                                                                                            <div className="pagination-btn-area">
+                                                                                                <button className='pag-prev-btn'>
+                                                                                                    <i class="bi bi-chevron-left"></i>
+                                                                                                </button>
+                                                                                                <div className='pag-page'>
+                                                                                                    <span className='current-page'>1</span>&nbsp;/&nbsp;
+                                                                                                    <span className='total-page'>2</span>
+                                                                                                </div>
+                                                                                                <button className='pag-next-btn'>
+                                                                                                    <i class="bi bi-chevron-right"></i>
+                                                                                                </button>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        {/*  */}
+
+                                                                                    </div>
                                                                                 </div>
                                                                             </div>
-                                                                            }
+
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -1053,9 +1162,189 @@ const TalentsAts = () => {
                     </div>
                 </div> */}
                                     </div>
+
+                                    {(atsAccess === "Manager" && jobId) && <div className="job--apply-area">
+                                        {alreadySelect ?
+                                            // <button className='pl--package-btn-sub buy-now m-t-40'
+                                            //     onClick={handleDeSelect}>
+                                            //     <div className='pl--package-btn buy-now candidate'>
+                                            //         In-Share
+                                            //     </div>
+                                            // </button>
+                                            <button className='share-profile-button m-t-40'
+                                                onClick={handleDeSelect}>
+                                                In-Share
+                                            </button>
+                                            :
+                                            // <button className='pl--package-btn-sub buy-now m-t-40'
+                                            //     onClick={handleSelect}>
+                                            //     <div className='pl--package-btn buy-now candidate'>
+                                            //         Share the Candidate to ATS
+                                            //     </div>
+                                            //     <div className='pl--package-arrow-area buy-now candidate'>
+                                            //         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 27 27" fill="none">
+                                            //             <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#714F36" stroke-width="2" />
+                                            //             <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#714F36" stroke-width="2" />
+                                            //             <path d="M1 26L25.1667 1" stroke="#714F36" stroke-width="2" />
+                                            //         </svg>
+                                            //     </div>
+                                            // </button>
+                                            <button className='share-profile-button m-t-40'
+                                                onClick={handleSelect}>
+                                                <i class="bi bi-share mr-3"></i>
+                                                Share the Candidate to ATS
+                                            </button>
+                                        }
+                                    </div>}
+
                                 </section>
                             </div>
                         </div>
+
+                        {/* Job view modal here */}
+                        <div className="modal fade" id="jobViewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                            aria-hidden="true">
+                            <div className="modal-dialog modal-lg" role="document">
+                                <div className="modal-content recruiter-view-modal">
+                                    <div className="modal-header recruiter-view-modal-header">
+                                        <h5 className="modal-title recruiter-view-modal-title client" id="exampleModalLabel">
+                                            Job Details_
+                                        </h5>
+                                        <a href='#' type="button" className="close recruiter-view-close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true"><i class="bi bi-x close-icon"></i></span>
+                                        </a>
+                                    </div>
+                                    <div className="modal-body">
+                                        <div className="card p-4 recruiter-view-card candidate">
+                                            <div className="row">
+                                                <div className="col-12 col-sm-5 col-md-5 col-lg-4">
+                                                    <div className="view-det-head">Job Role</div>
+                                                </div>
+                                                <div className="col-12 col-sm-7 col-md-7 col-lg-8">
+                                                    <div className="view-det-sub-head text-capitalized">Data</div>
+                                                </div>
+                                            </div>
+                                            <hr />
+                                            <div className="row">
+                                                <div className="col-12 col-sm-5 col-md-5 col-lg-4">
+                                                    <div className="view-det-head">Job Category</div>
+                                                </div>
+                                                <div className="col-12 col-sm-7 col-md-7 col-lg-8">
+                                                    <div className="view-det-sub-head text-capitalized">Data</div>
+                                                </div>
+                                            </div>
+                                            <hr />
+                                            <div className="row">
+                                                <div className="col-12 col-sm-5 col-md-5 col-lg-4">
+                                                    <div className="view-det-head">Job Mandatory Skills</div>
+                                                </div>
+                                                <div className="col-12 col-sm-7 col-md-7 col-lg-8">
+                                                    <div className="cand-skills-area">
+                                                        <span className='cand-skill text-capitalized'>Data</span>
+                                                        <span className='cand-skill text-capitalized'>Data</span>
+                                                        <span className='cand-skill text-capitalized'>Data</span>
+                                                        <span className='cand-skill text-capitalized'>Data</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <hr />
+                                            <div className="row">
+                                                <div className="col-12 col-sm-5 col-md-5 col-lg-4">
+                                                    <div className="view-det-head">Needed Experience</div>
+                                                </div>
+                                                <div className="col-12 col-sm-7 col-md-7 col-lg-8">
+                                                    <div className="view-det-sub-head text-capitalized">
+                                                        <span>Data - Data</span>
+                                                        &nbsp;years&nbsp;
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <hr />
+                                            <div className="row">
+                                                <div className="col-12 col-sm-5 col-md-5 col-lg-4">
+                                                    <div className="view-det-head">Job Description</div>
+                                                </div>
+                                                <div className="col-12 col-sm-7 col-md-7 col-lg-8">
+                                                    <div className="view-det-sub-head text-capitalized">Data</div>
+                                                </div>
+                                            </div>
+                                            <hr />
+                                            <div className="row">
+                                                <div className="col-12 col-sm-5 col-md-5 col-lg-4">
+                                                    <div className="view-det-head">Salary Range</div>
+                                                </div>
+                                                <div className="col-12 col-sm-7 col-md-7 col-lg-8">
+                                                    <div className="view-det-sub-head">Data - Data</div>
+                                                </div>
+                                            </div>
+                                            <hr />
+                                            <div className="row">
+                                                <div className="col-12 col-sm-5 col-md-5 col-lg-4">
+                                                    <div className="view-det-head">Department</div>
+                                                </div>
+                                                <div className="col-12 col-sm-7 col-md-7 col-lg-8">
+                                                    <div className="view-det-sub-head text-capitalized">Data</div>
+                                                </div>
+                                            </div>
+                                            <hr />
+                                            <div className="row">
+                                                <div className="col-12 col-sm-5 col-md-5 col-lg-4">
+                                                    <div className="view-det-head">Education</div>
+                                                </div>
+                                                <div className="col-12 col-sm-7 col-md-7 col-lg-8">
+                                                    <div className="view-det-sub-head text-capitalized">Data</div>
+                                                </div>
+                                            </div>
+                                            <hr />
+                                            <div className="row">
+                                                <div className="col-12 col-sm-5 col-md-5 col-lg-4">
+                                                    <div className="view-det-head">Industry</div>
+                                                </div>
+                                                <div className="col-12 col-sm-7 col-md-7 col-lg-8">
+                                                    <div className="view-det-sub-head text-capitalized">Data</div>
+                                                </div>
+                                            </div>
+                                            <hr />
+                                            <div className="row">
+                                                <div className="col-12 col-sm-5 col-md-5 col-lg-4">
+                                                    <div className="view-det-head">Locations</div>
+                                                </div>
+                                                <div className="col-12 col-sm-7 col-md-7 col-lg-8">
+                                                    <div className="cand-skills-area">
+                                                        <span className='cand-skill text-capitalized'>Data</span>
+                                                        <span className='cand-skill text-capitalized'>Data</span>
+                                                        <span className='cand-skill text-capitalized'>Data</span>
+                                                        <span className='cand-skill text-capitalized'>Data</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <hr />
+                                            <div className="row">
+                                                <div className="col-12 col-sm-5 col-md-5 col-lg-4">
+                                                    <div className="view-det-head">Role</div>
+                                                </div>
+                                                <div className="col-12 col-sm-7 col-md-7 col-lg-8">
+                                                    <div className="view-det-sub-head text-capitalized">Data</div>
+                                                </div>
+                                            </div>
+                                            <hr />
+                                            <div className="row">
+                                                <div className="col-12 col-sm-5 col-md-5 col-lg-4">
+                                                    <div className="view-det-head">Working Mode</div>
+                                                </div>
+                                                <div className="col-12 col-sm-7 col-md-7 col-lg-8">
+                                                    <div className="view-det-sub-head text-capitalized">Data</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="modal-footer recruiter-view-modal-footer bg-whitesmoke br">
+                                        <button type="button" className="btn close-modal-btn" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <Footer />
                     </div>
 
