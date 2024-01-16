@@ -180,6 +180,10 @@ const {
    getSelectedJobsForCandidateId,
    deSelectCandidateForJobId,
    getAllSelectedCandidateDetails,
+   createDocumentToAssignCandidateToJob,
+   getAllAssignedJobsForCandId,
+   deAssigningJobsForCand,
+   getAllAssignedCandidateDetails,
    
 
    //ATS...............
@@ -657,6 +661,18 @@ router.delete('/deselect-candidate/:candidateId/:jobId', employeeAuth, deSelectC
 
 //end point to find all selected candidate details
 router.get("/all-selected-candidates", employeeAuth, getAllSelectedCandidateDetails);
+
+//endpoint to create document for candidate id and job id
+router.post("/create-assign-candidate-job", employeeAuth, createDocumentToAssignCandidateToJob);
+
+//endpoint to get all the assigned jobs for the candidate
+router.get("/assigned-jobs-cand/:id", employeeAuth, getAllAssignedJobsForCandId);
+
+//end point to deassign the candidate for jobid
+router.delete('/deassign-candidate/:candidateId/:jobId', employeeAuth, deAssigningJobsForCand);
+
+//end point to find all assigned candidate details
+router.get("/all-assigned-candidates", employeeAuth, getAllAssignedCandidateDetails);
 
 //ATS..................
 
