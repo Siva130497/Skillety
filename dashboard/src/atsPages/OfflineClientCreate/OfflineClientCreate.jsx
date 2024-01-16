@@ -2,8 +2,6 @@ import React, { useEffect, useState, useContext, useRef } from 'react';
 import axios from 'axios';
 import ATSLayout from '../../atsComponents/ATSLayout';
 import Footer from '../../components/Footer';
-import './CreateCandidate.css';
-import './CreateCandidate-responsive.css';
 import $ from 'jquery';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
