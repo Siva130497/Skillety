@@ -3,8 +3,6 @@ import axios from 'axios';
 import { v4 as uuidv4 } from "uuid";
 import ATSLayout from "../../atsComponents/ATSLayout";
 import Footer from '../../components/Footer';
-import './JobPosting.css';
-import './JobPosting-responsive.css';
 import $ from 'jquery';
 import AuthContext from '../../context/AuthContext';
 import Swal from 'sweetalert2';
