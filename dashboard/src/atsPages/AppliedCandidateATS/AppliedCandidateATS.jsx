@@ -13,6 +13,7 @@ const AppliedCandidateATS = () => {
     const location = useLocation();
     const {id} = useParams();
     const {selectedCandidatesForJob} = location.state || {};
+    const {assignedCandidatesForJob} = location.state || {};
     const [atsToken, setatsToken] = useState("");
     const { getProtectedData, getCandidateImg, candidateImg } = useContext(AuthContext);
     const [employeeId, setEmployeeId] = useState("");
@@ -491,9 +492,14 @@ const AppliedCandidateATS = () => {
             const result = response.data;
             if (!result.error) {
                 console.log(result);
+                
+                let filterArray = selectedCandidatesForJob.length > 0
+                ? selectedCandidatesForJob
+                : assignedCandidatesForJob;
+
                 const filtered = result.filter(candidate =>
-                    selectedCandidatesForJob.some(anotherCandidate => anotherCandidate.candidateId === candidate.id)
-                  );
+                    filterArray.some(anotherCandidate => anotherCandidate.candidateId === candidate.id)
+                );
                 console.log(filtered)
                 setReqCands(filtered);
             } else {
@@ -763,19 +769,19 @@ const AppliedCandidateATS = () => {
                                                         <img src={imgSrc} className='tal--pro-card-profile-img applied' alt="" />
                                                         <p className='tal--pro-card-role-name mb-0'>{candidate.designation[0]}</p>
                                                     </div>
-                                                    <div className="tal--pro-card-contact-btn-area">
+                                                    {/* <div className="tal--pro-card-contact-btn-area">
                                                         <button className='tal--pro-card-contact-btn' onClick={() => navigate(`/talents-ats/${candidate.id}`, { state: { percentage, jobId:id } })}>View Profile</button>
-                                                        {/* <span className="profile-credits-title">&#129031; 01 Credit</span> */}
+                                                        <span className="profile-credits-title">&#129031; 01 Credit</span>
 
-                                                        {/* <div className="profile-credits-area">
+                                                        <div className="profile-credits-area">
                                                             <div className="profile-credits-title">Credits</div>
                                                             <div className="profile-credits">01</div>
-                                                        </div> */}
-                                                        {/* <button className='tal--pro-card-contact-btn'>
+                                                        </div>
+                                                        <button className='tal--pro-card-contact-btn'>
                                                             <img src="../assets/img/talent-profile/call.png" alt="" />
                                                             Call Candidate
-                                                        </button> */}
-                                                    </div>
+                                                        </button>
+                                                    </div> */}
                                                     <div className="tal--pro-card-ability-number-area applied">
                                                         <div className="tal--pro-card-ability-number-left applied">
                                                             <h6 className='tal--pro-card-ability'>Skill matched</h6>

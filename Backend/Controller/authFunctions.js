@@ -55,6 +55,7 @@ const offlineClientLogo = require("../Database/offlineClientLogo");
 const offlineClientTable = require("../Database/offlineClientTable");
 const atsJobsTable = require("../Database/atsJobsTable");
 const selectedCandidateForJob = require("../Database/selectedCandidateForJob");
+const assignCandidateForJobDetail = require("../Database/assignCandidateForJobDetail");
 
 //ATS...............................................
 
@@ -4287,6 +4288,98 @@ const getAllSelectedCandidateDetails = async (req, res) => {
   }
 }
 
+//create document to assign the candidate to jobId
+const createDocumentToAssignCandidateToJob = async (req, res) => {
+  try {
+    const { candidateId, jobIdArray } = req.body;
+
+    if (!candidateId || !jobIdArray || !Array.isArray(jobIdArray)) {
+      return res.status(400).json({ error: 'Invalid input data' });
+    }
+
+    const createdDocuments = [];
+
+    for (const jobId of jobIdArray) {
+      const existingCandidateAssignDocumentForJobId = await assignCandidateForJobDetail.findOne({
+        candidateId: candidateId,
+        jobId: jobId,
+      });
+
+      if (existingCandidateAssignDocumentForJobId) {
+        return res.status(400).json({ error: `Document already created for candidateId ${candidateId} and jobId ${jobId}` });
+      } else {
+        const newDocument = await assignCandidateForJobDetail.create({
+          candidateId: candidateId,
+          jobId: jobId,
+        });
+        createdDocuments.push(newDocument);
+      }
+    }
+
+    res.status(200).json({ message: 'Documents created successfully', createdDocuments });
+
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+//get all assign jobs for the candidate id
+const getAllAssignedJobsForCandId = async (req, res) => {
+  try {
+    const {id} = req.params;
+
+    const assignedJobs = await assignCandidateForJobDetail.find({ candidateId:id });
+    if (assignedJobs.length > 0) {
+      return res.status(200).json(assignedJobs);
+    }
+
+      return res.status(404).json({ message: 'no assigned jobs for the candidate' });
+
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+//de assign the job from candidate
+const deAssigningJobsForCand = async(req, res) => {
+  try {
+    const candidateId = req.params.candidateId;
+    const jobId = req.params.jobId;
+    console.log(candidateId, jobId)
+    const deAssigningJobWithCandidateId = await assignCandidateForJobDetail.findOne({candidateId:candidateId, jobId:jobId});
+
+    if (!deAssigningJobWithCandidateId) {
+      return res.status(404).json({ error: 'no such detail found!' });
+    }
+    const deAssign = await assignCandidateForJobDetail.deleteOne({candidateId:candidateId, jobId:jobId});
+
+    if (deAssign.deletedCount === 1) {
+      return res.status(204).json({ message: 'Candidate deassign for the job' });
+    } else {
+      return res.status(500).json({ error: 'Failed to deassign' });
+    } 
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+//find all the assigned candidates details
+const getAllAssignedCandidateDetails = async (req, res) => {
+  try {
+    
+    const assignedCandidateDetails = await assignCandidateForJobDetail.find();
+
+    if (assignedCandidateDetails.length > 0) {
+      return res.status(200).json(assignedCandidateDetails);
+    }
+
+      return res.status(404).json({ message: 'no more assigned candidates found!' });
+    
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+}
+
 
 /*ATS................... */
 
@@ -4621,6 +4714,10 @@ module.exports = {
    getSelectedJobsForCandidateId,
    deSelectCandidateForJobId,
    getAllSelectedCandidateDetails,
+   createDocumentToAssignCandidateToJob,
+   getAllAssignedJobsForCandId,
+   deAssigningJobsForCand,
+   getAllAssignedCandidateDetails,
    
 
   //ATS...........

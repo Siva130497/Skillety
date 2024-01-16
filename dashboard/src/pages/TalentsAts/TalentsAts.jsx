@@ -15,10 +15,12 @@ import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
  
 import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
+import AuthContext from '../../context/AuthContext';
 
 const TalentsAts = () => {
     const { id } = useParams();
     const location = useLocation();
+    const { getProtectedData } = useContext(AuthContext);
     const { percentage } = location.state || {};
     const {jobId} = location.state || {};
     const [loginCandidate, setLoginCandidate] = useState();
@@ -32,6 +34,13 @@ const TalentsAts = () => {
     const [skillMatch, setSkillMatch] = useState()
     const [staffToken, setStaffToken] = useState("");
     const [alreadySelect, setAlreadySelect] = useState();
+    const [atsAccess, setAtsAccess] = useState("");
+    const [employeeId, setEmployeeId] = useState("");
+    const [activeATSJobs, setActiveATSJobs] = useState([]);
+    const [assignedJobsForCand, setAssignedJobsForCand] = useState([]);
+    const [activeATSJobsForCand, setActiveATSJobsForCand] = useState([]);
+    const [availableActiveATSJobs, setAvailableActiveATSJobs] = useState(false);
+    const [selectedJobs, setSelectedJobs] = useState([]);
 
     //for show success message for payment
     function showSuccessMessage(message) {
@@ -59,6 +68,23 @@ const TalentsAts = () => {
     useEffect(() => {
         setStaffToken(JSON.parse(localStorage.getItem('staffToken')))
     }, [staffToken])
+
+    useEffect(() => {
+        if (staffToken) {
+            const fetchData = async () => {
+                try {
+                    const user = await getProtectedData(staffToken);
+                    console.log(user);
+                    setAtsAccess(user.role);
+                    setEmployeeId(user.id);
+                } catch (error) {
+                    console.log(error);
+                }
+            };
+
+            fetchData();
+        }
+    }, [staffToken]);
 
     useEffect(() => {
         const preloader = $('#preloader');
@@ -159,6 +185,151 @@ const TalentsAts = () => {
     //     }
 
     // }, [id, location.state])
+
+    const getATSActiveJobs = async () => {
+        try {
+            const res = await axios.get(`https://skillety-n6r1.onrender.com/ats-active-jobs/${employeeId}`, {
+                headers: {
+                    Authorization: `Bearer ${staffToken}`,
+                    Accept: 'application/json'
+                }
+            });
+            const result = res.data;
+            if (!result.error) {
+                console.log(result);
+                setActiveATSJobs(result);
+            } else {
+                console.log(result);
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    const getAllAssignedJobsForCandId = async () => {
+        try {
+            const res = await axios.get(`http://localhost:5002/assigned-jobs-cand/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${staffToken}`,
+                    Accept: 'application/json'
+                }
+            });
+            const result = res.data;
+            if (!result.error) {
+                console.log(result);
+                setAssignedJobsForCand(result);
+            } else {
+                console.log(result);
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    const handleCheckboxChange = (jobId) => {
+        
+        const isSelected = selectedJobs.includes(jobId);
+      
+        setSelectedJobs((prevSelected) =>
+          isSelected
+            ? prevSelected.filter((id) => id !== jobId)
+            : [...prevSelected, jobId]
+        );
+      };
+
+    const handleAssigningJobsToCandidate = () => {
+        const assigningDetail = {
+            candidateId:id,
+            jobIdArray:selectedJobs
+        }
+
+        axios.post("http://localhost:5002/create-assign-candidate-job", assigningDetail, {
+            headers: {
+                Authorization: `Bearer ${staffToken}`,
+                Accept: 'application/json'
+            }
+        })
+        .then((res)=>{
+            console.log(res.data)
+            showSuccessMessage("Selected Jobs Assigned to Candidate");
+            return getAllAssignedJobsForCandId();
+        })
+        .then(()=>{
+            const updatedActiveATSJobs = [...activeATSJobs];
+
+            updatedActiveATSJobs.map((job) => {
+                const isJobAssigned = assignedJobsForCand.some(
+                    (assignedJob) => assignedJob.jobId === job.id
+                );
+
+                if (isJobAssigned) {
+                    job.assigned = true;
+                }
+            });
+
+            setActiveATSJobsForCand(updatedActiveATSJobs);
+        })
+        .catch((err)=>{
+            console.log(err);
+        })
+    }
+
+    const deAssigning = (job_id) => {
+        axios.delete(`http://localhost:5002/deassign-candidate/${id}/${job_id}`, {
+            headers: {
+                Authorization: `Bearer ${staffToken}`,
+                Accept: 'application/json'
+            }
+        })
+        .then((res)=>{
+            console.log(res.data);
+            showSuccessMessage("Candidate de-assign from this job")
+            return getAllAssignedJobsForCandId();
+        })
+        .then(()=>{
+            const updatedActiveATSJobs = [...activeATSJobs];
+
+            updatedActiveATSJobs.map((job) => {
+                const isJobAssigned = assignedJobsForCand.some(
+                    (assignedJob) => assignedJob.jobId === job.id
+                );
+
+                if (isJobAssigned) {
+                    job.assigned = true;
+                }
+            });
+
+            setActiveATSJobsForCand(updatedActiveATSJobs);
+        })
+        .catch((err)=>{
+            console.log(err);
+        })
+    }
+
+    useEffect(()=>{
+        if(!jobId && id && employeeId){
+            getATSActiveJobs();
+            getAllAssignedJobsForCandId();
+        }
+    },[!jobId, id, employeeId]);
+
+    useEffect(()=>{
+        if(availableActiveATSJobs){
+            const updatedActiveATSJobs = [...activeATSJobs];
+
+            updatedActiveATSJobs.map((job) => {
+                const isJobAssigned = assignedJobsForCand.some(
+                    (assignedJob) => assignedJob.jobId === job.id
+                );
+
+                if (isJobAssigned) {
+                    job.assigned = true;
+                }
+            });
+
+            setActiveATSJobsForCand(updatedActiveATSJobs);
+        }
+    },[availableActiveATSJobs]);
 
     const getSelectedJobs = async () => {
         try {
@@ -620,19 +791,19 @@ const TalentsAts = () => {
                                                                                     </div>
                                                                                 </div>
 
-                                                                                <div className="job--apply-area">
+                                                                                {(atsAccess === "Manager" && jobId) && <div className="job--apply-area">
                                                                                     {alreadySelect ?
                                                                                         <button className='pl--package-btn-sub buy-now m-t-40'
                                                                                             onClick={handleDeSelect}>
                                                                                             <div className='pl--package-btn buy-now candidate'>
-                                                                                                Deselect
+                                                                                                In-Share
                                                                                             </div>
                                                                                         </button>
                                                                                         :
                                                                                         <button className='pl--package-btn-sub buy-now m-t-40'
                                                                                             onClick={handleSelect}>
                                                                                             <div className='pl--package-btn buy-now candidate'>
-                                                                                            Select the Candidate
+                                                                                            Share the Candidate to ATS
                                                                                             </div>
                                                                                             <div className='pl--package-arrow-area buy-now candidate'>
                                                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 27 27" fill="none">
@@ -643,7 +814,7 @@ const TalentsAts = () => {
                                                                                             </div>
                                                                                         </button>
                                                                                     }
-                                                                                </div>
+                                                                                </div>}
 
                                                                                 {/* <div className="tal--pro-btn-area">
                                                             <div>
