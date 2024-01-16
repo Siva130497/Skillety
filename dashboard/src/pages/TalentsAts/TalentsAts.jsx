@@ -7,8 +7,6 @@ import Footer from '../../components/Footer';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import $ from 'jquery';
-import './Talents.css';
-import './Talents-responsive.css';
 import { useLocation, useParams } from 'react-router-dom';
 import axios from 'axios';
 import Swal from 'sweetalert2';
