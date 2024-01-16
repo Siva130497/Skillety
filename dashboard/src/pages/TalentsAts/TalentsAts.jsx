@@ -41,6 +41,8 @@ const TalentsAts = () => {
     const [activeATSJobsForCand, setActiveATSJobsForCand] = useState([]);
     const [availableActiveATSJobs, setAvailableActiveATSJobs] = useState(false);
     const [selectedJobs, setSelectedJobs] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [filteredData, setFilteredData] = useState([]);
 
     //for show success message for payment
     function showSuccessMessage(message) {
@@ -226,6 +228,22 @@ const TalentsAts = () => {
         }
     }
 
+    const handleInputChange = (e) => {
+        const term = e.target.value;
+        setSearchTerm(term);
+        filterData(term);
+    };
+
+    const filterData = (term) => {
+        const filteredArray = activeATSJobsForCand.filter((item) => {
+            const lowerCaseTerm = term.toLowerCase();
+            return Object.values(item)
+                .map((value) => (value || '').toString().toLowerCase())
+                .some((value) => value.includes(lowerCaseTerm));
+        });
+        setFilteredData(filteredArray);
+    };
+
     const handleCheckboxChange = (jobId) => {
         
         const isSelected = selectedJobs.includes(jobId);
@@ -327,7 +345,8 @@ const TalentsAts = () => {
                 }
             });
 
-            setActiveATSJobsForCand(updatedActiveATSJobs);
+            setActiveATSJobsForCand(updatedActiveATSJobs.reverse());
+            setFilteredData(updatedActiveATSJobs.reverse());
         }
     },[availableActiveATSJobs]);
 
