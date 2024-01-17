@@ -126,7 +126,7 @@ const AllJobs = () => {
     const getAllAssignedCandidateDetails = async () => {
         try {
 
-            const response = await axios.get(`http://localhost:5002/all-assigned-candidates`, {
+            const response = await axios.get(`https://skillety-n6r1.onrender.com/all-assigned-candidates`, {
                 headers: {
                     Authorization: `Bearer ${atsToken}`,
                     Accept: 'application/json'
@@ -195,6 +195,7 @@ const AllJobs = () => {
             fetchData();
             getAllClientDetails();
             getAllSelectedCandidateDetails();
+            getAllAssignedCandidateDetails();
         }
     }, [atsToken]);
 

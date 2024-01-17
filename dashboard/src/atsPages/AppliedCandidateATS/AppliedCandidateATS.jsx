@@ -29,6 +29,8 @@ const AppliedCandidateATS = () => {
 
     const navigate = useNavigate();
 
+    console.log(assignedCandidatesForJob)
+
     //for show success message for payment
     function showSuccessMessage(message) {
         Swal.fire({
@@ -493,9 +495,8 @@ const AppliedCandidateATS = () => {
             if (!result.error) {
                 console.log(result);
                 
-                let filterArray = selectedCandidatesForJob.length > 0
-                ? selectedCandidatesForJob
-                : assignedCandidatesForJob;
+                const filterArray = selectedCandidatesForJob || assignedCandidatesForJob
+                console.log(filterArray)
 
                 const filtered = result.filter(candidate =>
                     filterArray.some(anotherCandidate => anotherCandidate.candidateId === candidate.id)
@@ -513,7 +514,7 @@ const AppliedCandidateATS = () => {
     useEffect(() => {
         getAllCandidateDetail();
         getCandidateImg();
-    }, []);
+    }, [assignedCandidatesForJob, selectedCandidatesForJob]);
 
     useEffect(() => {
         if (id) {
