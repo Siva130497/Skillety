@@ -129,7 +129,7 @@ const AtsDashboard = () => {
 
             fetchData();
             getAllofflineClientDetails();
-            
+
         }
     }, [atsToken]);
 
@@ -226,13 +226,13 @@ const AtsDashboard = () => {
         }
     }
 
-    
-    useEffect(()=>{
-        if(employeeId){
+
+    useEffect(() => {
+        if (employeeId) {
             getATSActiveJobs();
             getATSInactiveJobs();
         }
-    },[employeeId])
+    }, [employeeId])
 
     return (
         <div>
@@ -413,32 +413,38 @@ const AtsDashboard = () => {
                                                             <th className='dash-table-data1 text-center heading'>Company Website</th>
                                                             {/* <th className='dash-table-data1 text-center heading'>View</th> */}
                                                         </tr>
-                                                        {offlineClientDetail.length>0 ? 
+                                                        {offlineClientDetail.length > 0 ?
                                                             offlineClientDetail.slice(0, 10).map(client => {
-                                                                const clientLogo  = (client?.clientLogo) ? `https://skillety-n6r1.onrender.com/offline_client_logo/${client?.clientLogo}` : "../assets/img/talents-images/avatar.jpg"
-                                                            return (
-                                                                <tr className='dash-table-row'>
-                                                                    <td className='dash-table-data1'>
-                                                                        {`${new Date(client.updatedAt).getDate().toString().padStart(2, '0')}/${(new Date(client.updatedAt).getMonth() + 1).toString().padStart(2, '0')}/${new Date(client.updatedAt).getFullYear() % 100}`}
-                                                                    </td>
-                                                                    <td className='dash-table-data1 text-center text-capitalized'>
-                                                                        <img src={clientLogo} className='dash-table-avatar-img' alt="" />
-                                                                        {client.companyName}
+                                                                const clientLogo = (client?.clientLogo) ? `https://skillety-n6r1.onrender.com/offline_client_logo/${client?.clientLogo}` : "../assets/img/talents-images/avatar.jpg"
+                                                                return (
+                                                                    <tr className='dash-table-row'>
+                                                                        <td className='dash-table-data1'>
+                                                                            {`${new Date(client.updatedAt).getDate().toString().padStart(2, '0')}/${(new Date(client.updatedAt).getMonth() + 1).toString().padStart(2, '0')}/${new Date(client.updatedAt).getFullYear() % 100}`}
                                                                         </td>
-                                                                    <td className='dash-table-data1 text-center text-capitalized'><a href={`${client?.companyWebsite}`}
+                                                                        <td className='dash-table-data1 text-center text-capitalized'>
+                                                                            <img src={clientLogo} className='dash-table-avatar-img' alt="" />
+                                                                            {client.companyName}
+                                                                        </td>
+                                                                        <td className='dash-table-data1 text-center text-capitalized'>
+                                                                            <a href={`${client?.companyWebsite}`}
                                                                                 className='view-det-sub-head link is-link'
                                                                                 target='_blank'>
                                                                                 {client?.companyWebsite}
-                                                                            </a></td>
-                                                                    {/* <td className='text-center dash-table-view-btn-area'>
+                                                                            </a>
+                                                                        </td>
+                                                                        {/* <td className='text-center dash-table-view-btn-area'>
                                                                         <button className='dash-table-view-btn client with-border pl-4 pr-4'
                                                                             data-toggle="modal">View
                                                                         </button>
                                                                     </td> */}
-                                                                </tr>
-                                                            )
-                                                            }) : 
-                                                            <>no more clients!</>
+                                                                    </tr>
+                                                                )
+                                                            }) :
+                                                            <tr>
+                                                                <td colSpan={3} className='text-secondary text-center'>
+                                                                    No more clients!
+                                                                </td>
+                                                            </tr>
                                                         }
                                                     </table>
                                                 </div>
@@ -466,20 +472,24 @@ const AtsDashboard = () => {
                                                             <th className='dash-table-data1 text-center heading'>Job Category</th>
                                                             <th className='dash-table-data1 text-center heading'>Status</th>
                                                         </tr>
-                                                        {atsJobDetail.length>0 ? 
+                                                        {atsJobDetail.length > 0 ?
                                                             atsJobDetail.slice(0, 10).map(job => {
-                                                            return (
-                                                                <tr className='dash-table-row'>
-                                                                    <td className='dash-table-data1'>
-                                                                        {`${new Date(job.updatedAt).getDate().toString().padStart(2, '0')}/${(new Date(job.updatedAt).getMonth() + 1).toString().padStart(2, '0')}/${new Date(job.updatedAt).getFullYear() % 100}`}
-                                                                    </td>
-                                                                    <td className='dash-table-data1 text-center text-capitalized'>{job.jobRole}</td>
-                                                                    <td className='dash-table-data1 text-center text-capitalized'>{job.jobCategory}</td>
-                                                                    <td className='dash-table-data1 text-center text-capitalized'>{job.active ? "Active" : "In-Active"}</td>
-                                                                </tr>
-                                                            )
+                                                                return (
+                                                                    <tr className='dash-table-row'>
+                                                                        <td className='dash-table-data1'>
+                                                                            {`${new Date(job.updatedAt).getDate().toString().padStart(2, '0')}/${(new Date(job.updatedAt).getMonth() + 1).toString().padStart(2, '0')}/${new Date(job.updatedAt).getFullYear() % 100}`}
+                                                                        </td>
+                                                                        <td className='dash-table-data1 text-center text-capitalized'>{job.jobRole}</td>
+                                                                        <td className='dash-table-data1 text-center text-capitalized'>{job.jobCategory}</td>
+                                                                        <td className='dash-table-data1 text-center text-capitalized'>{job.active ? "Active" : "In-Active"}</td>
+                                                                    </tr>
+                                                                )
                                                             }) :
-                                                            <p>no more job!</p>
+                                                            <tr>
+                                                                <td colSpan={4} className='text-secondary text-center'>
+                                                                    No more jobs!
+                                                                </td>
+                                                            </tr>
                                                         }
                                                     </table>
                                                 </div>

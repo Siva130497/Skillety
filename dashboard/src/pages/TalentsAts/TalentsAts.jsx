@@ -42,7 +42,7 @@ const TalentsAts = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [filteredData, setFilteredData] = useState([]);
     const [selectedJobViewDetail, setSelectedJobViewDetail] = useState();
-    
+
 
     const [x, setX] = useState([0, 10]);
 
@@ -221,7 +221,7 @@ const TalentsAts = () => {
             const result = res.data;
             if (!result.error) {
                 console.log(result);
-                if(result.message){
+                if (result.message) {
                     setAssignedJobsForCand([]);
                     setSelectedJobs([])
                 }else{
@@ -230,10 +230,10 @@ const TalentsAts = () => {
                     setSelectedJobs(jobIds)
                 }
             }
-            
+
         } catch (err) {
             console.log(err);
-            
+
         }
     }
 
@@ -324,12 +324,12 @@ const TalentsAts = () => {
         if (availableActiveATSJobs) {
             
             const updatedActiveATSJobs = [...activeATSJobs];
-            if(assignedJobsForCand.length>0){
+            if (assignedJobsForCand.length > 0) {
                 updatedActiveATSJobs.map((job) => {
                     const isJobAssigned = assignedJobsForCand.some(
                         (assignedJob) => assignedJob.jobId === job.id
                     );
-    
+
                     if (isJobAssigned) {
                         job.assigned = true;
                     }
@@ -347,7 +347,7 @@ const TalentsAts = () => {
                 setActiveATSJobsForCand(deAssignActiveATSJobs);
                 setFilteredData(deAssignActiveATSJobs);
             }
-            
+
         }
     }, [availableActiveATSJobs, assignedJobsForCand]);
 
@@ -696,8 +696,8 @@ const TalentsAts = () => {
                                                                     <div class="client-talent--profile-detail-tab-btn-area">
                                                                         <a href="#profileDetail" class="client-talent--profile-detail-tab-btn">Profile Detail</a>
                                                                         <a href="#attachedCV" class="client-talent--profile-detail-tab-btn">Attached CV</a>
-                                                                        {!jobId&&<a href="#assignJob" class="client-talent--profile-detail-tab-btn"
-                                                                        onClick={()=>setAvailableActiveATSJobs(true)}>Assign Job(s)</a>}
+                                                                        {!jobId && <a href="#assignJob" class="client-talent--profile-detail-tab-btn"
+                                                                            onClick={() => setAvailableActiveATSJobs(true)}>Assign Job(s)</a>}
                                                                     </div>
                                                                     <div class="client-talent--profile-detail-tab-content-area">
                                                                         <div id="profileDetail" class="client-talent--profile-detail-tab-content">
@@ -887,7 +887,7 @@ const TalentsAts = () => {
                                                                             }
                                                                         </div>
 
-                                                                        {!jobId&&<div id="assignJob" class="client-talent--profile-detail-tab-content">
+                                                                        {!jobId && <div id="assignJob" class="client-talent--profile-detail-tab-content">
                                                                             <div className="row">
                                                                                 <div className="col-12">
                                                                                     <div className="admin-lg-table-section pt-0">
@@ -900,9 +900,9 @@ const TalentsAts = () => {
                                                                                                     </div>
                                                                                                 </div>
                                                                                                 <div className="recruiter-search-input-area">
-                                                                                                    <input type="search" className='recruiter-search-input' placeholder='Search Job...' 
-                                                                                                    value={searchTerm}
-                                                                                                    onChange={handleInputChange}/>
+                                                                                                    <input type="search" className='recruiter-search-input' placeholder='Search Job...'
+                                                                                                        value={searchTerm}
+                                                                                                        onChange={handleInputChange} />
                                                                                                     <i className='bi bi-search search-icon'></i>
                                                                                                     <button className='recruiter-search-btn'>Search</button>
                                                                                                 </div>
@@ -910,7 +910,7 @@ const TalentsAts = () => {
                                                                                                     <div className="customize-table-layout-top">
                                                                                                         <div className='customize-table-layout-head'>Assign the job(s) to this candidate</div>
                                                                                                         <button className='customize-table-layout-btn ats' type='button'
-                                                                                                        onClick={handleAssigningJobsToCandidate}>
+                                                                                                            onClick={handleAssigningJobsToCandidate}>
                                                                                                             Assign
                                                                                                             <i class="bi bi-person-check-fill"></i>
                                                                                                         </button>
@@ -975,41 +975,41 @@ const TalentsAts = () => {
                                                                                                                     </div>
                                                                                                                 </td>
 
-                                                                                                            </tr>
-                                                                                                        )
-                                                                                                    }) : 
-                                                                                                        
-                                                                                                    <div className="no-data-created-area">
-                                                                                                        <div className='no-data-created'>
-                                                                                                            <img src="../assets/img/no-data/no-data-img.png" className='no-data-img' alt="" />
-                                                                                                            <div className='no-data-text'>No Jobs Found..!</div>
+                                                                                                                </tr>
+                                                                                                            )
+                                                                                                        }) :
+
+                                                                                                        <div className="no-data-created-area">
+                                                                                                            <div className='no-data-created'>
+                                                                                                                <img src="../assets/img/no-data/no-data-img.png" className='no-data-img' alt="" />
+                                                                                                                <div className='no-data-text'>No Jobs Found..!</div>
+                                                                                                            </div>
                                                                                                         </div>
-                                                                                                    </div>
-                                                                                       
+
                                                                                                     }
-                                                                                                    
+
                                                                                                 </table>
                                                                                             </div>
 
-                                                                                            
+
 
                                                                                         </div>
 
                                                                                         {/* for pagination */}
                                                                                         <div className="table-pagination-area pt-3">
-                                                <div className="pagination-btn-area">
-                                                    {x[0] > 0 && <button className='pag-prev-btn' onClick={() => setX([x[0] - 10, x[1] - 10])}>
-                                                        <i class="bi bi-chevron-left"></i>
-                                                    </button>}
-                                                    <div className='pag-page'>
-                                                        <span className='current-page'>{Math.ceil(x[0] / 10) + 1}</span>&nbsp;/&nbsp;
-                                                        <span className='total-page'>{Math.ceil(filteredData.length / 10)}</span>
-                                                    </div>
-                                                    {(filteredData.slice(x[0], x[1]).length === 10 && filteredData.length > x[1]) && <button className='pag-next-btn' onClick={() => setX([x[0] + 10, x[1] + 10])}>
-                                                        <i class="bi bi-chevron-right"></i>
-                                                    </button>}
-                                                </div>
-                                            </div>
+                                                                                            <div className="pagination-btn-area">
+                                                                                                {x[0] > 0 && <button className='pag-prev-btn' onClick={() => setX([x[0] - 10, x[1] - 10])}>
+                                                                                                    <i class="bi bi-chevron-left"></i>
+                                                                                                </button>}
+                                                                                                <div className='pag-page'>
+                                                                                                    <span className='current-page'>{Math.ceil(x[0] / 10) + 1}</span>&nbsp;/&nbsp;
+                                                                                                    <span className='total-page'>{Math.ceil(filteredData.length / 10)}</span>
+                                                                                                </div>
+                                                                                                {(filteredData.slice(x[0], x[1]).length === 10 && filteredData.length > x[1]) && <button className='pag-next-btn' onClick={() => setX([x[0] + 10, x[1] + 10])}>
+                                                                                                    <i class="bi bi-chevron-right"></i>
+                                                                                                </button>}
+                                                                                            </div>
+                                                                                        </div>
                                                                                         {/*  */}
 
                                                                                     </div>
@@ -1279,12 +1279,12 @@ const TalentsAts = () => {
                                                 </div>
                                                 <div className="col-12 col-sm-7 col-md-7 col-lg-8">
                                                     <div className="cand-skills-area">
-                                                        
+
                                                         {selectedJobViewDetail?.skills.map(skill => {
-                                                    return (
-                                                        <span className='cand-skill text-capitalized'>{skill}</span>
-                                                    )
-                                                })}
+                                                            return (
+                                                                <span className='cand-skill text-capitalized'>{skill}</span>
+                                                            )
+                                                        })}
                                                     </div>
                                                 </div>
                                             </div>
@@ -1295,8 +1295,8 @@ const TalentsAts = () => {
                                                 </div>
                                                 <div className="col-12 col-sm-7 col-md-7 col-lg-8">
                                                     <div className="view-det-sub-head text-capitalized">
-                                                    <span>{selectedJobViewDetail?.minExperience} - {selectedJobViewDetail?.maxExperience}</span>
-                                                &nbsp;years&nbsp;
+                                                        <span>{selectedJobViewDetail?.minExperience} - {selectedJobViewDetail?.maxExperience}</span>
+                                                        &nbsp;years&nbsp;
                                                     </div>
                                                 </div>
                                             </div>
@@ -1352,11 +1352,11 @@ const TalentsAts = () => {
                                                 </div>
                                                 <div className="col-12 col-sm-7 col-md-7 col-lg-8">
                                                     <div className="cand-skills-area">
-                                                    {selectedJobViewDetail?.location.map(location => {
-                                                    return (
-                                                        <span className='cand-skill text-capitalized'>{location}</span>
-                                                    )
-                                                })}
+                                                        {selectedJobViewDetail?.location.map(location => {
+                                                            return (
+                                                                <span className='cand-skill text-capitalized'>{location}</span>
+                                                            )
+                                                        })}
                                                     </div>
                                                 </div>
                                             </div>
