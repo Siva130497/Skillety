@@ -1,0 +1,11 @@
+@media (max-width:991.97px) {
+    .dash-chart-filter-area {
+        width: 22%;
+    }
+}
+
+@media (max-width:500px) {
+    .dash-chart-filter-area {
+        width: 40%;
+    }
+}

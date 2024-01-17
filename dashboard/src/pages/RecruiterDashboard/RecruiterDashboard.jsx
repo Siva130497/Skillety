@@ -28,68 +28,109 @@ import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 
 
-ChartJS.register(
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    LineElement,
-    Title,
-    Tooltip,
-    Filler,
-    Legend
-);
-
-const labels = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-
-const data = {
-    labels,
-    datasets: [
-        {
-            fill: true,
-            label: 'Clients',
-            data: [12.5, 12.5, 2.5, 5, 0, 2.5, 2.5, 10],
-            borderColor: '#5C3B2E',
-            backgroundColor: '#714F36',
-        },
-        {
-            fill: true,
-            label: 'Candidates',
-            data: [7.5, 8, 5, 7.5, 12.5, 5, 6, 7.5],
-            borderColor: '#714F36',
-            backgroundColor: '#F9C833',
-        },
-    ],
-};
-
-const yAxesTicks = [0, 5, 10, 20];
-
-const options = {
-    responsive: true,
-    scales: {
-        y: {
-            suggestedMin: yAxesTicks[0],
-            suggestedMax: yAxesTicks[yAxesTicks.length - 1],
-            ticks: {
-                stepSize: 5,
-            },
-        },
-    },
-    plugins: {
-        legend: {
-            position: 'top',
-        },
-        title: {
-            display: true,
-        },
-    },
-
-};
-
 const RecruiterDashboard = () => {
     const { token } = useParams();
     const [clientDetail, setClientDetail] = useState([]);
     const [candidateDetail, setCandidateDetail] = useState([]);
     const [loading, setLoading] = useState(true);
+
+    const [filter, setFilter] = useState('Weekly');
+
+    const handleFilterChange = (event) => {
+        setFilter(event.target.value);
+    };
+
+    ChartJS.register(
+        CategoryScale,
+        LinearScale,
+        PointElement,
+        LineElement,
+        Title,
+        Tooltip,
+        Filler,
+        Legend
+    );
+
+    const getLabels = () => {
+        switch (filter) {
+            case 'Weekly':
+                return ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+            case 'Monthly':
+                return ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            case 'Yearly':
+                return ['2020', '2021', '2022', '2023', '2024', '2025', '2026', '2027', '2028', '2029', '2030'];
+            default:
+                return [];
+        }
+    };
+
+    const getData = () => {
+        switch (filter) {
+            case 'Weekly':
+                return [
+                    [12.5, 12.5, 2.5, 5, 0, 2.5, 2.5, 10],
+                    [7.5, 8, 5, 7.5, 12.5, 5, 6, 7.5],
+                ];
+            case 'Monthly':
+                return [
+                    [20, 25, 30, 22, 18, 25, 28, 30, 20, 15, 10, 18],
+                    [15, 18, 20, 22, 30, 25, 28, 30, 22, 18, 15, 20],
+                ];
+            case 'Yearly':
+                return [
+                    [100, 120, 80, 90, 110, 130, 140, 160, 180, 200, 180, 150],
+                    [80, 100, 70, 90, 120, 150, 160, 180, 200, 220, 200, 170],
+                ];
+            default:
+                return [];
+        }
+    };
+
+    const data = {
+        labels: getLabels(),
+        datasets: [
+            {
+                fill: true,
+                label: 'Clients',
+                data: getData()[0],
+                borderColor: '#5C3B2E',
+                backgroundColor: '#714F36',
+            },
+            {
+                fill: true,
+                label: 'Candidates',
+                data: getData()[1],
+                borderColor: '#714F36',
+                backgroundColor: '#F9C833',
+            },
+        ],
+    };
+
+    const yAxesTicks = [0, 5, 10, 20];
+
+    const options = {
+        responsive: true,
+        scales: {
+            y: {
+                suggestedMin: yAxesTicks[0],
+                suggestedMax: yAxesTicks[yAxesTicks.length - 1],
+                ticks: {
+                    stepSize: 5,
+                },
+            },
+        },
+        plugins: {
+            legend: {
+                position: 'top',
+            },
+            title: {
+                display: true,
+            },
+        },
+
+    };
+
+
 
     useEffect(() => {
         $(document).ready(function () {
@@ -318,11 +359,16 @@ const RecruiterDashboard = () => {
                                             <div className="dash-chart-title">Overview</div>
                                             <div className="dash-chart-filter-area">
                                                 <form action="">
-                                                    <select name="" className='dash-chart-filter-input' id="">
-                                                        <option value="Monthly" selected>Monthly</option>
-                                                        <option value="Weekly">Weekly</option>
-                                                        <option value="Yearly">Yearly</option>
-                                                    </select>
+                                                    <div className='dash-graph-selection'>
+                                                        <i class="bi bi-chevron-down toggle-icon"></i>
+                                                        <select className='dash-chart-filter-input'
+                                                            value={filter}
+                                                            onChange={handleFilterChange}>
+                                                            <option value="Weekly" selected>Weekly</option>
+                                                            <option value="Monthly">Monthly</option>
+                                                            <option value="Yearly">Yearly</option>
+                                                        </select>
+                                                    </div>
                                                 </form>
                                             </div>
                                         </div>

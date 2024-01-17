@@ -126,3 +126,23 @@
     padding: 25px;
     margin-top: 23px;
 }
+
+.dash-graph-selection {
+    position: relative;
+}
+
+.dash-graph-selection .toggle-icon {
+    color: #714F36 !important;
+    position: absolute;
+    right: 10%;
+    z-index: 2;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+.dash-chart-filter-input {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
