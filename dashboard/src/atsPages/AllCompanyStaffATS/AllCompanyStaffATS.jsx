@@ -14,9 +14,9 @@ import 'react-loading-skeleton/dist/skeleton.css'
 
 const AllCompanyStaffATS = () => {
     const [atsToken, setatsToken] = useState("");
-    const [allRecruiters, setAllRecruiters] = useState([]);
-    const [selectedRecruiterViewDetail, setSelectedRecruiterViewDetail] = useState();
-    const [loading, setLoading] = useState(true);
+    const [allATSstaffs, setallATSstaffs] = useState([]);
+    const [selectedATSstaffViewDetail, setselectedATSstaffViewDetail] = useState();
+    const [loading, setLoading] = useState(false);
     const initialCredentials = {
         name: "",
         email: "",
@@ -27,6 +27,12 @@ const AllCompanyStaffATS = () => {
     const [credentials, setcredentials] = useState(initialCredentials);
     const [showPassword, setShowPassword] = useState(false);
 
+
+    const [selectedRole, setSelectedRole] = useState('Super-Admin');
+
+    const handleRoleChange = (event) => {
+        setSelectedRole(event.target.value);
+    };
 
 
     const [x, setX] = useState([0, 10]);
@@ -63,10 +69,10 @@ const AllCompanyStaffATS = () => {
         });
     }
 
-    const getAllRecruiters = async () => {
+    const getallATSstaffs = async () => {
         try {
             setLoading(true);
-            const res = await axios.get(`https://skillety-n6r1.onrender.com/all-recruiters`, {
+            const res = await axios.get(`http://localhost:5002/all-ats-staffs`, {
                 headers: {
                     Authorization: `Bearer ${atsToken}`,
                     Accept: 'application/json'
@@ -75,7 +81,7 @@ const AllCompanyStaffATS = () => {
             const result = res.data;
             if (!result.error) {
                 console.log(result);
-                setAllRecruiters(result);
+                setallATSstaffs(result);
             } else {
                 console.log(result);
             }
@@ -90,14 +96,14 @@ const AllCompanyStaffATS = () => {
 
     useEffect(() => {
         if (atsToken) {
-            getAllRecruiters();
+            getallATSstaffs();
         }
 
     }, [atsToken]);
 
     const handleViewRecruiterDetail = (id) => {
-        const selectedRecruiter = allRecruiters.find(recruiter => recruiter.id === id);
-        setSelectedRecruiterViewDetail(selectedRecruiter);
+        const selectedATSstaff = allATSstaffs.find(staff => staff.id === id);
+        setselectedATSstaffViewDetail(selectedATSstaff);
     }
 
     const handleRemove = (id) => {
@@ -121,7 +127,7 @@ const AllCompanyStaffATS = () => {
                     .then(res => {
                         console.log(res.data)
                         showSuccessMessage("recruiter successfully removed from company!");
-                        getAllRecruiters();
+                        getallATSstaffs();
                     })
                     .catch(err => {
                         console.log(err)
@@ -133,7 +139,7 @@ const AllCompanyStaffATS = () => {
 
     const createRecruiter = async (userData) => {
         try {
-            const response = await axios.post('https://skillety-n6r1.onrender.com/recruiter-create', userData, {
+            const response = await axios.post('http://localhost:5002/recruiter-create', userData, {
                 headers: {
                     Authorization: `Bearer ${atsToken}`,
                     Accept: 'application/json'
@@ -144,9 +150,9 @@ const AllCompanyStaffATS = () => {
 
             if (!result.error) {
                 console.log(result);
-                showSuccessMessage("New company staff has been created successfully!")
+                showSuccessMessage("New company staff for ATS has been created successfully!")
                 setcredentials(initialCredentials);
-                getAllRecruiters();
+                getallATSstaffs();
             } else {
                 console.log(result);
             }
@@ -167,7 +173,7 @@ const AllCompanyStaffATS = () => {
     }
 
     const handleGeneratePassword = () => {
-        axios.get('https://skillety-n6r1.onrender.com/random-password')
+        axios.get('http://localhost:5002/random-password')
             .then(response => {
                 setcredentials({ ...credentials, password: response.data });
             })
@@ -182,7 +188,7 @@ const AllCompanyStaffATS = () => {
         const updatedCredentials = {
             ...credentials,
             id,
-            role:"Recruiter"
+            role: selectedRole
         };
         console.log(updatedCredentials);
         createRecruiter(updatedCredentials);
@@ -294,7 +300,7 @@ const AllCompanyStaffATS = () => {
                                                         </div>
                                                         <div className="man-app-sub-title">
                                                             Total Staffs :&nbsp;
-                                                            <span>{allRecruiters.length}</span>
+                                                            <span>{allATSstaffs.length}</span>
                                                         </div>
                                                     </div>
                                                     <div className="create-btn-area">
@@ -309,7 +315,7 @@ const AllCompanyStaffATS = () => {
                                                         </button>
                                                     </div>
                                                 </div>
-                                                {allRecruiters.length === 0 ?
+                                                {allATSstaffs.length === 0 ?
                                                     <div className="no-data-created-area">
                                                         <div className='no-data-created'>
                                                             <img src="../assets/img/no-data/no-data-img.png" className='no-data-img' alt="" />
@@ -323,12 +329,13 @@ const AllCompanyStaffATS = () => {
                                                                 <th className='dash-table-head'>No.</th>
                                                                 <th className='dash-table-head'>Full Name</th>
                                                                 <th className='dash-table-head'>Email ID</th>
+                                                                <th className='dash-table-head'>Role</th>
                                                                 <th className='dash-table-head'>Staff Type</th>
                                                                 <th className='dash-table-head text-center'>Action</th>
                                                             </tr>
 
                                                             {/* table data */}
-                                                            {allRecruiters.slice(x[0], x[1]).map((recruiter, index) => {
+                                                            {allATSstaffs.slice(x[0], x[1]).map((recruiter, index) => {
                                                                 return (
                                                                     <tr className='dash-table-row client' key={recruiter.id}>
                                                                         <td className='dash-table-data1'>{index + 1}.</td>
@@ -341,7 +348,9 @@ const AllCompanyStaffATS = () => {
                                                                                 {recruiter.email}
                                                                             </a>
                                                                         </td>
-
+                                                                        <td className='dash-table-data1'>
+                                                                            {recruiter.role}
+                                                                        </td>
                                                                         <td className='dash-table-data1'>
                                                                             {recruiter.companyStaff}
                                                                         </td>
@@ -385,9 +394,9 @@ const AllCompanyStaffATS = () => {
                                                     </button>}
                                                     <div className='pag-page'>
                                                         <span className='current-page'>{Math.ceil(x[0] / 10) + 1}</span>&nbsp;/&nbsp;
-                                                        <span className='total-page'>{Math.ceil(allRecruiters.length / 10)}</span>
+                                                        <span className='total-page'>{Math.ceil(allATSstaffs.length / 10)}</span>
                                                     </div>
-                                                    {(allRecruiters.slice(x[0], x[1]).length === 10 && allRecruiters.length > x[1]) && <button className='pag-next-btn' onClick={() => setX([x[0] + 10, x[1] + 10])}>
+                                                    {(allATSstaffs.slice(x[0], x[1]).length === 10 && allATSstaffs.length > x[1]) && <button className='pag-next-btn' onClick={() => setX([x[0] + 10, x[1] + 10])}>
                                                         <i class="bi bi-chevron-right"></i>
                                                     </button>}
                                                 </div>
@@ -420,7 +429,7 @@ const AllCompanyStaffATS = () => {
                                             <div className="view-det-head">Full Name</div>
                                         </div>
                                         <div className="col-12 col-sm-6">
-                                            <div className="view-det-sub-head text-capitalized">{selectedRecruiterViewDetail?.name}</div>
+                                            <div className="view-det-sub-head text-capitalized">{selectedATSstaffViewDetail?.name}</div>
                                         </div>
                                     </div>
                                     <hr />
@@ -430,9 +439,9 @@ const AllCompanyStaffATS = () => {
                                         </div>
                                         <div className="col-12 col-sm-6">
                                             <div className="view-det-sub-head">
-                                                <a href={`tel:${selectedRecruiterViewDetail?.phone}`}
+                                                <a href={`tel:${selectedATSstaffViewDetail?.phone}`}
                                                     className='view-det-sub-head link is-link'>
-                                                    {selectedRecruiterViewDetail?.phone}
+                                                    {selectedATSstaffViewDetail?.phone}
                                                 </a>
                                             </div>
                                         </div>
@@ -444,11 +453,20 @@ const AllCompanyStaffATS = () => {
                                         </div>
                                         <div className="col-12 col-sm-6">
                                             <div className="view-det-sub-head">
-                                                <a href={`mailto:${selectedRecruiterViewDetail?.email}`}
+                                                <a href={`mailto:${selectedATSstaffViewDetail?.email}`}
                                                     className='view-det-sub-head link is-link'>
-                                                    {selectedRecruiterViewDetail?.email}
+                                                    {selectedATSstaffViewDetail?.email}
                                                 </a>
                                             </div>
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div className="row">
+                                        <div className="col-12 col-sm-6">
+                                            <div className="view-det-head">Role</div>
+                                        </div>
+                                        <div className="col-12 col-sm-6">
+                                            <div className="view-det-sub-head text-capitalized">{selectedATSstaffViewDetail?.role}</div>
                                         </div>
                                     </div>
                                     <hr />
@@ -457,7 +475,7 @@ const AllCompanyStaffATS = () => {
                                             <div className="view-det-head">Staff Type</div>
                                         </div>
                                         <div className="col-12 col-sm-6">
-                                            <div className="view-det-sub-head text-capitalized">{selectedRecruiterViewDetail?.companyStaff}</div>
+                                            <div className="view-det-sub-head text-capitalized">{selectedATSstaffViewDetail?.companyStaff}</div>
                                         </div>
                                     </div>
                                     {/* <hr />
@@ -514,7 +532,7 @@ const AllCompanyStaffATS = () => {
                                 <div className="modal-body">
                                     <div className="card p-4 recruiter-view-card">
                                         <div className="row">
-                                            <div className="col-12 col-sm-12 col-md-12 col-lg-6">
+                                            <div className="col-12 col-sm-12 col-md-12 col-lg-12">
                                                 <div className="dash-form-group">
                                                     <label htmlFor="name" className='dash-form-label'>Staff Name<span className='form-required'>*</span></label>
                                                     <input
@@ -562,28 +580,103 @@ const AllCompanyStaffATS = () => {
                                                     />
                                                 </div>
                                             </div>
-                                            <div className="col-12 col-sm-12 col-md-12 col-lg-6">
-                                                <div className="dash-form-group">
-                                                    <label htmlFor="companyStaff" className='dash-form-label'>Staff Type<span className='form-required'>*</span></label>
-                                                    <i class="bi bi-chevron-down toggle-icon"></i>
-                                                    <select
-                                                        id="companyStaff"
-                                                        name="companyStaff"
-                                                        value={credentials.companyStaff}
-                                                        onChange={handleInputChange}
-                                                        className='form-control dash-form-input select-input'
-                                                        required>
-                                                        <option value="" disabled selected>-- Select type of company staff --</option>
-                                                        <option value="Recruiter">Recruiter</option>
-                                                        <option value="HR">HR</option>
-                                                        <option value="Operator">Operator</option>
-                                                        <option value="Finance">Finance</option>
-                                                        <option value="Customer support executive">Customer support executive</option>
-                                                        <option value="digitalmarketing team">digitalmarketing team</option>
-                                                        <option value="RMG">RMG</option>
-                                                    </select>
+
+                                            <div className="col-12">
+                                                <div className="select-role-area">
+                                                    <div className="row">
+                                                        <div className="col-12 col-sm-12 col-md-12 col-lg-6">
+                                                            <label htmlFor="staffRole" className='dash-form-label'>Select Role<span className='form-required'>*</span></label>
+                                                            <div className="role-radio-select-area">
+                                                                <label className="role-radio-button">
+                                                                    <input
+                                                                        type="radio"
+                                                                        name="role-radio-option"
+                                                                        id='SuperAdmin'
+                                                                        value="Super-Admin"
+                                                                        checked={selectedRole === 'Super-Admin'}
+                                                                        onChange={handleRoleChange}
+                                                                    />
+                                                                    <span className="role-radio"></span>
+                                                                    Super Admin
+                                                                </label>
+
+                                                                <label className="role-radio-button">
+                                                                    <input
+                                                                        type="radio"
+                                                                        name="role-radio-option"
+                                                                        id='Manager'
+                                                                        value="Manager"
+                                                                        checked={selectedRole === 'Manager'}
+                                                                        onChange={handleRoleChange}
+                                                                    />
+                                                                    <span className="role-radio"></span>
+                                                                    Manager
+                                                                </label>
+
+                                                                <label className="role-radio-button">
+                                                                    <input
+                                                                        type="radio"
+                                                                        name="role-radio-option"
+                                                                        id='Recruiter'
+                                                                        value="Recruiter-ATS"
+                                                                        checked={selectedRole === 'Recruiter-ATS'}
+                                                                        onChange={handleRoleChange}
+                                                                    />
+                                                                    <span className="role-radio"></span>
+                                                                    Recruiter
+                                                                </label>
+
+                                                            </div>
+                                                        </div>
+                                                        <div className="col-12 col-sm-12 col-md-12 col-lg-6">
+                                                            <div className="dash-form-group mb-auto mb-md-2">
+                                                                <label htmlFor="companyStaff" className='dash-form-label'>Staff Type<span className='form-required'>*</span></label>
+                                                                <i class="bi bi-chevron-down toggle-icon"></i>
+                                                                <select
+                                                                    id="companyStaff"
+                                                                    name="companyStaff"
+                                                                    value={credentials.companyStaff}
+                                                                    onChange={handleInputChange}
+                                                                    className='form-control dash-form-input select-input'
+                                                                    required>
+                                                                    <option value="" disabled selected>-- Select type of company staff --</option>
+
+                                                                    {selectedRole === 'Super-Admin' && (
+                                                                        <>
+                                                                            <option value="CEO">CEO (Chief Executive Officer)</option>
+                                                                            <option value="COO">COO (Chief Operating Officer)</option>
+                                                                            <option value="HR">HR (Human Resources)</option>
+                                                                        </>
+                                                                    )}
+
+                                                                    {selectedRole === 'Manager' && (
+                                                                        <>
+                                                                            <option value="VP">VP (Vice President)</option>
+                                                                            <option value="AM">AM (Account Manager)</option>
+                                                                            <option value="TL">TL (Team Leader)</option>
+                                                                        </>
+                                                                    )}
+
+                                                                    {selectedRole === 'Recruiter-ATS' && (
+                                                                        <>
+                                                                            <option value="SeniorRecruiter">Senior Recruiter</option>
+                                                                            <option value="Recruiter">Recruiter</option>
+                                                                        </>
+                                                                    )}
+
+
+                                                                    {/* <option value="Operator">Operator</option>
+                                                                    <option value="Finance">Finance</option>
+                                                                    <option value="Customer support executive">Customer support executive</option>
+                                                                    <option value="digitalmarketing team">digitalmarketing team</option>
+                                                                    <option value="RMG">RMG</option> */}
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
+
                                             <div className="col-12 col-sm-12 col-md-12 col-lg-12">
                                                 <div className="dash-form-group">
                                                     <label htmlFor="password" className='dash-form-label'>Password<span className='form-required'>*</span></label>
