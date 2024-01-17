@@ -4333,7 +4333,7 @@ const getAllAssignedJobsForCandId = async (req, res) => {
       return res.status(200).json(assignedJobs);
     }
 
-      return res.status(404).json({ message: 'no assigned jobs for the candidate' });
+      return res.status(200).json({ message: 'no assigned jobs for the candidate' });
 
   } catch (err) {
     res.status(500).json({ error: err.message });
