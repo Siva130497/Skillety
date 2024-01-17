@@ -184,6 +184,7 @@ const {
    getAllAssignedJobsForCandId,
    deAssigningJobsForCand,
    getAllAssignedCandidateDetails,
+   getAllATSStaff,
    
 
    //ATS...............
@@ -673,6 +674,9 @@ router.delete('/deassign-candidate/:candidateId/:jobId', employeeAuth, deAssigni
 
 //end point to find all assigned candidate details
 router.get("/all-assigned-candidates", employeeAuth, getAllAssignedCandidateDetails);
+
+//endpoint to get all ats staff
+router.get("/all-ats-staffs", employeeAuth, getAllATSStaff);
 
 //ATS..................
 

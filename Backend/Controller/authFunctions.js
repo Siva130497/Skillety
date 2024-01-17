@@ -1345,7 +1345,7 @@ const updatingApplicationStatusForJob = async (req, res) => {
 
       if (existingApplicationStatus) {
        
-        await ApplicationStatus.findOneAndUpdate(
+        await applicationStatus.findOneAndUpdate(
           { jobId: jobId, candidateId: candidateId },
           { $set: { status: status } },
           { new: true } 
@@ -1562,7 +1562,9 @@ const getAllRecruiters = async(req, res) => {
 
 const getAllEmployee = async(req, res) => {
   try{
-    const allEmployees = await employee.find();
+    const allEmployees = await employee.find({
+      role: { $in: ["Recruiter", "Admin"] }
+    });
     
     res.status(200).json(allEmployees); 
   }catch(err) {
@@ -4393,12 +4395,31 @@ const getAllAssignedCandidateDetails = async (req, res) => {
   }
 }
 
+/* get all ats staff */
+const getAllATSStaff = async (req, res) => {
+  try {
+    
+    const allATSStaff = await employee.find({
+      role: { $in: ["Super-Admin", "Manager", "Recruiter-ATS"] }
+    });
+
+    if (allATSStaff.length > 0) {
+      return res.status(200).json(allATSStaff);
+    }
+
+    return res.status(200).json({ message: 'No employees found with the specified roles' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+}
+
+
 
 /*ATS................... */
 
 /* random password generate */
 const generateRandomPassword = (req, res) => {
-  const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=[]{}|;:,.<>?';
+  const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
   let password = '';
   for (let i = 0; i < 12; i++) {
     const randomIndex = Math.floor(Math.random() * charset.length);
@@ -4731,6 +4752,7 @@ module.exports = {
    getAllAssignedJobsForCandId,
    deAssigningJobsForCand,
    getAllAssignedCandidateDetails,
+   getAllATSStaff,
    
 
   //ATS...........
