@@ -27,32 +27,34 @@ const ATSSideBar = () => {
                 $('#all_offline_clients').addClass('active');
             } else if (path === '/all-ats-jobs') {
                 $('#all_ats_jobs').addClass('active');
+            } else if (path === '/all-offline-candidates') {
+                $('#all_offline_candidates').addClass('active');
             }
             feather.replace();
         });
 
     }, [atsToken, role]);
 
-    const getAnIndividualAtsStaff = async() => {
-        try{
+    const getAnIndividualAtsStaff = async () => {
+        try {
             const res = await axios.get(`https://skillety-n6r1.onrender.com/ats-staff/${employeeId}`, {
-              headers: {
-                  Authorization: `Bearer ${atsToken}`,
-                  Accept: 'application/json'
-              }
+                headers: {
+                    Authorization: `Bearer ${atsToken}`,
+                    Accept: 'application/json'
+                }
             });
             const result = res.data;
             if (!result.error) {
-              console.log(result);
-            //   setRole(result.atsStaff);
-              
+                console.log(result);
+                //   setRole(result.atsStaff);
+
             } else {
-              console.log(result);
+                console.log(result);
             }
-        }catch(err){
-          console.log(err);
+        } catch (err) {
+            console.log(err);
         }
-      }
+    }
 
     useEffect(() => {
         if (atsToken) {
@@ -71,11 +73,11 @@ const ATSSideBar = () => {
         }
     }, [atsToken]);
 
-    useEffect(()=>{
-        if(employeeId){
+    useEffect(() => {
+        if (employeeId) {
             getAnIndividualAtsStaff();
         }
-    },[employeeId])
+    }, [employeeId])
 
     return (
         <div className="main-sidebar recruiter client sidebar-style-2">
@@ -101,6 +103,9 @@ const ATSSideBar = () => {
                     </li>
                     <li className="dropdown" id='all_ats_jobs'>
                         <a href="/all-ats-jobs" className="nav-link"><i data-feather="mail"></i><span>All Jobs</span></a>
+                    </li>
+                    <li className="dropdown" id='all_offline_candidates'>
+                        <a href="/all-offline-candidates" className="nav-link"><i data-feather="users"></i><span>All Candidates</span></a>
                     </li>
                 </ul>
 

@@ -224,9 +224,9 @@ const TalentsAts = () => {
                 if (result.message) {
                     setAssignedJobsForCand([]);
                     setSelectedJobs([])
-                }else{
+                } else {
                     setAssignedJobsForCand(result);
-                    const jobIds = result.map(job=>job.jobId)
+                    const jobIds = result.map(job => job.jobId)
                     setSelectedJobs(jobIds)
                 }
             }
@@ -270,12 +270,12 @@ const TalentsAts = () => {
     };
 
     const handleAssigningJobsToCandidate = () => {
-        if(selectedJobs.length>0){
+        if (selectedJobs.length > 0) {
             const assigningDetail = {
                 candidateId: id,
                 jobIdArray: selectedJobs
             }
-    
+
             axios.post("https://skillety-n6r1.onrender.com/create-assign-candidate-job", assigningDetail, {
                 headers: {
                     Authorization: `Bearer ${staffToken}`,
@@ -284,18 +284,18 @@ const TalentsAts = () => {
             })
                 .then((res) => {
                     console.log(res.data)
-                    showSuccessMessage("Selected Jobs Assigned to Candidate");
+                    showSuccessMessage("Selected job(s) assigned to the candidate.");
                     getAllAssignedJobsForCandId();
                 })
                 .catch((err) => {
                     console.log(err);
                 })
         }
-        
+
     }
 
     const deAssigning = (job_id) => {
-        if(selectedJobs.length>0){
+        if (selectedJobs.length > 0) {
             axios.delete(`https://skillety-n6r1.onrender.com/deassign-candidate/${id}/${job_id}`, {
                 headers: {
                     Authorization: `Bearer ${staffToken}`,
@@ -304,7 +304,7 @@ const TalentsAts = () => {
             })
                 .then((res) => {
                     console.log(res.data);
-                    showSuccessMessage("Candidate de-assign from this job")
+                    showSuccessMessage("The candidate was dismissed from this job.")
                     getAllAssignedJobsForCandId();
                 })
                 .catch((err) => {
@@ -322,7 +322,7 @@ const TalentsAts = () => {
 
     useEffect(() => {
         if (availableActiveATSJobs) {
-            
+
             const updatedActiveATSJobs = [...activeATSJobs];
             if (assignedJobsForCand.length > 0) {
                 updatedActiveATSJobs.map((job) => {
@@ -334,15 +334,15 @@ const TalentsAts = () => {
                         job.assigned = true;
                     }
                 });
-                
+
                 setActiveATSJobsForCand(updatedActiveATSJobs.reverse());
                 setFilteredData(updatedActiveATSJobs.reverse());
-            }else{
-            
+            } else {
+
                 const deAssignActiveATSJobs = activeATSJobs.map(job => ({
                     ...job,
                     assigned: false
-                  }));
+                }));
                 console.log(deAssignActiveATSJobs);
                 setActiveATSJobsForCand(deAssignActiveATSJobs);
                 setFilteredData(deAssignActiveATSJobs);
@@ -887,136 +887,141 @@ const TalentsAts = () => {
                                                                             }
                                                                         </div>
 
-                                                                        {!jobId && <div id="assignJob" class="client-talent--profile-detail-tab-content">
-                                                                            <div className="row">
-                                                                                <div className="col-12">
-                                                                                    <div className="admin-lg-table-section pt-0">
-                                                                                        <div className='admin-lg-table-area man-app'>
-
-                                                                                            <div className='man-app-title-area candidate'>
-                                                                                                <div>
-                                                                                                    <div className="man-app-title ats">
-                                                                                                        Assign this candidate to the job(s).
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                                <div className="recruiter-search-input-area">
-                                                                                                    <input type="search" className='recruiter-search-input' placeholder='Search Job...'
-                                                                                                        value={searchTerm}
-                                                                                                        onChange={handleInputChange} />
-                                                                                                    <i className='bi bi-search search-icon'></i>
-                                                                                                    <button className='recruiter-search-btn'>Search</button>
-                                                                                                </div>
-                                                                                                <div className='customize-table-layout-area ats'>
-                                                                                                    <div className="customize-table-layout-top">
-                                                                                                        <div className='customize-table-layout-head'>Assign the job(s) to this candidate</div>
-                                                                                                        <button className='customize-table-layout-btn ats' type='button'
-                                                                                                            onClick={handleAssigningJobsToCandidate}>
-                                                                                                            Assign
-                                                                                                            <i class="bi bi-person-check-fill"></i>
-                                                                                                        </button>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                            </div>
-
-                                                                                            <div className="table-responsive table-scroll-area">
-                                                                                                <table className="table table-striped table-hover admin-lg-table">
-                                                                                                    <tr className='dash-table-row man-app'>
-                                                                                                        <th className='dash-table-head'>No.</th>
-                                                                                                        <th className='dash-table-head text-center'>Select</th>
-                                                                                                        <th className='dash-table-head'>Job Title</th>
-                                                                                                        <th className='dash-table-head text-center'>Status</th>
-                                                                                                        <th className='dash-table-head text-center'>Dismiss</th>
-                                                                                                        <th className='dash-table-head text-center'>View</th>
-                                                                                                    </tr>
-
-                                                                                                    {/* table data */}
-                                                                                                    {filteredData.length>0 ?
-                                                                                                        filteredData.slice(x[0], x[1]).map((job, index)=>{
-                                                                                                        return (
-                                                                                                            <tr className='dash-table-row client'>
-                                                                                                                <td className='dash-table-data1'>{index + 1}.</td>
-                                                                                                                <td className='dash-table-data1 text-center'>
-                                                                                                                    <label className="layout-form-check-input justify-content-center">
-                                                                                                                        <input type="checkbox" 
-                                                                                                                        checked={selectedJobs.includes(job.id) || job.assigned}
-                                                                                                                        onChange={() => handleCheckboxChange(job.id)}/>
-                                                                                                                        <span className="layout-form-checkmark mr-0"></span>
-                                                                                                                    </label>
-                                                                                                                </td>
-                                                                                                                <td className='dash-table-data1 text-capitalized'>
-                                                                                                                    {job?.jobRole[0]}
-                                                                                                                </td>
-                                                                                                                <td className='dash-table-data1 text-center'>
-                                                                                                                    <span className='text-success p-0'>
-                                                                                                                        <i class="bi bi-check-circle mr-2"></i>
-                                                                                                                        {(job.assigned)? "Assigned." : "Not Assigned"}
-                                                                                                                    </span>
-                                                                                                                    {/* <span className='text-warning p-0'>
-                                                                                                                        <i class="bi bi-exclamation-circle mr-2"></i>
-                                                                                                                        Not Assigned.
-                                                                                                                    </span> */}
-                                                                                                                </td>
-                                                                                                                <td className='dash-table-data1 text-center'>
-                                                                                                                    <button className='dismiss-btn'
-                                                                                                                    onClick={()=>deAssigning(job.id)}
-                                                                                                                    disabled={!(job.assigned)}>
-                                                                                                                        Dismiss
+                                                                        {!jobId &&
+                                                                            <div id="assignJob" class="client-talent--profile-detail-tab-content">
+                                                                                <div className="row">
+                                                                                    <div className="col-12">
+                                                                                        <div className="admin-lg-table-section pt-0">
+                                                                                            <div className='admin-lg-table-area man-app'>
+                                                                                                {filteredData.length > 0 ?
+                                                                                                    <>
+                                                                                                        <div className='man-app-title-area candidate'>
+                                                                                                            <div>
+                                                                                                                <div className="man-app-title ats">
+                                                                                                                    Assign this candidate to the job(s).
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                            <div className="recruiter-search-input-area">
+                                                                                                                <input type="search" className='recruiter-search-input' placeholder='Search Job...'
+                                                                                                                    value={searchTerm}
+                                                                                                                    onChange={handleInputChange} />
+                                                                                                                <i className='bi bi-search search-icon'></i>
+                                                                                                                <button className='recruiter-search-btn'>Search</button>
+                                                                                                            </div>
+                                                                                                            <div className='customize-table-layout-area ats'>
+                                                                                                                <div className="customize-table-layout-top">
+                                                                                                                    <div className='customize-table-layout-head'>Assign the job(s) to this candidate</div>
+                                                                                                                    <button className='customize-table-layout-btn ats' type='button'
+                                                                                                                        onClick={handleAssigningJobsToCandidate}>
+                                                                                                                        Assign
+                                                                                                                        <i class="bi bi-person-check-fill"></i>
                                                                                                                     </button>
-                                                                                                                </td>
-                                                                                                                <td className='text-center'>
-                                                                                                                    <div className="action-btn-area">
-                                                                                                                        <button className='job-view-btn' data-toggle="modal" title='View Job Details...' data-target="#jobViewModal"
-                                                                                                                        onClick={() => handleViewJobDetail(job.id)}>
-                                                                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
-                                                                                                                                <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
-                                                                                                                                <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
-                                                                                                                            </svg>
-                                                                                                                        </button>
-                                                                                                                    </div>
-                                                                                                                </td>
-
-                                                                                                                </tr>
-                                                                                                            )
-                                                                                                        }) :
-
-                                                                                                        <div className="no-data-created-area">
-                                                                                                            <div className='no-data-created'>
-                                                                                                                <img src="../assets/img/no-data/no-data-img.png" className='no-data-img' alt="" />
-                                                                                                                <div className='no-data-text'>No Jobs Found..!</div>
+                                                                                                                </div>
                                                                                                             </div>
                                                                                                         </div>
 
-                                                                                                    }
+                                                                                                        <div className="table-responsive table-scroll-area">
+                                                                                                            <table className="table table-striped table-hover admin-lg-table">
+                                                                                                                <tr className='dash-table-row man-app'>
+                                                                                                                    <th className='dash-table-head'>No.</th>
+                                                                                                                    <th className='dash-table-head text-center'>Select</th>
+                                                                                                                    <th className='dash-table-head'>Job Title</th>
+                                                                                                                    <th className='dash-table-head text-center'>Status</th>
+                                                                                                                    <th className='dash-table-head text-center'>Dismiss</th>
+                                                                                                                    <th className='dash-table-head text-center'>View</th>
+                                                                                                                </tr>
 
-                                                                                                </table>
+                                                                                                                {/* table data */}
+                                                                                                                {filteredData &&
+                                                                                                                    filteredData.slice(x[0], x[1]).map((job, index) => {
+                                                                                                                        return (
+                                                                                                                            <tr className='dash-table-row client'>
+                                                                                                                                <td className='dash-table-data1'>{index + 1}.</td>
+                                                                                                                                <td className='dash-table-data1 text-center'>
+                                                                                                                                    <label className="layout-form-check-input justify-content-center">
+                                                                                                                                        <input type="checkbox"
+                                                                                                                                            checked={selectedJobs.includes(job.id) || job.assigned}
+                                                                                                                                            onChange={() => handleCheckboxChange(job.id)} />
+                                                                                                                                        <span className="layout-form-checkmark mr-0"></span>
+                                                                                                                                    </label>
+                                                                                                                                </td>
+                                                                                                                                <td className='dash-table-data1 text-capitalized'>
+                                                                                                                                    {job?.jobRole[0]}
+                                                                                                                                </td>
+                                                                                                                                <td className='dash-table-data1 text-center'>
+                                                                                                                                    {(job.assigned) ?
+                                                                                                                                        <span className='text-success p-0'>
+                                                                                                                                            <i class="bi bi-check-circle mr-2"></i>
+                                                                                                                                            Assigned.
+                                                                                                                                        </span> :
+                                                                                                                                        <span className='text-warning p-0'>
+                                                                                                                                            <i class="bi bi-exclamation-circle mr-2"></i>
+                                                                                                                                            Not Assigned.
+                                                                                                                                        </span>
+                                                                                                                                    }
+                                                                                                                                </td>
+                                                                                                                                <td className='dash-table-data1 text-center'>
+                                                                                                                                    <button className='dismiss-btn'
+                                                                                                                                        onClick={() => deAssigning(job.id)}
+                                                                                                                                        disabled={!(job.assigned)}>
+                                                                                                                                        Dismiss
+                                                                                                                                    </button>
+                                                                                                                                </td>
+                                                                                                                                <td className='text-center'>
+                                                                                                                                    <div className="action-btn-area">
+                                                                                                                                        <button className='job-view-btn' data-toggle="modal" title='View Job Details...' data-target="#jobViewModal"
+                                                                                                                                            onClick={() => handleViewJobDetail(job.id)}>
+                                                                                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                                                                                                                                <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
+                                                                                                                                                <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
+                                                                                                                                            </svg>
+                                                                                                                                        </button>
+                                                                                                                                    </div>
+                                                                                                                                </td>
+
+                                                                                                                            </tr>
+                                                                                                                        )
+                                                                                                                    })
+                                                                                                                }
+
+                                                                                                            </table>
+                                                                                                        </div>
+                                                                                                    </>
+                                                                                                    :
+                                                                                                    <div className="no-data-created-area">
+                                                                                                        <div className='no-data-created'>
+                                                                                                            <img src="../assets/img/no-data/no-data-img.png" className='no-data-img' alt="" />
+                                                                                                            <div className='no-data-text'>No Jobs Found..!</div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                }
                                                                                             </div>
 
-
+                                                                                            {/* for pagination */}
+                                                                                            {filteredData.length > 0 ?
+                                                                                                <div className="table-pagination-area pt-3">
+                                                                                                    <div className="pagination-btn-area">
+                                                                                                        {x[0] > 0 && <button className='pag-prev-btn' onClick={() => setX([x[0] - 10, x[1] - 10])}>
+                                                                                                            <i class="bi bi-chevron-left"></i>
+                                                                                                        </button>}
+                                                                                                        <div className='pag-page'>
+                                                                                                            <span className='current-page'>{Math.ceil(x[0] / 10) + 1}</span>&nbsp;/&nbsp;
+                                                                                                            <span className='total-page'>{Math.ceil(filteredData.length / 10)}</span>
+                                                                                                        </div>
+                                                                                                        {(filteredData.slice(x[0], x[1]).length === 10 && filteredData.length > x[1]) && <button className='pag-next-btn' onClick={() => setX([x[0] + 10, x[1] + 10])}>
+                                                                                                            <i class="bi bi-chevron-right"></i>
+                                                                                                        </button>}
+                                                                                                    </div>
+                                                                                                </div> : null
+                                                                                            }
+                                                                                            {/*  */}
 
                                                                                         </div>
-
-                                                                                        {/* for pagination */}
-                                                                                        <div className="table-pagination-area pt-3">
-                                                                                            <div className="pagination-btn-area">
-                                                                                                {x[0] > 0 && <button className='pag-prev-btn' onClick={() => setX([x[0] - 10, x[1] - 10])}>
-                                                                                                    <i class="bi bi-chevron-left"></i>
-                                                                                                </button>}
-                                                                                                <div className='pag-page'>
-                                                                                                    <span className='current-page'>{Math.ceil(x[0] / 10) + 1}</span>&nbsp;/&nbsp;
-                                                                                                    <span className='total-page'>{Math.ceil(filteredData.length / 10)}</span>
-                                                                                                </div>
-                                                                                                {(filteredData.slice(x[0], x[1]).length === 10 && filteredData.length > x[1]) && <button className='pag-next-btn' onClick={() => setX([x[0] + 10, x[1] + 10])}>
-                                                                                                    <i class="bi bi-chevron-right"></i>
-                                                                                                </button>}
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        {/*  */}
-
                                                                                     </div>
                                                                                 </div>
-                                                                            </div>
 
-                                                                        </div>}
+                                                                            </div>
+                                                                        }
                                                                     </div>
                                                                 </div>
                                                             </div>

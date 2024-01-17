@@ -28,6 +28,12 @@ const AllCompanyStaff = () => {
     const [showPassword, setShowPassword] = useState(false);
 
 
+    const [selectedRole, setSelectedRole] = useState('SuperAdmin');
+
+    const handleRoleChange = (event) => {
+        setSelectedRole(event.target.value);
+    };
+
 
     const [x, setX] = useState([0, 10]);
 
@@ -182,7 +188,7 @@ const AllCompanyStaff = () => {
         const updatedCredentials = {
             ...credentials,
             id,
-            role:"Recruiter"
+            role: "Recruiter"
         };
         console.log(updatedCredentials);
         createRecruiter(updatedCredentials);
@@ -514,7 +520,7 @@ const AllCompanyStaff = () => {
                                 <div className="modal-body">
                                     <div className="card p-4 recruiter-view-card">
                                         <div className="row">
-                                            <div className="col-12 col-sm-12 col-md-12 col-lg-6">
+                                            <div className="col-12 col-sm-12 col-md-12 col-lg-12">
                                                 <div className="dash-form-group">
                                                     <label htmlFor="name" className='dash-form-label'>Staff Name<span className='form-required'>*</span></label>
                                                     <input
@@ -562,28 +568,103 @@ const AllCompanyStaff = () => {
                                                     />
                                                 </div>
                                             </div>
-                                            <div className="col-12 col-sm-12 col-md-12 col-lg-6">
-                                                <div className="dash-form-group">
-                                                    <label htmlFor="companyStaff" className='dash-form-label'>Staff Type<span className='form-required'>*</span></label>
-                                                    <i class="bi bi-chevron-down toggle-icon"></i>
-                                                    <select
-                                                        id="companyStaff"
-                                                        name="companyStaff"
-                                                        value={credentials.companyStaff}
-                                                        onChange={handleInputChange}
-                                                        className='form-control dash-form-input select-input'
-                                                        required>
-                                                        <option value="" disabled selected>-- Select type of company staff --</option>
-                                                        <option value="Recruiter">Recruiter</option>
-                                                        <option value="HR">HR</option>
-                                                        <option value="Operator">Operator</option>
-                                                        <option value="Finance">Finance</option>
-                                                        <option value="Customer support executive">Customer support executive</option>
-                                                        <option value="digitalmarketing team">digitalmarketing team</option>
-                                                        <option value="RMG">RMG</option>
-                                                    </select>
+
+                                            <div className="col-12">
+                                                <div className="select-role-area">
+                                                    <div className="row">
+                                                        <div className="col-12 col-sm-12 col-md-12 col-lg-6">
+                                                            <label htmlFor="staffRole" className='dash-form-label'>Select Role<span className='form-required'>*</span></label>
+                                                            <div className="role-radio-select-area">
+                                                                <label className="role-radio-button">
+                                                                    <input
+                                                                        type="radio"
+                                                                        name="role-radio-option"
+                                                                        id='SuperAdmin'
+                                                                        value="SuperAdmin"
+                                                                        checked={selectedRole === 'SuperAdmin'}
+                                                                        onChange={handleRoleChange}
+                                                                    />
+                                                                    <span className="role-radio"></span>
+                                                                    Super Admin
+                                                                </label>
+
+                                                                <label className="role-radio-button">
+                                                                    <input
+                                                                        type="radio"
+                                                                        name="role-radio-option"
+                                                                        id='Manager'
+                                                                        value="Manager"
+                                                                        checked={selectedRole === 'Manager'}
+                                                                        onChange={handleRoleChange}
+                                                                    />
+                                                                    <span className="role-radio"></span>
+                                                                    Manager
+                                                                </label>
+
+                                                                <label className="role-radio-button">
+                                                                    <input
+                                                                        type="radio"
+                                                                        name="role-radio-option"
+                                                                        id='Recruiter'
+                                                                        value="Recruiter"
+                                                                        checked={selectedRole === 'Recruiter'}
+                                                                        onChange={handleRoleChange}
+                                                                    />
+                                                                    <span className="role-radio"></span>
+                                                                    Recruiter
+                                                                </label>
+
+                                                            </div>
+                                                        </div>
+                                                        <div className="col-12 col-sm-12 col-md-12 col-lg-6">
+                                                            <div className="dash-form-group mb-auto mb-md-2">
+                                                                <label htmlFor="companyStaff" className='dash-form-label'>Staff Type<span className='form-required'>*</span></label>
+                                                                <i class="bi bi-chevron-down toggle-icon"></i>
+                                                                <select
+                                                                    id="companyStaff"
+                                                                    name="companyStaff"
+                                                                    value={credentials.companyStaff}
+                                                                    onChange={handleInputChange}
+                                                                    className='form-control dash-form-input select-input'
+                                                                    required>
+                                                                    <option value="" disabled selected>-- Select type of company staff --</option>
+
+                                                                    {selectedRole === 'SuperAdmin' && (
+                                                                        <>
+                                                                            <option value="CEO">CEO (Chief Executive Officer)</option>
+                                                                            <option value="COO">COO (Chief Operating Officer)</option>
+                                                                            <option value="HR">HR (Human Resources)</option>
+                                                                        </>
+                                                                    )}
+
+                                                                    {selectedRole === 'Manager' && (
+                                                                        <>
+                                                                            <option value="VP">VP (Vice President)</option>
+                                                                            <option value="AM">AM (Account Manager)</option>
+                                                                            <option value="TL">TL (Team Leader)</option>
+                                                                        </>
+                                                                    )}
+
+                                                                    {selectedRole === 'Recruiter' && (
+                                                                        <>
+                                                                            <option value="SeniorRecruiter">Senior Recruiter</option>
+                                                                            <option value="Recruiter">Recruiter</option>
+                                                                        </>
+                                                                    )}
+
+
+                                                                    {/* <option value="Operator">Operator</option>
+                                                                    <option value="Finance">Finance</option>
+                                                                    <option value="Customer support executive">Customer support executive</option>
+                                                                    <option value="digitalmarketing team">digitalmarketing team</option>
+                                                                    <option value="RMG">RMG</option> */}
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
+
                                             <div className="col-12 col-sm-12 col-md-12 col-lg-12">
                                                 <div className="dash-form-group">
                                                     <label htmlFor="password" className='dash-form-label'>Password<span className='form-required'>*</span></label>
