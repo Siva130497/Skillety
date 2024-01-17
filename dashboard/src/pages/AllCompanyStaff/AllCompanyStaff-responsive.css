@@ -1,3 +1,12 @@
+@media (max-width:991.5px) {
+    .role-radio-select-area {
+        margin-bottom: 30px;
+    }
+    .role-radio::before{
+        left: 2.5px;
+    }
+}
+
 @media (max-width:573px) {
     .generate-btn-area {
         display: flex;

@@ -195,3 +195,83 @@
 .w-15 {
     width: 15%;
 }
+
+.select-role-area {
+    background-color: #F0F0F0;
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 25px;
+    box-shadow: inset 0px 0px 15px #0000001c;
+}
+
+.role-radio-select-area {
+    margin: 0px 0 10px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    row-gap: 15px;
+    background-color: #FFF;
+    border-radius: 16px;
+    padding: 20px;
+    border: 1px solid #714F36;
+    transition: ease-in-out 0.5s;
+}
+
+.role-radio-select-area:hover{
+    box-shadow: 0px 0px 0px 4px #FFF1C8 !important;
+}
+
+.role-radio-button {
+    display: flex;
+    gap: 15px;
+    justify-content: flex-start;
+    margin: 0px;
+    position: relative;
+    align-items: center;
+    color: #714F36 !important;
+    font-size: 14px !important;
+    font-weight: 400 !important;
+    cursor: pointer;
+}
+
+.role-radio-button input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+}
+
+.role-radio {
+    position: relative;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid #714F36;
+    -webkit-transform: translateZ(-25px);
+    transform: translateZ(-25px);
+    -webkit-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+}
+
+.role-radio::before {
+    position: absolute;
+    content: '';
+    width: 12px;
+    height: 12px;
+    top: 2.5px;
+    left: 2px;
+    border-radius: 50%;
+    background-color: #714F36;
+    opacity: 0;
+    -webkit-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+}
+
+.role-radio-button input[type="radio"]:checked+.role-radio {
+    -webkit-transform: translateZ(0px);
+    transform: translateZ(0px);
+    background-color: #fff;
+}
+
+.role-radio-button input[type="radio"]:checked+.role-radio::before {
+    opacity: 1;
+}
