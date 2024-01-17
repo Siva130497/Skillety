@@ -19,6 +19,9 @@ const MyApplication = () => {
     const [allClient, setAllClient] = useState([]);
     const [applicationStatus, setApplicationStatus] = useState([]);
     const [activeJobs, setActiveJobs] = useState([]);
+    const [allCompany, setAllCompany] = useState([]);
+    const [allOfflineClient, setAllOfflineClient] = useState([]);
+    const [allEmployee, setAllEmployee] = useState([]);
 
     const [loading, setLoading] = useState(true);
 
@@ -51,6 +54,22 @@ const MyApplication = () => {
                 setAllClient(res.data);
             })
             .catch(err => console.log(err))
+
+            axios.get("https://skillety-n6r1.onrender.com/company-details")
+            .then(res => {
+                console.log(res.data);
+                setAllCompany(res.data);
+            })
+            .catch(err => {
+                console.log(err);
+            })
+
+            axios.get("https://skillety-n6r1.onrender.com/all-employee")
+                .then(res => {
+                    console.log(res.data);
+                    setAllEmployee(res.data);
+                })
+                .catch(err => console.log(err))
     }, [])
 
 
@@ -71,8 +90,33 @@ const MyApplication = () => {
             };
 
             fetchData();
+            getAllClientDetails();
         }
     }, [candidateToken]);
+
+    const getAllClientDetails = async () => {
+        try {
+
+            const response = await axios.get(`https://skillety-n6r1.onrender.com/offline-client-Details`, {
+                headers: {
+                    Authorization: `Bearer ${candidateToken}`,
+                    Accept: 'application/json'
+                }
+            });
+            const result = response.data;
+            if (!result.error) {
+                console.log(result);
+                setAllOfflineClient(result);
+            } else {
+                console.log(result);
+               
+            }
+
+        } catch (err) {
+            console.log(err);
+            setLoading(false);
+        }
+    }
 
     const getPostedjobs = async () => {
         try {
@@ -344,7 +388,10 @@ const MyApplication = () => {
 
                                                         {/* table data */}
                                                         {appliedJobDetail.map((job, index) => {
-                                                            const client = allClient.find(obj => obj.companyId === job.companyId)
+                                                            const postedBy = job.companyId
+                                                            ? allCompany.find(company => company.companyId === job.companyId)?.companyName 
+                                                            : job.managerId ? allOfflineClient.find(client=>client.clientId === job.clientId)?.companyName : allEmployee.find(employee => employee.id === job.recruiterId)?.name
+
 
                                                             const status = applicationStatus.find(status => status.jobId === job.jobId)?.status;
 
@@ -355,7 +402,7 @@ const MyApplication = () => {
 
                                                             return (
                                                                 <tr className='dash-table-row custom' key={index}>
-                                                                    <td className='dash-table-data1 text-capitalized'>{client?.companyName}</td>
+                                                                    <td className='dash-table-data1 text-capitalized'>{postedBy}</td>
                                                                     <td className='dash-table-data1 text-capitalized'>
                                                                         {job.jobRole[0]} &nbsp;&nbsp;
                                                                         {/* <a href="#">

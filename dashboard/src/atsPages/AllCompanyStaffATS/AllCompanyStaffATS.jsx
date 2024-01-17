@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useEffect } from 'react';
-import ATSLayout from '../../components/ATSLayout';
+import ATSLayout from '../../atsComponents/ATSLayout';
 import Footer from '../../components/Footer';
 import './AllCompanyStaff.css';
 import './AllCompanyStaff-responsive.css';
@@ -12,8 +12,8 @@ import 'sweetalert2/dist/sweetalert2.css';
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 
-const AllCompanyStaff = () => {
-    const [staffToken, setStaffToken] = useState("");
+const AllCompanyStaffATS = () => {
+    const [atsToken, setatsToken] = useState("");
     const [allRecruiters, setAllRecruiters] = useState([]);
     const [selectedRecruiterViewDetail, setSelectedRecruiterViewDetail] = useState();
     const [loading, setLoading] = useState(true);
@@ -32,8 +32,8 @@ const AllCompanyStaff = () => {
     const [x, setX] = useState([0, 10]);
 
     useEffect(() => {
-        setStaffToken(JSON.parse(localStorage.getItem('staffToken')))
-    }, [staffToken])
+        setatsToken(JSON.parse(localStorage.getItem('atsToken')))
+    }, [atsToken])
 
     useEffect(() => {
         $(document).ready(function () {
@@ -68,7 +68,7 @@ const AllCompanyStaff = () => {
             setLoading(true);
             const res = await axios.get(`https://skillety-n6r1.onrender.com/all-recruiters`, {
                 headers: {
-                    Authorization: `Bearer ${staffToken}`,
+                    Authorization: `Bearer ${atsToken}`,
                     Accept: 'application/json'
                 }
             });
@@ -89,11 +89,11 @@ const AllCompanyStaff = () => {
     }
 
     useEffect(() => {
-        if (staffToken) {
+        if (atsToken) {
             getAllRecruiters();
         }
 
-    }, [staffToken]);
+    }, [atsToken]);
 
     const handleViewRecruiterDetail = (id) => {
         const selectedRecruiter = allRecruiters.find(recruiter => recruiter.id === id);
@@ -114,7 +114,7 @@ const AllCompanyStaff = () => {
 
                 axios.delete(`https://skillety-n6r1.onrender.com/delete-recruiter/${id}`, {
                     headers: {
-                        Authorization: `Bearer ${staffToken}`,
+                        Authorization: `Bearer ${atsToken}`,
                         Accept: 'application/json'
                     }
                 })
@@ -135,7 +135,7 @@ const AllCompanyStaff = () => {
         try {
             const response = await axios.post('https://skillety-n6r1.onrender.com/recruiter-create', userData, {
                 headers: {
-                    Authorization: `Bearer ${staffToken}`,
+                    Authorization: `Bearer ${atsToken}`,
                     Accept: 'application/json'
                 }
             });
@@ -641,4 +641,4 @@ const AllCompanyStaff = () => {
     )
 }
 
-export default AllCompanyStaff
+export default AllCompanyStaffATS

@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { useEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Autoplay } from 'swiper/modules';
-import ATSLayout from '../../components/ATSLayout';
+import ATSLayout from '../../atsComponents/ATSLayout';
 import Footer from '../../components/Footer';
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -15,12 +15,11 @@ import 'sweetalert2/dist/sweetalert2.css';
 import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
 import AuthContext from '../../context/AuthContext';
 
-const TalentsAts = () => {
+const TalentsAtsOnly = () => {
     const { id } = useParams();
     const location = useLocation();
     const { getProtectedData } = useContext(AuthContext);
     const { percentage } = location.state || {};
-    const { jobId } = location.state || {};
     const [loginCandidate, setLoginCandidate] = useState();
     const [candidateImg, setCandidateImg] = useState();
     const [candidateImgUrl, setCandidateImgUrl] = useState("");
@@ -28,23 +27,8 @@ const TalentsAts = () => {
     const [resume, setResume] = useState();
     const [loading, setLoading] = useState(true);
     const [pageNotFound, setPageNotFound] = useState(false);
-    const [skillMatchPercentage, setSkillMatchPercentage] = useState()
     const [skillMatch, setSkillMatch] = useState()
-    const [staffToken, setStaffToken] = useState("");
-    const [alreadySelect, setAlreadySelect] = useState();
-    const [atsAccess, setAtsAccess] = useState("");
-    const [employeeId, setEmployeeId] = useState("");
-    const [activeATSJobs, setActiveATSJobs] = useState([]);
-    const [assignedJobsForCand, setAssignedJobsForCand] = useState([]);
-    const [activeATSJobsForCand, setActiveATSJobsForCand] = useState([]);
-    const [availableActiveATSJobs, setAvailableActiveATSJobs] = useState(false);
-    const [selectedJobs, setSelectedJobs] = useState([]);
-    const [searchTerm, setSearchTerm] = useState('');
-    const [filteredData, setFilteredData] = useState([]);
-    const [selectedJobViewDetail, setSelectedJobViewDetail] = useState();
-
-
-    const [x, setX] = useState([0, 10]);
+    
 
     //for show success message for payment
     function showSuccessMessage(message) {
@@ -67,28 +51,6 @@ const TalentsAts = () => {
             confirmButtonText: 'OK',
         });
     }
-
-
-    useEffect(() => {
-        setStaffToken(JSON.parse(localStorage.getItem('staffToken')))
-    }, [staffToken])
-
-    useEffect(() => {
-        if (staffToken) {
-            const fetchData = async () => {
-                try {
-                    const user = await getProtectedData(staffToken);
-                    console.log(user);
-                    setAtsAccess(user.role);
-                    setEmployeeId(user.id);
-                } catch (error) {
-                    console.log(error);
-                }
-            };
-
-            fetchData();
-        }
-    }, [staffToken]);
 
     useEffect(() => {
         const preloader = $('#preloader');
@@ -190,229 +152,6 @@ const TalentsAts = () => {
 
     // }, [id, location.state])
 
-    const getATSActiveJobs = async () => {
-        try {
-            const res = await axios.get(`https://skillety-n6r1.onrender.com/ats-active-jobs/${employeeId}`, {
-                headers: {
-                    Authorization: `Bearer ${staffToken}`,
-                    Accept: 'application/json'
-                }
-            });
-            const result = res.data;
-            if (!result.error) {
-                console.log(result);
-                setActiveATSJobs(result);
-            } else {
-                console.log(result);
-            }
-        } catch (err) {
-            console.log(err);
-        }
-    }
-
-    const getAllAssignedJobsForCandId = async () => {
-        try {
-            const res = await axios.get(`https://skillety-n6r1.onrender.com/assigned-jobs-cand/${id}`, {
-                headers: {
-                    Authorization: `Bearer ${staffToken}`,
-                    Accept: 'application/json'
-                }
-            });
-            const result = res.data;
-            if (!result.error) {
-                console.log(result);
-                if (result.message) {
-                    setAssignedJobsForCand([]);
-                    setSelectedJobs([])
-                }else{
-                    setAssignedJobsForCand(result);
-                    const jobIds = result.map(job=>job.jobId)
-                    setSelectedJobs(jobIds)
-                }
-            }
-
-        } catch (err) {
-            console.log(err);
-
-        }
-    }
-
-    const handleViewJobDetail = (id) => {
-        const selectedJob = filteredData.find(job => job.id === id);
-        setSelectedJobViewDetail(selectedJob);
-    }
-
-    const handleInputChange = (e) => {
-        const term = e.target.value;
-        setSearchTerm(term);
-        filterData(term);
-    };
-
-    const filterData = (term) => {
-        const filteredArray = activeATSJobsForCand.filter((item) => {
-            const lowerCaseTerm = term.toLowerCase();
-            return Object.values(item)
-                .map((value) => (value || '').toString().toLowerCase())
-                .some((value) => value.includes(lowerCaseTerm));
-        });
-        setFilteredData(filteredArray);
-    };
-
-    const handleCheckboxChange = (jobId) => {
-        console.log(jobId)
-        const isSelected = selectedJobs.includes(jobId);
-
-        setSelectedJobs((prevSelected) =>
-            isSelected
-                ? prevSelected.filter((id) => id !== jobId)
-                : [...prevSelected, jobId]
-        );
-    };
-
-    const handleAssigningJobsToCandidate = () => {
-        if(selectedJobs.length>0){
-            const assigningDetail = {
-                candidateId: id,
-                jobIdArray: selectedJobs
-            }
-    
-            axios.post("https://skillety-n6r1.onrender.com/create-assign-candidate-job", assigningDetail, {
-                headers: {
-                    Authorization: `Bearer ${staffToken}`,
-                    Accept: 'application/json'
-                }
-            })
-                .then((res) => {
-                    console.log(res.data)
-                    showSuccessMessage("Selected Jobs Assigned to Candidate");
-                    getAllAssignedJobsForCandId();
-                })
-                .catch((err) => {
-                    console.log(err);
-                })
-        }
-        
-    }
-
-    const deAssigning = (job_id) => {
-        if(selectedJobs.length>0){
-            axios.delete(`https://skillety-n6r1.onrender.com/deassign-candidate/${id}/${job_id}`, {
-                headers: {
-                    Authorization: `Bearer ${staffToken}`,
-                    Accept: 'application/json'
-                }
-            })
-                .then((res) => {
-                    console.log(res.data);
-                    showSuccessMessage("Candidate de-assign from this job")
-                    getAllAssignedJobsForCandId();
-                })
-                .catch((err) => {
-                    console.log(err);
-                })
-        }
-    }
-
-    useEffect(() => {
-        if (!jobId && id && employeeId) {
-            getATSActiveJobs();
-            getAllAssignedJobsForCandId();
-        }
-    }, [!jobId, id, employeeId]);
-
-    useEffect(() => {
-        if (availableActiveATSJobs) {
-            
-            const updatedActiveATSJobs = [...activeATSJobs];
-            if (assignedJobsForCand.length > 0) {
-                updatedActiveATSJobs.map((job) => {
-                    const isJobAssigned = assignedJobsForCand.some(
-                        (assignedJob) => assignedJob.jobId === job.id
-                    );
-
-                    if (isJobAssigned) {
-                        job.assigned = true;
-                    }
-                });
-                
-                setActiveATSJobsForCand(updatedActiveATSJobs.reverse());
-                setFilteredData(updatedActiveATSJobs.reverse());
-            }else{
-            
-                const deAssignActiveATSJobs = activeATSJobs.map(job => ({
-                    ...job,
-                    assigned: false
-                  }));
-                console.log(deAssignActiveATSJobs);
-                setActiveATSJobsForCand(deAssignActiveATSJobs);
-                setFilteredData(deAssignActiveATSJobs);
-            }
-
-        }
-    }, [availableActiveATSJobs, assignedJobsForCand]);
-
-    const getSelectedJobs = async () => {
-        try {
-            const res = await axios.get(`https://skillety-n6r1.onrender.com/selected-jobs/${id}`, {
-                headers: {
-                    Authorization: `Bearer ${staffToken}`,
-                    Accept: 'application/json'
-                }
-            });
-            const result = res.data;
-            if (!result.error) {
-                console.log(result);
-                setAlreadySelect(result.find(job => job.jobId === jobId));
-
-            } else {
-                console.log(result);
-            }
-        } catch (err) {
-            console.log(err);
-        }
-    }
-
-    const selectngTheCandidate = async (candidateSelectDetail) => {
-        try {
-            const res = await axios.post('https://skillety-n6r1.onrender.com/create-selected-candidate', candidateSelectDetail, {
-                headers: {
-                    Authorization: `Bearer ${staffToken}`,
-                    Accept: 'application/json'
-                }
-            });
-            const result = res.data;
-            if (!result.error) {
-                console.log(result);
-                showSuccessMessage("Successfully Selected.")
-                getSelectedJobs()
-
-            }
-        } catch (err) {
-            console.log(err);
-            showErrorMessage()
-        }
-    }
-
-    const deSelectingCandidate = async () => {
-        try {
-            const response = await axios.delete(`https://skillety-n6r1.onrender.com/deselect-candidate/${id}/${jobId}`, {
-                headers: {
-                    Authorization: `Bearer ${staffToken}`,
-                    Accept: 'application/json'
-                }
-            });
-            console.log(response);
-
-            showSuccessMessage("Candidate Deselected..!")
-            getSelectedJobs();
-
-
-        } catch (error) {
-            console.error(error);
-            showErrorMessage()
-        }
-    }
-
     useEffect(() => {
 
         const searchParams = new URLSearchParams(location.search);
@@ -425,55 +164,7 @@ const TalentsAts = () => {
 
     }, [id, location.search]);
 
-    useEffect(() => {
-        if (id && staffToken && jobId) {
-            getSelectedJobs();
-        }
-    }, [id, staffToken, jobId])
-
-    const handleSelect = () => {
-        if (!alreadySelect) {
-            Swal.fire({
-                title: 'Are you sure?',
-                text: '',
-                icon: 'info',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, Select the Candidate!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-
-                    selectngTheCandidate({ jobId, candidateId: id });
-
-                }
-
-            });
-
-        }
-    }
-
-    const handleDeSelect = () => {
-        if (alreadySelect) {
-            Swal.fire({
-                title: 'Are you sure?',
-                text: '',
-                icon: 'info',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, Deselect!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    deSelectingCandidate();
-
-                }
-
-            });
-
-        }
-    }
-
+   
     useEffect(() => {
         if (id) {
             axios.get(`https://skillety-n6r1.onrender.com/candidate/${id}`)
@@ -696,8 +387,7 @@ const TalentsAts = () => {
                                                                     <div class="client-talent--profile-detail-tab-btn-area">
                                                                         <a href="#profileDetail" class="client-talent--profile-detail-tab-btn">Profile Detail</a>
                                                                         <a href="#attachedCV" class="client-talent--profile-detail-tab-btn">Attached CV</a>
-                                                                        {!jobId && <a href="#assignJob" class="client-talent--profile-detail-tab-btn"
-                                                                            onClick={() => setAvailableActiveATSJobs(true)}>Assign Job(s)</a>}
+                                                                        
                                                                     </div>
                                                                     <div class="client-talent--profile-detail-tab-content-area">
                                                                         <div id="profileDetail" class="client-talent--profile-detail-tab-content">
@@ -887,136 +577,7 @@ const TalentsAts = () => {
                                                                             }
                                                                         </div>
 
-                                                                        {!jobId && <div id="assignJob" class="client-talent--profile-detail-tab-content">
-                                                                            <div className="row">
-                                                                                <div className="col-12">
-                                                                                    <div className="admin-lg-table-section pt-0">
-                                                                                        <div className='admin-lg-table-area man-app'>
-
-                                                                                            <div className='man-app-title-area candidate'>
-                                                                                                <div>
-                                                                                                    <div className="man-app-title ats">
-                                                                                                        Assign this candidate to the job(s).
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                                <div className="recruiter-search-input-area">
-                                                                                                    <input type="search" className='recruiter-search-input' placeholder='Search Job...'
-                                                                                                        value={searchTerm}
-                                                                                                        onChange={handleInputChange} />
-                                                                                                    <i className='bi bi-search search-icon'></i>
-                                                                                                    <button className='recruiter-search-btn'>Search</button>
-                                                                                                </div>
-                                                                                                <div className='customize-table-layout-area ats'>
-                                                                                                    <div className="customize-table-layout-top">
-                                                                                                        <div className='customize-table-layout-head'>Assign the job(s) to this candidate</div>
-                                                                                                        <button className='customize-table-layout-btn ats' type='button'
-                                                                                                            onClick={handleAssigningJobsToCandidate}>
-                                                                                                            Assign
-                                                                                                            <i class="bi bi-person-check-fill"></i>
-                                                                                                        </button>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                            </div>
-
-                                                                                            <div className="table-responsive table-scroll-area">
-                                                                                                <table className="table table-striped table-hover admin-lg-table">
-                                                                                                    <tr className='dash-table-row man-app'>
-                                                                                                        <th className='dash-table-head'>No.</th>
-                                                                                                        <th className='dash-table-head text-center'>Select</th>
-                                                                                                        <th className='dash-table-head'>Job Title</th>
-                                                                                                        <th className='dash-table-head text-center'>Status</th>
-                                                                                                        <th className='dash-table-head text-center'>Dismiss</th>
-                                                                                                        <th className='dash-table-head text-center'>View</th>
-                                                                                                    </tr>
-
-                                                                                                    {/* table data */}
-                                                                                                    {filteredData.length>0 ?
-                                                                                                        filteredData.slice(x[0], x[1]).map((job, index)=>{
-                                                                                                        return (
-                                                                                                            <tr className='dash-table-row client'>
-                                                                                                                <td className='dash-table-data1'>{index + 1}.</td>
-                                                                                                                <td className='dash-table-data1 text-center'>
-                                                                                                                    <label className="layout-form-check-input justify-content-center">
-                                                                                                                        <input type="checkbox" 
-                                                                                                                        checked={selectedJobs.includes(job.id) || job.assigned}
-                                                                                                                        onChange={() => handleCheckboxChange(job.id)}/>
-                                                                                                                        <span className="layout-form-checkmark mr-0"></span>
-                                                                                                                    </label>
-                                                                                                                </td>
-                                                                                                                <td className='dash-table-data1 text-capitalized'>
-                                                                                                                    {job?.jobRole[0]}
-                                                                                                                </td>
-                                                                                                                <td className='dash-table-data1 text-center'>
-                                                                                                                    <span className='text-success p-0'>
-                                                                                                                        <i class="bi bi-check-circle mr-2"></i>
-                                                                                                                        {(job.assigned)? "Assigned." : "Not Assigned"}
-                                                                                                                    </span>
-                                                                                                                    {/* <span className='text-warning p-0'>
-                                                                                                                        <i class="bi bi-exclamation-circle mr-2"></i>
-                                                                                                                        Not Assigned.
-                                                                                                                    </span> */}
-                                                                                                                </td>
-                                                                                                                <td className='dash-table-data1 text-center'>
-                                                                                                                    <button className='dismiss-btn'
-                                                                                                                    onClick={()=>deAssigning(job.id)}
-                                                                                                                    disabled={!(job.assigned)}>
-                                                                                                                        Dismiss
-                                                                                                                    </button>
-                                                                                                                </td>
-                                                                                                                <td className='text-center'>
-                                                                                                                    <div className="action-btn-area">
-                                                                                                                        <button className='job-view-btn' data-toggle="modal" title='View Job Details...' data-target="#jobViewModal"
-                                                                                                                        onClick={() => handleViewJobDetail(job.id)}>
-                                                                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
-                                                                                                                                <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
-                                                                                                                                <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
-                                                                                                                            </svg>
-                                                                                                                        </button>
-                                                                                                                    </div>
-                                                                                                                </td>
-
-                                                                                                                </tr>
-                                                                                                            )
-                                                                                                        }) :
-
-                                                                                                        <div className="no-data-created-area">
-                                                                                                            <div className='no-data-created'>
-                                                                                                                <img src="../assets/img/no-data/no-data-img.png" className='no-data-img' alt="" />
-                                                                                                                <div className='no-data-text'>No Jobs Found..!</div>
-                                                                                                            </div>
-                                                                                                        </div>
-
-                                                                                                    }
-
-                                                                                                </table>
-                                                                                            </div>
-
-
-
-                                                                                        </div>
-
-                                                                                        {/* for pagination */}
-                                                                                        <div className="table-pagination-area pt-3">
-                                                                                            <div className="pagination-btn-area">
-                                                                                                {x[0] > 0 && <button className='pag-prev-btn' onClick={() => setX([x[0] - 10, x[1] - 10])}>
-                                                                                                    <i class="bi bi-chevron-left"></i>
-                                                                                                </button>}
-                                                                                                <div className='pag-page'>
-                                                                                                    <span className='current-page'>{Math.ceil(x[0] / 10) + 1}</span>&nbsp;/&nbsp;
-                                                                                                    <span className='total-page'>{Math.ceil(filteredData.length / 10)}</span>
-                                                                                                </div>
-                                                                                                {(filteredData.slice(x[0], x[1]).length === 10 && filteredData.length > x[1]) && <button className='pag-next-btn' onClick={() => setX([x[0] + 10, x[1] + 10])}>
-                                                                                                    <i class="bi bi-chevron-right"></i>
-                                                                                                </button>}
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        {/*  */}
-
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-
-                                                                        </div>}
+                                                                        
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -1201,192 +762,9 @@ const TalentsAts = () => {
                     </div>
                 </div> */}
                                     </div>
-
-                                    {(atsAccess === "Manager" && jobId) && <div className="job--apply-area">
-                                        {alreadySelect ?
-                                            // <button className='pl--package-btn-sub buy-now m-t-40'
-                                            //     onClick={handleDeSelect}>
-                                            //     <div className='pl--package-btn buy-now candidate'>
-                                            //         In-Share
-                                            //     </div>
-                                            // </button>
-                                            <button className='share-profile-button m-t-40'
-                                                onClick={handleDeSelect}>
-                                                In-Share
-                                            </button>
-                                            :
-                                            // <button className='pl--package-btn-sub buy-now m-t-40'
-                                            //     onClick={handleSelect}>
-                                            //     <div className='pl--package-btn buy-now candidate'>
-                                            //         Share the Candidate to ATS
-                                            //     </div>
-                                            //     <div className='pl--package-arrow-area buy-now candidate'>
-                                            //         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 27 27" fill="none">
-                                            //             <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#714F36" stroke-width="2" />
-                                            //             <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#714F36" stroke-width="2" />
-                                            //             <path d="M1 26L25.1667 1" stroke="#714F36" stroke-width="2" />
-                                            //         </svg>
-                                            //     </div>
-                                            // </button>
-                                            <button className='share-profile-button m-t-40'
-                                                onClick={handleSelect}>
-                                                <i class="bi bi-share mr-3"></i>
-                                                Share the Candidate to ATS
-                                            </button>
-                                        }
-                                    </div>}
-
                                 </section>
                             </div>
                         </div>
-
-                        {/* Job view modal here */}
-                        <div className="modal fade" id="jobViewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                            aria-hidden="true">
-                            <div className="modal-dialog modal-lg" role="document">
-                                <div className="modal-content recruiter-view-modal">
-                                    <div className="modal-header recruiter-view-modal-header">
-                                        <h5 className="modal-title recruiter-view-modal-title client" id="exampleModalLabel">
-                                            Job Details_
-                                        </h5>
-                                        <a href='#' type="button" className="close recruiter-view-close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true"><i class="bi bi-x close-icon"></i></span>
-                                        </a>
-                                    </div>
-                                    <div className="modal-body">
-                                        <div className="card p-4 recruiter-view-card candidate">
-                                            <div className="row">
-                                                <div className="col-12 col-sm-5 col-md-5 col-lg-4">
-                                                    <div className="view-det-head">Job Role</div>
-                                                </div>
-                                                <div className="col-12 col-sm-7 col-md-7 col-lg-8">
-                                                    <div className="view-det-sub-head text-capitalized">{selectedJobViewDetail?.jobRole[0]}</div>
-                                                </div>
-                                            </div>
-                                            <hr />
-                                            <div className="row">
-                                                <div className="col-12 col-sm-5 col-md-5 col-lg-4">
-                                                    <div className="view-det-head">Job Category</div>
-                                                </div>
-                                                <div className="col-12 col-sm-7 col-md-7 col-lg-8">
-                                                    <div className="view-det-sub-head text-capitalized">{selectedJobViewDetail?.jobCategory}</div>
-                                                </div>
-                                            </div>
-                                            <hr />
-                                            <div className="row">
-                                                <div className="col-12 col-sm-5 col-md-5 col-lg-4">
-                                                    <div className="view-det-head">Job Mandatory Skills</div>
-                                                </div>
-                                                <div className="col-12 col-sm-7 col-md-7 col-lg-8">
-                                                    <div className="cand-skills-area">
-
-                                                        {selectedJobViewDetail?.skills.map(skill => {
-                                                            return (
-                                                                <span className='cand-skill text-capitalized'>{skill}</span>
-                                                            )
-                                                        })}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <hr />
-                                            <div className="row">
-                                                <div className="col-12 col-sm-5 col-md-5 col-lg-4">
-                                                    <div className="view-det-head">Needed Experience</div>
-                                                </div>
-                                                <div className="col-12 col-sm-7 col-md-7 col-lg-8">
-                                                    <div className="view-det-sub-head text-capitalized">
-                                                        <span>{selectedJobViewDetail?.minExperience} - {selectedJobViewDetail?.maxExperience}</span>
-                                                        &nbsp;years&nbsp;
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <hr />
-                                            <div className="row">
-                                                <div className="col-12 col-sm-5 col-md-5 col-lg-4">
-                                                    <div className="view-det-head">Job Description</div>
-                                                </div>
-                                                <div className="col-12 col-sm-7 col-md-7 col-lg-8">
-                                                    <div className="view-det-sub-head text-capitalized">{selectedJobViewDetail?.jobDescription}</div>
-                                                </div>
-                                            </div>
-                                            <hr />
-                                            <div className="row">
-                                                <div className="col-12 col-sm-5 col-md-5 col-lg-4">
-                                                    <div className="view-det-head">Salary Range</div>
-                                                </div>
-                                                <div className="col-12 col-sm-7 col-md-7 col-lg-8">
-                                                    <div className="view-det-sub-head">{selectedJobViewDetail?.currencyType}{selectedJobViewDetail?.minSalary} - {selectedJobViewDetail?.currencyType}{selectedJobViewDetail?.maxSalary}</div>
-                                                </div>
-                                            </div>
-                                            <hr />
-                                            <div className="row">
-                                                <div className="col-12 col-sm-5 col-md-5 col-lg-4">
-                                                    <div className="view-det-head">Department</div>
-                                                </div>
-                                                <div className="col-12 col-sm-7 col-md-7 col-lg-8">
-                                                    <div className="view-det-sub-head text-capitalized">{selectedJobViewDetail?.department}</div>
-                                                </div>
-                                            </div>
-                                            <hr />
-                                            <div className="row">
-                                                <div className="col-12 col-sm-5 col-md-5 col-lg-4">
-                                                    <div className="view-det-head">Education</div>
-                                                </div>
-                                                <div className="col-12 col-sm-7 col-md-7 col-lg-8">
-                                                    <div className="view-det-sub-head text-capitalized">{selectedJobViewDetail?.education}</div>
-                                                </div>
-                                            </div>
-                                            <hr />
-                                            <div className="row">
-                                                <div className="col-12 col-sm-5 col-md-5 col-lg-4">
-                                                    <div className="view-det-head">Industry</div>
-                                                </div>
-                                                <div className="col-12 col-sm-7 col-md-7 col-lg-8">
-                                                    <div className="view-det-sub-head text-capitalized">{selectedJobViewDetail?.industry}</div>
-                                                </div>
-                                            </div>
-                                            <hr />
-                                            <div className="row">
-                                                <div className="col-12 col-sm-5 col-md-5 col-lg-4">
-                                                    <div className="view-det-head">Locations</div>
-                                                </div>
-                                                <div className="col-12 col-sm-7 col-md-7 col-lg-8">
-                                                    <div className="cand-skills-area">
-                                                        {selectedJobViewDetail?.location.map(location => {
-                                                            return (
-                                                                <span className='cand-skill text-capitalized'>{location}</span>
-                                                            )
-                                                        })}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <hr />
-                                            <div className="row">
-                                                <div className="col-12 col-sm-5 col-md-5 col-lg-4">
-                                                    <div className="view-det-head">Role</div>
-                                                </div>
-                                                <div className="col-12 col-sm-7 col-md-7 col-lg-8">
-                                                    <div className="view-det-sub-head text-capitalized">{selectedJobViewDetail?.role}</div>
-                                                </div>
-                                            </div>
-                                            <hr />
-                                            <div className="row">
-                                                <div className="col-12 col-sm-5 col-md-5 col-lg-4">
-                                                    <div className="view-det-head">Working Mode</div>
-                                                </div>
-                                                <div className="col-12 col-sm-7 col-md-7 col-lg-8">
-                                                    <div className="view-det-sub-head text-capitalized">{selectedJobViewDetail?.workMode}</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="modal-footer recruiter-view-modal-footer bg-whitesmoke br">
-                                        <button type="button" className="btn close-modal-btn" data-dismiss="modal">Close</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
                         <Footer />
                     </div>
 
@@ -1400,4 +778,4 @@ const TalentsAts = () => {
         </div>
     )
 }
-export default TalentsAts;
+export default TalentsAtsOnly;

@@ -24,12 +24,30 @@ const AppliedCandidateATS = () => {
     const [selectedCandidates, setSelectedCandidates] = useState([]);
     const [selectedStatus, setSelectedStatus] = useState("");
     const [applicationStatus, setApplicationStatus] = useState([]);
+    const [filteringStatus, setFilteringStatus] = useState("");
+    const [finalCand, setFinalCand] = useState([]);
 
     const [x, setX] = useState([0, 4]);
 
     const navigate = useNavigate();
 
-    console.log(assignedCandidatesForJob)
+   useEffect(()=>{
+    if(filteringStatus){
+        if(filteringStatus === "Any"){
+            setFinalCand(reqCands);
+        }else{
+            const filteringStatusCand = applicationStatus.filter(
+                (item) => item.status === filteringStatus)
+                console.log(filteringStatusCand)
+            const returningCand = reqCands.filter(candidate =>
+                filteringStatusCand.some(anotherCandidate => anotherCandidate.candidateId === candidate.id)
+            );
+            console.log(returningCand)
+            setFinalCand(returningCand);
+        }
+    }
+
+   },[filteringStatus])
 
     //for show success message for payment
     function showSuccessMessage(message) {
@@ -503,6 +521,7 @@ const AppliedCandidateATS = () => {
                 );
                 console.log(filtered)
                 setReqCands(filtered);
+                setFinalCand(filtered);
             } else {
                 console.log(result);
             }
@@ -626,7 +645,7 @@ const AppliedCandidateATS = () => {
     return (
         <div>
             {/* {loading && <div id="preloader"></div>} */}
-            {reqCands && <div class="main-wrapper main-wrapper-1">
+            {finalCand && <div class="main-wrapper main-wrapper-1">
                 <div class="navbar-bg"></div>
                 <ATSLayout />
 
@@ -662,7 +681,32 @@ const AppliedCandidateATS = () => {
                                         onClick={handleChangeStatus}>Change</button>
                                     </div>
                                 </div>
-                                {reqCands.map((candidate) => {
+                                <div className="card change-status-card">
+                                    <div className="card-change-status-title">
+                                        Filter the Applicants 
+                                    </div> 
+                                   <div className="card-change-status-input-area">
+                                        <div className='select-option-area position-relative w-100'>
+                                            <i class="bi bi-chevron-down toggle-icon"></i>
+                                            <select className='change-setting-input select'
+                                                value={filteringStatus}
+                                                onChange={(e) =>setFilteringStatus(e.target.value)}
+                                            >
+                                                <option value="" disabled selected>-- Select application status --</option>
+                                                <option value="Any">Any</option>
+                                                <option value="Screening">Screening</option>
+                                                <option value="screened">Screened</option>
+                                                <option value="interviews">Interviews in Process</option>
+                                                <option value="offered">Offered</option>
+                                                <option value="rejected">Rejected</option>
+                                                <option value="joined">Joined</option>
+                                                <option value="absconded">Absconded</option>
+                                            </select>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                                {finalCand.map((candidate) => {
                                     const matchingImg = candidateImg ? candidateImg.find(img => img.id === candidate.id) : null;
                                     const imgSrc = matchingImg ? `https://skillety-n6r1.onrender.com/candidate_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
 
@@ -770,19 +814,19 @@ const AppliedCandidateATS = () => {
                                                         <img src={imgSrc} className='tal--pro-card-profile-img applied' alt="" />
                                                         <p className='tal--pro-card-role-name mb-0'>{candidate.designation[0]}</p>
                                                     </div>
-                                                    {/* <div className="tal--pro-card-contact-btn-area">
-                                                        <button className='tal--pro-card-contact-btn' onClick={() => navigate(`/talents-ats/${candidate.id}`, { state: { percentage, jobId:id } })}>View Profile</button>
-                                                        <span className="profile-credits-title">&#129031; 01 Credit</span>
+                                                    <div className="tal--pro-card-contact-btn-area">
+                                                        <button className='tal--pro-card-contact-btn' onClick={() => navigate(`/talents-ats-only/${candidate.id}`, { state: { percentage } })}>View Profile</button>
+                                                        {/* <span className="profile-credits-title">&#129031; 01 Credit</span> */}
 
-                                                        <div className="profile-credits-area">
+                                                        {/* <div className="profile-credits-area">
                                                             <div className="profile-credits-title">Credits</div>
                                                             <div className="profile-credits">01</div>
                                                         </div>
                                                         <button className='tal--pro-card-contact-btn'>
                                                             <img src="../assets/img/talent-profile/call.png" alt="" />
                                                             Call Candidate
-                                                        </button>
-                                                    </div> */}
+                                                        </button> */}
+                                                    </div>
                                                     <div className="tal--pro-card-ability-number-area applied">
                                                         <div className="tal--pro-card-ability-number-left applied">
                                                             <h6 className='tal--pro-card-ability'>Skill matched</h6>
@@ -812,7 +856,7 @@ const AppliedCandidateATS = () => {
                                 })}
 
                                 <div className="tal--pro-paginate-btn-area" >
-                                    <h6 className='tal--pro-total-result-text'>Total Items : <span>{reqCands.length}</span></h6>
+                                    <h6 className='tal--pro-total-result-text'>Total Items : <span>{finalCand.length}</span></h6>
                                     <div className='tal--pro-slider-btn-sub'>
                                         {x[0] > 0 && <button className="tal--pro-slider-btn" onClick={() => setX([x[0] - 4, x[1] - 4])}>
                                             <svg className='arrow-left' xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 27 27" fill="none">
@@ -821,7 +865,7 @@ const AppliedCandidateATS = () => {
                                                 <path d="M1 26L25.1667 1" stroke="#5C3B2E" stroke-width="2" />
                                             </svg>
                                         </button>}
-                                        {((reqCands.slice(x[0], x[1]).length === 4 && reqCands.length > x[1])) && < button className="tal--pro-slider-btn" onClick={() => setX([x[0] + 4, x[1] + 4])}>
+                                        {((finalCand.slice(x[0], x[1]).length === 4 && finalCand.length > x[1])) && < button className="tal--pro-slider-btn" onClick={() => setX([x[0] + 4, x[1] + 4])}>
                                             <svg className='arrow-right' xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 27 27" fill="none">
                                                 <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#5C3B2E" stroke-width="2" />
                                                 <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#5C3B2E" stroke-width="2" />

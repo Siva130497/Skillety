@@ -1338,18 +1338,31 @@ const updatingApplicationStatusForJob = async (req, res) => {
     }
 
     for (const candidateId of candidateIdArray) {
-    
       const existingApplicationStatus = await applicationStatus.findOne({
         jobId: jobId,
         candidateId: candidateId,
       });
 
       if (existingApplicationStatus) {
-        existingApplicationStatus.status = status;
-        await existingApplicationStatus.save();
+       
+        await ApplicationStatus.findOneAndUpdate(
+          { jobId: jobId, candidateId: candidateId },
+          { $set: { status: status } },
+          { new: true } 
+        );
+
+        console.log(`Application status updated for jobId: ${jobId}, candidateId: ${candidateId}`);
       } else {
-    
-        console.log(`No document found for jobId: ${jobId}, candidateId: ${candidateId}`);
+       
+        const newApplicationStatus = new applicationStatus({
+          jobId: jobId,
+          candidateId: candidateId,
+          status: status,
+        });
+
+        await newApplicationStatus.save();
+
+        console.log(`New ApplicationStatus document created for jobId: ${jobId}, candidateId: ${candidateId}`);
       }
     }
 
@@ -1492,7 +1505,7 @@ const deletingPostedJob = async(req, res) => {
 const createRecruiter = async(req, res) => {
   try {
     console.log(req.body);
-    const {email, password, id, name, phone} = req.body; 
+    const {email, password, id, name, phone, role} = req.body; 
     const employeeAvailable = await employee.findOne(({ $or: [{ email },  {phone}] }));
     const allUserAvailable = await allUsers.findOne({ $or: [{ email },  { phone }] });
 
@@ -1502,7 +1515,7 @@ const createRecruiter = async(req, res) => {
     const hashPassword = await bcrypt.hash(password, 12);
     const newEmployee = new employee({
       ...req.body,
-      role:"Recruiter",
+      role,
       password:hashPassword,
     });
     await newEmployee.save();
@@ -1512,7 +1525,7 @@ const createRecruiter = async(req, res) => {
       name,
       email,
       phone,
-      role:"Recruiter",
+      role,
       password:hashPassword,
     });
     await updatedUser.save();
