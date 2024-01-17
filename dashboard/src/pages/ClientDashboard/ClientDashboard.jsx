@@ -12,7 +12,7 @@ import 'swiper/css/pagination';
 
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
-import {io} from "socket.io-client";
+import { io } from "socket.io-client";
 import notificationSound from "./media/notify-ring.mp3";
 
 import {
@@ -32,64 +32,6 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import AuthContext from '../../context/AuthContext';
 import PackagePlans from '../PackagePlans/PackagePlans';
-
-
-ChartJS.register(
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    LineElement,
-    Title,
-    Tooltip,
-    Filler,
-    Legend
-);
-
-const labels = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-
-const data = {
-    labels,
-    datasets: [
-        {
-            fill: true,
-            label: 'Candidate Applied',
-            data: [12.5, 12.5, 2.5, 5, 0, 2.5, 2.5, 10],
-            borderColor: '#F9C833',
-            backgroundColor: '#714F36',
-        },
-        {
-            fill: true,
-            label: 'Candidate Screened',
-            data: [7.5, 8, 5, 7.5, 12.5, 5, 6, 7.5],
-            borderColor: '#714F36',
-            backgroundColor: '#C2B9B0',
-        },
-    ],
-};
-
-const yAxesTicks = [0, 5, 10, 20];
-
-const options = {
-    responsive: true,
-    scales: {
-        y: {
-            suggestedMin: yAxesTicks[0],
-            suggestedMax: yAxesTicks[yAxesTicks.length - 1],
-            ticks: {
-                stepSize: 5,
-            },
-        },
-    },
-    plugins: {
-        legend: {
-            position: 'top',
-        },
-        title: {
-            display: true,
-        },
-    },
-
-};
 
 const ClientDashboard = () => {
     const { token } = useParams();
@@ -113,6 +55,102 @@ const ClientDashboard = () => {
 
     const [audioContext, setAudioContext] = useState(null);
     const [audioBuffer, setAudioBuffer] = useState(null);
+
+    const [filter, setFilter] = useState('Weekly');
+
+    const handleFilterChange = (event) => {
+        setFilter(event.target.value);
+    };
+
+    ChartJS.register(
+        CategoryScale,
+        LinearScale,
+        PointElement,
+        LineElement,
+        Title,
+        Tooltip,
+        Filler,
+        Legend
+    );
+
+    const getLabels = () => {
+        switch (filter) {
+            case 'Weekly':
+                return ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+            case 'Monthly':
+                return ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            case 'Yearly':
+                return ['2020', '2021', '2022', '2023', '2024', '2025', '2026', '2027', '2028', '2029', '2030'];
+            default:
+                return [];
+        }
+    };
+
+    const getData = () => {
+        switch (filter) {
+            case 'Weekly':
+                return [
+                    [12.5, 12.5, 2.5, 5, 0, 2.5, 2.5, 10],
+                    [7.5, 8, 5, 7.5, 12.5, 5, 6, 7.5],
+                ];
+            case 'Monthly':
+                return [
+                    [20, 25, 30, 22, 18, 25, 28, 30, 20, 15, 10, 18],
+                    [15, 18, 20, 22, 30, 25, 28, 30, 22, 18, 15, 20],
+                ];
+            case 'Yearly':
+                return [
+                    [100, 120, 80, 90, 110, 130, 140, 160, 180, 200, 180, 150],
+                    [80, 100, 70, 90, 120, 150, 160, 180, 200, 220, 200, 170],
+                ];
+            default:
+                return [];
+        }
+    };
+
+    const data = {
+        labels: getLabels(),
+        datasets: [
+            {
+                fill: true,
+                label: 'Candidate Applied',
+                data: getData()[0],
+                borderColor: '#F9C833',
+                backgroundColor: '#714F36',
+            },
+            {
+                fill: true,
+                label: 'Candidate Screened',
+                data: getData()[1],
+                borderColor: '#714F36',
+                backgroundColor: '#C2B9B0',
+            },
+        ],
+    };
+
+    const yAxesTicks = [0, 5, 10, 20];
+
+    const options = {
+        responsive: true,
+        scales: {
+            y: {
+                suggestedMin: yAxesTicks[0],
+                suggestedMax: yAxesTicks[yAxesTicks.length - 1],
+                ticks: {
+                    stepSize: 5,
+                },
+            },
+        },
+        plugins: {
+            legend: {
+                position: 'top',
+            },
+            title: {
+                display: true,
+            },
+        },
+
+    };
 
     useEffect(() => {
         const preloader = $('#preloader');
@@ -145,33 +183,33 @@ const ClientDashboard = () => {
         });
     }, []);
 
-    useEffect(()=>{
+    useEffect(() => {
         setSocket(io("https://skillety-n6r1.onrender.com"));
-    },[]);
+    }, []);
 
-    useEffect(()=>{
+    useEffect(() => {
         socket?.emit("newUser", companyName)
         console.log(companyName)
-    },[socket, companyName])
+    }, [socket, companyName])
 
-    useEffect(()=>{
-      socket?.on("getNotification", data=>{
-        console.log(data)
-        setNotifications(prev=>[...prev, data]);
+    useEffect(() => {
+        socket?.on("getNotification", data => {
+            console.log(data)
+            setNotifications(prev => [...prev, data]);
 
-        if (!document.hasFocus()) {
-            const sound = new Audio(notificationSound);
-            sound.play();
-          }
-      })
-    },[socket]);
+            if (!document.hasFocus()) {
+                const sound = new Audio(notificationSound);
+                sound.play();
+            }
+        })
+    }, [socket]);
 
     // useEffect(()=>{
     //     if (notifications.length > 0 || socket) {
     //         if (audioContext === null) {
     //           const context = new (window.AudioContext || window.webkitAudioContext)();
     //           setAudioContext(context);
-      
+
     //           fetch('../assets/media/notify-ring.mp3')
     //             .then((response) => response.arrayBuffer())
     //             .then((data) => {
@@ -192,7 +230,7 @@ const ClientDashboard = () => {
         source.buffer = buffer;
         source.connect(context.destination);
         source.start(0);
-      };
+    };
 
 
     useEffect(() => {
@@ -222,17 +260,17 @@ const ClientDashboard = () => {
 
             axios.get("https://skillety-n6r1.onrender.com/candidate-to-client-notification", {
                 headers: {
-                Authorization: `Bearer ${token}`,
-                Accept: 'application/json'
+                    Authorization: `Bearer ${token}`,
+                    Accept: 'application/json'
                 }
             })
-            .then(res=>{
-                console.log(res.data);
-                setNotifications(res.data)
-            })
-            .catch(err=>{
-                console.log(err)
-            })
+                .then(res => {
+                    console.log(res.data);
+                    setNotifications(res.data)
+                })
+                .catch(err => {
+                    console.log(err)
+                })
         }
     }, [token]);
 
@@ -419,11 +457,11 @@ const ClientDashboard = () => {
         setPostedJobs(newArray)
     }, [updatePostedJobs]);
 
-    const displayNotification = ({senderName, type, time, date}) => {
+    const displayNotification = ({ senderName, type, time, date }) => {
         let action;
-  
-        if(type === "1"){
-          action = "applied"
+
+        if (type === "1") {
+            action = "applied"
         }
         return (
             <>
@@ -435,7 +473,7 @@ const ClientDashboard = () => {
                 </td> */}
             </>
         )
-      }
+    }
 
 
     return (
@@ -446,7 +484,7 @@ const ClientDashboard = () => {
 
                 <div class="main-wrapper main-wrapper-1">
                     <div class="navbar-bg"></div>
-                    <ClientLayout notification={notifications}/>
+                    <ClientLayout notification={notifications} />
 
                     <div class="main-content">
                         <section class="section">
@@ -583,11 +621,16 @@ const ClientDashboard = () => {
                                                 <div className="dash-chart-title">Overview</div>
                                                 <div className="dash-chart-filter-area">
                                                     <form action="">
-                                                        <select name="" className='dash-chart-filter-input' id="">
-                                                            <option value="Monthly" selected>Monthly</option>
-                                                            <option value="Weekly">Weekly</option>
-                                                            <option value="Yearly">Yearly</option>
-                                                        </select>
+                                                        <div className='dash-graph-selection'>
+                                                            <i class="bi bi-chevron-down toggle-icon"></i>
+                                                            <select className='dash-chart-filter-input'
+                                                                value={filter}
+                                                                onChange={handleFilterChange}>
+                                                                <option value="Weekly" selected>Weekly</option>
+                                                                <option value="Monthly">Monthly</option>
+                                                                <option value="Yearly">Yearly</option>
+                                                            </select>
+                                                        </div>
                                                     </form>
                                                 </div>
                                             </div>
@@ -608,8 +651,8 @@ const ClientDashboard = () => {
                                                     <div class="table-responsive dash-table-container client mt-4">
                                                         <table class="table table-striped table-hover dash-table">
                                                             {notifications?.length > 0 ? (
-                                                                notifications.reverse().slice(0,10).map((notification) => (
-                                                                <tr className='dash-table-row' key={notification.id}>{displayNotification(notification)}</tr>
+                                                                notifications.reverse().slice(0, 10).map((notification) => (
+                                                                    <tr className='dash-table-row' key={notification.id}>{displayNotification(notification)}</tr>
                                                                 ))
                                                             ) : (
                                                                 <tr>

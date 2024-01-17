@@ -13,7 +13,7 @@ import 'swiper/css/pagination';
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 
-import {io} from "socket.io-client";
+import { io } from "socket.io-client";
 
 import {
   Chart as ChartJS,
@@ -32,64 +32,6 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import AuthContext from '../../context/AuthContext';
 import notificationSound from "./media/notify-ring.mp3";
-
-
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Filler,
-  Legend
-);
-
-const labels = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-
-const data = {
-  labels,
-  datasets: [
-    {
-      fill: true,
-      label: 'Old visitors',
-      data: [12.5, 12.5, 2.5, 5, 0, 2.5, 2.5, 10],
-      borderColor: '#714F36',
-      backgroundColor: '#F9C833',
-    },
-    {
-      fill: true,
-      label: 'New visitors',
-      data: [7.5, 8, 5, 7.5, 12.5, 5, 6, 7.5],
-      borderColor: '#F9C833',
-      backgroundColor: '#FFEDB7',
-    },
-  ],
-};
-
-const yAxesTicks = [0, 5, 10, 20];
-
-const options = {
-  responsive: true,
-  scales: {
-    y: {
-      suggestedMin: yAxesTicks[0],
-      suggestedMax: yAxesTicks[yAxesTicks.length - 1],
-      ticks: {
-        stepSize: 5,
-      },
-    },
-  },
-  plugins: {
-    legend: {
-      position: 'top',
-    },
-    title: {
-      display: true,
-    },
-  },
-
-};
 
 const ClientDashboard = () => {
   const { token } = useParams();
@@ -110,8 +52,104 @@ const ClientDashboard = () => {
   const [userName, setUserName] = useState("");
   const [socket, setSocket] = useState(null);
 
-    const [audioContext, setAudioContext] = useState(null);
-    const [audioBuffer, setAudioBuffer] = useState(null);
+  const [audioContext, setAudioContext] = useState(null);
+  const [audioBuffer, setAudioBuffer] = useState(null);
+
+  const [filter, setFilter] = useState('Weekly');
+
+  const handleFilterChange = (event) => {
+    setFilter(event.target.value);
+  };
+
+  ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    Title,
+    Tooltip,
+    Filler,
+    Legend
+  );
+
+  const getLabels = () => {
+    switch (filter) {
+      case 'Weekly':
+        return ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+      case 'Monthly':
+        return ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      case 'Yearly':
+        return ['2020', '2021', '2022', '2023', '2024', '2025', '2026', '2027', '2028', '2029', '2030'];
+      default:
+        return [];
+    }
+  };
+
+  const getData = () => {
+    switch (filter) {
+      case 'Weekly':
+        return [
+          [12.5, 12.5, 2.5, 5, 0, 2.5, 2.5, 10],
+          [7.5, 8, 5, 7.5, 12.5, 5, 6, 7.5],
+        ];
+      case 'Monthly':
+        return [
+          [20, 25, 30, 22, 18, 25, 28, 30, 20, 15, 10, 18],
+          [15, 18, 20, 22, 30, 25, 28, 30, 22, 18, 15, 20],
+        ];
+      case 'Yearly':
+        return [
+          [100, 120, 80, 90, 110, 130, 140, 160, 180, 200, 180, 150],
+          [80, 100, 70, 90, 120, 150, 160, 180, 200, 220, 200, 170],
+        ];
+      default:
+        return [];
+    }
+  };
+
+  const data = {
+    labels: getLabels(),
+    datasets: [
+      {
+        fill: true,
+        label: 'Old visitors',
+        data: getData()[0],
+        borderColor: '#714F36',
+        backgroundColor: '#F9C833',
+      },
+      {
+        fill: true,
+        label: 'New visitors',
+        data: getData()[1],
+        borderColor: '#F9C833',
+        backgroundColor: '#FFEDB7',
+      },
+    ],
+  };
+
+  const yAxesTicks = [0, 5, 10, 20];
+
+  const options = {
+    responsive: true,
+    scales: {
+      y: {
+        suggestedMin: yAxesTicks[0],
+        suggestedMax: yAxesTicks[yAxesTicks.length - 1],
+        ticks: {
+          stepSize: 5,
+        },
+      },
+    },
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+      title: {
+        display: true,
+      },
+    },
+
+  };
 
   useEffect(() => {
     const preloader = $('#preloader');
@@ -124,14 +162,14 @@ const ClientDashboard = () => {
     }
   }, []);
 
-  useEffect(()=>{
+  useEffect(() => {
     setSocket(io("https://skillety-n6r1.onrender.com"));
-  },[]);
+  }, []);
 
-  useEffect(()=>{
-      socket?.emit("newUser", userName)
-      console.log(userName)
-  },[socket, userName])
+  useEffect(() => {
+    socket?.emit("newUser", userName)
+    console.log(userName)
+  }, [socket, userName])
 
   const playSound = (context, buffer) => {
     const source = context.createBufferSource();
@@ -140,29 +178,29 @@ const ClientDashboard = () => {
     source.start(0);
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     const context = new (window.AudioContext || window.webkitAudioContext)();
     setAudioContext(context);
-  },[])
+  }, [])
 
-  useEffect(()=>{
-    if(audioContext !== null){
+  useEffect(() => {
+    if (audioContext !== null) {
       fetch('../assets/media/notify-ring.mp3')
-            .then((response) => response.arrayBuffer())
-            .then((data) => {
-              audioContext.decodeAudioData(data, (buffer) => {
-                setAudioBuffer(buffer);
-              });
-            });
+        .then((response) => response.arrayBuffer())
+        .then((data) => {
+          audioContext.decodeAudioData(data, (buffer) => {
+            setAudioBuffer(buffer);
+          });
+        });
     }
-  },[audioContext])
+  }, [audioContext])
 
-  useEffect(()=>{
-    
-    socket?.on("getNotification", data=>{
+  useEffect(() => {
+
+    socket?.on("getNotification", data => {
       console.log(data)
-      setNotifications(prev=>[...prev, data]);
-      
+      setNotifications(prev => [...prev, data]);
+
       // if(audioBuffer && audioContext){
       //   playSound(audioContext, audioBuffer);
       // }
@@ -170,26 +208,26 @@ const ClientDashboard = () => {
         const sound = new Audio(notificationSound);
         sound.play();
       }
-      
+
     })
 
-  },[socket]);
+  }, [socket]);
 
-  const displayNotification = ({senderName, type, time, date}) => {
+  const displayNotification = ({ senderName, type, time, date }) => {
     let action;
 
-    if(type === "2"){
+    if (type === "2") {
       action = "message"
     }
     return (
-        <>
-            <td className='dash-table-sub-data data-nowrap'>{`${time} ${date}`}</td>
-            <td className='dash-table-sub-data'>{`${senderName} ${action} you`}....................</td>
-            {/* <td className='text-right dash-table-view-btn-area'>
+      <>
+        <td className='dash-table-sub-data data-nowrap'>{`${time} ${date}`}</td>
+        <td className='dash-table-sub-data'>{`${senderName} ${action} you`}....................</td>
+        {/* <td className='text-right dash-table-view-btn-area'>
                 <button className='dash-table-view-btn client'
                     data-toggle="modal">View</button>
             </td> */}
-        </>
+      </>
     )
   }
 
@@ -258,18 +296,18 @@ const ClientDashboard = () => {
       fetchData();
 
       axios.get("https://skillety-n6r1.onrender.com/candidate-notification", {
-                headers: {
-                Authorization: `Bearer ${token}`,
-                Accept: 'application/json'
-                }
-            })
-            .then(res=>{
-                console.log(res.data);
-                setNotifications(res.data)
-            })
-            .catch(err=>{
-                console.log(err)
-            })
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: 'application/json'
+        }
+      })
+        .then(res => {
+          console.log(res.data);
+          setNotifications(res.data)
+        })
+        .catch(err => {
+          console.log(err)
+        })
     }
   }, [token]);
 
@@ -349,7 +387,7 @@ const ClientDashboard = () => {
       {candidateId && <div className="main-wrapper main-wrapper-1">
         <div className="navbar-bg"></div>
 
-        <Layout notification={notifications} socket={socket}/> 
+        <Layout notification={notifications} socket={socket} />
 
         <div className="main-content">
           <section className="section">
@@ -486,11 +524,16 @@ const ClientDashboard = () => {
                       <div className="dash-chart-title">Resume Visits</div>
                       <div className="dash-chart-filter-area">
                         <form action="">
-                          <select name="" className='dash-chart-filter-input' id="">
-                            <option value="Monthly" selected>Monthly</option>
-                            <option value="Weekly">Weekly</option>
-                            <option value="Yearly">Yearly</option>
-                          </select>
+                          <div className='dash-graph-selection'>
+                            <i class="bi bi-chevron-down toggle-icon"></i>
+                            <select className='dash-chart-filter-input'
+                              value={filter}
+                              onChange={handleFilterChange}>
+                              <option value="Weekly" selected>Weekly</option>
+                              <option value="Monthly">Monthly</option>
+                              <option value="Yearly">Yearly</option>
+                            </select>
+                          </div>
                         </form>
                       </div>
                     </div>
@@ -586,33 +629,33 @@ const ClientDashboard = () => {
                   </div>
                 </div> */}
 
-                                      <div class="row">
-                                        <div class="col-12">
-                                            <div className="dash-table-section">
-                                                <div className="dash-table-area">
-                                                    <div className="dash-table-top-area">
-                                                        <div className="dash-table-title">
-                                                            New Notifications
-                                                        </div>
-                                                        <a href='#' className="dash-table-see-all-btn">See all</a>
-                                                    </div>
-                                                    <div class="table-responsive dash-table-container client mt-4">
-                                                        <table class="table table-striped table-hover dash-table">
-                                                            {notifications?.length > 0 ? (
-                                                                notifications.reverse().slice(0,10).map((notification) => (
-                                                                <tr className='dash-table-row' key={notification.id}>{displayNotification(notification)}</tr>
-                                                                ))
-                                                            ) : (
-                                                                <tr>
-                                                                    <td colSpan={2} className='text-secondary text-center'>No new notifications..!</td>
-                                                                </tr>
-                                                            )}
-                                                        </table>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                      </div>
+                <div class="row">
+                  <div class="col-12">
+                    <div className="dash-table-section">
+                      <div className="dash-table-area">
+                        <div className="dash-table-top-area">
+                          <div className="dash-table-title">
+                            New Notifications
+                          </div>
+                          <a href='#' className="dash-table-see-all-btn">See all</a>
+                        </div>
+                        <div class="table-responsive dash-table-container client mt-4">
+                          <table class="table table-striped table-hover dash-table">
+                            {notifications?.length > 0 ? (
+                              notifications.reverse().slice(0, 10).map((notification) => (
+                                <tr className='dash-table-row' key={notification.id}>{displayNotification(notification)}</tr>
+                              ))
+                            ) : (
+                              <tr>
+                                <td colSpan={2} className='text-secondary text-center'>No new notifications..!</td>
+                              </tr>
+                            )}
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
 
                 <div class="row">
                   <div class="col-12">
