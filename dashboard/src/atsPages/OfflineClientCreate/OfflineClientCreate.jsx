@@ -140,7 +140,7 @@ const OfflineClientCreate = () => {
       useEffect(() => {
         if (client) {
             console.log(client)
-          setSelectedIndustry([client.industry])
+          setSelectedIndustry(client.industry)
           setCredentials({
             ...credentials,
             companyName: client.companyName,
@@ -181,7 +181,7 @@ const OfflineClientCreate = () => {
 
     const registerUser = async (userData) => {
         try {
-            const response = await axios.post('https://skillety-n6r1.onrender.com/offline-client-reg', userData, {
+            const response = await axios.post('http://localhost:5002/offline-client-reg', userData, {
                 headers: {
                     Authorization: `Bearer ${atsToken}`,
                     Accept: 'application/json'
@@ -343,7 +343,7 @@ const OfflineClientCreate = () => {
 
                 const updatedCredentials = {
                     ...credentials,
-                    industry: selectedIndustry[0],
+                    industry: selectedIndustry,
                     managerId:employeeId,
                     clientId,
                 };
@@ -382,7 +382,7 @@ const OfflineClientCreate = () => {
         }else{
                 const updatedCredentials = {
                     ...credentials,
-                    industry: selectedIndustry[0],
+                    industry: selectedIndustry,
                 };
                 console.log(updatedCredentials);
                 if(doc){

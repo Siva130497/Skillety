@@ -20,7 +20,7 @@ const employeeSchema = new Schema(
     },
     role: {
       type: String,
-      enum: ["Recruiter", "Admin", "Manager"]
+      enum: ["Recruiter", "Admin", "Super-Admin", "Manager", "Recruiter-ATS"]
     },
     companyStaff: {
       type: String,

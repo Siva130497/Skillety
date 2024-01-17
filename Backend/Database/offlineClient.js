@@ -9,7 +9,6 @@ const offlineClientSchema = new Schema(
     },
     managerId: {
       type: String,
-      unique: true,
       required: true
     },
     companyName: {

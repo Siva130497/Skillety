@@ -92,9 +92,9 @@ const ATSSideBar = () => {
                     <li className="dropdown" id='ats_dashboard'>
                         <a href={`/ats-dashboard/${atsToken}`} className="nav-link"><i data-feather="home"></i><span>Dashboard</span></a>
                     </li>
-                    {role === "Super-Admin" && <li className="dropdown" id='all-ats-staff'>
-                        <a href="/all-ats-staff" className="nav-link"><i data-feather="user-check"></i><span>ATS Staffs</span></a>
-                    </li>}
+                     <li className="dropdown" id='all-ats-staff'>
+                        {role === "Super-Admin"&& <a href="/all-company-staff-ats" className="nav-link"><i data-feather="user-check"></i><span>ATS Staffs</span></a>}
+                    </li>
                     {/* {role === "Admin" && <li className="dropdown" id='company-staff-create'>
                             <a href="/company-staff-create" className="nav-link"><i data-feather="user"></i><span>Company Staff Create</span></a>
                         </li>} */}
