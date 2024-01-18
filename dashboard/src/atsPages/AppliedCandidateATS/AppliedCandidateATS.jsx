@@ -610,7 +610,7 @@ const AppliedCandidateATS = () => {
             candidateIdArray:selectedCandidates,
         }
 
-        axios.patch("http://localhost:5002/update-application-status", applicationData, {
+        axios.patch("https://skillety-n6r1.onrender.com/update-application-status", applicationData, {
             headers: {
                 Authorization: `Bearer ${atsToken}`,
                 Accept: 'application/json'
