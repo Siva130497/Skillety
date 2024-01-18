@@ -185,7 +185,10 @@ const {
    deAssigningJobsForCand,
    getAllAssignedCandidateDetails,
    getAllATSStaff,
-   
+   offlineCandRegister,
+   updateOfflineCand,
+   getAllOfflineCandDetails,
+   deletingOfflineCandidate,
 
    //ATS...............
   
@@ -677,6 +680,18 @@ router.get("/all-assigned-candidates", employeeAuth, getAllAssignedCandidateDeta
 
 //endpoint to get all ats staff
 router.get("/all-ats-staffs", employeeAuth, getAllATSStaff);
+
+//endpoint to create new offline candidate
+router.post("/offline-cand-reg", employeeAuth, offlineCandRegister);
+
+//endpoint to update the exiesting offline candidate details
+router.patch("/update-exiesting-offline-cand/:id", employeeAuth, updateOfflineCand);
+
+//endpoint to find all the offline candidates
+router.get("/offline-cand-Details", employeeAuth, getAllOfflineCandDetails);
+
+//delete the exiesting offline candidate
+router.delete("/delete-exiesting-offline-cand/:id", employeeAuth, deletingOfflineCandidate);
 
 //ATS..................
 

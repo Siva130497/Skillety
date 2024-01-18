@@ -56,6 +56,7 @@ const offlineClientTable = require("../Database/offlineClientTable");
 const atsJobsTable = require("../Database/atsJobsTable");
 const selectedCandidateForJob = require("../Database/selectedCandidateForJob");
 const assignCandidateForJobDetail = require("../Database/assignCandidateForJobDetail");
+const offlineCand = require("../Database/offlineCand");
 
 //ATS...............................................
 
@@ -2728,14 +2729,15 @@ const updatingCandidateEmail = async (req, res) => {
       { email: email },
       { new: true }
     );
-    const recruiterCandDoc = await candidateCreate.findOne({ id: id });
-    if(recruiterCandDoc){
-      const updatedRecruiterCandDoc  = await candidateCreate.findOneAndUpdate(
-        { id: id },
-        { email: email },
+    
+    const offlineCandDoc = await offlineCand.findOne({ candId: id });
+    if(offlineCandDoc){
+      const updatedOfflineCandDoc  = await offlineCand.findOneAndUpdate(
+        { candId: id },
+        { emailId: email },
         { new: true }
       );
-      res.status(200).json({ allUsersDoc, finalCandidateDoc, updatedRecruiterCandDoc });
+      res.status(200).json({ allUsersDoc, finalCandidateDoc, updatedOfflineCandDoc });
     }else{
       res.status(200).json({ allUsersDoc, finalCandidateDoc });
     }
@@ -2759,14 +2761,14 @@ const updatingCandidatePhone = async (req, res) => {
       { phone: phone },
       { new: true }
     );
-    const recruiterCandDoc = await candidateCreate.findOne({ id: id });
-    if(recruiterCandDoc){
-      const updatedRecruiterCandDoc  = await candidateCreate.findOneAndUpdate(
-        { id: id },
-        { phone: phone },
+    const offlineCandDoc = await offlineCand.findOne({ candId: id });
+    if(offlineCandDoc){
+      const updatedOfflineCandDoc  = await offlineCand.findOneAndUpdate(
+        { candId: id },
+        { mobileNumber: phone },
         { new: true }
       );
-      res.status(200).json({ allUsersDoc, finalCandidateDoc, updatedRecruiterCandDoc });
+      res.status(200).json({ allUsersDoc, finalCandidateDoc, updatedOfflineCandDoc });
     }else{
       res.status(200).json({ allUsersDoc, finalCandidateDoc });
     }
@@ -2804,14 +2806,14 @@ const updatingCandidateFirstName = async (req, res) => {
       { new: true }
     );
 
-    const recruiterCandDoc = await candidateCreate.findOne({ id: id });
-    if(recruiterCandDoc){
-      const updatedRecruiterCandDoc  = await candidateCreate.findOneAndUpdate(
-        { id: id },
+    const offlineCandDoc = await offlineCand.findOne({ candId: id });
+    if(offlineCandDoc){
+      const updatedOfflineCandDoc  = await offlineCand.findOneAndUpdate(
+        { candId: id },
         { firstName: firstName },
         { new: true }
       );
-      res.status(200).json({ updatedAllUsersDoc, finalCandidateDoc, updatedRecruiterCandDoc });
+      res.status(200).json({ updatedAllUsersDoc, finalCandidateDoc, updatedOfflineCandDoc });
     }else{
       res.status(200).json({ updatedAllUsersDoc, finalCandidateDoc });
     }
@@ -2849,14 +2851,14 @@ const updatingCandidateLastName = async (req, res) => {
       { new: true }
     );
 
-    const recruiterCandDoc = await candidateCreate.findOne({ id: id });
-    if(recruiterCandDoc){
-      const updatedRecruiterCandDoc  = await candidateCreate.findOneAndUpdate(
-        { id: id },
+    const offlineCandDoc = await offlineCand.findOne({ candId: id });
+    if(offlineCandDoc){
+      const updatedOfflineCandDoc  = await offlineCand.findOneAndUpdate(
+        { candId: id },
         { lastName: lastName },
         { new: true }
       );
-      res.status(200).json({ updatedAllUsersDoc, finalCandidateDoc, updatedRecruiterCandDoc });
+      res.status(200).json({ updatedAllUsersDoc, finalCandidateDoc, updatedOfflineCandDoc });
     }else{
       res.status(200).json({ updatedAllUsersDoc, finalCandidateDoc });
     }
@@ -4413,6 +4415,158 @@ const getAllATSStaff = async (req, res) => {
   }
 }
 
+/* offline client register */
+const offlineCandRegister = async (req, res) => {
+  const { firstName, lastName, emailId, mobileNumber } = req.body;
+
+  try {
+    
+    const offlineCandAvailable = await offlineCand.findOne({ $or: [{ emailId },  { mobileNumber }] });
+    const candidateAvailable = await candidate.findOne({ $or: [{ email:emailId },  {phone:mobileNumber}] });
+    const allUserAvailable = await allUsers.findOne({ $or: [{ email:emailId },  {phone:mobileNumber}] });
+
+    if (offlineCandAvailable || candidateAvailable || allUserAvailable) {
+      return res.status(400).json({ error: 'Candidate already exists with the same email or mobile' });
+    }
+
+    const newOfflineCand = new offlineCand({
+      ...req.body,
+    });
+
+    await newOfflineCand.save();
+
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: 'demoemail1322@gmail.com',
+        pass: 'znsdgrmwzskpatwz'
+      }
+    });
+
+    const mailOptions = {
+      from: 'demoemail1322@gmail.com',
+      to: `${newOfflineCand.emailId}`,
+      subject: 'Mail from SKILLITY!',
+      text: 'Welcome to Skillety!, You are invited to create an account to search job....',
+      html: `<p>First Name: ${newOfflineCand.firstName}</p>
+                <p>Last Name: ${newOfflineCand.lastName}</p>
+                <p>Email Id: ${newOfflineCand.emailId}</p>
+                <p>Phone No: ${newOfflineCand.mobileNumber}</p>
+                <p>Register Link: https://skillety-frontend-wcth.onrender.com/candiate-register</p>`
+    };
+
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+        return res.status(500).json({ error: error.message, newOfflineCand });
+      } else {
+        console.log('Email sent: ' + info.response);
+        res.status(201).json({ newOfflineCand, emailSent: true });
+      }
+    });
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+};
+
+/* update the exiesting offline cand detail */
+const updateOfflineCand = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const offlineCandToUpdate = await offlineCand.findOne({ candId:id });
+
+    if (offlineCandToUpdate) {
+      const updatedOfflineCand = await offlineCand.findOneAndUpdate(
+        { candId:id },
+        {
+          $set: {
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            emailId: req.body.emailId,
+            mobileNumber: req.body.mobileNumber,
+          },
+        },
+        { new: true }
+      );
+
+      const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: 'demoemail1322@gmail.com',
+          pass: 'znsdgrmwzskpatwz'
+        }
+      });
+  
+      const mailOptions = {
+        from: 'demoemail1322@gmail.com',
+        to: `${updatedOfflineCand.emailId}`,
+        subject: 'Mail from SKILLITY!',
+        text: 'Welcome to Skillety!, You are invited to create an account with the updated detail to search job....',
+        html: `<p>First Name: ${updatedOfflineCand.firstName}</p>
+                  <p>Last Name: ${updatedOfflineCand.lastName}</p>
+                  <p>Email Id: ${updatedOfflineCand.emailId}</p>
+                  <p>Phone No: ${updatedOfflineCand.mobileNumber}</p>
+                  <p>Register Link: https://skillety-frontend-wcth.onrender.com/candiate-register</p>`
+      };
+  
+      transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+          console.log(error);
+          return res.status(500).json({ error: error.message, updatedOfflineCand });
+        } else {
+          console.log('Email sent: ' + info.response);
+          res.status(200).json({ updatedOfflineCand, emailSent: true });
+        }
+      });
+
+    } else {
+      return res.status(404).json({ error: 'Offline Candidate not found' });
+    }
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+/* find all the offline candidates */
+const getAllOfflineCandDetails = async (req, res) => {
+  try {
+    const allOfflineCandDetails = await offlineCand.find();
+
+    if (allOfflineCandDetails.length > 0) {
+      return res.status(200).json(allOfflineCandDetails);
+    } else {
+      return res.status(404).json({ error: 'No more offline candidates!' });
+    }
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+};
+
+/* deleting exiesting offline cand */
+const deletingOfflineCandidate = async(req, res) => {
+  try{
+    const {id} = req.params;
+    const offlineCandidateToDelete = await offlineCand.findOne({ candId: id });
+
+    if (!offlineCandidateToDelete) {
+      return res.status(404).json({ error: 'Offline Candidate not found' });
+    }
+
+    const deletedOfflineCandidate = await offlineCand.deleteOne({ candId: id });
+
+    if (deletedOfflineCandidate.deletedCount === 1) {
+      return res.status(204).json({ message: 'offline Candidate deleted successfully' });
+    } else {
+      return res.status(500).json({ error: 'Failed to delete offline candidate' });
+    } 
+    
+  }catch(err) {
+    res.status(500).json({error: err.message})
+  }
+};
+
+/* sending email to the candidate */
 
 
 /*ATS................... */
@@ -4753,7 +4907,10 @@ module.exports = {
    deAssigningJobsForCand,
    getAllAssignedCandidateDetails,
    getAllATSStaff,
-   
+   offlineCandRegister,
+   updateOfflineCand,
+   getAllOfflineCandDetails,
+   deletingOfflineCandidate,
 
   //ATS...........
 };

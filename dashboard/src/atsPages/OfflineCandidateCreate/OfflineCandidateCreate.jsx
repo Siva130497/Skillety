@@ -9,9 +9,167 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import AuthContext from '../../context/AuthContext';
 import { v4 as uuidv4 } from "uuid";
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const OfflineCandidateCreate = () => {
+
+    const initialCredentials = {
+        firstName: "",
+        lastName: "",
+        mobileNumber: 0,
+        emailId: "",
+    };
+    const [credentials, setCredentials] = useState(initialCredentials);
+
+    let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const [require, setRequire] = useState(false)
+    const navigate = useNavigate();
+    const location = useLocation();
+    const { cand } = location.state || {};
+    const { getProtectedData } = useContext(AuthContext);
+    const [atsToken, setatsToken] = useState("");
+    const [employeeId, setEmployeeId] = useState("");
+
+    const handleInputChange = (event) => {
+        const { name, value } = event.target;
+
+            setCredentials((prevCredentials) => ({
+                ...prevCredentials,
+                [name]: value,
+            }));
+        
+    };
+
+    useEffect(() => {
+        if (cand) {
+            console.log(cand)
+
+          setCredentials({
+            ...credentials,
+            firstName: cand.firstName,
+            lastName: cand.lastName,
+            mobileNumber: cand.mobileNumber,
+            emailId: cand.emailId,
+          })
+        }
+      }, [cand])
+
+    useEffect(() => {
+        setatsToken(JSON.parse(localStorage.getItem('atsToken')))
+    }, [atsToken])
+
+    useEffect(() => {
+        if (atsToken) {
+            const fetchData = async () => {
+                try {
+                    const userData = await getProtectedData(atsToken);
+                    console.log(userData);
+                    setEmployeeId(userData.id);
+                } catch (error) {
+                    console.log(error)
+                }
+            };
+
+            fetchData();
+        }
+    }, [atsToken]);
+
+    const registerUser = async (userData) => {
+        try {
+            const response = await axios.post('https://skillety-n6r1.onrender.com/offline-cand-reg', userData, {
+                headers: {
+                    Authorization: `Bearer ${atsToken}`,
+                    Accept: 'application/json'
+                  }
+            });
+
+            const result = response.data;
+
+            if (!result.error) {
+                console.log(result);
+                await new Promise(() => {
+                    Swal.fire({
+                        title: 'Invite link has been sent via email!',
+                        text: 'Candidate has been created Successfully!',
+                        icon: 'success',
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'OK',
+                    }).then(() => {
+                        navigate("/all-offline-candidates")
+                    });
+                });
+            } else {
+                console.log(result);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const updateClient = async (userData) => {
+        try {
+            const response = await axios.patch(`https://skillety-n6r1.onrender.com/update-exiesting-offline-cand/${cand.candId}`, userData, {
+                headers: {
+                    Authorization: `Bearer ${atsToken}`,
+                    Accept: 'application/json'
+                  }
+            });
+
+            const result = response.data;
+
+            if (!result.error) {
+                console.log(result);
+                await new Promise(() => {
+                    Swal.fire({
+                        title: 'Updated & Invited link sent via email!',
+                        text: '',
+                        icon: 'success',
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'OK',
+                    }).then(() => {
+                        navigate("/all-offline-candidates")
+                    });
+                });
+            } else {
+                console.log(result);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        
+        if (credentials.firstName === "" || credentials.lastName === "" || credentials.mobileNumber === 0 || !(emailRegex.test(credentials.emailId))) {
+            setRequire(true)
+        }else{
+                const candId = uuidv4();
+
+                const updatedCredentials = {
+                    ...credentials,
+                    managerId:employeeId,
+                    candId,
+                };
+                console.log(updatedCredentials);
+                registerUser(updatedCredentials);
+        }
+    };
+
+    const handleUpdate = (event) => {
+        event.preventDefault();
+        
+        if (credentials.firstName === "" || credentials.lastName === "" || credentials.mobileNumber === 0 || !(emailRegex.test(credentials.emailId))) {
+            setRequire(true)
+        }else{
+                const updatedCredentials = {
+                    ...credentials,
+                };
+                console.log(updatedCredentials);
+                updateClient(updatedCredentials);
+
+        }
+    };
 
     return (
         <div>
@@ -23,10 +181,10 @@ const OfflineCandidateCreate = () => {
                     <section class="section">
                         <div className="post-job-section">
                             <div className="admin-component-name">
-                                Create Candidate
+                                {cand ? "Update" : "Create"} Candidate
                             </div>
                             <div className="card post-job-card">
-                                <div className="post-job-title">Create New Candidate </div>
+                                <div className="post-job-title">{cand ? "Update" : "Create New"} Candidate </div>
                                 {/* <div className="post-job-sub-title">Begin from scratch</div> */}
 
 
@@ -42,9 +200,11 @@ const OfflineCandidateCreate = () => {
                                                         id='first_name'
                                                         name="firstName"
                                                         placeholder="Enter first name"
+                                                        value={credentials.firstName}
+                                                        onChange={handleInputChange}
                                                         required />
                                                 </div>
-                                                <small className='text-danger text-capitalized form-error-message'>This field is required.</small>
+                                                {require && <small className='text-danger text-capitalized form-error-message'>{credentials.firstName === "" && "required"}</small>}
                                             </div>
 
                                             <div className="col-12 col-md-6">
@@ -55,9 +215,11 @@ const OfflineCandidateCreate = () => {
                                                         id='last_name'
                                                         name="lastName"
                                                         placeholder="Enter last name"
+                                                        value={credentials.lastName}
+                                                        onChange={handleInputChange}
                                                         required />
                                                 </div>
-                                                <small className='text-danger text-capitalized form-error-message'>This field is required.</small>
+                                                {require && <small className='text-danger text-capitalized form-error-message'>{credentials.lastName === "" && "required"}</small>}
                                             </div>
                                         </div>
 
@@ -68,12 +230,14 @@ const OfflineCandidateCreate = () => {
                                                     <input type="number"
                                                         className='job-post-form-input'
                                                         id='mobile_number'
-                                                        name="phone"
+                                                        name="mobileNumber"
                                                         placeholder="Enter mobile number"
                                                         min="0"
+                                                        value={credentials.mobileNumber}
+                                                        onChange={handleInputChange}
                                                         required />
                                                 </div>
-                                                <small className='text-danger text-capitalized form-error-message'>This field is required.</small>
+                                                {require && <small className='text-danger text-capitalized form-error-message'>{credentials.mobileNumber === 0 && "required"}</small>}
                                             </div>
                                             <div className="col-12 col-md-6">
                                                 <div className="job-post-form-group">
@@ -81,12 +245,15 @@ const OfflineCandidateCreate = () => {
                                                     <input type="email"
                                                         className='job-post-form-input'
                                                         id='email_id'
-                                                        name="email"
+                                                        name="emailId"
                                                         placeholder="Enter e-mail id"
+                                                        value={credentials.emailId}
+                                                        onChange={handleInputChange}
                                                         required />
                                                 </div>
                                                 <div className='text-capitalized form-error-message'>
-                                                    <small className='text-danger text-capitalized'>This field is required.</small>
+                                                {require && <small className='text-danger text-capitalized form-error-message'>{credentials.emailId === "" && "required"}</small>}
+                                                <small className='text-danger text-capitalized'>{(credentials.emailId && !(emailRegex.test(credentials.emailId))) && "Enter valid email address"}</small>
                                                 </div>
                                             </div>
                                         </div>
@@ -95,7 +262,8 @@ const OfflineCandidateCreate = () => {
                                 </div>
                             </div>
                             <div className="post-job-btn-area">
-                                <button className='post-job-btn'>Create</button>
+                                <button className='post-job-btn'
+                                onClick={cand ? handleUpdate : handleSubmit}>{cand ? "Re-Send the Update info" : "Send"} Invite Link</button>
                             </div>
                         </div>
                     </section>
