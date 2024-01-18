@@ -12,8 +12,9 @@ import 'sweetalert2/dist/sweetalert2.css';
 const AppliedCandidateATS = () => {
     const location = useLocation();
     const {id} = useParams();
-    const {selectedCandidatesForJob} = location.state || {};
-    const {assignedCandidatesForJob} = location.state || {};
+    // const {selectedCandidatesForJob} = location.state || {};
+    // const {assignedCandidatesForJob} = location.state || {};
+    const {combinedCands} = location.state || {};
     const [atsToken, setatsToken] = useState("");
     const { getProtectedData, getCandidateImg, candidateImg } = useContext(AuthContext);
     const [employeeId, setEmployeeId] = useState("");
@@ -513,11 +514,11 @@ const AppliedCandidateATS = () => {
             if (!result.error) {
                 console.log(result);
                 
-                const filterArray = selectedCandidatesForJob || assignedCandidatesForJob
-                console.log(filterArray)
+                // const filterArray = selectedCandidatesForJob || assignedCandidatesForJob
+                // console.log(filterArray)
 
                 const filtered = result.filter(candidate =>
-                    filterArray.some(anotherCandidate => anotherCandidate.candidateId === candidate.id)
+                    combinedCands.some(anotherCandidate => anotherCandidate.candidateId === candidate.id)
                 );
                 console.log(filtered)
                 setReqCands(filtered);
@@ -533,7 +534,7 @@ const AppliedCandidateATS = () => {
     useEffect(() => {
         getAllCandidateDetail();
         getCandidateImg();
-    }, [assignedCandidatesForJob, selectedCandidatesForJob]);
+    }, [combinedCands]);
 
     useEffect(() => {
         if (id) {

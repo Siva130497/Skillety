@@ -184,7 +184,7 @@ const ATSSideBar = () => {
                     <li className="dropdown" id='job_posting'>
                         <a href="/job-posting" className="nav-link"><i data-feather="share"></i><span>Job Posting</span></a>
                     </li>
-                    {!(role === "Recruiter") &&<li className="dropdown" id='media_posting'>
+                    {!(role === "Manager") &&<li className="dropdown" id='media_posting'>
                         <a href="#" className="menu-toggle nav-link has-dropdown"><i data-feather="video"></i><span>Media Posting</span></a>
                         <ul className="dropdown-menu">
                             <li id='event_posting'><a className="nav-link" href="/media-posting/event">Event Posting</a></li>
@@ -211,7 +211,7 @@ const ATSSideBar = () => {
                     {!(role === "Recruiter") &&<li className="dropdown" id='enquiry_details'>
                         <a href="/enquiry-details" className="nav-link"><i data-feather="message-square"></i><span>Enquiry Details</span></a>
                     </li>}
-                    {!(role === "Recruiter") &&<li className="dropdown" id='posted_media'>
+                    {!(role === "Manager") &&<li className="dropdown" id='posted_media'>
                         <a href="#" className="menu-toggle nav-link has-dropdown"><i data-feather="calendar"></i><span>Posted Media</span></a>
                         <ul className="dropdown-menu">
                             <li id='posted_events'><a className="nav-link" href="/posted-media/event">Posted Events</a></li>
