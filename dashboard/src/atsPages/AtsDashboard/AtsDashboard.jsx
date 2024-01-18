@@ -422,7 +422,7 @@ const AtsDashboard = () => {
                                                                             {`${new Date(client.updatedAt).getDate().toString().padStart(2, '0')}/${(new Date(client.updatedAt).getMonth() + 1).toString().padStart(2, '0')}/${new Date(client.updatedAt).getFullYear() % 100}`}
                                                                         </td>
                                                                         <td className='dash-table-data1 text-center text-capitalized'>
-                                                                            <img src={clientLogo} className='dash-table-avatar-img' alt="" />
+                                                                            {/* <img src={clientLogo} className='dash-table-avatar-img' alt="" /> */}
                                                                             {client.companyName}
                                                                         </td>
                                                                         <td className='dash-table-data1 text-center text-capitalized'>
