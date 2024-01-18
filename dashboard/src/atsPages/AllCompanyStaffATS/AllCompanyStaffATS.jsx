@@ -126,7 +126,7 @@ const AllCompanyStaffATS = () => {
                 })
                     .then(res => {
                         console.log(res.data)
-                        showSuccessMessage("recruiter successfully removed from company!");
+                        showSuccessMessage(`${selectedRole} successfully removed from company!`);
                         getallATSstaffs();
                     })
                     .catch(err => {
