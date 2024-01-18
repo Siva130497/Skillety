@@ -107,6 +107,9 @@ const ATSSideBar = () => {
                     <li className="dropdown" id='all_offline_candidates'>
                         <a href="/all-offline-candidates" className="nav-link"><i data-feather="users"></i><span>All Candidates</span></a>
                     </li>
+                    <li className="dropdown" id='ats_reports'>
+                        <a href="/ats-reports" className="nav-link"><i data-feather="file-text"></i><span>Report</span></a>
+                    </li>
                 </ul>
 
                 {/* <div className='live-chat-area'>
