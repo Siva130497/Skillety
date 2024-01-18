@@ -21,7 +21,7 @@ const ATSSideBar = () => {
 
             if (path === `/ats-dashboard/${atsToken}`) {
                 $('#ats_dashboard').addClass('active');
-            } else if (path === '/all-ats-staff') {
+            } else if (path === '/all-company-staff-ats') {
                 $('#all-ats-staff').addClass('active');
             } else if (path === '/all-offline-clients') {
                 $('#all_offline_clients').addClass('active');

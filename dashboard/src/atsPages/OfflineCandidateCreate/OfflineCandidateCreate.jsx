@@ -30,6 +30,28 @@ const OfflineCandidateCreate = () => {
     const [atsToken, setatsToken] = useState("");
     const [employeeId, setEmployeeId] = useState("");
 
+    //for show success message for payment
+    function showSuccessMessage(message) {
+        Swal.fire({
+            title: 'Congratulations!',
+            text: message,
+            icon: 'success',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'OK',
+        });
+    }
+
+    //for show error message for payment
+    function showErrorMessage(message) {
+        Swal.fire({
+            title: 'Error!',
+            text: message,
+            icon: 'error',
+            confirmButtonColor: '#d33',
+            confirmButtonText: 'OK',
+        });
+    }
+
     const handleInputChange = (event) => {
         const { name, value } = event.target;
 
@@ -103,6 +125,7 @@ const OfflineCandidateCreate = () => {
             }
         } catch (error) {
             console.log(error);
+            showErrorMessage(error.response.data.message);
         }
     };
 
@@ -135,6 +158,8 @@ const OfflineCandidateCreate = () => {
             }
         } catch (error) {
             console.log(error);
+            showErrorMessage(error.response.data.message);
+            
         }
     };
 

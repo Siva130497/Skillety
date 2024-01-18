@@ -503,7 +503,7 @@ const AllOfflineClients = () => {
                                                                     <tr className='dash-table-row client'>
                                                                         <td className='dash-table-data1'>{index + 1}.</td>
                                                                         <td className='dash-table-data1 text-capitalized'>
-                                                                            <img src={clientLogo} className='dash-table-avatar-img' alt="" />
+                                                                            {/* <img src={clientLogo} className='dash-table-avatar-img' alt="" /> */}
                                                                             {client.companyName}
                                                                         </td>
                                                                 
