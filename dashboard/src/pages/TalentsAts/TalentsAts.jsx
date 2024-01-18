@@ -42,8 +42,7 @@ const TalentsAts = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [filteredData, setFilteredData] = useState([]);
     const [selectedJobViewDetail, setSelectedJobViewDetail] = useState();
-
-
+    
     const [x, setX] = useState([0, 10]);
 
     //for show success message for payment
@@ -223,11 +222,11 @@ const TalentsAts = () => {
                 console.log(result);
                 if (result.message) {
                     setAssignedJobsForCand([]);
-                    setSelectedJobs([])
+                    // setSelectedJobs([])
                 } else {
                     setAssignedJobsForCand(result);
-                    const jobIds = result.map(job => job.jobId)
-                    setSelectedJobs(jobIds)
+                    // const jobIds = result.map(job => job.jobId)
+                    // setSelectedJobs(jobIds)
                 }
             }
 
@@ -284,6 +283,7 @@ const TalentsAts = () => {
             })
                 .then((res) => {
                     console.log(res.data)
+                    setSelectedJobs([])
                     showSuccessMessage("Selected job(s) assigned to the candidate.");
                     getAllAssignedJobsForCandId();
                 })
@@ -295,7 +295,7 @@ const TalentsAts = () => {
     }
 
     const deAssigning = (job_id) => {
-        if (selectedJobs.length > 0) {
+        
             axios.delete(`https://skillety-n6r1.onrender.com/deassign-candidate/${id}/${job_id}`, {
                 headers: {
                     Authorization: `Bearer ${staffToken}`,
@@ -310,7 +310,7 @@ const TalentsAts = () => {
                 .catch((err) => {
                     console.log(err);
                 })
-        }
+        
     }
 
     useEffect(() => {
@@ -320,36 +320,53 @@ const TalentsAts = () => {
         }
     }, [!jobId, id, employeeId]);
 
-    useEffect(() => {
-        if (availableActiveATSJobs) {
+    // useEffect(() => {
+    //     if (availableActiveATSJobs) {
+            
+    //         const updatedActiveATSJobs = activeATSJobs.map(job => ({
+    //             ...job,
+    //             assigned: false
+    //         }));
+            
+    //         if (assignedJobsForCand.length > 0) {
+    //             updatedActiveATSJobs.map((job) => {
+    //                 const isJobAssigned = assignedJobsForCand.some(
+    //                     (assignedJob) => assignedJob.jobId === job.id
+    //                 );
 
-            const updatedActiveATSJobs = [...activeATSJobs];
-            if (assignedJobsForCand.length > 0) {
-                updatedActiveATSJobs.map((job) => {
-                    const isJobAssigned = assignedJobsForCand.some(
-                        (assignedJob) => assignedJob.jobId === job.id
-                    );
+    //                 if (isJobAssigned) {
+    //                     job.assigned = true;
+    //                 }
+    //             });
 
-                    if (isJobAssigned) {
-                        job.assigned = true;
-                    }
-                });
+    //             setActiveATSJobsForCand(updatedActiveATSJobs.reverse());
+    //             setFilteredData(updatedActiveATSJobs.reverse());
+    //         } else {
 
-                setActiveATSJobsForCand(updatedActiveATSJobs.reverse());
-                setFilteredData(updatedActiveATSJobs.reverse());
-            } else {
+    //             const deAssignActiveATSJobs = activeATSJobs.map(job => ({
+    //                 ...job,
+    //                 assigned: false
+    //             }));
+    //             console.log(deAssignActiveATSJobs);
+    //             setActiveATSJobsForCand(deAssignActiveATSJobs.reverse());
+    //             setFilteredData(deAssignActiveATSJobs.reverse());
+    //         }
 
-                const deAssignActiveATSJobs = activeATSJobs.map(job => ({
-                    ...job,
-                    assigned: false
-                }));
-                console.log(deAssignActiveATSJobs);
-                setActiveATSJobsForCand(deAssignActiveATSJobs);
-                setFilteredData(deAssignActiveATSJobs);
-            }
+    //     }
+    // }, [availableActiveATSJobs, assignedJobsForCand]);
 
+    useEffect(()=>{
+        if(availableActiveATSJobs){
+            const updatedActiveATSJobs = activeATSJobs.map(job => ({
+                ...job,
+                assigned: assignedJobsForCand.some(assignedJob => assignedJob.jobId === job.id),
+              }));
+              
+              setActiveATSJobsForCand(updatedActiveATSJobs);
+              setFilteredData(updatedActiveATSJobs);
         }
-    }, [availableActiveATSJobs, assignedJobsForCand]);
+
+    },[availableActiveATSJobs, assignedJobsForCand])
 
     const getSelectedJobs = async () => {
         try {
