@@ -72,7 +72,7 @@ const AllCompanyStaffATS = () => {
     const getallATSstaffs = async () => {
         try {
             setLoading(true);
-            const res = await axios.get(`http://localhost:5002/all-ats-staffs`, {
+            const res = await axios.get(`https://skillety-n6r1.onrender.com/all-ats-staffs`, {
                 headers: {
                     Authorization: `Bearer ${atsToken}`,
                     Accept: 'application/json'
@@ -139,7 +139,7 @@ const AllCompanyStaffATS = () => {
 
     const createRecruiter = async (userData) => {
         try {
-            const response = await axios.post('http://localhost:5002/recruiter-create', userData, {
+            const response = await axios.post('https://skillety-n6r1.onrender.com/recruiter-create', userData, {
                 headers: {
                     Authorization: `Bearer ${atsToken}`,
                     Accept: 'application/json'
@@ -173,7 +173,7 @@ const AllCompanyStaffATS = () => {
     }
 
     const handleGeneratePassword = () => {
-        axios.get('http://localhost:5002/random-password')
+        axios.get('https://skillety-n6r1.onrender.com/random-password')
             .then(response => {
                 setcredentials({ ...credentials, password: response.data });
             })

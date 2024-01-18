@@ -181,7 +181,7 @@ const OfflineClientCreate = () => {
 
     const registerUser = async (userData) => {
         try {
-            const response = await axios.post('http://localhost:5002/offline-client-reg', userData, {
+            const response = await axios.post('https://skillety-n6r1.onrender.com/offline-client-reg', userData, {
                 headers: {
                     Authorization: `Bearer ${atsToken}`,
                     Accept: 'application/json'
