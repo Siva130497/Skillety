@@ -18,7 +18,7 @@ const AppliedCandidateATS = () => {
     const [atsToken, setatsToken] = useState("");
     const { getProtectedData, getCandidateImg, candidateImg } = useContext(AuthContext);
     const [employeeId, setEmployeeId] = useState("");
-    
+
     const [reqCands, setReqCands] = useState([]);
     const [job, setJob] = useState();
 
@@ -27,28 +27,40 @@ const AppliedCandidateATS = () => {
     const [applicationStatus, setApplicationStatus] = useState([]);
     const [filteringStatus, setFilteringStatus] = useState("");
     const [finalCand, setFinalCand] = useState([]);
+    const [selectAllChecked, setSelectAllChecked] = useState(false);
 
     const [x, setX] = useState([0, 4]);
 
     const navigate = useNavigate();
 
-   useEffect(()=>{
-    if(filteringStatus){
-        if(filteringStatus === "Any"){
-            setFinalCand(reqCands);
-        }else{
-            const filteringStatusCand = applicationStatus.filter(
-                (item) => item.status === filteringStatus)
+    useEffect(() => {
+        if (filteringStatus) {
+            if (filteringStatus === "Any") {
+                setFinalCand(reqCands);
+            } else {
+                const filteringStatusCand = applicationStatus.filter(
+                    (item) => item.status === filteringStatus)
                 console.log(filteringStatusCand)
-            const returningCand = reqCands.filter(candidate =>
-                filteringStatusCand.some(anotherCandidate => anotherCandidate.candidateId === candidate.id)
-            );
-            console.log(returningCand)
-            setFinalCand(returningCand);
+                const returningCand = reqCands.filter(candidate =>
+                    filteringStatusCand.some(anotherCandidate => anotherCandidate.candidateId === candidate.id)
+                );
+                console.log(returningCand)
+                setFinalCand(returningCand);
+            }
         }
-    }
 
-   },[filteringStatus])
+    }, [filteringStatus])
+
+    const handleSelectAllChange = () => {
+        const selectAllIds = finalCand.map(cand => cand.id);
+        setSelectAllChecked(!selectAllChecked);
+    
+        if (!selectAllChecked) {
+          setSelectedCandidates(selectAllIds);
+        } else {
+          setSelectedCandidates([]);
+        }
+      };
 
     //for show success message for payment
     function showSuccessMessage(message) {
@@ -553,24 +565,24 @@ const AppliedCandidateATS = () => {
                 })
         }
     }, [id])
-    
-    useEffect(()=>{
-        if(id && atsToken){
+
+    useEffect(() => {
+        if (id && atsToken) {
             axios.get(`https://skillety-n6r1.onrender.com/application-status/${id}`, {
                 headers: {
                     Authorization: `Bearer ${atsToken}`,
                     Accept: 'application/json'
                 }
             })
-            .then(res=>{
-                console.log(res.data);
-                setApplicationStatus(res.data)
-            })
-            .catch(err=>{
-                console.log(err);
-            })
+                .then(res => {
+                    console.log(res.data);
+                    setApplicationStatus(res.data)
+                })
+                .catch(err => {
+                    console.log(err);
+                })
         }
-    },[id, atsToken])
+    }, [id, atsToken])
 
     useEffect(() => {
         if (atsToken) {
@@ -590,25 +602,25 @@ const AppliedCandidateATS = () => {
 
 
     const handleCheckboxChange = (candidateId) => {
-        
+
         const isSelected = selectedCandidates.includes(candidateId);
-      
+
         setSelectedCandidates((prevSelected) =>
-          isSelected
-            ? prevSelected.filter((id) => id !== candidateId)
-            : [...prevSelected, candidateId]
+            isSelected
+                ? prevSelected.filter((id) => id !== candidateId)
+                : [...prevSelected, candidateId]
         );
-      };
-      
-      const handleChangeStatus = () => {
-        
+    };
+
+    const handleChangeStatus = () => {
+
         console.log("Selected Candidates: ", selectedCandidates);
         console.log("Selected Status: ", selectedStatus);
-      
+
         const applicationData = {
-            jobId:id,
-            status:selectedStatus,
-            candidateIdArray:selectedCandidates,
+            jobId: id,
+            status: selectedStatus,
+            candidateIdArray: selectedCandidates,
         }
 
         axios.patch("https://skillety-n6r1.onrender.com/update-application-status", applicationData, {
@@ -617,30 +629,30 @@ const AppliedCandidateATS = () => {
                 Accept: 'application/json'
             }
         })
-        .then(res=>{
-            console.log(res.data);
-            showSuccessMessage(`The updated application status for the selected candidate is now marked as ${selectedStatus}.`)
-
-            axios.get(`https://skillety-n6r1.onrender.com/application-status/${id}`, {
-                headers: {
-                    Authorization: `Bearer ${atsToken}`,
-                    Accept: 'application/json'
-                }
-            })
-            .then(res=>{
+            .then(res => {
                 console.log(res.data);
-                setApplicationStatus(res.data)
+                showSuccessMessage(`The updated application status for the selected candidate is now marked as ${selectedStatus}.`)
+
+                axios.get(`https://skillety-n6r1.onrender.com/application-status/${id}`, {
+                    headers: {
+                        Authorization: `Bearer ${atsToken}`,
+                        Accept: 'application/json'
+                    }
+                })
+                    .then(res => {
+                        console.log(res.data);
+                        setApplicationStatus(res.data)
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    })
             })
-            .catch(err=>{
-                console.log(err);
+            .catch(err => {
+                console.log(err)
+                showErrorMessage();
             })
-        })
-        .catch(err=>{
-            console.log(err)
-            showErrorMessage();
-        })
-        
-      };
+
+    };
 
 
     return (
@@ -657,56 +669,76 @@ const AppliedCandidateATS = () => {
                                 Applicants
                             </div>
 
-                            <div className="dash-talent--profile-card-section">
-                                <div className="card change-status-card">
-                                    <div className="card-change-status-title">
-                                        Change Application Status
-                                    </div> 
-                                   <div className="card-change-status-input-area">
-                                        <div className='select-option-area position-relative w-100'>
-                                            <i class="bi bi-chevron-down toggle-icon"></i>
-                                            <select className='change-setting-input select'
-                                                value={selectedStatus}
-                                                onChange={(e) =>setSelectedStatus(e.target.value)}
-                                            >
-                                                <option value="" disabled selected>-- Select application status --</option>
-                                                <option value="screened">Screened</option>
-                                                <option value="interviews">Interviews in Process</option>
-                                                <option value="offered">Offered</option>
-                                                <option value="rejected">Rejected</option>
-                                                <option value="joined">Joined</option>
-                                                <option value="absconded">Absconded</option>
-                                            </select>
+                            <div className="position-stick">
+                                <div className="card">
+                                    <div className="change-status-card pt-3 pl-4 pb-3 pr-4">
+                                        <div className="card-change-status-title">
+                                            Change Application Status
                                         </div>
-                                        <button className="setting-update-btn more-det"
-                                        onClick={handleChangeStatus}>Change</button>
+                                        <div className="card-change-status-input-area">
+                                            <div className='select-option-area position-relative w-100'>
+                                                <i class="bi bi-chevron-down toggle-icon"></i>
+                                                <select className='change-setting-input select'
+                                                    value={selectedStatus}
+                                                    onChange={(e) => setSelectedStatus(e.target.value)}
+                                                >
+                                                    <option value="" disabled selected>-- Select application status --</option>
+                                                    <option value="screened">Screened</option>
+                                                    <option value="interviews">Interviews in Process</option>
+                                                    <option value="offered">Offered</option>
+                                                    <option value="rejected">Rejected</option>
+                                                    <option value="joined">Joined</option>
+                                                    <option value="absconded">Absconded</option>
+                                                </select>
+                                            </div>
+                                            <button className="setting-update-btn more-det"
+                                                onClick={handleChangeStatus}>Change</button>
+                                        </div>
+                                    </div>
+
+                                    <div className='hr--line'></div>
+
+                                    <div className="change-status-card pt-3 pl-4 pb-3 pr-4">
+                                        <div className="card-change-status-title">
+                                            Filter the Applicants
+                                        </div>
+                                        <div className="card-change-status-input-area">
+                                            <div className='select-option-area position-relative w-100'>
+                                                <i class="bi bi-chevron-down toggle-icon"></i>
+                                                <select className='change-setting-input select'
+                                                    value={filteringStatus}
+                                                    onChange={(e) => setFilteringStatus(e.target.value)}
+                                                >
+                                                    <option value="" disabled selected>-- Select application status --</option>
+                                                    <option value="Any">Any</option>
+                                                    <option value="Screening">Screening</option>
+                                                    <option value="screened">Screened</option>
+                                                    <option value="interviews">Interviews in Process</option>
+                                                    <option value="offered">Offered</option>
+                                                    <option value="rejected">Rejected</option>
+                                                    <option value="joined">Joined</option>
+                                                    <option value="absconded">Absconded</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className='hr--line'></div>
+
+                                    <div className='select-all-area'>
+                                        <label className="tal--pro-card-name-check-container no-absolute mb-0 select-all-text d-flex gap-10">
+                                            <input type="checkbox" class="tal--checkbox" 
+                                            checked={selectAllChecked}
+                                            onChange={handleSelectAllChange}
+                                            disabled={!filteringStatus || filteringStatus==="Any"}/>
+                                            <div className="tal--pro-card-name-checkmark"></div>
+                                            Select All
+                                        </label>
                                     </div>
                                 </div>
-                                <div className="card change-status-card">
-                                    <div className="card-change-status-title">
-                                        Filter the Applicants 
-                                    </div> 
-                                   <div className="card-change-status-input-area">
-                                        <div className='select-option-area position-relative w-100'>
-                                            <i class="bi bi-chevron-down toggle-icon"></i>
-                                            <select className='change-setting-input select'
-                                                value={filteringStatus}
-                                                onChange={(e) =>setFilteringStatus(e.target.value)}
-                                            >
-                                                <option value="" disabled selected>-- Select application status --</option>
-                                                <option value="Any">Any</option>
-                                                <option value="Screening">Screening</option>
-                                                <option value="screened">Screened</option>
-                                                <option value="interviews">Interviews in Process</option>
-                                                <option value="offered">Offered</option>
-                                                <option value="rejected">Rejected</option>
-                                                <option value="joined">Joined</option>
-                                                <option value="absconded">Absconded</option>
-                                            </select>
-                                        </div>
-                                        
-                                    </div>
-                                </div>
+                            </div>
+
+                            <div className="dash-talent--profile-card-section pt-0">
                                 {finalCand.map((candidate) => {
                                     const matchingImg = candidateImg ? candidateImg.find(img => img.id === candidate.id) : null;
                                     const imgSrc = matchingImg ? `https://skillety-n6r1.onrender.com/candidate_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
@@ -716,17 +748,17 @@ const AppliedCandidateATS = () => {
                                         return (matchingSkills.length / skills1.length) * 100;
                                     }
                                     const percentage = Math.round(calculateMatchPercentage(job?.skills, candidate.skills));
-                                    const status = applicationStatus.find(status=>status.candidateId === candidate.id)?.status;
-                                    
+                                    const status = applicationStatus.find(status => status.candidateId === candidate.id)?.status;
+
                                     return (
                                         <article className="talent--profile-card applied" key={candidate.id}>
                                             <div className="tal--pro-card-left-area applied">
                                                 <div className='card-split-line applied'></div>
                                                 <div className="tal--pro-card-name-area">
-                                                <label className="tal--pro-card-name-check-container no-absolute">
-                                                        <input type="checkbox" class="tal--checkbox" 
-                                                        checked={selectedCandidates.includes(candidate.id)}
-                                                        onChange={() => handleCheckboxChange(candidate.id)}/>
+                                                    <label className="tal--pro-card-name-check-container no-absolute">
+                                                        <input type="checkbox" class="tal--checkbox"
+                                                            checked={selectedCandidates.includes(candidate.id)}
+                                                            onChange={() => handleCheckboxChange(candidate.id)} />
                                                         <div className="tal--pro-card-name-checkmark"></div>
                                                     </label>
                                                     <h6 className='tal--pro-card-name'>{candidate.firstName + ' ' + candidate.lastName}</h6>
@@ -791,8 +823,8 @@ const AppliedCandidateATS = () => {
                                                         <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
                                                             <h6 className='tal--pro-card-desc-title font-weight-700'>Status&nbsp;:</h6>
                                                         </div>
-                                                         <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
-                                                            <p className='tal--pro-card-desc font-weight-700'>{status?status:"Screening"}</p>
+                                                        <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
+                                                            <p className='tal--pro-card-desc font-weight-700'>{status ? status : "Screening"}</p>
                                                         </div>
                                                     </div>
                                                 </div>
