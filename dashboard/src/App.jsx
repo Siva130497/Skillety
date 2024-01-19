@@ -36,6 +36,8 @@ import TalentsAtsOnly from './atsPages/TalentsAtsOnly/TalentsAtsOnly';
 import AllOfflineCandidates from './atsPages/AllOfflineCandidates/AllOfflineCandidates';
 import OfflineCandidateCreate from './atsPages/OfflineCandidateCreate/OfflineCandidateCreate';
 import AllCompanyStaffATS from './atsPages/AllCompanyStaffATS/AllCompanyStaffATS';
+import AtsReports from './atsPages/AtsReports/AtsReports';
+import TeamPerformanceReport from './atsPages/AtsReports/ReportPages/TeamPerformanceReport';
 
 ////for recruiter
 import RecruiterDashboard from './pages/RecruiterDashboard/RecruiterDashboard';
@@ -108,6 +110,8 @@ function App() {
         <Route path='/all-offline-candidates' element={<AllOfflineCandidates />} />
         <Route path='/offline-candidate-create' element={<OfflineCandidateCreate />} />
         <Route path='/all-company-staff-ats' element={<AllCompanyStaffATS />} />
+        <Route path='/ats-reports' element={<AtsReports />} />
+        <Route path='/team-performance-report' element={<TeamPerformanceReport />} />
 
 
         {/* for recruiter */}

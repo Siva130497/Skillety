@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import { useEffect } from 'react';
 import ATSLayout from '../../atsComponents/ATSLayout';
 import Footer from '../../components/Footer';
-import './AllCompanyStaff.css';
-import './AllCompanyStaff-responsive.css';
 import $ from 'jquery';
 import axios from 'axios';
 import { v4 as uuidv4 } from "uuid";
