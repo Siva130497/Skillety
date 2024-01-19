@@ -11,9 +11,10 @@ import 'sweetalert2/dist/sweetalert2.css';
 
 const AppliedCandidateATS = () => {
     const location = useLocation();
-    const { id } = useParams();
-    const { selectedCandidatesForJob } = location.state || {};
-    const { assignedCandidatesForJob } = location.state || {};
+    const {id} = useParams();
+    // const {selectedCandidatesForJob} = location.state || {};
+    // const {assignedCandidatesForJob} = location.state || {};
+    const {combinedCands} = location.state || {};
     const [atsToken, setatsToken] = useState("");
     const { getProtectedData, getCandidateImg, candidateImg } = useContext(AuthContext);
     const [employeeId, setEmployeeId] = useState("");
@@ -26,6 +27,7 @@ const AppliedCandidateATS = () => {
     const [applicationStatus, setApplicationStatus] = useState([]);
     const [filteringStatus, setFilteringStatus] = useState("");
     const [finalCand, setFinalCand] = useState([]);
+    const [selectAllChecked, setSelectAllChecked] = useState(false);
 
     const [x, setX] = useState([0, 4]);
 
@@ -48,6 +50,17 @@ const AppliedCandidateATS = () => {
         }
 
     }, [filteringStatus])
+
+    const handleSelectAllChange = () => {
+        const selectAllIds = finalCand.map(cand => cand.id);
+        setSelectAllChecked(!selectAllChecked);
+    
+        if (!selectAllChecked) {
+          setSelectedCandidates(selectAllIds);
+        } else {
+          setSelectedCandidates([]);
+        }
+      };
 
     //for show success message for payment
     function showSuccessMessage(message) {
@@ -512,12 +525,12 @@ const AppliedCandidateATS = () => {
             const result = response.data;
             if (!result.error) {
                 console.log(result);
-
-                const filterArray = selectedCandidatesForJob || assignedCandidatesForJob
-                console.log(filterArray)
+                
+                // const filterArray = selectedCandidatesForJob || assignedCandidatesForJob
+                // console.log(filterArray)
 
                 const filtered = result.filter(candidate =>
-                    filterArray.some(anotherCandidate => anotherCandidate.candidateId === candidate.id)
+                    combinedCands.some(anotherCandidate => anotherCandidate.candidateId === candidate.id)
                 );
                 console.log(filtered)
                 setReqCands(filtered);
@@ -533,7 +546,7 @@ const AppliedCandidateATS = () => {
     useEffect(() => {
         getAllCandidateDetail();
         getCandidateImg();
-    }, [assignedCandidatesForJob, selectedCandidatesForJob]);
+    }, [combinedCands]);
 
     useEffect(() => {
         if (id) {
@@ -714,7 +727,10 @@ const AppliedCandidateATS = () => {
 
                                     <div className='select-all-area'>
                                         <label className="tal--pro-card-name-check-container no-absolute mb-0 select-all-text d-flex gap-10">
-                                            <input type="checkbox" class="tal--checkbox" />
+                                            <input type="checkbox" class="tal--checkbox" 
+                                            checked={selectAllChecked}
+                                            onChange={handleSelectAllChange}
+                                            disabled={!filteringStatus || filteringStatus==="Any"}/>
                                             <div className="tal--pro-card-name-checkmark"></div>
                                             Select All
                                         </label>
