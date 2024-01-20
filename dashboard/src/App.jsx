@@ -45,6 +45,9 @@ import ClientReport from './atsPages/AtsReports/ReportPages/ClientReport';
 import InterviewReport from './atsPages/AtsReports/ReportPages/InterviewReport';
 import LeadConversionReport from './atsPages/AtsReports/ReportPages/LeadConversionReport';
 import LeadReport from './atsPages/AtsReports/ReportPages/LeadReport';
+import CandidatePlacementReport from './atsPages/AtsReports/ReportPages/CandidatePlacementReport';
+import JobSuccessReport from './atsPages/AtsReports/ReportPages/JobSuccessReport';
+import JobDurationReport from './atsPages/AtsReports/ReportPages/JobDurationReport';
 
 ////for recruiter
 import RecruiterDashboard from './pages/RecruiterDashboard/RecruiterDashboard';
@@ -117,6 +120,9 @@ function App() {
         <Route path='/all-offline-candidates' element={<AllOfflineCandidates />} />
         <Route path='/offline-candidate-create' element={<OfflineCandidateCreate />} />
         <Route path='/all-company-staff-ats' element={<AllCompanyStaffATS />} />
+        <Route path='/candidate-placement-report' element={<CandidatePlacementReport />} />
+        <Route path='/job-success-report' element={<JobSuccessReport />} />
+        <Route path='/job-duration-report' element={<JobDurationReport />} />
 
         <Route path='/ats-reports' element={<AtsReports />} />
         <Route path='/team-performance-report' element={<TeamPerformanceReport />} />

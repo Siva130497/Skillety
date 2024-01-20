@@ -522,12 +522,89 @@ tfoot .report-table-data {
     font-weight: 700 !important;
 }
 
-.report-table-data.no-wrap{
+.report-table-data.no-wrap {
     white-space: nowrap;
 }
-.report-table-head.no-wrap{
+
+.report-table-head.no-wrap {
     white-space: nowrap;
 }
-.text-blue{
+
+.text-blue {
     color: #00a7fa;
+}
+
+.current-status {
+    border-radius: 50px;
+    font-size: 13px !important;
+    font-weight: 600;
+    padding: 5px;
+    text-align: center;
+    color: #00a7fa;
+    background-color: #ecf8ff;
+    box-shadow: inset 0px 0px 8px #0040601e;
+}
+
+.priority {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50px;
+    border: 2px solid #FFF5D6;
+    /* box-shadow: inset 0px 0px 8px #0040601e; */
+    padding: 2px;
+}
+
+.priority:not(:checked)>input {
+    position: absolute;
+    appearance: none;
+}
+
+.priority:not(:checked)>label {
+    cursor: pointer;
+    font-size: 25px;
+    color: #666;
+    margin-bottom: 0;
+}
+
+.priority:not(:checked)>label:before {
+    content: '★';
+}
+
+.priority>input:checked+label:hover,
+.priority>input:checked+label:hover~label,
+.priority>input:checked~label:hover,
+.priority>input:checked~label:hover~label,
+.priority>label:hover~input:checked~label {
+    color: #e58e09;
+}
+
+.priority:not(:checked)>label:hover,
+.priority:not(:checked)>label:hover~label {
+    color: #ff9e0b;
+}
+
+.priority>input:checked~label {
+    color: #ffa723;
+}
+
+.clear-priority {
+    outline: none;
+    border: none;
+    margin: 0;
+    padding: 0;
+    background-color: transparent;
+    margin-top: 5px;
+    margin-right: 5px;
+}
+
+.clear-priority:focus {
+    outline: none;
+    border: none;
+}
+
+.clear-priority i {
+    color: red;
+    font-size: 15px;
 }
