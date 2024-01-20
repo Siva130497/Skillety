@@ -44,10 +44,10 @@ const AtsReports = () => {
                                         <a className="nav-link report" id="job-tab" data-toggle="tab" href="#Job" role="tab"
                                             aria-controls="job" aria-selected="false">Job</a>
                                     </li>
-                                    <li className="nav-item">
+                                    {/* <li className="nav-item">
                                         <a className="nav-link report" id="other-tab" data-toggle="tab" href="#Other" role="tab"
                                             aria-controls="other" aria-selected="false">Other</a>
-                                    </li>
+                                    </li> */}
                                 </ul>
                                 <div className="card report-card">
                                     <div className="tab-content" id="myTabContent2">
@@ -66,7 +66,7 @@ const AtsReports = () => {
                                                 </div>
 
                                                 <div className="col-12 col-lg-6 col-xl-6 col-xxl-4 col-md-6">
-                                                    <a href="" className='report-tiles'>
+                                                    <a href="/daily-submission-report" className='report-tiles'>
                                                         <span className='report-tile-img-area'>
                                                             <img src="../assets/img/report/pie-chart.png" className='report-tile-img' alt="" />
                                                         </span>
@@ -80,7 +80,7 @@ const AtsReports = () => {
                                                 </div>
 
                                                 <div className="col-12 col-lg-6 col-xl-6 col-xxl-4 col-md-6">
-                                                    <a href="" className='report-tiles'>
+                                                    <a href="/lead-report" className='report-tiles'>
                                                         <span className='report-tile-img-area'>
                                                             <img src="../assets/img/report/shuttle.png" className='report-tile-img' alt="" />
                                                         </span>
@@ -94,7 +94,7 @@ const AtsReports = () => {
                                                 </div>
 
                                                 <div className="col-12 col-lg-6 col-xl-6 col-xxl-4 col-md-6">
-                                                    <a href="" className='report-tiles'>
+                                                    <a href="/candidate-source-report" className='report-tiles'>
                                                         <span className='report-tile-img-area'>
                                                             <img src="../assets/img/report/man.png" className='report-tile-img' alt="" />
                                                         </span>
@@ -107,7 +107,7 @@ const AtsReports = () => {
                                                 </div>
 
                                                 <div className="col-12 col-lg-6 col-xl-6 col-xxl-4 col-md-6">
-                                                    <a href="" className='report-tiles'>
+                                                    <a href="/turnaround-time-report" className='report-tiles'>
                                                         <span className='report-tile-img-area'>
                                                             <img src="../assets/img/report/clock.png" className='report-tile-img' alt="" />
                                                         </span>
@@ -122,16 +122,112 @@ const AtsReports = () => {
                                         </div>
 
                                         <div className="tab-pane fade" id="Client" role="tabpanel" aria-labelledby="client-tab">
-                                            Test
+                                            <div className="row">
+                                                <div className="col-12 col-lg-6 col-xl-6 col-xxl-4 col-md-6">
+                                                    <a href="/client-report" className='report-tiles'>
+                                                        <span className='report-tile-img-area'>
+                                                            <img src="../assets/img/report/boss.png" className='report-tile-img' alt="" />
+                                                        </span>
+                                                        <span>
+                                                            Client Report <br />
+                                                            <span className='report-tile-sub'>Review the overall performance delivered to different clients by the team with drill-down capability.</span>
+                                                        </span>
+                                                    </a>
+                                                </div>
+
+                                                <div className="col-12 col-lg-6 col-xl-6 col-xxl-4 col-md-6">
+                                                    <a href="/interview-report" className='report-tiles'>
+                                                        <span className='report-tile-img-area'>
+                                                            <img src="../assets/img/report/schedule.png" className='report-tile-img' alt="" />
+                                                        </span>
+                                                        <span>
+                                                            Interview Report<br />
+                                                            <span className='report-tile-sub'>
+                                                                Review the interviews conducted and the outcome of the interviews.
+                                                            </span>
+                                                        </span>
+                                                    </a>
+                                                </div>
+
+                                                <div className="col-12 col-lg-6 col-xl-6 col-xxl-4 col-md-6">
+                                                    <a href="/lead-conversion-report" className='report-tiles'>
+                                                        <span className='report-tile-img-area'>
+                                                            <img src="../assets/img/report/shuttle.png" className='report-tile-img' alt="" />
+                                                        </span>
+                                                        <span>
+                                                            Lead Conversion Report<br />
+                                                            <span className='report-tile-sub'>
+                                                                Track the time taken to convert prospects to clients by the sales team.
+                                                            </span>
+                                                        </span>
+                                                    </a>
+                                                </div>
+
+                                                <div className="col-12 col-lg-6 col-xl-6 col-xxl-4 col-md-6">
+                                                    <a href="/turnaround-time-report" className='report-tiles'>
+                                                        <span className='report-tile-img-area'>
+                                                            <img src="../assets/img/report/success.png" className='report-tile-img' alt="" />
+                                                        </span>
+                                                        <span>
+                                                            Candidate Placement Report<br />
+                                                            <span className='report-tile-sub'>
+                                                                Track the candidate which was hired for different jobs and monitor the overall hiring success.
+                                                            </span>
+                                                        </span>
+                                                    </a>
+                                                </div>
+                                            </div>
                                         </div>
 
                                         <div className="tab-pane fade" id="Job" role="tabpanel" aria-labelledby="job-tab">
-                                            Test
+                                            <div className="row">
+                                                <div className="col-12 col-lg-6 col-xl-6 col-xxl-4 col-md-6">
+                                                    <a href="/team-performance-report" className='report-tiles'>
+                                                        <span className='report-tile-img-area'>
+                                                            <img src="../assets/img/report/bronze-medal.png" className='report-tile-img' alt="" />
+                                                        </span>
+                                                        <span>
+                                                            Job Success Report<br />
+                                                            <span className='report-tile-sub'>
+                                                                Analyses the progress of each job and verifies the success ratio of hiring.
+                                                            </span>
+                                                        </span>
+                                                    </a>
+                                                </div>
+
+                                                <div className="col-12 col-lg-6 col-xl-6 col-xxl-4 col-md-6">
+                                                    <a href="/daily-submission-report" className='report-tiles'>
+                                                        <span className='report-tile-img-area'>
+                                                            <img src="../assets/img/report/chronometer.png" className='report-tile-img' alt="" />
+                                                        </span>
+                                                        <span>
+                                                            Job Duration Report<br />
+                                                            <span className='report-tile-sub'>
+                                                                Analyses the on-time hiring of candidates against the target date set for the jobs.
+                                                            </span>
+                                                        </span>
+                                                    </a>
+                                                </div>
+
+                                                <div className="col-12 col-lg-6 col-xl-6 col-xxl-4 col-md-6">
+                                                    <a href="/candidate-source-report" className='report-tiles'>
+                                                        <span className='report-tile-img-area'>
+                                                            <img src="../assets/img/report/job-description.png" className='report-tile-img' alt="" />
+                                                        </span>
+                                                        <span>
+                                                            Job Report<br />
+                                                            <span className='report-tile-sub'>
+                                                                Analyses the overall progress of jobs and drill-down capability helps you to analyse the performance of each team member at the job level.
+                                                            </span>
+                                                        </span>
+                                                    </a>
+                                                </div>
+                                            </div>
                                         </div>
 
-                                        <div className="tab-pane fade" id="Other" role="tabpanel" aria-labelledby="other-tab">
+                                        {/* <div className="tab-pane fade" id="Other" role="tabpanel" aria-labelledby="other-tab">
                                             Test
-                                        </div>
+                                        </div> */}
                                     </div>
                                 </div>
                             </div>
