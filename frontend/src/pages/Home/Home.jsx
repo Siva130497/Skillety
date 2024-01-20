@@ -1525,9 +1525,9 @@ const Home = () => {
                         <p>Direct Call or message on WhatsApp to start work with us </p>
                       </div>
                       <div className="connect--btn-area">
-                        <a href="#" className='connect--btn-sub'>
+                        <a href="" className='connect--btn-sub'>
                           <div className='connect--btn'>
-                            CALL NOW
+                            CALL US
                           </div>
                           <div className='connect--arrow-area'>
                             <svg xmlns="http://www.w3.org/2000/svg" width="17" height="18" viewBox="0 0 17 18" fill="none">
@@ -1554,9 +1554,9 @@ const Home = () => {
                         <p>Send mail to us Anytime</p>
                       </div>
                       <div className="connect--btn-area">
-                        <a href="#" className='connect--btn-sub'>
+                        <a href="mailto:info@skillety.com" className='connect--btn-sub'>
                           <div className='connect--btn'>
-                            info@skillety.com
+                            EMAIL US
                           </div>
                           <div className='connect--arrow-area'>
                             <svg xmlns="http://www.w3.org/2000/svg" width="17" height="18" viewBox="0 0 17 18" fill="none">
@@ -1585,7 +1585,7 @@ const Home = () => {
                       <div className="connect--btn-area">
                         <a href="#" className='connect--btn-sub'>
                           <div className='connect--btn'>
-                            BOOK NOW
+                            MEET US
                           </div>
                           <div className='connect--arrow-area'>
                             <svg xmlns="http://www.w3.org/2000/svg" width="17" height="18" viewBox="0 0 17 18" fill="none">

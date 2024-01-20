@@ -164,7 +164,7 @@ const AtsReports = () => {
                                                 </div>
 
                                                 <div className="col-12 col-lg-6 col-xl-6 col-xxl-4 col-md-6">
-                                                    <a href="/turnaround-time-report" className='report-tiles'>
+                                                    <a href="/candidate-placement-report" className='report-tiles'>
                                                         <span className='report-tile-img-area'>
                                                             <img src="../assets/img/report/success.png" className='report-tile-img' alt="" />
                                                         </span>
@@ -182,7 +182,7 @@ const AtsReports = () => {
                                         <div className="tab-pane fade" id="Job" role="tabpanel" aria-labelledby="job-tab">
                                             <div className="row">
                                                 <div className="col-12 col-lg-6 col-xl-6 col-xxl-4 col-md-6">
-                                                    <a href="/team-performance-report" className='report-tiles'>
+                                                    <a href="/job-success-report" className='report-tiles'>
                                                         <span className='report-tile-img-area'>
                                                             <img src="../assets/img/report/bronze-medal.png" className='report-tile-img' alt="" />
                                                         </span>
@@ -196,7 +196,7 @@ const AtsReports = () => {
                                                 </div>
 
                                                 <div className="col-12 col-lg-6 col-xl-6 col-xxl-4 col-md-6">
-                                                    <a href="/daily-submission-report" className='report-tiles'>
+                                                    <a href="/job-duration-report" className='report-tiles'>
                                                         <span className='report-tile-img-area'>
                                                             <img src="../assets/img/report/chronometer.png" className='report-tile-img' alt="" />
                                                         </span>
