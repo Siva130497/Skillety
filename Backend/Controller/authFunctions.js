@@ -41,6 +41,7 @@ const allJobTable = require("../Database/allJobTable");
 const nonApprovalJobTable = require("../Database/nonApprovalJobTable");
 const postedJobTable = require("../Database/postedJobTable");
 const recruiterClient = require("../Database/recruiterClient");
+const clientProfile = require("../Database/clientProfile");
 
 //MOBILE APP..........
 const candidateProfile = require("../Database/candidateProfile");
@@ -3747,6 +3748,27 @@ const searchJob = async(req, res) => {
   }
 }
 
+//search client
+const searchClient = async (req, res) => {
+  try {
+    const { searchTerm } = req.body;
+    console.log(searchTerm);
+
+    const query = {
+      $or: [
+        { name: { $regex: new RegExp(searchTerm, 'i') } },
+        { companyName: { $regex: new RegExp(searchTerm, 'i') } },
+      ],
+    };
+
+    const result = await finalClient.find(query).lean();
+    res.status(200).json(result);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+
 //individual candidate detail
 const getACandidateDetail = async (req, res) => {
   try {
@@ -3965,6 +3987,113 @@ const getCandidateResumeUrl = async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).send({ error: 'Internal Server Error' });
+  }
+};
+
+/* Find company detail for the companyId */
+const getUpdatedCompanyDetailByCompanyId = async(req, res) => {
+  try{
+    const {id} = req.params;
+    const companyDetailForCompanyId = await companyDetail.findOne({companyId:id});
+    if(companyDetailForCompanyId){
+      const companyProfile = await clientProfile.findOne({id});
+      return res.status(200).json({
+        message: "Company details fetch successfully!",
+        companyDetails: {
+          ...companyDetailForCompanyId._doc,
+          profile:companyProfile.image ? `https://skillety-n6r1.onrender.com/images/${companyProfile.image}` : null
+        }
+        })
+    }else{
+      return res.status(404).json({ error: 'Company detail not found!' });
+    }
+  }catch(err) {
+    res.status(500).json({error: err.message})
+  }
+}
+
+/* updated posted active jobs with cv number */
+const getUpdatedOwnActivejobs = async (req, res) => {
+  try {
+    const id = req.params.id; 
+    
+    const activeJobs = await activeJob.find({companyId:id});
+
+    if (activeJobs.length > 0) {
+      const activeJobWithStatus = await Promise.all(
+        activeJobs.map(async (job) => {
+          const jobId = job.id;
+
+          const receivedCvCount = await appliedJob.countDocuments({ jobId });
+
+          return { ...job.toObject(), active: true, receivedCvCount };
+        })
+      );
+
+      return res.status(200).json(activeJobWithStatus);
+    }
+
+      return res.status(404).json({ message: 'No active job found' });
+    
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+//find all new applications
+const getAllNewCandidateDetail = async (req, res) => {
+  try {
+    const { page, limit } = req.query; // Default to page 1 and limit 10 if not provided
+
+    const skip = (page - 1) * limit;
+
+    const cands = await candidate.find().skip(skip).limit(parseInt(limit));
+    
+    if (cands.length === 0) {
+      return res.status(404).json({ error: "Candidates not found" });
+    }
+
+    const newCandidateDetails = await Promise.all(
+      cands.map(async (cand) => {
+       
+        const neededCv = await resume.findOne({ id: cand.id });
+        const neededProfile = await candidateProfile.findOne({ id: cand.id });
+
+        const candidateDetail = {
+          ...cand._doc,
+          ...(neededCv ? neededCv._doc : {}), 
+          ...(neededProfile ? neededProfile._doc : {}), 
+        };
+
+        const finalResponse = {
+          candidateId: candidateDetail.id,
+          lastProfileUpdateDate: new Date(cand.updatedAt).toISOString().split('T')[0],
+          avatar: candidateDetail.image ? `https://skillety-n6r1.onrender.com/candidate_profile/${candidateDetail.image}` : null,
+          joinPeriod: candidateDetail.days,
+          lastDayWorked: candidateDetail.selectedDate,
+          fName: candidateDetail.firstName,
+          lName: candidateDetail.lastName,
+          email: candidateDetail.email,
+          phone: candidateDetail.phone,
+          preferedLocations: candidateDetail.preferedlocations ? candidateDetail.preferedlocations.join(", ") : null,
+          cv: candidateDetail.file ? `https://skillety-n6r1.onrender.com/files/${candidateDetail.file}` : null,
+          currentDesignation: candidateDetail.designation ? candidateDetail.designation[0] : null,
+          currentCompany: candidateDetail.companyName,
+          currentLocation: candidateDetail.location,
+          expYr: candidateDetail.year,
+          expMonth: candidateDetail.month,
+          skills: candidateDetail.skills,
+          educations: candidateDetail.education,
+          profileHeadline: candidateDetail.profileHeadline,
+        };
+
+        return finalResponse;
+      })
+    );
+
+    return res.status(200).json(newCandidateDetails);
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
   }
 };
 
@@ -4590,19 +4719,31 @@ const userLogin = async (req, role, res) => {
   console.log(role);
   console.log(userId, password);
   try {
-    // let user = await allUsers.findOne({ name: userId });
-    
-    let user = await allUsers.findOne({ email: userId });
-    
-    if (!user) {
-      user = await allUsers.findOne({ phone: userId });
+
+    if (!userId || !password) {
+            return res.status(400).json({
+              message: "Invalid input. Please provide both userId and password.",
+            });
     }
-    console.log(user);
-    if (!user) {
-      return res.status(404).json({
-        message: "User is not found. Invalid login credentials.",
-      });
+
+    let user;
+    user = await allUsers.findOne({email:userId});
+    if(!user){
+      const userIdByNumber = Number(userId);
+      if(isNaN(userIdByNumber)){
+        return res.status(404).json({
+          message: "User is not found. Invalid login credentials.",
+        });
+      }else{
+        user = await allUsers.findOne({phone:userId});
+        if(!user){
+          return res.status(404).json({
+            message: "User is not found. Invalid login credentials.",
+          });
+        }
+      }
     }
+  
     // We will check the role
     if (!role.includes(user.role)) {
       return res.status(403).json({
@@ -4656,6 +4797,88 @@ const userLogin = async (req, role, res) => {
     res.status(500).json({ error: err.message })
   }
 };
+
+
+// const userLogin = async (req, role, res) => {
+//   try {
+//     const { userId, password } = req;
+
+//     // Input validation
+//     if (!userId || !password) {
+//       return res.status(400).json({
+//         message: "Invalid input. Please provide both userId and password.",
+//       });
+//     }
+
+//     console.log(role);
+//     console.log(userId, password);
+
+//     // Combine email and phone in a single query
+//     const user = await allUsers.findOne({
+//       $or: [
+//         { email: userId },
+//         { phone: isNaN(userId) ? null : Number(userId) }, // Convert userId to number if it's a valid number
+//       ],
+//     });
+    
+
+//     if (!user) {
+//       return res.status(404).json({
+//         message: "User not found. Invalid login credentials.",
+//       });
+//     }
+//     console.log(user);
+//     // Check the role
+//     if (!role.includes(user.role)) {
+//       return res.status(403).json({
+//         message: "Incorrect role. Please log in from the correct portal.",
+//       });
+//     }
+
+//     // Check the password
+//     if (!bcrypt.compareSync(password, user.password)) {
+//       return res.status(403).json({
+//         message: "Incorrect password.",
+//       });
+//     }
+
+//     // Generate and sign the token
+//     const payload = {
+//       id: user.id,
+//       role: user.role,
+//       name: user.name,
+//       email: user.email,
+//       phone: user.phone,
+//     };
+
+//     const token = jwt.sign(payload, process.env.APP_SECRET, { expiresIn: "3 days" });
+
+//     const result = {
+//       id: user.id,
+//       role: user.role,
+//       name: user.name,
+//       email: user.email,
+//       phone: user.phone,
+//       expiresIn: 168,
+//     };
+
+//     // Set the token in a cookie and return the response
+//     return res
+//       .cookie('jwt', token, {
+//         httpOnly: true,
+//       })
+//       .status(200)
+//       .json({
+//         ...result,
+//         accessToken: token,
+//         message: "You are now logged in.",
+//       });
+
+//   } catch (err) {
+//     console.error(err); // Log the error for debugging
+//     return res.status(500).json({ message: "Internal Server Error" });
+//   }
+// };
 
 
 
@@ -4881,7 +5104,10 @@ module.exports = {
    updatingCandidateEducationsDetail,
    updatingCandidateSkillsDetail,
    candidateUpdateDetail,
-
+   getUpdatedCompanyDetailByCompanyId,
+   getUpdatedOwnActivejobs,
+   getAllNewCandidateDetail,
+   searchClient,
   
    //MOBILE APP API............
 

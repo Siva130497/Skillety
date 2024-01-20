@@ -160,6 +160,10 @@ const {
    updatingCandidateEducationsDetail,
    updatingCandidateSkillsDetail,
    candidateUpdateDetail,
+   getUpdatedCompanyDetailByCompanyId,
+   getUpdatedOwnActivejobs,
+   getAllNewCandidateDetail,
+   searchClient,
 
    //MOBILE APP API............
 
@@ -611,6 +615,18 @@ router.patch("/update-cand-ex-educations/:id", employeeAuth, updatingCandidateEd
 
 //update cand particular detail
 router.patch("/update-cand-particula-detail/:id", employeeAuth, candidateUpdateDetail);
+
+//get company details along with profile
+router.get("/new-company-details/:id", employeeAuth, getUpdatedCompanyDetailByCompanyId);
+
+//get active posted jobs for companyId with received cv count
+router.get("/active-posted-jobs-with-received-cv-count/:id", employeeAuth, getUpdatedOwnActivejobs);
+
+//get all candidates by paginations
+router.get("/all-candidate-details-pagination-with-limit", employeeAuth, getAllNewCandidateDetail);
+
+//search client by name & company name
+router.post("/client-search", employeeAuth, searchClient);
 
 //MOBILE APP API............
 
