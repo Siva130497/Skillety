@@ -86,9 +86,10 @@
 
 .report-page-des-area {
     border-radius: 12px;
-    background-color: #F0F0F0;
-    box-shadow: inset 0px 0px 10px #0000001d;
+    background-color: #FFECE4;
+    /* box-shadow: inset 0px 0px 10px #0000001d; */
     padding: 15px;
+    border: 1px dashed #714F36;
 }
 
 .report-page-des-area p {
@@ -137,6 +138,7 @@
     color: #714F36;
     right: 20px;
     top: 13px;
+    pointer-events: none;
 }
 
 .report-filter-input option {
@@ -210,6 +212,52 @@
     padding-bottom: 10px !important;
 }
 
+.report-table-head-skew {
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    color: #000000 !important;
+    background-color: transparent !important;
+    position: relative;
+    height: 90px !important;
+    min-width: 70px !important;
+    max-width: 100% !important;
+    vertical-align: bottom;
+    padding: 0 !important;
+    line-height: 0.8 !important;
+}
+
+.report-table-head-skew>div {
+    position: relative;
+    top: 0px;
+    left: 40px;
+    height: 100%;
+    -ms-transform: skew(-45deg, 0deg);
+    -moz-transform: skew(-45deg, 0deg);
+    -webkit-transform: skew(-45deg, 0deg);
+    -o-transform: skew(-45deg, 0deg);
+    transform: skew(-45deg, 0deg);
+    overflow: hidden;
+    border-left: 1px solid #dddddd;
+    border-right: 1px solid #dddddd;
+    border-top: 1px solid #dddddd;
+}
+
+.report-table-head-skew span {
+    -ms-transform: skew(45deg, 0deg) rotate(315deg);
+    -moz-transform: skew(45deg, 0deg) rotate(315deg);
+    -webkit-transform: skew(45deg, 0deg) rotate(315deg);
+    -o-transform: skew(45deg, 0deg) rotate(315deg);
+    transform: skew(45deg, 0deg) rotate(315deg);
+    position: absolute;
+    bottom: 35px;
+    left: -25px;
+    display: inline-block;
+    width: 100%;
+    width: 85px;
+    text-align: left;
+    white-space: nowrap;
+}
+
 .no-verical-align {
     vertical-align: bottom !important;
 }
@@ -228,6 +276,12 @@
     font-weight: 600 !important;
     padding-top: 10px !important;
     padding-bottom: 10px !important;
+    height: auto !important;
+}
+
+tfoot .report-table-data {
+    font-weight: 700 !important;
+    color: #000000 !important;
 }
 
 .report-data-view-button {
@@ -348,4 +402,132 @@
 .table-export-btn.excel:hover {
     background-color: #107c41 !important;
     color: #FFF !important;
+}
+
+.table-foot {
+    background-color: #F0F0F0;
+}
+
+.report-no-data-found-area {
+    margin-top: 20px;
+    border: 2px solid #F0F0F0;
+    border-radius: 12px;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: center;
+    position: relative;
+    flex-direction: column;
+}
+
+.report-no-data-found-img {
+    width: 25%;
+}
+
+.report-no-data-found-text {
+    color: #000000;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.report-no-data-found-sub-text {
+    margin-top: 5px;
+    color: #000000;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.report-radio-area {
+    width: 100%;
+    margin-top: 15px;
+    border-radius: 50px;
+    padding: 15px;
+    /* border: 2px solid #F0F0F0; */
+    background-color: #f5f5f5;
+    box-shadow: inset 0px 0px 10px #0000001d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.report-radio-button {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-start;
+    margin: 0px;
+    position: relative;
+    align-items: center;
+    color: #714F36 !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    cursor: pointer;
+}
+
+.report-radio-button input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+}
+
+.report-radio {
+    position: relative;
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    outline: 1px solid #714F36;
+    background-color: #FFF5D6;
+    box-shadow: inset 0px 0px 5px #2d23001e;
+    -webkit-transform: translateZ(-25px);
+    transform: translateZ(-25px);
+    -webkit-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+    flex-shrink: 0;
+}
+
+.report-radio::before {
+    position: absolute;
+    content: '';
+    width: 12px;
+    height: 12px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background-color: #714F36;
+    opacity: 0;
+    -webkit-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+}
+
+.report-radio-button input[type="radio"]:checked+.report-radio {
+    -webkit-transform: translateZ(0px);
+    transform: translateZ(0px);
+    background-color: #FFF5D6;
+}
+
+.report-radio-button input[type="radio"]:checked+.report-radio::before {
+    opacity: 1;
+}
+
+.report-radio-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 50px;
+}
+
+.report-table-data.is-bold {
+    color: #000000 !important;
+    font-weight: 700 !important;
+}
+
+.report-table-data.no-wrap{
+    white-space: nowrap;
+}
+.report-table-head.no-wrap{
+    white-space: nowrap;
+}
+.text-blue{
+    color: #00a7fa;
 }

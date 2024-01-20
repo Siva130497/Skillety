@@ -38,6 +38,13 @@ import OfflineCandidateCreate from './atsPages/OfflineCandidateCreate/OfflineCan
 import AllCompanyStaffATS from './atsPages/AllCompanyStaffATS/AllCompanyStaffATS';
 import AtsReports from './atsPages/AtsReports/AtsReports';
 import TeamPerformanceReport from './atsPages/AtsReports/ReportPages/TeamPerformanceReport';
+import DailySubmissionReport from './atsPages/AtsReports/ReportPages/DailySubmissionReport';
+import CandidateSourceReport from './atsPages/AtsReports/ReportPages/CandidateSourceReport';
+import TurnaroundTimeReport from './atsPages/AtsReports/ReportPages/TurnaroundTimeReport';
+import ClientReport from './atsPages/AtsReports/ReportPages/ClientReport';
+import InterviewReport from './atsPages/AtsReports/ReportPages/InterviewReport';
+import LeadConversionReport from './atsPages/AtsReports/ReportPages/LeadConversionReport';
+import LeadReport from './atsPages/AtsReports/ReportPages/LeadReport';
 
 ////for recruiter
 import RecruiterDashboard from './pages/RecruiterDashboard/RecruiterDashboard';
@@ -110,8 +117,16 @@ function App() {
         <Route path='/all-offline-candidates' element={<AllOfflineCandidates />} />
         <Route path='/offline-candidate-create' element={<OfflineCandidateCreate />} />
         <Route path='/all-company-staff-ats' element={<AllCompanyStaffATS />} />
+
         <Route path='/ats-reports' element={<AtsReports />} />
         <Route path='/team-performance-report' element={<TeamPerformanceReport />} />
+        <Route path='/daily-submission-report' element={<DailySubmissionReport />} />
+        <Route path='/candidate-source-report' element={<CandidateSourceReport />} />
+        <Route path='/lead-report' element={<LeadReport />} />
+        <Route path='/turnaround-time-report' element={<TurnaroundTimeReport />} />
+        <Route path='/client-report' element={<ClientReport />} />
+        <Route path='/interview-report' element={<InterviewReport />} />
+        <Route path='/lead-conversion-report' element={<LeadConversionReport />} />
 
 
         {/* for recruiter */}
