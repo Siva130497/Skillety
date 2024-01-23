@@ -4,7 +4,6 @@ import ATSLayout from '../../atsComponents/ATSLayout';
 import Footer from '../../components/Footer';
 import './AtsReports.css';
 import './AtsReports-responsive.css';
-import $ from 'jquery';
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import AuthContext from '../../context/AuthContext';
@@ -210,7 +209,7 @@ const AtsReports = () => {
                                                 </div>
 
                                                 <div className="col-12 col-lg-6 col-xl-6 col-xxl-4 col-md-6">
-                                                    <a href="/candidate-source-report" className='report-tiles'>
+                                                    <a href="/job-report" className='report-tiles'>
                                                         <span className='report-tile-img-area'>
                                                             <img src="../assets/img/report/job-description.png" className='report-tile-img' alt="" />
                                                         </span>

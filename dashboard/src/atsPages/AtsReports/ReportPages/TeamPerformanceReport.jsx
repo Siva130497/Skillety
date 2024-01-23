@@ -2,7 +2,6 @@ import React, { useContext, useState, useRef } from 'react';
 import { useEffect } from 'react';
 import ATSLayout from '../../../atsComponents/ATSLayout';
 import Footer from '../../../components/Footer';
-import $ from 'jquery';
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import AuthContext from '../../../context/AuthContext';
@@ -35,42 +34,42 @@ const TeamPerformanceReport = () => {
     }, [atsToken]);
     console.log(selectedFromDate)
 
-    useEffect(()=>{
-        if(selectedFromDate && selectedToDate){
-            setCustomDate(selectedFromDate+"to"+selectedToDate)
+    useEffect(() => {
+        if (selectedFromDate && selectedToDate) {
+            setCustomDate(selectedFromDate + "to" + selectedToDate)
         }
-    },[selectedFromDate, selectedToDate])
+    }, [selectedFromDate, selectedToDate])
 
-    useEffect(()=>{
-        if(customDate){
+    useEffect(() => {
+        if (customDate) {
             setPeriod(customDate)
         }
-    },[customDate])
+    }, [customDate])
 
-    useEffect(()=>{
-        if(filter){
+    useEffect(() => {
+        if (filter) {
             setPeriod(filter)
         }
-    },[filter])
+    }, [filter])
 
     const runReport = () => {
         setEmployeeReportDetail([]);
-        if(period){
+        if (period) {
             axios.get(`http://localhost:5002/find-data-for-report?period=${period}`, {
-            headers: {
-                Authorization: `Bearer ${atsToken}`,
-                Accept: 'application/json'
-            }
+                headers: {
+                    Authorization: `Bearer ${atsToken}`,
+                    Accept: 'application/json'
+                }
             })
-            .then(res=>{
-                console.log(res.data);
-                setEmployeeReportDetail(res.data);
-            })
-            .catch(err=>{
-                console.log(err);
-            })
+                .then(res => {
+                    console.log(res.data);
+                    setEmployeeReportDetail(res.data);
+                })
+                .catch(err => {
+                    console.log(err);
+                })
         }
-        
+
     }
 
     const handleFilterChange = (event) => {
@@ -190,159 +189,172 @@ const TeamPerformanceReport = () => {
 
                                             <div className="col-12 col-lg-3 col-md-6 mb-4 mb-md-3 mb-lg-0">
                                                 <button className='run-report-button'
-                                                onClick={runReport}>Run Report</button>                                        </div>
-                                            </div>
+                                                    onClick={runReport}>Run Report</button>                                        </div>
+                                        </div>
 
-                                    {employeeReportDetail.length>0 ? 
-                                        <div className="report-view-section">
-                                            <div className="table-report-head">
-                                                Performance Analysis
-                                            </div>
-                                            <hr />
-                                            <div className="report-view-area">
-                                                <div className="table-responsive">
-                                                    <table className='table report-table table-bordered' id='Export_table' ref={tableRef}>
-                                                        <thead>
-                                                            <tr className='report-table-row'>
-                                                                <th className='report-table-head' colSpan={8}></th>
-                                                                <th className='report-table-head with-border text-center' colSpan={6}>INTERVIEW FEEDBACK</th>
-                                                                <th className='report-table-head' colSpan={2}></th>
-                                                            </tr>
-                                                            <tr className='report-table-row with-border'>
-                                                                <th className='report-table-head no-verical-align'>NAME</th>
-                                                                <th className='report-table-head no-verical-align'>CURRENT ROLE</th>
-                                                                <th className='report-table-head no-verical-align text-center'>No. OF CLIENTS CREATED</th>
-                                                                <th className='report-table-head no-verical-align text-center'>No. OF CANDIDATES CREATED</th>
-                                                                <th className='report-table-head no-verical-align text-center'>No. OF ASSIGNED CANDIDATES</th>
-                                                                <th className='report-table-head no-verical-align text-center'>No. OF ACTIVE JOBS CREATED</th>
-                                                                <th className='report-table-head no-verical-align text-center'>No. OF IN-ACTIVE JOBS CREATED</th>
-                                                                <th className='report-table-head no-verical-align text-center'>SCREENED</th>
-                                                                <th className='report-table-head no-verical-align text-center'>INTERVIEWED</th>
-                                                                <th className='report-table-head no-verical-align text-center'>OFFERED</th>
-                                                                <th className='report-table-head no-verical-align text-center'>REJECTED</th>
-                                                                <th className='report-table-head no-verical-align text-center'>JOINED</th>
-                                                                <th className='report-table-head no-verical-align text-center'>ABSCONDED</th>
-                                                                {/* <th className='report-table-head no-verical-align text-center' rowSpan={2}>No. OF OFFERED</th>
+                                        {employeeReportDetail.length > 0 ?
+                                            <div className="report-view-section">
+                                                <div className="table-report-head">
+                                                    Performance Analysis
+                                                </div>
+                                                <hr />
+                                                <div className="report-view-area">
+                                                    <div className="table-responsive">
+                                                        <table className='table report-table table-bordered' id='Export_table' ref={tableRef}>
+                                                            <thead>
+                                                                <tr className='report-table-row'>
+                                                                    <th className='report-table-head' colSpan={8}></th>
+                                                                    <th className='report-table-head with-border text-center' colSpan={6}>INTERVIEW FEEDBACK</th>
+                                                                    <th className='report-table-head' colSpan={2}></th>
+                                                                </tr>
+                                                                <tr className='report-table-row with-border'>
+                                                                    <th className='report-table-head no-verical-align'>NAME</th>
+                                                                    <th className='report-table-head no-verical-align'>CURRENT ROLE</th>
+                                                                    <th className='report-table-head no-verical-align text-center'>No. OF CLIENTS CREATED</th>
+                                                                    <th className='report-table-head no-verical-align text-center'>No. OF CANDIDATES CREATED</th>
+                                                                    <th className='report-table-head no-verical-align text-center'>No. OF ASSIGNED CANDIDATES</th>
+                                                                    <th className='report-table-head no-verical-align text-center'>No. OF ACTIVE JOBS CREATED</th>
+                                                                    <th className='report-table-head no-verical-align text-center'>No. OF IN-ACTIVE JOBS CREATED</th>
+                                                                    <th className='report-table-head no-verical-align text-center'>SCREENED</th>
+                                                                    <th className='report-table-head no-verical-align text-center'>INTERVIEWED</th>
+                                                                    <th className='report-table-head no-verical-align text-center'>OFFERED</th>
+                                                                    <th className='report-table-head no-verical-align text-center'>REJECTED</th>
+                                                                    <th className='report-table-head no-verical-align text-center'>JOINED</th>
+                                                                    <th className='report-table-head no-verical-align text-center'>ABSCONDED</th>
+                                                                    {/* <th className='report-table-head no-verical-align text-center' rowSpan={2}>No. OF OFFERED</th>
                                                                 <th className='report-table-head no-verical-align text-center' rowSpan={2}>No. OF HIRED</th> */}
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            {employeeReportDetail.slice(x[0], x[1]).map((emplyDetail, index)=>{
-                                                                return(
-                                                                    <tr className='report-table-row with-border'
-                                                                    key={index}>
-                                                                        <td className='report-table-data'>{emplyDetail.name}</td>
-                                                                        <td className='report-table-data'>{emplyDetail.role}</td>
-                                                                        <td className='report-table-data text-center'>
-                                                                            <button className='report-data-view-button' data-toggle="modal" data-target={emplyDetail.createdClients.length>0?"#ViewModal" : ""}
-                                                                            onClick={()=>handleRawSelect("CLIENT", emplyDetail.createdClients, emplyDetail.name)}>{emplyDetail.createdClients.length}</button>
-                                                                        </td>
-                                                                        <td className='report-table-data text-center'>
-                                                                            <button className='report-data-view-button' data-toggle="modal" data-target={emplyDetail.createdCandidates.length>0?"#ViewModal" : ""}
-                                                                            onClick={()=>handleRawSelect("CANDIDATE", emplyDetail.createdCandidates, emplyDetail.name)}>{emplyDetail.createdCandidates.length}</button>
-                                                                        </td>
-                                                                        <td className='report-table-data text-center'>
-                                                                            <button className='report-data-view-button' data-toggle="modal" data-target={emplyDetail.assignedCands.length>0?"#ViewModal" : ""}
-                                                                            onClick={()=>handleRawSelect("CANDIDATE", emplyDetail.assignedCands, emplyDetail.name, "JOB")}>{emplyDetail.assignedCands.length}</button>
-                                                                        </td>
-                                                                        <td className='report-table-data text-center'>
-                                                                            <button className='report-data-view-button' data-toggle="modal" data-target={emplyDetail.createdActiveJobs.length>0?"#ViewModal" : ""}
-                                                                            onClick={()=>handleRawSelect("CLIENT", emplyDetail.createdActiveJobs, emplyDetail.name, "JOB")}>{emplyDetail.createdActiveJobs.length}</button>
-                                                                        </td>
-                                                                        <td className='report-table-data text-center'>
-                                                                            <button className='report-data-view-button' data-toggle="modal" data-target={emplyDetail.createdInActiveJobs.length>0?"#ViewModal" : ""}
-                                                                            onClick={()=>handleRawSelect("CLIENT", emplyDetail.createdInActiveJobs, emplyDetail.name, "JOB")}>{emplyDetail.createdInActiveJobs.length}</button>
-                                                                        </td>
-                                                                        <td className='report-table-data text-center'>
-                                                                            <button className='report-data-view-button' data-toggle="modal" data-target={emplyDetail.screenedCandidates.length>0?"#ViewModal" : ""}
-                                                                            onClick={()=>handleRawSelect("CANDIDATE", emplyDetail.screenedCandidates, emplyDetail.name, "JOB")}>{emplyDetail.screenedCandidates.length}</button>
-                                                                        </td>
-                                                                        <td className='report-table-data text-center'>
-                                                                            <button className='report-data-view-button' data-toggle="modal" data-target={emplyDetail.screenedCandidates.length>0?"#ViewModal" : ""}
-                                                                            onClick={()=>handleRawSelect("CANDIDATE", emplyDetail.interviewCandidates, emplyDetail.name, "JOB")}>{emplyDetail.screenedCandidates.length}</button>
-                                                                        </td>
-                                                                        <td className='report-table-data text-center'>
-                                                                            <button className='report-data-view-button' data-toggle="modal" data-target={emplyDetail.offeredCandidates.length>0?"#ViewModal" : ""}
-                                                                            onClick={()=>handleRawSelect("CANDIDATE", emplyDetail.offeredCandidates, emplyDetail.name, "JOB")}>{emplyDetail.offeredCandidates.length}</button>
-                                                                        </td>
-                                                                        <td className='report-table-data text-center'>
-                                                                            <button className='report-data-view-button' data-toggle="modal" data-target={emplyDetail.rejectedCandidates.length>0?"#ViewModal" : ""}
-                                                                            onClick={()=>handleRawSelect("CANDIDATE", emplyDetail.rejectedCandidates, emplyDetail.name, "JOB")}>{emplyDetail.rejectedCandidates.length}</button>
-                                                                        </td>
-                                                                        <td className='report-table-data text-center'>
-                                                                            <button className='report-data-view-button' data-toggle="modal" data-target={emplyDetail.joinedCandidates.length>0?"#ViewModal" : ""}
-                                                                            onClick={()=>handleRawSelect("CANDIDATE", emplyDetail.joinedCandidates, emplyDetail.name, "JOB")}>{emplyDetail.joinedCandidates.length}</button>
-                                                                        </td>
-                                                                        <td className='report-table-data text-center'>
-                                                                            <button className='report-data-view-button' data-toggle="modal" data-target={emplyDetail.abscondedCandidates.length>0?"#ViewModal" : ""}
-                                                                            onClick={()=>handleRawSelect("CANDIDATE", emplyDetail.abscondedCandidates, emplyDetail.name, "JOB")}>{emplyDetail.abscondedCandidates.length}</button>
-                                                                        </td>
-                                                                        {/* <td className='report-table-data text-center'>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                {employeeReportDetail.slice(x[0], x[1]).map((emplyDetail, index) => {
+                                                                    return (
+                                                                        <tr className='report-table-row with-border'
+                                                                            key={index}>
+                                                                            <td className='report-table-data'>{emplyDetail.name}</td>
+                                                                            <td className='report-table-data'>{emplyDetail.role}</td>
+                                                                            <td className='report-table-data text-center'>
+                                                                                <button className='report-data-view-button' data-toggle="modal" data-target={emplyDetail.createdClients.length > 0 ? "#ViewModal" : ""}
+                                                                                    onClick={() => handleRawSelect("CLIENT", emplyDetail.createdClients, emplyDetail.name)}>{emplyDetail.createdClients.length}</button>
+                                                                            </td>
+                                                                            <td className='report-table-data text-center'>
+                                                                                <button className='report-data-view-button' data-toggle="modal" data-target={emplyDetail.createdCandidates.length > 0 ? "#ViewModal" : ""}
+                                                                                    onClick={() => handleRawSelect("CANDIDATE", emplyDetail.createdCandidates, emplyDetail.name)}>{emplyDetail.createdCandidates.length}</button>
+                                                                            </td>
+                                                                            <td className='report-table-data text-center'>
+                                                                                <button className='report-data-view-button' data-toggle="modal" data-target={emplyDetail.assignedCands.length > 0 ? "#ViewModal" : ""}
+                                                                                    onClick={() => handleRawSelect("CANDIDATE", emplyDetail.assignedCands, emplyDetail.name, "JOB")}>{emplyDetail.assignedCands.length}</button>
+                                                                            </td>
+                                                                            <td className='report-table-data text-center'>
+                                                                                <button className='report-data-view-button' data-toggle="modal" data-target={emplyDetail.createdActiveJobs.length > 0 ? "#ViewModal" : ""}
+                                                                                    onClick={() => handleRawSelect("CLIENT", emplyDetail.createdActiveJobs, emplyDetail.name, "JOB")}>{emplyDetail.createdActiveJobs.length}</button>
+                                                                            </td>
+                                                                            <td className='report-table-data text-center'>
+                                                                                <button className='report-data-view-button' data-toggle="modal" data-target={emplyDetail.createdInActiveJobs.length > 0 ? "#ViewModal" : ""}
+                                                                                    onClick={() => handleRawSelect("CLIENT", emplyDetail.createdInActiveJobs, emplyDetail.name, "JOB")}>{emplyDetail.createdInActiveJobs.length}</button>
+                                                                            </td>
+                                                                            <td className='report-table-data text-center'>
+                                                                                <button className='report-data-view-button' data-toggle="modal" data-target={emplyDetail.screenedCandidates.length > 0 ? "#ViewModal" : ""}
+                                                                                    onClick={() => handleRawSelect("CANDIDATE", emplyDetail.screenedCandidates, emplyDetail.name, "JOB")}>{emplyDetail.screenedCandidates.length}</button>
+                                                                            </td>
+                                                                            <td className='report-table-data text-center'>
+                                                                                <button className='report-data-view-button' data-toggle="modal" data-target={emplyDetail.screenedCandidates.length > 0 ? "#ViewModal" : ""}
+                                                                                    onClick={() => handleRawSelect("CANDIDATE", emplyDetail.interviewCandidates, emplyDetail.name, "JOB")}>{emplyDetail.screenedCandidates.length}</button>
+                                                                            </td>
+                                                                            <td className='report-table-data text-center'>
+                                                                                <button className='report-data-view-button' data-toggle="modal" data-target={emplyDetail.offeredCandidates.length > 0 ? "#ViewModal" : ""}
+                                                                                    onClick={() => handleRawSelect("CANDIDATE", emplyDetail.offeredCandidates, emplyDetail.name, "JOB")}>{emplyDetail.offeredCandidates.length}</button>
+                                                                            </td>
+                                                                            <td className='report-table-data text-center'>
+                                                                                <button className='report-data-view-button' data-toggle="modal" data-target={emplyDetail.rejectedCandidates.length > 0 ? "#ViewModal" : ""}
+                                                                                    onClick={() => handleRawSelect("CANDIDATE", emplyDetail.rejectedCandidates, emplyDetail.name, "JOB")}>{emplyDetail.rejectedCandidates.length}</button>
+                                                                            </td>
+                                                                            <td className='report-table-data text-center'>
+                                                                                <button className='report-data-view-button' data-toggle="modal" data-target={emplyDetail.joinedCandidates.length > 0 ? "#ViewModal" : ""}
+                                                                                    onClick={() => handleRawSelect("CANDIDATE", emplyDetail.joinedCandidates, emplyDetail.name, "JOB")}>{emplyDetail.joinedCandidates.length}</button>
+                                                                            </td>
+                                                                            <td className='report-table-data text-center'>
+                                                                                <button className='report-data-view-button' data-toggle="modal" data-target={emplyDetail.abscondedCandidates.length > 0 ? "#ViewModal" : ""}
+                                                                                    onClick={() => handleRawSelect("CANDIDATE", emplyDetail.abscondedCandidates, emplyDetail.name, "JOB")}>{emplyDetail.abscondedCandidates.length}</button>
+                                                                            </td>
+                                                                            {/* <td className='report-table-data text-center'>
                                                                             <button className='report-data-view-button' data-toggle="modal" data-target="#ViewModal">0</button>
                                                                         </td>
                                                                         <td className='report-table-data text-center'>
                                                                             <button className='report-data-view-button' data-toggle="modal" data-target="#ViewModal">0</button>
                                                                         </td> */}
-                                                                    </tr>
-                                                                )
-                                                            })}
-                                                        </tbody>
-                                                    </table>
-                                                </div>
+                                                                        </tr>
+                                                                    )
+                                                                })}
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
 
-                                                <div className="report-table-pagination-area">
-                                                    <div className="buttons">
-                                                        <nav aria-label="Page navigation example">
-                                                            <ul className="pagination">
-                                                                <li className="page-item">
-                                                                    {x[0] > 0 &&<a className="page-link custom" href="" aria-label="Previous"
-                                                                    onClick={() => setX([x[0] - 3, x[1] - 3])}>
-                                                                        <span aria-hidden="true">&laquo;</span>
-                                                                        <span className="sr-only">Previous</span>
-                                                                    </a>}
-                                                                </li>
-                                                                {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) &&<li className="page-item"
-                                                                onClick={() => setX([0,3])}><a className="page-link custom" href="#">1</a></li>}
-                                                                {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) &&<li className="page-item"
-                                                                onClick={() => setX([3,6])}><a className="page-link custom" href="#">2</a></li>}
-                                                                {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) &&<li className="page-item"
-                                                                onClick={() => setX([6,9])}><a className="page-link custom" href="#">3</a></li>}
-                                                                {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) &&<li className="page-item"><a className="page-link custom" href="#">..</a></li>}
-                                                                <li className="page-item">
-                                                                    {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) &&<a className="page-link custom" href="#" aria-label="Next"
-                                                                    onClick={() => setX([x[0] + 3, x[1] + 3])}>
-                                                                        <span aria-hidden="true">&raquo;</span>
-                                                                        <span className="sr-only">Next</span>
-                                                                    </a>}
-                                                                </li>
-                                                            </ul>
-                                                        </nav>
+                                                    <div className="report-table-pagination-area">
+                                                        <div className="buttons">
+                                                            <nav aria-label="Page navigation example">
+                                                                <ul className="pagination">
+                                                                    <li className="page-item">
+                                                                        {x[0] > 0 && <a className="page-link custom" href="" aria-label="Previous"
+                                                                            onClick={() => setX([x[0] - 3, x[1] - 3])}>
+                                                                            <span aria-hidden="true">&laquo;</span>
+                                                                            <span className="sr-only">Previous</span>
+                                                                        </a>}
+                                                                    </li>
+                                                                    {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <li className="page-item"
+                                                                        onClick={() => setX([0, 3])}><a className="page-link custom" href="#">1</a></li>}
+                                                                    {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <li className="page-item"
+                                                                        onClick={() => setX([3, 6])}><a className="page-link custom" href="#">2</a></li>}
+                                                                    {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <li className="page-item"
+                                                                        onClick={() => setX([6, 9])}><a className="page-link custom" href="#">3</a></li>}
+                                                                    {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <li className="page-item"><a className="page-link custom" href="#">..</a></li>}
+                                                                    <li className="page-item">
+                                                                        {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <a className="page-link custom" href="#" aria-label="Next"
+                                                                            onClick={() => setX([x[0] + 3, x[1] + 3])}>
+                                                                            <span aria-hidden="true">&raquo;</span>
+                                                                            <span className="sr-only">Next</span>
+                                                                        </a>}
+                                                                    </li>
+                                                                </ul>
+                                                            </nav>
+                                                        </div>
+                                                    </div>
+
+                                                    <div className="table-export-area">
+                                                        <div className='export-head'>Export</div>
+                                                        <div>
+                                                            <button className='table-export-btn pdf mr-2' onClick={exportToPDF}>
+                                                                <img src="../assets/img/button/pdf.png" alt="" />
+                                                                PDF
+                                                            </button>
+                                                            <button className='table-export-btn excel' onClick={exportToExcel}>
+                                                                <img src="../assets/img/button/xls.png" alt="" />
+                                                                EXCEL
+                                                            </button>
+                                                        </div>
                                                     </div>
                                                 </div>
-
-                                                <div className="table-export-area">
-                                                    <div className='export-head'>Export</div>
-                                                    <div>
-                                                        <button className='table-export-btn pdf mr-2' onClick={exportToPDF}>
-                                                            <img src="../assets/img/button/pdf.png" alt="" />
-                                                            PDF
-                                                        </button>
-                                                        <button className='table-export-btn excel' onClick={exportToExcel}>
-                                                            <img src="../assets/img/button/xls.png" alt="" />
-                                                            EXCEL
-                                                        </button>
-                                                    </div>
-                                                </div>
+                                            </div> :
+                                            <div className="report-no-data-found-area">
+                                                <img src="../assets/img/no-data/No-data-found.webp" className='report-no-data-found-img' alt="" />
+                                                <div className='report-no-data-found-text'>No data found.</div>
+                                                <div className='report-no-data-found-sub-text'>Try to create the information first.</div>
                                             </div>
-                                        </div> :
-                                        <div className="report-no-data-found-area">
-                                            <img src="../assets/img/no-data/No-data-found.webp" className='report-no-data-found-img' alt="" />
-                                            <div className='report-no-data-found-text'>No data found.</div>
-                                            <div className='report-no-data-found-sub-text'>Try to create the information first.</div>
+                                        }
+
+                                        <div className="dot-spinner-area">
+                                            <div className="dot-spinner">
+                                                <div className="dot-spinner__dot"></div>
+                                                <div className="dot-spinner__dot"></div>
+                                                <div className="dot-spinner__dot"></div>
+                                                <div className="dot-spinner__dot"></div>
+                                                <div className="dot-spinner__dot"></div>
+                                                <div className="dot-spinner__dot"></div>
+                                                <div className="dot-spinner__dot"></div>
+                                                <div className="dot-spinner__dot"></div>
+                                            </div>
                                         </div>
-                                    }
+                                    </div>
                                 </div>
-                            </div>
                             </div>
                         </div>
                     </section>
@@ -376,22 +388,22 @@ const TeamPerformanceReport = () => {
                                             <tbody>
                                                 {selectedEmployeeData?.modelArray &&
                                                     (
-                                                        selectedEmployeeData?.modelArray.slice(y[0], y[1]).map((emply, index)=>{
-                                                            return(
+                                                        selectedEmployeeData?.modelArray.slice(y[0], y[1]).map((emply, index) => {
+                                                            return (
                                                                 <tr className='report-table-row with-border'
-                                                                key={index}>
+                                                                    key={index}>
                                                                     <td className='report-table-data'>{emply?.name}</td>
                                                                     {/* <td className='report-table-data'>Created</td> */}
                                                                     <td className='report-table-data'>{emply?.createdDate}</td>
                                                                     <td className='report-table-data'>{selectedEmployeeData?.employeeName}</td>
-                                                                    {selectedEmployeeData?.job &&<td className='report-table-data'>{emply?.jobRole}</td>}
+                                                                    {selectedEmployeeData?.job && <td className='report-table-data'>{emply?.jobRole}</td>}
                                                                 </tr>
                                                             )
                                                         })
                                                     )
                                                 }
-                                                
-                                                
+
+
                                             </tbody>
                                         </table>
                                     </div>
@@ -400,22 +412,22 @@ const TeamPerformanceReport = () => {
                                             <nav aria-label="Page navigation example">
                                                 <ul className="pagination">
                                                     <li className="page-item">
-                                                    {y[0] > 0 &&<a className="page-link custom" href="#" aria-label="Previous"
-                                                    onClick={() => setY([y[0] - 5, y[1] - 5])}>
+                                                        {y[0] > 0 && <a className="page-link custom" href="#" aria-label="Previous"
+                                                            onClick={() => setY([y[0] - 5, y[1] - 5])}>
                                                             <span aria-hidden="true">&laquo;</span>
                                                             <span className="sr-only">Previous</span>
                                                         </a>}
                                                     </li>
                                                     <li className="page-item"
-                                                    onClick={() => setY([0,5])}><a className="page-link custom" href="#">1</a></li>
-                                                    {(selectedEmployeeData?.modelArray.slice(y[0], y[1]).length === 5 && selectedEmployeeData?.modelArray.length > y[1]) &&<li className="page-item"
-                                                    onClick={() => setY([5,10])}><a className="page-link custom" href="#">2</a></li>}
-                                                    {(selectedEmployeeData?.modelArray.slice(y[0], y[1]).length === 5 && selectedEmployeeData?.modelArray.length > y[1]) &&<li className="page-item"
-                                                    onClick={() => setY([10,15])}><a className="page-link custom" href="#">3</a></li>}
-                                                    {(selectedEmployeeData?.modelArray.slice(y[0], y[1]).length === 5 && selectedEmployeeData?.modelArray.length > y[1]) &&<li className="page-item"><a className="page-link custom" href="#">..</a></li>}
+                                                        onClick={() => setY([0, 5])}><a className="page-link custom" href="#">1</a></li>
+                                                    {(selectedEmployeeData?.modelArray.slice(y[0], y[1]).length === 5 && selectedEmployeeData?.modelArray.length > y[1]) && <li className="page-item"
+                                                        onClick={() => setY([5, 10])}><a className="page-link custom" href="#">2</a></li>}
+                                                    {(selectedEmployeeData?.modelArray.slice(y[0], y[1]).length === 5 && selectedEmployeeData?.modelArray.length > y[1]) && <li className="page-item"
+                                                        onClick={() => setY([10, 15])}><a className="page-link custom" href="#">3</a></li>}
+                                                    {(selectedEmployeeData?.modelArray.slice(y[0], y[1]).length === 5 && selectedEmployeeData?.modelArray.length > y[1]) && <li className="page-item"><a className="page-link custom" href="#">..</a></li>}
                                                     <li className="page-item">
-                                                    {(selectedEmployeeData?.modelArray.slice(y[0], y[1]).length === 5 && selectedEmployeeData?.modelArray.length > y[1]) &&<a className="page-link custom" href="#" aria-label="Next"
-                                                    onClick={() => setY([x[0] + 5, y[1] + 5])}>
+                                                        {(selectedEmployeeData?.modelArray.slice(y[0], y[1]).length === 5 && selectedEmployeeData?.modelArray.length > y[1]) && <a className="page-link custom" href="#" aria-label="Next"
+                                                            onClick={() => setY([x[0] + 5, y[1] + 5])}>
                                                             <span aria-hidden="true">&raquo;</span>
                                                             <span className="sr-only">Next</span>
                                                         </a>}

@@ -2,11 +2,12 @@ import React, { useContext, useState, useRef } from 'react';
 import { useEffect } from 'react';
 import ATSLayout from '../../../atsComponents/ATSLayout';
 import Footer from '../../../components/Footer';
-import $ from 'jquery';
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import AuthContext from '../../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+
+import { Dropdown } from 'primereact/dropdown';
 
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
@@ -59,6 +60,40 @@ const InterviewReport = () => {
         XLSX.writeFile(wb, 'table.xlsx');
     };
 
+    const [selectedOwner, setselectedOwner] = useState(null);
+    const owners = [
+        { name: 'Owner 1' },
+        { name: 'Owner 2' },
+        { name: 'Owner 3' },
+        { name: 'Owner 4' },
+        { name: 'Owner 5' },
+        { name: 'Owner 6' },
+        { name: 'Owner 7' },
+        { name: 'Owner 8' },
+        { name: 'Owner 9' },
+        { name: 'Owner 10' }
+    ];
+
+    const selectedOwnerTemplate = (option, props) => {
+        if (option) {
+            return (
+                <div className="flex align-items-center">
+                    <div>{option.name}</div>
+                </div>
+            );
+        }
+
+        return <span>{props.placeholder}</span>;
+    };
+
+    const clientOptionTemplate = (option) => {
+        return (
+            <div className="flex align-items-center">
+                <div>{option.name}</div>
+            </div>
+        );
+    };
+
     return (
         <div>
             <div class="main-wrapper main-wrapper-1">
@@ -109,11 +144,8 @@ const InterviewReport = () => {
 
                                             <div className="col-12 col-lg-3 col-md-6 mb-4 mb-md-3 mb-lg-0">
                                                 <div className="report-filter-input-area">
-                                                    <i class="bi bi-chevron-down toggle-icon"></i>
-                                                    <select
-                                                        className='report-filter-input'>
-                                                        <option value="">Select Interview Owner</option>
-                                                    </select>
+                                                    <Dropdown value={selectedOwner} onChange={(e) => setselectedOwner(e.value)} options={owners} optionLabel="name" placeholder="Select Interview Owner"
+                                                        filter valueTemplate={selectedOwnerTemplate} itemTemplate={clientOptionTemplate} className="w-full report-custom-select-input" />
                                                 </div>
                                             </div>
 
