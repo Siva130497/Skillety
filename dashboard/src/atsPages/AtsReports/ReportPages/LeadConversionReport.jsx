@@ -2,7 +2,6 @@ import React, { useContext, useState, useRef } from 'react';
 import { useEffect } from 'react';
 import ATSLayout from '../../../atsComponents/ATSLayout';
 import Footer from '../../../components/Footer';
-import $ from 'jquery';
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import AuthContext from '../../../context/AuthContext';

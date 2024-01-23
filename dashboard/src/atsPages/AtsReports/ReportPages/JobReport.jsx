@@ -13,7 +13,7 @@ import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import * as XLSX from 'xlsx';
 
-const TurnaroundTimeReport = () => {
+const JobReport = () => {
     const [filter, setFilter] = useState([]);
     const navigate = useNavigate();
     const [selectedFromDate, setSelectedFromDate] = useState(new Date().toISOString().split('T')[0]);
@@ -54,21 +54,22 @@ const TurnaroundTimeReport = () => {
         XLSX.writeFile(wb, 'table.xlsx');
     };
 
-    const [selectedJobs, setselectedJobs] = useState(null);
-    const jobs = [
-        { name: 'Job 1' },
-        { name: 'Job 2' },
-        { name: 'Job 3' },
-        { name: 'Job 4' },
-        { name: 'Job 5' },
-        { name: 'Job 6' },
-        { name: 'Job 7' },
-        { name: 'Job 8' },
-        { name: 'Job 9' },
-        { name: 'Job 10' }
+
+    const [selectedClient, setSelectedClient] = useState(null);
+    const clients = [
+        { name: 'Client1' },
+        { name: 'Client2' },
+        { name: 'Client3' },
+        { name: 'Client4' },
+        { name: 'Client5' },
+        { name: 'Client6' },
+        { name: 'Client7' },
+        { name: 'Client8' },
+        { name: 'Client9' },
+        { name: 'Client10' }
     ];
 
-    const selectedJobsTemplate = (option, props) => {
+    const selectedClientTemplate = (option, props) => {
         if (option) {
             return (
                 <div className="flex align-items-center">
@@ -105,13 +106,13 @@ const TurnaroundTimeReport = () => {
                                 </button>
                             </div>
                             <div className="admin-component-name text-left">
-                                Turnaround Time Report
+                                Job Report
                             </div>
 
                             <div className="report-page-section">
                                 <div className="card report-page-card">
                                     <div className="report-page-des-area">
-                                        <p>Turn around time report calculates the time for the first assignment of the candidate and the first candidate submitted to the client/managers.</p>
+                                        <p>Job success reports provide great insight into the progress of each job and verify the success ratio of hiring.</p>
                                     </div>
 
                                     <div className="report-filter-area">
@@ -138,8 +139,13 @@ const TurnaroundTimeReport = () => {
 
                                             <div className="col-12 col-lg-3 col-md-6 mb-4 mb-md-3 mb-lg-0">
                                                 <div className="report-filter-input-area">
-                                                    <Dropdown value={selectedJobs} onChange={(e) => setselectedJobs(e.value)} options={jobs} optionLabel="name" placeholder="Select Job Title"
-                                                        filter valueTemplate={selectedJobsTemplate} itemTemplate={clientOptionTemplate} className="w-full report-custom-select-input" />
+                                                    {/* <i class="bi bi-chevron-down toggle-icon"></i> */}
+                                                    {/* <select
+                                                        className='report-filter-input'>
+                                                        <option value="">Select Client Name</option>
+                                                    </select> */}
+                                                    <Dropdown value={selectedClient} onChange={(e) => setSelectedClient(e.value)} options={clients} optionLabel="name" placeholder="Select Client Name"
+                                                        filter valueTemplate={selectedClientTemplate} itemTemplate={clientOptionTemplate} className="w-full report-custom-select-input" />
                                                 </div>
                                             </div>
 
@@ -184,18 +190,36 @@ const TurnaroundTimeReport = () => {
                                                         <tr className='report-table-row with-border'>
                                                             <th className='report-table-head no-verical-align'>JOB TITLE</th>
                                                             <th className='report-table-head no-verical-align'>CLIENT NAME</th>
-                                                            <th className='report-table-head no-verical-align'>JOB CREATED DATE</th>
-                                                            <th className='report-table-head no-verical-align'>1ST ASSIGNED (IN DAYS)</th>
-                                                            <th className='report-table-head no-verical-align'>1ST SUBMITTED (IN DAYS)</th>
+                                                            <th className='report-table-head no-verical-align'>ADDED ON</th>
+                                                            <th className='report-table-head no-verical-align text-center'>NO. OF POSITION</th>
+                                                            <th className='report-table-head no-verical-align text-center'>NO. OF CALLS</th>
+                                                            <th className='report-table-head no-verical-align text-center'>NO. OF PRE-SCREENS</th>
+                                                            <th className='report-table-head no-verical-align text-center'>NO. OF INTERNAL SUBMISSION</th>
+                                                            <th className='report-table-head no-verical-align text-center'>NO. OF CLIENT SUBMISSION</th>
+                                                            <th className='report-table-head no-verical-align text-center'>NO. OF INTERVIEWS</th>
+                                                            <th className='report-table-head no-verical-align text-center'>NO. OF OFFERED</th>
+                                                            <th className='report-table-head no-verical-align text-center'>NO. OF HIRED</th>
+                                                            <th className='report-table-head no-verical-align text-center'>NO. OF REJECTED</th>
+                                                            <th className='report-table-head no-verical-align text-center'>SUCCESS RATE(IN %)</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         <tr className='report-table-row with-border'>
-                                                            <td className='report-table-data'>Angular Developer</td>
+                                                            <td className='report-table-data'>
+                                                                <button className='report-data-view-button' data-toggle="modal" data-target="#ViewModal">.Net Full Stack Developer(SOW_JD_BGSW_2023_1271)</button>
+                                                            </td>
                                                             <td className='report-table-data'>APEXON RPO-Lite</td>
-                                                            <td className='report-table-data'>04-12-2023</td>
-                                                            <td className='report-table-data'>1</td>
-                                                            <td className='report-table-data'>1</td>
+                                                            <td className='report-table-data no-wrap'>20-11-2023</td>
+                                                            <td className='report-table-data text-center'>1</td>
+                                                            <td className='report-table-data text-center'>1</td>
+                                                            <td className='report-table-data text-center'>1</td>
+                                                            <td className='report-table-data text-center'>1</td>
+                                                            <td className='report-table-data text-center'>1</td>
+                                                            <td className='report-table-data text-center'>1</td>
+                                                            <td className='report-table-data text-center'>1</td>
+                                                            <td className='report-table-data text-center'>1</td>
+                                                            <td className='report-table-data text-center'>1</td>
+                                                            <td className='report-table-data text-center'>0.00%</td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -253,10 +277,103 @@ const TurnaroundTimeReport = () => {
                     </section>
                 </div>
 
+                <div className="modal fade" id="ViewModal" tabindex="-1" role="dialog" aria-labelledby="ViewLabel"
+                    aria-hidden="true">
+                    <div className="modal-dialog modal-lg" role="document">
+                        <div className="modal-content recruiter-view-modal">
+                            <div className="modal-header recruiter-view-modal-header">
+                                <h5 className="modal-title recruiter-view-modal-title client" id="ViewLabel">
+                                    Client Report
+                                </h5>
+                                <a href='#' type="button" className="close recruiter-view-close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true"><i class="bi bi-x close-icon"></i></span>
+                                </a>
+                            </div>
+                            <div className="modal-body">
+                                <div className="card p-3 mb-0">
+                                    <div className='text-blue font-weight-600'>Technosoft Engineering Projects Limited</div>
+                                    <hr />
+                                    <div className="table-responsive report-data-view-area">
+                                        <table className='table report-table table-bordered'>
+                                            <thead>
+                                                <tr className='report-table-row with-border head'>
+                                                    <th className='report-table-head no-verical-align'>USER NAME</th>
+                                                    <th className='report-table-head no-verical-align text-center'>NO. OF CALLS</th>
+                                                    <th className='report-table-head no-verical-align text-center'>NO. OF PRE-SCREENS</th>
+                                                    <th className='report-table-head no-verical-align text-center'>NO. OF INTERNAL SUBMISSION</th>
+                                                    <th className='report-table-head no-verical-align text-center'>NO. OF CLIENT SUBMISSION</th>
+                                                    <th className='report-table-head no-verical-align text-center'>NO. OF INTERVIEWS</th>
+                                                    <th className='report-table-head no-verical-align text-center'>NO. OF OFFERED</th>
+                                                    <th className='report-table-head no-verical-align text-center'>NO. OF HIRED</th>
+                                                    <th className='report-table-head no-verical-align text-center'>NO. OF REJECTED</th>
+                                                    <th className='report-table-head no-verical-align text-center'>SUCCESS RATE(IN %)</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr className='report-table-row with-border'>
+                                                    <td className='report-table-data'>Supriya</td>
+                                                    <td className='report-table-data text-center'>1</td>
+                                                    <td className='report-table-data text-center'>1</td>
+                                                    <td className='report-table-data text-center'>1</td>
+                                                    <td className='report-table-data text-center'>1</td>
+                                                    <td className='report-table-data text-center'>1</td>
+                                                    <td className='report-table-data text-center'>1</td>
+                                                    <td className='report-table-data text-center'>1</td>
+                                                    <td className='report-table-data text-center'>1</td>
+                                                    <td className='report-table-data text-center'>0.00%</td>
+                                                </tr>
+                                                <tr className='report-table-row with-border'>
+                                                    <td className='report-table-data'>Sudha</td>
+                                                    <td className='report-table-data text-center'>1</td>
+                                                    <td className='report-table-data text-center'>1</td>
+                                                    <td className='report-table-data text-center'>1</td>
+                                                    <td className='report-table-data text-center'>1</td>
+                                                    <td className='report-table-data text-center'>1</td>
+                                                    <td className='report-table-data text-center'>1</td>
+                                                    <td className='report-table-data text-center'>1</td>
+                                                    <td className='report-table-data text-center'>1</td>
+                                                    <td className='report-table-data text-center'>0.00%</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div className="report-table-pagination-area">
+                                        <div className="buttons">
+                                            <nav aria-label="Page navigation example">
+                                                <ul className="pagination">
+                                                    <li className="page-item">
+                                                        <a className="page-link custom" href="#" aria-label="Previous">
+                                                            <span aria-hidden="true">&laquo;</span>
+                                                            <span className="sr-only">Previous</span>
+                                                        </a>
+                                                    </li>
+                                                    <li className="page-item"><a className="page-link custom" href="#">1</a></li>
+                                                    <li className="page-item"><a className="page-link custom" href="#">2</a></li>
+                                                    <li className="page-item"><a className="page-link custom" href="#">3</a></li>
+                                                    <li className="page-item"><a className="page-link custom" href="#">..</a></li>
+                                                    <li className="page-item">
+                                                        <a className="page-link custom" href="#" aria-label="Next">
+                                                            <span aria-hidden="true">&raquo;</span>
+                                                            <span className="sr-only">Next</span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </nav>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="modal-footer recruiter-view-modal-footer bg-whitesmoke br">
+                                <button type="button" className="btn close-modal-btn" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <Footer />
             </div>
         </div>
     )
 }
 
-export default TurnaroundTimeReport
+export default JobReport

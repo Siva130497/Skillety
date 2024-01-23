@@ -2,11 +2,12 @@ import React, { useContext, useState, useRef } from 'react';
 import { useEffect } from 'react';
 import ATSLayout from '../../../atsComponents/ATSLayout';
 import Footer from '../../../components/Footer';
-import $ from 'jquery';
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import AuthContext from '../../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+
+import { Dropdown } from 'primereact/dropdown';
 
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
@@ -69,6 +70,40 @@ const JobDurationReport = () => {
         XLSX.writeFile(wb, 'table.xlsx');
     };
 
+    const [selectedClient, setSelectedClient] = useState(null);
+    const clients = [
+        { name: 'Client1' },
+        { name: 'Client2' },
+        { name: 'Client3' },
+        { name: 'Client4' },
+        { name: 'Client5' },
+        { name: 'Client6' },
+        { name: 'Client7' },
+        { name: 'Client8' },
+        { name: 'Client9' },
+        { name: 'Client10' }
+    ];
+
+    const selectedClientTemplate = (option, props) => {
+        if (option) {
+            return (
+                <div className="flex align-items-center">
+                    <div>{option.name}</div>
+                </div>
+            );
+        }
+
+        return <span>{props.placeholder}</span>;
+    };
+
+    const clientOptionTemplate = (option) => {
+        return (
+            <div className="flex align-items-center">
+                <div>{option.name}</div>
+            </div>
+        );
+    };
+
     return (
         <div>
             <div class="main-wrapper main-wrapper-1">
@@ -119,11 +154,8 @@ const JobDurationReport = () => {
 
                                             <div className="col-12 col-lg-3 col-md-6 mb-4 mb-md-3 mb-lg-0">
                                                 <div className="report-filter-input-area">
-                                                    <i class="bi bi-chevron-down toggle-icon"></i>
-                                                    <select
-                                                        className='report-filter-input'>
-                                                        <option value="">Select Client Name</option>
-                                                    </select>
+                                                <Dropdown value={selectedClient} onChange={(e) => setSelectedClient(e.value)} options={clients} optionLabel="name" placeholder="Select Client Name"
+                                                        filter valueTemplate={selectedClientTemplate} itemTemplate={clientOptionTemplate} className="w-full report-custom-select-input" />
                                                 </div>
                                             </div>
 
@@ -239,7 +271,16 @@ const JobDurationReport = () => {
                                                         </thead>
                                                         <tbody>
                                                             <tr className='report-table-row with-border'>
-                                                                <td className='report-table-data'>Customer Relationship Manager</td>
+                                                                <td className='report-table-data'>
+                                                                    <span> Customer Relationship Manager</span><br />
+                                                                    <span className='priority-stars'>
+                                                                        <i className='bi bi-star-fill'></i>
+                                                                        <i className='bi bi-star-fill'></i>
+                                                                        <i className='bi bi-star'></i>
+                                                                        <i className='bi bi-star'></i>
+                                                                        <i className='bi bi-star'></i>
+                                                                    </span>
+                                                                </td>
                                                                 <td className='report-table-data'>Ankura Homes</td>
                                                                 <td className='report-table-data'>Nithya Nobel, Mahalakshmi M, Suma Kulkarni, Arigela Sravani, Kambam Dharani, Takkoli Reddamma, Mahamaya Ashok Patil, Arigila Prashanthi, Aruna Kumari, Prathibha Padegal, Aruna Thripuravaram, Supriya 2, R. Shiva Laxmi, Diksha Kuriti, Nagaraju Venkata, Jabilla Poola, Shagufta Khan, Jyoshna Ganta, Shabeena Banu, Kousalya R, Deekshya Das, VS Anuradha</td>
                                                                 <td className='report-table-data'>Thallapally Swapna, Nikhath Kousar, Sudha</td>

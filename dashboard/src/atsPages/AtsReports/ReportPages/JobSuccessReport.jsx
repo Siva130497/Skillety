@@ -2,11 +2,12 @@ import React, { useContext, useState, useRef } from 'react';
 import { useEffect } from 'react';
 import ATSLayout from '../../../atsComponents/ATSLayout';
 import Footer from '../../../components/Footer';
-import $ from 'jquery';
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import AuthContext from '../../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+
+import { Dropdown } from 'primereact/dropdown';
 
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
@@ -51,6 +52,40 @@ const JobSuccessReport = () => {
         const wb = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
         XLSX.writeFile(wb, 'table.xlsx');
+    };
+
+    const [selectedClient, setSelectedClient] = useState(null);
+    const clients = [
+        { name: 'Client1' },
+        { name: 'Client2' },
+        { name: 'Client3' },
+        { name: 'Client4' },
+        { name: 'Client5' },
+        { name: 'Client6' },
+        { name: 'Client7' },
+        { name: 'Client8' },
+        { name: 'Client9' },
+        { name: 'Client10' }
+    ];
+
+    const selectedClientTemplate = (option, props) => {
+        if (option) {
+            return (
+                <div className="flex align-items-center">
+                    <div>{option.name}</div>
+                </div>
+            );
+        }
+
+        return <span>{props.placeholder}</span>;
+    };
+
+    const clientOptionTemplate = (option) => {
+        return (
+            <div className="flex align-items-center">
+                <div>{option.name}</div>
+            </div>
+        );
     };
 
     return (
@@ -103,11 +138,8 @@ const JobSuccessReport = () => {
 
                                             <div className="col-12 col-lg-3 col-md-6 mb-4 mb-md-3 mb-lg-0">
                                                 <div className="report-filter-input-area">
-                                                    <i class="bi bi-chevron-down toggle-icon"></i>
-                                                    <select
-                                                        className='report-filter-input'>
-                                                        <option value="">Select Client Name</option>
-                                                    </select>
+                                                    <Dropdown value={selectedClient} onChange={(e) => setSelectedClient(e.value)} options={clients} optionLabel="name" placeholder="Select Client Name"
+                                                        filter valueTemplate={selectedClientTemplate} itemTemplate={clientOptionTemplate} className="w-full report-custom-select-input" />
                                                 </div>
                                             </div>
 
