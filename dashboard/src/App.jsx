@@ -48,6 +48,7 @@ import LeadReport from './atsPages/AtsReports/ReportPages/LeadReport';
 import CandidatePlacementReport from './atsPages/AtsReports/ReportPages/CandidatePlacementReport';
 import JobSuccessReport from './atsPages/AtsReports/ReportPages/JobSuccessReport';
 import JobDurationReport from './atsPages/AtsReports/ReportPages/JobDurationReport';
+import JobReport from './atsPages/AtsReports/ReportPages/JobReport';
 
 ////for recruiter
 import RecruiterDashboard from './pages/RecruiterDashboard/RecruiterDashboard';
@@ -123,6 +124,7 @@ function App() {
         <Route path='/candidate-placement-report' element={<CandidatePlacementReport />} />
         <Route path='/job-success-report' element={<JobSuccessReport />} />
         <Route path='/job-duration-report' element={<JobDurationReport />} />
+        <Route path='/job-report' element={<JobReport />} />
 
         <Route path='/ats-reports' element={<AtsReports />} />
         <Route path='/team-performance-report' element={<TeamPerformanceReport />} />
