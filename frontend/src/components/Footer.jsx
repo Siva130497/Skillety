@@ -152,7 +152,8 @@ export const Footer = () => {
                 </div>
               </div>
             </div>
-            <div className='footer--link-section2'>
+
+            {/* <div className='footer--link-section2'>
               <div className="row">
                 <div className="col-12 col-lg-3 col-md-6 col-sm-6 footer--quick-link-area">
                   <div className="footer--link-area">
@@ -295,7 +296,8 @@ export const Footer = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
+
           </div>
           <div className="footer--bottom-text-area" data-aos="fade-up">
             SKILLETY

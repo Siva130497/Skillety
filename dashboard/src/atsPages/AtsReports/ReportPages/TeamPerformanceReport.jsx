@@ -15,6 +15,7 @@ import axios from 'axios';
 
 const TeamPerformanceReport = () => {
     const [filter, setFilter] = useState([]);
+    const navigate = useNavigate();
     const [selectedFromDate, setSelectedFromDate] = useState(new Date().toISOString().split('T')[0]);
     const [selectedToDate, setSelectedToDate] = useState(new Date().toISOString().split('T')[0]);
     const [atsToken, setatsToken] = useState("");
@@ -25,6 +26,9 @@ const TeamPerformanceReport = () => {
     const [x, setX] = useState([0, 3]);
     const [y, setY] = useState([0, 5]);
 
+    const handleBackButtonClick = () => {
+        navigate(-1);
+    };
 
     useEffect(() => {
         setatsToken(JSON.parse(localStorage.getItem('atsToken')))
@@ -49,6 +53,7 @@ const TeamPerformanceReport = () => {
     },[filter])
 
     const runReport = () => {
+        setEmployeeReportDetail([]);
         if(period){
             axios.get(`http://localhost:5002/find-data-for-report?period=${period}`, {
             headers: {
@@ -117,6 +122,12 @@ const TeamPerformanceReport = () => {
                 <div class="main-content">
                     <section class="section">
                         <div className="my-app-section">
+                            <div className="back-button-area">
+                                <button className='back-button' onClick={handleBackButtonClick}>
+                                    <i className='bi bi-arrow-left mr-2'></i>
+                                    Back
+                                </button>
+                            </div>
                             <div className="admin-component-name text-left">
                                 Team Performance Report
                             </div>
@@ -129,14 +140,14 @@ const TeamPerformanceReport = () => {
 
                                     <div className="report-filter-area">
                                         <div className="row">
-                                            <div className="col-12 col-lg-3">
+                                            <div className="col-12 col-lg-3 col-md-6 mb-4 mb-md-3 mb-lg-0">
                                                 <div className="report-filter-input-area">
                                                     <i class="bi bi-chevron-down toggle-icon"></i>
                                                     <select
                                                         className='report-filter-input'
                                                         value={filter}
                                                         onChange={handleFilterChange}>
-                                                        <option value="" selected disabled>Select Search Period</option>
+                                                        <option value="" >Select Search Period</option>
                                                         <option value="thisWeek">This Week</option>
                                                         <option value="thisMonth">This Month</option>
                                                         <option value="thisYear">This Year</option>
@@ -146,11 +157,12 @@ const TeamPerformanceReport = () => {
                                                         <option value="CustomDate">Custom Date</option>
                                                     </select>
                                                 </div>
+                                                {filter === '' && <small className='text-danger'>Please select a search period.</small>}
                                             </div>
 
                                             {filter === 'CustomDate' && (
                                                 <>
-                                                    <div className="col-12 col-lg-3">
+                                                    <div className="col-12 col-lg-3 col-md-6 mb-4 mb-md-3 mb-lg-0">
                                                         <div className="report-filter-input-area">
                                                             <label htmlFor="from_date" className='date-filter-label'>From Date</label>
                                                             <input type="date"
@@ -161,7 +173,7 @@ const TeamPerformanceReport = () => {
                                                         </div>
                                                     </div>
 
-                                                    <div className="col-12 col-lg-3">
+                                                    <div className="col-12 col-lg-3 col-md-6 mb-4 mb-md-3 mb-lg-0">
                                                         <div className="report-filter-input-area">
                                                             <label htmlFor="to_date" className='date-filter-label'>To Date</label>
                                                             <input
@@ -175,14 +187,12 @@ const TeamPerformanceReport = () => {
                                                 </>
                                             )}
 
-                                            <div className="col-12 col-lg-3">
+                                            <div className="col-12 col-lg-3 col-md-6 mb-4 mb-md-3 mb-lg-0">
                                                 <button className='run-report-button'
-                                                onClick={runReport}>Run Report</button>
+                                                onClick={runReport}>Run Report</button>                                        </div>
                                             </div>
-                                        </div>
-                                    </div>
 
-                                    {employeeReportDetail.length>0 && 
+                                    {employeeReportDetail.length>0 ? 
                                         <div className="report-view-section">
                                             <div className="table-report-head">
                                                 Performance Analysis
@@ -198,13 +208,13 @@ const TeamPerformanceReport = () => {
                                                                 <th className='report-table-head' colSpan={2}></th>
                                                             </tr>
                                                             <tr className='report-table-row with-border'>
-                                                                <th className='report-table-head no-verical-align' rowSpan={2}>NAME</th>
-                                                                <th className='report-table-head no-verical-align' rowSpan={2}>CURRENT ROLE</th>
-                                                                <th className='report-table-head no-verical-align text-center' rowSpan={2}>No. OF CLIENTS CREATED</th>
-                                                                <th className='report-table-head no-verical-align text-center' rowSpan={2}>No. OF CANDIDATES CREATED</th>
-                                                                <th className='report-table-head no-verical-align text-center' rowSpan={2}>No. OF ASSIGNED CANDIDATES</th>
-                                                                <th className='report-table-head no-verical-align text-center' rowSpan={2}>No. OF ACTIVE JOBS CREATED</th>
-                                                                <th className='report-table-head no-verical-align text-center' rowSpan={2}>No. OF IN-ACTIVE JOBS CREATED</th>
+                                                                <th className='report-table-head no-verical-align'>NAME</th>
+                                                                <th className='report-table-head no-verical-align'>CURRENT ROLE</th>
+                                                                <th className='report-table-head no-verical-align text-center'>No. OF CLIENTS CREATED</th>
+                                                                <th className='report-table-head no-verical-align text-center'>No. OF CANDIDATES CREATED</th>
+                                                                <th className='report-table-head no-verical-align text-center'>No. OF ASSIGNED CANDIDATES</th>
+                                                                <th className='report-table-head no-verical-align text-center'>No. OF ACTIVE JOBS CREATED</th>
+                                                                <th className='report-table-head no-verical-align text-center'>No. OF IN-ACTIVE JOBS CREATED</th>
                                                                 <th className='report-table-head no-verical-align text-center'>SCREENED</th>
                                                                 <th className='report-table-head no-verical-align text-center'>INTERVIEWED</th>
                                                                 <th className='report-table-head no-verical-align text-center'>OFFERED</th>
@@ -323,9 +333,15 @@ const TeamPerformanceReport = () => {
                                                     </div>
                                                 </div>
                                             </div>
+                                        </div> :
+                                        <div className="report-no-data-found-area">
+                                            <img src="../assets/img/no-data/No-data-found.webp" className='report-no-data-found-img' alt="" />
+                                            <div className='report-no-data-found-text'>No data found.</div>
+                                            <div className='report-no-data-found-sub-text'>Try to create the information first.</div>
                                         </div>
                                     }
                                 </div>
+                            </div>
                             </div>
                         </div>
                     </section>

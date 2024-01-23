@@ -8,9 +8,33 @@
 @media screen and (min-width: 992px) and (max-width: 1399px) {}
 
 @media (max-width:991.5px) {
-    .report-tiles{
+    .report-tiles {
         height: 90%;
+    }
+
+    .report-no-data-found-img {
+        width: 40%;
+    }
+
+    .report-radio-area {
+        margin-top: 0;
     }
 }
 
-@media (max-width:573px) {}
+@media (max-width:573px) {
+    .report-no-data-found-img {
+        width: 80%;
+    }
+
+    .report-radio-container {
+        flex-direction: column;
+        gap: 25px;
+    }
+
+    .report-radio-area {
+        margin-top: 0;
+        border-radius: 16px;
+        justify-content: flex-start;
+        padding: 20px;
+    }
+}
