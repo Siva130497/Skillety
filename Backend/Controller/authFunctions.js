@@ -3768,7 +3768,6 @@ const searchClient = async (req, res) => {
   }
 };
 
-
 //individual candidate detail
 const getACandidateDetail = async (req, res) => {
   try {
@@ -4695,8 +4694,543 @@ const deletingOfflineCandidate = async(req, res) => {
   }
 };
 
-/* sending email to the candidate */
+/* get data for report this week */
+const getDataForReport = async (req, res) => {
+  try {
+    let filter;
 
+    const currentDate = new Date();
+    const startOfWeek = new Date(currentDate);
+    startOfWeek.setHours(0, 0, 0, 0);
+    startOfWeek.setDate(currentDate.getDate() - currentDate.getDay());
+
+    const endOfWeek = new Date(startOfWeek);
+    endOfWeek.setDate(startOfWeek.getDate() + 7);
+
+    const startOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+    const endOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
+
+    const endOfLastMonth = new Date(startOfMonth);
+    endOfLastMonth.setDate(startOfMonth.getDate() - 1); // Move to the last day of the previous month
+
+    const startOfLastMonth = new Date(endOfLastMonth.getFullYear(), endOfLastMonth.getMonth(), 1);
+
+    const startOfYear = new Date(currentDate.getFullYear(), 0, 1);
+    const endOfYear = new Date(currentDate.getFullYear(), 11, 31, 23, 59, 59, 999);
+
+    const startOfLastYear = new Date(currentDate.getFullYear() - 1, 0, 1);
+    const endOfLastYear = new Date(currentDate.getFullYear(), 0, 0);
+
+    const requestParam = req.query.period || "invalidParam";
+
+    if (requestParam === "invalidParam") {
+      return res.status(400).json({ error: "Invalid filter period" });
+    }
+
+    if (requestParam === "thisWeek" || requestParam === "thisMonth" || requestParam === "thisYear" || 
+        requestParam === "lastWeek" || requestParam === "lastMonth" || requestParam === "lastYear") {
+        switch (requestParam) {
+          case "thisWeek":
+            filter = {
+              $gte: startOfWeek,
+              $lt: endOfWeek,
+            };
+            break;
+          case "thisMonth":
+            filter = {
+              $gte: startOfMonth,
+              $lt: endOfMonth,
+            };
+            break;
+          case "thisYear":
+            filter = {
+              $gte: startOfYear,
+              $lt: endOfYear,
+            };
+            break;
+          case "lastWeek":
+            filter = {
+              $gte: new Date(startOfWeek.getTime() - 7 * 24 * 60 * 60 * 1000), // Start of the previous week
+              $lt: startOfWeek, // End of the current week
+          }
+            break;
+          case "lastMonth":
+            filter = {
+              $gte: startOfLastMonth,
+              $lt: startOfMonth,
+          }
+            break;
+          case "lastYear":
+            filter = {
+              $gte: startOfLastYear,
+              $lt: endOfLastYear,
+          };
+            break;
+          default:
+            
+            break;
+        }
+      } else if (requestParam.match(/^\d{4}-\d{2}-\d{2}to\d{4}-\d{2}-\d{2}$/)) {
+        // Custom date format (ISO 8601)
+        const [startDateString, endDateString] = requestParam.split("to");
+        const customStartDate = new Date(startDateString);
+        const customEndDate = new Date(endDateString);
+  
+        if (isNaN(customStartDate.getTime()) || isNaN(customEndDate.getTime())) {
+          return res.status(400).json({ error: "Invalid date format in custom period" });
+        }
+  
+        filter = {
+          $gte: customStartDate,
+          $lt: customEndDate,
+        };
+      } else {
+        return res.status(400).json({ error: "Invalid filter period" });
+      }
+
+  if (filter && filter.$gte instanceof Date && filter.$lt instanceof Date) {
+    // Find documents that match the filter
+    const thisWeekOfflineClients = await offlineClient.find({createdAt:filter});
+    const thisWeekOfflineCandidates = await offlineCand.find({createdAt:filter});
+    const thisWeekAssignedCandidates = await assignCandidateForJobDetail.find({createdAt:filter});
+    const thisWeekSelectedCandidates = await selectedCandidateForJob.find({createdAt:filter});
+    const thisWeekScreenedCandidates = await applicationStatus.find({
+      status:"screened",
+      createdAt:filter
+    });
+    const thisWeekInterviewCandidates = await applicationStatus.find({
+      status:"interviews",
+      createdAt:filter
+    });
+    const thisWeekOfferedCandidates = await applicationStatus.find({
+      status:"offered",
+      createdAt:filter
+    });
+    const thisWeekrejectedCandidates = await applicationStatus.find({
+      status:"rejected",
+      createdAt:filter
+    });
+    const thisWeekJoinedCandidates = await applicationStatus.find({
+      status:"joined",
+      createdAt:filter
+    });
+    const thisWeekAbscondCandidates = await applicationStatus.find({
+      status:"absconded",
+      createdAt:filter
+    });
+    const thisWeekActiveJobs = await activeJob.find({
+      createdAt: filter,
+      managerId: { $exists: true, $ne: null }
+    });
+    const thisWeekInActiveJobs = await jobDetail.find({
+      createdAt: filter,
+      managerId: { $exists: true, $ne: null }
+    });
+
+
+    if (
+      thisWeekOfflineClients.length > 0 ||
+      thisWeekOfflineCandidates.length > 0 ||
+      thisWeekAssignedCandidates.length > 0 ||
+      thisWeekSelectedCandidates.length > 0 ||
+      thisWeekScreenedCandidates.length > 0 ||
+      thisWeekInterviewCandidates.length > 0 ||
+      thisWeekOfferedCandidates.length > 0 ||
+      thisWeekrejectedCandidates.length > 0 ||
+      thisWeekJoinedCandidates.length > 0 ||
+      thisWeekAbscondCandidates.length > 0 ||
+      thisWeekActiveJobs.length >0 ||
+      thisWeekInActiveJobs.length >0 
+    ) {
+
+      const allEmployee = await employee.find({
+        role: { $in: ["Super-Admin", "Manager", "Recruiter-ATS"] }
+      });
+
+      const employeeData = await Promise.all(
+        allEmployee.map(async (empl) => {
+          const createdClientsByThisEmployee = thisWeekOfflineClients.filter(
+            (cli) => cli.managerId === empl.id
+          );
+          const createdCandidatesByThisEmployee = thisWeekOfflineCandidates.filter(
+            (cand) => cand.managerId === empl.id
+          );
+
+          const employeeActiveJobs = await activeJob.find({ managerId: empl.id });
+          const employeeInActiveJobs = await jobDetail.find({ managerId: empl.id });
+          const activeJobsInCMS = await activeJob.find({ recruiterId: empl.id });
+          const inActiveJobsInCMS = await jobDetail.find({ recruiterId: empl.id });
+          const employeeActiveJobsForThisWeek = await activeJob.find({ 
+            managerId: empl.id,
+            createdAt: filter 
+          });
+          const employeeInActiveJobsForThisWeek = await jobDetail.find({ 
+            managerId: empl.id,
+            createdAt: filter 
+          });
+
+          let updatedAssignedCandidate = [];
+          let createdAssignedCandidatesByThisEmployee = [];
+          if (employeeActiveJobs.length > 0) {
+            createdAssignedCandidatesByThisEmployee = thisWeekAssignedCandidates.filter(
+              (assCand) =>
+                employeeActiveJobs.some((job) => job.id === assCand.jobId)
+            );
+            updatedAssignedCandidate = await Promise.all(
+              createdAssignedCandidatesByThisEmployee.map(async (assCand) => {
+                const assignedCand = await candidate.findOne({
+                  id: assCand.candidateId,
+                });
+                const assignedJob = await activeJob.findOne({
+                  id: assCand.jobId,
+                });
+                return {
+                  name: assignedCand.firstName + " " + assignedCand.lastName,
+                  jobRole: assignedJob.jobRole[0], 
+                  createdDate: new Date(assCand.createdAt).toLocaleDateString(
+                    "en-GB",
+                    {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                    }
+                  ),
+                };
+              })
+            );
+          }
+
+          let updatedSelectedCandidate = [];
+          if (activeJobsInCMS.length > 0) {
+            const selectedCandidatesByThisEmployee = thisWeekSelectedCandidates.filter(
+              (selCand) =>
+              activeJobsInCMS.some((job) => job.id === selCand.jobId)
+            );
+            updatedSelectedCandidate = await Promise.all(
+              selectedCandidatesByThisEmployee.map(async (selCand) => {
+                const thisEmployeeAssignedCandIds = createdAssignedCandidatesByThisEmployee.map(cand=>cand.candidateId);
+                if(!thisEmployeeAssignedCandIds.includes(selCand.candidateId)){
+                  const selectedCand = await candidate.findOne({
+                    id: selCand.candidateId,
+                  });
+                  const selectedJob = await activeJob.findOne({
+                    id: selCand.jobId,
+                  });
+                  return {
+                    name: selectedCand.firstName + " " + selectedCand.lastName,
+                    jobRole: selectedJob.jobRole[0], 
+                    createdDate: new Date(selCand.createdAt).toLocaleDateString(
+                      "en-GB",
+                      {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                      }
+                    ),
+                  };
+                }
+              })
+            );
+          }
+
+          let updatedCreatedActiveJobs = [];
+          if (employeeActiveJobsForThisWeek.length > 0) {
+            
+            updatedCreatedActiveJobs = await Promise.all(
+              employeeActiveJobsForThisWeek.map(async (job) => {
+                const clientForThisJob = await offlineClient.findOne({
+                  clientId: job.clientId,
+                });
+                return {
+                  name: clientForThisJob?.companyName,
+                  jobRole: job.jobRole[0], 
+                  createdDate: new Date(job.createdAt).toLocaleDateString(
+                    "en-GB",
+                    {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                    }
+                  ),
+                };
+              })
+            );
+          }
+
+          let updatedCreatedInActiveJobs = [];
+          if (employeeInActiveJobsForThisWeek.length > 0) {
+            
+            updatedCreatedInActiveJobs = await Promise.all(
+              employeeInActiveJobsForThisWeek.map(async (job) => {
+                const clientForThisJob = await offlineClient.findOne({
+                  clientId: job.clientId,
+                });
+                return {
+                  name: clientForThisJob?.companyName,
+                  jobRole: job.jobRole[0], 
+                  createdDate: new Date(job.createdAt).toLocaleDateString(
+                    "en-GB",
+                    {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                    }
+                  ),
+                };
+              })
+            );
+          }
+
+          let updatedScreenedCandidate = [];
+          if (activeJobsInCMS.length > 0 || inActiveJobsInCMS.length > 0 || employeeActiveJobs.length > 0 || employeeInActiveJobs.length > 0) {
+            const screenedCandidatesByThisEmployee = thisWeekScreenedCandidates.filter(
+              (scrCand) =>
+              activeJobsInCMS.some((job) => job.id === scrCand.jobId) || inActiveJobsInCMS.some((job) => job.id === scrCand.jobId) || employeeActiveJobs.some((job) => job.id === scrCand.jobId) || employeeInActiveJobs.some((job) => job.id === scrCand.jobId)
+            );
+            updatedScreenedCandidate = await Promise.all(
+              screenedCandidatesByThisEmployee.map(async (scrCand) => {
+                  const screenedCand = await candidate.findOne({
+                    id: scrCand.candidateId,
+                  });
+                  const screenedJob =( await activeJob.findOne({
+                    id: scrCand.jobId,
+                  }) || await jobDetail.findOne({
+                    id: scrCand.jobId,
+                  }));
+                  return {
+                    name: screenedCand.firstName + " " + screenedCand.lastName,
+                    jobRole: screenedJob.jobRole[0], 
+                    createdDate: new Date(scrCand.createdAt).toLocaleDateString(
+                      "en-GB",
+                      {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                      }
+                    ),
+                  };
+                
+              })
+            );
+          }
+
+          let updatedInterviewCandidate = [];
+          if (activeJobsInCMS.length > 0 || inActiveJobsInCMS.length > 0 || employeeActiveJobs.length > 0 || employeeInActiveJobs.length > 0) {
+            const interviewCandidatesByThisEmployee = thisWeekInterviewCandidates.filter(
+              (intCand) =>
+              activeJobsInCMS.some((job) => job.id === intCand.jobId) || inActiveJobsInCMS.some((job) => job.id === intCand.jobId) || employeeActiveJobs.some((job) => job.id === intCand.jobId) || employeeInActiveJobs.some((job) => job.id === intCand.jobId)
+            );
+            updatedInterviewCandidate = await Promise.all(
+              interviewCandidatesByThisEmployee.map(async (intCand) => {
+                  const interviewCand = await candidate.findOne({
+                    id: intCand.candidateId,
+                  });
+                  const interviewJob =( await activeJob.findOne({
+                    id: intCand.jobId,
+                  }) || await jobDetail.findOne({
+                    id: intCand.jobId,
+                  }));
+                  return {
+                    name: interviewCand.firstName + " " + interviewCand.lastName,
+                    jobRole: interviewJob.jobRole[0], 
+                    createdDate: new Date(intCand.createdAt).toLocaleDateString(
+                      "en-GB",
+                      {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                      }
+                    ),
+                  };
+                
+              })
+            );
+          }
+
+          let updatedOfferedCandidate = [];
+          if (activeJobsInCMS.length > 0 || inActiveJobsInCMS.length > 0 || employeeActiveJobs.length > 0 || employeeInActiveJobs.length > 0) {
+            const offeredCandidatesByThisEmployee = thisWeekOfferedCandidates.filter(
+              (offeredCand) =>
+              activeJobsInCMS.some((job) => job.id === offeredCand.jobId) || inActiveJobsInCMS.some((job) => job.id === offeredCand.jobId) || employeeActiveJobs.some((job) => job.id === offeredCand.jobId) || employeeInActiveJobs.some((job) => job.id === offeredCand.jobId)
+            );
+            updatedOfferedCandidate = await Promise.all(
+              offeredCandidatesByThisEmployee.map(async (offCand) => {
+                  const offeredCand = await candidate.findOne({
+                    id: offCand.candidateId,
+                  });
+                  const offeredJob =( await activeJob.findOne({
+                    id: offCand.jobId,
+                  }) || await jobDetail.findOne({
+                    id: offCand.jobId,
+                  }));
+                  return {
+                    name: offeredCand.firstName + " " + offeredCand.lastName,
+                    jobRole: offeredJob.jobRole[0], 
+                    createdDate: new Date(offCand.createdAt).toLocaleDateString(
+                      "en-GB",
+                      {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                      }
+                    ),
+                  };
+                
+              })
+            );
+          }
+
+          let updatedRejectedCandidate = [];
+          if (activeJobsInCMS.length > 0 || inActiveJobsInCMS.length > 0 || employeeActiveJobs.length > 0 || employeeInActiveJobs.length > 0) {
+            const rejectedCandidatesByThisEmployee = thisWeekrejectedCandidates.filter(
+              (rejCand) =>
+              activeJobsInCMS.some((job) => job.id === rejCand.jobId) || inActiveJobsInCMS.some((job) => job.id === rejCand.jobId) || employeeActiveJobs.some((job) => job.id === rejCand.jobId) || employeeInActiveJobs.some((job) => job.id === rejCand.jobId)
+            );
+            updatedRejectedCandidate = await Promise.all(
+              rejectedCandidatesByThisEmployee.map(async (rejCand) => {
+                  const rejectedCand = await candidate.findOne({
+                    id: rejCand.candidateId,
+                  });
+                  const rejectedJob =( await activeJob.findOne({
+                    id: rejCand.jobId,
+                  }) || await jobDetail.findOne({
+                    id: rejCand.jobId,
+                  }));
+                  return {
+                    name: rejectedCand.firstName + " " + rejectedCand.lastName,
+                    jobRole: rejectedJob.jobRole[0], 
+                    createdDate: new Date(rejCand.createdAt).toLocaleDateString(
+                      "en-GB",
+                      {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                      }
+                    ),
+                  };
+                
+              })
+            );
+          }
+
+          let updatedJoinedCandidate = [];
+          if (activeJobsInCMS.length > 0 || inActiveJobsInCMS.length > 0 || employeeActiveJobs.length > 0 || employeeInActiveJobs.length > 0) {
+            const joinedCandidatesByThisEmployee = thisWeekJoinedCandidates.filter(
+              (joinCand) =>
+              activeJobsInCMS.some((job) => job.id === joinCand.jobId) || inActiveJobsInCMS.some((job) => job.id === joinCand.jobId) || employeeActiveJobs.some((job) => job.id === joinCand.jobId) || employeeInActiveJobs.some((job) => job.id === joinCand.jobId)
+            );
+            updatedJoinedCandidate = await Promise.all(
+              joinedCandidatesByThisEmployee.map(async (joinCand) => {
+                  const joinedCand = await candidate.findOne({
+                    id: joinCand.candidateId,
+                  });
+                  const joinedJob =( await activeJob.findOne({
+                    id: joinCand.jobId,
+                  }) || await jobDetail.findOne({
+                    id: joinCand.jobId,
+                  }));
+                  return {
+                    name: joinedCand.firstName + " " + joinedCand.lastName,
+                    jobRole: joinedJob.jobRole[0], 
+                    createdDate: new Date(joinCand.createdAt).toLocaleDateString(
+                      "en-GB",
+                      {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                      }
+                    ),
+                  };
+                
+              })
+            );
+          }
+
+          let updatedAbscondCandidate = [];
+          if (activeJobsInCMS.length > 0 || inActiveJobsInCMS.length > 0 || employeeActiveJobs.length > 0 || employeeInActiveJobs.length > 0) {
+            const abscondCandidatesByThisEmployee = thisWeekAbscondCandidates.filter(
+              (absCand) =>
+              activeJobsInCMS.some((job) => job.id === absCand.jobId) || inActiveJobsInCMS.some((job) => job.id === absCand.jobId) || employeeActiveJobs.some((job) => job.id === absCand.jobId) || employeeInActiveJobs.some((job) => job.id === absCand.jobId)
+            );
+            updatedAbscondCandidate = await Promise.all(
+              abscondCandidatesByThisEmployee.map(async (absCand) => {
+                  const abscondCand = await candidate.findOne({
+                    id: absCand.candidateId,
+                  });
+                  const abscondJob =( await activeJob.findOne({
+                    id: absCand.jobId,
+                  }) || await jobDetail.findOne({
+                    id: absCand.jobId,
+                  }));
+                  return {
+                    name: abscondCand.firstName + " " + abscondCand.lastName,
+                    jobRole: abscondJob.jobRole[0], 
+                    createdDate: new Date(absCand.createdAt).toLocaleDateString(
+                      "en-GB",
+                      {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                      }
+                    ),
+                  };
+                
+              })
+            );
+          }
+
+          const employeeReport = {
+            name: empl.name,
+            role: empl.role,
+            createdClients: createdClientsByThisEmployee.map((client) => ({
+              name: client.companyName,
+              createdDate: new Date(client.createdAt).toLocaleDateString(
+                "en-GB",
+                {
+                  day: "2-digit",
+                  month: "2-digit",
+                  year: "numeric",
+                }
+              ),
+            })),
+            createdCandidates: createdCandidatesByThisEmployee.map((cand) => ({
+              name: cand.firstName + " " + cand.lastName,
+              createdDate: new Date(cand.createdAt).toLocaleDateString(
+                "en-GB",
+                {
+                  day: "2-digit",
+                  month: "2-digit",
+                  year: "numeric",
+                }
+              ),
+            })),
+            assignedCands: [...updatedAssignedCandidate, ...updatedSelectedCandidate],
+            createdActiveJobs: updatedCreatedActiveJobs,
+            createdInActiveJobs: updatedCreatedInActiveJobs,
+            screenedCandidates: updatedScreenedCandidate,
+            interviewCandidates: updatedInterviewCandidate,
+            offeredCandidates: updatedOfferedCandidate,
+            rejectedCandidates: updatedRejectedCandidate,
+            joinedCandidates: updatedJoinedCandidate,
+            abscondedCandidates: updatedAbscondCandidate,
+          };
+          return employeeReport;
+        })
+      );
+
+      res.status(200).json(employeeData);
+    } else {
+      return res
+        .status(404)
+        .json({ error: `No report details found for ${requestParam}!` });
+    }
+  } else {
+    return res.status(400).json({ error: "Invalid date filter" });
+  }
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
 
 /*ATS................... */
 
@@ -5108,6 +5642,7 @@ module.exports = {
    getUpdatedOwnActivejobs,
    getAllNewCandidateDetail,
    searchClient,
+   
   
    //MOBILE APP API............
 
@@ -5137,6 +5672,7 @@ module.exports = {
    updateOfflineCand,
    getAllOfflineCandDetails,
    deletingOfflineCandidate,
+   getDataForReport,
 
   //ATS...........
 };
