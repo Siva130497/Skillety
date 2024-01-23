@@ -33,6 +33,7 @@ const TeamPerformanceReport = () => {
     useEffect(() => {
         setatsToken(JSON.parse(localStorage.getItem('atsToken')))
     }, [atsToken]);
+    console.log(selectedFromDate)
 
     useEffect(()=>{
         if(selectedFromDate && selectedToDate){

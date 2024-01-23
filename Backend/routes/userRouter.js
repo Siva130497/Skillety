@@ -195,6 +195,7 @@ const {
    getAllOfflineCandDetails,
    deletingOfflineCandidate,
    getDataForReport,
+   getDailySubmissionReportData,
 
    //ATS...............
   
@@ -715,6 +716,9 @@ router.delete("/delete-exiesting-offline-cand/:id", employeeAuth, deletingOfflin
 
 //get this week data for report
 router.get("/find-data-for-report", employeeAuth, getDataForReport);
+
+//get daily submission report
+router.get("/find-daily-submission-report", employeeAuth, getDailySubmissionReportData);
 
 //ATS..................
 
