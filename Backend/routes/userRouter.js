@@ -292,7 +292,7 @@ router.get('/posted-jobs', getActivejobs)
 router.get('/posted-approved-inactive-jobs', getApprovedInActivejobs)
 
 //get client posted job details
-router.get('/approval-jobs', getNonApprovaljobs)
+router.get('/non-approval-jobs', getNonApprovaljobs)
 
 //get a job detail
 router.get('/job/:id', getJob)
