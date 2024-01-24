@@ -24,6 +24,7 @@ const TeamPerformanceReport = () => {
     const [selectedEmployeeData, setSelectedEmployeeData] = useState(null);
     const [x, setX] = useState([0, 3]);
     const [y, setY] = useState([0, 5]);
+    const [loading, setLoading] = useState(false);
 
     const handleBackButtonClick = () => {
         navigate(-1);
@@ -53,6 +54,7 @@ const TeamPerformanceReport = () => {
     }, [filter])
 
     const runReport = () => {
+        setLoading(true);
         setEmployeeReportDetail([]);
         if (period) {
             axios.get(`http://localhost:5002/find-data-for-report?period=${period}`, {
@@ -62,11 +64,14 @@ const TeamPerformanceReport = () => {
                 }
             })
                 .then(res => {
+                    setLoading(false)
                     console.log(res.data);
                     setEmployeeReportDetail(res.data);
+
                 })
                 .catch(err => {
                     console.log(err);
+                    setLoading(false)
                 })
         }
 
@@ -341,7 +346,7 @@ const TeamPerformanceReport = () => {
                                             </div>
                                         }
 
-                                        <div className="dot-spinner-area">
+                                        {loading && <div className="dot-spinner-area">
                                             <div className="dot-spinner">
                                                 <div className="dot-spinner__dot"></div>
                                                 <div className="dot-spinner__dot"></div>
@@ -352,7 +357,7 @@ const TeamPerformanceReport = () => {
                                                 <div className="dot-spinner__dot"></div>
                                                 <div className="dot-spinner__dot"></div>
                                             </div>
-                                        </div>
+                                        </div>}
                                     </div>
                                 </div>
                             </div>

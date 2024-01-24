@@ -164,6 +164,7 @@ const {
    getUpdatedOwnActivejobs,
    getAllNewCandidateDetail,
    searchClient,
+   getUpdatedAppliedjobs,
    
 
    //MOBILE APP API............
@@ -630,6 +631,9 @@ router.get("/all-candidate-details-pagination-with-limit", employeeAuth, getAllN
 
 //search client by name & company name
 router.post("/client-search", employeeAuth, searchClient);
+
+//find the updated applied jobs
+router.get("/updated-my-applied-jobs/:id", employeeAuth, getUpdatedAppliedjobs);
 
 
 
