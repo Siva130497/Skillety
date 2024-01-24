@@ -164,6 +164,7 @@ const {
    getUpdatedOwnActivejobs,
    getAllNewCandidateDetail,
    searchClient,
+   getUpdatedAppliedjobs,
    
 
    //MOBILE APP API............
@@ -195,6 +196,7 @@ const {
    getAllOfflineCandDetails,
    deletingOfflineCandidate,
    getDataForReport,
+   getDailySubmissionReportData,
 
    //ATS...............
   
@@ -630,6 +632,9 @@ router.get("/all-candidate-details-pagination-with-limit", employeeAuth, getAllN
 //search client by name & company name
 router.post("/client-search", employeeAuth, searchClient);
 
+//find the updated applied jobs
+router.get("/updated-my-applied-jobs/:id", employeeAuth, getUpdatedAppliedjobs);
+
 
 
 //MOBILE APP API............
@@ -715,6 +720,9 @@ router.delete("/delete-exiesting-offline-cand/:id", employeeAuth, deletingOfflin
 
 //get this week data for report
 router.get("/find-data-for-report", employeeAuth, getDataForReport);
+
+//get daily submission report
+router.get("/find-daily-submission-report", employeeAuth, getDailySubmissionReportData);
 
 //ATS..................
 
