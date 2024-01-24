@@ -4134,6 +4134,7 @@ const getUpdatedAppliedjobs = async (req, res) => {
 const getDataForCandidateGraph = async (req, res) => {
   try {
     let filter;
+    const {candidateId}  = req.params;
 
     const currentDate = new Date();
     const startOfWeek = new Date(currentDate);
@@ -4185,188 +4186,23 @@ const getDataForCandidateGraph = async (req, res) => {
   if (filter && filter.$gte instanceof Date && filter.$lt instanceof Date) {
     // Find documents that match the filter
     
-    const thisWeekJoinedCandidates = await applicationStatus.find({
-      status:"joined",
+    const thisWeekScreenedJobs = await applicationStatus.find({
+      status:"screened",
+      candidateId:candidateId,
       createdAt:filter
     });
     
-    const thisWeekActiveJobs = await activeJob.find({
-      createdAt: filter,
-      managerId: { $exists: true, $ne: null }
+    const thisWeekAppliedJobs = await appliedJob.find({
+      candidateId:candidateId,
+      createdAt: filter
     });
-    const thisWeekInActiveJobs = await jobDetail.find({
-      createdAt: filter,
-      managerId: { $exists: true, $ne: null }
-    });
-
+    
     if (
-      thisWeekActiveJobs.length >0 ||
-      thisWeekInActiveJobs.length >0 
+      thisWeekScreenedJobs.length >0 ||
+      thisWeekAppliedJobs.length >0 
     ) {
-      console.log(thisWeekJoinedCandidates, thisWeekActiveJobs, thisWeekInActiveJobs)
-      const allEmployee = await employee.find({
-        role: { $in: ["Super-Admin", "Manager", "Recruiter-ATS"] }
-      });
-
-      const employeeData = await Promise.all(
-        allEmployee.map(async (empl) => {
-          const createdJobsByThisEmployee = [...thisWeekActiveJobs, ...thisWeekInActiveJobs].filter(job => job.managerId === empl.id);
-          console.log(createdJobsByThisEmployee)
-          const IndividualJobDetail = await Promise.all(createdJobsByThisEmployee.map(async (job) => {
-            const clientForThisJob = await offlineClient.findOne({ clientId: job.clientId });
-            const joinedCandForThisJob = thisWeekJoinedCandidates.filter(cand => cand.jobId === job.id);
-            console.log(joinedCandForThisJob)
-            // Group joined candidates by date
-            const joinedCandsByDate = {};
-            joinedCandForThisJob.forEach((cand) => {
-              const createdAtDate = new Date(cand.createdAt);
-              const formattedDate = `${createdAtDate.getFullYear()}-${(createdAtDate.getMonth() + 1).toString().padStart(2, '0')}-${createdAtDate.getDate().toString().padStart(2, '0')}`;
-              joinedCandsByDate[formattedDate] = (joinedCandsByDate[formattedDate] || 0) + 1;
-            });
       
-            // Create an array of objects for each day in the current week
-            let getDateFunction;
-            if (requestParam === "thisWeek" || requestParam === "thisMonth" ||  
-                requestParam === "lastWeek" || requestParam === "lastMonth" ) {
-                  switch (requestParam) {
-                    case "thisWeek":
-                      getDateFunction = getDatesForCurrentWeek(new Date());
-                      break;
-                    case "thisMonth":
-                      getDateFunction = getDatesForCurrentMonth(new Date());
-                      break;
-                    case "lastWeek":
-                      getDateFunction = getLastWeek(new Date());
-                      break;
-                    case "lastMonth":
-                      getDateFunction = getLastMonth(new Date());
-                      break;
-                    default:
-                      // Handle other cases if needed
-                      break;
-                  }   
-            }else if (requestParam.match(/^\d{4}-\d{2}-\d{2}to\d{4}-\d{2}-\d{2}$/)) {
-              // Custom date format (ISO 8601)
-              const [startDateString, endDateString] = requestParam.split("to");
-              const customStartDate = new Date(startDateString);
-              const customEndDate = new Date(endDateString);
-          
-              if (isNaN(customStartDate.getTime()) || isNaN(customEndDate.getTime())) {
-                  return res.status(400).json({ error: "Invalid date format in custom period" });
-              }
-          
-              getDateFunction = getCustomDates(customStartDate, customEndDate);
-              
-            } else {
-                return res.status(400).json({ error: "Invalid filter period" });
-            }
-            const currentWeekDates = getDateFunction; // Implement getDatesForCurrentWeek function
-            const joinedCandsThisWeek = currentWeekDates.map(date => ({
-              date,
-              numOfJoinCandidates: joinedCandsByDate[date] || 0,
-            }));
       
-            const jobDetail = {
-              name: job.jobRole[0],
-              clientName: clientForThisJob?.companyName,
-              joinedCands: joinedCandsThisWeek,
-            };
-      
-            return jobDetail;
-          }));
-      
-          const employeeReport = {
-            name: empl.name,
-            role: empl.role,
-            createdJobs: IndividualJobDetail,
-          };
-          return employeeReport;
-        })
-      );
-      
-      // Function to get dates for the current week
-      function getDatesForCurrentWeek(today) {
-        const currentDate = today || new Date();
-        const dayOfWeek = currentDate.getDay();
-        const startDate = new Date(currentDate);
-        startDate.setDate(currentDate.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1)); // Adjust to the first day of the week
-        const endDate = new Date(startDate);
-        endDate.setDate(startDate.getDate() + 6); // Adjust to the last day of the week
-
-        const dateArray = [];
-        for (let currentDate = startDate; currentDate <= endDate; currentDate.setDate(currentDate.getDate() + 1)) {
-            if (currentDate <= new Date()) {
-                dateArray.push(`${currentDate.getFullYear()}-${(currentDate.getMonth() + 1).toString().padStart(2, '0')}-${currentDate.getDate().toString().padStart(2, '0')}`);
-            }
-        }
-
-        return dateArray;
-      }
-
-      // Function to get dates for the current month
-      function getDatesForCurrentMonth(today) {
-        const currentDate = today || new Date();
-        const year = currentDate.getFullYear();
-        const month = currentDate.getMonth();
-        const startDate = new Date(year, month, 1); // Set to the first day of the month
-        const endDate = new Date(year, month + 1, 0); // Set to the last day of the month
-
-        const dateArray = [];
-        for (let currentDate = startDate; currentDate <= endDate; currentDate.setDate(currentDate.getDate() + 1)) {
-            if (currentDate <= new Date()) {
-                dateArray.push(`${currentDate.getFullYear()}-${(currentDate.getMonth() + 1).toString().padStart(2, '0')}-${currentDate.getDate().toString().padStart(2, '0')}`);
-            }
-        }
-
-        return dateArray;
-      }
-
-      // Function to get dates for the last week
-      function getLastWeek(today) {
-        const currentDate = today || new Date();
-        const dayOfWeek = currentDate.getDay();
-        const startDate = new Date(currentDate);
-        startDate.setDate(currentDate.getDate() - dayOfWeek - 6); // Adjust to the first day of the last week
-        const endDate = new Date(startDate);
-        endDate.setDate(startDate.getDate() + 6); // Adjust to the last day of the last week
-
-        const dateArray = [];
-        for (let currentDate = startDate; currentDate <= endDate; currentDate.setDate(currentDate.getDate() + 1)) {
-            dateArray.push(`${currentDate.getFullYear()}-${(currentDate.getMonth() + 1).toString().padStart(2, '0')}-${currentDate.getDate().toString().padStart(2, '0')}`);
-        }
-
-        return dateArray;
-      }
-
-      // Function to get dates for the last month
-      function getLastMonth(today) {
-        const currentDate = today || new Date();
-        const year = currentDate.getFullYear();
-        const month = currentDate.getMonth() - 1;
-        const startDate = new Date(year, month, 1); // Set to the first day of the last month
-        const endDate = new Date(year, month + 1, 0); // Set to the last day of the last month
-
-        const dateArray = [];
-        for (let currentDate = startDate; currentDate <= endDate; currentDate.setDate(currentDate.getDate() + 1)) {
-            dateArray.push(`${currentDate.getFullYear()}-${(currentDate.getMonth() + 1).toString().padStart(2, '0')}-${currentDate.getDate().toString().padStart(2, '0')}`);
-        }
-
-        return dateArray;
-      }
-      //function to get dates for custom date
-      function getCustomDates(startDate, endDate) {
-        const dateArray = [];
-        const currentDate = new Date(startDate);
-    
-        while (currentDate <= new Date(endDate)) {
-            dateArray.push(`${currentDate.getFullYear()}-${(currentDate.getMonth() + 1).toString().padStart(2, '0')}-${currentDate.getDate().toString().padStart(2, '0')}`);
-            currentDate.setDate(currentDate.getDate() + 1);
-        }
-    
-        return dateArray;
-      }
-      
-      res.status(200).json(employeeData);
     } else {
       return res
         .status(404)
