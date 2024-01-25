@@ -4402,93 +4402,432 @@ const getUpdatedSkillMatchJobDetail = async (req, res) => {
   }
 };
 
-
 /* get data for graph candidate */
 const getDataForCandidateGraph = async (req, res) => {
   try {
     let filter;
-    const {candidateId}  = req.params;
-
+    const { candidateId } = req.params;
     const currentDate = new Date();
-    const startOfWeek = new Date(currentDate);
-    startOfWeek.setHours(0, 0, 0, 0);
-    startOfWeek.setDate(currentDate.getDate() - currentDate.getDay());
-
-    const endOfWeek = new Date(startOfWeek);
-    endOfWeek.setDate(startOfWeek.getDate() + 7);
-
-    const startOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
-    const endOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
-
-    const endOfLastMonth = new Date(startOfMonth);
-    endOfLastMonth.setDate(startOfMonth.getDate() - 1); // Move to the last day of the previous month
-
-    const startOfYear = new Date(currentDate.getFullYear(), 0, 1);
-    const endOfYear = new Date(currentDate.getFullYear(), 11, 31, 23, 59, 59, 999);
-
+    
     const requestParam = req.query.period || "invalidParam";
 
     if (requestParam === "invalidParam") {
       return res.status(400).json({ error: "Invalid filter period" });
     }
 
-    if (requestParam === "weekly" || requestParam === "monthly"   
-          ) {
-        switch (requestParam) {
-          case "weekly":
-            filter = {
-              $gte: startOfWeek,
-              $lt: endOfWeek,
-            };
-            break;
-          case "monthly":
-            filter = {
-              $gte: startOfYear,
-              $lt: endOfYear,
-            };
-            break;
+    if (requestParam === "weekly") {
+      const startOfWeek = new Date(currentDate);
+      startOfWeek.setHours(0, 0, 0, 0);
+      startOfWeek.setDate(currentDate.getDate() - currentDate.getDay());
+      
+      const endOfWeek = new Date(startOfWeek);
+      endOfWeek.setDate(startOfWeek.getDate() + 7);
 
-          default:
-            
-            break;
+      filter = {
+        $gte: startOfWeek,
+        $lt: endOfWeek,
+      };
+      
+      const categories = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+      
+      if (filter && filter.$gte instanceof Date && filter.$lt instanceof Date) {
+        const thisWeekScreenedJobs = await applicationStatus.find({
+          status:"screened",
+          candidateId:candidateId,
+          createdAt:filter
+        });
+        
+        const thisWeekAppliedJobs = await appliedJob.find({
+          candidateId:candidateId,
+          createdAt: filter
+        });
+        
+        if (
+          thisWeekScreenedJobs.length >0 ||
+          thisWeekAppliedJobs.length >0 
+        ) {
+          
+          const appliedJobCounts = Array(7).fill(0);
+          const screenedJobCounts = Array(7).fill(0);
+
+          thisWeekAppliedJobs.forEach((job) => {
+            const dayIndex = new Date(job.createdAt).getDay();
+            appliedJobCounts[dayIndex]++;
+          });
+
+          thisWeekScreenedJobs.forEach((job) => {
+            const dayIndex = new Date(job.createdAt).getDay();
+            screenedJobCounts[dayIndex]++;
+          });
+
+          const response = {
+            Id: candidateId,
+            filterType: "weekly",
+            categories: categories,
+            series: [
+              {
+                name: "AppliedJobs",
+                data: appliedJobCounts,
+              },
+              {
+                name: "ScreenedJobs",
+                data: screenedJobCounts,
+              },
+            ],
+          };
+
+          return res.status(200).json(response);
+        } else {
+          return res
+            .status(404)
+            .json({ error: `No report details found for ${requestParam}!` });
         }
-      }else {
-        return res.status(400).json({ error: "Invalid filter period" });
+  
+      } else {
+        return res.status(400).json({ error: "Invalid date filter" });
       }
 
-  if (filter && filter.$gte instanceof Date && filter.$lt instanceof Date) {
-    // Find documents that match the filter
-    
-    const thisWeekScreenedJobs = await applicationStatus.find({
-      status:"screened",
-      candidateId:candidateId,
-      createdAt:filter
-    });
-    
-    const thisWeekAppliedJobs = await appliedJob.find({
-      candidateId:candidateId,
-      createdAt: filter
-    });
-    
-    if (
-      thisWeekScreenedJobs.length >0 ||
-      thisWeekAppliedJobs.length >0 
-    ) {
-      
-      
-    } else {
-      return res
-        .status(404)
-        .json({ error: `No report details found for ${requestParam}!` });
-    }
+    } else if (requestParam === "monthly") {
+      const currentDate = new Date(); // Assuming currentDate is defined elsewhere
+      const startOfYear = new Date(currentDate.getFullYear(), 0, 1); // Start of the current year
+      const endOfYear = new Date(currentDate.getFullYear() + 1, 0, 0); // End of the current year
+  
+      const filter = {
+          $gte: startOfYear,
+          $lt: endOfYear, // End of the current year
+      };
+  
+      const months = [
+          "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+          "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+      ];
+  
+      const categories = months; // All months of the year
+  
+      const thisYearScreenedJobs = await applicationStatus.find({
+          status: "screened",
+          candidateId: candidateId,
+          createdAt: filter
+      });
+  
+      const thisYearAppliedJobs = await appliedJob.find({
+          candidateId: candidateId,
+          createdAt: filter
+      });
+  
+      if (thisYearScreenedJobs.length > 0 || thisYearAppliedJobs.length > 0) {
+          const appliedJobCounts = Array(categories.length).fill(0);
+          const screenedJobCounts = Array(categories.length).fill(0);
+  
+          thisYearAppliedJobs.forEach((job) => {
+              const monthIndex = new Date(job.createdAt).getMonth();
+              appliedJobCounts[monthIndex]++;
+          });
+  
+          thisYearScreenedJobs.forEach((job) => {
+              const monthIndex = new Date(job.createdAt).getMonth();
+              screenedJobCounts[monthIndex]++;
+          });
+  
+          const response = {
+              Id: candidateId,
+              filterType: "monthly",
+              categories: categories,
+              series: [
+                  {
+                      name: "AppliedJobs",
+                      data: appliedJobCounts,
+                  },
+                  {
+                      name: "ScreenedJobs",
+                      data: screenedJobCounts,
+                  },
+              ],
+          };
+  
+          return res.status(200).json(response);
+      } else {
+          return res.status(404).json({ error: `No report details found for ${requestParam}!` });
+      }
+    } else if (requestParam === "yearly") {
+      const startOfYear = new Date(currentDate.getFullYear() - 4, 0, 1);
+      const endOfYear = new Date(currentDate.getFullYear(), 11, 31, 23, 59, 59, 999);
+  
+      filter = {
+          $gte: startOfYear,
+          $lt: endOfYear,
+      };
+  
+      const categories = Array.from({ length: 5 }, (_, i) => currentDate.getFullYear() - 4 + i);
+  
+      const thisYearScreenedJobs = await applicationStatus.find({
+          status: "screened",
+          candidateId: candidateId,
+          createdAt: filter
+      });
+  
+      const thisYearAppliedJobs = await appliedJob.find({
+          candidateId: candidateId,
+          createdAt: filter
+      });
+  
+      if (thisYearScreenedJobs.length > 0 || thisYearAppliedJobs.length > 0) {
+          const appliedJobCounts = Array(categories.length).fill(0);
+          const screenedJobCounts = Array(categories.length).fill(0);
+  
+          thisYearAppliedJobs.forEach((job) => {
+              const jobYear = new Date(job.createdAt).getFullYear();
+              const yearIndex = jobYear - (currentDate.getFullYear() - 4);
+              appliedJobCounts[yearIndex]++;
+          });
+  
+          thisYearScreenedJobs.forEach((job) => {
+              const dayIndex = new Date(job.createdAt).getDate() - 1;
+              screenedJobCounts[dayIndex]++;
+          });
+  
+          const response = {
+              Id: candidateId,
+              filterType: "yearly",
+              categories: categories,
+              series: [
+                  {
+                      name: "AppliedJobs",
+                      data: appliedJobCounts,
+                  },
+                  {
+                      name: "ScreenedJobs",
+                      data: screenedJobCounts,
+                  },
+              ],
+          };
+  
+          return res.status(200).json(response);
+      } else {
+          return res.status(404).json({ error: `No report details found for ${requestParam}!` });
+      }
   } else {
-    return res.status(400).json({ error: "Invalid date filter" });
-  }
+      return res.status(400).json({ error: "Invalid filter period" });
+    }
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
 
+/* get data for graph client */
+const getDataForClientGraph = async (req, res) => {
+  try {
+    let filter;
+    const { companyId } = req.params;
+    const currentDate = new Date();
+    
+    const requestParam = req.query.period || "invalidParam";
+
+    if (requestParam === "invalidParam") {
+      return res.status(400).json({ error: "Invalid filter period" });
+    }
+
+    if (requestParam === "weekly") {
+      const startOfWeek = new Date(currentDate);
+      startOfWeek.setHours(0, 0, 0, 0);
+      startOfWeek.setDate(currentDate.getDate() - currentDate.getDay());
+      
+      const endOfWeek = new Date(startOfWeek);
+      endOfWeek.setDate(startOfWeek.getDate() + 7);
+
+      filter = {
+        $gte: startOfWeek,
+        $lt: endOfWeek,
+      };
+      
+      const categories = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+      
+      if (filter && filter.$gte instanceof Date && filter.$lt instanceof Date) {
+        const thisWeekPostedActiveJobs = await activeJob.find({
+          companyId:companyId,
+          createdAt:filter
+        });
+        
+        const thisWeekAppliedJobs = await appliedJob.find({
+          companyId:companyId,
+          createdAt: filter
+        });
+        
+        if (
+          thisWeekPostedActiveJobs.length >0 ||
+          thisWeekAppliedJobs.length >0 
+        ) {
+          
+          const appliedJobCounts = Array(7).fill(0);
+          const activePostedJobCounts = Array(7).fill(0);
+
+          thisWeekAppliedJobs.forEach((job) => {
+            const dayIndex = new Date(job.createdAt).getDay();
+            appliedJobCounts[dayIndex]++;
+          });
+
+          thisWeekPostedActiveJobs.forEach((job) => {
+            const dayIndex = new Date(job.createdAt).getDay();
+            activePostedJobCounts[dayIndex]++;
+          });
+
+          const response = {
+            Id: companyId,
+            filterType: "weekly",
+            categories: categories,
+            series: [
+              {
+                name: "PostedActiveJobs",
+                data: activePostedJobCounts,
+              },
+              {
+                name: "AppliedJobs",
+                data: appliedJobCounts,
+              },
+            ],
+          };
+
+          return res.status(200).json(response);
+        } else {
+          return res
+            .status(404)
+            .json({ error: `No report details found for ${requestParam}!` });
+        }
+  
+      } else {
+        return res.status(400).json({ error: "Invalid date filter" });
+      }
+
+    } else if (requestParam === "monthly") {
+      const currentDate = new Date(); // Assuming currentDate is defined elsewhere
+      const startOfYear = new Date(currentDate.getFullYear(), 0, 1); // Start of the current year
+      const endOfYear = new Date(currentDate.getFullYear() + 1, 0, 0); // End of the current year
+  
+      const filter = {
+          $gte: startOfYear,
+          $lt: endOfYear, // End of the current year
+      };
+  
+      const months = [
+          "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+          "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+      ];
+  
+      const categories = months; // All months of the year
+  
+      const thisYearPostedActiveJobs = await activeJob.find({
+          companyId:companyId,
+          createdAt: filter
+      });
+  
+      const thisYearAppliedJobs = await appliedJob.find({
+        companyId:companyId,
+          createdAt: filter
+      });
+  
+      if (thisYearPostedActiveJobs.length > 0 || thisYearAppliedJobs.length > 0) {
+          const appliedJobCounts = Array(categories.length).fill(0);
+          const postedActiveJobCounts = Array(categories.length).fill(0);
+  
+          thisYearAppliedJobs.forEach((job) => {
+              const monthIndex = new Date(job.createdAt).getMonth();
+              appliedJobCounts[monthIndex]++;
+          });
+  
+          thisYearPostedActiveJobs.forEach((job) => {
+              const monthIndex = new Date(job.createdAt).getMonth();
+              postedActiveJobCounts[monthIndex]++;
+          });
+  
+          const response = {
+              Id: companyId,
+              filterType: "monthly",
+              categories: categories,
+              series: [
+                  {
+                      name: "PostedActiveJobs",
+                      data: postedActiveJobCounts,
+                  },
+                  {
+                      name: "AppliedJobs",
+                      data: appliedJobCounts,
+                  },
+              ],
+          };
+  
+          return res.status(200).json(response);
+      } else {
+          return res.status(404).json({ error: `No report details found for ${requestParam}!` });
+      }
+    } else if (requestParam === "yearly") {
+      const currentYear = currentDate.getFullYear();
+      const startOfYear = new Date(currentYear - 4, 0, 1);
+      const endOfYear = new Date(currentYear, 11, 31, 23, 59, 59, 999);
+  
+      filter = {
+          $gte: startOfYear,
+          $lt: endOfYear,
+      };
+  
+      const categories = Array.from({ length: 5 }, (_, i) => currentYear - 4 + i);
+  
+      const thisYearPostedActiveJobs = await activeJob.find({
+          companyId: companyId,
+          createdAt: filter
+      });
+  
+      const thisYearAppliedJobs = await appliedJob.find({
+          companyId: companyId,
+          createdAt: filter
+      });
+  
+      if (thisYearPostedActiveJobs.length > 0 || thisYearAppliedJobs.length > 0) {
+          const postedActiveJobCounts = Array(5).fill(0);
+          const appliedJobCounts = Array(5).fill(0);
+  
+          thisYearPostedActiveJobs.forEach((job) => {
+              const jobYear = new Date(job.createdAt).getFullYear();
+              const yearIndex = categories.indexOf(jobYear);
+              if (yearIndex !== -1) {
+                  postedActiveJobCounts[yearIndex]++;
+              }
+          });
+  
+          thisYearAppliedJobs.forEach((job) => {
+              const jobYear = new Date(job.createdAt).getFullYear();
+              const yearIndex = categories.indexOf(jobYear);
+              if (yearIndex !== -1) {
+                  appliedJobCounts[yearIndex]++;
+              }
+          });
+  
+          const response = {
+              Id: companyId,
+              filterType: "yearly",
+              categories: categories,
+              series: [
+                  {
+                      name: "PostedActiveJobs",
+                      data: postedActiveJobCounts,
+                  },
+                  {
+                      name: "AppliedJobs",
+                      data: appliedJobCounts,
+                  },
+              ],
+          };
+  
+          return res.status(200).json(response);
+      } else {
+          return res.status(404).json({ error: `No report details found for ${requestParam}!` });
+      }    
+  } else {
+      return res.status(400).json({ error: "Invalid filter period" });
+    }
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
 /* MOBILE APP TEAM NEW API */
 
 /* ATS.................. */
@@ -6320,6 +6659,8 @@ module.exports = {
    getNotificationForReceiverId,
    readingNotifications,
    getUpdatedActiveJobs,
+   getDataForCandidateGraph,
+   getDataForClientGraph,
   
    //MOBILE APP API............
 
