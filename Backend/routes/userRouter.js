@@ -149,6 +149,7 @@ const {
    allNonApprovalJobTableColumnData,
    allPostedJobTableColumnData,
    getAllPostedJobTableColumnData,
+   
 
    //MOBILE APP API............
 
@@ -165,6 +166,10 @@ const {
    getAllNewCandidateDetail,
    searchClient,
    getUpdatedAppliedjobs,
+   clientDashboardTopBar,
+   creatingNewNotification,
+   getNotificationForReceiverId,
+   readingNotifications,
    
 
    //MOBILE APP API............
@@ -635,7 +640,17 @@ router.post("/client-search", employeeAuth, searchClient);
 //find the updated applied jobs
 router.get("/updated-my-applied-jobs/:id", employeeAuth, getUpdatedAppliedjobs);
 
+//client dashboard top bar data
+router.get("/client-dashboard-top/:companyId", employeeAuth, clientDashboardTopBar);
 
+//creating new notification by candidate
+router.post("/create-new-notification", employeeAuth, creatingNewNotification);
+
+//get notification for receiver id
+router.get("/all-notification/:receiverId", employeeAuth, getNotificationForReceiverId);
+
+//read notifications
+router.patch("/read-notification", employeeAuth, readingNotifications);
 
 //MOBILE APP API............
 

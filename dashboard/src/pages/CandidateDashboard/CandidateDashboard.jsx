@@ -178,22 +178,22 @@ const ClientDashboard = () => {
     source.start(0);
   };
 
-  useEffect(() => {
-    const context = new (window.AudioContext || window.webkitAudioContext)();
-    setAudioContext(context);
-  }, [])
+  // useEffect(() => {
+  //   const context = new (window.AudioContext || window.webkitAudioContext)();
+  //   setAudioContext(context);
+  // }, [])
 
-  useEffect(() => {
-    if (audioContext !== null) {
-      fetch('../assets/media/notify-ring.mp3')
-        .then((response) => response.arrayBuffer())
-        .then((data) => {
-          audioContext.decodeAudioData(data, (buffer) => {
-            setAudioBuffer(buffer);
-          });
-        });
-    }
-  }, [audioContext])
+  // useEffect(() => {
+  //   if (audioContext !== null) {
+  //     fetch('../assets/media/notify-ring.mp3')
+  //       .then((response) => response.arrayBuffer())
+  //       .then((data) => {
+  //         audioContext.decodeAudioData(data, (buffer) => {
+  //           setAudioBuffer(buffer);
+  //         });
+  //       });
+  //   }
+  // }, [audioContext])
 
   useEffect(() => {
 

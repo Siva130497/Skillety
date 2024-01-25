@@ -57,7 +57,7 @@ const TeamPerformanceReport = () => {
         setLoading(true);
         setEmployeeReportDetail([]);
         if (period) {
-            axios.get(`http://localhost:5002/find-data-for-report?period=${period}`, {
+            axios.get(`https://skillety-n6r1.onrender.com/find-data-for-report?period=${period}`, {
                 headers: {
                     Authorization: `Bearer ${atsToken}`,
                     Accept: 'application/json'
