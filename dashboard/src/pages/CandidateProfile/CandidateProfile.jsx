@@ -333,7 +333,7 @@ const CandidateProfile = () => {
         $('#file_upload').on('change', function () {
             $('#file-chosen').text(this.files[0].name);
 
-            if (this.files.length > 0) {
+            if (this.files?.length > 0) {
                 $('.file-upload-btn').text('Resume Uploaded');
                 $('.file-upload-btn').css('background-color', '#714F36');
                 $('.file-upload-btn').css('color', '#FFF');
@@ -371,7 +371,7 @@ const CandidateProfile = () => {
         // Function to handle scrolling to the target
         const handleScroll = (event) => {
             const target = $($(event.currentTarget).attr('href'));
-            if (target.length) {
+            if (target?.length) {
                 event.preventDefault();
                 $('html, body').animate({
                     scrollTop: target.offset().top - 100
@@ -688,7 +688,7 @@ const CandidateProfile = () => {
     }
 
     const handleSkillUpdate = () => {
-        if (selectedSkills.length < minSkillNum) {
+        if (selectedSkills?.length < minSkillNum) {
             setSkillError(`Please select atleast ${minSkillNum} skills`)
         } else {
             const userData = {
@@ -717,7 +717,7 @@ const CandidateProfile = () => {
                 })
                 .catch(err => console.log(err))
 
-            otherSkill.length > 0 && postOtherSkills(otherSkill);
+            otherSkill?.length > 0 && postOtherSkills(otherSkill);
 
         }
     }
@@ -892,11 +892,11 @@ const CandidateProfile = () => {
     const handleSkillSearch = (e) => {
         const inputValue = e.target.value;
         setSearchSkillInput(inputValue);
-        if (inputValue.length > 0) {
+        if (inputValue?.length > 0) {
             const candidateSkills = skillArray.filter((obj) => {
                 return obj.skill.toLowerCase().includes(inputValue.toLowerCase());
             });
-            if (candidateSkills.length > 0) {
+            if (candidateSkills?.length > 0) {
                 setFilteredSkills(candidateSkills);
             }
         } else {
@@ -912,10 +912,10 @@ const CandidateProfile = () => {
                 setSearchSkillInput("");
                 setFilteredSkills([]);
             } else {
-                selectedSkills.length === maxSkillNum && setSkillError(`You can select max of ${maxSkillNum} skills`)
+                selectedSkills?.length === maxSkillNum && setSkillError(`You can select max of ${maxSkillNum} skills`)
                 setSearchSkillInput("");
                 setFilteredSkills([]);
-                if (selectedSkills.length < maxSkillNum) {
+                if (selectedSkills?.length < maxSkillNum) {
                     setSelectedSkills([...selectedSkills, skill]);
                     setSearchSkillInput("");
                     setFilteredSkills([]);
@@ -937,11 +937,11 @@ const CandidateProfile = () => {
         if (totalMonths > 0) {
             setSkillError("")
             setSearchSkillInput("");
-            if (selectedSkills.length === maxSkillNum) {
+            if (selectedSkills?.length === maxSkillNum) {
                 setSkillError(`You can select max of ${maxSkillNum} skills`);
                 setNewSkill("");
             }
-            if (selectedSkills.length < maxSkillNum) {
+            if (selectedSkills?.length < maxSkillNum) {
                 setSkillError("")
                 const foundObject = skillArray.find(item => item.skill.toLowerCase() === newSkill.toLowerCase());
                 if (foundObject) {
@@ -963,11 +963,11 @@ const CandidateProfile = () => {
     const handleEducationSearch = (e) => {
         const inputValue = e.target.value;
         setSearchEducationInput(inputValue);
-        if (inputValue.length > 0) {
+        if (inputValue?.length > 0) {
             const educations = educationArray.filter((obj) => {
                 return obj.education.toLowerCase().includes(inputValue.toLowerCase());
             });
-            if (educations.length > 0) {
+            if (educations?.length > 0) {
                 setFilteredEducation(educations);
             }
         } else {
@@ -992,11 +992,11 @@ const CandidateProfile = () => {
     const handleLocationSearch = (e) => {
         const inputValue = e.target.value;
         setSearchLocationInput(inputValue);
-        if (inputValue.length > 0) {
+        if (inputValue?.length > 0) {
             const Locations = locationArray.filter((obj) => {
                 return obj.location.toLowerCase().includes(inputValue.toLowerCase());
             });
-            if (Locations.length > 0) {
+            if (Locations?.length > 0) {
                 setFilteredLocations(Locations);
             }
         } else {
@@ -1017,11 +1017,11 @@ const CandidateProfile = () => {
     const handlePreferedLocationSearch = (e) => {
         const inputValue = e.target.value;
         setSearchPreferedLocationInput(inputValue);
-        if (inputValue.length > 0) {
+        if (inputValue?.length > 0) {
             const Locations = locationArray.filter((obj) => {
                 return obj.location.toLowerCase().includes(inputValue.toLowerCase());
             });
-            if (Locations.length > 0) {
+            if (Locations?.length > 0) {
                 setFilteredPreferedLocations(Locations);
             }
         } else {
@@ -1750,7 +1750,7 @@ const CandidateProfile = () => {
                                                                                 placeholder="Search Skill"
                                                                             />
                                                                             <div className='search-result-data-area custom'>
-                                                                                {filteredSkills.length > 0 &&
+                                                                                {filteredSkills?.length > 0 &&
                                                                                     filteredSkills.map((filterSkill) => {
                                                                                         return <div className='search-result-data custom' key={filterSkill._id} onClick={() => handleSkillClick(filterSkill.skill)}>{filterSkill.skill}</div>
                                                                                     })
@@ -1761,7 +1761,7 @@ const CandidateProfile = () => {
 
                                                                         <button className="setting-update-btn"
                                                                             onClick={handleSkillUpdate}
-                                                                            disabled={totalMonths ? (selectedSkills.length < minSkillNum || selectedSkills.length > maxSkillNum) : true}
+                                                                            disabled={totalMonths ? (selectedSkills?.length < minSkillNum || selectedSkills?.length > maxSkillNum) : true}
                                                                         >
                                                                             {loginCandidate?.skills ? 'Update' : 'Add'}
                                                                         </button>
@@ -1904,7 +1904,7 @@ const CandidateProfile = () => {
 
                                                                             <div className='search-result-data-area custom'>
 
-                                                                                {filteredEducation.length > 0 &&
+                                                                                {filteredEducation?.length > 0 &&
                                                                                     filteredEducation.map((filterEducation) => {
                                                                                         return <div className='search-result-data custom' key={filterEducation._id} onClick={() => handleEducationClick(filterEducation.education)}>
                                                                                             {filterEducation.education}
@@ -1914,7 +1914,7 @@ const CandidateProfile = () => {
                                                                             </div>
                                                                         </div>
                                                                         <button className="setting-update-btn" onClick={handleEducationUpdate}
-                                                                            disabled={selectedEducation.length === 0}>
+                                                                            disabled={selectedEducation?.length === 0}>
                                                                             {loginCandidate?.education ? 'Update' : 'Add'}
                                                                         </button>
                                                                     </div>
@@ -2011,7 +2011,7 @@ const CandidateProfile = () => {
 
                                                                             <div className='search-result-data-area custom'>
 
-                                                                                {filteredLocations.length > 0 &&
+                                                                                {filteredLocations?.length > 0 &&
                                                                                     filteredLocations.map((filterLocation) => {
                                                                                         return <div className='search-result-data custom' key={filterLocation._id} onClick={() => handleLocationClick(filterLocation.location)}>
                                                                                             {filterLocation.location}
@@ -2021,7 +2021,7 @@ const CandidateProfile = () => {
                                                                             </div>
                                                                         </div>
                                                                         <button className="setting-update-btn" onClick={handleLocationUpdate}
-                                                                            disabled={selectedLocations.length === 0}>
+                                                                            disabled={selectedLocations?.length === 0}>
                                                                             {loginCandidate?.location ? 'Update' : 'Add'}
                                                                         </button>
                                                                     </div>
@@ -2057,7 +2057,7 @@ const CandidateProfile = () => {
                                                 <hr />
                                                 <div className="row">
                                                     <div className="col-12">
-                                                    {selectedPreferedLocations && selectedPreferedLocations.length > 0 && (
+                                                    {selectedPreferedLocations && selectedPreferedLocations?.length > 0 && (
                                                         <div className='job-post-form-badge-area'>
                                                             {selectedPreferedLocations.map(selectLocation => (
                                                             <span

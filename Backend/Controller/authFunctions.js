@@ -45,7 +45,7 @@ const clientProfile = require("../Database/clientProfile");
 
 //MOBILE APP..........
 const candidateProfile = require("../Database/candidateProfile");
-
+const createNotification = require("../Database/createNotification");
 //MOBILE APP........
 
 //ATS..................................
@@ -1313,6 +1313,11 @@ const getOwnActivejobs = async (req, res) => {
 const applyingjob = async(req, res) => {
   try{
     console.log(req.body);
+    const alreadyApplyJob = await appliedJob.findOne({ jobId: req.body.jobId });
+    if (alreadyApplyJob) {
+      return res.status(400).json({ error: "You have already applied for this job" });
+    }
+
     const newAppliedJob = new appliedJob({
       ...req.body,
     });
@@ -3785,8 +3790,8 @@ const getACandidateDetail = async (req, res) => {
      
       const candidateDetail = { 
         ...cand._doc, 
-        ...resumeData._doc,
-        ...profile._doc,
+        ...(resumeData && resumeData._doc),
+        ...(profile && profile._doc),
        };
 
       const finalResponse = {
@@ -4127,6 +4132,139 @@ const getUpdatedAppliedjobs = async (req, res) => {
 
   } catch (err) {
     res.status(500).json({ error: err.message });
+  }
+};
+
+//client dashboard topbar api
+const clientDashboardTopBar = async (req, res) => {
+  try {
+    const id = req.params.companyId;
+
+    const postedActiveJobs = await activeJob.find({companyId:id});
+    const postedInActiveJobs = await jobDetail.find({companyId:id});
+    const appliedOfPostedJobs = await appliedJob.find({companyId:id});
+
+    const finalResponse = {
+        jobPosted: postedActiveJobs.length+postedInActiveJobs.length,
+        appliedOfPostedJobs: appliedOfPostedJobs.length,
+        upcomingInterviews:0,
+        newNotification:0
+    }
+
+    res.status(200).json(finalResponse);
+
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+/* create notification by candidate */
+const creatingNewNotification = async(req, res) => {
+  try {
+    console.log(req.body);
+    const newNotification = new createNotification({
+      ...req.body,
+      readStatus:false,
+    });
+    await newNotification.save();
+    console.log(newNotification);
+    return res.status(201).json(newNotification);
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+}
+
+/* get notification for receiverId */
+const getNotificationForReceiverId = async (req, res) => {
+  try {
+    const { filter } = req.query;
+    const { receiverId } = req.params;
+    let notifications;
+
+    if (filter === "read") {
+      notifications = await createNotification.find({
+        receiverId: { $in: [receiverId] },
+        readStatus: true
+      });
+    } else if (filter === "unRead") {
+      notifications = await createNotification.find({
+        receiverId: { $in: [receiverId] },
+        readStatus: false
+      });
+    } else if (filter === "all") {
+      notifications = await createNotification.find({
+        receiverId: { $in: [receiverId] },
+      });
+    } else {
+      return res.status(400).json({ error: "Invalid filter" });
+    }
+
+    if (notifications.length === 0) {
+      return res.status(404).json({
+        message: 'No notifications found for the provided receiverId.',
+      });
+    }
+
+    return res.status(200).json(notifications);
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+};
+
+
+/* read notification */
+const readingNotifications = async (req, res) => {
+  try {
+    const { notificationIdArray } = req.body;
+
+    if (!notificationIdArray || !Array.isArray(notificationIdArray)) {
+      return res.status(400).json({ error: 'Invalid input data' });
+    }
+
+    const responseArray = [];
+
+    for (const notificationId of notificationIdArray) {
+      try {
+        const existingNotification = await createNotification.findById(notificationId);
+
+        if (existingNotification) {
+          if (!existingNotification.readStatus) {
+            await createNotification.findByIdAndUpdate(
+              notificationId,
+              { $set: { readStatus: true } },
+              { new: true }
+            );
+            responseArray.push({
+              notificationId,
+              readStatus: true,
+              message: `Notification status as read for notificationId:${notificationId}`
+            });
+          } else {
+            responseArray.push({
+              notificationId,
+              readStatus: existingNotification.readStatus,
+              message: `Notification already marked as read for notificationId:${notificationId}`
+            });
+          }
+        } else {
+          responseArray.push({
+            notificationId,
+            readStatus: false,
+            message: `No notification found for notificationId:${notificationId}`
+          });
+        }
+      } catch (err) {
+        responseArray.push({
+          notificationId,
+          readStatus: false,
+          error: `Error updating notificationId:${notificationId} - ${err.message}`
+        });
+      }
+    }
+
+    res.status(200).json({ notifications: responseArray });
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
   }
 };
 
@@ -5865,6 +6003,16 @@ const jwtauth = (req, res, next) => {
   }
 }
 
+// const hashPswrd = (req, res) => {
+//   const charset = 'newpassword';
+//   let password = '';
+//   for (let i = 0; i < 12; i++) {
+//     const randomIndex = Math.floor(Math.random() * charset.length);
+//     password += charset[randomIndex];
+//   }
+//   return res.status(200).json(password);
+// }
+
 module.exports = {
    checkRole,
    userLogin,
@@ -6031,7 +6179,10 @@ module.exports = {
    getAllNewCandidateDetail,
    searchClient,
    getUpdatedAppliedjobs,
-   
+   clientDashboardTopBar,
+   creatingNewNotification,
+   getNotificationForReceiverId,
+   readingNotifications,
   
    //MOBILE APP API............
 
