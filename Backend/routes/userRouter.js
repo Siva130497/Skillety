@@ -149,7 +149,8 @@ const {
    allNonApprovalJobTableColumnData,
    allPostedJobTableColumnData,
    getAllPostedJobTableColumnData,
-   
+   getUpdatedActiveJobs,
+   getUpdatedSkillMatchJobDetail,
 
    //MOBILE APP API............
 
@@ -651,6 +652,12 @@ router.get("/all-notification/:receiverId", employeeAuth, getNotificationForRece
 
 //read notifications
 router.patch("/read-notification", employeeAuth, readingNotifications);
+
+//find all the updated active job details 
+router.get("/updated-posted-jobs", employeeAuth, getUpdatedActiveJobs);
+
+//find all the updated skill match jobs for candidateId
+router.get("/updated-skill-match-jobs/:candidateId", employeeAuth, getUpdatedSkillMatchJobDetail);
 
 //MOBILE APP API............
 

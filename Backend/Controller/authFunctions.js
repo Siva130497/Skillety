@@ -41,11 +41,12 @@ const allJobTable = require("../Database/allJobTable");
 const nonApprovalJobTable = require("../Database/nonApprovalJobTable");
 const postedJobTable = require("../Database/postedJobTable");
 const recruiterClient = require("../Database/recruiterClient");
-const clientProfile = require("../Database/clientProfile");
+
 
 //MOBILE APP..........
 const candidateProfile = require("../Database/candidateProfile");
 const createNotification = require("../Database/createNotification");
+const clientProfile = require("../Database/clientProfile");
 //MOBILE APP........
 
 //ATS..................................
@@ -4051,7 +4052,7 @@ const getAllNewCandidateDetail = async (req, res) => {
 
     const skip = (page - 1) * limit;
 
-    const cands = await candidate.find().skip(skip).limit(parseInt(limit));
+    const cands = await candidate.find().sort({ updatedAt: -1 }).skip(skip).limit(parseInt(limit));
     
     if (cands.length === 0) {
       return res.status(404).json({ error: "Candidates not found" });
@@ -4105,7 +4106,7 @@ const getAllNewCandidateDetail = async (req, res) => {
 const getUpdatedAppliedjobs = async (req, res) => {
   try {
     const {id} = req.params;
-    const appliedJobs = await appliedJob.find({ candidateId: id });
+    const appliedJobs = await appliedJob.find({ candidateId: id }).sort({ updatedAt: -1 });
     
     if (appliedJobs && appliedJobs.length > 0) { // Check if appliedJobs is not empty
 
@@ -4115,13 +4116,27 @@ const getUpdatedAppliedjobs = async (req, res) => {
           const applicationStatusForAppliedJob = await applicationStatus.findOne({ jobId: job.jobId, candidateId: id });
           const jobStatusActive = await activeJob.findOne({ id: job.jobId });
           const jobStatusInActive = await jobDetail.findOne({ id: job.jobId });
-
-          // Use job.id instead of job._doc.id
-          return {
-            ...job._doc,
-            jobStatus: jobStatusActive ? "Active" : jobStatusInActive ? "In-Active" : null,
-            applicationStatus: applicationStatusForAppliedJob ? applicationStatusForAppliedJob.status : null // Check if applicationStatusForAppliedJob is not null
-          };
+          const numOfApplicant = await appliedJob.countDocuments({jobId:job.jobId})
+          if(job.companyId){
+            const companyDetailForJob = await companyDetail.findOne({companyId:job.companyId});
+            const companyProfileForJob = await clientProfile.findOne({id:job.companyId});
+            return {
+              ...job._doc,
+              jobStatus: jobStatusActive ? "Active" : jobStatusInActive ? "In-Active" : null,
+              applicationStatus: applicationStatusForAppliedJob ? applicationStatusForAppliedJob.status : null,
+              companyName: companyDetailForJob ? companyDetailForJob.companyName : null,
+              companyProfile: companyProfileForJob ? `https://skillety-n6r1.onrender.com/images/${companyProfileForJob.image}` : null,
+              totalApplicants: numOfApplicant
+            };
+          }else{
+            // Use job.id instead of job._doc.id
+            return {
+              ...job._doc,
+              jobStatus: jobStatusActive ? "Active" : jobStatusInActive ? "In-Active" : null,
+              applicationStatus: applicationStatusForAppliedJob ? applicationStatusForAppliedJob.status : null,
+              totalApplicants: numOfApplicant
+            };
+          }
         })
       );
 
@@ -4267,6 +4282,126 @@ const readingNotifications = async (req, res) => {
     return res.status(500).json({ error: err.message });
   }
 };
+
+/* get all updated posted jobs */
+const getUpdatedActiveJobs = async (req, res) => {
+  try {
+    // Use sort to order by createdAt in descending order (-1)
+    const activeJobs = await activeJob.find().sort({ updatedAt: -1 });
+    
+    if(activeJobs.length > 0) {
+      const updatedActiveJobs = await Promise.all(
+        activeJobs.map(async (job) => {
+          if(job.companyId){
+            const companyDetailForJob = await companyDetail.findOne({ companyId: job.companyId });
+            const companyProfileForJob = await clientProfile.findOne({ id: job.companyId });
+            return {
+              ...job.toObject(),
+              companyName: (companyDetailForJob ? companyDetailForJob.companyName : null),
+              companyProfile: (companyProfileForJob ? `https://skillety-n6r1.onrender.com/images/${companyProfileForJob.image}` : null)
+            };
+          }else{
+            return {
+              ...job.toObject()
+            }
+          }
+          
+        })
+      );
+      res.status(200).json(updatedActiveJobs);
+    } else {
+      return res.status(404).json({ error: "No jobs found!" });
+    }
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+const getUpdatedSkillMatchJobDetail = async (req, res) => {
+  try {
+    const id = req.params.candidateId;
+    const candidateDetail = await candidate.findOne({ id });
+    const jobDetails = await activeJob.find().sort({ updatedAt: -1 });
+
+    // Function to calculate match percentage
+    const calculateMatchPercentage = (skills1, skills2) => {
+      const matchingSkills = skills2.filter(skill => skills1.includes(skill));
+      return (matchingSkills.length / skills1.length) * 100;
+    };
+
+    // Array to store the final comparison results
+    const comparisonResults = [];
+
+    // Loop through each job detail
+    for (const obj of jobDetails) {
+      // Calculate match percentage
+      const percentage = calculateMatchPercentage(obj.skills, candidateDetail.skills);
+
+      // Initialize result object
+      const result = {
+        jobId: obj.id,
+        jobRole: obj.jobRole,
+        jobMandatorySkills: obj.skills,
+        jobLocation: obj.location,
+        jobDepartment: obj.department,
+        role: obj.role,
+        jobExperience: `${obj.minExperience} - ${obj.maxExperience} years experience`,
+        jobCategory: obj.jobCategory,
+        jobDescription: obj.jobDescription,
+        salary: `${obj.currencyType}${obj.minSalary} - ${obj.currencyType}${obj.maxSalary} `,
+        industry: obj.industry,
+        education: obj.education,
+        workMode: obj.workMode,
+        percentage: Math.round(percentage),
+      };
+
+      // Check if job detail has companyId
+      if (obj.companyId) {
+        // Find company details by companyId
+        const companyDetails = await companyDetail.findOne({ companyId: obj.companyId });
+
+        // If company details found, add companyName and companyProfile
+        if (companyDetails) {
+          result.companyName = companyDetails.companyName;
+
+          // Find client profile by companyId to get companyProfile
+          const companyProfile = await clientProfile.findOne({ id: obj.companyId });
+          if (companyProfile) {
+            result.companyProfile = `https://skillety-n6r1.onrender.com/images/${companyProfile.image}`;
+          }
+        }
+      }
+
+      if (obj.recruiterId || obj.managerId) {
+        obj.recruiterId && (result.recruiterId = obj.recruiterId);
+        obj.managerId && (result.managerId = obj.managerId);
+      } else if (obj.clientId) {
+        result.clientId = obj.clientId;
+        result.companyId = obj.companyId;
+      } else if (obj.clientStaffId) {
+        result.clientStaffId = obj.clientStaffId;
+        result.companyId = obj.companyId;
+      }
+
+      // Find applicant count by jobId from appliedJob schema
+      const applicantCount = await appliedJob.countDocuments({ jobId: obj.id });
+      result.applicantCount = applicantCount;
+
+      // Push result to comparisonResults array
+      comparisonResults.push(result);
+    }
+
+    // Sort comparison results by percentage in descending order
+    comparisonResults.sort((a, b) => b.percentage - a.percentage);
+
+    // Send response with comparisonResults
+    res.status(200).json(comparisonResults);
+  } catch (err) {
+    // Handle errors
+    res.status(500).json({ error: err.message });
+  }
+};
+
 
 /* get data for graph candidate */
 const getDataForCandidateGraph = async (req, res) => {
@@ -6163,6 +6298,7 @@ module.exports = {
    allNonApprovalJobTableColumnData,
    allPostedJobTableColumnData,
    getAllPostedJobTableColumnData,
+   getUpdatedSkillMatchJobDetail,
 
    //MOBILE APP API............
 
@@ -6183,6 +6319,7 @@ module.exports = {
    creatingNewNotification,
    getNotificationForReceiverId,
    readingNotifications,
+   getUpdatedActiveJobs,
   
    //MOBILE APP API............
 
