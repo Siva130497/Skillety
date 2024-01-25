@@ -149,9 +149,7 @@ const {
    allNonApprovalJobTableColumnData,
    allPostedJobTableColumnData,
    getAllPostedJobTableColumnData,
-   getUpdatedActiveJobs,
-   getUpdatedSkillMatchJobDetail,
-
+   
    //MOBILE APP API............
 
    candidateDashboardTopBar,
@@ -171,7 +169,10 @@ const {
    creatingNewNotification,
    getNotificationForReceiverId,
    readingNotifications,
-   
+   getUpdatedActiveJobs,
+   getUpdatedSkillMatchJobDetail,
+   getDataForCandidateGraph,
+   getDataForClientGraph,
 
    //MOBILE APP API............
 
@@ -658,6 +659,12 @@ router.get("/updated-posted-jobs", employeeAuth, getUpdatedActiveJobs);
 
 //find all the updated skill match jobs for candidateId
 router.get("/updated-skill-match-jobs/:candidateId", employeeAuth, getUpdatedSkillMatchJobDetail);
+
+//fetch data for candidate dashboard graph
+router.get("/candidate-dashboard-chart/:candidateId", employeeAuth, getDataForCandidateGraph);
+
+//fetch data for client dashboard graph
+router.get("/company-dashboard-chart/:companyId", employeeAuth, getDataForClientGraph);
 
 //MOBILE APP API............
 
