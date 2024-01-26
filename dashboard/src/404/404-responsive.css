@@ -1,0 +1,22 @@
+@media screen and (min-width: 992px) and (max-width: 1399px) {
+    .not-found-image-area .not-found-image {
+        width: 48% !important;
+    }
+}
+
+@media (max-width:991.5px) {
+    .not-found-image-area .not-found-image {
+        width: 80% !important;
+    }
+}
+
+@media (max-width:573px) {
+    .not-found-text {
+        font-size: 20px;
+    }
+
+    .not-found-sub-text {
+        font-size: 15px;
+    
+    }
+}

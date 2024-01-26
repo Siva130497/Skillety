@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react';
 import { useEffect } from 'react';
 import Layout from '../../components/Layout';
 import Footer from '../../components/Footer';
+import ErrorPage from '../../404/404';
 import './CandidateDashboard.css';
 import './CandidateDashboard-responsive.css';
 import $ from 'jquery';
@@ -965,11 +966,9 @@ const ClientDashboard = () => {
 
         <Footer />
       </div>}
-      {pageNotFound && <div>
-        <h1>404</h1>
-        <p>Not Found</p>
-        <small>The resource requested could not be found on this server!</small>
-      </div>}
+      {pageNotFound &&
+        <ErrorPage />
+      }
     </div>
   )
 }
