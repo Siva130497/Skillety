@@ -1314,7 +1314,7 @@ const getOwnActivejobs = async (req, res) => {
 const applyingjob = async(req, res) => {
   try{
     console.log(req.body);
-    const alreadyApplyJob = await appliedJob.findOne({ jobId: req.body.jobId });
+    const alreadyApplyJob = await appliedJob.findOne({ jobId: req.body.jobId, candidateId:req.body.candidateId});
     if (alreadyApplyJob) {
       return res.status(400).json({ error: "You have already applied for this job" });
     }
