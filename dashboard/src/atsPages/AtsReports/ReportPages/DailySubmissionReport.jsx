@@ -23,6 +23,62 @@ const DailySubmissionReport = () => {
     const [period, setPeriod] = useState("");
     const [employeeReportDetail, setEmployeeReportDetail] = useState([]);
     const [x, setX] = useState([0, 3]);
+    
+    const date = [
+        {
+            date: "2024-01-01"
+        },
+        {
+            date: "2024-01-02"
+        },
+        {
+            date: "2024-01-04"
+        }
+    ]
+    const data = [
+        {
+            name:"jfhj",
+            job:[
+                {
+                    jName:"kfjv",
+                    cName:"fkgk",
+                    joinCand:[
+                        {
+                            date: "2024-01-01",
+                            numOfJoinCandidates: 1
+                          },
+                          {
+                            date: "2024-01-02",
+                            numOfJoinCandidates: 2
+                          },
+                          {
+                            date: "2024-01-03",
+                            numOfJoinCandidates: 3
+                          }
+                    ]
+                },
+                {
+                    jName:"kfjv",
+                    cName:"fkgk",
+                    joinCand:[
+                        {
+                            date: "2024-01-01",
+                            numOfJoinCandidates: 0
+                          },
+                          {
+                            date: "2024-01-02",
+                            numOfJoinCandidates: 0
+                          },
+                          {
+                            date: "2024-01-03",
+                            numOfJoinCandidates: 0
+                          }
+                    ]
+                }
+
+            ]
+        }
+    ]
 
     useEffect(() => {
         setatsToken(JSON.parse(localStorage.getItem('atsToken')))
@@ -198,59 +254,59 @@ const DailySubmissionReport = () => {
                                                             <th className='report-table-head-skew'>
                                                                 <div><span>Job Name</span></div>
                                                             </th>
-                                                            {/* <th className='report-table-head-skew'>
-                                                                <div><span>No. of Positions</span></div>
-                                                            </th> */}
-                                                            {/* <th className='report-table-head-skew'>
-                                                                <div><span>No. of Interviews</span></div>
-                                                            </th> */}
-                                                            {/* <th className='report-table-head-skew'>
-                                                                <div><span>Placements</span></div>
-                                                            </th> */}
+                                                            
                                                             <th className='report-table-head-skew'>
                                                                 <div><span>Client Name</span></div>
                                                             </th>
 
-                                                            {/* customize for date */}
-                                                            {employeeReportDetail.map(emplyReportDetail=>{
-                                                                emplyReportDetail?.createdJobs.map(jobWithJoinedCand=>{
-                                                                    jobWithJoinedCand?.joinedCands.map(dateWithNumOfJoinCand=>{
-                                                                        return(
-                                                                            <th className='report-table-head-skew'>
-                                                                                <div><span>{dateWithNumOfJoinCand?.date}</span></div>
-                                                                            </th>
-                                                                        )
-                                                                    })
-                                                                })
-                                                            })}
+                                                        {date.map(date=>
+                                                                {return(
+                                                                    <th className='report-table-head-skew'>
+                                                                        <div><span>{date?.date}</span></div>
+                                                                    </th>
+                                                                )}
+                                                            )}
+                                                            
                                                             <th className='report-table-head-skew'>
                                                                 <div><span>Total</span></div>
                                                             </th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        {employeeReportDetail.map(emplyReportDetail=>{
-                                                            return(
-                                                                <tr className='report-table-row with-border'>
-                                                                    <td className='report-table-data text-center' rowSpan={2}>{emplyReportDetail.name}</td>
-                                                                    <td className='report-table-data text-center'>QA Automation #2277</td>
-                                                                    {/* <td className='report-table-data text-center'>1</td>
-                                                                    <td className='report-table-data text-center'>0</td>
-                                                                    <td className='report-table-data text-center'>0</td> */}
-                                                                    <td className='report-table-data text-center'>O9 SOLUTIONS MANAGEMENT INDIA PRIVATE LIMITED</td>
-                                                                    <td className='report-table-data text-center'>0</td>
-                                                                    <td className='report-table-data text-center'>0</td>
-                                                                    <td className='report-table-data text-center'>0</td>
-                                                                    <td className='report-table-data text-center'>0</td>
-                                                                    <td className='report-table-data text-center'>0</td>
-                                                                    <td className='report-table-data text-center'>0</td>
-                                                                    <td className='report-table-data text-center'>2</td>
-                                                                </tr>
-                                                            )
+                                                    {data.map(dat => (
+                                                        dat.job.map((job, jobIndex) => {
+                                                            const totalCandidatesByDate = date.map(dateObj => {
+                                                            const joinCandObj = job.joinCand.find(cand => cand.date === dateObj.date);
+                                                            return joinCandObj ? joinCandObj.numOfJoinCandidates : 0;
+                                                            });
+                                                            const totalCandidates = totalCandidatesByDate.reduce((sum, numOfJoinCandidates) => sum + numOfJoinCandidates, 0);
+                                                            return (
+                                                            <tr key={jobIndex} className='report-table-row with-border'>
+                                                                {jobIndex === 0 && (
+                                                                <td className='report-table-data' rowSpan={dat.job.length}>{dat.name}</td>
+                                                                )}
+                                                                <td className='report-table-data'>{job.jName}</td>
+                                                                <td className='report-table-data'>{job.cName}</td>
+                                                                {date.map((dateObj, dateIndex) => {
+                                                                const joinCandObj = job.joinCand.find(cand => cand.date === dateObj.date);
+                                                                return (
+                                                                    <td key={dateIndex} className='report-table-data text-center'>
+                                                                    {joinCandObj ? joinCandObj.numOfJoinCandidates : 0}
+                                                                    </td>
+                                                                );
+                                                                })}
+                                                                <td className='report-table-data text-center'>{totalCandidates}</td>
+                                                            </tr>
+                                                            );
+                                                        })
+                                                        ))}
+
+                                                        {/* <tr className='report-table-row with-border'>
+                                                        <td className='report-table-data text-center'>Total</td> 
+
+                                                        </tr>*/}
                                                         
-                                                        })}
-                                                        
-                                                        <tr className='report-table-row with-border'>
+                                                        {/* <tr className='report-table-row with-border'>
                                                             <td className='report-table-data text-center'>Total</td>
                                                             <td className='report-table-data text-center'>1</td>
                                                             <td className='report-table-data text-center'>0</td>
@@ -263,9 +319,9 @@ const DailySubmissionReport = () => {
                                                             <td className='report-table-data text-center'>0</td>
                                                             <td className='report-table-data text-center'>0</td>
                                                             <td className='report-table-data text-center'>2</td>
-                                                        </tr>
+                                                        </tr> */}
                                                     </tbody>
-                                                    <tfoot>
+                                                    {/* <tfoot>
                                                         <tr className='report-table-row with-border table-foot'>
                                                             <td className='report-table-data text-center' colSpan={2}>Total</td>
                                                             <td className='report-table-data text-center'>1</td>
@@ -280,7 +336,7 @@ const DailySubmissionReport = () => {
                                                             <td className='report-table-data text-center'>0</td>
                                                             <td className='report-table-data text-center'>2</td>
                                                         </tr>
-                                                    </tfoot>
+                                                    </tfoot> */}
                                                 </table>
                                             </div>
 

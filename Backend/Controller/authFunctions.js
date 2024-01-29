@@ -1458,9 +1458,18 @@ const deleteAppliedJob = async(req, res) => {
     const candidateId = req.params.candidateId;
     const jobId = req.params.jobId;
     console.log(candidateId, jobId)
+    const wantToDelete = await appliedJob.findOne({candidateId:candidateId, jobId:jobId});
+    if(!wantToDelete){
+      return res.status(404).json({error:"Not Found!"});
+    }
     const deleteAppliedJob = await appliedJob.deleteOne({candidateId:candidateId, jobId:jobId});
     
-    res.status(204).json(deleteAppliedJob); 
+    if (deleteAppliedJob.deletedCount === 1) {
+      console.log("job deleted successfully")
+      return res.status(200).json({ message: 'job deleted successfully' });
+    } else {
+      return res.status(500).json({ error: 'Failed to delete job' });
+    } 
   }catch(err) {
     res.status(500).json({error: err.message})
   }
@@ -4226,7 +4235,6 @@ const getNotificationForReceiverId = async (req, res) => {
   }
 };
 
-
 /* read notification */
 const readingNotifications = async (req, res) => {
   try {
@@ -4828,6 +4836,7 @@ const getDataForClientGraph = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
 /* MOBILE APP TEAM NEW API */
 
 /* ATS.................. */
