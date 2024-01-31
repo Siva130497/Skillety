@@ -149,6 +149,7 @@ const {
    allNonApprovalJobTableColumnData,
    allPostedJobTableColumnData,
    getAllPostedJobTableColumnData,
+   getUpdatedAppliedOfPostedJobs,
    
    //MOBILE APP API............
 
@@ -173,6 +174,7 @@ const {
    getUpdatedSkillMatchJobDetail,
    getDataForCandidateGraph,
    getDataForClientGraph,
+   
 
    //MOBILE APP API............
 
@@ -204,7 +206,10 @@ const {
    deletingOfflineCandidate,
    getDataForReport,
    getDailySubmissionReportData,
-
+   getTurnAroundReport,
+   getCandidateSourceReport,
+   getClientReport,
+   allAtsClients,
    //ATS...............
   
 } = require("../Controller/authFunctions");
@@ -666,6 +671,9 @@ router.get("/candidate-dashboard-chart/:candidateId", employeeAuth, getDataForCa
 //fetch data for client dashboard graph
 router.get("/company-dashboard-chart/:companyId", employeeAuth, getDataForClientGraph);
 
+// get all applied of posted jobs
+router.get("/updated-applied-posted-jobs/:id", employeeAuth, getUpdatedAppliedOfPostedJobs);
+
 //MOBILE APP API............
 
 //ATS......................................
@@ -752,6 +760,18 @@ router.get("/find-data-for-report", employeeAuth, getDataForReport);
 
 //get daily submission report
 router.get("/find-daily-submission-report", employeeAuth, getDailySubmissionReportData);
+
+//get turn around report
+router.get("/find-turn-around-report", employeeAuth, getTurnAroundReport);
+
+//get candidate source report
+router.get("/candidate-source-report", employeeAuth, getCandidateSourceReport);
+
+//get client report
+router.get("/client-report", employeeAuth, getClientReport);
+
+//find all the ats client
+router.get("/ats-clients", employeeAuth, allAtsClients);
 
 //ATS..................
 
