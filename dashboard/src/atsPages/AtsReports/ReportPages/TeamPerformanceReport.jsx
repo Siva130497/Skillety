@@ -13,7 +13,7 @@ import * as XLSX from 'xlsx';
 import axios from 'axios';
 
 const TeamPerformanceReport = () => {
-    const [filter, setFilter] = useState([]);
+    const [filter, setFilter] = useState("");
     const navigate = useNavigate();
     const [selectedFromDate, setSelectedFromDate] = useState(new Date().toISOString().split('T')[0]);
     const [selectedToDate, setSelectedToDate] = useState(new Date().toISOString().split('T')[0]);
@@ -25,6 +25,7 @@ const TeamPerformanceReport = () => {
     const [x, setX] = useState([0, 3]);
     const [y, setY] = useState([0, 5]);
     const [loading, setLoading] = useState(false);
+    const [noData, setNoData] = useState(false);
 
     const handleBackButtonClick = () => {
         navigate(-1);
@@ -55,6 +56,7 @@ const TeamPerformanceReport = () => {
 
     const runReport = () => {
         setLoading(true);
+        setNoData(false);
         setEmployeeReportDetail([]);
         if (period) {
             axios.get(`https://skillety-n6r1.onrender.com/find-data-for-report?period=${period}`, {
@@ -72,6 +74,7 @@ const TeamPerformanceReport = () => {
                 .catch(err => {
                     console.log(err);
                     setLoading(false)
+                    setNoData(true)
                 })
         }
 
@@ -194,10 +197,11 @@ const TeamPerformanceReport = () => {
 
                                             <div className="col-12 col-lg-3 col-md-6 mb-4 mb-md-3 mb-lg-0">
                                                 <button className='run-report-button'
-                                                    onClick={runReport}>Run Report</button>                                        </div>
+                                                    onClick={runReport}
+                                                    disabled={filter === ""}>Run Report</button>                                        </div>
                                         </div>
 
-                                        {employeeReportDetail.length > 0 ?
+                                        {employeeReportDetail.length > 0 &&
                                             <div className="report-view-section">
                                                 <div className="table-report-head">
                                                     Performance Analysis
@@ -338,8 +342,8 @@ const TeamPerformanceReport = () => {
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div> :
-                                            <div className="report-no-data-found-area">
+                                            </div> }
+                                            {noData && <div className="report-no-data-found-area">
                                                 <img src="../assets/img/no-data/No-data-found.webp" className='report-no-data-found-img' alt="" />
                                                 <div className='report-no-data-found-text'>No data found.</div>
                                                 <div className='report-no-data-found-sub-text'>Try to create the information first.</div>

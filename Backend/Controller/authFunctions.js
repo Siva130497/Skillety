@@ -4837,6 +4837,78 @@ const getDataForClientGraph = async (req, res) => {
   }
 };
 
+/* get updated applied jobs from posted jobs  */
+const getUpdatedAppliedOfPostedJobs = async (req, res) => {
+  try {
+    const id = req.params.id;
+    if(id){
+        const appliedOfPostedJobs = await appliedJob.find({ companyId: id });
+
+        if (appliedOfPostedJobs.length > 0) {
+          const appliedJobsDetailOfPosted = await Promise.all(
+            appliedOfPostedJobs.map(async (job) => {
+              try {
+                const appliedCand = await candidate.findOne({ id: job.candidateId });
+                const resumeData = await resume.findOne({ id: job.candidateId });
+                const profile = await candidateProfile.findOne({ id: job.candidateId });
+                
+                return {
+                  jobId: job.jobId,
+                  date: new Date(job.createdAt).toISOString().split('T')[0],
+                  time: new Date(job.createdAt).toISOString().split('T')[1].split('.')[0],
+                  job: {
+                    jobRole: job.jobRole
+                  },
+                  client: {
+                    clientId: job.clientId,
+                    companyId: job.companyId
+                  },
+                  candidate: {
+                    candidateId: job.candidateId,
+                    lastProfileUpdateDate: new Date(appliedCand.updatedAt).toISOString().split('T')[0],
+                    avatar: profile && profile.image ? `https://skillety-n6r1.onrender.com/candidate_profile/${profile.image}` : null,
+                    joinPeriod: appliedCand.days,
+                    lastDayWorked: appliedCand.selectedDate,
+                    fName: appliedCand.firstName,
+                    lName: appliedCand.lastName,
+                    email: appliedCand.email,
+                    phone: appliedCand.phone,
+                    preferedLocations: appliedCand.preferedlocations ? appliedCand.preferedlocations.join(", ") : '',
+                    cv: resumeData && resumeData.file ? `https://skillety-n6r1.onrender.com/files/${resumeData.file}` : null,
+                    currentDesignation: appliedCand.designation ? appliedCand.designation[0] : '',
+                    currentCompany: appliedCand.companyName,
+                    currentLocation: appliedCand.location,
+                    expYr: appliedCand.year,
+                    expMonth: appliedCand.month,
+                    skills: appliedCand.skills,
+                    educations: appliedCand.education,
+                    profileHeadline: appliedCand.profileHeadline
+                  }
+                };
+              } catch (error) {
+                console.error("Error in processing job:", error);
+                return null; // or handle error as per your requirement
+              }
+            })
+          );
+
+          // Filter out null values if any errors occurred during processing
+          const filteredJobsDetail = appliedJobsDetailOfPosted.filter(job => job !== null);
+
+          return res.status(200).json(filteredJobsDetail);
+        } else {
+          return res.status(404).json({ message: 'No applied jobs found for your posted' });
+        }
+    }else{
+      return res.status(400).json({error:"Null Id parameter"})
+    }
+  } catch (err) {
+    console.error("Server error:", err);
+    return res.status(500).json({ error: err.message });
+  }
+};
+
+
 /* MOBILE APP TEAM NEW API */
 
 /* ATS.................. */
@@ -6241,6 +6313,803 @@ const getDailySubmissionReportData = async (req, res) => {
   }
 };
 
+const getTurnAroundReport = async (req, res) => {
+  try {
+    let filter;
+
+    const currentDate = new Date();
+    const startOfWeek = new Date(currentDate);
+    startOfWeek.setHours(0, 0, 0, 0);
+    startOfWeek.setDate(currentDate.getDate() - currentDate.getDay());
+
+    const endOfWeek = new Date(startOfWeek);
+    endOfWeek.setDate(startOfWeek.getDate() + 7);
+
+    const startOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+    const endOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
+
+    const endOfLastMonth = new Date(startOfMonth);
+    endOfLastMonth.setDate(startOfMonth.getDate() - 1); // Move to the last day of the previous month
+
+    const startOfLastMonth = new Date(endOfLastMonth.getFullYear(), endOfLastMonth.getMonth(), 1);
+
+    const startOfYear = new Date(currentDate.getFullYear(), 0, 1);
+    const endOfYear = new Date(currentDate.getFullYear(), 11, 31, 23, 59, 59, 999);
+
+    const startOfLastYear = new Date(currentDate.getFullYear() - 1, 0, 1);
+    const endOfLastYear = new Date(currentDate.getFullYear(), 0, 0);
+
+    const requestParam = req.query.period || "invalidParam";
+
+    if (requestParam === "invalidParam") {
+      return res.status(400).json({ error: "Invalid filter period" });
+    }
+
+    if (requestParam === "thisWeek" || requestParam === "thisMonth" || requestParam === "thisYear" || 
+        requestParam === "lastWeek" || requestParam === "lastMonth" || requestParam === "lastYear") {
+        switch (requestParam) {
+          case "thisWeek":
+            filter = {
+              $gte: startOfWeek,
+              $lt: endOfWeek,
+            };
+            break;
+          case "thisMonth":
+            filter = {
+              $gte: startOfMonth,
+              $lt: endOfMonth,
+            };
+            break;
+          case "thisYear":
+            filter = {
+              $gte: startOfYear,
+              $lt: endOfYear,
+            };
+            break;
+          case "lastWeek":
+            filter = {
+              $gte: new Date(startOfWeek.getTime() - 7 * 24 * 60 * 60 * 1000), // Start of the previous week
+              $lt: startOfWeek, // End of the current week
+          }
+            break;
+          case "lastMonth":
+            filter = {
+              $gte: startOfLastMonth,
+              $lt: startOfMonth,
+          }
+            break;
+          case "lastYear":
+            filter = {
+              $gte: startOfLastYear,
+              $lt: endOfLastYear,
+          };
+            break;
+          default:
+            
+            break;
+        }
+      } else if (requestParam.match(/^\d{4}-\d{2}-\d{2}to\d{4}-\d{2}-\d{2}$/)) {
+        // Custom date format (ISO 8601)
+        const [startDateString, endDateString] = requestParam.split("to");
+        const customStartDate = new Date(startDateString);
+        const customEndDate = new Date(endDateString);
+  
+        if (isNaN(customStartDate.getTime()) || isNaN(customEndDate.getTime())) {
+          return res.status(400).json({ error: "Invalid date format in custom period" });
+        }
+  
+        filter = {
+          $gte: customStartDate,
+          $lt: customEndDate,
+        };
+      } else {
+        return res.status(400).json({ error: "Invalid filter period" });
+      }
+
+  if (filter && filter.$gte instanceof Date && filter.$lt instanceof Date) {
+    const query = {
+      createdAt: filter,
+      managerId: { $exists: true, $ne: null }
+    };
+    
+    let thisWeekActiveJobsForSearchTerm;
+    let thisWeekInActiveJobsForSearchTerm;
+    const {jobRole} = req.query;
+    
+    if (jobRole) {
+      query.jobRole = { $in: [jobRole] };
+    } 
+      
+    thisWeekActiveJobsForSearchTerm = await activeJob.find(query);
+    thisWeekInActiveJobsForSearchTerm = await jobDetail.find(query);
+    
+    if (
+      thisWeekActiveJobsForSearchTerm.length >0 ||
+      thisWeekInActiveJobsForSearchTerm.length >0 
+    ) {
+
+      const allJobs = [...thisWeekActiveJobsForSearchTerm, ...thisWeekInActiveJobsForSearchTerm]
+
+      const employeeData = await Promise.all(
+        allJobs.map(async (job) => {
+          
+          const client = await offlineClient.findOne({ clientId: job.clientId });
+          const assignedCands = await assignCandidateForJobDetail.countDocuments({ jobId: job.id });
+          const selectedCands = await selectedCandidateForJob.countDocuments({ jobId: job.id });
+          
+          const employeeReport = {
+            jobName: job.jobRole[0],
+            clientName: client ? client.companyName : null,
+            createdDate: new Date(job.updatedAt).toLocaleDateString(
+              "en-GB",
+              {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric",
+              }
+            ),
+            asiignedCands: assignedCands + selectedCands
+          };
+          return employeeReport;
+        })
+      );
+
+      res.status(200).json(employeeData);
+    } else {
+      return res
+        .status(404)
+        .json({ error: `No report details found for ${requestParam}!` });
+    }
+  } else {
+    return res.status(400).json({ error: "Invalid date filter" });
+  }
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+const getCandidateSourceReport = async (req, res) => {
+  try {
+    let filter;
+
+    const currentDate = new Date();
+    const startOfWeek = new Date(currentDate);
+    startOfWeek.setHours(0, 0, 0, 0);
+    startOfWeek.setDate(currentDate.getDate() - currentDate.getDay());
+
+    const endOfWeek = new Date(startOfWeek);
+    endOfWeek.setDate(startOfWeek.getDate() + 7);
+
+    const startOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+    const endOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
+
+    const endOfLastMonth = new Date(startOfMonth);
+    endOfLastMonth.setDate(startOfMonth.getDate() - 1); // Move to the last day of the previous month
+
+    const startOfLastMonth = new Date(endOfLastMonth.getFullYear(), endOfLastMonth.getMonth(), 1);
+
+    const startOfYear = new Date(currentDate.getFullYear(), 0, 1);
+    const endOfYear = new Date(currentDate.getFullYear(), 11, 31, 23, 59, 59, 999);
+
+    const startOfLastYear = new Date(currentDate.getFullYear() - 1, 0, 1);
+    const endOfLastYear = new Date(currentDate.getFullYear(), 0, 0);
+
+    const requestParam = req.query.period || "invalidParam";
+
+    if (requestParam === "invalidParam") {
+      return res.status(400).json({ error: "Invalid filter period" });
+    }
+
+    if (requestParam === "thisWeek" || requestParam === "thisMonth" || 
+        requestParam === "lastWeek" || requestParam === "lastMonth" ) {
+        switch (requestParam) {
+          case "thisWeek":
+            filter = {
+              $gte: startOfWeek,
+              $lt: endOfWeek,
+            };
+            break;
+          case "thisMonth":
+            filter = {
+              $gte: startOfMonth,
+              $lt: endOfMonth,
+            };
+            break;
+          case "lastWeek":
+            filter = {
+              $gte: new Date(startOfWeek.getTime() - 7 * 24 * 60 * 60 * 1000), // Start of the previous week
+              $lt: startOfWeek, // End of the current week
+          }
+            break;
+          case "lastMonth":
+            filter = {
+              $gte: startOfLastMonth,
+              $lt: startOfMonth,
+          }
+            break;
+          default:
+            
+            break;
+        }
+      } else if (requestParam.match(/^\d{4}-\d{2}-\d{2}to\d{4}-\d{2}-\d{2}$/)) {
+        // Custom date format (ISO 8601)
+        const [startDateString, endDateString] = requestParam.split("to");
+        const customStartDate = new Date(startDateString);
+        const customEndDate = new Date(endDateString);
+  
+        if (isNaN(customStartDate.getTime()) || isNaN(customEndDate.getTime())) {
+          return res.status(400).json({ error: "Invalid date format in custom period" });
+        }
+  
+        filter = {
+          $gte: customStartDate,
+          $lt: customEndDate,
+        };
+      } else {
+        return res.status(400).json({ error: "Invalid filter period" });
+      }
+
+  if (filter && filter.$gte instanceof Date && filter.$lt instanceof Date) {
+    const query = {
+      createdAt: filter
+    };
+    const thisWeekCandidateCreate = await offlineCand.find(query);
+    const thisWeekAssignedCand = await assignCandidateForJobDetail.find(query);
+    const thisWeekSelectedCand = await selectedCandidateForJob.find(query);
+      
+    if (
+        thisWeekCandidateCreate.length >0 ||
+        thisWeekAssignedCand.length >0 ||
+        thisWeekSelectedCand.length >0 
+    ) {
+      const { type } = req.query;
+      const getFormattedDate = date => {
+        const formattedDate = new Date(date);
+        return `${formattedDate.getDate().toString().padStart(2, '0')}-${(formattedDate.getMonth() + 1).toString().padStart(2, '0')}-${formattedDate.getFullYear()}`;
+      };
+
+      const findOrCreateResultObject = (date, array) => {
+          const formattedDate = getFormattedDate(date);
+          let resultObj = array.find(obj => obj.date === formattedDate);
+          if (!resultObj) {
+              resultObj = { date: formattedDate, createdCands: 0, assignedCands: 0 };
+              array.push(resultObj);
+          }
+          return resultObj;
+      };
+      if(type === "summary"){
+        const employeeData = {
+          candidateAssigned: thisWeekAssignedCand.length + thisWeekSelectedCand.length,
+          candidateCreated: thisWeekCandidateCreate.length
+        }
+    
+        res.status(200).json(employeeData);
+        
+      }else if(type === "userWise"){
+  
+      //   const allEmployee = await employee.find({
+      //     role: { $in: ["Super-Admin", "Manager", "Recruiter-ATS"] }
+      //   });
+  
+      //   const employeeData = await Promise.all(
+      //     allEmployee.map(async (empl) => {
+      //         const thisEmployeeCreatedCands = thisWeekCandidateCreate.filter(cand => cand.managerId === empl.id);
+              
+      //         const assignedCandsFiltered = await Promise.all(thisWeekAssignedCand.filter(async (cand) => {
+      //           const correspondingJob = await activeJob.findOne({ id: cand.jobId }) || await jobDetail.findOne({ id: cand.jobId });
+      //           return correspondingJob && (correspondingJob.managerId === empl.id || correspondingJob.recruiterId === empl.id);
+      //       }));
+            
+      //       const selectedCandsFiltered = await Promise.all(thisWeekSelectedCand.filter(async (cand) => {
+      //           const correspondingJob = await activeJob.findOne({ id: cand.jobId }) || await jobDetail.findOne({ id: cand.jobId });
+      //           return correspondingJob && (correspondingJob.managerId === empl.id || correspondingJob.recruiterId === empl.id);
+      //       }));
+            
+      //       // Combine the filtered arrays and remove duplicates based on candidateId
+      //       const uniqueCandidates = [...new Map([...assignedCandsFiltered, ...selectedCandsFiltered].map(candidate => [`${candidate.candidateId}-${candidate.jobId}`, candidate])).values()];
+
+    
+      //         const result = [];
+              
+      //         // Function to get the formatted date
+      //         const getFormattedDate = date => {
+      //             const formattedDate = new Date(date);
+      //             return `${formattedDate.getDate().toString().padStart(2, '0')}-${(formattedDate.getMonth() + 1).toString().padStart(2, '0')}-${formattedDate.getFullYear()}`;
+      //         };
+              
+      //         // Function to find or create a result object for a given date
+      //         const findOrCreateResultObject = (date, array) => {
+      //             const formattedDate = getFormattedDate(date);
+      //             let resultObj = array.find(obj => obj.date === formattedDate);
+      //             if (!resultObj) {
+      //                 resultObj = { date: formattedDate, createdCands: 0, assignedCands: 0 };
+      //                 array.push(resultObj);
+      //             }
+      //             return resultObj;
+      //         };
+              
+      //         // Process created candidates
+      //         thisEmployeeCreatedCands.forEach(candidate => {
+      //             const resultObj = findOrCreateResultObject(candidate.createdAt, result);
+      //             resultObj.createdCands++;
+      //         });
+              
+      //         // Process assigned and selected candidates
+      //         uniqueCandidates.forEach(candidate => {
+      //             const resultObj = findOrCreateResultObject(candidate.createdAt, result);
+      //             resultObj.assignedCands++;
+      //         });
+              
+      //         return {
+      //             name: empl.name,
+      //             createdCands: thisEmployeeCreatedCands.length,
+      //             assignedCands: uniqueCandidates.length,
+      //             dateWiseResult: result
+      //         };
+      //     })
+      // );
+      
+      // res.status(200).json(employeeData);
+      
+      const allEmployee = await employee.find({
+        role: { $in: ["Super-Admin", "Manager", "Recruiter-ATS"] }
+    });
+
+    const uniqueCandidates = [...new Map([...thisWeekAssignedCand, ...thisWeekSelectedCand].map(candidate => [`${candidate.candidateId}-${candidate.jobId}`, candidate])).values()];
+    
+    const employeeData = await Promise.all(
+        allEmployee.map(async (empl) => {
+            const thisEmployeeCreatedCands = thisWeekCandidateCreate.filter(cand => cand.managerId === empl.id);
+            
+            const assignedCandsFiltered = await Promise.all(uniqueCandidates.map(async (cand) => {
+                const correspondingJob = await activeJob.findOne({ id: cand.jobId }) || await jobDetail.findOne({ id: cand.jobId });
+                return correspondingJob && (correspondingJob.managerId === empl.id || correspondingJob.recruiterId === empl.id);
+            }));
+    
+            // const selectedCandsFiltered = await Promise.all(thisWeekSelectedCand.map(async (cand) => {
+            //     const correspondingJob = await activeJob.findOne({ id: cand.jobId }) || await jobDetail.findOne({ id: cand.jobId });
+            //     return correspondingJob && (correspondingJob.managerId === empl.id || correspondingJob.recruiterId === empl.id);
+            // }));
+    
+            // const assignedCandidates = assignedCandsFiltered.filter(candidate => candidate);
+            // const selectedCandidates = selectedCandsFiltered.filter(candidate => candidate);
+            
+    
+            const result = [];
+    
+            thisEmployeeCreatedCands.forEach(candidate => {
+                const resultObj = findOrCreateResultObject(candidate.createdAt, result);
+                resultObj.createdCands++;
+            });
+    
+            assignedCandsFiltered.forEach(candidate => {
+                const resultObj = findOrCreateResultObject(candidate.createdAt, result);
+                resultObj.assignedCands++;
+            });
+    
+            return {
+                name: empl.name,
+                createdCands: thisEmployeeCreatedCands.length,
+                assignedCands: assignedCandsFiltered.length,
+                dateWiseResult: result
+            };
+        })
+    );
+    
+    res.status(200).json(employeeData);
+    
+  
+      }else if(type === "dateWise"){
+  
+      }else {
+        return res.status(400).json({ error: "Invalid type" });
+      }
+    } else {
+        return res
+          .status(404)
+          .json({ error: `No report details found for ${requestParam}!` });
+    }
+  } else {
+    return res.status(400).json({ error: "Invalid date filter" });
+  }
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+/* find client report */
+const getClientReport = async (req, res) => {
+  try {
+    let filter;
+
+    const currentDate = new Date();
+    const startOfWeek = new Date(currentDate);
+    startOfWeek.setUTCHours(0, 0, 0, 0);
+    startOfWeek.setUTCDate(currentDate.getUTCDate() - currentDate.getUTCDay());
+
+    const endOfWeek = new Date(startOfWeek);
+    endOfWeek.setUTCDate(startOfWeek.getUTCDate() + 7);
+
+    const startOfMonth = new Date(currentDate.getUTCFullYear(), currentDate.getUTCMonth(), 1);
+    const endOfMonth = new Date(currentDate.getUTCFullYear(), currentDate.getUTCMonth() + 1, 0);
+
+    const endOfLastMonth = new Date(startOfMonth);
+    endOfLastMonth.setUTCDate(startOfMonth.getUTCDate() - 1); // Move to the last day of the previous month
+
+    const startOfLastMonth = new Date(endOfLastMonth.getUTCFullYear(), endOfLastMonth.getUTCMonth(), 1);
+
+    const startOfYear = new Date(currentDate.getUTCFullYear(), 0, 1);
+    const endOfYear = new Date(currentDate.getUTCFullYear(), 11, 31, 23, 59, 59, 999);
+
+    const startOfLastYear = new Date(currentDate.getUTCFullYear() - 1, 0, 1);
+    const endOfLastYear = new Date(currentDate.getUTCFullYear(), 0, 0);
+
+    const requestParam = req.query.period || "invalidParam";
+
+    if (requestParam === "invalidParam") {
+      return res.status(400).json({ error: "Invalid filter period" });
+    }
+
+    if (["thisWeek", "thisMonth", "thisYear", "lastWeek", "lastMonth", "lastYear"].includes(requestParam)) {
+      switch (requestParam) {
+        case "thisWeek":
+          filter = {
+            $gte: startOfWeek,
+            $lt: endOfWeek,
+          };
+          break;
+        case "thisMonth":
+          filter = {
+            $gte: startOfMonth,
+            $lt: endOfMonth,
+          };
+          break;
+        case "thisYear":
+          filter = {
+            $gte: startOfYear,
+            $lt: endOfYear,
+          };
+          break;
+        case "lastWeek":
+          const prevWeekStart = new Date(startOfWeek);
+          prevWeekStart.setUTCDate(startOfWeek.getUTCDate() - 7);
+          filter = {
+            $gte: prevWeekStart,
+            $lt: startOfWeek,
+          };
+          break;
+        case "lastMonth":
+          filter = {
+            $gte: startOfLastMonth,
+            $lt: startOfMonth,
+          };
+          break;
+        case "lastYear":
+          filter = {
+            $gte: startOfLastYear,
+            $lt: endOfLastYear,
+          };
+          break;
+        default:
+          break;
+      }
+    } else if (requestParam.match(/^\d{4}-\d{2}-\d{2}to\d{4}-\d{2}-\d{2}$/)) {
+      const [startDateString, endDateString] = requestParam.split("to");
+      const customStartDate = new Date(startDateString);
+      const customEndDate = new Date(endDateString);
+
+      if (isNaN(customStartDate.getTime()) || isNaN(customEndDate.getTime())) {
+        return res.status(400).json({ error: "Invalid date format in custom period" });
+      }
+
+      filter = {
+        $gte: customStartDate,
+        $lt: customEndDate,
+      };
+    } else {
+      return res.status(400).json({ error: "Invalid filter period" });
+    }
+
+    if (filter && filter.$gte instanceof Date && filter.$lt instanceof Date) {
+      const query = {
+        createdAt: filter,
+      };
+
+      const { companyName } = req.query;
+
+      if (companyName) {
+        query.companyName = companyName;
+      }
+
+      const thisWeekCreatedClients = await offlineClient.find(query);
+
+      if (thisWeekCreatedClients.length > 0) {
+        const employeeData = await Promise.all(
+          thisWeekCreatedClients.map(async (client) => {
+            const createdJobsActive = await activeJob.find({ clientId: client.clientId });
+            const createdJobsInActive = await jobDetail.find({ clientId: client.clientId });
+
+            const jobDetails = [];
+
+            const fetchActiveJobsDetails = async () => {
+              for (const job of createdJobsActive) {
+                const assignedCand = await assignCandidateForJobDetail.find({ jobId: job.id });
+                const selectedCand = await selectedCandidateForJob.find({ jobId: job.id });
+                const uniqueCandidates = [...new Map([...assignedCand, ...selectedCand].map(candidate => [`${candidate.candidateId}-${candidate.jobId}`, candidate])).values()];
+                const jobDetailObj = {
+                  jobName: job.jobRole[0],
+                  createdDate: new Date(job.createdAt).toLocaleDateString(
+                    "en-GB",
+                    {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                    }
+                  ),
+                  status: "Active",
+                  assignedCandidates: uniqueCandidates.length,
+                };
+                jobDetails.push(jobDetailObj);
+              }
+            };
+
+            const fetchInactiveJobsDetails = async () => {
+              for (const job of createdJobsInActive) {
+                const assignedCand = await assignCandidateForJobDetail.find({ jobId: job.id });
+                const selectedCand = await selectedCandidateForJob.find({ jobId: job.id });
+                const uniqueCandidates = [...new Map([...assignedCand, ...selectedCand].map(candidate => [`${candidate.candidateId}-${candidate.jobId}`, candidate])).values()];
+                const jobDetailObj = {
+                  jobName: job.jobRole[0],
+                  createdDate: new Date(job.createdAt).toLocaleDateString(
+                    "en-GB",
+                    {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                    }
+                  ),
+                  status: "In-Active",
+                  assignedCandidates: uniqueCandidates,
+                };
+                jobDetails.push(jobDetailObj);
+              }
+            };
+
+            await Promise.all([fetchActiveJobsDetails(), fetchInactiveJobsDetails()]);
+
+            const employeeReport = {
+              clientName: client.companyName,
+              createdDate: new Date(client.createdAt).toLocaleDateString(
+                "en-GB",
+                {
+                  day: "2-digit",
+                  month: "2-digit",
+                  year: "numeric",
+                }
+              ),
+              numOfJobs: createdJobsActive.length + createdJobsInActive.length,
+              jobDetails,
+            };
+            return employeeReport;
+          })
+        );
+
+        res.status(200).json(employeeData);
+      } else {
+        return res.status(404).json({ error: `No report details found for ${requestParam}!` });
+      }
+    } else {
+      return res.status(400).json({ error: "Invalid date filter" });
+    }
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+/* find all ats clients */
+const allAtsClients = async(req, res) => {
+  try{
+    const clients = await offlineClient.find({}, 'companyName'); 
+    
+    const companyNames = clients.map(client => client.companyName); 
+    res.status(200).json({ companyNames });
+  }catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+}
+
+/* find job success report */
+const getJobSuccessReport = async (req, res) => {
+  try {
+    let filter;
+
+    const currentDate = new Date();
+    const startOfWeek = new Date(currentDate);
+    startOfWeek.setUTCHours(0, 0, 0, 0);
+    startOfWeek.setUTCDate(currentDate.getUTCDate() - currentDate.getUTCDay());
+
+    const endOfWeek = new Date(startOfWeek);
+    endOfWeek.setUTCDate(startOfWeek.getUTCDate() + 7);
+
+    const startOfMonth = new Date(currentDate.getUTCFullYear(), currentDate.getUTCMonth(), 1);
+    const endOfMonth = new Date(currentDate.getUTCFullYear(), currentDate.getUTCMonth() + 1, 0);
+
+    const endOfLastMonth = new Date(startOfMonth);
+    endOfLastMonth.setUTCDate(startOfMonth.getUTCDate() - 1); // Move to the last day of the previous month
+
+    const startOfLastMonth = new Date(endOfLastMonth.getUTCFullYear(), endOfLastMonth.getUTCMonth(), 1);
+
+    const startOfYear = new Date(currentDate.getUTCFullYear(), 0, 1);
+    const endOfYear = new Date(currentDate.getUTCFullYear(), 11, 31, 23, 59, 59, 999);
+
+    const startOfLastYear = new Date(currentDate.getUTCFullYear() - 1, 0, 1);
+    const endOfLastYear = new Date(currentDate.getUTCFullYear(), 0, 0);
+
+    const requestParam = req.query.period || "invalidParam";
+
+    if (requestParam === "invalidParam") {
+      return res.status(400).json({ error: "Invalid filter period" });
+    }
+
+    if (["thisWeek", "thisMonth", "thisYear", "lastWeek", "lastMonth", "lastYear"].includes(requestParam)) {
+      switch (requestParam) {
+        case "thisWeek":
+          filter = {
+            $gte: startOfWeek,
+            $lt: endOfWeek,
+          };
+          break;
+        case "thisMonth":
+          filter = {
+            $gte: startOfMonth,
+            $lt: endOfMonth,
+          };
+          break;
+        case "thisYear":
+          filter = {
+            $gte: startOfYear,
+            $lt: endOfYear,
+          };
+          break;
+        case "lastWeek":
+          const prevWeekStart = new Date(startOfWeek);
+          prevWeekStart.setUTCDate(startOfWeek.getUTCDate() - 7);
+          filter = {
+            $gte: prevWeekStart,
+            $lt: startOfWeek,
+          };
+          break;
+        case "lastMonth":
+          filter = {
+            $gte: startOfLastMonth,
+            $lt: startOfMonth,
+          };
+          break;
+        case "lastYear":
+          filter = {
+            $gte: startOfLastYear,
+            $lt: endOfLastYear,
+          };
+          break;
+        default:
+          break;
+      }
+    } else if (requestParam.match(/^\d{4}-\d{2}-\d{2}to\d{4}-\d{2}-\d{2}$/)) {
+      const [startDateString, endDateString] = requestParam.split("to");
+      const customStartDate = new Date(startDateString);
+      const customEndDate = new Date(endDateString);
+
+      if (isNaN(customStartDate.getTime()) || isNaN(customEndDate.getTime())) {
+        return res.status(400).json({ error: "Invalid date format in custom period" });
+      }
+
+      filter = {
+        $gte: customStartDate,
+        $lt: customEndDate,
+      };
+    } else {
+      return res.status(400).json({ error: "Invalid filter period" });
+    }
+
+    if (filter && filter.$gte instanceof Date && filter.$lt instanceof Date) {
+      const query = {
+        createdAt: filter,
+      };
+
+      const {jobRole} = req.query;
+    
+      if (jobRole) {
+        query.jobRole = { $in: [jobRole] };
+      } 
+
+      const thisWeekCreatedJobsActive = await activeJob.find(query);
+      const thisWeekCreatedJobsInActive = await jobDetail.find(query);
+
+      if (thisWeekCreatedJobsActive.length > 0 || thisWeekCreatedJobsInActive) {
+        const employeeData = await Promise.all(
+          thisWeekCreatedJobsActive.map(async (job) => {
+            const client = await activeJob.find({ clientId: client.clientId });
+            const createdJobsInActive = await jobDetail.find({ clientId: client.clientId });
+
+            const jobDetails = [];
+
+            const fetchActiveJobsDetails = async () => {
+              for (const job of createdJobsActive) {
+                const assignedCand = await assignCandidateForJobDetail.find({ jobId: job.id });
+                const selectedCand = await selectedCandidateForJob.find({ jobId: job.id });
+                const uniqueCandidates = [...new Map([...assignedCand, ...selectedCand].map(candidate => [`${candidate.candidateId}-${candidate.jobId}`, candidate])).values()];
+                const jobDetailObj = {
+                  jobName: job.jobRole[0],
+                  createdDate: new Date(job.createdAt).toLocaleDateString(
+                    "en-GB",
+                    {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                    }
+                  ),
+                  status: "Active",
+                  assignedCandidates: uniqueCandidates.length,
+                };
+                jobDetails.push(jobDetailObj);
+              }
+            };
+
+            const fetchInactiveJobsDetails = async () => {
+              for (const job of createdJobsInActive) {
+                const assignedCand = await assignCandidateForJobDetail.find({ jobId: job.id });
+                const selectedCand = await selectedCandidateForJob.find({ jobId: job.id });
+                const uniqueCandidates = [...new Map([...assignedCand, ...selectedCand].map(candidate => [`${candidate.candidateId}-${candidate.jobId}`, candidate])).values()];
+                const jobDetailObj = {
+                  jobName: job.jobRole[0],
+                  createdDate: new Date(job.createdAt).toLocaleDateString(
+                    "en-GB",
+                    {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                    }
+                  ),
+                  status: "In-Active",
+                  assignedCandidates: uniqueCandidates,
+                };
+                jobDetails.push(jobDetailObj);
+              }
+            };
+
+            await Promise.all([fetchActiveJobsDetails(), fetchInactiveJobsDetails()]);
+
+            const employeeReport = {
+              clientName: client.companyName,
+              createdDate: new Date(client.createdAt).toLocaleDateString(
+                "en-GB",
+                {
+                  day: "2-digit",
+                  month: "2-digit",
+                  year: "numeric",
+                }
+              ),
+              numOfJobs: createdJobsActive.length + createdJobsInActive.length,
+              jobDetails,
+            };
+            return employeeReport;
+          })
+        );
+
+        res.status(200).json(employeeData);
+      } else {
+        return res.status(404).json({ error: `No report details found for ${requestParam}!` });
+      }
+    } else {
+      return res.status(400).json({ error: "Invalid date filter" });
+    }
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+/*  */
+
 /*ATS................... */
 
 /* random password generate */
@@ -6647,6 +7516,7 @@ module.exports = {
    allPostedJobTableColumnData,
    getAllPostedJobTableColumnData,
    getUpdatedSkillMatchJobDetail,
+   getUpdatedAppliedOfPostedJobs,
 
    //MOBILE APP API............
 
@@ -6670,6 +7540,7 @@ module.exports = {
    getUpdatedActiveJobs,
    getDataForCandidateGraph,
    getDataForClientGraph,
+   
   
    //MOBILE APP API............
 
@@ -6701,6 +7572,9 @@ module.exports = {
    deletingOfflineCandidate,
    getDataForReport,
    getDailySubmissionReportData,
-
+   getTurnAroundReport,
+   getCandidateSourceReport,
+   getClientReport,
+   allAtsClients,
   //ATS...........
 };
