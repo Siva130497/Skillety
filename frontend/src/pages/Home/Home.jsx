@@ -1603,21 +1603,24 @@ const Home = () => {
             </div>
           </section>
 
-          <section className='register--section'>
-            <a href="/client-register">
-              <div className="register--card">
-                <h2 className='register--text' data-aos="fade-down">Register Now</h2>
-                <div className="register-arrow-area">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="72" height="74" viewBox="0 0 72 74" fill="none">
-                    <path d="M6.34766 9.0872C16.3723 17.5696 42.4363 28.5196 66.4954 4.46045" stroke="#5C3B2E" stroke-width="5" />
-                    <path d="M67.4092 3.56478C57.7158 12.4238 43.5263 36.8757 64.3152 63.8109" stroke="#5C3B2E" stroke-width="5" />
-                    <path d="M2 71.6889L69.0879 2.2876" stroke="#5C3B2E" stroke-width="5" />
-                  </svg>
+          {!clientToken &&
+            <section className='register--section'>
+              <a href="/client-register">
+                <div className="register--card">
+                  <h2 className='register--text' data-aos="fade-down">Register Now</h2>
+                  <div className="register-arrow-area">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="72" height="74" viewBox="0 0 72 74" fill="none">
+                      <path d="M6.34766 9.0872C16.3723 17.5696 42.4363 28.5196 66.4954 4.46045" stroke="#5C3B2E" stroke-width="5" />
+                      <path d="M67.4092 3.56478C57.7158 12.4238 43.5263 36.8757 64.3152 63.8109" stroke="#5C3B2E" stroke-width="5" />
+                      <path d="M2 71.6889L69.0879 2.2876" stroke="#5C3B2E" stroke-width="5" />
+                    </svg>
+                  </div>
+                  <div className='register--blob'></div>
                 </div>
-                <div className='register--blob'></div>
-              </div>
-            </a>
-          </section>
+              </a>
+            </section>
+          }
+
         </div>
       </div >
 
@@ -1631,7 +1634,7 @@ const Home = () => {
       >
         {playerType === 'video' && (
           <ReactPlayer
-          className="player"
+            className="player"
             url="../assets/media/sample-video2.mp4"
             controls
             width="100%"
@@ -1647,7 +1650,7 @@ const Home = () => {
             controls
             width="100%"
             height="50px"
-            muted={true}  
+            muted={true}
           />
         )}
 

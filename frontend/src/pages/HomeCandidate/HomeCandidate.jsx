@@ -15,7 +15,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const HomeCandidate = () => {
-
+  const [candidateToken, setcandidateToken] = useState("");
   const navigate = useNavigate();
 
   const { eventDetail, getEventDetail, getEventImg, eventImg, blogDetail, getBlogsDetail,
@@ -31,6 +31,9 @@ const HomeCandidate = () => {
 
   const [popularSearches, setPopulartSearches] = useState([]);
 
+  useEffect(() => {
+    setcandidateToken(JSON.parse(localStorage.getItem('candidateToken')))
+  }, [candidateToken])
 
   const getPostedjobs = async () => {
     try {
@@ -1128,25 +1131,27 @@ const HomeCandidate = () => {
         </section>
       }
 
-      <div className='container-fluid home--section candidate'>
-        <div className='container-fluid container-section'>
-          <section className='register--section candidate'>
-            <a href="/candiate-register">
-              <div className="register--card candidate">
-                <h2 className='register--text candidate' data-aos="fade-down">Register Now</h2>
-                <div className="register-arrow-area candidate">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="72" height="74" viewBox="0 0 72 74" fill="none">
-                    <path d="M6.34766 9.0872C16.3723 17.5696 42.4363 28.5196 66.4954 4.46045" stroke="#5C3B2E" stroke-width="5" />
-                    <path d="M67.4092 3.56478C57.7158 12.4238 43.5263 36.8757 64.3152 63.8109" stroke="#5C3B2E" stroke-width="5" />
-                    <path d="M2 71.6889L69.0879 2.2876" stroke="#5C3B2E" stroke-width="5" />
-                  </svg>
+      {!candidateToken &&
+        <div className='container-fluid home--section candidate register'>
+          <div className='container-fluid container-section'>
+            <section className='register--section candidate'>
+              <a href="/candiate-register">
+                <div className="register--card candidate">
+                  <h2 className='register--text candidate' data-aos="fade-down">Register Now</h2>
+                  <div className="register-arrow-area candidate">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="72" height="74" viewBox="0 0 72 74" fill="none">
+                      <path d="M6.34766 9.0872C16.3723 17.5696 42.4363 28.5196 66.4954 4.46045" stroke="#5C3B2E" stroke-width="5" />
+                      <path d="M67.4092 3.56478C57.7158 12.4238 43.5263 36.8757 64.3152 63.8109" stroke="#5C3B2E" stroke-width="5" />
+                      <path d="M2 71.6889L69.0879 2.2876" stroke="#5C3B2E" stroke-width="5" />
+                    </svg>
+                  </div>
+                  <div className='register--blob'></div>
                 </div>
-                <div className='register--blob'></div>
-              </div>
-            </a>
-          </section>
+              </a>
+            </section>
+          </div>
         </div>
-      </div>
+      }
 
       <CandidateFooter />
     </div>
