@@ -59,16 +59,22 @@ export const Footer = () => {
                         <div className="footer--links">
                           <ul>
                             <li data-aos="fade">
-                              <a href="" className='footer--link'>Lorem Ipsum</a>
+                              <a href="/candidate-about-us" className='footer--link'>About Us</a>
                             </li>
                             <li data-aos="fade">
-                              <a href="" className='footer--link'>Lorem Ipsum</a>
+                              <a href="/job-search" className='footer--link'>Search Jobs</a>
                             </li>
                             <li data-aos="fade">
-                              <a href="" className='footer--link'>Lorem Ipsum</a>
+                              <a href="/events" className='footer--link'>Media</a>
                             </li>
                             <li data-aos="fade">
-                              <a href="" className='footer--link'>Lorem Ipsum</a>
+                              <a href="/talent-contact-us" className='footer--link'>Contact Us</a>
+                            </li>
+                            <li data-aos="fade">
+                              <a href="/terms-and-conditions" className='footer--link'>Terms & Conditions</a>
+                            </li>
+                            <li data-aos="fade">
+                              <a href="/privacy-policy" className='footer--link'>Privacy Policies</a>
                             </li>
                           </ul>
                         </div>
@@ -82,16 +88,19 @@ export const Footer = () => {
                         <div className="footer--links">
                           <ul>
                             <li data-aos="fade">
-                              <a href="" className='footer--link'>Lorem Ipsum</a>
+                              <a href="/about-us" className='footer--link'>About Us</a>
                             </li>
                             <li data-aos="fade">
-                              <a href="" className='footer--link'>Lorem Ipsum</a>
+                              <a href="/talent-profile-search" className='footer--link'>Search CV</a>
                             </li>
                             <li data-aos="fade">
-                              <a href="" className='footer--link'>Lorem Ipsum</a>
+                              <a href="/contact-us" className='footer--link'>Contact Us</a>
                             </li>
                             <li data-aos="fade">
-                              <a href="" className='footer--link'>Lorem Ipsum</a>
+                              <a href="/terms-and-conditions" className='footer--link'>Terms & Conditions</a>
+                            </li>
+                            <li data-aos="fade">
+                              <a href="/privacy-policy" className='footer--link'>Privacy Policies</a>
                             </li>
                           </ul>
                         </div>

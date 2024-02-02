@@ -1828,7 +1828,7 @@ console.log(checkBoxfilters)
                                                                 </div>
                                                             )}
                                                             <div className="cli-tal-pro-search-filter-input-area location">
-                                                                <input type="search" className='cli-tal-pro-search-filter-input' placeholder='Add location' value={filters.location}
+                                                                <input type="search" className='cli-tal-pro-search-filter-input' placeholder='Search location' value={filters.location}
                                                                     onChange={handleLocationSearch} />
                                                                 <div className='tal-pro-search-result-data-area'>
                                                                     {filteredLocation.length > 0 &&

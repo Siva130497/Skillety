@@ -1,5 +1,5 @@
 import React from 'react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import $ from 'jquery';
 import './Services.css';
 import './Services-responsive.css';
@@ -7,9 +7,11 @@ import Layout from '../../components/Layout';
 import { Footer } from '../../components/Footer';
 
 const ServicesCVSourcing = () => {
-    useEffect(() => {
+    const [clientToken, setClientToken] = useState("");
 
-    }, []);
+    useEffect(() => {
+        setClientToken(JSON.parse(localStorage.getItem("clientToken")))
+    }, [clientToken])
 
     return (
         <div>
@@ -35,24 +37,27 @@ const ServicesCVSourcing = () => {
                                         <h2 data-aos="fade-left">Our primary mission is to provide our Clients  with ‘convenience’.</h2>
                                     </div>
                                 </div>
-                                <div className="col-12 col-xl-4 col-lg-6 offset-lg-6 offset-xl-0 col-md-12 about--right-cover">
-                                    <div className="about--card-area">
-                                        <div className="card about--card" data-aos="fade-right">
-                                            <div className="card--imgicon-area">
-                                                <h6 className='card--text'>I want to hire an immediate joiner</h6>
-                                                <img src="assets/img/home-images/icon-1.png" className='card--icon' alt="" />
+
+                                {!clientToken &&
+                                    <div className="col-12 col-xl-4 col-lg-6 offset-lg-6 offset-xl-0 col-md-12 about--right-cover">
+                                        <div className="about--card-area">
+                                            <div className="card about--card" data-aos="fade-right">
+                                                <div className="card--imgicon-area">
+                                                    <h6 className='card--text'>I want to hire an immediate joiner</h6>
+                                                    <img src="assets/img/home-images/icon-1.png" className='card--icon' alt="" />
+                                                </div>
+                                                <div className="about--sub-des">
+                                                    <p>
+                                                        I need someone to start working right away, without any delay or waiting period.
+                                                    </p>
+                                                </div>
+                                                <a href='/client-login' className="arrow--icon-btn">
+                                                    <img src="assets/img/home-images/arrow-dark.png" className='arrow--icon' alt="" />
+                                                </a>
                                             </div>
-                                            <div className="about--sub-des">
-                                                <p>
-                                                    Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                                                </p>
-                                            </div>
-                                            <a href='' className="arrow--icon-btn">
-                                                <img src="assets/img/home-images/arrow-dark.png" className='arrow--icon' alt="" />
-                                            </a>
                                         </div>
                                     </div>
-                                </div>
+                                }
                             </div>
                         </div>
 
@@ -74,7 +79,7 @@ const ServicesCVSourcing = () => {
                                     <div className="col-12 col-lg-5 col-md-12 custom-padding-lr">
                                         <div className="ser--cont-area-right">
                                             <p className='ser--cont-title' data-aos="fade">
-                                            Search for Candidates with any skill and experience, from any sector and location through seamless filter options. Search for Immediate Joiner CVs from 3 buckets - 7 days, 15 days & 30 days joiners.
+                                                Search for Candidates with any skill and experience, from any sector and location through seamless filter options. Search for Immediate Joiner CVs from 3 buckets - 7 days, 15 days & 30 days joiners.
                                             </p>
                                             {/* <div className='ser--cont-list-area'>
                                                 <ul>

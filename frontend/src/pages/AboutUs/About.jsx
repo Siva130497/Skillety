@@ -1,5 +1,5 @@
 import React from 'react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import $ from 'jquery';
 import './About.css';
 import './About-responsive.css';
@@ -7,6 +7,12 @@ import Layout from '../../components/Layout';
 import { Footer } from '../../components/Footer';
 
 const About = () => {
+    const [clientToken, setClientToken] = useState("");
+
+    useEffect(() => {
+        setClientToken(JSON.parse(localStorage.getItem("clientToken")))
+    }, [clientToken])
+
     useEffect(() => {
         // Function to animate the numbers
         function animateNumber(element, targetNumber) {
@@ -57,7 +63,7 @@ const About = () => {
 
     return (
         <div>
-            <Layout aboutUs={true}/>
+            <Layout aboutUs={true} />
             <div>
                 <div className='container-fluid about--section'>
                     <div className='container-fluid container-section'>
@@ -77,31 +83,33 @@ const About = () => {
                                             “Skill at Will”. </h2>
                                     </div>
                                 </div>
-                                <div className="col-12 col-lg-6 offset-lg-6 offset-xl-0 col-xl-4 col-md-12 about--right-cover">
-                                    <div className="about--card-area" data-aos="fade-right">
-                                        <div className="card about--card">
-                                            <div className="card--imgicon-area">
-                                                <h6 className='card--text'>I want to hire an immediate joiner</h6>
-                                                <img src="assets/img/home-images/icon-1.png" className='card--icon' alt="" />
+                                {!clientToken &&
+                                    <div className="col-12 col-lg-6 offset-lg-6 offset-xl-0 col-xl-4 col-md-12 about--right-cover">
+                                        <div className="about--card-area" data-aos="fade-right">
+                                            <div className="card about--card">
+                                                <div className="card--imgicon-area">
+                                                    <h6 className='card--text'>I want to hire an immediate joiner</h6>
+                                                    <img src="assets/img/home-images/icon-1.png" className='card--icon' alt="" />
+                                                </div>
+                                                <div className="about--sub-des">
+                                                    <p>
+                                                        I need someone to start working right away, without any delay or waiting period.
+                                                    </p>
+                                                </div>
+                                                <a href='/client-login' className="arrow--icon-btn">
+                                                    <img src="assets/img/home-images/arrow-dark.png" className='arrow--icon' alt="" />
+                                                </a>
                                             </div>
-                                            <div className="about--sub-des">
-                                                <p>
-                                                    Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                                                </p>
-                                            </div>
-                                            <a href='' className="arrow--icon-btn">
-                                                <img src="assets/img/home-images/arrow-dark.png" className='arrow--icon' alt="" />
-                                            </a>
                                         </div>
                                     </div>
-                                </div>
+                                }
                             </div>
                         </div>
                         <div className='about--desc-section'>
                             {/* <p data-aos="fade-left">We are a gig-economy based crowdsourcing platform for Freelancers. We have an exclusive vault of Immediate Joiners - guys who can pick up an Offer and Join within 7 days or less. We have curated a group of Technical Interview experts for Clients who face shortage of internal Interview Panels. We help you to move away from the old and soiled hierarchical business structure, and evolve into a 21st Century on-demand, open talent, cross-functional team; with a skilled and passionate workforce who are more engaged, effective & productive. Welcome to Skillety – Your on-demand HR solutions partner.</p> */}
                             <p data-aos="fade-left">Skillety is a Digital-RPO platform – a comprehensive suite of diverse hiring solutions like Sourcing, Posting, Screening, Assessment, Interview, Onboarding & Verification – all seamlessly integrated into one place. We are powered by our exclusive Job-board for Immediate Joiners - guys who can Join within 7 days or less. The combined power of our AI-based platform and the extensive experience of our formidable team, makes us an end-to-end recruitment powerhouse - your perfect RPO partner.
 
-                            Our AI-powered platform is API integrated with 172 partner job boards and social media sites across the world. These partnerships help a job posting to crawl out and collect clicks, which converts into applications, through inward aggregation. Currently, Skillety clocks over 850+ new registrations every day of immediate joiners – guys who can pick up a job offer and join within 7/15/30 days. Our algorithms and culture, both are built to deliver speed and precision, at all times.
+                                Our AI-powered platform is API integrated with 172 partner job boards and social media sites across the world. These partnerships help a job posting to crawl out and collect clicks, which converts into applications, through inward aggregation. Currently, Skillety clocks over 850+ new registrations every day of immediate joiners – guys who can pick up a job offer and join within 7/15/30 days. Our algorithms and culture, both are built to deliver speed and precision, at all times.
                             </p>
                         </div>
 
@@ -222,20 +230,22 @@ const About = () => {
                             <div className="about--weoffer-container">
                                 <div className='ab-weoff--top-area'>
                                     <h4 className='ab-weoff---heading' data-aos="fade-up">We offer you 4 advantages, most of all.</h4>
-                                    <div className='ab--weoff-btn-area'>
-                                        <a href="#" className='ab--weoff-btn-area-sub' data-aos="fade-right">
-                                            <div className='ab--weoff-btn'>Register Now
-                                            </div>
-                                            <div className='ab--weoff-btn-arrow-area'>
-                                                {/* <img src="assets/img/home-images/arrow-dark.png" className='ab--weoff-btn-arrow' alt="" /> */}
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
-                                                    <path d="M2.56641 3.44963C6.17752 6.50518 15.5664 10.4496 24.2331 1.78296" stroke="#5C3B2E" stroke-width="2" />
-                                                    <path d="M24.5618 1.46021C21.07 4.65145 15.9586 13.4596 23.4473 23.1623" stroke="#5C3B2E" stroke-width="2" />
-                                                    <path d="M1 26L25.1667 1" stroke="#5C3B2E" stroke-width="2" />
-                                                </svg>
-                                            </div>
-                                        </a>
-                                    </div>
+                                    {!clientToken &&
+                                        <div className='ab--weoff-btn-area'>
+                                            <a href="/client-register" className='ab--weoff-btn-area-sub' data-aos="fade-right">
+                                                <div className='ab--weoff-btn'>Register Now
+                                                </div>
+                                                <div className='ab--weoff-btn-arrow-area'>
+                                                    {/* <img src="assets/img/home-images/arrow-dark.png" className='ab--weoff-btn-arrow' alt="" /> */}
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
+                                                        <path d="M2.56641 3.44963C6.17752 6.50518 15.5664 10.4496 24.2331 1.78296" stroke="#5C3B2E" stroke-width="2" />
+                                                        <path d="M24.5618 1.46021C21.07 4.65145 15.9586 13.4596 23.4473 23.1623" stroke="#5C3B2E" stroke-width="2" />
+                                                        <path d="M1 26L25.1667 1" stroke="#5C3B2E" stroke-width="2" />
+                                                    </svg>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    }
                                 </div>
                                 <div className='ab--weoff-card-area'>
                                     <article className='ab-weoff-card' data-aos="zoom-out-down">
@@ -296,7 +306,7 @@ const About = () => {
                     </div>
                 </div>
             </div>
-            <Footer/>
+            <Footer />
         </div>
 
     )
