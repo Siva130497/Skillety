@@ -561,7 +561,7 @@ const TalentsProfileSearch = () => {
                 setFilteredSearchResults(filteredResults);
                 setInCommingData(null)
             } else {
-                setFilteredSearchResultsMsg("no such candidates found")
+                setFilteredSearchResultsMsg("No such candidates found..!")
                 setInCommingData(null)
             }
         }
@@ -1040,7 +1040,7 @@ console.log(checkBoxfilters)
                         })
                         .catch(err => console.log(err))
                 } else {
-                    setFilteredSearchResultsMsg("no such candidates found")
+                    setFilteredSearchResultsMsg("No such candidates found..!")
                 }
             }
         } else {
@@ -3511,7 +3511,12 @@ console.log(checkBoxfilters)
                                     </div> */}
                                             <div className="cli--tal-pro-search-results-area">
                                                 {filteredSearchResultsMsg ?
-                                                    <p>{filteredSearchResultsMsg}</p> :
+                                                    <div className="no-data-created-area">
+                                                        <div className='no-data-created'>
+                                                            <img src="../assets/img/no-data/no-data-img.png" className='no-data-img' alt="" />
+                                                            <div className='no-data-text'>{filteredSearchResultsMsg}</div>
+                                                        </div>
+                                                    </div>:
                                                     filteredSearchResults.length > 0 ?
                                                         filteredSearchResults.slice(x[0], x[1]).map((candidate) => {
                                                             const viewedCandidateForThisCandidate = loginClientDetail.companyId && viewedCandidate.find(cand => cand.candidateId === candidate.id);
