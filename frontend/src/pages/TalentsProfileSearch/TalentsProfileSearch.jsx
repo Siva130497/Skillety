@@ -31,17 +31,17 @@ const TalentsProfileSearch = () => {
     const [skillArray, setSkillArray] = useState([]);
     const [jobRoleArray, setjobRoleArray] = useState([]);
     const [locationArray, setLocationArray] = useState([]);
-    const [departmentArray, setDepartmentArray] = useState([]);
+    const [educationArray, setEducationArray] = useState([]);
     const [roleArray, setRoleArray] = useState([]);
     const [industryArray, setIndustryArray] = useState([]);
     const [filteredList, setFilteredList] = useState([]);
     const [filteredLocation, setFilteredLocation] = useState([]);
-    const [filteredDepartment, setFilteredDepartment] = useState([]);
+    const [filteredEducation, setFilteredEducation] = useState([]);
     const [filteredRole, setFilteredRole] = useState([]);
     const [filteredIndustry, setFilteredIndustry] = useState([]);
     const [selectedResults, setSelectedResults] = useState([]);
     const [selectedLocationResults, setSelectedLocationResults] = useState([]);
-    const [selectedDepartmentResults, setSelectedDepartmentResults] = useState([]);
+    const [selectedEducationResults, setselectedEducationResults] = useState([]);
     const [selectedRoleResults, setSelectedRoleResults] = useState([]);
     const [selectedIndustryResults, setSelectedIndustryResults] = useState([]);
 
@@ -57,16 +57,16 @@ const TalentsProfileSearch = () => {
         minExperienceMonth: "",
         maxExperienceMonth: "",
         location: "",
-        currencyType: "",
+        currencyType: "₹",
         minSalary: "",
         maxSalary: "",
-        department: "",
+        education: "",
         role: "",
         days: "",
-        industry: "",
+        // industry: "",
         company: "",
-        candidateType: "",
-        gender: "",
+        // candidateType: "",
+        // gender: "",
     })
 
     console.log(filters)
@@ -667,9 +667,9 @@ const TalentsProfileSearch = () => {
         }
     };
 
-    const getAllDepartments = async () => {
+    const getAllEducations = async () => {
         try {
-            const res = await axios.get("https://skillety-n6r1.onrender.com/departments", {
+            const res = await axios.get("https://skillety-n6r1.onrender.com/educations", {
                 headers: {
                     Authorization: `Bearer ${clientToken}`,
                     Accept: 'application/json'
@@ -678,7 +678,7 @@ const TalentsProfileSearch = () => {
             const result = res.data;
             if (!result.error) {
                 console.log(result);
-                setDepartmentArray(result);
+                setEducationArray(result);
             } else {
                 console.log(result);
             }
@@ -770,7 +770,7 @@ const TalentsProfileSearch = () => {
         getAllJobRoles();
         getAllSkills();
         getAllLocations();
-        getAllDepartments();
+        getAllEducations();
         getAllRoles();
         getAllIndustries();
         getCandidateImg();
@@ -868,8 +868,16 @@ const TalentsProfileSearch = () => {
         setCheckBoxFilters(updatedFilters);
     };
 console.log(checkBoxfilters)
+
     const handleSkillSearch = () => {
-        if (checkBoxfilters.length>0 || selectedResults.length > 0 || selectedLocationResults.length > 0 || (filters.minExperienceYr && filters.minExperienceMonth) || (filters.maxExperienceYr && filters.maxExperienceMonth) || (filters.minSalary && filters.maxSalary) || selectedDepartmentResults.length > 0 || selectedRoleResults.length > 0 || filters.industry || filters.company || filters.candidateType || filters.gender) {
+        if (checkBoxfilters.length>0 || selectedResults.length > 0 || selectedLocationResults.length > 0 || (filters.minExperienceYr && filters.minExperienceMonth) || (filters.maxExperienceYr && filters.maxExperienceMonth) || filters.currencyType && (filters.minSalary || filters.maxSalary)
+        || selectedEducationResults.length > 0 
+        || selectedRoleResults.length > 0 
+        // || filters.industry 
+        || filters.company 
+        // || filters.candidateType 
+        // || filters.gender
+        ) {
 
             const recentSearch = {
                 days: filters.days,
@@ -881,7 +889,7 @@ console.log(checkBoxfilters)
                 maxExperienceMonth: filters.maxExperienceMonth,
                 minSalary: filters.minSalary,
                 maxSalary: filters.maxSalary,
-                selectedDepartmentResults: selectedDepartmentResults,
+                selectedEducationResults: selectedEducationResults,
                 selectedRoleResults: selectedRoleResults,
                 industry: selectedIndustryResults,
                 company: filters.company,
@@ -935,73 +943,91 @@ console.log(checkBoxfilters)
                         return true;
                     })
                     .filter(candidate => {
-                        if (filters.minExperienceYr && filters.minExperienceMonth) {
-                            return (candidate.year >= filters.minExperienceYr && candidate.month >= filters.minExperienceMonth)
+                        if ((filters.minExperienceYr && filters.minExperienceMonth) && (filters.maxExperienceYr && filters.maxExperienceMonth)) {
+                            return ((candidate.year >= (filters.minExperienceYr) && (filters.maxExperienceYr)) && (candidate.month >= (filters.minExperienceMonth && filters.maxExperienceMonth)))
                         }
                         return true;
                     })
                     .filter(candidate => {
-                        if (filters.maxExperienceYr && filters.maxExperienceMonth) {
-                            return (candidate.month <= filters.maxExperienceYr && candidate.month <= filters.maxExperienceMonth)
+                        if ((filters.minExperienceYr && filters.minExperienceMonth) && !(filters.maxExperienceYr && filters.maxExperienceMonth)) {
+                            return ((candidate.year >= filters.minExperienceYr) && (candidate.month >= filters.minExperienceMonth))
                         }
                         return true;
                     })
+                    .filter(candidate => {
+                        if ((filters.maxExperienceYr && filters.maxExperienceMonth) && !(filters.minExperienceYr && filters.minExperienceMonth)) {
+                            return ((candidate.year >= filters.maxExperienceYr) && (candidate.month >= filters.maxExperienceMonth))
+                        }
+                        return true;
+                    })
                     .filter(candidate => {
                         if (selectedLocationResults.length > 0) {
                             return selectedLocationResults.filter(result =>
-                                candidate.location.includes(result)
+                                (candidate?.preferedlocations.includes(result))
                             );
                         }
                         return true;
                     })
                     .filter(candidate => {
-                        if (filters.currencyType) {
-                            return candidate.currencyType === filters.currencyType
+                        if (selectedLocationResults.length > 0) {
+                            return selectedLocationResults.some(result => result === candidate.location);
                         }
                         return true;
                     })
+                    // .filter(candidate => {
+                    //     if (filters.currencyType && filters.minSalary && filters.maxSalary) {
+                    //         return ((candidate.currencyType === filters.currencyType) && (candidate.minSalary <= filters.minSalary) && (candidate.maxSalary <= filters.maxSalary))
+                    //     }
+                    //     return true;
+                    // })
+
+                    // .filter(candidate => {
+                    //     if ((filters.currencyType && filters.minSalary) && (!(filters.maxSalary))) {
+                    //         return ((candidate.currencyType === filters.currencyType) && (candidate.minSalary <= filters.minSalary))
+                    //     }
+                    //     return true;
+                    // })
+
                     .filter(candidate => {
-                        if (filters.minSalary && filters.maxSalary) {
-                            return (candidate.minSalary >= filters.minSalary && candidate.maxSalary <= filters.maxSalary)
+                        if ((filters.currencyType && filters.maxSalary) && (!(filters.minSalary))) {
+                            return ((candidate.currencyType === filters.currencyType) && (candidate.maxSalary <= filters.maxSalary))
                         }
                         return true;
-                    })
+                    })
                     .filter(candidate => {
-                        if (selectedDepartmentResults.length > 0) {
-                            return selectedDepartmentResults.filter(result =>
-                                candidate.department.includes(result)
+                        if (selectedEducationResults.length > 0) {
+                            return selectedEducationResults.filter(result =>
+                                candidate.education.includes(result)
                             );
                         }
                         return true;
                     })
                     .filter(candidate => {
                         if (selectedRoleResults.length > 0) {
-                            return selectedRoleResults.filter(result =>
-                                candidate.role.includes(result)
-                            );
+                            return selectedRoleResults.some(result => result === candidate?.role);
                         }
                         return true;
                     })
-                    .filter(candidate => {
-                        if (selectedIndustryResults.length > 0) {
-                            return selectedIndustryResults.filter(result =>
-                                candidate.industry.includes(result)
-                            );
-                        }
-                        return true;
-                    })
+                    // .filter(candidate => {
+                    //     if (selectedIndustryResults.length > 0) {
+                    //         return selectedIndustryResults.filter(result =>
+                    //             candidate.industry.includes(result)
+                    //         );
+                    //     }
+                    //     return true;
+                    // })
                     .filter(candidate => {
                         if (filters.company) {
-                            return candidate.company.toLowerCase() === filters.company.toLowerCase()
+                            return candidate.companyName.toLowerCase() === filters.company.toLowerCase()
                         }
                         return true;
                     })
-                    .filter(candidate => {
-                        if (filters.gender) {
-                            return candidate.gender === filters.gender
-                        }
-                        return true;
-                    })
+                    // .filter(candidate => {
+                    //     if (filters.gender) {
+                    //         return candidate.gender === filters.gender
+                    //     }
+                    //     return true;
+                    // })
 
                 console.log(filteredResults)
 
@@ -1040,7 +1066,7 @@ console.log(checkBoxfilters)
             })
             setSelectedResults(selectedSearchResult.selectedResults)
             setSelectedLocationResults(selectedSearchResult.selectedLocationResults)
-            setSelectedDepartmentResults(selectedSearchResult.selectedDepartmentResults)
+            setselectedEducationResults(selectedSearchResult.selectedEducationResults)
             setSelectedRoleResults(selectedSearchResult.selectedRoleResults)
             setSelectedIndustryResults(selectedSearchResult?.industry)
         }
@@ -1119,36 +1145,36 @@ console.log(checkBoxfilters)
         }
     }
 
-    const handleDepartmentSearch = (e) => {
+    const handleEducationSearch = (e) => {
         const inputValue = e.target.value;
-        setFilters({ ...filters, department: inputValue });
+        setFilters({ ...filters, education: inputValue });
 
         if (inputValue.length > 0) {
-            const departments = departmentArray.filter((obj) => {
-                return obj.department.toLowerCase().includes(inputValue.toLowerCase());
+            const educations = educationArray.filter((obj) => {
+                return obj.education.toLowerCase().includes(inputValue.toLowerCase());
             });
 
-            if (departments.length > 0) {
-                setFilteredDepartment(departments);
+            if (educations.length > 0) {
+                setFilteredEducation(educations);
             } else {
-                setFilteredDepartment([]);
+                setFilteredEducation([]);
             }
         } else {
-            setFilteredDepartment([]);
+            setFilteredEducation([]);
         }
     };
 
-    const handleFilteredDepartmentClick = (clickResult) => {
+    const handleFilteredEducationClick = (clickResult) => {
         console.log(clickResult)
-        if (selectedDepartmentResults.includes(clickResult)) {
-            setSelectedDepartmentResults([...selectedDepartmentResults]);
-            setFilters({ ...filters, department: "" });
-            setFilteredDepartment([]);
+        if (selectedEducationResults.includes(clickResult)) {
+            setselectedEducationResults([...selectedEducationResults]);
+            setFilters({ ...filters, education: "" });
+            setFilteredEducation([]);
 
         } else {
-            setSelectedDepartmentResults([...selectedDepartmentResults, clickResult]);
-            setFilters({ ...filters, department: "" });
-            setFilteredDepartment([]);
+            setselectedEducationResults([...selectedEducationResults, clickResult]);
+            setFilters({ ...filters, education: "" });
+            setFilteredEducation([]);
         }
     }
 
@@ -1223,8 +1249,8 @@ console.log(checkBoxfilters)
         setSelectedResults(selectedResults.filter(selected => selected !== result));
     }
 
-    const handleDeselectDepartment = (department) => {
-        setSelectedDepartmentResults(selectedDepartmentResults.filter(selectedDepartment => selectedDepartment !== department));
+    const handleDeselectDepartment = (education) => {
+        setselectedEducationResults(selectedEducationResults.filter(selectedEducation => selectedEducation !== education));
     }
 
     const handleDeselectLocation = (location) => {
@@ -1847,12 +1873,12 @@ console.log(checkBoxfilters)
                                                                         <option value="₹" selected>₹</option>
                                                                         <option value="$">$</option>
                                                                     </select>
-                                                                    <input type="number" className='cli-tal-pro-exp-input numeric-input width-70' placeholder='Min Salary in Laks'
+                                                                    <input type="text" className='cli-tal-pro-exp-input  width-70' placeholder='Min Salary in Laks'
                                                                         value={filters.minSalary}
                                                                         onChange={(e) => setFilters({ ...filters, minSalary: e.target.value })} />
                                                                 </div>
                                                                 <span className='cli-tal-pro-exp-input-text'>to</span>
-                                                                <input type="number" className='cli-tal-pro-exp-input text-center numeric-input width-45 search-page' placeholder='Max Salary in Laks'
+                                                                <input type="text" className='cli-tal-pro-exp-input text-center  width-45 search-page' placeholder='Max Salary in Laks'
                                                                     value={filters.maxSalary}
                                                                     onChange={(e) => setFilters({ ...filters, maxSalary: e.target.value })} />
                                                                 <span className='cli-tal-pro-exp-input-text'>laks</span>
@@ -1869,7 +1895,7 @@ console.log(checkBoxfilters)
 
                                                     <div className="cli-tal-pro-search-filter-content-section">
                                                         <div className="cli-tal-pro-search-filter-toggle-area">
-                                                            <h6 className='cli--emploment-detail-head'>Employment Details</h6>
+                                                            <h6 className='cli--emploment-detail-head'>Employment & Education Details</h6>
                                                             {/* <i class="bi bi-chevron-down"></i> */}
                                                             <svg xmlns="http://www.w3.org/2000/svg" className='' width="15" height="9" viewBox="0 0 15 9" fill="none">
                                                                 <path d="M1 1L6.79289 6.79289C7.18342 7.18342 7.81658 7.18342 8.20711 6.79289L14 1" stroke="#714F36" stroke-width="2" stroke-linecap="round" />
@@ -1879,12 +1905,12 @@ console.log(checkBoxfilters)
                                                             <div className='expand-area-padding'>
                                                                 <div className="cli-tal-search-filter-form-group">
                                                                     <div className="cli-tal-search-filter-form-label-area">
-                                                                        <label htmlFor="department" className='cli-tal-search-filter-form-label'>Department</label>
+                                                                        <label htmlFor="department" className='cli-tal-search-filter-form-label'>Education</label>
                                                                     </div>
 
-                                                                    {selectedDepartmentResults.length > 0 && (
+                                                                    {selectedEducationResults.length > 0 && (
                                                                         <div className='cli--tal-pro-badge-area mb-4'>
-                                                                            {selectedDepartmentResults.map(selectResult => (
+                                                                            {selectedEducationResults.map(selectResult => (
                                                                                 <span className="tal-cand-reg-form-badge"
                                                                                     key={selectResult}
                                                                                     onClick={() => handleDeselectDepartment(selectResult)}
@@ -1895,17 +1921,17 @@ console.log(checkBoxfilters)
 
                                                                     <div className="cli-tal-pro-search-filter-input-area">
                                                                         <input type="search" name='department' className='cli-tal-pro-search-filter-input' placeholder='Add Department'
-                                                                            value={filters.department}
-                                                                            onChange={handleDepartmentSearch} />
+                                                                            value={filters.education}
+                                                                            onChange={handleEducationSearch} />
                                                                         <div className='tal-pro-search-result-data-area'>
-                                                                            {filteredDepartment.length > 0 &&
-                                                                                filteredDepartment.map((filterResult) => (
+                                                                            {filteredEducation.length > 0 &&
+                                                                                filteredEducation.map((filterResult) => (
                                                                                     <div
                                                                                         className='tal-pro-search-result-data'
                                                                                         key={filterResult._id}
-                                                                                        onClick={() => handleFilteredDepartmentClick(filterResult.department)}
+                                                                                        onClick={() => handleFilteredEducationClick(filterResult.education)}
                                                                                     >
-                                                                                        {filterResult.department}
+                                                                                        {filterResult.education}
                                                                                     </div>
                                                                                 ))}
                                                                         </div>
@@ -1958,7 +1984,7 @@ console.log(checkBoxfilters)
                                                                     </div>
                                                                 </div> */}
 
-                                                                <div className="cli-tal-search-filter-form-group">
+                                                                {/* <div className="cli-tal-search-filter-form-group">
                                                                     <div className="cli-tal-search-filter-form-label-area">
                                                                         <label htmlFor="industry" className='cli-tal-search-filter-form-label'>Industry</label>
                                                                     </div>
@@ -1989,7 +2015,7 @@ console.log(checkBoxfilters)
                                                                                 ))}
                                                                         </div>
                                                                     </div>
-                                                                </div>
+                                                                </div> */}
 
                                                                 <div className="cli-tal-search-filter-form-group">
                                                                     <div className="cli-tal-search-filter-form-label-area">
@@ -2037,7 +2063,7 @@ console.log(checkBoxfilters)
                                                     </div>
 
                                                     {/* Work Details */}
-                                                    <div className="cli-tal-pro-search-filter-content-section">
+                                                    {/* <div className="cli-tal-pro-search-filter-content-section">
                                                         <div className="cli-tal-pro-search-filter-toggle-area">
                                                             <h6 className='cli--emploment-detail-head'>Work Details</h6>
                                                             <svg xmlns="http://www.w3.org/2000/svg" className='' width="15" height="9" viewBox="0 0 15 9" fill="none">
@@ -2087,7 +2113,7 @@ console.log(checkBoxfilters)
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                    </div> */}
 
                                                     {/* Display Details */}
                                                     <div className="cli-tal-pro-search-filter-content-section">
@@ -2167,7 +2193,7 @@ console.log(checkBoxfilters)
                                                     </div>
 
                                                     {/* Education Details */}
-                                                    <div className="cli-tal-pro-search-filter-content-section">
+                                                    {/* <div className="cli-tal-pro-search-filter-content-section">
                                                         <div className="cli-tal-pro-search-filter-toggle-area">
                                                             <h6 className='cli--emploment-detail-head'>Education Details</h6>
                                                             <svg xmlns="http://www.w3.org/2000/svg" className='' width="15" height="9" viewBox="0 0 15 9" fill="none">
@@ -2181,7 +2207,7 @@ console.log(checkBoxfilters)
                                                                         <h6 className='cli-tal-pro-search-filter-title'>UG Qualification</h6>
                                                                     </div>
 
-                                                                    {/* <div className="tal--search-options-area">
+                                                                    <div className="tal--search-options-area">
                                                                         <div className="tal--search-option-container">
                                                                             <input id="any_ug" className="tal--search-radio" type="radio" name="ug_qualification" />
                                                                             <div className="tal--search-tile">
@@ -2202,7 +2228,7 @@ console.log(checkBoxfilters)
                                                                                 <label for="no_ug" className="tal--search-tile-label">No UG Qualification</label>
                                                                             </div>
                                                                         </div>
-                                                                    </div> */}
+                                                                    </div>
 
                                                                     <ul className="nav nav-pills tal-education-select-area pt-2 mb-3" id="pills-tab" role="tablist">
                                                                         <li className="nav-item" role="presentation">
@@ -2248,11 +2274,11 @@ console.log(checkBoxfilters)
                                                                                 <div className="cli-tal-pro-search-filter-input-area">
                                                                                     <input type="search" className='cli-tal-pro-search-filter-input' placeholder='Select institute' />
 
-                                                                                    {/* <div className='tal-pro-search-result-data-area'>
+                                                                                    <div className='tal-pro-search-result-data-area'>
                                                                                         <div className='tal-pro-search-result-data'>
                                                                                             Result 1
                                                                                         </div>
-                                                                                    </div> */}
+                                                                                    </div>
 
                                                                                 </div>
                                                                             </div>
@@ -2345,11 +2371,11 @@ console.log(checkBoxfilters)
                                                                                     <input type="search" className='cli-tal-pro-search-filter-input'
                                                                                         placeholder='Type to select UG course from list' />
 
-                                                                                    {/* <div className='tal-pro-search-result-data-area'>
+                                                                                    <div className='tal-pro-search-result-data-area'>
                                                                                         <div className='tal-pro-search-result-data'>
                                                                                             Result 1
                                                                                         </div>
-                                                                                    </div> */}
+                                                                                    </div>
 
                                                                                 </div>
                                                                             </div>
@@ -2368,11 +2394,11 @@ console.log(checkBoxfilters)
                                                                                 <div className="cli-tal-pro-search-filter-input-area">
                                                                                     <input type="search" className='cli-tal-pro-search-filter-input' placeholder='Select institute' />
 
-                                                                                    {/* <div className='tal-pro-search-result-data-area'>
+                                                                                    <div className='tal-pro-search-result-data-area'>
                                                                                         <div className='tal-pro-search-result-data'>
                                                                                             Result 1
                                                                                         </div>
-                                                                                    </div> */}
+                                                                                    </div>
 
                                                                                 </div>
                                                                             </div>
@@ -2464,7 +2490,7 @@ console.log(checkBoxfilters)
                                                                         <h6 className='cli-tal-pro-search-filter-title'>PG Qualification</h6>
                                                                     </div>
 
-                                                                    {/* <div className="tal--search-options-area">
+                                                                    <div className="tal--search-options-area">
                                                                         <div className="tal--search-option-container">
                                                                             <input id="any_pg" className="tal--search-radio" type="radio" name="pg_qualification" />
                                                                             <div className="tal--search-tile">
@@ -2485,7 +2511,7 @@ console.log(checkBoxfilters)
                                                                                 <label for="no_pg" className="tal--search-tile-label">No PG Qualification</label>
                                                                             </div>
                                                                         </div>
-                                                                    </div> */}
+                                                                    </div>
 
                                                                     <ul className="nav nav-pills tal-education-select-area pt-2 mb-3" id="pills-tab" role="tablist">
                                                                         <li className="nav-item" role="presentation">
@@ -2531,11 +2557,11 @@ console.log(checkBoxfilters)
                                                                                 <div className="cli-tal-pro-search-filter-input-area">
                                                                                     <input type="search" className='cli-tal-pro-search-filter-input' placeholder='Select institute' />
 
-                                                                                    {/* <div className='tal-pro-search-result-data-area'>
+                                                                                    <div className='tal-pro-search-result-data-area'>
                                                                                         <div className='tal-pro-search-result-data'>
                                                                                             Result 1
                                                                                         </div>
-                                                                                    </div> */}
+                                                                                    </div>
 
                                                                                 </div>
                                                                             </div>
@@ -2628,11 +2654,11 @@ console.log(checkBoxfilters)
                                                                                     <input type="search" className='cli-tal-pro-search-filter-input'
                                                                                         placeholder='Type to select UG course from list' />
 
-                                                                                    {/* <div className='tal-pro-search-result-data-area'>
+                                                                                    <div className='tal-pro-search-result-data-area'>
                                                                                         <div className='tal-pro-search-result-data'>
                                                                                             Result 1
                                                                                         </div>
-                                                                                    </div> */}
+                                                                                    </div>
 
                                                                                 </div>
                                                                             </div>
@@ -2651,11 +2677,11 @@ console.log(checkBoxfilters)
                                                                                 <div className="cli-tal-pro-search-filter-input-area">
                                                                                     <input type="search" className='cli-tal-pro-search-filter-input' placeholder='Select institute' />
 
-                                                                                    {/* <div className='tal-pro-search-result-data-area'>
+                                                                                    <div className='tal-pro-search-result-data-area'>
                                                                                         <div className='tal-pro-search-result-data'>
                                                                                             Result 1
                                                                                         </div>
-                                                                                    </div> */}
+                                                                                    </div>
 
                                                                                 </div>
                                                                             </div>
@@ -2751,7 +2777,7 @@ console.log(checkBoxfilters)
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                    </div> */}
 
                                                     {/* Diversity and Additional Details */}
                                                     <div className="cli-tal-pro-search-filter-content-section">
@@ -2844,7 +2870,7 @@ console.log(checkBoxfilters)
                                                                     {/* <button className='cli-tal-pro-recent-search-btn'>Search profile</button> */}
                                                                 </div>
                                                                 <div className="cli-tal-pro-recent-search-tags">
-                                                                    <span>{search.selectedResults.join(", ")}|{search.selectedRoleResults.join(", ")}|{search.selectedLocationResults.join(", ")}|{search.selectedDepartmentResults.join(", ")}|{search.industry.join(", ")}....</span>
+                                                                    <span>{search?.selectedResults.join(", ")}|{search?.selectedRoleResults.join(", ")}|{search?.selectedLocationResults.join(", ")}|{search?.selectedEducationResults.join(", ")}|{search?.industry.join(", ")}....</span>
                                                                 </div>
                                                             </div>
                                                         )
@@ -3510,7 +3536,10 @@ console.log(checkBoxfilters)
                                                                         </div>
                                                                         <div className="tal--pro-card-tags search">
                                                                             <h6 className='tal--pro-card-exp'>
-                                                                                Experience : {candidate.year > 0 ? candidate.year + 'years' : "" + candidate.month > 0 ? candidate.month + 'months' : ""}
+                                                                                Experience : {candidate.year + 'years' +  candidate.month + 'months'}
+                                                                            </h6>
+                                                                            <h6 className='tal--pro-card-exp'>
+                                                                                salary : {candidate.minSalary + '-' +  candidate.maxSalary }
                                                                             </h6>
                                                                             {/* <h6 className='tal--pro-card-exp'>
                                                                                 9.5 LPA
@@ -3553,7 +3582,7 @@ console.log(checkBoxfilters)
                                                                                     <h6 className='tal--pro-card-desc-title'>KeySkill&nbsp;:</h6>
                                                                                 </div>
                                                                                 <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
-                                                                                    <p className='tal--pro-card-desc text-capitalized'>{candidate.skills.join(", ")}</p>
+                                                                                    <p className='tal--pro-card-desc text-capitalized'>{candidate.skills?.join(", ")}</p>
                                                                                 </div>
                                                                             </div>
                                                                             <div className="row tal--pro-card-desc-row">

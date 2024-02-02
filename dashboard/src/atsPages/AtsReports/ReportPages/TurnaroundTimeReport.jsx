@@ -84,9 +84,9 @@ const TurnaroundTimeReport = () => {
             setNoData(false);
             setEmployeeReportDetail([]);
 
-            let endPoint = `http://localhost:5002/find-turn-around-report?period=${period}`
+            let endPoint = `https://skillety-n6r1.onrender.com/find-turn-around-report?period=${period}`
             if(selectedJobs){
-                endPoint = `http://localhost:5002/find-turn-around-report?period=${period}&jobRole=${selectedJobs?.designation}`
+                endPoint = `https://skillety-n6r1.onrender.com/find-turn-around-report?period=${period}&jobRole=${selectedJobs?.designation}`
             }
             
             axios.get(endPoint, {
@@ -297,7 +297,7 @@ const TurnaroundTimeReport = () => {
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        {employeeReportDetail.map((reportData,index)=>{
+                                                        {employeeReportDetail.slice(x[0], x[1]).map((reportData,index)=>{
                                                             return (
                                                                 <tr className='report-table-row with-border' key={index}>
                                                                     <td className='report-table-data'>{reportData?.jobName}</td>

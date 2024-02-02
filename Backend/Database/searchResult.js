@@ -29,7 +29,7 @@ const searchResultSchema = new Schema(
     maxSalary: {
         type: String,
     },
-    selectedDepartmentResults: {
+    selectedEducationResults: {
         type: Array,
     },
     selectedRoleResults: {
@@ -41,12 +41,12 @@ const searchResultSchema = new Schema(
     company: {
         type: String,
     },
-    candidateType: {
-        type: String,
-    },
-    gender: {
-        type: String,
-    }
+    // candidateType: {
+    //     type: String,
+    // },
+    // gender: {
+    //     type: String,
+    // }
     },
     { timestamps: true }
 );
