@@ -1280,3 +1280,45 @@ input.education-type-input[type=checkbox]:checked+.education-type-label::after {
     color: #714F36;
     font-size: 14px;
 }
+
+.no-data-created-area {
+    background-color: #F0F0F0;
+    border-radius: 16px;
+    padding: 32px 25px 25px 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* .no-data-created-area.search-page{
+    background-color: #fff;
+} */
+
+.no-data-created-area .no-data-created .no-data-text {
+    margin-bottom: 0;
+    font-size: 16px;
+    color: #929292;
+}
+
+.no-data-created-area i {
+    font-size: 25px;
+    vertical-align: middle;
+}
+
+.no-data-created-area .no-data-created {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    /* background-color: #FFF;
+    border-radius: 16px;
+    padding: 20px; */
+}
+
+.no-data-created .no-data-img {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    filter: saturate(0);
+    opacity: 0.3;
+}

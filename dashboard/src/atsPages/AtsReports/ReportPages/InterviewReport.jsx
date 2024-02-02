@@ -78,7 +78,7 @@ const InterviewReport = () => {
         if (option) {
             return (
                 <div className="flex align-items-center">
-                    <div>{option.name}</div>
+                    <div className='text-capitalized'>{option.name}</div>
                 </div>
             );
         }
@@ -105,10 +105,14 @@ const InterviewReport = () => {
                     <section class="section">
                         <div className="my-app-section">
                             <div className="back-button-area">
-                                <button className='back-button' onClick={handleBackButtonClick}>
+                                {/* <button className='back-button' onClick={handleBackButtonClick}>
                                     <i className='bi bi-arrow-left mr-2'></i>
                                     Back
-                                </button>
+                                </button> */}
+                                <a href='/ats-reports' className='back-button'>
+                                    <i className='bi bi-arrow-left mr-2 back-icon'></i>
+                                    Back
+                                </a>
                             </div>
                             <div className="admin-component-name text-left">
                                 Interview Report
@@ -248,16 +252,16 @@ const InterviewReport = () => {
                                                         </thead>
                                                         <tbody>
                                                             <tr className='report-table-row with-border'>
-                                                                <td className='report-table-data'>Shabeena Banu</td>
-                                                                <td className='report-table-data'>Poonam</td>
+                                                                <td className='report-table-data text-capitalized'>Shabeena Banu</td>
+                                                                <td className='report-table-data text-capitalized'>Poonam</td>
                                                                 <td className='report-table-data no-wrap'>+91-7083615226</td>
                                                                 <td className='report-table-data'>Informatica production Support Engineer</td>
-                                                                <td className='report-table-data'>Bitwise Solutions Pvt Ltd</td>
+                                                                <td className='report-table-data text-capitalized'>Bitwise Solutions Pvt Ltd</td>
                                                                 <td className='report-table-data no-wrap'>25-07-2023 12:30 PM</td>
-                                                                <td className='report-table-data'>Video Interview</td>
+                                                                <td className='report-table-data text-capitalized'>Video Interview</td>
                                                                 <td className='report-table-data'>Confirmation Pending from Candidate</td>
                                                                 <td className='report-table-data'>------</td>
-                                                                <td className='report-table-data'>Scheduled</td>
+                                                                <td className='report-table-data text-capitalized'>Scheduled</td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
@@ -268,17 +272,17 @@ const InterviewReport = () => {
                                                         <nav aria-label="Page navigation example">
                                                             <ul className="pagination">
                                                                 <li className="page-item">
-                                                                    <a className="page-link custom" href="#" aria-label="Previous">
+                                                                    <a className="page-link custom" href="##" aria-label="Previous">
                                                                         <span aria-hidden="true">&laquo;</span>
                                                                         <span className="sr-only">Previous</span>
                                                                     </a>
                                                                 </li>
-                                                                <li className="page-item"><a className="page-link custom" href="#">1</a></li>
-                                                                <li className="page-item"><a className="page-link custom" href="#">2</a></li>
-                                                                <li className="page-item"><a className="page-link custom" href="#">3</a></li>
-                                                                <li className="page-item"><a className="page-link custom" href="#">..</a></li>
+                                                                <li className="page-item"><a className="page-link custom" href="##">1</a></li>
+                                                                <li className="page-item"><a className="page-link custom" href="##">2</a></li>
+                                                                <li className="page-item"><a className="page-link custom" href="##">3</a></li>
+                                                                <li className="page-item"><a className="page-link custom" href="##">..</a></li>
                                                                 <li className="page-item">
-                                                                    <a className="page-link custom" href="#" aria-label="Next">
+                                                                    <a className="page-link custom" href="##" aria-label="Next">
                                                                         <span aria-hidden="true">&raquo;</span>
                                                                         <span className="sr-only">Next</span>
                                                                     </a>
@@ -326,7 +330,7 @@ const InterviewReport = () => {
                                                         </thead>
                                                         <tbody>
                                                             <tr className='report-table-row with-border'>
-                                                                <td className='report-table-data'>Shabeena Banu</td>
+                                                                <td className='report-table-data text-capitalized'>Shabeena Banu</td>
                                                                 <td className='report-table-data'>1</td>
                                                                 <td className='report-table-data'>1</td>
                                                                 <td className='report-table-data'>1</td>
@@ -352,17 +356,17 @@ const InterviewReport = () => {
                                                         <nav aria-label="Page navigation example">
                                                             <ul className="pagination">
                                                                 <li className="page-item">
-                                                                    <a className="page-link custom" href="#" aria-label="Previous">
+                                                                    <a className="page-link custom" href="##" aria-label="Previous">
                                                                         <span aria-hidden="true">&laquo;</span>
                                                                         <span className="sr-only">Previous</span>
                                                                     </a>
                                                                 </li>
-                                                                <li className="page-item"><a className="page-link custom" href="#">1</a></li>
-                                                                <li className="page-item"><a className="page-link custom" href="#">2</a></li>
-                                                                <li className="page-item"><a className="page-link custom" href="#">3</a></li>
-                                                                <li className="page-item"><a className="page-link custom" href="#">..</a></li>
+                                                                <li className="page-item"><a className="page-link custom" href="##">1</a></li>
+                                                                <li className="page-item"><a className="page-link custom" href="##">2</a></li>
+                                                                <li className="page-item"><a className="page-link custom" href="##">3</a></li>
+                                                                <li className="page-item"><a className="page-link custom" href="##">..</a></li>
                                                                 <li className="page-item">
-                                                                    <a className="page-link custom" href="#" aria-label="Next">
+                                                                    <a className="page-link custom" href="##" aria-label="Next">
                                                                         <span aria-hidden="true">&raquo;</span>
                                                                         <span className="sr-only">Next</span>
                                                                     </a>
@@ -420,17 +424,17 @@ const InterviewReport = () => {
                                                         <nav aria-label="Page navigation example">
                                                             <ul className="pagination">
                                                                 <li className="page-item">
-                                                                    <a className="page-link custom" href="#" aria-label="Previous">
+                                                                    <a className="page-link custom" href="##" aria-label="Previous">
                                                                         <span aria-hidden="true">&laquo;</span>
                                                                         <span className="sr-only">Previous</span>
                                                                     </a>
                                                                 </li>
-                                                                <li className="page-item"><a className="page-link custom" href="#">1</a></li>
-                                                                <li className="page-item"><a className="page-link custom" href="#">2</a></li>
-                                                                <li className="page-item"><a className="page-link custom" href="#">3</a></li>
-                                                                <li className="page-item"><a className="page-link custom" href="#">..</a></li>
+                                                                <li className="page-item"><a className="page-link custom" href="##">1</a></li>
+                                                                <li className="page-item"><a className="page-link custom" href="##">2</a></li>
+                                                                <li className="page-item"><a className="page-link custom" href="##">3</a></li>
+                                                                <li className="page-item"><a className="page-link custom" href="##">..</a></li>
                                                                 <li className="page-item">
-                                                                    <a className="page-link custom" href="#" aria-label="Next">
+                                                                    <a className="page-link custom" href="##" aria-label="Next">
                                                                         <span aria-hidden="true">&raquo;</span>
                                                                         <span className="sr-only">Next</span>
                                                                     </a>

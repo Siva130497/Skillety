@@ -50,7 +50,7 @@ const CandidatePlacementReport = () => {
         }
     }, [filter])
 
-    
+
     const runReport = () => {
         if (period && selectedType) {
             setLoading(true);
@@ -129,10 +129,14 @@ const CandidatePlacementReport = () => {
                     <section class="section">
                         <div className="my-app-section">
                             <div className="back-button-area">
-                                <button className='back-button' onClick={handleBackButtonClick}>
+                                {/* <button className='back-button' onClick={handleBackButtonClick}>
                                     <i className='bi bi-arrow-left mr-2 back-icon'></i>
                                     Back
-                                </button>
+                                </button> */}
+                                <a href='/ats-reports' className='back-button'>
+                                    <i className='bi bi-arrow-left mr-2 back-icon'></i>
+                                    Back
+                                </a>
                             </div>
                             <div className="admin-component-name text-left">
                                 Candidate Placement Report
@@ -193,8 +197,8 @@ const CandidatePlacementReport = () => {
 
                                             <div className="col-12 col-lg-3 col-md-6 mb-4 mb-md-3 mb-lg-0">
                                                 <button className='run-report-button'
-                                                onClick={runReport}
-                                                disabled={filter === ""}>Run Report</button>
+                                                    onClick={runReport}
+                                                    disabled={filter === ""}>Run Report</button>
                                             </div>
                                         </div>
 
@@ -240,69 +244,73 @@ const CandidatePlacementReport = () => {
                                         </div> */}
                                     </div>
 
-                                    {employeeReportDetail.length>0&&
-                                    <div className="report-view-section">
-                                            
-                                        <div className="table-report-head">
-                                                    Candidate Placement Report 
-                                        </div>
-                                        <hr />
-                                        <div className="report-view-area">
-                                                    <div className="table-responsive">
-                                                        <table className='table report-table table-bordered' id='Export_table' ref={tableRef}>
-                                                            <thead>
-                                                                <tr className='report-table-row with-border'>
-                                                                    <th className='report-table-head no-verical-align'>CANDIDATE NAME</th>
-                                                                    <th className='report-table-head no-verical-align'>CONTACT NUMBER</th>
-                                                                    <th className='report-table-head no-verical-align'>JOB TITLE</th>
-                                                                    <th className='report-table-head no-verical-align'>CLIENT NAME</th>
-                                                                    <th className='report-table-head no-verical-align'>ASSIGNED DATE</th>
-                                                                    <th className='report-table-head no-verical-align'>JOINED DATE</th>
-                                                                    <th className='report-table-head no-verical-align'>CURRENT STATUS</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                {employeeReportDetail.slice(x[0], x[1]).map((data, index)=>{
-                                                                    return (
+                                    {employeeReportDetail.length > 0 &&
+                                        <div className="report-view-section">
 
-                                                                <tr className='report-table-row with-border'
-                                                                key={index}>
-                                                                    <td className='report-table-data'>{data?.candidateName}</td>
-                                                                    <td className='report-table-data no-wrap'>{data?.contactNum}</td>
-                                                                    <td className='report-table-data'>{data?.jobTitle}</td>
-                                                                    <td className='report-table-data'>{data?.clientName}</td>
-                                                                    <td className='report-table-data no-wrap'>{data?.assignedDate}</td>
-                                                                    <td className='report-table-data no-wrap'>{data?.joinedDate}</td>
-                                                                    <td className='report-table-data'>
-                                                                        <div className='current-status'>{data?.currentStatus}</div>
-                                                                    </td>
-                                                                </tr>
-                                                                    )
-                                                                })}
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
+                                            <div className="table-report-head">
+                                                Candidate Placement Report
+                                            </div>
+                                            <hr />
+                                            <div className="report-view-area">
+                                                <div className="table-responsive">
+                                                    <table className='table report-table table-bordered' id='Export_table' ref={tableRef}>
+                                                        <thead>
+                                                            <tr className='report-table-row with-border'>
+                                                                <th className='report-table-head no-verical-align'>CANDIDATE NAME</th>
+                                                                <th className='report-table-head no-verical-align'>CONTACT NUMBER</th>
+                                                                <th className='report-table-head no-verical-align'>JOB TITLE</th>
+                                                                <th className='report-table-head no-verical-align'>CLIENT NAME</th>
+                                                                <th className='report-table-head no-verical-align'>ASSIGNED DATE</th>
+                                                                <th className='report-table-head no-verical-align'>JOINED DATE</th>
+                                                                <th className='report-table-head no-verical-align'>CURRENT STATUS</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            {employeeReportDetail.slice(x[0], x[1]).map((data, index) => {
+                                                                return (
 
+                                                                    <tr className='report-table-row with-border'
+                                                                        key={index}>
+                                                                        <td className='report-table-data text-capitalized'>{data?.candidateName ? data?.candidateName : "------"}</td>
+                                                                        <td className='report-table-data no-wrap'>{data?.contactNum ? data?.contactNum : "------"}</td>
+                                                                        <td className='report-table-data text-capitalized'>{data?.jobTitle ? data?.jobTitle : "------"}</td>
+                                                                        <td className='report-table-data text-capitalized'>{data?.clientName ? data?.clientName : "------"}</td>
+                                                                        <td className='report-table-data no-wrap'>{data?.assignedDate ? data?.assignedDate : "------"}</td>
+                                                                        <td className='report-table-data no-wrap text-capitalized'>{data?.joinedDate ? data?.joinedDate : "------"}</td>
+                                                                        {data?.currentStatus ?
+                                                                            <td className='report-table-data'>
+                                                                                <div className='current-status text-capitalized'>{data?.currentStatus}</div>
+                                                                            </td> :
+                                                                            <td className='report-table-data text-center'>------</td>
+                                                                        }
+                                                                    </tr>
+                                                                )
+                                                            })}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+
+                                                {employeeReportDetail.length > 0 &&
                                                     <div className="report-table-pagination-area">
                                                         <div className="buttons">
                                                             <nav aria-label="Page navigation example">
                                                                 <ul className="pagination">
                                                                     <li className="page-item">
-                                                                        {x[0] > 0 && <a className="page-link custom" href="" aria-label="Previous"
+                                                                        {x[0] > 0 && <a className="page-link custom" href="##" aria-label="Previous"
                                                                             onClick={() => setX([x[0] - 3, x[1] - 3])}>
                                                                             <span aria-hidden="true">&laquo;</span>
                                                                             <span className="sr-only">Previous</span>
                                                                         </a>}
                                                                     </li>
                                                                     {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <li className="page-item"
-                                                                        onClick={() => setX([0, 3])}><a className="page-link custom" href="#">1</a></li>}
+                                                                        onClick={() => setX([0, 3])}><a className="page-link custom" href="##">1</a></li>}
                                                                     {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <li className="page-item"
-                                                                        onClick={() => setX([3, 6])}><a className="page-link custom" href="#">2</a></li>}
+                                                                        onClick={() => setX([3, 6])}><a className="page-link custom" href="##">2</a></li>}
                                                                     {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <li className="page-item"
-                                                                        onClick={() => setX([6, 9])}><a className="page-link custom" href="#">3</a></li>}
-                                                                    {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <li className="page-item"><a className="page-link custom" href="#">..</a></li>}
+                                                                        onClick={() => setX([6, 9])}><a className="page-link custom" href="##">3</a></li>}
+                                                                    {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <li className="page-item"><a className="page-link custom" href="##">..</a></li>}
                                                                     <li className="page-item">
-                                                                        {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <a className="page-link custom" href="#" aria-label="Next"
+                                                                        {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <a className="page-link custom" href="##" aria-label="Next"
                                                                             onClick={() => setX([x[0] + 3, x[1] + 3])}>
                                                                             <span aria-hidden="true">&raquo;</span>
                                                                             <span className="sr-only">Next</span>
@@ -312,23 +320,24 @@ const CandidatePlacementReport = () => {
                                                             </nav>
                                                         </div>
                                                     </div>
+                                                }
 
-                                                    <div className="table-export-area">
-                                                        <div className='export-head'>Export</div>
-                                                        <div>
-                                                            <button className='table-export-btn pdf mr-2' onClick={exportToPDF}>
-                                                                <img src="../assets/img/button/pdf.png" alt="" />
-                                                                PDF
-                                                            </button>
-                                                            <button className='table-export-btn excel' onClick={exportToExcel}>
-                                                                <img src="../assets/img/button/xls.png" alt="" />
-                                                                EXCEL
-                                                            </button>
-                                                        </div>
+                                                <div className="table-export-area">
+                                                    <div className='export-head'>Export</div>
+                                                    <div>
+                                                        <button className='table-export-btn pdf mr-2' onClick={exportToPDF}>
+                                                            <img src="../assets/img/button/pdf.png" alt="" />
+                                                            PDF
+                                                        </button>
+                                                        <button className='table-export-btn excel' onClick={exportToExcel}>
+                                                            <img src="../assets/img/button/xls.png" alt="" />
+                                                            EXCEL
+                                                        </button>
                                                     </div>
-                                        </div>
-                                            
-                                        {/* {selectedType === 'General' && (
+                                                </div>
+                                            </div>
+
+                                            {/* {selectedType === 'General' && (
                                         )}
 
                                         {selectedType === 'JoinDate' && (
@@ -494,27 +503,27 @@ const CandidatePlacementReport = () => {
                                                 </div>
                                             </>
                                         )} */}
-                                    </div>}
+                                        </div>}
 
                                     {noData &&
-                                    <div className="report-no-data-found-area">
-                                        <img src="../assets/img/no-data/No-data-found.webp" className='report-no-data-found-img' alt="" />
-                                        <div className='report-no-data-found-text'>No data found.</div>
-                                        <div className='report-no-data-found-sub-text'>Try to create the information first.</div>
-                                    </div>}
+                                        <div className="report-no-data-found-area">
+                                            <img src="../assets/img/no-data/No-data-found.webp" className='report-no-data-found-img' alt="" />
+                                            <div className='report-no-data-found-text'>No data found.</div>
+                                            <div className='report-no-data-found-sub-text'>Try to create the information first.</div>
+                                        </div>}
 
                                     {loading && <div className="dot-spinner-area">
-                                            <div className="dot-spinner">
-                                                <div className="dot-spinner__dot"></div>
-                                                <div className="dot-spinner__dot"></div>
-                                                <div className="dot-spinner__dot"></div>
-                                                <div className="dot-spinner__dot"></div>
-                                                <div className="dot-spinner__dot"></div>
-                                                <div className="dot-spinner__dot"></div>
-                                                <div className="dot-spinner__dot"></div>
-                                                <div className="dot-spinner__dot"></div>
-                                            </div>
-                                        </div>}
+                                        <div className="dot-spinner">
+                                            <div className="dot-spinner__dot"></div>
+                                            <div className="dot-spinner__dot"></div>
+                                            <div className="dot-spinner__dot"></div>
+                                            <div className="dot-spinner__dot"></div>
+                                            <div className="dot-spinner__dot"></div>
+                                            <div className="dot-spinner__dot"></div>
+                                            <div className="dot-spinner__dot"></div>
+                                            <div className="dot-spinner__dot"></div>
+                                        </div>
+                                    </div>}
                                 </div>
                             </div>
                         </div>

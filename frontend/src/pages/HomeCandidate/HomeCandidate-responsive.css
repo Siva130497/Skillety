@@ -56,12 +56,16 @@
         padding-top: 60px;
     }
 
+    .custom--mobile-padding.candidate{
+        padding-bottom: 60px;
+    }
+
     .home--testimonial-section.candidate {
         padding-top: 40px;
     }
 
     .register--section.candidate {
-        padding: 40px 0 100px 0;
+        padding: 0px 0 100px 0;
     }
 }
 
@@ -99,6 +103,7 @@
 
     .cand--home-event-section {
         padding-top: 40px;
+        padding-bottom: 60px;
     }
 
     .home--testimonial-section.candidate {
@@ -170,6 +175,9 @@
     .home--section.candidate {
         padding-top: 25px;
     }
+    .home--section.candidate.register {
+        padding-top: 0px;
+    }
 
     .cand--job-card-desc-area {
         height: 245px;
@@ -221,10 +229,11 @@
 
     .cand--home-event-section {
         padding-top: 0px;
+        padding-bottom: 0;
     }
 
     .register--section.candidate {
-        padding: 10px 0 60px 0;
+        padding: 0px 0 60px 0;
     }
 
     .cand--job-card-desc-area .slide-down-view {

@@ -32,34 +32,34 @@ const JobSuccessReport = () => {
 
     const getAllClients = async () => {
         try {
-          const res = await axios.get("https://skillety-n6r1.onrender.com/ats-clients", {
-            headers: {
-              Authorization: `Bearer ${atsToken}`,
-              Accept: 'application/json'
+            const res = await axios.get("https://skillety-n6r1.onrender.com/ats-clients", {
+                headers: {
+                    Authorization: `Bearer ${atsToken}`,
+                    Accept: 'application/json'
+                }
+            });
+            const result = res.data;
+            if (!result.error) {
+                console.log(result);
+                setClientArray([{ companyName: 'All' }, ...result]); // Add "Select Job" option
+            } else {
+                console.log(result);
             }
-          });
-          const result = res.data;
-          if (!result.error) {
-            console.log(result);
-            setClientArray([{ companyName: 'Select Client' }, ...result]); // Add "Select Job" option
-          } else {
-            console.log(result);
-          }
         } catch (err) {
-          console.log(err);
+            console.log(err);
         }
-      };
+    };
 
-      useEffect(() => {
+    useEffect(() => {
         setatsToken(JSON.parse(localStorage.getItem('atsToken')))
     }, [atsToken]);
 
     useEffect(() => {
-        if(atsToken){
+        if (atsToken) {
             getAllClients();
         }
     }, [atsToken]);
-    
+
     useEffect(() => {
         if (selectedFromDate && selectedToDate) {
             setCustomDate(selectedFromDate + "to" + selectedToDate)
@@ -78,7 +78,7 @@ const JobSuccessReport = () => {
         }
     }, [filter])
 
-    
+
     const runReport = () => {
         if (period) {
             setLoading(true);
@@ -86,10 +86,10 @@ const JobSuccessReport = () => {
             setEmployeeReportDetail([]);
 
             let endPoint = `https://skillety-n6r1.onrender.com/job-success-report?period=${period}`
-            if(selectedClient){
+            if (selectedClient) {
                 endPoint = `https://skillety-n6r1.onrender.com/job-success-report?period=${period}&companyName=${selectedClient?.companyName}`
             }
-            
+
             axios.get(endPoint, {
                 headers: {
                     Authorization: `Bearer ${atsToken}`,
@@ -150,7 +150,7 @@ const JobSuccessReport = () => {
         if (option) {
             return (
                 <div className="flex align-items-center">
-                    <div>{option.companyName}</div>
+                    <div className='text-capitalized'>{option.companyName}</div>
                 </div>
             );
         }
@@ -161,13 +161,13 @@ const JobSuccessReport = () => {
     const clientOptionTemplate = (option) => {
         return (
             <div className="flex align-items-center">
-                <div>{option.companyName}</div>
+                <div className='text-capitalized'>{option.companyName}</div>
             </div>
         );
     };
 
     const handleDropdownChange = (e) => {
-        if (e.value && e.value.companyName === 'Select Client') {
+        if (e.value && e.value.companyName === 'All') {
             setSelectedClient(null); // Reset selected job when "Select Job" is selected
         } else {
             setSelectedClient(e.value);
@@ -185,10 +185,14 @@ const JobSuccessReport = () => {
                     <section class="section">
                         <div className="my-app-section">
                             <div className="back-button-area">
-                                <button className='back-button' onClick={handleBackButtonClick}>
+                                {/* <button className='back-button' onClick={handleBackButtonClick}>
                                     <i className='bi bi-arrow-left mr-2'></i>
                                     Back
-                                </button>
+                                </button> */}
+                                <a href='/ats-reports' className='back-button'>
+                                    <i className='bi bi-arrow-left mr-2 back-icon'></i>
+                                    Back
+                                </a>
                             </div>
                             <div className="admin-component-name text-left">
                                 Job Success Report
@@ -224,15 +228,15 @@ const JobSuccessReport = () => {
 
                                             <div className="col-12 col-lg-3 col-md-6 mb-4 mb-md-3 mb-lg-0">
                                                 <div className="report-filter-input-area">
-                                                <Dropdown value={selectedClient} onChange={handleDropdownChange} options={clientArray} optionLabel="name" placeholder="Select Client Name"
+                                                    <Dropdown value={selectedClient} onChange={handleDropdownChange} options={clientArray} optionLabel="name" placeholder="Select Client Name"
                                                         filter filterPlaceholder="Search" valueTemplate={selectedClientTemplate} itemTemplate={clientOptionTemplate} className="w-full report-custom-select-input" />
                                                 </div>
                                             </div>
 
                                             <div className="col-12 col-lg-3 col-md-6 mb-4 mb-md-3 mb-lg-0">
                                                 <button className='run-report-button'
-                                                onClick={runReport}
-                                                disabled={filter === ""}>Run Report</button>
+                                                    onClick={runReport}
+                                                    disabled={filter === ""}>Run Report</button>
                                             </div>
                                         </div>
 
@@ -263,106 +267,106 @@ const JobSuccessReport = () => {
                                             </div>
                                         )}
                                     </div>
-                                    
+
                                     {employeeReportDetail.length > 0 &&
-                                    <div className="report-view-section">
-                                        <div className="report-view-area">
-                                            <div className="table-responsive">
-                                                <table className='table report-table table-bordered' id='Export_table' ref={tableRef}>
-                                                    <thead>
-                                                        <tr className='report-table-row with-border'>
-                                                            <th className='report-table-head no-verical-align'>JOB TITLE</th>
-                                                            <th className='report-table-head no-verical-align'>CLIENT NAME</th>
-                                                            <th className='report-table-head no-verical-align'>CREATED ON</th>
-                                                            <th className='report-table-head no-verical-align'>JOB STATUS</th>
-                                                            <th className='report-table-head no-verical-align'>ASSIGNED CANDIDATES</th>
-                                                            <th className='report-table-head no-verical-align'>JOINED CANDIDATES</th>
-                                                            <th className='report-table-head no-verical-align'>SUCCESS (IN %)</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        {employeeReportDetail.slice(x[0], x[1]).map((data, index)=> {
-                                                            return (
+                                        <div className="report-view-section">
+                                            <div className="report-view-area">
+                                                <div className="table-responsive">
+                                                    <table className='table report-table table-bordered' id='Export_table' ref={tableRef}>
+                                                        <thead>
+                                                            <tr className='report-table-row with-border'>
+                                                                <th className='report-table-head no-verical-align'>JOB TITLE</th>
+                                                                <th className='report-table-head no-verical-align'>CLIENT NAME</th>
+                                                                <th className='report-table-head no-verical-align'>CREATED ON</th>
+                                                                <th className='report-table-head no-verical-align'>JOB STATUS</th>
+                                                                <th className='report-table-head no-verical-align'>ASSIGNED CANDIDATES</th>
+                                                                <th className='report-table-head no-verical-align'>JOINED CANDIDATES</th>
+                                                                <th className='report-table-head no-verical-align'>SUCCESS (IN %)</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            {employeeReportDetail.slice(x[0], x[1]).map((data, index) => {
+                                                                return (
 
-                                                        <tr className='report-table-row with-border'
-                                                        key={index}>
-                                                            <td className='report-table-data'>{data?.jobRole}</td>
-                                                            <td className='report-table-data'>{data?.clientName}</td>
-                                                            <td className='report-table-data no-wrap'>{data?.createdAt}</td>
-                                                            <td className='report-table-data'>{data?.jobStatus}</td>
-                                                            <td className='report-table-data'>{data?.assignedCands}</td>
-                                                            <td className='report-table-data'>{data?.joinedCands}</td>
-                                                            <td className='report-table-data'>{data?.successRate}</td>
-                                                        </tr>
-                                                            )
-                                                        })}
-                                                    </tbody>
-                                                </table>
-                                            </div>
+                                                                    <tr className='report-table-row with-border'
+                                                                        key={index}>
+                                                                        <td className='report-table-data text-capitalized'>{data?.jobRole ? data?.jobRole : "------"}</td>
+                                                                        <td className='report-table-data'>{data?.clientName ? data?.clientName : "------"}</td>
+                                                                        <td className='report-table-data no-wrap'>{data?.createdAt}</td>
+                                                                        <td className='report-table-data'>{data?.jobStatus}</td>
+                                                                        <td className='report-table-data'>{data?.assignedCands}</td>
+                                                                        <td className='report-table-data'>{data?.joinedCands}</td>
+                                                                        <td className='report-table-data'>{data?.successRate}</td>
+                                                                    </tr>
+                                                                )
+                                                            })}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
 
-                                            <div className="report-table-pagination-area">
-                                                        <div className="buttons">
-                                                            <nav aria-label="Page navigation example">
-                                                                <ul className="pagination">
-                                                                    <li className="page-item">
-                                                                        {x[0] > 0 && <a className="page-link custom" href="" aria-label="Previous"
-                                                                            onClick={() => setX([x[0] - 3, x[1] - 3])}>
-                                                                            <span aria-hidden="true">&laquo;</span>
-                                                                            <span className="sr-only">Previous</span>
-                                                                        </a>}
-                                                                    </li>
-                                                                    {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <li className="page-item"
-                                                                        onClick={() => setX([0, 3])}><a className="page-link custom" href="#">1</a></li>}
-                                                                    {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <li className="page-item"
-                                                                        onClick={() => setX([3, 6])}><a className="page-link custom" href="#">2</a></li>}
-                                                                    {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <li className="page-item"
-                                                                        onClick={() => setX([6, 9])}><a className="page-link custom" href="#">3</a></li>}
-                                                                    {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <li className="page-item"><a className="page-link custom" href="#">..</a></li>}
-                                                                    <li className="page-item">
-                                                                        {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <a className="page-link custom" href="#" aria-label="Next"
-                                                                            onClick={() => setX([x[0] + 3, x[1] + 3])}>
-                                                                            <span aria-hidden="true">&raquo;</span>
-                                                                            <span className="sr-only">Next</span>
-                                                                        </a>}
-                                                                    </li>
-                                                                </ul>
-                                                            </nav>
-                                                        </div>
-                                            </div>
+                                                <div className="report-table-pagination-area">
+                                                    <div className="buttons">
+                                                        <nav aria-label="Page navigation example">
+                                                            <ul className="pagination">
+                                                                <li className="page-item">
+                                                                    {x[0] > 0 && <a className="page-link custom" href="##" aria-label="Previous"
+                                                                        onClick={() => setX([x[0] - 3, x[1] - 3])}>
+                                                                        <span aria-hidden="true">&laquo;</span>
+                                                                        <span className="sr-only">Previous</span>
+                                                                    </a>}
+                                                                </li>
+                                                                {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <li className="page-item"
+                                                                    onClick={() => setX([0, 3])}><a className="page-link custom" href="##">1</a></li>}
+                                                                {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <li className="page-item"
+                                                                    onClick={() => setX([3, 6])}><a className="page-link custom" href="##">2</a></li>}
+                                                                {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <li className="page-item"
+                                                                    onClick={() => setX([6, 9])}><a className="page-link custom" href="##">3</a></li>}
+                                                                {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <li className="page-item"><a className="page-link custom" href="##">..</a></li>}
+                                                                <li className="page-item">
+                                                                    {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <a className="page-link custom" href="##" aria-label="Next"
+                                                                        onClick={() => setX([x[0] + 3, x[1] + 3])}>
+                                                                        <span aria-hidden="true">&raquo;</span>
+                                                                        <span className="sr-only">Next</span>
+                                                                    </a>}
+                                                                </li>
+                                                            </ul>
+                                                        </nav>
+                                                    </div>
+                                                </div>
 
-                                            <div className="table-export-area">
-                                                <div className='export-head'>Export</div>
-                                                <div>
-                                                    <button className='table-export-btn pdf mr-2' onClick={exportToPDF}>
-                                                        <img src="../assets/img/button/pdf.png" alt="" />
-                                                        PDF
-                                                    </button>
-                                                    <button className='table-export-btn excel' onClick={exportToExcel}>
-                                                        <img src="../assets/img/button/xls.png" alt="" />
-                                                        EXCEL
-                                                    </button>
+                                                <div className="table-export-area">
+                                                    <div className='export-head'>Export</div>
+                                                    <div>
+                                                        <button className='table-export-btn pdf mr-2' onClick={exportToPDF}>
+                                                            <img src="../assets/img/button/pdf.png" alt="" />
+                                                            PDF
+                                                        </button>
+                                                        <button className='table-export-btn excel' onClick={exportToExcel}>
+                                                            <img src="../assets/img/button/xls.png" alt="" />
+                                                            EXCEL
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>}
+                                        </div>}
 
-                                    {noData &&<div className="report-no-data-found-area">
+                                    {noData && <div className="report-no-data-found-area">
                                         <img src="../assets/img/no-data/No-data-found.webp" className='report-no-data-found-img' alt="" />
                                         <div className='report-no-data-found-text'>No data found.</div>
                                         <div className='report-no-data-found-sub-text'>Try to create the information first.</div>
                                     </div>}
 
                                     {loading && <div className="dot-spinner-area">
-                                            <div className="dot-spinner">
-                                                <div className="dot-spinner__dot"></div>
-                                                <div className="dot-spinner__dot"></div>
-                                                <div className="dot-spinner__dot"></div>
-                                                <div className="dot-spinner__dot"></div>
-                                                <div className="dot-spinner__dot"></div>
-                                                <div className="dot-spinner__dot"></div>
-                                                <div className="dot-spinner__dot"></div>
-                                                <div className="dot-spinner__dot"></div>
-                                            </div>
+                                        <div className="dot-spinner">
+                                            <div className="dot-spinner__dot"></div>
+                                            <div className="dot-spinner__dot"></div>
+                                            <div className="dot-spinner__dot"></div>
+                                            <div className="dot-spinner__dot"></div>
+                                            <div className="dot-spinner__dot"></div>
+                                            <div className="dot-spinner__dot"></div>
+                                            <div className="dot-spinner__dot"></div>
+                                            <div className="dot-spinner__dot"></div>
+                                        </div>
                                     </div>}
                                 </div>
                             </div>

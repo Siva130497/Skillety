@@ -29,6 +29,8 @@ const ATSSideBar = () => {
                 $('#all_ats_jobs').addClass('active');
             } else if (path === '/all-offline-candidates') {
                 $('#all_offline_candidates').addClass('active');
+            } else if (path === '/ats-reports') {
+                $('#ats_reports').addClass('active');
             }
             feather.replace();
         });
@@ -92,8 +94,8 @@ const ATSSideBar = () => {
                     <li className="dropdown" id='ats_dashboard'>
                         <a href={`/ats-dashboard/${atsToken}`} className="nav-link"><i data-feather="home"></i><span>Dashboard</span></a>
                     </li>
-                     <li className="dropdown" id='all-ats-staff'>
-                        {role === "Super-Admin"&& <a href="/all-company-staff-ats" className="nav-link"><i data-feather="user-check"></i><span>ATS Staffs</span></a>}
+                    <li className="dropdown" id='all-ats-staff'>
+                        {role === "Super-Admin" && <a href="/all-company-staff-ats" className="nav-link"><i data-feather="user-check"></i><span>ATS Staffs</span></a>}
                     </li>
                     {/* {role === "Admin" && <li className="dropdown" id='company-staff-create'>
                             <a href="/company-staff-create" className="nav-link"><i data-feather="user"></i><span>Company Staff Create</span></a>
