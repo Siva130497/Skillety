@@ -12,12 +12,111 @@ import { Dropdown } from 'primereact/dropdown';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import * as XLSX from 'xlsx';
+import axios from 'axios';
 
 const ClientReport = () => {
-    const [filter, setFilter] = useState([]);
+    const [filter, setFilter] = useState("");
     const navigate = useNavigate();
     const [selectedFromDate, setSelectedFromDate] = useState(new Date().toISOString().split('T')[0]);
     const [selectedToDate, setSelectedToDate] = useState(new Date().toISOString().split('T')[0]);
+    const [loading, setLoading] = useState(false);
+    const [noData, setNoData] = useState(false);
+    const [atsToken, setatsToken] = useState("");
+    const [customDate, setCustomDate] = useState("");
+    const [period, setPeriod] = useState("");
+    const [employeeReportDetail, setEmployeeReportDetail] = useState([]);
+    const [x, setX] = useState([0, 3]);
+    const [y, setY] = useState([0, 5]);
+    const [clientArray, setClientArray] = useState([]);
+    const [selectedClient, setSelectedClient] = useState(null);
+    const [clientName, setClientName] = useState("");
+    const [jobDetail, setJobDetail] = useState([]);
+
+    const getAllClients = async () => {
+        try {
+          const res = await axios.get("https://skillety-n6r1.onrender.com/ats-clients", {
+            headers: {
+              Authorization: `Bearer ${atsToken}`,
+              Accept: 'application/json'
+            }
+          });
+          const result = res.data;
+          if (!result.error) {
+            console.log(result);
+            setClientArray([{ companyName: 'Select Client' }, ...result]); // Add "Select Job" option
+          } else {
+            console.log(result);
+          }
+        } catch (err) {
+          console.log(err);
+        }
+      };
+
+      useEffect(() => {
+        setatsToken(JSON.parse(localStorage.getItem('atsToken')))
+    }, [atsToken]);
+
+    useEffect(() => {
+        if(atsToken){
+            getAllClients();
+        }
+    }, [atsToken]);
+    
+    useEffect(() => {
+        if (selectedFromDate && selectedToDate) {
+            setCustomDate(selectedFromDate + "to" + selectedToDate)
+        }
+    }, [selectedFromDate, selectedToDate])
+
+    useEffect(() => {
+        if (customDate) {
+            setPeriod(customDate)
+        }
+    }, [customDate])
+
+    useEffect(() => {
+        if (filter) {
+            setPeriod(filter)
+        }
+    }, [filter])
+
+    
+    const runReport = () => {
+        if (period) {
+            setLoading(true);
+            setNoData(false);
+            setEmployeeReportDetail([]);
+
+            let endPoint = `https://skillety-n6r1.onrender.com/client-report?period=${period}`
+            if(selectedClient){
+                endPoint = `https://skillety-n6r1.onrender.com/client-report?period=${period}&companyName=${selectedClient?.companyName}`
+            }
+            
+            axios.get(endPoint, {
+                headers: {
+                    Authorization: `Bearer ${atsToken}`,
+                    Accept: 'application/json'
+                }
+            })
+                .then(res => {
+                    setLoading(false)
+                    console.log(res.data);
+                    setEmployeeReportDetail(res.data);
+
+                })
+                .catch(err => {
+                    console.log(err);
+                    setLoading(false)
+                    setNoData(true)
+                })
+        }
+
+    }
+
+    const handleViewModel = (result, name) => {
+        setJobDetail(result);
+        setClientName(name);
+    }
 
     const handleBackButtonClick = () => {
         navigate(-1);
@@ -54,25 +153,11 @@ const ClientReport = () => {
         XLSX.writeFile(wb, 'table.xlsx');
     };
 
-    const [selectedClient, setSelectedClient] = useState(null);
-    const clients = [
-        { name: 'Client1' },
-        { name: 'Client2' },
-        { name: 'Client3' },
-        { name: 'Client4' },
-        { name: 'Client5' },
-        { name: 'Client6' },
-        { name: 'Client7' },
-        { name: 'Client8' },
-        { name: 'Client9' },
-        { name: 'Client10' }
-    ];
-
     const selectedClientTemplate = (option, props) => {
         if (option) {
             return (
                 <div className="flex align-items-center">
-                    <div>{option.name}</div>
+                    <div>{option.companyName}</div>
                 </div>
             );
         }
@@ -83,9 +168,17 @@ const ClientReport = () => {
     const clientOptionTemplate = (option) => {
         return (
             <div className="flex align-items-center">
-                <div>{option.name}</div>
+                <div>{option.companyName}</div>
             </div>
         );
+    };
+
+    const handleDropdownChange = (e) => {
+        if (e.value && e.value.companyName === 'Select Client') {
+            setSelectedClient(null); // Reset selected job when "Select Job" is selected
+        } else {
+            setSelectedClient(e.value);
+        }
     };
 
     return (
@@ -124,12 +217,12 @@ const ClientReport = () => {
                                                         value={filter}
                                                         onChange={handleFilterChange}>
                                                         <option value="">Select Search Period</option>
-                                                        <option value="ThisWeek">This Week</option>
-                                                        <option value="ThisMonth">This Month</option>
-                                                        <option value="ThisYear">This Year</option>
-                                                        <option value="LastWeek">Last Week</option>
-                                                        <option value="LastMonth">Last Month</option>
-                                                        <option value="LastYear">Last Year</option>
+                                                        <option value="thisWeek">This Week</option>
+                                                        <option value="thisMonth">This Month</option>
+                                                        <option value="thisYear">This Year</option>
+                                                        <option value="lastWeek">Last Week</option>
+                                                        <option value="lastMonth">Last Month</option>
+                                                        <option value="lastYear">Last Year</option>
                                                         <option value="CustomDate">Custom Date</option>
                                                     </select>
                                                 </div>
@@ -138,13 +231,16 @@ const ClientReport = () => {
 
                                             <div className="col-12 col-lg-3 col-md-6 mb-4 mb-md-3 mb-lg-0">
                                                 <div className="report-filter-input-area">
-                                                    <Dropdown value={selectedClient} onChange={(e) => setSelectedClient(e.value)} options={clients} optionLabel="name" placeholder="Select Client Name"
-                                                        filter valueTemplate={selectedClientTemplate} itemTemplate={clientOptionTemplate} className="w-full report-custom-select-input" />
+                                                    
+                                                    <Dropdown value={selectedClient} onChange={handleDropdownChange} options={clientArray} optionLabel="name" placeholder="Select Client Name"
+                                                        filter filterPlaceholder="Search" valueTemplate={selectedClientTemplate} itemTemplate={clientOptionTemplate} className="w-full report-custom-select-input" />
                                                 </div>
                                             </div>
 
                                             <div className="col-12 col-lg-3 col-md-6 mb-4 mb-md-3 mb-lg-0">
-                                                <button className='run-report-button'>Run Report</button>
+                                                <button className='run-report-button'
+                                                onClick={runReport}
+                                                disabled={filter === ""}>Run Report</button>
                                             </div>
                                         </div>
 
@@ -176,6 +272,7 @@ const ClientReport = () => {
                                         )}
                                     </div>
 
+                                    {employeeReportDetail.length > 0 &&
                                     <div className="report-view-section">
                                         <div className="report-view-area">
                                             <div className="table-responsive">
@@ -184,68 +281,56 @@ const ClientReport = () => {
                                                         <tr className='report-table-row with-border'>
                                                             <th className='report-table-head no-verical-align'>CLIENT NAME</th>
                                                             <th className='report-table-head no-verical-align'>CREATED ON</th>
-                                                            <th className='report-table-head no-verical-align'>STATUS</th>
                                                             <th className='report-table-head no-verical-align text-center'>No. OF JOBS</th>
-                                                            <th className='report-table-head no-verical-align text-center'>No. OF POSITION</th>
-                                                            <th className='report-table-head no-verical-align text-center'>No. OF CALLS</th>
-                                                            <th className='report-table-head no-verical-align text-center'>No. OF PRE-SCREENS</th>
-                                                            <th className='report-table-head no-verical-align text-center'>No. OF INTERNAL SUBMISSION</th>
-                                                            <th className='report-table-head no-verical-align text-center'>No. OF CLIENT SUBMISSION</th>
-                                                            <th className='report-table-head no-verical-align text-center'>No. OF INTERVIEWS</th>
-                                                            <th className='report-table-head no-verical-align text-center'>No. OF OFFERED</th>
-                                                            <th className='report-table-head no-verical-align text-center'>No. OF HIRED</th>
-                                                            <th className='report-table-head no-verical-align text-center'>No. OF REJECTED</th>
-                                                            <th className='report-table-head no-verical-align text-center'>No. OF REJECTED</th>
-                                                            <th className='report-table-head no-verical-align text-center'>SUCCESSRATE (IN %)</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr className='report-table-row with-border'>
+                                                    {employeeReportDetail.slice(x[0], x[1]).map((reportData,index)=>{
+                                                        return (
+
+                                                        <tr className='report-table-row with-border'
+                                                        key={index}>
                                                             <td className='report-table-data'>
-                                                                <button className='report-data-view-button' data-toggle="modal" data-target="#ViewModal">Angular Developer</button>
+                                                                <button className='report-data-view-button' data-toggle="modal" data-target="#ViewModal"
+                                                                onClick={()=>handleViewModel(reportData?.jobDetails, reportData?.clientName)}>{reportData?.clientName}</button>
                                                             </td>
-                                                            <td className='report-table-data no-wrap'>04-12-2023</td>
-                                                            <td className='report-table-data'>Active</td>
-                                                            <td className='report-table-data text-center'>1</td>
-                                                            <td className='report-table-data text-center'>1</td>
-                                                            <td className='report-table-data text-center'>1</td>
-                                                            <td className='report-table-data text-center'>1</td>
-                                                            <td className='report-table-data text-center'>1</td>
-                                                            <td className='report-table-data text-center'>1</td>
-                                                            <td className='report-table-data text-center'>1</td>
-                                                            <td className='report-table-data text-center'>1</td>
-                                                            <td className='report-table-data text-center'>1</td>
-                                                            <td className='report-table-data text-center'>1</td>
-                                                            <td className='report-table-data text-center'>1</td>
-                                                            <td className='report-table-data text-center'>1</td>
+                                                            <td className='report-table-data no-wrap'>{reportData?.createdDate}</td>
+                                                            <td className='report-table-data text-center'>{reportData?.numOfJobs}</td>
                                                         </tr>
+                                                        )
+                                                    })}
                                                     </tbody>
                                                 </table>
                                             </div>
 
                                             <div className="report-table-pagination-area">
-                                                <div className="buttons">
-                                                    <nav aria-label="Page navigation example">
-                                                        <ul className="pagination">
-                                                            <li className="page-item">
-                                                                <a className="page-link custom" href="#" aria-label="Previous">
-                                                                    <span aria-hidden="true">&laquo;</span>
-                                                                    <span className="sr-only">Previous</span>
-                                                                </a>
-                                                            </li>
-                                                            <li className="page-item"><a className="page-link custom" href="#">1</a></li>
-                                                            <li className="page-item"><a className="page-link custom" href="#">2</a></li>
-                                                            <li className="page-item"><a className="page-link custom" href="#">3</a></li>
-                                                            <li className="page-item"><a className="page-link custom" href="#">..</a></li>
-                                                            <li className="page-item">
-                                                                <a className="page-link custom" href="#" aria-label="Next">
-                                                                    <span aria-hidden="true">&raquo;</span>
-                                                                    <span className="sr-only">Next</span>
-                                                                </a>
-                                                            </li>
-                                                        </ul>
-                                                    </nav>
-                                                </div>
+                                                        <div className="buttons">
+                                                            <nav aria-label="Page navigation example">
+                                                                <ul className="pagination">
+                                                                    <li className="page-item">
+                                                                        {x[0] > 0 && <a className="page-link custom" href="" aria-label="Previous"
+                                                                            onClick={() => setX([x[0] - 3, x[1] - 3])}>
+                                                                            <span aria-hidden="true">&laquo;</span>
+                                                                            <span className="sr-only">Previous</span>
+                                                                        </a>}
+                                                                    </li>
+                                                                    {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <li className="page-item"
+                                                                        onClick={() => setX([0, 3])}><a className="page-link custom" href="#">1</a></li>}
+                                                                    {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <li className="page-item"
+                                                                        onClick={() => setX([3, 6])}><a className="page-link custom" href="#">2</a></li>}
+                                                                    {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <li className="page-item"
+                                                                        onClick={() => setX([6, 9])}><a className="page-link custom" href="#">3</a></li>}
+                                                                    {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <li className="page-item"><a className="page-link custom" href="#">..</a></li>}
+                                                                    <li className="page-item">
+                                                                        {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <a className="page-link custom" href="#" aria-label="Next"
+                                                                            onClick={() => setX([x[0] + 3, x[1] + 3])}>
+                                                                            <span aria-hidden="true">&raquo;</span>
+                                                                            <span className="sr-only">Next</span>
+                                                                        </a>}
+                                                                    </li>
+                                                                </ul>
+                                                            </nav>
+                                                        </div>
                                             </div>
 
                                             <div className="table-export-area">
@@ -262,13 +347,26 @@ const ClientReport = () => {
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div>}
 
-                                    <div className="report-no-data-found-area">
+                                    {noData &&<div className="report-no-data-found-area">
                                         <img src="../assets/img/no-data/No-data-found.webp" className='report-no-data-found-img' alt="" />
                                         <div className='report-no-data-found-text'>No data found.</div>
                                         <div className='report-no-data-found-sub-text'>Try to create the information first.</div>
-                                    </div>
+                                    </div>}
+
+                                    {loading && <div className="dot-spinner-area">
+                                            <div className="dot-spinner">
+                                                <div className="dot-spinner__dot"></div>
+                                                <div className="dot-spinner__dot"></div>
+                                                <div className="dot-spinner__dot"></div>
+                                                <div className="dot-spinner__dot"></div>
+                                                <div className="dot-spinner__dot"></div>
+                                                <div className="dot-spinner__dot"></div>
+                                                <div className="dot-spinner__dot"></div>
+                                                <div className="dot-spinner__dot"></div>
+                                            </div>
+                                    </div>}
                                 </div>
                             </div>
                         </div>
@@ -289,7 +387,7 @@ const ClientReport = () => {
                             </div>
                             <div className="modal-body">
                                 <div className="card p-3 mb-0">
-                                    <div className='text-blue font-weight-600'>Technosoft Engineering Projects Limited</div>
+                                    <div className='text-blue font-weight-600'>{clientName}</div>
                                     <hr />
                                     <div className="table-responsive report-data-view-area">
                                         <table className='table report-table table-bordered'>
@@ -298,38 +396,21 @@ const ClientReport = () => {
                                                     <th className='report-table-head no-verical-align'>JOB TITLE</th>
                                                     <th className='report-table-head no-verical-align'>CREATED ON</th>
                                                     <th className='report-table-head no-verical-align'>STATUS</th>
-                                                    <th className='report-table-head no-verical-align text-center'>No. OF JOBS</th>
-                                                    <th className='report-table-head no-verical-align text-center'>No. OF POSITION</th>
-                                                    <th className='report-table-head no-verical-align text-center'>No. OF CALLS</th>
-                                                    <th className='report-table-head no-verical-align text-center'>No. OF PRE-SCREENS</th>
-                                                    <th className='report-table-head no-verical-align text-center'>No. OF INTERNAL SUBMISSION</th>
-                                                    <th className='report-table-head no-verical-align text-center'>No. OF CLIENT SUBMISSION</th>
-                                                    <th className='report-table-head no-verical-align text-center'>No. OF INTERVIEWS</th>
-                                                    <th className='report-table-head no-verical-align text-center'>No. OF OFFERED</th>
-                                                    <th className='report-table-head no-verical-align text-center'>No. OF HIRED</th>
-                                                    <th className='report-table-head no-verical-align text-center'>No. OF REJECTED</th>
-                                                    <th className='report-table-head no-verical-align text-center'>No. OF REJECTED</th>
-                                                    <th className='report-table-head no-verical-align text-center'>SUCCESSRATE (IN %)</th>
+                                                    <th className='report-table-head no-verical-align text-center'>ASSIGNED CANDIDATES</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr className='report-table-row with-border'>
-                                                    <td className='report-table-data'>Firmware BLE</td>
-                                                    <td className='report-table-data no-wrap'>04-12-2023</td>
-                                                    <td className='report-table-data'>Active</td>
-                                                    <td className='report-table-data text-center'>1</td>
-                                                    <td className='report-table-data text-center'>1</td>
-                                                    <td className='report-table-data text-center'>1</td>
-                                                    <td className='report-table-data text-center'>1</td>
-                                                    <td className='report-table-data text-center'>1</td>
-                                                    <td className='report-table-data text-center'>1</td>
-                                                    <td className='report-table-data text-center'>1</td>
-                                                    <td className='report-table-data text-center'>1</td>
-                                                    <td className='report-table-data text-center'>1</td>
-                                                    <td className='report-table-data text-center'>1</td>
-                                                    <td className='report-table-data text-center'>1</td>
-                                                    <td className='report-table-data text-center'>1</td>
-                                                </tr>
+                                                {jobDetail.slice(y[0], y[1]).map((detail, index)=>{
+                                                    return (
+                                                        <tr className='report-table-row with-border'>
+                                                            <td className='report-table-data'>{detail?.jobName}</td>
+                                                            <td className='report-table-data no-wrap'>{detail?.createdDate}</td>
+                                                            <td className='report-table-data'>{detail?.status}</td>
+                                                            <td className='report-table-data text-center'>{detail?.assignedCandidates}</td>
+                                                        </tr>
+                                                    )
+                                                })}
+                                                
                                             </tbody>
                                         </table>
                                     </div>
@@ -338,20 +419,25 @@ const ClientReport = () => {
                                             <nav aria-label="Page navigation example">
                                                 <ul className="pagination">
                                                     <li className="page-item">
-                                                        <a className="page-link custom" href="#" aria-label="Previous">
+                                                        {y[0] > 0 && <a className="page-link custom" href="#" aria-label="Previous"
+                                                            onClick={() => setY([y[0] - 5, y[1] - 5])}>
                                                             <span aria-hidden="true">&laquo;</span>
                                                             <span className="sr-only">Previous</span>
-                                                        </a>
-                                                    </li>
-                                                    <li className="page-item"><a className="page-link custom" href="#">1</a></li>
-                                                    <li className="page-item"><a className="page-link custom" href="#">2</a></li>
-                                                    <li className="page-item"><a className="page-link custom" href="#">3</a></li>
-                                                    <li className="page-item"><a className="page-link custom" href="#">..</a></li>
+                                                        </a>}
+                                                    </li> 
+                                                    <li className="page-item"
+                                                        onClick={() => setY([0, 5])}><a className="page-link custom" href="#">1</a></li>
+                                                    {(jobDetail.slice(y[0], y[1]).length === 5 && jobDetail.length > y[1]) && <li className="page-item"
+                                                        onClick={() => setY([5, 10])}><a className="page-link custom" href="#">2</a></li>}
+                                                    {(jobDetail.slice(y[0], y[1]).length === 5 && jobDetail.length > y[1]) && <li className="page-item"
+                                                        onClick={() => setY([10, 15])}><a className="page-link custom" href="#">3</a></li>}
+                                                    {(jobDetail.slice(y[0], y[1]).length === 5 && jobDetail.length > y[1]) && <li className="page-item"><a className="page-link custom" href="#">..</a></li>}
                                                     <li className="page-item">
-                                                        <a className="page-link custom" href="#" aria-label="Next">
+                                                        {(jobDetail.slice(y[0], y[1]).length === 5 && jobDetail.length > y[1]) && <a className="page-link custom" href="#" aria-label="Next"
+                                                            onClick={() => setY([x[0] + 5, y[1] + 5])}>
                                                             <span aria-hidden="true">&raquo;</span>
                                                             <span className="sr-only">Next</span>
-                                                        </a>
+                                                        </a>}
                                                     </li>
                                                 </ul>
                                             </nav>

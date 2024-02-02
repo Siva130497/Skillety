@@ -373,7 +373,7 @@ const DailySubmissionReport = () => {
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                    {employeeReportDetail.map(data => (
+                                                    {employeeReportDetail.slice(x[0], x[1]).map(data => (
                                                         data?.createdJobs.map((job, jobIndex) => {
                                                             const totalCandidatesByDate = date.map(dateObj => {
                                                             const joinCandObj = job?.joinedCands.find(cand => cand.date === dateObj.date);

@@ -302,8 +302,8 @@ const AllClients = () => {
             const result = response.data;
             if (!result.error) {
                 console.log(result);
-                setClientDetail(result.reverse());
-                setFilteredData(result.reverse());
+                setClientDetail(result);
+                setFilteredData(result);
                 setLoading(false);
             } else {
                 console.log(result);
@@ -381,6 +381,7 @@ const AllClients = () => {
 
 
     const createClient = async (id) => {
+        
         const userId = { id };
         try {
             const response = await axios.post(`https://skillety-n6r1.onrender.com/tempPass-Client/${id}`, userId, {
@@ -428,6 +429,7 @@ const AllClients = () => {
         }).then((result) => {
             if (result.isConfirmed) {
                 createClient(id);
+                console.log(id)
             }
         });
     };
