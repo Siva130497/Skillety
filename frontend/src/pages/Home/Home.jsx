@@ -370,26 +370,29 @@ const Home = () => {
                     <img src="assets/img/home-images/bubble-4.png" className='bubble--img7 animated' alt="" data-aos="fade" data-aos-delay="100" />
                   </div>
                 </div>
-                <div className="home--card-area">
-                  <div className="row">
-                    <div className="col-xl-8 col-lg-12 col-md-12 offset-xl-4">
-                      <div className="card home--card" data-aos="fade-right" data-aos-delay="100">
-                        <div className="card--imgicon-area">
-                          <h6 className='card--text'>I want to hire an immediate joiner</h6>
-                          <img src="assets/img/home-images/icon-1.png" className='card--icon' alt="" />
+
+                {!clientToken &&
+                  <div className="home--card-area">
+                    <div className="row">
+                      <div className="col-xl-8 col-lg-12 col-md-12 offset-xl-4">
+                        <div className="card home--card" data-aos="fade-right" data-aos-delay="100">
+                          <div className="card--imgicon-area">
+                            <h6 className='card--text'>I want to hire an immediate joiner</h6>
+                            <img src="assets/img/home-images/icon-1.png" className='card--icon' alt="" />
+                          </div>
+                          <div className="home--sub-des">
+                            <p>
+                              I need someone to start working right away, without any delay or waiting period.
+                            </p>
+                          </div>
+                          <a href='/client-login' className="arrow--icon-btn">
+                            <img src="assets/img/home-images/arrow-dark.png" className='arrow--icon' alt="" />
+                          </a>
                         </div>
-                        <div className="home--sub-des">
-                          <p>
-                            Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                          </p>
-                        </div>
-                        <a href='' className="arrow--icon-btn">
-                          <img src="assets/img/home-images/arrow-dark.png" className='arrow--icon' alt="" />
-                        </a>
                       </div>
                     </div>
                   </div>
-                </div>
+                }
               </div>
             </div>
           </div>

@@ -552,7 +552,7 @@ const ClientDashboard = () => {
 
                                                 <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
                                                     <div className="dash-num-count-area">
-                                                        <p className='dash-num-title'>Total Num Of Application Of Posted Jobs</p>
+                                                        <p className='dash-num-title'>No. of Applications Received</p>
                                                         <a href="/manage-job"><h4 className='dash-num-count'>{appliedOfPostedJobs?.length}</h4></a>
                                                     </div>
                                                 </div>

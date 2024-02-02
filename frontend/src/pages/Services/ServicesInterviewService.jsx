@@ -1,5 +1,5 @@
 import React from 'react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import $ from 'jquery';
 import './Services.css';
 import './Services-responsive.css';
@@ -7,13 +7,15 @@ import Layout from '../../components/Layout';
 import { Footer } from '../../components/Footer';
 
 const ServicesInterviewService = () => {
-    useEffect(() => {
+    const [clientToken, setClientToken] = useState("");
 
-    }, []);
+    useEffect(() => {
+        setClientToken(JSON.parse(localStorage.getItem("clientToken")))
+    }, [clientToken])
 
     return (
         <div>
-            <Layout service={true}/>
+            <Layout service={true} />
             <div>
                 <div className='container-fluid services--section'>
                     <div className='container-fluid container-section'>
@@ -35,31 +37,34 @@ const ServicesInterviewService = () => {
                                         <h2 data-aos="fade-left">Our primary mission is to provide our Clients  with ‘convenience’.</h2>
                                     </div>
                                 </div>
-                                <div className="col-12 col-xl-4 col-lg-6 offset-lg-6 offset-xl-0 col-md-12 about--right-cover">
-                                    <div className="about--card-area">
-                                        <div className="card about--card" data-aos="fade-right">
-                                            <div className="card--imgicon-area">
-                                                <h6 className='card--text'>I want to hire an immediate joiner</h6>
-                                                <img src="assets/img/home-images/icon-1.png" className='card--icon' alt="" />
+
+                                {!clientToken &&
+                                    <div className="col-12 col-xl-4 col-lg-6 offset-lg-6 offset-xl-0 col-md-12 about--right-cover">
+                                        <div className="about--card-area">
+                                            <div className="card about--card" data-aos="fade-right">
+                                                <div className="card--imgicon-area">
+                                                    <h6 className='card--text'>I want to hire an immediate joiner</h6>
+                                                    <img src="assets/img/home-images/icon-1.png" className='card--icon' alt="" />
+                                                </div>
+                                                <div className="about--sub-des">
+                                                    <p>
+                                                        I need someone to start working right away, without any delay or waiting period.
+                                                    </p>
+                                                </div>
+                                                <a href='/client-login' className="arrow--icon-btn">
+                                                    <img src="assets/img/home-images/arrow-dark.png" className='arrow--icon' alt="" />
+                                                </a>
                                             </div>
-                                            <div className="about--sub-des">
-                                                <p>
-                                                    Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                                                </p>
-                                            </div>
-                                            <a href='' className="arrow--icon-btn">
-                                                <img src="assets/img/home-images/arrow-dark.png" className='arrow--icon' alt="" />
-                                            </a>
                                         </div>
                                     </div>
-                                </div>
+                                }
                             </div>
                         </div>
 
                         <div className="service-par">
-                        <p>
-                        Skillety stands out as a Job Portal for Immediate Joiners, featuring a comprehensive suite of hiring solutions – CV Sourcing, Job Postings, Assessments, L1-Interviews, and Background Verification, seamlessly integrated into one platform. This consolidation cuts the TAT for new hires by an impressive 30-50%. Our pay-as-you-go model ensures straightforward billing and performance evaluation, prioritising end-results. As your end-to-end recruitment powerhouse, Skillety is the ultimate Digital-RPO partner committed to optimising your recruitment journey with precision and efficiency.
-                        </p>
+                            <p>
+                                Skillety stands out as a Job Portal for Immediate Joiners, featuring a comprehensive suite of hiring solutions – CV Sourcing, Job Postings, Assessments, L1-Interviews, and Background Verification, seamlessly integrated into one platform. This consolidation cuts the TAT for new hires by an impressive 30-50%. Our pay-as-you-go model ensures straightforward billing and performance evaluation, prioritising end-results. As your end-to-end recruitment powerhouse, Skillety is the ultimate Digital-RPO partner committed to optimising your recruitment journey with precision and efficiency.
+                            </p>
                         </div>
 
                         <div className="ser--content-section">
@@ -69,7 +74,7 @@ const ServicesInterviewService = () => {
                                     <div className="col-12 col-lg-5 col-md-12 custom-padding-lr custom-border-right">
                                         <div className="ser--cont-area-left">
                                             <p className='ser--cont-title' data-aos="fade">
-                                            Get instant access to the Interview Outsourcing services of Skillety. Do thorough L1 Interviews with a coding round conducted by panels from FAANG companies. The Feedback comes as a comprehensive report along with the playback of the video interview.
+                                                Get instant access to the Interview Outsourcing services of Skillety. Do thorough L1 Interviews with a coding round conducted by panels from FAANG companies. The Feedback comes as a comprehensive report along with the playback of the video interview.
                                             </p>
                                             {/* <div className='ser--cont-list-area'>
                                                 <ul>
