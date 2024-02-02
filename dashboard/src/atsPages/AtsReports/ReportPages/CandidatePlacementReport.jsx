@@ -10,14 +10,74 @@ import { useNavigate } from 'react-router-dom';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import * as XLSX from 'xlsx';
+import axios from 'axios';
 
 const CandidatePlacementReport = () => {
-    const [filter, setFilter] = useState([]);
+    const [filter, setFilter] = useState("");
     const navigate = useNavigate();
     const [selectedFromDate, setSelectedFromDate] = useState(new Date().toISOString().split('T')[0]);
     const [selectedToDate, setSelectedToDate] = useState(new Date().toISOString().split('T')[0]);
 
     const [selectedType, setSelectedType] = useState('General');
+
+    const [loading, setLoading] = useState(false);
+    const [noData, setNoData] = useState(false);
+    const [atsToken, setatsToken] = useState("");
+    const [customDate, setCustomDate] = useState("");
+    const [period, setPeriod] = useState("");
+    const [employeeReportDetail, setEmployeeReportDetail] = useState([]);
+    const [x, setX] = useState([0, 3]);
+
+    useEffect(() => {
+        setatsToken(JSON.parse(localStorage.getItem('atsToken')))
+    }, [atsToken]);
+
+    useEffect(() => {
+        if (selectedFromDate && selectedToDate) {
+            setCustomDate(selectedFromDate + "to" + selectedToDate)
+        }
+    }, [selectedFromDate, selectedToDate])
+
+    useEffect(() => {
+        if (customDate) {
+            setPeriod(customDate)
+        }
+    }, [customDate])
+
+    useEffect(() => {
+        if (filter) {
+            setPeriod(filter)
+        }
+    }, [filter])
+
+    
+    const runReport = () => {
+        if (period && selectedType) {
+            setLoading(true);
+            setNoData(false);
+            setEmployeeReportDetail([]);
+
+            axios.get(`https://skillety-n6r1.onrender.com/candidate-placement-report?period=${period}`, {
+                headers: {
+                    Authorization: `Bearer ${atsToken}`,
+                    Accept: 'application/json'
+                }
+            })
+                .then(res => {
+                    setLoading(false)
+                    console.log(res.data);
+                    setEmployeeReportDetail(res.data);
+
+                })
+                .catch(err => {
+                    console.log(err);
+                    setLoading(false)
+                    setNoData(true)
+                })
+        }
+
+    }
+
 
     const handleTypeChange = (event) => {
         setSelectedType(event.target.value);
@@ -94,10 +154,10 @@ const CandidatePlacementReport = () => {
                                                         value={filter}
                                                         onChange={handleFilterChange}>
                                                         <option value="">Select Search Period</option>
-                                                        <option value="ThisWeek">This Week</option>
-                                                        <option value="ThisMonth">This Month</option>
-                                                        <option value="LastWeek">Last Week</option>
-                                                        <option value="LastMonth">Last Month</option>
+                                                        <option value="thisWeek">This Week</option>
+                                                        <option value="thisMonth">This Month</option>
+                                                        <option value="lastWeek">Last Week</option>
+                                                        <option value="lastMonth">Last Month</option>
                                                         <option value="CustomDate">Custom Date</option>
                                                     </select>
                                                 </div>
@@ -132,11 +192,13 @@ const CandidatePlacementReport = () => {
                                             )}
 
                                             <div className="col-12 col-lg-3 col-md-6 mb-4 mb-md-3 mb-lg-0">
-                                                <button className='run-report-button'>Run Report</button>
+                                                <button className='run-report-button'
+                                                onClick={runReport}
+                                                disabled={filter === ""}>Run Report</button>
                                             </div>
                                         </div>
 
-                                        <div className="report-radio-area">
+                                        {/* <div className="report-radio-area">
                                             <div className="report-radio-container">
                                                 <label className="report-radio-button">
                                                     <input
@@ -175,17 +237,17 @@ const CandidatePlacementReport = () => {
                                                     Offer Date
                                                 </label>
                                             </div>
-                                        </div>
+                                        </div> */}
                                     </div>
 
+                                    {employeeReportDetail.length>0&&
                                     <div className="report-view-section">
-                                        {selectedType === 'General' && (
-                                            <>
-                                                <div className="table-report-head">
-                                                    Candidate Placement Report (General)
-                                                </div>
-                                                <hr />
-                                                <div className="report-view-area">
+                                            
+                                        <div className="table-report-head">
+                                                    Candidate Placement Report 
+                                        </div>
+                                        <hr />
+                                        <div className="report-view-area">
                                                     <div className="table-responsive">
                                                         <table className='table report-table table-bordered' id='Export_table' ref={tableRef}>
                                                             <thead>
@@ -194,27 +256,29 @@ const CandidatePlacementReport = () => {
                                                                     <th className='report-table-head no-verical-align'>CONTACT NUMBER</th>
                                                                     <th className='report-table-head no-verical-align'>JOB TITLE</th>
                                                                     <th className='report-table-head no-verical-align'>CLIENT NAME</th>
-                                                                    <th className='report-table-head no-verical-align'>JOINING DATE</th>
-                                                                    <th className='report-table-head no-verical-align'>OFFERED DATE</th>
-                                                                    <th className='report-table-head no-verical-align'>PACKAGE</th>
-                                                                    <th className='report-table-head no-verical-align'>OWNER NAME</th>
+                                                                    <th className='report-table-head no-verical-align'>ASSIGNED DATE</th>
+                                                                    <th className='report-table-head no-verical-align'>JOINED DATE</th>
                                                                     <th className='report-table-head no-verical-align'>CURRENT STATUS</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                <tr className='report-table-row with-border'>
-                                                                    <td className='report-table-data'>Dileep Kumar</td>
-                                                                    <td className='report-table-data no-wrap'>+91-9032718927</td>
-                                                                    <td className='report-table-data'>Technical Engineer (Kubernetes)</td>
-                                                                    <td className='report-table-data'>Sonata Software Limited</td>
-                                                                    <td className='report-table-data no-wrap'>31-05-2023</td>
-                                                                    <td className='report-table-data no-wrap'>30-05-2023</td>
-                                                                    <td className='report-table-data'>1040000 P.A.</td>
-                                                                    <td className='report-table-data'>Nikhath Kousar</td>
+                                                                {employeeReportDetail.slice(x[0], x[1]).map((data, index)=>{
+                                                                    return (
+
+                                                                <tr className='report-table-row with-border'
+                                                                key={index}>
+                                                                    <td className='report-table-data'>{data?.candidateName}</td>
+                                                                    <td className='report-table-data no-wrap'>{data?.contactNum}</td>
+                                                                    <td className='report-table-data'>{data?.jobTitle}</td>
+                                                                    <td className='report-table-data'>{data?.clientName}</td>
+                                                                    <td className='report-table-data no-wrap'>{data?.assignedDate}</td>
+                                                                    <td className='report-table-data no-wrap'>{data?.joinedDate}</td>
                                                                     <td className='report-table-data'>
-                                                                        <div className='current-status'>Joined</div>
+                                                                        <div className='current-status'>{data?.currentStatus}</div>
                                                                     </td>
                                                                 </tr>
+                                                                    )
+                                                                })}
                                                             </tbody>
                                                         </table>
                                                     </div>
@@ -224,20 +288,25 @@ const CandidatePlacementReport = () => {
                                                             <nav aria-label="Page navigation example">
                                                                 <ul className="pagination">
                                                                     <li className="page-item">
-                                                                        <a className="page-link custom" href="#" aria-label="Previous">
+                                                                        {x[0] > 0 && <a className="page-link custom" href="" aria-label="Previous"
+                                                                            onClick={() => setX([x[0] - 3, x[1] - 3])}>
                                                                             <span aria-hidden="true">&laquo;</span>
                                                                             <span className="sr-only">Previous</span>
-                                                                        </a>
+                                                                        </a>}
                                                                     </li>
-                                                                    <li className="page-item"><a className="page-link custom" href="#">1</a></li>
-                                                                    <li className="page-item"><a className="page-link custom" href="#">2</a></li>
-                                                                    <li className="page-item"><a className="page-link custom" href="#">3</a></li>
-                                                                    <li className="page-item"><a className="page-link custom" href="#">..</a></li>
+                                                                    {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <li className="page-item"
+                                                                        onClick={() => setX([0, 3])}><a className="page-link custom" href="#">1</a></li>}
+                                                                    {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <li className="page-item"
+                                                                        onClick={() => setX([3, 6])}><a className="page-link custom" href="#">2</a></li>}
+                                                                    {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <li className="page-item"
+                                                                        onClick={() => setX([6, 9])}><a className="page-link custom" href="#">3</a></li>}
+                                                                    {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <li className="page-item"><a className="page-link custom" href="#">..</a></li>}
                                                                     <li className="page-item">
-                                                                        <a className="page-link custom" href="#" aria-label="Next">
+                                                                        {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <a className="page-link custom" href="#" aria-label="Next"
+                                                                            onClick={() => setX([x[0] + 3, x[1] + 3])}>
                                                                             <span aria-hidden="true">&raquo;</span>
                                                                             <span className="sr-only">Next</span>
-                                                                        </a>
+                                                                        </a>}
                                                                     </li>
                                                                 </ul>
                                                             </nav>
@@ -257,8 +326,9 @@ const CandidatePlacementReport = () => {
                                                             </button>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </>
+                                        </div>
+                                            
+                                        {/* {selectedType === 'General' && (
                                         )}
 
                                         {selectedType === 'JoinDate' && (
@@ -423,21 +493,35 @@ const CandidatePlacementReport = () => {
                                                     </div>
                                                 </div>
                                             </>
-                                        )}
-                                    </div>
+                                        )} */}
+                                    </div>}
 
+                                    {noData &&
                                     <div className="report-no-data-found-area">
                                         <img src="../assets/img/no-data/No-data-found.webp" className='report-no-data-found-img' alt="" />
                                         <div className='report-no-data-found-text'>No data found.</div>
                                         <div className='report-no-data-found-sub-text'>Try to create the information first.</div>
-                                    </div>
+                                    </div>}
+
+                                    {loading && <div className="dot-spinner-area">
+                                            <div className="dot-spinner">
+                                                <div className="dot-spinner__dot"></div>
+                                                <div className="dot-spinner__dot"></div>
+                                                <div className="dot-spinner__dot"></div>
+                                                <div className="dot-spinner__dot"></div>
+                                                <div className="dot-spinner__dot"></div>
+                                                <div className="dot-spinner__dot"></div>
+                                                <div className="dot-spinner__dot"></div>
+                                                <div className="dot-spinner__dot"></div>
+                                            </div>
+                                        </div>}
                                 </div>
                             </div>
                         </div>
                     </section>
                 </div>
 
-                <div className="modal fade" id="ViewModal" tabindex="-1" role="dialog" aria-labelledby="ViewLabel"
+                {/* <div className="modal fade" id="ViewModal" tabindex="-1" role="dialog" aria-labelledby="ViewLabel"
                     aria-hidden="true">
                     <div className="modal-dialog modal-lg" role="document">
                         <div className="modal-content recruiter-view-modal">
@@ -548,7 +632,7 @@ const CandidatePlacementReport = () => {
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> */}
 
                 <Footer />
             </div>

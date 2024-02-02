@@ -78,7 +78,7 @@ const AtsReports = () => {
                                                     </a>
                                                 </div>
 
-                                                <div className="col-12 col-lg-6 col-xl-6 col-xxl-4 col-md-6">
+                                                {/* <div className="col-12 col-lg-6 col-xl-6 col-xxl-4 col-md-6">
                                                     <a href="/lead-report" className='report-tiles'>
                                                         <span className='report-tile-img-area'>
                                                             <img src="../assets/img/report/shuttle.png" className='report-tile-img' alt="" />
@@ -90,7 +90,7 @@ const AtsReports = () => {
                                                             </span>
                                                         </span>
                                                     </a>
-                                                </div>
+                                                </div> */}
 
                                                 <div className="col-12 col-lg-6 col-xl-6 col-xxl-4 col-md-6">
                                                     <a href="/candidate-source-report" className='report-tiles'>
@@ -148,7 +148,7 @@ const AtsReports = () => {
                                                     </a>
                                                 </div>
 
-                                                <div className="col-12 col-lg-6 col-xl-6 col-xxl-4 col-md-6">
+                                                {/* <div className="col-12 col-lg-6 col-xl-6 col-xxl-4 col-md-6">
                                                     <a href="/lead-conversion-report" className='report-tiles'>
                                                         <span className='report-tile-img-area'>
                                                             <img src="../assets/img/report/shuttle.png" className='report-tile-img' alt="" />
@@ -160,7 +160,7 @@ const AtsReports = () => {
                                                             </span>
                                                         </span>
                                                     </a>
-                                                </div>
+                                                </div> */}
 
                                                 <div className="col-12 col-lg-6 col-xl-6 col-xxl-4 col-md-6">
                                                     <a href="/candidate-placement-report" className='report-tiles'>

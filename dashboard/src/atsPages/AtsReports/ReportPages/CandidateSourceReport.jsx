@@ -10,16 +10,82 @@ import { useNavigate } from 'react-router-dom';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import * as XLSX from 'xlsx';
+import axios from 'axios';
 
 const CandidateSourceReport = () => {
-    const [filter, setFilter] = useState([]);
+    const [filter, setFilter] = useState("");
     const navigate = useNavigate();
     const [selectedFromDate, setSelectedFromDate] = useState(new Date().toISOString().split('T')[0]);
     const [selectedToDate, setSelectedToDate] = useState(new Date().toISOString().split('T')[0]);
+    const [loading, setLoading] = useState(false);
+    const [noData, setNoData] = useState(false);
+    const [atsToken, setatsToken] = useState("");
+    const [customDate, setCustomDate] = useState("");
+    const [period, setPeriod] = useState("");
+    const [employeeReportDetail, setEmployeeReportDetail] = useState([]);
+    const [x, setX] = useState([0, 3]);
+    const [y, setY] = useState([0, 5]);
+    const [selectedType, setSelectedType] = useState('summary');
+    const [dateWiseResults, setDateWiseResults] = useState([]);
+    const [viewModelName, setViewModelName] = useState("");
 
-    const [selectedType, setSelectedType] = useState('Summary');
+    useEffect(() => {
+        setatsToken(JSON.parse(localStorage.getItem('atsToken')))
+    }, [atsToken]);
+
+    useEffect(() => {
+        if (selectedFromDate && selectedToDate) {
+            setCustomDate(selectedFromDate + "to" + selectedToDate)
+        }
+    }, [selectedFromDate, selectedToDate])
+
+    useEffect(() => {
+        if (customDate) {
+            setPeriod(customDate)
+        }
+    }, [customDate])
+
+    useEffect(() => {
+        if (filter) {
+            setPeriod(filter)
+        }
+    }, [filter])
+
+    
+    const runReport = () => {
+        if (period && selectedType) {
+            setLoading(true);
+            setNoData(false);
+            setEmployeeReportDetail([]);
+
+            axios.get(`https://skillety-n6r1.onrender.com/candidate-source-report?period=${period}&type=${selectedType}`, {
+                headers: {
+                    Authorization: `Bearer ${atsToken}`,
+                    Accept: 'application/json'
+                }
+            })
+                .then(res => {
+                    setLoading(false)
+                    console.log(res.data);
+                    setEmployeeReportDetail(res.data);
+
+                })
+                .catch(err => {
+                    console.log(err);
+                    setLoading(false)
+                    setNoData(true)
+                })
+        }
+
+    }
+
+    const handleViewModel = (result, name) => {
+        setDateWiseResults(result);
+        setViewModelName(name);
+    }
 
     const handleTypeChange = (event) => {
+        setEmployeeReportDetail([])
         setSelectedType(event.target.value);
     };
 
@@ -94,10 +160,10 @@ const CandidateSourceReport = () => {
                                                         value={filter}
                                                         onChange={handleFilterChange}>
                                                         <option value="">Select Search Period</option>
-                                                        <option value="ThisWeek">This Week</option>
-                                                        <option value="ThisMonth">This Month</option>
-                                                        <option value="LastWeek">Last Week</option>
-                                                        <option value="LastMonth">Last Month</option>
+                                                        <option value="thisWeek">This Week</option>
+                                                        <option value="thisMonth">This Month</option>
+                                                        <option value="lastWeek">Last Week</option>
+                                                        <option value="lastMonth">Last Month</option>
                                                         <option value="CustomDate">Custom Date</option>
                                                     </select>
                                                 </div>
@@ -132,7 +198,9 @@ const CandidateSourceReport = () => {
                                             )}
 
                                             <div className="col-12 col-lg-3 col-md-6 mb-4 mb-md-3 mb-lg-0">
-                                                <button className='run-report-button'>Run Report</button>
+                                                <button className='run-report-button'
+                                                onClick={runReport}
+                                                disabled={filter === ""}>Run Report</button>
                                             </div>
                                         </div>
                                         
@@ -143,8 +211,8 @@ const CandidateSourceReport = () => {
                                                         type="radio"
                                                         name="report-radio-option"
                                                         id='Summary'
-                                                        value="Summary"
-                                                        checked={selectedType === 'Summary'}
+                                                        value="summary"
+                                                        checked={selectedType === 'summary'}
                                                         onChange={handleTypeChange}
                                                     />
                                                     <span className="report-radio"></span>
@@ -155,8 +223,8 @@ const CandidateSourceReport = () => {
                                                         type="radio"
                                                         name="report-radio-option"
                                                         id='UserWise'
-                                                        value="UserWise"
-                                                        checked={selectedType === 'UserWise'}
+                                                        value="userWise"
+                                                        checked={selectedType === 'userWise'}
                                                         onChange={handleTypeChange}
                                                     />
                                                     <span className="report-radio"></span>
@@ -167,8 +235,8 @@ const CandidateSourceReport = () => {
                                                         type="radio"
                                                         name="report-radio-option"
                                                         id='DateWise'
-                                                        value="DateWise"
-                                                        checked={selectedType === 'DateWise'}
+                                                        value="dateWise"
+                                                        checked={selectedType === 'dateWise'}
                                                         onChange={handleTypeChange}
                                                     />
                                                     <span className="report-radio"></span>
@@ -177,75 +245,71 @@ const CandidateSourceReport = () => {
                                             </div>
                                         </div>
                                     </div>
-
+                                    
+                                    
                                     <div className="report-view-section">
-                                        {selectedType === 'Summary' && (
+                                        {(selectedType === 'summary'&& employeeReportDetail.length>0 ) && (
                                             <div className="report-view-area">
                                                 <div className="table-responsive">
                                                     <table className='table report-table table-bordered' id='Export_table' ref={tableRef}>
                                                         <thead>
                                                             <tr className='report-table-row with-border'>
                                                                 <th className='report-table-head no-verical-align'>SOURCE</th>
-                                                                <th className='report-table-head no-verical-align w-15'>JOB VIEWS</th>
-                                                                <th className='report-table-head no-verical-align w-15'>APPLY</th>
+                                                                <th className='report-table-head no-verical-align w-15'>COUNT</th>
+                                                                {/* <th className='report-table-head no-verical-align w-15'>APPLY</th> */}
                                                             </tr>
                                                         </thead>
                                                         <tbody>
                                                             <tr className='report-table-row with-border'>
-                                                                <td className='report-table-data'>Upload</td>
-                                                                <td className='report-table-data'>0</td>
-                                                                <td className='report-table-data'>1</td>
+                                                                <td className='report-table-data'>Candidate created</td>
+                                                                <td className='report-table-data'>{employeeReportDetail[0]?.candidateCreated}</td>
+                                                                {/* <td className='report-table-data'>1</td> */}
                                                             </tr>
                                                             <tr className='report-table-row with-border'>
-                                                                <td className='report-table-data'>Adzuna</td>
-                                                                <td className='report-table-data'>0</td>
-                                                                <td className='report-table-data'>1</td>
-                                                            </tr>
-                                                            <tr className='report-table-row with-border'>
-                                                                <td className='report-table-data'>Twitter</td>
-                                                                <td className='report-table-data'>0</td>
-                                                                <td className='report-table-data'>1</td>
-                                                            </tr>
-                                                            <tr className='report-table-row with-border'>
-                                                                <td className='report-table-data'>Created</td>
-                                                                <td className='report-table-data'>0</td>
-                                                                <td className='report-table-data'>1</td>
+                                                                <td className='report-table-data'>Candidate assigned</td>
+                                                                <td className='report-table-data'>{employeeReportDetail[0]?.candidateAssigned}</td>
+                                                                {/* <td className='report-table-data'>1</td> */}
                                                             </tr>
                                                         </tbody>
                                                         <tfoot>
                                                             <tr className='report-table-row with-border table-foot'>
                                                                 <td className='report-table-data'>Total</td>
-                                                                <td className='report-table-data'>1</td>
-                                                                <td className='report-table-data'>0</td>
+                                                                <td className='report-table-data'>{employeeReportDetail[0]?.candidateCreated + employeeReportDetail[0]?.candidateAssigned}</td>
+                                                                {/* <td className='report-table-data'>0</td> */}
                                                             </tr>
                                                         </tfoot>
                                                     </table>
                                                 </div>
 
                                                 <div className="report-table-pagination-area">
-                                                    <div className="buttons">
-                                                        <nav aria-label="Page navigation example">
-                                                            <ul className="pagination">
-                                                                <li className="page-item">
-                                                                    <a className="page-link custom" href="#" aria-label="Previous">
-                                                                        <span aria-hidden="true">&laquo;</span>
-                                                                        <span className="sr-only">Previous</span>
-                                                                    </a>
-                                                                </li>
-                                                                <li className="page-item"><a className="page-link custom" href="#">1</a></li>
-                                                                <li className="page-item"><a className="page-link custom" href="#">2</a></li>
-                                                                <li className="page-item"><a className="page-link custom" href="#">3</a></li>
-                                                                <li className="page-item"><a className="page-link custom" href="#">..</a></li>
-                                                                <li className="page-item">
-                                                                    <a className="page-link custom" href="#" aria-label="Next">
-                                                                        <span aria-hidden="true">&raquo;</span>
-                                                                        <span className="sr-only">Next</span>
-                                                                    </a>
-                                                                </li>
-                                                            </ul>
-                                                        </nav>
+                                                        <div className="buttons">
+                                                            <nav aria-label="Page navigation example">
+                                                                <ul className="pagination">
+                                                                    <li className="page-item">
+                                                                        {x[0] > 0 && <a className="page-link custom" href="" aria-label="Previous"
+                                                                            onClick={() => setX([x[0] - 3, x[1] - 3])}>
+                                                                            <span aria-hidden="true">&laquo;</span>
+                                                                            <span className="sr-only">Previous</span>
+                                                                        </a>}
+                                                                    </li>
+                                                                    {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <li className="page-item"
+                                                                        onClick={() => setX([0, 3])}><a className="page-link custom" href="#">1</a></li>}
+                                                                    {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <li className="page-item"
+                                                                        onClick={() => setX([3, 6])}><a className="page-link custom" href="#">2</a></li>}
+                                                                    {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <li className="page-item"
+                                                                        onClick={() => setX([6, 9])}><a className="page-link custom" href="#">3</a></li>}
+                                                                    {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <li className="page-item"><a className="page-link custom" href="#">..</a></li>}
+                                                                    <li className="page-item">
+                                                                        {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <a className="page-link custom" href="#" aria-label="Next"
+                                                                            onClick={() => setX([x[0] + 3, x[1] + 3])}>
+                                                                            <span aria-hidden="true">&raquo;</span>
+                                                                            <span className="sr-only">Next</span>
+                                                                        </a>}
+                                                                    </li>
+                                                                </ul>
+                                                            </nav>
+                                                        </div>
                                                     </div>
-                                                </div>
 
                                                 <div className="table-export-area">
                                                     <div className='export-head'>Export</div>
@@ -263,99 +327,84 @@ const CandidateSourceReport = () => {
                                             </div>
                                         )}
 
-                                        {selectedType === 'UserWise' && (
+                                        {(selectedType === 'userWise'&& employeeReportDetail.length>0 ) && (
                                             <div className="report-view-area">
                                                 <div className="table-responsive">
                                                     <table className='table report-table table-bordered' id='Export_table' ref={tableRef}>
                                                         <thead>
                                                             <tr className='report-table-row with-border'>
-                                                                <th className='report-table-head no-verical-align'>USER NAME</th>
-                                                                <th className='report-table-head no-verical-align text-center'>CREATED</th>
-                                                                <th className='report-table-head no-verical-align text-center'>RESUME UPLOAD</th>
-                                                                <th className='report-table-head no-verical-align text-center'>EXCEL</th>
-                                                                <th className='report-table-head no-verical-align text-center'>EMAIL</th>
-                                                                <th className='report-table-head no-verical-align text-center'>GMAIL PLUGIN</th>
-                                                                <th className='report-table-head no-verical-align text-center'>LINKEDIN PLUGIN</th>
-                                                                <th className='report-table-head no-verical-align text-center'>OUTLOOK PLUGIN</th>
-                                                                <th className='report-table-head no-verical-align text-center'>STACKOVERFLOW PLUGIN</th>
-                                                                <th className='report-table-head no-verical-align text-center'>CAREER-BUILDER PLUGIN</th>
-                                                                <th className='report-table-head no-verical-align text-center'>DICE PLUGIN</th>
-                                                                <th className='report-table-head no-verical-align text-center'>TIMES JOB PLUGIN</th>
-                                                                <th className='report-table-head no-verical-align text-center'>MONSTER PLUGIN</th>
-                                                                <th className='report-table-head no-verical-align text-center'>NAUKRI PLUGIN</th>
-                                                                <th className='report-table-head no-verical-align text-center'>SOURCING DEPARTMENT</th>
+                                                                <th className='report-table-head no-verical-align'>EMPLOYEE NAME</th>
+                                                                <th className='report-table-head no-verical-align text-center'>CREATED CANDIDATES</th>
+                                                                <th className='report-table-head no-verical-align text-center'>CREATED CANDIDATES</th>
+                                                                
                                                                 <th className='report-table-head no-verical-align text-center'>TOTAL</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            <tr className='report-table-row with-border'>
-                                                                <td className='report-table-data'>
-                                                                    <button className='report-data-view-button' data-toggle="modal" data-target="#ViewModal">Supriya</button>
-                                                                </td>
-                                                                <td className='report-table-data text-center'>0</td>
-                                                                <td className='report-table-data text-center'>1</td>
-                                                                <td className='report-table-data text-center'>1</td>
-                                                                <td className='report-table-data text-center'>1</td>
-                                                                <td className='report-table-data text-center'>1</td>
-                                                                <td className='report-table-data text-center'>1</td>
-                                                                <td className='report-table-data text-center'>1</td>
-                                                                <td className='report-table-data text-center'>1</td>
-                                                                <td className='report-table-data text-center'>1</td>
-                                                                <td className='report-table-data text-center'>1</td>
-                                                                <td className='report-table-data text-center'>1</td>
-                                                                <td className='report-table-data text-center'>1</td>
-                                                                <td className='report-table-data text-center'>1</td>
-                                                                <td className='report-table-data text-center'>1</td>
-                                                                <td className='report-table-data text-center is-bold'>1</td>
-                                                            </tr>
+                                                            {employeeReportDetail.slice(x[0], x[1]).map((datas, index)=>{
+                                                                return (
+                                                                    <tr className='report-table-row with-border'
+                                                                    key={index}>
+                                                                        <td className='report-table-data'>
+                                                                            <button className='report-data-view-button' data-toggle="modal" 
+                                                                            data-target={(datas?.createdCands+datas?.assignedCands) > 0 ? "#ViewModal" : ""}
+                                                                            onClick={()=>handleViewModel(datas?.dateWiseResult, datas?.name)}>{datas?.name}</button>
+                                                                        </td>
+                                                                        <td className='report-table-data text-center'>{datas?.createdCands}</td>
+                                                                        <td className='report-table-data text-center'>{datas?.assignedCands}</td>
+                                                                        
+                                                                        <td className='report-table-data text-center is-bold'>{datas?.createdCands+datas?.assignedCands}</td>
+                                                                    </tr>
+                                                                )
+                                                            })}
+                                                            
                                                         </tbody>
                                                         <tfoot>
                                                             <tr className='report-table-row with-border table-foot'>
                                                                 <td className='report-table-data'>Total</td>
-                                                                <td className='report-table-data' align='center'>1</td>
-                                                                <td className='report-table-data' align='center'>0</td>
-                                                                <td className='report-table-data' align='center'>0</td>
-                                                                <td className='report-table-data' align='center'>0</td>
-                                                                <td className='report-table-data' align='center'>0</td>
-                                                                <td className='report-table-data' align='center'>0</td>
-                                                                <td className='report-table-data' align='center'>0</td>
-                                                                <td className='report-table-data' align='center'>0</td>
-                                                                <td className='report-table-data' align='center'>0</td>
-                                                                <td className='report-table-data' align='center'>0</td>
-                                                                <td className='report-table-data' align='center'>0</td>
-                                                                <td className='report-table-data' align='center'>0</td>
-                                                                <td className='report-table-data' align='center'>0</td>
-                                                                <td className='report-table-data' align='center'>0</td>
-                                                                <td className='report-table-data' align='center'>0</td>
+                                                                <td className='report-table-data' align='center'>
+                                                                    {employeeReportDetail.reduce((total, datas) => total + (datas?.createdCands || 0), 0)}
+                                                                </td>
+                                                                <td className='report-table-data' align='center'>
+                                                                    {employeeReportDetail.reduce((total, datas) => total + (datas?.assignedCands || 0), 0)}
+                                                                </td>
+                                                                <td className='report-table-data' align='center'>
+                                                                    {employeeReportDetail.reduce((total, datas) => total + ((datas?.createdCands || 0) + (datas?.assignedCands || 0)), 0)}
+                                                                </td>
                                                             </tr>
                                                         </tfoot>
                                                     </table>
                                                 </div>
 
                                                 <div className="report-table-pagination-area">
-                                                    <div className="buttons">
-                                                        <nav aria-label="Page navigation example">
-                                                            <ul className="pagination">
-                                                                <li className="page-item">
-                                                                    <a className="page-link custom" href="#" aria-label="Previous">
-                                                                        <span aria-hidden="true">&laquo;</span>
-                                                                        <span className="sr-only">Previous</span>
-                                                                    </a>
-                                                                </li>
-                                                                <li className="page-item"><a className="page-link custom" href="#">1</a></li>
-                                                                <li className="page-item"><a className="page-link custom" href="#">2</a></li>
-                                                                <li className="page-item"><a className="page-link custom" href="#">3</a></li>
-                                                                <li className="page-item"><a className="page-link custom" href="#">..</a></li>
-                                                                <li className="page-item">
-                                                                    <a className="page-link custom" href="#" aria-label="Next">
-                                                                        <span aria-hidden="true">&raquo;</span>
-                                                                        <span className="sr-only">Next</span>
-                                                                    </a>
-                                                                </li>
-                                                            </ul>
-                                                        </nav>
+                                                        <div className="buttons">
+                                                            <nav aria-label="Page navigation example">
+                                                                <ul className="pagination">
+                                                                    <li className="page-item">
+                                                                        {x[0] > 0 && <a className="page-link custom" href="" aria-label="Previous"
+                                                                            onClick={() => setX([x[0] - 3, x[1] - 3])}>
+                                                                            <span aria-hidden="true">&laquo;</span>
+                                                                            <span className="sr-only">Previous</span>
+                                                                        </a>}
+                                                                    </li>
+                                                                    {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <li className="page-item"
+                                                                        onClick={() => setX([0, 3])}><a className="page-link custom" href="#">1</a></li>}
+                                                                    {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <li className="page-item"
+                                                                        onClick={() => setX([3, 6])}><a className="page-link custom" href="#">2</a></li>}
+                                                                    {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <li className="page-item"
+                                                                        onClick={() => setX([6, 9])}><a className="page-link custom" href="#">3</a></li>}
+                                                                    {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <li className="page-item"><a className="page-link custom" href="#">..</a></li>}
+                                                                    <li className="page-item">
+                                                                        {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <a className="page-link custom" href="#" aria-label="Next"
+                                                                            onClick={() => setX([x[0] + 3, x[1] + 3])}>
+                                                                            <span aria-hidden="true">&raquo;</span>
+                                                                            <span className="sr-only">Next</span>
+                                                                        </a>}
+                                                                    </li>
+                                                                </ul>
+                                                            </nav>
+                                                        </div>
                                                     </div>
-                                                </div>
 
                                                 <div className="table-export-area">
                                                     <div className='export-head'>Export</div>
@@ -373,181 +422,75 @@ const CandidateSourceReport = () => {
                                             </div>
                                         )}
 
-                                        {selectedType === 'DateWise' && (
+                                        {(selectedType === 'dateWise'&& employeeReportDetail.length>0 ) && (
                                             <div className="report-view-area">
                                                 <div className="table-responsive">
                                                     <table className='table report-table table-bordered' id='Export_table' ref={tableRef}>
                                                         <thead>
                                                             <tr className='report-table-row with-border'>
                                                                 <th className='report-table-head no-verical-align'>CREATED DATE</th>
-                                                                <th className='report-table-head no-verical-align text-center'>CREATED</th>
-                                                                <th className='report-table-head no-verical-align text-center'>RESUME UPLOAD</th>
-                                                                <th className='report-table-head no-verical-align text-center'>EXCEL</th>
-                                                                <th className='report-table-head no-verical-align text-center'>EMAIL</th>
-                                                                <th className='report-table-head no-verical-align text-center'>JOB BOARD</th>
-                                                                <th className='report-table-head no-verical-align text-center'>SOCIAL NETWORK</th>
-                                                                <th className='report-table-head no-verical-align text-center'>PROMOTE LINK</th>
-                                                                <th className='report-table-head no-verical-align text-center'>FACEBOOK</th>
-                                                                <th className='report-table-head no-verical-align text-center'>TWITTER</th>
-                                                                <th className='report-table-head no-verical-align text-center'>WEBSITE</th>
-                                                                <th className='report-table-head no-verical-align text-center'>API</th>
-                                                                <th className='report-table-head no-verical-align text-center'>GMAIL PLUGIN</th>
-                                                                <th className='report-table-head no-verical-align text-center'>LINKEDIN PLUGIN</th>
-                                                                <th className='report-table-head no-verical-align text-center'>OUTLOOK PLUGIN</th>
-                                                                <th className='report-table-head no-verical-align text-center'>STACKOVERFLOW PLUGIN</th>
-                                                                <th className='report-table-head no-verical-align text-center'>CAREER-BUILDER PLUGIN</th>
-                                                                <th className='report-table-head no-verical-align text-center'>DICE PLUGIN</th>
-                                                                <th className='report-table-head no-verical-align text-center'>TIMES JOB PLUGIN</th>
-                                                                <th className='report-table-head no-verical-align text-center'>MONSTER PLUGIN</th>
-                                                                <th className='report-table-head no-verical-align text-center'>NAUKRI PLUGIN</th>
-                                                                <th className='report-table-head no-verical-align text-center'>ADZUNA</th>
-                                                                <th className='report-table-head no-verical-align text-center'>BUSCO JOB</th>
-                                                                <th className='report-table-head no-verical-align text-center'>CAREERJET</th>
-                                                                <th className='report-table-head no-verical-align text-center'>CAREERJET</th>
-                                                                <th className='report-table-head no-verical-align text-center'>GLASSDOOR</th>
-                                                                <th className='report-table-head no-verical-align text-center'>HRRECRUITING</th>
-                                                                <th className='report-table-head no-verical-align text-center'>INDEED</th>
-                                                                <th className='report-table-head no-verical-align text-center'>HIGHERHIRE</th>
-                                                                <th className='report-table-head no-verical-align text-center'>RECRUITNET</th>
-                                                                <th className='report-table-head no-verical-align text-center'>LINKEDIN</th>
-                                                                <th className='report-table-head no-verical-align text-center'>JOB IS JOB</th>
-                                                                <th className='report-table-head no-verical-align text-center'>JOBOMAS</th>
-                                                                <th className='report-table-head no-verical-align text-center'>JOB RAPIDO</th>
-                                                                <th className='report-table-head no-verical-align text-center'>JOOBLE</th>
-                                                                <th className='report-table-head no-verical-align text-center'>MERCADO JOBS</th>
-                                                                <th className='report-table-head no-verical-align text-center'>MY JOBHELPER</th>
-                                                                <th className='report-table-head no-verical-align text-center'>NEUVOO</th>
-                                                                <th className='report-table-head no-verical-align text-center'>OODLE</th>
-                                                                <th className='report-table-head no-verical-align text-center'>JORA</th>
-                                                                <th className='report-table-head no-verical-align text-center'>EUROJOB</th>
-                                                                <th className='report-table-head no-verical-align text-center'>DRJOB</th>
-                                                                <th className='report-table-head no-verical-align text-center'>SOURCING DEPARTMENT</th>
+                                                                <th className='report-table-head no-verical-align text-center'>CREATED CANDIDATES</th>
+                                                                <th className='report-table-head no-verical-align text-center'>ASSIGNED CANDIDATES</th>
+                                                                
                                                                 <th className='report-table-head no-verical-align text-center'>TOTAL</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            <tr className='report-table-row with-border'>
-                                                                <td className='report-table-data text-center no-wrap'>20-01-2024</td>
-                                                                <td className='report-table-data text-center'>0</td>
-                                                                <td className='report-table-data text-center'>0</td>
-                                                                <td className='report-table-data text-center'>1</td>
-                                                                <td className='report-table-data text-center'>1</td>
-                                                                <td className='report-table-data text-center'>1</td>
-                                                                <td className='report-table-data text-center'>1</td>
-                                                                <td className='report-table-data text-center'>1</td>
-                                                                <td className='report-table-data text-center'>1</td>
-                                                                <td className='report-table-data text-center'>1</td>
-                                                                <td className='report-table-data text-center'>1</td>
-                                                                <td className='report-table-data text-center'>1</td>
-                                                                <td className='report-table-data text-center'>1</td>
-                                                                <td className='report-table-data text-center'>1</td>
-                                                                <td className='report-table-data text-center'>1</td>
-                                                                <td className='report-table-data text-center'>1</td>
-                                                                <td className='report-table-data text-center'>1</td>
-                                                                <td className='report-table-data text-center'>1</td>
-                                                                <td className='report-table-data text-center'>1</td>
-                                                                <td className='report-table-data text-center'>1</td>
-                                                                <td className='report-table-data text-center'>1</td>
-                                                                <td className='report-table-data text-center'>1</td>
-                                                                <td className='report-table-data text-center'>1</td>
-                                                                <td className='report-table-data text-center'>1</td>
-                                                                <td className='report-table-data text-center'>1</td>
-                                                                <td className='report-table-data text-center'>1</td>
-                                                                <td className='report-table-data text-center'>1</td>
-                                                                <td className='report-table-data text-center'>1</td>
-                                                                <td className='report-table-data text-center'>1</td>
-                                                                <td className='report-table-data text-center'>1</td>
-                                                                <td className='report-table-data text-center'>1</td>
-                                                                <td className='report-table-data text-center'>1</td>
-                                                                <td className='report-table-data text-center'>1</td>
-                                                                <td className='report-table-data text-center'>1</td>
-                                                                <td className='report-table-data text-center'>1</td>
-                                                                <td className='report-table-data text-center'>1</td>
-                                                                <td className='report-table-data text-center'>1</td>
-                                                                <td className='report-table-data text-center'>1</td>
-                                                                <td className='report-table-data text-center'>1</td>
-                                                                <td className='report-table-data text-center'>1</td>
-                                                                <td className='report-table-data text-center'>1</td>
-                                                                <td className='report-table-data text-center'>1</td>
-                                                                <td className='report-table-data text-center'>1</td>
-                                                                <td className='report-table-data text-center is-bold'>1</td>
-                                                            </tr>
+                                                            {employeeReportDetail.slice(x[0], x[1]).map((date, index)=>{
+                                                                return (
+                                                                    <tr className='report-table-row with-border'
+                                                                    key={index}>
+                                                                        <td className='report-table-data text-center no-wrap'>{date?.date}</td>
+                                                                        <td className='report-table-data text-center'>{date?.createdCands}</td>
+                                                                        <td className='report-table-data text-center'>{date?.assignedCands}</td>
+                                                                        
+                                                                        <td className='report-table-data text-center is-bold'>{date?.createdCands+date?.assignedCands}</td>
+                                                                    </tr>
+                                                                )
+                                                            })}
+                                                            
                                                         </tbody>
                                                         <tfoot>
                                                             <tr className='report-table-row with-border table-foot'>
                                                                 <td className='report-table-data'>Total</td>
-                                                                <td className='report-table-data' align='center'>1</td>
-                                                                <td className='report-table-data' align='center'>0</td>
-                                                                <td className='report-table-data' align='center'>0</td>
-                                                                <td className='report-table-data' align='center'>0</td>
-                                                                <td className='report-table-data' align='center'>0</td>
-                                                                <td className='report-table-data' align='center'>0</td>
-                                                                <td className='report-table-data' align='center'>0</td>
-                                                                <td className='report-table-data' align='center'>0</td>
-                                                                <td className='report-table-data' align='center'>0</td>
-                                                                <td className='report-table-data' align='center'>0</td>
-                                                                <td className='report-table-data' align='center'>0</td>
-                                                                <td className='report-table-data' align='center'>0</td>
-                                                                <td className='report-table-data' align='center'>0</td>
-                                                                <td className='report-table-data' align='center'>0</td>
-                                                                <td className='report-table-data' align='center'>0</td>
-                                                                <td className='report-table-data' align='center'>0</td>
-                                                                <td className='report-table-data' align='center'>0</td>
-                                                                <td className='report-table-data' align='center'>0</td>
-                                                                <td className='report-table-data' align='center'>0</td>
-                                                                <td className='report-table-data' align='center'>0</td>
-                                                                <td className='report-table-data' align='center'>0</td>
-                                                                <td className='report-table-data' align='center'>0</td>
-                                                                <td className='report-table-data' align='center'>0</td>
-                                                                <td className='report-table-data' align='center'>0</td>
-                                                                <td className='report-table-data' align='center'>0</td>
-                                                                <td className='report-table-data' align='center'>0</td>
-                                                                <td className='report-table-data' align='center'>0</td>
-                                                                <td className='report-table-data' align='center'>0</td>
-                                                                <td className='report-table-data' align='center'>0</td>
-                                                                <td className='report-table-data' align='center'>0</td>
-                                                                <td className='report-table-data' align='center'>0</td>
-                                                                <td className='report-table-data' align='center'>0</td>
-                                                                <td className='report-table-data' align='center'>0</td>
-                                                                <td className='report-table-data' align='center'>0</td>
-                                                                <td className='report-table-data' align='center'>0</td>
-                                                                <td className='report-table-data' align='center'>0</td>
-                                                                <td className='report-table-data' align='center'>0</td>
-                                                                <td className='report-table-data' align='center'>0</td>
-                                                                <td className='report-table-data' align='center'>0</td>
-                                                                <td className='report-table-data' align='center'>0</td>
-                                                                <td className='report-table-data' align='center'>0</td>
-                                                                <td className='report-table-data' align='center'>0</td>
-                                                                <td className='report-table-data' align='center'>1</td>
+                                                                <td className='report-table-data' align='center'>{employeeReportDetail.reduce((total, date) => total + (date?.createdCands || 0), 0)}</td>
+                                                                <td className='report-table-data' align='center'>{employeeReportDetail.reduce((total, date) => total + (date?.assignedCands || 0), 0)}</td>
+                                                                
+                                                                <td className='report-table-data' align='center'>{employeeReportDetail.reduce((total, date) => total + ((date?.createdCands || 0) + (date?.assignedCands || 0)), 0)}</td>
                                                             </tr>
                                                         </tfoot>
                                                     </table>
                                                 </div>
 
                                                 <div className="report-table-pagination-area">
-                                                    <div className="buttons">
-                                                        <nav aria-label="Page navigation example">
-                                                            <ul className="pagination">
-                                                                <li className="page-item">
-                                                                    <a className="page-link custom" href="#" aria-label="Previous">
-                                                                        <span aria-hidden="true">&laquo;</span>
-                                                                        <span className="sr-only">Previous</span>
-                                                                    </a>
-                                                                </li>
-                                                                <li className="page-item"><a className="page-link custom" href="#">1</a></li>
-                                                                <li className="page-item"><a className="page-link custom" href="#">2</a></li>
-                                                                <li className="page-item"><a className="page-link custom" href="#">3</a></li>
-                                                                <li className="page-item"><a className="page-link custom" href="#">..</a></li>
-                                                                <li className="page-item">
-                                                                    <a className="page-link custom" href="#" aria-label="Next">
-                                                                        <span aria-hidden="true">&raquo;</span>
-                                                                        <span className="sr-only">Next</span>
-                                                                    </a>
-                                                                </li>
-                                                            </ul>
-                                                        </nav>
+                                                        <div className="buttons">
+                                                            <nav aria-label="Page navigation example">
+                                                                <ul className="pagination">
+                                                                    <li className="page-item">
+                                                                        {x[0] > 0 && <a className="page-link custom" href="" aria-label="Previous"
+                                                                            onClick={() => setX([x[0] - 3, x[1] - 3])}>
+                                                                            <span aria-hidden="true">&laquo;</span>
+                                                                            <span className="sr-only">Previous</span>
+                                                                        </a>}
+                                                                    </li>
+                                                                    {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <li className="page-item"
+                                                                        onClick={() => setX([0, 3])}><a className="page-link custom" href="#">1</a></li>}
+                                                                    {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <li className="page-item"
+                                                                        onClick={() => setX([3, 6])}><a className="page-link custom" href="#">2</a></li>}
+                                                                    {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <li className="page-item"
+                                                                        onClick={() => setX([6, 9])}><a className="page-link custom" href="#">3</a></li>}
+                                                                    {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <li className="page-item"><a className="page-link custom" href="#">..</a></li>}
+                                                                    <li className="page-item">
+                                                                        {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <a className="page-link custom" href="#" aria-label="Next"
+                                                                            onClick={() => setX([x[0] + 3, x[1] + 3])}>
+                                                                            <span aria-hidden="true">&raquo;</span>
+                                                                            <span className="sr-only">Next</span>
+                                                                        </a>}
+                                                                    </li>
+                                                                </ul>
+                                                            </nav>
+                                                        </div>
                                                     </div>
-                                                </div>
 
                                                 <div className="table-export-area">
                                                     <div className='export-head'>Export</div>
@@ -565,12 +508,26 @@ const CandidateSourceReport = () => {
                                             </div>
                                         )}
                                     </div>
-
+                                    
+                                    {noData &&
                                     <div className="report-no-data-found-area">
                                         <img src="../assets/img/no-data/No-data-found.webp" className='report-no-data-found-img' alt="" />
                                         <div className='report-no-data-found-text'>No data found.</div>
                                         <div className='report-no-data-found-sub-text'>Try to create the information first.</div>
-                                    </div>
+                                    </div>}
+
+                                    {loading && <div className="dot-spinner-area">
+                                            <div className="dot-spinner">
+                                                <div className="dot-spinner__dot"></div>
+                                                <div className="dot-spinner__dot"></div>
+                                                <div className="dot-spinner__dot"></div>
+                                                <div className="dot-spinner__dot"></div>
+                                                <div className="dot-spinner__dot"></div>
+                                                <div className="dot-spinner__dot"></div>
+                                                <div className="dot-spinner__dot"></div>
+                                                <div className="dot-spinner__dot"></div>
+                                            </div>
+                                        </div>}
                                 </div>
                             </div>
                         </div>
@@ -591,68 +548,41 @@ const CandidateSourceReport = () => {
                             </div>
                             <div className="modal-body">
                                 <div className="card p-3 mb-0">
-                                    <div className='text-blue font-weight-600'>Supriya</div>
+                                    <div className='text-blue font-weight-600'>{viewModelName}</div>
                                     <hr />
                                     <div className="table-responsive report-data-view-area">
                                         <table className='table report-table table-bordered'>
                                             <thead>
                                                 <tr className='report-table-row with-border head'>
                                                     <th className='report-table-head no-verical-align'>CREATED DATE</th>
-                                                    <th className='report-table-head no-verical-align text-center'>CREATED</th>
-                                                    <th className='report-table-head no-verical-align text-center'>RESUME UPLOAD</th>
-                                                    <th className='report-table-head no-verical-align text-center'>EXCEL</th>
-                                                    <th className='report-table-head no-verical-align text-center'>EMAIL</th>
-                                                    <th className='report-table-head no-verical-align text-center'>GMAIL PLUGIN</th>
-                                                    <th className='report-table-head no-verical-align text-center'>LINKEDIN PLUGIN</th>
-                                                    <th className='report-table-head no-verical-align text-center'>OUTLOOK PLUGIN</th>
-                                                    <th className='report-table-head no-verical-align text-center'>STACKOVERFLOW PLUGIN</th>
-                                                    <th className='report-table-head no-verical-align text-center'>CAREER-BUILDER PLUGIN</th>
-                                                    <th className='report-table-head no-verical-align text-center'>DICE PLUGIN</th>
-                                                    <th className='report-table-head no-verical-align text-center'>TIMES JOB PLUGIN</th>
-                                                    <th className='report-table-head no-verical-align text-center'>MONSTER PLUGIN</th>
-                                                    <th className='report-table-head no-verical-align text-center'>NAUKRI PLUGIN</th>
-                                                    <th className='report-table-head no-verical-align text-center'>SOURCING DEPARTMENT</th>
+                                                    <th className='report-table-head no-verical-align text-center'>CREATED CANDIDATES</th>
+                                                    <th className='report-table-head no-verical-align text-center'>ASSIGNED CANDIDATES</th>
+                                                    
                                                     <th className='report-table-head no-verical-align text-center'>TOTAL</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr className='report-table-row with-border'>
-                                                    <td className='report-table-data no-wrap'>09-01-2024</td>
-                                                    <td className='report-table-data text-center'>0</td>
-                                                    <td className='report-table-data text-center'>1</td>
-                                                    <td className='report-table-data text-center'>1</td>
-                                                    <td className='report-table-data text-center'>1</td>
-                                                    <td className='report-table-data text-center'>1</td>
-                                                    <td className='report-table-data text-center'>1</td>
-                                                    <td className='report-table-data text-center'>1</td>
-                                                    <td className='report-table-data text-center'>1</td>
-                                                    <td className='report-table-data text-center'>1</td>
-                                                    <td className='report-table-data text-center'>1</td>
-                                                    <td className='report-table-data text-center'>1</td>
-                                                    <td className='report-table-data text-center'>1</td>
-                                                    <td className='report-table-data text-center'>1</td>
-                                                    <td className='report-table-data text-center'>1</td>
-                                                    <td className='report-table-data text-center is-bold'>1</td>
-                                                </tr>
+                                                {dateWiseResults.slice(y[0], y[1]).map((date, index)=>{
+                                                    return (
+                                                        <tr className='report-table-row with-border'
+                                                        key={index}>
+                                                            <td className='report-table-data no-wrap'>{date?.date}</td>
+                                                            <td className='report-table-data text-center'>{date?.createdCands}</td>
+                                                            <td className='report-table-data text-center'>{date?.assignedCands}</td>
+                                                            
+                                                            <td className='report-table-data text-center is-bold'>{date?.createdCands+date?.assignedCands}</td>
+                                                        </tr>
+                                                    )
+                                                })}
+                                                
                                             </tbody>
                                             <tfoot>
                                                 <tr className='report-table-row with-border table-foot'>
                                                     <td className='report-table-data'>Total</td>
-                                                    <td className='report-table-data' align='center'>1</td>
-                                                    <td className='report-table-data' align='center'>0</td>
-                                                    <td className='report-table-data' align='center'>0</td>
-                                                    <td className='report-table-data' align='center'>0</td>
-                                                    <td className='report-table-data' align='center'>0</td>
-                                                    <td className='report-table-data' align='center'>0</td>
-                                                    <td className='report-table-data' align='center'>0</td>
-                                                    <td className='report-table-data' align='center'>0</td>
-                                                    <td className='report-table-data' align='center'>0</td>
-                                                    <td className='report-table-data' align='center'>0</td>
-                                                    <td className='report-table-data' align='center'>0</td>
-                                                    <td className='report-table-data' align='center'>0</td>
-                                                    <td className='report-table-data' align='center'>0</td>
-                                                    <td className='report-table-data' align='center'>0</td>
-                                                    <td className='report-table-data' align='center'>0</td>
+                                                    <td className='report-table-data' align='center'>{dateWiseResults.reduce((total, date) => total + (date?.createdCands || 0), 0)}</td>
+                                                    <td className='report-table-data' align='center'>{dateWiseResults.reduce((total, date) => total + (date?.assignedCands || 0), 0)}</td>
+                                                    
+                                                    <td className='report-table-data' align='center'>{dateWiseResults.reduce((total, date) => total + ((date?.createdCands || 0) + (date?.assignedCands || 0)), 0)}</td>
                                                 </tr>
                                             </tfoot>
                                         </table>
@@ -662,20 +592,25 @@ const CandidateSourceReport = () => {
                                             <nav aria-label="Page navigation example">
                                                 <ul className="pagination">
                                                     <li className="page-item">
-                                                        <a className="page-link custom" href="#" aria-label="Previous">
+                                                        {y[0] > 0 && <a className="page-link custom" href="#" aria-label="Previous"
+                                                            onClick={() => setY([y[0] - 5, y[1] - 5])}>
                                                             <span aria-hidden="true">&laquo;</span>
                                                             <span className="sr-only">Previous</span>
-                                                        </a>
-                                                    </li>
-                                                    <li className="page-item"><a className="page-link custom" href="#">1</a></li>
-                                                    <li className="page-item"><a className="page-link custom" href="#">2</a></li>
-                                                    <li className="page-item"><a className="page-link custom" href="#">3</a></li>
-                                                    <li className="page-item"><a className="page-link custom" href="#">..</a></li>
+                                                        </a>}
+                                                    </li> 
+                                                    <li className="page-item"
+                                                        onClick={() => setY([0, 5])}><a className="page-link custom" href="#">1</a></li>
+                                                    {(dateWiseResults.slice(y[0], y[1]).length === 5 && dateWiseResults.length > y[1]) && <li className="page-item"
+                                                        onClick={() => setY([5, 10])}><a className="page-link custom" href="#">2</a></li>}
+                                                    {(dateWiseResults.slice(y[0], y[1]).length === 5 && dateWiseResults.length > y[1]) && <li className="page-item"
+                                                        onClick={() => setY([10, 15])}><a className="page-link custom" href="#">3</a></li>}
+                                                    {(dateWiseResults.slice(y[0], y[1]).length === 5 && dateWiseResults.length > y[1]) && <li className="page-item"><a className="page-link custom" href="#">..</a></li>}
                                                     <li className="page-item">
-                                                        <a className="page-link custom" href="#" aria-label="Next">
+                                                        {(dateWiseResults.slice(y[0], y[1]).length === 5 && dateWiseResults.length > y[1]) && <a className="page-link custom" href="#" aria-label="Next"
+                                                            onClick={() => setY([x[0] + 5, y[1] + 5])}>
                                                             <span aria-hidden="true">&raquo;</span>
                                                             <span className="sr-only">Next</span>
-                                                        </a>
+                                                        </a>}
                                                     </li>
                                                 </ul>
                                             </nav>

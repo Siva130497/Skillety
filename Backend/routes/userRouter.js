@@ -210,6 +210,11 @@ const {
    getCandidateSourceReport,
    getClientReport,
    allAtsClients,
+   getJobSuccessReport,
+   getCandidatePlacementReportData,
+   getJobReport,
+   getJobDurationReport,
+
    //ATS...............
   
 } = require("../Controller/authFunctions");
@@ -772,6 +777,18 @@ router.get("/client-report", employeeAuth, getClientReport);
 
 //find all the ats client
 router.get("/ats-clients", employeeAuth, allAtsClients);
+
+//get job success report
+router.get("/job-success-report", employeeAuth, getJobSuccessReport);
+
+//get candidate placement report
+router.get("/candidate-placement-report", employeeAuth, getCandidatePlacementReportData);
+
+//get job report
+router.get("/job-report", employeeAuth, getJobReport);
+
+//get job duration report
+router.get("/job-duration-report", employeeAuth, getJobDurationReport);
 
 //ATS..................
 
