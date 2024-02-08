@@ -98,11 +98,17 @@
     color: #714F36 !important;
     background-color: #F9C833 !important;
 }
+
 .tal-cand-reg-form-badge.candidate:hover::after {
     color: #714F36 !important;
     border-color: #714F36 !important;
 }
+
 .tal--pro-card-percentage.custom-font-size {
     font-size: 20px;
     margin-top: 10px;
+}
+
+.cursor-pointer {
+    cursor: pointer !important;
 }

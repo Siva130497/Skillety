@@ -603,7 +603,7 @@
     }
 
     .home--about-section {
-        padding-top: 60px !important;
+        padding-top: 40px !important;
         padding-bottom: 40px !important;
         padding-left: 0;
         padding-right: 0;
@@ -731,7 +731,7 @@
     }
 
     .home--rpo-section {
-        padding-top: 60px;
+        padding-top: 40px;
         padding-left: 0px;
         padding-right: 0px;
     }
@@ -778,9 +778,13 @@
     }
 
     .candidate--section {
-        padding-top: 60px;
+        padding-top: 40px;
         padding-left: 0px;
         padding-right: 0px;
+    }
+
+    .candidate--rate-area{
+        white-space: nowrap;
     }
 
     .home--about-headarea .candidate--heading {
@@ -789,7 +793,7 @@
     }
 
     .candidate--slider-area {
-        margin-top: 60px;
+        margin-top: 40px;
     }
 
     .home--slider-btn-area {
@@ -954,11 +958,11 @@
     }
 
     .register--card {
-        height: 150px;
+        height: 130px;
     }
 
     .register--card .register--text {
-        font-size: 40px;
+        font-size: 32px;
     }
 
     .register-arrow-area svg {
@@ -994,7 +998,7 @@
     }
 
     .home--milestone-card-right .home-milestone-number {
-        font-size: 80px;
+        font-size: 70px;
         letter-spacing: normal;
     }
 

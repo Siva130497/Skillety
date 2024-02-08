@@ -24,7 +24,7 @@
     }
     .company-demo-card .company-demo-card-desc-area{
         width: 80%;
-        margin-bottom: 80px;
+        /* margin-bottom: 80px; */
     }
     .company-demo-card-desc-area .company-demo-card-desc{
         font-weight: 500;
@@ -111,7 +111,7 @@
     }
 
     .company--content-area {
-        margin-top: 60px;
+        margin-top: 40px;
     }
 
     .company--heading {
@@ -156,9 +156,9 @@
     .company-demo-card{
         padding: 30px;
     }
-    .company-demo-card .company-demo-card-desc-area{
+    /* .company-demo-card .company-demo-card-desc-area{
         margin-bottom: 100px;
-    }
+    } */
     .company-demo-card-desc-area .company-demo-card-desc{
         font-size: 18px;
         font-weight: 500;
