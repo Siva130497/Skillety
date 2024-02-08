@@ -1528,7 +1528,7 @@ const Home = () => {
                         <p>Direct Call or message on WhatsApp to start work with us </p>
                       </div>
                       <div className="connect--btn-area">
-                        <a href="" className='connect--btn-sub'>
+                        <a href="tel:" className='connect--btn-sub'>
                           <div className='connect--btn'>
                             CALL US
                           </div>

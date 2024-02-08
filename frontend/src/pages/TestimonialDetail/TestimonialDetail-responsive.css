@@ -42,6 +42,10 @@
     .test--det-card-top-area {
         gap: 40px;
     }
+
+    .test-det-card-pro-name{
+        max-width: 420px;
+    }
 }
 
 @media (max-width:500px) {
@@ -97,5 +101,13 @@
 
     .more--test-card-area {
         margin-top: 50px;
+    }
+
+    .test-det-card-pro-name{
+        max-width: 100%;
+        white-space: initial !important;
+    }
+    .test--det-card-desc-area{
+        height: 300px;
     }
 }
