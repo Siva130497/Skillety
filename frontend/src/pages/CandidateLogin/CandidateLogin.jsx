@@ -2,7 +2,9 @@ import React, { useState, useContext } from 'react'
 import { Link } from "react-router-dom";
 
 import { useEffect } from 'react';
-import $ from 'jquery';
+import $, { event } from 'jquery';
+import { GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from 'firebase/auth';
+import { auth } from '../../firebase/firebaseConfig';
 import './CandidateLogin.css';
 
 import AuthContext from '../../context/AuthContext';
@@ -12,10 +14,14 @@ import useTokenRedirect from '../../customhooks/useTokenRedirect';
 const CandidateLogin = () => {
     useTokenRedirect();
     const { loginUser, errorMsg, setErrorMsg } = useContext(AuthContext)
+    
+    const [user, setUser] = useState(null || JSON.parse(localStorage.getItem('auth')));
+    const [token, setToken] = useState("")
     const [credentials, setcredentials] = useState({
         userId: "",
         password: "",
     })
+
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         setcredentials({ ...credentials, [name]: value });
@@ -28,6 +34,43 @@ const CandidateLogin = () => {
         loginUser(updatedCredentials);
 
     }
+    const handleGoogle =  async(event) => {
+
+        const provider = new GoogleAuthProvider();
+        try {
+            const userCred = await signInWithPopup(auth, provider);
+            // Code to execute after successful sign-in
+            console.log(userCred);
+            if(userCred){
+                setUser(userCred.user)
+            }
+        } catch (error) {
+            // Handle any errors that occur during sign-in
+            console.error("Error signing in with Google:", error);
+        }
+      
+    }
+    
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            console.log(user)
+            if(user){
+                setUser(user);
+                user.getIdToken().then((token)=>{
+                    console.log(token);
+                    localStorage.setItem('auth', JSON.stringify(token));
+                    setToken(token);
+                })
+            }
+          
+        });
+    
+        return () => {
+          // Unsubscribe from the auth listener on component unmount
+          unsubscribe();
+        };
+      }, [auth]);
+
 
     useEffect(() => {
         $(document).ready(function () {
@@ -64,6 +107,7 @@ const CandidateLogin = () => {
             });
         });
     }, []);
+
     return (
         <div>
             <Layout newNavBarCandidateLogin={true} />
@@ -77,12 +121,16 @@ const CandidateLogin = () => {
                                     {/* <h5 className="cli--signup-title" data-aos="fade-left">Welcome back Jaden</h5> */}
                                     <h6 className='cli--signup-sub-title'>Welcome back! Plz enter your details</h6>
 
-                                    <div className="cli--login-with-google-btn-area">
-                                        <a href="#" className='cli--login-with-google-btn'>
-                                            <img src="assets/img/signup/google-icon.png" className='google-icon' alt="" />
-                                            <span>Log in with Google</span>
-                                        </a>
-                                    </div>
+                                    {
+                                        user ? <p>DashBoard</p> :
+                                            <div className="cli--login-with-google-btn-area"
+                                            onClick={handleGoogle}>
+                                                <a href="#" className='cli--login-with-google-btn'>
+                                                    <img src="assets/img/signup/google-icon.png" className='google-icon' alt="" />
+                                                    <span>Log in with Google</span>
+                                                </a>
+                                            </div>
+                                    }
 
                                     {/* <form onSubmit={handleSubmit}>
                     <div className="form-group">

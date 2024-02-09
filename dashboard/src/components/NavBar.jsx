@@ -77,6 +77,7 @@ const NavBar = ({ notification, socket }) => {
         .catch(err => {
           console.log(err)
         })
+
     }
   }, [token]);
 
@@ -94,6 +95,19 @@ const NavBar = ({ notification, socket }) => {
         .catch(err => {
           console.log(err)
         })
+
+      axios.patch("http://localhost:5002/update-candidate-activeIn", {candidateId}, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Accept: 'application/json'
+          }
+        })
+          .then(res => {
+            console.log(res.data);
+          })
+          .catch(err => {
+            console.log(err)
+          })
     }
   }, [candidateId]);
 

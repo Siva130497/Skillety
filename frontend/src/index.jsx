@@ -18,12 +18,10 @@ import 'glightbox/dist/js/glightbox.min.js';
 import 'isotope-layout/dist/isotope.pkgd.min.js';
 // // import 'swiper/swiper-bundle.min.js';
 import 'waypoints/lib/noframework.waypoints.js';
-
 import App from './App';
 
 import {BrowserRouter} from "react-router-dom";
 import reportWebVitals from './reportWebVitals';
-
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
