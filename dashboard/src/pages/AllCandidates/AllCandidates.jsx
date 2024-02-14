@@ -187,10 +187,11 @@ const AllCandidates = () => {
                 try {
                     const userData = await getProtectedData(staffToken);
                     console.log(userData);
-                    setEmployeeId(userData.id);
+                    setEmployeeId(userData.id || userData.uid);
                     // setRole(userData.role);
                 } catch (error) {
                     console.log(error)
+                    navigate("/")
                 }
             };
 

@@ -11,9 +11,10 @@ import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const AllJobs = () => {
+    const navigate = useNavigate();
     const { getProtectedData } = useContext(AuthContext);
     const location = useLocation();
     const { jobs } = location.state || {};
@@ -172,9 +173,10 @@ const AllJobs = () => {
                 try {
                     const userData = await getProtectedData(staffToken);
                     console.log(userData);
-                    setEmployeeId(userData.id);
+                    setEmployeeId(userData.id || userData.uid);
                 } catch (error) {
                     console.log(error)
+                    navigate("/")
                 }
             };
 

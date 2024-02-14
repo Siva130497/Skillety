@@ -83,7 +83,7 @@ const RecruiterDashboard = () => {
       try {
         const user = await getProtectedData();
         console.log(user);
-        setEmployeeId(user.id);
+        setEmployeeId(user.id || user.uid);
       } catch (error) {
         navigate("/recruiter-login")
       }

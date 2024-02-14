@@ -94,12 +94,12 @@ const ManageJobs = () => {
                     // setLoading(true);
                     const user = await getProtectedData(clientToken);
                     console.log(user);
-                    setEmployeeId(user.id);
+                    setEmployeeId(user.id || user.uid);
 
                     // setLoading(false);
                 } catch (error) { 
                     console.log(error);
-
+                    window.location.href = 'https://skillety-frontend-wcth.onrender.com/client-login'
                     // setLoading(false);
                 }
             };

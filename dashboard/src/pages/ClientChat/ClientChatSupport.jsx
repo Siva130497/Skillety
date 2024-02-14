@@ -53,11 +53,12 @@ const ClientChatSupport = () => {
 
           const user = await getProtectedData(clientToken);
           console.log(user);
-          setUserId(user.id);
-          setRoomId(user.id);
+          setUserId(user.id || user.uid);
+          setRoomId(user.id || user.uid);
           setUserName(user.name)
         } catch (error) {
           console.log(error);
+          window.location.href = 'https://skillety-frontend-wcth.onrender.com/client-login'
         }
       };
 
@@ -233,9 +234,10 @@ useEffect(() => {
           senderName: userName,
           receiverId: receiverData.map(data => data.receiverId),
           receiverName: receiverData.map(data => data.receiverName),
-          type: "2",
+          content: `${userName} messaged you`,
           time: formattedTime,
           date: formattedDate,
+          redirect:'/chat-client'
         }
 
         await socket.emit('send_message', messageData);
@@ -253,7 +255,7 @@ useEffect(() => {
 
         console.log(response1.data);
 
-        const response2 = await axios.post(`https://skillety-n6r1.onrender.com/candidate-to-recruiter-notification`,   notificationData, {
+        const response2 = await axios.post(`https://skillety-n6r1.onrender.com/create-new-notification`,   notificationData, {
           headers: {
             Authorization: `Bearer ${clientToken}`,
             Accept: 'application/json'

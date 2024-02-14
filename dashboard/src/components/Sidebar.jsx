@@ -1,14 +1,31 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useEffect } from 'react';
 import $ from 'jquery';
 import feather from 'feather-icons';
+import AuthContext from '../context/AuthContext';
 
 const Sidebar = () => {
   const [candidateToken, setCandidateToken] = useState("");
-
+  const { getProtectedData } = useContext(AuthContext);
   useEffect(() => {
     setCandidateToken(JSON.parse(localStorage.getItem('candidateToken')))
   }, [candidateToken])
+
+  useEffect(() => {
+    
+    const fetchData = async () => {
+      try {
+        const userData = await getProtectedData();
+        console.log(userData);
+        
+        setCandidateToken(userData.userToken);
+      } catch (error) {
+        console.log(error)
+      }
+    };
+
+    fetchData();
+},[candidateToken])  
 
   useEffect(() => {
     $(document).ready(function () {
@@ -32,6 +49,8 @@ const Sidebar = () => {
     });
 
   }, [candidateToken]);
+
+  // console.log(candidateToken);
 
   return (
     <div className="main-sidebar sidebar-style-2">

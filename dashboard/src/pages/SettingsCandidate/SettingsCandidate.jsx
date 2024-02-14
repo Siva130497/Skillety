@@ -11,7 +11,8 @@ import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
 
 const SettingsCandidate = () => {
-    const [candidateToken, setCandidateToken] = useState("");
+    const [candToken, setCandToken] = useState("");
+    const candidateToken = JSON.parse(localStorage.getItem('candidateToken'));
     const { getProtectedData } = useContext(AuthContext);
     const [candidateId, setCandidateId] = useState("");
     const [candidateDetail, setCandidateDetail] = useState([]);
@@ -105,27 +106,29 @@ const SettingsCandidate = () => {
             });
         });
 
-    }, [candidateToken]);
+    }, [candidateToken, candToken]);
+
+    // useEffect(() => {
+    //     setCandidateToken(JSON.parse(localStorage.getItem('candidateToken')))
+    // }, [candidateToken])
 
     useEffect(() => {
-        setCandidateToken(JSON.parse(localStorage.getItem('candidateToken')))
-    }, [candidateToken])
-
-    useEffect(() => {
-        if (candidateToken) {
+        
             const fetchData = async () => {
                 try {
                     const user = await getProtectedData(candidateToken);
                     console.log(user);
-                    setCandidateId(user.id);
+                    setCandidateId(user.id || user?.responseData.uid);
+                    setCandToken(user.userToken)
                 } catch (error) {
                     console.log(error);
+                    window.location.href = 'https://skillety-frontend-wcth.onrender.com/candidate-login'
                 }
             };
 
             fetchData();
-        }
-    }, [candidateToken]);
+        
+    }, []);
 
     const getAllCandidateDetail = async () => {
         try {
@@ -151,14 +154,16 @@ const SettingsCandidate = () => {
         if (candidateId) {
             getAllCandidateDetail();
             axios.get(`https://skillety-n6r1.onrender.com/candidate-image/${candidateId}`)
-                .then(res => setCandidateImg(res.data))
+                .then(res => {
+                    console.log(res.data);
+                    setCandidateImg(res.data)})
                 .catch(err => console.log(err))
         }
     }, [candidateId]);
 
     useEffect(() => {
         if (candidateImg) {
-            setCandidateImgUrl(`https://skillety-n6r1.onrender.com/candidate_profile/${candidateImg.image}`)
+            setCandidateImgUrl(candidateImg.image.startsWith('https') ? candidateImg.image : `https://skillety-n6r1.onrender.com/candidate_profile/${candidateImg.image}`)
         }
 
     }, [candidateImg]);
@@ -169,7 +174,7 @@ const SettingsCandidate = () => {
         }
     }, [image]);
 
-
+    console.log(candidateImgUrl);
     const handleEmailUpdate = () => {
         const userData = {
             id: candidateDetail.id,
@@ -177,7 +182,7 @@ const SettingsCandidate = () => {
         }
         axios.patch("https://skillety-n6r1.onrender.com/update-candidate-email", userData, {
             headers: {
-                Authorization: `Bearer ${candidateToken}`,
+                Authorization: `Bearer ${candidateToken ? candidateToken : candToken}`,
                 Accept: 'application/json'
             }
         })
@@ -203,7 +208,7 @@ const SettingsCandidate = () => {
         }
         axios.patch("https://skillety-n6r1.onrender.com/update-candidate-phone", userData, {
             headers: {
-                Authorization: `Bearer ${candidateToken}`,
+                Authorization: `Bearer ${candidateToken ? candidateToken : candToken}`,
                 Accept: 'application/json'
             }
         })
@@ -229,7 +234,7 @@ const SettingsCandidate = () => {
         }
         axios.patch("https://skillety-n6r1.onrender.com/update-candidate-password", userData, {
             headers: {
-                Authorization: `Bearer ${candidateToken}`,
+                Authorization: `Bearer ${candidateToken ? candidateToken : candToken}`,
                 Accept: 'application/json'
             }
         })
@@ -254,7 +259,7 @@ const SettingsCandidate = () => {
             formData.append('image', image);
             axios.patch(`https://skillety-n6r1.onrender.com/update-candidate-profile-image/${candidateId}`, formData, {
                 headers: {
-                    Authorization: `Bearer ${candidateToken}`,
+                    Authorization: `Bearer ${candidateToken ? candidateToken : candToken}`,
                     Accept: 'application/json'
                 }
             })
@@ -274,7 +279,7 @@ const SettingsCandidate = () => {
             formData.append('id', candidateId)
             axios.post("https://skillety-n6r1.onrender.com/upload-candidate-profile-image", formData, {
                 headers: {
-                    Authorization: `Bearer ${candidateToken}`,
+                    Authorization: `Bearer ${candidateToken ? candidateToken : candToken}`,
                     Accept: 'application/json'
                 }
             })
@@ -326,7 +331,7 @@ const SettingsCandidate = () => {
 
     return (
         <div>
-            {candidateToken && <div class="main-wrapper main-wrapper-1">
+            {(candidateToken ? candidateToken : candToken) && <div class="main-wrapper main-wrapper-1">
                 <div class="navbar-bg"></div>
 
                 <Layout />
@@ -366,17 +371,21 @@ const SettingsCandidate = () => {
                                                 <div className='image-upload-img-area'>
                                                     <img src={candidateImgUrl ? candidateImgUrl : "../assets/img/talents-images/avatar.jpg"} className='image-upload-img' alt="" />
                                                 </div>
-                                                <div className={`change-input-area ${isProfileImageExpanded ? 'expanded' : ''}`}>
-                                                    <div className="row">
-                                                        <div className="col-12 col-xl-5 col-lg-5 col-md-6 d-flex align-items-center gap-10 mt-4 mb-2">
-                                                            <input type='file' className='change-setting-input file' onChange={e => setImage(e.target.files[0])} />
-                                                            <button className='setting-update-btn' onClick={handlePhotoUpdate}>Update</button>
+                                                {!candToken &&
+                                                    <>
+                                                        <div className={`change-input-area ${isProfileImageExpanded ? 'expanded' : ''}`}>
+                                                            <div className="row">
+                                                                <div className="col-12 col-xl-5 col-lg-5 col-md-6 d-flex align-items-center gap-10 mt-4 mb-2">
+                                                                    <input type='file' className='change-setting-input file' onChange={e => setImage(e.target.files[0])} />
+                                                                    <button className='setting-update-btn' onClick={handlePhotoUpdate}>Update</button>
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </div>
-                                                <button className={`setting-change-btn ${isProfileImageExpanded ? 'expanded' : ''}`} data-type="Profile Image" onClick={handleProfileImageToggle}>
-                                                    {isProfileImageExpanded ? 'Cancel' : `Change Profile Image`}
-                                                </button>
+                                                        <button className={`setting-change-btn ${isProfileImageExpanded ? 'expanded' : ''}`} data-type="Profile Image" onClick={handleProfileImageToggle}>
+                                                            {isProfileImageExpanded ? 'Cancel' : `Change Profile Image`}
+                                                        </button>
+                                                    </>}
+                                                
                                             </div>
 
                                             <div className="setting-content">
@@ -386,17 +395,21 @@ const SettingsCandidate = () => {
                                                         {candidateDetail.email}
                                                     </a>
                                                 </div>
-                                                <div className={`change-input-area ${isEmailExpanded ? 'expanded' : ''}`}>
-                                                    <div className="row">
-                                                        <div className="col-12 col-xl-5 col-lg-5 col-md-6 d-flex align-items-center gap-10 mt-4 mb-2">
-                                                            <input type="email" className='change-setting-input' placeholder='Change Email' onChange={(e) => setUserInfo({ ...userInfo, email: e.target.value })} />
-                                                            <button className='setting-update-btn' onClick={handleEmailUpdate}>Update</button>
+                                                {!candToken &&
+                                                    <>
+                                                        <div className={`change-input-area ${isEmailExpanded ? 'expanded' : ''}`}>
+                                                            <div className="row">
+                                                                <div className="col-12 col-xl-5 col-lg-5 col-md-6 d-flex align-items-center gap-10 mt-4 mb-2">
+                                                                    <input type="email" className='change-setting-input' placeholder='Change Email' onChange={(e) => setUserInfo({ ...userInfo, email: e.target.value })} />
+                                                                    <button className='setting-update-btn' onClick={handleEmailUpdate}>Update</button>
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </div>
-                                                <button className={`setting-change-btn ${isEmailExpanded ? 'expanded' : ''}`} data-type="Email" onClick={handleEmailToggle}>
-                                                    {isEmailExpanded ? 'Cancel' : `Change Email`}
-                                                </button>
+                                                        <button className={`setting-change-btn ${isEmailExpanded ? 'expanded' : ''}`} data-type="Email" onClick={handleEmailToggle}>
+                                                            {isEmailExpanded ? 'Cancel' : `Change Email`}
+                                                        </button>
+                                                    </>}
+                                                
                                             </div>
 
                                             <div className="setting-content">
@@ -419,7 +432,7 @@ const SettingsCandidate = () => {
                                                 </button>
                                             </div>
 
-                                            <div className="setting-content">
+                                            {!candToken && <div className="setting-content">
                                                 <div className='setting-name'>Password</div>
                                                 <div className='setting-value password'>Password</div>
                                                 <div className={`change-input-area ${isPasswordExpanded ? 'multi-input-expanded' : ''}`}>
@@ -453,7 +466,7 @@ const SettingsCandidate = () => {
                                                 <button className={`setting-change-btn ${isPasswordExpanded ? 'expanded' : ''}`} data-type="Password" onClick={handlePasswordToggle}>
                                                     {isPasswordExpanded ? 'Cancel' : `Change Password`}
                                                 </button>
-                                            </div>
+                                            </div>}
                                         </div>
 
                                         {/* <div className="tab-pane fade" id="JobPref" role="tabpanel" aria-labelledby="job-pref-tab">

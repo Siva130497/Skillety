@@ -7,7 +7,7 @@ import Footer from '../../components/Footer';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import $ from 'jquery';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
@@ -16,6 +16,7 @@ import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
 import AuthContext from '../../context/AuthContext';
 
 const TalentsAts = () => {
+    const navigate = useNavigate();
     const { id } = useParams();
     const location = useLocation();
     const { getProtectedData } = useContext(AuthContext);
@@ -79,9 +80,10 @@ const TalentsAts = () => {
                     const user = await getProtectedData(staffToken);
                     console.log(user);
                     setAtsAccess(user.role);
-                    setEmployeeId(user.id);
+                    setEmployeeId(user.id || user.uid);
                 } catch (error) {
                     console.log(error);
+                    navigate("/");
                 }
             };
 
@@ -518,7 +520,7 @@ const TalentsAts = () => {
 
     useEffect(() => {
         if (candidateImg) {
-            setCandidateImgUrl(`https://skillety-n6r1.onrender.com/candidate_profile/${candidateImg.image}`)
+            setCandidateImgUrl(candidateImg.image.startsWith('https') ? candidateImg.image : `https://skillety-n6r1.onrender.com/candidate_profile/${candidateImg.image}`)
         }
 
     }, [candidateImg]);

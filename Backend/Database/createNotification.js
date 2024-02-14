@@ -30,6 +30,10 @@ const createNotificationSchema = new Schema(
       type: String,
       required: true,
     },
+    redirect: {
+      type: String,
+      required: true,
+    },
     readStatus: {
         type: Boolean,
         required: true,

@@ -13,7 +13,7 @@ const ClientLayout = ({notification}) => {
         // });
 
         const preloader = $('#preloader');
-        if (preloader.length) {
+        if (preloader?.length) {
             setTimeout(function () {
                 preloader.fadeOut('slow', function () {
                     preloader.remove();
@@ -51,7 +51,7 @@ const ClientLayout = ({notification}) => {
             };
 
             var sidebar_dropdown = function () {
-                if ($(".main-sidebar").length) {
+                if ($(".main-sidebar")?.length) {
                     $(".main-sidebar").niceScroll(sidebar_nicescroll_opts);
                     sidebar_nicescroll = $(".main-sidebar").getNiceScroll();
 
@@ -72,14 +72,14 @@ const ClientLayout = ({notification}) => {
             };
             sidebar_dropdown();
 
-            if ($("#top-5-scroll").length) {
+            if ($("#top-5-scroll")?.length) {
                 $("#top-5-scroll")
                     .css({
                         height: 315
                     })
                     .niceScroll();
             }
-            if ($("#scroll-new").length) {
+            if ($("#scroll-new")?.length) {
                 $("#scroll-new")
                     .css({
                         height: 200

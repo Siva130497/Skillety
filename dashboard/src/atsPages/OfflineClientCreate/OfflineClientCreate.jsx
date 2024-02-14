@@ -169,7 +169,7 @@ const OfflineClientCreate = () => {
                 try {
                     const userData = await getProtectedData(atsToken);
                     console.log(userData);
-                    setEmployeeId(userData.id);
+                    setEmployeeId(userData.id || userData.uid);
                 } catch (error) {
                     console.log(error)
                 }

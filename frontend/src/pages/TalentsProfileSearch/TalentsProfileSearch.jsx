@@ -749,7 +749,7 @@ const TalentsProfileSearch = () => {
 
     const getAllRecentSearch = async () => {
         try {
-            const response = await axios.get('https://skillety-n6r1.onrender.com/recent-search', {
+            const response = await axios.get(`https://skillety-n6r1.onrender.com/recent-search/${employeeId}`, {
                 headers: {
                     Accept: 'application/json'
                 }
@@ -775,7 +775,7 @@ const TalentsProfileSearch = () => {
         getAllRoles();
         getAllIndustries();
         getCandidateImg();
-        getAllRecentSearch();
+        
     }, []);
 
     const getLoginClientDetail = async () => {
@@ -825,7 +825,7 @@ const TalentsProfileSearch = () => {
                 try {
                     const user = await getProtectedData(clientToken);
                     console.log(user);
-                    setEmployeeId(user.id);
+                    setEmployeeId(user.id || user.uid);
                 } catch (error) {
                     console.log(error);
                 }
@@ -838,6 +838,7 @@ const TalentsProfileSearch = () => {
     useEffect(() => {
         if (employeeId) {
             getLoginClientDetail();
+            getAllRecentSearch();
         }
     }, [employeeId]);
 
@@ -902,6 +903,7 @@ const TalentsProfileSearch = () => {
         ) {
 
             const recentSearch = {
+                id:employeeId,
                 ...(filters.days && { days: filters.days }),
                 ...(selectedResults.length>0 && { selectedResults }),
                 ...(selectedLocationResults.length>0 && { selectedLocationResults }),
@@ -1191,13 +1193,15 @@ const TalentsProfileSearch = () => {
 
             if (finalFilteredResults.length > 0) {
                 setFilteredSearchResults(finalFilteredResults);
-
-                axios.post("https://skillety-n6r1.onrender.com/recent-search", recentSearch)
+                if(employeeId){
+                    axios.post("https://skillety-n6r1.onrender.com/recent-search", recentSearch)
                         .then(res => {
                             console.log(res.data)
                             getAllRecentSearch();
                         })
                         .catch(err => console.log(err))
+                }
+                
 
             } else {
                 setFilteredSearchResultsMsg("no such candidates found");
@@ -3690,7 +3694,7 @@ const TalentsProfileSearch = () => {
                                                         filteredSearchResults.slice(x[0], x[1]).map((candidate) => {
                                                             const viewedCandidateForThisCandidate = loginClientDetail.companyId && viewedCandidate.find(cand => cand.candidateId === candidate.id);
                                                             const matchingImg = candidateImg ? candidateImg.find(img => img.id === candidate.id) : null;
-                                                            const imgSrc = matchingImg ? `https://skillety-n6r1.onrender.com/candidate_profile/${matchingImg.image}` : "assets/img/talents-images/avatar.jpg";
+                                                            const imgSrc = matchingImg ?( matchingImg.image.startsWith('https') ? matchingImg.image : `https://skillety-n6r1.onrender.com/candidate_profile/${matchingImg.image}` ): "assets/img/talents-images/avatar.jpg";
 
                                                             const calculateMatchPercentage = (skills1, skills2) => {
                                                                 const matchingSkills = skills2.filter(skill => skills1.includes(skill));

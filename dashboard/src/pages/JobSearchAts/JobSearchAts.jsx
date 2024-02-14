@@ -6,8 +6,10 @@ import Footer from '../../components/Footer';
 // import { Slider } from "primereact/slider";
 import axios from 'axios';
 import AuthContext from '../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const JobSearchAts = () => {
+    const navigate = useNavigate();
     const [staffToken, setstaffToken] = useState("");
     const { getClientImg, clientImg, getProtectedData } = useContext(AuthContext);
     const [employeeId, setEmployeeId] = useState("");
@@ -247,10 +249,11 @@ const JobSearchAts = () => {
                 try {
                     const user = await getProtectedData(staffToken);
                     console.log(user);
-                    setEmployeeId(user.id);
+                    setEmployeeId(user.id || user.uid);
 
                 } catch (error) {
                     console.log(error);
+                    navigate("/")
 
                 }
             };

@@ -103,9 +103,10 @@ const PostedJobs = () => {
                 try {
                     const userData = await getProtectedData(staffToken);
                     console.log(userData);
-                    setEmployeeId(userData.id);
+                    setEmployeeId(userData.id || userData.uid);
                 } catch (error) {
-                    console.log(error)
+                    console.log(error);
+                    navigate("/");
                 }
             };
 

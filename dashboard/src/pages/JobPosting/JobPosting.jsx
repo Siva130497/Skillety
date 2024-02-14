@@ -297,9 +297,10 @@ const JobPosting = () => {
         try {
           const user = await getProtectedData(token);
           console.log(user);
-          setEmployeeId(user.id);
+          setEmployeeId(user.id || user.uid);
         } catch (error) {
           console.log(error);
+          window.location.href = 'https://skillety-frontend-wcth.onrender.com/client-login'
         }
       };
 

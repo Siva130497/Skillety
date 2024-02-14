@@ -13,10 +13,12 @@ import ScrollToBottom from "react-scroll-to-bottom";
 import io from 'socket.io-client';
 import { useContext } from 'react';
 import AuthContext from '../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 // const socket = io.connect('https://skillety-n6r1.onrender.com');
 
 const CandidateChat = () => {
+  const navigate = useNavigate();
   const { getProtectedData, getCandidateImg, candidateImg } = useContext(AuthContext);
 
   const [staffToken, setStaffToken] = useState("");
@@ -59,13 +61,13 @@ useEffect(()=>{
 
           const user = await getProtectedData(staffToken);
           console.log(user);
-          setUserId(user.id);
+          setUserId(user.id || user.uid);
           setUserName(user.name)
 
           
         } catch (error) {
           console.log(error);
-
+          navigate("/")
           
         }
       };
@@ -224,11 +226,12 @@ useEffect(()=>{
         const notificationData = {
           senderId: userId,
           senderName: userName,
-          receiverId: roomId,
-          receiverName: chattingPersonName,
-          type: "2",
+          receiverId: [roomId],
+          receiverName: [chattingPersonName],
+          content: `${userName} messaged you`,
           time: formattedTime,
           date: formattedDate,
+          redirect:'/candidate-chat-support'
         }
 
         await socket.emit('send_message', messageData);
@@ -246,7 +249,7 @@ useEffect(()=>{
 
         console.log(response1.data);
 
-        const response2 = await axios.post(`https://skillety-n6r1.onrender.com/candidate-notification`, notificationData, {
+        const response2 = await axios.post(`https://skillety-n6r1.onrender.com/create-new-notification`, notificationData, {
           headers: {
             Authorization: `Bearer ${staffToken}`,
             Accept: 'application/json'
@@ -468,7 +471,7 @@ useEffect(()=>{
                             <>
                               {filteredCandidates.map((candidate) => {
                                 const matchingImg = candidateImg ? candidateImg.find(img => img.id === candidate.roomId) : null;
-                                const imgSrc = matchingImg ? `https://skillety-n6r1.onrender.com/candidate_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
+                                const imgSrc = matchingImg ?( matchingImg.image.startsWith('https') ? matchingImg.image : `https://skillety-n6r1.onrender.com/candidate_profile/${matchingImg.image}` ): "../assets/img/talents-images/avatar.jpg";
 
                                 return <a href='#chat_window' className={`recent-chat-area ${window.innerWidth <= 991 ? 'navigate-to-chat' : ''} ${candidate.roomId == roomId ? 'active' : ''}`}
                                   key={candidate.roomId}

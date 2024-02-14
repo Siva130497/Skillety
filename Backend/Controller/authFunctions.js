@@ -41,7 +41,7 @@ const allJobTable = require("../Database/allJobTable");
 const nonApprovalJobTable = require("../Database/nonApprovalJobTable");
 const postedJobTable = require("../Database/postedJobTable");
 const recruiterClient = require("../Database/recruiterClient");
-
+const googleLoginCand = require("../Database/googleLoginCand");
 
 //MOBILE APP..........
 const candidateProfile = require("../Database/candidateProfile");
@@ -625,12 +625,13 @@ const candidateReg = async(req, res) => {
     const hashPassword = await bcrypt.hash(password, 12);
     const newCandidate = new candidate({
       ...req.body,
-      currencyType: "dummy",
-      minSalary: "dummy",
-      maxSalary: "dummy",
-      preferedlocations: ["dummy"],
+      currencyType: "not specified",
+      minSalary: "not specified",
+      maxSalary: "not specified",
+      preferedlocations: ["not specified"],
       role: "Candidate",
       password:hashPassword,
+      activeIn: new Date()
     });
     await newCandidate.save();
     console.log(newCandidate);
@@ -676,6 +677,102 @@ const candidateReg = async(req, res) => {
   }
 }
 
+const candidateRegAfterGoogleLogin = async(req, res) => {
+  try {
+    console.log(req.user);
+    const {firstName, lastName, email, phone, photoURL, id} = req.body;
+
+    const candidateAvailable = await candidate.findOne({ email });
+    const allUserAvailable = await allUsers.findOne({ email });
+    const googleLoginCandidate = await googleLoginCand.findOne({ email });
+
+    if(googleLoginCandidate){
+      return res.status(200).json(googleLoginCandidate)
+    }else if (!candidateAvailable && !allUserAvailable && !googleLoginCandidate) {
+      const newCandidate = new candidate({
+        days: "not specified",
+        firstName,
+        lastName,
+        phone,
+        email,
+        password: "not specified",
+        designation: ["not specified"],
+        companyName: "not specified",
+        location: "not specified",
+        year: 0,
+        month: 0,
+        education: ["not specified"],
+        profileHeadline: "not specified",
+        college: "not specified",
+        skills: ["not specified"],
+        id,
+        currencyType: "not specified",
+        minSalary: "not specified",
+        maxSalary: "not specified",
+        preferedlocations: ["not specified"],
+        role: "Candidate",
+        activeIn: new Date()
+      });
+      await newCandidate.save();
+      console.log(newCandidate);
+  
+      const updatedUser = new allUsers({
+        id,   
+        name: firstName+" "+lastName,
+        email,
+        phone,
+        role: "Candidate",
+        password:"not specified",
+      });
+      await updatedUser.save();
+      console.log(updatedUser);
+  
+      const candidateGoogleImg = new candidateProfile({
+        image:photoURL,
+        id,
+      })
+      await candidateGoogleImg.save();
+      console.log(candidateGoogleImg);
+
+      const newGoogleLoginCand = new googleLoginCand({
+        ...req.body
+      });
+      await newGoogleLoginCand.save();
+      console.log(newGoogleLoginCand);
+  
+      const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: 'demoemail1322@gmail.com',
+          pass: 'znsdgrmwzskpatwz'
+        }
+      });
+  
+      const mailOptions = {
+        from: 'demoemail1322@gmail.com',
+        to: `${updatedUser.email}`,
+        subject: 'Mail from SKILLITY!',
+        text: 'Welcome to Skillety!',
+        html: `<p>Congratulations! </p><p>We are happy to have you with us. Please complete your profile</p>`
+      };
+  
+      transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+          console.log(error);
+          return res.status(500).json({ error: error.message, newCandidate, updatedUser, candidateGoogleImg, newGoogleLoginCand });
+        } else {
+          console.log('Email sent: ' + info.response);
+          res.status(201).json({ newCandidate, updatedUser, candidateGoogleImg, newGoogleLoginCand, emailSent: true });
+        }
+      });
+    }else{
+      return res.status(400).json({message:"You already has an account with userId and Password"})
+    }
+
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+}
 
 /* get all candidate details*/
 const getAllCandidateDetail = async (req, res) => {
@@ -2430,6 +2527,11 @@ const updatingClientEmail = async (req, res) => {
   const { id, email } = req.body;
 
   try {
+    const finalClientAvailable = await finalClient.findOne({ email });
+    const userAvailable = await allUsers.findOne({ email });
+    if (finalClientAvailable || userAvailable){
+      return res.status(400).json({message:"User Already exiest with this email"})
+    }
     const allUsersDoc = await allUsers.findOneAndUpdate(
       { id: id },
       { email: email },
@@ -2467,6 +2569,11 @@ const updatingClientPhone = async (req, res) => {
   const { id, phone } = req.body;
 
   try {
+    const finalClientAvailable = await finalClient.findOne({ phone });
+    const userAvailable = await allUsers.findOne({ phone });
+    if (finalClientAvailable || userAvailable){
+      return res.status(400).json({message:"User Already exiest with this phone"})
+    }
     const allUsersDoc = await allUsers.findOneAndUpdate(
       { id: id },
       { phone: phone },
@@ -2732,10 +2839,33 @@ const updatingCompanyWebsite = async (req, res) => {
 };
 
 /* update the candidate information */
+const updatingCandidateActiveIn = async (req, res) => {
+  const { candidateId } = req.body;
+
+  try {
+    const finalCandidateDoc = await candidate.findOneAndUpdate(
+      { id: candidateId }, 
+      { $set: { activeIn: new Date() } }, // Use $set to update a specific field
+      { new: true }
+    );
+      res.status(200).json(finalCandidateDoc);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: 'Internal Server Error' });
+  }
+};
+
+/* update the candidate information */
 const updatingCandidateEmail = async (req, res) => {
   const { id, email } = req.body;
 
   try {
+
+    const candidateAvailable = await candidate.findOne({ email });
+    const userAvailable = await allUsers.findOne({ email });
+    if (candidateAvailable || userAvailable){
+      return res.status(400).json({message:"User Already exiest with this email"})
+    }
     const allUsersDoc = await allUsers.findOneAndUpdate(
       { id: id },
       { email: email },
@@ -2768,6 +2898,12 @@ const updatingCandidatePhone = async (req, res) => {
   const { id, phone } = req.body;
 
   try {
+
+    const candidateAvailable = await candidate.findOne({ phone });
+    const userAvailable = await allUsers.findOne({ phone });
+    if (candidateAvailable || userAvailable){
+      return res.status(400).json({message:"User Already exiest with this phone"})
+    }
     const allUsersDoc = await allUsers.findOneAndUpdate(
       { id: id },
       { phone: phone },
@@ -3120,8 +3256,9 @@ const searchResultSave = async(req, res) => {
 
 /* get all recent searches */
 const getAllRecentSearches = async(req, res) => {
+  const {id} = req.params;
   try{
-    const allRecentSearches = await searchResult.find();
+    const allRecentSearches = await searchResult.find({id});
     console.log(allRecentSearches);
     return res.status(200).json(allRecentSearches);
   }catch(err){
@@ -3808,7 +3945,7 @@ const getACandidateDetail = async (req, res) => {
       const finalResponse = {
         candidateId: candidateDetail.id,
         lastProfileUpdateDate: new Date(cand.updatedAt).toISOString().split('T')[0],
-        avatar: candidateDetail.image ? `https://skillety-n6r1.onrender.com/candidate_profile/${candidateDetail.image}` : null,
+        avatar: candidateDetail.image ?( candidateDetail.image.startsWith('https') ? candidateDetail.image : `https://skillety-n6r1.onrender.com/candidate_profile/${candidateDetail.image}` ): null,
         joinPeriod: candidateDetail.days,
         lastDayWorked: candidateDetail.selectedDate,
         fName: candidateDetail.firstName,
@@ -4083,7 +4220,7 @@ const getAllNewCandidateDetail = async (req, res) => {
         const finalResponse = {
           candidateId: candidateDetail.id,
           lastProfileUpdateDate: new Date(cand.updatedAt).toISOString().split('T')[0],
-          avatar: candidateDetail.image ? `https://skillety-n6r1.onrender.com/candidate_profile/${candidateDetail.image}` : null,
+          avatar: candidateDetail.image ?( candidateDetail.image.startsWith('https') ? candidateDetail.image : `https://skillety-n6r1.onrender.com/candidate_profile/${candidateDetail.image}` ): null,
           joinPeriod: candidateDetail.days,
           lastDayWorked: candidateDetail.selectedDate,
           fName: candidateDetail.firstName,
@@ -4867,7 +5004,7 @@ const getUpdatedAppliedOfPostedJobs = async (req, res) => {
                   candidate: {
                     candidateId: job.candidateId,
                     lastProfileUpdateDate: new Date(appliedCand.updatedAt).toISOString().split('T')[0],
-                    avatar: profile && profile.image ? `https://skillety-n6r1.onrender.com/candidate_profile/${profile.image}` : null,
+                    avatar: profile && profile.image ?( profile.image.startsWith('https') ? profile.image : `https://skillety-n6r1.onrender.com/candidate_profile/${profile.image}` ): null,
                     joinPeriod: appliedCand.days,
                     lastDayWorked: appliedCand.selectedDate,
                     fName: appliedCand.firstName,
@@ -7577,7 +7714,7 @@ const userLogin = async (req, role, res) => {
     if (isMatch) {
       // Sign in the token and issue it to the user
       let payload = {
-        id: user.id,
+        id: user.id || user.uid,
         role: user.role,
         name: user.name,
         email:user.email,
@@ -7585,7 +7722,7 @@ const userLogin = async (req, role, res) => {
       };
 
       let result = {
-        id: user.id,
+        id: user.id || user.uid,
         role: user.role,
         name: user.name,
         email:user.email,
@@ -7665,7 +7802,7 @@ const userLogin = async (req, role, res) => {
 
 //     // Generate and sign the token
 //     const payload = {
-//       id: user.id,
+//       id: user.id || user.uid,
 //       role: user.role,
 //       name: user.name,
 //       email: user.email,
@@ -7675,7 +7812,7 @@ const userLogin = async (req, role, res) => {
 //     const token = jwt.sign(payload, process.env.APP_SECRET, { expiresIn: "3 days" });
 
 //     const result = {
-//       id: user.id,
+//       id: user.id || user.uid,
 //       role: user.role,
 //       name: user.name,
 //       email: user.email,
@@ -7795,6 +7932,7 @@ module.exports = {
    verifyTempPassword,
    finalClientRegister,
    candidateReg,
+   candidateRegAfterGoogleLogin,
    getAllCandidateDetail,
    getAllRecruiterCandidateDetail,
    getCandidateDetail,
@@ -7881,6 +8019,7 @@ module.exports = {
    updatingCompanyAwards,
    updatingCompanyBenefits,
    updatingCompanyWebsite,
+   updatingCandidateActiveIn,
    updatingCandidateEmail,
    updatingCandidatePhone,
    updatingCandidateFirstName,

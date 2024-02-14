@@ -8,8 +8,10 @@ import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
 import AuthContext from '../../context/AuthContext';
 import { v4 as uuidv4 } from "uuid";
+import { useNavigate } from 'react-router-dom';
 
 const PostingJob = () => {
+  const navigate = useNavigate();
     const [staffToken, setStaffToken] = useState("");
     const { getProtectedData} = useContext(AuthContext);
     const [employeeId, setEmployeeId] = useState("");
@@ -288,10 +290,11 @@ const PostingJob = () => {
             try {
               const user = await getProtectedData(staffToken);
               console.log(user);
-              setEmployeeId(user.id);
+              setEmployeeId(user.id || user.uid);
                 setEmployeeRole(user.role)
             } catch (error) {
               console.log(error);
+              navigate("/")
             }
           };
     

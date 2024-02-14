@@ -10,6 +10,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
+import { jwtDecode } from "jwt-decode";
 
 import {
     Chart as ChartJS,
@@ -26,10 +27,13 @@ import {
 import { Line } from 'react-chartjs-2';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
+import AuthContext from '../../context/AuthContext';
 
 
 const RecruiterDashboard = () => {
+    const navigate =useNavigate();
     const { token } = useParams();
+    const { getProtectedData} = useContext(AuthContext);
     const [clientDetail, setClientDetail] = useState([]);
     const [candidateDetail, setCandidateDetail] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -147,9 +151,45 @@ const RecruiterDashboard = () => {
         });
     }, []);
 
+    // useEffect(() => {
+    //     localStorage.setItem("staffToken", JSON.stringify(token));
+    // }, [token])
+
     useEffect(() => {
-        localStorage.setItem("staffToken", JSON.stringify(token));
-    }, [token])
+        try {
+            if (token && typeof token === 'string' && token.split('.').length === 3) {
+                const decodeToken =  jwtDecode(token); // Decode the token
+                console.log(decodeToken)
+                decodeToken && localStorage.setItem("staffToken", JSON.stringify(token)); // Save the token in local storage
+            }else{
+                navigate("/")
+            }
+        } catch (error) {
+            // If decoding fails or token is not a string, do nothing
+            console.log(error);
+            navigate("/")
+        }
+    }, [token]);
+
+    useEffect(() => {
+        
+            const fetchData = async () => {
+                try {
+                   
+                    const user = await getProtectedData(token);
+                    console.log(user);
+                   
+                } catch (error) {
+                    console.log(error);
+                    navigate("/")
+                }
+            };
+
+            fetchData();
+
+            
+        
+    }, [token]);
 
     const getAllClientDetails = async () => {
         try {

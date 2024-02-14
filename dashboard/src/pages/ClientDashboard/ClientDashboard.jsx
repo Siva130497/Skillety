@@ -9,7 +9,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
-
+import { jwtDecode } from "jwt-decode";
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import { io } from "socket.io-client";
@@ -32,6 +32,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import AuthContext from '../../context/AuthContext';
 import PackagePlans from '../PackagePlans/PackagePlans';
+import ErrorPage from '../../404/404';
 
 const ClientDashboard = () => {
     const { token } = useParams();
@@ -165,8 +166,17 @@ const ClientDashboard = () => {
 
 
     useEffect(() => {
-        localStorage.setItem("clientToken", JSON.stringify(token));
-    }, [token])
+        try {
+            if (token && typeof token === 'string' && token.split('.').length === 3) {
+                jwtDecode(token); // Decode the token
+                localStorage.setItem("clientToken", JSON.stringify(token)); // Save the token in local storage
+            }
+        } catch (error) {
+            // If decoding fails or token is not a string, do nothing
+            console.log(error);
+            window.location.href = 'https://skillety-frontend-wcth.onrender.com/client-login'
+        }
+    }, [token]);
 
     useEffect(() => {
         $(document).ready(function () {
@@ -242,7 +252,7 @@ const ClientDashboard = () => {
                     console.log(user);
                     if (user) {
                         setLoading(false);
-                        setEmployeeId(user.id);
+                        setEmployeeId(user.id || user.uid);
                     } else {
                         setLoading(false);
                         setPageNotFound(true);
@@ -251,14 +261,14 @@ const ClientDashboard = () => {
                     setContentLoading(false);
                 } catch (error) {
                     console.log(error);
-
+                    window.location.href = 'https://skillety-frontend-wcth.onrender.com/client-login'
                     setContentLoading(false);
                 }
             };
 
             fetchData();
 
-            axios.get("https://skillety-n6r1.onrender.com/candidate-to-client-notification", {
+            axios.get(`https://skillety-n6r1.onrender.com/all-notification/${employeeId}?filter=read`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     Accept: 'application/json'
@@ -457,16 +467,12 @@ const ClientDashboard = () => {
         setPostedJobs(newArray)
     }, [updatePostedJobs]);
 
-    const displayNotification = ({ senderName, type, time, date }) => {
-        let action;
-
-        if (type === "1") {
-            action = "applied"
-        }
+    const displayNotification = ({ senderName, content, time, date }) => {
+        
         return (
             <>
                 <td className='dash-table-sub-data data-nowrap'>{`${time} ${date}`}</td>
-                <td className='dash-table-sub-data'>{`${senderName} ${action} for your job`}....................</td>
+                <td className='dash-table-sub-data'>{content}....................</td>
                 {/* <td className='text-right dash-table-view-btn-area'>
                     <button className='dash-table-view-btn client'
                         data-toggle="modal">View</button>
@@ -644,7 +650,7 @@ const ClientDashboard = () => {
                                                 <div className="dash-table-area">
                                                     <div className="dash-table-top-area">
                                                         <div className="dash-table-title">
-                                                            New Notifications
+                                                            Read Notifications
                                                         </div>
                                                         <a href='#' className="dash-table-see-all-btn">See all</a>
                                                     </div>
@@ -679,7 +685,7 @@ const ClientDashboard = () => {
                                                         <table class="table table-striped table-hover dash-table">
                                                             {candidateDetail.slice(0, 10).map((cand) => {
                                                                 const matchingImg = candidateImg ? candidateImg.find(img => img.id === cand.id) : null;
-                                                                const imgSrc = matchingImg ? `https://skillety-n6r1.onrender.com/candidate_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
+                                                                const imgSrc = matchingImg ?(matchingImg.image.startsWith('https') ? matchingImg.image : `https://skillety-n6r1.onrender.com/candidate_profile/${matchingImg.image}` ): "../assets/img/talents-images/avatar.jpg";
                                                                 return (
                                                                     <tr className='dash-table-row' key={cand.id}>
                                                                         <td>
@@ -881,11 +887,7 @@ const ClientDashboard = () => {
                     <Footer />
                 </div>
 
-                {pageNotFound && <div>
-                    <h1>404</h1>
-                    <p>Not Found</p>
-                    <small>The resource requested could not be found on this server!</small>
-                </div>}
+                {pageNotFound && <ErrorPage/>}
             </div>}
 
         </div>

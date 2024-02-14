@@ -42,7 +42,7 @@ const offlineClientLogo = require("./Database/offlineClientLogo");
 
 
 const corsOptions = {
-  origin: ['https://skillety-frontend-wcth.onrender.com', 'https://skillety-dashboard-tk2y.onrender.com', 'http://localhost:3000', 'http://localhost:3001'],
+  origin: ['https://skillety-frontend-wcth.onrender.com', 'https://skillety-dashboard-tk2y.onrender.com', 'https://skillety-dashboard-tk2y.onrender.com', 'https://skillety-frontend-wcth.onrender.com'],
   credentials: true,
   methods: ['GET', 'POST', 'PATCH', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization', 'Access-Control-Allow-Credentials']
@@ -70,7 +70,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: ['https://skillety-frontend-wcth.onrender.com', 'https://skillety-dashboard-tk2y.onrender.com', 'http://localhost:3000', 'http://localhost:3001'],
+    origin: ['https://skillety-frontend-wcth.onrender.com', 'https://skillety-dashboard-tk2y.onrender.com', 'https://skillety-dashboard-tk2y.onrender.com', 'https://skillety-frontend-wcth.onrender.com'],
     methods: ["GET", "POST"],
   },
 });
@@ -118,8 +118,8 @@ io.on('connection', (socket) => {
     addNewUser(userName, socket.id);
   });
 
-  socket.on("sendNotification", ({ senderId, senderName, receiverId, receiverName, type, time, date }) => {
-    console.log({ senderId, senderName, receiverId, receiverName, type, time, date });
+  socket.on("sendNotification", ({ senderId, senderName, receiverId, receiverName, content, time, date, redirect }) => {
+    console.log({ senderId, senderName, receiverId, receiverName, content, time, date, redirect });
   
     if (Array.isArray(receiverName)) {
       // If receiverName is an array, iterate through each name
@@ -129,9 +129,10 @@ io.on('connection', (socket) => {
           io.to(receiver?.socketId).emit("getNotification", {
             senderId,
             senderName,
-            type,
+            content,
             time,
             date,
+            redirect,
           });
         }
       });
@@ -142,9 +143,10 @@ io.on('connection', (socket) => {
         io.to(receiver?.socketId).emit("getNotification", {
           senderId,
           senderName,
-          type,
+          content,
           time,
           date,
+          redirect,
         });
       }
     }
@@ -325,7 +327,7 @@ app.post('/upload-candidate-profile-image', employeeAuth, uploadCandidateImg.sin
     id: uploadedId,
   })
   .then((result) => console.log(result))
-  .then(result => res.json(result))
+  .then(result => res.status(201).json({message:"Candidate Profile Upload Successfully!", result}))
   .catch(err => console.log(err)) 
 })
 
@@ -389,7 +391,7 @@ app.post('/upload-client-profile-image', employeeAuth, uploadClientImg.single('i
     id: uploadedId,
   })
   .then((result) => console.log(result))
-  .then(result => res.json(result))
+  .then(result => res.status(201).json({message:"Company Profile Upload Successfully!", result}))
   .catch(err => console.log(err)) 
 })
 

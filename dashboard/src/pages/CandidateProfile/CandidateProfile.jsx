@@ -22,9 +22,9 @@ Modal.setAppElement('#root');
 const CandidateProfile = () => {
     const { id } = useParams();
     const navigate = useNavigate();
-
-    const [candidateToken, setCandidateToken] = useState("");
-
+    const candidateToken = JSON.parse(localStorage.getItem('candidateToken'));
+    const [candToken, setCandToken] = useState("");
+    const { getProtectedData } = useContext(AuthContext);
     const [loginCandidate, setLoginCandidate] = useState();
     const [candidateImg, setCandidateImg] = useState();
     const [candidateImgUrl, setCandidateImgUrl] = useState("");
@@ -434,12 +434,29 @@ const CandidateProfile = () => {
         });
     }
 
-    useEffect(() => {
-        setCandidateToken(JSON.parse(localStorage.getItem('candidateToken')))
-    }, [candidateToken])
+    // useEffect(() => {
+    //     setCandidateToken(JSON.parse(localStorage.getItem('candidateToken')))
+    // }, [candidateToken])
 
     useEffect(() => {
-        if (id && candidateToken) {
+    
+        const fetchData = async () => {
+          try {
+            const userData = await getProtectedData(candidateToken);
+            console.log(userData);
+            
+            setCandToken(userData.userToken);
+          } catch (error) {
+            console.log(error)
+            window.location.href = 'https://skillety-frontend-wcth.onrender.com/candidate-login'
+          }
+        };
+  
+        fetchData();
+    },[candidateToken])  
+
+    useEffect(() => {
+        if (id && (candidateToken?candidateToken:candToken)) {
 
             setContentLoading(true);
             axios.get(`https://skillety-n6r1.onrender.com/candidate/${id}`)
@@ -481,11 +498,11 @@ const CandidateProfile = () => {
                     setContentLoading(false);
                 });
         }
-    }, [id, candidateToken])
+    }, [id, candidateToken, candToken])
 
     useEffect(() => {
         if (candidateImg) {
-            setCandidateImgUrl(`https://skillety-n6r1.onrender.com/candidate_profile/${candidateImg.image}`)
+            setCandidateImgUrl(candidateImg.image.startsWith('https') ? candidateImg.image : `https://skillety-n6r1.onrender.com/candidate_profile/${candidateImg.image}`)
         }
 
     }, [candidateImg]);
@@ -510,7 +527,7 @@ const CandidateProfile = () => {
         }
         axios.patch("https://skillety-n6r1.onrender.com/update-candidate-first-name", userData, {
             headers: {
-                Authorization: `Bearer ${candidateToken}`,
+                Authorization: `Bearer ${candidateToken?candidateToken:candToken}`,
                 Accept: 'application/json'
             }
         })
@@ -544,7 +561,7 @@ const CandidateProfile = () => {
         }
         axios.patch("https://skillety-n6r1.onrender.com/update-candidate-last-name", userData, {
             headers: {
-                Authorization: `Bearer ${candidateToken}`,
+                Authorization: `Bearer ${candidateToken?candidateToken:candToken}`,
                 Accept: 'application/json'
             }
         })
@@ -576,7 +593,7 @@ const CandidateProfile = () => {
         }
         axios.patch("https://skillety-n6r1.onrender.com/update-candidate-location", userData, {
             headers: {
-                Authorization: `Bearer ${candidateToken}`,
+                Authorization: `Bearer ${candidateToken?candidateToken:candToken}`,
                 Accept: 'application/json'
             }
         })
@@ -607,7 +624,7 @@ const CandidateProfile = () => {
         }
         axios.patch("https://skillety-n6r1.onrender.com/update-candidate-prefered-location", userData, {
             headers: {
-                Authorization: `Bearer ${candidateToken}`,
+                Authorization: `Bearer ${candidateToken?candidateToken:candToken}`,
                 Accept: 'application/json'
             }
         })
@@ -637,7 +654,7 @@ const CandidateProfile = () => {
             formData.append('resume', resume);
             axios.patch(`https://skillety-n6r1.onrender.com/update-candidate-resume/${id}`, formData, {
                 headers: {
-                    Authorization: `Bearer ${candidateToken}`,
+                    Authorization: `Bearer ${candidateToken?candidateToken:candToken}`,
                     Accept: 'application/json'
                 }
             })
@@ -697,7 +714,7 @@ const CandidateProfile = () => {
             }
             axios.patch("https://skillety-n6r1.onrender.com/update-candidate-skill", userData, {
                 headers: {
-                    Authorization: `Bearer ${candidateToken}`,
+                    Authorization: `Bearer ${candidateToken?candidateToken:candToken}`,
                     Accept: 'application/json'
                 }
             })
@@ -729,7 +746,7 @@ const CandidateProfile = () => {
         }
         axios.patch("https://skillety-n6r1.onrender.com/update-candidate-profileHeadline", userData, {
             headers: {
-                Authorization: `Bearer ${candidateToken}`,
+                Authorization: `Bearer ${candidateToken?candidateToken:candToken}`,
                 Accept: 'application/json'
             }
         })
@@ -760,7 +777,7 @@ const CandidateProfile = () => {
         }
         axios.patch("https://skillety-n6r1.onrender.com/update-candidate-days", userData, {
             headers: {
-                Authorization: `Bearer ${candidateToken}`,
+                Authorization: `Bearer ${candidateToken?candidateToken:candToken}`,
                 Accept: 'application/json'
             }
         })
@@ -795,7 +812,7 @@ const CandidateProfile = () => {
         }
         axios.patch("https://skillety-n6r1.onrender.com/update-candidate-experience", userData, {
             headers: {
-                Authorization: `Bearer ${candidateToken}`,
+                Authorization: `Bearer ${candidateToken?candidateToken:candToken}`,
                 Accept: 'application/json'
             }
         })
@@ -831,7 +848,7 @@ const CandidateProfile = () => {
         }
         axios.patch("https://skillety-n6r1.onrender.com/update-candidate-salary", userData, {
             headers: {
-                Authorization: `Bearer ${candidateToken}`,
+                Authorization: `Bearer ${candidateToken?candidateToken:candToken}`,
                 Accept: 'application/json'
             }
         })
@@ -865,7 +882,7 @@ const CandidateProfile = () => {
         }
         axios.patch("https://skillety-n6r1.onrender.com/update-candidate-education", userData, {
             headers: {
-                Authorization: `Bearer ${candidateToken}`,
+                Authorization: `Bearer ${candidateToken?candidateToken:candToken}`,
                 Accept: 'application/json'
             }
         })

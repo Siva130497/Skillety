@@ -9,6 +9,7 @@ const ATSNavBar = () => {
     const navigate = useNavigate()
     const [employeeRole, setEmployeeRole] = useState("");
     const [userName, setUserName] = useState('');
+    const [employeeId, setEmployeeId] = useState("")
     const [token, setToken] = useState("");
     const { getProtectedData } = useContext(AuthContext);
     const [socket, setSocket] = useState(null);
@@ -78,32 +79,60 @@ const ATSNavBar = () => {
     //     source.start(0);
     //   };
 
-    const displayNotification = ({ senderName, type, time, date }) => {
-        let action;
-
-        if (type === "2") {
-            action = "message"
-        }
+    const displayNotification = ({ senderName, content, time, date, redirect, _id }) => {
+        const notificationIdArray = [_id]
         return (
-            <div className="notification-dropdown-content">
-                <div className="notification-dropdown-content-left">
-                    <div className="noti-drpdwn-img-area">
-                        {/* <img src="assets/img/layout/user-img.png" className='noti-drpdwn-img' alt="" /> */}
-                        <i class="bi bi-person"></i>
-                    </div>
-                    <div className="dropdown-notification-item">
-                        {`${senderName} ${action} you`}
-                    </div>
-                </div>
-                <div className="notification-dropdown-content-right">
-                    <div className="drpdwn-notify-time">
-                        {`${time}`}
-                        <span>{`${date}`}</span>
-                    </div>
-                </div>
+          <div className="notification-dropdown-content"
+          onClick={()=>{
+            axios.patch("https://skillety-n6r1.onrender.com/read-notification", notificationIdArray, {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                Accept: 'application/json'
+              }
+            }).then(res=>{
+              console.log(res.data)
+              navigate(redirect)
+            }).catch(err=>console.log(err))
+          }}>
+            <div className="notification-dropdown-content-left">
+              <div className="noti-drpdwn-img-area">
+                {/* <img src="assets/img/layout/user-img.png" className='noti-drpdwn-img' alt="" /> */}
+                <i class="bi bi-person"></i>
+              </div>
+              <div className="dropdown-notification-item">
+                {content}
+              </div>
             </div>
+            <div className="notification-dropdown-content-right">
+              <div className="drpdwn-notify-time">
+                {`${time}`}
+                <span>{`${date}`}</span>
+              </div>
+            </div>
+          </div>
         )
-    }
+      }
+    
+      const handleClearNotifications = () => {
+        
+        const notificationIdArray = notifications.map(notific => notific._id)
+        if(notifications?.length>0){
+          axios.patch("https://skillety-n6r1.onrender.com/read-notification", notificationIdArray, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              Accept: 'application/json'
+            }
+          })
+          .then(res=>{
+            console.log(res.data)
+            setNotifications([]);
+          })
+          .catch(err=>{
+            console.log(err)
+          })
+        }
+    
+      }
 
     useEffect(() => {
         setToken(JSON.parse(localStorage.getItem('staffToken')))
@@ -117,6 +146,7 @@ const ATSNavBar = () => {
                     console.log(userData);
                     setEmployeeRole(userData.role);
                     setUserName(userData.name);
+                    setEmployeeId(userData.id);
                 } catch (error) {
                     console.log(error)
                 }
@@ -124,7 +154,7 @@ const ATSNavBar = () => {
 
             fetchData();
 
-            axios.get("https://skillety-n6r1.onrender.com/candidate-to-recruiter-notification", {
+            axios.get(`https://skillety-n6r1.onrender.com/all-notification/${employeeId}?filter=unRead`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     Accept: 'application/json'
@@ -190,7 +220,7 @@ const ATSNavBar = () => {
                     <div className="dropdown-menu dropdown-list dropdown-menu-right pullDown notification-dropdown">
                         <div className="notification-dropdown-header">
                             <div className="notification-dropdown-head">
-                                Notification&nbsp;<span>({notifications?.length})</span>
+                                Un-Read Notification&nbsp;<span>({notifications?.length})</span>
                             </div>
                             {/* <a href="#" className='notify-settings-btn client'>
                                 <i class="bi bi-gear-fill"></i>
@@ -209,13 +239,13 @@ const ATSNavBar = () => {
                             )}
                         </div>
 
-                        <div className="dropdown-footer notification-dropdown-footer text-center">
+                        {notifications.length>0 && <div className="dropdown-footer notification-dropdown-footer text-center">
                             <a className='drp-dwn-view-all-btn'
-                                onClick={() => setNotifications([])}
+                                onClick={handleClearNotifications}
                             >Mark All As Read.
                                 <i class="bi bi-chevron-right ml-3"></i>
                             </a>
-                        </div>
+                        </div>}
                     </div>
                 </li>
 

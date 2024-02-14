@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react'
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { useEffect } from 'react';
 import $, { event } from 'jquery';
@@ -10,9 +10,11 @@ import './CandidateLogin.css';
 import AuthContext from '../../context/AuthContext';
 import Layout from '../../components/Layout';
 import useTokenRedirect from '../../customhooks/useTokenRedirect';
+import axios from 'axios';
 
 const CandidateLogin = () => {
     useTokenRedirect();
+    const navigate = useNavigate();
     const { loginUser, errorMsg, setErrorMsg } = useContext(AuthContext)
     
     const [user, setUser] = useState(null || JSON.parse(localStorage.getItem('auth')));
@@ -35,41 +37,68 @@ const CandidateLogin = () => {
 
     }
     const handleGoogle =  async(event) => {
-
+        setErrorMsg("")
         const provider = new GoogleAuthProvider();
         try {
             const userCred = await signInWithPopup(auth, provider);
             // Code to execute after successful sign-in
-            console.log(userCred);
+            // console.log(userCred);
+
             if(userCred){
-                setUser(userCred.user)
+                // setUser(userCred.user)
+                userCred.user.getIdToken()
+                    .then(token => {
+                        const googleLoginUserCredentials = {
+                        firstName: userCred.user.displayName.split(" ")[0],
+                        lastName: userCred.user.displayName.split(" ")[1],
+                        email: userCred.user.email,
+                        phone: userCred.user.phoneNumber ? userCred.user.phoneNumber : 0,
+                        photoURL: userCred.user.photoURL,
+                        id: userCred.user.uid,
+                        };
+
+                        axios.post("https://skillety-n6r1.onrender.com/cand-reg-by-google", googleLoginUserCredentials, {
+                        headers: {
+                            Authorization: `Bearer ${token}`, 
+                            Accept: 'application/json'
+                        }
+                        })
+                        .then(response => {
+                            console.log(response.data);
+                            window.open(`https://skillety-dashboard-tk2y.onrender.com/firebase:${token}`, '_blank');
+                            navigate("/candidate-home")
+                        })
+                        .catch(error => {
+                            console.log(error);
+                            setErrorMsg(error.response.data.message)
+                        });
+                    })
+                    .catch(error => {
+                        console.log(error)
+                        setErrorMsg(error.response.data.message)
+                    });
+
+                           
             }
         } catch (error) {
             // Handle any errors that occur during sign-in
             console.error("Error signing in with Google:", error);
+            setErrorMsg("Error signing in with Google");
         }
       
     }
     
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (user) => {
-            console.log(user)
-            if(user){
-                setUser(user);
-                user.getIdToken().then((token)=>{
-                    console.log(token);
-                    localStorage.setItem('auth', JSON.stringify(token));
-                    setToken(token);
-                })
-            }
-          
-        });
-    
-        return () => {
-          // Unsubscribe from the auth listener on component unmount
-          unsubscribe();
-        };
-      }, [auth]);
+        auth.signOut()
+        .then(() => {
+          console.log('User logged out successfully');
+          // Perform any additional actions after logout if needed
+      })
+      .catch((error) => {
+          console.error('Error logging out:', error);
+          // Handle logout error if needed
+      });
+      }, []);
 
 
     useEffect(() => {
@@ -121,8 +150,7 @@ const CandidateLogin = () => {
                                     {/* <h5 className="cli--signup-title" data-aos="fade-left">Welcome back Jaden</h5> */}
                                     <h6 className='cli--signup-sub-title'>Welcome back! Plz enter your details</h6>
 
-                                    {
-                                        user ? <p>DashBoard</p> :
+                                    
                                             <div className="cli--login-with-google-btn-area"
                                             onClick={handleGoogle}>
                                                 <a href="#" className='cli--login-with-google-btn'>
@@ -130,7 +158,7 @@ const CandidateLogin = () => {
                                                     <span>Log in with Google</span>
                                                 </a>
                                             </div>
-                                    }
+                                    
 
                                     {/* <form onSubmit={handleSubmit}>
                     <div className="form-group">

@@ -86,11 +86,12 @@ const JobDetails = () => {
                 try {
                     const user = await getProtectedData(candidateToken);
                     console.log(user);
-                    setCandidateId(user.id);
+                    setCandidateId(user.id || user.uid);
                     setUserName(user.name);
                     getClientImg();
                 } catch (error) {
                     console.log(error);
+                    window.location.href = 'https://skillety-frontend-wcth.onrender.com/candidate-login'
                 }
             };
 
@@ -156,16 +157,17 @@ const JobDetails = () => {
                 const notificationData = {
                     senderId:candidateId,
                     senderName:userName,
-                    receiverId:(job?.managerId || job?.companyId),
-                    receiverName:clientCompanyName,
-                    type:"1",
+                    receiverId:[(job?.managerId || job?.companyId)],
+                    receiverName:[clientCompanyName],
+                    content:`${userName} applied for your posted job of ${job?.jobRole[0]}`,
                     time: formattedTime,
                     date: formattedDate,
+                    redirect:'/manage-job'
                 }
 
                 await socket.emit("sendNotification", notificationData)
 
-                const res = await axios.post(`https://skillety-n6r1.onrender.com/candidate-to-client-notification`, notificationData, {
+                const res = await axios.post(`https://skillety-n6r1.onrender.com/create-new-notification`, notificationData, {
                     headers: {
                         Authorization: `Bearer ${candidateToken}`,
                         Accept: 'application/json'

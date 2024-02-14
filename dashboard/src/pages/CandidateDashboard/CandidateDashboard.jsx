@@ -10,7 +10,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
-
+import {jwtDecode} from "jwt-decode";
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 
@@ -214,27 +214,32 @@ const ClientDashboard = () => {
 
   }, [socket]);
 
-  const displayNotification = ({ senderName, type, time, date }) => {
-    let action;
-
-    if (type === "2") {
-      action = "message"
-    }
+  const displayNotification = ({ senderName, content, time, date }) => {
+        
     return (
-      <>
-        <td className='dash-table-sub-data data-nowrap'>{`${time} ${date}`}</td>
-        <td className='dash-table-sub-data'>{`${senderName} ${action} you`}....................</td>
-        {/* <td className='text-right dash-table-view-btn-area'>
+        <>
+            <td className='dash-table-sub-data data-nowrap'>{`${time} ${date}`}</td>
+            <td className='dash-table-sub-data'>{content}....................</td>
+            {/* <td className='text-right dash-table-view-btn-area'>
                 <button className='dash-table-view-btn client'
                     data-toggle="modal">View</button>
             </td> */}
-      </>
+        </>
     )
   }
 
   useEffect(() => {
-    localStorage.setItem("candidateToken", JSON.stringify(token));
-  }, [token])
+    try {
+        if (token && typeof token === 'string' && token.split('.').length === 3 && !(token.startsWith("firebase"))) {
+            jwtDecode(token); // Decode the token
+            localStorage.setItem("candidateToken", JSON.stringify(token)); // Save the token in local storage
+        }
+    } catch (error) {
+        // If decoding fails or token is not a string, do nothing
+        console.log(error);
+        window.location.href = 'https://skillety-frontend-wcth.onrender.com/candidate-login'
+    }
+}, [token]);
 
   useEffect(() => {
     $(document).ready(function () {
@@ -280,8 +285,8 @@ const ClientDashboard = () => {
           setContentLoading(true);
           const user = await getProtectedData(token);
           console.log(user);
-          setCandidateId(user.id);
-          setUserName(user.name);
+          setCandidateId(user.id || user?.responseData.uid);
+          setUserName(user.name || user?.responseData.name);
           setLoading(false);
 
           setContentLoading(false);
@@ -291,12 +296,15 @@ const ClientDashboard = () => {
           setPageNotFound(true);
 
           setContentLoading(false);
+          console.error("Error fetching data:", error);
+          // window.open(`https://skillety-dashboard-tk2y.onrender.com/candidate-login`, '_blank');
+          window.location.href = 'https://skillety-frontend-wcth.onrender.com/candidate-login'
         }
       };
 
       fetchData();
 
-      axios.get("https://skillety-n6r1.onrender.com/candidate-notification", {
+      axios.get(`https://skillety-n6r1.onrender.com/all-notification/${candidateId}?filter=read`, {
         headers: {
           Authorization: `Bearer ${token}`,
           Accept: 'application/json'
@@ -636,7 +644,7 @@ const ClientDashboard = () => {
                       <div className="dash-table-area">
                         <div className="dash-table-top-area">
                           <div className="dash-table-title">
-                            New Notifications
+                            Read Notifications
                           </div>
                           <a href='#' className="dash-table-see-all-btn">See all</a>
                         </div>
