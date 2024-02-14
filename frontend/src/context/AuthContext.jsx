@@ -89,7 +89,7 @@ export const AuthContextProvider = ({children}) => {
 
     const getProtectedData = async (token) => {
       // Check if localStorage has any key-value pairs
-      if (localStorage.length > 0) {
+      if (localStorage.getItem("candidateToken") || localStorage.getItem("clientToken")) {
           try {
               const response = await axios.get('https://skillety-n6r1.onrender.com/protected', {
                   headers: {
