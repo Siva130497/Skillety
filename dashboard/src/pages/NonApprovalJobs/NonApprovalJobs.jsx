@@ -9,8 +9,10 @@ import 'sweetalert2/dist/sweetalert2.css';
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import AuthContext from '../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const NonApprovalJobs = () => {
+    const navigate = useNavigate();
     const { getProtectedData } = useContext(AuthContext);
     const [staffToken, setStaffToken] = useState("");
     const [allJobs, setAllJobs] = useState([]);
@@ -97,9 +99,10 @@ const NonApprovalJobs = () => {
                 try {
                     const userData = await getProtectedData(staffToken);
                     console.log(userData);
-                    setEmployeeId(userData.id);
+                    setEmployeeId(userData.id || userData.uid);
                 } catch (error) {
-                    console.log(error)
+                    console.log(error);
+                    navigate("/")
                 }
             };
 

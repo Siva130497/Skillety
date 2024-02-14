@@ -36,10 +36,11 @@ const CandidateDashboard = () => {
       try {
         const user = await getProtectedData(candidateToken);
         console.log(user);
-        setCandidateId(user.id);
+        setCandidateId(user.id || user.uid);
         setCandidateName(user.name)
       } catch (error) {
-        navigate("/candidate-login")
+        console.error("Error fetching data:", error);
+        window.open(`https://skillety-dashboard-tk2y.onrender.com/candidate-login`, '_blank');
       }
     };
 

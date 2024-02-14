@@ -25,17 +25,17 @@ const TalentsProfileSearchAts = () => {
     const [skillArray, setSkillArray] = useState([]);
     const [jobRoleArray, setjobRoleArray] = useState([]);
     const [locationArray, setLocationArray] = useState([]);
-    const [departmentArray, setDepartmentArray] = useState([]);
+    const [educationArray, setEducationArray] = useState([]);
     const [roleArray, setRoleArray] = useState([]);
     const [industryArray, setIndustryArray] = useState([]);
     const [filteredList, setFilteredList] = useState([]);
     const [filteredLocation, setFilteredLocation] = useState([]);
-    const [filteredDepartment, setFilteredDepartment] = useState([]);
+    const [filteredEducation, setFilteredEducation] = useState([]);
     const [filteredRole, setFilteredRole] = useState([]);
     const [filteredIndustry, setFilteredIndustry] = useState([]);
     const [selectedResults, setSelectedResults] = useState([]);
     const [selectedLocationResults, setSelectedLocationResults] = useState([]);
-    const [selectedDepartmentResults, setSelectedDepartmentResults] = useState([]);
+    const [selectedEducationResults, setselectedEducationResults] = useState([]);
     const [selectedRoleResults, setSelectedRoleResults] = useState([]);
     const [selectedIndustryResults, setSelectedIndustryResults] = useState([]);
 
@@ -53,16 +53,17 @@ const TalentsProfileSearchAts = () => {
         minExperienceMonth: "",
         maxExperienceMonth: "",
         location: "",
-        currencyType: "",
+        currencyType: "₹",
         minSalary: "",
         maxSalary: "",
-        department: "",
+        education: "",
         role: "",
         days: "",
-        industry: "",
+        // industry: "",
         company: "",
         candidateType: "",
-        gender: "",
+        activeIn:""
+        // gender: "",
     })
 
     console.log(filters)
@@ -619,18 +620,18 @@ const TalentsProfileSearchAts = () => {
         }
     };
 
-    const getAllDepartments = async () => {
+    const getAllEducations = async () => {
         try {
-            const res = await axios.get("https://skillety-n6r1.onrender.com/departments", {
+            const res = await axios.get("https://skillety-n6r1.onrender.com/educations", {
                 headers: {
                     Authorization: `Bearer ${staffToken}`,
                     Accept: 'application/json'
                 }
-            });
+            }); 
             const result = res.data;
             if (!result.error) {
                 console.log(result);
-                setDepartmentArray(result);
+                setEducationArray(result);
             } else {
                 console.log(result);
             }
@@ -638,6 +639,7 @@ const TalentsProfileSearchAts = () => {
             console.log(err);
         }
     };
+
 
     const getAllRoles = async () => {
         try {
@@ -701,7 +703,7 @@ const TalentsProfileSearchAts = () => {
     const getAllRecentSearch = async () => {
         try {
             setLoading(true);
-            const response = await axios.get('https://skillety-n6r1.onrender.com/recent-search', {
+            const response = await axios.get(`https://skillety-n6r1.onrender.com/recent-search/${employeeId}`, {
                 headers: {
                     Accept: 'application/json'
                 }
@@ -727,13 +729,13 @@ const TalentsProfileSearchAts = () => {
         getAllJobRoles();
         getAllSkills();
         getAllLocations();
-        getAllDepartments();
+        getAllEducations();
         getAllRoles();
         getAllIndustries();
         getCandidateImg();
-        getAllRecentSearch();
+        
     }, []);
-
+ 
     
     useEffect(() => {
         if (staffToken) {
@@ -741,15 +743,20 @@ const TalentsProfileSearchAts = () => {
                 try {
                     const user = await getProtectedData(staffToken);
                     console.log(user);
-                    setEmployeeId(user.id);
+                    setEmployeeId(user.id || user.uid);
                 } catch (error) {
                     console.log(error);
+                    navigate("/")
                 }
             };
 
             fetchData();
         }
     }, [staffToken]);
+
+    useEffect(()=>{
+        getAllRecentSearch();
+    },[employeeId])
 
     const handleCheckboxChange = (category) => {
         const updatedFilters = checkBoxfilters.includes(category)
@@ -758,157 +765,332 @@ const TalentsProfileSearchAts = () => {
         setCheckBoxFilters(updatedFilters);
     };
 
+    const isWithinDays = (dateString, days) => {
+        const today = new Date();
+        const targetDate = new Date(dateString);
+        const difference = Math.abs(targetDate.getTime() - today.getTime());
+        const daysDifference = Math.ceil(difference / (1000 * 3600 * 24));
+        console.log(daysDifference) 
+        return parseInt(daysDifference) <= parseInt(days);
+    };
+
     const handleSkillSearch = () => {
-        if (checkBoxfilters.length > 0 || selectedResults.length > 0 || selectedLocationResults.length > 0 || (filters.minExperienceYr && filters.minExperienceMonth) || (filters.maxExperienceYr && filters.maxExperienceMonth) || (filters.minSalary && filters.maxSalary) || selectedDepartmentResults.length > 0 || selectedRoleResults.length > 0 || filters.industry || filters.company || filters.candidateType || filters.gender) {
+        if (checkBoxfilters.length>0 || selectedResults.length > 0 || selectedLocationResults.length > 0 || (filters.minExperienceYr && filters.minExperienceMonth) || (filters.maxExperienceYr && filters.maxExperienceMonth) || filters.currencyType && (filters.minSalary || filters.maxSalary)
+        || selectedEducationResults.length > 0 
+        // || selectedRoleResults.length > 0 
+        // || filters.industry 
+        || filters.company 
+        || filters.candidateType 
+        // || filters.gender 
+        || filters.activeIn
+        ) {
 
             const recentSearch = {
-                days: filters.days,
-                selectedResults: selectedResults,
-                selectedLocationResults: selectedLocationResults,
-                minExperienceYr: filters.minExperienceYr,
-                minExperienceMonth: filters.minExperienceMonth,
-                maxExperienceYr: filters.maxExperienceYr,
-                maxExperienceMonth: filters.maxExperienceMonth,
-                minSalary: filters.minSalary,
-                maxSalary: filters.maxSalary,
-                selectedDepartmentResults: selectedDepartmentResults,
-                selectedRoleResults: selectedRoleResults,
-                industry: selectedIndustryResults,
-                company: filters.company,
-                candidateType: filters.candidateType,
-                gender: filters.gender,
-            }
+                id:employeeId,
+                ...(filters.days && { days: filters.days }),
+                ...(selectedResults.length>0 && { selectedResults }),
+                ...(selectedLocationResults.length>0 && { selectedLocationResults }),
+                ...(filters.minExperienceYr && { minExperienceYr: filters.minExperienceYr }),
+                ...(filters.minExperienceMonth && { minExperienceMonth: filters.minExperienceMonth }),
+                ...(filters.maxExperienceYr && { maxExperienceYr: filters.maxExperienceYr }),
+                ...(filters.maxExperienceMonth && { maxExperienceMonth: filters.maxExperienceMonth }),
+                ...(filters.minSalary && { minSalary: filters.minSalary }),
+                ...(filters.maxSalary && { maxSalary: filters.maxSalary }),
+                ...(selectedEducationResults.length>0 && { selectedEducationResults }),
+                ...(filters.company && { company: filters.company }),
+                ...(filters.candidateType && { candidateType: filters.candidateType }),
+            };
+            
 
+            
+            setX([0, 4]);
             setFilteredSearchResultsMsg("")
             setSearchResult(true)
-            if (filters.candidateType === "allCandidates") {
-                setFilteredSearchResults(candidateDetail);
-            } else if (filters.candidateType === "newRegistration") {
-                const newRegistrationResults = candidateDetail.slice(0, 10);
-                setFilteredSearchResults(newRegistrationResults);
-            } else {
-                const filteredResults = candidateDetail
-                    // .filter(candidate => {
-                    //     if (filters.days) {
-                    //         if (filters.days === "0-7") {
-                    //             return candidate.dayDifference >= 0 && candidate.dayDifference <= 7;
-                    //         } else if (filters.days === "8-15") {
-                    //             return candidate.dayDifference >= 8 && candidate.dayDifference <= 15;
-                    //         } else if (filters.days === "16-30") {
-                    //             return candidate.dayDifference >= 16 && candidate.dayDifference <= 30;
-                    //         } else if (filters.days === "beyond-30") {
-                    //             return candidate.dayDifference > 30;
-                    //         } else if (filters.days === "noticePeriod") {
-                    //             return candidate.checkbox;
-                    //         } else {
-                    //             return true;
-                    //         }
-                    //     }
-                    //     return true;
-                    // })
-                    .filter(candidate => {
-                        if (checkBoxfilters.length > 0) {
-                            const anyFilterPresent = checkBoxfilters.includes('Any');
-                            if (anyFilterPresent) {
-                                return true;
-                            }
-                            return checkBoxfilters.includes(candidate.days);
-                        }
-                        return true;
-                    })
-                    .filter(candidate => {
-                        if (selectedResults.length > 0) {
-                            return selectedResults.some(result =>
-                                candidate.skills.includes(result) || candidate.designation.includes(result)
-                            );
-                        }
-                        return true;
-                    })
-                    .filter(candidate => {
-                        if (filters.minExperienceYr && filters.minExperienceMonth) {
-                            return (candidate.year >= filters.minExperienceYr && candidate.month >= filters.minExperienceMonth)
-                        }
-                        return true;
-                    })
-                    .filter(candidate => {
-                        if (filters.maxExperienceYr && filters.maxExperienceMonth) {
-                            return (candidate.month <= filters.maxExperienceYr && candidate.month <= filters.maxExperienceMonth)
-                        }
-                        return true;
-                    })
-                    .filter(candidate => {
-                        if (selectedLocationResults.length > 0) {
-                            return selectedLocationResults.filter(result =>
-                                candidate.location.includes(result)
-                            );
-                        }
-                        return true;
-                    })
-                    .filter(candidate => {
-                        if (filters.currencyType) {
-                            return candidate.currencyType === filters.currencyType
-                        }
-                        return true;
-                    })
-                    .filter(candidate => {
-                        if (filters.minSalary && filters.maxSalary) {
-                            return (candidate.minSalary >= filters.minSalary && candidate.maxSalary <= filters.maxSalary)
-                        }
-                        return true;
-                    })
-                    .filter(candidate => {
-                        if (selectedDepartmentResults.length > 0) {
-                            return selectedDepartmentResults.filter(result =>
-                                candidate.department.includes(result)
-                            );
-                        }
-                        return true;
-                    })
-                    .filter(candidate => {
-                        if (selectedRoleResults.length > 0) {
-                            return selectedRoleResults.filter(result =>
-                                candidate.role.includes(result)
-                            );
-                        }
-                        return true;
-                    })
-                    .filter(candidate => {
-                        if (selectedIndustryResults.length > 0) {
-                            return selectedIndustryResults.filter(result =>
-                                candidate.industry.includes(result)
-                            );
-                        }
-                        return true;
-                    })
-                    .filter(candidate => {
-                        if (filters.company) {
-                            return candidate.company.toLowerCase() === filters.company.toLowerCase()
-                        }
-                        return true;
-                    })
-                    .filter(candidate => {
-                        if (filters.gender) {
-                            return candidate.gender === filters.gender
-                        }
-                        return true;
-                    })
+           
+    //         const filteredResults = candidateDetail 
+    //                 .filter(candidate => {
+    //                     if (checkBoxfilters.length > 0) {
+    //                         const anyFilterPresent = checkBoxfilters.includes('Any');
+    //                         if (anyFilterPresent) {
+    //                             return true;
+    //                         }
+    //                         return checkBoxfilters.includes(candidate.days);
+    //                     }
+    //                     return true;
+    //                 })
+    //                 .filter(candidate => {
+    //                     if (selectedResults.length > 0) {
+    //                         return selectedResults.some(result =>
+    //                             candidate.skills.includes(result) || candidate.designation.includes(result)
+    //                         );
+    //                     }
+    //                     return true;
+    //                 })
+    //                 .filter(candidate => {
+    //                     if ((filters.minExperienceYr && filters.minExperienceMonth) && (filters.maxExperienceYr && filters.maxExperienceMonth)) {
+    //                         return ((candidate.year >= (filters.minExperienceYr) && (filters.maxExperienceYr)) && (candidate.month >= (filters.minExperienceMonth && filters.maxExperienceMonth)))
+    //                     }
+    //                     return true;
+    //                 })
+    //                 .filter(candidate => {
+    //                     if ((filters.minExperienceYr && filters.minExperienceMonth) && !(filters.maxExperienceYr && filters.maxExperienceMonth)) {
+    //                         return ((candidate.year >= filters.minExperienceYr) && (candidate.month >= filters.minExperienceMonth))
+    //                     }
+    //                     return true;
+    //                 })
+    //                 .filter(candidate => {
+    //                     if ((filters.maxExperienceYr && filters.maxExperienceMonth) && !(filters.minExperienceYr && filters.minExperienceMonth)) {
+    //                         return ((candidate.year >= filters.maxExperienceYr) && (candidate.month >= filters.maxExperienceMonth))
+    //                     }
+    //                     return true;
+    //                 })
+    //                 .filter(candidate => {
+    //                     if (selectedLocationResults.length > 0) {
+                            
+    //                         return (candidate?.preferedlocations.some(loc => selectedLocationResults.includes(loc)) || selectedLocationResults.includes(candidate.location))
+                            
+    //                     } 
+    //                     return true;
+    //                 })
+    //                 // .filter(candidate => {
+    //                 //     if (selectedLocationResults.length > 0 && typeof candidate.location  === "string") {
+    //                 //         return selectedLocationResults.includes(candidate.location);
+    //                 //     }
+    //                 //     return true;
+    //                 // })
+    //                 .filter(candidate => {
+    //                     if (filters.currencyType && filters.minSalary && filters.maxSalary) {
+    //                         return (
+    //                             (candidate?.currencyType === filters.currencyType) && 
+    //                             (
+    //                                 (
+    //                                     parseInt(filters.minSalary)<= parseInt(candidate?.minSalary) <= parseInt(filters.maxSalary)
+    //                                 ) || 
+    //                                 (
+    //                                     parseInt(filters.minSalary)<= parseInt(candidate?.maxSalary) <= parseInt(filters.maxSalary)
+    //                                 ) || 
+    //                                 (
+    //                                     (parseInt(filters.minSalary)<= parseInt(candidate?.minSalary) <= parseInt(filters.maxSalary)) && (parseInt(filters.minSalary)<= parseInt(candidate?.maxSalary) <= parseInt(filters.maxSalary))
+    //                                 )
+    //                             )
+    //                         )
+    //                     }
+    //                     return true;
+    //                 })
+    //                 .filter(candidate => {
+    //                     if (filters.currencyType && filters.minSalary && !(filters.maxSalary)) {
+    //                         return ((candidate?.currencyType === filters.currencyType) && (parseInt(candidate?.minSalary) <= parseInt(filters.minSalary)))
+    //                     }
+    //                     return true;
+    //                 })
+    //                 .filter(candidate => {
+    //                     if (filters.currencyType && filters.maxSalary && !(filters.minSalary)) {
+    //                         return ((candidate?.currencyType === filters.currencyType) && (parseInt(candidate.maxSalary) <= parseInt(filters.maxSalary)))
+    //                     }
+    //                     return true;
+    //                 })
+    //                 .filter(candidate => {
+    //                     if (selectedEducationResults.length > 0 ) {
+                            
+    //                         return candidate.education.some(edu => selectedEducationResults.includes(edu))
+                            
+    //                     } 
+    //                     return true;
+    //                 })
+    //                 // .filter(candidate => {
+    //                 //     if (selectedRoleResults.length > 0) {
+    //                 //         return selectedRoleResults.some(result => result === candidate?.role);
+    //                 //     }
+    //                 //     return true;
+    //                 // })
+    //                 // .filter(candidate => {
+    //                 //     if (selectedIndustryResults.length > 0) {
+    //                 //         return selectedIndustryResults.filter(result =>
+    //                 //             candidate.industry.includes(result)
+    //                 //         );
+    //                 //     }
+    //                 //     return true;
+    //                 // })
+    //                 .filter(candidate => {
+    //                     if (filters.company) {
+    //                         return candidate.companyName.toLowerCase() === filters.company.toLowerCase()
+    //                     }
+    //                     return true;
+    //                 })
+    //                 // .filter(candidate => {
+    //                 //     if (filters.gender) {
+    //                 //         return candidate.gender === filters.gender
+    //                 //     }
+    //                 //     return true;
+    //                 // })
+                    
+    //                 if (filters.candidateType === "newRegistration") {
+    //                     filteredResults
+    //                         .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+    //                         .slice(0, 10)
+    //                         .filter(candidate => {
+    //                             if(filters.activeIn){
+    //                                 console.log(candidate?.activeIn)
+    //                                 return isWithinDays(candidate?.activeIn, filters.activeIn)
+    //                             }
+    //                             return true;
+    //                         })
+    //                 } else if (filters.candidateType === "allCandidates") {
+    //                      filteredResults
+    //                         .filter(candidate => {
+    //                             if(filters.activeIn){
+    //                                 console.log(candidate?.activeIn)
+    //                                 return isWithinDays(candidate?.activeIn, filters.activeIn)
+    //                             }
+    //                             return true;
+    //                         })
+    //                 } 
+                    
 
-                console.log(filteredResults)
+    //                 console.log(filteredResults)
 
-                if (filteredResults.length > 0) {
-                    setFilteredSearchResults(filteredResults);
+    //             if (filteredResults.length > 0) {
+    //                 setFilteredSearchResults(filteredResults);
+    //                 axios.post("https://skillety-n6r1.onrender.com/recent-search", recentSearch)
+    //                     .then(res => {
+    //                         console.log(res.data)
+    //                         getAllRecentSearch();
+    //                     })
+    //                     .catch(err => console.log(err))
+    //             } else {
+    //                 setFilteredSearchResultsMsg("no such candidates found")
+    //             }
+
+    const filteredResults = candidateDetail
+                .filter(candidate => {
+                    if (checkBoxfilters.length > 0) {
+                        const anyFilterPresent = checkBoxfilters.includes('Any');
+                        if (anyFilterPresent) {
+                            return true;
+                        }
+                        return checkBoxfilters.includes(candidate.days);
+                    }
+                    return true;
+                })
+                .filter(candidate => {
+                    if (selectedResults.length > 0) {
+                        return selectedResults.some(result =>
+                            candidate.skills.includes(result) || candidate.designation.includes(result)
+                        );
+                    }
+                    return true;
+                })
+                .filter(candidate => {
+                    if (filters.minExperienceYr && filters.minExperienceMonth && filters.maxExperienceYr && filters.maxExperienceMonth) {
+                        return (candidate.year >= filters.minExperienceYr && candidate.year <= filters.maxExperienceYr &&
+                            candidate.month >= filters.minExperienceMonth && candidate.month <= filters.maxExperienceMonth);
+                    }
+                    return true;
+                })
+                .filter(candidate => {
+                    if (filters.minExperienceYr && filters.minExperienceMonth && !filters.maxExperienceYr && !filters.maxExperienceMonth) {
+                        return (candidate.year >= filters.minExperienceYr && candidate.month >= filters.minExperienceMonth);
+                    }
+                    return true;
+                })
+                .filter(candidate => {
+                    if (!filters.minExperienceYr && !filters.minExperienceMonth && filters.maxExperienceYr && filters.maxExperienceMonth) {
+                        return (candidate.year <= filters.maxExperienceYr && candidate.month <= filters.maxExperienceMonth);
+                    }
+                    return true;
+                })
+                .filter(candidate => {
+                    if (selectedLocationResults.length > 0) {
+                        return (candidate?.preferedlocations.some(loc => selectedLocationResults.includes(loc)) || selectedLocationResults.includes(candidate.location));
+                    }
+                    return true;
+                })
+                .filter(candidate => {
+                    if (filters.currencyType && filters.minSalary && filters.maxSalary) {
+                        return (
+                            candidate?.currencyType === filters.currencyType &&
+                            (parseInt(candidate?.minSalary) >= parseInt(filters.minSalary) && parseInt(candidate?.maxSalary) <= parseInt(filters.maxSalary))
+                        );
+                    }
+                    return true;
+                })
+                .filter(candidate => {
+                    if (filters.currencyType && filters.minSalary && !filters.maxSalary) {
+                        return (candidate?.currencyType === filters.currencyType && parseInt(candidate?.minSalary) <= parseInt(filters.minSalary));
+                    }
+                    return true;
+                })
+                .filter(candidate => {
+                    if (filters.currencyType && !filters.minSalary && filters.maxSalary) {
+                        return (candidate?.currencyType === filters.currencyType && parseInt(candidate.maxSalary) <= parseInt(filters.maxSalary));
+                    }
+                    return true;
+                })
+                .filter(candidate => {
+                    if (selectedEducationResults.length > 0) {
+                        return candidate.education.some(edu => selectedEducationResults.includes(edu));
+                    }
+                    return true;
+                })
+                .filter(candidate => {
+                    if (filters.company) {
+                        return candidate.companyName.toLowerCase() === filters.company.toLowerCase();
+                    }
+                    return true;
+                });
+
+            let finalFilteredResults = filteredResults;
+
+            if (filters.candidateType === "newRegistration") {
+                finalFilteredResults = filteredResults
+                    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+                    .slice(0, 10)
+                    .filter(candidate => {
+                        if (filters.activeIn) {
+                            console.log(candidate?.activeIn);
+                            return isWithinDays(candidate?.activeIn, filters.activeIn);
+                        }
+                        return true;
+                    });
+            } else if (filters.candidateType === "allCandidates") {
+                finalFilteredResults = filteredResults
+                    .filter(candidate => {
+                        if (filters.activeIn) {
+                            console.log(candidate?.activeIn);
+                            return isWithinDays(candidate?.activeIn, filters.activeIn);
+                        }
+                        return true;
+                    });
+            }
+
+            finalFilteredResults = filteredResults
+                    .filter(candidate => {
+                        if (filters.activeIn) {
+                            console.log(candidate?.activeIn);
+                            return isWithinDays(candidate?.activeIn, filters.activeIn);
+                        }
+                        return true;
+                    });
+
+            console.log(finalFilteredResults);
+
+            if (finalFilteredResults.length > 0) {
+                setFilteredSearchResults(finalFilteredResults);
+                if(employeeId){
                     axios.post("https://skillety-n6r1.onrender.com/recent-search", recentSearch)
                         .then(res => {
                             console.log(res.data)
                             getAllRecentSearch();
                         })
                         .catch(err => console.log(err))
-                } else {
-                    setFilteredSearchResultsMsg("No such candidates found..!")
                 }
-            }
+                
+
+            } else {
+                setFilteredSearchResultsMsg("no such candidates found");
+            } 
         } else {
-            showErrorMessage("Select atleast one filter..!")
+            showErrorMessage("select atleast one filter")
         }
     };
 
@@ -917,22 +1099,22 @@ const TalentsProfileSearchAts = () => {
         if (selectedSearchResult) {
             setFilters({
                 ...filters,
-                days: selectedSearchResult.days,
-                minExperienceYr: selectedSearchResult.minExperienceYr,
-                minExperienceMonth: selectedSearchResult.minExperienceMonth,
-                maxExperienceYr: selectedSearchResult.maxExperienceYr,
-                maxExperienceMonth: selectedSearchResult.maxExperienceMonth,
-                minSalary: selectedSearchResult.minSalary,
-                maxSalary: selectedSearchResult.maxSalary,
-                company: selectedSearchResult.company,
-                candidateType: selectedSearchResult.candidateType,
-                gender: selectedSearchResult.gender
+                days: selectedSearchResult?.days,
+                minExperienceYr: selectedSearchResult?.minExperienceYr,
+                minExperienceMonth: selectedSearchResult?.minExperienceMonth,
+                maxExperienceYr: selectedSearchResult?.maxExperienceYr,
+                maxExperienceMonth: selectedSearchResult?.maxExperienceMonth,
+                minSalary: selectedSearchResult?.minSalary,
+                maxSalary: selectedSearchResult?.maxSalary,
+                company: selectedSearchResult?.company,
+                candidateType: selectedSearchResult?.candidateType,
+                // gender: selectedSearchResult.gender
             })
-            setSelectedResults(selectedSearchResult.selectedResults)
-            setSelectedLocationResults(selectedSearchResult.selectedLocationResults)
-            setSelectedDepartmentResults(selectedSearchResult.selectedDepartmentResults)
-            setSelectedRoleResults(selectedSearchResult.selectedRoleResults)
-            setSelectedIndustryResults(selectedSearchResult?.industry)
+            setSelectedResults(selectedSearchResult?.selectedResults)
+            setSelectedLocationResults(selectedSearchResult?.selectedLocationResults)
+            setselectedEducationResults(selectedSearchResult?.selectedEducationResults)
+            // setSelectedRoleResults(selectedSearchResult.selectedRoleResults)
+            // setSelectedIndustryResults(selectedSearchResult?.industry)
         }
 
     }
@@ -1009,36 +1191,36 @@ const TalentsProfileSearchAts = () => {
         }
     }
 
-    const handleDepartmentSearch = (e) => {
+    const handleEducationSearch = (e) => {
         const inputValue = e.target.value;
-        setFilters({ ...filters, department: inputValue });
+        setFilters({ ...filters, education: inputValue });
 
         if (inputValue.length > 0) {
-            const departments = departmentArray.filter((obj) => {
-                return obj.department.toLowerCase().includes(inputValue.toLowerCase());
+            const educations = educationArray.filter((obj) => {
+                return obj.education.toLowerCase().includes(inputValue.toLowerCase());
             });
 
-            if (departments.length > 0) {
-                setFilteredDepartment(departments);
+            if (educations.length > 0) {
+                setFilteredEducation(educations);
             } else {
-                setFilteredDepartment([]);
+                setFilteredEducation([]);
             }
         } else {
-            setFilteredDepartment([]);
+            setFilteredEducation([]);
         }
     };
 
-    const handleFilteredDepartmentClick = (clickResult) => {
+    const handleFilteredEducationClick = (clickResult) => {
         console.log(clickResult)
-        if (selectedDepartmentResults.includes(clickResult)) {
-            setSelectedDepartmentResults([...selectedDepartmentResults]);
-            setFilters({ ...filters, department: "" });
-            setFilteredDepartment([]);
+        if (selectedEducationResults.includes(clickResult)) {
+            setselectedEducationResults([...selectedEducationResults]);
+            setFilters({ ...filters, education: "" });
+            setFilteredEducation([]);
 
         } else {
-            setSelectedDepartmentResults([...selectedDepartmentResults, clickResult]);
-            setFilters({ ...filters, department: "" });
-            setFilteredDepartment([]);
+            setselectedEducationResults([...selectedEducationResults, clickResult]);
+            setFilters({ ...filters, education: "" });
+            setFilteredEducation([]);
         }
     }
 
@@ -1113,8 +1295,8 @@ const TalentsProfileSearchAts = () => {
         setSelectedResults(selectedResults.filter(selected => selected !== result));
     }
 
-    const handleDeselectDepartment = (department) => {
-        setSelectedDepartmentResults(selectedDepartmentResults.filter(selectedDepartment => selectedDepartment !== department));
+    const handleDeselectEducation = (education) => {
+        setselectedEducationResults(selectedEducationResults.filter(selectedEducation => selectedEducation !== education));
     }
 
     const handleDeselectLocation = (location) => {
@@ -1483,6 +1665,7 @@ const TalentsProfileSearchAts = () => {
                                                                                 onChange={(e) => setFilters({ ...filters, minExperienceYr: e.target.value })}
                                                                             >
                                                                                 <option value="" selected >Min Experience</option>
+                                                                                <option value="0">0</option>
                                                                                 <option value="1">1</option>
                                                                                 <option value="2">2</option>
                                                                                 <option value="3">3</option>
@@ -1517,6 +1700,7 @@ const TalentsProfileSearchAts = () => {
                                                                                 onChange={(e) => setFilters({ ...filters, minExperienceMonth: e.target.value })}
                                                                             >
                                                                                 <option value="" selected >Min Experience</option>
+                                                                                <option value="0">0</option>
                                                                                 <option value="1">1</option>
                                                                                 <option value="2">2</option>
                                                                                 <option value="3">3</option>
@@ -1553,6 +1737,7 @@ const TalentsProfileSearchAts = () => {
                                                                                 onChange={(e) => setFilters({ ...filters, maxExperienceYr: e.target.value })}
                                                                             >
                                                                                 <option value="" selected >Max Experience</option>
+                                                                                {/* <option value="0">0</option> */}
                                                                                 <option value="1">1</option>
                                                                                 <option value="2">2</option>
                                                                                 <option value="3">3</option>
@@ -1576,6 +1761,7 @@ const TalentsProfileSearchAts = () => {
                                                                                 onChange={(e) => setFilters({ ...filters, maxExperienceMonth: e.target.value })}
                                                                             >
                                                                                 <option value="" selected >Max Experience</option>
+                                                                                {/* <option value="0">0</option> */}
                                                                                 <option value="1">1</option>
                                                                                 <option value="2">2</option>
                                                                                 <option value="3">3</option>
@@ -1604,7 +1790,7 @@ const TalentsProfileSearchAts = () => {
                                                                 </div>
                                                                 <div className="cli-tal-pro-search-filter-content">
                                                                     <div className="cli-tal-pro-search-filter-title-area">
-                                                                        <h6 className='cli-tal-pro-search-filter-title'>Current location of candidate</h6>
+                                                                        <h6 className='cli-tal-pro-search-filter-title'>Current or Preferred location of candidate</h6>
                                                                     </div>
 
                                                                     {selectedLocationResults.length > 0 && (
@@ -1686,7 +1872,7 @@ const TalentsProfileSearchAts = () => {
 
                                                             <div className="cli-tal-pro-search-filter-content-section">
                                                                 <div className="cli-tal-pro-search-filter-toggle-area">
-                                                                    <h6 className='cli--emploment-detail-head'>Employment Details</h6>
+                                                                    <h6 className='cli--emploment-detail-head'>Employment & Education Details</h6>
                                                                     {/* <i class="bi bi-chevron-down"></i> */}
                                                                     <svg xmlns="http://www.w3.org/2000/svg" className='' width="15" height="9" viewBox="0 0 15 9" fill="none">
                                                                         <path d="M1 1L6.79289 6.79289C7.18342 7.18342 7.81658 7.18342 8.20711 6.79289L14 1" stroke="#714F36" stroke-width="2" stroke-linecap="round" />
@@ -1696,40 +1882,40 @@ const TalentsProfileSearchAts = () => {
                                                                     <div className='expand-area-padding'>
                                                                         <div className="cli-tal-search-filter-form-group">
                                                                             <div className="cli-tal-search-filter-form-label-area">
-                                                                                <label htmlFor="department" className='cli-tal-search-filter-form-label'>Department</label>
+                                                                                <label htmlFor="department" className='cli-tal-search-filter-form-label'>Education</label>
                                                                             </div>
 
-                                                                            {selectedDepartmentResults.length > 0 && (
+                                                                            {selectedEducationResults.length > 0 && (
                                                                                 <div className='job-post-form-badge-area'>
-                                                                                    {selectedDepartmentResults.map(selectResult => (
+                                                                                    {selectedEducationResults.map(selectResult => (
                                                                                         <span className="job-post-form-badge tal-search"
                                                                                             key={selectResult}
-                                                                                            onClick={() => handleDeselectDepartment(selectResult)}
-                                                                                        >{selectResult}</span>
+                                                                                            onClick={() => handleDeselectEducation(selectResult)}
+                                                                                        >{selectResult}</span> 
                                                                                     ))}
                                                                                 </div>
                                                                             )}
 
                                                                             <div className="cli-tal-pro-search-filter-input-area">
                                                                                 <input type="search" name='department' className='cli-tal-pro-search-filter-input' placeholder='Add Department'
-                                                                                    value={filters.department}
-                                                                                    onChange={handleDepartmentSearch} />
+                                                                                    value={filters.education}
+                                                                                    onChange={handleEducationSearch} />
                                                                                 <div className='search-result-data-area'>
-                                                                                    {filteredDepartment.length > 0 &&
-                                                                                        filteredDepartment.map((filterResult) => (
+                                                                                    {filteredEducation.length > 0 &&
+                                                                                        filteredEducation.map((filterResult) => (
                                                                                             <div
                                                                                                 className='search-result-data'
                                                                                                 key={filterResult._id}
-                                                                                                onClick={() => handleFilteredDepartmentClick(filterResult.department)}
+                                                                                                onClick={() => handleFilteredEducationClick(filterResult.education)}
                                                                                             >
-                                                                                                {filterResult.department}
+                                                                                                {filterResult.education}
                                                                                             </div>
                                                                                         ))}
                                                                                 </div>
                                                                             </div>
                                                                         </div>
 
-                                                                        <div className="cli-tal-search-filter-form-group">
+                                                                        {/* <div className="cli-tal-search-filter-form-group">
                                                                             <div className="cli-tal-search-filter-form-label-area">
                                                                                 <label htmlFor="role" className='cli-tal-search-filter-form-label'>Role</label>
                                                                             </div>
@@ -1797,7 +1983,7 @@ const TalentsProfileSearchAts = () => {
                                                                                         ))}
                                                                                 </div>
                                                                             </div>
-                                                                        </div>
+                                                                        </div> */}
                                                                         <div className="cli-tal-search-filter-form-group">
                                                                             <div className="cli-tal-search-filter-form-label-area">
                                                                                 <label htmlFor="company" className='cli-tal-search-filter-form-label'>Company</label>
@@ -1844,7 +2030,7 @@ const TalentsProfileSearchAts = () => {
                                                             </div>
 
                                                             {/* Work Details */}
-                                                            <div className="cli-tal-pro-search-filter-content-section">
+                                                            {/* <div className="cli-tal-pro-search-filter-content-section">
                                                                 <div className="cli-tal-pro-search-filter-toggle-area">
                                                                     <h6 className='cli--emploment-detail-head'>Work Details</h6>
                                                                     <svg xmlns="http://www.w3.org/2000/svg" className='' width="15" height="9" viewBox="0 0 15 9" fill="none">
@@ -1894,7 +2080,7 @@ const TalentsProfileSearchAts = () => {
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
+                                                            </div> */}
 
                                                             {/* Display Details */}
                                                             <div className="cli-tal-pro-search-filter-content-section">
@@ -1939,7 +2125,7 @@ const TalentsProfileSearchAts = () => {
                                                                             </div>
                                                                         </div>
 
-                                                                        <div className="cli-tal-pro-search-filter-content mb-0">
+                                                                        {/* <div className="cli-tal-pro-search-filter-content mb-0">
                                                                             <div className="cli-tal-pro-search-filter-title-area">
                                                                                 <h6 className='cli-tal-pro-search-filter-title'>Show only candidates with </h6>
                                                                             </div>
@@ -1968,13 +2154,13 @@ const TalentsProfileSearchAts = () => {
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
-                                                                        </div>
+                                                                        </div> */}
                                                                     </div>
                                                                 </div>
                                                             </div>
 
                                                             {/* Education Details */}
-                                                            <div className="cli-tal-pro-search-filter-content-section">
+                                                            {/* <div className="cli-tal-pro-search-filter-content-section">
                                                                 <div className="cli-tal-pro-search-filter-toggle-area">
                                                                     <h6 className='cli--emploment-detail-head'>Education Details</h6>
                                                                     <svg xmlns="http://www.w3.org/2000/svg" className='' width="15" height="9" viewBox="0 0 15 9" fill="none">
@@ -1988,7 +2174,7 @@ const TalentsProfileSearchAts = () => {
                                                                                 <h6 className='cli-tal-pro-search-filter-title'>UG Qualification</h6>
                                                                             </div>
 
-                                                                            {/* <div className="tal--search-options-area">
+                                                                            <div className="tal--search-options-area">
                                                                                 <div className="tal--search-option-container">
                                                                                     <input id="any_ug" className="tal--search-radio" type="radio" name="ug_qualification" />
                                                                                     <div className="tal--search-tile">
@@ -2009,7 +2195,7 @@ const TalentsProfileSearchAts = () => {
                                                                                         <label for="no_ug" className="tal--search-tile-label">No UG Qualification</label>
                                                                                     </div>
                                                                                 </div>
-                                                                            </div> */}
+                                                                            </div>
 
                                                                             <ul className="nav nav-pills tal-education-select-area" id="ug-education-tab-btn" role="tablist">
                                                                                 <li className="nav-item">
@@ -2046,11 +2232,11 @@ const TalentsProfileSearchAts = () => {
                                                                                         <div className="cli-tal-pro-search-filter-input-area">
                                                                                             <input type="search" className='cli-tal-pro-search-filter-input' placeholder='Select institute' />
 
-                                                                                            {/* <div className='search-result-data-area'>
+                                                                                            <div className='search-result-data-area'>
                                                                                                 <div className='search-result-data'>
                                                                                                     Result 1
                                                                                                 </div>
-                                                                                            </div> */}
+                                                                                            </div>
 
                                                                                         </div>
                                                                                     </div>
@@ -2143,11 +2329,11 @@ const TalentsProfileSearchAts = () => {
                                                                                             <input type="search" className='cli-tal-pro-search-filter-input'
                                                                                                 placeholder='Type to select UG course from list' />
 
-                                                                                            {/* <div className='search-result-data-area'>
+                                                                                            <div className='search-result-data-area'>
                                                                                                 <div className='search-result-data'>
                                                                                                     Result 1
                                                                                                 </div>
-                                                                                            </div> */}
+                                                                                            </div>
 
                                                                                         </div>
                                                                                     </div>
@@ -2166,11 +2352,11 @@ const TalentsProfileSearchAts = () => {
                                                                                         <div className="cli-tal-pro-search-filter-input-area">
                                                                                             <input type="search" className='cli-tal-pro-search-filter-input' placeholder='Select institute' />
 
-                                                                                            {/* <div className='search-result-data-area'>
+                                                                                            <div className='search-result-data-area'>
                                                                                                 <div className='search-result-data'>
                                                                                                     Result 1
                                                                                                 </div>
-                                                                                            </div> */}
+                                                                                            </div>
 
                                                                                         </div>
                                                                                     </div>
@@ -2261,7 +2447,7 @@ const TalentsProfileSearchAts = () => {
                                                                                 <h6 className='cli-tal-pro-search-filter-title'>PG Qualification</h6>
                                                                             </div>
 
-                                                                            {/* <div className="tal--search-options-area">
+                                                                            <div className="tal--search-options-area">
                                                                                 <div className="tal--search-option-container">
                                                                                     <input id="any_pg" className="tal--search-radio" type="radio" name="pg_qualification" />
                                                                                     <div className="tal--search-tile">
@@ -2282,7 +2468,7 @@ const TalentsProfileSearchAts = () => {
                                                                                         <label for="no_pg" className="tal--search-tile-label">No PG Qualification</label>
                                                                                     </div>
                                                                                 </div>
-                                                                            </div> */}
+                                                                            </div>
 
 
 
@@ -2297,10 +2483,10 @@ const TalentsProfileSearchAts = () => {
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
+                                                            </div> */}
 
                                                             {/* Diversity and Additional Details */}
-                                                            <div className="cli-tal-pro-search-filter-content-section">
+                                                            {/* <div className="cli-tal-pro-search-filter-content-section">
                                                                 <div className="cli-tal-pro-search-filter-toggle-area">
                                                                     <h6 className='cli--emploment-detail-head'>Diversity and Additional Details</h6>
                                                                     <svg xmlns="http://www.w3.org/2000/svg" className='' width="15" height="9" viewBox="0 0 15 9" fill="none">
@@ -2315,12 +2501,12 @@ const TalentsProfileSearchAts = () => {
                                                                             </div>
 
                                                                             <div className="tal--search-options-area">
-                                                                                {/* <div className="tal--search-option-container">
+                                                                                <div className="tal--search-option-container">
                                                                                 <input id="all_cand" className="tal--search-radio" type="radio" name="gender" />
                                                                                 <div className="tal--search-tile">
                                                                                     <label for="all_cand" className="tal--search-tile-label">All candidates</label>
                                                                                 </div>
-                                                                            </div> */}
+                                                                            </div>
 
                                                                                 <div className="tal--search-option-container">
                                                                                     <input id="male_cand" className="tal--search-radio" type="radio" name="gender"
@@ -2343,7 +2529,7 @@ const TalentsProfileSearchAts = () => {
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
+                                                            </div> */}
 
                                                             <div className="cli-tal-pro-search-page-btn-area">
                                                                 <div className="cli-tal-pro-search-page-days-selection-area">
@@ -2356,10 +2542,18 @@ const TalentsProfileSearchAts = () => {
                                                                             </svg>
                                                                         </div>
                                                                         <ul class="select-options">
-                                                                            <li data-value="day_1">7 days</li>
-                                                                            <li data-value="day_2">14 days</li>
-                                                                            <li data-value="day_3">21 days</li>
-                                                                            <li data-value="day_4">30 days</li>
+                                                                            <li data-value={7}
+                                                                            onClick={(e)=>setFilters({...filters, activeIn:e.target.getAttribute('data-value')})}
+                                                                            >7 days</li>
+                                                                            <li data-value={14}
+                                                                            onClick={(e)=>setFilters({...filters, activeIn:e.target.getAttribute('data-value')})}
+                                                                            >14 days</li>
+                                                                            <li data-value={21}
+                                                                            onClick={(e)=>setFilters({...filters, activeIn:e.target.getAttribute('data-value')})}
+                                                                            >21 days</li>
+                                                                            <li data-value={30}
+                                                                            onClick={(e)=>setFilters({...filters, activeIn:e.target.getAttribute('data-value')})}
+                                                                            >30 days</li>
                                                                         </ul>
                                                                     </div>
                                                                 </div>
@@ -2410,18 +2604,22 @@ const TalentsProfileSearchAts = () => {
                                                         ) : (
                                                             <div className="cli-tal-pro-recent-search-container">
                                                                 {recentSearches.map(search => {
-                                                                    return (
-                                                                        <div className="cli-tal-pro-recent-search-area" key={search._id}>
-                                                                            <div className="cli-tal-pro-recent-search-btn-area">
-                                                                                <button className='cli-tal-pro-recent-search-btn' onClick={() => handleFill(search._id)}>Fill this search</button>
-                                                                                {/* <button className='cli-tal-pro-recent-search-btn'>Search profile</button> */}
-                                                                            </div>
-                                                                            <div className="cli-tal-pro-recent-search-tags">
-                                                                                <span>{search.selectedResults.join(", ")}|{search.selectedRoleResults.join(", ")}|{search.selectedLocationResults.join(", ")}|{search.selectedDepartmentResults.join(", ")}|{search.industry.join(", ")}....</span>
-                                                                            </div>
-                                                                        </div>
-                                                                    )
-                                                                })}
+                                                        if (search?.selectedResults?.length > 0 || search?.selectedLocationResults?.length > 0 || search?.selectedEducationResults?.length > 0 || search?.company) {
+                                                            return (
+                                                                <div className="cli-tal-pro-recent-search-area" key={search._id}>
+                                                                    <div className="cli-tal-pro-recent-search-btn-area">
+                                                                        <button className='cli-tal-pro-recent-search-btn' onClick={() => handleFill(search._id)}>Fill this search</button>
+                                                                        {/* <button className='cli-tal-pro-recent-search-btn'>Search profile</button> */}
+                                                                    </div>
+                                                                    <div className="cli-tal-pro-recent-search-tags">
+                                                                        <span>{search?.selectedResults?.length > 0 && (search?.selectedResults?.join(", ") + " ")}{search?.selectedLocationResults?.length > 0 && (search?.selectedLocationResults?.join(", ") + " ")}{search?.selectedEducationResults?.length > 0 && (search?.selectedEducationResults?.join(", ") + " ")}{search?.company && (search?.company)}....</span>
+                                                                    </div>
+                                                                </div>
+                                                            );
+                                                        } else {
+                                                            return null;
+                                                        }
+                                                    })}
 
                                                                 {/* <div className="cli-tal-pro-recent-search-area">
                                                         <div className="cli-tal-pro-recent-search-btn-area">
@@ -3071,7 +3269,7 @@ const TalentsProfileSearchAts = () => {
                                                                 filteredSearchResults.slice(x[0], x[1]).map((candidate) => {
                                                                     
                                                                     const matchingImg = candidateImg ? candidateImg.find(img => img.id === candidate.id) : null;
-                                                                    const imgSrc = matchingImg ? `https://skillety-n6r1.onrender.com/candidate_profile/${matchingImg.image}` : "assets/img/talents-images/avatar.jpg";
+                                                                    const imgSrc = matchingImg ?( matchingImg.image.startsWith('https') ? matchingImg.image : `https://skillety-n6r1.onrender.com/candidate_profile/${matchingImg.image}` ): "assets/img/talents-images/avatar.jpg";
 
                                                                     const calculateMatchPercentage = (skills1, skills2) => {
                                                                         const matchingSkills = skills2.filter(skill => skills1.includes(skill));
@@ -3119,7 +3317,7 @@ const TalentsProfileSearchAts = () => {
                                                                                             <h6 className='tal--pro-card-desc-title'>Education&nbsp;:</h6>
                                                                                         </div>
                                                                                         <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
-                                                                                            <p className='tal--pro-card-desc'>{candidate.education.join(", ")}</p>
+                                                                                            <p className='tal--pro-card-desc'>{candidate?.education?.join(", ")}</p>
                                                                                         </div>
                                                                                     </div>
                                                                                     <div className="row tal--pro-card-desc-row">
@@ -3135,7 +3333,8 @@ const TalentsProfileSearchAts = () => {
                                                                                             <h6 className='tal--pro-card-desc-title'>KeySkill&nbsp;:</h6>
                                                                                         </div>
                                                                                         <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
-                                                                                            <p className='tal--pro-card-desc'>{candidate.skills.join(", ")}</p>
+                                                                                            <p className='tal--pro-card-desc'>{candidate?.skills?.join(", ")}
+                                                                                            </p>
                                                                                         </div>
                                                                                     </div>
                                                                                     <div className="row tal--pro-card-desc-row border-bottom-none">
@@ -3187,7 +3386,9 @@ const TalentsProfileSearchAts = () => {
                                                                                         </div>}
                                                                                         <div className="tal--pro-card-ability-number-right search-result">
                                                                                             <h6 className='tal--pro-card-can-join'>Can join in</h6>
-                                                                                            <h2 className='tal--pro-card-join-days'>{candidate.days}<span></span></h2>
+                                                                                            <h2 className='tal--pro-card-join-days'>
+                                                                                                {candidate?.days}
+                                                                                                <span></span></h2>
                                                                                         </div>
                                                                                     </div>
 

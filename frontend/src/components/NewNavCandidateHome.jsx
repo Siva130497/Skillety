@@ -3,30 +3,32 @@ import { useEffect } from 'react';
 import $ from 'jquery';
 import { useNavigate } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
-
+import { auth } from '../firebase/firebaseConfig';
 export const NewNavCandidateHome = ({homeActive, aboutUsActive, searchJobActive, eventsActive, contactActive}) => {
 
     const { getProtectedData } = useContext(AuthContext);
     const navigate = useNavigate();
 
     const [userName, setUserName] = useState('');
+    const [token, setToken] = useState("");
 
     const candidateToken = JSON.parse(localStorage.getItem('candidateToken'));
 
     useEffect(() => {
-        if (candidateToken) {
+       
             const fetchData = async () => {
                 try {
                     const userData = await getProtectedData(candidateToken);
                     console.log(userData);
-                    setUserName(userData.name);
+                    setUserName(userData.responseData?.name);
+                    setToken(userData.userToken);
                 } catch (error) {
                     console.error(error);
                 }
             };
 
             fetchData();
-        }
+        
 
     }, [candidateToken]);
 
@@ -100,11 +102,24 @@ export const NewNavCandidateHome = ({homeActive, aboutUsActive, searchJobActive,
                         {userName ?
                             <li className="dropdown"><a href='#'><span>{extractLastName()}</span><i className="bi bi-chevron-down"></i></a>
                                 <ul className='loged-in'>
-                                    <li><a href={`https://skillety-dashboard-tk2y.onrender.com/${candidateToken}`} target='_blank'>Dash Board</a></li>
-                                    <li onClick={() => {
-                                        localStorage.removeItem("candidateToken");
-                                        // window.location.reload();
-                                        navigate("/candidate-login")
+                                    <li><a href={`https://skillety-dashboard-tk2y.onrender.com/${candidateToken || `firebase:${token}`}`} target='_blank'>Dash Board</a></li>
+                                    <li onClick={(e) => {
+                                        e.preventDefault(); // Prevent default anchor tag behavior
+                                        if(token){
+                                          auth.signOut()
+                                            .then(() => {
+                                              console.log('User logged out successfully');
+                                              navigate("/candidate-login")
+                                            })
+                                            .catch((error) => {
+                                              console.error('Error logging out:', error);
+                                              // Handle logout error if needed
+                                            });
+                                        }else{
+                                          localStorage.removeItem("candidateToken");
+                                          navigate("/candidate-login")
+                                        }
+                                        
                                     }}><a href='#'>Logout</a></li>
                                 </ul>
                             </li> :

@@ -65,7 +65,8 @@ const TalentsProfileSearch = () => {
         days: "",
         // industry: "",
         company: "",
-        // candidateType: "",
+        candidateType: "",
+        activeIn:""
         // gender: "",
     })
 
@@ -626,7 +627,7 @@ const TalentsProfileSearch = () => {
             console.log(err);
         }
     };
-
+    
     const getAllJobRoles = async () => {
         try {
             const res = await axios.get("https://skillety-n6r1.onrender.com/designations", {
@@ -748,7 +749,7 @@ const TalentsProfileSearch = () => {
 
     const getAllRecentSearch = async () => {
         try {
-            const response = await axios.get('https://skillety-n6r1.onrender.com/recent-search', {
+            const response = await axios.get(`https://skillety-n6r1.onrender.com/recent-search/${employeeId}`, {
                 headers: {
                     Accept: 'application/json'
                 }
@@ -774,7 +775,7 @@ const TalentsProfileSearch = () => {
         getAllRoles();
         getAllIndustries();
         getCandidateImg();
-        getAllRecentSearch();
+        
     }, []);
 
     const getLoginClientDetail = async () => {
@@ -796,6 +797,7 @@ const TalentsProfileSearch = () => {
             console.log(err);
         }
     }
+    
 
     const getViewedCandidates = async () => {
         try {
@@ -823,7 +825,7 @@ const TalentsProfileSearch = () => {
                 try {
                     const user = await getProtectedData(clientToken);
                     console.log(user);
-                    setEmployeeId(user.id);
+                    setEmployeeId(user.id || user.uid);
                 } catch (error) {
                     console.log(error);
                 }
@@ -836,6 +838,7 @@ const TalentsProfileSearch = () => {
     useEffect(() => {
         if (employeeId) {
             getLoginClientDetail();
+            getAllRecentSearch();
         }
     }, [employeeId]);
 
@@ -867,182 +870,342 @@ const TalentsProfileSearch = () => {
             : [...checkBoxfilters, category];
         setCheckBoxFilters(updatedFilters);
     };
-console.log(checkBoxfilters)
+
+    const isWithinDays = (dateString, days) => {
+        const today = new Date();
+        const targetDate = new Date(dateString);
+        const difference = Math.abs(targetDate.getTime() - today.getTime());
+        const daysDifference = Math.ceil(difference / (1000 * 3600 * 24));
+        console.log(daysDifference) 
+        return parseInt(daysDifference) <= parseInt(days);
+    };
+
+    const candidateTestDetail = [
+        {
+            name:"1",
+            activeIn: "Sat Feb 03 2024 12:31:50 GMT+0530 (India Standard Time)"
+        },
+        {
+            name:"2",
+            activeIn: "Sat Jan 26 2024 12:31:50 GMT+0530 (India Standard Time)"
+        }
+    ];
 
     const handleSkillSearch = () => {
         if (checkBoxfilters.length>0 || selectedResults.length > 0 || selectedLocationResults.length > 0 || (filters.minExperienceYr && filters.minExperienceMonth) || (filters.maxExperienceYr && filters.maxExperienceMonth) || filters.currencyType && (filters.minSalary || filters.maxSalary)
         || selectedEducationResults.length > 0 
-        || selectedRoleResults.length > 0 
+        // || selectedRoleResults.length > 0 
         // || filters.industry 
         || filters.company 
-        // || filters.candidateType 
-        // || filters.gender
+        || filters.candidateType 
+        // || filters.gender 
+        || filters.activeIn
         ) {
 
             const recentSearch = {
-                days: filters.days,
-                selectedResults: selectedResults,
-                selectedLocationResults: selectedLocationResults,
-                minExperienceYr: filters.minExperienceYr,
-                minExperienceMonth: filters.minExperienceMonth,
-                maxExperienceYr: filters.maxExperienceYr,
-                maxExperienceMonth: filters.maxExperienceMonth,
-                minSalary: filters.minSalary,
-                maxSalary: filters.maxSalary,
-                selectedEducationResults: selectedEducationResults,
-                selectedRoleResults: selectedRoleResults,
-                industry: selectedIndustryResults,
-                company: filters.company,
-                candidateType: filters.candidateType,
-                gender: filters.gender,
-            }
+                id:employeeId,
+                ...(filters.days && { days: filters.days }),
+                ...(selectedResults.length>0 && { selectedResults }),
+                ...(selectedLocationResults.length>0 && { selectedLocationResults }),
+                ...(filters.minExperienceYr && { minExperienceYr: filters.minExperienceYr }),
+                ...(filters.minExperienceMonth && { minExperienceMonth: filters.minExperienceMonth }),
+                ...(filters.maxExperienceYr && { maxExperienceYr: filters.maxExperienceYr }),
+                ...(filters.maxExperienceMonth && { maxExperienceMonth: filters.maxExperienceMonth }),
+                ...(filters.minSalary && { minSalary: filters.minSalary }),
+                ...(filters.maxSalary && { maxSalary: filters.maxSalary }),
+                ...(selectedEducationResults.length>0 && { selectedEducationResults }),
+                ...(filters.company && { company: filters.company }),
+                ...(filters.candidateType && { candidateType: filters.candidateType }),
+            };
+            
+
+            
             setX([0, 4]);
             setFilteredSearchResultsMsg("")
             setSearchResult(true)
-            if (filters.candidateType === "allCandidates") {
-                setFilteredSearchResults(candidateDetail);
-            } else if (filters.candidateType === "newRegistration") {
-                const newRegistrationResults = candidateDetail.slice(0, 10);
-                setFilteredSearchResults(newRegistrationResults);
-            } else {
-                const filteredResults = candidateDetail
-                    // .filter(candidate => {
-                    //     if (filters.days) {
-                    //         if (filters.days === "0-7") {
-                    //             return candidate.dayDifference >= 0 && candidate.dayDifference <= 7;
-                    //         } else if (filters.days === "8-15") {
-                    //             return candidate.dayDifference >= 8 && candidate.dayDifference <= 15;
-                    //         } else if (filters.days === "16-30") {
-                    //             return candidate.dayDifference >= 16 && candidate.dayDifference <= 30;
-                    //         } else if (filters.days === "beyond-30") {
-                    //             return candidate.dayDifference > 30;
-                    //         } else if (filters.days === "noticePeriod") {
-                    //             return candidate.checkbox;
-                    //         } else {
-                    //             return true;
-                    //         }
-                    //     }
-                    //     return true;
-                    // })
-                    .filter(candidate => {
-                        if (checkBoxfilters.length > 0) {
-                            const anyFilterPresent = checkBoxfilters.includes('Any');
-                            if (anyFilterPresent) {
-                                return true;
-                            }
-                            return checkBoxfilters.includes(candidate.days);
-                        }
-                        return true;
-                    })
-                    .filter(candidate => {
-                        if (selectedResults.length > 0) {
-                            return selectedResults.some(result =>
-                                candidate.skills.includes(result) || candidate.designation.includes(result)
-                            );
-                        }
-                        return true;
-                    })
-                    .filter(candidate => {
-                        if ((filters.minExperienceYr && filters.minExperienceMonth) && (filters.maxExperienceYr && filters.maxExperienceMonth)) {
-                            return ((candidate.year >= (filters.minExperienceYr) && (filters.maxExperienceYr)) && (candidate.month >= (filters.minExperienceMonth && filters.maxExperienceMonth)))
-                        }
-                        return true;
-                    })
-                    .filter(candidate => {
-                        if ((filters.minExperienceYr && filters.minExperienceMonth) && !(filters.maxExperienceYr && filters.maxExperienceMonth)) {
-                            return ((candidate.year >= filters.minExperienceYr) && (candidate.month >= filters.minExperienceMonth))
-                        }
-                        return true;
-                    })
-                    .filter(candidate => {
-                        if ((filters.maxExperienceYr && filters.maxExperienceMonth) && !(filters.minExperienceYr && filters.minExperienceMonth)) {
-                            return ((candidate.year >= filters.maxExperienceYr) && (candidate.month >= filters.maxExperienceMonth))
-                        }
-                        return true;
-                    })
-                    .filter(candidate => {
-                        if (selectedLocationResults.length > 0) {
-                            return selectedLocationResults.filter(result =>
-                                (candidate?.preferedlocations.includes(result))
-                            );
-                        }
-                        return true;
-                    })
-                    .filter(candidate => {
-                        if (selectedLocationResults.length > 0) {
-                            return selectedLocationResults.some(result => result === candidate.location);
-                        }
-                        return true;
-                    })
-                    // .filter(candidate => {
-                    //     if (filters.currencyType && filters.minSalary && filters.maxSalary) {
-                    //         return ((candidate.currencyType === filters.currencyType) && (candidate.minSalary <= filters.minSalary) && (candidate.maxSalary <= filters.maxSalary))
-                    //     }
-                    //     return true;
-                    // })
+           
+    //         const filteredResults = candidateDetail 
+    //                 .filter(candidate => {
+    //                     if (checkBoxfilters.length > 0) {
+    //                         const anyFilterPresent = checkBoxfilters.includes('Any');
+    //                         if (anyFilterPresent) {
+    //                             return true;
+    //                         }
+    //                         return checkBoxfilters.includes(candidate.days);
+    //                     }
+    //                     return true;
+    //                 })
+    //                 .filter(candidate => {
+    //                     if (selectedResults.length > 0) {
+    //                         return selectedResults.some(result =>
+    //                             candidate.skills.includes(result) || candidate.designation.includes(result)
+    //                         );
+    //                     }
+    //                     return true;
+    //                 })
+    //                 .filter(candidate => {
+    //                     if ((filters.minExperienceYr && filters.minExperienceMonth) && (filters.maxExperienceYr && filters.maxExperienceMonth)) {
+    //                         return ((candidate.year >= (filters.minExperienceYr) && (filters.maxExperienceYr)) && (candidate.month >= (filters.minExperienceMonth && filters.maxExperienceMonth)))
+    //                     }
+    //                     return true;
+    //                 })
+    //                 .filter(candidate => {
+    //                     if ((filters.minExperienceYr && filters.minExperienceMonth) && !(filters.maxExperienceYr && filters.maxExperienceMonth)) {
+    //                         return ((candidate.year >= filters.minExperienceYr) && (candidate.month >= filters.minExperienceMonth))
+    //                     }
+    //                     return true;
+    //                 })
+    //                 .filter(candidate => {
+    //                     if ((filters.maxExperienceYr && filters.maxExperienceMonth) && !(filters.minExperienceYr && filters.minExperienceMonth)) {
+    //                         return ((candidate.year >= filters.maxExperienceYr) && (candidate.month >= filters.maxExperienceMonth))
+    //                     }
+    //                     return true;
+    //                 })
+    //                 .filter(candidate => {
+    //                     if (selectedLocationResults.length > 0) {
+                            
+    //                         return (candidate?.preferedlocations.some(loc => selectedLocationResults.includes(loc)) || selectedLocationResults.includes(candidate.location))
+                            
+    //                     } 
+    //                     return true;
+    //                 })
+    //                 // .filter(candidate => {
+    //                 //     if (selectedLocationResults.length > 0 && typeof candidate.location  === "string") {
+    //                 //         return selectedLocationResults.includes(candidate.location);
+    //                 //     }
+    //                 //     return true;
+    //                 // })
+    //                 .filter(candidate => {
+    //                     if (filters.currencyType && filters.minSalary && filters.maxSalary) {
+    //                         return (
+    //                             (candidate?.currencyType === filters.currencyType) && 
+    //                             (
+    //                                 (
+    //                                     parseInt(filters.minSalary)<= parseInt(candidate?.minSalary) <= parseInt(filters.maxSalary)
+    //                                 ) || 
+    //                                 (
+    //                                     parseInt(filters.minSalary)<= parseInt(candidate?.maxSalary) <= parseInt(filters.maxSalary)
+    //                                 ) || 
+    //                                 (
+    //                                     (parseInt(filters.minSalary)<= parseInt(candidate?.minSalary) <= parseInt(filters.maxSalary)) && (parseInt(filters.minSalary)<= parseInt(candidate?.maxSalary) <= parseInt(filters.maxSalary))
+    //                                 )
+    //                             )
+    //                         )
+    //                     }
+    //                     return true;
+    //                 })
+    //                 .filter(candidate => {
+    //                     if (filters.currencyType && filters.minSalary && !(filters.maxSalary)) {
+    //                         return ((candidate?.currencyType === filters.currencyType) && (parseInt(candidate?.minSalary) <= parseInt(filters.minSalary)))
+    //                     }
+    //                     return true;
+    //                 })
+    //                 .filter(candidate => {
+    //                     if (filters.currencyType && filters.maxSalary && !(filters.minSalary)) {
+    //                         return ((candidate?.currencyType === filters.currencyType) && (parseInt(candidate.maxSalary) <= parseInt(filters.maxSalary)))
+    //                     }
+    //                     return true;
+    //                 })
+    //                 .filter(candidate => {
+    //                     if (selectedEducationResults.length > 0 ) {
+                            
+    //                         return candidate.education.some(edu => selectedEducationResults.includes(edu))
+                            
+    //                     } 
+    //                     return true;
+    //                 })
+    //                 // .filter(candidate => {
+    //                 //     if (selectedRoleResults.length > 0) {
+    //                 //         return selectedRoleResults.some(result => result === candidate?.role);
+    //                 //     }
+    //                 //     return true;
+    //                 // })
+    //                 // .filter(candidate => {
+    //                 //     if (selectedIndustryResults.length > 0) {
+    //                 //         return selectedIndustryResults.filter(result =>
+    //                 //             candidate.industry.includes(result)
+    //                 //         );
+    //                 //     }
+    //                 //     return true;
+    //                 // })
+    //                 .filter(candidate => {
+    //                     if (filters.company) {
+    //                         return candidate.companyName.toLowerCase() === filters.company.toLowerCase()
+    //                     }
+    //                     return true;
+    //                 })
+    //                 // .filter(candidate => {
+    //                 //     if (filters.gender) {
+    //                 //         return candidate.gender === filters.gender
+    //                 //     }
+    //                 //     return true;
+    //                 // })
+                    
+    //                 if (filters.candidateType === "newRegistration") {
+    //                     filteredResults
+    //                         .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+    //                         .slice(0, 10)
+    //                         .filter(candidate => {
+    //                             if(filters.activeIn){
+    //                                 console.log(candidate?.activeIn)
+    //                                 return isWithinDays(candidate?.activeIn, filters.activeIn)
+    //                             }
+    //                             return true;
+    //                         })
+    //                 } else if (filters.candidateType === "allCandidates") {
+    //                      filteredResults
+    //                         .filter(candidate => {
+    //                             if(filters.activeIn){
+    //                                 console.log(candidate?.activeIn)
+    //                                 return isWithinDays(candidate?.activeIn, filters.activeIn)
+    //                             }
+    //                             return true;
+    //                         })
+    //                 } 
+                    
 
-                    // .filter(candidate => {
-                    //     if ((filters.currencyType && filters.minSalary) && (!(filters.maxSalary))) {
-                    //         return ((candidate.currencyType === filters.currencyType) && (candidate.minSalary <= filters.minSalary))
-                    //     }
-                    //     return true;
-                    // })
+    //                 console.log(filteredResults)
 
-                    .filter(candidate => {
-                        if ((filters.currencyType && filters.maxSalary) && (!(filters.minSalary))) {
-                            return ((candidate.currencyType === filters.currencyType) && (candidate.maxSalary <= filters.maxSalary))
-                        }
-                        return true;
-                    })
-                    .filter(candidate => {
-                        if (selectedEducationResults.length > 0) {
-                            return selectedEducationResults.filter(result =>
-                                candidate.education.includes(result)
-                            );
-                        }
-                        return true;
-                    })
-                    .filter(candidate => {
-                        if (selectedRoleResults.length > 0) {
-                            return selectedRoleResults.some(result => result === candidate?.role);
-                        }
-                        return true;
-                    })
-                    // .filter(candidate => {
-                    //     if (selectedIndustryResults.length > 0) {
-                    //         return selectedIndustryResults.filter(result =>
-                    //             candidate.industry.includes(result)
-                    //         );
-                    //     }
-                    //     return true;
-                    // })
-                    .filter(candidate => {
-                        if (filters.company) {
-                            return candidate.companyName.toLowerCase() === filters.company.toLowerCase()
-                        }
-                        return true;
-                    })
-                    // .filter(candidate => {
-                    //     if (filters.gender) {
-                    //         return candidate.gender === filters.gender
-                    //     }
-                    //     return true;
-                    // })
+    //             if (filteredResults.length > 0) {
+    //                 setFilteredSearchResults(filteredResults);
+    //                 axios.post("https://skillety-n6r1.onrender.com/recent-search", recentSearch)
+    //                     .then(res => {
+    //                         console.log(res.data)
+    //                         getAllRecentSearch();
+    //                     })
+    //                     .catch(err => console.log(err))
+    //             } else {
+    //                 setFilteredSearchResultsMsg("no such candidates found")
+    //             }
 
-                console.log(filteredResults)
+    const filteredResults = candidateDetail
+                .filter(candidate => {
+                    if (checkBoxfilters.length > 0) {
+                        const anyFilterPresent = checkBoxfilters.includes('Any');
+                        if (anyFilterPresent) {
+                            return true;
+                        }
+                        return checkBoxfilters.includes(candidate.days);
+                    }
+                    return true;
+                })
+                .filter(candidate => {
+                    if (selectedResults.length > 0) {
+                        return selectedResults.some(result =>
+                            candidate.skills.includes(result) || candidate.designation.includes(result)
+                        );
+                    }
+                    return true;
+                })
+                .filter(candidate => {
+                    if (filters.minExperienceYr && filters.minExperienceMonth && filters.maxExperienceYr && filters.maxExperienceMonth) {
+                        return (candidate.year >= filters.minExperienceYr && candidate.year <= filters.maxExperienceYr &&
+                            candidate.month >= filters.minExperienceMonth && candidate.month <= filters.maxExperienceMonth);
+                    }
+                    return true;
+                })
+                .filter(candidate => {
+                    if (filters.minExperienceYr && filters.minExperienceMonth && !filters.maxExperienceYr && !filters.maxExperienceMonth) {
+                        return (candidate.year >= filters.minExperienceYr && candidate.month >= filters.minExperienceMonth);
+                    }
+                    return true;
+                })
+                .filter(candidate => {
+                    if (!filters.minExperienceYr && !filters.minExperienceMonth && filters.maxExperienceYr && filters.maxExperienceMonth) {
+                        return (candidate.year <= filters.maxExperienceYr && candidate.month <= filters.maxExperienceMonth);
+                    }
+                    return true;
+                })
+                .filter(candidate => {
+                    if (selectedLocationResults.length > 0) {
+                        return (candidate?.preferedlocations.some(loc => selectedLocationResults.includes(loc)) || selectedLocationResults.includes(candidate.location));
+                    }
+                    return true;
+                })
+                .filter(candidate => {
+                    if (filters.currencyType && filters.minSalary && filters.maxSalary) {
+                        return (
+                            candidate?.currencyType === filters.currencyType &&
+                            (parseInt(candidate?.minSalary) >= parseInt(filters.minSalary) && parseInt(candidate?.maxSalary) <= parseInt(filters.maxSalary))
+                        );
+                    }
+                    return true;
+                })
+                .filter(candidate => {
+                    if (filters.currencyType && filters.minSalary && !filters.maxSalary) {
+                        return (candidate?.currencyType === filters.currencyType && parseInt(candidate?.minSalary) <= parseInt(filters.minSalary));
+                    }
+                    return true;
+                })
+                .filter(candidate => {
+                    if (filters.currencyType && !filters.minSalary && filters.maxSalary) {
+                        return (candidate?.currencyType === filters.currencyType && parseInt(candidate.maxSalary) <= parseInt(filters.maxSalary));
+                    }
+                    return true;
+                })
+                .filter(candidate => {
+                    if (selectedEducationResults.length > 0) {
+                        return candidate.education.some(edu => selectedEducationResults.includes(edu));
+                    }
+                    return true;
+                })
+                .filter(candidate => {
+                    if (filters.company) {
+                        return candidate.companyName.toLowerCase() === filters.company.toLowerCase();
+                    }
+                    return true;
+                });
 
-                if (filteredResults.length > 0) {
-                    setFilteredSearchResults(filteredResults);
+            let finalFilteredResults = filteredResults;
+
+            if (filters.candidateType === "newRegistration") {
+                finalFilteredResults = filteredResults
+                    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+                    .slice(0, 10)
+                    .filter(candidate => {
+                        if (filters.activeIn) {
+                            console.log(candidate?.activeIn);
+                            return isWithinDays(candidate?.activeIn, filters.activeIn);
+                        }
+                        return true;
+                    });
+            } else if (filters.candidateType === "allCandidates") {
+                finalFilteredResults = filteredResults
+                    .filter(candidate => {
+                        if (filters.activeIn) {
+                            console.log(candidate?.activeIn);
+                            return isWithinDays(candidate?.activeIn, filters.activeIn);
+                        }
+                        return true;
+                    });
+            }
+
+            finalFilteredResults = filteredResults
+                    .filter(candidate => {
+                        if (filters.activeIn) {
+                            console.log(candidate?.activeIn);
+                            return isWithinDays(candidate?.activeIn, filters.activeIn);
+                        }
+                        return true;
+                    });
+
+            console.log(finalFilteredResults);
+
+            if (finalFilteredResults.length > 0) {
+                setFilteredSearchResults(finalFilteredResults);
+                if(employeeId){
                     axios.post("https://skillety-n6r1.onrender.com/recent-search", recentSearch)
                         .then(res => {
                             console.log(res.data)
                             getAllRecentSearch();
                         })
                         .catch(err => console.log(err))
-                } else {
-                    setFilteredSearchResultsMsg("No such candidates found..!")
                 }
-            }
+                
+
+            } else {
+                setFilteredSearchResultsMsg("no such candidates found");
+            } 
         } else {
             showErrorMessage("select atleast one filter")
         }
@@ -1053,22 +1216,22 @@ console.log(checkBoxfilters)
         if (selectedSearchResult) {
             setFilters({
                 ...filters,
-                days: selectedSearchResult.days,
-                minExperienceYr: selectedSearchResult.minExperienceYr,
-                minExperienceMonth: selectedSearchResult.minExperienceMonth,
-                maxExperienceYr: selectedSearchResult.maxExperienceYr,
-                maxExperienceMonth: selectedSearchResult.maxExperienceMonth,
-                minSalary: selectedSearchResult.minSalary,
-                maxSalary: selectedSearchResult.maxSalary,
-                company: selectedSearchResult.company,
-                candidateType: selectedSearchResult.candidateType,
-                gender: selectedSearchResult.gender
+                days: selectedSearchResult?.days,
+                minExperienceYr: selectedSearchResult?.minExperienceYr,
+                minExperienceMonth: selectedSearchResult?.minExperienceMonth,
+                maxExperienceYr: selectedSearchResult?.maxExperienceYr,
+                maxExperienceMonth: selectedSearchResult?.maxExperienceMonth,
+                minSalary: selectedSearchResult?.minSalary,
+                maxSalary: selectedSearchResult?.maxSalary,
+                company: selectedSearchResult?.company,
+                candidateType: selectedSearchResult?.candidateType,
+                // gender: selectedSearchResult.gender
             })
-            setSelectedResults(selectedSearchResult.selectedResults)
-            setSelectedLocationResults(selectedSearchResult.selectedLocationResults)
-            setselectedEducationResults(selectedSearchResult.selectedEducationResults)
-            setSelectedRoleResults(selectedSearchResult.selectedRoleResults)
-            setSelectedIndustryResults(selectedSearchResult?.industry)
+            setSelectedResults(selectedSearchResult?.selectedResults)
+            setSelectedLocationResults(selectedSearchResult?.selectedLocationResults)
+            setselectedEducationResults(selectedSearchResult?.selectedEducationResults)
+            // setSelectedRoleResults(selectedSearchResult.selectedRoleResults)
+            // setSelectedIndustryResults(selectedSearchResult?.industry)
         }
 
     }
@@ -1249,7 +1412,7 @@ console.log(checkBoxfilters)
         setSelectedResults(selectedResults.filter(selected => selected !== result));
     }
 
-    const handleDeselectDepartment = (education) => {
+    const handleDeselectEducation = (education) => {
         setselectedEducationResults(selectedEducationResults.filter(selectedEducation => selectedEducation !== education));
     }
 
@@ -1694,6 +1857,7 @@ console.log(checkBoxfilters)
                                                                         onChange={(e) => setFilters({ ...filters, minExperienceYr: e.target.value })}
                                                                     >
                                                                         <option value="" selected >Min Experience</option>
+                                                                        <option value="0">0</option>
                                                                         <option value="1">1</option>
                                                                         <option value="2">2</option>
                                                                         <option value="3">3</option>
@@ -1728,6 +1892,7 @@ console.log(checkBoxfilters)
                                                                         onChange={(e) => setFilters({ ...filters, minExperienceMonth: e.target.value })}
                                                                     >
                                                                         <option value="" selected >Min Experience</option>
+                                                                        <option value="0">0</option>
                                                                         <option value="1">1</option>
                                                                         <option value="2">2</option>
                                                                         <option value="3">3</option>
@@ -1764,6 +1929,7 @@ console.log(checkBoxfilters)
                                                                         onChange={(e) => setFilters({ ...filters, maxExperienceYr: e.target.value })}
                                                                     >
                                                                         <option value="" selected >Max Experience</option>
+                                                                        <option value="0">0</option>
                                                                         <option value="1">1</option>
                                                                         <option value="2">2</option>
                                                                         <option value="3">3</option>
@@ -1787,6 +1953,7 @@ console.log(checkBoxfilters)
                                                                         onChange={(e) => setFilters({ ...filters, maxExperienceMonth: e.target.value })}
                                                                     >
                                                                         <option value="" selected >Max Experience</option>
+                                                                        <option value="0">0</option>
                                                                         <option value="1">1</option>
                                                                         <option value="2">2</option>
                                                                         <option value="3">3</option>
@@ -1815,7 +1982,7 @@ console.log(checkBoxfilters)
                                                         </div>
                                                         <div className="cli-tal-pro-search-filter-content">
                                                             <div className="cli-tal-pro-search-filter-title-area">
-                                                                <h6 className='cli-tal-pro-search-filter-title'>Current location of candidate</h6>
+                                                                <h6 className='cli-tal-pro-search-filter-title'>Current or Preferred location of candidate</h6>
                                                             </div>
                                                             {selectedLocationResults.length > 0 && (
                                                                 <div className='cli--tal-pro-badge-area mb-4'>
@@ -1913,14 +2080,14 @@ console.log(checkBoxfilters)
                                                                             {selectedEducationResults.map(selectResult => (
                                                                                 <span className="tal-cand-reg-form-badge"
                                                                                     key={selectResult}
-                                                                                    onClick={() => handleDeselectDepartment(selectResult)}
+                                                                                    onClick={() => handleDeselectEducation(selectResult)}
                                                                                 >{selectResult}</span>
                                                                             ))}
                                                                         </div>
                                                                     )}
 
                                                                     <div className="cli-tal-pro-search-filter-input-area">
-                                                                        <input type="search" name='department' className='cli-tal-pro-search-filter-input' placeholder='Add Department'
+                                                                        <input type="search" name='department' className='cli-tal-pro-search-filter-input' placeholder='Add Education'
                                                                             value={filters.education}
                                                                             onChange={handleEducationSearch} />
                                                                         <div className='tal-pro-search-result-data-area'>
@@ -1938,7 +2105,7 @@ console.log(checkBoxfilters)
                                                                     </div>
                                                                 </div>
 
-                                                                <div className="cli-tal-search-filter-form-group">
+                                                                {/* <div className="cli-tal-search-filter-form-group">
                                                                     <div className="cli-tal-search-filter-form-label-area">
                                                                         <label htmlFor="role" className='cli-tal-search-filter-form-label'>Role</label>
                                                                     </div>
@@ -1969,7 +2136,7 @@ console.log(checkBoxfilters)
                                                                                 ))}
                                                                         </div>
                                                                     </div>
-                                                                </div>
+                                                                </div> */}
 
                                                                 {/* <div className="cli-tal-search-filter-form-group">
                                                                     <div className="cli-tal-search-filter-form-label-area">
@@ -2780,7 +2947,7 @@ console.log(checkBoxfilters)
                                                     </div> */}
 
                                                     {/* Diversity and Additional Details */}
-                                                    <div className="cli-tal-pro-search-filter-content-section">
+                                                    {/* <div className="cli-tal-pro-search-filter-content-section">
                                                         <div className="cli-tal-pro-search-filter-toggle-area">
                                                             <h6 className='cli--emploment-detail-head'>Diversity and Additional Details</h6>
                                                             <svg xmlns="http://www.w3.org/2000/svg" className='' width="15" height="9" viewBox="0 0 15 9" fill="none">
@@ -2795,12 +2962,12 @@ console.log(checkBoxfilters)
                                                                     </div>
 
                                                                     <div className="tal--search-options-area">
-                                                                        {/* <div className="tal--search-option-container">
+                                                                        <div className="tal--search-option-container">
                                                                             <input id="all_cand" className="tal--search-radio" type="radio" name="gender" />
                                                                             <div className="tal--search-tile">
                                                                                 <label for="all_cand" className="tal--search-tile-label">All candidates</label>
                                                                             </div>
-                                                                        </div> */}
+                                                                        </div>
 
                                                                         <div className="tal--search-option-container">
                                                                             <input id="male_cand" className="tal--search-radio" type="radio" name="gender"
@@ -2823,7 +2990,7 @@ console.log(checkBoxfilters)
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                    </div> */}
 
                                                     <div className="cli-tal-pro-search-page-btn-area">
                                                         <div className="cli-tal-pro-search-page-days-selection-area">
@@ -2836,10 +3003,18 @@ console.log(checkBoxfilters)
                                                                     </svg>
                                                                 </div>
                                                                 <ul class="select-options">
-                                                                    <li data-value="day_1">7 days</li>
-                                                                    <li data-value="day_2">14 days</li>
-                                                                    <li data-value="day_3">21 days</li>
-                                                                    <li data-value="day_4">30 days</li>
+                                                                    <li data-value={7}
+                                                                    onClick={(e)=>setFilters({...filters, activeIn:e.target.getAttribute('data-value')})}
+                                                                    >7 days</li>
+                                                                    <li data-value={14}
+                                                                    onClick={(e)=>setFilters({...filters, activeIn:e.target.getAttribute('data-value')})}
+                                                                    >14 days</li>
+                                                                    <li data-value={21}
+                                                                    onClick={(e)=>setFilters({...filters, activeIn:e.target.getAttribute('data-value')})}
+                                                                    >21 days</li>
+                                                                    <li data-value={30}
+                                                                    onClick={(e)=>setFilters({...filters, activeIn:e.target.getAttribute('data-value')})}
+                                                                    >30 days</li>
                                                                 </ul>
                                                             </div>
                                                         </div>
@@ -2862,20 +3037,23 @@ console.log(checkBoxfilters)
                                                 </div>
 
                                                 <div className="cli-tal-pro-recent-search-container">
-                                                    {recentSearches.map(search => {
-                                                        return (
-                                                            <div className="cli-tal-pro-recent-search-area" key={search._id}>
-                                                                <div className="cli-tal-pro-recent-search-btn-area">
-                                                                    <button className='cli-tal-pro-recent-search-btn' onClick={() => handleFill(search._id)}>Fill this search</button>
-                                                                    {/* <button className='cli-tal-pro-recent-search-btn'>Search profile</button> */}
+                                                {recentSearches.map(search => {
+                                                        if (search?.selectedResults?.length > 0 || search?.selectedLocationResults?.length > 0 || search?.selectedEducationResults?.length > 0 || search?.company) {
+                                                            return (
+                                                                <div className="cli-tal-pro-recent-search-area" key={search._id}>
+                                                                    <div className="cli-tal-pro-recent-search-btn-area">
+                                                                        <button className='cli-tal-pro-recent-search-btn' onClick={() => handleFill(search._id)}>Fill this search</button>
+                                                                        {/* <button className='cli-tal-pro-recent-search-btn'>Search profile</button> */}
+                                                                    </div>
+                                                                    <div className="cli-tal-pro-recent-search-tags">
+                                                                        <span>{search?.selectedResults?.length > 0 && (search?.selectedResults?.join(", ") + " ")}{search?.selectedLocationResults?.length > 0 && (search?.selectedLocationResults?.join(", ") + " ")}{search?.selectedEducationResults?.length > 0 && (search?.selectedEducationResults?.join(", ") + " ")}{search?.company && (search?.company)}....</span>
+                                                                    </div>
                                                                 </div>
-                                                                <div className="cli-tal-pro-recent-search-tags">
-                                                                    <span>{search?.selectedResults.join(", ")}|{search?.selectedRoleResults.join(", ")}|{search?.selectedLocationResults.join(", ")}|{search?.selectedEducationResults.join(", ")}|{search?.industry.join(", ")}....</span>
-                                                                </div>
-                                                            </div>
-                                                        )
+                                                            );
+                                                        } else {
+                                                            return null;
+                                                        }
                                                     })}
-
                                                     {/* <div className="cli-tal-pro-recent-search-area">
                                                         <div className="cli-tal-pro-recent-search-btn-area">
                                                             <button className='cli-tal-pro-recent-search-btn'>Fill this search</button>
@@ -3521,7 +3699,7 @@ console.log(checkBoxfilters)
                                                         filteredSearchResults.slice(x[0], x[1]).map((candidate) => {
                                                             const viewedCandidateForThisCandidate = loginClientDetail.companyId && viewedCandidate.find(cand => cand.candidateId === candidate.id);
                                                             const matchingImg = candidateImg ? candidateImg.find(img => img.id === candidate.id) : null;
-                                                            const imgSrc = matchingImg ? `https://skillety-n6r1.onrender.com/candidate_profile/${matchingImg.image}` : "assets/img/talents-images/avatar.jpg";
+                                                            const imgSrc = matchingImg ?( matchingImg.image.startsWith('https') ? matchingImg.image : `https://skillety-n6r1.onrender.com/candidate_profile/${matchingImg.image}` ): "assets/img/talents-images/avatar.jpg";
 
                                                             const calculateMatchPercentage = (skills1, skills2) => {
                                                                 const matchingSkills = skills2.filter(skill => skills1.includes(skill));
@@ -3571,7 +3749,7 @@ console.log(checkBoxfilters)
                                                                                     <h6 className='tal--pro-card-desc-title'>Education&nbsp;:</h6>
                                                                                 </div>
                                                                                 <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
-                                                                                    <p className='tal--pro-card-desc text-capitalized'>{candidate.education.join(", ")}</p>
+                                                                                    <p className='tal--pro-card-desc text-capitalized'>{candidate?.education?.join(", ")}</p>
                                                                                 </div>
                                                                             </div>
                                                                             <div className="row tal--pro-card-desc-row">
@@ -3587,7 +3765,7 @@ console.log(checkBoxfilters)
                                                                                     <h6 className='tal--pro-card-desc-title'>KeySkill&nbsp;:</h6>
                                                                                 </div>
                                                                                 <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
-                                                                                    <p className='tal--pro-card-desc text-capitalized'>{candidate.skills?.join(", ")}</p>
+                                                                                    <p className='tal--pro-card-desc text-capitalized'>{candidate?.skills?.join(", ")}</p>
                                                                                 </div>
                                                                             </div>
                                                                             <div className="row tal--pro-card-desc-row">

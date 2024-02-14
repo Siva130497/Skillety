@@ -97,21 +97,28 @@ const ClientNavBar = ({ notification }) => {
 
   //   console.log(notifications)
 
-  const displayNotification = ({ senderName, type, time, date }) => {
-    let action;
-
-    if (type === "1") {
-      action = "applied"
-    }
+  const displayNotification = ({ senderName, content, time, date, redirect, _id }) => {
+    const notificationIdArray = [_id]
     return (
-      <div className="notification-dropdown-content">
+      <div className="notification-dropdown-content"
+      onClick={()=>{
+        axios.patch("https://skillety-n6r1.onrender.com/read-notification", notificationIdArray, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Accept: 'application/json'
+          }
+        }).then(res=>{
+          console.log(res.data)
+          navigate(redirect)
+        }).catch(err=>console.log(err))
+      }}>
         <div className="notification-dropdown-content-left">
           <div className="noti-drpdwn-img-area">
             {/* <img src="assets/img/layout/user-img.png" className='noti-drpdwn-img' alt="" /> */}
             <i class="bi bi-person"></i>
           </div>
           <div className="dropdown-notification-item">
-            {`${senderName} ${action} for your job`}
+            {content}
           </div>
         </div>
         <div className="notification-dropdown-content-right">
@@ -125,21 +132,23 @@ const ClientNavBar = ({ notification }) => {
   }
 
   const handleClearNotifications = () => {
-    setNotifications([]);
-    // if(notifications?.length>0){
-    //   axios.delete("https://skillety-n6r1.onrender.com/notifications/delete-all", {
-    //     headers: {
-    //       Authorization: `Bearer ${token}`,
-    //       Accept: 'application/json'
-    //     }
-    //   })
-    //   .then(res=>{
-    //     console.log(res.data)
-    //   })
-    //   .catch(err=>{
-    //     console.log(err)
-    //   })
-    // }
+    
+    const notificationIdArray = notifications.map(notific => notific._id)
+    if(notifications?.length>0){
+      axios.patch("https://skillety-n6r1.onrender.com/read-notification", notificationIdArray, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: 'application/json'
+        }
+      })
+      .then(res=>{
+        console.log(res.data)
+        setNotifications([]);
+      })
+      .catch(err=>{
+        console.log(err)
+      })
+    }
 
   }
 
@@ -154,7 +163,7 @@ const ClientNavBar = ({ notification }) => {
         try {
           const userData = await getProtectedData(token);
           console.log(userData);
-          setEmployeeId(userData.id);
+          setEmployeeId(userData.id || userData.uid);
           setUserName(userData.name);
         } catch (error) {
           console.log(error)
@@ -162,7 +171,7 @@ const ClientNavBar = ({ notification }) => {
       };
 
       fetchData();
-      axios.get("https://skillety-n6r1.onrender.com/candidate-to-client-notification", {
+      axios.get(`https://skillety-n6r1.onrender.com/all-notification/${employeeId}?filter=unRead`, {
         headers: {
           Authorization: `Bearer ${token}`,
           Accept: 'application/json'
@@ -223,8 +232,8 @@ const ClientNavBar = ({ notification }) => {
   const extractLastName = () => {
     const nameParts = userName.split(' ');
 
-    if (nameParts.length > 1) {
-      return nameParts[nameParts.length - 1];
+    if (nameParts?.length > 1) {
+      return nameParts[nameParts?.length - 1];
     } else {
       return userName;
     }
@@ -270,7 +279,7 @@ const ClientNavBar = ({ notification }) => {
           <div className="dropdown-menu dropdown-list dropdown-menu-right pullDown notification-dropdown">
             <div className="notification-dropdown-header">
               <div className="notification-dropdown-head">
-                Notification&nbsp;<span>({notifications?.length})</span>
+                Un-Read Notification&nbsp;<span>({notifications?.length})</span>
               </div>
               {/* <a href="#" className='notify-settings-btn client'>
                 <i class="bi bi-gear-fill"></i>
@@ -279,23 +288,23 @@ const ClientNavBar = ({ notification }) => {
             <div className="notification-dropdown-content-area">
               {notifications?.length > 0 ? (
                 notifications.reverse().slice(0, 10).map((notification) => (
-                  <div key={notification.id}>{displayNotification(notification)}</div>
+                  <div key={notification._id}>{displayNotification(notification)}</div>
                 ))
               ) : (
                 <p className='no-notification'>
                   <i className='bi bi-exclamation-circle mr-2'></i>
-                  No new notifications.
+                  No un read notifications.
                 </p>
               )}
             </div>
 
-            <div className="dropdown-footer notification-dropdown-footer text-center">
+            {notifications?.length>0 &&<div className="dropdown-footer notification-dropdown-footer text-center">
               <a className='drp-dwn-view-all-btn'
                 onClick={handleClearNotifications}
               >Mark All As Read.
                 <i class="bi bi-chevron-right ml-3"></i>
               </a>
-            </div>
+            </div>}
           </div>
         </li>
 

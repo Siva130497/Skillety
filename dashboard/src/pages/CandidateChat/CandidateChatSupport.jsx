@@ -51,14 +51,15 @@ const CandidateChatSupport = () => {
 
           const user = await getProtectedData(candidateToken);
           console.log(user);
-          setUserId(user.id);
-          setRoomId(user.id);
+          setUserId(user.id || user.uid);
+          setRoomId(user.id || user.uid);
           setUserName(user.name)
-          axios.get(`https://skillety-n6r1.onrender.com/candidate-image/${user.id}`)
+          axios.get(`https://skillety-n6r1.onrender.com/candidate-image/${user.id || user.uid}`)
             .then(res => setCandidateImg(res.data))
             .catch(err => console.log(err))
         } catch (error) {
           console.log(error);
+          window.location.href = 'https://skillety-frontend-wcth.onrender.com/candidate-login'
         }
       };
 
@@ -76,7 +77,7 @@ const CandidateChatSupport = () => {
 
   useEffect(() => {
     if (candidateImg) {
-        setCandidateImgUrl(`https://skillety-n6r1.onrender.com/candidate_profile/${candidateImg.image}`)
+        setCandidateImgUrl(candidateImg.image.startsWith('https') ? candidateImg.image : `https://skillety-n6r1.onrender.com/candidate_profile/${candidateImg.image}`)
     }
 
 }, [candidateImg]);
@@ -197,9 +198,10 @@ const CandidateChatSupport = () => {
           senderName: userName,
           receiverId: receiverData.map(data => data.receiverId),
           receiverName: receiverData.map(data => data.receiverName),
-          type: "2",
+          content: `${userName} messaged you`,
           time: formattedTime,
           date: formattedDate,
+          redirect:'/chat-candidate'
         }
 
         await socket.emit('send_message', messageData);
@@ -219,7 +221,7 @@ const CandidateChatSupport = () => {
       console.log(response1.data);
 
       // API call 2
-      const response2 = await axios.post(`https://skillety-n6r1.onrender.com/candidate-to-recruiter-notification`, notificationData, {
+      const response2 = await axios.post(`https://skillety-n6r1.onrender.com/create-new-notification`, notificationData, {
         headers: {
           Authorization: `Bearer ${candidateToken}`,
           Accept: 'application/json'

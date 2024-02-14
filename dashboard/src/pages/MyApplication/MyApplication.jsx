@@ -12,7 +12,8 @@ import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 
 const MyApplication = () => {
-    const [candidateToken, setCandidateToken] = useState("");
+    const candidateToken = JSON.parse(localStorage.getItem('candidateToken'))
+    const [candToken, setCandToken] = useState("")
     const [candidateId, setCandidateId] = useState("");
     const [appliedJobDetail, setAppliedJobDetail] = useState([]);
     const { getProtectedData } = useContext(AuthContext);
@@ -43,9 +44,9 @@ const MyApplication = () => {
 
     }, []);
 
-    useEffect(() => {
-        setCandidateToken(JSON.parse(localStorage.getItem('candidateToken')))
-    }, [candidateToken])
+    // useEffect(() => {
+    //     setCandidateToken(JSON.parse(localStorage.getItem('candidateToken')))
+    // }, [candidateToken])
 
     useEffect(() => {
         axios.get("https://skillety-n6r1.onrender.com/clients")
@@ -74,32 +75,38 @@ const MyApplication = () => {
 
 
     useEffect(() => {
-        if (candidateToken) {
+        
             const fetchData = async () => {
                 try {
                     setLoading(true);
                     const user = await getProtectedData(candidateToken);
                     console.log(user);
-                    setCandidateId(user.id);
+                    setCandidateId(user.id || user?.responseData.uid);
+                    setCandToken(user.userToken);
                     setLoading(false);
                 } catch (error) {
                     console.log(error);
-
+                    window.location.href = 'https://skillety-frontend-wcth.onrender.com/candidate-login'
                     setLoading(false);
                 }
             };
 
             fetchData();
-            getAllClientDetails();
-        }
-    }, [candidateToken]);
+            
+        
+    }, []);
+
+
+    useEffect(()=>{
+        getAllClientDetails();
+    },[candidateToken, candToken])
 
     const getAllClientDetails = async () => {
         try {
 
             const response = await axios.get(`https://skillety-n6r1.onrender.com/offline-client-Details`, {
                 headers: {
-                    Authorization: `Bearer ${candidateToken}`,
+                    Authorization: `Bearer ${candidateToken ? candidateToken : candToken}`,
                     Accept: 'application/json'
                 }
             });
@@ -123,7 +130,7 @@ const MyApplication = () => {
 
             const res = await axios.get(`https://skillety-n6r1.onrender.com/posted-jobs`, {
                 headers: {
-                    Authorization: `Bearer ${candidateToken}`,
+                    Authorization: `Bearer ${candidateToken ? candidateToken : candToken}`,
                     Accept: 'application/json'
                 }
             });
@@ -146,7 +153,7 @@ const MyApplication = () => {
             setLoading(true);
             const res = await axios.get(`https://skillety-n6r1.onrender.com/my-applied-jobs/${candidateId}`, {
                 headers: {
-                    Authorization: `Bearer ${candidateToken}`,
+                    Authorization: `Bearer ${candidateToken ? candidateToken : candToken}`,
                     Accept: 'application/json'
                 }
             });
@@ -173,7 +180,7 @@ const MyApplication = () => {
 
             axios.get(`https://skillety-n6r1.onrender.com/application-status-cand/${candidateId}`, {
                 headers: {
-                    Authorization: `Bearer ${candidateToken}`,
+                    Authorization: `Bearer ${candidateToken ? candidateToken : candToken}`,
                     Accept: 'application/json'
                 }
             })
@@ -191,7 +198,7 @@ const MyApplication = () => {
 
     return (
         <div>
-            {candidateToken && <div class="main-wrapper main-wrapper-1">
+            {(candidateToken ? candidateToken : candToken) && <div class="main-wrapper main-wrapper-1">
                 <div class="navbar-bg"></div>
 
                 <Layout />
@@ -374,7 +381,7 @@ const MyApplication = () => {
                                 <div className="row">
                                     <div className="col-12">
                                         <div className="admin-lg-table-section">
-                                            {appliedJobDetail.length > 0 ?
+                                            {appliedJobDetail?.length > 0 ?
                                                 <div className="table-responsive admin-lg-table-area">
                                                     <table className="table table-striped table-hover admin-lg-table w-1000">
                                                         <tr className='dash-table-row head-row'>
@@ -465,9 +472,9 @@ const MyApplication = () => {
                                                     </button>}
                                                     <div className='pag-page'>
                                                         <span className='current-page'>{Math.ceil(x[0] / 10) + 1}</span>&nbsp;/&nbsp;
-                                                        <span className='total-page'>{Math.ceil(appliedJobDetail.length / 10)}</span>
+                                                        <span className='total-page'>{Math.ceil(appliedJobDetail?.length / 10)}</span>
                                                     </div>
-                                                    {(appliedJobDetail.slice(x[0], x[1]).length === 10 && appliedJobDetail.length > x[1]) && <button className='pag-next-btn' onClick={() => setX([x[0] + 10, x[1] + 10])}>
+                                                    {(appliedJobDetail.slice(x[0], x[1])?.length === 10 && appliedJobDetail?.length > x[1]) && <button className='pag-next-btn' onClick={() => setX([x[0] + 10, x[1] + 10])}>
                                                         <i class="bi bi-chevron-right"></i>
                                                     </button>}
                                                 </div>

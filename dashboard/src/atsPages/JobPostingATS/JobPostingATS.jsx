@@ -377,7 +377,7 @@ const JobPostingATS = () => {
             try {
               const user = await getProtectedData(atsToken);
               console.log(user);
-              setEmployeeId(user.id);
+              setEmployeeId(user.id || user.uid);
                 setEmployeeRole(user.role)
             } catch (error) {
               console.log(error);

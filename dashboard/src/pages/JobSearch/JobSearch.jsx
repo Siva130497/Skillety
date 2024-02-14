@@ -10,7 +10,8 @@ import axios from 'axios';
 import AuthContext from '../../context/AuthContext';
 
 const JobSearch = () => {
-    const [candidateToken, setCandidateToken] = useState("");
+    const [candToken, setCandToken] = useState("");
+    const candidateToken = JSON.parse(localStorage.getItem("candidateToken"))
     const { getClientImg, clientImg, getProtectedData } = useContext(AuthContext);
     const [candidateId, setCandidateId] = useState("");
     const [allJobs, setAllJobs] = useState([]);
@@ -153,7 +154,7 @@ const JobSearch = () => {
         // });
 
 
-    }, [candidateToken, getClientImg, clientImg, getProtectedData, candidateId, allJobs, matchJobs, clients, searchResult, filteredSearchResults, filteredSearchResultsMsg, checkBoxfilters, checkBoxJobTitle, checkBoxJobLocation, checkBoxJobEducation, skillArray, jobRoleArray, filteredList, selectedResults, locationArray, educationArray, filters, x]);
+    }, [candidateToken, candToken, getClientImg, clientImg, getProtectedData, candidateId, allJobs, matchJobs, clients, searchResult, filteredSearchResults, filteredSearchResultsMsg, checkBoxfilters, checkBoxJobTitle, checkBoxJobLocation, checkBoxJobEducation, skillArray, jobRoleArray, filteredList, selectedResults, locationArray, educationArray, filters, x]);
 
     console.log(filters)
 
@@ -161,7 +162,7 @@ const JobSearch = () => {
         try {
             const res = await axios.get("https://skillety-n6r1.onrender.com/skills", {
                 headers: {
-                    Authorization: `Bearer ${candidateToken}`,
+                    Authorization: `Bearer ${candidateToken ? candidateToken : candToken}`,
                     Accept: 'application/json'
                 }
             });
@@ -181,7 +182,7 @@ const JobSearch = () => {
         try {
             const res = await axios.get("https://skillety-n6r1.onrender.com/designations", {
                 headers: {
-                    Authorization: `Bearer ${candidateToken}`,
+                    Authorization: `Bearer ${candidateToken ? candidateToken : candToken}`,
                     Accept: 'application/json'
                 }
             });
@@ -201,7 +202,7 @@ const JobSearch = () => {
         try {
             const res = await axios.get("https://skillety-n6r1.onrender.com/locations", {
                 headers: {
-                    Authorization: `Bearer ${candidateToken}`,
+                    Authorization: `Bearer ${candidateToken ? candidateToken : candToken}`,
                     Accept: 'application/json'
                 }
             });
@@ -221,7 +222,7 @@ const JobSearch = () => {
         try {
             const res = await axios.get("https://skillety-n6r1.onrender.com/educations", {
                 headers: {
-                    Authorization: `Bearer ${candidateToken}`,
+                    Authorization: `Bearer ${candidateToken ? candidateToken : candToken}`,
                     Accept: 'application/json'
                 }
             });
@@ -237,23 +238,24 @@ const JobSearch = () => {
         }
     };
 
-    useEffect(() => {
-        const token = JSON.parse(localStorage.getItem("candidateToken"))
-        if (token) {
-            setCandidateToken(token)
-        }
-    }, [])
+    // useEffect(() => {
+    //     const token = JSON.parse(localStorage.getItem("candidateToken"))
+    //     if (token) {
+    //         setCandidateToken(token)
+    //     }
+    // }, [])
 
     useEffect(() => {
-        if (candidateToken) {
+        
             const fetchData = async () => {
                 try {
                     const user = await getProtectedData(candidateToken);
                     console.log(user);
-                    setCandidateId(user.id);
-
+                    setCandidateId(user.id || user?.responseData.uid);
+                    setCandToken(user.userToken);
                 } catch (error) {
                     console.log(error);
+                    window.location.href = 'https://skillety-frontend-wcth.onrender.com/candidate-login'
 
                 }
             };
@@ -263,8 +265,8 @@ const JobSearch = () => {
             getAllJobRoles();
             getAllLocations();
             getAllEducation();
-        }
-    }, [candidateToken]);
+        
+    }, []);
 
     const getPostedjobs = async () => {
         try {
@@ -289,7 +291,7 @@ const JobSearch = () => {
         try {
             const response = await axios.get(`https://skillety-n6r1.onrender.com/skill-match-job-Detail/${candidateId}`, {
                 headers: {
-                    Authorization: `Bearer ${candidateToken}`,
+                    Authorization: `Bearer ${candidateToken ? candidateToken : candToken}`,
                     Accept: 'application/json'
                 }
             });
@@ -1509,7 +1511,7 @@ const JobSearch = () => {
         //     <CandidateFooter />
         // </div>
         <div>
-            {candidateToken && <div class="main-wrapper main-wrapper-1">
+            {(candidateToken ? candidateToken : candToken) && <div class="main-wrapper main-wrapper-1">
                 <div class="navbar-bg"></div>
                 <Layout />
 

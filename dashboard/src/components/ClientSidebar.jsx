@@ -78,7 +78,7 @@ const ClientSidebar = () => {
     //             try {
     //                 const user = await getProtectedData(clientToken);
     //                 console.log(user);
-    //                 setEmployeeId(user.id);
+    //                 setEmployeeId(user.id || user.uid);
     //             } catch (error) {
     //                 console.log(error);
     //             }

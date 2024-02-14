@@ -13,12 +13,13 @@ import ScrollToBottom from "react-scroll-to-bottom";
 import io from 'socket.io-client';
 import { useContext } from 'react';
 import AuthContext from '../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const socket = io.connect('https://skillety-n6r1.onrender.com');
 
 const ClientChat = () => {
   const { getProtectedData, getClientImg, clientImg } = useContext(AuthContext); 
-
+  const navigate = useNavigate();
   const [staffToken, setStaffToken] = useState("");
   const [userId, setUserId] = useState("");
   const [userName, setUserName] = useState("");
@@ -49,13 +50,13 @@ const ClientChat = () => {
 
           const user = await getProtectedData(staffToken);
           console.log(user);
-          setUserId(user.id);
+          setUserId(user.id || user.uid);
           setUserName(user.name)
 
           
         } catch (error) {
           console.log(error);
-
+          navigate("/")
           
         }
       };

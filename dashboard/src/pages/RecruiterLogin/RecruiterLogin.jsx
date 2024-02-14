@@ -10,7 +10,7 @@ import useTokenRedirect from '../../customhooks/useTokenRedirect';
 const RecruiterLogin = () => {
     const navigate = useNavigate();
     useTokenRedirect();
-    const { loginUser } = useContext(AuthContext)
+    const { loginUser, errorMsg, setErrorMsg} = useContext(AuthContext)
     const [credentials, setcredentials] = useState({
         userId: "",
         password: "",
@@ -18,6 +18,7 @@ const RecruiterLogin = () => {
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         setcredentials({ ...credentials, [name]: value });
+        setErrorMsg("");
     }
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -165,7 +166,10 @@ const RecruiterLogin = () => {
                                                             null
                                                         }
                                                     </div>
-
+                                                    {errorMsg ?
+                                            <p className='log-error-msg'>{errorMsg && "!!!" + errorMsg}</p>
+                                            : null
+                                        }
                                                     <div className="login-form-btn-area">
                                                         <button
                                                             type='submit'

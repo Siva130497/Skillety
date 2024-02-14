@@ -1,9 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react'
 import AuthContext from '../context/AuthContext';
 import axios from 'axios';
+import { auth } from '../firebase/firebaseConfig';
+import { useNavigate } from 'react-router-dom';
 
 const NavBar = ({ notification, socket }) => {
-  const [token, setToken] = useState("");
+  const navigate = useNavigate()
+  const [candToken, setCandToken] = useState("");
+  const token = JSON.parse(localStorage.getItem('candidateToken'));
   const { getProtectedData } = useContext(AuthContext);
   const [candidateId, setCandidateId] = useState("");
   const [candidateImg, setCandidateImg] = useState();
@@ -18,21 +22,28 @@ const NavBar = ({ notification, socket }) => {
 
   }, [notification]);
 
-  const displayNotification = ({ senderName, type, time, date }) => {
-    let action;
-
-    if (type === "2") {
-      action = "message"
-    }
+  const displayNotification = ({ senderName, content, time, date, redirect, _id }) => {
+    const notificationIdArray = [_id]
     return (
-      <div className="notification-dropdown-content">
+      <div className="notification-dropdown-content"
+      onClick={()=>{
+        axios.patch("https://skillety-n6r1.onrender.com/read-notification", notificationIdArray, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Accept: 'application/json'
+          }
+        }).then(res=>{
+          console.log(res.data)
+          navigate(redirect)
+        }).catch(err=>console.log(err))
+      }}>
         <div className="notification-dropdown-content-left">
           <div className="noti-drpdwn-img-area">
             {/* <img src="assets/img/layout/user-img.png" className='noti-drpdwn-img' alt="" /> */}
             <i class="bi bi-person"></i>
           </div>
           <div className="dropdown-notification-item">
-            {`${senderName} ${action} you`}
+            {content}
           </div>
         </div>
         <div className="notification-dropdown-content-right">
@@ -45,18 +56,40 @@ const NavBar = ({ notification, socket }) => {
     )
   }
 
-  useEffect(() => {
-    setToken(JSON.parse(localStorage.getItem('candidateToken')))
-  }, [token])
+  const handleClearNotifications = () => {
+    
+    const notificationIdArray = notifications.map(notific => notific._id)
+    if(notifications?.length>0){
+      axios.patch("https://skillety-n6r1.onrender.com/read-notification", notificationIdArray, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: 'application/json'
+        }
+      })
+      .then(res=>{
+        console.log(res.data)
+        setNotifications([]);
+      })
+      .catch(err=>{
+        console.log(err)
+      })
+    }
+
+  }
+
+  // useEffect(() => {
+  //   setToken(JSON.parse(localStorage.getItem('candidateToken'))) 
+  // }, [token])
 
   useEffect(() => {
-    if (token) {
+    
       const fetchData = async () => {
         try {
           const userData = await getProtectedData(token);
           console.log(userData);
-          setCandidateId(userData.id);
-          setUserName(userData.name);
+          setCandidateId(userData.id || userData?.responseData.uid);
+          setUserName(userData.name || userData?.responseData.name);
+          setCandToken(userData.userToken);
         } catch (error) {
           console.log(error)
         }
@@ -64,9 +97,9 @@ const NavBar = ({ notification, socket }) => {
 
       fetchData();
 
-      axios.get("https://skillety-n6r1.onrender.com/candidate-notification", {
+      axios.get(`https://skillety-n6r1.onrender.com/all-notification/${candidateId}?filter=unRead`, {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token? token : candToken}`,
           Accept: 'application/json'
         }
       })
@@ -77,13 +110,16 @@ const NavBar = ({ notification, socket }) => {
         .catch(err => {
           console.log(err)
         })
-    }
-  }, [token]);
+
+    
+  }, []);
 
   useEffect(() => {
     if (candidateId) {
       axios.get(`https://skillety-n6r1.onrender.com/candidate-image/${candidateId}`)
-        .then(res => setCandidateImg(res.data))
+        .then(res => {
+          console.log(res.data)
+          setCandidateImg(res.data)})
         .catch(err => console.log(err))
 
       axios.get(`https://skillety-n6r1.onrender.com/candidate/${candidateId}`)
@@ -94,25 +130,68 @@ const NavBar = ({ notification, socket }) => {
         .catch(err => {
           console.log(err)
         })
+
+      
     }
   }, [candidateId]);
 
-  useEffect(() => {
-    if (candidateImg) {
-      setCandidateImgUrl(`https://skillety-n6r1.onrender.com/candidate_profile/${candidateImg.image}`)
+  useEffect(()=>{
+    // console.log(token)
+    if((token ? token : candToken) && candidateId){
+      axios.patch("https://skillety-n6r1.onrender.com/update-candidate-activeIn", {candidateId}, {
+          headers: {
+            Authorization: `Bearer ${token ? token : candToken}`,
+            Accept: 'application/json'
+          }
+        })
+          .then(res => {
+            console.log(res.data);
+          })
+          .catch(err => {
+            console.log(err)
+          })
     }
 
-  }, [candidateImg]);
+  },[token, candidateId, candToken])
+
+  useEffect(() => {
+    if (candidateImg) {
+      if (candidateImg.image.startsWith('https')) {
+        setCandidateImgUrl(candidateImg.image);
+      } else {
+        setCandidateImgUrl(`https://skillety-n6r1.onrender.com/candidate_profile/${candidateImg.image}`);
+      }
+    }
+}, [candidateImg]);
+
 
   const extractLastName = () => {
     const nameParts = userName.split(' ');
 
-    if (nameParts.length > 1) {
-      return nameParts[nameParts.length - 1];
+    if (nameParts?.length > 1) {
+      return nameParts[nameParts?.length - 1];
     } else {
       return userName;
     }
   };
+
+  const handleLogout = (e) => {
+    e.preventDefault(); // Prevent default anchor tag behavior
+    if(candToken){
+      auth.signOut()
+        .then(() => {
+          console.log('User logged out successfully');
+          window.location.href = 'https://skillety-frontend-wcth.onrender.com/candidate-login'
+        })
+        .catch((error) => {
+          console.error('Error logging out:', error);
+          // Handle logout error if needed
+        });
+    }else{
+      localStorage.removeItem("candidateToken");
+      window.location.href = 'https://skillety-frontend-wcth.onrender.com/candidate-login'
+    }
+  } 
 
   return (
     <nav className="navbar navbar-expand-lg main-navbar sticky">
@@ -154,7 +233,7 @@ const NavBar = ({ notification, socket }) => {
           <div className="dropdown-menu dropdown-list dropdown-menu-right pullDown notification-dropdown">
             <div className="notification-dropdown-header">
               <div className="notification-dropdown-head">
-                Notification&nbsp;<span>({notifications?.length})</span>
+                Un-Read Notifications&nbsp;<span>({notifications?.length})</span>
               </div>
               {/* <a href="#" className='notify-settings-btn'>
                 <i class="bi bi-gear-fill"></i>
@@ -173,13 +252,13 @@ const NavBar = ({ notification, socket }) => {
               )}
             </div>
 
-            <div className="dropdown-footer notification-dropdown-footer text-center">
+            {notifications?.length>0 && <div className="dropdown-footer notification-dropdown-footer text-center">
               <a className='drp-dwn-view-all-btn'
-                onClick={() => setNotifications([])}
+                onClick={handleClearNotifications}
               >Mark All As Read.
                 <i class="bi bi-chevron-right ml-3"></i>
               </a>
-            </div>
+            </div>}
           </div>
         </li>
 
@@ -203,7 +282,8 @@ const NavBar = ({ notification, socket }) => {
             <a href={`/candidate-profile/${candidateId}`} className="dropdown-view-pro-btn">
               View Profile
             </a>
-            <div className="dropdown-btn-link-area">
+            <div className="dropdown-btn-link-area"
+            >
               {/* <a href="#" className="dropdown-acc-btn">
                   <i class="bi bi-person-fill mr-3"></i>
                   Account
@@ -213,10 +293,10 @@ const NavBar = ({ notification, socket }) => {
                   Settings
                 </a> */}
 
-              <a href="" onClick={() => {
-                localStorage.removeItem("candidateToken");
-                window.location.href = 'https://skillety-frontend-wcth.onrender.com/candidate-login'
-              }} className="dropdown-logout-btn">
+              <a href="#"  className="dropdown-logout-btn"
+              onClick={
+                handleLogout
+              }>
                 <i class="bi bi-box-arrow-right mr-3"></i>
                 Log Out
               </a>

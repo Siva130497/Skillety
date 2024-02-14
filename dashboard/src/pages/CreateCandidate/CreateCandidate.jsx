@@ -11,9 +11,10 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import AuthContext from '../../context/AuthContext';
 import { v4 as uuidv4 } from "uuid";
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const CreateCandidate = () => {
+    const navigate = useNavigate();
     const location = useLocation();
     const { id } = location.state || {};
     const [cand, setCand] = useState();
@@ -111,9 +112,10 @@ const CreateCandidate = () => {
                 try {
                     const userData = await getProtectedData(staffToken);
                     console.log(userData);
-                    setEmployeeId(userData.id);
+                    setEmployeeId(userData.id || userData.uid);
                 } catch (error) {
                     console.log(error)
+                    navigate("/")
                 }
             };
 

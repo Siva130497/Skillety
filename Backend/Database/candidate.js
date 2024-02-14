@@ -92,6 +92,10 @@ const candidateSchema = new Schema(
         type: String,
         required: true
     },
+    activeIn: {
+        type: String,
+        required: true
+    },
     },
     { timestamps: true }
 );

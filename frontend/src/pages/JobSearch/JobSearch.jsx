@@ -407,7 +407,7 @@ const JobSearch = () => {
                 try {
                     const user = await getProtectedData(candidateToken);
                     console.log(user);
-                    setCandidateId(user.id);
+                    setCandidateId(user.id || user.uid);
 
                 } catch (error) {
                     console.log(error);

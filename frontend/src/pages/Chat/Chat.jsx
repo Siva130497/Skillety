@@ -160,7 +160,7 @@ const Chat = ({userName, userId, staffToken, candidateToken}) => {
             {messages.map((message, index) => (
               <li
                 key={index}
-                // className={`message ${message.userName === user.id ? 'sender' : 'receiver'}`}
+                // className={`message ${message.userName === user.id || user.uid ? 'sender' : 'receiver'}`}
               >
                 <span className="message-name">{message.userName}</span>
                 <span className="message-text">{message.message}</span>

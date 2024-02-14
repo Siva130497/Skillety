@@ -5,7 +5,7 @@ import useTokenRedirect from '../../customhooks/useTokenRedirect';
 
 const AdminLogin = () => {
     useTokenRedirect();
-    const {loginUser} = useContext(AuthContext)
+    const {loginUser, errorMsg, setErrorMsg} = useContext(AuthContext)
     const [credentials, setcredentials] = useState({
         userId:"",
         password:"",
@@ -14,6 +14,7 @@ const AdminLogin = () => {
     const handleInputChange = (event) => {
         const {name, value} = event.target;
         setcredentials({...credentials, [name]:value});
+        setErrorMsg("");
     }
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -62,6 +63,11 @@ const AdminLogin = () => {
                         placeholder="Enter your password"
                         onPaste={(e)=>e.preventDefault()}
                         required />
+                        {errorMsg ?
+                                            <p className='log-error-msg'>{errorMsg && "!!!" + errorMsg}</p>
+                                            : null
+                                        }
+
                         <div className="cli--login-forgot-area" data-aos="fade-left">
                             <a href="/forgot-password/Admin" className='cli--login-forgot'>Forgot Password</a>
                         </div>

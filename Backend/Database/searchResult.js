@@ -2,6 +2,10 @@ const { Schema, model } = require("mongoose");
 
 const searchResultSchema = new Schema(
   {
+    id: {
+        type: String,
+        required:true,
+    },
     days: {
         type: String,
     },
@@ -32,18 +36,18 @@ const searchResultSchema = new Schema(
     selectedEducationResults: {
         type: Array,
     },
-    selectedRoleResults: {
-        type: Array,
-    },
-    industry: {
-        type: Array,
-    },
+    // selectedRoleResults: {
+    //     type: Array,
+    // },
+    // industry: {
+    //     type: Array,
+    // },
     company: {
         type: String,
     },
-    // candidateType: {
-    //     type: String,
-    // },
+    candidateType: {
+        type: String,
+    },
     // gender: {
     //     type: String,
     // }

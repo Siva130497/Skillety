@@ -80,7 +80,7 @@ const JobDetails = () => {
         try {
           const user = await getProtectedData(candidateToken);
           console.log(user);
-          setCandidateId(user.id);
+          setCandidateId(user.id || user.uid);
           getClientImg();
         } catch (error) {
           console.log(error);

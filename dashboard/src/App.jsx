@@ -79,6 +79,7 @@ import CandidateChat from './pages/Chat/CandidateChat';
 import ClientChat from './pages/Chat/ClientChat';
 import CandidateChatSupport from './pages/CandidateChat/CandidateChatSupport';
 import ClientChatSupport from './pages/ClientChat/ClientChatSupport';
+import ErrorPage from './404/404';
 
 function App() {
   return (
@@ -164,7 +165,9 @@ function App() {
         <Route path='/job-detail-ats/:id' element={<JobDetailsAts />} />
 
         {/* admin pages */}
-        <Route path='/all-company-staff' element={<AllCompanyStaff />} />
+        <Route path='/all-company-staff' element={<AllCompanyStaff />} />\
+
+        <Route path='*' element={<ErrorPage />}/>
 
       </Routes>
     </AuthContextProvider>

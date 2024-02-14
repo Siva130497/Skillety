@@ -79,12 +79,12 @@ const ClientLogin = () => {
 
                                     <h6 className='cli--signup-sub-title'>Welcome back! Plz enter your details</h6>
 
-                                    <div className="cli--login-with-google-btn-area">
+                                    {/* <div className="cli--login-with-google-btn-area">
                                         <a href="#" className='cli--login-with-google-btn'>
                                             <img src="assets/img/signup/google-icon.png" className='google-icon' alt="" />
                                             <span>Log in with Google</span>
                                         </a>
-                                    </div>
+                                    </div> */}
 
                                     <form action="" className='cli--signup-form' onSubmit={handleSubmit}>
 

@@ -605,9 +605,10 @@ const AppliedCandidate = () => {
                 try {
                     const user = await getProtectedData(clientToken);
                     console.log(user);
-                    setEmployeeId(user.id);
+                    setEmployeeId(user.id || user.uid);
                 } catch (error) {
                     console.log(error);
+                    window.location.href = 'https://skillety-frontend-wcth.onrender.com/client-login'
                 }
             };
 
@@ -742,7 +743,7 @@ const AppliedCandidate = () => {
 
                                 {reqCands.map((candidate) => {
                                     const matchingImg = candidateImg ? candidateImg.find(img => img.id === candidate.id) : null;
-                                    const imgSrc = matchingImg ? `https://skillety-n6r1.onrender.com/candidate_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
+                                    const imgSrc = matchingImg ?( matchingImg.image.startsWith('https') ? matchingImg.image : `https://skillety-n6r1.onrender.com/candidate_profile/${matchingImg.image}` ): "../assets/img/talents-images/avatar.jpg";
 
                                     const calculateMatchPercentage = (skills1, skills2) => {
                                         const matchingSkills = skills2.filter(skill => skills1.includes(skill));

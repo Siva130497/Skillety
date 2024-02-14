@@ -5,7 +5,7 @@ import './JobDetails.css';
 import './JobDetails-responsive.css';
 import ATSLayout from '../../components/ATSLayout';
 import Footer from '../../components/Footer';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import AuthContext from '../../context/AuthContext';
 import Swal from 'sweetalert2';
@@ -13,6 +13,7 @@ import 'sweetalert2/dist/sweetalert2.css';
 
 
 const JobDetailsAts = () => {
+    const navigate = useNavigate();
     const { id } = useParams();
     console.log(id)
     const [job, setJob] = useState();
@@ -76,11 +77,12 @@ const JobDetailsAts = () => {
                 try {
                     const user = await getProtectedData(staffToken);
                     console.log(user);
-                    setemployeeId(user.id);
+                    setemployeeId(user.id || user.uid);
                     setUserName(user.name);
                     getClientImg();
                 } catch (error) {
                     console.log(error);
+                    navigate("/")
                 }
             };
 

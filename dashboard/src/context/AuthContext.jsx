@@ -3,6 +3,8 @@ import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
+import { GoogleAuthProvider, signInWithPopup, onAuthStateChanged  } from 'firebase/auth';
+import { auth } from '../firebase/firebaseConfig';
 
 
 const AuthContext = createContext();
@@ -79,16 +81,69 @@ export const AuthContextProvider = ({ children }) => {
   }
 
   const getProtectedData = async (token) => {
-    try {
-      const response = await axios.get('https://skillety-n6r1.onrender.com/protected', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          Accept: 'application/json'
+    // Check if localStorage has any key-value pairs
+    if (localStorage.length > 0) {
+        try {
+            const response = await axios.get('https://skillety-n6r1.onrender.com/protected', {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    Accept: 'application/json'
+                }
+            });
+            return response.data;
+        } catch (error) {
+            throw error;
         }
+    } else {
+      return new Promise((resolve, reject) => {
+        const unsubscribe = onAuthStateChanged(auth, async (user) => {
+            console.log(user);
+            if (user) {
+                console.log(user);
+                try {
+                    const userToken = await user.getIdToken();
+                    axios.get('https://skillety-n6r1.onrender.com/protected', {
+                        headers: {
+                            Authorization: `Bearer firebase:${userToken}`,
+                            Accept: 'application/json'
+                        }
+                    }).then((response) => {
+                        console.log(response.data);
+                        resolve({ responseData: response.data, userToken:`firebase:${userToken}` }); 
+                    }).catch((error) => {
+                        reject(error); // Reject with the error
+                    });
+                } catch (error) {
+                    reject(error); // Reject with the error
+                }
+            } else {
+                const provider = new GoogleAuthProvider();
+                try {
+                    const userCred = await signInWithPopup(auth, provider);
+                    const userToken = await userCred.user.getIdToken();
+                    axios.get('https://skillety-n6r1.onrender.com/protected', {
+                        headers: {
+                            Authorization: `Bearer firebase:${userToken}`,
+                            Accept: 'application/json'
+                        }
+                    }).then((response) => {
+                        console.log(response.data);
+                        resolve({ responseData: response.data, userToken }); // Resolve with both response data and userToken
+                    }).catch((error) => {
+                        reject(error); // Reject with the error
+                    });
+                } catch (error) {
+                    console.error("Error signing in with Google:", error);
+                    showErrorMessage("Error signing in with Google");
+                    reject(error); // Reject with the error
+                }
+            }
+        });
+        return () => {
+            // Unsubscribe from the auth listener on component unmount
+            unsubscribe();
+        };
       });
-      return response.data;
-    } catch (error) {
-      throw error;
     }
   };
 

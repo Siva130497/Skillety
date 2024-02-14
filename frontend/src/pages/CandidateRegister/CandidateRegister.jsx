@@ -445,9 +445,15 @@ const CandidateRegister = () => {
     };
 
     const handleEducationClick = (education) => {
-        setSelectedEducation([...selectedEducation, education]);
-        setSearchEducationInput("");
-        setFilteredEducation([]);
+        if (selectedEducation.includes(education)) {
+            setSelectedEducation([...selectedEducation]);
+            setSearchEducationInput("");
+            setFilteredEducation([]);
+        }else{
+            setSelectedEducation([...selectedEducation, education]);
+            setSearchEducationInput("");
+            setFilteredEducation([]);
+        }
     }
 
     const handleDeselectEducation = (education) => {

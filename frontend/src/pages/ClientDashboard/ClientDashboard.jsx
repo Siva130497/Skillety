@@ -60,7 +60,7 @@ const ClientDashboard = () => {
         try {
           const user = await getProtectedData(clientToken);
           console.log(user);
-          setEmployeeId(user.id);
+          setEmployeeId(user.id || user.uid);
         } catch (error) {
           navigate("/client-login")
         }

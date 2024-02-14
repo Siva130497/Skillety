@@ -55,6 +55,7 @@ import AdminDashboard from './pages/AdminDashboard/AdminDashboard';
 import RecruiterDashboard from './pages/RecruiterDashboard/RecruiterDashboard';
 import ForgotPassword from './pages/ForgotPassword/ForgotPassword';
 import JobDetails from './pages/JobDetails/JobDetails';
+import ErrorPage from './404/404';
 
 
 function App() {
@@ -117,6 +118,7 @@ function App() {
             <Route path='/admin-dashboard' element={<AdminDashboard />} />
             <Route path='/recruiter-dashboard' element={<RecruiterDashboard />} />
             <Route path='/company-info/:id' element={<CompanyInformation />} />
+            <Route path='*' element={<ErrorPage />}/>
 
           </Routes>
         </GoogleOAuthProvider>

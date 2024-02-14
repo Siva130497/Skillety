@@ -17,6 +17,7 @@ const {
   verifyTempPassword,
   finalClientRegister,
   candidateReg,
+  candidateRegAfterGoogleLogin,
   getAllCandidateDetail,
   getAllRecruiterCandidateDetail,
   getARecruiterClientDetails,
@@ -106,6 +107,7 @@ const {
    updatingCompanyAwards,
    updatingCompanyBenefits,
    updatingCompanyWebsite,
+   updatingCandidateActiveIn,
   updatingCandidateEmail,
   updatingCandidatePhone,
   updatingCandidateFirstName,
@@ -219,6 +221,7 @@ const {
   
 } = require("../Controller/authFunctions");
 const employeeAuth = require("../middleware/employeeAuth");
+const firebaseAuth = require("../middleware/firebaseAuth");
 
 // Client Registeration Route
 router.post("/register-Client", clientRegister);
@@ -262,6 +265,9 @@ router.post("/finalRegister-Client", finalClientRegister);
 
 // candidate register 
 router.post("/candidate-reg", candidateReg);
+
+//candidate register after google login
+router.post("/cand-reg-by-google", firebaseAuth, candidateRegAfterGoogleLogin);
 
 // router.post("/register-Client", async(req, res) => {
 //     clientRegister(req.body, res);
@@ -510,6 +516,8 @@ router.patch("/update-company-website", updatingCompanyWebsite);
 router.patch("/company-benefits", updatingCompanyBenefits);
 
 //updating candidate information
+router.patch("/update-candidate-activeIn", employeeAuth, updatingCandidateActiveIn);
+
 router.patch("/update-candidate-email", updatingCandidateEmail);
 
 router.patch("/update-candidate-phone", updatingCandidatePhone);
@@ -540,7 +548,7 @@ router.patch("/update-candidate-password", updatingCandidatePassword);
 router.post("/recent-search", searchResultSave)
 
 //get all recent searches
-router.get("/recent-search", getAllRecentSearches)
+router.get("/recent-search/:id", getAllRecentSearches)
 
 //get popular searches limit to 7
 router.get("/popular-search", getPopularSearches);
@@ -807,7 +815,7 @@ router.post("/login-Candidate", async (req, res) => {
 //   await userLogin(req.body, ["Admin"], res);
 // });
 
-router.post("/staff", async (req, res) => {
+router.post("/staff", async (req, res) => {employeeAuth
   await userLogin(req.body, ["Recruiter", "Admin", "Manager"], res);
 });
 
@@ -815,6 +823,11 @@ router.post("/staff", async (req, res) => {
 router.get("/protected", employeeAuth, (req, res) => {
   return res.json(req.user);
 })
+
+//protected route
+// router.get("/protected-firebase", firebaseAuth, (req, res) => {
+//   return res.json(req.user);
+// })
 
 //generate rondom password
 router.get("/random-password", generateRandomPassword);
