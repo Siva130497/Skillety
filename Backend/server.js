@@ -42,7 +42,7 @@ const offlineClientLogo = require("./Database/offlineClientLogo");
 
 
 const corsOptions = {
-  origin: ['https://skillety-frontend-wcth.onrender.com', 'https://skillety-dashboard-tk2y.onrender.com', 'https://skillety-dashboard-tk2y.onrender.com', 'https://skillety-frontend-wcth.onrender.com'],
+  origin: ['http://localhost:3000', 'http://localhost:3001', 'https://skillety-dashboard-tk2y.onrender.com', 'https://skillety-frontend-wcth.onrender.com'],
   credentials: true,
   methods: ['GET', 'POST', 'PATCH', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization', 'Access-Control-Allow-Credentials']
@@ -70,7 +70,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: ['https://skillety-frontend-wcth.onrender.com', 'https://skillety-dashboard-tk2y.onrender.com', 'https://skillety-dashboard-tk2y.onrender.com', 'https://skillety-frontend-wcth.onrender.com'],
+    origin: ['http://localhost:3000', 'http://localhost:3001', 'https://skillety-dashboard-tk2y.onrender.com', 'https://skillety-frontend-wcth.onrender.com'],
     methods: ["GET", "POST"],
   },
 });
