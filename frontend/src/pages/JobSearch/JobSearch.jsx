@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import $ from 'jquery';
 import './JobSearch.css';
@@ -48,6 +49,8 @@ const JobSearch = () => {
 
     const [locationArray, setLocationArray] = useState([]);
     const [educationArray, setEducationArray] = useState([]);
+
+    const navigate = useNavigate();
 
     const [x, setX] = useState([0, 3]);
 
@@ -1567,8 +1570,13 @@ const JobSearch = () => {
                                                             }
                                                             const percentage = Math.round(calculateMatchPercentage(selectedResults, [...job.skills, ...job.jobRole]));
 
+                                                            const handleViewJobDetail = () => {
+                                                                const destination = candidateToken ? `/job-detail/${job.id}` : "/candidate-login";
+                                                                navigate(destination);
+                                                            };
+
                                                             return (
-                                                                <article className='job--detail-card mb-4'>
+                                                                <article className='job--detail-card mb-4 cursor-pointer' onClick={handleViewJobDetail}>
                                                                     <div className="job--detail-card-top-area job">
                                                                         <div>
                                                                             <h5 className='job--detail-card-role'>{job.jobRole[0]}</h5>
@@ -1621,7 +1629,7 @@ const JobSearch = () => {
                                                                             })}
                                                                         </div>
                                                                         <div className="job--detail-card-know-more-btn-area">
-                                                                            <a href={candidateToken ? `/job-detail/${job.id}` : "candidate-login"} className='job--detail-card-know-more-btn'>Know more</a>
+                                                                            <a href={candidateToken ? `/job-detail/${job.id}` : "/candidate-login"} className='job--detail-card-know-more-btn'>Know more</a>
                                                                         </div>
                                                                     </div>
                                                                 </article>
@@ -1631,8 +1639,14 @@ const JobSearch = () => {
                                                                 const matchingImg = clientImg ? clientImg.find(img => img.id === job.companyId) : null;
                                                                 const imgSrc = matchingImg ? `https://skillety-n6r1.onrender.com/client_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
                                                                 const companyName = clients.find(cli => cli.companyId === job.companyId)?.companyName
+
+                                                                const handleViewJobDetail = () => {
+                                                                    const destination = candidateToken ? `/job-detail/${job.jobId}` : "/candidate-login";
+                                                                    navigate(destination);
+                                                                };
+
                                                                 return (
-                                                                    <article className='job--detail-card mb-4'>
+                                                                    <article className='job--detail-card mb-4 cursor-pointer' onClick={handleViewJobDetail}>
                                                                         <div className="job--detail-card-top-area job">
                                                                             <div>
                                                                                 <h5 className='job--detail-card-role'>{job.jobRole[0]}</h5>
@@ -1684,7 +1698,7 @@ const JobSearch = () => {
                                                                                 })}
                                                                             </div>
                                                                             <div className="job--detail-card-know-more-btn-area">
-                                                                                <a href={candidateToken ? `/job-detail/${job.jobId}` : "candidate-login"} className='job--detail-card-know-more-btn'>Know more</a>
+                                                                                <a href={candidateToken ? `/job-detail/${job.jobId}` : "/candidate-login"} className='job--detail-card-know-more-btn'>Know more</a>
                                                                             </div>
                                                                         </div>
                                                                     </article>
@@ -1693,8 +1707,14 @@ const JobSearch = () => {
                                                                 const matchingImg = clientImg ? clientImg.find(img => img.id === job.companyId) : null;
                                                                 const imgSrc = matchingImg ? `https://skillety-n6r1.onrender.com/client_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
                                                                 const companyName = clients.find(cli => cli.companyId === job.companyId)?.companyName
+
+                                                                const handleViewJobDetail = () => {
+                                                                    const destination = candidateToken ? `/job-detail/${job.id}` : "/candidate-login";
+                                                                    navigate(destination);
+                                                                };
+                                                                
                                                                 return (
-                                                                    <article className='job--detail-card mb-4'>
+                                                                    <article className='job--detail-card mb-4 cursor-pointer' onClick={handleViewJobDetail}>
                                                                         <div className="job--detail-card-top-area job">
                                                                             <div>
                                                                                 <h5 className='job--detail-card-role'>{job.jobRole[0]}</h5>
@@ -1739,7 +1759,7 @@ const JobSearch = () => {
                                                                                 })}
                                                                             </div>
                                                                             <div className="job--detail-card-know-more-btn-area">
-                                                                                <a href={candidateToken ? `/job-detail/${job.id}` : "candidate-login"} className='job--detail-card-know-more-btn'>Know more</a>
+                                                                                <a href={candidateToken ? `/job-detail/${job.id}` : "/candidate-login"} className='job--detail-card-know-more-btn'>Know more</a>
                                                                             </div>
                                                                         </div>
                                                                     </article>

@@ -47,6 +47,9 @@ const CandidateRegister = () => {
     const [skillAlert, setSkillAlert] = useState("");
     const [designationAlert, setDesignationAlert] = useState("");
 
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
     const fileInputRef = useRef(null);
 
     const initialCredentials = {
@@ -76,6 +79,13 @@ const CandidateRegister = () => {
 
     const [spinStatus, setSpinStatus] = useState(false);
 
+    const handleTogglePassword = () => {
+        setShowPassword(!showPassword);
+    };
+    const handleToggleConfirmPassword = () => {
+        setShowConfirmPassword(!showConfirmPassword);
+    };
+
     //for show success message for payment
     function showSuccessMessage(message) {
         Swal.fire({
@@ -98,11 +108,11 @@ const CandidateRegister = () => {
         });
     }
 
-    useEffect(()=>{
-        if(result){
+    useEffect(() => {
+        if (result) {
             setSpinStatus(false)
         }
-    },[result])
+    }, [result])
     useEffect(() => {
         setCredentials((prevCredentials) => ({
             ...prevCredentials,
@@ -690,24 +700,42 @@ const CandidateRegister = () => {
                                 </div>
                                 <div className="col-12 col-lg-6 col-md-6 col-sm-6 custom-padding-right">
                                     <div className='cand--reg-form-group'>
-                                        <input type="password" id='password' name="password"
-                                            value={credentials.password}
-                                            onChange={handleInputChange}
-                                            onPaste={(e) => e.preventDefault()}
-                                            placeholder="Enter your password" className='cand--reg-form-input' required />
-                                        <label htmlFor="password" className='cand--reg-form-label'>Password&nbsp;<span className='is-required'>*</span></label>
+                                        <div className='position-relative'>
+                                            <input type={showPassword ? 'text' : 'password'}
+                                                id='password' name="password"
+                                                value={credentials.password}
+                                                onChange={handleInputChange}
+                                                onPaste={(e) => e.preventDefault()}
+                                                placeholder="Enter your password" className='cand--reg-form-input is-password' required />
+                                            <label htmlFor="password" className='cand--reg-form-label'>Password&nbsp;<span className='is-required'>*</span></label>
+                                            {credentials.password != "" &&
+                                                <i className={`bi ${showPassword ? 'bi-eye' : 'bi-eye-slash'} password-view-icon`}
+                                                    onClick={handleTogglePassword}
+                                                    id='togglePassword'>
+                                                </i>
+                                            }
+                                        </div>
                                         {passwordErrorMsg && <small className='text-danger text-capitalized form-error-message'>password must be 8 characters long...</small>}
                                         {require && <small className='text-danger text-capitalized form-error-message'>{credentials.password === "" && "required"}</small>}
                                     </div>
                                 </div>
                                 <div className="col-12 col-lg-6 col-md-6 col-sm-6 custom-padding-left">
                                     <div className='cand--reg-form-group'>
-                                        <input type="password" id='confirm_password' name="confirmPassword"
-                                            value={credentials.confirmPassword}
-                                            onChange={handleInputChange}
-                                            onPaste={(e) => e.preventDefault()}
-                                            placeholder="Confirm your password" className='cand--reg-form-input' required />
-                                        <label htmlFor="confirm_password" className='cand--reg-form-label'>Confirm Password&nbsp;<span className='is-required'>*</span></label>
+                                        <div className='position-relative'>
+                                            <input type={showConfirmPassword ? 'text' : 'password'}
+                                                id='confirm_password' name="confirmPassword"
+                                                value={credentials.confirmPassword}
+                                                onChange={handleInputChange}
+                                                onPaste={(e) => e.preventDefault()}
+                                                placeholder="Confirm your password" className='cand--reg-form-input is-password' required />
+                                            <label htmlFor="confirm_password" className='cand--reg-form-label'>Confirm Password&nbsp;<span className='is-required'>*</span></label>
+                                            {credentials.confirmPassword != "" &&
+                                                <i className={`bi ${showConfirmPassword ? 'bi-eye' : 'bi-eye-slash'} password-view-icon`}
+                                                    onClick={handleToggleConfirmPassword}
+                                                    id='togglePassword'>
+                                                </i>
+                                            }
+                                        </div>
                                         {confirmPasswordErrorMsg && <small className='text-danger text-capitalized form-error-message'>Password and Confirm Password must match...</small>}
                                         {require && <small className='text-danger text-capitalized form-error-message'>{credentials.confirmPassword === "" && "required"}</small>}
                                     </div>
@@ -1065,7 +1093,7 @@ const CandidateRegister = () => {
                                             <label htmlFor="college_name" className='cand--reg-form-label-custom'>Name of the College&nbsp;<span className='is-required'>*</span></label>
                                             <div className='w-100'>
                                                 <input type="text" id='college_name' name="college"
-                                                placeholder='Enter the name of the college'
+                                                    placeholder='Enter the name of the college'
                                                     value={credentials.college}
                                                     onChange={handleInputChange} className='cand--reg-flex-input' />
                                                 {!require && <small className='text-danger text-capitalized'>{credentials.college === "" && "required"}</small>}
@@ -1092,7 +1120,7 @@ const CandidateRegister = () => {
                                             value={credentials.profileHeadline}
                                             onChange={handleInputChange} id="headline" placeholder='(Example: I am a Best Employee Award winning embedded engineer with over 5 years  of experience in the software development domain, proficient in tools/skills like NXPT1020, C, RS422, VxWORKS, ST-True Studio, STM32F103C8, Embedded C, EEPROM, WIFI.)' className='cand--reg-lg-input'>
                                         </textarea>
-                                    {!require && <small className='text-danger text-capitalized'>{credentials.profileHeadline === "" && "required"}</small>}
+                                        {!require && <small className='text-danger text-capitalized'>{credentials.profileHeadline === "" && "required"}</small>}
                                     </div>
                                 </div>
                             </div>
@@ -1171,7 +1199,7 @@ const CandidateRegister = () => {
                                         <div>
                                             <button type='submit' className='reg--form-btn-sub candidate register' disabled={!isAgreed} data-aos="fade-down" >
                                                 <div className='reg--form-btn candidate' >
-                                                    {spinStatus &&<svg aria-hidden="true" role="status" class="inline w-4 h-4 mr-3 text-white animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    {spinStatus && <svg aria-hidden="true" role="status" class="inline w-4 h-4 mr-3 text-white animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                         <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="#FFF"></path>
                                                         <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentColor"></path>
                                                     </svg>}

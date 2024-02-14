@@ -13,6 +13,11 @@ import 'sweetalert2/dist/sweetalert2.css';
 
 const Contact = () => {
     const recaptcha = useRef();
+    const [clientToken, setClientToken] = useState("");
+
+    useEffect(() => {
+        setClientToken(JSON.parse(localStorage.getItem("clientToken")))
+    }, [clientToken])
 
     //for show success message for payment
     function showSuccessMessage(message) {
@@ -120,24 +125,27 @@ const Contact = () => {
                                         <h2 data-aos="fade-left">It’s Time to Make Skillety Work for You</h2>
                                     </div>
                                 </div>
-                                <div className="col-12 col-xl-4 col-lg-6 offset-lg-6 offset-xl-0 col-md-12 about--right-cover">
-                                    <div className="about--card-area">
-                                        <div className="card about--card" data-aos="fade-right">
-                                            <div className="card--imgicon-area">
-                                                <h6 className='card--text'>I want to hire an immediate joiner</h6>
-                                                <img src="assets/img/home-images/icon-1.png" className='card--icon' alt="" />
+
+                                {!clientToken &&
+                                    <div className="col-12 col-xl-4 col-lg-6 offset-lg-6 offset-xl-0 col-md-12 about--right-cover">
+                                        <div className="about--card-area">
+                                            <div className="card about--card" data-aos="fade-right">
+                                                <div className="card--imgicon-area">
+                                                    <h6 className='card--text'>I want to hire an immediate joiner</h6>
+                                                    <img src="assets/img/home-images/icon-1.png" className='card--icon' alt="" />
+                                                </div>
+                                                <div className="about--sub-des">
+                                                    <p>
+                                                        I need someone to start working right away, without any delay or waiting period.
+                                                    </p>
+                                                </div>
+                                                <a href='/client-login' className="arrow--icon-btn">
+                                                    <img src="assets/img/home-images/arrow-dark.png" className='arrow--icon' alt="" />
+                                                </a>
                                             </div>
-                                            <div className="about--sub-des">
-                                                <p>
-                                                    Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                                                </p>
-                                            </div>
-                                            <a href='' className="arrow--icon-btn">
-                                                <img src="assets/img/home-images/arrow-dark.png" className='arrow--icon' alt="" />
-                                            </a>
                                         </div>
                                     </div>
-                                </div>
+                                }
                             </div>
                         </div>
 
@@ -252,7 +260,7 @@ const Contact = () => {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className='d-flex align-items-center justify-content-center mb-4' data-aos="zoom-in"> 
+                                        <div className='d-flex align-items-center justify-content-center mb-4' data-aos="zoom-in">
                                             <ReCAPTCHA ref={recaptcha} sitekey={process.env.REACT_APP_SITE_KEY} />
                                         </div>
                                         <div className="con--form-btn-area">

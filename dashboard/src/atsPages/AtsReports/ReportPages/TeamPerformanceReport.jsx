@@ -131,10 +131,14 @@ const TeamPerformanceReport = () => {
                     <section class="section">
                         <div className="my-app-section">
                             <div className="back-button-area">
-                                <button className='back-button' onClick={handleBackButtonClick}>
+                                {/* <button className='back-button' onClick={handleBackButtonClick}>
                                     <i className='bi bi-arrow-left mr-2'></i>
                                     Back
-                                </button>
+                                </button> */}
+                                <a href='/ats-reports' className='back-button'>
+                                    <i className='bi bi-arrow-left mr-2 back-icon'></i>
+                                    Back
+                                </a>
                             </div>
                             <div className="admin-component-name text-left">
                                 Team Performance Report
@@ -239,8 +243,8 @@ const TeamPerformanceReport = () => {
                                                                     return (
                                                                         <tr className='report-table-row with-border'
                                                                             key={index}>
-                                                                            <td className='report-table-data'>{emplyDetail.name}</td>
-                                                                            <td className='report-table-data'>{emplyDetail.role}</td>
+                                                                            <td className='report-table-data text-capitalized'>{emplyDetail.name}</td>
+                                                                            <td className='report-table-data text-capitalized'>{emplyDetail.role}</td>
                                                                             <td className='report-table-data text-center'>
                                                                                 <button className='report-data-view-button' data-toggle="modal" data-target={emplyDetail.createdClients.length > 0 ? "#ViewModal" : ""}
                                                                                     onClick={() => handleRawSelect("CLIENT", emplyDetail.createdClients, emplyDetail.name)}>{emplyDetail.createdClients.length}</button>
@@ -303,21 +307,21 @@ const TeamPerformanceReport = () => {
                                                             <nav aria-label="Page navigation example">
                                                                 <ul className="pagination">
                                                                     <li className="page-item">
-                                                                        {x[0] > 0 && <a className="page-link custom" href="" aria-label="Previous"
+                                                                        {x[0] > 0 && <a className="page-link custom" href="##" aria-label="Previous"
                                                                             onClick={() => setX([x[0] - 3, x[1] - 3])}>
                                                                             <span aria-hidden="true">&laquo;</span>
                                                                             <span className="sr-only">Previous</span>
                                                                         </a>}
                                                                     </li>
                                                                     {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <li className="page-item"
-                                                                        onClick={() => setX([0, 3])}><a className="page-link custom" href="#">1</a></li>}
+                                                                        onClick={() => setX([0, 3])}><a className="page-link custom" href="##">1</a></li>}
                                                                     {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <li className="page-item"
-                                                                        onClick={() => setX([3, 6])}><a className="page-link custom" href="#">2</a></li>}
+                                                                        onClick={() => setX([3, 6])}><a className="page-link custom" href="##">2</a></li>}
                                                                     {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <li className="page-item"
-                                                                        onClick={() => setX([6, 9])}><a className="page-link custom" href="#">3</a></li>}
-                                                                    {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <li className="page-item"><a className="page-link custom" href="#">..</a></li>}
+                                                                        onClick={() => setX([6, 9])}><a className="page-link custom" href="##">3</a></li>}
+                                                                    {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <li className="page-item"><a className="page-link custom" href="##">..</a></li>}
                                                                     <li className="page-item">
-                                                                        {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <a className="page-link custom" href="#" aria-label="Next"
+                                                                        {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <a className="page-link custom" href="##" aria-label="Next"
                                                                             onClick={() => setX([x[0] + 3, x[1] + 3])}>
                                                                             <span aria-hidden="true">&raquo;</span>
                                                                             <span className="sr-only">Next</span>
@@ -342,12 +346,12 @@ const TeamPerformanceReport = () => {
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div> }
-                                            {noData && <div className="report-no-data-found-area">
-                                                <img src="../assets/img/no-data/No-data-found.webp" className='report-no-data-found-img' alt="" />
-                                                <div className='report-no-data-found-text'>No data found.</div>
-                                                <div className='report-no-data-found-sub-text'>Try to create the information first.</div>
-                                            </div>
+                                            </div>}
+                                        {noData && <div className="report-no-data-found-area">
+                                            <img src="../assets/img/no-data/No-data-found.webp" className='report-no-data-found-img' alt="" />
+                                            <div className='report-no-data-found-text'>No data found.</div>
+                                            <div className='report-no-data-found-sub-text'>Try to create the information first.</div>
+                                        </div>
                                         }
 
                                         {loading && <div className="dot-spinner-area">
@@ -401,11 +405,11 @@ const TeamPerformanceReport = () => {
                                                             return (
                                                                 <tr className='report-table-row with-border'
                                                                     key={index}>
-                                                                    <td className='report-table-data'>{emply?.name}</td>
+                                                                    <td className='report-table-data text-capitalized'>{emply?.name}</td>
                                                                     {/* <td className='report-table-data'>Created</td> */}
-                                                                    <td className='report-table-data'>{emply?.createdDate}</td>
-                                                                    <td className='report-table-data'>{selectedEmployeeData?.employeeName}</td>
-                                                                    {selectedEmployeeData?.job && <td className='report-table-data'>{emply?.jobRole}</td>}
+                                                                    <td className='report-table-data no-wrap'>{emply?.createdDate}</td>
+                                                                    <td className='report-table-data text-capitalized'>{selectedEmployeeData?.employeeName}</td>
+                                                                    {selectedEmployeeData?.job && <td className='report-table-data text-capitalized'>{emply?.jobRole}</td>}
                                                                 </tr>
                                                             )
                                                         })
@@ -421,21 +425,21 @@ const TeamPerformanceReport = () => {
                                             <nav aria-label="Page navigation example">
                                                 <ul className="pagination">
                                                     <li className="page-item">
-                                                        {y[0] > 0 && <a className="page-link custom" href="#" aria-label="Previous"
+                                                        {y[0] > 0 && <a className="page-link custom" href="##" aria-label="Previous"
                                                             onClick={() => setY([y[0] - 5, y[1] - 5])}>
                                                             <span aria-hidden="true">&laquo;</span>
                                                             <span className="sr-only">Previous</span>
                                                         </a>}
                                                     </li>
                                                     <li className="page-item"
-                                                        onClick={() => setY([0, 5])}><a className="page-link custom" href="#">1</a></li>
+                                                        onClick={() => setY([0, 5])}><a className="page-link custom" href="##">1</a></li>
                                                     {(selectedEmployeeData?.modelArray.slice(y[0], y[1]).length === 5 && selectedEmployeeData?.modelArray.length > y[1]) && <li className="page-item"
-                                                        onClick={() => setY([5, 10])}><a className="page-link custom" href="#">2</a></li>}
+                                                        onClick={() => setY([5, 10])}><a className="page-link custom" href="##">2</a></li>}
                                                     {(selectedEmployeeData?.modelArray.slice(y[0], y[1]).length === 5 && selectedEmployeeData?.modelArray.length > y[1]) && <li className="page-item"
-                                                        onClick={() => setY([10, 15])}><a className="page-link custom" href="#">3</a></li>}
-                                                    {(selectedEmployeeData?.modelArray.slice(y[0], y[1]).length === 5 && selectedEmployeeData?.modelArray.length > y[1]) && <li className="page-item"><a className="page-link custom" href="#">..</a></li>}
+                                                        onClick={() => setY([10, 15])}><a className="page-link custom" href="##">3</a></li>}
+                                                    {(selectedEmployeeData?.modelArray.slice(y[0], y[1]).length === 5 && selectedEmployeeData?.modelArray.length > y[1]) && <li className="page-item"><a className="page-link custom" href="##">..</a></li>}
                                                     <li className="page-item">
-                                                        {(selectedEmployeeData?.modelArray.slice(y[0], y[1]).length === 5 && selectedEmployeeData?.modelArray.length > y[1]) && <a className="page-link custom" href="#" aria-label="Next"
+                                                        {(selectedEmployeeData?.modelArray.slice(y[0], y[1]).length === 5 && selectedEmployeeData?.modelArray.length > y[1]) && <a className="page-link custom" href="##" aria-label="Next"
                                                             onClick={() => setY([x[0] + 5, y[1] + 5])}>
                                                             <span aria-hidden="true">&raquo;</span>
                                                             <span className="sr-only">Next</span>

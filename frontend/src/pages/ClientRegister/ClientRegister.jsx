@@ -360,8 +360,8 @@ const ClientRegister = () => {
                                             </div>
                                             <div className="col-12 col-lg-12 col-md-12 col-sm-12 custom-padding-left-right mt-4">
                                                 <div className='reg--form-group'>
-                                                    <input type="text" id='message' name="text" value={credentials.text} onChange={handleInputChange} placeholder="Where did you acquire knowledge about Skillety?" className='reg--form-input' />
-                                                    <label htmlFor="message" className='reg--form-label'>From where did you learn about Skillety?&nbsp;<span className='is-required'>*</span></label>
+                                                    <input type="text" id='message' name="text" value={credentials.text} onChange={handleInputChange} placeholder="Enter, How did you know about skillety?" className='reg--form-input' />
+                                                    <label htmlFor="message" className='reg--form-label'>How did you know about skillety?&nbsp;<span className='is-required'>*</span></label>
                                                     <small className='text-danger text-capitalized form-error-message'>{credentials.text === "" && "required"}</small>
                                                 </div>
                                             </div>

@@ -370,26 +370,29 @@ const Home = () => {
                     <img src="assets/img/home-images/bubble-4.png" className='bubble--img7 animated' alt="" data-aos="fade" data-aos-delay="100" />
                   </div>
                 </div>
-                <div className="home--card-area">
-                  <div className="row">
-                    <div className="col-xl-8 col-lg-12 col-md-12 offset-xl-4">
-                      <div className="card home--card" data-aos="fade-right" data-aos-delay="100">
-                        <div className="card--imgicon-area">
-                          <h6 className='card--text'>I want to hire an immediate joiner</h6>
-                          <img src="assets/img/home-images/icon-1.png" className='card--icon' alt="" />
+
+                {!clientToken &&
+                  <div className="home--card-area">
+                    <div className="row">
+                      <div className="col-xl-8 col-lg-12 col-md-12 offset-xl-4">
+                        <div className="card home--card" data-aos="fade-right" data-aos-delay="100">
+                          <div className="card--imgicon-area">
+                            <h6 className='card--text'>I want to hire an immediate joiner</h6>
+                            <img src="assets/img/home-images/icon-1.png" className='card--icon' alt="" />
+                          </div>
+                          <div className="home--sub-des">
+                            <p>
+                              I need someone to start working right away, without any delay or waiting period.
+                            </p>
+                          </div>
+                          <a href='/client-login' className="arrow--icon-btn">
+                            <img src="assets/img/home-images/arrow-dark.png" className='arrow--icon' alt="" />
+                          </a>
                         </div>
-                        <div className="home--sub-des">
-                          <p>
-                            Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                          </p>
-                        </div>
-                        <a href='' className="arrow--icon-btn">
-                          <img src="assets/img/home-images/arrow-dark.png" className='arrow--icon' alt="" />
-                        </a>
                       </div>
                     </div>
                   </div>
-                </div>
+                }
               </div>
             </div>
           </div>
@@ -1525,7 +1528,7 @@ const Home = () => {
                         <p>Direct Call or message on WhatsApp to start work with us </p>
                       </div>
                       <div className="connect--btn-area">
-                        <a href="" className='connect--btn-sub'>
+                        <a href="tel:" className='connect--btn-sub'>
                           <div className='connect--btn'>
                             CALL US
                           </div>
@@ -1603,21 +1606,24 @@ const Home = () => {
             </div>
           </section>
 
-          <section className='register--section'>
-            <a href="/client-register">
-              <div className="register--card">
-                <h2 className='register--text' data-aos="fade-down">Register Now</h2>
-                <div className="register-arrow-area">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="72" height="74" viewBox="0 0 72 74" fill="none">
-                    <path d="M6.34766 9.0872C16.3723 17.5696 42.4363 28.5196 66.4954 4.46045" stroke="#5C3B2E" stroke-width="5" />
-                    <path d="M67.4092 3.56478C57.7158 12.4238 43.5263 36.8757 64.3152 63.8109" stroke="#5C3B2E" stroke-width="5" />
-                    <path d="M2 71.6889L69.0879 2.2876" stroke="#5C3B2E" stroke-width="5" />
-                  </svg>
+          {!clientToken &&
+            <section className='register--section'>
+              <a href="/client-register">
+                <div className="register--card">
+                  <h2 className='register--text' data-aos="fade-down">Register Now</h2>
+                  <div className="register-arrow-area">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="72" height="74" viewBox="0 0 72 74" fill="none">
+                      <path d="M6.34766 9.0872C16.3723 17.5696 42.4363 28.5196 66.4954 4.46045" stroke="#5C3B2E" stroke-width="5" />
+                      <path d="M67.4092 3.56478C57.7158 12.4238 43.5263 36.8757 64.3152 63.8109" stroke="#5C3B2E" stroke-width="5" />
+                      <path d="M2 71.6889L69.0879 2.2876" stroke="#5C3B2E" stroke-width="5" />
+                    </svg>
+                  </div>
+                  <div className='register--blob'></div>
                 </div>
-                <div className='register--blob'></div>
-              </div>
-            </a>
-          </section>
+              </a>
+            </section>
+          }
+
         </div>
       </div >
 
@@ -1631,7 +1637,7 @@ const Home = () => {
       >
         {playerType === 'video' && (
           <ReactPlayer
-          className="player"
+            className="player"
             url="../assets/media/sample-video2.mp4"
             controls
             width="100%"
@@ -1647,7 +1653,7 @@ const Home = () => {
             controls
             width="100%"
             height="50px"
-            muted={true}  
+            muted={true}
           />
         )}
 

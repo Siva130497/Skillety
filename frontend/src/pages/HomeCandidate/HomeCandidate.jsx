@@ -15,7 +15,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const HomeCandidate = () => {
-
+  const [candidateToken, setcandidateToken] = useState("");
   const navigate = useNavigate();
 
   const { eventDetail, getEventDetail, getEventImg, eventImg, blogDetail, getBlogsDetail,
@@ -31,6 +31,9 @@ const HomeCandidate = () => {
 
   const [popularSearches, setPopulartSearches] = useState([]);
 
+  useEffect(() => {
+    setcandidateToken(JSON.parse(localStorage.getItem('candidateToken')))
+  }, [candidateToken])
 
   const getPostedjobs = async () => {
     try {
@@ -397,26 +400,30 @@ const HomeCandidate = () => {
                     <img src="assets/img/home-images/bubble-6.png" className='bubble--img7 animated' alt="" data-aos="fade" data-aos-delay="100" />
                   </div>
                 </div>
-                <div className="home--card-area">
-                  <div className="row">
-                    <div className="col-xl-9 col-xxl-8 col-lg-12 col-md-12 offset-xl-3 offset-xxl-4">
-                      <div className="card home--card candidate" data-aos="fade-right" data-aos-delay="100">
-                        <div className="card--imgicon-area">
-                          <h6 className='card--text candidate'>I am an immediate joiner</h6>
-                          <img src="assets/img/home-images/clipboard-img.png" className='card--icon candidate' alt="" />
+
+                {!candidateToken &&
+                  <div className="home--card-area">
+                    <div className="row">
+                      <div className="col-xl-9 col-xxl-8 col-lg-12 col-md-12 offset-xl-3 offset-xxl-4">
+                        <div className="card home--card candidate" data-aos="fade-right" data-aos-delay="100">
+                          <div className="card--imgicon-area">
+                            <h6 className='card--text candidate'>I am an immediate joiner</h6>
+                            <img src="assets/img/home-images/clipboard-img.png" className='card--icon candidate' alt="" />
+                          </div>
+                          <div className="home--sub-des candidate">
+                            <p>
+                              Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                            </p>
+                          </div>
+                          <a href='' className="arrow--icon-btn candidate">
+                            <img src="assets/img/home-images/arrow-dark.png" className='arrow--icon' alt="" />
+                          </a>
                         </div>
-                        <div className="home--sub-des candidate">
-                          <p>
-                            Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                          </p>
-                        </div>
-                        <a href='' className="arrow--icon-btn candidate">
-                          <img src="assets/img/home-images/arrow-dark.png" className='arrow--icon' alt="" />
-                        </a>
                       </div>
                     </div>
                   </div>
-                </div>
+                }
+
               </div>
             </div>
           </div>
@@ -592,7 +599,7 @@ const HomeCandidate = () => {
               <h4 className='candidate--heading candidate' data-aos="fade-up"><span>Jobs</span> that need <br /> <span>Immediate Joiners</span></h4>
             </div>
             <div className='home--know-more-area'>
-              <a href="/job-detail" className='home--know-more candidate' data-aos="fade-right">
+              <a href="/job-search" className='home--know-more candidate' data-aos="fade-right">
                 <div className='home--know-more-btn candidate'>
                   More Jobs
                 </div>
@@ -1128,25 +1135,27 @@ const HomeCandidate = () => {
         </section>
       }
 
-      <div className='container-fluid home--section candidate'>
-        <div className='container-fluid container-section'>
-          <section className='register--section candidate'>
-            <a href="/candiate-register">
-              <div className="register--card candidate">
-                <h2 className='register--text candidate' data-aos="fade-down">Register Now</h2>
-                <div className="register-arrow-area candidate">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="72" height="74" viewBox="0 0 72 74" fill="none">
-                    <path d="M6.34766 9.0872C16.3723 17.5696 42.4363 28.5196 66.4954 4.46045" stroke="#5C3B2E" stroke-width="5" />
-                    <path d="M67.4092 3.56478C57.7158 12.4238 43.5263 36.8757 64.3152 63.8109" stroke="#5C3B2E" stroke-width="5" />
-                    <path d="M2 71.6889L69.0879 2.2876" stroke="#5C3B2E" stroke-width="5" />
-                  </svg>
+      {!candidateToken &&
+        <div className='container-fluid home--section candidate register'>
+          <div className='container-fluid container-section'>
+            <section className='register--section candidate'>
+              <a href="/candiate-register">
+                <div className="register--card candidate">
+                  <h2 className='register--text candidate' data-aos="fade-down">Register Now</h2>
+                  <div className="register-arrow-area candidate">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="72" height="74" viewBox="0 0 72 74" fill="none">
+                      <path d="M6.34766 9.0872C16.3723 17.5696 42.4363 28.5196 66.4954 4.46045" stroke="#5C3B2E" stroke-width="5" />
+                      <path d="M67.4092 3.56478C57.7158 12.4238 43.5263 36.8757 64.3152 63.8109" stroke="#5C3B2E" stroke-width="5" />
+                      <path d="M2 71.6889L69.0879 2.2876" stroke="#5C3B2E" stroke-width="5" />
+                    </svg>
+                  </div>
+                  <div className='register--blob'></div>
                 </div>
-                <div className='register--blob'></div>
-              </div>
-            </a>
-          </section>
+              </a>
+            </section>
+          </div>
         </div>
-      </div>
+      }
 
       <CandidateFooter />
     </div>

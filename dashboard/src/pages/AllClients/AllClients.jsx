@@ -696,7 +696,7 @@ const AllClients = () => {
                                                                         {selectedColumns?.includes("Send Email") && <td className='dash-table-data1 text-left'>
                                                                             <button className='send-email-btn' onClick={() => handleGeneratePasswordAndTempUrl(client.id)}>
                                                                                 <i class="bi bi-send-fill send-icon"></i>
-                                                                                {commonEmails.includes(client.email) ? "ReSend" : "Send"}
+                                                                                {commonEmails.includes(client.email) ? "Resend" : "Send"}
                                                                             </button>
                                                                         </td>}
                                                                         {selectedColumns?.includes("Mobile Number") &&

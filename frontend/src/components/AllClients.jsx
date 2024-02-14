@@ -118,7 +118,7 @@ const AllClients = ({staffToken}) => {
                                 <th scope="col">Company Name</th>
                                 <th scope="col">Industry</th>
                                 <th scope="col">Headcount</th>
-                                <th scope="col">From where did you learn about Skillety?</th>
+                                <th scope="col">did you learn about Skillety?</th>
                                 <th scope="col">Email Status</th>
                             </tr>
                         </thead>

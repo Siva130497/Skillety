@@ -243,6 +243,7 @@
 
     .connect--section {
         padding-top: 100px;
+        padding-bottom: 100px;
     }
 
     .connect--title h4 {
@@ -318,6 +319,7 @@
     .connect--section {
         padding-left: 20px;
         padding-right: 20px;
+        padding-bottom: 100px;
     }
 
     .home--about-toparea {
@@ -601,7 +603,7 @@
     }
 
     .home--about-section {
-        padding-top: 60px !important;
+        padding-top: 40px !important;
         padding-bottom: 40px !important;
         padding-left: 0;
         padding-right: 0;
@@ -729,7 +731,7 @@
     }
 
     .home--rpo-section {
-        padding-top: 60px;
+        padding-top: 40px;
         padding-left: 0px;
         padding-right: 0px;
     }
@@ -776,9 +778,13 @@
     }
 
     .candidate--section {
-        padding-top: 60px;
+        padding-top: 40px;
         padding-left: 0px;
         padding-right: 0px;
+    }
+
+    .candidate--rate-area{
+        white-space: nowrap;
     }
 
     .home--about-headarea .candidate--heading {
@@ -787,7 +793,7 @@
     }
 
     .candidate--slider-area {
-        margin-top: 60px;
+        margin-top: 40px;
     }
 
     .home--slider-btn-area {
@@ -911,7 +917,7 @@
         padding-top: 0;
         padding-left: 0px;
         padding-right: 0px;
-        padding-bottom: 0;
+        padding-bottom: 40px;
     }
 
     .home--testimonial-section {
@@ -948,15 +954,15 @@
     }
 
     .register--section {
-        padding: 60px 0;
+        padding:0px 0px 60px 0px;
     }
 
     .register--card {
-        height: 150px;
+        height: 130px;
     }
 
     .register--card .register--text {
-        font-size: 40px;
+        font-size: 32px;
     }
 
     .register-arrow-area svg {
@@ -992,7 +998,7 @@
     }
 
     .home--milestone-card-right .home-milestone-number {
-        font-size: 80px;
+        font-size: 70px;
         letter-spacing: normal;
     }
 

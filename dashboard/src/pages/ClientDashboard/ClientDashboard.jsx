@@ -558,7 +558,7 @@ const ClientDashboard = () => {
 
                                                 <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
                                                     <div className="dash-num-count-area">
-                                                        <p className='dash-num-title'>Total Num Of Application Of Posted Jobs</p>
+                                                        <p className='dash-num-title'>No. of Applications Received</p>
                                                         <a href="/manage-job"><h4 className='dash-num-count'>{appliedOfPostedJobs?.length}</h4></a>
                                                     </div>
                                                 </div>
@@ -691,7 +691,7 @@ const ClientDashboard = () => {
                                                                         <td>
                                                                             <img src={imgSrc} className='dash-table-avatar-img' alt="" />
                                                                         </td>
-                                                                        <td className='dash-table-sub client'>
+                                                                        <td className='dash-table-sub client text-capitalized'>
                                                                             {cand.firstName + ' ' + cand.lastName}<br />
                                                                             <span className='dash-table-sub-data'>{cand.date}</span>
                                                                         </td>
@@ -808,7 +808,7 @@ const ClientDashboard = () => {
                                                                             {numApplicants} <br />
                                                                             No of Applications
                                                                         </td>
-                                                                        <td className='dash-table-data1 text-center'>{staff ? staff.name : 'Unknown'}
+                                                                        <td className='dash-table-data1 text-center text-capitalized'>{staff ? staff.name : 'Unknown'}
                                                                         </td>
                                                                         <td className='dash-table-data1 text-center'>
                                                                             {job.minExperience + "-" + job.maxExperience} <br />

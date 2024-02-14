@@ -51,7 +51,7 @@ const CandidateSourceReport = () => {
         }
     }, [filter])
 
-    
+
     const runReport = () => {
         if (period && selectedType) {
             setLoading(true);
@@ -135,10 +135,14 @@ const CandidateSourceReport = () => {
                     <section class="section">
                         <div className="my-app-section">
                             <div className="back-button-area">
-                                <button className='back-button' onClick={handleBackButtonClick}>
+                                {/* <button className='back-button' onClick={handleBackButtonClick}>
                                     <i className='bi bi-arrow-left mr-2 back-icon'></i>
                                     Back
-                                </button>
+                                </button> */}
+                                <a href='/ats-reports' className='back-button'>
+                                    <i className='bi bi-arrow-left mr-2 back-icon'></i>
+                                    Back
+                                </a>
                             </div>
                             <div className="admin-component-name text-left">
                                 Candidate Source Report
@@ -199,11 +203,11 @@ const CandidateSourceReport = () => {
 
                                             <div className="col-12 col-lg-3 col-md-6 mb-4 mb-md-3 mb-lg-0">
                                                 <button className='run-report-button'
-                                                onClick={runReport}
-                                                disabled={filter === ""}>Run Report</button>
+                                                    onClick={runReport}
+                                                    disabled={filter === ""}>Run Report</button>
                                             </div>
                                         </div>
-                                        
+
                                         <div className="report-radio-area">
                                             <div className="report-radio-container">
                                                 <label className="report-radio-button">
@@ -245,10 +249,10 @@ const CandidateSourceReport = () => {
                                             </div>
                                         </div>
                                     </div>
-                                    
-                                    
+
+
                                     <div className="report-view-section">
-                                        {(selectedType === 'summary'&& employeeReportDetail.length>0 ) && (
+                                        {(selectedType === 'summary' && employeeReportDetail.length > 0) && (
                                             <div className="report-view-area">
                                                 <div className="table-responsive">
                                                     <table className='table report-table table-bordered' id='Export_table' ref={tableRef}>
@@ -261,12 +265,12 @@ const CandidateSourceReport = () => {
                                                         </thead>
                                                         <tbody>
                                                             <tr className='report-table-row with-border'>
-                                                                <td className='report-table-data'>Candidate created</td>
+                                                                <td className='report-table-data'>Candidate Created</td>
                                                                 <td className='report-table-data'>{employeeReportDetail[0]?.candidateCreated}</td>
                                                                 {/* <td className='report-table-data'>1</td> */}
                                                             </tr>
                                                             <tr className='report-table-row with-border'>
-                                                                <td className='report-table-data'>Candidate assigned</td>
+                                                                <td className='report-table-data'>Candidate Assigned</td>
                                                                 <td className='report-table-data'>{employeeReportDetail[0]?.candidateAssigned}</td>
                                                                 {/* <td className='report-table-data'>1</td> */}
                                                             </tr>
@@ -281,26 +285,27 @@ const CandidateSourceReport = () => {
                                                     </table>
                                                 </div>
 
-                                                <div className="report-table-pagination-area">
+                                                {employeeReportDetail.length > 0 &&
+                                                    <div className="report-table-pagination-area">
                                                         <div className="buttons">
                                                             <nav aria-label="Page navigation example">
                                                                 <ul className="pagination">
                                                                     <li className="page-item">
-                                                                        {x[0] > 0 && <a className="page-link custom" href="" aria-label="Previous"
+                                                                        {x[0] > 0 && <a className="page-link custom" href="##" aria-label="Previous"
                                                                             onClick={() => setX([x[0] - 3, x[1] - 3])}>
                                                                             <span aria-hidden="true">&laquo;</span>
                                                                             <span className="sr-only">Previous</span>
                                                                         </a>}
                                                                     </li>
                                                                     {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <li className="page-item"
-                                                                        onClick={() => setX([0, 3])}><a className="page-link custom" href="#">1</a></li>}
+                                                                        onClick={() => setX([0, 3])}><a className="page-link custom" href="##">1</a></li>}
                                                                     {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <li className="page-item"
-                                                                        onClick={() => setX([3, 6])}><a className="page-link custom" href="#">2</a></li>}
+                                                                        onClick={() => setX([3, 6])}><a className="page-link custom" href="##">2</a></li>}
                                                                     {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <li className="page-item"
-                                                                        onClick={() => setX([6, 9])}><a className="page-link custom" href="#">3</a></li>}
-                                                                    {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <li className="page-item"><a className="page-link custom" href="#">..</a></li>}
+                                                                        onClick={() => setX([6, 9])}><a className="page-link custom" href="##">3</a></li>}
+                                                                    {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <li className="page-item"><a className="page-link custom" href="##">..</a></li>}
                                                                     <li className="page-item">
-                                                                        {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <a className="page-link custom" href="#" aria-label="Next"
+                                                                        {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <a className="page-link custom" href="##" aria-label="Next"
                                                                             onClick={() => setX([x[0] + 3, x[1] + 3])}>
                                                                             <span aria-hidden="true">&raquo;</span>
                                                                             <span className="sr-only">Next</span>
@@ -310,6 +315,7 @@ const CandidateSourceReport = () => {
                                                             </nav>
                                                         </div>
                                                     </div>
+                                                }
 
                                                 <div className="table-export-area">
                                                     <div className='export-head'>Export</div>
@@ -327,7 +333,7 @@ const CandidateSourceReport = () => {
                                             </div>
                                         )}
 
-                                        {(selectedType === 'userWise'&& employeeReportDetail.length>0 ) && (
+                                        {(selectedType === 'userWise' && employeeReportDetail.length > 0) && (
                                             <div className="report-view-area">
                                                 <div className="table-responsive">
                                                     <table className='table report-table table-bordered' id='Export_table' ref={tableRef}>
@@ -336,28 +342,28 @@ const CandidateSourceReport = () => {
                                                                 <th className='report-table-head no-verical-align'>EMPLOYEE NAME</th>
                                                                 <th className='report-table-head no-verical-align text-center'>CREATED CANDIDATES</th>
                                                                 <th className='report-table-head no-verical-align text-center'>CREATED CANDIDATES</th>
-                                                                
+
                                                                 <th className='report-table-head no-verical-align text-center'>TOTAL</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            {employeeReportDetail.slice(x[0], x[1]).map((datas, index)=>{
+                                                            {employeeReportDetail.slice(x[0], x[1]).map((datas, index) => {
                                                                 return (
                                                                     <tr className='report-table-row with-border'
-                                                                    key={index}>
+                                                                        key={index}>
                                                                         <td className='report-table-data'>
-                                                                            <button className='report-data-view-button' data-toggle="modal" 
-                                                                            data-target={(datas?.createdCands+datas?.assignedCands) > 0 ? "#ViewModal" : ""}
-                                                                            onClick={()=>handleViewModel(datas?.dateWiseResult, datas?.name)}>{datas?.name}</button>
+                                                                            <button className='report-data-view-button text-capitalized' data-toggle="modal"
+                                                                                data-target={(datas?.createdCands + datas?.assignedCands) > 0 ? "#ViewModal" : ""}
+                                                                                onClick={() => handleViewModel(datas?.dateWiseResult, datas?.name)}>{datas?.name}</button>
                                                                         </td>
                                                                         <td className='report-table-data text-center'>{datas?.createdCands}</td>
                                                                         <td className='report-table-data text-center'>{datas?.assignedCands}</td>
-                                                                        
-                                                                        <td className='report-table-data text-center is-bold'>{datas?.createdCands+datas?.assignedCands}</td>
+
+                                                                        <td className='report-table-data text-center is-bold'>{datas?.createdCands + datas?.assignedCands}</td>
                                                                     </tr>
                                                                 )
                                                             })}
-                                                            
+
                                                         </tbody>
                                                         <tfoot>
                                                             <tr className='report-table-row with-border table-foot'>
@@ -376,26 +382,27 @@ const CandidateSourceReport = () => {
                                                     </table>
                                                 </div>
 
-                                                <div className="report-table-pagination-area">
+                                                {employeeReportDetail.length > 0 &&
+                                                    <div className="report-table-pagination-area">
                                                         <div className="buttons">
                                                             <nav aria-label="Page navigation example">
                                                                 <ul className="pagination">
                                                                     <li className="page-item">
-                                                                        {x[0] > 0 && <a className="page-link custom" href="" aria-label="Previous"
+                                                                        {x[0] > 0 && <a className="page-link custom" href="##" aria-label="Previous"
                                                                             onClick={() => setX([x[0] - 3, x[1] - 3])}>
                                                                             <span aria-hidden="true">&laquo;</span>
                                                                             <span className="sr-only">Previous</span>
                                                                         </a>}
                                                                     </li>
                                                                     {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <li className="page-item"
-                                                                        onClick={() => setX([0, 3])}><a className="page-link custom" href="#">1</a></li>}
+                                                                        onClick={() => setX([0, 3])}><a className="page-link custom" href="##">1</a></li>}
                                                                     {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <li className="page-item"
-                                                                        onClick={() => setX([3, 6])}><a className="page-link custom" href="#">2</a></li>}
+                                                                        onClick={() => setX([3, 6])}><a className="page-link custom" href="##">2</a></li>}
                                                                     {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <li className="page-item"
-                                                                        onClick={() => setX([6, 9])}><a className="page-link custom" href="#">3</a></li>}
-                                                                    {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <li className="page-item"><a className="page-link custom" href="#">..</a></li>}
+                                                                        onClick={() => setX([6, 9])}><a className="page-link custom" href="##">3</a></li>}
+                                                                    {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <li className="page-item"><a className="page-link custom" href="##">..</a></li>}
                                                                     <li className="page-item">
-                                                                        {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <a className="page-link custom" href="#" aria-label="Next"
+                                                                        {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <a className="page-link custom" href="##" aria-label="Next"
                                                                             onClick={() => setX([x[0] + 3, x[1] + 3])}>
                                                                             <span aria-hidden="true">&raquo;</span>
                                                                             <span className="sr-only">Next</span>
@@ -405,6 +412,7 @@ const CandidateSourceReport = () => {
                                                             </nav>
                                                         </div>
                                                     </div>
+                                                }
 
                                                 <div className="table-export-area">
                                                     <div className='export-head'>Export</div>
@@ -422,7 +430,7 @@ const CandidateSourceReport = () => {
                                             </div>
                                         )}
 
-                                        {(selectedType === 'dateWise'&& employeeReportDetail.length>0 ) && (
+                                        {(selectedType === 'dateWise' && employeeReportDetail.length > 0) && (
                                             <div className="report-view-area">
                                                 <div className="table-responsive">
                                                     <table className='table report-table table-bordered' id='Export_table' ref={tableRef}>
@@ -431,31 +439,31 @@ const CandidateSourceReport = () => {
                                                                 <th className='report-table-head no-verical-align'>CREATED DATE</th>
                                                                 <th className='report-table-head no-verical-align text-center'>CREATED CANDIDATES</th>
                                                                 <th className='report-table-head no-verical-align text-center'>ASSIGNED CANDIDATES</th>
-                                                                
+
                                                                 <th className='report-table-head no-verical-align text-center'>TOTAL</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            {employeeReportDetail.slice(x[0], x[1]).map((date, index)=>{
+                                                            {employeeReportDetail.slice(x[0], x[1]).map((date, index) => {
                                                                 return (
                                                                     <tr className='report-table-row with-border'
-                                                                    key={index}>
-                                                                        <td className='report-table-data text-center no-wrap'>{date?.date}</td>
+                                                                        key={index}>
+                                                                        <td className='report-table-data no-wrap'>{date?.date}</td>
                                                                         <td className='report-table-data text-center'>{date?.createdCands}</td>
                                                                         <td className='report-table-data text-center'>{date?.assignedCands}</td>
-                                                                        
-                                                                        <td className='report-table-data text-center is-bold'>{date?.createdCands+date?.assignedCands}</td>
+
+                                                                        <td className='report-table-data text-center is-bold'>{date?.createdCands + date?.assignedCands}</td>
                                                                     </tr>
                                                                 )
                                                             })}
-                                                            
+
                                                         </tbody>
                                                         <tfoot>
                                                             <tr className='report-table-row with-border table-foot'>
                                                                 <td className='report-table-data'>Total</td>
                                                                 <td className='report-table-data' align='center'>{employeeReportDetail.reduce((total, date) => total + (date?.createdCands || 0), 0)}</td>
                                                                 <td className='report-table-data' align='center'>{employeeReportDetail.reduce((total, date) => total + (date?.assignedCands || 0), 0)}</td>
-                                                                
+
                                                                 <td className='report-table-data' align='center'>{employeeReportDetail.reduce((total, date) => total + ((date?.createdCands || 0) + (date?.assignedCands || 0)), 0)}</td>
                                                             </tr>
                                                         </tfoot>
@@ -463,34 +471,34 @@ const CandidateSourceReport = () => {
                                                 </div>
 
                                                 <div className="report-table-pagination-area">
-                                                        <div className="buttons">
-                                                            <nav aria-label="Page navigation example">
-                                                                <ul className="pagination">
-                                                                    <li className="page-item">
-                                                                        {x[0] > 0 && <a className="page-link custom" href="" aria-label="Previous"
-                                                                            onClick={() => setX([x[0] - 3, x[1] - 3])}>
-                                                                            <span aria-hidden="true">&laquo;</span>
-                                                                            <span className="sr-only">Previous</span>
-                                                                        </a>}
-                                                                    </li>
-                                                                    {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <li className="page-item"
-                                                                        onClick={() => setX([0, 3])}><a className="page-link custom" href="#">1</a></li>}
-                                                                    {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <li className="page-item"
-                                                                        onClick={() => setX([3, 6])}><a className="page-link custom" href="#">2</a></li>}
-                                                                    {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <li className="page-item"
-                                                                        onClick={() => setX([6, 9])}><a className="page-link custom" href="#">3</a></li>}
-                                                                    {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <li className="page-item"><a className="page-link custom" href="#">..</a></li>}
-                                                                    <li className="page-item">
-                                                                        {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <a className="page-link custom" href="#" aria-label="Next"
-                                                                            onClick={() => setX([x[0] + 3, x[1] + 3])}>
-                                                                            <span aria-hidden="true">&raquo;</span>
-                                                                            <span className="sr-only">Next</span>
-                                                                        </a>}
-                                                                    </li>
-                                                                </ul>
-                                                            </nav>
-                                                        </div>
+                                                    <div className="buttons">
+                                                        <nav aria-label="Page navigation example">
+                                                            <ul className="pagination">
+                                                                <li className="page-item">
+                                                                    {x[0] > 0 && <a className="page-link custom" href="##" aria-label="Previous"
+                                                                        onClick={() => setX([x[0] - 3, x[1] - 3])}>
+                                                                        <span aria-hidden="true">&laquo;</span>
+                                                                        <span className="sr-only">Previous</span>
+                                                                    </a>}
+                                                                </li>
+                                                                {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <li className="page-item"
+                                                                    onClick={() => setX([0, 3])}><a className="page-link custom" href="##">1</a></li>}
+                                                                {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <li className="page-item"
+                                                                    onClick={() => setX([3, 6])}><a className="page-link custom" href="##">2</a></li>}
+                                                                {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <li className="page-item"
+                                                                    onClick={() => setX([6, 9])}><a className="page-link custom" href="##">3</a></li>}
+                                                                {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <li className="page-item"><a className="page-link custom" href="##">..</a></li>}
+                                                                <li className="page-item">
+                                                                    {(employeeReportDetail.slice(x[0], x[1]).length === 3 && employeeReportDetail.length > x[1]) && <a className="page-link custom" href="##" aria-label="Next"
+                                                                        onClick={() => setX([x[0] + 3, x[1] + 3])}>
+                                                                        <span aria-hidden="true">&raquo;</span>
+                                                                        <span className="sr-only">Next</span>
+                                                                    </a>}
+                                                                </li>
+                                                            </ul>
+                                                        </nav>
                                                     </div>
+                                                </div>
 
                                                 <div className="table-export-area">
                                                     <div className='export-head'>Export</div>
@@ -508,26 +516,26 @@ const CandidateSourceReport = () => {
                                             </div>
                                         )}
                                     </div>
-                                    
+
                                     {noData &&
-                                    <div className="report-no-data-found-area">
-                                        <img src="../assets/img/no-data/No-data-found.webp" className='report-no-data-found-img' alt="" />
-                                        <div className='report-no-data-found-text'>No data found.</div>
-                                        <div className='report-no-data-found-sub-text'>Try to create the information first.</div>
-                                    </div>}
+                                        <div className="report-no-data-found-area">
+                                            <img src="../assets/img/no-data/No-data-found.webp" className='report-no-data-found-img' alt="" />
+                                            <div className='report-no-data-found-text'>No data found.</div>
+                                            <div className='report-no-data-found-sub-text'>Try to create the information first.</div>
+                                        </div>}
 
                                     {loading && <div className="dot-spinner-area">
-                                            <div className="dot-spinner">
-                                                <div className="dot-spinner__dot"></div>
-                                                <div className="dot-spinner__dot"></div>
-                                                <div className="dot-spinner__dot"></div>
-                                                <div className="dot-spinner__dot"></div>
-                                                <div className="dot-spinner__dot"></div>
-                                                <div className="dot-spinner__dot"></div>
-                                                <div className="dot-spinner__dot"></div>
-                                                <div className="dot-spinner__dot"></div>
-                                            </div>
-                                        </div>}
+                                        <div className="dot-spinner">
+                                            <div className="dot-spinner__dot"></div>
+                                            <div className="dot-spinner__dot"></div>
+                                            <div className="dot-spinner__dot"></div>
+                                            <div className="dot-spinner__dot"></div>
+                                            <div className="dot-spinner__dot"></div>
+                                            <div className="dot-spinner__dot"></div>
+                                            <div className="dot-spinner__dot"></div>
+                                            <div className="dot-spinner__dot"></div>
+                                        </div>
+                                    </div>}
                                 </div>
                             </div>
                         </div>
@@ -557,31 +565,31 @@ const CandidateSourceReport = () => {
                                                     <th className='report-table-head no-verical-align'>CREATED DATE</th>
                                                     <th className='report-table-head no-verical-align text-center'>CREATED CANDIDATES</th>
                                                     <th className='report-table-head no-verical-align text-center'>ASSIGNED CANDIDATES</th>
-                                                    
+
                                                     <th className='report-table-head no-verical-align text-center'>TOTAL</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {dateWiseResults.slice(y[0], y[1]).map((date, index)=>{
+                                                {dateWiseResults.slice(y[0], y[1]).map((date, index) => {
                                                     return (
                                                         <tr className='report-table-row with-border'
-                                                        key={index}>
+                                                            key={index}>
                                                             <td className='report-table-data no-wrap'>{date?.date}</td>
                                                             <td className='report-table-data text-center'>{date?.createdCands}</td>
                                                             <td className='report-table-data text-center'>{date?.assignedCands}</td>
-                                                            
-                                                            <td className='report-table-data text-center is-bold'>{date?.createdCands+date?.assignedCands}</td>
+
+                                                            <td className='report-table-data text-center is-bold'>{date?.createdCands + date?.assignedCands}</td>
                                                         </tr>
                                                     )
                                                 })}
-                                                
+
                                             </tbody>
                                             <tfoot>
                                                 <tr className='report-table-row with-border table-foot'>
                                                     <td className='report-table-data'>Total</td>
                                                     <td className='report-table-data' align='center'>{dateWiseResults.reduce((total, date) => total + (date?.createdCands || 0), 0)}</td>
                                                     <td className='report-table-data' align='center'>{dateWiseResults.reduce((total, date) => total + (date?.assignedCands || 0), 0)}</td>
-                                                    
+
                                                     <td className='report-table-data' align='center'>{dateWiseResults.reduce((total, date) => total + ((date?.createdCands || 0) + (date?.assignedCands || 0)), 0)}</td>
                                                 </tr>
                                             </tfoot>
@@ -597,7 +605,7 @@ const CandidateSourceReport = () => {
                                                             <span aria-hidden="true">&laquo;</span>
                                                             <span className="sr-only">Previous</span>
                                                         </a>}
-                                                    </li> 
+                                                    </li>
                                                     <li className="page-item"
                                                         onClick={() => setY([0, 5])}><a className="page-link custom" href="#">1</a></li>
                                                     {(dateWiseResults.slice(y[0], y[1]).length === 5 && dateWiseResults.length > y[1]) && <li className="page-item"
