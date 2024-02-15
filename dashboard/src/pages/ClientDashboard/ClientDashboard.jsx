@@ -57,11 +57,31 @@ const ClientDashboard = () => {
     const [audioContext, setAudioContext] = useState(null);
     const [audioBuffer, setAudioBuffer] = useState(null);
 
-    const [filter, setFilter] = useState('Weekly');
+    const [filter, setFilter] = useState('weekly');
+    const [chartData, setChartData] = useState();
 
     const handleFilterChange = (event) => {
         setFilter(event.target.value);
     };
+
+    useEffect(()=>{
+        if(loginClientDetail?.companyId){
+            axios.get(`https://skillety-n6r1.onrender.com/company-dashboard-chart/${loginClientDetail?.companyId}?period=${filter}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    Accept: 'application/json'
+                }
+            })
+            .then((res)=>{
+                console.log(res.data);
+                setChartData(res.data);
+            })
+            .catch(err=>{
+                console.log(err)
+                setChartData();
+            });
+        }
+    },[filter, loginClientDetail])
 
     ChartJS.register(
         CategoryScale,
@@ -76,12 +96,12 @@ const ClientDashboard = () => {
 
     const getLabels = () => {
         switch (filter) {
-            case 'Weekly':
-                return ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-            case 'Monthly':
-                return ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-            case 'Yearly':
-                return ['2020', '2021', '2022', '2023', '2024', '2025', '2026', '2027', '2028', '2029', '2030'];
+            case 'weekly':
+                return chartData?.categories;
+            case 'monthly':
+                return chartData?.categories;
+            case 'yearly':
+                return chartData?.categories;
             default:
                 return [];
         }
@@ -89,21 +109,25 @@ const ClientDashboard = () => {
 
     const getData = () => {
         switch (filter) {
-            case 'Weekly':
-                return [
-                    [12.5, 12.5, 2.5, 5, 0, 2.5, 2.5, 10],
-                    [7.5, 8, 5, 7.5, 12.5, 5, 6, 7.5],
-                ];
-            case 'Monthly':
-                return [
-                    [20, 25, 30, 22, 18, 25, 28, 30, 20, 15, 10, 18],
-                    [15, 18, 20, 22, 30, 25, 28, 30, 22, 18, 15, 20],
-                ];
-            case 'Yearly':
-                return [
-                    [100, 120, 80, 90, 110, 130, 140, 160, 180, 200, 180, 150],
-                    [80, 100, 70, 90, 120, 150, 160, 180, 200, 220, 200, 170],
-                ];
+            case 'weekly':
+                // return [
+                //     [12.5, 12.5, 2.5, 5, 0, 2.5, 2.5, 10],
+                //     [7.5, 8, 5, 7.5, 12.5, 5, 6, 7.5],
+                // ];
+                return chartData?.series.map(dataSeries=>dataSeries?.data)
+            case 'monthly':
+                // return [
+                //     [20, 25, 30, 22, 18, 25, 28, 30, 20, 15, 10, 18],
+                //     [15, 18, 20, 22, 30, 25, 28, 30, 22, 18, 15, 20],
+                // ];
+                return chartData?.series.map(dataSeries=>dataSeries?.data)
+                    // return [chartData?.series[0].data, chartData?.series[1].data]
+            case 'yearly':
+                // return [
+                //     [100, 120, 80, 90, 110, 130, 140, 160, 180, 200, 180, 150],
+                //     [80, 100, 70, 90, 120, 150, 160, 180, 200, 220, 200, 170],
+                // ];
+                return chartData?.series.map(dataSeries=>dataSeries?.data)
             default:
                 return [];
         }
@@ -114,22 +138,22 @@ const ClientDashboard = () => {
         datasets: [
             {
                 fill: true,
-                label: 'Candidate Applied',
-                data: getData()[0],
+                label:  chartData? (chartData?.series[0]?.name) : "no data",
+                data: chartData && getData()[0],
                 borderColor: '#F9C833',
                 backgroundColor: '#714F36',
             },
             {
                 fill: true,
-                label: 'Candidate Screened',
-                data: getData()[1],
+                label: chartData? (chartData?.series[1]?.name) : "no data",
+                data: chartData && getData()[1],
                 borderColor: '#714F36',
                 backgroundColor: '#C2B9B0',
             },
         ],
     };
 
-    const yAxesTicks = [0, 5, 10, 20];
+    const yAxesTicks = [];
 
     const options = {
         responsive: true,
@@ -138,7 +162,7 @@ const ClientDashboard = () => {
                 suggestedMin: yAxesTicks[0],
                 suggestedMax: yAxesTicks[yAxesTicks.length - 1],
                 ticks: {
-                    stepSize: 5,
+                    stepSize: 1,
                 },
             },
         },
@@ -632,15 +656,15 @@ const ClientDashboard = () => {
                                                             <select className='dash-chart-filter-input'
                                                                 value={filter}
                                                                 onChange={handleFilterChange}>
-                                                                <option value="Weekly" selected>Weekly</option>
-                                                                <option value="Monthly">Monthly</option>
-                                                                <option value="Yearly">Yearly</option>
+                                                                <option value="weekly" selected>Weekly</option>
+                                                                <option value="monthly">Monthly</option>
+                                                                <option value="yearly">Yearly</option>
                                                             </select>
                                                         </div>
                                                     </form>
-                                                </div>
+                                                </div> 
                                             </div>
-                                            <Line options={options} data={data} />
+                                            {chartData ? <Line options={options} data={data} /> : <p>No Data</p>}
                                         </div>
                                     </div>
 
