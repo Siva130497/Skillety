@@ -120,7 +120,7 @@ export const AuthContextProvider = ({children}) => {
                       });
                   });
               } else {
-                   navigate("/candidate-login");
+                //    navigate("/candidate-login");
               }
           });
           
