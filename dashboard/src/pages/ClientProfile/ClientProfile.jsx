@@ -105,6 +105,28 @@ const ClientProfile = () => {
         }
 
     }, [clientImg]);
+    console.log(clientImgUrl)
+    useEffect(() => {
+        const fetchImageAsBase64 = async () => {
+          try {
+            const response = await axios.get(
+              clientImgUrl,
+              {
+                responseType: 'arraybuffer' // Important for handling binary data
+              }
+            );
+            // console.log(response.data)
+            const base64String = btoa(
+                new Uint8Array(response.data).reduce((data, byte) => data + String.fromCharCode(byte), '')
+              );
+             console.log(base64String) 
+          } catch (error) {
+            console.error('Error fetching image:', error);
+          }
+        };
+    
+        fetchImageAsBase64();
+      }, [clientImgUrl]);
 
     const handleCompanyNameUpdate = () => {
         const companyData = {
