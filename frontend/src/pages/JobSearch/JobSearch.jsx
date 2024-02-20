@@ -688,8 +688,6 @@ const JobSearch = () => {
                             </div>
 
                             {!searchResult ? <div className='talent--profile-search-page-section'>
-
-
                                 <p className='job-search-head'>Search For Jobs</p>
 
                                 <div className="row row-border-custom job">
@@ -1117,8 +1115,8 @@ const JobSearch = () => {
 
                                     <p className='job-search-head'>Job Search</p>
                                     <div className="row row-border-custom">
-                                        <div className="col-12 col-lg-4 col-xl-4 col-md-4 custom-right-border-col ps-lg-0 ps-md-1 col-width-lg-30">
-                                            <div className="cli-tal-pro-search-filter-area">
+                                        <div className="col-12 col-lg-4 col-xl-4 col-md-4 custom-right-border-col ps-lg-0 ps-md-1 col-width-lg-30 sticky--sidebar-area">
+                                            <div className="cli-tal-pro-search-filter-area sticky--sidebar">
                                                 <div className="cli-tal-pro-search-filter-head-area search-results">
                                                     <h6 className='cli-tal-pro-search-filter mb-0'>Filters</h6>
                                                     <img src="assets/img/talent-profile/filter.png" className='cli-tal-pro-filter-img' alt="" />

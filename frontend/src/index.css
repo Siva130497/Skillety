@@ -1749,6 +1749,7 @@ section {
   transition: ease-in-out 0.5s;
 }
 
+
 .back-to-top.candidate i {
   color: #714F36;
 }
@@ -1777,6 +1778,113 @@ section {
   bottom: 20px;
 }
 
+.go-back-button {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 7px;
+  z-index: 996;
+  background-color: #714F36 !important;
+  width: 45px;
+  height: 45px;
+  border-radius: 100px;
+  flex-shrink: 0;
+  transition: ease-in-out 0.5s;
+  filter: drop-shadow(0px 0px 10px #ffffff38);
+  outline: none !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none !important;
+  color: #FFF !important;
+  font-size: 15px !important;
+  font-weight: 500;
+  box-shadow: inset 0px 0px 15px #5C3B2E;
+}
+
+.go-back-button span {
+  opacity: 0 !important;
+  max-width: 0;
+  padding-left: 0;
+  transition: opacity ease-in-out 0.5s, max-width ease-in-out 0.5s, padding-left ease-in-out 0.5s;
+}
+
+.go-back-button:focus {
+  outline: none !important;
+}
+
+.go-back-button:hover {
+  background: #F9C833 !important;
+  color: #714F36 !important;
+  width: 100px;
+  box-shadow: inset 0px 0px 15px #cfa014;
+}
+
+.go-back-button:hover span {
+  opacity: 1 !important;
+  max-width: 100px;
+  padding-left: 5px;
+}
+
+.go-back-button i {
+  font-size: 22px;
+  color: #ffffff;
+  line-height: 0;
+  transition: ease-in-out 0.5s;
+}
+
+.go-back-button:hover .go-back-icon {
+  color: #714F36;
+}
+
+.go-back-button-style-2 {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 0px;
+  z-index: 996;
+  background-color: #714F36 !important;
+  width: 40px;
+  height: auto;
+  padding: 18px 0 25px 0;
+  border-radius: 0 20px 20px 0;
+  flex-shrink: 0;
+  transition: ease-in-out 0.5s;
+  filter: drop-shadow(0px 0px 10px #ffffff38);
+  outline: none !important;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  gap: 15px;
+  border: none !important;
+  color: #FFF !important;
+  font-size: 15px !important;
+  font-weight: 500;
+  box-shadow: inset 0px 0px 15px #5C3B2E;
+}
+
+.go-back-button-style-2 i {
+  font-size: 16px;
+  color: #ffffff;
+  line-height: 0;
+  transition: ease-in-out 0.5s;
+}
+
+.go-back-button-style-2 span{
+  transform: rotate(90deg);
+  font-size: 16px !important;
+}
+
+.go-back-button-style-2:hover {
+  background: #F9C833 !important;
+  color: #714F36 !important;
+  box-shadow: inset 0px 0px 15px #cfa014;
+}
+.go-back-button-style-2:hover i{
+  color: #714F36 !important;
+  transform: translateX(-2px);
+}
 /*--------------------------------------------------------------
 # Header
 --------------------------------------------------------------*/

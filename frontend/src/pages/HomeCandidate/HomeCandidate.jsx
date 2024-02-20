@@ -346,9 +346,9 @@ const HomeCandidate = () => {
                       id='searchSkillInput'
                       onChange={handleSearch}
                     />
-                    <div className="short-cut" data-aos="zoom-in">
+                    {/* <div className="short-cut" data-aos="zoom-in">
                       <span className="short-cut-key">Alt + S</span>
-                    </div>
+                    </div> */}
                     <i class="bi bi-search home--search-icon" data-aos="zoom-in" data-aos-delay="200"></i>
                   </div>
 
@@ -670,10 +670,10 @@ const HomeCandidate = () => {
                       <p className='cand--job-card-desc'>
                         {job.jobDescription}
                       </p>
-                      <span className='slide-down-view'>
+                      {/* <span className='slide-down-view'>
                         <i class="bi bi-chevron-double-down me-2"></i>
                         Scroll to view more...
-                      </span>
+                      </span> */}
                     </div>
                     <a href={`/job-detail/${job.id}`} className="cand--job-card-bottom-area">
                       <span className='cand--job-know-more'>KNOW MORE</span>

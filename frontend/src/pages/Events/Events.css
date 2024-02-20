@@ -4,10 +4,10 @@
 
 .cand--event-para-section .cand--event-para {
     color: #714F36;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 400;
     line-height: normal;
-    margin-bottom: 36px;
+    margin-bottom: 30px;
 }
 
 .cand--event-login-card {
@@ -84,7 +84,7 @@
 
 .cand--events-card-title-area .cand--events-card-title {
     color: #5C3B2E;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 600;
     line-height: normal;
     white-space: nowrap;
@@ -92,13 +92,13 @@
     text-overflow: ellipsis;
 }
 
-.cand--events-card:hover .cand--events-card-title-area .cand--events-card-title {
+/* .cand--events-card:hover .cand--events-card-title-area .cand--events-card-title {
     white-space: initial;
-}
+} */
 
 .cand--events-card .cand--events-card-date {
     color: #5C3B2E;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 400;
 }
 
@@ -121,7 +121,7 @@
 
 .cand--events-card .cand--events-card-bottom-area .cand--event-sys {
     color: #5C3B2E;
-    font-size: 24px;
+    font-size: 22px;
     font-weight: 600;
     margin-bottom: 0;
     transition: ease-in-out 0.8s;
