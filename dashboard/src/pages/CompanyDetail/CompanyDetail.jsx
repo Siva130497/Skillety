@@ -111,7 +111,7 @@ const CompanyDetail = () => {
                                                     </div>
                                                 </div>
 
-                                                <div className="card comp-det-card prof-det">
+                                                <div className="card comp-det-card prof-det mt-4 mt-sm-0 mt-md-0 mt-lg-4">
                                                     <div className="row">
                                                         <div className="col-12">
                                                             <div className="com-main-detail-area mb-3" onClick={() => window.location.href = `mailto:${companyDetail?.email}`}>
@@ -134,13 +134,13 @@ const CompanyDetail = () => {
                                             </div>
                                         </div>
                                         <div className="col-12 col-lg-8">
-                                            <div className="card comp-det-card p-4">
+                                            <div className="card comp-det-card p-4 mt-4 mt-lg-0">
                                                 <div className="row">
                                                     <div className="col-12 col-lg-4 col-xl-4 col-md-4 col-sm-5">
                                                         <div className="com-det-title">Headcount</div>
                                                     </div>
                                                     <div className="col-12 col-lg-8 col-xl-8 col-md-8 col-sm-7">
-                                                        <div className="com-det-content">{companyDetail?.count}</div>
+                                                        <div className="com-det-content">{companyDetail?.count ? companyDetail?.count : <span className='text-secondary'>None</span> }</div>
                                                     </div>
                                                 </div>
                                                 <hr />
@@ -150,7 +150,7 @@ const CompanyDetail = () => {
                                                     </div>
                                                     <div className="col-12 col-lg-8 col-xl-8 col-md-8 col-sm-7">
                                                         <div className="com-det-content">
-                                                            {companyDetail?.vision}
+                                                            {companyDetail?.vision ? companyDetail?.vision : <span className='text-secondary'>None</span>}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -161,7 +161,7 @@ const CompanyDetail = () => {
                                                     </div>
                                                     <div className="col-12 col-lg-8 col-xl-8 col-md-8 col-sm-7">
                                                         <div className="com-det-content">
-                                                            {companyDetail?.mission}
+                                                            {companyDetail?.mission ? companyDetail?.mission : <span className='text-secondary'>None</span>}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -171,12 +171,17 @@ const CompanyDetail = () => {
                                                         <div className="com-det-title">Description</div>
                                                     </div>
                                                     <div className="col-12 col-lg-8 col-xl-8 col-md-8 col-sm-7">
+                                                        {companyDetail?.shortDescription || companyDetail?.longDescription ?
+                                                        <>
                                                         <div className="com-det-content">
                                                             {companyDetail?.shortDescription}
                                                         </div>
                                                         <div className="com-det-content mt-3">
                                                             {companyDetail?.longDescription}
                                                         </div>
+                                                        </> :
+                                                        <div className='com-det-content text-secondary'>None</div>
+                                                        }
                                                     </div>
                                                 </div>
                                                 <hr />
@@ -186,18 +191,16 @@ const CompanyDetail = () => {
                                                     </div>
                                                     <div className="col-12 col-lg-8 col-xl-8 col-md-8 col-sm-7">
                                                         <div className="com-det-content">
+                                                            {selectedBenefits?.length > 0 ? 
                                                             <ul>
                                                                 {selectedBenefits.map(benefit => {
                                                                     return (
                                                                         <li>{benefit}</li>
                                                                     )
                                                                 })}
-
-                                                                {/* <li>Sick Leave</li>
-                                                        <li>Job Training</li>
-                                                        <li>Work From Home</li>
-                                                        <li>Maternity/Parental Leave</li> */}
-                                                            </ul>
+                                                            </ul> :
+                                                            <span className='text-secondary'>None</span>
+                                                            }
                                                         </div>
                                                     </div>
                                                 </div>

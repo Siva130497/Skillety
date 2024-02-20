@@ -70,6 +70,8 @@
     font-size: 16px;
     font-weight: 400;
     text-transform: capitalize;
+    max-height: 75px;
+    overflow: hidden;
 }
 
 .company--content-apply-btn {
@@ -182,7 +184,7 @@
 
 .company-demo-card-bottom-area .company-demo-card-title {
     color: #FFF;
-    font-size: 64px;
+    font-size: 60px;
     font-weight: 400;
     text-transform: uppercase;
     margin-bottom: 0;

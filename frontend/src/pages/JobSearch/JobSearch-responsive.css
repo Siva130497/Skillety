@@ -2,9 +2,22 @@
     .job-search-content-lg p {
         font-size: 25px;
     }
-    
 }
+@media (min-width:1399.98px) {
+    .sticky--sidebar{
+        top: 100px !important;
+    }
+}
+@media (min-width:768px) {
+    .sticky--sidebar-area{
+        position: relative !important;
+    }
 
+    .sticky--sidebar{
+        position: sticky !important;
+        top: 90px;
+    }
+}
 @media (max-width:991.5px) {
     .job--detail-card-top-area.job {
         flex-direction: column-reverse;

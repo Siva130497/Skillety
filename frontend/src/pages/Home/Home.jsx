@@ -315,9 +315,9 @@ const Home = () => {
                       value={searchInput}
                       id='searchSkillInput'
                       onChange={handleSearch} />
-                    <div className="short-cut" data-aos="zoom-in">
+                    {/* <div className="short-cut" data-aos="zoom-in">
                       <span className="short-cut-key">Alt + S</span>
-                    </div>
+                    </div> */}
                     <i className="bi bi-search home--search-icon" data-aos="zoom-in" data-aos-delay="200"></i>
                   </div>
 
@@ -984,10 +984,10 @@ const Home = () => {
                     </div>
                     <div className="candidate--desc-area">
                       <p>{candidate.profileHeadline}</p>
-                      <span className='slide-down-view'>
+                      {/* <span className='slide-down-view'>
                         <i class="bi bi-chevron-double-down me-2"></i>
                         Scroll to view more...
-                      </span>
+                      </span> */}
                     </div>
 
                     {/* <div className="candidate--skills-area">

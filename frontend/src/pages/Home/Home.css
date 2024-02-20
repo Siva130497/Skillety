@@ -1175,7 +1175,7 @@
 .candidate--card {
     border-radius: 20px;
     background-color: #714F36;
-    padding: 30px 23px 40px 23px;
+    padding: 30px 23px 30px 23px;
     position: relative;
     z-index: 1;
     transition: ease-in-out 0.8s;
@@ -1382,7 +1382,7 @@
 .candidate--desc-area {
     margin-top: 26px;
     height: 130px;
-    overflow-y: scroll;
+    overflow: hidden;
     /* padding-right: 10px; */
     position: relative;
     /* padding-bottom: 20px; */

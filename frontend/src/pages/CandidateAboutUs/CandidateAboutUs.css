@@ -1,18 +1,18 @@
 .cand--ab-para-section2 {
-    margin-top: 70px;
+    margin-top: 50px;
     overflow: hidden;
 }
 
 .cand--ab-para {
     color: #5C3B2E;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 400;
     line-height: normal;
     text-transform: capitalize;
 }
 
 .cand--ab-vis-mis-section {
-    margin: 100px 0 120px 0;
+    margin: 80px 0 100px 0;
 }
 
 .custom-align-center {
@@ -32,6 +32,10 @@
     border-radius: 41px;
     border: 2px solid #714F36;
     padding: 35px 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 220px;
 }
 
 .cand--ab-vis-mis-card .cand--ab-vis-mis-head {
@@ -42,9 +46,9 @@
 }
 
 .cand--ab-vis-mis-card .cand--ab-vis-mis-desc {
-    margin-top: 50px;
+    /* margin-top: 50px; */
     color: #5C3B2E;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 400;
     text-transform: capitalize;
     margin-bottom: 0;

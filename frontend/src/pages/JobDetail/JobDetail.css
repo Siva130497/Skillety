@@ -197,9 +197,9 @@
     text-transform: capitalize;
 }
 
-.job--detail-card:hover .job--detail-card-top-area .job--detail-card-role {
+/* .job--detail-card:hover .job--detail-card-top-area .job--detail-card-role {
     letter-spacing: 1px;
-}
+} */
 
 .job--detail-card-review-area {
     margin-top: 15px;

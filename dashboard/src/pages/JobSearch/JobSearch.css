@@ -171,9 +171,9 @@
     text-transform: capitalize;
 }
 
-.job--detail-card:hover .job--detail-card-top-area .job--detail-card-role {
+/* .job--detail-card:hover .job--detail-card-top-area .job--detail-card-role {
     letter-spacing: 1px;
-}
+} */
 
 .job--detail-card-review-area {
     margin-top: 15px;
@@ -263,6 +263,27 @@
 
 .job--detail-card-desc-area {
     margin-top: 13px;
+    max-height: 110px;
+    overflow-y: scroll;
+    padding-right: 10px;
+}
+
+.job--detail-card-desc-area::-webkit-scrollbar {
+    width: 5px;
+    background-color: transparent;
+    border-radius: 10px !important;
+}
+
+.job--detail-card-desc-area::-webkit-scrollbar-thumb {
+    border-radius: 10px !important;
+    -webkit-box-shadow: none;
+    background-color: #fbdc7f;
+}
+
+.job--detail-card-desc-area::-webkit-scrollbar-track {
+    -webkit-box-shadow: none;
+    border-radius: 10px !important;
+    background-color: transparent;
 }
 
 .job--detail-card-desc-area .job--detail-card-desc {
@@ -371,4 +392,7 @@
 .custom-padding-area {
     padding-left: 15px !important;
     padding-right: 5px !important;
+}
+.cursor-pointer {
+    cursor: pointer !important;
 }

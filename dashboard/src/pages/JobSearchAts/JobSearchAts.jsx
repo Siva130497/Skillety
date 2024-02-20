@@ -40,6 +40,7 @@ const JobSearchAts = () => {
 
     const [x, setX] = useState([0, 3]);
 
+
     const [filters, setFilters] = useState({
         searchInput: "",
         minExperience: "",

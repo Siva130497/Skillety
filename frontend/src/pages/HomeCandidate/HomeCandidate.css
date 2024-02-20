@@ -355,10 +355,10 @@
 
 .cand--job-card-desc-area {
     position: relative;
-    overflow-y: scroll;
+    overflow: hidden;
     margin-top: 20px;
     margin-bottom: 20px;
-    height: 220px;
+    height: 120px;
     padding: 0 20px;
 }
 

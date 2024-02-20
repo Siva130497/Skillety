@@ -197,9 +197,9 @@
     text-transform: capitalize;
 }
 
-.job--detail-card:hover .job--detail-card-top-area .job--detail-card-role {
+/* .job--detail-card:hover .job--detail-card-top-area .job--detail-card-role {
     letter-spacing: 1px;
-}
+} */
 
 .job--detail-card-review-area {
     margin-top: 15px;
@@ -297,9 +297,13 @@
     font-size: 14px;
     font-weight: 500;
     margin-bottom: 8px;
-    height: 100px;
-    overflow-y: scroll;
-    padding-right: 10px;
+    height: 85px;
+    overflow: hidden;
+    /* padding-right: 10px; */
+}
+
+.job--detail-card-desc-area .job--detail-card-desc::first-letter{
+    text-transform: capitalize !important;
 }
 
 .job--detail-card-bottom-area {

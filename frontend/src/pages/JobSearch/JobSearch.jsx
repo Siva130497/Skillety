@@ -688,8 +688,6 @@ const JobSearch = () => {
                             </div>
 
                             {!searchResult ? <div className='talent--profile-search-page-section'>
-
-
                                 <p className='job-search-head'>Search For Jobs</p>
 
                                 <div className="row row-border-custom job">
@@ -1117,8 +1115,8 @@ const JobSearch = () => {
 
                                     <p className='job-search-head'>Job Search</p>
                                     <div className="row row-border-custom">
-                                        <div className="col-12 col-lg-4 col-xl-4 col-md-4 custom-right-border-col ps-lg-0 ps-md-1 col-width-lg-30">
-                                            <div className="cli-tal-pro-search-filter-area">
+                                        <div className="col-12 col-lg-4 col-xl-4 col-md-4 custom-right-border-col ps-lg-0 ps-md-1 col-width-lg-30 sticky--sidebar-area">
+                                            <div className="cli-tal-pro-search-filter-area sticky--sidebar">
                                                 <div className="cli-tal-pro-search-filter-head-area search-results">
                                                     <h6 className='cli-tal-pro-search-filter mb-0'>Filters</h6>
                                                     <img src="assets/img/talent-profile/filter.png" className='cli-tal-pro-filter-img' alt="" />
@@ -1570,13 +1568,8 @@ const JobSearch = () => {
                                                             }
                                                             const percentage = Math.round(calculateMatchPercentage(selectedResults, [...job.skills, ...job.jobRole]));
 
-                                                            const handleViewJobDetail = () => {
-                                                                const destination = candidateToken ? `/job-detail/${job.id}` : "/candidate-login";
-                                                                navigate(destination);
-                                                            };
-
                                                             return (
-                                                                <article className='job--detail-card mb-4 cursor-pointer' onClick={handleViewJobDetail}>
+                                                                <article className='job--detail-card mb-4'>
                                                                     <div className="job--detail-card-top-area job">
                                                                         <div>
                                                                             <h5 className='job--detail-card-role'>{job.jobRole[0]}</h5>
@@ -1640,13 +1633,8 @@ const JobSearch = () => {
                                                                 const imgSrc = matchingImg ? `https://skillety-n6r1.onrender.com/client_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
                                                                 const companyName = clients.find(cli => cli.companyId === job.companyId)?.companyName
 
-                                                                const handleViewJobDetail = () => {
-                                                                    const destination = candidateToken ? `/job-detail/${job.jobId}` : "/candidate-login";
-                                                                    navigate(destination);
-                                                                };
-
                                                                 return (
-                                                                    <article className='job--detail-card mb-4 cursor-pointer' onClick={handleViewJobDetail}>
+                                                                    <article className='job--detail-card mb-4'>
                                                                         <div className="job--detail-card-top-area job">
                                                                             <div>
                                                                                 <h5 className='job--detail-card-role'>{job.jobRole[0]}</h5>
@@ -1707,14 +1695,9 @@ const JobSearch = () => {
                                                                 const matchingImg = clientImg ? clientImg.find(img => img.id === job.companyId) : null;
                                                                 const imgSrc = matchingImg ? `https://skillety-n6r1.onrender.com/client_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
                                                                 const companyName = clients.find(cli => cli.companyId === job.companyId)?.companyName
-
-                                                                const handleViewJobDetail = () => {
-                                                                    const destination = candidateToken ? `/job-detail/${job.id}` : "/candidate-login";
-                                                                    navigate(destination);
-                                                                };
                                                                 
                                                                 return (
-                                                                    <article className='job--detail-card mb-4 cursor-pointer' onClick={handleViewJobDetail}>
+                                                                    <article className='job--detail-card mb-4'>
                                                                         <div className="job--detail-card-top-area job">
                                                                             <div>
                                                                                 <h5 className='job--detail-card-role'>{job.jobRole[0]}</h5>
