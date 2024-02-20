@@ -20,7 +20,7 @@ export const NewNavCandidateHome = ({homeActive, aboutUsActive, searchJobActive,
                 try {
                     const userData = await getProtectedData(candidateToken);
                     console.log(userData);
-                    setUserName(userData.responseData?.name);
+                    setUserName(userData.name || userData.responseData?.name);
                     setToken(userData.userToken);
                 } catch (error) {
                     console.error(error);
