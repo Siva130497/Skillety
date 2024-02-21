@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import ATSLayout from '../../components/ATSLayout';
-import Footer from '../../components/Footer';
+import ATSLayout from './ATSLayout';
+import Footer from './Footer';
 import './Chat.css';
 import './Chat-responsive.css';
 import $ from 'jquery';
@@ -12,42 +12,90 @@ import 'react-loading-skeleton/dist/skeleton.css'
 import ScrollToBottom from "react-scroll-to-bottom";
 import io from 'socket.io-client';
 import { useContext } from 'react';
-import AuthContext from '../../context/AuthContext';
+import AuthContext from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
 // const socket = io.connect('https://skillety-n6r1.onrender.com');
 
-const CandidateChat = () => {
+const RandomUserChat = () => {
   const navigate = useNavigate();
-  const { getProtectedData, getCandidateImg, candidateImg } = useContext(AuthContext);
+  const { getProtectedData } = useContext(AuthContext);
 
   const [staffToken, setStaffToken] = useState("");
   const [userId, setUserId] = useState("");
   const [userName, setUserName] = useState("");
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState('');
-  const [disableMode, setDisableMode] = useState(false);
-  const [candidatesWantedChat, setCandidatesWantedChat] = useState([]);
   const [roomId, setRoomId] = useState("");
-  const [connectedRecruiterName, setConnectedRecruiterName] = useState("");
   const inputRef = useRef(null);
   const chatInputRef = useRef(null);
   const [chattingPersonName, setChattingPersonName] = useState("");
   const [chattingPersonImg, setChattingPersonImg] = useState("");
   const [searchQuery, setSearchQuery] = useState('');
-  const [filteredCandidates, setFilteredCandidates] = useState([]);
+  const [filteredUsers, setFilteredUsers] = useState([]);
   const [contentloading, setContentLoading] = useState(true);
   const [msgloading, setMsgLoading] = useState(true);
 
   const [socket, setSocket] = useState(null);
+  const [notifications, setNotifications] = useState([]);
+  const [randomUniqueUserContent, setRandomUniqueUserContent] = useState([]);
 
   useEffect(()=>{
-    setSocket(io("https://skillety-n6r1.onrender.com"));
+    setSocket(io("http://localhost:5002"));
   },[]);
 
 useEffect(()=>{
     socket?.emit("newUser", userName)
 },[socket, userName])
+
+useEffect(() => {
+
+  socket?.on("getNotification", data => {
+    console.log(data)
+    setNotifications(prev => [...prev, data]);
+
+  })
+
+}, [socket]);
+
+useEffect(() => {
+  if(notifications.length>0){
+    setContentLoading(true);
+    filterUniqueNotifications();
+  }else{
+    setContentLoading(false);
+  }
+}, [notifications]);
+
+const filterUniqueNotifications = () => {
+  const uniqueIds = {};
+  const filteredNotifications = [];
+
+  // Iterate through the objects array in reverse order to find the last occurrence of each unique ID
+  for (let i = notifications.length - 1; i >= 0; i--) {
+    const notificationobj = notifications[i];
+    if (!(notificationobj.senderId in uniqueIds)) {
+      // If the ID is not already in the uniqueIds object, add it with the current index
+      uniqueIds[notificationobj.senderId] = { lastIndex: i, count: 1 };
+    }else {
+      // If the ID is already in the uniqueIds object, update the count
+      uniqueIds[notificationobj.senderId].count++;
+    }
+  }
+
+  // Iterate through the uniqueIds object to get the last occurrence of each unique ID
+  Object.values(uniqueIds).forEach(({ lastIndex, count }) => {
+    const obj = notifications[lastIndex];
+      // Add a new property 'numOfObjects' to each object indicating the count of objects with the same ID
+      const newObj = { ...obj, numOfMsg: count };
+      filteredNotifications.push(newObj);
+  });
+
+  // Update state with the filtered unique objects
+  setRandomUniqueUserContent(filteredNotifications);
+  setFilteredUsers(filteredNotifications)
+  setContentLoading(false);
+};
 
   useEffect(() => {
     setStaffToken(JSON.parse(localStorage.getItem('staffToken')))
@@ -61,10 +109,9 @@ useEffect(()=>{
 
           const user = await getProtectedData(staffToken);
           console.log(user);
-          setUserId(user.id || user.uid);
+          setUserId(user.id);
           setUserName(user.name)
 
-          
         } catch (error) {
           console.log(error);
           navigate("/")
@@ -73,73 +120,33 @@ useEffect(()=>{
       };
 
       fetchData();
-      getCandidateImg();
     }
   }, [staffToken]);
 
   useEffect(() => {
-    if (staffToken) {
-      axios.get("https://skillety-n6r1.onrender.com/candidate-chat", {
-        headers: {
-          Authorization: `Bearer ${staffToken}`,
-          Accept: 'application/json'
-        }
-      })
-        .then(res => {
-          console.log(res.data);
-          setContentLoading(false)
-          setCandidatesWantedChat(res.data);
-          setFilteredCandidates(res.data);
-        })
-        .catch(err => {
-          console.log(err)
-          setContentLoading(false)
-      });
-    }
-  }, [staffToken])
-
-
-  useEffect(() => {
     if (userName && roomId) {
       socket.emit('join_room', roomId)
-      axios.get(`https://skillety-n6r1.onrender.com/roomId-chat/${roomId}`, {
-        headers: {
-          Authorization: `Bearer ${staffToken}`,
-          Accept: 'application/json'
-        }
-      })
-        .then(res => {
-          const result = res.data;
-          console.log(result.nonMatchingUserId, result.allChatDetailOfRoomId);
-          if (result.nonMatchingUserId.length > 0) {
-            if (result.nonMatchingUserId[0].userId === userId) {
-              setMsgLoading(false);
-              setMessages(result.allChatDetailOfRoomId);
-            } else {
-              setMsgLoading(false);
-              setDisableMode(true);
-              axios.get(`https://skillety-n6r1.onrender.com/staff/${result.nonMatchingUserId[0].userId}`, {
-                headers: {
-                  Authorization: `Bearer ${staffToken}`,
-                  Accept: 'application/json'
-                }
-              })
-                .then(res => {
-                  console.log(res.data?.name)
-                  setConnectedRecruiterName(res.data?.name)
-                })
-                .catch(err => console.log(err))
-            }
-          } else {
-            if (result.allChatDetailOfRoomId.length > 0) {
-              setMsgLoading(false);
-              setMessages(result.allChatDetailOfRoomId);
-            }
-          }
-        })
-        .catch(err => console.log(err));
     }
   }, [userName, roomId])
+
+  useEffect(() => {
+    if (roomId) {
+      const roomIdMsgs = notifications
+        .filter(notific => notific.senderId === roomId)
+        .map(notic => {
+          return {
+            roomId: notic.senderId,
+            userName: notic.senderName,
+            userId: notic.senderId,
+            message: notic.content,
+            time: notic.time,
+            date: notic.date
+          };
+        });
+      setMessages(roomIdMsgs)
+      setMsgLoading(false);
+    }
+  }, [roomId])
 
   useEffect(() => {
     socket?.on('receive_message', (data) => {
@@ -223,40 +230,9 @@ useEffect(()=>{
           date: formattedDate
         };
 
-        const notificationData = {
-          senderId: userId,
-          senderName: userName,
-          receiverId: [roomId],
-          receiverName: [chattingPersonName],
-          content: `${userName} messaged you`,
-          time: formattedTime,
-          date: formattedDate,
-          redirect:'/candidate-chat-support'
-        }
-
         await socket.emit('send_message', messageData);
         setMessages((prevMessages) => [...prevMessages, messageData]);
         setInputMessage("");
-
-        await socket.emit("sendNotification", notificationData)
-
-        const response1 = await axios.post(`https://skillety-n6r1.onrender.com/roomId-chat`, messageData, {
-          headers: {
-            Authorization: `Bearer ${staffToken}`,
-            Accept: 'application/json'
-          }
-        });
-
-        console.log(response1.data);
-
-        const response2 = await axios.post(`https://skillety-n6r1.onrender.com/create-new-notification`, notificationData, {
-          headers: {
-            Authorization: `Bearer ${staffToken}`,
-            Accept: 'application/json'
-          }
-        });
-
-      console.log(response2.data);
 
       }
     } catch (error) {
@@ -268,14 +244,14 @@ useEffect(()=>{
     const query = e.target.value;
     setSearchQuery(query);
 
-    const filtered = candidatesWantedChat.filter(
-      (candidate) =>
-        candidate.userName.toLowerCase().includes(query.toLowerCase()) ||
-        (candidate.lastMessage &&
-          candidate.lastMessage.toLowerCase().includes(query.toLowerCase()))
+    const filtered = randomUniqueUserContent.filter(
+      (user) =>
+        user.senderName.toLowerCase().includes(query.toLowerCase()) ||
+        (user.content &&
+          user.content.toLowerCase().includes(query.toLowerCase()))
     );
 
-    setFilteredCandidates(filtered);
+    setFilteredUsers(filtered);
   };
 
   return (
@@ -467,25 +443,25 @@ useEffect(()=>{
                           </div>
                         ) : (
                         <div className="recent-chat-container">
-                          {filteredCandidates.length > 0 ?
+                          {filteredUsers.length > 0 ?
                             <>
-                              {filteredCandidates.map((candidate) => {
-                                const matchingImg = candidateImg ? candidateImg.find(img => img.id === candidate.roomId) : null;
-                                const imgSrc = matchingImg ?( matchingImg.image.startsWith('https') ? matchingImg.image : `https://skillety-n6r1.onrender.com/candidate_profile/${matchingImg.image}` ): "../assets/img/talents-images/avatar.jpg";
+                              {filteredUsers.map((user) => {
+                                
+                                const imgSrc = "../assets/img/talents-images/avatar.jpg";
 
-                                return <a href='#chat_window' className={`recent-chat-area ${window.innerWidth <= 991 ? 'navigate-to-chat' : ''} ${candidate.roomId == roomId ? 'active' : ''}`}
-                                  key={candidate.roomId}
+                                return <a href='#chat_window' className={`recent-chat-area ${window.innerWidth <= 991 ? 'navigate-to-chat' : ''} ${user.senderId == roomId ? 'active' : ''}`}
+                                  key={user.senderId}
                                   onClick={() => {
-                                    setRoomId(candidate.roomId);
-                                    setChattingPersonName(candidate.userName)
+                                    setRoomId(user.senderId);
+                                    setChattingPersonName(user.senderName)
                                     setChattingPersonImg(imgSrc)
                                     setMessages([]);
-                                    setDisableMode(false);
+                                    setMsgLoading(true);
                                   }}>
                                   <div className="chat-person-info-area">
                                     <img src={imgSrc} className="chat-person-image" />
                                     <div className="chat-person-name">
-                                      {candidate.userName}
+                                      {user.senderName}
                                     </div>
                                   </div>
                                   {/* {candidate.lastMessage &&
@@ -498,15 +474,15 @@ useEffect(()=>{
                                       {candidate.newMessageCount}
                                     </div>
                                   } */}
-                                  {candidate.newMessageCount > 0 &&
+                                  
                                     <div className="chat-msg-badge">
-                                      {candidate.newMessageCount < 100 ?
-                                      <span>{candidate.newMessageCount}</span>
+                                      {user.numOfMsg < 100 ?
+                                      <span>{user.numOfMsg}</span>
                                       : 
                                       <span>99+</span>
                                       }
                                     </div>
-                                  }
+                                  
                                 </a>
                               })}
 
@@ -580,18 +556,11 @@ useEffect(()=>{
                               </div>
                             );
                           })}
-
-                            {disableMode &&
-                              <div className='chat-not-available-area'>
-                                <p>This candidate attended by <b className='text-capitalized'>{connectedRecruiterName}.</b></p>
-                              </div>
-                            }
                           </ScrollToBottom>
                         )}
 
                         <div className="card-footer chatting-card-footer">
                           <input type="text"
-                            disabled={disableMode}
                             value={inputMessage}
                             className='form-control message-input'
                             placeholder='Enter the message here...'
@@ -605,7 +574,6 @@ useEffect(()=>{
                           />
 
                           <button className='btn msg-send-btn'
-                            disabled={disableMode}
                             onClick={sendMessage}>
                             <i class="bi bi-send"></i>
                           </button>
@@ -621,7 +589,7 @@ useEffect(()=>{
                         <div className='chat-welcome'>
                           <img src="../assets/img/logo/skillety-logo-icon.png" className='chat-welcome-img' alt="" />
                           <div className='chat-welcome-text'>
-                            Welcome to <span>Skillety's</span> <br />exclusive chat.
+                            Welcome to <span>Skillety's</span> <br />visitor chat.
                           </div>
                         </div>
                       </div>
@@ -640,4 +608,4 @@ useEffect(()=>{
   )
 }
 
-export default CandidateChat
+export default RandomUserChat

@@ -81,6 +81,8 @@ import CandidateChatSupport from './pages/CandidateChat/CandidateChatSupport';
 import ClientChatSupport from './pages/ClientChat/ClientChatSupport';
 import ErrorPage from './404/404';
 
+import RandomUserChat from './components/RandomUserChat';
+
 function App() {
   return (
     <AuthContextProvider>
@@ -168,6 +170,8 @@ function App() {
         <Route path='/all-company-staff' element={<AllCompanyStaff />} />\
 
         <Route path='*' element={<ErrorPage />}/>
+
+        <Route path='/random-user-chat-ats' element={<RandomUserChat />}/>
 
       </Routes>
     </AuthContextProvider>

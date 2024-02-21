@@ -1678,7 +1678,7 @@ const getAllRecruiters = async(req, res) => {
 const getAllEmployee = async(req, res) => {
   try{
     const allEmployees = await employee.find({
-      role: { $in: ["Recruiter", "Admin"] }
+      role: { $in: ["Recruiter", "Admin", "Manager"] }
     });
     
     res.status(200).json(allEmployees); 
