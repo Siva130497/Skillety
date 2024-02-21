@@ -194,10 +194,6 @@
     transition: ease-in-out 0.8s !important;
 }
 
-.job--detail-card:hover .job--detail-card-top-area .job--detail-card-role {
-    letter-spacing: 1px;
-}
-
 .job--detail-card-review-area {
     margin-top: 15px;
     display: flex;

@@ -7,10 +7,16 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import NewNav from './NewNav';
 import NewNavBar from './NewNavBar';
+import { useNavigate } from 'react-router-dom';
 
 
+const Layout = ({ newNavBarClientRegister, newNavBarClientLogin, newNavBarCandidateLogin, newNavBarCandidateRegister, newNavBarAdminLogin, newNavBarRecruiterLogin, forgotPassword, ClientNewPassword, home, aboutUs, searchCV, service, RPO, contact, candVerification }) => {
+  const navigate = useNavigate();
 
-const Layout = ({ newNavBarClientRegister, newNavBarClientLogin, newNavBarCandidateLogin, newNavBarCandidateRegister, newNavBarAdminLogin, newNavBarRecruiterLogin, forgotPassword, ClientNewPassword, home, aboutUs, searchCV, service, RPO, contact, candVerification}) => {
+  const handleBackButtonClick = () => {
+    navigate(-1);
+  };
+
   useEffect(() => {
     ///////////
     const select = (el, all = false) => {
@@ -241,13 +247,24 @@ const Layout = ({ newNavBarClientRegister, newNavBarClientLogin, newNavBarCandid
   return (
     <div>
 
-    {newNavBarClientRegister ? <NewNavBar clientLogin = {true} />: newNavBarClientLogin ? <NewNavBar clientRegister = {true} />: newNavBarCandidateLogin ? <NewNavBar candidateRegister = {true} /> : newNavBarAdminLogin ? <NewNavBar /> : newNavBarRecruiterLogin ? <NewNavBar /> : newNavBarCandidateRegister ? <NewNavBar candidateLogin ={true}/> : forgotPassword ? <NewNavBar /> : candVerification ? <NewNavBar candVerification = {true}/>: ClientNewPassword ? <NewNavBar /> : <NewNav homeActive={home} aboutUsActive={aboutUs} searchCVActive={searchCV} serviceActive={service} RPOActive={RPO} contactActive={contact}/>}
-      
+      {newNavBarClientRegister ? <NewNavBar clientLogin={true} /> : newNavBarClientLogin ? <NewNavBar clientRegister={true} /> : newNavBarCandidateLogin ? <NewNavBar candidateRegister={true} /> : newNavBarAdminLogin ? <NewNavBar /> : newNavBarRecruiterLogin ? <NewNavBar /> : newNavBarCandidateRegister ? <NewNavBar candidateLogin={true} /> : forgotPassword ? <NewNavBar /> : candVerification ? <NewNavBar candVerification={true} /> : ClientNewPassword ? <NewNavBar /> : <NewNav homeActive={home} aboutUsActive={aboutUs} searchCVActive={searchCV} serviceActive={service} RPOActive={RPO} contactActive={contact} />}
+
       {/* <div className='container-fluid'>{children}</div> */}
       {/* <div id="preloader"></div> */}
       <div class="mouseCursor cursor-outer"></div>
       <div class="mouseCursor cursor-inner"></div>
       <div id="preloader"></div>
+
+      {/* <button className="go-back-button" onClick={handleBackButtonClick}>
+        <i className="bi bi-arrow-left go-back-icon mr-2"></i>
+        <span>Back</span>
+      </button> */}
+
+      <button className="go-back-button-style-2" onClick={handleBackButtonClick}>
+        <i className="bi bi-chevron-double-left"></i>
+        <span>Back</span>
+      </button>
+
       <a href="#" class="back-to-top d-flex align-items-center justify-content-center">
         <i class="bi bi-chevron-double-up back-to-top-icon"></i>
       </a>

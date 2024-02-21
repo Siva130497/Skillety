@@ -66,7 +66,7 @@ const CandidateAboutUs = () => {
                                     {/* <p className='cand--ab-para'>
                                         Take control of your job search with our Self-Service Portal. You can edit your profile, apply for as many matching jobs as you want, check your application status, manage interviews, upload important documents, connect with the recruiter anytime and much more. Right now, we're welcoming over 850 new registrations every day, with a consistent growth rate of 15 to 20% each month. Our technology and teams are dedicated to providing speed and accuracy around the clock.
                                     </p> */}
-                                    <p className='cand--ab-para'>
+                                    <p className='cand--ab-para mb-0'>
                                     Take control of your job search with our Self-Service Portal. You can edit your profile, apply for as many matching jobs as you want, check your application status, manage interviews, upload important documents, connect with the recruiter anytime and much more. Right now, we're welcoming over 450 new registrations every day, with a consistent growth rate of over 20% each month. Our technology and teams are dedicated to providing speed and accuracy around the clock.
                                     </p>
                                 </div>

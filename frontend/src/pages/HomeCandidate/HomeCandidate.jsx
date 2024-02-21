@@ -346,9 +346,9 @@ const HomeCandidate = () => {
                       id='searchSkillInput'
                       onChange={handleSearch}
                     />
-                    <div className="short-cut" data-aos="zoom-in">
+                    {/* <div className="short-cut" data-aos="zoom-in">
                       <span className="short-cut-key">Alt + S</span>
-                    </div>
+                    </div> */}
                     <i class="bi bi-search home--search-icon" data-aos="zoom-in" data-aos-delay="200"></i>
                   </div>
 
@@ -515,6 +515,25 @@ const HomeCandidate = () => {
                       </div>
                     </article>
                   </div>
+
+                  <div className="col-12 col-xl-4 col-lg-6 col-md-6 ab--milestone-container">
+                    <article className='home--milestone-card' data-aos="zoom-out-right">
+                      <div className="home--milestone-card-top">
+                        <div className="home--milestone--arrow">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="47" height="69" viewBox="0 0 47 69" fill="none">
+                            <path d="M2.06329 0V32.7516C1.61769 37.4304 3.40009 47.4563 11.4209 47.4563C19.4417 47.4563 27.6853 47.4563 30.8045 47.4563H40.162" stroke="#FFF" stroke-width="3" />
+                            <path d="M22.1891 27.665C22.5796 33.9765 27.4558 46.6869 43.8366 47.0367" stroke="#FFF" stroke-width="3" />
+                            <path d="M44.4526 47.0557C38.1429 46.6368 24.9137 49.8495 22.4744 66.0514" stroke="#FFF" stroke-width="3" />
+                          </svg>
+                        </div>
+                      </div>
+                      <div className="home--milestone-card-right">
+                        <h6 className='home--milestone-title'>Locations Covered</h6>
+                        <h2 className='home-milestone-number candidate' data-target="110">0</h2>
+                      </div>
+                    </article>
+                  </div>
+
                 </div>
               </div>
             </div>
@@ -670,10 +689,10 @@ const HomeCandidate = () => {
                       <p className='cand--job-card-desc'>
                         {job.jobDescription}
                       </p>
-                      <span className='slide-down-view'>
+                      {/* <span className='slide-down-view'>
                         <i class="bi bi-chevron-double-down me-2"></i>
                         Scroll to view more...
-                      </span>
+                      </span> */}
                     </div>
                     <a href={`/job-detail/${job.id}`} className="cand--job-card-bottom-area">
                       <span className='cand--job-know-more'>KNOW MORE</span>
