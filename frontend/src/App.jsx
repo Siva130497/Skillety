@@ -57,6 +57,8 @@ import ForgotPassword from './pages/ForgotPassword/ForgotPassword';
 import JobDetails from './pages/JobDetails/JobDetails';
 import ErrorPage from './404/404';
 
+import RandomUserChatWeb from './components/RandomUserChatWeb';
+
 
 function App() {
 
@@ -64,7 +66,7 @@ function App() {
 
     <AuthContextProvider>
       <PrimeReactProvider>
-        <GoogleOAuthProvider clientId="844630167314-gr9sc81b599kvna7vhlecf5447ogd9fn.apps.googleusercontent.com">
+        <GoogleOAuthProvider clientId={process.env.REACT_APP_CLIENT_ID}>
           <Routes>
             <Route path='/' element={<Home />} />
             {/* <Route path='/slider' element={<Slider />} /> */}
@@ -119,6 +121,8 @@ function App() {
             <Route path='/recruiter-dashboard' element={<RecruiterDashboard />} />
             <Route path='/company-info/:id' element={<CompanyInformation />} />
             <Route path='*' element={<ErrorPage />}/>
+
+            <Route path='/random-user-chat-web' element={<RandomUserChatWeb />} />
 
           </Routes>
         </GoogleOAuthProvider>
