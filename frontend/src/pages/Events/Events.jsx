@@ -125,35 +125,6 @@ const Events = () => {
                             </div>
                         </div>
 
-                        {!candidateToken &&
-                            <div className="cand--event-login-card pb-4 pb-sm-0">
-                                <div className='company-demo-card'>
-                                    <div className="company-demo-card-desc-area">
-                                        <p className='company-demo-card-desc' data-aos="fade-left">Contact</p>
-                                    </div>
-                                    <div className="company-demo-card-bottom-area">
-                                        <h3 className='company-demo-card-title' data-aos="fade-down">LET’S GET STARTED <br />
-                                            WITH US. ONE CLICK AWAY</h3>
-
-                                        <div className="company-demo-card-btn-area">
-                                            <a href="/candidate-login" className='company-demo-card-btn' data-aos="fade-right">
-                                                <div className='company-demo-card-btn-sub'>
-                                                    Login
-                                                </div>
-                                                <div className='company-demo-card-btn-arrow'>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
-                                                        <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#714F36" stroke-width="2" />
-                                                        <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#714F36" stroke-width="2" />
-                                                        <path d="M1 26L25.1667 1" stroke="#714F36" stroke-width="2" />
-                                                    </svg>
-                                                </div>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        }
-
                         {/* events  */}
                         {eventDetail.length > 0 &&
                             <div className="con--where-container media">
@@ -194,7 +165,38 @@ const Events = () => {
                                         </div>
                                     ))}
                                 </div>
-                            </div>}
+                            </div>
+                        }
+
+                        {/* let's gets started */}
+                        {!candidateToken &&
+                            <div className="cand--event-login-card pb-4 pb-sm-0">
+                                <div className='company-demo-card'>
+                                    <div className="company-demo-card-desc-area">
+                                        <p className='company-demo-card-desc' data-aos="fade-left">Contact</p>
+                                    </div>
+                                    <div className="company-demo-card-bottom-area">
+                                        <h3 className='company-demo-card-title' data-aos="fade-down">LET’S GET STARTED
+                                        </h3>
+
+                                        <div className="company-demo-card-btn-area">
+                                            <a href="/candidate-login" className='company-demo-card-btn' data-aos="fade-right">
+                                                <div className='company-demo-card-btn-sub'>
+                                                    Login
+                                                </div>
+                                                <div className='company-demo-card-btn-arrow'>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
+                                                        <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#714F36" stroke-width="2" />
+                                                        <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#714F36" stroke-width="2" />
+                                                        <path d="M1 26L25.1667 1" stroke="#714F36" stroke-width="2" />
+                                                    </svg>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
 
                         {/* blogs  */}
                         {blogDetail.length > 0 &&
@@ -236,7 +238,8 @@ const Events = () => {
                                         </div>
                                     ))}
                                 </div>
-                            </div>}
+                            </div>
+                        }
 
                         {/* videos  */}
                         {videoDetail.length > 0 &&
@@ -278,7 +281,8 @@ const Events = () => {
                                         </div>
                                     ))}
                                 </div>
-                            </div>}
+                            </div>
+                        }
 
                         {/* podcasts  */}
                         {podcastDetail.length > 0 &&
@@ -320,7 +324,8 @@ const Events = () => {
                                         </div>
                                     ))}
                                 </div>
-                            </div>}
+                            </div>
+                        }
 
                         {/* news  */}
                         {newsDetail.length > 0 &&
@@ -362,7 +367,8 @@ const Events = () => {
                                         </div>
                                     ))}
                                 </div>
-                            </div>}
+                            </div>
+                        }
 
                     </div>
                 </div>
