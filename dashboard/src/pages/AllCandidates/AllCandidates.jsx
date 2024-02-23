@@ -233,7 +233,7 @@ const AllCandidates = () => {
             const result = res.data;
             if (!result.error) {
                 console.log(result);
-                setRole(result.companyStaff);
+                setRole(result?.companyStaff || "Admin");
 
             } else {
                 console.log(result);
@@ -264,7 +264,7 @@ const AllCandidates = () => {
     }, [employeeId])
 
     useEffect(() => {
-        if (role) {
+        if(role){
             if (role === "Recruiter") {
                 getAllRecruiterCandidateDetail();
                 getAllCandidateDetail();

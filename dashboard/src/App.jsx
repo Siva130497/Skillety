@@ -49,6 +49,7 @@ import CandidatePlacementReport from './atsPages/AtsReports/ReportPages/Candidat
 import JobSuccessReport from './atsPages/AtsReports/ReportPages/JobSuccessReport';
 import JobDurationReport from './atsPages/AtsReports/ReportPages/JobDurationReport';
 import JobReport from './atsPages/AtsReports/ReportPages/JobReport';
+import CreateCandidateATS from './atsPages/CreateCandidateATS/CreateCandidateATS';
 
 ////for recruiter
 import RecruiterDashboard from './pages/RecruiterDashboard/RecruiterDashboard';
@@ -138,6 +139,7 @@ function App() {
         <Route path='/client-report' element={<ClientReport />} />
         <Route path='/interview-report' element={<InterviewReport />} />
         <Route path='/lead-conversion-report' element={<LeadConversionReport />} />
+        <Route path='/create-candidate-ats' element={<CreateCandidateATS />} />
 
 
         {/* for recruiter */}

@@ -56,6 +56,7 @@ import RecruiterDashboard from './pages/RecruiterDashboard/RecruiterDashboard';
 import ForgotPassword from './pages/ForgotPassword/ForgotPassword';
 import JobDetails from './pages/JobDetails/JobDetails';
 import ErrorPage from './404/404';
+import JobPostingWeb from './pages/JobPosting/JobPostingWeb';
 
 import RandomUserChatWeb from './components/RandomUserChatWeb';
 
@@ -121,6 +122,7 @@ function App() {
             <Route path='/recruiter-dashboard' element={<RecruiterDashboard />} />
             <Route path='/company-info/:id' element={<CompanyInformation />} />
             <Route path='*' element={<ErrorPage />}/>
+            <Route path='/post-job-web/:token' element={<JobPostingWeb />} />
 
             <Route path='/random-user-chat-web' element={<RandomUserChatWeb />} />
 

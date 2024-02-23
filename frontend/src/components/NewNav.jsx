@@ -103,7 +103,7 @@ const NewNav = ({homeActive, aboutUsActive, searchCVActive, serviceActive, RPOAc
                                         <li><a href="#">Deep Drop Down 5</a></li>
                                     </ul>
                                 </li> */}
-                                <li><a href="/job-posting">Job Posting</a></li>
+                                <li><a href={clientToken? `/post-job-web/${clientToken}` : "/client-login"}>Job Posting</a></li>
                                 <li><a href="/skill-assessment">Skill Assessment</a></li>
                                 <li><a href="/interview-as-a-service">Interview as a Service</a></li>
                                 {/* <li><a href="/onboarding-process">Onboarding Process</a></li> */}

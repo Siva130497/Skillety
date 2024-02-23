@@ -152,6 +152,8 @@ const {
    allPostedJobTableColumnData,
    getAllPostedJobTableColumnData,
    getUpdatedAppliedOfPostedJobs,
+   bookTheEvent,
+   getAllBookingDetails,
    
    //MOBILE APP API............
 
@@ -618,6 +620,12 @@ router.get("/non-approval-jobs-column/:id", getAllNonApprovalJobTableColumnData)
 router.post("/posted-jobs-column", allPostedJobTableColumnData);
 
 router.get("/posted-jobs-column/:id", getAllPostedJobTableColumnData);
+
+// booking an event 
+router.post("/book-an-event", bookTheEvent);
+
+//get all the booking details
+router.get("/find-all-booking-details", employeeAuth, getAllBookingDetails);
 
 //MOBILE APP API............
 

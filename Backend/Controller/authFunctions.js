@@ -42,6 +42,8 @@ const nonApprovalJobTable = require("../Database/nonApprovalJobTable");
 const postedJobTable = require("../Database/postedJobTable");
 const recruiterClient = require("../Database/recruiterClient");
 const googleLoginCand = require("../Database/googleLoginCand");
+const bookingEventDetail = require("../Database/bookEventDetail");
+const image = require('../Database/image');
 
 //MOBILE APP..........
 const candidateProfile = require("../Database/candidateProfile");
@@ -2081,6 +2083,27 @@ const contactMessageCandidate = async(req, res) => {
   }
 }
 
+/* booking event detail create */
+const bookTheEvent = async(req, res) => {
+  console.log(req.body);
+  try {
+    const eventAvailable = await mediaDetail.findOne({id:req.body.bookingEventId});
+    if(eventAvailable){
+      const newBookEventDetail = new bookingEventDetail({
+        ...req.body,
+      });
+      await newBookEventDetail.save();
+      console.log(newBookEventDetail);
+      return res.status(201).json(newBookEventDetail);
+    }else{
+      return res.status(404).json({ error: "no such event found to book!" });
+    }
+    
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+}
+
 /* get all contact messagess by recruiters */
 const getAllContactMessages = async(req, res) => {
   try{
@@ -2101,6 +2124,50 @@ const getAllCandidateContactMessages = async(req, res) => {
     return res.status(500).json({ error: err.message });
   }
 }
+
+/* get all booking details in cms */
+const getAllBookingDetails = async (req, res) => {
+  try {
+    const allBookingDetails = await bookingEventDetail.find();
+    
+    if (allBookingDetails.length > 0) {
+      const updatedBookingDetail = await Promise.all(
+        allBookingDetails.map(async (bookDetail) => {
+          try {
+            const particularEventDetail = await mediaDetail.findOne({ id: bookDetail.bookingEventId });
+            const particularEventImg = await image.findOne({ id: bookDetail.bookingEventId });
+            
+            return {
+              ...bookDetail._doc,
+              eventDate: particularEventDetail.date,
+              eventTitle: particularEventDetail.title,
+              eventDes: particularEventDetail.description,
+              eventLocation: particularEventDetail.location,
+              eventImg: particularEventImg.image ? `https://skillety-n6r1.onrender.com/images/${particularEventImg.image}` : null
+            };
+          } catch (error) {
+            // Return error as part of the response
+            return { error: `Error processing booking detail for booking ID ${bookDetail._id}: ${error.message}` };
+          }
+        })
+      );
+
+      // Filter out any entries with errors
+      const validBookingDetails = updatedBookingDetail.filter(detail => !detail.error);
+      if (validBookingDetails.length === 0) {
+        return res.status(404).json({ error: "No valid event Bookings Found!" });
+      }
+      
+      return res.status(200).json(validBookingDetails);
+    } else {
+      return res.status(404).json({ error: "No event Bookings Found!" });
+    }
+  } catch (err) {
+    // Handle other unexpected errors
+    console.error("Error fetching booking details:", err);
+    return res.status(500).json({ error: err.message });
+  }
+};
 
 const deletingCandidateContactMsg = async (req, res) => {
   try {
@@ -3431,10 +3498,11 @@ const createCandidate = async (req, res) => {
 
       const newCreateCandidate = new candidateCreate({
         ...req.body,
-        currencyType: "dummy",
-        minSalary: "dummy",
-        maxSalary: "dummy",
-        preferedlocations: ["dummy"],
+        currencyType: "not specified",
+        minSalary: "not specified",
+        maxSalary: "not specified",
+        preferedlocations: ["not specified"],
+        activeIn: new Date(),
         role: "Candidate",   
         url: tempUrl 
       });
@@ -8065,7 +8133,8 @@ module.exports = {
    getAllPostedJobTableColumnData,
    getUpdatedSkillMatchJobDetail,
    getUpdatedAppliedOfPostedJobs,
-
+   bookTheEvent,
+   getAllBookingDetails,
    //MOBILE APP API............
 
    candidateDashboardTopBar,
@@ -8128,6 +8197,6 @@ module.exports = {
    getCandidatePlacementReportData,
    getJobReport,
    getJobDurationReport,
-
+  
   //ATS...........
 };

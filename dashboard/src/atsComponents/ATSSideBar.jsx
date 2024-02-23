@@ -29,7 +29,9 @@ const ATSSideBar = () => {
                 $('#all_ats_jobs').addClass('active');
             } else if (path === '/all-offline-candidates') {
                 $('#all_offline_candidates').addClass('active');
-            } else if (path === '/ats-reports') {
+            }  else if (path === '/create-candidate-ats') {
+                $('#create_candidate_ats').addClass('active');
+            }else if (path === '/ats-reports') {
                 $('#ats_reports').addClass('active');
             }
             feather.replace();
@@ -101,13 +103,16 @@ const ATSSideBar = () => {
                             <a href="/company-staff-create" className="nav-link"><i data-feather="user"></i><span>Company Staff Create</span></a>
                         </li>} */}
                     <li className="dropdown" id='all_offline_clients'>
-                        <a href="/all-offline-clients" className="nav-link"><i data-feather="user"></i><span>All Clients</span></a>
+                        <a href="/all-offline-clients" className="nav-link"><i data-feather="user"></i><span>All Offline Clients</span></a>
                     </li>
                     <li className="dropdown" id='all_ats_jobs'>
-                        <a href="/all-ats-jobs" className="nav-link"><i data-feather="mail"></i><span>All Jobs</span></a>
+                        <a href="/all-ats-jobs" className="nav-link"><i data-feather="mail"></i><span>All Offline Clients Jobs</span></a>
                     </li>
                     <li className="dropdown" id='all_offline_candidates'>
-                        <a href="/all-offline-candidates" className="nav-link"><i data-feather="users"></i><span>All Candidates</span></a>
+                        <a href="/all-offline-candidates" className="nav-link"><i data-feather="users"></i><span>All Invited Candidates</span></a>
+                    </li>
+                    <li className="dropdown" id='create_candidate_ats'>
+                        <a href="/create-candidate-ats" className="nav-link"><i data-feather="users"></i><span>Create Candidate</span></a>
                     </li>
                     <li className="dropdown" id='ats_reports'>
                         <a href="/ats-reports" className="nav-link"><i data-feather="file-text"></i><span>Report</span></a>

@@ -95,6 +95,10 @@ const candidateCreateSchema = new Schema(
     url: {
         type: String,
         required: true
+    },
+    activeIn: {
+        type: String,
+        required: true
     }
     },
     { timestamps: true }
