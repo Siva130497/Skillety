@@ -50,6 +50,7 @@ import JobSuccessReport from './atsPages/AtsReports/ReportPages/JobSuccessReport
 import JobDurationReport from './atsPages/AtsReports/ReportPages/JobDurationReport';
 import JobReport from './atsPages/AtsReports/ReportPages/JobReport';
 
+
 ////for recruiter
 import RecruiterDashboard from './pages/RecruiterDashboard/RecruiterDashboard';
 import AllClients from './pages/AllClients/AllClients';
@@ -74,6 +75,7 @@ import TalentsProfileSearchAts from './pages/TalentsProfileSearchAts/TalentsProf
 import TalentsAts from './pages/TalentsAts/TalentsAts';
 import JobSearchAts from './pages/JobSearchAts/JobSearchAts';
 import JobDetailsAts from './pages/JobDetailsAts/JobDetailsAts';
+import BookedEvents from './pages/BookedEvents/BookedEvents';
 
 import CandidateChat from './pages/Chat/CandidateChat';
 import ClientChat from './pages/Chat/ClientChat';
@@ -138,6 +140,7 @@ function App() {
         <Route path='/client-report' element={<ClientReport />} />
         <Route path='/interview-report' element={<InterviewReport />} />
         <Route path='/lead-conversion-report' element={<LeadConversionReport />} />
+        <Route path='/booked-events' element={<BookedEvents />} />
 
 
         {/* for recruiter */}
