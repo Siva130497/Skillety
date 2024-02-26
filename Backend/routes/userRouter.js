@@ -144,6 +144,8 @@ const {
   getAllClientTableColumnData,
   allClientTableColumnData,
   getAllCandidateTableColumnData,
+  createdCandidateTableColumnData,
+   getCreatedCandidateTableColumnData,
    allCandidateTableColumnData,
    allJobTableColumnData,
    getAllJobTableColumnData,
@@ -152,7 +154,9 @@ const {
    allPostedJobTableColumnData,
    getAllPostedJobTableColumnData,
    getUpdatedAppliedOfPostedJobs,
-   
+   bookTheEvent,
+   getAllBookingDetails,
+   deletingBookingEventDetail,
    //MOBILE APP API............
 
    candidateDashboardTopBar,
@@ -607,6 +611,10 @@ router.post("/all-candidates-column", allCandidateTableColumnData);
 
 router.get("/all-candidates-column/:id", getAllCandidateTableColumnData);
 
+router.post("/created-candidates-column", createdCandidateTableColumnData);
+
+router.get("/created-candidates-column/:id", getCreatedCandidateTableColumnData);
+
 router.post("/all-jobs-column", allJobTableColumnData);
 
 router.get("/all-jobs-column/:id", getAllJobTableColumnData);
@@ -618,6 +626,15 @@ router.get("/non-approval-jobs-column/:id", getAllNonApprovalJobTableColumnData)
 router.post("/posted-jobs-column", allPostedJobTableColumnData);
 
 router.get("/posted-jobs-column/:id", getAllPostedJobTableColumnData);
+
+// booking an event 
+router.post("/book-an-event", bookTheEvent);
+
+//get all the booking details
+router.get("/find-all-booking-details", employeeAuth, getAllBookingDetails);
+
+//delete booking detail
+router.delete("/delete-booking-event/:id", employeeAuth, deletingBookingEventDetail);
 
 //MOBILE APP API............
 

@@ -28,6 +28,8 @@ const ATSSideBar = () => {
                 $('#all_clients').addClass('active');
             } else if (path === '/all-candidates') {
                 $('#all_candidates').addClass('active');
+            } else if (path === '/created-candidates') {
+                $('#created_candidates').addClass('active');
             } else if (path === '/talent-profile-search-ats') {
                 $('#search_candidates').addClass('active');
             }else if (path === '/all-jobs') {
@@ -40,6 +42,8 @@ const ATSSideBar = () => {
                 $('#posted_jobs').addClass('active');
             } else if (path === '/job-posting') {
                 $('#job_posting').addClass('active');
+            } else if (path === '/booked-events') {
+                $('#booked_events').addClass('active');
             } else if (path === '/media-posting/event') {
                 $('#media_posting').addClass('active');
                 $('#event_posting').addClass('active');
@@ -158,7 +162,10 @@ const ATSSideBar = () => {
                         <a href="/all-clients" className="nav-link"><i data-feather="user"></i><span>All Clients</span></a>
                     </li>
                     <li className="dropdown" id='all_candidates'>
-                        <a href="/all-candidates" className="nav-link"><i data-feather="users"></i><span>All Candidates</span></a>
+                        <a href="/all-candidates" className="nav-link"><i data-feather="users"></i><span>Registered Candidates</span></a>
+                    </li>
+                    <li className="dropdown" id='created_candidates'>
+                        <a href="/created-candidates" className="nav-link"><i data-feather="users"></i><span>Created Candidates</span></a>
                     </li>
                     <li className="dropdown" id='search_candidates'>
                         <a href="/talent-profile-search-ats" className="nav-link"><i data-feather="search"></i><span>Search Candidates</span></a>
@@ -194,6 +201,10 @@ const ATSSideBar = () => {
                             <li id='news_posting'><a className="nav-link" href="/media-posting/news">News Posting</a></li>
                         </ul>
                     </li>}
+
+                    <li className="dropdown" id='booked_events'>
+                        <a href="/booked-events" className="nav-link"><i data-feather="calendar"></i><span>Booked Events</span></a>
+                    </li>
                     {/* <li className="dropdown" id='event_posting'>
                             <a href="/event-posting" className="nav-link"><i data-feather="calendar"></i><span>Media Posting</span></a>
                         </li> */}

@@ -133,7 +133,7 @@ const AllClients = () => {
             const result = res.data;
             if (!result.error) {
                 console.log(result);
-                setRole(result.companyStaff);
+                setRole(result?.companyStaff || "Admin");
 
             } else {
                 console.log(result);

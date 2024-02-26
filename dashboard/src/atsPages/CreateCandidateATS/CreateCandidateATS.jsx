@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext, useRef } from 'react';
 import axios from 'axios';
-import ATSLayout from '../../components/ATSLayout';
+import ATSLayout from '../../atsComponents/ATSLayout';
 import Footer from '../../components/Footer';
 import './CreateCandidate.css';
 import './CreateCandidate-responsive.css';
@@ -13,7 +13,7 @@ import AuthContext from '../../context/AuthContext';
 import { v4 as uuidv4 } from "uuid";
 import { useLocation, useNavigate } from 'react-router-dom';
 
-const CreateCandidate = () => {
+const CreateCandidateATS = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const { id } = location.state || {};
@@ -21,7 +21,7 @@ const CreateCandidate = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-    const [staffToken, setStaffToken] = useState("");
+    const [atsToken, setatsToken] = useState("");
     const [employeeId, setEmployeeId] = useState("");
 
     const { getProtectedData, candidateReg, candidateUpdate } = useContext(AuthContext);
@@ -103,14 +103,14 @@ const CreateCandidate = () => {
     }
 
     useEffect(() => {
-        setStaffToken(JSON.parse(localStorage.getItem('staffToken')))
-    }, [staffToken])
+        setatsToken(JSON.parse(localStorage.getItem('atsToken')))
+    }, [atsToken])
 
     useEffect(() => {
-        if (staffToken) {
+        if (atsToken) {
             const fetchData = async () => {
                 try {
-                    const userData = await getProtectedData(staffToken);
+                    const userData = await getProtectedData(atsToken);
                     console.log(userData);
                     setEmployeeId(userData.id || userData.uid);
                 } catch (error) {
@@ -121,13 +121,13 @@ const CreateCandidate = () => {
 
             fetchData();
         }
-    }, [staffToken]);
+    }, [atsToken]);
 
     useEffect(() => {
-        if (id && staffToken) {
+        if (id && atsToken) {
           axios.get(`https://skillety-n6r1.onrender.com/CandidateWithUrl-Detail/${id}`, {
             headers: {
-              // Authorization: `Bearer ${staffToken}`,
+              // Authorization: `Bearer ${atsToken}`,
               Accept: 'application/json'
             }
           })
@@ -146,7 +146,7 @@ const CreateCandidate = () => {
                 })
                 .catch(err => console.log(err))
         }
-      }, [id, staffToken])
+      }, [id, atsToken])
     
       useEffect(() => {
         if (cand) {
@@ -386,11 +386,11 @@ const CreateCandidate = () => {
     const handleSkillSearch = (e) => {
         const inputValue = e.target.value;
         setSearchSkillInput(inputValue);
-        if (inputValue?.length > 0) {
+        if (inputValue.length > 0) {
             const candidateSkills = skillArray.filter((obj) => {
                 return obj.skill.toLowerCase().includes(inputValue.toLowerCase());
             });
-            if (candidateSkills?.length > 0) {
+            if (candidateSkills.length > 0) {
                 setFilteredSkills(candidateSkills);
             }
         } else {
@@ -402,11 +402,11 @@ const CreateCandidate = () => {
         setDesignationAlert("")
         const inputValue = e.target.value;
         setSearchDesignationInput(inputValue);
-        if (inputValue?.length > 0) {
+        if (inputValue.length > 0) {
             const candidateDesignation = designationArray.filter((obj) => {
                 return obj.designation.toLowerCase().includes(inputValue.toLowerCase());
             });
-            if (candidateDesignation?.length > 0) {
+            if (candidateDesignation.length > 0) {
                 setFilteredDesignation(candidateDesignation);
             }
         } else {
@@ -422,10 +422,10 @@ const CreateCandidate = () => {
                 setSearchSkillInput("");
                 setFilteredSkills([]);
             } else {
-                selectedSkills?.length === maxSkillNum && setSkillError(`You can select max of ${maxSkillNum} skills`)
+                selectedSkills.length === maxSkillNum && setSkillError(`You can select max of ${maxSkillNum} skills`)
                 setSearchSkillInput("");
                 setFilteredSkills([]);
-                if (selectedSkills?.length < maxSkillNum) {
+                if (selectedSkills.length < maxSkillNum) {
                     setSelectedSkills([...selectedSkills, skill]);
                     setSearchSkillInput("");
                     setFilteredSkills([]);
@@ -458,11 +458,11 @@ const CreateCandidate = () => {
         if (totalMonths > 0) {
             setSkillError("")
             setSearchSkillInput("");
-            if (selectedSkills?.length === maxSkillNum) {
+            if (selectedSkills.length === maxSkillNum) {
                 setSkillError(`You can select max of ${maxSkillNum} skills`);
                 setNewSkill("");
             }
-            if (selectedSkills?.length < maxSkillNum) {
+            if (selectedSkills.length < maxSkillNum) {
                 setSkillError("")
                 const foundObject = skillArray.find(item => item.skill.toLowerCase() === newSkill.toLowerCase());
                 if (foundObject) {
@@ -497,11 +497,11 @@ const CreateCandidate = () => {
     const handleEducationSearch = (e) => {
         const inputValue = e.target.value;
         setSearchEducationInput(inputValue);
-        if (inputValue?.length > 0) {
+        if (inputValue.length > 0) {
             const educations = educationArray.filter((obj) => {
                 return obj.education.toLowerCase().includes(inputValue.toLowerCase());
             });
-            if (educations?.length > 0) {
+            if (educations.length > 0) {
                 setFilteredEducation(educations);
             }
         } else {
@@ -530,7 +530,7 @@ const CreateCandidate = () => {
             const Locations = locationArray.filter((obj) => {
                 return obj.location.toLowerCase().includes(inputValue.toLowerCase());
             });
-            if (Locations?.length > 0) {
+            if (Locations.length > 0) {
                 setFilteredLocations(Locations);
             }
         } else {
@@ -547,9 +547,9 @@ const CreateCandidate = () => {
     const handleSubmit = (event) => {
         event.preventDefault();
         
-        if (credentials.days === "" || credentials.firstName === "" || credentials.lastName === "" || credentials.phone === "" || credentials.email === "" || !resume || !(emailRegex.test(credentials.email)) || selectedDesignations?.length === 0 || credentials.companyName === "" || selectedLocations?.length === 0 || credentials.year === "" || credentials.month === "" || selectedSkills?.length === 0 || selectedEducation?.length === 0 || credentials.college === "" || selectedSkills?.length < minSkillNum || credentials.profileHeadline === "") {
+        if (credentials.days === "" || credentials.firstName === "" || credentials.lastName === "" || credentials.phone === "" || credentials.email === "" || !resume || !(emailRegex.test(credentials.email)) || selectedDesignations.length === 0 || credentials.companyName === "" || selectedLocations.length === 0 || credentials.year === "" || credentials.month === "" || selectedSkills.length === 0 || selectedEducation.length === 0 || credentials.college === "" || selectedSkills.length < minSkillNum || credentials.profileHeadline === "") {
             setRequire(true)
-            if (selectedSkills?.length < minSkillNum) {
+            if (selectedSkills.length < minSkillNum) {
                 setSkillError(`Please select atleast ${minSkillNum} skills`)
             }
             
@@ -570,8 +570,8 @@ const CreateCandidate = () => {
                 };
                 console.log(updatedCredentials);
                 candidateReg(updatedCredentials);
-                otherSkill?.length > 0 && postOtherSkills(otherSkill);
-                otherDesignation?.length > 0 && postOtherDesignation(otherDesignation);
+                otherSkill.length > 0 && postOtherSkills(otherSkill);
+                otherDesignation.length > 0 && postOtherDesignation(otherDesignation);
                 axios.post('https://skillety-n6r1.onrender.com/upload', formData)
                     .then(res => console.log(res))
                     .catch(err => console.log(err));
@@ -581,9 +581,9 @@ const CreateCandidate = () => {
     const handleUpdate = (event) => {
         event.preventDefault();
         
-        if (credentials.days === "" || credentials.firstName === "" || credentials.lastName === "" || credentials.phone === "" || credentials.email === "" || !resume || !(emailRegex.test(credentials.email)) || selectedDesignations?.length === 0 || credentials.companyName === "" || selectedLocations?.length === 0 || credentials.year === "" || credentials.month === "" || selectedSkills?.length === 0 || selectedEducation?.length === 0 || credentials.college === "" || selectedSkills?.length < minSkillNum || credentials.profileHeadline === "") {
+        if (credentials.days === "" || credentials.firstName === "" || credentials.lastName === "" || credentials.phone === "" || credentials.email === "" || !resume || !(emailRegex.test(credentials.email)) || selectedDesignations.length === 0 || credentials.companyName === "" || selectedLocations.length === 0 || credentials.year === "" || credentials.month === "" || selectedSkills.length === 0 || selectedEducation.length === 0 || credentials.college === "" || selectedSkills.length < minSkillNum || credentials.profileHeadline === "") {
             setRequire(true)
-            if (selectedSkills?.length < minSkillNum) {
+            if (selectedSkills.length < minSkillNum) {
                 setSkillError(`Please select atleast ${minSkillNum} skills`)
             }
             
@@ -600,8 +600,8 @@ const CreateCandidate = () => {
                 };
                 console.log(updatedCredentials);
                 candidateUpdate([updatedCredentials, id]);
-                otherSkill?.length > 0 && postOtherSkills(otherSkill);
-                otherDesignation?.length > 0 && postOtherDesignation(otherDesignation);
+                otherSkill.length > 0 && postOtherSkills(otherSkill);
+                otherDesignation.length > 0 && postOtherDesignation(otherDesignation);
                 axios.patch(`https://skillety-n6r1.onrender.com/update-candidate-resume/${id}`, formData)
                     .then(res => console.log(res))
                     .catch(err => console.log(err));
@@ -861,7 +861,7 @@ const CreateCandidate = () => {
                                                     <div className='job-post-form-label-with-badge'>
                                                         <label htmlFor="" className='job-post-form-label'>Current Role/Designation<span className='form-required'>*</span></label>
                                                         {/* <i class="bi bi-chevron-down"></i> */}
-                                                        {selectedDesignations?.map(selectDesignation => (
+                                                        {selectedDesignations.map(selectDesignation => (
                                                             <span className="job-post-form-badge"
                                                                 key={selectDesignation}
                                                                 onClick={() => handleDeselectDesignation(selectDesignation)}
@@ -877,8 +877,8 @@ const CreateCandidate = () => {
                                                         placeholder='Enter the designation to search here' />
 
                                                     <div className='search-result-data-area'>
-                                                        {filteredDesignation?.length > 0 &&
-                                                        filteredDesignation?.map((filterDesignation) => {
+                                                        {filteredDesignation.length > 0 &&
+                                                        filteredDesignation.map((filterDesignation) => {
                                                             return <div className='search-result-data' key={filterDesignation._id} onClick={() => handleDesignationClick(filterDesignation.designation)}>
                                                                 {filterDesignation.designation}
                                                             </div>
@@ -946,7 +946,7 @@ const CreateCandidate = () => {
 
                                                     <div className='job-post-form-label-with-badge'>
                                                         <label htmlFor="location" className='job-post-form-label'>Current Location<span className='form-required'>*</span></label>
-                                                        {selectedLocations?.map(selectLocation => (
+                                                        {selectedLocations.map(selectLocation => (
                                                             <span className="job-post-form-badge"
                                                                 key={selectLocation}
                                                                 onClick={() => handleDeselectLocation(selectLocation)}
@@ -962,8 +962,8 @@ const CreateCandidate = () => {
                                                         onChange={handleLocationSearch}/>
 
                                                     <div className='search-result-data-area'>
-                                                        {filteredLocations?.length > 0 &&
-                                                        filteredLocations?.map((filterLocation) => {
+                                                        {filteredLocations.length > 0 &&
+                                                        filteredLocations.map((filterLocation) => {
                                                             return <div className='search-result-data' key={filterLocation._id} onClick={() => handleLocationClick(filterLocation.location)}>
                                                                 {filterLocation.location}
                                                             </div>
@@ -971,7 +971,7 @@ const CreateCandidate = () => {
                                                         }
                                                     </div>
 
-                                                    {require && <small className='text-danger text-capitalized form-error-message'>{selectedLocations?.length === 0 && "required"}</small>}
+                                                    {require && <small className='text-danger text-capitalized form-error-message'>{selectedLocations.length === 0 && "required"}</small>}
                                                 </div>
                                             </div>
 
@@ -1022,7 +1022,7 @@ const CreateCandidate = () => {
 
                                                     <div className='job-post-form-label-with-badge'>
                                                         <label htmlFor="skill" className='job-post-form-label'>Skills<span className='form-required'>*</span></label>
-                                                        {selectedSkills?.map(selectSkill => (
+                                                        {selectedSkills.map(selectSkill => (
                                                             <span className="job-post-form-badge"
                                                                 key={selectSkill}
                                                                 onClick={() => handleDeselect(selectSkill)}
@@ -1038,14 +1038,14 @@ const CreateCandidate = () => {
                                                         placeholder='Enter the skill to search here' />
                                                     <small className='text-danger'>{skillAlert}</small>
                                                     <div className='search-result-data-area'>
-                                                        {filteredSkills?.length > 0 &&
-                                                            filteredSkills?.map((filterSkill) => {
+                                                        {filteredSkills.length > 0 &&
+                                                            filteredSkills.map((filterSkill) => {
                                                                 return <div className='search-result-data' key={filterSkill._id} onClick={() => handleSkillClick(filterSkill.skill)}>{filterSkill.skill}</div>
                                                             })
                                                         }
                                                     </div>
 
-                                                    {require && <small className='text-danger text-capitalized'>{selectedSkills?.length === 0 && "required"}</small>}
+                                                    {require && <small className='text-danger text-capitalized'>{selectedSkills.length === 0 && "required"}</small>}
                                                     <br />
                                                     <small className='text-danger text-capitalized'>{skillError}</small>
 
@@ -1092,7 +1092,7 @@ const CreateCandidate = () => {
                                                     <div className='job-post-form-label-with-badge'>
                                                         <label htmlFor="education" className='job-post-form-label'>Highest Education<span className='form-required'>*</span></label>
                                                         {/* <i class="bi bi-chevron-down"></i> */}
-                                                        {selectedEducation?.map(selectEducation => (
+                                                        {selectedEducation.map(selectEducation => (
                                                             <span className="job-post-form-badge"
                                                                 key={selectEducation}
                                                                 onClick={() => handleDeselectEducation(selectEducation)}
@@ -1109,8 +1109,8 @@ const CreateCandidate = () => {
                                                         placeholder='Enter a clear & specific education to get better responses' />
 
                                                     <div className='search-result-data-area'>
-                                                        {filteredEducation?.length > 0 &&
-                                                            filteredEducation?.map((filterEducation) => {
+                                                        {filteredEducation.length > 0 &&
+                                                            filteredEducation.map((filterEducation) => {
                                                                 return <div className='search-result-data' key={filterEducation._id} onClick={() => handleEducationClick(filterEducation.education)}>
                                                                     {filterEducation.education}
                                                                 </div>
@@ -1118,7 +1118,7 @@ const CreateCandidate = () => {
                                                         }
                                                     </div>
 
-                                                    {require && <small className='text-danger text-capitalized'>{selectedEducation?.length === 0 && "required"}</small>}
+                                                    {require && <small className='text-danger text-capitalized'>{selectedEducation.length === 0 && "required"}</small>}
                                                 </div>
                                             </div>
 
@@ -1168,4 +1168,4 @@ const CreateCandidate = () => {
 
 }
 
-export default CreateCandidate
+export default CreateCandidateATS

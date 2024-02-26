@@ -256,6 +256,8 @@ const ATSNavBar = () => {
                         <i class="bi bi-caret-down-fill"></i>
                         <img alt="image" src="../assets/img/talents-images/avatar.jpg"
                             className="user-img-radious-style" />
+                            {/* <img alt="image" src="data:image/jpeg;base64,"
+                            className="user-img-radious-style" /> */}
                         {/* <span className="d-sm-none d-lg-inline-block"></span> */}
                     </a>
                     <div className="dropdown-menu dropdown-menu-right pullDown profile-dropdown-menu">

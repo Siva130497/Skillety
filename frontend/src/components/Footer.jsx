@@ -1,6 +1,7 @@
 import React from 'react'
 
 export const Footer = () => {
+  const currentYear = new Date().getFullYear();
   return (
       
         <footer className='footer--section'>
@@ -314,7 +315,7 @@ export const Footer = () => {
           <div className="sub--footer">
             <div className="container-fluid">
               <div className="sub--footer-content">
-                <span className='footer--copyright'>© 2023 - Skillety Technologies Private Limited, All Rights Reserved.</span>
+                <span className='footer--copyright'>© {currentYear} - Skillety Technologies Private Limited, All Rights Reserved.</span>
                 <div className='footer--bottom-credit-area'>
                   <span className='footer--cerdit'>Designed & Developed by</span>
                   <a href="/https://www.prodigit.in/" target='_blank'>

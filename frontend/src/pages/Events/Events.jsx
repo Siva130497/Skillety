@@ -95,7 +95,7 @@ const Events = () => {
                                         </div>
                                         <div className="about--sub-des candidate">
                                             <p>
-                                                Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                                            The link has to land on the Registration/Login page. The text: You're just One Click away from the best opportunities.
                                             </p>
                                         </div>
                                         <a href='' className="arrow--icon-btn candidate">
@@ -221,7 +221,7 @@ const Events = () => {
                                                                 </h6>
                                                             </div>
                                                             <p className='cand--events-card-date'>{blog.date}</p>
-                                                            <a href={blog.url} className="cand--events-card-bottom-area">
+                                                            <a href={blog.url} target='_blank' rel="noreferrer" className="cand--events-card-bottom-area">
                                                                 <span className='cand--event-sys'>Know More</span>
                                                                 <span className='cand--events-card-arrow-area'>
                                                                     <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
@@ -264,7 +264,7 @@ const Events = () => {
                                                                 </h6>
                                                             </div>
                                                             <p className='cand--events-card-date'>{vdo.date}</p>
-                                                            <a href={vdo.url} className="cand--events-card-bottom-area">
+                                                            <a href={vdo.url} target='_blank' rel="noreferrer" className="cand--events-card-bottom-area">
                                                                 <span className='cand--event-sys'>Know More</span>
                                                                 <span className='cand--events-card-arrow-area'>
                                                                     <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
@@ -307,7 +307,7 @@ const Events = () => {
                                                                 </h6>
                                                             </div>
                                                             <p className='cand--events-card-date'>{pod.date}</p>
-                                                            <a href={pod.url} className="cand--events-card-bottom-area">
+                                                            <a href={pod.url} target='_blank' rel="noreferrer" className="cand--events-card-bottom-area">
                                                                 <span className='cand--event-sys'>Know More</span>
                                                                 <span className='cand--events-card-arrow-area'>
                                                                     <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
@@ -350,7 +350,7 @@ const Events = () => {
                                                                 </h6>
                                                             </div>
                                                             <p className='cand--events-card-date'>{news.date}</p>
-                                                            <a href={news.url} className="cand--events-card-bottom-area">
+                                                            <a href={news.url} target='_blank' rel="noreferrer" className="cand--events-card-bottom-area">
                                                                 <span className='cand--event-sys'>Know More</span>
                                                                 <span className='cand--events-card-arrow-area'>
                                                                     <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
@@ -375,8 +375,6 @@ const Events = () => {
             </div>
             <CandidateFooter />
         </>
-
-
 
     )
 }
