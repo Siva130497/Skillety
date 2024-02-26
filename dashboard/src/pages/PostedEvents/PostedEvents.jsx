@@ -309,7 +309,7 @@ const PostedEvents = () => {
                                                         </tr>
 
                                                         {/* table data */}
-                                                        {data.map((eve, index) => {
+                                                        {data.slice(x[0], x[1]).map((eve, index) => {
                                                             const editingEventId = eve.id;
                                                             return (
                                                                 <tr className='dash-table-row client' key={eve.id}>

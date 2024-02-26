@@ -49,12 +49,13 @@ import CandidatePlacementReport from './atsPages/AtsReports/ReportPages/Candidat
 import JobSuccessReport from './atsPages/AtsReports/ReportPages/JobSuccessReport';
 import JobDurationReport from './atsPages/AtsReports/ReportPages/JobDurationReport';
 import JobReport from './atsPages/AtsReports/ReportPages/JobReport';
-
+import CreateCandidateATS from './atsPages/CreateCandidateATS/CreateCandidateATS';
 
 ////for recruiter
 import RecruiterDashboard from './pages/RecruiterDashboard/RecruiterDashboard';
 import AllClients from './pages/AllClients/AllClients';
 import AllCandidates from './pages/AllCandidates/AllCandidates';
+import CreatedCandidates from './pages/CreatedCandidates/CreatedCandidates';
 import AllJobs from './pages/AllJobs/AllJobs';
 import PostedJobs from './pages/PostedJobs/PostedJobs';
 import PostingJob from './pages/PostingJob/PostingJob';
@@ -141,13 +142,14 @@ function App() {
         <Route path='/interview-report' element={<InterviewReport />} />
         <Route path='/lead-conversion-report' element={<LeadConversionReport />} />
         <Route path='/booked-events' element={<BookedEvents />} />
-
+        <Route path='/create-candidate-ats' element={<CreateCandidateATS />} />
 
         {/* for recruiter */}
         <Route path='/' element={<RecruiterLogin />} />
         <Route path='/recruiter-dashboard/:token' element={<RecruiterDashboard />} />
         <Route path='/all-clients' element={<AllClients />} />
         <Route path='/all-candidates' element={<AllCandidates />} />
+        <Route path='/created-candidates' element={<CreatedCandidates />} />
         <Route path='/all-jobs' element={<AllJobs />} />
         <Route path='/non-approval-jobs' element={<NonApprovalJobs />} />
         <Route path='/posted-jobs' element={<PostedJobs />} />

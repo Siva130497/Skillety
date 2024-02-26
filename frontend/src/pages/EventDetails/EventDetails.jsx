@@ -7,6 +7,9 @@ import { CandidateFooter } from "../../components/CandidateFooter";
 import LayoutNew from "../../components/LayoutNew";
 import { useParams } from "react-router-dom";
 import AuthContext from "../../context/AuthContext";
+import axios from 'axios';
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.css';
 
 const CandidateTestimonialDetail = () => {
   const { id } = useParams();
@@ -18,6 +21,56 @@ const CandidateTestimonialDetail = () => {
   const [status, setStatus] = useState(false);
   const [loading, setLoading] = useState(true);
   const [pageNotFound, setPageNotFound] = useState(false);
+
+  const intialBookingFormDetail = {
+    fullName:"",
+    email:"",
+    phoneNo:"",
+    message:"",
+  }
+  const [bookingFormDetail, setBookingFormDetail] = useState(intialBookingFormDetail);
+
+  //for show success message for payment
+  function showSuccessMessage(message) {
+    Swal.fire({
+        title: 'Success!',
+        text: message,
+        icon: 'success',
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: 'OK',
+    });
+}
+
+//for show error message for payment
+function showErrorMessage(message) {
+    Swal.fire({
+        title: 'Error!',
+        text: message,
+        icon: 'error',
+        confirmButtonColor: '#d33',
+        confirmButtonText: 'OK',
+    });
+}
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setBookingFormDetail({ ...bookingFormDetail, [name]: value });
+  }
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    axios.post("https://skillety-n6r1.onrender.com/book-an-event", {...bookingFormDetail, bookingEventId:id})
+    .then(res=>{
+      console.log(res.data);
+      showSuccessMessage("Event Booked Successfully!, We will contact you")
+      setBookingFormDetail(intialBookingFormDetail);
+    })
+    .catch(err=>{
+      console.log(err.response.data.error);
+      showErrorMessage(err.response.data.error);
+    })
+}
 
   useEffect(() => {
     getEventDetail();
@@ -264,17 +317,20 @@ const CandidateTestimonialDetail = () => {
                             htmlFor="first_name"
                             className="form-label book-event-label"
                           >
-                            First Name <span className="form-required">*</span>
+                            Full Name <span className="form-required">*</span>
                           </label>
                           <input
                             type="text"
+                            name="fullName"
                             className="form-control book-event-input"
-                            placeholder="Enter Your First Name"
+                            placeholder="Enter Your Full Name"
+                            value={bookingFormDetail.fullName}
+                            onChange={handleInputChange}
                           />
                         </div>
                       </div>
 
-                      <div className="col-12 col-md-12 col-lg-6">
+                      {/* <div className="col-12 col-md-12 col-lg-6">
                         <div className="form-group book-event-fm-grp">
                           <label
                             htmlFor="last_name"
@@ -288,7 +344,7 @@ const CandidateTestimonialDetail = () => {
                             placeholder="Enter Your Last Name"
                           />
                         </div>
-                      </div>
+                      </div> */}
 
                       <div className="col-12 col-md-12 col-lg-6">
                         <div className="form-group book-event-fm-grp">
@@ -299,9 +355,12 @@ const CandidateTestimonialDetail = () => {
                             Phone No. <span className="form-required">*</span>
                           </label>
                           <input
-                            type="text"
+                            type="Number"
+                            name="phoneNo"
                             className="form-control book-event-input"
                             placeholder="Enter Your Phone Number"
+                            value={bookingFormDetail.phoneNo}
+                            onChange={handleInputChange}
                           />
                         </div>
                       </div>
@@ -316,8 +375,11 @@ const CandidateTestimonialDetail = () => {
                           </label>
                           <input
                             type="email"
+                            name="email"
                             className="form-control book-event-input"
                             placeholder="Enter Your Email"
+                            value={bookingFormDetail.email}
+                            onChange={handleInputChange}
                           />
                         </div>
                       </div>
@@ -328,11 +390,14 @@ const CandidateTestimonialDetail = () => {
                             htmlFor="note"
                             className="form-label book-event-label"
                           >
-                            Note
+                            Message <span className="form-required">*</span>
                           </label>
                           <textarea
+                          name="message"
                             className="form-control book-event-input"
                             placeholder="Any Note Here"
+                            value={bookingFormDetail.message}
+                            onChange={handleInputChange}
                           ></textarea>
                         </div>
                       </div>
@@ -346,7 +411,8 @@ const CandidateTestimonialDetail = () => {
                     >
                       Close
                     </button>
-                    <button type="button" className="btn btn-submit-btn">
+                    <button type="button" className="btn btn-submit-btn"
+                    onClick={handleSubmit}>
                       Submit
                     </button>
                   </div>

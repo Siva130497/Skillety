@@ -63,7 +63,7 @@ const candidateCreateSchema = new Schema(
         required: true
     },
     education: {
-        type: String,
+        type: Array,
         required: true
     },
     profileHeadline: {
@@ -93,6 +93,10 @@ const candidateCreateSchema = new Schema(
         required: true
     },
     url: {
+        type: String,
+        required: true
+    },
+    activeIn: {
         type: String,
         required: true
     }

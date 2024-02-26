@@ -169,7 +169,7 @@ export const AuthContextProvider = ({ children }) => {
                     confirmButtonColor: '#3085d6',
                     confirmButtonText: 'OK',
                 }).then(() => {
-                    window.location.reload();
+                  navigate("/created-candidates");
                 });
             });
         } else {
@@ -212,7 +212,7 @@ const candidateUpdate = async (userData) => {
                   confirmButtonColor: '#3085d6',
                   confirmButtonText: 'OK',
               }).then(() => {
-                  navigate("/all-candidates");
+                  navigate("/created-candidates");
               });
           });
       } else {

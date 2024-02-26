@@ -218,7 +218,7 @@ const ClientContact = () => {
                                                             </tr>
 
                                                             {/* table data */}
-                                                            {contactMsgDetails.map((msg, index) => {
+                                                            {contactMsgDetails.slice(x[0], x[1]).map((msg, index) => {
                                                                 return (
                                                                     <tr className='dash-table-row client' key={msg._id}>
                                                                         <td className='dash-table-data1'>{index + 1}.</td>

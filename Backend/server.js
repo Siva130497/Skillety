@@ -395,6 +395,34 @@ app.post('/upload-client-profile-image', employeeAuth, uploadClientImg.single('i
   .catch(err => console.log(err)) 
 })
 
+// /* base64 conversion */
+// const storageMemory = multer.memoryStorage();
+// const uploadImgBase64 = multer({ storage: storageMemory });
+
+// app.post('/upload-client-profile-image', uploadImgBase64.single('image'), async (req, res) => {
+//   try {
+//     if (!req.file) {
+//       return res.status(400).json({ error: 'No image provided' });
+//     }
+
+//     // Convert image buffer to base64
+//     const base64Image = req.file.buffer.toString('base64');
+
+//     // Save the image to the database
+//     const clientImage = new clientProfile({
+//       id: req.body.id,
+//       image: base64Image
+//     });
+//     await clientImage.save();
+
+//     res.status(200).json({ message: 'Image uploaded successfully' });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: 'Internal server error' });
+//   }
+// });
+// /*  */
+
 app.get('/client-image', (req, res)=>{
   clientProfile.find()
   .then(clientImg=>res.json(clientImg))
