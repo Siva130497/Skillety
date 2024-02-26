@@ -144,6 +144,8 @@ const {
   getAllClientTableColumnData,
   allClientTableColumnData,
   getAllCandidateTableColumnData,
+  createdCandidateTableColumnData,
+   getCreatedCandidateTableColumnData,
    allCandidateTableColumnData,
    allJobTableColumnData,
    getAllJobTableColumnData,
@@ -608,6 +610,10 @@ router.get("/all-clients-column/:id", getAllClientTableColumnData);
 router.post("/all-candidates-column", allCandidateTableColumnData);
 
 router.get("/all-candidates-column/:id", getAllCandidateTableColumnData);
+
+router.post("/created-candidates-column", createdCandidateTableColumnData);
+
+router.get("/created-candidates-column/:id", getCreatedCandidateTableColumnData);
 
 router.post("/all-jobs-column", allJobTableColumnData);
 

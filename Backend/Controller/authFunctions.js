@@ -37,6 +37,7 @@ const candidateNotification = require("../Database/candidateNotificationData");
 const candidateCreate = require("../Database/candidateCreate");
 const allClientTable = require("../Database/allClientTable");
 const allCandidateTable = require("../Database/allCandidateTable");
+const createdCandidatesTable = require("../Database/createdCandidatesTable");
 const allJobTable = require("../Database/allJobTable");
 const nonApprovalJobTable = require("../Database/nonApprovalJobTable");
 const postedJobTable = require("../Database/postedJobTable");
@@ -818,43 +819,81 @@ const getAllCandidateDetail = async (req, res) => {
   }
 }
 
+// const getAllRecruiterCandidateDetail = async (req, res) => {
+//   const {id} = req.params;
+//   try {
+//     const allCandidatesCreatedByRecruiterId = await candidateCreate.find({recruiterId:id});
+//     const allRegisteredCandidates = await candidate.find();
+//     const allCandidatesResume = await resume.find();
+//     // const allCandidates = [...allCandidatesCreatedByRecruiterId, ...allRegisteredCandidates]
+//     const allCandidates = allCandidatesCreatedByRecruiterId.map(cand => {
+//       const foundCandidate = allRegisteredCandidates.find(regCand => regCand.id === cand.id);
+//       if (foundCandidate) {
+//         // Candidate is both created and registered
+//         return { ...cand._doc, status: "Created & Registered" };
+//       } else {
+//         // Candidate is created but not registered
+//         return { ...cand._doc, status: "Created & Not-Registered" };
+//       }
+//     });
+//     // console.log(allCandidates)
+//     const resumeDict = {}; 
+//     allCandidatesResume.forEach(resume => {
+//       resumeDict[resume.id] = resume._doc;
+//     });
+
+//     const allCandidatesDetail = await Promise.all(allCandidates.map(async cand => {
+//       const matchingResume = resumeDict[cand.id];
+
+//       if (matchingResume) {
+//         if(cand.selectedDate){
+//           // const selectedDateStr = cand.selectedDate;
+//         // const selectedDay = parseInt(selectedDateStr.split("/")[0], 10);
+//         // const dayDifference = currentDay - selectedDay;
+//           const dayDifference = 10;
+//           const candidateData = { ...cand._doc };
+//           const resumeData = { ...matchingResume };
+
+//           return { ...candidateData, ...resumeData, dayDifference };
+//         }
+//         else{
+//           const candidateData = { ...cand._doc };
+//           const resumeData = { ...matchingResume };
+
+//           return { ...candidateData, ...resumeData};
+//         }
+//       } else {
+//         return { ...cand._doc };
+//       }
+//     }));
+
+//     return res.status(200).json(allCandidatesDetail.sort((a, b) => {
+//       return new Date(b.updatedAt) - new Date(a.updatedAt);
+//   }));
+//   } catch (err) {
+//     return res.status(500).json({ error: err.message });
+//   }
+// }
+
 const getAllRecruiterCandidateDetail = async (req, res) => {
   const {id} = req.params;
   try {
-    const allCandidates = await candidateCreate.find({recruiterId:id});
-    const allCandidatesResume = await resume.find();
-
-    const resumeDict = {}; 
-    allCandidatesResume.forEach(resume => {
-      resumeDict[resume.id] = resume._doc;
-    });
-
-    const allCandidatesDetail = await Promise.all(allCandidates.map(async cand => {
-      const matchingResume = resumeDict[cand.id];
-
-      if (matchingResume) {
-        if(cand.selectedDate.length > 1){
-          // const selectedDateStr = cand.selectedDate;
-        // const selectedDay = parseInt(selectedDateStr.split("/")[0], 10);
-        // const dayDifference = currentDay - selectedDay;
-          const dayDifference = 10;
-          const candidateData = { ...cand._doc };
-          const resumeData = { ...matchingResume };
-
-          return { ...candidateData, ...resumeData, dayDifference };
+    const allCandidatesCreatedByRecruiterId = await candidateCreate.find({recruiterId:id});
+    const updatedCreatedCandDetail = await Promise.all(
+      allCandidatesCreatedByRecruiterId.map(async(cand)=>{
+        const particularCandRegistered = await candidate.findOne({id:cand.id});
+        const particularCandResume = await resume.findOne({id:cand.id});
+        return {
+          ...cand._doc,
+          ...particularCandResume._doc,
+          registered:particularCandRegistered ? true : false
         }
-        else{
-          const candidateData = { ...cand._doc };
-          const resumeData = { ...matchingResume };
+      })
+    )
 
-          return { ...candidateData, ...resumeData};
-        }
-      } else {
-        return { ...cand._doc };
-      }
-    }));
-
-    return res.status(200).json(allCandidatesDetail);
+    return res.status(200).json(updatedCreatedCandDetail.sort((a, b) => {
+      return new Date(b.updatedAt) - new Date(a.updatedAt);
+  }));
   } catch (err) {
     return res.status(500).json({ error: err.message });
   }
@@ -3764,6 +3803,44 @@ const getAllCandidateTableColumnData = async(req, res) => {
     const allCandidateTableColumnData = await allCandidateTable.findOne({id});
     console.log(allCandidateTableColumnData);
     return res.status(200).json(allCandidateTableColumnData);
+  }catch(err){
+    console.log(err);
+    return res.status(500).json({ error: err.message });
+  }
+}
+
+const createdCandidateTableColumnData = async (req, res) => {
+  try {
+    const { id, column } = req.body;
+
+    const existingDocument = await createdCandidatesTable.findOne({ id });
+
+    if (existingDocument) {
+      existingDocument.column = column;
+      await existingDocument.save();
+      res.status(200).json(existingDocument);
+    } else {
+      const newCreatedCandidateTableData = new createdCandidatesTable({
+        id,
+        column,
+      });
+
+      await newCreatedCandidateTableData.save();
+      res.status(201).json(newCreatedCandidateTableData);
+    }
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+};
+
+
+/* get all client table column data */
+const getCreatedCandidateTableColumnData = async(req, res) => {
+  const {id} = req.params;
+  try{
+    const createdCandidateTableColumnData = await createdCandidatesTable.findOne({id});
+    console.log(createdCandidateTableColumnData);
+    return res.status(200).json(createdCandidateTableColumnData);
   }catch(err){
     console.log(err);
     return res.status(500).json({ error: err.message });
@@ -8124,6 +8201,8 @@ module.exports = {
    getAllClientTableColumnData,
    allClientTableColumnData,
    getAllCandidateTableColumnData,
+   createdCandidateTableColumnData,
+   getCreatedCandidateTableColumnData,
    allCandidateTableColumnData,
    allJobTableColumnData,
    getAllJobTableColumnData,

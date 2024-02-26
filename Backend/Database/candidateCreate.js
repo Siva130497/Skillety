@@ -63,7 +63,7 @@ const candidateCreateSchema = new Schema(
         required: true
     },
     education: {
-        type: String,
+        type: Array,
         required: true
     },
     profileHeadline: {

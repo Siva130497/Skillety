@@ -150,7 +150,7 @@ export const AuthContextProvider = ({ children }) => {
   //candidate register
   const candidateReg = async (userData) => {
     try {
-        const response = await axios.post('https://skillety-n6r1.onrender.com/candidate-create', userData, {
+        const response = await axios.post('http://localhost:5002/candidate-create', userData, {
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -169,7 +169,7 @@ export const AuthContextProvider = ({ children }) => {
                     confirmButtonColor: '#3085d6',
                     confirmButtonText: 'OK',
                 }).then(() => {
-                    window.location.reload();
+                  navigate("/created-candidates");
                 });
             });
         } else {
@@ -212,7 +212,7 @@ const candidateUpdate = async (userData) => {
                   confirmButtonColor: '#3085d6',
                   confirmButtonText: 'OK',
               }).then(() => {
-                  navigate("/all-candidates");
+                  navigate("/created-candidates");
               });
           });
       } else {
