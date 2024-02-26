@@ -2208,6 +2208,24 @@ const getAllBookingDetails = async (req, res) => {
   }
 };
 
+/* delete booking detail */
+const deletingBookingEventDetail = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const deletedBookingDetail = await bookingEventDetail.deleteOne({ _id: id });
+
+    if (deletedBookingDetail.deletedCount > 0) {
+      res.status(204).json({ message: 'Booking event detail deleted successfully' });
+    } else {
+      res.status(404).json({ error: 'Booking Detail not found' });
+    }
+
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+}
+
 const deletingCandidateContactMsg = async (req, res) => {
   try {
     const { id } = req.params;
@@ -8214,6 +8232,7 @@ module.exports = {
    getUpdatedAppliedOfPostedJobs,
    bookTheEvent,
    getAllBookingDetails,
+   deletingBookingEventDetail,
    //MOBILE APP API............
 
    candidateDashboardTopBar,

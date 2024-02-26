@@ -150,7 +150,7 @@ export const AuthContextProvider = ({ children }) => {
   //candidate register
   const candidateReg = async (userData) => {
     try {
-        const response = await axios.post('http://localhost:5002/candidate-create', userData, {
+        const response = await axios.post('https://skillety-n6r1.onrender.com/candidate-create', userData, {
             headers: {
                 'Content-Type': 'application/json',
             },

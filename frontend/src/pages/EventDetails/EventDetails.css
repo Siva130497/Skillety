@@ -1,45 +1,44 @@
 .event--detail-content-section {
-    overflow: hidden;
-
+  overflow: hidden;
 }
 
 .event--detail-img-area {
-    overflow: hidden;
-    width: 100%;
-    height: 640px;
-    border-radius: 31px;
-    transition: ease-in-out 0.8s;
-    position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 640px;
+  border-radius: 31px;
+  transition: ease-in-out 0.8s;
+  position: relative;
 }
 
 .event--detail-img-area .event--detail-img {
-    width: 100%;
-    height: 645px;
-    object-fit: cover;
-    object-position: center;
-    transition: ease-in-out 1.5s !important;
+  width: 100%;
+  height: 645px;
+  object-fit: cover;
+  object-position: center;
+  transition: ease-in-out 1.5s !important;
 }
 
 .event--detail-img-area:hover .event--detail-img {
-    transform: scale(1.08);
+  transform: scale(1.08);
 }
 
 .event--detail-lable-area {
-    margin: 50px 0;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
+  margin: 50px 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
 }
 
 .event--detail-lable-area .event--detail-lable {
-    border-radius: 5px;
-    background-color: #F9C833;
-    color: #714F36;
-    font-size: 20px;
-    font-weight: 500;
-    padding: 11px 60px;
-    text-decoration: none;
-    transition: ease-in-out 0.8s;
+  border-radius: 5px;
+  background-color: #f9c833;
+  color: #714f36;
+  font-size: 20px;
+  font-weight: 500;
+  padding: 11px 60px;
+  text-decoration: none;
+  transition: ease-in-out 0.8s;
 }
 
 /* .event--detail-lable-area .event--detail-lable:hover {
@@ -48,58 +47,97 @@
 } */
 
 .event--detail-top-area {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .event--detail-title-area .event--detail-title {
-    color: #714F36;
-    font-size: 40px;
-    font-weight: 500;
+  color: #714f36;
+  font-size: 40px;
+  font-weight: 500;
 }
 
 .event--detail-sub-cont-area {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
 }
 
 .event--detail-location-area i {
-    font-size: 24px;
-    vertical-align: baseline;
-    margin-right: 9px;
-    color: #F9C833;
+  font-size: 24px;
+  vertical-align: baseline;
+  margin-right: 9px;
+  color: #f9c833;
 }
 
 .event--detail-sub-cont {
-    color: #714F36;
-    font-size: 18px;
-    font-weight: 500;
+  color: #714f36;
+  font-size: 18px;
+  font-weight: 500;
 }
 
 .event--detail-date {
-    color: #714F36;
-    font-size: 20px;
-    font-weight: 500;
+  color: #714f36;
+  font-size: 20px;
+  font-weight: 500;
 }
 
 .event--detail-desc-area {
-    margin-top: 50px;
+  margin-top: 50px;
 }
 
 .event--detail-desc-area .event--detail-desc {
-    color: #714F36;
-    font-size: 18px;
-    font-weight: 400;
-    line-height: 182%;
+  color: #714f36;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 182%;
 }
-.event--detail-btn-area{
-    margin-top: 60px;
+.event--detail-btn-area {
+  margin-top: 60px;
 }
-.event--detail-title-area{
-    width: 60%;
+.event--detail-title-area {
+  width: 60%;
+}
+
+/* /////// */
+.book-event-label {
+  color: #714f36 !important;
+  font-weight: 600;
+}
+.book-event-input {
+  height: auto !important;
+  padding: 12px 12px !important;
+  border: #714f36 1px solid;
+  border-bottom-width: 3px;
+}
+
+.book-event-input::placeholder {
+  color: #b6b6b6 !important;
+}
+.book-event-input:focus {
+  box-shadow: #f3e1ad 0px 0px 0px 5px !important;
+  border-bottom-width: 1px !important;
+  border-color: #714f36 !important;
+}
+.book-event-fm-grp {
+  margin-bottom: 30px;
+}
+
+.btn-submit-btn {
+  border: 1px solid #00c939;
+  color: #00c939 !important;
+  font-size: 16px !important;
+  transition: ease-in-out 0.5s;
+  font-weight: 600 !important;
+}
+
+.btn-submit-btn:hover {
+  background-color: #00c939 !important;
+  color: #fff !important;
+}
+.form-required {
+  color: red;
 }

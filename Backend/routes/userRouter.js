@@ -156,7 +156,7 @@ const {
    getUpdatedAppliedOfPostedJobs,
    bookTheEvent,
    getAllBookingDetails,
-   
+   deletingBookingEventDetail,
    //MOBILE APP API............
 
    candidateDashboardTopBar,
@@ -632,6 +632,9 @@ router.post("/book-an-event", bookTheEvent);
 
 //get all the booking details
 router.get("/find-all-booking-details", employeeAuth, getAllBookingDetails);
+
+//delete booking detail
+router.delete("/delete-booking-event/:id", employeeAuth, deletingBookingEventDetail);
 
 //MOBILE APP API............
 

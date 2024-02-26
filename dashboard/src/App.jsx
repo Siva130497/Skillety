@@ -76,6 +76,7 @@ import TalentsProfileSearchAts from './pages/TalentsProfileSearchAts/TalentsProf
 import TalentsAts from './pages/TalentsAts/TalentsAts';
 import JobSearchAts from './pages/JobSearchAts/JobSearchAts';
 import JobDetailsAts from './pages/JobDetailsAts/JobDetailsAts';
+import BookedEvents from './pages/BookedEvents/BookedEvents';
 
 import CandidateChat from './pages/Chat/CandidateChat';
 import ClientChat from './pages/Chat/ClientChat';
@@ -140,8 +141,8 @@ function App() {
         <Route path='/client-report' element={<ClientReport />} />
         <Route path='/interview-report' element={<InterviewReport />} />
         <Route path='/lead-conversion-report' element={<LeadConversionReport />} />
+        <Route path='/booked-events' element={<BookedEvents />} />
         <Route path='/create-candidate-ats' element={<CreateCandidateATS />} />
-
 
         {/* for recruiter */}
         <Route path='/' element={<RecruiterLogin />} />

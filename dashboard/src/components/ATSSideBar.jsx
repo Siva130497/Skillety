@@ -42,6 +42,8 @@ const ATSSideBar = () => {
                 $('#posted_jobs').addClass('active');
             } else if (path === '/job-posting') {
                 $('#job_posting').addClass('active');
+            } else if (path === '/booked-events') {
+                $('#booked_events').addClass('active');
             } else if (path === '/media-posting/event') {
                 $('#media_posting').addClass('active');
                 $('#event_posting').addClass('active');
@@ -199,6 +201,10 @@ const ATSSideBar = () => {
                             <li id='news_posting'><a className="nav-link" href="/media-posting/news">News Posting</a></li>
                         </ul>
                     </li>}
+
+                    <li className="dropdown" id='booked_events'>
+                        <a href="/booked-events" className="nav-link"><i data-feather="calendar"></i><span>Booked Events</span></a>
+                    </li>
                     {/* <li className="dropdown" id='event_posting'>
                             <a href="/event-posting" className="nav-link"><i data-feather="calendar"></i><span>Media Posting</span></a>
                         </li> */}

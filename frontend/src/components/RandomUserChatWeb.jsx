@@ -33,7 +33,7 @@ const RandomUserChatWeb = () => {
   const [socket, setSocket] = useState(null);
 
     useEffect(()=>{
-        setSocket(io("http://localhost:5002"));
+        setSocket(io("https://skillety-n6r1.onrender.com"));
     },[]);
 
     useEffect(()=>{
@@ -65,7 +65,7 @@ const RandomUserChatWeb = () => {
 
       // fetchData();
 
-      axios.get("http://localhost:5002/all-employee")
+      axios.get("https://skillety-n6r1.onrender.com/all-employee")
       .then(res=>{
         console.log(res.data);
         setAllEmployee(res.data);

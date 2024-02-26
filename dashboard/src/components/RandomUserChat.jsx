@@ -41,7 +41,7 @@ const RandomUserChat = () => {
   const [randomUniqueUserContent, setRandomUniqueUserContent] = useState([]);
 
   useEffect(()=>{
-    setSocket(io("http://localhost:5002"));
+    setSocket(io("https://skillety-n6r1.onrender.com"));
   },[]);
 
 useEffect(()=>{
