@@ -13,45 +13,45 @@ import { useState } from 'react';
 const Company = () => {
     const { getClientImg, clientImg } = useContext(AuthContext);
     const [allJobs, setAllJobs] = useState([]);
-  const [allCompany, setAllCompany] = useState([])
+    const [allCompany, setAllCompany] = useState([])
     useEffect(() => {
 
     }, []);
 
     const getPostedjobs = async () => {
         try {
-          const res = await axios.get(`https://skillety-n6r1.onrender.com/posted-jobs`, {
-            headers: {
-              Accept: 'application/json'
+            const res = await axios.get(`https://skillety-n6r1.onrender.com/posted-jobs`, {
+                headers: {
+                    Accept: 'application/json'
+                }
+            });
+            const result = res.data;
+            if (!result.error) {
+                console.log(result);
+                setAllJobs(result);
+            } else {
+                console.log(result);
             }
-          });
-          const result = res.data;
-          if (!result.error) {
-            console.log(result);
-            setAllJobs(result);
-          } else {
-            console.log(result);
-          }
         } catch (err) {
-          console.log(err);
+            console.log(err);
         }
-      }
+    }
 
-      useEffect(() => {
+    useEffect(() => {
         getClientImg();
         getPostedjobs();
 
         axios.get("https://skillety-n6r1.onrender.com/company-details")
-        .then(res=>{
-          console.log(res.data);
-          setAllCompany(res.data);
-        })
-        .catch(err=>{
-          console.log(err);
-        })
-    
-    
-      }, []);
+            .then(res => {
+                console.log(res.data);
+                setAllCompany(res.data);
+            })
+            .catch(err => {
+                console.log(err);
+            })
+
+
+    }, []);
 
     return (
         <div>
@@ -95,64 +95,65 @@ const Company = () => {
                     </div>
                     <div className='companies--section'>
                         <div className="con--where-container">
-                            <h4 className='company--heading' data-aos="fade-up">Work for the <span>best</span><br />
-                                <span>companies.</span></h4>
+                            <h4 className='company--heading' data-aos="fade-up">Pick your dream <span>Company!!!</span></h4>
 
-                        <div className="company--content-area">
-                            {allCompany
-                                .filter(company => {
-                                const jobOpening = allJobs.filter(job => job.companyId === company.companyId).length;
-                                return allCompany.length > 0 && jobOpening > 0;
-                                })
-                                .sort((a, b) => {
-                                const jobOpeningA = allJobs.filter(job => job.companyId === a.companyId).length;
-                                const jobOpeningB = allJobs.filter(job => job.companyId === b.companyId).length;
-                                return jobOpeningB - jobOpeningA;
-                                })
-                                .map(company => {
-                                const matchingImg = clientImg ? clientImg.find(img => img.id === company.companyId) : null;
-                                const imgSrc = matchingImg ? `https://skillety-n6r1.onrender.com/client_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
-                                const jobOpening = allJobs.filter(job => job.companyId === company.companyId).length;
+                            <div className="company--content-area">
+                                {allCompany
+                                    .filter(company => {
+                                        const jobOpening = allJobs.filter(job => job.companyId === company.companyId).length;
+                                        return allCompany.length > 0 && jobOpening > 0;
+                                    })
+                                    .sort((a, b) => {
+                                        const jobOpeningA = allJobs.filter(job => job.companyId === a.companyId).length;
+                                        const jobOpeningB = allJobs.filter(job => job.companyId === b.companyId).length;
+                                        return jobOpeningB - jobOpeningA;
+                                    })
+                                    .map(company => {
+                                        const matchingImg = clientImg ? clientImg.find(img => img.id === company.companyId) : null;
+                                        const imgSrc = matchingImg ? `https://skillety-n6r1.onrender.com/client_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
+                                        const jobOpening = allJobs.filter(job => job.companyId === company.companyId).length;
 
-                                return (
-                                    <div key={company.companyId} className="row company--content-row custom-row-border-top">
-                                    <div className="col-12 col-xl-2 col-lg-2 col-sm-4 col-md-4 company--content-img-area">
-                                        <img src={imgSrc} data-aos="fade" className='company--content-img cand-home' loading='lazy' alt="" />
-                                    </div>
-                                    <div className="col-12 col-xl-3 col-lg-3 col-sm-8 col-md-8 company--content-jobs-area">
-                                        <div className='company--content-jobs' data-aos="zoom-out">{jobOpening}<span> Jobs Opening</span></div>
-                                        <div className='home-company-name mt-2' data-aos="zoom-out">{company.companyName}</div>
-                                    </div>
-                                    <div className="col-12 col-xl-7 col-lg-7 col-md-12 company--content-desc-area">
-                                        <p className='company--content-desc' data-aos="fade-left">{company.shortDescription}</p>
-                                        <div className='company--content-apply-btn-area' data-aos="fade-right">
-                                        <a href={`/company-details/${company.companyId}`} className='company--content-apply-btn'>
-                                            <div className='company--content-apply-btn-sub'>
-                                            Apply Now
+                                        return (
+                                            <div key={company.companyId} className="row company--content-row custom-row-border-top">
+                                                <div className="col-12 col-xl-2 col-lg-2 col-sm-4 col-md-4 company--content-img-area">
+                                                    <img src={imgSrc} data-aos="fade" className='company--content-img cand-home' loading='lazy' alt="" />
+                                                </div>
+                                                <div className="col-12 col-xl-3 col-lg-3 col-sm-8 col-md-8 company--content-jobs-area">
+                                                    <div className='company--content-jobs' data-aos="zoom-out">{jobOpening}<span> Jobs Opening</span></div>
+                                                    <div className='home-company-name mt-2' data-aos="zoom-out">{company.companyName}</div>
+                                                </div>
+                                                <div className="col-12 col-xl-7 col-lg-7 col-md-12 company--content-desc-area">
+                                                    <p className='company--content-desc' data-aos="fade-left">{company.shortDescription}</p>
+                                                    <div className='company--content-apply-btn-area' data-aos="fade-right">
+                                                        <a href={`/company-details/${company.companyId}`} className='company--content-apply-btn'>
+                                                            <div className='company--content-apply-btn-sub'>
+                                                                Apply Now
+                                                            </div>
+                                                            <div className='company--content-apply-arrow'>
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 15 15" fill="none">
+                                                                    <path d="M2.10205 2.10666C4.02798 3.73629 9.03538 5.84 13.6576 1.21777" stroke="#5C3B2E" strokeWidth="2" />
+                                                                    <path d="M13.8327 1.04564C11.9705 2.74763 9.24438 7.44531 13.2383 12.6201" stroke="#5C3B2E" strokeWidth="2" />
+                                                                    <path d="M1.2666 14.1331L14.1555 0.799805" stroke="#5C3B2E" strokeWidth="2" />
+                                                                </svg>
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div className='company--content-apply-arrow'>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 15 15" fill="none">
-                                                <path d="M2.10205 2.10666C4.02798 3.73629 9.03538 5.84 13.6576 1.21777" stroke="#5C3B2E" strokeWidth="2" />
-                                                <path d="M13.8327 1.04564C11.9705 2.74763 9.24438 7.44531 13.2383 12.6201" stroke="#5C3B2E" strokeWidth="2" />
-                                                <path d="M1.2666 14.1331L14.1555 0.799805" stroke="#5C3B2E" strokeWidth="2" />
-                                            </svg>
-                                            </div>
-                                        </a>
-                                        </div>
-                                    </div>
-                                    </div>
-                                );
-                                })}
-                        </div>
+                                        );
+                                    })}
+                            </div>
                         </div>
                         <div className="company-demo-card-area">
                             <div className='company-demo-card'>
                                 <div className="company-demo-card-desc-area">
-                                    <p className='company-demo-card-desc' data-aos="fade-left">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text</p>
+                                    <p className='company-demo-card-desc' data-aos="fade-left">
+                                        Fortune-500s to Multinational Corporations to Hypergrowth Start-ups across the world, from all industry sectors find their best Talent, right here on Skillety.
+                                    </p>
                                 </div>
                                 <div className="company-demo-card-bottom-area">
                                     <h3 className='company-demo-card-title' data-aos="fade-down">LET’S GET STARTED <br />
-                                        WITH US. ONE CLICK AWAY</h3>
+                                        WITH US, RIGHT NOW.</h3>
 
                                     <div className="company-demo-card-btn-area">
                                         <a href="#" className='company-demo-card-btn' data-aos="fade-right">

@@ -108,7 +108,7 @@ const NewNav = ({homeActive, aboutUsActive, searchCVActive, serviceActive, RPOAc
                                 <li><a href="/interview-as-a-service">Interview as a Service</a></li>
                                 {/* <li><a href="/onboarding-process">Onboarding Process</a></li> */}
                                 <li><a href="/background-verification">Background Verification</a></li>
-                                <li><a href="/rpo">RPO</a></li>
+                                {/* <li><a href="/rpo">RPO</a></li> */}
                             </ul>
                         </li>
                         {/* <li><a className={RPOActive ? "nav-link scrollto active" : "nav-link scrollto"} href="/rpo">RPO</a></li> */}
