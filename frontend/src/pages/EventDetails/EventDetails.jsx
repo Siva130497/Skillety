@@ -7,9 +7,9 @@ import { CandidateFooter } from "../../components/CandidateFooter";
 import LayoutNew from "../../components/LayoutNew";
 import { useParams } from "react-router-dom";
 import AuthContext from "../../context/AuthContext";
-import axios from 'axios';
-import Swal from 'sweetalert2';
-import 'sweetalert2/dist/sweetalert2.css';
+import axios from "axios";
+import Swal from "sweetalert2";
+import "sweetalert2/dist/sweetalert2.css";
 
 const CandidateTestimonialDetail = () => {
   const { id } = useParams();
@@ -23,54 +23,60 @@ const CandidateTestimonialDetail = () => {
   const [pageNotFound, setPageNotFound] = useState(false);
 
   const intialBookingFormDetail = {
-    fullName:"",
-    email:"",
-    phoneNo:"",
-    message:"",
-  }
-  const [bookingFormDetail, setBookingFormDetail] = useState(intialBookingFormDetail);
+    fullName: "",
+    email: "",
+    phoneNo: "",
+    message: "",
+  };
+  const [bookingFormDetail, setBookingFormDetail] = useState(
+    intialBookingFormDetail
+  );
 
   //for show success message for payment
   function showSuccessMessage(message) {
     Swal.fire({
-        title: 'Success!',
-        text: message,
-        icon: 'success',
-        confirmButtonColor: '#3085d6',
-        confirmButtonText: 'OK',
+      title: "Success!",
+      text: message,
+      icon: "success",
+      confirmButtonColor: "#3085d6",
+      confirmButtonText: "OK",
     });
-}
+  }
 
-//for show error message for payment
-function showErrorMessage(message) {
+  //for show error message for payment
+  function showErrorMessage(message) {
     Swal.fire({
-        title: 'Error!',
-        text: message,
-        icon: 'error',
-        confirmButtonColor: '#d33',
-        confirmButtonText: 'OK',
+      title: "Error!",
+      text: message,
+      icon: "error",
+      confirmButtonColor: "#d33",
+      confirmButtonText: "OK",
     });
-}
+  }
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setBookingFormDetail({ ...bookingFormDetail, [name]: value });
-  }
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    axios.post("https://skillety-n6r1.onrender.com/book-an-event", {...bookingFormDetail, bookingEventId:id})
-    .then(res=>{
-      console.log(res.data);
-      showSuccessMessage("Event Booked Successfully!, We will contact you")
-      setBookingFormDetail(intialBookingFormDetail);
-    })
-    .catch(err=>{
-      console.log(err.response.data.error);
-      showErrorMessage(err.response.data.error);
-    })
-}
+    axios
+      .post("https://skillety-n6r1.onrender.com/book-an-event", {
+        ...bookingFormDetail,
+        bookingEventId: id,
+      })
+      .then((res) => {
+        console.log(res.data);
+        showSuccessMessage("Event Booked Successfully!, We will contact you");
+        setBookingFormDetail(intialBookingFormDetail);
+      })
+      .catch((err) => {
+        console.log(err.response.data.error);
+        showErrorMessage(err.response.data.error);
+      });
+  };
 
   useEffect(() => {
     getEventDetail();
@@ -195,6 +201,7 @@ function showErrorMessage(message) {
                         <div className="ser--cont-btn candidate pe-lg-5 ps-lg-5">
                           Book an event
                         </div>
+
                         <div className="ser--cont-arrow-area candidate">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -225,8 +232,9 @@ function showErrorMessage(message) {
                   </div>
                 </div>
               </div>
+
               <div className="tal--pro-slider-btn-area" data-aos="fade-up">
-                <div className="tal--pro-slider-btn-sub">
+                {/* <div className="tal--pro-slider-btn-sub">
                   <button className="tal--pro-slider-btn">
                     <svg
                       className="arrow-left"
@@ -279,7 +287,7 @@ function showErrorMessage(message) {
                       />
                     </svg>
                   </button>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
@@ -327,6 +335,9 @@ function showErrorMessage(message) {
                             value={bookingFormDetail.fullName}
                             onChange={handleInputChange}
                           />
+                          <small className="form-required">
+                            This filed is required.
+                          </small>
                         </div>
                       </div>
 
@@ -362,6 +373,9 @@ function showErrorMessage(message) {
                             value={bookingFormDetail.phoneNo}
                             onChange={handleInputChange}
                           />
+                          <small className="form-required">
+                            This filed is required.
+                          </small>
                         </div>
                       </div>
 
@@ -381,6 +395,9 @@ function showErrorMessage(message) {
                             value={bookingFormDetail.email}
                             onChange={handleInputChange}
                           />
+                          <small className="form-required">
+                            This filed is required.
+                          </small>
                         </div>
                       </div>
 
@@ -393,12 +410,15 @@ function showErrorMessage(message) {
                             Message <span className="form-required">*</span>
                           </label>
                           <textarea
-                          name="message"
+                            name="message"
                             className="form-control book-event-input"
                             placeholder="Any Note Here"
                             value={bookingFormDetail.message}
                             onChange={handleInputChange}
                           ></textarea>
+                          <small className="form-required">
+                            This filed is required.
+                          </small>
                         </div>
                       </div>
                     </div>
@@ -411,8 +431,11 @@ function showErrorMessage(message) {
                     >
                       Close
                     </button>
-                    <button type="button" className="btn btn-submit-btn"
-                    onClick={handleSubmit}>
+                    <button
+                      type="button"
+                      className="btn btn-submit-btn"
+                      onClick={handleSubmit}
+                    >
                       Submit
                     </button>
                   </div>

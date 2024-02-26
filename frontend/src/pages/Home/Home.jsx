@@ -374,7 +374,7 @@ const Home = () => {
                 {!clientToken &&
                   <div className="home--card-area">
                     <div className="row">
-                      <div className="col-xl-8 col-lg-12 col-md-12 offset-xl-4">
+                      <div className="col-xl-8 col-xxl-9 col-lg-12 col-md-12 offset-xl-4 offset-xxl-3">
                         <div className="card home--card" data-aos="fade-right" data-aos-delay="100">
                           <div className="card--imgicon-area">
                             <h6 className='card--text'>I want to hire an immediate joiner</h6>

@@ -129,7 +129,7 @@ const ContactCandidate = () => {
                                             </div>
                                             <div className="about--sub-des candidate">
                                                 <p>
-                                                    Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                                                The link has to land on the Registration/Login page. The text: You're just One Click away from the best opportunities.
                                                 </p>
                                             </div>
                                             <a href='' className="arrow--icon-btn candidate">
