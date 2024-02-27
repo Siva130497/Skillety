@@ -164,12 +164,12 @@ export const AuthContextProvider = ({ children }) => {
             await new Promise(() => {
                 Swal.fire({
                     title: 'Congratulations!',
-                    text: 'Email sent.',
+                    text: userData.createdFrom === "CMS" ? "Email sent." : "New Candidate Created",
                     icon: 'success',
                     confirmButtonColor: '#3085d6',
                     confirmButtonText: 'OK',
                 }).then(() => {
-                  navigate("/created-candidates");
+                  userData.createdFrom === "CMS" ? navigate("/created-candidates") : navigate("/created-candidates-ats");
                 });
             });
         } else {
@@ -180,7 +180,7 @@ export const AuthContextProvider = ({ children }) => {
         await new Promise(() => {
             Swal.fire({
                 title: '!',
-                text: '',
+                text: error.response.data.error,
                 icon: 'error',
                 confirmButtonColor: '#3085d6',
                 confirmButtonText: 'OK',
@@ -212,7 +212,7 @@ const candidateUpdate = async (userData) => {
                   confirmButtonColor: '#3085d6',
                   confirmButtonText: 'OK',
               }).then(() => {
-                  navigate("/created-candidates");
+                userData[0].createdFrom === "CMS" ? navigate("/created-candidates") : navigate("/created-candidates-ats");
               });
           });
       } else {

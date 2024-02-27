@@ -567,6 +567,7 @@ const CreateCandidate = () => {
                     location: selectedLocations[0],
                     id: id,
                     recruiterId:employeeId,
+                    createdFrom:"CMS"
                 };
                 console.log(updatedCredentials);
                 candidateReg(updatedCredentials);
@@ -597,6 +598,7 @@ const CreateCandidate = () => {
                     designation: selectedDesignations,
                     education: selectedEducation,
                     location: selectedLocations[0],
+                    createdFrom:"CMS"
                 };
                 console.log(updatedCredentials);
                 candidateUpdate([updatedCredentials, id]);
