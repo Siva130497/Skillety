@@ -415,7 +415,7 @@ const Home = () => {
             </div>
             <div className="home--about-para" data-aos="fade-left" data-aos-delay="100">
               {/* <p>We are a gig-economy based crowdsourcing platform for Freelancers. We have an exclusive vault of Immediate Joiners - guys who can pick up an Offer and Join within 7 days or less. We have curated a group of Technical Interview experts for Clients who face shortage of internal Interview Panels. We help you to move away from the old and soiled hierarchical business structure, and evolve into a 21st Century on-demand, open talent, cross-functional team; with a skilled and passionate workforce who are more engaged, effective & productive. Welcome to Skillety – Your on-demand HR solutions partner.</p> */}
-              <p>Skillety is an AI-driven job portal for Immediate Joiners - candidates who can pick up a job offer and join in less than 7 days, 15 days or 30 days. We deliver an inimitable combination of Speed, Quality & Convenience through our comprehensive suite of diverse hiring solutions like Sourcing, Posting, Assessment, Interview, Onboarding & Verification – all seamlessly integrated into one place. The combined power of our AI-driven platform and the extensive experience of our formidable team, makes us an end-to-end recruitment powerhouse - your perfect RPO partner.</p>
+              <p>Skillety is an AI-driven job portal for Immediate Joiners - candidates who can pick up a job offer and join in less than 7 days, 15 days or 30 days. We deliver an inimitable combination of Speed, Quality & Convenience through our comprehensive suite of diverse hiring solutions like Sourcing, Posting, Assessment, Interview, Onboarding & Verification – all seamlessly integrated into one place. The combined power of our AI-driven platform and the extensive experience of our formidable team, makes us an end-to-end recruitment powerhouse.</p>
             </div>
           </section>
 
@@ -426,7 +426,7 @@ const Home = () => {
                 <h3 className='service--heading' data-aos="fade-up">OUR SERVICES</h3>
               </div>
               <div className="home--service-para" data-aos="fade-left" data-aos-delay="100">
-                <p>What makes us unique is the combination of a Job Portal for Immediate Joiners coupled with a comprehensive suite of diverse hiring solutions, including Sourcing, Screening, Assessments, Interviews, Verification, and Onboarding, all thoughtfully integrated into a single platform. This reduces the TAT for a new hire by an impressive 30-50%. Our pay-as-you-go model offers our clients with a simple billing and performance evaluation process, focused solely on end results. As an end-to-end recruitment powerhouse, Skillety is your ideal RPO partner, dedicated to optimizing your recruitment journey.</p>
+                <p>What makes us unique is the combination of a Job Portal for Immediate Joiners coupled with a comprehensive suite of diverse hiring solutions, including Sourcing, Screening, Assessments, Interviews, Verification, and Onboarding, all thoughtfully integrated into a single platform. This reduces the TAT for a new hire by an impressive 30-50%. Our pay-as-you-go model offers our clients with a simple billing and performance evaluation process, focused solely on end results. As an end-to-end recruitment powerhouse, dedicated to optimizing your recruitment journey.</p>
               </div>
               <div className="row">
                 <div className="col-12 col-xl-7 col-lg-8">
@@ -596,7 +596,8 @@ const Home = () => {
                   </article>
                 </div>
               </div>
-              <div className="row mt-5">
+              
+              {/* <div className="row mt-5">
                 <div className="col-12 col-xl-7 col-lg-8 offset-xl-5 offset-lg-4">
                   <article className='home--service-card' data-aos="zoom-out-left">
                     <div className="service--arrow-area">
@@ -607,9 +608,6 @@ const Home = () => {
                         <h3>RPO-LITE</h3>
                         <img src="assets/img/home-images/rpo.png" className='interview-icon' alt="" />
                       </div>
-                      {/* <p className='service--content'>
-                          Before releasing the Offer, do a quick sanity check if it's a fake profile or not, with our BGV-Lite services. Also do a 360-degree Background Verification after the candidate joins.
-                        </p> */}
                       <p className='service--content'>
                         This Is Specifically Designed For Companies Who Would Want To Test Run The RPO Model First, And Then Decide. We Take Up Hiring Requirements From One Or Few Projects On Exclusivity, And Close Them In Record Time, First. The Results Will Determine Whether You Want To Upgrade To An Enterprise RPO (Or Not), Based On Solid Proof.                      </p>
                       <div className='service-know-morearea'>
@@ -624,7 +622,8 @@ const Home = () => {
                     </div>
                   </article>
                 </div>
-              </div>
+              </div> */}
+              
             </div>
           </section>
 
