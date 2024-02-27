@@ -142,6 +142,8 @@ const {
   deletingCand,
   boostJob,
   getAllClientTableColumnData,
+  getCreatedClientsTableColumnData,
+   createdClientsColumnData,
   allClientTableColumnData,
   getAllCandidateTableColumnData,
   createdCandidateTableColumnData,
@@ -606,6 +608,10 @@ router.delete("/del-recruiter-cand/:id", employeeAuth, deletingCand);
 router.post("/all-clients-column", allClientTableColumnData);
 
 router.get("/all-clients-column/:id", getAllClientTableColumnData);
+
+router.post("/created-clients-column", createdClientsColumnData);
+
+router.get("/created-clients-column/:id", getCreatedClientsTableColumnData);
 
 router.post("/all-candidates-column", allCandidateTableColumnData);
 

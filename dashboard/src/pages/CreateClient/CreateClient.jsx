@@ -37,7 +37,7 @@ const CreateClient = () => {
         email: "",
         companyName: "",
         count: "",
-        text:"Client Created by ats",
+        text:"Client Created by Skillety",
     };
     const [credentials, setCredentials] = useState(initialCredentials);
     
@@ -171,7 +171,7 @@ const CreateClient = () => {
                         confirmButtonColor: '#3085d6',
                         confirmButtonText: 'OK',
                     }).then(() => {
-                        navigate("/all-clients")
+                        navigate("/created-clients")
                     });
                 });
             } else {
