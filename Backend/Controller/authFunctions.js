@@ -36,6 +36,7 @@ const candidateToRecruiterNotification = require("../Database/candidateToRecruit
 const candidateNotification = require("../Database/candidateNotificationData");
 const candidateCreate = require("../Database/candidateCreate");
 const allClientTable = require("../Database/allClientTable");
+const createdClientsTable = require("../Database/createdClientsTable")
 const allCandidateTable = require("../Database/allCandidateTable");
 const createdCandidatesTable = require("../Database/createdCandidatesTable");
 const allJobTable = require("../Database/allJobTable");
@@ -130,7 +131,16 @@ const getAllRecruiterClientDetails = async(req, res) => {
   const {id} = req.params;
   try{
     const clients = await recruiterClient.find({recruiterId:id});
-    return res.status(200).json(clients);
+    const updatedRecruiterClientDetail = await Promise.all(
+      clients.map(async(cli)=>{
+        const checkParticularClientRegistered = await finalClient.findOne({id:cli.id});
+        return {
+          ...cli._doc,
+          registered:checkParticularClientRegistered ? true : false
+        }
+      })
+    )
+    return res.status(200).json(updatedRecruiterClientDetail);
   }catch(err){
     return res.status(500).json({ error: err.message });
   }
@@ -3782,6 +3792,45 @@ const getAllClientTableColumnData = async(req, res) => {
     const allClientTableColumnData = await allClientTable.findOne({id});
     console.log(allClientTableColumnData);
     return res.status(200).json(allClientTableColumnData);
+  }catch(err){
+    console.log(err);
+    return res.status(500).json({ error: err.message });
+  }
+}
+
+/* all client table column data create */
+const createdClientsColumnData = async (req, res) => {
+  try {
+    const { id, column } = req.body;
+
+    const existingDocument = await createdClientsTable.findOne({ id });
+
+    if (existingDocument) {
+      existingDocument.column = column;
+      await existingDocument.save();
+      res.status(200).json(existingDocument);
+    } else {
+      const newCreatedClientsTableData = new createdClientsTable({
+        id,
+        column,
+      });
+
+      await newCreatedClientsTableData.save();
+      res.status(201).json(newCreatedClientsTableData);
+    }
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+};
+
+
+/* get all client table column data */
+const getCreatedClientsTableColumnData = async(req, res) => {
+  const {id} = req.params;
+  try{
+    const createdClientsTableColumnData = await createdClientsTable.findOne({id});
+    console.log(createdClientsTableColumnData);
+    return res.status(200).json(createdClientsTableColumnData);
   }catch(err){
     console.log(err);
     return res.status(500).json({ error: err.message });
@@ -8217,6 +8266,8 @@ module.exports = {
    deletingCand,
    boostJob,
    getAllClientTableColumnData,
+   getCreatedClientsTableColumnData,
+   createdClientsColumnData,
    allClientTableColumnData,
    getAllCandidateTableColumnData,
    createdCandidateTableColumnData,

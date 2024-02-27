@@ -26,7 +26,9 @@ const ATSSideBar = () => {
                 $('#all-company-staff').addClass('active');
             } else if (path === '/all-clients') {
                 $('#all_clients').addClass('active');
-            } else if (path === '/all-candidates') {
+            } else if (path === '/created-clients') {
+                $('#created_clients').addClass('active');
+            }else if (path === '/all-candidates') {
                 $('#all_candidates').addClass('active');
             } else if (path === '/created-candidates') {
                 $('#created_candidates').addClass('active');
@@ -160,6 +162,9 @@ const ATSSideBar = () => {
                         </li>} */}
                     <li className="dropdown" id='all_clients'>
                         <a href="/all-clients" className="nav-link"><i data-feather="user"></i><span>All Clients</span></a>
+                    </li>
+                    <li className="dropdown" id='created_clients'>
+                        <a href="/created-clients" className="nav-link"><i data-feather="user"></i><span>Created Clients</span></a>
                     </li>
                     <li className="dropdown" id='all_candidates'>
                         <a href="/all-candidates" className="nav-link"><i data-feather="users"></i><span>Registered Candidates</span></a>
