@@ -94,7 +94,9 @@ const candidateCreateSchema = new Schema(
     },
     url: {
         type: String,
-        required: true
+        required: function() {
+            return this.createdFrom === 'CMS';
+        } 
     },
     activeIn: {
         type: String,

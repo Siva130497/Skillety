@@ -29,8 +29,8 @@ const ATSSideBar = () => {
                 $('#all_ats_jobs').addClass('active');
             } else if (path === '/all-offline-candidates') {
                 $('#all_offline_candidates').addClass('active');
-            }  else if (path === '/create-candidate-ats') {
-                $('#create_candidate_ats').addClass('active');
+            }  else if (path === '/created-candidates-ats') {
+                $('#created_candidate_ats').addClass('active');
             }else if (path === '/ats-reports') {
                 $('#ats_reports').addClass('active');
             }
@@ -111,8 +111,8 @@ const ATSSideBar = () => {
                     <li className="dropdown" id='all_offline_candidates'>
                         <a href="/all-offline-candidates" className="nav-link"><i data-feather="users"></i><span>All Invited Candidates</span></a>
                     </li>
-                    <li className="dropdown" id='create_candidate_ats'>
-                        <a href="/create-candidate-ats" className="nav-link"><i data-feather="users"></i><span>Create Candidate</span></a>
+                    <li className="dropdown" id='created_candidate_ats'>
+                        <a href="/created-candidates-ats" className="nav-link"><i data-feather="users"></i><span>Created Candidates</span></a>
                     </li>
                     <li className="dropdown" id='ats_reports'>
                         <a href="/ats-reports" className="nav-link"><i data-feather="file-text"></i><span>Report</span></a>
