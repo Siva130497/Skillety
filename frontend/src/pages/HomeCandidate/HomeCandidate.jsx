@@ -404,7 +404,7 @@ const HomeCandidate = () => {
                 {!candidateToken &&
                   <div className="home--card-area">
                     <div className="row">
-                      <div className="col-xl-9 col-xxl-8 col-lg-12 col-md-12 offset-xl-3 offset-xxl-4">
+                      <div className="col-xl-9 col-xxl-9 col-lg-12 col-md-12 offset-xl-3 offset-xxl-3">
                         <div className="card home--card candidate" data-aos="fade-right" data-aos-delay="100">
                           <div className="card--imgicon-area">
                             <h6 className='card--text candidate'>I am an immediate joiner</h6>
@@ -412,7 +412,7 @@ const HomeCandidate = () => {
                           </div>
                           <div className="home--sub-des candidate">
                             <p>
-                              Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                            The link has to land on the Registration/Login page. The text: You're just One Click away from the best opportunities.
                             </p>
                           </div>
                           <a href='' className="arrow--icon-btn candidate">
