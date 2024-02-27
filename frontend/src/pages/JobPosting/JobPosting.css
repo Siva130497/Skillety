@@ -1,7 +1,8 @@
 .post-job-card {
     border-radius: 16px !important;
-    background-color: #FFF !important;
+    background-color: #f4f4f4 !important;
     padding: 30px !important;
+    border: 1px solid #714F36;
 }
 
 .post-job-title {
@@ -25,7 +26,7 @@
 }
 
 .job-post-form-group {
-    /* margin-bottom: 35px; */
+    margin-bottom: 35px;
     position: relative;
 }
 
@@ -99,6 +100,7 @@
     width: 100%;
     position: relative;
     transition: ease-in-out 0.5s;
+    border-radius: 6px;
 }
 
 .job-post-form-input::placeholder {
@@ -310,10 +312,11 @@
 }
 
 .post-job-btn-area {
-    margin-top: 40px;
+    margin-top: 60px;
+    margin-bottom: 40px;
     display: flex;
     align-items: center;
-    /* justify-content: space-between; */
+    justify-content: flex-end;
     gap: 20px;
 }
 
@@ -351,6 +354,7 @@
     border: none;
     transition: ease-in-out 0.5s;
     border: #714F36 1px solid;
+    border-radius: 6px;
 }
 
 .manually-add-btn:focus,
@@ -441,6 +445,27 @@
     box-shadow: 0px 20px 40px #00000027;
     max-height: 300px;
     overflow-y: scroll;
+    border-radius: 6px;
+    margin-top: 5px;
+    overflow-x: hidden;
+}
+
+.search-result-data-area::-webkit-scrollbar {
+    width: 6px;
+    background-color: transparent;
+    border-radius: 10px;
+}
+
+.search-result-data-area::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: none;
+    background-color: #714F36;
+}
+
+.search-result-data-area::-webkit-scrollbar-track {
+    -webkit-box-shadow: none;
+    border-radius: 10px;
+    background-color: transparent;
 }
 
 .search-result-data {
@@ -452,6 +477,8 @@
     background-color: #FFF;
     transition: ease-in-out 0.5s;
     cursor: pointer;
+    margin: 2px;
+    border-radius: 6px;
 }
 
 .search-result-data:hover {

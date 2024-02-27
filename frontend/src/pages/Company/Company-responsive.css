@@ -17,7 +17,7 @@
     }
 
     .company--content-jobs-area .company--content-jobs {
-        font-size: 20px;
+        font-size: 16px;
     }
     .company-demo-card-area{
         margin-top: 100px;
@@ -186,5 +186,9 @@
     }
     .company-demo-card-bottom-area{
         gap: 30px;
+    }
+
+    .company--content-jobs-area .company--content-industry {
+        text-align: center;
     }
 }

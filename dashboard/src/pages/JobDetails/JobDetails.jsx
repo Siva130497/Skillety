@@ -195,7 +195,7 @@ const JobDetails = () => {
                 }
             });
             console.log(response);
-            showSuccessMessage("Job successfully deleted..!")
+            showSuccessMessage("Job application successfully withdrawed..!")
             getAppliedjobs();
 
             axios.get(`https://skillety-n6r1.onrender.com/applied-job/${id}`)
@@ -286,7 +286,7 @@ const JobDetails = () => {
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, Discard it!'
+                confirmButtonText: 'Yes, Withdraw it!'
             }).then((result) => {
                 if (result.isConfirmed) {
                     deletingjob();
@@ -575,7 +575,7 @@ const JobDetails = () => {
                                             <button className='pl--package-btn-sub buy-now m-t-40'
                                                 onClick={handleDiscard}>
                                                 <div className='pl--package-btn buy-now candidate'>
-                                                    Discard
+                                                    Withdraw
                                                 </div>
                                             </button>
                                             :
