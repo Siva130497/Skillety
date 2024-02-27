@@ -279,45 +279,67 @@ const LayoutNew = ({ home, aboutUs, searchJob, events, contact }) => {
 
       <div className="chatbot">
         <div className="chatbot__header">
-          <h3 className="chatbox__title">Live Chat</h3>
+          <h3 className="chatbox__title">Chat with us.</h3>
           <span className="material-symbols-outlined" ref={chatbotCloseBtnRef}>close</span>
         </div>
 
         <ScrollToBottom className="chatting-card-body">
           <ul className="chatbot__box">
+
+            {/* chat welcome screen */}
+            {/* <div className='chat-welcome'>
+              <img src="../assets/img/logo/skillety-logo-icon.png" className='chat-welcome-img' alt="" />
+              <div className='chat-welcome-text'>
+                Welcome to <span>Skillety</span>
+              </div>
+              <p>👋 Hi, message us with any questions. We're happy to help!</p>
+            </div> */}
+            {/*  */}
+
+            {/* sender message */}
             <li className="chatbot__chat incoming">
               <div className="sender-avatar-container">
                 <img src="../assets/img/logo/skillety-favicon.png" alt="" />
               </div>
               <p>Hi there. How can I help you today?</p>
             </li>
+            {/*  */}
+
+            {/* receiver message */}
             <li className="chatbot__chat outgoing">
               <p>I help you today</p>
             </li>
+            {/*  */}
+
             <li className="chatbot__chat incoming">
               <div className="sender-avatar-container">
                 <img src="../assets/img/logo/skillety-favicon.png" alt="" />
               </div>
               <p>Hi there. How can I help you today?</p>
             </li>
+
             <li className="chatbot__chat outgoing">
               <p>I help you today</p>
             </li>
+
             <li className="chatbot__chat incoming">
               <div className="sender-avatar-container">
                 <img src="../assets/img/logo/skillety-favicon.png" alt="" />
               </div>
               <p>Hi there. How can I help you today?</p>
             </li>
+
             <li className="chatbot__chat outgoing">
               <p>I help you today</p>
             </li>
+
             <li className="chatbot__chat incoming">
               <div className="sender-avatar-container">
                 <img src="../assets/img/logo/skillety-favicon.png" alt="" />
               </div>
               <p>Hi there. How can I help you today?</p>
             </li>
+
             <li className="chatbot__chat outgoing">
               <p>I help you today</p>
             </li>
