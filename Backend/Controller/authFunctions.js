@@ -39,6 +39,7 @@ const allClientTable = require("../Database/allClientTable");
 const createdClientsTable = require("../Database/createdClientsTable")
 const allCandidateTable = require("../Database/allCandidateTable");
 const createdCandidatesTable = require("../Database/createdCandidatesTable");
+const createdCandidatesATS = require("../Database/createdCandidatesATSTable")
 const allJobTable = require("../Database/allJobTable");
 const nonApprovalJobTable = require("../Database/nonApprovalJobTable");
 const postedJobTable = require("../Database/postedJobTable");
@@ -3550,34 +3551,35 @@ const deleteAllNotifications = async (req, res) => {
 
 /* recruiter creating candidate */
 const createCandidate = async (req, res) => {
-  
-  const { email, id, phone } = req.body; 
-    const candidateAvailable = await candidate.findOne({ $or: [{ email },  {phone}] });
-    const allUserAvailable = await allUsers.findOne({ $or: [{ email },  { phone }] });
+  const { email, id, phone, createdFrom } = req.body; 
+  const candidateAvailable = await candidate.findOne({ $or: [{ email },  {phone}] });
+  const allUserAvailable = await allUsers.findOne({ $or: [{ email },  { phone }] });
 
-    if (candidateAvailable || allUserAvailable) {
-      return res.status(404).json({ message: "User already registered" });
-    }
+  if (candidateAvailable || allUserAvailable) {
+    return res.status(404).json({ error: "User already registered" });
+  }
+
   try {
-  
+    const newCandidateData = {
+      ...req.body,
+      currencyType: "not specified",
+      minSalary: "not specified",
+      maxSalary: "not specified",
+      preferedlocations: ["not specified"],
+      activeIn: new Date(),
+      role: "Candidate"
+    };
+
+    if (createdFrom === "CMS") {
       const baseUrl = "https://skillety-frontend-wcth.onrender.com/verification-cand/";
       const tempUrl = baseUrl + id;
+      newCandidateData.url = tempUrl;
 
-      const newCreateCandidate = new candidateCreate({
-        ...req.body,
-        currencyType: "not specified",
-        minSalary: "not specified",
-        maxSalary: "not specified",
-        preferedlocations: ["not specified"],
-        activeIn: new Date(),
-        role: "Candidate",   
-        url: tempUrl 
-      });
-
+      // Create candidate
+      const newCreateCandidate = new candidateCreate(newCandidateData);
       await newCreateCandidate.save();
-      console.log(newCreateCandidate);
 
-      
+      // Send email
       const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
@@ -3588,10 +3590,10 @@ const createCandidate = async (req, res) => {
 
       const mailOptions = {
         from: 'demoemail1322@gmail.com',
-        to: `${newCreateCandidate.email}`,
+        to: email,
         subject: 'Mail from SKILLITY!',
         text: '',
-        html: `<p>Temporary URL: ${newCreateCandidate.url}</p>`
+        html: `<p>Temporary URL: ${tempUrl}</p>`
       };
 
       transporter.sendMail(mailOptions, function (error, info) {
@@ -3603,11 +3605,19 @@ const createCandidate = async (req, res) => {
           res.status(201).json({ newCreateCandidate, emailSent: true });
         }
       });
-    
+    } else if (createdFrom === "ATS") {
+      // Create candidate without URL
+      const newCreateCandidate = new candidateCreate(newCandidateData);
+      await newCreateCandidate.save();
+      res.status(201).json({ newCreateCandidate });
+    } else {
+      return res.status(400).json({ error: "Invalid createdFrom value" });
+    }
   } catch (err) {
     return res.status(500).json({ error: err.message });
   }
 };
+
 
 const getCandidate = async(req, res) => {
   const {id} = req.params;
@@ -3900,14 +3910,48 @@ const createdCandidateTableColumnData = async (req, res) => {
   }
 };
 
-
-/* get all client table column data */
 const getCreatedCandidateTableColumnData = async(req, res) => {
   const {id} = req.params;
   try{
     const createdCandidateTableColumnData = await createdCandidatesTable.findOne({id});
     console.log(createdCandidateTableColumnData);
     return res.status(200).json(createdCandidateTableColumnData);
+  }catch(err){
+    console.log(err);
+    return res.status(500).json({ error: err.message });
+  }
+}
+
+const createdCandidateATSTableColumnData = async (req, res) => {
+  try {
+    const { id, column } = req.body;
+
+    const existingDocument = await createdCandidatesATS.findOne({ id });
+
+    if (existingDocument) {
+      existingDocument.column = column;
+      await existingDocument.save();
+      res.status(200).json(existingDocument);
+    } else {
+      const newCreatedCandidateATSTableData = new createdCandidatesATS({
+        id,
+        column,
+      });
+
+      await newCreatedCandidateATSTableData.save();
+      res.status(201).json(newCreatedCandidateATSTableData);
+    }
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+};
+
+const getCreatedCandidateATSTableColumnData = async(req, res) => {
+  const {id} = req.params;
+  try{
+    const createdCandidateATSTableColumnData = await createdCandidatesATS.findOne({id});
+    console.log(createdCandidateATSTableColumnData);
+    return res.status(200).json(createdCandidateATSTableColumnData);
   }catch(err){
     console.log(err);
     return res.status(500).json({ error: err.message });
@@ -8272,6 +8316,8 @@ module.exports = {
    getAllCandidateTableColumnData,
    createdCandidateTableColumnData,
    getCreatedCandidateTableColumnData,
+   getCreatedCandidateATSTableColumnData,
+   createdCandidateATSTableColumnData,
    allCandidateTableColumnData,
    allJobTableColumnData,
    getAllJobTableColumnData,

@@ -50,6 +50,7 @@ import JobSuccessReport from './atsPages/AtsReports/ReportPages/JobSuccessReport
 import JobDurationReport from './atsPages/AtsReports/ReportPages/JobDurationReport';
 import JobReport from './atsPages/AtsReports/ReportPages/JobReport';
 import CreateCandidateATS from './atsPages/CreateCandidateATS/CreateCandidateATS';
+import CreatedCandidatesATS from './atsPages/CreatedCandidatesATS/CreatedCandidatesATS'
 
 ////for recruiter
 import RecruiterDashboard from './pages/RecruiterDashboard/RecruiterDashboard';
@@ -144,6 +145,7 @@ function App() {
         <Route path='/lead-conversion-report' element={<LeadConversionReport />} />
         <Route path='/booked-events' element={<BookedEvents />} />
         <Route path='/create-candidate-ats' element={<CreateCandidateATS />} />
+        <Route path='/created-candidates-ats' element={<CreatedCandidatesATS />} /> 
 
         {/* for recruiter */}
         <Route path='/' element={<RecruiterLogin />} />
