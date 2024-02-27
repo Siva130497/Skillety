@@ -406,6 +406,48 @@
     visibility: visible;
 }
 
+.chat-welcome {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 85%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    background-color: #ffffff;
+    border-radius: 16px;
+    padding: 20px 40px;
+    border: 2px solid #fff0e5;
+    z-index: 1;
+}
+
+.chat-welcome-img {
+    width: 100px;
+    flex-shrink: 0;
+    opacity: 1;
+}
+
+.chat-welcome-text {
+    color: #4d301c;
+    font-weight: 400;
+    font-size: 17px;
+    text-align: center;
+}
+
+.chat-welcome-text span {
+    font-weight: 700;
+}
+
+.chat-welcome p {
+    margin-bottom: 0 !important;
+    text-align: center;
+    font-size: 14px;
+    border-top: 1px solid #DDD;
+    padding-top: 10px;
+}
+
 @media (max-width: 490px) {
     .chatbot {
         right: auto;
