@@ -50,8 +50,8 @@ const JobPostingWeb = () => {
   const [selectedEducation, setSelectedEducation] = useState([]);
 
   const [designationAlert, setDesignationAlert] = useState("");
-    const [skillError, setSkillError] = useState("");
-    const [locationError, setLocationError] = useState("");
+  const [skillError, setSkillError] = useState("");
+  const [locationError, setLocationError] = useState("");
 
   // const [postedJobs, setPostedJobs] = useState([]);
 
@@ -820,127 +820,135 @@ const JobPostingWeb = () => {
 
   return (
     <div>
-      {token && <div class="main-wrapper main-wrapper-1">
-        <div class="navbar-bg"></div>
-        <Layout />
-
-        <div class="main-content">
-          <section class="section">
-            <div className="post-job-section">
-              <div className="admin-component-name">
-                Post Job
-              </div>
-              <div className="card post-job-card">
-                <div className="post-job-title">Post a Job </div>
-                <div className="post-job-sub-title">
-                  Welcome to Skillety’s Post Job page! Post an array of Unlimited Free Jobs, and witness the magic in action. Our AI-powered platform seamlessly integrates with 172 global Job Boards and Social Media platforms via APIs. This strategic alliance ensures that a job posting crawls out and gets relevant CVs through inward aggregation. Currently we’re clocking over 450+ daily registrations.
-                </div>
-
-                <div className="job-post-form-area">
-                  <form action="">
-                    <div className="row m-b-35">
-                      <div className="col-12 col-xl-8">
-                        <div className="job-post-form-group">
-
-                          <div className='job-post-form-label-with-badge'>
-                            <label htmlFor="" className='job-post-form-label'>Job title / Designation<span className='form-required'>*</span></label>
-                            {/* <i class="bi bi-chevron-down"></i> */}
-                            {selectedJobRoles.map(selectJobRole => (
-                              <span className="job-post-form-badge"
-                                key={selectJobRole}
-                                onClick={() => handleDeselectJobRole(selectJobRole)}
-                              >{selectJobRole}
-                              </span>
-                            ))}
-                          </div>
-
-                          <input type="search" className='job-post-form-input'
-                            name='searchJobRoleInput'
-                            id='searchJobRoleInput'
-                            value={searchJobRoleInput}
-                            onChange={handleJobRoleSearch}
-                            placeholder='Enter a clear & specific title to get better responses' />
-
-                          <div className='search-result-data-area'>
-                            {filteredJobRoles.length > 0 &&
-                              filteredJobRoles.map((filterJobRole) => {
-                                return <div className='search-result-data' key={filterJobRole._id} onClick={() => handleJobRoleClick(filterJobRole.designation)}>
-                                  {filterJobRole.designation}
-                                </div>
-                              })
-                            }
-                          </div>
-                          <small className='text-danger text-capitalized'>{designationAlert}</small>
-                          <div className="job-post-form-chechbox-area">
-                            <label className="job-post-form-check-input view-disabled-input">
-                              <input
-                                type="checkbox"
-                                checked={isCheckedJobRole}
-                                onChange={() => setIsCheckedJobRole(!isCheckedJobRole)}
-                                className="toggleDisabledInput"
-                              />
-                              <span className="job-post-form-checkmark"></span>
-                              If your searched job role not in the list, please enable the checkbox & type manually...
-                            </label>
-                          </div>
-
-                          <div className="disabled-input-area">
-                            <input
-                              type='text'
-                              name='manualJobRoleInput'
-                              id='manualJobRoleInput'
-                              className='job-post-form-input mt-4'
-                              placeholder='Enter job role...'
-                              value={newJobRole}
-                              onChange={(e) => setNewJobRole(e.target.value)}
-                              disabled={!isCheckedJobRole}
-                            />
-                            <button
-                              type="button"
-                              className="manually-add-btn with-mb"
-                              onClick={handleManualJobRole}
-                              disabled={!isCheckedJobRole}>
-                              Add manually entered jobRole
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="col-12 col-xl-4 m-t-35 mt-xl-0">
-                        <div className="job-post-form-group">
-                          <label htmlFor="" className='job-post-form-label'>Employment Type<span className='form-required'>*</span></label>
-                          <i class="bi bi-chevron-down"></i>
-                          <select className='job-post-form-input select-input'
-                            id="jobCategory"
-                            name="jobCategory"
-                            value={credentials.jobCategory}
-                            onChange={handleChange}
-                            required>
-                            <option value="" selected disabled>Please select any one job category.</option>
-                            <option value="full time">Full Time</option>
-                            <option value="part time">Part Time</option>
-                            <option value="contract">Contract</option>
-                            <option value="freelancer">Freelancer</option>
-                          </select>
-                        </div>
-                      </div>
+      {token &&
+        <>
+          <Layout postJob={true} />
+          <div className='testimonial--section'>
+            <div className='container-fluid'>
+              <div className='container-fluid container-section'>
+                <div className="custom--container">
+                  <div className="breadcrumb--area-dark" data-aos="fade-down">
+                    <div className="breadcrumb--item-dark">
+                      <a href="/">Home</a>
                     </div>
+                    <div className="breadcrumb--item-dark">
+                      <p>Post Job</p>
+                    </div>
+                  </div>
 
-                    <div className="row m-b-35">
-                      <div className="col-12 col-xl-12">
-                        <div className="job-post-form-group">
+                  <section class="section pt-0">
+                    <div className="post-job-section">
+                      <div className="card post-job-card">
+                        <div className="post-job-title">Post a Job </div>
+                        <div className="post-job-sub-title">
+                          Welcome to Skillety’s Post Job page! Post an array of Unlimited Free Jobs, and witness the magic in action. Our AI-powered platform seamlessly integrates with 172 global Job Boards and Social Media platforms via APIs. This strategic alliance ensures that a job posting crawls out and gets relevant CVs through inward aggregation. Currently we’re clocking over 450+ daily registrations.
+                        </div>
 
-                          <div className='job-post-form-label-with-badge'>
-                            <label htmlFor="" className='job-post-form-label'>Mandatory Skills<span className='form-required'>*</span></label>
-                            {selectedSkills.map(selectSkill => (
-                              <span className="job-post-form-badge"
-                                key={selectSkill}
-                                onClick={() => handleDeselect(selectSkill)}
-                              >{selectSkill}</span>
-                            ))}
-                          </div>
+                        <div className="job-post-form-area">
+                          <form action="">
+                            <div className="row m-b-35">
+                              <div className="col-12 col-xl-8">
+                                <div className="job-post-form-group">
 
-                          {/* <br></br>
+                                  <div className='job-post-form-label-with-badge'>
+                                    <label htmlFor="" className='job-post-form-label'>Job title / Designation<span className='form-required'>*</span></label>
+                                    {/* <i class="bi bi-chevron-down"></i> */}
+                                    {selectedJobRoles.map(selectJobRole => (
+                                      <span className="job-post-form-badge"
+                                        key={selectJobRole}
+                                        onClick={() => handleDeselectJobRole(selectJobRole)}
+                                      >{selectJobRole}
+                                      </span>
+                                    ))}
+                                  </div>
+
+                                  <input type="search" className='job-post-form-input'
+                                    name='searchJobRoleInput'
+                                    id='searchJobRoleInput'
+                                    value={searchJobRoleInput}
+                                    onChange={handleJobRoleSearch}
+                                    placeholder='Enter a clear & specific title to get better responses' />
+
+                                  <div className='search-result-data-area'>
+                                    {filteredJobRoles.length > 0 &&
+                                      filteredJobRoles.map((filterJobRole) => {
+                                        return <div className='search-result-data' key={filterJobRole._id} onClick={() => handleJobRoleClick(filterJobRole.designation)}>
+                                          {filterJobRole.designation}
+                                        </div>
+                                      })
+                                    }
+                                  </div>
+                                  <small className='text-danger text-capitalized'>{designationAlert}</small>
+                                  <div className="job-post-form-chechbox-area">
+                                    <label className="job-post-form-check-input view-disabled-input">
+                                      <input
+                                        type="checkbox"
+                                        checked={isCheckedJobRole}
+                                        onChange={() => setIsCheckedJobRole(!isCheckedJobRole)}
+                                        className="toggleDisabledInput"
+                                      />
+                                      <span className="job-post-form-checkmark"></span>
+                                      If your searched job role not in the list, please enable the checkbox & type manually...
+                                    </label>
+                                  </div>
+
+                                  <div className="disabled-input-area">
+                                    <input
+                                      type='text'
+                                      name='manualJobRoleInput'
+                                      id='manualJobRoleInput'
+                                      className='job-post-form-input mt-4'
+                                      placeholder='Enter job role...'
+                                      value={newJobRole}
+                                      onChange={(e) => setNewJobRole(e.target.value)}
+                                      disabled={!isCheckedJobRole}
+                                    />
+                                    <button
+                                      type="button"
+                                      className="manually-add-btn with-mb"
+                                      onClick={handleManualJobRole}
+                                      disabled={!isCheckedJobRole}>
+                                      Add manually entered jobRole
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div className="col-12 col-xl-4 m-t-35 mt-xl-0">
+                                <div className="job-post-form-group">
+                                  <label htmlFor="" className='job-post-form-label'>Employment Type<span className='form-required'>*</span></label>
+                                  <i class="bi bi-chevron-down"></i>
+                                  <select className='job-post-form-input select-input'
+                                    id="jobCategory"
+                                    name="jobCategory"
+                                    value={credentials.jobCategory}
+                                    onChange={handleChange}
+                                    required>
+                                    <option value="" selected disabled>Please select any one job category.</option>
+                                    <option value="full time">Full Time</option>
+                                    <option value="part time">Part Time</option>
+                                    <option value="contract">Contract</option>
+                                    <option value="freelancer">Freelancer</option>
+                                  </select>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="row m-b-35">
+                              <div className="col-12 col-xl-12">
+                                <div className="job-post-form-group">
+
+                                  <div className='job-post-form-label-with-badge'>
+                                    <label htmlFor="" className='job-post-form-label'>Mandatory Skills<span className='form-required'>*</span></label>
+                                    {selectedSkills.map(selectSkill => (
+                                      <span className="job-post-form-badge"
+                                        key={selectSkill}
+                                        onClick={() => handleDeselect(selectSkill)}
+                                      >{selectSkill}</span>
+                                    ))}
+                                  </div>
+
+                                  {/* <br></br>
                           {additionalSkills.length > 0 &&
                             <label 
                             htmlFor="additionalSkillInput" 
@@ -955,71 +963,71 @@ const JobPostingWeb = () => {
                             >{additionalSkill}</span>
                           ))} */}
 
-                          {/* <i class="bi bi-chevron-down"></i> */}
-                          <input type="search" className='job-post-form-input'
-                            name='searchSkillInput'
-                            id='searchSkillInput'
-                            value={searchSkillInput}
-                            onChange={handleSkillSearch}
-                            placeholder='Add skills that are crucial for this job' />
-                          {/* <div className='input-sub-text'>
+                                  {/* <i class="bi bi-chevron-down"></i> */}
+                                  <input type="search" className='job-post-form-input'
+                                    name='searchSkillInput'
+                                    id='searchSkillInput'
+                                    value={searchSkillInput}
+                                    onChange={handleSkillSearch}
+                                    placeholder='Add skills that are crucial for this job' />
+                                  {/* <div className='input-sub-text'>
                             <span>0/200</span>
                           </div> */}
-                          {/* {skillError && <p>{skillError}</p>} */}
+                                  {/* {skillError && <p>{skillError}</p>} */}
 
-                          <div className='search-result-data-area'>
-                            {filteredSkills.length > 0 &&
-                              filteredSkills.map((filterSkill) => {
-                                return <div className='search-result-data' key={filterSkill._id} onClick={() => handleSkillClick(filterSkill.skill)}>
-                                  {filterSkill.skill}
+                                  <div className='search-result-data-area'>
+                                    {filteredSkills.length > 0 &&
+                                      filteredSkills.map((filterSkill) => {
+                                        return <div className='search-result-data' key={filterSkill._id} onClick={() => handleSkillClick(filterSkill.skill)}>
+                                          {filterSkill.skill}
+                                        </div>
+                                      })
+                                    }
+                                  </div>
+                                  <small className='text-danger text-capitalized'>{skillError}</small>
+                                  <div className="job-post-form-chechbox-area">
+                                    <label className="job-post-form-check-input view-disabled-input">
+                                      <input
+                                        type="checkbox"
+                                        checked={isCheckedSkill}
+                                        onChange={() => setIsCheckedSkill(!isCheckedSkill)}
+                                        className="toggleDisabledInput"
+                                      />
+                                      <span className="job-post-form-checkmark"></span>
+                                      If the searched skill for the particular job role not in the list, please enable the checkbox & type manually...
+                                    </label>
+                                  </div>
+
+                                  <div className="disabled-input-area">
+                                    <input
+                                      type='text'
+                                      name='manualSkillInput'
+                                      id='manualSkillInput'
+                                      className='job-post-form-input mt-4'
+                                      placeholder='Enter the skills...'
+                                      value={newSkill}
+                                      onChange={(e) => setNewSkill(e.target.value)}
+                                      disabled={!isCheckedSkill}
+                                    />
+                                    {/* {skillError && <p>{skillError}</p>} */}
+                                    <button
+                                      type="button"
+                                      className="manually-add-btn"
+                                      onClick={handleManualSkill}
+                                      disabled={!isCheckedSkill}
+                                    >Add manually entered skill for a particular job role</button>
+                                  </div>
                                 </div>
-                              })
-                            }
-                          </div>
-                          <small className='text-danger text-capitalized'>{skillError}</small>
-                          <div className="job-post-form-chechbox-area">
-                            <label className="job-post-form-check-input view-disabled-input">
-                              <input
-                                type="checkbox"
-                                checked={isCheckedSkill}
-                                onChange={() => setIsCheckedSkill(!isCheckedSkill)}
-                                className="toggleDisabledInput"
-                              />
-                              <span className="job-post-form-checkmark"></span>
-                              If the searched skill for the particular job role not in the list, please enable the checkbox & type manually...
-                            </label>
-                          </div>
+                              </div>
+                            </div>
 
-                          <div className="disabled-input-area">
-                            <input
-                              type='text'
-                              name='manualSkillInput'
-                              id='manualSkillInput'
-                              className='job-post-form-input mt-4'
-                              placeholder='Enter the skills...'
-                              value={newSkill}
-                              onChange={(e) => setNewSkill(e.target.value)}
-                              disabled={!isCheckedSkill}
-                            />
-                            {/* {skillError && <p>{skillError}</p>} */}
-                            <button
-                              type="button"
-                              className="manually-add-btn"
-                              onClick={handleManualSkill}
-                              disabled={!isCheckedSkill}
-                            >Add manually entered skill for a particular job role</button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                            <div className="row m-b-35">
+                              <div className="col-12 col-xl-8">
+                                <div className="job-post-form-group">
 
-                    <div className="row m-b-35">
-                      <div className="col-12 col-xl-8">
-                        <div className="job-post-form-group">
-
-                          <div className='job-post-form-label-with-badge'>
-                            <label htmlFor="" className='job-post-form-label'>Department<span className='form-required'>*</span></label>
-                            {/* <i class="bi bi-chevron-down"></i>
+                                  <div className='job-post-form-label-with-badge'>
+                                    <label htmlFor="" className='job-post-form-label'>Department<span className='form-required'>*</span></label>
+                                    {/* <i class="bi bi-chevron-down"></i>
                           <select className='job-post-form-input select-input'
                           name="department" 
                           value = {credentials.department}
@@ -1028,220 +1036,220 @@ const JobPostingWeb = () => {
                           <option value="Option 1">Option 1</option>
                           <option value="Option 2">Option 2</option>
                           </select> */}
-                            {selectedDepartment.map(selectDepartment => (
-                              <span className="job-post-form-badge"
-                                key={selectDepartment}
-                                onClick={() => handleDeselectDepartment(selectDepartment)}
-                              >{selectDepartment}</span>
-                            ))}
-                          </div>
+                                    {selectedDepartment.map(selectDepartment => (
+                                      <span className="job-post-form-badge"
+                                        key={selectDepartment}
+                                        onClick={() => handleDeselectDepartment(selectDepartment)}
+                                      >{selectDepartment}</span>
+                                    ))}
+                                  </div>
 
-                          {/* <i class="bi bi-chevron-down"></i> */}
-                          <input
-                            type='search'
-                            className='job-post-form-input'
-                            placeholder='Search department...'
-                            value={searchDepartmentInput}
-                            onChange={handleDepartmentSearch}
-                          />
+                                  {/* <i class="bi bi-chevron-down"></i> */}
+                                  <input
+                                    type='search'
+                                    className='job-post-form-input'
+                                    placeholder='Search department...'
+                                    value={searchDepartmentInput}
+                                    onChange={handleDepartmentSearch}
+                                  />
 
-                          <div className='search-result-data-area'>
-                            {filteredDepartment.length > 0 &&
-                              filteredDepartment.map((filterDepartment) => {
-                                return <div className='search-result-data' key={filterDepartment._id} onClick={() => handleDepartmentClick(filterDepartment.department)}>
-                                  {filterDepartment.department}
+                                  <div className='search-result-data-area'>
+                                    {filteredDepartment.length > 0 &&
+                                      filteredDepartment.map((filterDepartment) => {
+                                        return <div className='search-result-data' key={filterDepartment._id} onClick={() => handleDepartmentClick(filterDepartment.department)}>
+                                          {filterDepartment.department}
+                                        </div>
+                                      })
+                                    }
+                                  </div>
+
                                 </div>
-                              })
-                            }
-                          </div>
+                              </div>
+                            </div>
 
-                        </div>
-                      </div>
-                    </div>
+                            <div className="row m-b-35">
+                              <div className="col-12 col-xl-8">
+                                <div className="job-post-form-group">
 
-                    <div className="row m-b-35">
-                      <div className="col-12 col-xl-8">
-                        <div className="job-post-form-group">
+                                  <div className='job-post-form-label-with-badge'>
+                                    <label htmlFor="" className='job-post-form-label'>Role<span className='form-required'>*</span></label>
+                                    {selectedRoles.map(selectRole => (
+                                      <span className="job-post-form-badge"
+                                        key={selectRole}
+                                        onClick={() => handleDeselectRole(selectRole)}
+                                      >{selectRole}</span>
+                                    ))}
+                                  </div>
 
-                          <div className='job-post-form-label-with-badge'>
-                            <label htmlFor="" className='job-post-form-label'>Role<span className='form-required'>*</span></label>
-                            {selectedRoles.map(selectRole => (
-                              <span className="job-post-form-badge"
-                                key={selectRole}
-                                onClick={() => handleDeselectRole(selectRole)}
-                              >{selectRole}</span>
-                            ))}
-                          </div>
+                                  {/* <i class="bi bi-chevron-down"></i> */}
+                                  <input type="search" className='job-post-form-input'
+                                    name='searchRoleInput'
+                                    id='searchRoleInput'
+                                    value={searchRoleInput}
+                                    onChange={handleRoleSearch}
+                                    placeholder='Enter a clear & specific role to get better responses' />
 
-                          {/* <i class="bi bi-chevron-down"></i> */}
-                          <input type="search" className='job-post-form-input'
-                            name='searchRoleInput'
-                            id='searchRoleInput'
-                            value={searchRoleInput}
-                            onChange={handleRoleSearch}
-                            placeholder='Enter a clear & specific role to get better responses' />
+                                  <div className='search-result-data-area'>
+                                    {filteredRoles.length > 0 &&
+                                      filteredRoles.map((filterRole) => {
+                                        return <div className='search-result-data' key={filterRole._id} onClick={() => handleRoleClick(filterRole.role)}>
+                                          {filterRole.role}
+                                        </div>
+                                      })
+                                    }
+                                  </div>
 
-                          <div className='search-result-data-area'>
-                            {filteredRoles.length > 0 &&
-                              filteredRoles.map((filterRole) => {
-                                return <div className='search-result-data' key={filterRole._id} onClick={() => handleRoleClick(filterRole.role)}>
-                                  {filterRole.role}
                                 </div>
-                              })
-                            }
-                          </div>
+                              </div>
+                            </div>
 
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="row m-b-35">
-                      <div className="col-12 col-xl-8">
-                        <div className="job-post-form-group with-sub-label">
-                          <label htmlFor="" className='job-post-form-label mb-1'>Work mode<span className='form-required'>*</span></label>
-                          <div className='job-post-form-sub-label'>Select where the candidate will be working from</div>
-                          <i class="bi bi-chevron-down"></i>
-                          <select className='job-post-form-input select-input'
-                            name="workMode"
-                            value={credentials.workMode}
-                            onChange={handleChange}>
-                            <option value="" selected disabled>select the working mode</option>
-                            <option value="In office" selected>Work from Office</option>
-                            <option value="In Home">Work from Home</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="row m-b-35">
-                      <div className="col-12 col-xl-8">
-                        <div className="job-post-form-group">
-
-                          <div className='job-post-form-label-with-badge'>
-                            <label htmlFor="" className='job-post-form-label'>Job location ( maximum 3 )<span className='form-required'>*</span></label>
-                            {selectedLocations.map(selectLocation => (
-                              <span className="job-post-form-badge"
-                                key={selectLocation}
-                                onClick={() => handleDeselectLocation(selectLocation)}
-                              >{selectLocation}</span>
-                            ))}
-                          </div>
-
-                          {/* <i class="bi bi-chevron-down"></i> */}
-                          <input
-                            type='search'
-                            className='job-post-form-input'
-                            placeholder='Search locations'
-                            value={searchLocationInput}
-                            onChange={handleLocationSearch}
-                          />
-                          <div className='search-result-data-area'>
-                            {filteredLocations.length > 0 &&
-                              filteredLocations.map((filterLocation) => {
-                                return <div className='search-result-data' key={filterLocation._id} onClick={() => handleLocationClick(filterLocation.location)}>
-                                  {filterLocation.location}
+                            <div className="row m-b-35">
+                              <div className="col-12 col-xl-8">
+                                <div className="job-post-form-group with-sub-label">
+                                  <label htmlFor="" className='job-post-form-label mb-1'>Work mode<span className='form-required'>*</span></label>
+                                  <div className='job-post-form-sub-label'>Select where the candidate will be working from</div>
+                                  <i class="bi bi-chevron-down"></i>
+                                  <select className='job-post-form-input select-input'
+                                    name="workMode"
+                                    value={credentials.workMode}
+                                    onChange={handleChange}>
+                                    <option value="" selected disabled>select the working mode</option>
+                                    <option value="In office" selected>Work from Office</option>
+                                    <option value="In Home">Work from Home</option>
+                                  </select>
                                 </div>
-                              })
-                            }
-                          </div>
-                          <small className='text-danger text-capitalized'>{locationError}</small>
-                          <div className="job-post-form-chechbox-area">
-                            <label className="job-post-form-check-input">
-                              <input type="checkbox" />
-                              <span className="job-post-form-checkmark"></span>
-                              Include candidate willing to relocate to above location (s)
-                            </label>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                              </div>
+                            </div>
 
-                    <div className="row m-b-35">
-                      <div className="col-12">
-                        <label htmlFor="" className='job-post-form-label'>Work experience (years)<span className='form-required'>*</span></label>
-                      </div>
-                      <div className="col-12 col-xl-4 col-lg-6 col-md-6 mb-4 mb-md-0">
-                        <div className="job-post-form-group without-label">
-                          {/* <i class="bi bi-chevron-down"></i>
+                            <div className="row m-b-35">
+                              <div className="col-12 col-xl-8">
+                                <div className="job-post-form-group">
+
+                                  <div className='job-post-form-label-with-badge'>
+                                    <label htmlFor="" className='job-post-form-label'>Job location ( maximum 3 )<span className='form-required'>*</span></label>
+                                    {selectedLocations.map(selectLocation => (
+                                      <span className="job-post-form-badge"
+                                        key={selectLocation}
+                                        onClick={() => handleDeselectLocation(selectLocation)}
+                                      >{selectLocation}</span>
+                                    ))}
+                                  </div>
+
+                                  {/* <i class="bi bi-chevron-down"></i> */}
+                                  <input
+                                    type='search'
+                                    className='job-post-form-input'
+                                    placeholder='Search locations'
+                                    value={searchLocationInput}
+                                    onChange={handleLocationSearch}
+                                  />
+                                  <div className='search-result-data-area'>
+                                    {filteredLocations.length > 0 &&
+                                      filteredLocations.map((filterLocation) => {
+                                        return <div className='search-result-data' key={filterLocation._id} onClick={() => handleLocationClick(filterLocation.location)}>
+                                          {filterLocation.location}
+                                        </div>
+                                      })
+                                    }
+                                  </div>
+                                  <small className='text-danger text-capitalized'>{locationError}</small>
+                                  <div className="job-post-form-chechbox-area">
+                                    <label className="job-post-form-check-input">
+                                      <input type="checkbox" />
+                                      <span className="job-post-form-checkmark"></span>
+                                      Include candidate willing to relocate to above location (s)
+                                    </label>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="row m-b-35">
+                              <div className="col-12">
+                                <label htmlFor="" className='job-post-form-label'>Work experience (years)<span className='form-required'>*</span></label>
+                              </div>
+                              <div className="col-12 col-xl-4 col-lg-6 col-md-6 mb-4 mb-md-0">
+                                <div className="job-post-form-group without-label">
+                                  {/* <i class="bi bi-chevron-down"></i>
                           <select className='job-post-form-input select-input'>
                             <option value="" selected>Min</option>
                             <option value="">Option 1</option>
                             <option value="">Option 2</option>
                           </select> */}
-                          <input type="text" className='job-post-form-input'
-                            name="minExperience"
-                            value={credentials.minExperience}
-                            onChange={handleChange}
-                            placeholder="Minimum experience" />
-                        </div>
-                      </div>
-                      <div className="col-12 col-xl-4 col-lg-6 col-md-6">
-                        <div className="job-post-form-group without-label">
-                          {/* <i class="bi bi-chevron-down"></i>
+                                  <input type="text" className='job-post-form-input'
+                                    name="minExperience"
+                                    value={credentials.minExperience}
+                                    onChange={handleChange}
+                                    placeholder="Minimum experience" />
+                                </div>
+                              </div>
+                              <div className="col-12 col-xl-4 col-lg-6 col-md-6">
+                                <div className="job-post-form-group without-label">
+                                  {/* <i class="bi bi-chevron-down"></i>
                           <select className='job-post-form-input select-input'>
                             <option value="" selected>Max</option>
                             <option value="">Option 1</option>
                             <option value="">Option 2</option>
                           </select> */}
-                          <input type="text" className='job-post-form-input'
-                            name="maxExperience"
-                            value={credentials.maxExperience}
-                            onChange={handleChange}
-                            placeholder="Maximum experience" />
-                        </div>
-                      </div>
-                    </div>
+                                  <input type="text" className='job-post-form-input'
+                                    name="maxExperience"
+                                    value={credentials.maxExperience}
+                                    onChange={handleChange}
+                                    placeholder="Maximum experience" />
+                                </div>
+                              </div>
+                            </div>
 
-                    <div className="row m-b-35">
-                      <div className="col-12">
-                        <label htmlFor="" className='job-post-form-label mb-1'>Annual Salary Range<span className='form-required'>*</span></label>
-                        <div className='job-post-form-sub-label'>Enter the salary offered for this job</div>
-                      </div>
-                      <div className="col-4 col-xl-2 col-lg-2 col-md-2">
-                        <div className="job-post-form-group without-label">
-                          <i class="bi bi-chevron-down"></i>
-                          <select className='job-post-form-input select-input text-center'
-                            name="currencyType"
-                            value={credentials.currencyType}
-                            onChange={handleChange}>
-                            <option value="₹" selected>₹</option>
-                            <option value="$">$</option>
-                            {/* <option value="">€</option>
+                            <div className="row m-b-35">
+                              <div className="col-12">
+                                <label htmlFor="" className='job-post-form-label mb-1'>Annual Salary Range<span className='form-required'>*</span></label>
+                                <div className='job-post-form-sub-label'>Enter the salary offered for this job</div>
+                              </div>
+                              <div className="col-4 col-xl-2 col-lg-2 col-md-2">
+                                <div className="job-post-form-group without-label">
+                                  <i class="bi bi-chevron-down"></i>
+                                  <select className='job-post-form-input select-input text-center'
+                                    name="currencyType"
+                                    value={credentials.currencyType}
+                                    onChange={handleChange}>
+                                    <option value="₹" selected>₹</option>
+                                    <option value="$">$</option>
+                                    {/* <option value="">€</option>
                             <option value="">¥</option> */}
-                          </select>
-                        </div>
-                      </div>
-                      <div className="col-8 col-xl-3 col-lg-5 col-md-5 mb-4 mb-md-0">
-                        <div className="job-post-form-group without-label">
-                          {/* <i class="bi bi-chevron-down"></i>
+                                  </select>
+                                </div>
+                              </div>
+                              <div className="col-8 col-xl-3 col-lg-5 col-md-5 mb-4 mb-md-0">
+                                <div className="job-post-form-group without-label">
+                                  {/* <i class="bi bi-chevron-down"></i>
                           <select className='job-post-form-input select-input'>
                             <option value="" selected>Min</option>
                             <option value="">Option 1</option>
                             <option value="">Option 2</option>
                           </select> */}
-                          <input type="text" className='job-post-form-input'
-                            name="minSalary"
-                            value={credentials.minSalary}
-                            onChange={handleChange}
-                            placeholder="Min salary" />
-                        </div>
-                      </div>
-                      <div className="col-8 offset-4 offset-md-0 col-xl-3 col-lg-5 col-md-5">
-                        <div className="job-post-form-group without-label">
-                          {/* <i class="bi bi-chevron-down"></i>
+                                  <input type="text" className='job-post-form-input'
+                                    name="minSalary"
+                                    value={credentials.minSalary}
+                                    onChange={handleChange}
+                                    placeholder="Min salary" />
+                                </div>
+                              </div>
+                              <div className="col-8 offset-4 offset-md-0 col-xl-3 col-lg-5 col-md-5">
+                                <div className="job-post-form-group without-label">
+                                  {/* <i class="bi bi-chevron-down"></i>
                           <select className='job-post-form-input select-input'>
                             <option value="" selected>Max</option>
                             <option value="">Option 1</option>
                             <option value="">Option 2</option>
                           </select> */}
-                          <input type="text" className='job-post-form-input'
-                            name="maxSalary"
-                            value={credentials.maxSalary}
-                            onChange={handleChange}
-                            placeholder="Max salary" />
-                        </div>
-                      </div>
-                      {/* <div className="col-12">
+                                  <input type="text" className='job-post-form-input'
+                                    name="maxSalary"
+                                    value={credentials.maxSalary}
+                                    onChange={handleChange}
+                                    placeholder="Max salary" />
+                                </div>
+                              </div>
+                              {/* <div className="col-12">
                         <div className="job-post-form-chechbox-area">
                           <label className="job-post-form-check-input">
                             <input type="checkbox" />
@@ -1250,14 +1258,14 @@ const JobPostingWeb = () => {
                           </label>
                         </div>
                       </div> */}
-                    </div>
+                            </div>
 
-                    <div className="row m-b-35">
-                      <div className="col-12 col-xl-8">
-                        <div className="job-post-form-group">
-                          <div className='job-post-form-label-with-badge'>
-                            <label htmlFor="" className='job-post-form-label'>Company industry you are hiring from<span className='form-required'>*</span></label>
-                            {/* <select className='job-post-form-input select-input'
+                            <div className="row m-b-35">
+                              <div className="col-12 col-xl-8">
+                                <div className="job-post-form-group">
+                                  <div className='job-post-form-label-with-badge'>
+                                    <label htmlFor="" className='job-post-form-label'>Company industry you are hiring from<span className='form-required'>*</span></label>
+                                    {/* <select className='job-post-form-input select-input'
                             name="industry"
                             value={credentials.industry}
                             onChange={handleChange}>
@@ -1268,42 +1276,42 @@ const JobPostingWeb = () => {
                             <option value="Education">Education</option>
                             <option value="Manufacturing">Manufacturing</option>
                           </select> */}
-                            {selectedIndustry.map(selectIndustry => (
-                              <span className="job-post-form-badge"
-                                key={selectIndustry}
-                                onClick={() => handleDeselectIndustry(selectIndustry)}
-                              >{selectIndustry}
-                              </span>
-                            ))}
-                          </div>
+                                    {selectedIndustry.map(selectIndustry => (
+                                      <span className="job-post-form-badge"
+                                        key={selectIndustry}
+                                        onClick={() => handleDeselectIndustry(selectIndustry)}
+                                      >{selectIndustry}
+                                      </span>
+                                    ))}
+                                  </div>
 
-                          {/* <i class="bi bi-chevron-down"></i> */}
-                          <input type="search" className='job-post-form-input'
-                            name='searchIndustryInput'
-                            id='searchIndustryInput'
-                            value={searchIndustryInput}
-                            onChange={handleIndustrySearch}
-                            placeholder='Enter a clear & specific industry to get better responses' />
+                                  {/* <i class="bi bi-chevron-down"></i> */}
+                                  <input type="search" className='job-post-form-input'
+                                    name='searchIndustryInput'
+                                    id='searchIndustryInput'
+                                    value={searchIndustryInput}
+                                    onChange={handleIndustrySearch}
+                                    placeholder='Enter a clear & specific industry to get better responses' />
 
-                          <div className='search-result-data-area'>
-                            {filteredIndustry.length > 0 &&
-                              filteredIndustry.map((filterIndustry) => {
-                                return <div className='search-result-data' key={filterIndustry._id} onClick={() => handleIndustryClick(filterIndustry.industry)}>
-                                  {filterIndustry.industry}
+                                  <div className='search-result-data-area'>
+                                    {filteredIndustry.length > 0 &&
+                                      filteredIndustry.map((filterIndustry) => {
+                                        return <div className='search-result-data' key={filterIndustry._id} onClick={() => handleIndustryClick(filterIndustry.industry)}>
+                                          {filterIndustry.industry}
+                                        </div>
+                                      })
+                                    }
+                                  </div>
                                 </div>
-                              })
-                            }
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                              </div>
+                            </div>
 
-                    <div className="row m-b-35">
-                      <div className="col-12 col-xl-8">
-                        <div className="job-post-form-group">
-                          <div className='job-post-form-label-with-badge'>
-                            <label htmlFor="" className='job-post-form-label'>Educational Qualification<span className='form-required'>*</span></label>
-                            {/* <select className='job-post-form-input select-input'
+                            <div className="row m-b-35">
+                              <div className="col-12 col-xl-8">
+                                <div className="job-post-form-group">
+                                  <div className='job-post-form-label-with-badge'>
+                                    <label htmlFor="" className='job-post-form-label'>Educational Qualification<span className='form-required'>*</span></label>
+                                    {/* <select className='job-post-form-input select-input'
                             name="education"
                             value={credentials.education}
                             onChange={handleChange}>
@@ -1314,37 +1322,37 @@ const JobPostingWeb = () => {
                             <option value="Doctorate">Doctorate</option>
                             <option value="Professional Certification">Professional Certification</option>
                           </select> */}
-                            {selectedEducation.map(selectEducation => (
-                              <span className="job-post-form-badge"
-                                key={selectEducation}
-                                onClick={() => handleDeselectEducation(selectEducation)}
-                              >{selectEducation}
-                              </span>
-                            ))}
-                          </div>
+                                    {selectedEducation.map(selectEducation => (
+                                      <span className="job-post-form-badge"
+                                        key={selectEducation}
+                                        onClick={() => handleDeselectEducation(selectEducation)}
+                                      >{selectEducation}
+                                      </span>
+                                    ))}
+                                  </div>
 
-                          {/* <i class="bi bi-chevron-down"></i> */}
-                          <input type="search" className='job-post-form-input'
-                            name='searchEducationInput'
-                            id='searchEducationInput'
-                            value={searchEducationInput}
-                            onChange={handleEducationSearch}
-                            placeholder='Enter a clear & specific education to get better responses' />
+                                  {/* <i class="bi bi-chevron-down"></i> */}
+                                  <input type="search" className='job-post-form-input'
+                                    name='searchEducationInput'
+                                    id='searchEducationInput'
+                                    value={searchEducationInput}
+                                    onChange={handleEducationSearch}
+                                    placeholder='Enter a clear & specific education to get better responses' />
 
-                          <div className='search-result-data-area'>
-                            {filteredEducation.length > 0 &&
-                              filteredEducation.map((filterEducation) => {
-                                return <div className='search-result-data' key={filterEducation._id} onClick={() => handleEducationClick(filterEducation.education)}>
-                                  {filterEducation.education}
+                                  <div className='search-result-data-area'>
+                                    {filteredEducation.length > 0 &&
+                                      filteredEducation.map((filterEducation) => {
+                                        return <div className='search-result-data' key={filterEducation._id} onClick={() => handleEducationClick(filterEducation.education)}>
+                                          {filterEducation.education}
+                                        </div>
+                                      })
+                                    }
+                                  </div>
                                 </div>
-                              })
-                            }
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                              </div>
+                            </div>
 
-                    {/* <div className="row m-b-35">
+                            {/* <div className="row m-b-35">
                       <div className="col-12 col-xl-8">
                         <div className="job-post-form-group">
                           <label htmlFor="" className='job-post-form-label'>Candidate industry<span className='form-required'>*</span></label>
@@ -1358,7 +1366,7 @@ const JobPostingWeb = () => {
                       </div>
                     </div> */}
 
-                    {/* <div className="row m-b-35">
+                            {/* <div className="row m-b-35">
                       <div className="col-12 col-xl-8">
                         <div className="job-post-form-group">
                           <label htmlFor="" className='job-post-form-label'>Diversity hiring</label>
@@ -1373,27 +1381,27 @@ const JobPostingWeb = () => {
                       </div>
                     </div> */}
 
-                    <div className="row m-b-35">
-                      <div className="col-12 col-xl-8">
-                        <div className="job-post-form-group">
-                          <label htmlFor="" className='job-post-form-label mb-1'>Job description</label>
-                          <div className='job-post-form-sub-label'>Write a Job description or
-                            <button className='paste-btn' id="paste-button">
-                              Paste your JD
-                            </button>
-                          </div>
-                          <textarea rows="5" className='job-post-form-input paste-input'
-                            name='jobDescription'
-                            value={credentials.jobDescription}
-                            onChange={handleChange}
-                            onPaste={handlePaste}
-                            placeholder='' id="job-description"
-                            required></textarea>
-                        </div>
-                      </div>
-                    </div>
+                            <div className="row m-b-35">
+                              <div className="col-12 col-xl-8">
+                                <div className="job-post-form-group">
+                                  <label htmlFor="" className='job-post-form-label mb-1'>Job description</label>
+                                  <div className='job-post-form-sub-label'>Write a Job description or
+                                    <button className='paste-btn' id="paste-button">
+                                      Paste your JD
+                                    </button>
+                                  </div>
+                                  <textarea rows="5" className='job-post-form-input paste-input'
+                                    name='jobDescription'
+                                    value={credentials.jobDescription}
+                                    onChange={handleChange}
+                                    onPaste={handlePaste}
+                                    placeholder='' id="job-description"
+                                    required></textarea>
+                                </div>
+                              </div>
+                            </div>
 
-                    {/* <div className="row m-b-35">
+                            {/* <div className="row m-b-35">
                       <div className="col-12 col-xl-8">
                         <div className="job-post-form-group">
                           <label htmlFor="" className='job-post-form-label'>Do you have more than one vacancy for this job?</label>
@@ -1471,17 +1479,22 @@ const JobPostingWeb = () => {
                       </div>
                     </div> */}
 
-                  </form>
+                          </form>
+                        </div>
+                      </div>
+                      <div className="post-job-btn-area">
+                        <button className='post-job-btn' onClick={handleSubmit}>Post a Job</button>
+                      </div>
+                    </div>
+                  </section>
+
                 </div>
               </div>
-              <div className="post-job-btn-area">
-                <button className='post-job-btn' onClick={handleSubmit}>Post a Job</button>
-              </div>
             </div>
-          </section>
-        </div >
-        <Footer />
-      </div >}
+          </div>
+          <Footer />
+        </>
+      }
     </div >
   )
 }

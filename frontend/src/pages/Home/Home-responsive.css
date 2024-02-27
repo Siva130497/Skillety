@@ -1007,4 +1007,8 @@
         width: 90% !important;
         border-radius: 10px;
     }
+
+    .custom-milestone-section{
+        margin-top: 60px;
+    }
 }

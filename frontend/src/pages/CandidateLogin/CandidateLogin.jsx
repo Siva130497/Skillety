@@ -65,8 +65,8 @@ const CandidateLogin = () => {
                         })
                         .then(response => {
                             console.log(response.data);
-                            window.open(`https://skillety-dashboard-tk2y.onrender.com/firebase:${token}`, '_blank');
-                            navigate("/candidate-home")
+                            // window.open(`https://skillety-dashboard-tk2y.onrender.com/firebase:${token}`, '_blank');
+                            navigate(-1);
                         })
                         .catch(error => {
                             console.log(error);

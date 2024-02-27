@@ -292,21 +292,21 @@ const HomeCandidate = () => {
       }, 0);
     });
 
-    const handleKeyDown = (event) => {
-      if (event.key === 's' && event.altKey) {
-        event.preventDefault();
-        const inputElement = document.getElementById('searchSkillInput');
-        if (inputElement) {
-          inputElement.focus();
-        }
-      }
-    };
+    // const handleKeyDown = (event) => {
+    //   if (event.key === 's' && event.altKey) {
+    //     event.preventDefault();
+    //     const inputElement = document.getElementById('searchSkillInput');
+    //     if (inputElement) {
+    //       inputElement.focus();
+    //     }
+    //   }
+    // };
 
-    document.addEventListener('keydown', handleKeyDown);
+    // document.addEventListener('keydown', handleKeyDown);
 
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-    };
+    // return () => {
+    //   document.removeEventListener('keydown', handleKeyDown);
+    // };
   }, []);
 
   return (

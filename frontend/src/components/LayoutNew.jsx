@@ -245,10 +245,10 @@ const LayoutNew = ({ home, aboutUs, searchJob, events, contact }) => {
     chatbotToggleRef.current.addEventListener('click', handleToggleClick);
     chatbotCloseBtnRef.current.addEventListener('click', handleCloseClick);
 
-    return () => {
-      chatbotToggleRef.current.removeEventListener('click', handleToggleClick);
-      chatbotCloseBtnRef.current.removeEventListener('click', handleCloseClick);
-    };
+    // return () => {
+    //   chatbotToggleRef.current.removeEventListener('click', handleToggleClick);
+    //   chatbotCloseBtnRef.current.removeEventListener('click', handleCloseClick);
+    // };
   }, []);
 
 
