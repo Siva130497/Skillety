@@ -48,14 +48,24 @@
 
 .company--content-jobs-area .company--content-jobs {
     color: #5C3B2E;
-    font-size: 24px;
+    font-size: 16px;
     font-weight: 400;
     text-transform: uppercase;
     overflow: hidden;
 }
 
+.company--content-jobs-area .company--content-industry {
+    color: #5C3B2E;
+    font-size: 18px;
+    font-weight: 600;
+    text-transform: capitalize;
+    overflow: hidden;
+    text-align: left;
+}
+
+
 .company--content-jobs span {
-    font-weight: 700;
+    font-weight:700;
 }
 
 .company--content-desc-area {
@@ -232,7 +242,7 @@
 
 .company-demo-card-btn-sub:hover::after {
     visibility: visible;
-    transform: scale(50) translateX(2px);
+    transform: scale(60) translateX(2px);
 }
 
 .company-demo-card-btn-sub:hover {

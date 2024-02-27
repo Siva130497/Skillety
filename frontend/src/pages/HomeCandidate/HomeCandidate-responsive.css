@@ -1,3 +1,12 @@
+@media (min-width: 1400px) {
+    .company--content-desc-area{
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 15px;
+        justify-content: space-between;
+    }
+}
+
 @media screen and (min-width: 991.98px) and (max-width: 1399.98px) {
     .home--head.candidate h4 {
         font-size: 35px;
@@ -18,6 +27,10 @@
 
     .milestone--section.candidate {
         margin-top: 80px;
+    }
+
+    .cand--job-card-loc-area .cand--job-card-location{
+        max-width: 300px;
     }
 
     .home--milestone-cards-area.candidate {

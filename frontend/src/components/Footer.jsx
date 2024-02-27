@@ -40,7 +40,7 @@ export const Footer = () => {
                   </div>
                   <div className="col-12 col-lg-5 col-xl-5">
                     <div className="footer--logo-area">
-                      <img src="assets/img/home-images/skilletty-logo.png" className='footer--logo' alt="" data-aos="zoom-out" />
+                      <img src="/assets/img/home-images/skilletty-logo.png" className='footer--logo' alt="" data-aos="zoom-out" />
                     </div>
                   </div>
                 </div>

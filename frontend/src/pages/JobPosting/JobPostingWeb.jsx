@@ -908,13 +908,13 @@ const JobPostingWeb = () => {
                                       className="manually-add-btn with-mb"
                                       onClick={handleManualJobRole}
                                       disabled={!isCheckedJobRole}>
-                                      Add manually entered jobRole
+                                      Add Manually
                                     </button>
                                   </div>
                                 </div>
                               </div>
 
-                              <div className="col-12 col-xl-4 m-t-35 mt-xl-0">
+                              <div className="col-12 col-xl-4 mt-xl-0">
                                 <div className="job-post-form-group">
                                   <label htmlFor="" className='job-post-form-label'>Employment Type<span className='form-required'>*</span></label>
                                   <i class="bi bi-chevron-down"></i>
@@ -1015,7 +1015,7 @@ const JobPostingWeb = () => {
                                       className="manually-add-btn"
                                       onClick={handleManualSkill}
                                       disabled={!isCheckedSkill}
-                                    >Add manually entered skill for a particular job role</button>
+                                    >Add Manually</button>
                                   </div>
                                 </div>
                               </div>
@@ -1168,7 +1168,7 @@ const JobPostingWeb = () => {
                               <div className="col-12">
                                 <label htmlFor="" className='job-post-form-label'>Work experience (years)<span className='form-required'>*</span></label>
                               </div>
-                              <div className="col-12 col-xl-4 col-lg-6 col-md-6 mb-4 mb-md-0">
+                              <div className="col-12 col-xl-4 col-lg-6 col-md-6 mb-0 mb-md-4 mb-md-0">
                                 <div className="job-post-form-group without-label">
                                   {/* <i class="bi bi-chevron-down"></i>
                           <select className='job-post-form-input select-input'>
@@ -1219,7 +1219,7 @@ const JobPostingWeb = () => {
                                   </select>
                                 </div>
                               </div>
-                              <div className="col-8 col-xl-3 col-lg-5 col-md-5 mb-4 mb-md-0">
+                              <div className="col-8 col-xl-3 col-lg-5 col-md-5 mb-0 mb-md-4 mb-md-0">
                                 <div className="job-post-form-group without-label">
                                   {/* <i class="bi bi-chevron-down"></i>
                           <select className='job-post-form-input select-input'>
@@ -1483,7 +1483,18 @@ const JobPostingWeb = () => {
                         </div>
                       </div>
                       <div className="post-job-btn-area">
-                        <button className='post-job-btn' onClick={handleSubmit}>Post a Job</button>
+                        <button className='con--form-btn-sub' onClick={handleSubmit}>
+                          <div className='con--form-btn'>
+                            Post a Job
+                          </div>
+                          <div className='con--form-arrow-area'>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 27 27" fill="none">
+                              <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="white" stroke-width="2" />
+                              <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="white" stroke-width="2" />
+                              <path d="M1 26L25.1667 1" stroke="white" stroke-width="2" />
+                            </svg>
+                          </div>
+                        </button>
                       </div>
                     </div>
                   </section>

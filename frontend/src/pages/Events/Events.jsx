@@ -95,7 +95,7 @@ const Events = () => {
                                         </div>
                                         <div className="about--sub-des candidate">
                                             <p>
-                                            You're just One Click away from the best opportunities.
+                                                You're just One Click away from the best opportunities.
                                             </p>
                                         </div>
                                         <a href='' className="arrow--icon-btn candidate">
@@ -137,7 +137,7 @@ const Events = () => {
                                                 const imgSrc = matchingImg ? `https://skillety-n6r1.onrender.com/images/${matchingImg.image}` : "assets/img/events/event-img.jpg";
 
                                                 return (
-                                                    <div key={eve.id} className="col-12 col-lg-4 col-xl-4 col-md-6 col-sm-10 offset-sm-1 offset-md-0 offset-lg-0 offset-xl-0 cand--events-card-area" data-aos="fade-up">
+                                                    <div key={eve.id} className="col-12 col-lg-4 col-xl-4 col-xxl-3 col-md-6 col-sm-10 offset-sm-1 offset-md-0 offset-lg-0 offset-xl-0 cand--events-card-area" data-aos="fade-up">
                                                         <article className='cand--events-card'>
                                                             <div className="cand--events-card-img-area">
                                                                 <img src={imgSrc} className='cand--events-card-img' alt="" />
@@ -147,7 +147,9 @@ const Events = () => {
                                                                     {eve.title}
                                                                 </h6>
                                                             </div>
-                                                            <p className='cand--events-card-date'>{eve.date}</p>
+                                                            <p className='cand--events-card-date'>
+                                                                {eve.date}, <b className='text-capitalized'>{eve.location}</b>
+                                                            </p>
                                                             <a href={`/event-details/${eve.id}`} className="cand--events-card-bottom-area">
                                                                 <span className='cand--event-sys'>Know More</span>
                                                                 <span className='cand--events-card-arrow-area'>
@@ -180,7 +182,7 @@ const Events = () => {
                                                 const imgSrc = matchingImg ? `https://skillety-n6r1.onrender.com/images/${matchingImg.image}` : "assets/img/events/event-img.jpg";
 
                                                 return (
-                                                    <div key={blog.id} className="col-12 col-lg-4 col-xl-4 col-md-6 col-sm-10 offset-sm-1 offset-md-0 offset-lg-0 offset-xl-0 cand--events-card-area" data-aos="fade-up">
+                                                    <div key={blog.id} className="col-12 col-lg-4 col-xl-4 col-xxl-3 col-md-6 col-sm-10 offset-sm-1 offset-md-0 offset-lg-0 offset-xl-0 cand--events-card-area" data-aos="fade-up">
                                                         <article className='cand--events-card'>
                                                             <div className="cand--events-card-img-area">
                                                                 <img src={imgSrc} className='cand--events-card-img' alt="" />
@@ -190,7 +192,9 @@ const Events = () => {
                                                                     {blog.title}
                                                                 </h6>
                                                             </div>
-                                                            <p className='cand--events-card-date'>{blog.date}</p>
+                                                            <p className='cand--events-card-date'>
+                                                                {blog.date}, <b className='text-capitalized'>{blog.location}</b>
+                                                            </p>
                                                             <a href={blog.url} target='_blank' rel="noreferrer" className="cand--events-card-bottom-area">
                                                                 <span className='cand--event-sys'>Know More</span>
                                                                 <span className='cand--events-card-arrow-area'>
@@ -223,7 +227,7 @@ const Events = () => {
                                                 const imgSrc = matchingImg ? `https://skillety-n6r1.onrender.com/images/${matchingImg.image}` : "assets/img/events/event-img.jpg";
 
                                                 return (
-                                                    <div key={vdo.id} className="col-12 col-lg-4 col-xl-4 col-md-6 col-sm-10 offset-sm-1 offset-md-0 offset-lg-0 offset-xl-0 cand--events-card-area" data-aos="fade-up">
+                                                    <div key={vdo.id} className="col-12 col-lg-4 col-xl-4 col-xxl-3 col-md-6 col-sm-10 offset-sm-1 offset-md-0 offset-lg-0 offset-xl-0 cand--events-card-area" data-aos="fade-up">
                                                         <article className='cand--events-card'>
                                                             <div className="cand--events-card-img-area">
                                                                 <img src={imgSrc} className='cand--events-card-img' alt="" />
@@ -233,7 +237,9 @@ const Events = () => {
                                                                     {vdo.title}
                                                                 </h6>
                                                             </div>
-                                                            <p className='cand--events-card-date'>{vdo.date}</p>
+                                                            <p className='cand--events-card-date'>
+                                                                {vdo.date}, <b className='text-capitalized'>{vdo.location}</b>
+                                                            </p>
                                                             <a href={vdo.url} target='_blank' rel="noreferrer" className="cand--events-card-bottom-area">
                                                                 <span className='cand--event-sys'>Know More</span>
                                                                 <span className='cand--events-card-arrow-area'>
@@ -266,7 +272,7 @@ const Events = () => {
                                                 const imgSrc = matchingImg ? `https://skillety-n6r1.onrender.com/images/${matchingImg.image}` : "assets/img/events/event-img.jpg";
 
                                                 return (
-                                                    <div key={pod.id} className="col-12 col-lg-4 col-xl-4 col-md-6 col-sm-10 offset-sm-1 offset-md-0 offset-lg-0 offset-xl-0 cand--events-card-area" data-aos="fade-up">
+                                                    <div key={pod.id} className="col-12 col-lg-4 col-xl-4 col-xxl-3 col-md-6 col-sm-10 offset-sm-1 offset-md-0 offset-lg-0 offset-xl-0 cand--events-card-area" data-aos="fade-up">
                                                         <article className='cand--events-card'>
                                                             <div className="cand--events-card-img-area">
                                                                 <img src={imgSrc} className='cand--events-card-img' alt="" />
@@ -276,7 +282,9 @@ const Events = () => {
                                                                     {pod.title}
                                                                 </h6>
                                                             </div>
-                                                            <p className='cand--events-card-date'>{pod.date}</p>
+                                                            <p className='cand--events-card-date'>
+                                                                {pod.date}, <b className='text-capitalized'>{pod.location}</b>
+                                                            </p>
                                                             <a href={pod.url} target='_blank' rel="noreferrer" className="cand--events-card-bottom-area">
                                                                 <span className='cand--event-sys'>Know More</span>
                                                                 <span className='cand--events-card-arrow-area'>
@@ -309,7 +317,7 @@ const Events = () => {
                                                 const imgSrc = matchingImg ? `https://skillety-n6r1.onrender.com/images/${matchingImg.image}` : "assets/img/events/event-img.jpg";
 
                                                 return (
-                                                    <div key={news.id} className="col-12 col-lg-4 col-xl-4 col-md-6 col-sm-10 offset-sm-1 offset-md-0 offset-lg-0 offset-xl-0 cand--events-card-area" data-aos="fade-up">
+                                                    <div key={news.id} className="col-12 col-lg-4 col-xl-4 col-xxl-3 col-md-6 col-sm-10 offset-sm-1 offset-md-0 offset-lg-0 offset-xl-0 cand--events-card-area" data-aos="fade-up">
                                                         <article className='cand--events-card'>
                                                             <div className="cand--events-card-img-area">
                                                                 <img src={imgSrc} className='cand--events-card-img' alt="" />
@@ -319,7 +327,9 @@ const Events = () => {
                                                                     {news.title}
                                                                 </h6>
                                                             </div>
-                                                            <p className='cand--events-card-date'>{news.date}</p>
+                                                            <p className='cand--events-card-date'>
+                                                                {news.date}, <b className='text-capitalized'>{news.location}</b>
+                                                            </p>
                                                             <a href={news.url} target='_blank' rel="noreferrer" className="cand--events-card-bottom-area">
                                                                 <span className='cand--event-sys'>Know More</span>
                                                                 <span className='cand--events-card-arrow-area'>

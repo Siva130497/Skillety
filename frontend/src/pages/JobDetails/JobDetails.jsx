@@ -10,6 +10,7 @@ import axios from "axios";
 import AuthContext from "../../context/AuthContext";
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.css";
+import ErrorPage from "../../404/404";
 
 const JobDetails = () => {
   const { id } = useParams();
@@ -45,7 +46,7 @@ const JobDetails = () => {
         $("html, body").animate({ scrollTop: 0 }, 100);
       }, 0);
     });
-    
+
   }, []);
 
   //for show success message for payment
@@ -159,7 +160,7 @@ const JobDetails = () => {
         }
       );
       console.log(response);
-      showSuccessMessage("Job successfully deleted..!");
+      showSuccessMessage("Job application successfully withdrawed..!");
       getAppliedjobs();
 
       axios.get(`https://skillety-n6r1.onrender.com/applied-job/${id}`)
@@ -249,7 +250,7 @@ const JobDetails = () => {
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, apply it!'
+        confirmButtonText: 'Yes, Withdraw it!'
       }).then((result) => {
         if (result.isConfirmed) {
           deletingjob();
@@ -277,7 +278,7 @@ const JobDetails = () => {
                       <a href="/candidate-home">Home</a>
                     </div>
                     <div className="breadcrumb--item-dark">
-                      <a className="sub--bredcrumb-link" href="/job-detail">
+                      <a className="sub--bredcrumb-link" href="/job-search">
                         Jobs
                       </a>
                     </div>
@@ -566,7 +567,7 @@ const JobDetails = () => {
                         {alreadyApplied ? (
                           <button className='company--detail-card-apply-btn button m-t-40' onClick={handleDiscard}>
                             <div className='company--detail-card-apply-btn-sub apply'>
-                              Discard
+                              Withdraw
                             </div>
                           </button>
                         ) : (
@@ -666,13 +667,7 @@ const JobDetails = () => {
         </div>
       )}
       {pageNotFound && (
-        <div>
-          <h1>404</h1>
-          <p>Not Found</p>
-          <small>
-            The resource requested could not be found on this server!
-          </small>
-        </div>
+        <ErrorPage />
       )}
     </div>
   );

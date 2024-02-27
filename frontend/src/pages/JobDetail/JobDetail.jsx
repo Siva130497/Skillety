@@ -9,41 +9,42 @@ import './JobDetail.css';
 import './JobDetail-responsive.css';
 import { CandidateFooter } from '../../components/CandidateFooter';
 import LayoutNew from '../../components/LayoutNew';
-import {useParams} from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import axios from 'axios';
 import { useState } from 'react';
+import ErrorPage from '../../404/404';
 
 const JobDetail = () => {
-    const {id} = useParams();
+    const { id } = useParams();
 
     const [job, setJob] = useState();
     const [allJobs, setAllJobs] = useState([]);
 
-    const getPostedjobs = async() => {
-        try{
+    const getPostedjobs = async () => {
+        try {
             const res = await axios.get(`https://skillety-n6r1.onrender.com/posted-jobs`, {
-              headers: {
-                  Accept: 'application/json'
-              }
+                headers: {
+                    Accept: 'application/json'
+                }
             });
             const result = res.data;
             if (!result.error) {
-              console.log(result);
-              setAllJobs(result);
-              const jobDetail = result.find(job=>job.id === id)
-              setJob(jobDetail);
+                console.log(result);
+                setAllJobs(result);
+                const jobDetail = result.find(job => job.id === id)
+                setJob(jobDetail);
             } else {
-              console.log(result);
+                console.log(result);
             }
-        }catch(err){
-          console.log(err);
+        } catch (err) {
+            console.log(err);
         }
-      }
+    }
 
-    useEffect(()=>{
+    useEffect(() => {
         getPostedjobs();
-    },[])
-      console.log(job)
+    }, [])
+    console.log(job)
 
     const breakpoints = {
         320: {
@@ -62,10 +63,10 @@ const JobDetail = () => {
             slidesPerView: 1.65,
         },
     };
-    
+
     return (
         <div>
-            {job ? 
+            {job ?
                 <div>
                     <LayoutNew />
                     <div className='talents--section'>
@@ -114,7 +115,7 @@ const JobDetail = () => {
                                                             <i class="bx bxs-map job--detail-location-icon"></i>
                                                             <span className='job--detail-location'>{job.location}</span>
                                                         </div>
-                                                        <div className='job--detail-experience'>Experience :&nbsp;<span>{job.year > 0 ? job.year+ 'years' : "" + job.month > 0 ? job.month+ 'months' : ""}</span></div>
+                                                        <div className='job--detail-experience'>Experience :&nbsp;<span>{job.year > 0 ? job.year + 'years' : "" + job.month > 0 ? job.month + 'months' : ""}</span></div>
                                                     </div>
                                                     <div className='job--detail-job-type' data-aos="fade">Job type :&nbsp;<span>{job.jobCategory}</span></div>
 
@@ -125,12 +126,12 @@ const JobDetail = () => {
                                                         <h6 className='job--detail-skill-title' data-aos="fade">Skills Required :</h6>
                                                         <div className='job--detail-skills-list'>
                                                             <ul>
-                                                                {job.skills.map((skill)=>{
-                                                                    return(
+                                                                {job.skills.map((skill) => {
+                                                                    return (
                                                                         <li className='job--detail-skills-list-item' data-aos="fade-left">{skill}</li>
                                                                     )
                                                                 })}
-                                                                
+
                                                                 {/* <li className='job--detail-skills-list-item' data-aos="fade-left">Lorem Ipsum is simply dummy text</li>
                                                                 <li className='job--detail-skills-list-item' data-aos="fade-left">Lorem Ipsum is simply dummy text</li>
                                                                 <li className='job--detail-skills-list-item' data-aos="fade-left">Lorem Ipsum is simply dummy text</li>
@@ -192,8 +193,8 @@ const JobDetail = () => {
                                         }}
 
                                     >
-                                        {allJobs.map((job)=>{
-                                            return(
+                                        {allJobs.map((job) => {
+                                            return (
                                                 <SwiperSlide>
                                                     <article className='job--detail-card' data-aos="fade-left">
                                                         <div className="job--detail-card-top-area">
@@ -214,7 +215,7 @@ const JobDetail = () => {
                                                                 <div className="job--detail-card-location-area">
                                                                     <div className="job--detail-card-experience">
                                                                         <i class='bx bx-briefcase'></i>
-                                                                        <span>{job.year > 0 ? job.year+ 'years' : "" + job.month > 0 ? job.month+ 'months' : ""}</span>
+                                                                        <span>{job.year > 0 ? job.year + 'years' : "" + job.month > 0 ? job.month + 'months' : ""}</span>
                                                                     </div>
                                                                     <div className="job--detail-card-experience">
                                                                         <i class='bx bx-rupee'></i>
@@ -235,12 +236,12 @@ const JobDetail = () => {
                                                         </div>
                                                         <div className="job--detail-card-bottom-area">
                                                             <div className='job--detail-card-tags-area'>
-                                                                {job.skills.map((skill, index)=>{
-                                                                    return(
+                                                                {job.skills.map((skill, index) => {
+                                                                    return (
                                                                         <div className="job--detail-card-tag" key={index}>{skill}</div>
                                                                     )
                                                                 })}
-                                                                
+
                                                                 {/* <div className="job--detail-card-tag">UX,Design & Archietect</div>
                                                                 <div className="job--detail-card-tag">UX,Design & Archietect</div>
                                                                 <div className="job--detail-card-tag">UX,Design & Archietect</div>
@@ -254,7 +255,7 @@ const JobDetail = () => {
                                                 </SwiperSlide>
                                             )
                                         })}
-                                        
+
 
                                         {/* <SwiperSlide>
                                             <article className='job--detail-card' data-aos="fade-left">
@@ -444,15 +445,11 @@ const JobDetail = () => {
                         </div>
                     </div >
                     <CandidateFooter />
-                </div > : 
-                <div>
-                    <h1>404</h1>
-                    <p>Not Found</p>
-                    <small>The resource requested could not be found on this server!</small>
-                </div>
+                </div > :
+                <ErrorPage />
             }
         </div>
-        
+
     )
 
 }

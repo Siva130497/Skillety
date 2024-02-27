@@ -369,7 +369,7 @@ const CandidateDashboard = () => {
                         <div>Description: {jobViewDetail.jobDescription}</div>
                         <div>Percentage matched with your skills: {jobViewDetail.percentage}%</div>
                         {!jobViewDetail.discardStatus && <button type="button" className="btn btn-outline-info my-2" onClick={()=>handleApply(jobViewDetail.jobId)}>Apply</button>}
-                        {jobViewDetail.discardStatus && <button type="button" className="btn btn-outline-info my-2" onClick={()=>handleDiscard(jobViewDetail.jobId)}>Discard</button>}
+                        {jobViewDetail.discardStatus && <button type="button" className="btn btn-outline-info my-2" onClick={()=>handleDiscard(jobViewDetail.jobId)}>Withdraw</button>}
                       </div>
                     )}
                   </div>

@@ -10,6 +10,7 @@ import AuthContext from "../../context/AuthContext";
 import axios from "axios";
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.css";
+import ErrorPage from "../../404/404";
 
 const CandidateTestimonialDetail = () => {
   const { id } = useParams();
@@ -137,7 +138,7 @@ const CandidateTestimonialDetail = () => {
                     </div>
                     <div className="breadcrumb--item-dark">
                       <a className="sub--bredcrumb-link" href="/events">
-                        Event
+                        Media
                       </a>
                     </div>
                     <div className="breadcrumb--item-dark">
@@ -449,13 +450,7 @@ const CandidateTestimonialDetail = () => {
         </div>
       )}
       {pageNotFound && (
-        <div>
-          <h1>404</h1>
-          <p>Not Found</p>
-          <small>
-            The resource requested could not be found on this server!
-          </small>
-        </div>
+        <ErrorPage />
       )}
     </div>
   );

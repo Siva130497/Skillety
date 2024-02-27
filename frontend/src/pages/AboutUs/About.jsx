@@ -107,10 +107,7 @@ const About = () => {
                         </div>
                         <div className='about--desc-section'>
                             {/* <p data-aos="fade-left">We are a gig-economy based crowdsourcing platform for Freelancers. We have an exclusive vault of Immediate Joiners - guys who can pick up an Offer and Join within 7 days or less. We have curated a group of Technical Interview experts for Clients who face shortage of internal Interview Panels. We help you to move away from the old and soiled hierarchical business structure, and evolve into a 21st Century on-demand, open talent, cross-functional team; with a skilled and passionate workforce who are more engaged, effective & productive. Welcome to Skillety – Your on-demand HR solutions partner.</p> */}
-                            <p data-aos="fade-left">Skillety is a Digital-RPO platform – a comprehensive suite of diverse hiring solutions like Sourcing, Posting, Screening, Assessment, Interview, Onboarding & Verification – all seamlessly integrated into one place. We are powered by our exclusive Job-board for Immediate Joiners - guys who can Join within 7 days or less. The combined power of our AI-based platform and the extensive experience of our formidable team, makes us an end-to-end recruitment powerhouse.
-
-                                Our AI-powered platform is API integrated with 172 partner job boards and social media sites across the world. These partnerships help a job posting to crawl out and collect clicks, which converts into applications, through inward aggregation. Currently, Skillety clocks over 850+ new registrations every day of immediate joiners – guys who can pick up a job offer and join within 7/15/30 days. Our algorithms and culture, both are built to deliver speed and precision, at all times.
-                            </p>
+                            <p data-aos="fade-left">Welcome to Skillety, the global job portal engineered to redefine recruitment dynamics. With a dedicated focus on Immediate Joiners—individuals capable of starting within 7, 15, or 30 days—Skillety offers a comprehensive suite of cutting-edge hiring solutions. From CV sourcing and job postings to online assessments, L1 interviews, and background verification, our platform seamlessly consolidates these vital processes into one accessible hub. Backed by AI prowess, Skillety boasts integration with 172 partner job boards and social media platforms worldwide. This strategic alliance facilitates optimal visibility for job postings, utilizing inward aggregation to convert clicks into applications. At Skillety, we understand that talent acquisition is a dynamic endeavor that demands both speed and precision. Join us in revolutionizing recruitment, as we connect top-tier talent with unparalleled opportunities, driving success and growth for businesses and professionals alike. Welcome to the future of hiring. Welcome to Skillety.</p>
                         </div>
 
                         <div className="about--milestone-section">
@@ -258,7 +255,7 @@ const About = () => {
                                             <h6 className='ab-weoff-card-num'>01</h6>
                                         </div>
                                         <div className="ab-we-off-card-des-area">
-                                            <p className='ab-we-off-card-des'>Flexible staffing options which means that we provide you with skilled Freelancers, Part-timers & Contractors, for your technical & non-technical requirements, almost anytime.</p>
+                                            <p className='ab-we-off-card-des'>India's first ever Global Job Portal. All sectors and regions covered across India, US, UK & EUR. </p>
                                         </div>
                                     </article>
                                     <article className='ab-weoff-card' data-aos="zoom-out-down">
@@ -271,7 +268,7 @@ const About = () => {
                                             <h6 className='ab-weoff-card-num'>02</h6>
                                         </div>
                                         <div className="ab-we-off-card-des-area">
-                                            <p className='ab-we-off-card-des'>Extensive database of highly skilled & passionate professionals, carefully hand-picked from thousands who apply.</p>
+                                            <p className='ab-we-off-card-des'>Special focus on Immediate Joiners - guys who can join within 7/15/30 days. </p>
                                         </div>
                                     </article>
                                     <article className='ab-weoff-card' data-aos="zoom-out-down">
@@ -284,7 +281,7 @@ const About = () => {
                                             <h6 className='ab-weoff-card-num'>03</h6>
                                         </div>
                                         <div className="ab-we-off-card-des-area">
-                                            <p className='ab-we-off-card-des'>Absolutely no direct-employment liabilities whatsoever, but still your milestones are achieved on time. Operations never stop.</p>
+                                            <p className='ab-we-off-card-des'>Offering diverse hiring solutions like CV Sourcing, Job Posting, Online Assessments, Interview Outsourcing and Background Verification.</p>
                                         </div>
                                     </article>
                                     <article className='ab-weoff-card' data-aos="zoom-out-down">
@@ -297,7 +294,7 @@ const About = () => {
                                             <h6 className='ab-weoff-card-num'>04</h6>
                                         </div>
                                         <div className="ab-we-off-card-des-area">
-                                            <p className='ab-we-off-card-des'>We cut your hiring costs down by 50%, straight. Sometimes, even more than that.</p>
+                                            <p className='ab-we-off-card-des'>AI-powered platform which is API integrated with 172 partner Job sites and Social Media sites, maximising job post visibility and applications.</p>
                                         </div>
                                     </article>
                                 </div>

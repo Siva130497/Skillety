@@ -16,13 +16,13 @@ const ErrorPage = () => {
                 <img className='not-found-image' src="../assets/img/no-data/404-error.svg" alt="" />
                 <div className='not-found-text'>
                     Oops, <br />
-                    somthing went wrong.
+                    Somthing went wrong.
                 </div>
                 <div className='not-found-sub-text'>
                     Page not found..!
                 </div>
                 <button className="btn back-to-main-btn mt-4" onClick={handleBackButtonClick}>
-                    <i className='bi bi-arrow-left mr-2'></i>
+                    <i className='bi bi-arrow-left mr-2'></i>&nbsp;
                     GET BACK
                 </button>
 
