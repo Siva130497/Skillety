@@ -54,6 +54,7 @@ import CreateCandidateATS from './atsPages/CreateCandidateATS/CreateCandidateATS
 ////for recruiter
 import RecruiterDashboard from './pages/RecruiterDashboard/RecruiterDashboard';
 import AllClients from './pages/AllClients/AllClients';
+import CreatedClients from './pages/CreatedClients/CreatedClients';
 import AllCandidates from './pages/AllCandidates/AllCandidates';
 import CreatedCandidates from './pages/CreatedCandidates/CreatedCandidates';
 import AllJobs from './pages/AllJobs/AllJobs';
@@ -148,6 +149,7 @@ function App() {
         <Route path='/' element={<RecruiterLogin />} />
         <Route path='/recruiter-dashboard/:token' element={<RecruiterDashboard />} />
         <Route path='/all-clients' element={<AllClients />} />
+        <Route path='/created-clients' element={<CreatedClients />} />
         <Route path='/all-candidates' element={<AllCandidates />} />
         <Route path='/created-candidates' element={<CreatedCandidates />} />
         <Route path='/all-jobs' element={<AllJobs />} />
