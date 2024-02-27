@@ -10,7 +10,7 @@ import NewNavBar from './NewNavBar';
 import { useNavigate } from 'react-router-dom';
 
 
-const Layout = ({ newNavBarClientRegister, newNavBarClientLogin, newNavBarCandidateLogin, newNavBarCandidateRegister, newNavBarAdminLogin, newNavBarRecruiterLogin, forgotPassword, ClientNewPassword, home, aboutUs, searchCV, service, RPO, contact, candVerification }) => {
+const Layout = ({ newNavBarClientRegister, newNavBarClientLogin, newNavBarCandidateLogin, newNavBarCandidateRegister, newNavBarAdminLogin, newNavBarRecruiterLogin, forgotPassword, ClientNewPassword, home, aboutUs, searchCV, service, RPO, contact, candVerification, postJob }) => {
   const navigate = useNavigate();
 
   const handleBackButtonClick = () => {
@@ -247,7 +247,7 @@ const Layout = ({ newNavBarClientRegister, newNavBarClientLogin, newNavBarCandid
   return (
     <div>
 
-      {newNavBarClientRegister ? <NewNavBar clientLogin={true} /> : newNavBarClientLogin ? <NewNavBar clientRegister={true} /> : newNavBarCandidateLogin ? <NewNavBar candidateRegister={true} /> : newNavBarAdminLogin ? <NewNavBar /> : newNavBarRecruiterLogin ? <NewNavBar /> : newNavBarCandidateRegister ? <NewNavBar candidateLogin={true} /> : forgotPassword ? <NewNavBar /> : candVerification ? <NewNavBar candVerification={true} /> : ClientNewPassword ? <NewNavBar /> : <NewNav homeActive={home} aboutUsActive={aboutUs} searchCVActive={searchCV} serviceActive={service} RPOActive={RPO} contactActive={contact} />}
+      {newNavBarClientRegister ? <NewNavBar clientLogin={true} /> : newNavBarClientLogin ? <NewNavBar clientRegister={true} /> : newNavBarCandidateLogin ? <NewNavBar candidateRegister={true} /> : newNavBarAdminLogin ? <NewNavBar /> : newNavBarRecruiterLogin ? <NewNavBar /> : newNavBarCandidateRegister ? <NewNavBar candidateLogin={true} /> : forgotPassword ? <NewNavBar /> : candVerification ? <NewNavBar candVerification={true} /> : ClientNewPassword ? <NewNavBar /> : <NewNav homeActive={home} aboutUsActive={aboutUs} searchCVActive={searchCV} serviceActive={service} RPOActive={RPO} contactActive={contact} postJobActive={postJob}/>}
 
       {/* <div className='container-fluid'>{children}</div> */}
       {/* <div id="preloader"></div> */}

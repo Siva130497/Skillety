@@ -164,21 +164,21 @@ const Home = () => {
       }, 0);
     });
 
-    const handleKeyDown = (event) => {
-      if (event.key === 's' && event.altKey) {
-        event.preventDefault();
-        const inputElement = document.getElementById('searchSkillInput');
-        if (inputElement) {
-          inputElement.focus();
-        }
-      }
-    };
+    // const handleKeyDown = (event) => {
+    //   if (event.key === 's' && event.altKey) {
+    //     event.preventDefault();
+    //     const inputElement = document.getElementById('searchSkillInput');
+    //     if (inputElement) {
+    //       inputElement.focus();
+    //     }
+    //   }
+    // };
 
-    document.addEventListener('keydown', handleKeyDown);
+    // document.addEventListener('keydown', handleKeyDown);
 
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-    };
+    // return () => {
+    //   document.removeEventListener('keydown', handleKeyDown);
+    // };
   }, []);
 
   const getPopularSearches = async () => {
@@ -627,13 +627,12 @@ const Home = () => {
             </div>
           </section>
 
-          <section className="home--rpo-section">
+          {/* <section className="home--rpo-section">
             <div className='home--about-headarea'>
               <h6 data-aos="fade-down">RPO types</h6>
               <h4 className='rpo--heading' data-aos="fade-up"><span>We enhance</span> client <span>recruitment</span> through <br /> comprehensive <span>end-to-end outsourcing</span></h4>
             </div>
             <div className="rpo--para-area" data-aos="fade-left">
-              {/* <p>We improve the efficiency and effectiveness of the client’s recruitment process by providing an end-to-end outsourcing solution for the recruitment process.</p> */}
               <p>Recruitment Process Outsourcing is a specialty of Skillety, where we, an external solution provider, acts as a company's internal recruitment function for a portion or all of its jobs. Typically our Client Success Managers (resource implants) are deployed to the client's business premises on a fully or partially outsourced basis. We manage the entire recruiting/hiring process from job profiling through the onboarding of new hires, including staff, technology, methods, and reporting. Skillety’s highly customised and automated RPO process will tremendously improve a client's time-to-hire, increase the quality of the candidate pool, provide verifiable metrics, reduce costs, and improve employee retention and governmental compliance.</p>
             </div>
             <div className="rpo--content-card">
@@ -723,7 +722,6 @@ const Home = () => {
                 </div>
                 <div className="col-12 col-xl-5 col-lg-9">
                   <div className='rpo--card-desc'>
-                    {/* <p data-aos="fade">Best for a test-run before you decide your RPO partner. We take up hiring requirements from one or few projects on exclusivity, and close them in record time, first. The results will determine whether you want to upgrade to an Enterprise RPO (or not), based on solid proof.</p> */}
                     <p data-aos="fade">This is specifically designed for companies who would want to test run the RPO model first, and then decide. We take up hiring requirements from one or few projects on exclusivity, and close them in record time, first. The results will determine whether you want to upgrade to an Enterprise RPO (or not), based on solid proof.</p>
                   </div>
                 </div>
@@ -741,9 +739,9 @@ const Home = () => {
                 </div>
               </div>
             </div>
-          </section>
+          </section> */}
 
-          <section className='milestone--section'>
+          <section className='milestone--section custom-milestone-section'>
             <div className="home--milestone-head-area">
               <div className='home--milestone-headarea'>
                 <h6 data-aos="fade-down">Milestone numbers</h6>

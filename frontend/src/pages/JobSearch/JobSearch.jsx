@@ -52,7 +52,7 @@ const JobSearch = () => {
 
     const navigate = useNavigate();
 
-    const [x, setX] = useState([0, 3]);
+    const [x, setX] = useState([0, 25]);
 
     const [filters, setFilters] = useState({
         searchInput: "",
@@ -1751,14 +1751,14 @@ const JobSearch = () => {
                                                 <div className="tal--pro-paginate-btn-area" data-aos="fade-up">
                                                     <h6 className='tal--pro-total-result-text'>Total Items : <span>{filteredSearchResultsMsg ? "0" : filteredSearchResults.length > 0 ? filteredSearchResults.length : matchJobs.length > 0 ? matchJobs.length : latestJob.length}</span></h6>
                                                     <div className='tal--pro-slider-btn-sub'>
-                                                        {x[0] > 0 && <button className="tal--pro-slider-btn" onClick={() => setX([x[0] - 3, x[1] - 3])}>
+                                                        {x[0] > 0 && <button className="tal--pro-slider-btn" onClick={() => setX([x[0] - 25, x[1] - 25])}>
                                                             <svg className='arrow-left' xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 27 27" fill="none">
                                                                 <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#5C3B2E" stroke-width="2" />
                                                                 <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#5C3B2E" stroke-width="2" />
                                                                 <path d="M1 26L25.1667 1" stroke="#5C3B2E" stroke-width="2" />
                                                             </svg>
                                                         </button>}
-                                                        {(filteredSearchResultsMsg ? !filteredSearchResultsMsg : filteredSearchResults.length > 0 ? (filteredSearchResults.slice(x[0], x[1]).length === 3 && filteredSearchResults.length > x[1]) : matchJobs.length > 0 ? (matchJobs.slice(x[0], x[1]).length === 3 && matchJobs.length > x[1]) : (latestJob.slice(x[0], x[1]).length === 3 && latestJob.length > x[1])) && < button className="tal--pro-slider-btn" onClick={() => setX([x[0] + 3, x[1] + 3])}>
+                                                        {(filteredSearchResultsMsg ? !filteredSearchResultsMsg : filteredSearchResults.length > 0 ? (filteredSearchResults.slice(x[0], x[1]).length === 25 && filteredSearchResults.length > x[1]) : matchJobs.length > 0 ? (matchJobs.slice(x[0], x[1]).length === 25 && matchJobs.length > x[1]) : (latestJob.slice(x[0], x[1]).length === 25 && latestJob.length > x[1])) && < button className="tal--pro-slider-btn" onClick={() => setX([x[0] + 25, x[1] + 25])}>
                                                             <svg className='arrow-right' xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 27 27" fill="none">
                                                                 <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#5C3B2E" stroke-width="2" />
                                                                 <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#5C3B2E" stroke-width="2" />

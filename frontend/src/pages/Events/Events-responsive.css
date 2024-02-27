@@ -28,6 +28,10 @@
     .cand--events-card {
         margin-bottom: 60px;
     }
+
+    .custom-card-mb{
+        margin-bottom: 100px !important;
+    }
 }
 
 @media (max-width:991.5px) {
@@ -64,6 +68,10 @@
 
     .cand--events-card-img-area .cand--events-card-img {
         height: 183px;
+    }
+
+    .custom-card-mb{
+        margin-bottom: 100px !important;
     }
 }
 
@@ -110,5 +118,9 @@
 
     .cand--events-card-img-area .cand--events-card-img {
         height: 173px;
+    }
+
+    .custom-card-mb{
+        margin-bottom: 50px !important;
     }
 }
