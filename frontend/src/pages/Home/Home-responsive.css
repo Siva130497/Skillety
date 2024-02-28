@@ -279,6 +279,10 @@
     .candidate--name-area h6 {
         max-width: 220px !important;
     }
+
+    .home-search-result-data-area {
+        max-width: 95% !important;
+    }
 }
 
 @media (max-width:991.5px) {
@@ -500,6 +504,10 @@
 
     .candidate--role{
         max-width: 220px !important;
+    }
+
+    .home-search-result-data-area {
+        max-width: 100% !important;
     }
 }
 

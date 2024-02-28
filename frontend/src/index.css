@@ -1350,7 +1350,7 @@
 
   #header.header-scrolled,
   #header.header-inner-pages {
-    padding: 2px 10px !important;
+    padding: 5px 10px !important;
   }
 
   .nav--client-login-btn-area .nav--client-login-btn {
@@ -1358,6 +1358,11 @@
     font-size: 16px !important;
     font-weight: 600 !important;
   }
+
+  #header.header-scrolled .nav--logo {
+    width: 70px;
+    height: 70px;
+}
 }
 
 /* @media (max-width:600px) {} */
@@ -1612,6 +1617,8 @@ section {
   transition: ease 0.5s;
   z-index: 1;
   outline: none !important;
+  border-radius: 50%;
+  flex-shrink: 0;
 }
 
 /*--------------------------------------------------------------
@@ -1919,7 +1926,9 @@ section {
 }
 
 #header.header-scrolled .nav--logo {
-  filter: drop-shadow(0px 0px 20px #f9c733c0);
+  filter: drop-shadow(0px 0px 20px #f9c73380);
+  width: 75px;
+  height: 75px;
 }
 
 #header.header-scrolled .navbar .nav-link,

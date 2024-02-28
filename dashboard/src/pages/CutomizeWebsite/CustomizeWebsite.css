@@ -1,0 +1,229 @@
+.customize-website-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    row-gap: 20px;
+    background-color: #FFF;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0px 5px 15px #00000023;
+}
+
+.customize-website-nav-links {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    row-gap: 20px;
+}
+
+.customize-website-nav-title {
+    color: #714F36 !important;
+    font-size: 22px !important;
+    font-weight: 800 !important;
+    margin-bottom: 0 !important;
+}
+
+.customize-website-nav-title::before {
+    content: "";
+    display: inline-block;
+    background-color: #F9C833;
+    border-radius: 50%;
+    width: 15px;
+    height: 15px;
+    flex-shrink: 0;
+    vertical-align: middle;
+    margin-right: 8px;
+    margin-bottom: 2px;
+    border: 2px solid #714F36;
+}
+
+.cus-web-nav-link {
+    border-radius: 10px !important;
+    background-color: #ffffff !important;
+    border: 2px solid #714F36;
+    font-size: 16px !important;
+    color: #714F36 !important;
+    font-weight: 600 !important;
+    padding: 12px 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: ease-in-out 0.5s;
+}
+
+.cus-web-nav-link i {
+    font-size: 18px !important;
+}
+
+.cus-web-nav-link.active {
+    background-color: #F9C833 !important;
+    color: #714F36 !important;
+    border-color: #F9C833 !important;
+}
+
+.cus-web-nav-link:hover {
+    background-color: #714F36 !important;
+    color: #FFF !important;
+}
+
+.cus-web-nav-link.active:hover {
+    background-color: #714F36 !important;
+    color: #F9C833 !important;
+}
+
+.cus-web-input-container {
+    padding: 20px 0 1px 0;
+}
+
+.cus-web-form-lable {
+    color: #714F36 !important;
+    font-size: 16px !important;
+    font-weight: 600 !important;
+}
+
+.logo-input-container {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+}
+
+.cus-web-logo-container {
+    position: relative;
+    padding: 3px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    border: 2px solid #714F36;
+}
+
+.cus-web-logo-container img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 1px solid #F9C833;
+    flex-shrink: 0;
+}
+
+.cus-web-logo-container .img-delete-button {
+    position: absolute;
+    bottom: -8px;
+    right: -10px;
+}
+
+.img-delete-button {
+    color: red !important;
+    font-size: 18px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background-color: transparent !important;
+}
+
+.cus-web-save-btn-area {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 15px 0 10px 0;
+}
+
+.cus-web-save-btn {
+    border-radius: 10px !important;
+    background-color: #714F36 !important;
+    font-size: 16px !important;
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    padding: 12px 15px;
+    transition: ease-in-out 0.5s;
+}
+
+.cus-web-save-btn:hover {
+    background-color: #583d29 !important;
+}
+
+.cus-web-input-area {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.cus-web-service-section {
+    border-radius: 20px;
+    background-color: #F0F0F0;
+    padding: 25px;
+    margin-bottom: 20px;
+}
+
+.cus-web-service-section h6 {
+    color: #714F36;
+    font-size: 18px !important;
+    font-weight: 700 !important;
+}
+
+.cus-web-clients-logo-section {
+    background-color: #F0F0F0;
+    border-radius: 20px;
+    padding: 25px;
+}
+
+.cus-web-clients-logo-section .row {
+    row-gap: 25px !important;
+}
+
+.cus-web-clients-logo-area {
+    position: relative;
+    background-color: #FFF;
+    border-radius: 12px;
+    border: 1px solid #714F36;
+    border-bottom-width: 3px;
+    overflow: hidden;
+    padding: 3px;
+}
+
+.cus-web-clients-logo-area .logo-area-cover {
+    padding: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: #dddddd 1px solid;
+}
+
+.cus-web-clients-logo-area img {
+    width: 120px;
+    height: 55px;
+    object-fit: contain;
+    z-index: 2;
+    mix-blend-mode: multiply;
+}
+
+.logo-dlt-btn {
+    text-align: center;
+    border-radius: 10px;
+    color: red;
+    transition: ease 0.5s;
+    padding: 5px;
+    width: 100%;
+    margin-top: 3px;
+    font-size: 18px !important;
+}
+
+.logo-dlt-btn i {
+    vertical-align: middle;
+    line-height: 0;
+    color: red !important;
+}
+
+.logo-dlt-btn:hover {
+    background-color: rgb(250, 221, 221) !important;
+}
+
+.cus-web-form-lable::before {
+    content: "";
+    display: inline-block;
+    background-color: #F9C833;
+    border-radius: 50%;
+    width: 8px;
+    height: 8px;
+    flex-shrink: 0;
+    vertical-align: middle;
+    margin-right: 8px;
+    margin-bottom: 2px;
+}
