@@ -64,9 +64,9 @@ const atsJobsTable = require("../Database/atsJobsTable");
 const selectedCandidateForJob = require("../Database/selectedCandidateForJob");
 const assignCandidateForJobDetail = require("../Database/assignCandidateForJobDetail");
 const offlineCand = require("../Database/offlineCand");
-
 //ATS...............................................
 
+const webContent = require("../Database/webContent");
 
 
 // const hash = async() => {
@@ -7914,6 +7914,32 @@ const getJobDurationReport = async (req, res) => {
 
 /*ATS................... */
 
+/* web site content save */
+const postWebSiteContentForId = async(req, res) =>{
+  try{
+    const newWebsiteContent = new webContent({
+      ...req.body,
+    });
+    await newWebsiteContent.save();
+    console.log(newWebsiteContent);
+    return res.status(201).json(newWebsiteContent);
+  }catch{
+    return res.status(500).json({ error: err.message });
+  }
+}
+
+/* get a web content by id */
+const getWebContentById = async(req, res) => {
+  const {id} = req.params;
+  try{
+    const neededContent = await webContent.find({id});
+    console.log(neededContent);
+    return res.status(200).json(neededContent);
+  }catch(err){
+    console.log(err);
+    return res.status(500).json({ error: err.message });
+  }
+}
 /* random password generate */
 const generateRandomPassword = (req, res) => {
   const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -7924,6 +7950,87 @@ const generateRandomPassword = (req, res) => {
   }
   return res.status(200).json(password);
 }
+
+/* update the web content */
+const updateWebContent = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const webContentToUpdate = await webContent.findOne({ id });
+
+    if (webContentToUpdate) {
+      const updatedWebContent = await webContent.findOneAndUpdate(
+        { id },
+        {
+          $set: {
+            content: req.body.content
+          },
+        },
+        { new: true }
+      );
+
+      return res.status(200).json({ updatedWebContent });
+    } else {
+      return res.status(404).json({ error: 'Web content not found' });
+    }
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+/* save logo */
+const savingLogo = async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ error: 'No logo provided' });
+    }
+
+    // Convert image buffer to base64
+    const base64Image = req.file.buffer.toString('base64');
+
+    // Save the image to the database
+    const webContentLogo = new webContent({
+      id: req.body.id,
+      content: base64Image
+    });
+    await webContentLogo.save();
+
+    res.status(200).json({ message: 'Logo uploaded successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+/* update logo */
+const updateLogo = async (req, res) => {
+  try {
+    const {id} = req.params;
+
+    if (!req.file) {
+      return res.status(400).json({ error: 'No logo provided' });
+    }
+
+    // Convert image buffer to base64
+    const base64Image = req.file.buffer.toString('base64');
+
+    // Update the existing content with new logo using findOneAndUpdate
+    const updatedContent = await webContent.findOneAndUpdate(
+      { id },
+      { content: base64Image },
+      { new: true }
+    );
+
+    if (!updatedContent) {
+      return res.status(404).json({ error: 'Logo not found' });
+    }
+
+    res.status(200).json({ message: 'Logo updated successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
 
 /**
  * @DESC To Login the user 
@@ -8394,4 +8501,9 @@ module.exports = {
    getJobDurationReport,
   
   //ATS...........
+  postWebSiteContentForId,
+  getWebContentById,
+  updateWebContent,
+  savingLogo,
+  updateLogo,
 };

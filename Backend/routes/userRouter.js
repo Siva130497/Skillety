@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const multer = require('multer');
 const {
   userLogin,
   checkRole,
@@ -226,6 +227,11 @@ const {
    getJobDurationReport,
 
    //ATS...............
+   postWebSiteContentForId,
+   getWebContentById,
+   updateWebContent,
+   savingLogo,
+   updateLogo,
   
 } = require("../Controller/authFunctions");
 const employeeAuth = require("../middleware/employeeAuth");
@@ -828,6 +834,25 @@ router.get("/job-report", employeeAuth, getJobReport);
 router.get("/job-duration-report", employeeAuth, getJobDurationReport);
 
 //ATS..................
+
+//post web content to the id
+router.post("/web-content", postWebSiteContentForId);
+
+//get an individual content of web 
+router.get("/web-content/:id", employeeAuth, getWebContentById);
+
+//update the web content by id
+router.patch("/web-content/:id", employeeAuth, updateWebContent);
+
+//logo handling
+const storageMemory = multer.memoryStorage();
+const uploadImgBase64 = multer({ storage: storageMemory });
+
+//save the logo 
+router.post("/web-content-logo", uploadImgBase64.single('logo'), savingLogo);
+
+//update the logo 
+router.patch("/web-content-logo/:id", uploadImgBase64.single('logo'), updateLogo);
 
 // Client, Client-staff Login Route
 router.post("/login-Client", async (req, res) => {
