@@ -5,6 +5,7 @@ import './Services.css';
 import './Services-responsive.css';
 import Layout from '../../components/Layout';
 import { Footer } from '../../components/Footer';
+import axios from 'axios';
 
 const ServicesInterviewService = () => {
     const [clientToken, setClientToken] = useState("");
@@ -12,6 +13,17 @@ const ServicesInterviewService = () => {
     useEffect(() => {
         setClientToken(JSON.parse(localStorage.getItem("clientToken")))
     }, [clientToken])
+
+    const [talentJobPostContent, setTalentJobPostContent] = useState([]);
+
+    useEffect(()=>{
+        axios.get("https://skillety-n6r1.onrender.com/web-content?ids=content_60,content_63,content_38,content_39")
+        .then(res=>{
+          console.log(res.data);
+          setTalentJobPostContent(res.data);
+        }).catch(err=>console.log(err));
+      },[])
+
 
     return (
         <div>
@@ -30,11 +42,17 @@ const ServicesInterviewService = () => {
                                             <p>Services</p>
                                         </div>
                                         <div className="breadcrumb--item">
-                                            <p>Interview As A Service</p>
+                                            <p>
+                                            {talentJobPostContent.find(content=>content.id === "content_38")?.content ||
+                                                "Interview As A Service"}
+                                                </p>
                                         </div>
                                     </div>
                                     <div className="services--head">
-                                        <h2 data-aos="fade-left">Our primary mission is to provide our Clients  with ‘convenience’.</h2>
+                                        <h2 data-aos="fade-left">
+                                        {talentJobPostContent.find(content=>content.id === "content_60")?.content ||
+                                                "Our primary mission is to provide our Clients  with ‘convenience’."}
+                                            </h2>
                                     </div>
                                 </div>
 
@@ -63,18 +81,23 @@ const ServicesInterviewService = () => {
 
                         <div className="service-par">
                             <p>
-                                Skillety stands out as a Job Portal for Immediate Joiners, featuring a comprehensive suite of hiring solutions – CV Sourcing, Job Postings, Assessments, L1-Interviews, and Background Verification, seamlessly integrated into one platform. This consolidation cuts the TAT for new hires by an impressive 30-50%. Our pay-as-you-go model ensures straightforward billing and performance evaluation, prioritising end-results. As your end-to-end recruitment powerhouse, Skillety is the ultimate Digital-RPO partner committed to optimising your recruitment journey with precision and efficiency.
+                            {talentJobPostContent.find(content=>content.id === "content_63")?.content ||
+                                                "Skillety stands out as a Job Portal for Immediate Joiners, featuring a comprehensive suite of hiring solutions – CV Sourcing, Job Postings, Assessments, L1-Interviews, and Background Verification, seamlessly integrated into one platform. This consolidation cuts the TAT for new hires by an impressive 30-50%. Our pay-as-you-go model ensures straightforward billing and performance evaluation, prioritising end-results. As your end-to-end recruitment powerhouse, Skillety is the ultimate Digital-RPO partner committed to optimising your recruitment journey with precision and efficiency."}
                             </p>
                         </div>
 
                         <div className="ser--content-section">
-                            <h3 className='ser--content-heading' data-aos="fade-left">INTERVIEW-AS-A-SERVICE</h3>
+                            <h3 className='ser--content-heading' data-aos="fade-left">
+                            {talentJobPostContent.find(content=>content.id === "content_38")?.content ||
+                                                "INTERVIEW-AS-A-SERVICE"}
+                                </h3>
                             <div className="ser--detail-area">
                                 <div className="row custom-border-bottom custom-border-top custom-column-reverse">
                                     <div className="col-12 col-lg-5 col-md-12 custom-padding-lr custom-border-right">
                                         <div className="ser--cont-area-left">
                                             <p className='ser--cont-title' data-aos="fade">
-                                                Get instant access to the Interview Outsourcing services of Skillety. Do thorough L1 Interviews with a coding round conducted by panels from FAANG companies. The Feedback comes as a comprehensive report along with the playback of the video interview.
+                                            {talentJobPostContent.find(content=>content.id === "content_39")?.content ||
+                                                "Get instant access to the Interview Outsourcing services of Skillety. Do thorough L1 Interviews with a coding round conducted by panels from FAANG companies. The Feedback comes as a comprehensive report along with the playback of the video interview."}
                                             </p>
                                             {/* <div className='ser--cont-list-area'>
                                                 <ul>

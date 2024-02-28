@@ -5,9 +5,19 @@ import './About.css';
 import './About-responsive.css';
 import Layout from '../../components/Layout';
 import { Footer } from '../../components/Footer';
+import axios from 'axios';
 
 const About = () => {
     const [clientToken, setClientToken] = useState("");
+    const [talentAboutContent, setTalentAboutContent] = useState([]);
+
+    useEffect(()=>{
+        axios.get("https://skillety-n6r1.onrender.com/web-content?ids=content_53,content_54,content_42,content_43,content_44,content_45,content_46,content_47,content_48,content_49,content_50,content_51,content_52,content_67,content_55,content_56,content_57,content_58,content_59")
+        .then(res=>{
+          console.log(res.data);
+          setTalentAboutContent(res.data);
+        }).catch(err=>console.log(err));
+      },[])
 
     useEffect(() => {
         setClientToken(JSON.parse(localStorage.getItem("clientToken")))
@@ -79,8 +89,10 @@ const About = () => {
                                         </div>
                                     </div>
                                     <div className="about--head">
-                                        <h2 data-aos="fade-left">Skillety simply means
-                                            “Skill at Will”. </h2>
+                                        <h2 data-aos="fade-left">
+                                        {talentAboutContent.find(content=>content.id === "content_53")?.content ||
+                                            `Skillety simply means
+                                            “Skill at Will”.`} </h2>
                                     </div>
                                 </div>
                                 {!clientToken &&
@@ -107,7 +119,9 @@ const About = () => {
                         </div>
                         <div className='about--desc-section'>
                             {/* <p data-aos="fade-left">We are a gig-economy based crowdsourcing platform for Freelancers. We have an exclusive vault of Immediate Joiners - guys who can pick up an Offer and Join within 7 days or less. We have curated a group of Technical Interview experts for Clients who face shortage of internal Interview Panels. We help you to move away from the old and soiled hierarchical business structure, and evolve into a 21st Century on-demand, open talent, cross-functional team; with a skilled and passionate workforce who are more engaged, effective & productive. Welcome to Skillety – Your on-demand HR solutions partner.</p> */}
-                            <p data-aos="fade-left">Welcome to Skillety, the global job portal engineered to redefine recruitment dynamics. With a dedicated focus on Immediate Joiners—individuals capable of starting within 7, 15, or 30 days—Skillety offers a comprehensive suite of cutting-edge hiring solutions. From CV sourcing and job postings to online assessments, L1 interviews, and background verification, our platform seamlessly consolidates these vital processes into one accessible hub. Backed by AI prowess, Skillety boasts integration with 172 partner job boards and social media platforms worldwide. This strategic alliance facilitates optimal visibility for job postings, utilizing inward aggregation to convert clicks into applications. At Skillety, we understand that talent acquisition is a dynamic endeavor that demands both speed and precision. Join us in revolutionizing recruitment, as we connect top-tier talent with unparalleled opportunities, driving success and growth for businesses and professionals alike. Welcome to the future of hiring. Welcome to Skillety.</p>
+                            <p data-aos="fade-left">
+                            {talentAboutContent.find(content=>content.id === "content_54")?.content ||
+                                "Welcome to Skillety, the global job portal engineered to redefine recruitment dynamics. With a dedicated focus on Immediate Joiners—individuals capable of starting within 7, 15, or 30 days—Skillety offers a comprehensive suite of cutting-edge hiring solutions. From CV sourcing and job postings to online assessments, L1 interviews, and background verification, our platform seamlessly consolidates these vital processes into one accessible hub. Backed by AI prowess, Skillety boasts integration with 172 partner job boards and social media platforms worldwide. This strategic alliance facilitates optimal visibility for job postings, utilizing inward aggregation to convert clicks into applications. At Skillety, we understand that talent acquisition is a dynamic endeavor that demands both speed and precision. Join us in revolutionizing recruitment, as we connect top-tier talent with unparalleled opportunities, driving success and growth for businesses and professionals alike. Welcome to the future of hiring. Welcome to Skillety."}</p>
                         </div>
 
                         <div className="about--milestone-section">
@@ -129,8 +143,12 @@ const About = () => {
                                                 </div>
                                             </div>
                                             <div className="ab--milestone-card-right">
-                                                <h6 className='ab--milestone-title'>Total Registered Users</h6>
-                                                <h2 className='ab-milestone-number' data-target="130">0</h2>
+                                                <h6 className='ab--milestone-title'>
+                                                {talentAboutContent.find(content=>content.id === "content_42")?.content ||
+                                                    "Total Registered Users"}</h6>
+                                                <h2 className='ab-milestone-number' data-target=
+                                                {talentAboutContent.find(content=>content.id === "content_43")?.content ||
+                                                "210"}>0</h2>
                                             </div>
                                         </article>
                                     </div>
@@ -146,8 +164,12 @@ const About = () => {
                                                 </div>
                                             </div>
                                             <div className="ab--milestone-card-right">
-                                                <h6 className='ab--milestone-title'>New Registrations per day</h6>
-                                                <h2 className='ab-milestone-number' data-target="200">0</h2>
+                                                <h6 className='ab--milestone-title'>
+                                                {talentAboutContent.find(content=>content.id === "content_44")?.content ||
+                                                    "New Registrations per day"}</h6>
+                                                <h2 className='ab-milestone-number' data-target=
+                                                {talentAboutContent.find(content=>content.id === "content_45")?.content ||
+                                                "450"}>0</h2>
                                             </div>
                                         </article>
                                     </div>
@@ -163,8 +185,12 @@ const About = () => {
                                                 </div>
                                             </div>
                                             <div className="ab--milestone-card-right">
-                                                <h6 className='ab--milestone-title'>Total Clients</h6>
-                                                <h2 className='ab-milestone-number' data-target="202">0</h2>
+                                                <h6 className='ab--milestone-title'>
+                                                {talentAboutContent.find(content=>content.id === "content_46")?.content ||
+                                                    "Total Clients"}</h6>
+                                                <h2 className='ab-milestone-number' data-target=
+                                                {talentAboutContent.find(content=>content.id === "content_47")?.content ||
+                                                "202"}>0</h2>
                                             </div>
                                         </article>
                                     </div>
@@ -180,8 +206,12 @@ const About = () => {
                                                 </div>
                                             </div>
                                             <div className="ab--milestone-card-right">
-                                                <h6 className='ab--milestone-title'>Total Candidates placed</h6>
-                                                <h2 className='ab-milestone-number' data-target="147">0</h2>
+                                                <h6 className='ab--milestone-title'>
+                                                {talentAboutContent.find(content=>content.id === "content_48")?.content ||
+                                                    "Total Candidates placed"}</h6>
+                                                <h2 className='ab-milestone-number' data-target=
+                                                {talentAboutContent.find(content=>content.id === "content_49")?.content ||
+                                                "147"}>0</h2>
                                             </div>
                                         </article>
                                     </div>
@@ -197,8 +227,12 @@ const About = () => {
                                                 </div>
                                             </div>
                                             <div className="ab--milestone-card-right">
-                                                <h6 className='ab--milestone-title'>Offer-to-Joining Conversion rate</h6>
-                                                <h2 className='ab-milestone-number' data-target="347">0</h2>
+                                                <h6 className='ab--milestone-title'>
+                                                {talentAboutContent.find(content=>content.id === "content_50")?.content ||
+                                                    "Offer-to-Joining Conversion rate"}</h6>
+                                                <h2 className='ab-milestone-number' data-target=
+                                                {talentAboutContent.find(content=>content.id === "content_51")?.content ||
+                                                "347"}>0</h2>
                                             </div>
                                         </article>
                                     </div>
@@ -214,8 +248,12 @@ const About = () => {
                                                 </div>
                                             </div>
                                             <div className="ab--milestone-card-right">
-                                                <h6 className='ab--milestone-title'>Placements per Year</h6>
-                                                <h2 className='ab-milestone-number' data-target="540">0</h2>
+                                                <h6 className='ab--milestone-title'>
+                                                {talentAboutContent.find(content=>content.id === "content_52")?.content ||
+                                                    "Placements per Year"}</h6>
+                                                <h2 className='ab-milestone-number' data-target=
+                                                {talentAboutContent.find(content=>content.id === "content_67")?.content ||
+                                                "540"}>0</h2>
                                             </div>
                                         </article>
                                     </div>
@@ -226,7 +264,9 @@ const About = () => {
                         <div className="container-fluid container-section about--weoffer-section">
                             <div className="about--weoffer-container">
                                 <div className='ab-weoff--top-area'>
-                                    <h4 className='ab-weoff---heading' data-aos="fade-up">We offer you 4 advantages, most of all.</h4>
+                                    <h4 className='ab-weoff---heading' data-aos="fade-up">
+                                    {talentAboutContent.find(content=>content.id === "content_55")?.content ||
+                                        "We offer you 4 advantages, most of all."}</h4>
                                     {!clientToken &&
                                         <div className='ab--weoff-btn-area'>
                                             <a href="/client-register" className='ab--weoff-btn-area-sub' data-aos="fade-right">
@@ -255,7 +295,9 @@ const About = () => {
                                             <h6 className='ab-weoff-card-num'>01</h6>
                                         </div>
                                         <div className="ab-we-off-card-des-area">
-                                            <p className='ab-we-off-card-des'>India's first ever Global Job Portal. All sectors and regions covered across India, US, UK & EUR. </p>
+                                            <p className='ab-we-off-card-des'>
+                                            {talentAboutContent.find(content=>content.id === "content_56")?.content ||
+                                                "India's first ever Global Job Portal. All sectors and regions covered across India, US, UK & EUR."}</p>
                                         </div>
                                     </article>
                                     <article className='ab-weoff-card' data-aos="zoom-out-down">
@@ -268,7 +310,9 @@ const About = () => {
                                             <h6 className='ab-weoff-card-num'>02</h6>
                                         </div>
                                         <div className="ab-we-off-card-des-area">
-                                            <p className='ab-we-off-card-des'>Special focus on Immediate Joiners - guys who can join within 7/15/30 days. </p>
+                                            <p className='ab-we-off-card-des'>
+                                            {talentAboutContent.find(content=>content.id === "content_57")?.content ||
+                                                "Special focus on Immediate Joiners - guys who can join within 7/15/30 days."}</p>
                                         </div>
                                     </article>
                                     <article className='ab-weoff-card' data-aos="zoom-out-down">
@@ -281,7 +325,9 @@ const About = () => {
                                             <h6 className='ab-weoff-card-num'>03</h6>
                                         </div>
                                         <div className="ab-we-off-card-des-area">
-                                            <p className='ab-we-off-card-des'>Offering diverse hiring solutions like CV Sourcing, Job Posting, Online Assessments, Interview Outsourcing and Background Verification.</p>
+                                            <p className='ab-we-off-card-des'>
+                                            {talentAboutContent.find(content=>content.id === "content_58")?.content ||
+                                                "Offering diverse hiring solutions like CV Sourcing, Job Posting, Online Assessments, Interview Outsourcing and Background Verification."}</p>
                                         </div>
                                     </article>
                                     <article className='ab-weoff-card' data-aos="zoom-out-down">
@@ -294,7 +340,9 @@ const About = () => {
                                             <h6 className='ab-weoff-card-num'>04</h6>
                                         </div>
                                         <div className="ab-we-off-card-des-area">
-                                            <p className='ab-we-off-card-des'>AI-powered platform which is API integrated with 172 partner Job sites and Social Media sites, maximising job post visibility and applications.</p>
+                                            <p className='ab-we-off-card-des'>
+                                                {talentAboutContent.find(content=>content.id === "content_59")?.content ||
+                                                "AI-powered platform which is API integrated with 172 partner Job sites and Social Media sites, maximising job post visibility and applications."}</p>
                                         </div>
                                     </article>
                                 </div>

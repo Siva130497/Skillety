@@ -15,6 +15,16 @@ const Contact = () => {
     const recaptcha = useRef();
     const [clientToken, setClientToken] = useState("");
 
+    const [talentContactContent, setTalentContactContent] = useState([]);
+
+    useEffect(()=>{
+        axios.get("https://skillety-n6r1.onrender.com/web-content?ids=content_13,content_61,content_23,content_24,content_25")
+        .then(res=>{
+          console.log(res.data);
+          setTalentContactContent(res.data);
+        }).catch(err=>console.log(err));
+      },[])
+
     useEffect(() => {
         setClientToken(JSON.parse(localStorage.getItem("clientToken")))
     }, [clientToken])
@@ -122,7 +132,9 @@ const Contact = () => {
                                         </div>
                                     </div>
                                     <div className="about--head">
-                                        <h2 data-aos="fade-left">It’s Time to Make Skillety Work for You</h2>
+                                        <h2 data-aos="fade-left">
+                                        {talentContactContent.find(content=>content.id === "content_13")?.content ||
+                                            "It’s Time to Make Skillety Work for You"}</h2>
                                     </div>
                                 </div>
 
@@ -158,7 +170,8 @@ const Contact = () => {
                                 </div>
                                 <div className="con--where-desc-area">
                                     <p className="con--where-desc" data-aos="fade-left">
-                                        We operate globally and are headquartered in Hyderabad, India.See contact information below on how to get in touch via phone or email.
+                                    {talentContactContent.find(content=>content.id === "content_61")?.content ||
+                                        "We operate globally and are headquartered in Hyderabad, India.See contact information below on how to get in touch via phone or email."}
                                     </p>
                                 </div>
                             </div>
@@ -188,7 +201,8 @@ const Contact = () => {
                                                 </div>
                                                 <div className='con--loaction' data-aos="fade-left">
                                                     <a href="https://goo.gl/maps/SNX17mkAzaY8PVW36" target='_blank'>
-                                                        Plot No. 45, 2nd Floor, Sarvasukhi Colony, West Marredpally, Secunderabad, Telangana 500026. INDIA.
+                                                    {talentContactContent.find(content=>content.id === "content_23")?.content ||
+                                                        "Plot No. 45, 2nd Floor, Sarvasukhi Colony, West Marredpally, Secunderabad, Telangana 500026. INDIA."}
                                                     </a>
                                                 </div>
                                             </div>
@@ -197,7 +211,9 @@ const Contact = () => {
                                                     <img src="assets/img/contact-img/phone-call.png" className='con--icon' alt="" />
                                                 </div>
                                                 <div className='con--phone-no' data-aos="fade-left">
-                                                    <a href="tel:+919966433330" target='_blank'>+91-9966433330</a>
+                                                    <a href="tel:+919966433330" target='_blank'>
+                                                    {talentContactContent.find(content=>content.id === "content_24")?.content ||
+                                                        "+91-9966433330"}</a>
                                                 </div>
                                             </div>
                                             <div className="con--content">
@@ -205,7 +221,9 @@ const Contact = () => {
                                                     <img src="assets/img/contact-img/mail.png" className='con--icon' alt="" />
                                                 </div>
                                                 <div className='con--mail' data-aos="fade-left">
-                                                    <a href="mailto:info@skillety.com" target='_blank'>info@skillety.com</a>
+                                                    <a href="mailto:info@skillety.com" target='_blank'>
+                                                    {talentContactContent.find(content=>content.id === "content_25")?.content ||
+                                                        "info@skillety.com"}</a>
                                                 </div>
                                             </div>
                                         </div>

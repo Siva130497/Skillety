@@ -1,7 +1,20 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { useState } from 'react';
+import { useEffect } from 'react';
 
 const NewNavBar = ({ clientRegister, candidateRegister, clientLogin, candidateLogin, candVerification }) => {
+    const [talentJobPostContent, setTalentJobPostContent] = useState([]);
+
+    useEffect(()=>{
+        axios.get("https://skillety-n6r1.onrender.com/web-content?ids=content_2")
+        .then(res=>{
+          console.log(res.data);
+          setTalentJobPostContent(res.data);
+        }).catch(err=>console.log(err));
+      },[])
+    
     return (
         <header id="clientheader" className="fixed--top">
             <div className="container-fluid d-flex align-items-center justify-content-between ps-0 custom-right-nav-padding">
@@ -13,14 +26,20 @@ const NewNavBar = ({ clientRegister, candidateRegister, clientLogin, candidateLo
                             <div className='logo--area candidate me-auto'>
                                 <div className='logo--subarea'>
                                     <a href="/candidate-home">
-                                        <img className='nav--logo candidate' src="../assets/img/logo/skillety-logo-sm.png" alt="" />
+                                        <img className='nav--logo candidate' src=
+                                        {"data:image/jpeg;base64,"+talentJobPostContent[0]?.content ||
+                                        "../assets/img/logo/skillety-logo-sm.png"} 
+                                        alt="" />
                                     </a>
                                 </div>
                             </div> :
                             <div className='logo--area client me-auto'>
                                 <div className='logo--subarea'>
                                     <a href="/">
-                                        <img className='nav--logo client' src="../assets/img/logo/skillety-logo-sm.png" alt="" />
+                                    <img className='nav--logo candidate' src=
+                                        {"data:image/jpeg;base64,"+talentJobPostContent[0]?.content ||
+                                        "../assets/img/logo/skillety-logo-sm.png"} 
+                                        alt="" />
                                     </a>
                                 </div>
                             </div>

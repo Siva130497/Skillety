@@ -5,9 +5,21 @@ import './Services.css';
 import './Services-responsive.css';
 import Layout from '../../components/Layout';
 import { Footer } from '../../components/Footer';
+import axios from 'axios';
 
 const ServicesSkillAssessment = () => {
     const [clientToken, setClientToken] = useState("");
+
+    const [talentJobPostContent, setTalentJobPostContent] = useState([]);
+
+    useEffect(()=>{
+        axios.get("https://skillety-n6r1.onrender.com/web-content?ids=content_60,content_63,content_36,content_37")
+        .then(res=>{
+          console.log(res.data);
+          setTalentJobPostContent(res.data);
+        }).catch(err=>console.log(err));
+      },[])
+
 
     useEffect(() => {
         setClientToken(JSON.parse(localStorage.getItem("clientToken")))
@@ -30,11 +42,17 @@ const ServicesSkillAssessment = () => {
                                             <p>Services</p>
                                         </div>
                                         <div className="breadcrumb--item">
-                                            <p>Skill Assessment</p>
+                                            <p>
+                                            {talentJobPostContent.find(content=>content.id === "content_3")?.content ||
+                                                "Skill Assessment"}
+                                                </p>
                                         </div>
                                     </div>
                                     <div className="services--head">
-                                        <h2 data-aos="fade-left">Our primary mission is to provide our Clients  with ‘convenience’.</h2>
+                                        <h2 data-aos="fade-left">
+                                        {talentJobPostContent.find(content=>content.id === "content_60")?.content ||
+                                                "Our primary mission is to provide our Clients  with ‘convenience’."}
+                                            </h2>
                                     </div>
                                 </div>
 
@@ -63,12 +81,16 @@ const ServicesSkillAssessment = () => {
 
                         <div className="service-par">
                             <p>
-                                Skillety stands out as a Job Portal for Immediate Joiners, featuring a comprehensive suite of hiring solutions – CV Sourcing, Job Postings, Assessments, L1-Interviews, and Background Verification, seamlessly integrated into one platform. This consolidation cuts the TAT for new hires by an impressive 30-50%. Our pay-as-you-go model ensures straightforward billing and performance evaluation, prioritising end-results. As your end-to-end recruitment powerhouse, Skillety is the ultimate Digital-RPO partner committed to optimising your recruitment journey with precision and efficiency.
+                            {talentJobPostContent.find(content=>content.id === "content_63")?.content ||
+                                                "Skillety stands out as a Job Portal for Immediate Joiners, featuring a comprehensive suite of hiring solutions – CV Sourcing, Job Postings, Assessments, L1-Interviews, and Background Verification, seamlessly integrated into one platform. This consolidation cuts the TAT for new hires by an impressive 30-50%. Our pay-as-you-go model ensures straightforward billing and performance evaluation, prioritising end-results. As your end-to-end recruitment powerhouse, Skillety is the ultimate Digital-RPO partner committed to optimising your recruitment journey with precision and efficiency."}
                             </p>
                         </div>
 
                         <div className="ser--content-section">
-                            <h3 className='ser--content-heading' data-aos="fade-left">SKILL ASSESSMENT</h3>
+                            <h3 className='ser--content-heading' data-aos="fade-left">
+                            {talentJobPostContent.find(content=>content.id === "content_36")?.content ||
+                                                "SKILL ASSESSMENT"}
+                                </h3>
                             <div className="ser--detail-area">
                                 <div className="row custom-border-bottom custom-border-top">
                                     <div className="col-12 col-lg-7 col-md-12 custom-border-right ser--cont-img-area img--3" data-aos="fade" data-aos-delay="200">
@@ -79,7 +101,8 @@ const ServicesSkillAssessment = () => {
                                     <div className="col-12 col-lg-5 col-md-12 custom-padding-lr">
                                         <div className="ser--cont-area-right">
                                             <p className='ser--cont-title' data-aos="fade">
-                                                Send Technical Assessment test links to multiple candidates, simultaneously. The Test Report comes with a comprehensive analysis of their aptitude, knowledge and proficiency.
+                                            {talentJobPostContent.find(content=>content.id === "content_37")?.content ||
+                                                "Send Technical Assessment test links to multiple candidates, simultaneously. The Test Report comes with a comprehensive analysis of their aptitude, knowledge and proficiency."}
                                             </p>
                                             {/* <div className='ser--cont-list-area'>
                                                 <ul>

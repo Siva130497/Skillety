@@ -5,6 +5,7 @@ import "./Services.css";
 import "./Services-responsive.css";
 import Layout from "../../components/Layout";
 import { Footer } from "../../components/Footer";
+import axios from 'axios';
 
 const ServicesBackgroundVerification = () => {
   const [clientToken, setClientToken] = useState("");
@@ -12,6 +13,16 @@ const ServicesBackgroundVerification = () => {
   useEffect(() => {
     setClientToken(JSON.parse(localStorage.getItem("clientToken")))
   }, [clientToken])
+
+  const [talentJobPostContent, setTalentJobPostContent] = useState([]);
+
+    useEffect(()=>{
+        axios.get("https://skillety-n6r1.onrender.com/web-content?ids=content_60,content_63,content_40,content_41")
+        .then(res=>{
+          console.log(res.data);
+          setTalentJobPostContent(res.data);
+        }).catch(err=>console.log(err));
+      },[])
 
   return (
     <div>
@@ -30,13 +41,17 @@ const ServicesBackgroundVerification = () => {
                       <p>Services</p>
                     </div>
                     <div className="breadcrumb--item">
-                      <p>Background Verification</p>
+                      <p>
+                      {talentJobPostContent.find(content=>content.id === "content_40")?.content ||
+                                                "Background Verification"}
+                        </p>
                     </div>
                   </div>
                   <div className="services--head">
                     <h2 data-aos="fade-left">
-                      Our primary mission is to provide our Clients with
-                      ‘convenience’.
+                    {talentJobPostContent.find(content=>content.id === "content_60")?.content ||
+                                                `Our primary mission is to provide our Clients with
+                                                ‘convenience’.`}
                     </h2>
                   </div>
                 </div>
@@ -75,33 +90,36 @@ const ServicesBackgroundVerification = () => {
 
             <div className="service-par">
               <p>
-                Skillety stands out as a Job Portal for Immediate Joiners,
-                featuring a comprehensive suite of hiring solutions – CV
-                Sourcing, Job Postings, Assessments, L1-Interviews, and
-                Background Verification, seamlessly integrated into one
-                platform. This consolidation cuts the TAT for new hires by an
-                impressive 30-50%. Our pay-as-you-go model ensures
-                straightforward billing and performance evaluation, prioritising
-                end-results. As your end-to-end recruitment powerhouse, Skillety
-                is the ultimate Digital-RPO partner committed to optimising your
-                recruitment journey with precision and efficiency.
+              {talentJobPostContent.find(content=>content.id === "content_63")?.content ||
+                                                `Skillety stands out as a Job Portal for Immediate Joiners,
+                                                featuring a comprehensive suite of hiring solutions – CV
+                                                Sourcing, Job Postings, Assessments, L1-Interviews, and
+                                                Background Verification, seamlessly integrated into one
+                                                platform. This consolidation cuts the TAT for new hires by an
+                                                impressive 30-50%. Our pay-as-you-go model ensures
+                                                straightforward billing and performance evaluation, prioritising
+                                                end-results. As your end-to-end recruitment powerhouse, Skillety
+                                                is the ultimate Digital-RPO partner committed to optimising your
+                                                recruitment journey with precision and efficiency.`}
               </p>
             </div>
 
             <div className="ser--content-section">
               <h3 className="ser--content-heading" data-aos="fade-left">
-                BACKGROUND VERIFICATION
+              {talentJobPostContent.find(content=>content.id === "content_40")?.content ||
+                                                "BACKGROUND VERIFICATION"}
               </h3>
               <div className="ser--detail-area">
                 <div className="row custom-border-bottom custom-border-top custom-column-reverse">
                   <div className="col-12 col-lg-5 col-md-12 custom-padding-lr custom-border-right">
                     <div className="ser--cont-area-left">
                       <p className="ser--cont-title" data-aos="fade">
-                        Before releasing the Offer, do a quick sanity check if
-                        it's a fake profile or not, with our BGV-Lite services.
-                        Also do a detailed 360-degree Background Verification
-                        after the candidate joins – all from the Skillety
-                        platform.{" "}
+                      {talentJobPostContent.find(content=>content.id === "content_41")?.content ||
+                                                `Before releasing the Offer, do a quick sanity check if
+                                                it's a fake profile or not, with our BGV-Lite services.
+                                                Also do a detailed 360-degree Background Verification
+                                                after the candidate joins – all from the Skillety
+                                                platform.`} 
                       </p>
                       {/* <div className='ser--cont-list-area'>
                                                 <ul>
