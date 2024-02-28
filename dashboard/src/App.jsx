@@ -80,6 +80,15 @@ import JobSearchAts from './pages/JobSearchAts/JobSearchAts';
 import JobDetailsAts from './pages/JobDetailsAts/JobDetailsAts';
 import BookedEvents from './pages/BookedEvents/BookedEvents';
 
+//for customize website
+import EditTalentHome from './pages/CutomizeWebsite/Talent/EditTalentHome';
+import EditTalentAbout from './pages/CutomizeWebsite/Talent/EditTalentAbout';
+import EditTalentContact from './pages/CutomizeWebsite/Talent/EditTalentContact';
+import EditEmployerHome from './pages/CutomizeWebsite/Employer/EditEmployerHome';
+import EditEmployerAbout from './pages/CutomizeWebsite/Employer/EditEmployerAbout';
+import EditEmployerContact from './pages/CutomizeWebsite/Employer/EditEmployerContact';
+import EditEmployerServices from './pages/CutomizeWebsite/Employer/EditEmployerServices';
+
 import CandidateChat from './pages/Chat/CandidateChat';
 import ClientChat from './pages/Chat/ClientChat';
 import CandidateChatSupport from './pages/CandidateChat/CandidateChatSupport';
@@ -181,6 +190,15 @@ function App() {
         <Route path='*' element={<ErrorPage />}/>
 
         <Route path='/random-user-chat-ats' element={<RandomUserChat />}/>
+
+        {/* for customize website */}
+        <Route path='/edit-talent-home' element={<EditTalentHome />}/>
+        <Route path='/edit-talent-about' element={<EditTalentAbout />}/>
+        <Route path='/edit-talent-contact' element={<EditTalentContact />}/>
+        <Route path='/edit-employer-home' element={<EditEmployerHome />}/>
+        <Route path='/edit-employer-about' element={<EditEmployerAbout />}/>
+        <Route path='/edit-employer-contact' element={<EditEmployerContact />}/>
+        <Route path='/edit-employer-service' element={<EditEmployerServices />}/>
 
       </Routes>
     </AuthContextProvider>

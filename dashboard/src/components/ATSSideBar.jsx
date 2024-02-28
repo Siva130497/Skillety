@@ -28,17 +28,17 @@ const ATSSideBar = () => {
                 $('#all_clients').addClass('active');
             } else if (path === '/created-clients') {
                 $('#created_clients').addClass('active');
-            }else if (path === '/all-candidates') {
+            } else if (path === '/all-candidates') {
                 $('#all_candidates').addClass('active');
             } else if (path === '/created-candidates') {
                 $('#created_candidates').addClass('active');
             } else if (path === '/talent-profile-search-ats') {
                 $('#search_candidates').addClass('active');
-            }else if (path === '/all-jobs') {
+            } else if (path === '/all-jobs') {
                 $('#all_jobs').addClass('active');
             } else if (path === '/search-jobs-ats') {
                 $('#search_jobs').addClass('active');
-            }else if (path === '/non-approval-jobs') {
+            } else if (path === '/non-approval-jobs') {
                 $('#non_approval_jobs').addClass('active');
             } else if (path === '/posted-jobs') {
                 $('#posted_jobs').addClass('active');
@@ -90,6 +90,12 @@ const ATSSideBar = () => {
             } else if (path === '/chat-candidate') {
                 $('#chat').addClass('active');
                 $('#chat_candidate').addClass('active');
+            } else if (path === '/edit-talent-home' || path === '/edit-talent-about' || path === '/edit-talent-contact') {
+                $('#customize').addClass('active');
+                $('#edit_talent').addClass('active');
+            } else if (path === '/edit-employer-home' || path === '/edit-employer-about' || path === '/edit-employer-service' || path === '/edit-employer-contact') {
+                $('#customize').addClass('active');
+                $('#edit_employer').addClass('active');
             }
 
             feather.replace();
@@ -97,26 +103,26 @@ const ATSSideBar = () => {
 
     }, [staffToken, role, userRole]);
 
-    const getAnIndividualRecruiter = async() => {
-        try{
+    const getAnIndividualRecruiter = async () => {
+        try {
             const res = await axios.get(`https://skillety-n6r1.onrender.com/staff/${employeeId}`, {
-              headers: {
-                  Authorization: `Bearer ${staffToken}`,
-                  Accept: 'application/json'
-              }
+                headers: {
+                    Authorization: `Bearer ${staffToken}`,
+                    Accept: 'application/json'
+                }
             });
             const result = res.data;
             if (!result.error) {
-              console.log(result);
-              setRole(result.companyStaff);
-              
+                console.log(result);
+                setRole(result.companyStaff);
+
             } else {
-              console.log(result);
+                console.log(result);
             }
-        }catch(err){
-          console.log(err);
+        } catch (err) {
+            console.log(err);
         }
-      }
+    }
 
     useEffect(() => {
         if (staffToken) {
@@ -135,11 +141,11 @@ const ATSSideBar = () => {
         }
     }, [staffToken]);
 
-    useEffect(()=>{
-        if(employeeId){
+    useEffect(() => {
+        if (employeeId) {
             getAnIndividualRecruiter();
         }
-    },[employeeId])
+    }, [employeeId])
 
     return (
         <div className="main-sidebar recruiter client sidebar-style-2">
@@ -181,13 +187,13 @@ const ATSSideBar = () => {
                     <li className="dropdown" id="search_jobs">
             <a href="/search-jobs" className="nav-link"><i data-feather="briefcase"></i><span>Search Jobs</span></a>
           </li> */}
-                    {!(role === "Recruiter") &&<li className="dropdown" id='all_jobs'>
+                    {!(role === "Recruiter") && <li className="dropdown" id='all_jobs'>
                         <a href="/all-jobs" className="nav-link"><i data-feather="briefcase"></i><span>All Jobs</span></a>
                     </li>}
                     <li className="dropdown" id='search_jobs'>
                         <a href="/search-jobs-ats" className="nav-link"><i data-feather="briefcase"></i><span>Search Jobs</span></a>
                     </li>
-                    {!(role === "Recruiter") &&<li className="dropdown" id='non_approval_jobs'>
+                    {!(role === "Recruiter") && <li className="dropdown" id='non_approval_jobs'>
                         <a href="/non-approval-jobs" className="nav-link"><i data-feather="alert-circle"></i><span>Non Approval Jobs</span></a>
                     </li>}
                     <li className="dropdown" id='posted_jobs'>
@@ -196,7 +202,7 @@ const ATSSideBar = () => {
                     <li className="dropdown" id='job_posting'>
                         <a href="/job-posting" className="nav-link"><i data-feather="share"></i><span>Job Posting</span></a>
                     </li>
-                    {!(role === "Manager") &&<li className="dropdown" id='media_posting'>
+                    {!(role === "Manager") && <li className="dropdown" id='media_posting'>
                         <a href="#" className="menu-toggle nav-link has-dropdown"><i data-feather="video"></i><span>Media Posting</span></a>
                         <ul className="dropdown-menu">
                             <li id='event_posting'><a className="nav-link" href="/media-posting/event">Event Posting</a></li>
@@ -214,9 +220,9 @@ const ATSSideBar = () => {
                             <a href="/event-posting" className="nav-link"><i data-feather="calendar"></i><span>Media Posting</span></a>
                         </li> */}
 
-                    {!(role === "Recruiter") &&<div className='hr-line'></div>}
+                    {!(role === "Recruiter") && <div className='hr-line'></div>}
 
-                    {!(role === "Recruiter") &&<li className="dropdown" id='contact-message'>
+                    {!(role === "Recruiter") && <li className="dropdown" id='contact-message'>
                         <a href="#" className="menu-toggle nav-link has-dropdown"><i data-feather="message-circle"></i><span>Contact Messages</span></a>
                         <ul className="dropdown-menu">
                             <li id='contact-message-client'><a className="nav-link" href="/client-contact-message">Client Contact</a></li>
@@ -224,10 +230,10 @@ const ATSSideBar = () => {
                         </ul>
                     </li>}
 
-                    {!(role === "Recruiter") &&<li className="dropdown" id='enquiry_details'>
+                    {!(role === "Recruiter") && <li className="dropdown" id='enquiry_details'>
                         <a href="/enquiry-details" className="nav-link"><i data-feather="message-square"></i><span>Enquiry Details</span></a>
                     </li>}
-                    {!(role === "Manager") &&<li className="dropdown" id='posted_media'>
+                    {!(role === "Manager") && <li className="dropdown" id='posted_media'>
                         <a href="#" className="menu-toggle nav-link has-dropdown"><i data-feather="calendar"></i><span>Posted Media</span></a>
                         <ul className="dropdown-menu">
                             <li id='posted_events'><a className="nav-link" href="/posted-media/event">Posted Events</a></li>
@@ -240,13 +246,23 @@ const ATSSideBar = () => {
                     {/* <li className="dropdown" id='posted_events'>
                             <a href="/posted-events" className="nav-link"><i data-feather="calendar"></i><span>Posted Events</span></a>
                         </li> */}
-                    {!(role === "Recruiter") &&<li className="dropdown" id='chat'>
-                        <a href="#" className="menu-toggle nav-link has-dropdown"><i data-feather="send"></i><span>Chat</span></a>
+                    {!(role === "Recruiter") &&
+                        <li className="dropdown" id='chat'>
+                            <a href="#" className="menu-toggle nav-link has-dropdown"><i data-feather="send"></i><span>Chat</span></a>
+                            <ul className="dropdown-menu">
+                                <li id='chat_client'><a className="nav-link" href="/chat-client">Client</a></li>
+                                <li id='chat_candidate'><a className="nav-link" href="/chat-candidate">Candidate</a></li>
+                            </ul>
+                        </li>
+                    }
+
+                    <li className="dropdown" id='customize'>
+                        <a href="#" className="menu-toggle nav-link has-dropdown"><i data-feather="edit"></i><span>Customize Website</span></a>
                         <ul className="dropdown-menu">
-                            <li id='chat_client'><a className="nav-link" href="/chat-client">Client</a></li>
-                            <li id='chat_candidate'><a className="nav-link" href="/chat-candidate">Candidate</a></li>
+                            <li id='edit_talent'><a className="nav-link" href="/edit-talent-home">Talent</a></li>
+                            <li id='edit_employer'><a className="nav-link" href="/edit-employer-home">Employer</a></li>
                         </ul>
-                    </li>}
+                    </li>
                 </ul>
 
                 {/* <div className='live-chat-area'>
