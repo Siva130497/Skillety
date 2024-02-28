@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import $ from 'jquery';
 import { useNavigate } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
+import axios from 'axios';
 
 const NewNav = ({homeActive, aboutUsActive, searchCVActive, serviceActive, RPOActive, contactActive, postJobActive}) => {
     const {getProtectedData} = useContext(AuthContext);
@@ -11,6 +12,16 @@ const NewNav = ({homeActive, aboutUsActive, searchCVActive, serviceActive, RPOAc
     const [userName, setUserName] = useState('');
 
     const clientToken = JSON.parse(localStorage.getItem('clientToken'));
+
+    const [talentJobPostContent, setTalentJobPostContent] = useState([]);
+
+    useEffect(()=>{
+        axios.get("https://skillety-n6r1.onrender.com/web-content?ids=content_32,content_34,content_36,content_38,content_40,content_2")
+        .then(res=>{
+          console.log(res.data);
+          setTalentJobPostContent(res.data);
+        }).catch(err=>console.log(err));
+      },[])
 
     useEffect(() => {
         if(clientToken){
@@ -56,7 +67,12 @@ const NewNav = ({homeActive, aboutUsActive, searchCVActive, serviceActive, RPOAc
                     <div className='logo--area me-auto'>
                         <div className='logo--subarea'>
                             <a href="/">
-                                <img className='nav--logo' src="../assets/img/logo/skillety-logo-sm.png" alt="" />
+                                <img className='nav--logo' 
+                                src=
+                                {"data:image/jpeg;base64,"+talentJobPostContent.find(content=>content.id === "content_2")?.content ||
+                                "../assets/img/logo/skillety-logo-sm.png"}
+                                 alt="" 
+                                />
                             </a>
                         </div>
                     </div>
@@ -93,7 +109,10 @@ const NewNav = ({homeActive, aboutUsActive, searchCVActive, serviceActive, RPOAc
                         <li><a href="/talent-profile-search" className={searchCVActive ? "nav-link scrollto active" : "nav-link scrollto"}>Search CV</a></li>
                         <li className="dropdown"><a href="#" className={serviceActive ? "nav-link scrollto active" : "nav-link scrollto"}><span>Services</span> <i className="bi bi-chevron-down"></i></a>
                             <ul>
-                                <li><a href="/cv-sourcing">CV Sourcing</a></li>
+                                <li><a href="/cv-sourcing">
+                                {talentJobPostContent.find(content=>content.id === "content_32")?.content ||
+                                                "CV Sourcing"}
+                                    </a></li>
                                 {/* <li className="dropdown"><a href="#"><span>Deep Drop Down</span> <i className="bi bi-chevron-right"></i></a>
                                     <ul>
                                         <li><a href="#">Deep Drop Down 1</a></li>
@@ -103,11 +122,23 @@ const NewNav = ({homeActive, aboutUsActive, searchCVActive, serviceActive, RPOAc
                                         <li><a href="#">Deep Drop Down 5</a></li>
                                     </ul>
                                 </li> */}
-                                <li><a href="/job-posting">Job Posting</a></li>
-                                <li><a href="/skill-assessment">Skill Assessment</a></li>
-                                <li><a href="/interview-as-a-service">Interview as a Service</a></li>
+                                <li><a href="/job-posting">
+                                {talentJobPostContent.find(content=>content.id === "content_34")?.content ||
+                                                "Job Posting"}
+                                    </a></li>
+                                <li><a href="/skill-assessment">
+                                {talentJobPostContent.find(content=>content.id === "content_36")?.content ||
+                                                "Skill Assessment"}
+                                    </a></li>
+                                <li><a href="/interview-as-a-service">
+                                {talentJobPostContent.find(content=>content.id === "content_38")?.content ||
+                                                "Interview as a Service"}
+                                    </a></li>
                                 {/* <li><a href="/onboarding-process">Onboarding Process</a></li> */}
-                                <li><a href="/background-verification">Background Verification</a></li>
+                                <li><a href="/background-verification">
+                                {talentJobPostContent.find(content=>content.id === "content_40")?.content ||
+                                                "Background Verification"}
+                                    </a></li>
                                 {/* <li><a href="/rpo">RPO</a></li> */}
                             </ul>
                         </li>

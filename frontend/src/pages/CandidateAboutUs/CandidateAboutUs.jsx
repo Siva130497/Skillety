@@ -5,11 +5,18 @@ import './CandidateAboutUs.css';
 import './CandidateAboutUs-responsive.css';
 import { CandidateFooter } from '../../components/CandidateFooter';
 import LayoutNew from '../../components/LayoutNew';
+import axios from 'axios';
+import { useState } from 'react';
 
 const CandidateAboutUs = () => {
-    useEffect(() => {
-
-    }, []);
+    const [candidateAboutContent, setCandidateAboutContent] = useState([]);
+    useEffect(()=>{
+        axios.get("https://skillety-n6r1.onrender.com/web-content?ids=content_13,content_14,content_15,content_16")
+        .then(res=>{
+          console.log(res.data);
+          setCandidateAboutContent(res.data);
+        }).catch(err=>console.log(err));
+      },[])
 
     return (
         <div>
@@ -29,7 +36,9 @@ const CandidateAboutUs = () => {
                                         </div>
                                     </div>
                                     <div className="about--head candidate">
-                                        <h2 data-aos="fade-left">It’s Time to Make Skillety Work for You</h2>
+                                        <h2 data-aos="fade-left">
+                                        {candidateAboutContent.find(content=>content.id === "content_13")?.content ||
+                                            "It’s Time to Make Skillety Work for You"}</h2>
                                     </div>
                                 </div>
                                 <div className="col-12 col-xl-4 col-lg-6 offset-lg-6 offset-xl-0 col-md-12 about--right-cover">
@@ -59,7 +68,8 @@ const CandidateAboutUs = () => {
                                         Skillety is an AI-driven job portal designed for people who want to find a job quickly. We have an exclusive vault for Immediate Joiners - those who can start working in 7, 15, or 30 days. If you're seeking a job that matches your skills and salary expectations, you're in the right spot. We're partners with over 140 top companies, offering you a choice of more than 2400 active jobs.
                                     </p> */}
                                     <p className='cand--ab-para' data-aos="fade-up">
-                                    Skillety is the world’s first exclusive Job Portal for Immediate Joiners - those who can pick up a Job Offer and Join within 7, 15, or 30 days. If you're looking to land a good job and fast - you're in the right spot. We are a sector agnostic portal and provide you with a wide variety of exciting Jobs, everyday.
+                                    {candidateAboutContent.find(content=>content.id === "content_14")?.content ||
+                                    "Skillety is the world’s first exclusive Job Portal for Immediate Joiners - those who can pick up a Job Offer and Join within 7, 15, or 30 days. If you're looking to land a good job and fast - you're in the right spot. We are a sector agnostic portal and provide you with a wide variety of exciting Jobs, everyday."}
                                     </p>
                                 </div>
                                 <div className="cand--ab-para-section2" data-aos="fade-up">
@@ -67,7 +77,8 @@ const CandidateAboutUs = () => {
                                         Take control of your job search with our Self-Service Portal. You can edit your profile, apply for as many matching jobs as you want, check your application status, manage interviews, upload important documents, connect with the recruiter anytime and much more. Right now, we're welcoming over 850 new registrations every day, with a consistent growth rate of 15 to 20% each month. Our technology and teams are dedicated to providing speed and accuracy around the clock.
                                     </p> */}
                                     <p className='cand--ab-para mb-0'>
-                                    Take control of your job search with our Self-Service Portal. You can edit your profile, apply for as many matching jobs as you want, check your application status, manage interviews, upload important documents, connect with the recruiter anytime and much more. Right now, we're welcoming over 450 new registrations every day, with a consistent growth rate of over 20% each month. Our technology and teams are dedicated to providing speed and accuracy around the clock.
+                                    {candidateAboutContent.find(content=>content.id === "content_5")?.content ||
+                                    "Take control of your job search with our Self-Service Portal. You can edit your profile, apply for as many matching jobs as you want, check your application status, manage interviews, upload important documents, connect with the recruiter anytime and much more. Right now, we're welcoming over 450 new registrations every day, with a consistent growth rate of over 20% each month. Our technology and teams are dedicated to providing speed and accuracy around the clock."}
                                     </p>
                                 </div>
 
@@ -75,7 +86,8 @@ const CandidateAboutUs = () => {
                                     <div className="row">
                                         <div className="col-12 col-lg-12 col-xl-4 col-sm-12 col-md-12 custom-align-center">
                                             <p className='cand--ab-vis-mis-para' data-aos="fade-right">
-                                                Apply with us and get your L1-interview within 24 hours.
+                                            {candidateAboutContent.find(content=>content.id === "content_16")?.content ||
+                                                "Apply with us and get your L1-interview within 24 hours."}
                                             </p>
                                         </div>
                                         <div className="col-12 col-lg-6 col-xl-4 col-sm-12 col-md-12">

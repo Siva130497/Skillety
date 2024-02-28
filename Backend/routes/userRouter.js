@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const multer = require('multer');
 const {
   userLogin,
   checkRole,
@@ -226,7 +227,13 @@ const {
    getJobDurationReport,
 
    //ATS...............
-  
+   postWebSiteContentForId,
+   getWebContentByIds,
+   updateWebContent,
+   savingLogo,
+   updateLogo,
+   savingClientLogos,
+   deleteClientLogo,
 } = require("../Controller/authFunctions");
 const employeeAuth = require("../middleware/employeeAuth");
 const firebaseAuth = require("../middleware/firebaseAuth");
@@ -828,6 +835,31 @@ router.get("/job-report", employeeAuth, getJobReport);
 router.get("/job-duration-report", employeeAuth, getJobDurationReport);
 
 //ATS..................
+
+//post web content to the id
+router.post("/web-content", postWebSiteContentForId);
+
+//get an individual content of web 
+router.get("/web-content" , getWebContentByIds);
+
+//update the web content by id
+router.patch("/web-content/:id", employeeAuth, updateWebContent);
+
+//logo handling
+const storageMemory = multer.memoryStorage();
+const uploadImgBase64 = multer({ storage: storageMemory });
+
+//save the logo 
+router.post("/web-content-logo", uploadImgBase64.single('logo'), savingLogo);
+
+//update the logo 
+router.patch("/web-content-logo/:id", uploadImgBase64.single('logo'), updateLogo);
+
+//save the client logos 
+router.post("/client-logos", employeeAuth, uploadImgBase64.array('logo', 10), savingClientLogos);
+
+//delete particular client logo using mongoose id
+router.delete("/client-logo/:id", employeeAuth, deleteClientLogo);
 
 // Client, Client-staff Login Route
 router.post("/login-Client", async (req, res) => {

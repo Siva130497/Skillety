@@ -17,7 +17,7 @@ import { useNavigate } from 'react-router-dom';
 const HomeCandidate = () => {
   const [candidateToken, setcandidateToken] = useState("");
   const navigate = useNavigate();
-
+  const [candidateHomeContent, setCandidateHomeContent] = useState([]);
   const { eventDetail, getEventDetail, getEventImg, eventImg, blogDetail, getBlogsDetail,
     videoDetail, getVideoDetail, podcastDetail, getPodcastDetail, newsDetail, getNewsDetail, getClientImg, clientImg } = useContext(AuthContext);
   const [allJobs, setAllJobs] = useState([]);
@@ -30,6 +30,14 @@ const HomeCandidate = () => {
   const [searchInput, setSearchinput] = useState("");
 
   const [popularSearches, setPopulartSearches] = useState([]);
+
+  useEffect(()=>{
+    axios.get("https://skillety-n6r1.onrender.com/web-content?ids=content_1,content_3,content_4,content_5,content_6,content_7,content_8,content_9,content_10,content_11,content_12,content_66")
+    .then(res=>{
+      console.log(res.data);
+      setCandidateHomeContent(res.data);
+    }).catch(err=>console.log(err));
+  },[])
 
   useEffect(() => {
     setcandidateToken(JSON.parse(localStorage.getItem('candidateToken')))
@@ -319,14 +327,16 @@ const HomeCandidate = () => {
               <div className="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-7 col-xxl-7 home--left-cover">
                 <div className="home--head candidate">
                   <h4 data-aos="fade-left" data-aos-delay="200">
-                    Welcome to the only Job Portal for Immediate Joiners in the world.
+                    {candidateHomeContent.find(content=>content.id === "content_1")?.content ||
+                    "Welcome to the only Job Portal for Immediate Joiners in the world."}
                   </h4>
                   {/* <h3 data-aos="fade-left" data-aos-delay="200">Choose from over 2400+ Jobs.</h3>
                   <h5 data-aos="fade-left" data-aos-delay="200">
                     Welcome to the place where you get hired in less than 7 days. Grab your Interview in 24 hours.
                   </h5> */}
                   <h6 data-aos="fade-right" data-aos-delay="300">
-                    Choose from over 2400+ Jobs. Get Interviewed within 24 Hours.
+                  {candidateHomeContent.find(content=>content.id === "content_3")?.content ||
+                    "Choose from over 2400+ Jobs. Get Interviewed within 24 Hours."}
                   </h6>
                 </div>
                 <div className="home--search-area candidate">
@@ -456,8 +466,12 @@ const HomeCandidate = () => {
                         </div>
                       </div>
                       <div className="home--milestone-card-right">
-                        <h6 className='home--milestone-title'>Numbers of Jobs</h6>
-                        <h2 className='home-milestone-number candidate' data-target="130">0</h2>
+                        <h6 className='home--milestone-title'>
+                        {candidateHomeContent.find(content=>content.id === "content_4")?.content ||
+                          "Numbers of Jobs"}</h6>
+                        <h2 className='home-milestone-number candidate' data-target=
+                        {candidateHomeContent.find(content=>content.id === "content_5")?.content ||
+                        "130"}>0</h2>
                       </div>
                     </article>
                   </div>
@@ -474,8 +488,12 @@ const HomeCandidate = () => {
                         </div>
                       </div>
                       <div className="home--milestone-card-right">
-                        <h6 className='home--milestone-title'>Registrations per day</h6>
-                        <h2 className='home-milestone-number candidate' data-target="200">0</h2>
+                        <h6 className='home--milestone-title'>
+                        {candidateHomeContent.find(content=>content.id === "content_6")?.content ||
+                          "Registrations per day"}</h6>
+                        <h2 className='home-milestone-number candidate' data-target=
+                        {candidateHomeContent.find(content=>content.id === "content_7")?.content ||
+                        "200"}>0</h2>
                       </div>
                     </article>
                   </div>
@@ -492,8 +510,12 @@ const HomeCandidate = () => {
                         </div>
                       </div>
                       <div className="home--milestone-card-right">
-                        <h6 className='home--milestone-title'>Numbers of companies</h6>
-                        <h2 className='home-milestone-number candidate' data-target="202">0</h2>
+                        <h6 className='home--milestone-title'>
+                        {candidateHomeContent.find(content=>content.id === "content_8")?.content ||
+                          "Numbers of companies"}</h6>
+                        <h2 className='home-milestone-number candidate' data-target=
+                        {candidateHomeContent.find(content=>content.id === "content_66")?.content ||
+                        "202"}>0</h2>
                       </div>
                     </article>
                   </div>
@@ -510,8 +532,12 @@ const HomeCandidate = () => {
                         </div>
                       </div>
                       <div className="home--milestone-card-right">
-                        <h6 className='home--milestone-title'>Number of placement till now</h6>
-                        <h2 className='home-milestone-number candidate' data-target="147">0</h2>
+                        <h6 className='home--milestone-title'>
+                        {candidateHomeContent.find(content=>content.id === "content_9")?.content ||
+                          "Number of placement till now"}</h6>
+                        <h2 className='home-milestone-number candidate' data-target=
+                        {candidateHomeContent.find(content=>content.id === "content_10")?.content ||
+                        "147"}>0</h2>
                       </div>
                     </article>
                   </div>
@@ -528,8 +554,12 @@ const HomeCandidate = () => {
                         </div>
                       </div>
                       <div className="home--milestone-card-right">
-                        <h6 className='home--milestone-title'>Locations Covered</h6>
-                        <h2 className='home-milestone-number candidate' data-target="110">0</h2>
+                        <h6 className='home--milestone-title'>
+                        {candidateHomeContent.find(content=>content.id === "content_11")?.content ||
+                          "Locations Covered"}</h6>
+                        <h2 className='home-milestone-number candidate' data-target=
+                        {candidateHomeContent.find(content=>content.id === "content_12")?.content ||
+                        "110"}>0</h2>
                       </div>
                     </article>
                   </div>

@@ -2,6 +2,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require ('dotenv').config();
 const { v4: uuidv4 } = require('uuid');
+const mongoose = require('mongoose');
 const client = require("../Database/client");
 const nodemailer = require('nodemailer');
 const TempClient = require("../Database/TempClient");
@@ -64,10 +65,10 @@ const atsJobsTable = require("../Database/atsJobsTable");
 const selectedCandidateForJob = require("../Database/selectedCandidateForJob");
 const assignCandidateForJobDetail = require("../Database/assignCandidateForJobDetail");
 const offlineCand = require("../Database/offlineCand");
-
 //ATS...............................................
 
-
+const webContent = require("../Database/webContent");
+const clientLogoWeb = require("../Database/clientLogoWeb");
 
 // const hash = async() => {
 //   const pass = 'newpassword'
@@ -7914,6 +7915,35 @@ const getJobDurationReport = async (req, res) => {
 
 /*ATS................... */
 
+/* web site content save */
+const postWebSiteContentForId = async(req, res) =>{
+  try{
+    const newWebsiteContent = new webContent({
+      ...req.body,
+    });
+    await newWebsiteContent.save();
+    console.log(newWebsiteContent);
+    return res.status(201).json(newWebsiteContent);
+  }catch{
+    return res.status(500).json({ error: err.message });
+  }
+}
+
+/* get a web content by id */
+const getWebContentByIds = async (req, res) => {
+  const { ids } = req.query; // Assuming the IDs are passed as query parameters like ?ids=id1,id2,id3
+  const idsArray = ids.split(','); // Splitting the IDs string into an array
+
+  try {
+    const neededContent = await webContent.find({ id: { $in: idsArray } });
+    console.log(neededContent);
+    return res.status(200).json(neededContent);
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ error: err.message });
+  }
+}
+
 /* random password generate */
 const generateRandomPassword = (req, res) => {
   const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -7924,6 +7954,137 @@ const generateRandomPassword = (req, res) => {
   }
   return res.status(200).json(password);
 }
+
+/* update the web content */
+const updateWebContent = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const webContentToUpdate = await webContent.findOne({ id });
+
+    if (webContentToUpdate) {
+      const updatedWebContent = await webContent.findOneAndUpdate(
+        { id },
+        {
+          $set: {
+            content: req.body.content
+          },
+        },
+        { new: true }
+      );
+
+      return res.status(200).json({ updatedWebContent });
+    } else {
+      return res.status(404).json({ error: 'Web content not found' });
+    }
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+/* save logo */
+const savingLogo = async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ error: 'No logo provided' });
+    }
+
+    // Convert image buffer to base64
+    const base64Image = req.file.buffer.toString('base64');
+
+    // Save the image to the database
+    const webContentLogo = new webContent({
+      id: req.body.id,
+      content: base64Image
+    });
+    await webContentLogo.save();
+
+    res.status(200).json({ message: 'Logo uploaded successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+/* update logo */
+const updateLogo = async (req, res) => {
+  try {
+    const {id} = req.params;
+
+    if (!req.file) {
+      return res.status(400).json({ error: 'No logo provided' });
+    }
+
+    // Convert image buffer to base64
+    const base64Image = req.file.buffer.toString('base64');
+
+    // Update the existing content with new logo using findOneAndUpdate
+    const updatedContent = await webContent.findOneAndUpdate(
+      { id },
+      { content: base64Image },
+      { new: true }
+    );
+
+    if (!updatedContent) {
+      return res.status(404).json({ error: 'Logo not found' });
+    }
+
+    res.status(200).json({ message: 'Logo updated successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+/* client logos saving as base64 */
+const savingClientLogos = async (req, res) => {
+  try {
+    if (!req.files || req.files.length === 0) {
+      return res.status(400).json({ error: 'No logos provided' });
+    }
+
+    const logos = [];
+
+    // Process each uploaded logo
+    for (const file of req.files) {
+      // Convert image buffer to base64
+      const base64Image = file.buffer.toString('base64');
+      logos.push({ logoStringBase64: base64Image });
+    }
+
+    // Save the images to the database
+    await clientLogoWeb.insertMany(logos);
+
+    res.status(200).json({ message: 'Logos uploaded successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+/* delete client logo using id of mongoose */
+const deleteClientLogo = async (req, res) => {
+  try {
+    const {id} = req.params;
+
+    // Check if the provided ID is valid
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ error: 'Invalid logo ID' });
+    }
+
+    // Delete the logo based on ID
+    const deletionResult = await clientLogoWeb.deleteOne({ _id: id });
+
+    if (deletionResult.deletedCount === 0) {
+      return res.status(404).json({ error: 'Logo not found' });
+    }
+
+    res.status(200).json({ message: 'Logo deleted successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
 
 /**
  * @DESC To Login the user 
@@ -8394,4 +8555,11 @@ module.exports = {
    getJobDurationReport,
   
   //ATS...........
+  postWebSiteContentForId,
+  getWebContentByIds,
+  updateWebContent,
+  savingLogo,
+  updateLogo,
+  savingClientLogos,
+  deleteClientLogo,
 };

@@ -4,6 +4,8 @@ import $ from 'jquery';
 import { useNavigate } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
 import { auth } from '../firebase/firebaseConfig';
+import axios from 'axios';
+
 export const NewNavCandidateHome = ({homeActive, aboutUsActive, searchJobActive, eventsActive, contactActive}) => {
 
     const { getProtectedData } = useContext(AuthContext);
@@ -13,6 +15,16 @@ export const NewNavCandidateHome = ({homeActive, aboutUsActive, searchJobActive,
     const [token, setToken] = useState("");
 
     const candidateToken = JSON.parse(localStorage.getItem('candidateToken'));
+
+    const [talentJobPostContent, setTalentJobPostContent] = useState([]);
+
+    useEffect(()=>{
+        axios.get("https://skillety-n6r1.onrender.com/web-content?ids=content_2")
+        .then(res=>{
+          console.log(res.data);
+          setTalentJobPostContent(res.data);
+        }).catch(err=>console.log(err));
+      },[])
 
     useEffect(() => {
        
@@ -61,7 +73,10 @@ export const NewNavCandidateHome = ({homeActive, aboutUsActive, searchJobActive,
                     <div className='logo--area me-auto'>
                         <div className='logo--subarea'>
                             <a href="/candidate-home">
-                                <img className='nav--logo' src="../assets/img/logo/skillety-logo-sm.png" alt="" />
+                            <img className='nav--logo candidate' src=
+                                        {"data:image/jpeg;base64,"+talentJobPostContent[0]?.content ||
+                                        "../assets/img/logo/skillety-logo-sm.png"} 
+                                        alt="" />
                             </a>
                         </div>
                     </div>
