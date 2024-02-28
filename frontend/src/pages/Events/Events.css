@@ -100,6 +100,9 @@
     color: #5C3B2E;
     font-size: 18px;
     font-weight: 400;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .cand--events-card .cand--events-card-bottom-area {
@@ -110,7 +113,7 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    padding: 42px 30px;
+    padding: 30px 30px;
     z-index: 2;
     transition: ease-in-out 0.8s;
 }

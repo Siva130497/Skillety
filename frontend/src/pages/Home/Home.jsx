@@ -21,6 +21,7 @@ const Home = () => {
 
   const navigate = useNavigate();
 
+  
   const [candidateDetail, setCandidateDetail] = useState([]);
   const { getCandidateImg, candidateImg } = useContext(AuthContext);
   const [clientToken, setClientToken] = useState("");
@@ -225,6 +226,9 @@ const Home = () => {
     1200: {
       slidesPerView: 3.5,
     },
+    1400: {
+      slidesPerView: 4.5,
+    },
   };
 
   const handleSearch = (e) => {
@@ -426,7 +430,7 @@ const Home = () => {
                 <h3 className='service--heading' data-aos="fade-up">OUR SERVICES</h3>
               </div>
               <div className="home--service-para" data-aos="fade-left" data-aos-delay="100">
-                <p>What makes us unique is the combination of a Job Portal for Immediate Joiners coupled with a comprehensive suite of diverse hiring solutions, including Sourcing, Screening, Assessments, Interviews, Verification, and Onboarding, all thoughtfully integrated into a single platform. This reduces the TAT for a new hire by an impressive 30-50%. Our pay-as-you-go model offers our clients with a simple billing and performance evaluation process, focused solely on end results. As an end-to-end recruitment powerhouse, dedicated to optimizing your recruitment journey.</p>
+                <p>What makes us unique is the combination of a Job Portal for Immediate Joiners coupled with a comprehensive suite of diverse hiring solutions, including Sourcing, Screening, Assessments, Interviews, Verification, and Onboarding, all thoughtfully integrated into a single platform. This reduces the TAT for a new hire by an impressive 30-50%. Our pay-as-you-go model offers our clients with a simple billing and performance evaluation process, focused solely on end results. As An End-To-End Recruitment Powerhouse, Skillety Is Your Ideal Partner, Dedicated To Optimizing Your Recruitment Journey.</p>
               </div>
               <div className="row">
                 <div className="col-12 col-xl-7 col-lg-8">
@@ -909,7 +913,7 @@ const Home = () => {
         <div className='candidate--section'>
           <div className='home--about-toparea'>
             <div className='home--about-headarea'>
-              <h6 data-aos="fade-down">Candidate Profile</h6>
+              <h6 data-aos="fade-down">Immediate Joiners</h6>
               <h4 className='candidate--heading' data-aos="fade-up"><span>Connect</span> with Diverse <br /> Professionals and <span>Elevate</span><br /> <span>Your Brand</span></h4>
             </div>
             <div className='home--know-more-area'>
@@ -941,7 +945,6 @@ const Home = () => {
             autoplay={{
               delay: 5000,
               waitForTransition: true,
-              // stopOnLastSlide: false,
               disableOnInteraction: false,
             }}
 
@@ -972,12 +975,16 @@ const Home = () => {
                         <h6 className='candidate--exp m-0'>Experience : {candidate.year > 0 ? candidate.year + 'years' : "" + candidate.month > 0 ? candidate.month + 'months' : ""}</h6>
                       </div>
                       <div className="candidate--top-right">
-                        <div className="candidate--rate-area">
+                        <div className="candidate--rate-area cand-location-area">
                           <i class='bx bxs-map map-icon'></i>
                           <span className='candidate--rating'>{candidate.location}</span>
                         </div>
                         {/* <h6 className='candidate--exp'>Immediate Joiner</h6> */}
                       </div>
+                    </div>
+                    <div className='candidate--skills'>
+                        Skills&nbsp;:&nbsp;
+                        <span>Javascript</span>, 
                     </div>
                     <div className="candidate--desc-area">
                       <p>{candidate.profileHeadline}</p>

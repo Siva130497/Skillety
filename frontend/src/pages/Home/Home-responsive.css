@@ -275,6 +275,10 @@
         width: 62px;
         height: 62px;
     }
+
+    .candidate--name-area h6 {
+        max-width: 220px !important;
+    }
 }
 
 @media (max-width:991.5px) {
@@ -488,6 +492,14 @@
         display: flex;
         align-items: center;
         flex-direction: column;
+    }
+
+    .candidate--name-area h6{
+        max-width:300px !important;
+    }
+
+    .candidate--role{
+        max-width: 220px !important;
     }
 }
 

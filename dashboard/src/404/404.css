@@ -33,6 +33,7 @@
     font-weight: 500 !important;
     padding: 10px 20px !important;
     transition: ease-in-out 0.5s !important;
+   
 }
 .back-to-main-btn:hover {
     background-color: #5C3B2E !important;

@@ -11,6 +11,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
+import ErrorPage from '../../404/404';
 
 import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
 import AuthContext from '../../context/AuthContext';
@@ -43,7 +44,7 @@ const TalentsAts = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [filteredData, setFilteredData] = useState([]);
     const [selectedJobViewDetail, setSelectedJobViewDetail] = useState();
-    
+
     const [x, setX] = useState([0, 10]);
 
     //for show success message for payment
@@ -297,22 +298,22 @@ const TalentsAts = () => {
     }
 
     const deAssigning = (job_id) => {
-        
-            axios.delete(`https://skillety-n6r1.onrender.com/deassign-candidate/${id}/${job_id}`, {
-                headers: {
-                    Authorization: `Bearer ${staffToken}`,
-                    Accept: 'application/json'
-                }
+
+        axios.delete(`https://skillety-n6r1.onrender.com/deassign-candidate/${id}/${job_id}`, {
+            headers: {
+                Authorization: `Bearer ${staffToken}`,
+                Accept: 'application/json'
+            }
+        })
+            .then((res) => {
+                console.log(res.data);
+                showSuccessMessage("The candidate was dismissed from this job.")
+                getAllAssignedJobsForCandId();
             })
-                .then((res) => {
-                    console.log(res.data);
-                    showSuccessMessage("The candidate was dismissed from this job.")
-                    getAllAssignedJobsForCandId();
-                })
-                .catch((err) => {
-                    console.log(err);
-                })
-        
+            .catch((err) => {
+                console.log(err);
+            })
+
     }
 
     useEffect(() => {
@@ -324,12 +325,12 @@ const TalentsAts = () => {
 
     // useEffect(() => {
     //     if (availableActiveATSJobs) {
-            
+
     //         const updatedActiveATSJobs = activeATSJobs.map(job => ({
     //             ...job,
     //             assigned: false
     //         }));
-            
+
     //         if (assignedJobsForCand.length > 0) {
     //             updatedActiveATSJobs.map((job) => {
     //                 const isJobAssigned = assignedJobsForCand.some(
@@ -357,18 +358,18 @@ const TalentsAts = () => {
     //     }
     // }, [availableActiveATSJobs, assignedJobsForCand]);
 
-    useEffect(()=>{
-        if(availableActiveATSJobs){
+    useEffect(() => {
+        if (availableActiveATSJobs) {
             const updatedActiveATSJobs = activeATSJobs.map(job => ({
                 ...job,
                 assigned: assignedJobsForCand.some(assignedJob => assignedJob.jobId === job.id),
-              }));
-              
-              setActiveATSJobsForCand(updatedActiveATSJobs);
-              setFilteredData(updatedActiveATSJobs);
+            }));
+
+            setActiveATSJobsForCand(updatedActiveATSJobs);
+            setFilteredData(updatedActiveATSJobs);
         }
 
-    },[availableActiveATSJobs, assignedJobsForCand])
+    }, [availableActiveATSJobs, assignedJobsForCand])
 
     const getSelectedJobs = async () => {
         try {
@@ -1416,11 +1417,9 @@ const TalentsAts = () => {
 
 
                 </div>}
-            {pageNotFound && <div>
-                <h1>404</h1>
-                <p>Not Found</p>
-                <small>The resource requested could not be found on this server!</small>
-            </div>}
+            {pageNotFound &&
+                <ErrorPage />
+            }
         </div>
     )
 }

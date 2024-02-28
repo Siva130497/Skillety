@@ -6,8 +6,9 @@ import './CompanyDetails-responsive.css';
 import { CandidateFooter } from '../../components/CandidateFooter';
 import LayoutNew from '../../components/LayoutNew';
 import { useState } from 'react';
-import { useParams } from 'react-router-dom'
-import axios from 'axios'
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
+import ErrorPage from '../../404/404';
 
 const CompanyDetails = () => {
     const { id } = useParams()
@@ -123,8 +124,8 @@ const CompanyDetails = () => {
 
                                 <div className="company--detail-section">
                                     <div className="company--detail-desc-area">
-                                    <p className='company--detail-desc' data-aos="fade-left">{companyDetail?.longDescription}</p>
-                                </div>
+                                        <p className='company--detail-desc' data-aos="fade-left">{companyDetail?.longDescription}</p>
+                                    </div>
                                     <div className="company--detail-vacancy-area">
                                         <h3 className='company--detail-vacancy-title' data-aos="fade-up">VACANCIES</h3>
 
@@ -654,11 +655,9 @@ const CompanyDetails = () => {
                 </div>
                 <CandidateFooter />
             </div >}
-            {pageNotFound && <div>
-                <h1>404</h1>
-                <p>Not Found</p>
-                <small>The resource requested could not be found on this server!</small>
-            </div>}
+            {pageNotFound &&
+                <ErrorPage/>
+            }
         </div>
     )
 

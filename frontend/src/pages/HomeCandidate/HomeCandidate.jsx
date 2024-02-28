@@ -33,7 +33,7 @@ const HomeCandidate = () => {
 
   useEffect(() => {
     setcandidateToken(JSON.parse(localStorage.getItem('candidateToken')))
-  }, [candidateToken])
+  }, [candidateToken]);
 
   const getPostedjobs = async () => {
     try {
@@ -224,10 +224,10 @@ const HomeCandidate = () => {
       slidesPerView: 2.5,
     },
     1200: {
-      slidesPerView: 2.7,
+      slidesPerView: 3.5,
     },
     1400: {
-      slidesPerView: 3.5,
+      slidesPerView: 4.5,
     },
   };
 
@@ -412,7 +412,7 @@ const HomeCandidate = () => {
                           </div>
                           <div className="home--sub-des candidate">
                             <p>
-                            You're just One Click away from the best opportunities.
+                              You're just One Click away from the best opportunities.
                             </p>
                           </div>
                           <a href='' className="arrow--icon-btn candidate">
@@ -439,7 +439,7 @@ const HomeCandidate = () => {
                   <div className="col-12 col-xl-4 col-lg-12 col-md-12 ab--milestone-container">
                     <div className="cand--milestone-para-area" data-aos="fade-left">
                       <p className='cand--milestone-para'>
-                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
+                        At Skillety, we believe in the power of connecting talent with opportunity, and our journey is defined by the milestones we achieve along the way. As we reflect on our progress, we are thrilled to share some remarkable statistics that highlight our impact in the realm of talent acquisition. Since our inception, Skillety has been instrumental in facilitating countless career advancements and organizational growth. With a steadfast commitment to excellence, our platform has become a beacon for both job seekers and employers alike.
                       </p>
                     </div>
                   </div>
@@ -572,7 +572,7 @@ const HomeCandidate = () => {
                 .slice(0, 5)
                 .map(company => {
                   const matchingImg = clientImg ? clientImg.find(img => img.id === company.companyId) : null;
-                  const imgSrc = matchingImg ? `https://skillety-n6r1.onrender.com/client_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
+                  const imgSrc = matchingImg ? `https://skillety-n6r1.onrender.com/client_profile/${matchingImg.image}` : "../assets/img/talents-images/no-image1.png";
                   const jobOpening = allJobs.filter(job => job.companyId === company.companyId).length;
 
                   return (
@@ -580,14 +580,19 @@ const HomeCandidate = () => {
                       <div className="col-12 col-xl-2 col-lg-2 col-sm-4 col-md-4 company--content-img-area">
                         <img src={imgSrc} data-aos="fade" className='company--content-img cand-home' loading='lazy' alt="" />
                       </div>
-                      <div className="col-12 col-xl-3 col-lg-3 col-sm-8 col-md-8 company--content-jobs-area">
-                        <div className='company--content-jobs' data-aos="zoom-out">{jobOpening}<span> Jobs Opening</span></div>
+                      <div className="col-12 col-xl-3 col-lg-3 col-sm-4 col-md-4 company--content-jobs-area">
                         <div className='home-company-name mt-2' data-aos="zoom-out">{company.companyName}</div>
+                        <div className='company--content-jobs' data-aos="zoom-out">{jobOpening}<span> Jobs Opening</span></div>
                       </div>
-                      <div className="col-12 col-xl-7 col-lg-7 col-md-12 company--content-desc-area">
-                        <p className='company--content-desc' data-aos="fade-left">{company.shortDescription}</p>
+
+                      <div className="col-12 col-xl-3 col-lg-3 col-sm-4 col-md-4 company--content-jobs-area">
+                        <div className='company--content-industry' data-aos="zoom-out">{company.industry}</div>
+                      </div>
+
+                      <div className="col-12 col-xl-4 col-lg-4 col-md-12 company--content-desc-area">
+                        <p className='company--content-desc' data-aos="fade-right">{company.shortDescription}</p>
                         <div className='company--content-apply-btn-area' data-aos="fade-right">
-                          <a href={`/company-details/${company.companyId}`} className='company--content-apply-btn'>
+                          <a href={`/company-info/${company.companyId}`} className='company--content-apply-btn'>
                             <div className='company--content-apply-btn-sub'>
                               Apply Now
                             </div>
@@ -658,7 +663,7 @@ const HomeCandidate = () => {
           >
             {allJobs.map((job) => {
               const matchingImg = clientImg ? clientImg.find(img => img.id === job.companyId) : null;
-              const imgSrc = matchingImg ? `https://skillety-n6r1.onrender.com/client_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
+              const imgSrc = matchingImg ? `https://skillety-n6r1.onrender.com/client_profile/${matchingImg.image}` : "../assets/img/talents-images/no-image1.png";
               return (
                 <SwiperSlide key={job.id}>
                   <article className='cand--job-card'>
@@ -694,7 +699,7 @@ const HomeCandidate = () => {
                         Scroll to view more...
                       </span> */}
                     </div>
-                    <a href={`/job-detail/${job.id}`} className="cand--job-card-bottom-area">
+                    <a href={candidateToken ? `/job-detail/${job.id}` : `/candidate-login`} className="cand--job-card-bottom-area">
                       <span className='cand--job-know-more'>KNOW MORE</span>
                       <span className='cand--job-card-arrow-area'>
                         <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
@@ -1022,7 +1027,7 @@ const HomeCandidate = () => {
           <div className='candidate--section candidate'>
             <div className='home--about-toparea'>
               <div className='home--about-headarea'>
-                <h6 data-aos="fade-down">Medias</h6>
+                <h6 data-aos="fade-down">Media</h6>
                 <h4 className='candidate--heading candidate' data-aos="fade-up">Webinars, Job Fairs, <br /> <span>Walk-in Interviews,</span> etc.</h4>
               </div>
               <div className='home--know-more-area'>
@@ -1113,9 +1118,12 @@ const HomeCandidate = () => {
                           </h6>
                         </div>
                         <p className='cand--events-card-date'>
-                          {item.date}
+                          {item.date}, <b className='text-capitalized'>{item.location}</b>
                         </p>
-                        <a href={`/event-details/${item.id}`} className="cand--events-card-bottom-area">
+                        <a
+                          href={item.type === "event" ? `/event-details/${item.id}` : item.url}
+                          target={item.type === "event" ? `` : `_blank`}
+                          className="cand--events-card-bottom-area">
                           <span className='cand--event-sys'>Know More</span>
                           <span className='cand--events-card-arrow-area'>
                             <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">

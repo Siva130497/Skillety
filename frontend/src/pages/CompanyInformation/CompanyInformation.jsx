@@ -37,10 +37,10 @@ const CompanyInformation = () => {
             slidesPerView: 2.5,
         },
         1200: {
-            slidesPerView: 2.7,
+            slidesPerView: 3.5,
         },
         1400: {
-            slidesPerView: 3.5,
+            slidesPerView: 4.5,
         },
     };
 
@@ -111,7 +111,7 @@ const CompanyInformation = () => {
                                                     <div className="company-main-info-container">
                                                         <div className="card comp-det-card profile" data-aos="fade-right">
                                                             <div className="com-det-logo-area">
-                                                                <img src={clientImgUrl ? clientImgUrl : "../assets/img/talents-images/avatar.jpg"} className="com-det-logo" alt="" />
+                                                                <img src={clientImgUrl ? clientImgUrl : "../assets/img/talents-images/no-image1.png"} className="com-det-logo" alt="" />
                                                             </div>
                                                             <div className="com-det-name">{companyDetail?.companyName}</div>
                                                             <div className="com-type">
@@ -158,7 +158,7 @@ const CompanyInformation = () => {
                                                             </div>
                                                             <div className="col-12 col-lg-8 col-xl-8 col-md-8 col-sm-7">
                                                                 <div className="com-det-content">
-                                                                    {companyDetail?.vision}
+                                                                    {companyDetail?.vision ? companyDetail?.vision : "----------"}
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -169,7 +169,7 @@ const CompanyInformation = () => {
                                                             </div>
                                                             <div className="col-12 col-lg-8 col-xl-8 col-md-8 col-sm-7">
                                                                 <div className="com-det-content">
-                                                                    {companyDetail?.mission}
+                                                                    {companyDetail?.mission ? companyDetail?.mission : "----------"}
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -179,12 +179,19 @@ const CompanyInformation = () => {
                                                                 <div className="com-det-title">Description</div>
                                                             </div>
                                                             <div className="col-12 col-lg-8 col-xl-8 col-md-8 col-sm-7">
-                                                                <div className="com-det-content">
-                                                                    {companyDetail?.shortDescription}
-                                                                </div>
-                                                                <div className="com-det-content mt-3">
-                                                                    {companyDetail?.longDescription}
-                                                                </div>
+                                                                {companyDetail?.shortDescription == null && companyDetail?.longDescription == null ?
+                                                                    <>
+                                                                        <div className="com-det-content">
+                                                                            {companyDetail?.shortDescription}
+                                                                        </div>
+                                                                        <div className="com-det-content mt-3">
+                                                                            {companyDetail?.longDescription}
+                                                                        </div>
+                                                                    </> :
+                                                                    <div className="com-det-content">
+                                                                        ----------
+                                                                    </div>
+                                                                }
                                                             </div>
                                                         </div>
                                                         <hr />
@@ -193,20 +200,20 @@ const CompanyInformation = () => {
                                                                 <div className="com-det-title">Benefits</div>
                                                             </div>
                                                             <div className="col-12 col-lg-8 col-xl-8 col-md-8 col-sm-7">
-                                                                <div className="com-det-content">
-                                                                    <ul>
-                                                                        {selectedBenefits.map(benefit => {
-                                                                            return (
-                                                                                <li>{benefit}</li>
-                                                                            )
-                                                                        })}
-
-                                                                        {/* <li>Sick Leave</li>
-                                                                    <li>Job Training</li>
-                                                                    <li>Work From Home</li>
-                                                                    <li>Maternity/Parental Leave</li> */}
-                                                                    </ul>
-                                                                </div>
+                                                                {selectedBenefits.benefit?.length > 0 ?
+                                                                    <div className="com-det-content">
+                                                                        <ul>
+                                                                            {selectedBenefits.map(benefit => {
+                                                                                return (
+                                                                                    <li>{benefit}</li>
+                                                                                )
+                                                                            })}
+                                                                        </ul>
+                                                                    </div> :
+                                                                    <div className="com-det-content">
+                                                                        ----------
+                                                                    </div>
+                                                                    }
                                                             </div>
                                                         </div>
                                                     </div>
@@ -252,7 +259,7 @@ const CompanyInformation = () => {
 
                             >
                                 {jobs.map((job) => {
-                                    const imgSrc = clientImg ? clientImgUrl : "../assets/img/talents-images/avatar.jpg";
+                                    const imgSrc = clientImg ? clientImgUrl : "../assets/img/talents-images/no-image1.png";
                                     return (
                                         <SwiperSlide key={job.id}>
                                             <article className='cand--job-card'>
@@ -283,10 +290,10 @@ const CompanyInformation = () => {
                                                     <p className='cand--job-card-desc'>
                                                         {job.jobDescription}
                                                     </p>
-                                                    <span className='slide-down-view'>
+                                                    {/* <span className='slide-down-view'>
                                                         <i class="bi bi-chevron-double-down me-2"></i>
                                                         Scroll to view more...
-                                                    </span>
+                                                    </span> */}
                                                 </div>
                                                 <a href={`/job-detail/${job.id}`} className="cand--job-card-bottom-area">
                                                     <span className='cand--job-know-more'>KNOW MORE</span>

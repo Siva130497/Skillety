@@ -1315,6 +1315,10 @@
     font-size: 18px;
     font-weight: 700;
     transition: ease-in-out 0.8s;
+    white-space: nowrap;
+    max-width: 240px;
+    text-overflow: ellipsis;
+    overflow: hidden;
     /* word-break: break-all; */
 }
 
@@ -1324,6 +1328,10 @@
     border-radius: 5px;
     padding: 5px 12px;
     width: max-content;
+    white-space: nowrap;
+    max-width: 180px;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .candidate--role i {
@@ -1353,6 +1361,10 @@
     transition: ease-in-out 0.8s;
 }
 
+.candidate--card:hover .candidate--rate-area .map-icon{
+    color: #714F36 !important;
+}
+
 .candidate--rate-area .map-icon {
     color: #fff !important;
 }
@@ -1369,6 +1381,9 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    flex-direction: column;
+    row-gap: 15px;
+    align-items: center;
 }
 
 .candidate--exp {
@@ -1377,6 +1392,18 @@
     font-size: 16px;
     font-weight: 500;
     transition: ease-in-out 0.8s;
+    white-space: nowrap;
+    max-width: 100%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.cand-location-area {
+    white-space: nowrap;
+    max-width: 100%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    color: #FFF;
 }
 
 .candidate--desc-area {
@@ -2302,9 +2329,9 @@
     opacity: 0;
     transition: opacity 0.5s ease-in-out;
     /* animation: overlayFadeIn 0.5s ease-in-out; */
-  }
-  
-  .media-close-button {
+}
+
+.media-close-button {
     background-color: #ffffff;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
@@ -2324,56 +2351,83 @@
     top: -15px;
     right: -15px;
     transition: ease-in-out 0.5s;
-  }
-  .media-close-button:hover,
-  .media-close-button:focus,
-  .media-close-button:active{
+}
+
+.media-close-button:hover,
+.media-close-button:focus,
+.media-close-button:active {
     border: none;
     outline: none;
-  }
-  .media-close-button i{
+}
+
+.media-close-button i {
     font-size: 24px;
     color: red;
     vertical-align: middle;
     transition: ease-in-out 0.5s;
-  }
+}
 
-  .media-close-button:hover{
+.media-close-button:hover {
     background-color: red;
-  }
+}
 
-  .media-close-button:hover i{
+.media-close-button:hover i {
     color: #fff;
-  }
-  .media-modal-content.open {
+}
+
+.media-modal-content.open {
     opacity: 1;
-  }
-  
-  .media-modal-overlay.open {
+}
+
+.media-modal-overlay.open {
     opacity: 1;
-  }
-  .media-modal-content video,
-    .media-modal-content audio{
+}
+
+.media-modal-content video,
+.media-modal-content audio {
     filter: drop-shadow(0px 4px 10px rgba(0, 0, 0, 0.1));
     border: 2px solid #FFF;
     padding-bottom: 0 !important;
-  }
+}
 
-  .media-modal-content audio{
+.media-modal-content audio {
     border-radius: 50px;
-  }
+}
 
-  .media-modal-content video{
+.media-modal-content video {
     border-radius: 12px;
-  }
+}
 
 @keyframes fadeIn {
     from {
-      opacity: 0;
-      transform: translate(-50%, -60%);
+        opacity: 0;
+        transform: translate(-50%, -60%);
     }
+
     to {
-      opacity: 1;
-      transform: translate(-50%, -50%);
+        opacity: 1;
+        transform: translate(-50%, -50%);
     }
-  }
+}
+
+
+.candidate--skills {
+    border-top: 1px dashed #ffffff;
+    color: #FFF;
+    font-weight: 700;
+    margin-top: 15px;
+    transition: ease-in-out 0.8s;
+    word-break: break-all;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-top: 18px;
+}
+
+.candidate--skills span {
+    font-weight: 400;
+}
+
+.candidate--card:hover .candidate--skills {
+    color: #714F36 !important;
+}

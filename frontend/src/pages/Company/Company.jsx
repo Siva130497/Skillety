@@ -11,6 +11,7 @@ import axios from 'axios'
 import { useState } from 'react';
 
 const Company = () => {
+    const [candidateToken, setcandidateToken] = useState("");
     const { getClientImg, clientImg } = useContext(AuthContext);
     const [allJobs, setAllJobs] = useState([]);
     const [allCompany, setAllCompany] = useState([])
@@ -49,9 +50,11 @@ const Company = () => {
             .catch(err => {
                 console.log(err);
             })
-
-
     }, []);
+
+    useEffect(() => {
+        setcandidateToken(JSON.parse(localStorage.getItem('candidateToken')))
+    }, [candidateToken]);
 
     return (
         <div>
@@ -82,7 +85,7 @@ const Company = () => {
                                         </div>
                                         <div className="about--sub-des candidate">
                                             <p>
-                                            You're just One Click away from the best opportunities.
+                                                You're just One Click away from the best opportunities.
                                             </p>
                                         </div>
                                         <a href='' className="arrow--icon-btn candidate">
@@ -108,9 +111,10 @@ const Company = () => {
                                         const jobOpeningB = allJobs.filter(job => job.companyId === b.companyId).length;
                                         return jobOpeningB - jobOpeningA;
                                     })
+                                    .slice(0, 15)
                                     .map(company => {
                                         const matchingImg = clientImg ? clientImg.find(img => img.id === company.companyId) : null;
-                                        const imgSrc = matchingImg ? `https://skillety-n6r1.onrender.com/client_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
+                                        const imgSrc = matchingImg ? `https://skillety-n6r1.onrender.com/client_profile/${matchingImg.image}` : "../assets/img/talents-images/no-image1.png";
                                         const jobOpening = allJobs.filter(job => job.companyId === company.companyId).length;
 
                                         return (
@@ -118,14 +122,19 @@ const Company = () => {
                                                 <div className="col-12 col-xl-2 col-lg-2 col-sm-4 col-md-4 company--content-img-area">
                                                     <img src={imgSrc} data-aos="fade" className='company--content-img cand-home' loading='lazy' alt="" />
                                                 </div>
-                                                <div className="col-12 col-xl-3 col-lg-3 col-sm-8 col-md-8 company--content-jobs-area">
+                                                <div className="col-12 col-xl-3 col-lg-3 col-sm-4 col-md-4 company--content-jobs-area">
                                                     <div className='company--content-jobs' data-aos="zoom-out">{jobOpening}<span> Jobs Opening</span></div>
                                                     <div className='home-company-name mt-2' data-aos="zoom-out">{company.companyName}</div>
                                                 </div>
-                                                <div className="col-12 col-xl-7 col-lg-7 col-md-12 company--content-desc-area">
-                                                    <p className='company--content-desc' data-aos="fade-left">{company.shortDescription}</p>
+
+                                                <div className="col-12 col-xl-3 col-lg-3 col-sm-4 col-md-4 company--content-jobs-area">
+                                                    <div className='company--content-industry' data-aos="zoom-out">{company.industry}</div>
+                                                </div>
+
+                                                <div className="col-12 col-xl-4 col-lg-4 col-md-12 company--content-desc-area">
+                                                    <p className='company--content-desc' data-aos="fade-right">{company.shortDescription}</p>
                                                     <div className='company--content-apply-btn-area' data-aos="fade-right">
-                                                        <a href={`/company-details/${company.companyId}`} className='company--content-apply-btn'>
+                                                        <a href={`/company-info/${company.companyId}`} className='company--content-apply-btn'>
                                                             <div className='company--content-apply-btn-sub'>
                                                                 Apply Now
                                                             </div>
@@ -144,34 +153,38 @@ const Company = () => {
                                     })}
                             </div>
                         </div>
-                        <div className="company-demo-card-area">
-                            <div className='company-demo-card'>
-                                <div className="company-demo-card-desc-area">
-                                    <p className='company-demo-card-desc' data-aos="fade-left">
-                                        Fortune-500s to Multinational Corporations to Hypergrowth Start-ups across the world, from all industry sectors find their best Talent, right here on Skillety.
-                                    </p>
-                                </div>
-                                <div className="company-demo-card-bottom-area">
-                                    <h3 className='company-demo-card-title' data-aos="fade-down">LET’S GET STARTED <br />
-                                        WITH US, RIGHT NOW.</h3>
 
-                                    <div className="company-demo-card-btn-area">
-                                        <a href="#" className='company-demo-card-btn' data-aos="fade-right">
-                                            <div className='company-demo-card-btn-sub'>
-                                                Request a demo
-                                            </div>
-                                            <div className='company-demo-card-btn-arrow'>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
-                                                    <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#714F36" stroke-width="2" />
-                                                    <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#714F36" stroke-width="2" />
-                                                    <path d="M1 26L25.1667 1" stroke="#714F36" stroke-width="2" />
-                                                </svg>
-                                            </div>
-                                        </a>
+                        {!candidateToken &&
+                            <div className="company-demo-card-area">
+                                <div className='company-demo-card'>
+                                    <div className="company-demo-card-desc-area">
+                                        <p className='company-demo-card-desc' data-aos="fade-left">
+                                            Fortune-500s to Multinational Corporations to Hypergrowth Start-ups across the world, from all industry sectors find their best Talent, right here on Skillety.
+                                        </p>
+                                    </div>
+                                    <div className="company-demo-card-bottom-area">
+                                        <h3 className='company-demo-card-title' data-aos="fade-down">LET’S GET STARTED <br />
+                                            WITH US, RIGHT NOW.</h3>
+
+                                        <div className="company-demo-card-btn-area">
+                                            <a href="/candidate-login" className='company-demo-card-btn' data-aos="fade-right">
+                                                <div className='company-demo-card-btn-sub'>
+                                                    Click here to login
+                                                </div>
+                                                <div className='company-demo-card-btn-arrow'>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
+                                                        <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#714F36" stroke-width="2" />
+                                                        <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#714F36" stroke-width="2" />
+                                                        <path d="M1 26L25.1667 1" stroke="#714F36" stroke-width="2" />
+                                                    </svg>
+                                                </div>
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        }
+
                     </div>
                 </div>
             </div>
