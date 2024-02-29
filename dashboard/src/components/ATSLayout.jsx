@@ -5,6 +5,7 @@ import 'jquery.nicescroll';
 import ATSNavBar from './ATSNavBar'
 import ATSSideBar from './ATSSideBar'
 import feather from 'feather-icons';
+import VisitorsChat from './VisitorsChat';
 
 const ATSLayout = () => {
 
@@ -746,8 +747,8 @@ const ATSLayout = () => {
         <div>
             <div id="preloader"></div>
             <ATSNavBar />
-
             <ATSSideBar />
+            <VisitorsChat/>
         </div>
     )
 }

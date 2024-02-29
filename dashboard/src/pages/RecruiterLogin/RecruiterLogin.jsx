@@ -214,7 +214,7 @@ const RecruiterLogin = () => {
         </div>
       </div>
 
-      <footer className="main-footer no-sidebar footer-absolute">
+      <footer className="main-footer no-sidebar">
         <div className="footer-left">
           <p className="footer-text">
             © {currentYear} - <a href="#">Skillety</a> Technologies Private
