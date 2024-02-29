@@ -283,6 +283,10 @@
     .home-search-result-data-area {
         max-width: 95% !important;
     }
+
+    .cand-location-area {
+        max-width: 320px !important;
+    }
 }
 
 @media (max-width:991.5px) {

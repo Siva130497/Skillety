@@ -185,7 +185,7 @@ const AtsLogin = () => {
                 </div>
             </div>
 
-            <footer className="main-footer no-sidebar footer-absolute">
+            <footer className="main-footer no-sidebar">
                 <div className="footer-left">
                     <p className='footer-text'>
                         © 2023 - <a href="#">Skillety</a> Technologies Private Limited, All Rights Reserved.
