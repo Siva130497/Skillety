@@ -21,7 +21,7 @@ const Home = () => {
 
   const navigate = useNavigate();
   const [talentHomeContent, setTalentHomeContent] = useState([]);
-  
+  const [clientLogos, setClientLogos] = useState([]);
   const [candidateDetail, setCandidateDetail] = useState([]);
   const { getCandidateImg, candidateImg } = useContext(AuthContext);
   const [clientToken, setClientToken] = useState("");
@@ -38,11 +38,20 @@ const Home = () => {
   const [playerType, setPlayerType] = useState(null);
 
   useEffect(()=>{
+
     axios.get("https://skillety-n6r1.onrender.com/web-content?ids=content_26,content_28,content_29,content_30,content_32,content_33,content_34,content_35,content_36,content_37,content_38,content_39,content_40,content_41,content_42,content_43,content_44,content_45,content_46,content_47,content_48,content_49,content_50,content_51,content_52,content_67")
     .then(res=>{
       console.log(res.data);
       setTalentHomeContent(res.data);
     }).catch(err=>console.log(err));
+
+    axios.get("http://localhost:5002/client-logos").then(res=>{
+      console.log(res.data);
+      setClientLogos(res.data)
+    }).catch(err=>{
+      console.log(err);
+    })
+
   },[])
 
   const openModal = (type) => {
@@ -798,8 +807,8 @@ const Home = () => {
                         {talentHomeContent.find(content=>content.id === "content_42")?.content ||
                           "Total Registered Users"}</h6>
                         <h2 className='home-milestone-number' data-target=
-                        {talentHomeContent.find(content=>content.id === "content_43")?.content+",000" ||
-                        "210,000"}>0</h2>
+                        {talentHomeContent.find(content=>content.id === "content_43")?.content ||
+                        "210"}>0</h2>
                       </div>
                     </article>
                   </div>
@@ -1373,125 +1382,32 @@ const Home = () => {
 
       <div className='container-fluid home--section'>
         <div className='container-fluid container-section'>
-          <section className='clients--section'>
-            <div className='home--about-headarea'>
-              <h6 data-aos="fade-down">Our Clients</h6>
-              <h4 className='client--heading' data-aos="fade-up"><span>They WORK</span> WITH US </h4>
-            </div>
-            <div className="clients--img-area">
-              <div className="row">
-                <div className="col-6 col-lg-2 col-md-4">
-                  <div className="client--img-container" data-aos="flip-up">
-                    <img src="assets/img/home-images/client-4.png" className='client--img' alt="" />
-                    {/* <div className='client--img-blob'></div> */}
-                  </div>
-                </div>
-                <div className="col-6 col-lg-2 col-md-4">
-                  <div className="client--img-container" data-aos="flip-up">
-                    <img src="assets/img/home-images/client-3.png" className='client--img' alt="" />
-                    {/* <div className='client--img-blob'></div> */}
-                  </div>
-                </div>
-                <div className="col-6 col-lg-2 col-md-4">
-                  <div className="client--img-container" data-aos="flip-up">
-                    <img src="assets/img/home-images/client-2.png" className='client--img' alt="" />
-                    {/* <div className='client--img-blob'></div> */}
-                  </div>
-                </div>
-                <div className="col-6 col-lg-2 col-md-4">
-                  <div className="client--img-container" data-aos="flip-up">
-                    <img src="assets/img/home-images/client-1.png" className='client--img' alt="" />
-                    {/* <div className='client--img-blob'></div> */}
-                  </div>
-                </div>
-                <div className="col-6 col-lg-2 col-md-4">
-                  <div className="client--img-container" data-aos="flip-up">
-                    <img src="assets/img/home-images/client-4.png" className='client--img' alt="" />
-                    {/* <div className='client--img-blob'></div> */}
-                  </div>
-                </div>
-                <div className="col-6 col-lg-2 col-md-4">
-                  <div className="client--img-container" data-aos="flip-up">
-                    <img src="assets/img/home-images/client-3.png" className='client--img' alt="" />
-                    {/* <div className='client--img-blob'></div> */}
-                  </div>
-                </div>
-                <div className="col-6 col-lg-2 col-md-4">
-                  <div className="client--img-container" data-aos="flip-up">
-                    <img src="assets/img/home-images/client-1.png" className='client--img' alt="" />
-                    {/* <div className='client--img-blob'></div> */}
-                  </div>
-                </div>
-                <div className="col-6 col-lg-2 col-md-4">
-                  <div className="client--img-container" data-aos="flip-up">
-                    <img src="assets/img/home-images/client-2.png" className='client--img' alt="" />
-                    {/* <div className='client--img-blob'></div> */}
-                  </div>
-                </div>
-                <div className="col-6 col-lg-2 col-md-4">
-                  <div className="client--img-container" data-aos="flip-up">
-                    <img src="assets/img/home-images/client-1.png" className='client--img' alt="" />
-                    {/* <div className='client--img-blob'></div> */}
-                  </div>
-                </div>
-                <div className="col-6 col-lg-2 col-md-4">
-                  <div className="client--img-container" data-aos="flip-up">
-                    <img src="assets/img/home-images/client-4.png" className='client--img' alt="" />
-                    {/* <div className='client--img-blob'></div> */}
-                  </div>
-                </div>
-                <div className="col-6 col-lg-2 col-md-4">
-                  <div className="client--img-container" data-aos="flip-up">
-                    <img src="assets/img/home-images/client-3.png" className='client--img' alt="" />
-                    {/* <div className='client--img-blob'></div> */}
-                  </div>
-                </div>
-                <div className="col-6 col-lg-2 col-md-4">
-                  <div className="client--img-container" data-aos="flip-up">
-                    <img src="assets/img/home-images/client-2.png" className='client--img' alt="" />
-                    {/* <div className='client--img-blob'></div> */}
-                  </div>
-                </div>
-                <div className="col-6 col-lg-2 col-md-4">
-                  <div className="client--img-container" data-aos="flip-up">
-                    <img src="assets/img/home-images/client-4.png" className='client--img' alt="" />
-                    {/* <div className='client--img-blob'></div> */}
-                  </div>
-                </div>
-                <div className="col-6 col-lg-2 col-md-4">
-                  <div className="client--img-container" data-aos="flip-up">
-                    <img src="assets/img/home-images/client-3.png" className='client--img' alt="" />
-                    {/* <div className='client--img-blob'></div> */}
-                  </div>
-                </div>
-                <div className="col-6 col-lg-2 col-md-4">
-                  <div className="client--img-container" data-aos="flip-up">
-                    <img src="assets/img/home-images/client-2.png" className='client--img' alt="" />
-                    {/* <div className='client--img-blob'></div> */}
-                  </div>
-                </div>
-                <div className="col-6 col-lg-2 col-md-4">
-                  <div className="client--img-container" data-aos="flip-up">
-                    <img src="assets/img/home-images/client-1.png" className='client--img' alt="" />
-                    {/* <div className='client--img-blob'></div> */}
-                  </div>
-                </div>
-                <div className="col-6 col-lg-2 col-md-4">
-                  <div className="client--img-container" data-aos="flip-up">
-                    <img src="assets/img/home-images/client-4.png" className='client--img' alt="" />
-                    {/* <div className='client--img-blob'></div> */}
-                  </div>
-                </div>
-                <div className="col-6 col-lg-2 col-md-4">
-                  <div className="client--img-container" data-aos="flip-up">
-                    <img src="assets/img/home-images/client-3.png" className='client--img' alt="" />
-                    {/* <div className='client--img-blob'></div> */}
-                  </div>
+          {clientLogos.length>0 &&
+            <section className='clients--section'>
+              <div className='home--about-headarea'>
+                <h6 data-aos="fade-down">Our Clients</h6>
+                <h4 className='client--heading' data-aos="fade-up"><span>They WORK</span> WITH US </h4>
+              </div>
+              <div className="clients--img-area">
+                <div className="row">
+                  {clientLogos.map((logo, index)=>{
+                    return (
+                    <div className="col-6 col-lg-2 col-md-4"
+                    key={index}
+                    >
+                      <div className="client--img-container" data-aos="flip-up">
+                        <img src=
+                        {`data:image/jpeg;base64,${logo.logoStringBase64}`} 
+                        className='client--img' alt="" />
+                        {/* <div className='client--img-blob'></div> */}
+                      </div>
+                    </div>
+                    )
+                  })}
                 </div>
               </div>
-            </div>
-          </section>
-
+            </section>
+          }
           <section className='home--testimonial-section'>
             <div className='home--about-toparea'>
               <div className='home--about-headarea'>

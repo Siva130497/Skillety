@@ -232,6 +232,7 @@ const {
    updateWebContent,
    savingLogo,
    updateLogo,
+   getAllClientLogos,
    savingClientLogos,
    deleteClientLogo,
 } = require("../Controller/authFunctions");
@@ -843,7 +844,7 @@ router.post("/web-content", postWebSiteContentForId);
 router.get("/web-content" , getWebContentByIds);
 
 //update the web content by id
-router.patch("/web-content/:id", employeeAuth, updateWebContent);
+router.patch("/web-content", employeeAuth, updateWebContent);
 
 //logo handling
 const storageMemory = multer.memoryStorage();
@@ -853,10 +854,13 @@ const uploadImgBase64 = multer({ storage: storageMemory });
 router.post("/web-content-logo", uploadImgBase64.single('logo'), savingLogo);
 
 //update the logo 
-router.patch("/web-content-logo/:id", uploadImgBase64.single('logo'), updateLogo);
+router.patch("/web-content-logo/:id", employeeAuth, uploadImgBase64.single('logo'), updateLogo);
+
+//find all client logos 
+router.get("/client-logos", getAllClientLogos);
 
 //save the client logos 
-router.post("/client-logos", employeeAuth, uploadImgBase64.array('logo', 10), savingClientLogos);
+router.post("/client-logos", employeeAuth, uploadImgBase64.array('logo'), savingClientLogos);
 
 //delete particular client logo using mongoose id
 router.delete("/client-logo/:id", employeeAuth, deleteClientLogo);

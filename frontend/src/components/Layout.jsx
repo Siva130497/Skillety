@@ -8,6 +8,7 @@ import 'aos/dist/aos.css';
 import NewNav from './NewNav';
 import NewNavBar from './NewNavBar';
 import { useNavigate } from 'react-router-dom';
+import RandomChat from './RandomChat';
 
 
 const Layout = ({ newNavBarClientRegister, newNavBarClientLogin, newNavBarCandidateLogin, newNavBarCandidateRegister, newNavBarAdminLogin, newNavBarRecruiterLogin, forgotPassword, ClientNewPassword, home, aboutUs, searchCV, service, RPO, contact, candVerification, postJob }) => {
@@ -264,6 +265,8 @@ const Layout = ({ newNavBarClientRegister, newNavBarClientLogin, newNavBarCandid
         <i className="bi bi-chevron-double-left"></i>
         <span>Back</span>
       </button>
+
+      <RandomChat/>
 
       <a href="#" class="back-to-top d-flex align-items-center justify-content-center">
         <i class="bi bi-chevron-double-up back-to-top-icon"></i>

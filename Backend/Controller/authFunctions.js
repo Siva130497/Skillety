@@ -7957,28 +7957,35 @@ const generateRandomPassword = (req, res) => {
 
 /* update the web content */
 const updateWebContent = async (req, res) => {
-  const { id } = req.params;
+  const updateArray = req.body; // Assuming the request body contains an array of objects with id and content fields
 
   try {
-    const webContentToUpdate = await webContent.findOne({ id });
+    const updatePromises = updateArray.map(async ({ id, content }) => {
+      const webContentToUpdate = await webContent.findOne({ id });
 
-    if (webContentToUpdate) {
-      const updatedWebContent = await webContent.findOneAndUpdate(
-        { id },
-        {
-          $set: {
-            content: req.body.content
-          },
-        },
-        { new: true }
-      );
+      if (webContentToUpdate) {
+        await webContent.findOneAndUpdate(
+          { id },
+          { $set: { content } },
+          { new: true }
+        );
+        return { id, status: 'updated' };
+      } else {
+        return { id, status: 'not found' };
+      }
+    });
 
-      return res.status(200).json({ updatedWebContent });
+    const updateResults = await Promise.all(updatePromises);
+
+    const notUpdated = updateResults.filter(result => result.status === 'not found');
+
+    if (notUpdated.length > 0) {
+      return res.status(404).json({ error: 'Some content not found for update', notUpdated });
     } else {
-      return res.status(404).json({ error: 'Web content not found' });
+      return res.status(200).json({ message: 'All web content updated successfully' });
     }
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    return res.status(500).json({ error: err.message });
   }
 };
 
@@ -8030,6 +8037,21 @@ const updateLogo = async (req, res) => {
     }
 
     res.status(200).json({ message: 'Logo updated successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+/* find all client logos */
+const getAllClientLogos = async (req, res) => {
+  try {
+    const clientLogosBase64 = await clientLogoWeb.find();
+    if(clientLogosBase64.length>0){
+      res.status(200).json(clientLogosBase64);
+    }else{
+      res.status(404).json({error:"No Clients Logo Found!"})
+    }
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal server error' });
@@ -8560,6 +8582,7 @@ module.exports = {
   updateWebContent,
   savingLogo,
   updateLogo,
+  getAllClientLogos,
   savingClientLogos,
   deleteClientLogo,
 };
