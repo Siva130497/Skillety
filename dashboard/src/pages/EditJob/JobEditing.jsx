@@ -514,7 +514,7 @@ function showErrorMessage() {
       selectedDepartment.length === 0 ||
       selectedLocations.length === 0
     ) {
-      alert("Please fill in all required fields.");
+      alert("Please fill all the required fields.");
       return;
     }
 

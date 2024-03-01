@@ -336,14 +336,14 @@ const RecruiterDashboard = () => {
 
                                             <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
                                                 <div className="dash-num-count-area">
-                                                    <p className='dash-num-title'>Upcoming Interview</p>
+                                                    <p className='dash-num-title'>Upcoming Interviews</p>
                                                     <h4 className='dash-num-count'>00</h4>
                                                 </div>
                                             </div>
 
                                             <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
                                                 <div className="dash-num-count-area">
-                                                    <p className='dash-num-title'>New Notification</p>
+                                                    <p className='dash-num-title'>New Notifications</p>
                                                     <h4 className='dash-num-count'>00</h4>
                                                 </div>
                                             </div>
@@ -362,7 +362,7 @@ const RecruiterDashboard = () => {
                                             <div className="row">
                                                 <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
                                                     <div className="dash-num-count-area">
-                                                        <p className='dash-num-title'>Job Posted</p>
+                                                        <p className='dash-num-title'>Jobs Posted</p>
                                                         <h4 className='dash-num-count'>14</h4>
                                                     </div>
                                                 </div>
@@ -376,14 +376,14 @@ const RecruiterDashboard = () => {
 
                                                 <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
                                                     <div className="dash-num-count-area">
-                                                        <p className='dash-num-title'>Upcoming Interview</p>
+                                                        <p className='dash-num-title'>Upcoming Interviews</p>
                                                         <h4 className='dash-num-count'>08</h4>
                                                     </div>
                                                 </div>
 
                                                 <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
                                                     <div className="dash-num-count-area">
-                                                        <p className='dash-num-title'>New Notification</p>
+                                                        <p className='dash-num-title'>New Notifications</p>
                                                         <h4 className='dash-num-count'>28</h4>
                                                     </div>
                                                 </div>
@@ -429,7 +429,7 @@ const RecruiterDashboard = () => {
                                                 <div class="table-responsive mt-4">
                                                     <table class="table table-striped table-hover dash-table">
                                                         <tr className='dash-table-row heading'>
-                                                            <th className='dash-table-data1 heading'>DOR.</th>
+                                                            <th className='dash-table-data1 heading'>Date</th>
                                                             <th className='dash-table-data1 text-center heading'>Name</th>
                                                             <th className='dash-table-data1 text-center heading'>Company</th>
                                                             {/* <th className='dash-table-data1 text-center heading'>View</th> */}
@@ -471,7 +471,7 @@ const RecruiterDashboard = () => {
 
                                                     <table class="table table-striped table-hover dash-table">
                                                         <tr className='dash-table-row heading'>
-                                                            <th className='dash-table-data1 heading'>DOR</th>
+                                                            <th className='dash-table-data1 heading'>Date</th>
                                                             <th className='dash-table-data1 text-center heading'>Full Name</th>
                                                             <th className='dash-table-data1 text-center heading'>Designation</th>
                                                             {/* <th className='dash-table-data1 text-center heading'>View</th> */}

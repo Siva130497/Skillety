@@ -68,14 +68,14 @@ const PostedJobs = ({employeeId, staffToken, clientToken, companyId}) => {
           if(filteredJobs.length> 0){
             setSearchFilteredJobs(filteredJobs);
           }else{
-            setSearchFilteredJobMsg("No such job found")
+            setSearchFilteredJobMsg("No jobs found")
           }
         }else{
           const filteredJobs = postedJobs.filter((job)=>job.jobRole[0].toLowerCase().includes(searchJobRoleInput.toLowerCase()));
           if(filteredJobs.length> 0){
             setSearchFilteredJobs(filteredJobs);
           }else{
-            setSearchFilteredJobMsg("No such job found")
+            setSearchFilteredJobMsg("No jobs found")
           }
         }
       }else{
@@ -99,7 +99,7 @@ const PostedJobs = ({employeeId, staffToken, clientToken, companyId}) => {
           if(filtered.length > 0){
             setSearchFilteredJobs(filtered);
           }else{
-            setSearchFilteredJobMsg("No such job found");
+            setSearchFilteredJobMsg("No jobs found");
           }
         }else{
           const filtered = postedJobs.filter((job) => updatedFilters.includes(job.jobCategory));
@@ -107,7 +107,7 @@ const PostedJobs = ({employeeId, staffToken, clientToken, companyId}) => {
           if(filtered.length > 0){
             setCheckBoxFilteredJobs(filtered);
           }else{
-            setCheckBoxFilteredJobMsg("No such job found");
+            setCheckBoxFilteredJobMsg("No jobs found");
           }
         }
       }else{

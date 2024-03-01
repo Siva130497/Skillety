@@ -148,7 +148,7 @@ const CandidateLogin = () => {
                             <div className="col-12 col-xl-6 col-lg-6 col-md-12 col-sm-12">
                                 <div className="cli--signup-form-area cli--login-form-area" data-aos="fade-up">
                                     {/* <h5 className="cli--signup-title" data-aos="fade-left">Welcome back Jaden</h5> */}
-                                    <h6 className='cli--signup-sub-title'>Welcome back! Plz enter your details</h6>
+                                    <h6 className='cli--signup-sub-title'>Welcome back! Please enter your details</h6>
 
                                     
                                             <div className="cli--login-with-google-btn-area"

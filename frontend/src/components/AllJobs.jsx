@@ -132,7 +132,7 @@ const AllJobs = ({staffToken, employeeId}) => {
             if(filteredJobs.length> 0){
               setSearchFilteredJobs(filteredJobs);
             }else{
-              setSearchFilteredJobMsg("No such job found")
+              setSearchFilteredJobMsg("No jobs found")
             }
           }else{
             if(!checkBoxFilteredJobMsg){
@@ -140,7 +140,7 @@ const AllJobs = ({staffToken, employeeId}) => {
               if(filteredJobs.length> 0){
                 setSearchFilteredJobs(filteredJobs);
               }else{
-                setSearchFilteredJobMsg("No such job found")
+                setSearchFilteredJobMsg("No jobs found")
               }
             }
           }
@@ -165,7 +165,7 @@ const AllJobs = ({staffToken, employeeId}) => {
             if(filtered.length > 0){
               setSearchFilteredJobs(filtered);
             }else{
-              setSearchFilteredJobMsg("No such job found");
+              setSearchFilteredJobMsg("No jobs found");
             }
           }else{
             if(!searchFilteredJobMsg){
@@ -174,7 +174,7 @@ const AllJobs = ({staffToken, employeeId}) => {
               if(filtered.length > 0){
                 setCheckBoxFilteredJobs(filtered);
               }else{
-                setCheckBoxFilteredJobMsg("No such job found");
+                setCheckBoxFilteredJobMsg("No jobs found");
               }
             }
           }
@@ -215,7 +215,7 @@ const AllJobs = ({staffToken, employeeId}) => {
         if(filteredCandidates.length > 0){
           setSearchCandidateByName(filteredCandidates);
         }else{
-          setSearchCandidateByNameMsg("no such candidate by this name")
+          setSearchCandidateByNameMsg("No candidate found by this name")
         }
       }
 

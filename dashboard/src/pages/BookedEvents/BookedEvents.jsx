@@ -222,9 +222,9 @@ const BookedEvents = () => {
                                                         <table className="table table-striped table-hover admin-lg-table">
                                                             <tr className='dash-table-row man-app'>
                                                                 <th className='dash-table-head'>No.</th>
-                                                                <th className='dash-table-head'>Booking Event Name</th>
-                                                                <th className='dash-table-head'>Booking Person Name</th>
-                                                                <th className='dash-table-head'>Booking Event Date</th>
+                                                                <th className='dash-table-head'>Event Name</th>
+                                                                <th className='dash-table-head'>Person Name</th>
+                                                                <th className='dash-table-head'>Event Date</th>
                                                                 <th className='dash-table-head text-center'>More Detail</th>
                                                             </tr>
 

@@ -562,7 +562,7 @@ const TalentsProfileSearch = () => {
                 setFilteredSearchResults(filteredResults);
                 setInCommingData(null)
             } else {
-                setFilteredSearchResultsMsg("No such candidates found..!")
+                setFilteredSearchResultsMsg("No candidates found")
                 setInCommingData(null)
             }
         }
@@ -1204,7 +1204,7 @@ const TalentsProfileSearch = () => {
                 
 
             } else {
-                setFilteredSearchResultsMsg("no such candidates found");
+                setFilteredSearchResultsMsg("No candidates found");
             } 
         } else {
             showErrorMessage("select atleast one filter")
@@ -1580,7 +1580,7 @@ const TalentsProfileSearch = () => {
                                     <div className="cli-tal-pro-search-container">
                                         <div className="row">
                                             <div className="col-12 col-lg-12 col-xl-6 col-md-12">
-                                                <h4 className='cli-tal-pro-search-heading'>Search Page</h4>
+                                                <h4 className='cli-tal-pro-search-heading'>Search Candidate</h4>
                                             </div>
                                             <p className='tal-head-desc'>Welcome to the Talent Search page at Skillety! Dive into a realm where exceptional talent meets opportunity. Our algorithms are tuned in a different way that it gives you accuracy by match percentage and Notice Period duration. Explore, discover, and connect with the talent that transforms visions into realities. Your journey to extraordinary possibilities begins here! </p>
                                         </div>

@@ -439,7 +439,7 @@ const CreatedCandidates = () => {
         if (mergedResults.length > 0) {
             setFilteredSearchResults(mergedResults);
         } else {
-            setFilteredSearchResultsMsg("No such candidates found..!")
+            setFilteredSearchResultsMsg("No candidates found")
         }
     }
 
