@@ -75,4 +75,7 @@
     .testimonial--row {
         margin-bottom: 60px;
     }
+    .testimonial--row.custom {
+        margin-bottom: 40px;
+      }
 }

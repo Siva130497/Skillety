@@ -194,7 +194,7 @@ const TestimonialDetail = () => {
                                             </div>
 
                                             <div className="col-12 col-xl-6 ps-xl-4 mt-4 mt-md-0 mt-xl-0 mt-lg-5">
-                                                <article className="testimonial--card-lg testi--card-lg" data-aos="zoom-out-left">
+                                                <article className="testimonial--card-lg" data-aos="zoom-out-left">
                                                     <div className="testimonial--profile-area">
                                                         <img src="assets/img/home-images/testi-profile.jpeg" className='testimonial--profile-img testi--img' alt="" />
                                                         <div className="testimonial--profile testi--profile-desc">

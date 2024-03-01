@@ -30,11 +30,15 @@
 .testimonial--card-lg.testi--card-lg {
   border-radius: 48px 48px 70px 48px;
   padding: 30px;
-  height: 550px;
+  height: 500px;
 }
 
 .testimonial--row {
   margin-bottom: 120px;
+}
+
+.testimonial--row.custom {
+  margin-bottom: 80px;
 }
 
 .testimonial--card-sm.testi--card-sm {
@@ -44,7 +48,7 @@
 .testimonial--content-area.testi--content-area {
   width: 80%;
   margin-top: 35px;
-  max-height: 300px;
+  max-height: 245px;
   overflow-y: hidden;
   padding-right: 5px;
 }
@@ -65,4 +69,8 @@
   -webkit-box-shadow: none !important;
   border-radius: 10px !important;
   background-color: #714f3644 !important;
+}
+
+.testimonial--card-sm.custom {
+  margin-top: 0 !important;
 }
