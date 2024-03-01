@@ -721,7 +721,7 @@ const CandidateProfile = () => {
                 .then(res => {
                     console.log(res.data)
                     if (!res.data.error) {
-                        showSuccessMessage("Skill updated!")
+                        showSuccessMessage("Skills Updated")
                         setSelectedSkills([])
 
                         axios.get(`https://skillety-n6r1.onrender.com/candidate/${id}`)

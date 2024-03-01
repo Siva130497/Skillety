@@ -299,7 +299,7 @@ const AllJobs = () => {
                 if (filteredJobs.length > 0) {
                     setSearchFilteredJobs(filteredJobs);
                 } else {
-                    setSearchFilteredJobMsg("No such job found..!")
+                    setSearchFilteredJobMsg("No jobs found")
                 }
             } else {
                 if (!checkBoxFilteredJobMsg) {
@@ -307,7 +307,7 @@ const AllJobs = () => {
                     if (filteredJobs.length > 0) {
                         setSearchFilteredJobs(filteredJobs);
                     } else {
-                        setSearchFilteredJobMsg("No such job found..!")
+                        setSearchFilteredJobMsg("No jobs found")
                     }
                 }
             }
@@ -332,7 +332,7 @@ const AllJobs = () => {
                 if (filtered.length > 0) {
                     setSearchFilteredJobs(filtered);
                 } else {
-                    setSearchFilteredJobMsg("No such job found");
+                    setSearchFilteredJobMsg("No jobs found");
                 }
             } else {
                 if (!searchFilteredJobMsg) {
@@ -341,7 +341,7 @@ const AllJobs = () => {
                     if (filtered.length > 0) {
                         setCheckBoxFilteredJobs(filtered);
                     } else {
-                        setCheckBoxFilteredJobMsg("No such job found");
+                        setCheckBoxFilteredJobMsg("No jobs found");
                     }
                 }
             }

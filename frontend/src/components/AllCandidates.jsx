@@ -245,7 +245,7 @@ const AllCandidates = ({employeeId, staffToken, clientToken, companyId}) => {
     if(mergedResults.length > 0){
         setFilteredSearchResults(mergedResults);
     }else{
-        setFilteredSearchResultsMsg("no such candidates found")
+        setFilteredSearchResultsMsg("No candidates found")
     }
   }
 

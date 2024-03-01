@@ -365,7 +365,7 @@ const JobSearchAts = () => {
             if (filteredResults.length > 0) {
                 setFilteredSearchResults(filteredResults);
             } else {
-                setFilteredSearchResultsMsg("no such jobs found")
+                setFilteredSearchResultsMsg("No Jobs found")
             }
         } else {
             alert("select atleast one filter")
@@ -2441,7 +2441,7 @@ const JobSearchAts = () => {
                                                                     <div className="no-data-created-area">
                                                                         <div className='no-data-created'>
                                                                             <img src="../assets/img/no-data/no-data-img.png" className='no-data-img' alt="" />
-                                                                            <div className='no-data-text'>No Match Jobs Found..!</div>
+                                                                            <div className='no-data-text'>No jobs found.</div>
                                                                         </div>
                                                                     </div>
                                                             }

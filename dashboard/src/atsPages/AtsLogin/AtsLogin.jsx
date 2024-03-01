@@ -136,7 +136,7 @@ const AtsLogin = () => {
                                                             name="userId"
                                                             value={credentials.userId}
                                                             onChange={handleInputChange}
-                                                            placeholder="example@example.com"
+                                                            placeholder="Enter your Email ID"
                                                             className='form-control login-form-input'
                                                             required
                                                         />

@@ -66,7 +66,7 @@ const Sidebar = () => {
             <a href={`/${candidateToken}`} className="nav-link"><i data-feather="home"></i><span>Dashboard</span></a>
           </li>
           <li className="dropdown" id="my_application">
-            <a href="/my-application" className="nav-link"><i data-feather="file-text"></i><span>My Application</span></a>
+            <a href="/my-application" className="nav-link"><i data-feather="file-text"></i><span>My Applications</span></a>
           </li>
           <li className="dropdown" id="search_jobs">
             <a href="/search-jobs" className="nav-link"><i data-feather="briefcase"></i><span>Search Jobs</span></a>

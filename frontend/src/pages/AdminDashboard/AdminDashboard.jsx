@@ -246,7 +246,7 @@ const AdminDashboard = () => {
                   name="email" 
                   value={credentials.email} 
                   onChange = {handleInputChange} 
-                  placeholder="example@example.com"
+                  placeholder="Enter Email ID"
                   required />
                 </div>
                 <div className="form-group">

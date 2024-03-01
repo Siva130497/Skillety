@@ -77,7 +77,7 @@ const ClientLogin = () => {
                                 <div className="cli--signup-form-area cli--login-form-area" data-aos="fade-up">
                                     {/* <h5 className="cli--signup-title" data-aos="fade-left">Welcome back</h5> */}
 
-                                    <h6 className='cli--signup-sub-title'>Welcome back! Plz enter your details</h6>
+                                    <h6 className='cli--signup-sub-title'>Welcome back! Please enter your details</h6>
 
                                     {/* <div className="cli--login-with-google-btn-area">
                                         <a href="#" className='cli--login-with-google-btn'>

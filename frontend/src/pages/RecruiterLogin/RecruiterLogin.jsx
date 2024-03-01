@@ -48,7 +48,7 @@ const RecruiterLogin = () => {
                         name="userId" 
                         value={credentials.userId} 
                         onChange = {handleInputChange} 
-                        placeholder="example@example.com"
+                        placeholder="Enter your Email ID"
                         required />
                     </div>
                     <div className="form-group">
