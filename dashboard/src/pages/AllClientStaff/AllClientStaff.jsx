@@ -579,7 +579,7 @@ const AllClientStaff = () => {
                                                         name="email"
                                                         value={credentials.email}
                                                         onChange={handleInputChange}
-                                                        placeholder="example@example.com"
+                                                        placeholder="Enter Email ID"
                                                         className='form-control dash-form-input'
                                                         required
                                                     />

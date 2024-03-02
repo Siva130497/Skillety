@@ -472,7 +472,7 @@ const AllOfflineClients = () => {
                                                     <div className="no-data-created-area">
                                                         <div className='no-data-created'>
                                                             <img src="../assets/img/no-data/no-data-img.png" className='no-data-img' alt="" />
-                                                            <div className='no-data-text'>No Client Created Yet..!</div>
+                                                            <div className='no-data-text'>Client is not available with your search criteria.</div>
                                                         </div>
                                                     </div>
                                                     :

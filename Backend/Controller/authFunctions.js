@@ -1403,7 +1403,7 @@ const boostJob = async (req, res) => {
       res.status(200).json(updatedJob);
     } else {
       // If the job is not found, return a message
-      res.status(404).json({ message: 'No such job found' });
+      res.status(404).json({ message: 'No jobs found' });
     }
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -8129,13 +8129,13 @@ const userLogin = async (req, role, res) => {
       const userIdByNumber = Number(userId);
       if(isNaN(userIdByNumber)){
         return res.status(404).json({
-          message: "User is not found. Invalid login credentials.",
+          message: "Enter Valid Credentials",
         });
       }else{
         user = await allUsers.findOne({phone:userId});
         if(!user){
           return res.status(404).json({
-            message: "User is not found. Invalid login credentials.",
+            message: "Enter Valid Credentials",
           });
         }
       }

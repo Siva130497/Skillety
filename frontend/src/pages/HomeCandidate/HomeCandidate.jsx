@@ -468,7 +468,7 @@ const HomeCandidate = () => {
                       <div className="home--milestone-card-right">
                         <h6 className='home--milestone-title'>
                         {candidateHomeContent.find(content=>content.id === "content_4")?.content ||
-                          "Numbers of Jobs"}</h6>
+                          "Number of Jobs"}</h6>
                         <h2 className='home-milestone-number candidate' data-target=
                         {candidateHomeContent.find(content=>content.id === "content_5")?.content ||
                         "130"}>0</h2>
@@ -512,7 +512,7 @@ const HomeCandidate = () => {
                       <div className="home--milestone-card-right">
                         <h6 className='home--milestone-title'>
                         {candidateHomeContent.find(content=>content.id === "content_8")?.content ||
-                          "Numbers of companies"}</h6>
+                          "Number of Companies"}</h6>
                         <h2 className='home-milestone-number candidate' data-target=
                         {candidateHomeContent.find(content=>content.id === "content_66")?.content ||
                         "202"}>0</h2>
@@ -534,7 +534,7 @@ const HomeCandidate = () => {
                       <div className="home--milestone-card-right">
                         <h6 className='home--milestone-title'>
                         {candidateHomeContent.find(content=>content.id === "content_9")?.content ||
-                          "Number of placement till now"}</h6>
+                          "Number of Placements Till Now"}</h6>
                         <h2 className='home-milestone-number candidate' data-target=
                         {candidateHomeContent.find(content=>content.id === "content_10")?.content ||
                         "147"}>0</h2>

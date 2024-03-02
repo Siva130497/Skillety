@@ -215,7 +215,7 @@ const SettingsCandidate = () => {
             .then(res => {
                 console.log(res.data)
                 if (!res.data.error) {
-                    showSuccessMessage("phone no updated")
+                    showSuccessMessage("Phone number updated.")
                     setUserInfo(prevUserInfo => ({ ...prevUserInfo, ph: "" }));
                     getAllCandidateDetail();
                 }
@@ -241,7 +241,7 @@ const SettingsCandidate = () => {
             .then(res => {
                 console.log(res.data)
                 if (!res.data.error) {
-                    showSuccessMessage("password updated")
+                    showSuccessMessage("Password Updated.")
                     setUserInfo(prevUserInfo => ({ ...prevUserInfo, currentPassword: "", newPassword: "", confirmPassword: "" }));
                     getAllCandidateDetail();
 

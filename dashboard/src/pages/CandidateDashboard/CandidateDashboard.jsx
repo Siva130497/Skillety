@@ -494,14 +494,14 @@ const getData = () => {
 
                       <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
                         <div className="dash-num-count-area">
-                          <p className='dash-num-title'>Matched Jobs</p>
+                          <p className='dash-num-title'>Matching Jobs</p>
                           <a href='/search-jobs'><h4 className='dash-num-count'>{matchJobNum}</h4></a>
                         </div>
                       </div>
 
                       <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
                         <div className="dash-num-count-area">
-                          <p className='dash-num-title'>New Notification</p>
+                          <p className='dash-num-title'>New Notifications</p>
                           <h4 className='dash-num-count'>00</h4>
                         </div>
                       </div>
@@ -541,7 +541,7 @@ const getData = () => {
 
                         <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
                           <div className="dash-num-count-area">
-                            <p className='dash-num-title'>New Notification</p>
+                            <p className='dash-num-title'>New Notifications</p>
                             <h4 className='dash-num-count'>28</h4>
                           </div>
                         </div>
@@ -695,7 +695,7 @@ const getData = () => {
                       <div className="dash-table-area">
                         <div className="dash-table-top-area">
                           <div className="dash-table-title">
-                            Job Applied
+                            Jobs Applied
                           </div>
                           <a href='/my-application' className="dash-table-see-all-btn">See all</a>
                         </div>
@@ -740,7 +740,7 @@ const getData = () => {
                       <div className="dash-table-area">
                         <div className="dash-table-top-area">
                           <div className="dash-table-title">
-                            Match Jobs
+                            Matching Jobs
                           </div>
                           <a href='/search-jobs' className="dash-table-see-all-btn">See all</a>
                         </div>

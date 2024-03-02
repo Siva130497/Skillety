@@ -565,7 +565,7 @@ const AssignedCandidate = () => {
         })
         .then(res=>{
             console.log(res.data);
-            showSuccessMessage(`The updated application status for the selected candidate is now marked as ${selectedStatus}.`)
+            showSuccessMessage(`The Status of the selected candidate is Updated.`)
 
             axios.get(`https://skillety-n6r1.onrender.com/application-status/${id}`, {
                 headers: {

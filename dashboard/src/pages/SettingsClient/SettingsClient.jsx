@@ -294,7 +294,7 @@ const SettingsClient = () => {
             .then(res => {
                 console.log(res.data)
                 if (!res.data.error) {
-                    showSuccessMessage("phone no updated")
+                    showSuccessMessage("Phone number updated.")
                     setUserInfo(prevUserInfo => ({ ...prevUserInfo, phone: "" }));
                     getLoginClientDetail();
                 }
@@ -320,7 +320,7 @@ const SettingsClient = () => {
             .then(res => {
                 console.log(res.data)
                 if (!res.data.error) {
-                    showSuccessMessage("password updated")
+                    showSuccessMessage("Password Updated.")
                     setUserInfo(prevUserInfo => ({ ...prevUserInfo, currentPassword: "", newPassword: "", confirmPassword: "" }));
                     getLoginClientDetail();
                 }

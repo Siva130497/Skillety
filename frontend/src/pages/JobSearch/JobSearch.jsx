@@ -249,7 +249,7 @@ const JobSearch = () => {
             if (filteredResults.length > 0) {
                 setFilteredSearchResults(filteredResults);
             } else {
-                setFilteredSearchResultsMsg("no such jobs found")
+                setFilteredSearchResultsMsg("No Jobs found")
             }
         } else {
             showErrorMessage("select atleast one filter")
@@ -287,7 +287,7 @@ const JobSearch = () => {
                 setFilteredSearchResults(filteredResults);
                 setInCommingData(null)
             } else {
-                setFilteredSearchResultsMsg("no such jobs found")
+                setFilteredSearchResultsMsg("No Jobs found")
                 setInCommingData(null)
             }
         }

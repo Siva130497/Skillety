@@ -289,7 +289,7 @@ const JobPosting = ({employeeId, staffToken, clientToken, companyId, role}) => {
           credentials.jobDescription === "" ||
           selectedSkills.length === 0
         ) {
-          alert("Please fill in all required fields.");
+          alert("Please fill all the required fields.");
           return;
         }
     

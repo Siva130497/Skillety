@@ -102,7 +102,7 @@ const CandidateDashboard = () => {
           const result = res.data;
           if(!result.error){
               console.log(result);
-              alert("job applied successfully!");
+              alert("Job applied successfully!");
               getAppliedjobs();
               const updatedJobViewDetail = {...jobViewDetail, discardStatus: true} 
               setJobViewDetail(updatedJobViewDetail);
@@ -173,7 +173,7 @@ const CandidateDashboard = () => {
           if(filteredJobs.length> 0){
             setSearchFilteredJobs(filteredJobs);
           }else{
-            setSearchFilteredJobMsg("No such job found")
+            setSearchFilteredJobMsg("No jobs found")
           }
         }else{
           if(!checkBoxFilteredJobMsg){
@@ -181,7 +181,7 @@ const CandidateDashboard = () => {
             if(filteredJobs.length> 0){
               setSearchFilteredJobs(filteredJobs);
             }else{
-              setSearchFilteredJobMsg("No such job found")
+              setSearchFilteredJobMsg("No jobs found")
             }
           }
         }
@@ -206,7 +206,7 @@ const CandidateDashboard = () => {
           if(filtered.length > 0){
             setSearchFilteredJobs(filtered);
           }else{
-            setSearchFilteredJobMsg("No such job found");
+            setSearchFilteredJobMsg("No jobs found");
           }
         }else{
           if(!searchFilteredJobMsg){
@@ -215,7 +215,7 @@ const CandidateDashboard = () => {
             if(filtered.length > 0){
               setCheckBoxFilteredJobs(filtered);
             }else{
-              setCheckBoxFilteredJobMsg("No such job found");
+              setCheckBoxFilteredJobMsg("No jobs found");
             }
           }
         }

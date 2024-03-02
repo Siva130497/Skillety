@@ -134,7 +134,7 @@ const JobPostingATS = () => {
           selectedIndustry.length === 0 ||
           selectedEducation.length === 0
         ) {
-          showErrorMessage("Please fill in all required fields.");
+          showErrorMessage("Please fill all the required fields.");
           return;
         }
     
@@ -719,7 +719,7 @@ const JobPostingATS = () => {
           selectedIndustry.length === 0 ||
           selectedEducation.length === 0
         ) {
-          showErrorMessage("Please fill in all required fields.");
+          showErrorMessage("Please fill all the required fields.");
           return;
         }
 
