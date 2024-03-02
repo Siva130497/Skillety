@@ -45,7 +45,7 @@ const Home = () => {
       setTalentHomeContent(res.data);
     }).catch(err=>console.log(err));
 
-    axios.get("http://localhost:5002/client-logos").then(res=>{
+    axios.get("https://skillety-n6r1.onrender.com/client-logos").then(res=>{
       console.log(res.data);
       setClientLogos(res.data)
     }).catch(err=>{
