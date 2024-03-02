@@ -25,7 +25,7 @@ const RandomChat = () => {
   const [socket, setSocket] = useState(null);
 
     useEffect(()=>{
-        setSocket(io("https://skillety-n6r1.onrender.com"));
+        setSocket(io("http://localhost:5002"));
     },[]);
 
     useEffect(()=>{
@@ -150,7 +150,7 @@ const RandomChat = () => {
           <ul className="chatbot__box">
             {
                     messages.length >0 ? (
-                            <ScrollToBottom className="card-body chatting-card-body">
+                            <>
                           
                                 {messages.map((messageContent, index) => {
                                         return (
@@ -167,7 +167,7 @@ const RandomChat = () => {
                                             </li>
                                         );
                                     })}
-                            </ScrollToBottom>
+                            </>
                           ) : (
                             <div className='chat-welcome'>
                                 <img src="../assets/img/logo/skillety-logo-icon.png" className='chat-welcome-img' alt="" />
