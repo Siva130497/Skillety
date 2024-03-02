@@ -5,8 +5,7 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { NewNavCandidateHome } from './NewNavCandidateHome';
 import { useNavigate } from 'react-router-dom';
-import Chat from '../pages/Chat/Chat';
-import ScrollToBottom from "react-scroll-to-bottom";
+import RandomChat from './RandomChat';
 
 const LayoutNew = ({ home, aboutUs, searchJob, events, contact }) => {
 
@@ -230,28 +229,6 @@ const LayoutNew = ({ home, aboutUs, searchJob, events, contact }) => {
 
   }, []);
 
-  const chatbotToggleRef = useRef(null);
-  const chatbotCloseBtnRef = useRef(null);
-
-  useEffect(() => {
-    const handleToggleClick = () => {
-      document.body.classList.toggle('show-chatbot');
-    };
-
-    const handleCloseClick = () => {
-      document.body.classList.remove('show-chatbot');
-    };
-
-    chatbotToggleRef.current.addEventListener('click', handleToggleClick);
-    chatbotCloseBtnRef.current.addEventListener('click', handleCloseClick);
-
-    // return () => {
-    //   chatbotToggleRef.current.removeEventListener('click', handleToggleClick);
-    //   chatbotCloseBtnRef.current.removeEventListener('click', handleCloseClick);
-    // };
-  }, []);
-
-
   return (
     <div>
       <NewNavCandidateHome homeActive={home} aboutUsActive={aboutUs} searchJobActive={searchJob} eventsActive={events} contactActive={contact} />
@@ -271,90 +248,7 @@ const LayoutNew = ({ home, aboutUs, searchJob, events, contact }) => {
         <span>Back</span>
       </button>
 
-      <button ref={chatbotToggleRef} className="chatbot__button">
-        <span class="material-symbols-outlined">chat</span>
-        <div className='message--count'>5</div>
-        <span className="material-symbols-outlined">close</span>
-      </button>
-
-      <div className="chatbot">
-        <div className="chatbot__header">
-          <h3 className="chatbox__title">Chat with us.</h3>
-          <span className="material-symbols-outlined" ref={chatbotCloseBtnRef}>close</span>
-        </div>
-
-        <ScrollToBottom className="chatting-card-body">
-          <ul className="chatbot__box">
-
-            {/* chat welcome screen */}
-            {/* <div className='chat-welcome'>
-              <img src="../assets/img/logo/skillety-logo-icon.png" className='chat-welcome-img' alt="" />
-              <div className='chat-welcome-text'>
-                Welcome to <span>Skillety</span>
-              </div>
-              <p>👋 Hi, message us with any questions. We're happy to help!</p>
-            </div> */}
-            {/*  */}
-
-            {/* sender message */}
-            <li className="chatbot__chat incoming">
-              <div className="sender-avatar-container">
-                <img src="../assets/img/logo/skillety-favicon.png" alt="" />
-              </div>
-              <p>Hi there. How can I help you today?</p>
-            </li>
-            {/*  */}
-
-            {/* receiver message */}
-            <li className="chatbot__chat outgoing">
-              <p>I help you today</p>
-            </li>
-            {/*  */}
-
-            <li className="chatbot__chat incoming">
-              <div className="sender-avatar-container">
-                <img src="../assets/img/logo/skillety-favicon.png" alt="" />
-              </div>
-              <p>Hi there. How can I help you today?</p>
-            </li>
-
-            <li className="chatbot__chat outgoing">
-              <p>I help you today</p>
-            </li>
-
-            <li className="chatbot__chat incoming">
-              <div className="sender-avatar-container">
-                <img src="../assets/img/logo/skillety-favicon.png" alt="" />
-              </div>
-              <p>Hi there. How can I help you today?</p>
-            </li>
-
-            <li className="chatbot__chat outgoing">
-              <p>I help you today</p>
-            </li>
-
-            <li className="chatbot__chat incoming">
-              <div className="sender-avatar-container">
-                <img src="../assets/img/logo/skillety-favicon.png" alt="" />
-              </div>
-              <p>Hi there. How can I help you today?</p>
-            </li>
-
-            <li className="chatbot__chat outgoing">
-              <p>I help you today</p>
-            </li>
-          </ul>
-        </ScrollToBottom>
-
-        <div className="chatbot__input-box">
-          <textarea
-            className="chatbot__textarea"
-            placeholder="Enter a message..."
-            required
-          ></textarea>
-          <span id="send-btn" className="material-symbols-outlined">send</span>
-        </div>
-      </div>
+      <RandomChat/>
 
       <a href="#" className="back-to-top candidate d-flex align-items-center justify-content-center">
         <i className="bi bi-chevron-double-up back-to-top-icon"></i>

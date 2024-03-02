@@ -24,7 +24,7 @@ const RandomUserChatWeb = () => {
   const [userName, setUserName] = useState(`User_${userId}`);
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState('');
-  const [roomId, setRoomId] = useState("1234567890");
+  const [roomId, setRoomId] = useState(userId);
   const inputRef = useRef(null);
   const chatInputRef = useRef(null);
   const [contentloading, setContentLoading] = useState(true);

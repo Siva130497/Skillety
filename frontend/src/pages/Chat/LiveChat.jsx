@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react';
-import './LiveChat.css';
 import axios from 'axios';
 // import { io } from 'socket.io-client';
 
