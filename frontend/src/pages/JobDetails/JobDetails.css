@@ -356,7 +356,8 @@
     font-size: 15px;
     color: #714F36;
     font-weight: 400;
-    margin-bottom: 0;
+    margin-bottom: 10px;
+    /* display: list-item; */
 }
 
 .dash-job-desc2 {

@@ -220,7 +220,7 @@ const ATSNavBar = () => {
                     <div className="dropdown-menu dropdown-list dropdown-menu-right pullDown notification-dropdown">
                         <div className="notification-dropdown-header">
                             <div className="notification-dropdown-head">
-                                Un-Read Notification&nbsp;<span>({notifications?.length})</span>
+                                Unread Notifications&nbsp;<span>({notifications?.length})</span>
                             </div>
                             {/* <a href="#" className='notify-settings-btn client'>
                                 <i class="bi bi-gear-fill"></i>
@@ -234,7 +234,7 @@ const ATSNavBar = () => {
                             ) : (
                                 <p className='no-notification'>
                                     <i className='bi bi-exclamation-circle mr-2'></i>
-                                    No new notifications.
+                                    No unread notifications.
                                 </p>
                             )}
                         </div>

@@ -785,7 +785,7 @@
 }
 
 .footer--link-section {
-  padding-top: 111px;
+  padding-top: 60px;
   padding-bottom: 60px;
   border-bottom: 1px solid #fff;
 }
@@ -805,7 +805,7 @@
 }
 
 .footer--link-area .footer--links {
-  margin-top: 18px;
+  /* margin-top: 18px; */
 }
 
 .footer--link-area .footer--links ul {
@@ -1883,7 +1883,7 @@ section {
   font-size: 16px !important;
 }
 
-.go-back-button-style-2:hover {
+/* .go-back-button-style-2:hover {
   background: #F9C833 !important;
   color: #714F36 !important;
   box-shadow: inset 0px 0px 15px #cfa014;
@@ -1891,7 +1891,7 @@ section {
 .go-back-button-style-2:hover i{
   color: #714F36 !important;
   transform: translateX(-2px);
-}
+} */
 /*--------------------------------------------------------------
 # Header
 --------------------------------------------------------------*/

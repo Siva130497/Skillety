@@ -183,11 +183,11 @@ const Home = () => {
     });
 
     // const handleKeyDown = (event) => {
-    //   if (event.key === 's' && event.altKey) {
+    //   if (event.key === event.enter) {
     //     event.preventDefault();
-    //     const inputElement = document.getElementById('searchSkillInput');
+    //     const inputElement = document.getElementById('searchBtn');
     //     if (inputElement) {
-    //       inputElement.focus();
+    //       inputElement.submit();
     //     }
     //   }
     // };
@@ -198,6 +198,20 @@ const Home = () => {
     //   document.removeEventListener('keydown', handleKeyDown);
     // };
   }, []);
+
+  useEffect(() => {
+      // function handleKeyPress(event) {
+      //     if (event.keyCode === 13) {
+      //         handlePopularSearch();
+      //     }
+      // }
+
+      // document.addEventListener('keydown', handleKeyPress);
+
+      // return () => {
+      //     document.removeEventListener('keydown', handleKeyPress);
+      // };
+  }, []); 
 
   const getPopularSearches = async () => {
     try {
@@ -244,6 +258,9 @@ const Home = () => {
       slidesPerView: 3.5,
     },
     1400: {
+      slidesPerView: 3.5,
+    },
+    1920: {
       slidesPerView: 4.5,
     },
   };
@@ -357,8 +374,8 @@ const Home = () => {
                       ))}
                   </div>
 
-                  <button className='btn home--search-btn' data-aos="fade-left" data-aos-delay="100"
-                    onClick={handlePopularSearch}>Search</button>
+                  <button className='btn home--search-btn' id='searchBtn' data-aos="fade-left" data-aos-delay="100"
+                    onClick={handlePopularSearch} disabled={selectedResults.length === 0}>Search</button>
                 </div>
                 {popularSearches.length > 0 && <div className="home--popular-area">
                   <h6 data-aos="fade-right">Popular Searches</h6>

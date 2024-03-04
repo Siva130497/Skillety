@@ -76,7 +76,7 @@ export const NewNavCandidateHome = ({homeActive, aboutUsActive, searchJobActive,
                             <img className='nav--logo candidate' src=
                                         {"data:image/jpeg;base64,"+talentJobPostContent[0]?.content ||
                                         "../assets/img/logo/skillety-logo-sm.png"} 
-                                        alt="Skillety Logo" />
+                                        alt="" />
                             </a>
                         </div>
                     </div>

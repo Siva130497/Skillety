@@ -60,9 +60,9 @@
     position: fixed;
     top: 50%;
     transform: translateY(-50%);
-    right: 10px;
-    width: 55px;
-    height: 55px;
+    right: 0px;
+    width: 45px;
+    height:140px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -71,19 +71,30 @@
     filter: drop-shadow(0px 0px 10px #ffffff38);
     color: #f3f7f8;
     border: none;
-    border-radius: 50%;
+    border-radius: 20px 0 0 20px;
     outline: 0px solid #FFF !important;
     cursor: pointer;
     z-index: 1000;
     flex-shrink: 0;
     transition: outline 0.5s ease;
+    padding: 15px;
+}
+
+.chatbot__button .chat--text{
+    transform: rotate(-90deg);
+    font-size: 16px;
+    font-weight: 500 !important;
+    color: #FFF !important;
+    transition: 0.5s ease;
+    white-space: nowrap;
+    margin: 0 !important;
 }
 
 .chatbot__button .message--count {
     position: absolute;
     top: -8px;
-    right: -5px;
-    background-color: #F9C833;
+    right: 32px;
+    background-color: #ffffff;
     width: 25px;
     height: 25px;
     border-radius: 50%;
@@ -101,7 +112,8 @@
     background-color: #FFF;
 }
 
-.chatbot__button span {
+.chatbot__button .chat--icon,
+    .chatbot__button .chat-close-icon {
     position: absolute;
 }
 
@@ -109,12 +121,12 @@
     outline: 6px solid #FFF !important;
 }
 
-.show-chatbot .chatbot__button span:first-child,
-.chatbot__button span:last-child {
+.show-chatbot .chatbot__button .chat--icon,
+.chatbot__button .chat-close-icon {
     opacity: 0;
 }
 
-.show-chatbot .chatbot__button span:last-child {
+.show-chatbot .chatbot__button .chat-close-icon {
     opacity: 1;
 }
 
@@ -122,7 +134,7 @@
     position: fixed;
     top: 50%;
     transform: translateY(-50%) scale(0.0) !important;
-    right: 45px;
+    right: 60px;
     width: 400px;
     background-color: #f3f7f8;
     border-radius: 20px;
@@ -468,10 +480,8 @@
         color: #FFF;
     }
 
-    .chatbot__button {
-        right: 10px;
-        width: 45px;
-        height: 45px;
+    .chatbot__button{
+        width: 42px !important;
     }
 
     .chatbot__button .message--count {

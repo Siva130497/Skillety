@@ -233,7 +233,7 @@ const NavBar = ({ notification, socket }) => {
           <div className="dropdown-menu dropdown-list dropdown-menu-right pullDown notification-dropdown">
             <div className="notification-dropdown-header">
               <div className="notification-dropdown-head">
-                Un-Read Notifications&nbsp;<span>({notifications?.length})</span>
+                Unread Notifications&nbsp;<span>({notifications?.length})</span>
               </div>
               {/* <a href="#" className='notify-settings-btn'>
                 <i class="bi bi-gear-fill"></i>
@@ -247,7 +247,7 @@ const NavBar = ({ notification, socket }) => {
               ) : (
                 <p className='no-notification'>
                   <i className='bi bi-exclamation-circle mr-2'></i>
-                  No new notifications.
+                  No unread notifications.
                 </p>
               )}
             </div>

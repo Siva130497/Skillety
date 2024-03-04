@@ -51,60 +51,58 @@ const SettingsCandidate = () => {
     }
 
     useEffect(() => {
-        $(document).ready(function () {
-            // $(".setting-change-btn").on("click", function () {
-            //     var $changeInputArea = $(this).prev(".change-input-area");
-            //     var type = $(this).data("type");
-            //     if ($changeInputArea.is(":visible")) {
-            //         $changeInputArea.slideUp();
-            //         $(this).removeClass("expanded");
-            //         $(this).text("Change " + type);
+        // $(".setting-change-btn").on("click", function () {
+        //     var $changeInputArea = $(this).prev(".change-input-area");
+        //     var type = $(this).data("type");
+        //     if ($changeInputArea.is(":visible")) {
+        //         $changeInputArea.slideUp();
+        //         $(this).removeClass("expanded");
+        //         $(this).text("Change " + type);
+        //     } else {
+        //         $changeInputArea.slideDown();
+        //         $(this).addClass("expanded");
+        //         $(this).text("Cancel");
+        //     }
+        // });
+
+        $(".setting-value.password").each(function () {
+            var originalText = $(this).text();
+            var maskedText = Array(originalText.length + 1).join('.');
+            $(this).text(maskedText);
+
+            // $(this).click(function() {
+            //     if ($(this).text() === originalText) {
+            //         $(this).text(maskedText);
             //     } else {
-            //         $changeInputArea.slideDown();
-            //         $(this).addClass("expanded");
-            //         $(this).text("Cancel");
+            //         $(this).text(originalText);
             //     }
             // });
-
-            $(".setting-value.password").each(function () {
-                var originalText = $(this).text();
-                var maskedText = Array(originalText.length + 1).join('.');
-                $(this).text(maskedText);
-
-                // $(this).click(function() {
-                //     if ($(this).text() === originalText) {
-                //         $(this).text(maskedText);
-                //     } else {
-                //         $(this).text(originalText);
-                //     }
-                // });
-            });
-
-            $("#confirm-password").on("input", function () {
-                var newPassword = $("#new-password").val();
-                var confirmPassword = $(this).val();
-                var errorMessage = $("#error-message");
-
-                if (newPassword === confirmPassword) {
-                    errorMessage.text("");
-                } else {
-                    errorMessage.text("Passwords do not match. Please check and try again.");
-                }
-            });
-
-            $(".show-btn").click(function () {
-                var passwordField = $(this).prev(".change-setting-input");
-                var icon = $(this).find("i");
-
-                if (passwordField.attr("type") === "password") {
-                    passwordField.attr("type", "text");
-                    icon.removeClass("bi-eye-slash").addClass("bi-eye");
-                } else {
-                    passwordField.attr("type", "password");
-                    icon.removeClass("bi-eye").addClass("bi-eye-slash");
-                }
-            });
         });
+
+        $("#confirm-password").on("input", function () {
+            var newPassword = $("#new-password").val();
+            var confirmPassword = $(this).val();
+            var errorMessage = $("#error-message");
+
+            if (newPassword === confirmPassword) {
+                errorMessage.text("");
+            } else {
+                errorMessage.text("Passwords do not match. Please check and try again.");
+            }
+        });
+
+        // $(".show-btn").click(function () {
+        //     var passwordField = $(this).prev(".change-setting-input");
+        //     var icon = $(this).find("i");
+
+        //     if (passwordField.attr("type") === "password") {
+        //         passwordField.attr("type", "text");
+        //         icon.removeClass("bi-eye-slash").addClass("bi-eye");
+        //     } else {
+        //         passwordField.attr("type", "password");
+        //         icon.removeClass("bi-eye").addClass("bi-eye-slash");
+        //     }
+        // });
 
     }, [candidateToken, candToken]);
 
@@ -113,21 +111,21 @@ const SettingsCandidate = () => {
     // }, [candidateToken])
 
     useEffect(() => {
-        
-            const fetchData = async () => {
-                try {
-                    const user = await getProtectedData(candidateToken);
-                    console.log(user);
-                    setCandidateId(user.id || user?.responseData.uid);
-                    setCandToken(user.userToken)
-                } catch (error) {
-                    console.log(error);
-                    window.location.href = 'https://skillety-frontend-wcth.onrender.com/candidate-login'
-                }
-            };
 
-            fetchData();
-        
+        const fetchData = async () => {
+            try {
+                const user = await getProtectedData(candidateToken);
+                console.log(user);
+                setCandidateId(user.id || user?.responseData.uid);
+                setCandToken(user.userToken)
+            } catch (error) {
+                console.log(error);
+                window.location.href = 'https://skillety-frontend-wcth.onrender.com/candidate-login'
+            }
+        };
+
+        fetchData();
+
     }, []);
 
     const getAllCandidateDetail = async () => {
@@ -156,7 +154,8 @@ const SettingsCandidate = () => {
             axios.get(`https://skillety-n6r1.onrender.com/candidate-image/${candidateId}`)
                 .then(res => {
                     console.log(res.data);
-                    setCandidateImg(res.data)})
+                    setCandidateImg(res.data)
+                })
                 .catch(err => console.log(err))
         }
     }, [candidateId]);
@@ -329,6 +328,22 @@ const SettingsCandidate = () => {
     };
 
 
+    const [showPassword, setShowPassword] = useState(false);
+    const [showNewPassword, setShowNewPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+    const handleTogglePassword = () => {
+        setShowPassword(!showPassword);
+    };
+
+    const handleToggleNewPassword = () => {
+        setShowNewPassword(!showNewPassword);
+    };
+
+    const handleToggleConfirmPassword = () => {
+        setShowConfirmPassword(!showConfirmPassword);
+    };
+
     return (
         <div>
             {(candidateToken ? candidateToken : candToken) && <div class="main-wrapper main-wrapper-1">
@@ -385,7 +400,7 @@ const SettingsCandidate = () => {
                                                             {isProfileImageExpanded ? 'Cancel' : `Change Profile Image`}
                                                         </button>
                                                     </>}
-                                                
+
                                             </div>
 
                                             <div className="setting-content">
@@ -409,7 +424,7 @@ const SettingsCandidate = () => {
                                                             {isEmailExpanded ? 'Cancel' : `Change Email`}
                                                         </button>
                                                     </>}
-                                                
+
                                             </div>
 
                                             <div className="setting-content">
@@ -438,25 +453,25 @@ const SettingsCandidate = () => {
                                                 <div className={`change-input-area ${isPasswordExpanded ? 'multi-input-expanded' : ''}`}>
                                                     <div className="row mt-4">
                                                         <div className="col-12 col-xl-5 col-lg-5 col-md-6">
-                                                            <input type="password" className='change-setting-input' placeholder='Current Password' onChange={(e) => setUserInfo({ ...userInfo, currentPassword: e.target.value })} />
-                                                            <button class="show-btn">
-                                                                <i class="bi bi-eye-slash"></i>
+                                                            <input type={showPassword ? "text" : "password"} className='change-setting-input' placeholder='Current Password' onChange={(e) => setUserInfo({ ...userInfo, currentPassword: e.target.value })} />
+                                                            <button class="show-btn" onClick={handleTogglePassword}>
+                                                                <i class={`bi ${showPassword ? 'bi-eye' : 'bi-eye-slash'}`}></i>
                                                             </button>
                                                         </div>
                                                     </div>
                                                     <div className="row mt-3">
                                                         <div className="col-12 col-xl-5 col-lg-5 col-md-6">
-                                                            <input type="password" className='change-setting-input' placeholder='New Password' id="new-password" onChange={(e) => setUserInfo({ ...userInfo, newPassword: e.target.value })} />
-                                                            <button class="show-btn">
-                                                                <i class="bi bi-eye-slash"></i>
+                                                            <input type={showNewPassword ? "text" : "password"} className='change-setting-input' placeholder='New Password' id="new-password" onChange={(e) => setUserInfo({ ...userInfo, newPassword: e.target.value })} />
+                                                            <button class="show-btn" onClick={handleToggleNewPassword}>
+                                                                <i class={`bi ${showNewPassword ? 'bi-eye' : 'bi-eye-slash'}`}></i>
                                                             </button>
                                                         </div>
                                                     </div>
                                                     <div className="row mt-3">
                                                         <div className="col-12 col-xl-5 col-lg-5 col-md-6">
-                                                            <input type="password" className='change-setting-input' placeholder='Confirm Password' id="confirm-password" onChange={(e) => setUserInfo({ ...userInfo, confirmPassword: e.target.value })} />
-                                                            <button class="show-btn">
-                                                                <i class="bi bi-eye-slash"></i>
+                                                            <input type={showConfirmPassword ? "text" : "password"} className='change-setting-input' placeholder='Confirm Password' id="confirm-password" onChange={(e) => setUserInfo({ ...userInfo, confirmPassword: e.target.value })} />
+                                                            <button class="show-btn" onClick={handleToggleConfirmPassword}>
+                                                                <i class={`bi ${showConfirmPassword ? 'bi-eye' : 'bi-eye-slash'}`}></i>
                                                             </button>
                                                         </div>
                                                     </div>

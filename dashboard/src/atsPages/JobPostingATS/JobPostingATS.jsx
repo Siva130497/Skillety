@@ -825,7 +825,7 @@ const JobPostingATS = () => {
                                         className="manually-add-btn with-mb"
                                         onClick={handleManualJobRole}
                                         disabled={!isCheckedJobRole}>
-                                        Add manually entered jobRole
+                                        Enter Jobrole Manually
                                         </button>
                                     </div>
                                     </div>
@@ -932,7 +932,7 @@ const JobPostingATS = () => {
                                         className="manually-add-btn"
                                         onClick={handleManualSkill}
                                         disabled={!isCheckedSkill}
-                                        >Add manually entered skill for a particular job role</button>
+                                        >Enter Skills Manually</button>
                                     </div>
                                     </div>
                                 </div>
