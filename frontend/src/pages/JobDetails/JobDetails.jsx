@@ -317,7 +317,7 @@ const JobDetails = () => {
                                   {/* <div className="dash-job-det-card-det">
                                                                 <span>Not disclosed</span>
                                                             </div> */}
-                                  <div className="dash-job-det-card-det">
+                                  <div className="dash-job-det-card-det custom-wrap">
                                     <i class="bi bi-geo-alt-fill"></i>
                                     <span>{job?.jobLocation.join(", ")}</span>
                                   </div>

@@ -133,11 +133,12 @@ const RandomChat = () => {
   return (
     <>
     <button ref={chatbotToggleRef} className="chatbot__button">
-        <span class="material-symbols-outlined">chat</span>
+        {/* <span class="material-symbols-outlined chat--icon">chat</span> */}
         <div className='message--count'>
             {incomingMsg.length}
         </div>
-        <span className="material-symbols-outlined">close</span>
+        <h6 className='chat--text'>Chat With Us</h6>
+        {/* <span className="material-symbols-outlined chat-close-icon">close</span> */}
       </button>
 
       <div className="chatbot">

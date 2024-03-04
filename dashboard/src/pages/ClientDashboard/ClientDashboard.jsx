@@ -700,7 +700,7 @@ const ClientDashboard = () => {
                                                 <div className="dash-table-area">
                                                     <div className="dash-table-top-area">
                                                         <div className="dash-table-title">
-                                                            New Application
+                                                            New Candidates
                                                         </div>
                                                         <a href='/talent-profile-search' className="dash-table-see-all-btn">See all</a>
                                                     </div>

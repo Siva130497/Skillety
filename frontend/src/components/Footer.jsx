@@ -40,7 +40,7 @@ export const Footer = () => {
                   </div>
                   <div className="col-12 col-lg-5 col-xl-5">
                     <div className="footer--logo-area">
-                      <img src="/assets/img/home-images/skilletty-logo.png" className='footer--logo' alt="" data-aos="zoom-out" />
+                      <img src="../assets/img/home-images/skilletty-logo.png" className='footer--logo' alt="" data-aos="zoom-out" />
                     </div>
                   </div>
                 </div>
@@ -52,7 +52,7 @@ export const Footer = () => {
               <div className="row">
                 <div className="col-12 col-lg-8 col-xl-6">
                   <div className="row">
-                    <div className="col-12 col-lg-4 col-md-4 col-sm-4 footer--quick-link-area">
+                    {/* <div className="col-12 col-lg-4 col-md-4 col-sm-4 footer--quick-link-area">
                       <div className="footer--link-area">
                         <h6 className='footer--link-head' data-aos="fade">
                           For Talent
@@ -80,12 +80,12 @@ export const Footer = () => {
                           </ul>
                         </div>
                       </div>
-                    </div>
+                    </div> */}
                     <div className="col-12 col-lg-4 col-md-4 col-sm-4 footer--quick-link-area">
                       <div className="footer--link-area">
-                        <h6 className='footer--link-head' data-aos="fade">
+                        {/* <h6 className='footer--link-head' data-aos="fade">
                           For Employer
-                        </h6>
+                        </h6> */}
                         <div className="footer--links">
                           <ul>
                             <li data-aos="fade">
@@ -107,7 +107,8 @@ export const Footer = () => {
                         </div>
                       </div>
                     </div>
-                    <div className="col-12 col-lg-4 col-md-4 col-sm-4 footer--quick-link-area">
+
+                    {/* <div className="col-12 col-lg-4 col-md-4 col-sm-4 footer--quick-link-area">
                       <div className="footer--link-area">
                         <h6 className='footer--link-head' data-aos="fade">
                           Our Company
@@ -129,7 +130,8 @@ export const Footer = () => {
                           </ul>
                         </div>
                       </div>
-                    </div>
+                    </div> */}
+                    
                   </div>
                 </div>
                 <div className="col-12 col-lg-4 col-sm-12 col-xl-6">

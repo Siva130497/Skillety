@@ -736,7 +736,7 @@ const AppliedCandidate = () => {
                                                 <option value="absconded">Absconded</option>
                                             </select>
                                         </div>
-                                        <button className="setting-update-btn more-det"
+                                        <button className="setting-update-btn more-det" disabled={selectedCandidates.length === 0}
                                         onClick={handleChangeStatus}>Change</button>
                                     </div>
                                 </div>

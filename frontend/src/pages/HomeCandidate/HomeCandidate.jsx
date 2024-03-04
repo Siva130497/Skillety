@@ -317,6 +317,20 @@ const HomeCandidate = () => {
     // };
   }, []);
 
+  useEffect(() => {
+    // function handleKeyPress(event) {
+    //     if (event.keyCode === 13) {
+    //         handlePopularSearch();
+    //     }
+    // }
+
+    // document.addEventListener('keydown', handleKeyPress);
+
+    // return () => {
+    //     document.removeEventListener('keydown', handleKeyPress);
+    // };
+}, []); 
+
   return (
     <div>
       <LayoutNew home={true} />
@@ -375,7 +389,7 @@ const HomeCandidate = () => {
                       ))}
                   </div>
                   <button className='btn home--search-btn candidate' data-aos="fade-left" data-aos-delay="100"
-                    onClick={handlePopularSearch}>Search</button>
+                    onClick={handlePopularSearch} disabled={selectedResults.length === 0}>Search</button>
                 </div>
                 {popularSearches.length > 0 && <div className="home--popular-area candidate">
                   <h6 data-aos="fade-right">Popular Searches</h6>
