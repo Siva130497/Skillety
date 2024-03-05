@@ -806,7 +806,7 @@ const CandidateRegister = () => {
                         <div className="cand--reg-form-area" data-aos="fade-up">
                             <div className="row">
                                 <div className="col-12 col-lg-6 custom-padding-right">
-                                    <div className='cand--reg-form-group cand--reg-custom-padding custom mb-0 mb-md-0'>
+                                    <div className='cand--reg-form-group cand--reg-custom-padding custom mb-5'>
                                         <div className='cand--reg-multi-input-form-group'>
                                             <input type="text" name='searchDesignationInput'
                                                 id='searchDesignationInput'
@@ -839,24 +839,8 @@ const CandidateRegister = () => {
                                     </div>
                                 </div>
 
-                                <div className="col-12 col-lg-6 custom-padding-left ps-md-3">
-                                    <div className='cand--reg-form-group cand--reg-custom-padding mb-5 mb-md-5'>
-                                        <div className="can-reg-form-chechbox-area">
-                                            <label className="can-reg-form-check-input">
-                                                <input
-                                                    type="checkbox"
-                                                    checked={isCheckedDesignation}
-                                                    onChange={() => setIsCheckedDesignation(!isCheckedDesignation)}
-                                                />
-                                                <span className="can-reg-form-checkmark"></span>
-                                                If your searched designation not in the list, please enable the checkbox & type manually...
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-
                                 <div className="col-12 col-lg-6">
-                                    <div className='cand--reg-form-group cand--reg-custom-padding'>
+                                    <div className='cand--reg-form-group cand--reg-custom-padding mb-5 mb-md-5'>
                                         <div className='cand--reg-multi-input-form-group'>
                                             <input
                                                 type='text'
@@ -877,9 +861,20 @@ const CandidateRegister = () => {
                                             >Add</button>
                                         </div>
 
-                                        
+                                        <div className="can-reg-form-chechbox-area mt-3">
+                                            <label className="can-reg-form-check-input">
+                                                <input
+                                                    type="checkbox"
+                                                    checked={isCheckedDesignation}
+                                                    onChange={() => setIsCheckedDesignation(!isCheckedDesignation)}
+                                                />
+                                                <span className="can-reg-form-checkmark"></span>
+                                                If your searched designation not in the list, please enable the checkbox & type manually...
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>
+
                             </div>
                             <div className="row">
                                 <div className="col-12 col-lg-6 col-md-6 col-sm-6 custom-padding-right">
@@ -977,7 +972,7 @@ const CandidateRegister = () => {
                                 </div>
 
                                 <div className="col-12 col-xl-8 custom-padding-right2">
-                                    <div className='cand--reg-form-group cand--reg-custom-padding'>
+                                    <div className='cand--reg-form-group cand--reg-custom-padding mb-5'>
                                         <div className="cand--reg-form-flex-grp">
                                             <label htmlFor="skills" className='cand--reg-form-label-custom'>Skills</label>
                                             <div className='cand--reg-multi-input-form-group'>
@@ -1010,7 +1005,7 @@ const CandidateRegister = () => {
                                         </div>
 
 
-                                        <div className="can-reg-form-chechbox-area custom">
+                                        {/* <div className="can-reg-form-chechbox-area custom">
                                             <label className="can-reg-form-check-input">
                                                 <input
                                                     type="checkbox"
@@ -1021,8 +1016,8 @@ const CandidateRegister = () => {
                                                 If your searched skill not in the list, please enable the checkbox & type manually...
                                             </label>
 
-                                        </div>
-                                        <div className="cand--reg-skills-text">
+                                        </div> */}
+                                        <div className="cand--reg-skills-text pt-0">
                                             Note: These will also be used as the Tags for searching matching jobs for you. So enter all your key skills without fail.
                                         </div>
 
@@ -1030,7 +1025,7 @@ const CandidateRegister = () => {
                                 </div>
 
                                 <div className="col-12 col-xl-4 custom-padding-left2">
-                                    <div className='cand--reg-form-group cand--reg-custom-padding'>
+                                    <div className='cand--reg-form-group cand--reg-custom-padding mb-5'>
                                         <div className='cand--reg-multi-input-form-group'>
                                             <input
                                                 type='text'
@@ -1049,6 +1044,17 @@ const CandidateRegister = () => {
                                                 onClick={handleManualSkill}
                                                 disabled={!isCheckedSkill}
                                             >Add</button>
+                                        </div>
+                                        <div className="can-reg-form-chechbox-area custom pt-2 ps-2" >
+                                            <label className="can-reg-form-check-input">
+                                                <input
+                                                    type="checkbox"
+                                                    checked={isCheckedSkill}
+                                                    onChange={() => setIsCheckedSkill(!isCheckedSkill)}
+                                                />
+                                                <span className="can-reg-form-checkmark"></span>
+                                                If your searched skill not in the list, please enable the checkbox & type manually...
+                                            </label>
                                         </div>
                                     </div>
                                 </div>
