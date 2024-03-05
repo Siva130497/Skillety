@@ -6,7 +6,7 @@ import './AppliedCandidate-responsive.css';
 import ClientLayout from '../../components/ClientLayout';
 import Footer from '../../components/Footer';
 import axios from 'axios';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import AuthContext from '../../context/AuthContext';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
@@ -14,6 +14,8 @@ import 'sweetalert2/dist/sweetalert2.css';
 const AppliedCandidate = () => {
     const [clientToken, setClientToken] = useState("");
     const { id } = useParams();
+    const location = useLocation();
+    const { cands, Job } = location.state
     const { getProtectedData, getCandidateImg, candidateImg } = useContext(AuthContext);
     const [employeeId, setEmployeeId] = useState("");
     const [loginClientDetail, setLoginClientDetail] = useState();
@@ -473,7 +475,7 @@ const AppliedCandidate = () => {
             // );
 
         });
-    }, [selectedJobs]);
+    }, []);
 
     //for show success message for payment
     function showSuccessMessage(message) {
@@ -517,27 +519,31 @@ const AppliedCandidate = () => {
     };
 
     useEffect(() => {
-        getAllCandidateDetail();
+        // getAllCandidateDetail();
         getCandidateImg();
+        setReqCands(cands)
+        setJob(Job)
     }, []);
 
-    useEffect(() => {
-        if (id) {
-            axios.get(`https://skillety-n6r1.onrender.com/job/${id}`, {
-                headers: {
-                    // Authorization: `Bearer ${clientToken}`,
-                    Accept: 'application/json'
-                }
-            })
-                .then(res => {
-                    console.log(res.data)
-                    setJob(res.data)
-                })
-                .catch(err => {
-                    console.log(err)
-                })
-        }
-    }, [id])
+    
+
+    // useEffect(() => {
+    //     if (id) {
+    //         axios.get(`https://skillety-n6r1.onrender.com/job/${id}`, {
+    //             headers: {
+    //                 // Authorization: `Bearer ${clientToken}`,
+    //                 Accept: 'application/json'
+    //             }
+    //         })
+    //             .then(res => {
+    //                 console.log(res.data)
+    //                 setJob(res.data)
+    //             })
+    //             .catch(err => {
+    //                 console.log(err)
+    //             })
+    //     }
+    // }, [id])
 
     const getLoginClientDetail = async () => {
         try {
@@ -622,29 +628,29 @@ const AppliedCandidate = () => {
         }
     }, [employeeId]);
 
-    useEffect(() => {
-        if (loginClientDetail) {
+    // useEffect(() => {
+    //     if (loginClientDetail) {
 
-            getAppliedOfPostedJobs();
-        }
+    //         getAppliedOfPostedJobs();
+    //     }
 
-    }, [loginClientDetail])
+    // }, [loginClientDetail])
 
-    useEffect(() => {
-        if (selectedJobs && selectedJobs.length > 0) {
-            const appliedCandIds = selectedJobs.map(job => job.candidateId);
-            console.log(appliedCandIds)
-            const appliedCands = candidateDetail.filter(cand => appliedCandIds.includes(cand.id));
-            if (appliedCands) {
-                // setLoading(false);
-                setReqCands(appliedCands);
-            } else {
-                // setLoading(false);
-                // setPageNotFound(true);
-            }
+    // useEffect(() => {
+    //     if (selectedJobs && selectedJobs.length > 0) {
+    //         const appliedCandIds = selectedJobs.map(job => job.candidateId);
+    //         console.log(appliedCandIds)
+    //         const appliedCands = candidateDetail.filter(cand => appliedCandIds.includes(cand.id));
+    //         if (appliedCands) {
+    //             // setLoading(false);
+    //             setReqCands(appliedCands);
+    //         } else {
+    //             // setLoading(false);
+    //             // setPageNotFound(true);
+    //         }
 
-        }
-    }, [selectedJobs])
+    //     }
+    // }, [selectedJobs])
 
     const handleCheckboxChange = (candidateId) => {
         
@@ -699,7 +705,7 @@ const AppliedCandidate = () => {
         
       };
       
-
+console.log(cands, job)
     return (
         <div>
             {/* {loading && <div>Loading...</div>} */}
@@ -749,7 +755,7 @@ const AppliedCandidate = () => {
                                         const matchingSkills = skills2.filter(skill => skills1.includes(skill));
                                         return (matchingSkills.length / skills1.length) * 100;
                                     }
-                                    const percentage = Math.round(calculateMatchPercentage(job?.skills, candidate.skills));
+                                    // const percentage = Math.round(calculateMatchPercentage(job?.skills, candidate.skills));
 
                                     const status = applicationStatus.find(status=>status.candidateId === candidate.id)?.status;
                                     
@@ -851,7 +857,7 @@ const AppliedCandidate = () => {
                                                         <p className='tal--pro-card-role-name mb-0'>{candidate.designation[0]}</p>
                                                     </div>
                                                     <div className="tal--pro-card-contact-btn-area">
-                                                        <button className='tal--pro-card-contact-btn' onClick={() => navigate(`/talents/${candidate.id}`, { state: { percentage } })}>View Profile</button>
+                                                        <button className='tal--pro-card-contact-btn' onClick={() => navigate(`/talents/${candidate.id}`, { state: { employeeId } })}>View Profile</button>
                                                         {/* <span className="profile-credits-title">&#129031; 01 Credit</span> */}
 
                                                         {/* <div className="profile-credits-area">
@@ -866,7 +872,7 @@ const AppliedCandidate = () => {
                                                     <div className="tal--pro-card-ability-number-area applied">
                                                         <div className="tal--pro-card-ability-number-left applied">
                                                             <h6 className='tal--pro-card-ability'>Skill matched</h6>
-                                                            <h2 className='tal--pro-card-percentage custom'>{percentage}%</h2>
+                                                            {/* <h2 className='tal--pro-card-percentage custom'>{percentage}%</h2> */}
                                                         </div>
                                                         <div className="tal--pro-card-ability-number-right applied">
                                                             <h6 className='tal--pro-card-ability'>Can join in</h6>

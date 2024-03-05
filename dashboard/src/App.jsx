@@ -99,6 +99,7 @@ import RandomUserChat from './components/RandomUserChat';
 
 function App() {
   return (
+    <div>
     <AuthContextProvider>
       <Routes>
         <Route path='/:token' element={<CandidateDashboard />} />
@@ -202,6 +203,7 @@ function App() {
 
       </Routes>
     </AuthContextProvider>
+    </div>
   );
 }
 

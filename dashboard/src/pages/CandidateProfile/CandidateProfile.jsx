@@ -509,7 +509,7 @@ const CandidateProfile = () => {
 
     useEffect(() => {
         if (resume) {
-            setCandidateResumeUrl(`https://skillety-n6r1.onrender.com/files/${resume.file}`)
+            setCandidateResumeUrl(resume.file)
         }
 
     }, [resume]);
@@ -2435,13 +2435,16 @@ const CandidateProfile = () => {
                     className={`doc-view-modal-content ${isModalOpen ? 'open' : ''}`}
                     overlayClassName={`doc-view-modal-overlay ${isModalOpen ? 'open' : ''}`}
                 >
-                    
                     {candidateResumeUrl && (
-                    <DocViewer
-                        documents={[{ uri: candidateResumeUrl }]}
-                        renderers={DocViewerRenderers}
-                        className='document'
-                    />
+                                <DocViewer
+                                    documents={[
+                                        { uri: `data:application/pdf;base64,${candidateResumeUrl}` },
+                                        { uri: `data:application/msword;base64,${candidateResumeUrl}` }, // For DOC format
+                                        { uri: `data:application/vnd.openxmlformats-officedocument.wordprocessingml.document;base64,${candidateResumeUrl}` } // For DOCX format
+                                    ]}
+                                    renderers={DocViewerRenderers}
+                                    className='document'
+                                />
                     )}
 
                     <button className="doc-view-close-button" onClick={closeModal}>

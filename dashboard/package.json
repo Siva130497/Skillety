@@ -1,7 +1,6 @@
 {
   "name": "dashboard",
   "version": "0.1.0",
-  "proxy": "https://api.intervue.io",
   "homepage": "https://skillety-dashboard-tk2y.onrender.com",
   "private": true,
   "dependencies": {

@@ -23,7 +23,7 @@ const CandidateRegister = () => {
     const [selectedSkills, setSelectedSkills] = useState([]);
     const [selectedDesignations, setSelectedDesignations] = useState([]);
     const [dateString, setDateString] = useState("");
-    const [resume, setResume] = useState([]);
+    const [resume, setResume] = useState();
     const [searchDesignationInput, setSearchDesignationInput] = useState("");
     const [searchSkillInput, setSearchSkillInput] = useState("");
     const [filteredSkills, setFilteredSkills] = useState([]);
@@ -44,6 +44,8 @@ const CandidateRegister = () => {
     const [passwordErrorMsg, setPasswordErrorMsg] = useState(false);
     const [confirmPasswordErrorMsg, setConfirmPasswordErrorMsg] = useState(false);
     const [require, setRequire] = useState(false)
+    const [requireStep2, setRequireStep2] = useState(false)
+    const [requireStep3, setRequireStep3] = useState(false)
     const [skillAlert, setSkillAlert] = useState("");
     const [designationAlert, setDesignationAlert] = useState("");
 
@@ -274,6 +276,10 @@ const CandidateRegister = () => {
     const handleInputChange = (event) => {
         const { name, value, type, checked } = event.target;
 
+        if (name === "phone" && value.length === 13) {
+            return; 
+        }
+
         if (name === "password") {
             if (value.length < 8) {
                 setPasswordErrorMsg(true);
@@ -487,10 +493,12 @@ const CandidateRegister = () => {
 
 
     const handleSubmit = (event) => {
+        setRequireStep3(true)
         event.preventDefault();
-        setSpinStatus(true)
+        
         if (credentials.profileHeadline) {
             if (isAgreed) {
+                setSpinStatus(true)
                 const formData = new FormData();
                 const id = uuidv4();
                 formData.append('file', resume);
@@ -522,7 +530,7 @@ const CandidateRegister = () => {
         let isValid = true;
         if (step === 1) {
 
-            if (credentials.days === "" || credentials.firstName === "" || credentials.lastName === "" || credentials.phone === "" || credentials.email === "" || credentials.password === "" || credentials.confirmPassword === "" || credentials.password !== credentials.confirmPassword || resume.length === 0 || credentials.password.length < 8 || !(emailRegex.test(credentials.email))) {
+            if (credentials.days === "" || credentials.firstName === "" || credentials.lastName === "" || credentials.phone === "" || credentials.email === "" || credentials.password === "" || credentials.confirmPassword === "" || credentials.password !== credentials.confirmPassword || !resume || credentials.password.length < 8 || !(emailRegex.test(credentials.email))) {
                 // if (credentials.password.length < 8) {
                 //     return showErrorMessage("password must be atleast 8 characters long")
                 // } else if (credentials.password !== credentials.confirmPassword) {
@@ -539,7 +547,7 @@ const CandidateRegister = () => {
                 if (selectedSkills.length < minSkillNum) {
                     return setSkillError(`Please select atleast ${minSkillNum} skills`)
                 }
-                setRequire(false)
+                setRequireStep2(true)
                 isValid = false;
 
             }
@@ -742,7 +750,7 @@ const CandidateRegister = () => {
                                 </div>
                             </div>
                             <div className="row">
-                                <div className="col-12">
+                                <div className="col-12 col-lg-6 custom-padding-right">
                                     <div className='cand--reg-form-group cand--reg-custom-padding'>
                                         <div className="cand--reg-file-upload-area">
                                             <input type="file" id="file_upload" accept=".doc,.docx,.pdf,.rtf"
@@ -752,11 +760,27 @@ const CandidateRegister = () => {
                                                 required />
                                             <label for="file_upload" className='cand--reg-file-upload-label'>
                                                 <i class="bi bi-upload" onClick={() => fileInputRef.current.click()}></i>
-                                                Upload your Resume/CV here&nbsp;<span className='is-required'>*</span></label>
-                                            <span id="file-chosen">{resume.length > 0 ? resume.name : 'No file chosen'}</span>
+                                               {resume ? resume.name : "Upload your Resume/CV here"}&nbsp;<span className='is-required'>*</span></label>
+                                            {/* <span id="file-chosen">{resume ? resume.name : 'No file chosen'}</span> */}
                                             <div className='file--upload-text'>Either in .doc/ docx/.pdf format only</div>
-                                            {require && <small className='text-danger text-capitalized'>{resume.length === 0 && "required"}</small>}
+                                            {require && <small className='text-danger text-capitalized'>{!resume && "required"}</small>}
                                         </div>
+                                    </div>
+                                </div>
+
+                                <div className="col-12 col-lg-6 col-md-6 col-sm-6 custom-padding-left">
+                                    <div className='cand--reg-form-group'>
+                                        <div className='position-relative'>
+                                                <select className='cand--reg-form-input' id='gender' required> 
+                                                    <option value="" disabled>Select</option>
+                                                    <option value="Male">Male</option>
+                                                    <option value="Female">Female</option>
+                                                    <option value="Other">Other</option>
+                                                </select>
+                                            <label htmlFor="gender" className='cand--reg-form-label'>Gender&nbsp;<span className='is-required'>*</span></label>
+                                            
+                                        </div>
+                                        <small className='text-danger text-capitalized form-error-message'>required</small>
                                     </div>
                                 </div>
                             </div>
@@ -771,7 +795,7 @@ const CandidateRegister = () => {
                         </div>
                         <div className="cand--reg-form-area" data-aos="fade-up">
                             <div className="row">
-                                <div className="col-12 col-lg-6 custom-padding-right2">
+                                <div className="col-12 col-lg-12">
                                     <div className='cand--reg-form-group cand--reg-custom-padding'>
                                         <div className='cand--reg-multi-input-form-group'>
                                             <input type="text" name='searchDesignationInput'
@@ -799,24 +823,12 @@ const CandidateRegister = () => {
                                             ))}
                                         </div>
 
-                                        {!require && <small className='text-danger text-capitalized'>{selectedDesignations.length === 0 && "required"}</small>}
+                                        {requireStep2 && <small className='text-danger text-capitalized'>{selectedDesignations.length === 0 && "required"}</small>}
                                         <small className='text-danger'>{designationAlert}</small>
 
-                                        <div className="can-reg-form-chechbox-area">
-                                            <label className="can-reg-form-check-input">
-                                                <input
-                                                    type="checkbox"
-                                                    checked={isCheckedDesignation}
-                                                    onChange={() => setIsCheckedDesignation(!isCheckedDesignation)}
-                                                />
-                                                <span className="can-reg-form-checkmark"></span>
-                                                If your searched designation not in the list, please enable the checkbox & type manually...
-                                            </label>
-
-                                        </div>
                                     </div>
                                 </div>
-                                <div className="col-12 col-lg-6 custom-padding-left2">
+                                <div className="col-12 col-lg-12">
                                     <div className='cand--reg-form-group cand--reg-custom-padding'>
                                         <div className='cand--reg-multi-input-form-group'>
                                             <input
@@ -837,6 +849,18 @@ const CandidateRegister = () => {
                                                 disabled={!isCheckedDesignation}
                                             >Add</button>
                                         </div>
+
+                                        <div className="can-reg-form-chechbox-area">
+                                            <label className="can-reg-form-check-input">
+                                                <input
+                                                    type="checkbox"
+                                                    checked={isCheckedDesignation}
+                                                    onChange={() => setIsCheckedDesignation(!isCheckedDesignation)}
+                                                />
+                                                <span className="can-reg-form-checkmark"></span>
+                                                If your searched designation not in the list, please enable the checkbox & type manually...
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -847,7 +871,7 @@ const CandidateRegister = () => {
                                             value={credentials.companyName}
                                             onChange={handleInputChange} placeholder="Enter your current company" className='cand--reg-form-input' required />
                                         <label htmlFor="company" className='cand--reg-form-label'>Current Company&nbsp;<span className='is-required'>*</span></label>
-                                        {!require && <small className='text-danger text-capitalized form-error-message'>{credentials.companyName === "" && "required"}</small>}
+                                        {requireStep2 && <small className='text-danger text-capitalized form-error-message'>{credentials.companyName === "" && "required"}</small>}
                                     </div>
                                 </div>
 
@@ -907,7 +931,7 @@ const CandidateRegister = () => {
                                                 >{selectLocation}</span>
                                             ))}
                                         </div>
-                                        {!require && <small className='text-danger text-capitalized form-error-message'>{selectedLocations.length === 0 && "required"}</small>}
+                                        {requireStep2 && <small className='text-danger text-capitalized form-error-message'>{selectedLocations.length === 0 && "required"}</small>}
                                     </div>
                                 </div>
 
@@ -921,14 +945,14 @@ const CandidateRegister = () => {
                                                         value={credentials.year}
                                                         onChange={handleInputChange} className='cand--reg-exp-input' min="0" />
                                                     <label htmlFor="years" className='cand--reg-form-label-custom'>Years&nbsp;<span className='is-required'>*</span></label>
-                                                    {!require && <small className='text-danger text-capitalized'>{credentials.year === "" && "required"}</small>}
+                                                    {require && <small className='text-danger text-capitalized'>{credentials.year === "" && "required"}</small>}
                                                 </div>
                                                 <div className="cand--reg-exp-input-area">
                                                     <input type="number" id='months' name="month"
                                                         value={credentials.month}
                                                         onChange={handleInputChange} className='cand--reg-exp-input' min="0" />
                                                     <label htmlFor="months" className='cand--reg-form-label-custom'>Months&nbsp;<span className='is-required'>*</span></label>
-                                                    {!require && <small className='text-danger text-capitalized'>{credentials.month === "" && "required"}</small>}
+                                                    {requireStep2 && <small className='text-danger text-capitalized'>{credentials.month === "" && "required"}</small>}
                                                 </div>
                                             </div>
                                         </div>
@@ -962,7 +986,7 @@ const CandidateRegister = () => {
                                                         >{selectSkill}</span>
                                                     ))}
                                                 </div>
-                                                {!require && <small className='text-danger text-capitalized'>{selectedSkills.length === 0 && "required"}</small>}
+                                                {requireStep2 && <small className='text-danger text-capitalized'>{selectedSkills.length === 0 && "required"}</small>}
                                                 <br />
                                                 <small className='text-danger text-capitalized'>{skillError}</small>
                                             </div>
@@ -1081,7 +1105,7 @@ const CandidateRegister = () => {
                                                         </span>
                                                     ))}
                                                 </div>
-                                                {!require && <small className='text-danger text-capitalized'>{selectedEducation.length === 0 && "required"}</small>}
+                                                {requireStep2 && <small className='text-danger text-capitalized'>{selectedEducation.length === 0 && "required"}</small>}
                                             </div>
                                         </div>
                                     </div>
@@ -1096,7 +1120,7 @@ const CandidateRegister = () => {
                                                     placeholder='Enter the name of the college'
                                                     value={credentials.college}
                                                     onChange={handleInputChange} className='cand--reg-flex-input' />
-                                                {!require && <small className='text-danger text-capitalized'>{credentials.college === "" && "required"}</small>}
+                                                {requireStep2 && <small className='text-danger text-capitalized'>{credentials.college === "" && "required"}</small>}
                                             </div>
                                         </div>
                                     </div>
@@ -1120,7 +1144,7 @@ const CandidateRegister = () => {
                                             value={credentials.profileHeadline}
                                             onChange={handleInputChange} id="headline" placeholder='(Example: I am a Best Employee Award winning embedded engineer with over 5 years  of experience in the software development domain, proficient in tools/skills like NXPT1020, C, RS422, VxWORKS, ST-True Studio, STM32F103C8, Embedded C, EEPROM, WIFI.)' className='cand--reg-lg-input'>
                                         </textarea>
-                                        {!require && <small className='text-danger text-capitalized'>{credentials.profileHeadline === "" && "required"}</small>}
+                                        {requireStep3 && <small className='text-danger text-capitalized'>{credentials.profileHeadline === "" && "required"}</small>}
                                     </div>
                                 </div>
                             </div>

@@ -528,14 +528,14 @@ const TalentsAts = () => {
 
     useEffect(() => {
         if (loginCandidate) {
-            setCandidateResumeUrl(`https://skillety-n6r1.onrender.com/files/${loginCandidate.file}`)
+            setCandidateResumeUrl(loginCandidate.file)
         }
 
     }, [loginCandidate]);
 
     useEffect(() => {
         if (resume) {
-            setCandidateResumeUrl(`https://skillety-n6r1.onrender.com/files/${resume.file}`)
+            setCandidateResumeUrl(resume.file)
         }
 
     }, [resume]);
@@ -890,12 +890,16 @@ const TalentsAts = () => {
                                                                                         </button>
                                                                                     </div>
                                                                                     {candidateResumeUrl && (
-                                                                                        <DocViewer
-                                                                                            documents={[{ uri: candidateResumeUrl }]}
-                                                                                            renderers={DocViewerRenderers}
-                                                                                            className='cv-view-area'
-                                                                                        />
-                                                                                    )}
+                                                                                            <DocViewer
+                                                                                                documents={[
+                                                                                                    { uri: `data:application/pdf;base64,${candidateResumeUrl}` },
+                                                                                                    { uri: `data:application/msword;base64,${candidateResumeUrl}` }, // For DOC format
+                                                                                                    { uri: `data:application/vnd.openxmlformats-officedocument.wordprocessingml.document;base64,${candidateResumeUrl}` } // For DOCX format
+                                                                                                ]}
+                                                                                                renderers={DocViewerRenderers}
+                                                                                                className='document'
+                                                                                            />
+                                                                                )}
                                                                                 </>
                                                                                 :
                                                                                 <div className='no-cv-uploaded-area'>
