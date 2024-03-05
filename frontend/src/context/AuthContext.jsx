@@ -164,6 +164,7 @@ export const AuthContextProvider = ({children}) => {
             }
         } catch (error) {
             console.log(error);
+            setResult(error)
             await new Promise(() => {
                 Swal.fire({
                     title: 'User Not Registered',
