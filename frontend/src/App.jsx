@@ -58,6 +58,7 @@ import JobDetails from './pages/JobDetails/JobDetails';
 import ErrorPage from './404/404';
 import JobPostingWeb from './pages/JobPosting/JobPostingWeb';
 import PrivacyPolicyTalent from './pages/PrivacyPolicyTalent/PrivacyPolicyTalent';
+import TermsConditionsTalent from './pages/TermsConditionsTalent/TermsConditionsTalent';
 
 import RandomUserChatWeb from './components/RandomUserChatWeb';
 
@@ -125,6 +126,7 @@ function App() {
             <Route path='*' element={<ErrorPage />}/>
             <Route path='/post-job-web/:token' element={<JobPostingWeb />} />
             <Route path='/privacy-policy-talent' element={<PrivacyPolicyTalent />} />
+            <Route path='/terms-and-conditions-talent' element={<TermsConditionsTalent />} />
 
             <Route path='/random-user-chat-web' element={<RandomUserChatWeb />} />
 

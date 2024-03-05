@@ -280,6 +280,11 @@ const CandidateRegister = () => {
             return; 
         }
 
+        if (name === "days" && value === "Currently not serving notice period") {
+            setDateString("");
+            setSelectedDate(null); 
+        }
+
         if (name === "password") {
             if (value.length < 8) {
                 setPasswordErrorMsg(true);
@@ -587,7 +592,8 @@ const CandidateRegister = () => {
                                         <label htmlFor="days" className='cand--reg-form-label-custom'>Notice Period :</label>
                                         <div className="cand--reg-radio-input-group">
                                             <div className="cand--reg-input-container">
-                                                <input id="day_option_1" className="radio-button" type="radio" name="days" value="0 to 7 days" onChange={handleInputChange} />
+                                                <input id="day_option_1" className="radio-button" type="radio" name="days" value="0 to 7 days" onChange={handleInputChange} 
+                                                checked={credentials.days === "0 to 7 days"}/>
                                                 <div className="radio-tile">
                                                     <label for="day_option_1" className="radio-tile-label">0 to 7 days</label>
                                                 </div>
@@ -596,7 +602,8 @@ const CandidateRegister = () => {
                                             <div className="cand--reg-input-container">
                                                 <input id="day_option_2" className="radio-button" type="radio" name="days"
                                                     value="8 to 15 days"
-                                                    onChange={handleInputChange} />
+                                                    onChange={handleInputChange} 
+                                                    checked={credentials.days === "8 to 15 days"}/>
                                                 <div className="radio-tile">
                                                     <label for="day_option_2" className="radio-tile-label">8 to 15 days</label>
                                                 </div>
@@ -605,7 +612,8 @@ const CandidateRegister = () => {
                                             <div className="cand--reg-input-container">
                                                 <input id="day_option_3" className="radio-button" type="radio" name="days"
                                                     value="16 to 30 days"
-                                                    onChange={handleInputChange} />
+                                                    onChange={handleInputChange}
+                                                    checked={credentials.days === "16 to 30 days"} />
                                                 <div className="radio-tile">
                                                     <label for="day_option_3" className="radio-tile-label">16 to 30 days</label>
                                                 </div>
@@ -614,7 +622,8 @@ const CandidateRegister = () => {
                                             <div className="cand--reg-input-container">
                                                 <input id="day_option_4" className="radio-button" type="radio" name="days"
                                                     value="More than 30 days"
-                                                    onChange={handleInputChange} />
+                                                    onChange={handleInputChange}
+                                                    checked={credentials.days === "More than 30 days"} />
                                                 <div className="radio-tile">
                                                     <label for="day_option_4" className="radio-tile-label">More than 30 days</label>
                                                 </div>
@@ -623,7 +632,8 @@ const CandidateRegister = () => {
                                             <div className="cand--reg-input-container">
                                                 <input id="day_option_5" className="radio-button" type="radio" name="days"
                                                     value="Currently not serving notice period"
-                                                    onChange={handleInputChange} />
+                                                    onChange={handleInputChange}
+                                                    checked={credentials.days === "Currently not serving notice period"} />
                                                 <div className="radio-tile">
                                                     <label for="day_option_4" className="radio-tile-label"> Currently not serving notice period</label>
                                                 </div>
@@ -772,7 +782,7 @@ const CandidateRegister = () => {
                                     <div className='cand--reg-form-group'>
                                         <div className='position-relative'>
                                                 <select className='cand--reg-form-input' id='gender' required> 
-                                                    <option value="" disabled>Select</option>
+                                                    <option value="" selected disabled>Select</option>
                                                     <option value="Male">Male</option>
                                                     <option value="Female">Female</option>
                                                     <option value="Other">Other</option>
@@ -795,8 +805,8 @@ const CandidateRegister = () => {
                         </div>
                         <div className="cand--reg-form-area" data-aos="fade-up">
                             <div className="row">
-                                <div className="col-12 col-lg-12">
-                                    <div className='cand--reg-form-group cand--reg-custom-padding'>
+                                <div className="col-12 col-lg-6 custom-padding-right">
+                                    <div className='cand--reg-form-group cand--reg-custom-padding custom mb-0 mb-md-0'>
                                         <div className='cand--reg-multi-input-form-group'>
                                             <input type="text" name='searchDesignationInput'
                                                 id='searchDesignationInput'
@@ -828,7 +838,24 @@ const CandidateRegister = () => {
 
                                     </div>
                                 </div>
-                                <div className="col-12 col-lg-12">
+
+                                <div className="col-12 col-lg-6 custom-padding-left ps-md-3">
+                                    <div className='cand--reg-form-group cand--reg-custom-padding mb-5 mb-md-5'>
+                                        <div className="can-reg-form-chechbox-area">
+                                            <label className="can-reg-form-check-input">
+                                                <input
+                                                    type="checkbox"
+                                                    checked={isCheckedDesignation}
+                                                    onChange={() => setIsCheckedDesignation(!isCheckedDesignation)}
+                                                />
+                                                <span className="can-reg-form-checkmark"></span>
+                                                If your searched designation not in the list, please enable the checkbox & type manually...
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="col-12 col-lg-6">
                                     <div className='cand--reg-form-group cand--reg-custom-padding'>
                                         <div className='cand--reg-multi-input-form-group'>
                                             <input
@@ -850,17 +877,7 @@ const CandidateRegister = () => {
                                             >Add</button>
                                         </div>
 
-                                        <div className="can-reg-form-chechbox-area">
-                                            <label className="can-reg-form-check-input">
-                                                <input
-                                                    type="checkbox"
-                                                    checked={isCheckedDesignation}
-                                                    onChange={() => setIsCheckedDesignation(!isCheckedDesignation)}
-                                                />
-                                                <span className="can-reg-form-checkmark"></span>
-                                                If your searched designation not in the list, please enable the checkbox & type manually...
-                                            </label>
-                                        </div>
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -945,7 +962,7 @@ const CandidateRegister = () => {
                                                         value={credentials.year}
                                                         onChange={handleInputChange} className='cand--reg-exp-input' min="0" />
                                                     <label htmlFor="years" className='cand--reg-form-label-custom'>Years&nbsp;<span className='is-required'>*</span></label>
-                                                    {require && <small className='text-danger text-capitalized'>{credentials.year === "" && "required"}</small>}
+                                                    {requireStep2 && <small className='text-danger text-capitalized'>{credentials.year === "" && "required"}</small>}
                                                 </div>
                                                 <div className="cand--reg-exp-input-area">
                                                     <input type="number" id='months' name="month"
@@ -993,7 +1010,7 @@ const CandidateRegister = () => {
                                         </div>
 
 
-                                        <div className="can-reg-form-chechbox-area">
+                                        <div className="can-reg-form-chechbox-area custom">
                                             <label className="can-reg-form-check-input">
                                                 <input
                                                     type="checkbox"
@@ -1162,7 +1179,7 @@ const CandidateRegister = () => {
                                 />
                                 <span className="cli--login-remember-checkmark"></span>
                                 <span>By clicking Agree & Join, you agree to the Skillety
-                                    &nbsp;<a href="/terms-and-conditions" target='_blank'>User Agreement</a>,&nbsp;<a href="/privacy-policy-talent" target='_blank'>Privacy Policy</a>
+                                    &nbsp;<a href="/terms-and-conditions-talent" target='_blank'>User Agreement</a>,&nbsp;<a href="/privacy-policy-talent" target='_blank'>Privacy Policy</a>
                                 </span>
                             </label>
                         </div>
