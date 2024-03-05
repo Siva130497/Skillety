@@ -780,7 +780,7 @@ const CandidateRegister = () => {
                                             <label htmlFor="gender" className='cand--reg-form-label'>Gender&nbsp;<span className='is-required'>*</span></label>
                                             
                                         </div>
-                                        <small className='text-danger text-capitalized form-error-message'>required</small>
+                                        {/* <small className='text-danger text-capitalized form-error-message'>required</small> */}
                                     </div>
                                 </div>
                             </div>
@@ -1162,7 +1162,7 @@ const CandidateRegister = () => {
                                 />
                                 <span className="cli--login-remember-checkmark"></span>
                                 <span>By clicking Agree & Join, you agree to the Skillety
-                                    &nbsp;<a href="/terms-and-conditions" target='_blank'>User Agreement</a>,&nbsp;<a href="/privacy-policy" target='_blank'>Privacy Policy</a>
+                                    &nbsp;<a href="/terms-and-conditions" target='_blank'>User Agreement</a>,&nbsp;<a href="/privacy-policy-talent" target='_blank'>Privacy Policy</a>
                                 </span>
                             </label>
                         </div>

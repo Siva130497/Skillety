@@ -57,6 +57,7 @@ import ForgotPassword from './pages/ForgotPassword/ForgotPassword';
 import JobDetails from './pages/JobDetails/JobDetails';
 import ErrorPage from './404/404';
 import JobPostingWeb from './pages/JobPosting/JobPostingWeb';
+import PrivacyPolicyTalent from './pages/PrivacyPolicyTalent/PrivacyPolicyTalent';
 
 import RandomUserChatWeb from './components/RandomUserChatWeb';
 
@@ -123,6 +124,7 @@ function App() {
             <Route path='/company-info/:id' element={<CompanyInformation />} />
             <Route path='*' element={<ErrorPage />}/>
             <Route path='/post-job-web/:token' element={<JobPostingWeb />} />
+            <Route path='/privacy-policy-talent' element={<PrivacyPolicyTalent />} />
 
             <Route path='/random-user-chat-web' element={<RandomUserChatWeb />} />
 
