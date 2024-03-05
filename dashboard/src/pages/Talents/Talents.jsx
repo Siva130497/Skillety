@@ -11,8 +11,10 @@ import './Talents.css';
 import './Talents-responsive.css';
 import { useLocation, useParams } from 'react-router-dom';
 import axios from 'axios';
+import { v4 as uuidv4 } from "uuid";
  
 import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
+import AuthContext from '../../context/AuthContext';
 
 const Talents = () => {
     const { id } = useParams();
@@ -27,6 +29,7 @@ const Talents = () => {
     const [pageNotFound, setPageNotFound] = useState(false);
     const [skillMatchPercentage, setSkillMatchPercentage] = useState()
     const [skillMatch, setSkillMatch] = useState()
+    const {sendinngBGVData} = useContext(AuthContext)
 
     useEffect(() => {
         const preloader = $('#preloader');
@@ -37,7 +40,7 @@ const Talents = () => {
                 });
             }, 500);
         }
-    }, []);
+    }, []); 
 
     useEffect(() => {
 
@@ -121,7 +124,7 @@ const Talents = () => {
 
     useEffect(() => {
         const { percentage } = location.state || {};
-
+        
         if (percentage) {
             setSkillMatchPercentage(percentage)
         }
@@ -180,19 +183,57 @@ const Talents = () => {
 
     useEffect(() => {
         if (loginCandidate) {
-            setCandidateResumeUrl(`https://skillety-n6r1.onrender.com/files/${loginCandidate.file}`)
+            setCandidateResumeUrl(loginCandidate.file)
         }
 
     }, [loginCandidate]);
 
     useEffect(() => {
         if (resume) {
-            setCandidateResumeUrl(`https://skillety-n6r1.onrender.com/files/${resume.file}`)
+            setCandidateResumeUrl(resume.file)
         }
 
     }, [resume]);
 
 
+    const handleSendDetailToBGV = () => {
+        const detail = {
+            unique_id: uuidv4(),
+            candidate_id: loginCandidate?.id,
+            employee_id: location.state?.employeeId,
+            client_id:"Skill2024",
+            password:"RmFjdHN1aXRlQDEyMw==",
+            bgv_form_data: 
+            {
+                firstname: loginCandidate?.firstName,
+                lastname: loginCandidate?.lastName,
+                primary_mobile: loginCandidate?.phone,
+                cv_document : candidateResumeUrl,
+                education_details: loginCandidate?.education.map((edu, index) => ({
+                    [`education_details_${index + 1}`]: {
+                        education_category: edu,
+                        university: loginCandidate?.college
+                    }
+                })),
+                personal_email_id: loginCandidate?.email,
+                past_work_experience: {
+                    past_work_experience_1: {
+                        work_skills: loginCandidate?.skills.join(", "),
+                        company: loginCandidate?.companyName,
+                        title: loginCandidate?.designation[0],
+                        to_date: loginCandidate?.selectedDate
+                    }
+                },
+                contact_details: {
+                    address: {
+                        state: loginCandidate?.location,
+                    },
+                }
+            }
+        }
+        console.log(detail);
+        sendinngBGVData(detail);
+    }
 
     const breakpoints = {
         320: {
@@ -309,7 +350,7 @@ const Talents = () => {
                                                                 <div className="client-talent--profile-ability-number-area">
                                                                     {(skillMatchPercentage || skillMatch) ? <div className="client-talent--profile-ability-number-left talent">
                                                                         <h6 className='client-talent--profile-ability'>Skill or Keyword matched</h6>
-                                                                        <h2 className='client-talent--profile-number'>{skillMatchPercentage ? skillMatchPercentage : skillMatch}%</h2>
+                                                                        <h2 className='client-talent--profile-number'>{skillMatchPercentage || skillMatch}%</h2>
                                                                     </div> : <div className="client-talent--profile-ability-number-left talent">
                                                                         <h6 className='client-talent--profile-ability'>Skill  matched</h6>
                                                                         <h2 className='client-talent--profile-number'>0%</h2>
@@ -362,7 +403,9 @@ const Talents = () => {
                                             </div>
                                         </div>
                                     </div> */}
-
+                                                       
+                                                            <button
+                                                            onClick={handleSendDetailToBGV}>BGV</button>
                                                             <div class="client-talent--profile-detail-section">
                                                                 <div class="client-talent--profile-detail-tab-area">
                                                                     <div class="client-talent--profile-detail-tab-btn-area">
@@ -509,7 +552,7 @@ const Talents = () => {
 
                                                                         <div id="attachedCV" class="client-talent--profile-detail-tab-content">
                                                                             {resume?.file ? 
-                                                                            <>
+                                                                            <div className='tytu'>
                                                                             <div className='cv-file-name'>{resume?.file}</div>
                                                                             <div className="view-cv-toparea">
                                                                                 <button className='download-cv-btn mt-3' onClick={() => {
@@ -520,13 +563,17 @@ const Talents = () => {
                                                                                 </button>
                                                                             </div>
                                                                             {candidateResumeUrl && (
-                                                                            <DocViewer
-                                                                                documents={[{ uri: candidateResumeUrl }]}
-                                                                                renderers={DocViewerRenderers}
-                                                                                className='cv-view-area'
-                                                                            />
+                                                                                        <DocViewer
+                                                                                            documents={[
+                                                                                                { uri: `data:application/pdf;base64,${candidateResumeUrl}` },
+                                                                                                { uri: `data:application/msword;base64,${candidateResumeUrl}` }, // For DOC format
+                                                                                                { uri: `data:application/vnd.openxmlformats-officedocument.wordprocessingml.document;base64,${candidateResumeUrl}` } // For DOCX format
+                                                                                            ]}
+                                                                                            renderers={DocViewerRenderers}
+                                                                                            className='document'
+                                                                                        />
                                                                             )}
-                                                                            </>
+                                                                            </div>
                                                                             :
                                                                             <div className='no-cv-uploaded-area'>
                                                                                 <div className='no-cv-uploaded'>

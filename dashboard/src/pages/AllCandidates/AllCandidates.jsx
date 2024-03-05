@@ -741,7 +741,7 @@ const AllCandidates = () => {
                                                                                 </td>
                                                                                 }
                                                                                 {selectedColumns?.includes("View CV") && <td className='text-left'>
-                                                                                    <button className='application-btn with-modal' onClick={() => handleViewCV(`https://skillety-n6r1.onrender.com/files/${candidate?.file}`)}>
+                                                                                    <button className='application-btn with-modal' onClick={() => handleViewCV(candidate?.file)}>
                                                                                         <span></span>&nbsp;&nbsp;&nbsp;
                                                                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-file-earmark-text-fill" viewBox="0 0 16 16">
                                                                                             <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM4.5 9a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 1 0-1h4a.5.5 0 0 1 0 1h-4z" fill='#0879bc' />
@@ -894,7 +894,7 @@ const AllCandidates = () => {
                                                                                 </td>
                                                                                 }
                                                                                 {selectedColumns?.includes("View CV") && <td className='text-left'>
-                                                                                    <button className='application-btn with-modal' onClick={() => handleViewCV(`https://skillety-n6r1.onrender.com/files/${candidate?.file}`)}>
+                                                                                    <button className='application-btn with-modal' onClick={() => handleViewCV(candidate?.file)}>
                                                                                         <span></span>&nbsp;&nbsp;&nbsp;
                                                                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-file-earmark-text-fill" viewBox="0 0 16 16">
                                                                                             <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM4.5 9a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 1 0-1h4a.5.5 0 0 1 0 1h-4z" fill='#0879bc' />
@@ -1196,13 +1196,16 @@ const AllCandidates = () => {
                     className={`doc-view-modal-content ${isModalOpen ? 'open' : ''}`}
                     overlayClassName={`doc-view-modal-overlay ${isModalOpen ? 'open' : ''}`}
                 >
-
                     {candidateResumeUrl && (
-                        <DocViewer
-                            documents={[{ uri: candidateResumeUrl }]}
-                            renderers={DocViewerRenderers}
-                            className='document'
-                        />
+                                <DocViewer
+                                    documents={[
+                                        { uri: `data:application/pdf;base64,${candidateResumeUrl}` },
+                                        { uri: `data:application/msword;base64,${candidateResumeUrl}` }, // For DOC format
+                                        { uri: `data:application/vnd.openxmlformats-officedocument.wordprocessingml.document;base64,${candidateResumeUrl}` } // For DOCX format
+                                    ]}
+                                    renderers={DocViewerRenderers}
+                                    className='document'
+                                />
                     )}
 
                     <button className="doc-view-close-button" onClick={closeModal}>

@@ -4,9 +4,11 @@ const resumeSchema = new Schema(
   {
     id: {
       type: String,
+      required:true
     },
     file: {
         type:String,
+        required:true
     },
   },
   { timestamps: true }

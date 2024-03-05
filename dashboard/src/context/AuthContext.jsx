@@ -381,7 +381,55 @@ const candidateUpdate = async (userData) => {
   }
 
 
-  return <AuthContext.Provider value={{ candidateReg, loginUser, getProtectedData, errorMsg, setErrorMsg, eventDetail, getEventDetail, getEventImg, eventImg, blogDetail, getBlogsDetail, videoDetail, getVideoDetail, podcastDetail, getPodcastDetail, newsDetail, getNewsDetail, getCandidateImg, candidateImg, getClientImg, clientImg, getClientChoosenPlan, packageSelectionDetail, result, candidateUpdate }}>
+  //BGV Data sending for verification
+  const sendinngBGVData = async (userData) => {
+    try {
+        const username = 'adminBgvFactsuite';
+        const password = 'AdminFSuite123';
+        const authString = `${username}:${password}`;
+        const base64AuthString = btoa(authString);
+
+        const response = await axios.post(
+            `http://3.108.132.101:8080/BgvApi/bgv/requestCandidateVerification?unique_id=${userData.unique_id}&client_id=${userData.client_id}`,
+            userData,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Basic ${base64AuthString}`,
+                },
+            }
+        );
+
+        const result = response.data;
+
+        if (!result.error) {
+            console.log(result);
+
+            await Swal.fire({
+                title: 'User Details sent to BG Verification!',
+                text: 'You will be notified of the verification result',
+                icon: 'success',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'OK',
+            });
+        } else {
+            console.log(result);
+        }
+    } catch (error) {
+        console.log(error);
+
+        await Swal.fire({
+            title: 'Error!',
+            text: error.response.data.error,
+            icon: 'error',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'OK',
+        });
+    }
+};
+
+
+  return <AuthContext.Provider value={{ candidateReg, loginUser, getProtectedData, errorMsg, setErrorMsg, eventDetail, getEventDetail, getEventImg, eventImg, blogDetail, getBlogsDetail, videoDetail, getVideoDetail, podcastDetail, getPodcastDetail, newsDetail, getNewsDetail, getCandidateImg, candidateImg, getClientImg, clientImg, getClientChoosenPlan, packageSelectionDetail, result, candidateUpdate, sendinngBGVData }}>
     {children}
   </AuthContext.Provider>
 }

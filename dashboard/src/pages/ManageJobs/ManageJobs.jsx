@@ -506,10 +506,10 @@ const ManageJobs = () => {
         setSelectedPostedJobViewDetail(selectedPostedJob);
     }
 
-    const handleViewApplicant = (id) => {
-
+    const handleViewApplicant = (cands, Job) => {
+       
         if (packageSelectionDetail) {
-            navigate(`/applied-candidate/${id}`)
+            navigate(`/applied-candidate/${Job.id}`, { state: { cands, Job } })
         } else {
             navigate("/package-plans");
         }
@@ -633,7 +633,7 @@ const ManageJobs = () => {
                                                         {/* table data */}
 
                                                         {postedJobs.map((job) => {
-                                                            const numApplicants = appliedOfPostedJobs.filter(appliedOfPostedJob => appliedOfPostedJob.jobId === job.id).length;
+                                                            const applicants = appliedOfPostedJobs.filter(appliedOfPostedJob => appliedOfPostedJob.jobId === job.id);
 
                                                             const staff = allStaff.find(obj => obj.id === (job.clientId || job.clientStaffId));
 
@@ -647,8 +647,8 @@ const ManageJobs = () => {
                                                                         {`${new Date(job.createdAt).getDate().toString().padStart(2, '0')}/${(new Date(job.createdAt).getMonth() + 1).toString().padStart(2, '0')}/${new Date(job.createdAt).getFullYear() % 100}`}
                                                                     </td>
                                                                     <td className='dash-table-data1 text-center'>
-                                                                        {(job?.active || numApplicants>0) ? <button className='application-btn with-modal' onClick={() => numApplicants > 0 && handleViewApplicant(job.id)}>
-                                                                            <span>{numApplicants}</span>&nbsp;&nbsp;&nbsp;
+                                                                        {(job?.active || applicants.length>0) ? <button className='application-btn with-modal' onClick={() => applicants.length > 0 && handleViewApplicant(applicants, job)}>
+                                                                            <span>{applicants.length}</span>&nbsp;&nbsp;&nbsp;
                                                                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-file-earmark-text-fill" viewBox="0 0 16 16">
                                                                                 <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM4.5 9a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 1 0-1h4a.5.5 0 0 1 0 1h-4z" fill='#0879bc' />
                                                                             </svg>
@@ -686,7 +686,7 @@ const ManageJobs = () => {
                                                                                 </svg>
                                                                             </button>
                                                                             <button className='job-edit-btn' title='Edit job details...' onClick={() => navigate(`/edit-job/${job.id}`)}
-                                                                            disabled={numApplicants>0}>
+                                                                            disabled={applicants.length>0}>
                                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
                                                                                     <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
                                                                                 </svg>
@@ -702,7 +702,7 @@ const ManageJobs = () => {
                                                                                         <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
                                                                                             <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
                                                                                         </svg>
-                                                                                    </button> :
+                                                                                    </button> : 
                                                                                     <button className='job-delete-btn' title='Delete job data...' onClick={() => handleDeleteJob(job.id)}>
                                                                                         <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
                                                                                             <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />

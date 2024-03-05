@@ -634,7 +634,7 @@ const candidateReg = async(req, res) => {
     const allUserAvailable = await allUsers.findOne({ $or: [{ email },  { phone }] });
 
     if (candidateAvailable || allUserAvailable) {
-      return res.status(404).json({ message: "User already registered" });
+      return res.status(404).json({ error: "User already registered" });
     }
     
     const hashPassword = await bcrypt.hash(password, 12);

@@ -171,61 +171,134 @@ io.on('connection', (socket) => {
 
 
 
-const storage = multer.diskStorage({
-  destination: function(req, file, cb) {
-    return cb(null, "./public/files")
-  },
-  filename: function(req, file, cb) {
-    return cb(null, `${Date.now()}_${file.originalname}`)
-  }
-})
+// const storage = multer.diskStorage({
+//   destination: function(req, file, cb) {
+//     return cb(null, "./public/files")
+//   },
+//   filename: function(req, file, cb) {
+//     return cb(null, `${Date.now()}_${file.originalname}`)
+//   }
+// })
 
-const upload = multer({storage});
-app.post('/upload', upload.single('file'), (req, res) => {
-  const uploadedId = req.body.id; 
-  console.log("Uploaded ID:", uploadedId);
-  console.log("Uploaded File:", req.file);
+// const upload = multer({storage});
+// app.post('/upload', upload.single('file'), (req, res) => {
+//   const uploadedId = req.body.id; 
+//   console.log("Uploaded ID:", uploadedId);
+//   console.log("Uploaded File:", req.file);
 
-  resume.create({
-    file: req.file.filename,
-    id: uploadedId,
-  })
-  .then((result) => console.log(result))
-  .then(result => res.json(result))
-  .catch(err => console.log(err))
-});
+//   resume.create({
+//     file: req.file.filename,
+//     id: uploadedId,
+//   })
+//   .then((result) => console.log(result))
+//   .then(result => res.json(result))
+//   .catch(err => console.log(err))
+// });
 
-app.patch('/update-candidate-resume/:id', upload.single('resume'), (req, res) => {
-  const uploadedId = req.params.id;
-  const newResumeFilename = req.file.filename;
+// app.patch('/update-candidate-resume/:id', upload.single('resume'), (req, res) => {
+//   const uploadedId = req.params.id;
+//   const newResumeFilename = req.file.filename;
 
-  resume.findOneAndUpdate(
-    { id: uploadedId },
-    { $set: { file: newResumeFilename } },
-    { new: true },
-    (err, updatedResume) => {
-      if (err) {
-        console.error(err);
-        return res.status(500).json({ error: 'Internal Server Error' });
-      }
+//   resume.findOneAndUpdate(
+//     { id: uploadedId },
+//     { $set: { file: newResumeFilename } },
+//     { new: true },
+//     (err, updatedResume) => {
+//       if (err) {
+//         console.error(err);
+//         return res.status(500).json({ error: 'Internal Server Error' });
+//       }
 
-      if (!updatedResume) {
-        return res.status(404).json({ error: 'Resume not found' });
-      }
+//       if (!updatedResume) {
+//         return res.status(404).json({ error: 'Resume not found' });
+//       }
 
-      console.log('Updated Resume:', updatedResume);
+//       console.log('Updated Resume:', updatedResume);
 
-      res.json(updatedResume);
-    }
-  );
-});
+//       res.json(updatedResume);
+//     }
+//   );
+// });
 
-app.get('/candidate-resume/:id', (req, res)=>{
+app.get('/candidate-resume/:id', async(req, res)=>{
   const {id} = req.params;
-  resume.findOne({id})
-  .then(candidateResume=>res.json(candidateResume))
-  .catch(err=>res.json(err))
+  try {
+    // Fetch the resume from the database based on the provided ID
+    const existingResume = await resume.findOne({ id });
+
+    if (!existingResume) {
+      return res.status(404).json({ error: 'Resume not found' });
+    }
+
+    res.status(200).json(existingResume);
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
 });
+
+
+/* base64 conversion */
+const storageMemory = multer.memoryStorage();
+const uploadImgBase64 = multer({ storage: storageMemory });
+
+app.post('/upload', uploadImgBase64.single('file'), async (req, res) => {
+  try {
+    if (!req.body.id) {
+      return res.status(400).json({ error: 'No resume id provided' });
+    }
+
+    if (!req.file) {
+      return res.status(400).json({ error: 'No resume provided' });
+    }
+
+    // Convert image buffer to base64
+    const base64Image = req.file.buffer.toString('base64');
+
+    // Save the image to the database
+    const newResume = new resume({
+      id: req.body.id,
+      file: base64Image
+    });
+    await newResume.save();
+
+    res.status(200).json({ message: 'Resume uploaded successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+app.patch('/update-candidate-resume/:id', uploadImgBase64.single('resume'), async (req, res) => {
+  try {
+    const {id} = req.params;
+
+    if (!req.file) {
+      return res.status(400).json({ error: 'No resume provided' });
+    }
+
+    // Convert image buffer to base64
+    const base64Image = req.file.buffer.toString('base64');
+
+    // Update the existing content with new logo using findOneAndUpdate
+    const updatedResume = await resume.findOneAndUpdate(
+      { id },
+      { file: base64Image },
+      { new: true }
+    );
+
+    if (!updatedResume) {
+      return res.status(404).json({ error: 'Resume not found' });
+    }
+
+    res.status(200).json({ message: 'Resume updated successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+/*  */
 
 const storageImg = multer.diskStorage({
   destination: function(req, file, cb) {
