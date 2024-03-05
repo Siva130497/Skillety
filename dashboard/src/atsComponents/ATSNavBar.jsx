@@ -204,7 +204,7 @@ const ATSNavBar = () => {
                             ) : (
                                 <p className='no-notification'>
                                     <i className='bi bi-exclamation-circle mr-2'></i>
-                                    No new notifications.
+                                    No unread notifications.
                                 </p>
                             )}
                         </div>

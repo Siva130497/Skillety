@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Autoplay } from 'swiper/modules';
 import 'swiper/css';
@@ -30,6 +30,7 @@ const HomeCandidate = () => {
   const [searchInput, setSearchinput] = useState("");
 
   const [popularSearches, setPopulartSearches] = useState([]);
+  const searchBtnRef = useRef(null);
 
   useEffect(()=>{
     axios.get("https://skillety-n6r1.onrender.com/web-content?ids=content_1,content_3,content_4,content_5,content_6,content_7,content_8,content_9,content_10,content_11,content_12,content_66")
@@ -317,6 +318,20 @@ const HomeCandidate = () => {
     // };
   }, []);
 
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === 'Enter' && searchBtnRef.current && !searchBtnRef.current.disabled) {
+        searchBtnRef.current.click();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
+
   return (
     <div>
       <LayoutNew home={true} />
@@ -374,8 +389,8 @@ const HomeCandidate = () => {
                         </div>
                       ))}
                   </div>
-                  <button className='btn home--search-btn candidate' data-aos="fade-left" data-aos-delay="100"
-                    onClick={handlePopularSearch}>Search</button>
+                  <button ref={searchBtnRef} className='btn home--search-btn candidate' data-aos="fade-left" data-aos-delay="100"
+                    onClick={handlePopularSearch} disabled={selectedResults.length === 0}>Search</button>
                 </div>
                 {popularSearches.length > 0 && <div className="home--popular-area candidate">
                   <h6 data-aos="fade-right">Popular Searches</h6>

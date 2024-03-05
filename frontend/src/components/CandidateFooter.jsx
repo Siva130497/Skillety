@@ -87,12 +87,9 @@ export const CandidateFooter = () => {
                 <div className="row">
                   <div className="col-12 col-lg-4 col-md-4 col-sm-4 footer--quick-link-area">
                     <div className="footer--link-area">
-                      <h6
-                        className="footer--link-head candidate"
-                        data-aos="fade"
-                      >
+                      {/* <h6 className="footer--link-head candidate" data-aos="fade">
                         For Talent
-                      </h6>
+                      </h6> */}
                       <div className="footer--links candidate">
                         <ul>
                           <li data-aos="fade">
@@ -138,7 +135,7 @@ export const CandidateFooter = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="col-12 col-lg-4 col-md-4 col-sm-4 footer--quick-link-area">
+                  {/* <div className="col-12 col-lg-4 col-md-4 col-sm-4 footer--quick-link-area">
                     <div className="footer--link-area">
                       <h6
                         className="footer--link-head candidate"
@@ -216,7 +213,7 @@ export const CandidateFooter = () => {
                         </ul>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               </div>
               <div className="col-12 col-lg-4 col-sm-12 col-xl-6">

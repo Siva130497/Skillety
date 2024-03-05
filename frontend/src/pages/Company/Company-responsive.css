@@ -191,4 +191,8 @@
     .company--content-jobs-area .company--content-industry {
         text-align: center;
     }
+
+    .company--content-row:last-child {
+        border-bottom-width: 4px ;
+    }
 }

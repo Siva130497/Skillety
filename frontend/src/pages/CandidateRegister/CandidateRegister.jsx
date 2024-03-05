@@ -576,7 +576,7 @@ const CandidateRegister = () => {
                             <div className="row">
                                 <div className="col-12">
                                     <div className="cand--reg-form-group cand--reg-custom-padding">
-                                        <label htmlFor="days" className='cand--reg-form-label-custom'>In How many days can you Join? Please select one bucket</label>
+                                        <label htmlFor="days" className='cand--reg-form-label-custom'>Notice Period :</label>
                                         <div className="cand--reg-radio-input-group">
                                             <div className="cand--reg-input-container">
                                                 <input id="day_option_1" className="radio-button" type="radio" name="days" value="0 to 7 days" onChange={handleInputChange} />
@@ -634,7 +634,7 @@ const CandidateRegister = () => {
                                                 disabled={credentials.days !== "0 to 7 days"}
                                             />
                                             <label className="imediate-switch-label" htmlFor="imediate_joiner">
-                                                Imediate joiner
+                                                Immediate joiner
                                             </label>
                                         </div>
                                     </div>
@@ -643,12 +643,12 @@ const CandidateRegister = () => {
                                 <div className="col-12 col-md-12 col-lg-6 col-xl-6">
                                     <div className="cand--reg-form-group can--reg-date">
                                         <label htmlFor="date" className='cand--reg-form-label-custom'>What is your last working day</label>
-                                        <div className="cand--reg-input-group">
+                                        <div className="cand--reg-input-group date">
                                             <DatePicker
                                                 selected={selectedDate}
                                                 onChange={handleDateChange}
                                                 dateFormat="dd/MM/yyyy"
-                                                placeholderText='dd/mm/yyyy'
+                                                placeholderText='DD/MM/YYYY'
                                                 disabled={(credentials.days === "0 to 7 days" && credentials.checkbox) || credentials.days === "Currently not serving notice period"}
                                             />
                                         </div>
