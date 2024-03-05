@@ -1,16 +1,14 @@
 import React, { useContext, useState } from "react";
 import { useEffect } from "react";
-import "./PrivacyPolicy.css";
-import "./PrivacyPolicy-responsive.css";
-import Layout from "../../components/Layout";
-import { Footer } from "../../components/Footer";
+import LayoutNew from '../../components/LayoutNew';
+import { CandidateFooter } from '../../components/CandidateFooter';
 
 const PrivacyPolicy = () => {
     useEffect(() => { }, []);
 
     return (
         <div>
-            <Layout />
+            <LayoutNew />
             <div className="cli--tal-pro-search-section">
                 <div className="container-fluid">
                     <div className="container-fluid container-section">
@@ -250,7 +248,7 @@ const PrivacyPolicy = () => {
                     </div>
                 </div>
             </div>
-            <Footer />
+            <CandidateFooter />
         </div>
     );
 };
