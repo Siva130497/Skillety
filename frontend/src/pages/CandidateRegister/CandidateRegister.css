@@ -593,6 +593,10 @@
     margin: 30px 0 0 0;
 }
 
+.can-reg-form-chechbox-area.custom {
+    margin: 10px 0 0 0;
+}
+
 .can-reg-form-check-input {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -789,4 +793,8 @@ input[type="number"]::-webkit-outer-spin-button {
 
 .cand--reg-input-group.date input::placeholder{
     color: #c2b2ab !important;
+}
+
+.cand--reg-custom-padding.custom{
+    padding: 0px !important;
 }

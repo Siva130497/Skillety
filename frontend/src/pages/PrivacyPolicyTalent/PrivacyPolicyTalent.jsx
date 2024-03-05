@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import LayoutNew from '../../components/LayoutNew';
 import { CandidateFooter } from '../../components/CandidateFooter';
 
-const PrivacyPolicy = () => {
+const PrivacyPolicyTalent = () => {
     useEffect(() => { }, []);
 
     return (
@@ -252,4 +252,4 @@ const PrivacyPolicy = () => {
         </div>
     );
 };
-export default PrivacyPolicy;
+export default PrivacyPolicyTalent;
