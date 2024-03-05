@@ -261,10 +261,12 @@ const Layout = ({ newNavBarClientRegister, newNavBarClientLogin, newNavBarCandid
         <span>Back</span>
       </button> */}
 
-      <button className="go-back-button-style-2" onClick={handleBackButtonClick}>
-        <i className="bi bi-chevron-double-left"></i>
-        <span>Back</span>
-      </button>
+      {!(window.location.pathname === '/client-login' || window.location.pathname === '/client-register' || window.location.pathname === '/candidate-login') &&
+          <button className="go-back-button-style-2" onClick={handleBackButtonClick}>
+            <i className="bi bi-chevron-double-left"></i>
+            <span>Back</span>
+          </button>
+      }
 
       <RandomChat/>
 
