@@ -30,13 +30,13 @@ const ClientRegister = () => {
     const [selectedIndustry, setSelectedIndustry] = useState([]);
 
     let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    // const [require, setRequire] = useState(false)
+    const [require, setRequire] = useState(false)
     const [spinStatus, setSpinStatus] = useState(false);
 
     //for show error message for payment
     function showErrorMessage(message) {
         Swal.fire({
-            title: 'Alert',
+            title: 'Error',
             text: message,
             icon: 'info',
             confirmButtonColor: '#d33',
@@ -104,6 +104,8 @@ const ClientRegister = () => {
             }
         } catch (error) {
             console.log(error);
+            setSpinStatus(false);
+            showErrorMessage(error.response.data.error);
         }
     };
 
@@ -134,12 +136,15 @@ const ClientRegister = () => {
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
+        if (name === "phone" && value.length === 13) {
+            return;
+        }
         setcredentials({ ...credentials, [name]: value });
     }
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        setSpinStatus(true)
+        
         if (
             credentials.name &&
             credentials.companyName &&
@@ -151,7 +156,7 @@ const ClientRegister = () => {
             emailRegex.test(credentials.email) &&
             isAgreed
         ) {
-
+            setSpinStatus(true);
             const updatedCredentials = {
                 ...credentials,
                 industry: selectedIndustry[0],
@@ -159,6 +164,8 @@ const ClientRegister = () => {
             console.log(updatedCredentials);
             registerUser(updatedCredentials);
 
+        }else{
+            setRequire(true);
         }
 
     };
@@ -242,13 +249,15 @@ const ClientRegister = () => {
 
                             <div className="cli--reg-form-area">
                                 <div className="con--note-form-area" data-aos="fade-up">
-                                    <form action="" onSubmit={handleSubmit}>
+                                    <form action="" 
+                                    // onSubmit={handleSubmit}
+                                    >
                                         <div className="row">
                                             <div className="col-12 col-lg-6 col-md-6 col-sm-6 custom-padding-right">
                                                 <div className='reg--form-group custom'>
                                                     <input type="text" id='full_name' name="name" value={credentials.name} onChange={handleInputChange} placeholder="Enter your full name" className='reg--form-input' required />
                                                     <label htmlFor="full_name" className='reg--form-label'>Your Full Name&nbsp;<span className='is-required'>*</span></label>
-                                                    <small className='text-danger text-capitalized form-error-message'>{credentials.name === "" && "required"}</small>
+                                                    {require && <small className='text-danger text-capitalized form-error-message'>{credentials.name === "" && "required"}</small>}
                                                 </div>
                                             </div>
                                             <div className="col-12 col-lg-6 col-md-6 col-sm-6 custom-padding-left">
@@ -264,14 +273,14 @@ const ClientRegister = () => {
                                                 <div className='reg--form-group'>
                                                     <input type="number" id='phone_no' name="phone" value={credentials.phone} onChange={handleInputChange} placeholder="Enter your mobile number" className='reg--form-input' required />
                                                     <label htmlFor="phone_no" className='reg--form-label'>Mobile Number&nbsp;<span className='is-required'>*</span></label>
-                                                    <small className='text-danger text-capitalized form-error-message'>{credentials.phone === "" && "required"}</small>
+                                                    {require && <small className='text-danger text-capitalized form-error-message'>{credentials.phone === "" && "required"}</small>}
                                                 </div>
                                             </div>
                                             <div className="col-12 col-lg-6 col-md-6 col-sm-6 custom-padding-left">
                                                 <div className='reg--form-group'>
                                                     <input type="text" id='subject' name="companyName" value={credentials.companyName} onChange={handleInputChange} placeholder="Enter the company name" className='reg--form-input' required />
                                                     <label htmlFor="subject" className='reg--form-label'>Company Name&nbsp;<span className='is-required'>*</span></label>
-                                                    <small className='text-danger text-capitalized form-error-message'>{credentials.companyName === "" && "required"}</small>
+                                                    {require && <small className='text-danger text-capitalized form-error-message'>{credentials.companyName === "" && "required"}</small>}
                                                 </div>
                                             </div>
                                             <div className="col-12 col-lg-6 col-md-8 col-sm-8 custom-padding-right1">
@@ -337,7 +346,7 @@ const ClientRegister = () => {
                                                                 >{selectIndustry}</span>
                                                             ))}
                                                         </div>
-                                                        <small className='text-danger text-capitalized'>{selectedIndustry.length === 0 && "required"}</small>
+                                                        {require && <small className='text-danger text-capitalized'>{selectedIndustry.length === 0 && "required"}</small>}
                                                     </div>
 
                                                     {/* <div className='search-result-data-area'>
@@ -355,14 +364,14 @@ const ClientRegister = () => {
                                                 <div className='reg--form-group'>
                                                     <input type="number" id='subject' name="count" value={credentials.count} min="0" onChange={handleInputChange} placeholder="Enter the headcount" className='reg--form-input' required />
                                                     <label htmlFor="subject" className='reg--form-label'>Headcount&nbsp;<span className='is-required'>*</span></label>
-                                                    <small className='text-danger text-capitalized form-error-message'>{credentials.count === "" && "required"}</small>
+                                                    {require && <small className='text-danger text-capitalized form-error-message'>{credentials.count === "" && "required"}</small>}
                                                 </div>
                                             </div>
                                             <div className="col-12 col-lg-12 col-md-12 col-sm-12 custom-padding-left-right mt-4">
                                                 <div className='reg--form-group'>
                                                     <input type="text" id='message' name="text" value={credentials.text} onChange={handleInputChange} placeholder="Enter, How did you know about skillety?" className='reg--form-input' />
                                                     <label htmlFor="message" className='reg--form-label'>How did you know about skillety?&nbsp;<span className='is-required'>*</span></label>
-                                                    <small className='text-danger text-capitalized form-error-message'>{credentials.text === "" && "required"}</small>
+                                                    {require && <small className='text-danger text-capitalized form-error-message'>{credentials.text === "" && "required"}</small>}
                                                 </div>
                                             </div>
                                         </div>
@@ -383,7 +392,8 @@ const ClientRegister = () => {
                                                     </span>
                                                 </label>
                                             </div>
-                                            <button type='submit' className='reg--form-btn-sub' disabled={!isAgreed} data-aos="fade-left">
+                                            <button type='submit' className='reg--form-btn-sub' disabled={!isAgreed} data-aos="fade-left"
+                                            onClick={handleSubmit}>
                                                 <div className='reg--form-btn client'>
                                                     {spinStatus && <svg aria-hidden="true" role="status" class="inline w-4 h-4 mr-3 text-white animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                         <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="#FFF"></path>

@@ -83,12 +83,13 @@ const clientRegister = async(req, res) => {
   const {recruiterId, ...clientData} = req.body;
   try {
     console.log(req.body);
+    
     const {email, name, phone} = clientData;
-    const clientAvailable = await client.findOne({ $or: [{ email },  {phone}] });
-    const allUserAvailable = await allUsers.findOne({ $or: [{ email },  { phone }] });
+    const clientAvailable = await client.findOne({ $or: [{email:{ $regex: new RegExp(email.toLowerCase(), "i") }},  {phone}] });
+    const allUserAvailable = await allUsers.findOne({ $or: [{email:{ $regex: new RegExp(email.toLowerCase(), "i") }},  { phone }] });
 
     if (clientAvailable || allUserAvailable) {
-      return res.status(404).json({ message: "User already registered" });
+      return res.status(404).json({ error: "This email or phone number already registered" });
     }
     const id = uuidv4();
     const newClient = new client({
@@ -240,7 +241,7 @@ const createClient = async (req, res) => {
       await newTempClient.save();
       console.log(newTempClient);
 
-      const existingClientUrlWithEmail = await clientUrlWithEmail.findOne({ email: newTempClient.email });
+      const existingClientUrlWithEmail = await clientUrlWithEmail.findOne({email:{ $regex: new RegExp(newTempClient.email.toLowerCase(), "i") }});
 
       if (existingClientUrlWithEmail) {
         existingClientUrlWithEmail.url.push(newTempClient.url);
@@ -305,8 +306,8 @@ const createClientStaff = async (req, res) => {
   
   try {
     const {email, name, phone} = req.body; 
-    const userAvailable = await finalClient.findOne(({ $or: [{ email }, {phone}] }));
-    const allUserAvailable = await allUsers.findOne({ $or: [{ email },  { phone }] });
+    const userAvailable = await finalClient.findOne(({ $or: [{email:{ $regex: new RegExp(email.toLowerCase(), "i") }}, {phone}] }));
+    const allUserAvailable = await allUsers.findOne({ $or: [{email:{ $regex: new RegExp(email.toLowerCase(), "i") }},  { phone }] });
 
     if (userAvailable || allUserAvailable) {
       return res.status(404).json({ message: "User already registered" });
@@ -630,11 +631,11 @@ const candidateReg = async(req, res) => {
   try {
     console.log(req.body);
     const {firstName, lastName, email, id, password, phone} = req.body; 
-    const candidateAvailable = await candidate.findOne({ $or: [{ email },  {phone}] });
-    const allUserAvailable = await allUsers.findOne({ $or: [{ email },  { phone }] });
+    const candidateAvailable = await candidate.findOne({ $or: [{email:{ $regex: new RegExp(email.toLowerCase(), "i") }},  {phone}] });
+    const allUserAvailable = await allUsers.findOne({ $or: [{email:{ $regex: new RegExp(email.toLowerCase(), "i") }},  { phone }] });
 
     if (candidateAvailable || allUserAvailable) {
-      return res.status(404).json({ error: `This email or phone num already registered`});
+      return res.status(404).json({ error: `This email or phone number already registered`});
     }
     
     const hashPassword = await bcrypt.hash(password, 12);
@@ -699,7 +700,7 @@ const candidateRegAfterGoogleLogin = async(req, res) => {
 
     const candidateAvailable = await candidate.findOne({ email });
     const allUserAvailable = await allUsers.findOne({ email });
-    const googleLoginCandidate = await googleLoginCand.findOne({ email });
+    const googleLoginCandidate = await googleLoginCand.findOne({email:{ $regex: new RegExp(email.toLowerCase(), "i") }});
 
     if(googleLoginCandidate){
       return res.status(200).json(googleLoginCandidate)
@@ -1675,8 +1676,8 @@ const createRecruiter = async(req, res) => {
   try {
     console.log(req.body);
     const {email, password, id, name, phone, role} = req.body; 
-    const employeeAvailable = await employee.findOne(({ $or: [{ email },  {phone}] }));
-    const allUserAvailable = await allUsers.findOne({ $or: [{ email },  { phone }] });
+    const employeeAvailable = await employee.findOne(({ $or: [{email:{ $regex: new RegExp(email.toLowerCase(), "i") }},  {phone}] }));
+    const allUserAvailable = await allUsers.findOne({ $or: [{email:{ $regex: new RegExp(email.toLowerCase(), "i") }},  { phone }] });
 
     if (employeeAvailable || allUserAvailable) {
       return res.status(404).json({ message: "User already registered" });
@@ -1861,7 +1862,7 @@ const forgotPassword = async(req, res) => {
   const {email} = req.body;
   try{
     await forgotPasswordUser.deleteOne({email:email});
-    const userAlreadyCreated = await allUsers.findOne({email:email});
+    const userAlreadyCreated = await allUsers.findOne({email:{ $regex: new RegExp(email.toLowerCase(), "i") }});
     if(userAlreadyCreated){
       const charset = '0123456789';
       let verificationCode = '';
@@ -2664,8 +2665,8 @@ const updatingClientEmail = async (req, res) => {
   const { id, email } = req.body;
 
   try {
-    const finalClientAvailable = await finalClient.findOne({ email });
-    const userAvailable = await allUsers.findOne({ email });
+    const finalClientAvailable = await finalClient.findOne({email:{ $regex: new RegExp(email.toLowerCase(), "i") }});
+    const userAvailable = await allUsers.findOne({email:{ $regex: new RegExp(email.toLowerCase(), "i") }});
     if (finalClientAvailable || userAvailable){
       return res.status(400).json({message:"User Already exiest with this email"})
     }
@@ -2998,8 +2999,8 @@ const updatingCandidateEmail = async (req, res) => {
 
   try {
 
-    const candidateAvailable = await candidate.findOne({ email });
-    const userAvailable = await allUsers.findOne({ email });
+    const candidateAvailable = await candidate.findOne({email:{ $regex: new RegExp(email.toLowerCase(), "i") }});
+    const userAvailable = await allUsers.findOne({email:{ $regex: new RegExp(email.toLowerCase(), "i") }});
     if (candidateAvailable || userAvailable){
       return res.status(400).json({message:"User Already exiest with this email"})
     }
@@ -3554,8 +3555,8 @@ const deleteAllNotifications = async (req, res) => {
 /* recruiter creating candidate */
 const createCandidate = async (req, res) => {
   const { email, id, phone, createdFrom } = req.body; 
-  const candidateAvailable = await candidate.findOne({ $or: [{ email },  {phone}] });
-  const allUserAvailable = await allUsers.findOne({ $or: [{ email },  { phone }] });
+  const candidateAvailable = await candidate.findOne({ $or: [{email:{ $regex: new RegExp(email.toLowerCase(), "i") }},  {phone}] });
+  const allUserAvailable = await allUsers.findOne({ $or: [{email:{ $regex: new RegExp(email.toLowerCase(), "i") }},  { phone }] });
 
   if (candidateAvailable || allUserAvailable) {
     return res.status(404).json({ error: "User already registered" });
@@ -5318,7 +5319,7 @@ const offlineClientRegister = async (req, res) => {
 
   try {
     
-    const existingClient = await offlineClient.findOne({ companyName, email, mobile });
+    const existingClient = await offlineClient.findOne({ companyName, email:{ $regex: new RegExp(email.toLowerCase(), "i") }, mobile });
 
     if (existingClient) {
       return res.status(400).json({ error: 'Company already exists with the same combination of companyName, email, and mobile' });
@@ -5760,9 +5761,9 @@ const offlineCandRegister = async (req, res) => {
 
   try {
     
-    const offlineCandAvailable = await offlineCand.findOne({ $or: [{ emailId },  { mobileNumber }] });
-    const candidateAvailable = await candidate.findOne({ $or: [{ email:emailId },  {phone:mobileNumber}] });
-    const allUserAvailable = await allUsers.findOne({ $or: [{ email:emailId },  {phone:mobileNumber}] });
+    const offlineCandAvailable = await offlineCand.findOne({ $or: [{emailId:{ $regex: new RegExp(emailId.toLowerCase(), "i") }},  { mobileNumber }] });
+    const candidateAvailable = await candidate.findOne({ $or: [{email:{ $regex: new RegExp(emailId.toLowerCase(), "i") }},  {phone:mobileNumber}] });
+    const allUserAvailable = await allUsers.findOne({ $or: [{email:{ $regex: new RegExp(emailId.toLowerCase(), "i") }},  {phone:mobileNumber}] });
 
     if (offlineCandAvailable || candidateAvailable || allUserAvailable) {
       return res.status(400).json({ error: 'Candidate already exists with the same email or mobile' });
