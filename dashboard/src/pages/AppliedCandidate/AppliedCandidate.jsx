@@ -10,6 +10,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import AuthContext from '../../context/AuthContext';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
+import ErrorPage from '../../404/404'
 
 const AppliedCandidate = () => {
     const [clientToken, setClientToken] = useState("");
@@ -32,8 +33,8 @@ const AppliedCandidate = () => {
 
     const navigate = useNavigate();
 
-    // const [loading, setLoading] = useState(true);
-    // const [pageNotFound, setPageNotFound] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const [pageNotFound, setPageNotFound] = useState(false);
 
     // useEffect(() => {
     //     const preloader = $('#preloader');
@@ -508,8 +509,15 @@ const AppliedCandidate = () => {
             });
             const result = response.data;
             if (!result.error) {
-                console.log(result);
-                setCandidateDetail(result);
+                const filteredCandidates = result.filter(candidate => cands.includes(candidate.id));
+                if(filteredCandidates.length>0){
+                    setReqCands(filteredCandidates)
+                    setLoading(false);
+                }else{
+                    setLoading(false);
+                    setPageNotFound(true);
+                }
+                
             } else {
                 console.log(result);
             }
@@ -519,13 +527,15 @@ const AppliedCandidate = () => {
     };
 
     useEffect(() => {
-        // getAllCandidateDetail();
+        setJob(Job);
         getCandidateImg();
-        setReqCands(cands)
-        setJob(Job)
     }, []);
 
-    
+    useEffect(() => {
+        if(cands){
+            getAllCandidateDetail();
+        }
+    }, [cands]);
 
     // useEffect(() => {
     //     if (id) {
@@ -705,10 +715,9 @@ const AppliedCandidate = () => {
         
       };
       
-console.log(cands, job)
     return (
         <div>
-            {/* {loading && <div>Loading...</div>} */}
+            {loading && <div>Loading...</div>}
             {reqCands.length > 0 && <div class="main-wrapper main-wrapper-1">
                 <div class="navbar-bg"></div>
                 <ClientLayout />
@@ -755,7 +764,7 @@ console.log(cands, job)
                                         const matchingSkills = skills2.filter(skill => skills1.includes(skill));
                                         return (matchingSkills.length / skills1.length) * 100;
                                     }
-                                    // const percentage = Math.round(calculateMatchPercentage(job?.skills, candidate.skills));
+                                    const percentage = Math.round(calculateMatchPercentage(job?.skills, candidate.skills));
 
                                     const status = applicationStatus.find(status=>status.candidateId === candidate.id)?.status;
                                     
@@ -857,7 +866,7 @@ console.log(cands, job)
                                                         <p className='tal--pro-card-role-name mb-0'>{candidate.designation[0]}</p>
                                                     </div>
                                                     <div className="tal--pro-card-contact-btn-area">
-                                                        <button className='tal--pro-card-contact-btn' onClick={() => navigate(`/talents/${candidate.id}`, { state: { employeeId } })}>View Profile</button>
+                                                        <button className='tal--pro-card-contact-btn' onClick={() => navigate(`/talents/${candidate.id}`, { state: { percentage, employeeId } })}>View Profile</button>
                                                         {/* <span className="profile-credits-title">&#129031; 01 Credit</span> */}
 
                                                         {/* <div className="profile-credits-area">
@@ -872,7 +881,7 @@ console.log(cands, job)
                                                     <div className="tal--pro-card-ability-number-area applied">
                                                         <div className="tal--pro-card-ability-number-left applied">
                                                             <h6 className='tal--pro-card-ability'>Skill matched</h6>
-                                                            {/* <h2 className='tal--pro-card-percentage custom'>{percentage}%</h2> */}
+                                                            <h2 className='tal--pro-card-percentage custom'>{percentage}%</h2>
                                                         </div>
                                                         <div className="tal--pro-card-ability-number-right applied">
                                                             <h6 className='tal--pro-card-ability'>Can join in</h6>
@@ -923,11 +932,7 @@ console.log(cands, job)
                 </div>
                 <Footer />
             </div>}
-            {/* {pageNotFound && <div>
-                    <h1>404</h1>
-                    <p>Not Found</p>
-                    <small>The resource requested could not be found on this server!</small>
-                </div>} */}
+            {pageNotFound && <ErrorPage/>}
         </div>
     )
 }

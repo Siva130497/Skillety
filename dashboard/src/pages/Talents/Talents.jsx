@@ -12,6 +12,7 @@ import './Talents-responsive.css';
 import { useLocation, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { v4 as uuidv4 } from "uuid";
+import ErrorPage from '../../404/404'
  
 import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
 import AuthContext from '../../context/AuthContext';
@@ -31,16 +32,16 @@ const Talents = () => {
     const [skillMatch, setSkillMatch] = useState()
     const {sendinngBGVData} = useContext(AuthContext)
 
-    useEffect(() => {
-        const preloader = $('#preloader');
-        if (preloader.length) {
-            setTimeout(function () {
-                preloader.fadeOut('slow', function () {
-                    preloader.remove();
-                });
-            }, 500);
-        }
-    }, []); 
+    // useEffect(() => {
+    //     const preloader = $('#preloader');
+    //     if (preloader.length) {
+    //         setTimeout(function () {
+    //             preloader.fadeOut('slow', function () {
+    //                 preloader.remove();
+    //             });
+    //         }, 500);
+    //     }
+    // }, []); 
 
     useEffect(() => {
 
@@ -226,7 +227,7 @@ const Talents = () => {
                 },
                 contact_details: {
                     address: {
-                        state: loginCandidate?.location,
+                        city: loginCandidate?.location,
                     },
                 }
             }
@@ -255,7 +256,7 @@ const Talents = () => {
 
     return (
         <div>
-            {loading && <div id="preloader"></div>}
+            {loading && <div >Loading...</div>}
             {loginCandidate &&
                 <div>
                     <div class="main-wrapper main-wrapper-1">
@@ -775,11 +776,7 @@ const Talents = () => {
 
 
                 </div>}
-            {pageNotFound && <div>
-                <h1>404</h1>
-                <p>Not Found</p>
-                <small>The resource requested could not be found on this server!</small>
-            </div>}
+            {pageNotFound && <ErrorPage/>}
         </div>
     )
 }

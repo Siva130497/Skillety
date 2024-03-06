@@ -67,6 +67,7 @@ const CandidateRegister = () => {
         month: "",
         profileHeadline: "",
         college: "",
+        gender: "",
         checkbox: false,
     };
     const [credentials, setCredentials] = useState(initialCredentials);
@@ -80,6 +81,7 @@ const CandidateRegister = () => {
     const [selectedEducation, setSelectedEducation] = useState([]);
 
     const [spinStatus, setSpinStatus] = useState(false);
+    const [dateStringValueCheck, setDateStringValueCheck] = useState(true);
 
     const handleTogglePassword = () => {
         setShowPassword(!showPassword);
@@ -87,7 +89,7 @@ const CandidateRegister = () => {
     const handleToggleConfirmPassword = () => {
         setShowConfirmPassword(!showConfirmPassword);
     };
-
+    
     //for show success message for payment
     function showSuccessMessage(message) {
         Swal.fire({
@@ -280,7 +282,7 @@ const CandidateRegister = () => {
             return; 
         }
 
-        if (name === "days" && value === "Currently not serving notice period") {
+        if ((name === "days" && value === "Currently not serving notice period") || (type === "checkbox" && value === true)) {
             setDateString("");
             setSelectedDate(null); 
         }
@@ -531,11 +533,20 @@ const CandidateRegister = () => {
 
     };
 
+    useEffect(()=>{
+        if ((credentials.days === "0 to 7 days" && credentials.checkbox) ||
+            credentials.days === "Currently not serving notice period") {
+            setDateStringValueCheck(true);
+        } else{
+            dateString ? setDateStringValueCheck(true) : setDateStringValueCheck(false);
+        }
+    },[credentials, dateString])
+
     const handleNext = () => {
         let isValid = true;
         if (step === 1) {
-
-            if (credentials.days === "" || credentials.firstName === "" || credentials.lastName === "" || credentials.phone === "" || credentials.email === "" || credentials.password === "" || credentials.confirmPassword === "" || credentials.password !== credentials.confirmPassword || !resume || credentials.password.length < 8 || !(emailRegex.test(credentials.email))) {
+            
+            if (credentials.days === "" || credentials.firstName === "" || credentials.lastName === "" || credentials.phone === "" || credentials.email === "" || credentials.password === "" || credentials.confirmPassword === "" || credentials.password !== credentials.confirmPassword || !resume || credentials.password.length < 8 || !(emailRegex.test(credentials.email)) || !dateStringValueCheck) {
                 // if (credentials.password.length < 8) {
                 //     return showErrorMessage("password must be atleast 8 characters long")
                 // } else if (credentials.password !== credentials.confirmPassword) {
@@ -563,6 +574,7 @@ const CandidateRegister = () => {
         //     }
         // }
         if (isValid) {
+            
             setStep(step + 1);
         }
     };
@@ -570,9 +582,14 @@ const CandidateRegister = () => {
 
     const handleBack = () => {
         if (step > 1) {
+            if(step === 2 ){
+            setRequire(false)}
+            else if (step === 3){
+              setRequireStep2(false)}
             setStep(step - 1);
         }
     };
+    console.log(require)
 
     const renderStep = () => {
         switch (step) {
@@ -670,6 +687,7 @@ const CandidateRegister = () => {
                                                 disabled={(credentials.days === "0 to 7 days" && credentials.checkbox) || credentials.days === "Currently not serving notice period"}
                                             />
                                         </div>
+                                        {require && <small className='text-danger text-capitalized form-error-message'>{!dateStringValueCheck && "required"}</small>}
                                     </div>
                                 </div>
                             </div>
@@ -781,7 +799,10 @@ const CandidateRegister = () => {
                                 <div className="col-12 col-lg-6 col-md-6 col-sm-6 custom-padding-left">
                                     <div className='cand--reg-form-group'>
                                         <div className='position-relative'>
-                                                <select className='cand--reg-form-input' id='gender' required> 
+                                                <select className='cand--reg-form-input' id='gender' required
+                                                value={credentials.gender}
+                                                onChange={handleInputChange}
+                                                name='gender'> 
                                                     <option value="" selected disabled>Select</option>
                                                     <option value="Male">Male</option>
                                                     <option value="Female">Female</option>
