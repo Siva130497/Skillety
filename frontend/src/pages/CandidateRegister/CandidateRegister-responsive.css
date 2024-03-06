@@ -130,6 +130,10 @@
     .custom-padding-left2 {
         padding-left: 10px;
     }
+
+    .custom-padding-right.custom{
+        padding-right: 0.75rem; 
+    }
 }
 
 @media (max-width:500px) {
@@ -289,5 +293,16 @@
 
     .form-no-padding{
         padding: 0;
+    }
+
+    .custom-bottom{
+        left: 12px;
+    }
+
+    .custom-padding-left2{
+        padding: 0 1.5rem;
+    }
+    .custom-padding-right.custom{
+        padding-right: 1.5rem; 
     }
 }
