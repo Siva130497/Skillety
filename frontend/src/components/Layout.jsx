@@ -248,7 +248,7 @@ const Layout = ({ newNavBarClientRegister, newNavBarClientLogin, newNavBarCandid
   return (
     <div>
 
-      {newNavBarClientRegister ? <NewNavBar clientLogin={true} /> : newNavBarClientLogin ? <NewNavBar clientRegister={true} /> : newNavBarCandidateLogin ? <NewNavBar candidateRegister={true} /> : newNavBarAdminLogin ? <NewNavBar /> : newNavBarRecruiterLogin ? <NewNavBar /> : newNavBarCandidateRegister ? <NewNavBar candidateLogin={true} /> : forgotPassword ? <NewNavBar /> : candVerification ? <NewNavBar candVerification={true} /> : ClientNewPassword ? <NewNavBar /> : <NewNav homeActive={home} aboutUsActive={aboutUs} searchCVActive={searchCV} serviceActive={service} RPOActive={RPO} contactActive={contact} postJobActive={postJob}/>}
+      {newNavBarClientRegister ? <NewNavBar clientLogin={true} /> : newNavBarClientLogin ? <NewNavBar clientRegister={true} /> : newNavBarCandidateLogin ? <NewNavBar candidateRegister={true} /> : newNavBarAdminLogin ? <NewNavBar /> : newNavBarRecruiterLogin ? <NewNavBar /> : newNavBarCandidateRegister ? <NewNavBar candidateLogin={true} /> : forgotPassword ? <NewNavBar /> : candVerification ? <NewNavBar candVerification={true} /> : ClientNewPassword ? <NewNavBar /> : <NewNav homeActive={home} aboutUsActive={aboutUs} searchCVActive={searchCV} serviceActive={service} RPOActive={RPO} contactActive={contact} postJobActive={postJob} />}
 
       {/* <div className='container-fluid'>{children}</div> */}
       {/* <div id="preloader"></div> */}
@@ -262,13 +262,15 @@ const Layout = ({ newNavBarClientRegister, newNavBarClientLogin, newNavBarCandid
       </button> */}
 
       {!(window.location.pathname === '/client-login' || window.location.pathname === '/client-register' || window.location.pathname === '/candidate-login') &&
-          <button className="go-back-button-style-2" onClick={handleBackButtonClick}>
-            <i className="bi bi-chevron-double-left"></i>
-            <span>Back</span>
-          </button>
+        <button className="go-back-button-style-2" onClick={handleBackButtonClick}>
+          <i className="bi bi-chevron-double-left"></i>
+          <span>Back</span>
+        </button>
       }
 
-      <RandomChat/>
+      {!(window.location.pathname === '/client-login' || window.location.pathname === '/client-register' || window.location.pathname === '/candidate-login') &&
+        <RandomChat />
+      }
 
       <a href="#" class="back-to-top d-flex align-items-center justify-content-center">
         <i class="bi bi-chevron-double-up back-to-top-icon"></i>
