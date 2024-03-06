@@ -304,13 +304,13 @@ const CandidateRegister = () => {
         }
 
 
-        if (name === "confirmPassword") {
-            if (value.length < 8) {
-                setPasswordErrorMsg(true);
-            } else {
-                setPasswordErrorMsg(false);
-            }
-        }
+        // if (name === "confirmPassword") {
+        //     if (value.length < 8) {
+        //         setPasswordErrorMsg(true);
+        //     } else {
+        //         setPasswordErrorMsg(false);
+        //     }
+        // }
 
         if (type === "checkbox") {
             if (checked === true) {
@@ -743,9 +743,9 @@ const CandidateRegister = () => {
                                             <label htmlFor="email_id" className='cand--reg-form-label'>Email ID&nbsp;<span className='is-required'>*</span></label>
                                         </div>
 
-                                        <div className='text-capitalized form-error-message'>
-                                            {require && <small className='text-danger'>{credentials.email === "" && "required"}</small>}&nbsp;
-                                            {require && <small className='text-danger text-capitalized'>{!(emailRegex.test(credentials.email)) && "Enter valid email address"}</small>}
+                                        <div className=' form-error-message'>
+                                            {require && <small className='text-danger text-capitalized'>{credentials.email === "" && "required"}</small>}&nbsp;
+                                            {require && <small className='text-danger '>{!(emailRegex.test(credentials.email)) && "Enter valid email address"}</small>}
                                         </div>
                                     </div>
                                 </div>
@@ -766,7 +766,7 @@ const CandidateRegister = () => {
                                                 </i>
                                             }
                                         </div>
-                                        {passwordErrorMsg && <small className='text-danger text-capitalized form-error-message'>password must be 8 characters long</small>}
+                                        {passwordErrorMsg && <small className='text-danger  form-error-message'>Password must be  8 characters long</small>}
                                         {require && <small className='text-danger text-capitalized form-error-message'>{credentials.password === "" && "required"}</small>}
                                     </div>
                                 </div>
@@ -787,7 +787,7 @@ const CandidateRegister = () => {
                                                 </i>
                                             }
                                         </div>
-                                        {confirmPasswordErrorMsg && <small className='text-danger text-capitalized form-error-message'>Password and Confirm Password must match</small>}
+                                        {confirmPasswordErrorMsg && <small className='text-danger  form-error-message'>Password and confirm password should be same</small>}
                                         {require && <small className='text-danger text-capitalized form-error-message'>{credentials.confirmPassword === "" && "required"}</small>}
                                     </div>
                                 </div>
