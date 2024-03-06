@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react'
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
 import { useEffect } from 'react';
 import $, { event } from 'jquery';
@@ -14,6 +14,7 @@ import axios from 'axios';
 
 const CandidateLogin = () => {
     useTokenRedirect();
+    
     const navigate = useNavigate();
     const { loginUser, errorMsg, setErrorMsg } = useContext(AuthContext)
     

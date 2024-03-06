@@ -1,6 +1,6 @@
 import { createContext, useState} from "react";
 import axios from 'axios';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
 import { onAuthStateChanged } from 'firebase/auth';
@@ -10,6 +10,7 @@ const AuthContext = createContext();
 
 export const AuthContextProvider = ({children}) => {
     const navigate = useNavigate();
+    const location = useLocation()
     const [errorMsg, setErrorMsg] = useState("");
     const [eventDetail, setEventDetail] = useState([]);
     const [eventImg, setEventImg] = useState();
@@ -67,12 +68,12 @@ export const AuthContextProvider = ({children}) => {
                 } else if (userData[1] === "login-Candidate") {
                     localStorage.setItem("candidateToken",  JSON.stringify(result.accessToken));
                     // window.open(`https://skillety-dashboard-tk2y.onrender.com/${result.accessToken}`, '_blank');
-                    navigate(-1);
+                    location.state ? navigate("/candidate-home") : navigate(-1);
                 } else if (userData[1] === "login-Client") {
                     localStorage.setItem("clientToken",  JSON.stringify(result.accessToken));
                     // window.open(`https://skillety-dashboard-tk2y.onrender.com/client-dashboard/${result.accessToken}`, '_blank');
                     // window.open(`https://skillety-dashboard-tk2y.onrender.com/post-job/${result.accessToken}`, '_blank');
-                    navigate(-1);
+                    location.state ? navigate("/") : navigate(-1);
                     
                 }
                 
@@ -156,7 +157,7 @@ export const AuthContextProvider = ({children}) => {
                         confirmButtonColor: '#3085d6',
                         confirmButtonText: 'OK',
                     }).then(() => {
-                        navigate("/candidate-login")
+                        navigate("/candidate-login", { state : result})
                     });
                 });
             } else {
