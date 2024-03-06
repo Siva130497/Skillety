@@ -282,7 +282,7 @@ const CandidateRegister = () => {
             return; 
         }
 
-        if ((name === "days" && value === "Currently not serving notice period") || (type === "checkbox" && value === true)) {
+        if ((name === "days" && value === "Currently not serving notice period")) {
             setDateString("");
             setSelectedDate(null); 
         }
@@ -313,6 +313,10 @@ const CandidateRegister = () => {
         }
 
         if (type === "checkbox") {
+            if (checked === true) {
+                setDateString("");
+                setSelectedDate(null); 
+            }
             setCredentials((prevCredentials) => ({
                 ...prevCredentials,
                 checkbox: checked,
@@ -546,7 +550,7 @@ const CandidateRegister = () => {
         let isValid = true;
         if (step === 1) {
             
-            if (credentials.days === "" || credentials.firstName === "" || credentials.lastName === "" || credentials.phone === "" || credentials.email === "" || credentials.password === "" || credentials.confirmPassword === "" || credentials.password !== credentials.confirmPassword || !resume || credentials.password.length < 8 || !(emailRegex.test(credentials.email)) || !dateStringValueCheck) {
+            if (credentials.days === "" || credentials.firstName === "" || credentials.lastName === "" || credentials.phone === "" || credentials.email === "" || credentials.password === "" || credentials.confirmPassword === "" || credentials.password !== credentials.confirmPassword || !resume || credentials.password.length < 8 || !(emailRegex.test(credentials.email)) || !dateStringValueCheck || credentials.gender === "") {
                 // if (credentials.password.length < 8) {
                 //     return showErrorMessage("password must be atleast 8 characters long")
                 // } else if (credentials.password !== credentials.confirmPassword) {
@@ -589,7 +593,7 @@ const CandidateRegister = () => {
             setStep(step - 1);
         }
     };
-    console.log(require)
+    console.log(credentials)
 
     const renderStep = () => {
         switch (step) {
@@ -811,7 +815,7 @@ const CandidateRegister = () => {
                                             <label htmlFor="gender" className='cand--reg-form-label'>Gender&nbsp;<span className='is-required'>*</span></label>
                                             
                                         </div>
-                                        {/* <small className='text-danger text-capitalized form-error-message'>required</small> */}
+                                        {require && <small className='text-danger text-capitalized form-error-message'>{credentials.gender === "" && "required"}</small>}
                                     </div>
                                 </div>
                             </div>
