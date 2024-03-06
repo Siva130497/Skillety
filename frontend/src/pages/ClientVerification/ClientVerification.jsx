@@ -129,7 +129,7 @@ const ClientVerification = () => {
                         confirmButtonColor: '#3085d6',
                         confirmButtonText: 'OK',
                     }).then(() => {
-                        navigate("/client-login")
+                        navigate("/client-login", { state : result})
                     });
                 });
             } else {
