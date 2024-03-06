@@ -633,7 +633,7 @@ const ManageJobs = () => {
                                                         {/* table data */}
 
                                                         {postedJobs.map((job) => {
-                                                            const applicants = appliedOfPostedJobs.filter(appliedOfPostedJob => appliedOfPostedJob.jobId === job.id);
+                                                            const applicants = appliedOfPostedJobs.filter(appliedOfPostedJob => appliedOfPostedJob.jobId === job.id).map(appCandJob=>appCandJob.candidateId);
 
                                                             const staff = allStaff.find(obj => obj.id === (job.clientId || job.clientStaffId));
 
