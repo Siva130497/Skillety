@@ -68,6 +68,7 @@ const CreateCandidate = () => {
         month: "",
         profileHeadline: "",
         college: "",
+        gender:"",
         checkbox: false,
     };
     const [credentials, setCredentials] = useState(initialCredentials);
