@@ -8128,7 +8128,7 @@ const userLogin = async (req, role, res) => {
     }
 
     let user;
-    user = await allUsers.findOne({email:userId});
+    user = await allUsers.findOne({email:{ $regex: new RegExp(userId.toLowerCase(), "i") }});
     if(!user){
       const userIdByNumber = Number(userId);
       if(isNaN(userIdByNumber)){
