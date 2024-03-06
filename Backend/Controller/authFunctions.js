@@ -726,6 +726,7 @@ const candidateRegAfterGoogleLogin = async(req, res) => {
         maxSalary: "not specified",
         preferedlocations: ["not specified"],
         role: "Candidate",
+        gender: "not specified",
         activeIn: new Date()
       });
       await newCandidate.save();
@@ -4218,7 +4219,8 @@ const getACandidateDetail = async (req, res) => {
         expMonth: candidateDetail.month,
         skills: candidateDetail.skills,
         educations: candidateDetail.education,
-        profileHeadline: candidateDetail.profileHeadline
+        profileHeadline: candidateDetail.profileHeadline,
+        gender: candidateDetail.gender
       }
       return res.status(200).json(finalResponse);
     
@@ -4494,6 +4496,7 @@ const getAllNewCandidateDetail = async (req, res) => {
           skills: candidateDetail.skills,
           educations: candidateDetail.education,
           profileHeadline: candidateDetail.profileHeadline,
+          gender: candidateDetail.gender
         };
 
         return finalResponse;
@@ -5277,7 +5280,8 @@ const getUpdatedAppliedOfPostedJobs = async (req, res) => {
                     expMonth: appliedCand.month,
                     skills: appliedCand.skills,
                     educations: appliedCand.education,
-                    profileHeadline: appliedCand.profileHeadline
+                    profileHeadline: appliedCand.profileHeadline,
+                    gender: candidateDetail.gender
                   }
                 };
               } catch (error) {
@@ -8124,7 +8128,7 @@ const userLogin = async (req, role, res) => {
     }
 
     let user;
-    user = await allUsers.findOne({email:userId});
+    user = await allUsers.findOne({email:{ $regex: new RegExp(userId.toLowerCase(), "i") }});
     if(!user){
       const userIdByNumber = Number(userId);
       if(isNaN(userIdByNumber)){
