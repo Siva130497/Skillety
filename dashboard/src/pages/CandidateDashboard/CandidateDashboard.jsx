@@ -50,6 +50,7 @@ const ClientDashboard = () => {
   const [pageNotFound, setPageNotFound] = useState(false);
 
   const [notifications, setNotifications] = useState([]);
+  const [unReadNotifications, setUnReadNotifications] = useState([]);
   const [userName, setUserName] = useState("");
   const [socket, setSocket] = useState(null);
 
@@ -224,14 +225,14 @@ const getData = () => {
     socket?.on("getNotification", data => {
       console.log(data)
       setNotifications(prev => [...prev, data]);
-
+      setUnReadNotifications(prev => [...prev, data]);
       // if(audioBuffer && audioContext){
       //   playSound(audioContext, audioBuffer);
       // }
-      if (!document.hasFocus()) {
-        const sound = new Audio(notificationSound);
-        sound.play();
-      }
+      // if (!document.hasFocus()) {
+      //   const sound = new Audio(notificationSound);
+      //   sound.play();
+      // }
 
     })
 
@@ -327,19 +328,6 @@ const getData = () => {
 
       fetchData();
 
-      axios.get(`https://skillety-n6r1.onrender.com/all-notification/${candidateId}?filter=read`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          Accept: 'application/json'
-        }
-      })
-        .then(res => {
-          console.log(res.data);
-          setNotifications(res.data)
-        })
-        .catch(err => {
-          console.log(err)
-        })
     }
   }, [token]);
 
@@ -410,6 +398,20 @@ const getData = () => {
       getAppliedjobs();
       getSkillMatchJobDetail();
       getClientImg();
+
+      axios.get(`https://skillety-n6r1.onrender.com/all-notification/${candidateId}?filter=read`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: 'application/json'
+        }
+      })
+        .then(res => {
+          console.log(res.data);
+          setNotifications(res.data)
+        })
+        .catch(err => {
+          console.log(err)
+        })
     }
   }, [candidateId])
 
@@ -419,7 +421,7 @@ const getData = () => {
       {candidateId && <div className="main-wrapper main-wrapper-1">
         <div className="navbar-bg"></div>
 
-        <Layout notification={notifications} socket={socket} />
+        <Layout notification={unReadNotifications} socket={socket} />
 
         <div className="main-content">
           <section className="section">

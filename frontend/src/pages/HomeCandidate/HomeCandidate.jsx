@@ -255,11 +255,17 @@ const HomeCandidate = () => {
 
       const combinedResults = [...skills, ...jobRoles];
 
-      if (combinedResults.length > 0) {
-        setFilteredList(combinedResults);
-      } else {
-        setFilteredList([]);
-      }
+      const uniqueResults = combinedResults.filter((item, index, self) =>
+            index === self.findIndex((t) => (
+                t.id === item.id
+            ))
+        );
+
+            if (uniqueResults.length > 0) {
+                setFilteredList(uniqueResults);
+            } else {
+                setFilteredList([]);
+            }
     } else {
       setFilteredList([]);
     }

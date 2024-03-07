@@ -4608,16 +4608,16 @@ const getNotificationForReceiverId = async (req, res) => {
       notifications = await createNotification.find({
         receiverId: { $in: [receiverId] },
         readStatus: true
-      });
+      }).sort({ createdAt: -1 });
     } else if (filter === "unRead") {
       notifications = await createNotification.find({
         receiverId: { $in: [receiverId] },
         readStatus: false
-      });
+      }).sort({ createdAt: -1 });
     } else if (filter === "all") {
       notifications = await createNotification.find({
         receiverId: { $in: [receiverId] },
-      });
+      }).sort({ createdAt: -1 });
     } else {
       return res.status(400).json({ error: "Invalid filter" });
     }
@@ -4638,7 +4638,7 @@ const getNotificationForReceiverId = async (req, res) => {
 const readingNotifications = async (req, res) => {
   try {
     const { notificationIdArray } = req.body;
-
+console.log(notificationIdArray)
     if (!notificationIdArray || !Array.isArray(notificationIdArray)) {
       return res.status(400).json({ error: 'Invalid input data' });
     }

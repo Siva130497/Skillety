@@ -26,8 +26,9 @@ const ClientNavBar = ({ notification }) => {
   // const [playedNotificationIds, setPlayedNotificationIds] = useState([]);
 
   useEffect(() => {
-    setNotifications(notification);
-
+    if(notification?.length>0){
+      setNotifications(notification);
+    }
   }, [notification]);
 
   // const playSound = (context, buffer) => {
@@ -97,21 +98,29 @@ const ClientNavBar = ({ notification }) => {
 
   //   console.log(notifications)
 
-  const displayNotification = ({ senderName, content, time, date, redirect, _id }) => {
+  const handleClick = (notificationIdArray, redirect) => {
+    if (notificationIdArray) {
+      axios.patch("http://localhost:5002/read-notification", { notificationIdArray }, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: 'application/json'
+        }
+      }).then(res => {
+        console.log(res.data);
+        navigate(redirect);
+      }).catch(err => console.log(err));
+    } else {
+      navigate(redirect);
+    }
+  };
+
+  const displayNotification = (notificationData) => {
+    console.log(notificationData)
+    const { content, time, date, redirect, _id } = notificationData;
     const notificationIdArray = [_id]
     return (
       <div className="notification-dropdown-content"
-      onClick={()=>{
-        axios.patch("https://skillety-n6r1.onrender.com/read-notification", notificationIdArray, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            Accept: 'application/json'
-          }
-        }).then(res=>{
-          console.log(res.data)
-          navigate(redirect)
-        }).catch(err=>console.log(err))
-      }}>
+      onClick={()=>handleClick(notificationIdArray, redirect)}>
         <div className="notification-dropdown-content-left">
           <div className="noti-drpdwn-img-area">
             {/* <img src="assets/img/layout/user-img.png" className='noti-drpdwn-img' alt="" /> */}
@@ -171,19 +180,7 @@ const ClientNavBar = ({ notification }) => {
       };
 
       fetchData();
-      axios.get(`https://skillety-n6r1.onrender.com/all-notification/${employeeId}?filter=unRead`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          Accept: 'application/json'
-        }
-      })
-        .then(res => {
-          console.log(res.data);
-          setNotifications(res.data)
-        })
-        .catch(err => {
-          console.log(err)
-        })
+      
     }
   }, [token]);
 
@@ -219,6 +216,20 @@ const ClientNavBar = ({ notification }) => {
       axios.get(`https://skillety-n6r1.onrender.com/client-image/${loginClientDetail.companyId}`)
         .then(res => setClientImg(res.data))
         .catch(err => console.log(err))
+
+        axios.get(`http://localhost:5002/all-notification/${loginClientDetail.companyId}?filter=unRead`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: 'application/json'
+        }
+      })
+        .then(res => {
+          console.log(res.data);
+          setNotifications(res.data)
+        })
+        .catch(err => {
+          console.log(err)
+        })
     }
   }, [loginClientDetail.companyId]);
 
@@ -287,8 +298,8 @@ const ClientNavBar = ({ notification }) => {
             </div>
             <div className="notification-dropdown-content-area">
               {notifications?.length > 0 ? (
-                notifications.reverse().slice(0, 10).map((notification) => (
-                  <div key={notification._id}>{displayNotification(notification)}</div>
+                notifications.map((notification, index) => (
+                  <div key={index}>{displayNotification(notification)}</div>
                 ))
               ) : (
                 <p className='no-notification'>

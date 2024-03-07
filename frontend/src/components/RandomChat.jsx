@@ -25,7 +25,7 @@ const RandomChat = () => {
   const [socket, setSocket] = useState(null);
 
     useEffect(()=>{
-        setSocket(io("https://skillety-n6r1.onrender.com"));
+        setSocket(io("http://localhost:5002"));
     },[]);
 
     useEffect(()=>{
@@ -118,7 +118,7 @@ const RandomChat = () => {
           redirect:'/random-user-chat-ats'
         }
 
-        await socket.emit("sendNotification", notificationData)
+        await socket.emit("sendWebChatNotification", notificationData)
 
         await socket.emit('send_message', messageData);
         setMessages((prevMessages) => [...prevMessages, messageData]);

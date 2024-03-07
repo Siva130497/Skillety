@@ -129,6 +129,8 @@ io.on('connection', (socket) => {
           io.to(receiver?.socketId).emit("getNotification", {
             senderId,
             senderName,
+            receiverId,
+            receiverName,
             content,
             time,
             date,
@@ -147,6 +149,38 @@ io.on('connection', (socket) => {
           time,
           date,
           redirect,
+        });
+      }
+    }
+  });
+
+  socket.on("sendWebChatNotification", ({ senderId, senderName, receiverId, receiverName, content, time, date }) => {
+    console.log({ senderId, senderName, receiverId, receiverName, content, time, date });
+  
+    if (Array.isArray(receiverName)) {
+      // If receiverName is an array, iterate through each name
+      receiverName.forEach((name) => {
+        const receiver = getUser(name);
+        if (receiver) {
+          io.to(receiver?.socketId).emit("getWebChatNotification", {
+            senderId,
+            senderName,
+            content,
+            time,
+            date,
+          });
+        }
+      });
+    } else {
+      // If receiverName is not an array, handle it as a single user
+      const receiver = getUser(receiverName);
+      if (receiver) {
+        io.to(receiver?.socketId).emit("getWebChatNotification", {
+          senderId,
+          senderName,
+          content,
+          time,
+          date,
         });
       }
     }

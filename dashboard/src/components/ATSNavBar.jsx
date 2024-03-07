@@ -38,9 +38,9 @@ const ATSNavBar = () => {
 
         socket?.on("getNotification", handleNotification);
 
-        return () => {
-            socket?.off("getNotification", handleNotification);
-        };
+        // return () => {
+        //     socket?.off("getNotification", handleNotification);
+        // };
     }, [socket]);
 
     const playNotificationSound = () => {

@@ -35,7 +35,7 @@ const VisitorsChat = () => {
     const [randomUniqueUserContent, setRandomUniqueUserContent] = useState([]);
 
     useEffect(()=>{
-        setSocket(io("https://skillety-n6r1.onrender.com"));
+        setSocket(io("http://localhost:5002"));
     },[]);
 
     useEffect(()=>{
@@ -44,7 +44,7 @@ const VisitorsChat = () => {
 
     useEffect(() => {
 
-    socket?.on("getNotification", data => {
+    socket?.on("getWebChatNotification", data => {
         console.log(data)
         setNotifications(prev => [...prev, data]);
 
