@@ -41,6 +41,8 @@ const JobSearch = () => {
     const [selectedLocationResults, setSelectedLocationResults] = useState([]);
     const [selectedEducationResults, setSelectedEducationResults] = useState([]);
 
+    const [appliedJobDetail, setAppliedJobDetail] = useState([]);
+
     const [x, setX] = useState([0, 3]);
 
     const [filters, setFilters] = useState({
@@ -310,6 +312,27 @@ const JobSearch = () => {
     };
 
 
+    const getAppliedjobs = async () => {
+        try {
+           
+            const res = await axios.get(`https://skillety-n6r1.onrender.com/my-applied-jobs/${candidateId}`, {
+                headers: {
+                    Authorization: `Bearer ${candidateToken ? candidateToken : candToken}`,
+                    Accept: 'application/json'
+                }
+            });
+            const result = res.data;
+            if (!result.error) {
+                console.log(result);
+                setAppliedJobDetail(result);
+            } else {
+                console.log(result);
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
     useEffect(() => {
         getPostedjobs();
         getClientImg();
@@ -325,6 +348,7 @@ const JobSearch = () => {
     useEffect(() => {
         if (candidateId) {
             getSkillMatchJobDetail();
+            getAppliedjobs();
         }
     }, [candidateId])
 
@@ -445,8 +469,14 @@ const JobSearch = () => {
 
             const combinedResults = [...skills, ...jobRoles];
 
-            if (combinedResults.length > 0) {
-                setFilteredList(combinedResults);
+            const uniqueResults = combinedResults.filter((item, index, self) =>
+            index === self.findIndex((t) => (
+                t.id === item.id
+            ))
+        );
+
+            if (uniqueResults.length > 0) {
+                setFilteredList(uniqueResults);
             } else {
                 setFilteredList([]);
             }
@@ -2416,7 +2446,7 @@ const JobSearch = () => {
                                                                         const matchingImg = clientImg ? clientImg.find(img => img.id === job.companyId) : null;
                                                                         const imgSrc = matchingImg ? `https://skillety-n6r1.onrender.com/client_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
                                                                         const companyName = clients.find(cli => cli.companyId === job.companyId)?.companyName
-
+                                                                        const isApplied = appliedJobDetail.find(appJob=>appJob.jobId === job.id);
                                                                         const calculateMatchPercentage = (skills1, skills2) => {
                                                                             const matchingSkills = skills2.filter(skill => skills1.includes(skill));
                                                                             return (matchingSkills.length / skills1.length) * 100;
@@ -2480,7 +2510,7 @@ const JobSearch = () => {
 
                                                                                     </div>
                                                                                     <div className="job--detail-card-know-more-btn-area">
-                                                                                        <a href={`/job-detail/${job.id}`} className='job--detail-card-know-more-btn'>Know more</a>
+                                                                                        <a href={`/job-detail/${job.id}`} className='job--detail-card-know-more-btn'>{isApplied? "Applied" :"Know more"}</a>
                                                                                     </div>
                                                                                 </div>
                                                                             </article>
@@ -2490,6 +2520,8 @@ const JobSearch = () => {
                                                                             const matchingImg = clientImg ? clientImg.find(img => img.id === job.companyId) : null;
                                                                             const imgSrc = matchingImg ? `https://skillety-n6r1.onrender.com/client_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
                                                                             const companyName = clients.find(cli => cli.companyId === job.companyId)?.companyName
+                                                                            const isApplied = appliedJobDetail.find(appJob=>appJob.jobId === job.jobId);
+
                                                                             return (
                                                                                 <article className='job--detail-card'>
                                                                                     <div className="job--detail-card-top-area job">
@@ -2547,7 +2579,7 @@ const JobSearch = () => {
 
                                                                                         </div>
                                                                                         <div className="job--detail-card-know-more-btn-area">
-                                                                                            <a href={`/job-detail/${job.jobId}`} className='job--detail-card-know-more-btn'>Know more</a>
+                                                                                            <a href={`/job-detail/${job.jobId}`} className='job--detail-card-know-more-btn'>{isApplied? "Applied" :"Know more"}</a>
                                                                                         </div>
                                                                                     </div>
                                                                                 </article>

@@ -13,7 +13,7 @@ import { useNavigate } from 'react-router-dom';
 
 const NonApprovalJobs = () => {
     const navigate = useNavigate();
-    const { getProtectedData } = useContext(AuthContext);
+    const { getProtectedData, sendNotification } = useContext(AuthContext);
     const [staffToken, setStaffToken] = useState("");
     const [allJobs, setAllJobs] = useState([]);
     const [checkBoxfilters, setCheckBoxFilters] = useState([]);
@@ -25,6 +25,7 @@ const NonApprovalJobs = () => {
     const [checkBoxFilteredJobMsg, setCheckBoxFilteredJobMsg] = useState("");
     const [searchJobRoleInput, setSearchJobRoleInput] = useState("");
     const [employeeId, setEmployeeId] = useState("");
+    const [userName, setUserName] = useState("");
 
     const [x, setX] = useState([0, 10]);
     const [loading, setLoading] = useState(true);
@@ -100,6 +101,7 @@ const NonApprovalJobs = () => {
                     const userData = await getProtectedData(staffToken);
                     console.log(userData);
                     setEmployeeId(userData.id || userData.uid);
+                    setUserName(userData.name);
                 } catch (error) {
                     console.log(error);
                     navigate("/")
@@ -228,8 +230,8 @@ const NonApprovalJobs = () => {
         setSelectedJobViewDetail(selectedJob);
     }
 
-    const handleApproval = (id) => {
-        console.log(id)
+    const handleApproval = (id, companyId, jobRole) => {
+        console.log(id, companyId, jobRole)
         Swal.fire({
             title: 'Are you sure?',
             text: 'You won\'t be able to revert this!',
@@ -240,7 +242,7 @@ const NonApprovalJobs = () => {
             confirmButtonText: 'Yes, approve it!'
         }).then((result) => {
             if (result.isConfirmed) {
-
+                
                 axios.post("https://skillety-n6r1.onrender.com/job-approval", { id }, {
                     headers: {
                         Authorization: `Bearer ${staffToken}`,
@@ -250,7 +252,16 @@ const NonApprovalJobs = () => {
                     .then(res => {
                         console.log(res.data)
                         showSuccessMessage("job has been approved!")
-                        getNonApprovaljobs();
+                        
+                        axios.get("https://skillety-n6r1.onrender.com/clients")
+                        .then(res => {
+                            console.log(res.data)
+                            const companyName = (res.data.find(cli => cli.companyId === companyId))?.companyName
+                            sendNotification({id:employeeId, name:userName}, {id:[companyId], name:[companyName]}, `Your Job ${jobRole[0]} has been Approved!, Activate the job to shown on job portal`, "/manage-job", staffToken)
+                        })
+                        .catch(err => console.log(err))
+                        
+                        
                     })
                     .catch(err => {
                         console.log(err)
@@ -491,7 +502,7 @@ const NonApprovalJobs = () => {
                                                                             {selectedColumns?.includes("Send Approval") && <td className='dash-table-data1 text-left'>
                                                                                 <button
                                                                                     className='send-email-btn'
-                                                                                    onClick={() => handleApproval(Job.id)}>
+                                                                                    onClick={() => handleApproval(Job.id, Job.companyId, Job.jobRole)}>
                                                                                     <i class="bi bi-check2-square send-icon"></i>
                                                                                     Approve
                                                                                 </button>
@@ -562,7 +573,7 @@ const NonApprovalJobs = () => {
                                                                                     {selectedColumns?.includes("Send Approval") && <td className='dash-table-data1 text-left'>
                                                                                         <button
                                                                                             className='send-email-btn'
-                                                                                            onClick={() => handleApproval(Job.id)}>
+                                                                                            onClick={() => handleApproval(Job.id, Job.companyId, Job.jobRole)}>
                                                                                             <i class="bi bi-check2-square send-icon"></i>
                                                                                             Approve
                                                                                         </button>
@@ -625,7 +636,7 @@ const NonApprovalJobs = () => {
                                                                                         {selectedColumns?.includes("Send Approval") && <td className='dash-table-data1 text-left'>
                                                                                             <button
                                                                                                 className='send-email-btn'
-                                                                                                onClick={() => handleApproval(Job.id)}>
+                                                                                                onClick={() => handleApproval(Job.id, Job.companyId, Job.jobRole)}>
                                                                                                 <i class="bi bi-check2-square send-icon"></i>
                                                                                                 Approve
                                                                                             </button>

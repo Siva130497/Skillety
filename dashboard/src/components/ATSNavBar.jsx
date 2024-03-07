@@ -38,9 +38,9 @@ const ATSNavBar = () => {
 
         socket?.on("getNotification", handleNotification);
 
-        return () => {
-            socket?.off("getNotification", handleNotification);
-        };
+        // return () => {
+        //     socket?.off("getNotification", handleNotification);
+        // };
     }, [socket]);
 
     const playNotificationSound = () => {
@@ -174,7 +174,7 @@ const ATSNavBar = () => {
         const nameParts = userName.split(' ');
 
         if (nameParts.length > 1) {
-            return nameParts[nameParts.length - 1];
+            return nameParts[0];
         } else {
             return userName;
         }

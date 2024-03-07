@@ -388,7 +388,7 @@ const MyApplication = () => {
                                                             <th className='dash-table-head'>COMPANY</th>
                                                             <th className='dash-table-head'>JOB TITLE</th>
                                                             <th className='dash-table-head'>APPLIED ON</th>
-                                                            <th className='dash-table-head text-center'>Job Status</th>
+                                                            <th className='dash-table-head text-center'>JOB STATUS</th>
                                                             <th className='dash-table-head text-center application-status-container'>APPLICATION STATUS</th>
                                                             {/* <th className='dash-table-head text-center'>REVIEW <br /> APPLICATION</th> */}
                                                         </tr>

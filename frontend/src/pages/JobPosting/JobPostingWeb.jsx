@@ -438,7 +438,7 @@ const JobPostingWeb = () => {
       setFilteredJobRoles([]);
       const foundObject = jobRoleArray.find(item => item.designation.toLowerCase() === newJobRole.toLowerCase());
       if (foundObject) {
-        designationAlert(`Job role "${newJobRole}" already in list, please search...`);
+        setDesignationAlert(`Job role "${newJobRole}" already in list, please search...`);
         setNewJobRole("");
       } else {
         setOtherJobRole([newJobRole]);
@@ -501,7 +501,7 @@ const JobPostingWeb = () => {
       setFilteredSkills([]);
       const foundObject = skillArray.find(item => item.skill.toLowerCase() === newSkill.toLowerCase());
       if (foundObject) {
-        skillError(`Skill "${newSkill}" already in list, please search...`);
+        setSkillError(`Skill "${newSkill}" already in list, please search...`);
       } else {
         if (selectedSkills.includes(newSkill.toLowerCase())) {
           setSelectedSkills([...selectedSkills]);

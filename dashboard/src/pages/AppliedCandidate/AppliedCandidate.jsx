@@ -17,7 +17,7 @@ const AppliedCandidate = () => {
     const { id } = useParams();
     const location = useLocation();
     const { cands, Job } = location.state
-    const { getProtectedData, getCandidateImg, candidateImg } = useContext(AuthContext);
+    const { getProtectedData, getCandidateImg, candidateImg, sendNotification } = useContext(AuthContext);
     const [employeeId, setEmployeeId] = useState("");
     const [loginClientDetail, setLoginClientDetail] = useState();
     const [candidateDetail, setCandidateDetail] = useState([]);
@@ -694,19 +694,10 @@ const AppliedCandidate = () => {
             console.log(res.data);
             showSuccessMessage(`The Status of the selected candidate is Updated.`)
 
-            axios.get(`https://skillety-n6r1.onrender.com/application-status/${id}`, {
-                headers: {
-                    Authorization: `Bearer ${clientToken}`,
-                    Accept: 'application/json'
-                }
-            })
-            .then(res=>{
-                console.log(res.data);
-                setApplicationStatus(res.data)
-            })
-            .catch(err=>{
-                console.log(err);
-            })
+                const selectedCandidateName = reqCands.filter(cand=>selectedCandidates.includes(cand.id)).map(candidate=>candidate.firstName+ " " + candidate.lastName)
+                
+                sendNotification({id:loginClientDetail.companyId, name:loginClientDetail.companyName}, {id:selectedCandidates, name:selectedCandidateName}, `Yor Applied Job of ${Job.jobRole[0]} Status has been Changed to ${selectedStatus}`, "/my-application", clientToken)
+           
         })
         .catch(err=>{
             console.log(err)

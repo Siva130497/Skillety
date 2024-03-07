@@ -415,8 +415,14 @@ const JobSearchAts = () => {
 
             const combinedResults = [...skills, ...jobRoles];
 
-            if (combinedResults.length > 0) {
-                setFilteredList(combinedResults);
+            const uniqueResults = combinedResults.filter((item, index, self) =>
+            index === self.findIndex((t) => (
+                t.id === item.id
+            ))
+        );
+
+            if (uniqueResults.length > 0) {
+                setFilteredList(uniqueResults);
             } else {
                 setFilteredList([]);
             }
