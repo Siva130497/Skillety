@@ -142,6 +142,9 @@
 }
 
 @media (max-width:500px) {
+    .home--head.candidate h6{
+        margin-top: 25px !important; 
+    }
     .home--head.candidate h4 {
         font-size: 22px;
     }
@@ -163,6 +166,9 @@
         width: 18px;
         height: 18px;
     }
+    .milestone--section.candidate{
+        margin-bottom: 40px;
+    }
 
     .home--milestone-cards-area.candidate {
         padding-top: 40px;
@@ -182,11 +188,12 @@
     }
 
     .candidate--section.candidate {
-        padding-top: 20px;
+        padding-top: 0px;
     }
 
     .home--section.candidate {
-        padding-top: 25px;
+        padding-top: 20px;
+        margin-top: 0;
     }
     .home--section.candidate.register {
         padding-top: 0px;

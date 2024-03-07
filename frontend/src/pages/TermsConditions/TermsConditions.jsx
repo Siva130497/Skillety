@@ -594,7 +594,7 @@ const TermsConditions = () => {
                                         </p>
                                     </div>
 
-                                    <div className="terms-con-note-area mt-5">
+                                    <div className="terms-con-note-area mt-4 mt-md-5">
                                         <div className="terms-con-updated mt-0">
                                             Name&nbsp;:&nbsp;<span>Mrs. Amrita Raj</span>
                                         </div>

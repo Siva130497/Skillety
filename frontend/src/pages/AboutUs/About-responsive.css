@@ -159,7 +159,13 @@
     .about--section {
         margin-top: 13px;
     }
-
+    .about--card-area{
+        margin-top: 20px !important;
+    }
+    .about--card{
+        padding: 22px !important;
+        height: auto !important;
+    }
     .about--left-cover {
         padding-top: 130px;
     }
@@ -199,17 +205,17 @@
     }
 
     .about--desc-section p {
-        font-size: 18px !important;
+        font-size: 16px !important;
     }
 
     .about--desc-section {
-        padding-top: 60px;
+        padding-top: 40px;
         padding-left: 0px;
         padding-right: 0px;
     }
 
     .about--milestone-section {
-        padding-top: 60px;
+        padding-top: 40px;
         padding-left: 0px;
         padding-right: 0px;
     }
@@ -224,7 +230,7 @@
     }
 
     .about--milestone-cards-area {
-        padding-top: 60px;
+        padding-top: 40px;
     }
 
     .ab--milestone-card-top svg {
@@ -232,7 +238,8 @@
     }
 
     .ab--milestone-card-right .ab-milestone-number {
-        font-size: 80px;
+        font-size: 65px;
+        font-weight: 500 !important;
     }
 
     .ab--milestone-card-right .ab--milestone-title {
@@ -240,7 +247,8 @@
     }
 
     .about--milestone-card {
-        height: 250px;
+        height: 230px;
+        padding: 22px 22px 0 22px !important;
     }
 
     .about--milestone-card:hover .ab--milestone-card-top svg {
@@ -248,7 +256,7 @@
     }
 
     .about--weoffer-section {
-        padding-top: 60px;
+        padding-top: 20px;
         padding-bottom: 60px;
     }
 
@@ -275,7 +283,7 @@
     }
 
     .ab--weoff-card-area {
-        padding-top: 60px;
+        padding-top: 40px;
     }
 
     .ab-weoff-card {
@@ -287,7 +295,7 @@
     }
 
     .ab-we-off-card-des-area .ab-we-off-card-des {
-        font-size: 18px;
+        font-size: 16px;
     }
 
     .ab-weoff-card .ab-weoff-card-num {

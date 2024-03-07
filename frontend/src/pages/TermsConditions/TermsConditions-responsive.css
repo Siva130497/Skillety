@@ -28,7 +28,7 @@
     }
 
     .terms-con-title {
-        font-size: 30px;
+        font-size: 25px;
     }
 
     .terms-con-sub-title {
@@ -63,5 +63,8 @@
 
     .terms-con-updated span {
         font-size: 16px;
+    }
+    .terms-con-area{
+        padding: 30px 15px !important;
     }
 }
