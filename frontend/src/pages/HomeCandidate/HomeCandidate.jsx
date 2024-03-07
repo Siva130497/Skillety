@@ -371,7 +371,7 @@ const HomeCandidate = () => {
                   </div>
 
                   <div className='position-relative'>
-                    <input type="search" data-aos="fade-up" data-aos-delay="200" className='home--search-box candidate form-control'
+                    <input type="search" data-aos="fade-left" data-aos-delay="200" className='home--search-box candidate form-control'
                       placeholder='Enter keywords like skills, designation'
                       value={searchInput}
                       id='searchSkillInput'
@@ -1169,7 +1169,7 @@ const HomeCandidate = () => {
                           </h6>
                         </div>
                         <p className='cand--events-card-date'>
-                          {item.date}, <b className='text-capitalized'>{item.location}</b>
+                          {item.date} <b className='text-capitalized'>{item.location}</b>
                         </p>
                         <a
                           href={item.type === "event" ? `/event-details/${item.id}` : item.url}

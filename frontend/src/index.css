@@ -630,7 +630,7 @@
 .footer--email-left .footer--email-head {
   color: #5C3B2E;
   font-size: 64px;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 116%;
   transition: ease-in-out 0.8s;
 }
@@ -783,7 +783,9 @@
   flex-shrink: 0;
   transition: ease-in-out 0.8s;
 }
-
+.navbar-mobile .dropdown .dropdown-active .active-page a{
+  color: #F9C833 !important;
+}
 .footer--link-section {
   padding-top: 60px;
   padding-bottom: 60px;
@@ -1202,22 +1204,22 @@
   }
 
   .footer--logo {
-    width: 200px;
-    height: 200px;
+    width: 180px;
+    height: 180px;
   }
 
   .footer--email-form-card {
-    padding: 40px 30px !important;
+    padding: 25px !important;
   }
 
   .footer--email-left .footer--email-head {
     margin-top: 30px !important;
-    font-size: 30px !important;
+    font-size: 28px !important;
   }
 
   .footer--email-left .footer--email-desc {
-    margin-top: 30px !important;
-    font-size: 18px !important;
+    margin-top: 20px !important;
+    font-size: 16px !important;
   }
 
   .footer--email-left .footer--email-input {
@@ -1242,7 +1244,8 @@
   }
 
   .footer--link-section {
-    padding-top: 60px !important;
+    padding-top: 40px !important;
+    padding-bottom: 40px !important;
     padding-left: 8%;
     padding-right: 8%;
   }
@@ -1253,7 +1256,7 @@
   }
 
   .footer--link-area {
-    margin-bottom: 30px;
+    margin-bottom: 20px;
   }
 
   .footer--social-section {
@@ -1272,17 +1275,18 @@
   }
 
   .sub--footer {
-    padding: 20px 0;
+    padding: 15px 0;
     text-align: center;
   }
 
   .sub--footer-content .footer--copyright,
   .footer--bottom-credit-area .footer--cerdit {
-    font-size: 15px !important;
+    font-size: 14px !important;
+    font-weight: 400 !important;
   }
 
   .footer--bottom-credit-area .prodigit--logo {
-    width: 120px;
+    width: 110px;
   }
 
 
@@ -1321,22 +1325,27 @@
   }
 
   .navbar-mobile ul {
-    padding: 25px !important;
+    padding: 15px !important;
   }
 
   .navbar-mobile a,
   .navbar-mobile a:focus {
-    padding: 18px 28px !important;
-    font-size: 20px !important;
+    padding: 15px 25px !important;
+    font-size: 17px !important;
+  }
+  .navbar-mobile li{
+    border-radius: 15px !important;
+    margin-bottom: 15px !important;
   }
 
   .navbar .dropdown ul {
     padding: 8px 10px !important;
+    margin: 0px 5px 5px 5px !important;
   }
 
   .navbar-mobile .dropdown ul a {
     padding: 10px 18px !important;
-    font-size: 18px !important;
+    font-size: 16px !important;
   }
 
   .navbar .dropdown ul li {
@@ -1531,7 +1540,7 @@ section {
 .nav--logo.candidate {
   border-radius: 50%;
   flex-shrink: 0;
-  border: 2px solid #F9C833;
+  /* border: 2px solid #F9C833; */
 }
 
 .logo--area.client {
@@ -2168,8 +2177,8 @@ section {
 }
 
 .navbar.client.navbar-mobile .login--btn {
-  padding: 18px 30px !important;
-  border-radius: 20px;
+  padding: 15px 25px !important;
+  border-radius: 15px;
   justify-content: center !important;
   color: #F9C833 !important;
   background-color: #714F36 !important;
@@ -2372,7 +2381,7 @@ section {
 
 .navbar-mobile .dropdown .dropdown-active li a:hover {
   margin: 0;
-  transform: translateX(10px);
+  /* transform: translateX(10px); */
 }
 
 .navbar-mobile .getstarted,

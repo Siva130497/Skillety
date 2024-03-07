@@ -183,7 +183,7 @@ const RandomChat = () => {
         </ScrollToBottom>
 
         <div className="chatbot__input-box">
-          <textarea
+          {/* <textarea
             value={inputMessage}
             onChange={(event) => {
                 setInputMessage(event.target.value);
@@ -194,7 +194,17 @@ const RandomChat = () => {
             className="chatbot__textarea"
             placeholder="Enter a message..."
             required
-          ></textarea>
+          ></textarea> */}
+          <input type="text" value={inputMessage}
+            onChange={(event) => {
+                setInputMessage(event.target.value);
+              }}
+              onKeyDown={(event) => {
+                event.key === "Enter" && sendMessage();
+              }}
+            className="chatbot__textarea"
+            placeholder="Enter a message..."
+            required />
           <span id="send-btn" className="material-symbols-outlined"
           onClick={sendMessage}
           >send</span>

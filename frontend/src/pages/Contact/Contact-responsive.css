@@ -132,11 +132,19 @@
     }
 
     .con--where-desc-area .con--where-desc {
-        font-size: 18px !important;
+        font-size: 16px !important;
+    }
+
+    .con--where-desc-area{
+        padding-top: 20px !important;
+    }
+
+    .con--content-area {
+        padding: 40px 0px 0 0px !important; 
     }
 
     .con-where-content-area {
-        padding: 60px 0 30px 0;
+        padding: 60px 0 20px 0;
     }
 
     .con--map-container {
@@ -162,12 +170,12 @@
     }
 
     .con--content .con--loaction a {
-        font-size: 18px !important;
+        font-size: 16px !important;
     }
 
     .con--content .con--phone-no a,
     .con--content .con--mail a {
-        font-size: 18px !important;
+        font-size: 16px !important;
         font-weight: 400 !important;
     }
 
@@ -178,11 +186,11 @@
     }
 
     .con--content {
-        margin-bottom: 40px;
+        margin-bottom: 30px;
     }
 
     .con--note-form-area {
-        margin-top: 60px;
+        margin-top: 40px;
     }
 
     .custom-padding-right,
@@ -192,11 +200,15 @@
     }
 
     .con--form-group {
-        margin-bottom: 60px;
+        margin-bottom: 40px;
     }
 
     .con--note-form-area .con--form-label {
-        font-size: 18px !important;
+        font-size: 16px !important;
+    }
+    
+    .con--note-form-area .con--form-input{
+        font-size: 16px !important;
     }
 
     .con--note-section {
