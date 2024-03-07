@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import $ from 'jquery';
 import './ForgotPassword.css';
 import './Verification.css';
@@ -18,6 +18,9 @@ const ForgotPassword = () => {
         password: "",
         confirmPassword: "",
     });
+
+    const inputRefs = useRef([]);
+
     const [tempPasswordUserId, setTempPasswordUserId] = useState("");
     const [step, setStep] = useState(1);
 
@@ -92,17 +95,49 @@ const ForgotPassword = () => {
         setcredentials({ ...credentials, [name]: value });
     }
 
+    // const handleChange = (e, index) => {
+    //     const value = e.target.value;
+
+    //     if (value.length === 1) {
+    //         const updatedCode = credentials.verificationCode + value;
+
+    //         if (updatedCode.length === 6) {
+    //             setcredentials({ ...credentials, verificationCode: updatedCode });
+    //         } else {
+    //             setcredentials({ ...credentials, verificationCode: updatedCode });
+    //         }
+    //     }
+    // };
+
     const handleChange = (e, index) => {
         const value = e.target.value;
 
-        if (value.length === 1) {
-            const updatedCode = credentials.verificationCode + value;
-
-            if (updatedCode.length === 6) {
-                setcredentials({ ...credentials, verificationCode: updatedCode });
-            } else {
-                setcredentials({ ...credentials, verificationCode: updatedCode });
-            }
+        if (value.length === 1 && index < 5) {
+            setcredentials(prevCredentials => {
+                const updatedCode = prevCredentials.verificationCode.slice(0, index) + value + prevCredentials.verificationCode.slice(index + 1);
+                const newCredentials = { ...prevCredentials, verificationCode: updatedCode };
+                inputRefs.current[index + 1].focus();
+                return newCredentials;
+            });
+        } else if (value === '' && index > 0) {
+            setcredentials(prevCredentials => {
+                const updatedCode = prevCredentials.verificationCode.slice(0, index) + value + prevCredentials.verificationCode.slice(index + 1);
+                const newCredentials = { ...prevCredentials, verificationCode: updatedCode };
+                inputRefs.current[index - 1].focus();
+                return newCredentials;
+            });
+        } else if (value === '' && index === 0) {
+            setcredentials(prevCredentials => {
+                const updatedCode = value + prevCredentials.verificationCode.slice(index + 1);
+                const newCredentials = { ...prevCredentials, verificationCode: updatedCode };
+                return newCredentials;
+            });
+        } else if (value.length === 1 && index === 5) {
+            setcredentials(prevCredentials => {
+                const updatedCode = prevCredentials.verificationCode.slice(0, index) + value;
+                const newCredentials = { ...prevCredentials, verificationCode: updatedCode };
+                return newCredentials;
+            });
         }
     };
 
@@ -190,11 +225,12 @@ const ForgotPassword = () => {
                                             className='cli--verify-input-box'
                                             value={credentials.verificationCode[i] || ""}
                                             onChange={(e) => handleChange(e, i)}
+                                            ref={el => inputRefs.current[i] = el}
                                         />
                                     ))}
                                 </div>
                                 <div className="verify-code-resend-area" data-aos="fade-up">
-                                    <h6 className='verify-code-resend mb-0'>If you didn’t receive a code, </h6>
+                                    <h6 className='verify-code-resend mb-0'>If you didn’t receive a code,&nbsp;</h6>
                                     <button className='verify-code-resend-btn' onClick={handleRequest}>Resend</button>
                                 </div>
                             </div>

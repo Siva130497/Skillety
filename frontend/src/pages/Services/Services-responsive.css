@@ -126,7 +126,7 @@
     }
 
     .ser--content-section {
-        padding: 60px 15px;
+        padding: 40px 15px;
     }
 
     .ser--content-section .ser--content-heading {
@@ -139,7 +139,7 @@
 
     .ser--cont-title,
     .ser--cont-list-area .ser--cont-list-item {
-        font-size: 18px;
+        font-size: 16px;
     }
 
     .ser--cont-list-area {
@@ -164,10 +164,10 @@
         padding: 8px 64px;
     }
     .service-par{
-        padding: 60px 15px 0px 15px;
+        padding: 40px 0px 0px 0px;
     }
 
     .service-par p{
-        font-size: 18px;
+        font-size: 16px;
     }
 }

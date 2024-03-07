@@ -53,7 +53,7 @@ const PrivacyPolicy = () => {
                                                     The security procedures in place to protect the misuse
                                                     of your information.
                                                 </li>
-                                                <li className="privacy-list-item">
+                                                <li className="privacy-list-item mb-0">
                                                     How you can correct any inaccuracies in the
                                                     information.
                                                 </li>

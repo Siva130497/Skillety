@@ -98,9 +98,13 @@
         font-size: 24px !important;
     }
     .cand--events-card-title-area .cand--events-card-title,
-    .cand--events-card .cand--events-card-date,
     .cand--events-card .cand--events-card-bottom-area .cand--event-sys {
         font-size: 18px;
+    }
+
+    .cand--events-card .cand--events-card-date{
+        font-size: 16px  !important;
+        
     }
     .cand--events-card-arrow-area svg {
         width: 25px;

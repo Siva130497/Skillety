@@ -502,11 +502,11 @@
         flex-direction: column;
     }
 
-    .candidate--name-area h6{
-        max-width:300px !important;
+    .candidate--name-area h6 {
+        max-width: 300px !important;
     }
 
-    .candidate--role{
+    .candidate--role {
         max-width: 220px !important;
     }
 
@@ -539,6 +539,7 @@
 
     .home--card {
         height: auto;
+        padding: 22px !important;
     }
 
     .card--imgicon-area .card--text {
@@ -672,8 +673,9 @@
     }
 
     .home--about-para p {
-        font-size: 18px !important;
+        font-size: 16px !important;
         line-height: normal !important;
+        margin-bottom: 0;
     }
 
     .home--service-section {
@@ -687,20 +689,20 @@
     }
 
     .home--service-para {
-        margin: 30px 0;
+        margin: 20px 0 25px 0;
     }
 
     .home--service-para p {
-        font-size: 18px !important;
+        font-size: 16px !important;
         line-height: normal !important;
     }
 
     .home--services-slider-area {
-        padding: 40px 25px 25px 25px !important;
+        padding: 35px 22px 22px 22px !important;
     }
 
     .home--service-card {
-        padding: 25px;
+        padding: 22px;
         flex-direction: column;
     }
 
@@ -715,7 +717,7 @@
     }
 
     .service--card-headarea h3 {
-        font-size: 30px;
+        font-size: 28px;
         font-weight: 500;
     }
 
@@ -727,7 +729,7 @@
     }
 
     .service--content-area .service--content {
-        font-size: 18px;
+        font-size: 16px;
     }
 
     .service--know-more-btn {
@@ -807,7 +809,7 @@
         padding-right: 0px;
     }
 
-    .candidate--rate-area{
+    .candidate--rate-area {
         white-space: nowrap;
     }
 
@@ -817,13 +819,13 @@
     }
 
     .candidate--slider-area {
-        margin-top: 40px;
+        margin-top: 30px;
     }
 
     .home--slider-btn-area {
         justify-content: center;
-        padding-top: 40px;
-        padding-bottom: 40px;
+        padding-top: 30px;
+        padding-bottom: 30px;
     }
 
     .candidate--slider-area {
@@ -861,11 +863,11 @@
     }
 
     .clients--img-area {
-        margin-top: 30px;
+        margin-top: 20px;
     }
 
     .testimonial--card-area {
-        margin-top: 60px;
+        margin-top: 40px;
     }
 
     .testimonial--profile-area {
@@ -888,13 +890,13 @@
     }
 
     .testimonial--content-area p {
-        font-size: 18px !important;
+        font-size: 16px !important;
         line-height: normal !important;
         padding-bottom: 10px;
     }
 
     .testimonial--card-lg {
-        padding: 25px;
+        padding: 22px;
         border-radius: 50px !important;
     }
 
@@ -945,15 +947,39 @@
     }
 
     .home--testimonial-section {
-        padding-bottom: 60px !important;
+        padding-bottom: 40px !important;
     }
 
     .connect--content-area {
-        margin-top: 20px;
+        margin-top: 0px;
     }
 
     .contact--article {
         flex-direction: column !important;
+        padding: 25px !important;
+        margin-bottom: 10px !important;
+    }
+
+    .connect--img-area {
+        border: none !important;
+        box-shadow: inset 0px 0px 25px #e0cfc8;
+        height: 180px !important;
+        width: 100% !important;
+        border-radius: 30px !important;
+    }
+
+    .contact--article:hover .connect--img-area {
+        box-shadow: inset 0px 0px 25px #41271e !important;
+    }
+
+    .connect--img-area .connect--img {
+        width: 110px;
+        height: 110px;
+    }
+
+    .connect--desc-area p {
+        font-size: 16px !important;
+        text-align: center !important;
     }
 
     .connect--title h4 {
@@ -973,12 +999,8 @@
         margin-top: 10px !important;
     }
 
-    .connect--desc-area p {
-        text-align: center !important;
-    }
-
     .register--section {
-        padding:0px 0px 60px 0px;
+        padding: 0px 0px 60px 0px;
     }
 
     .register--card {
@@ -998,31 +1020,37 @@
 
     .milestone--section {
         margin-top: 0;
-        padding: 40px 25px 20px 25px !important;
+        padding: 35px 22px 22px 22px !important;
     }
 
     .home--milestone-cards-area {
-        padding-top: 60px;
+        padding-top: 40px;
     }
 
     .home--milestone-card {
-        height: 250px;
+        height: 230px;
+        padding: 22px 22px 0 22px;
     }
 
     .home--milestone-card-top svg {
         width: 40px;
     }
 
+    .client--img-container {
+        margin-top: 20px !important;
+        padding: 20px !important;
+    }
+
+    .clients--section {
+        padding-bottom: 40px !important;
+    }
+
     .home--milestone-card:hover .home--milestone-card-top svg {
         transform: translateX(3px);
     }
 
-    .home--milestone-card {
-        padding: 25px 25px 0 25px;
-    }
-
     .home--milestone-card-right .home-milestone-number {
-        font-size: 70px;
+        font-size: 65px;
         letter-spacing: normal;
     }
 
@@ -1032,7 +1060,7 @@
         border-radius: 10px;
     }
 
-    .custom-milestone-section{
-        margin-top: 60px;
+    .custom-milestone-section {
+        margin-top: 40px;
     }
 }

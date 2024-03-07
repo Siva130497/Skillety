@@ -338,7 +338,7 @@ const Home = () => {
                     ))}
                   </div>
                   <div className='position-relative'>
-                    <input type="search" data-aos="fade-up" data-aos-delay="200" className='home--search-box form-control'
+                    <input type="search" data-aos="fade-left" data-aos-delay="200" className='home--search-box form-control'
                       placeholder='Enter keywords like skills, designation'
                       value={searchInput}
                       id='searchSkillInput'
@@ -520,7 +520,7 @@ const Home = () => {
                     </article>
                   </div>
                 </div> */}
-              <div className="row mt-5">
+              <div className="row mt-4 mt-md-5">
                 <div className="col-12 col-xl-7 col-lg-8 offset-xl-5 offset-lg-4">
                   <article className='home--service-card' data-aos="zoom-out-left">
                     <div className="service--arrow-area">
@@ -550,7 +550,7 @@ const Home = () => {
                   </article>
                 </div>
               </div>
-              <div className="row mt-5">
+              <div className="row mt-4 mt-md-5">
                 <div className="col-12 col-xl-7 col-lg-8">
                   <article className='home--service-card' data-aos="zoom-out-right">
                     <div className="service--arrow-area">
@@ -580,7 +580,7 @@ const Home = () => {
                   </article>
                 </div>
               </div>
-              <div className="row mt-5">
+              <div className="row mt-4 mt-md-5">
                 <div className="col-12 col-xl-7 col-lg-8 offset-xl-5 offset-lg-4">
                   <article className='home--service-card' data-aos="zoom-out-left">
                     <div className="service--arrow-area">
@@ -613,7 +613,7 @@ const Home = () => {
                   </article>
                 </div>
               </div>
-              <div className="row mt-5">
+              <div className="row mt-4 mt-md-5">
                 <div className="col-12 col-xl-7 col-lg-8">
                   <article className='home--service-card' data-aos="zoom-out-right">
                     <div className="service--arrow-area">

@@ -120,26 +120,26 @@
     }
 
     .cli--reg-heading-area .cli--reg-sub-heading {
-        font-size: 25px;
+        font-size: 20px;
         margin-top: 20px;
     }
 
     .cli--reg-grab-area {
-        margin-top: 40px !important;
+        margin-top: 20px !important;
     }
 
     .cli--reg-grab {
-        font-size: 20px;
+        font-size: 18px;
     }
 
     .cli--reg-form-area .reg--form-input,
     .cli--reg-form-area .reg--form-label {
-        font-size: 18px !important;
+        font-size: 16px !important;
     }
 
 
     .reg--form-group {
-        margin-bottom: 60px;
+        margin-bottom: 40px;
     }
 
     .reg--form-btn {
@@ -166,7 +166,7 @@
 
     .custom--select-area {
         margin-top: 0;
-        margin-bottom: 60px;
+        margin-bottom: 40px;
         gap: 20px;
         flex-direction: column !important;
         align-items: flex-start !important;

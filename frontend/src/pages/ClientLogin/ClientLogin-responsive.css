@@ -25,7 +25,7 @@
 
 @media (max-width:500px) {
     .cli--signup-form-area.cli--login-form-area {
-        padding: 40px 10px;
+        padding: 30px 10px;
     }
 
     .cli--login-remember-checkmark {
@@ -50,5 +50,11 @@
     .cli--login-no-account-area .cli--login-no-account,
     .cli--login-no-account-area .cli--login-no-account-signup {
         font-size: 16px;
+    }
+    .cli--login-remember-area.terms-condition .cli--login-remember-checkbox{
+        font-size: 16px !important;
+    }
+    .cli--login-remember-area.terms-condition .cli--login-remember-checkbox a{
+        font-size: 16px !important;
     }
 }
