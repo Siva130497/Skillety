@@ -100,7 +100,7 @@ const ClientNavBar = ({ notification }) => {
 
   const handleClick = (notificationIdArray, redirect) => {
     if (notificationIdArray) {
-      axios.patch("http://localhost:5002/read-notification", { notificationIdArray }, {
+      axios.patch("https://skillety-n6r1.onrender.com/read-notification", { notificationIdArray }, {
         headers: {
           Authorization: `Bearer ${token}`,
           Accept: 'application/json'
@@ -217,7 +217,7 @@ const ClientNavBar = ({ notification }) => {
         .then(res => setClientImg(res.data))
         .catch(err => console.log(err))
 
-        axios.get(`http://localhost:5002/all-notification/${loginClientDetail.companyId}?filter=unRead`, {
+        axios.get(`https://skillety-n6r1.onrender.com/all-notification/${loginClientDetail.companyId}?filter=unRead`, {
         headers: {
           Authorization: `Bearer ${token}`,
           Accept: 'application/json'
@@ -244,7 +244,7 @@ const ClientNavBar = ({ notification }) => {
     const nameParts = userName.split(' ');
 
     if (nameParts?.length > 1) {
-      return nameParts[nameParts?.length - 1];
+      return nameParts[0];
     } else {
       return userName;
     }

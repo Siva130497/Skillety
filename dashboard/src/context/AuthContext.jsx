@@ -28,7 +28,7 @@ export const AuthContextProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
 
     useEffect(()=>{
-        setSocket(io("http://localhost:5002"));
+        setSocket(io("https://skillety-n6r1.onrender.com"));
     },[]);
 
 

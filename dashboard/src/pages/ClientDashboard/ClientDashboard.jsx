@@ -219,7 +219,7 @@ const ClientDashboard = () => {
     }, []);
 
     useEffect(() => {
-        setSocket(io("http://localhost:5002"));
+        setSocket(io("https://skillety-n6r1.onrender.com"));
     }, []);
 
     useEffect(() => {
@@ -462,7 +462,7 @@ const ClientDashboard = () => {
             getCandidateImg();
             allStaffFromCompany();
 
-            axios.get(`http://localhost:5002/all-notification/${loginClientDetail.companyId}?filter=all`, {
+            axios.get(`https://skillety-n6r1.onrender.com/all-notification/${loginClientDetail.companyId}?filter=all`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     Accept: 'application/json'

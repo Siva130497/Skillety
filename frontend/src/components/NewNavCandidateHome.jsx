@@ -48,7 +48,7 @@ export const NewNavCandidateHome = ({homeActive, aboutUsActive, searchJobActive,
         const nameParts = userName.split(' ');
 
         if (nameParts.length > 1) {
-            return nameParts[nameParts.length - 1];
+            return nameParts[0];
         } else {
             return userName;
         }

@@ -25,7 +25,7 @@ const NavBar = ({ notification, socket }) => {
 
   const handleClick = (notificationIdArray, redirect) => {
     if (notificationIdArray) {
-      axios.patch("http://localhost:5002/read-notification", { notificationIdArray }, {
+      axios.patch("https://skillety-n6r1.onrender.com/read-notification", { notificationIdArray }, {
         headers: {
           Authorization: `Bearer ${token}`,
           Accept: 'application/json'
@@ -175,7 +175,7 @@ const NavBar = ({ notification, socket }) => {
     const nameParts = userName.split(' ');
 
     if (nameParts?.length > 1) {
-      return nameParts[nameParts?.length - 1];
+      return nameParts[0];
     } else {
       return userName;
     }
