@@ -44,7 +44,7 @@ const VisitorsChat = () => {
 
     useEffect(() => {
 
-    socket?.on("getNotification", data => {
+    socket?.on("getWebChatNotification", data => {
         console.log(data)
         setNotifications(prev => [...prev, data]);
 

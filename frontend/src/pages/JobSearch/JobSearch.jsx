@@ -20,7 +20,8 @@ const JobSearch = () => {
     const location = useLocation();
     const [inCommingData, setInCommingData] = useState();
 
-    const [candidateToken, setCandidateToken] = useState("");
+    const [candToken, setCandToken] = useState("");
+    const candidateToken = JSON.parse(localStorage.getItem("candidateToken"))
     const { getClientImg, clientImg, getProtectedData } = useContext(AuthContext);
     const [candidateId, setCandidateId] = useState("");
     const [allJobs, setAllJobs] = useState([]);
@@ -45,7 +46,7 @@ const JobSearch = () => {
     const [selectedJobTitleResults, setSelectedJobTitleResults] = useState([]);
     const [selectedLocationResults, setSelectedLocationResults] = useState([]);
     const [selectedEducationResults, setSelectedEducationResults] = useState([]);
-
+    const [appliedJobDetail, setAppliedJobDetail] = useState([]);
 
     const [locationArray, setLocationArray] = useState([]);
     const [educationArray, setEducationArray] = useState([]);
@@ -394,12 +395,12 @@ const JobSearch = () => {
         }
     };
 
-    useEffect(() => {
-        const token = JSON.parse(localStorage.getItem("candidateToken"))
-        if (token) {
-            setCandidateToken(token)
-        }
-    }, [])
+    // useEffect(() => {
+    //     const token = JSON.parse(localStorage.getItem("candidateToken"))
+    //     if (token) {
+    //         setCandidateToken(token)
+    //     }
+    // }, [])
 
     useEffect(() => {
         if (candidateToken) {
@@ -407,8 +408,8 @@ const JobSearch = () => {
                 try {
                     const user = await getProtectedData(candidateToken);
                     console.log(user);
-                    setCandidateId(user.id || user.uid);
-
+                    setCandidateId(user.id || user?.responseData.uid);
+                    setCandToken(user.userToken);
                 } catch (error) {
                     console.log(error);
 
@@ -461,6 +462,27 @@ const JobSearch = () => {
         }
     };
 
+    const getAppliedjobs = async () => {
+        try {
+            
+            const res = await axios.get(`https://skillety-n6r1.onrender.com/my-applied-jobs/${candidateId}`, {
+                headers: {
+                    Authorization: `Bearer ${candidateToken ? candidateToken : candToken}`,
+                    Accept: 'application/json'
+                }
+            });
+            const result = res.data;
+            if (!result.error) {
+                console.log(result);
+                setAppliedJobDetail(result);
+            } else {
+                console.log(result);
+            }
+
+        } catch (err) {
+            console.log(err);
+        }
+    } 
 
     useEffect(() => {
         getPostedjobs();
@@ -481,6 +503,7 @@ const JobSearch = () => {
     useEffect(() => {
         if (candidateId) {
             getSkillMatchJobDetail();
+            getAppliedjobs();
         }
     }, [candidateId])
 
@@ -529,8 +552,14 @@ const JobSearch = () => {
 
             const combinedResults = [...skills, ...jobRoles];
 
-            if (combinedResults.length > 0) {
-                setFilteredList(combinedResults);
+            const uniqueResults = combinedResults.filter((item, index, self) =>
+            index === self.findIndex((t) => (
+                t.id === item.id
+            ))
+        );
+
+            if (uniqueResults.length > 0) {
+                setFilteredList(uniqueResults);
             } else {
                 setFilteredList([]);
             }
@@ -1585,7 +1614,7 @@ const JobSearch = () => {
                                                                 return (matchingSkills.length / skills1.length) * 100;
                                                             }
                                                             const percentage = Math.round(calculateMatchPercentage(selectedResults, [...job.skills, ...job.jobRole]));
-
+                                                            const isApplied = appliedJobDetail.find(appJob=>appJob.jobId === job.id);
                                                             return (
                                                                 <article className='job--detail-card mb-4'>
                                                                     <div className="job--detail-card-top-area job">
@@ -1640,7 +1669,7 @@ const JobSearch = () => {
                                                                             })}
                                                                         </div>
                                                                         <div className="job--detail-card-know-more-btn-area">
-                                                                            <a href={candidateToken ? `/job-detail/${job.id}` : "/candidate-login"} className='job--detail-card-know-more-btn'>Know more</a>
+                                                                            <a href={candidateToken ? `/job-detail/${job.id}` : "/candidate-login"} className='job--detail-card-know-more-btn'>{isApplied? "Applied" :"Know more"}</a>
                                                                         </div>
                                                                     </div>
                                                                 </article>
@@ -1650,7 +1679,7 @@ const JobSearch = () => {
                                                                 const matchingImg = clientImg ? clientImg.find(img => img.id === job.companyId) : null;
                                                                 const imgSrc = matchingImg ? `https://skillety-n6r1.onrender.com/client_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
                                                                 const companyName = clients.find(cli => cli.companyId === job.companyId)?.companyName
-
+                                                                const isApplied = appliedJobDetail.find(appJob=>appJob.jobId === job.id);
                                                                 return (
                                                                     <article className='job--detail-card mb-4'>
                                                                         <div className="job--detail-card-top-area job">
@@ -1704,7 +1733,7 @@ const JobSearch = () => {
                                                                                 })}
                                                                             </div>
                                                                             <div className="job--detail-card-know-more-btn-area">
-                                                                                <a href={candidateToken ? `/job-detail/${job.jobId}` : "/candidate-login"} className='job--detail-card-know-more-btn'>Know more</a>
+                                                                                <a href={candidateToken ? `/job-detail/${job.jobId}` : "/candidate-login"} className='job--detail-card-know-more-btn'>{isApplied? "Applied" :"Know more"}</a>
                                                                             </div>
                                                                         </div>
                                                                     </article>

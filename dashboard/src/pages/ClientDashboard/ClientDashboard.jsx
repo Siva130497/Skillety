@@ -51,6 +51,7 @@ const ClientDashboard = () => {
 
     const [contentloading, setContentLoading] = useState(true);
     const [notifications, setNotifications] = useState([]);
+    const [unReadNotifications, setUnReadNotifications] = useState([]);
     const [companyName, setCompanyName] = useState("");
     const [socket, setSocket] = useState(null);
 
@@ -230,11 +231,11 @@ const ClientDashboard = () => {
         socket?.on("getNotification", data => {
             console.log(data)
             setNotifications(prev => [...prev, data]);
-
-            if (!document.hasFocus()) {
-                const sound = new Audio(notificationSound);
-                sound.play();
-            }
+            setUnReadNotifications(prev => [...prev, data]);
+            // if (!document.hasFocus()) {
+            //     const sound = new Audio(notificationSound);
+            //     sound.play();
+            // }
         })
     }, [socket]);
 
@@ -292,19 +293,6 @@ const ClientDashboard = () => {
 
             fetchData();
 
-            axios.get(`https://skillety-n6r1.onrender.com/all-notification/${employeeId}?filter=read`, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    Accept: 'application/json'
-                }
-            })
-                .then(res => {
-                    console.log(res.data);
-                    setNotifications(res.data)
-                })
-                .catch(err => {
-                    console.log(err)
-                })
         }
     }, [token]);
 
@@ -336,6 +324,7 @@ const ClientDashboard = () => {
     useEffect(() => {
         if (employeeId) {
             getLoginClientDetail();
+            
         }
     }, [employeeId]);
 
@@ -472,6 +461,20 @@ const ClientDashboard = () => {
             getAppliedOfPostedJobs();
             getCandidateImg();
             allStaffFromCompany();
+
+            axios.get(`https://skillety-n6r1.onrender.com/all-notification/${loginClientDetail.companyId}?filter=all`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    Accept: 'application/json'
+                }
+            })
+                .then(res => {
+                    console.log(res.data);
+                    setNotifications(res.data)
+                })
+                .catch(err => {
+                    console.log(err)
+                })
         }
         // getClientChoosenPlan(loginClientDetail?.companyId);
     }, [loginClientDetail]);
@@ -491,12 +494,12 @@ const ClientDashboard = () => {
         setPostedJobs(newArray)
     }, [updatePostedJobs]);
 
-    const displayNotification = ({ senderName, content, time, date }) => {
+    const displayNotification = ({ senderName, content, time, date, readStatus }) => {
         
         return (
             <>
                 <td className='dash-table-sub-data data-nowrap'>{`${time} ${date}`}</td>
-                <td className='dash-table-sub-data'>{content}....................</td>
+                <td className='dash-table-sub-data'>{content}-------{readStatus?"Read":"UnRead"}</td>
                 {/* <td className='text-right dash-table-view-btn-area'>
                     <button className='dash-table-view-btn client'
                         data-toggle="modal">View</button>
@@ -514,7 +517,7 @@ const ClientDashboard = () => {
 
                 <div class="main-wrapper main-wrapper-1">
                     <div class="navbar-bg"></div>
-                    <ClientLayout notification={notifications} />
+                    <ClientLayout notification={unReadNotifications} />
 
                     <div class="main-content">
                         <section class="section">
@@ -597,7 +600,7 @@ const ClientDashboard = () => {
                                                 <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
                                                     <div className="dash-num-count-area">
                                                         <p className='dash-num-title'>New Notifications</p>
-                                                        <h4 className='dash-num-count'>00</h4>
+                                                        <h4 className='dash-num-count'>{notifications.slice(0,10).length}</h4>
                                                     </div>
                                                 </div>
                                             </div>
@@ -674,9 +677,9 @@ const ClientDashboard = () => {
                                                 <div className="dash-table-area">
                                                     <div className="dash-table-top-area">
                                                         <div className="dash-table-title">
-                                                            Read Notifications
+                                                            Recent Notifications
                                                         </div>
-                                                        <a href='#' className="dash-table-see-all-btn">See all</a>
+                                                        {/* <a href='#' className="dash-table-see-all-btn">See all</a> */}
                                                     </div>
                                                     <div class="table-responsive dash-table-container client mt-4">
                                                         <table class="table table-striped table-hover dash-table">

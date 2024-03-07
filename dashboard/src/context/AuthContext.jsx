@@ -1,11 +1,11 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
 import { GoogleAuthProvider, signInWithPopup, onAuthStateChanged  } from 'firebase/auth';
 import { auth } from '../firebase/firebaseConfig';
-
+import {io} from "socket.io-client";
 
 const AuthContext = createContext();
 
@@ -25,6 +25,12 @@ export const AuthContextProvider = ({ children }) => {
   
   const [loading, setLoading] = useState(true);
   const [result, setResult] = useState();
+  const [socket, setSocket] = useState(null);
+
+    useEffect(()=>{
+        setSocket(io("https://skillety-n6r1.onrender.com"));
+    },[]);
+
 
     //for show success message for payment
   function showSuccessMessage(message) {
@@ -428,8 +434,59 @@ const candidateUpdate = async (userData) => {
     }
 };
 
+//sending notification
+const sendNotification = async (senderData, receiverData, content, redirect, token) => {
 
-  return <AuthContext.Provider value={{ candidateReg, loginUser, getProtectedData, errorMsg, setErrorMsg, eventDetail, getEventDetail, getEventImg, eventImg, blogDetail, getBlogsDetail, videoDetail, getVideoDetail, podcastDetail, getPodcastDetail, newsDetail, getNewsDetail, getCandidateImg, candidateImg, getClientImg, clientImg, getClientChoosenPlan, packageSelectionDetail, result, candidateUpdate, sendinngBGVData }}>
+  console.log(senderData, receiverData, content, redirect);
+  
+  const now = new Date();
+    const hours = now.getHours();
+    const minutes = now.getMinutes();
+    const amPm = hours >= 12 ? 'PM' : 'AM';
+    const formattedHours = hours % 12 || 12;
+    const formattedTime = `${formattedHours}:${String(minutes).padStart(2, '0')} ${amPm}`;
+    const formattedDate = `${String(now.getDate()).padStart(2, '0')}/${String(now.getMonth() + 1).padStart(2, '0')}/${String(now.getFullYear()).slice(-2)}`;
+
+    const notificationData = {
+      senderId: senderData.id,
+      senderName: senderData.name,
+      receiverId: receiverData.id,
+      receiverName: receiverData.name,
+      content: content,
+      time: formattedTime,
+      date: formattedDate,
+      redirect: redirect,
+    };
+
+  try {
+    // Emit socket event
+    if (socket) {
+      await socket.emit("newUser", senderData.name);
+      console.log(notificationData)
+      await socket.emit("sendNotification", notificationData);
+
+      // Save notification in the database
+    const response = await axios.post('https://skillety-n6r1.onrender.com/create-new-notification', notificationData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: 'application/json'
+      }
+    });
+
+    console.log('Notification saved in the database:', response.data);
+    console.log('Notification sent successfully');
+    window.location.reload();
+    } else {
+      console.error('Socket not available');
+      window.location.reload();
+    }
+  } catch (error) {
+    console.error('Error sending notification:', error);
+    window.location.reload();
+  }
+}
+
+  return <AuthContext.Provider value={{ candidateReg, loginUser, getProtectedData, errorMsg, setErrorMsg, eventDetail, getEventDetail, getEventImg, eventImg, blogDetail, getBlogsDetail, videoDetail, getVideoDetail, podcastDetail, getPodcastDetail, newsDetail, getNewsDetail, getCandidateImg, candidateImg, getClientImg, clientImg, getClientChoosenPlan, packageSelectionDetail, result, candidateUpdate, sendinngBGVData, sendNotification }}>
     {children}
   </AuthContext.Provider>
 }

@@ -18,25 +18,34 @@ const NavBar = ({ notification, socket }) => {
   const [notifications, setNotifications] = useState([]);
 
   useEffect(() => {
-    setNotifications(notification);
-
+    if(notification?.length>0){
+      setNotifications(notification);
+    }
   }, [notification]);
 
-  const displayNotification = ({ senderName, content, time, date, redirect, _id }) => {
+  const handleClick = (notificationIdArray, redirect) => {
+    if (notificationIdArray) {
+      axios.patch("https://skillety-n6r1.onrender.com/read-notification", { notificationIdArray }, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: 'application/json'
+        }
+      }).then(res => {
+        console.log(res.data);
+        navigate(redirect);
+      }).catch(err => console.log(err));
+    } else {
+      navigate(redirect);
+    }
+  };
+
+  const displayNotification = (notificationData) => {
+    console.log(notificationData)
+    const { content, time, date, redirect, _id } = notificationData;
     const notificationIdArray = [_id]
     return (
       <div className="notification-dropdown-content"
-      onClick={()=>{
-        axios.patch("https://skillety-n6r1.onrender.com/read-notification", notificationIdArray, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            Accept: 'application/json'
-          }
-        }).then(res=>{
-          console.log(res.data)
-          navigate(redirect)
-        }).catch(err=>console.log(err))
-      }}>
+      onClick={()=>handleClick(notificationIdArray, redirect)}>
         <div className="notification-dropdown-content-left">
           <div className="noti-drpdwn-img-area">
             {/* <img src="assets/img/layout/user-img.png" className='noti-drpdwn-img' alt="" /> */}
@@ -97,21 +106,6 @@ const NavBar = ({ notification, socket }) => {
 
       fetchData();
 
-      axios.get(`https://skillety-n6r1.onrender.com/all-notification/${candidateId}?filter=unRead`, {
-        headers: {
-          Authorization: `Bearer ${token? token : candToken}`,
-          Accept: 'application/json'
-        }
-      })
-        .then(res => {
-          console.log(res.data);
-          setNotifications(res.data)
-        })
-        .catch(err => {
-          console.log(err)
-        })
-
-    
   }, []);
 
   useEffect(() => {
@@ -131,7 +125,19 @@ const NavBar = ({ notification, socket }) => {
           console.log(err)
         })
 
-      
+      axios.get(`https://skillety-n6r1.onrender.com/all-notification/${candidateId}?filter=unRead`, {
+        headers: {
+          Authorization: `Bearer ${token? token : candToken}`,
+          Accept: 'application/json'
+        }
+      })
+        .then(res => {
+          console.log(res.data);
+          setNotifications(res.data)
+        })
+        .catch(err => {
+          console.log(err)
+        })
     }
   }, [candidateId]);
 
@@ -169,7 +175,7 @@ const NavBar = ({ notification, socket }) => {
     const nameParts = userName.split(' ');
 
     if (nameParts?.length > 1) {
-      return nameParts[nameParts?.length - 1];
+      return nameParts[0];
     } else {
       return userName;
     }

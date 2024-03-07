@@ -118,7 +118,7 @@ const RandomChat = () => {
           redirect:'/random-user-chat-ats'
         }
 
-        await socket.emit("sendNotification", notificationData)
+        await socket.emit("sendWebChatNotification", notificationData)
 
         await socket.emit('send_message', messageData);
         setMessages((prevMessages) => [...prevMessages, messageData]);
