@@ -1051,7 +1051,7 @@ const CandidateRegister = () => {
                                                     onChange={() => setIsCheckedSkill(!isCheckedSkill)}
                                                 />
                                                 <span className="can-reg-form-checkmark"></span>
-                                                If your searched skill not in the list, please enable the checkbox & type manually
+                                                If your searched skill not in the list, please enable the checkbox & type
                                             </label>
 
                                         </div> */}

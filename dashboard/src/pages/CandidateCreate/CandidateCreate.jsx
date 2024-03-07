@@ -355,7 +355,7 @@ const CandidateCreate = () => {
                 }
             }
         } else {
-            setSkillError("Please enter the experience first...");
+            setSkillError("Please enter the experience first");
             setSearchSkillInput("");
             setFilteredSkills([]);
         }
@@ -389,7 +389,7 @@ const CandidateCreate = () => {
                 setSkillError("")
                 const foundObject = skillArray.find(item => item.skill.toLowerCase() === newSkill.toLowerCase());
                 if (foundObject) {
-                    setSkillError(`Skill "${newSkill}" already in list, please search...`);
+                    setSkillError(`Skill "${newSkill}" already in list, please search`);
                     setNewSkill("");
                 } else {
                     setOtherSkill([...otherSkill, newSkill]);
@@ -398,7 +398,7 @@ const CandidateCreate = () => {
                 }
             }
         } else {
-            setSkillError("Please enter the experience first...");
+            setSkillError("Please enter the experience first");
             setNewSkill("");
         }
 
@@ -408,7 +408,7 @@ const CandidateCreate = () => {
         setSearchDesignationInput("");
         const foundObject = designationArray.find(item => item.designation.toLowerCase() === newDesignation.toLowerCase());
         if (foundObject) {
-            setDesignationAlert(`Designation "${newDesignation}" already in list, please search...`);
+            setDesignationAlert(`Designation "${newDesignation}" already in list, please search`);
             setNewDesignation("");
         } else {
             setOtherDesignation([newDesignation]);
@@ -690,7 +690,7 @@ const CandidateCreate = () => {
                                             onPaste={(e) => e.preventDefault()}
                                             placeholder="Enter your password" className='cand--reg-form-input' required />
                                         <label htmlFor="password" className='cand--reg-form-label'>Password&nbsp;<span className='is-required'>*</span></label>
-                                        {passwordErrorMsg && <small className='text-danger text-capitalized form-error-message'>password must be 8 characters long...</small>}
+                                        {passwordErrorMsg && <small className='text-danger text-capitalized form-error-message'>Password must be 8 characters long</small>}
                                         {require && <small className='text-danger text-capitalized form-error-message'>{credentials.password === "" && "required"}</small>}
                                     </div>
                                 </div>
@@ -702,7 +702,7 @@ const CandidateCreate = () => {
                                             onPaste={(e) => e.preventDefault()}
                                             placeholder="Enter your confirmPassword" className='cand--reg-form-input' required />
                                         <label htmlFor="confirm_password" className='cand--reg-form-label'>Confirm Password&nbsp;<span className='is-required'>*</span></label>
-                                        {confirmPasswordErrorMsg && <small className='text-danger text-capitalized form-error-message'>Password and Confirm Password must match...</small>}
+                                        {confirmPasswordErrorMsg && <small className='text-danger text-capitalized form-error-message'>Password and confirm password should be same</small>}
                                         {require && <small className='text-danger text-capitalized form-error-message'>{credentials.confirmPassword === "" && "required"}</small>}
                                     </div>
                                 </div>
@@ -744,7 +744,7 @@ const CandidateCreate = () => {
                                             <input type="text" 
                                             name='searchDesignationInput'
                                                 id='searchDesignationInput'
-                                                placeholder='Search designation...'
+                                                placeholder='Search designation'
                                                 value={searchDesignationInput}
                                                 onChange={handleDesignationSearch} className='cand--reg-form-input' />
                                             <label htmlFor="designation" className='cand--reg-form-label'>Current Role/Designation&nbsp;<span className='is-required'>*</span></label>
@@ -778,7 +778,7 @@ const CandidateCreate = () => {
                                                     onChange={() => setIsCheckedDesignation(!isCheckedDesignation)}
                                                 />
                                                 <span className="can-reg-form-checkmark"></span>
-                                                If your searched designation not in the list, please enable the checkbox & type manually...
+                                                If your searched designation not in the list, please enable the checkbox & type
                                             </label>
 
                                         </div>
@@ -792,7 +792,7 @@ const CandidateCreate = () => {
                                                 name='manualDesignationInput'
                                                 id='manualDesignationInput'
                                                 className='cand--reg-form-input'
-                                                placeholder='Enter your designation...'
+                                                placeholder='Enter your designation'
                                                 value={newDesignation}
                                                 onChange={(e) => setNewDesignation(e.target.value)}
                                                 disabled={!isCheckedDesignation}
@@ -953,7 +953,7 @@ const CandidateCreate = () => {
                                                     onChange={() => setIsCheckedSkill(!isCheckedSkill)}
                                                 />
                                                 <span className="can-reg-form-checkmark"></span>
-                                                If your searched skill not in the list, please enable the checkbox & type manually...
+                                                If your searched skill not in the list, please enable the checkbox & type
                                             </label>
 
                                         </div>
@@ -972,12 +972,12 @@ const CandidateCreate = () => {
                                                 name='manualSkillInput'
                                                 id='manualSkillInput'
                                                 className='cand--reg-form-input'
-                                                placeholder='Enter your skills...'
+                                                placeholder='Enter your skills'
                                                 value={newSkill}
                                                 onChange={(e) => setNewSkill(e.target.value)}
                                                 disabled={!isCheckedSkill}
                                             />
-                                            <label htmlFor="manualDesignationInput" className='cand--reg-form-label'>Enter your skill manually</label>
+                                            <label htmlFor="manualDesignationInput" className='cand--reg-form-label'>Enter your skill</label>
                                             <button
                                                 type="button"
                                                 className="multi-form-add-btn"

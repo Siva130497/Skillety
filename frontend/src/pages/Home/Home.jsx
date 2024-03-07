@@ -393,7 +393,7 @@ const Home = () => {
               <div className="col-12 col-lg-6 col-xl-5 col-md-12 home--right-cover custom-flex">
                 <div className='home--blob-img-area'>
                   <div className="home--img-area">
-                    <img src="assets/img/home-images/header-image.webp" data-aos="fade" data-aos-delay="300" loading='lazy'
+                    <img src="assets/img/home-images/header-image.png" data-aos="fade" data-aos-delay="300" loading='lazy'
                       className='home--img animated' alt="" />
                     <img src="assets/img/home-images/bubble-1.png" className='bubble--img1 animated' alt="" data-aos="fade" data-aos-delay="200" />
                     <img src="assets/img/home-images/bubble-2.png" className='bubble--img2 animated' alt="" data-aos="fade" data-aos-delay="100" />
