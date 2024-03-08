@@ -994,7 +994,7 @@
 
 .sub--footer-content .footer--copyright {
   color: #FFF;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 500;
 }
 
@@ -1004,13 +1004,13 @@
 
 .footer--bottom-credit-area .footer--cerdit {
   color: #FFF;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 500;
   margin-right: 10px;
 }
 
 .footer--bottom-credit-area .prodigit--logo {
-  width: 180px;
+  width: 140px;
   object-fit: contain;
 }
 

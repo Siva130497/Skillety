@@ -319,6 +319,22 @@
     line-height: normal;
 }
 
+.package-row .col-xl-2,
+.package-row .col-lg-2,
+.package-row .col-md-2 {
+    flex: 0 0 20%;
+    max-width: 20%;
+}
+
+.pl--package-info.line-through {
+    text-decoration: line-through;
+    color: #a3a3a3;
+}
+
+.package-row .offset-xl-1 {
+    margin-left: 0% !important;
+}
+
 .tab {
     overflow: hidden;
     transition: display 0.5s ease-in-out;
@@ -370,7 +386,7 @@
 .sol-price-heading {
     color: #714F36;
     text-align: center;
-    font-size: 40px;
+    font-size: 30px;
     font-weight: 600;
     text-transform: uppercase;
     margin-bottom: 0px;
