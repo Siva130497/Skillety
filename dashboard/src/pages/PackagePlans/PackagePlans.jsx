@@ -929,7 +929,7 @@ const PackagePlans = () => {
                                   <div className="col-6">
                                     <div className="pl-package-detail-view-area">
                                       <div className="pl-package-detail-title">
-                                        MICRO
+                                        TEST
                                       </div>
                                       <button
                                         type="button"
@@ -947,25 +947,12 @@ const PackagePlans = () => {
                                 <div className="row pl-package-row">
                                   <div className="col-6">
                                     <div className="pl-package-detail-title">
-                                      Total
+                                      Real Price
                                     </div>
                                   </div>
                                   <div className="col-6">
-                                    <div className="pl-package-detail-title">
-                                      Rs. 27,800
-                                    </div>
-                                  </div>
-                                </div>
-
-                                <div className="row pl-package-row">
-                                  <div className="col-6">
-                                    <div className="pl-package-detail-title">
-                                      Early Bird Discount
-                                    </div>
-                                  </div>
-                                  <div className="col-6">
-                                    <div className="pl-package-detail-title">
-                                      Rs. 0
+                                    <div className="pl-package-detail-title line-through">
+                                      INR 1,200
                                     </div>
                                   </div>
                                 </div>
@@ -973,12 +960,12 @@ const PackagePlans = () => {
                                 <div className="row pl-package-row">
                                   <div className="col-6">
                                     <div className="pl-package-detail-title">
-                                      Discounted Price
+                                      Inaugural Offer Price
                                     </div>
                                   </div>
                                   <div className="col-6">
                                     <div className="pl-package-detail-title">
-                                      Rs. 0
+                                      INR 199
                                     </div>
                                   </div>
                                 </div>
@@ -991,7 +978,7 @@ const PackagePlans = () => {
                                   </div>
                                   <div className="col-6">
                                     <div className="pl-package-detail-title">
-                                      Rs. 5,004
+                                      INR 35.82
                                     </div>
                                   </div>
                                 </div>
@@ -1004,7 +991,7 @@ const PackagePlans = () => {
                                   </div>
                                   <div className="col-6">
                                     <div className="pl-package-detail-title">
-                                      Rs. 32,804
+                                      INR 234.82
                                     </div>
                                   </div>
                                 </div>
@@ -1150,7 +1137,7 @@ const PackagePlans = () => {
                               className="modal-title pl-pack-det-modal-head"
                               id="exampleModalLabel"
                             >
-                              Package : <span>MICRO</span>
+                              Package : <span>TEST</span>
                             </h5>
                             <a
                               href="#"
@@ -1172,39 +1159,39 @@ const PackagePlans = () => {
                                     <tr className="pl-pack-det-table-row-head">
                                       <th>Includes</th>
                                       <th className="text-center">Quantity</th>
-                                      <th className="text-right">
+                                      {/* <th className="text-right">
                                         Price (Rs.)
-                                      </th>
+                                      </th> */}
                                     </tr>
                                   </thead>
                                   <tbody>
                                     <tr className="pl-pack-det-table-row">
                                       <td>CV Views</td>
-                                      <td className="text-center">5,000</td>
-                                      <td className="text-right">20,000</td>
+                                      <td className="text-center">20</td>
+                                      {/* <td className="text-right">20,000</td> */}
                                     </tr>
                                     <tr className="pl-pack-det-table-row">
-                                      <td>Job Postings</td>
-                                      <td className="text-center">10</td>
-                                      <td className="text-right">300</td>
-                                    </tr>
-                                    <tr className="pl-pack-det-table-row">
-                                      <td>Mass Mailers</td>
-                                      <td className="text-center">10,000</td>
-                                      <td className="text-right">2,500</td>
-                                    </tr>
-                                    <tr className="pl-pack-det-table-row">
-                                      <td>Login IDs</td>
+                                      <td>Login ID</td>
                                       <td className="text-center">01</td>
-                                      <td className="text-right">5,000</td>
+                                      {/* <td className="text-right">300</td> */}
+                                    </tr>
+                                    <tr className="pl-pack-det-table-row">
+                                      <td>Active Jobs</td>
+                                      <td className="text-center">01</td>
+                                      {/* <td className="text-right">2,500</td> */}
+                                    </tr>
+                                    <tr className="pl-pack-det-table-row">
+                                      <td>Validity in Days</td>
+                                      <td className="text-center">01</td>
+                                      {/* <td className="text-right">5,000</td> */}
                                     </tr>
                                   </tbody>
-                                  <tfoot>
+                                  {/* <tfoot>
                                     <tr className="pl-pack-det-table-row-head">
                                       <th colSpan={2}>Total</th>
                                       <th className="text-right">27,800</th>
                                     </tr>
-                                  </tfoot>
+                                  </tfoot> */}
                                 </table>
                               </div>
                             </div>
