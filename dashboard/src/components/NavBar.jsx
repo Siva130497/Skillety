@@ -41,8 +41,8 @@ const NavBar = ({ notification, socket }) => {
 
   const displayNotification = (notificationData) => {
     console.log(notificationData)
-    const { content, time, date, redirect, _id } = notificationData;
-    const notificationIdArray = [_id]
+    const { content, time, date, redirect, id } = notificationData;
+    const notificationIdArray = [id]
     return (
       <div className="notification-dropdown-content"
       onClick={()=>handleClick(notificationIdArray, redirect)}>
@@ -67,8 +67,8 @@ const NavBar = ({ notification, socket }) => {
 
   const handleClearNotifications = () => {
     
-    const notificationIdArray = notifications.map(notific => notific._id)
-    if(notifications?.length>0){
+    const notificationIdArray = notifications.map(notific => notific.id)
+    if(notifications?.length>0 && notificationIdArray){
       axios.patch("https://skillety-n6r1.onrender.com/read-notification", notificationIdArray, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -82,6 +82,8 @@ const NavBar = ({ notification, socket }) => {
       .catch(err=>{
         console.log(err)
       })
+    }else{
+      setNotifications([]);
     }
 
   }
@@ -165,7 +167,7 @@ const NavBar = ({ notification, socket }) => {
       if (candidateImg.image.startsWith('https')) {
         setCandidateImgUrl(candidateImg.image);
       } else {
-        setCandidateImgUrl(`https://skillety-n6r1.onrender.com/candidate_profile/${candidateImg.image}`);
+        setCandidateImgUrl(`data:image/jpeg;base64,${candidateImg.image}`);
       }
     }
 }, [candidateImg]);

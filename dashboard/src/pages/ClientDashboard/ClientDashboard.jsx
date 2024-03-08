@@ -499,7 +499,7 @@ const ClientDashboard = () => {
         return (
             <>
                 <td className='dash-table-sub-data data-nowrap'>{`${time} ${date}`}</td>
-                <td className='dash-table-sub-data'>{content}-------{readStatus?"Read":"UnRead"}</td>
+                <td className='dash-table-sub-data'>{content} -------{readStatus?<b>Read</b>:<b>Un-Read</b>}</td>
                 {/* <td className='text-right dash-table-view-btn-area'>
                     <button className='dash-table-view-btn client'
                         data-toggle="modal">View</button>
@@ -684,7 +684,7 @@ const ClientDashboard = () => {
                                                     <div class="table-responsive dash-table-container client mt-4">
                                                         <table class="table table-striped table-hover dash-table">
                                                             {notifications?.length > 0 ? (
-                                                                notifications.reverse().slice(0, 10).map((notification) => (
+                                                                notifications.slice(0, 10).map((notification) => (
                                                                     <tr className='dash-table-row' key={notification.id}>{displayNotification(notification)}</tr>
                                                                 ))
                                                             ) : (
@@ -712,7 +712,7 @@ const ClientDashboard = () => {
                                                         <table class="table table-striped table-hover dash-table">
                                                             {candidateDetail.slice(0, 10).map((cand) => {
                                                                 const matchingImg = candidateImg ? candidateImg.find(img => img.id === cand.id) : null;
-                                                                const imgSrc = matchingImg ?(matchingImg.image.startsWith('https') ? matchingImg.image : `https://skillety-n6r1.onrender.com/candidate_profile/${matchingImg.image}` ): "../assets/img/talents-images/avatar.jpg";
+                                                                const imgSrc = matchingImg ?(matchingImg.image.startsWith('https') ? matchingImg.image : `data:image/jpeg;base64,${matchingImg.image}` ): "../assets/img/talents-images/avatar.jpg";
                                                                 return (
                                                                     <tr className='dash-table-row' key={cand.id}>
                                                                         <td>

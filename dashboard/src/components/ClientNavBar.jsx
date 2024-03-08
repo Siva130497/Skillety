@@ -116,8 +116,8 @@ const ClientNavBar = ({ notification }) => {
 
   const displayNotification = (notificationData) => {
     console.log(notificationData)
-    const { content, time, date, redirect, _id } = notificationData;
-    const notificationIdArray = [_id]
+    const { content, time, date, redirect, id } = notificationData;
+    const notificationIdArray = [id]
     return (
       <div className="notification-dropdown-content"
       onClick={()=>handleClick(notificationIdArray, redirect)}>
@@ -142,7 +142,7 @@ const ClientNavBar = ({ notification }) => {
 
   const handleClearNotifications = () => {
     
-    const notificationIdArray = notifications.map(notific => notific._id)
+    const notificationIdArray = notifications.map(notific => notific.id)
     if(notifications?.length>0){
       axios.patch("https://skillety-n6r1.onrender.com/read-notification", notificationIdArray, {
         headers: {

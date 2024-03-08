@@ -9,6 +9,7 @@ import 'sweetalert2/dist/sweetalert2.css';
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 
+
 const RandomChat = () => {
 
     const [userId, setUserId] = useState(uuidv4());
@@ -115,7 +116,8 @@ const RandomChat = () => {
           content: inputMessage,
           time: formattedTime,
           date: formattedDate,
-          redirect:'/random-user-chat-ats'
+          redirect:'/random-user-chat-ats',
+          id:uuidv4()
         }
 
         await socket.emit("sendWebChatNotification", notificationData)

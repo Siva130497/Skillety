@@ -414,67 +414,106 @@ app.patch('/update-image/:id', employeeAuth, uploadImg.single('image'), (req, re
 
 
 //candidate profile photohandling
-const storageCandidateImg = multer.diskStorage({
-  destination: function(req, file, cb) {
-    return cb(null, "./public/candidate_profile")
-  },
-  filename: function(req, file, cb) {
-    return cb(null, `${Date.now()}_${file.originalname}`)
+// const storageCandidateImg = multer.diskStorage({
+//   destination: function(req, file, cb) {
+//     return cb(null, "./public/candidate_profile")
+//   },
+//   filename: function(req, file, cb) {
+//     return cb(null, `${Date.now()}_${file.originalname}`)
+//   }
+// })
+
+// const uploadCandidateImg = multer({storage: storageCandidateImg})
+app.post('/upload-candidate-profile-image', employeeAuth, uploadImgBase64.single('image'), async(req, res) => {
+  try {
+    if (!req.body.id) {
+      return res.status(400).json({ error: 'No resume id provided' });
+    }
+
+    if (!req.file) {
+      return res.status(400).json({ error: 'No resume provided' });
+    }
+
+    // Convert image buffer to base64
+    const base64Image = req.file.buffer.toString('base64');
+
+    // Save the image to the database
+    const newCandidateProfile = new candidateProfile({
+      id: req.body.id,
+      image: base64Image
+    });
+    await newCandidateProfile.save();
+
+    res.status(200).json({ message: 'Profile Image uploaded successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
   }
 })
 
-const uploadCandidateImg = multer({storage: storageCandidateImg})
-app.post('/upload-candidate-profile-image', employeeAuth, uploadCandidateImg.single('image'), (req, res) => {
-  const uploadedId = req.body.id; 
-  console.log("Uploaded ID:", uploadedId);
-  console.log("Uploaded File:", req.file);
+app.get('/candidate-image', async(req, res)=>{
+  
+  try {
+    // Fetch the resume from the database based on the provided ID
+    const existingResume = await candidateProfile.find();
 
-  candidateProfile.create({
-    image: req.file.filename,
-    id: uploadedId,
-  })
-  .then((result) => console.log(result))
-  .then(result => res.status(201).json({message:"Candidate Profile Upload Successfully!", result}))
-  .catch(err => console.log(err)) 
-})
-
-app.get('/candidate-image', (req, res)=>{
-  candidateProfile.find()
-  .then(candidateImg=>res.json(candidateImg))
-  .catch(err=>res.json(err))
-});
-
-app.get('/candidate-image/:id', (req, res)=>{
-  const {id} = req.params;
-  candidateProfile.findOne({id})
-  .then(candidateImg=>res.json(candidateImg))
-  .catch(err=>res.json(err))
-});
-
-app.patch('/update-candidate-profile-image/:id', employeeAuth, uploadCandidateImg.single('image'), (req, res) => {
-  const uploadedId = req.params.id;
-  const newImageFilename = req.file.filename;
-
-  // Find the existing image by ID
-  candidateProfile.findOneAndUpdate(
-    { id: uploadedId },
-    { $set: { image: newImageFilename } },
-    { new: true },
-    (err, updatedImage) => {
-      if (err) {
-        console.error(err);
-        return res.status(500).json({ error: 'Internal Server Error' });
-      }
-
-      if (!updatedImage) {
-        return res.status(404).json({ error: 'Image not found' });
-      }
-
-      console.log('Updated Image:', updatedImage);
-
-      res.json(updatedImage);
+    if (existingResume.length===0) {
+      return res.status(404).json({ error: 'Profile Images not found' });
     }
-  );
+
+    res.status(200).json(existingResume);
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+app.get('/candidate-image/:id', async(req, res)=>{
+  const {id} = req.params;
+  try {
+    // Fetch the resume from the database based on the provided ID
+    const existingResume = await candidateProfile.findOne({ id });
+
+    if (!existingResume) {
+      return res.status(404).json({ error: 'Profile Image not found' });
+    }
+
+    res.status(200).json(existingResume);
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+app.patch('/update-candidate-profile-image/:id', employeeAuth, uploadImgBase64.single('image'), async(req, res) => {
+  try {
+    const {id} = req.params;
+
+    if (!req.file) {
+      return res.status(400).json({ error: 'No Profile Image provided' });
+    }
+
+    // Convert image buffer to base64
+    const base64Image = req.file.buffer.toString('base64');
+
+    // Update the existing content with new logo using findOneAndUpdate
+    const updatedResume = await candidateProfile.findOneAndUpdate(
+      { id },
+      { image: base64Image },
+      { new: true }
+    );
+
+    if (!updatedResume) {
+      return res.status(404).json({ error: 'Profile Image not found' });
+    }
+
+    res.status(200).json({ message: 'Profile Image updated successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
 });
 
 //client company profile photohandling

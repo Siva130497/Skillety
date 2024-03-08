@@ -1024,7 +1024,7 @@ const Home = () => {
           >
             {candidateDetail.map((candidate) => {
               const matchingImg = candidateImg ? candidateImg.find(img => img.id === candidate.id) : null;
-              const imgSrc = matchingImg ? (matchingImg.image.startsWith('https') ? matchingImg.image : `https://skillety-n6r1.onrender.com/candidate_profile/${matchingImg.image}`) : "assets/img/talents-images/avatar.jpg";
+              const imgSrc = matchingImg ? (matchingImg.image.startsWith('https') ? matchingImg.image : `data:image/jpeg;base64,${matchingImg.image}`) : "assets/img/talents-images/avatar.jpg";
               return (
                 <SwiperSlide>
                   <article className='candidate--card'>

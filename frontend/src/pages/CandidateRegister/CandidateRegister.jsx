@@ -12,11 +12,15 @@ import LayoutNew from '../../components/LayoutNew';
 import GoogleAuth from '../../components/GoogleAuth';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
+import {useNavigate} from 'react-router-dom';
 
 const CandidateRegister = () => {
+    const candidateToken = JSON.parse(localStorage.getItem("candidateToken"));
+    const [candToken, setCandToken] = useState("")
+    const navigate = useNavigate()
     const [step, setStep] = useState(1);
     const [isAgreed, setIsAgreed] = useState(false);
-    const { candidateReg, result } = useContext(AuthContext);
+    const { candidateReg, result, getProtectedData } = useContext(AuthContext);
     const [skillArray, setSkillArray] = useState([]);
     const [designationArray, setDesignationArray] = useState([])
     const [selectedDate, setSelectedDate] = useState(null);
@@ -111,6 +115,31 @@ const CandidateRegister = () => {
             confirmButtonText: 'OK',
         });
     }
+
+    useEffect(() => {
+        
+        const fetchData = async () => {
+            try {
+                const user = await getProtectedData(candidateToken);
+                console.log(user);
+                
+                setCandToken(user.userToken);
+              
+            } catch (error) {
+                console.log(error);
+             
+            }
+        };
+
+        fetchData();
+}, []);
+
+    useEffect(()=>{
+        if(candToken || candidateToken){
+            navigate("/candidate-home")
+        }
+    },[candToken, candidateToken])
+
 
     useEffect(() => {
         if (result) {
