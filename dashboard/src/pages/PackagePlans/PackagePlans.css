@@ -326,7 +326,7 @@
     max-width: 20%;
 }
 
-.pl--package-info.line-through {
+.line-through {
     text-decoration: line-through;
     color: #a3a3a3;
 }
