@@ -1,0 +1,70 @@
+@media screen and (min-width: 992px) and (max-width: 1399px) {
+    .terms-con-title {
+        font-size: 35px;
+    }
+
+    .terms-con-section {
+        padding-bottom: 80px;
+    }
+}
+
+@media (max-width:991.5px) {
+    .terms-con-title {
+        font-size: 35px;
+    }
+
+    .terms-con-sub-title {
+        font-size: 24px;
+    }
+
+    .terms-con-section {
+        padding-bottom: 80px;
+    }
+}
+
+@media (max-width:500px) {
+    .terms-con-section {
+        padding-bottom: 60px;
+    }
+
+    .terms-con-title {
+        font-size: 25px;
+    }
+
+    .terms-con-sub-title {
+        font-size: 20px;
+    }
+
+    .terms-con-note-area {
+        padding: 20px;
+    }
+
+    .terms-con-updated {
+        display: flex;
+        flex-direction: column;
+        row-gap: 5px;
+    }
+
+    .m-t-35 {
+        margin-top: 35px;
+    }
+
+    .terms-con-updated::before {
+        display: none;
+    }
+
+    .terms-con-content {
+        margin-left: 15px;
+    }
+
+    .terms-con-list-area ul {
+        padding-left: 15px;
+    }
+
+    .terms-con-updated span {
+        font-size: 16px;
+    }
+    .terms-con-area{
+        padding: 30px 15px !important;
+    }
+}

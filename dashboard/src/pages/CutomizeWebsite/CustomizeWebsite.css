@@ -230,6 +230,10 @@
     margin-bottom: 2px;
 }
 
+textarea.dash-form-input{
+    min-height: 150px !important;
+}
+
 @media (max-width:991.5px) {
     .customize-website-nav{
         flex-direction: column;

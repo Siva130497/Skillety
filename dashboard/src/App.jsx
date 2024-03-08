@@ -97,6 +97,8 @@ import ErrorPage from './404/404';
 
 import RandomUserChat from './components/RandomUserChat';
 
+import TermsConditions from './pages/TermsConditions/TermsConditions';
+
 function App() {
   return (
     <div>
@@ -200,6 +202,8 @@ function App() {
         <Route path='/edit-employer-about' element={<EditEmployerAbout />}/>
         <Route path='/edit-employer-contact' element={<EditEmployerContact />}/>
         <Route path='/edit-employer-service' element={<EditEmployerServices />}/>
+
+        <Route path='/terms-and-conditions' element={<TermsConditions />} />
 
       </Routes>
     </AuthContextProvider>
