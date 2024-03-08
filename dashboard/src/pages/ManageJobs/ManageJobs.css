@@ -107,7 +107,7 @@
     font-size: 13px;
     font-weight: 400;
     line-height: normal;
-    text-align: center;
+    /* text-align: center; */
 }
 
 .swal2-container .swal2-cancel {

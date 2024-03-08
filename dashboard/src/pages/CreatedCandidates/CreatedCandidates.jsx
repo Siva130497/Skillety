@@ -625,7 +625,7 @@ const CreatedCandidates = () => {
                                                                         )
                                                                     }
                                                                 })}
-                                                                <th className='dash-table-head text-center'>View</th>
+                                                                <th className='dash-table-head text-left'>Action</th>
                                                             </tr>
 
 
@@ -764,7 +764,7 @@ const CreatedCandidates = () => {
                                                                                         </select>
                                                                                     </div>
                                                                                 </td>}
-                                                                                <td className='text-center'>
+                                                                                <td className='text-left'>
                                                                                     <div className="action-btn-area">
                                                                                         <button className='job-view-btn' data-toggle="modal" title='View Candidate Details...' data-target="#candidatesViewModal" onClick={() => viewCandidateDetail(candidate.id)}>
                                                                                             <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
@@ -917,7 +917,7 @@ const CreatedCandidates = () => {
                                                                                         </select>
                                                                                     </div>
                                                                                 </td>}
-                                                                                <td className='text-center'>
+                                                                                <td className='text-left'>
                                                                                     <div className="action-btn-area">
                                                                                         <button className='job-view-btn' data-toggle="modal" title='View Candidate Details...' data-target="#candidatesViewModal" onClick={() => viewCandidateDetail(candidate.id)}>
                                                                                             <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">

@@ -362,7 +362,7 @@ const AllClientStaff = () => {
                                                                 <th className='dash-table-head'>Full Name</th>
                                                                 <th className='dash-table-head'>Email ID</th>
                                                                 {/* <th className='dash-table-head'>Staff Type</th> */}
-                                                                <th className='dash-table-head text-center'>Action</th>
+                                                                <th className='dash-table-head text-left'>Action</th>
                                                             </tr>
 
                                                             {/* table data */}
@@ -383,7 +383,7 @@ const AllClientStaff = () => {
                                                                         {/* <td className='dash-table-data1'>
                                                                         {recruiter.companyStaff}
                                                                     </td> */}
-                                                                        <td className='text-center'>
+                                                                        <td className='text-left'>
                                                                             <div className="action-btn-area">
                                                                                 <button className='job-view-btn' data-toggle="modal" title='View staff details...' data-target="#staffViewModal" onClick={() => handleViewClientStaffDetail(clientStaff.id)}>
                                                                                     <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">

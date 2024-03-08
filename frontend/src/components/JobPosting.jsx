@@ -348,7 +348,7 @@ const JobPosting = ({employeeId, staffToken, clientToken, companyId, role}) => {
                  name='searchJobRoleInput' 
                  id='searchJobRoleInput' 
                  className='form-control my-2' 
-                 placeholder='Search job role...' 
+                 placeholder='Search job role' 
                  value={searchJobRoleInput}
                  onChange={handleJobRoleSearch}
                  />
@@ -364,14 +364,14 @@ const JobPosting = ({employeeId, staffToken, clientToken, companyId, role}) => {
                  onChange={()=>setIsCheckedJobRole(!isCheckedJobRole)}
                  />
                  <label className="form-check-label" htmlFor="flexSwitchCheckChecked">
-                   If your searched job role not in the list, please enable the checkbox & type manually...
+                   If your searched job role not in the list, please enable the checkbox & type
                  </label>
                  <input 
                  type='text' 
                  name='manualJobRoleInput' 
                  id='manualJobRoleInput' 
                  className='form-control my-2' 
-                 placeholder='Enter job role...'
+                 placeholder='Enter job role'
                  value={newJobRole}
                  onChange={(e)=>setNewJobRole(e.target.value)}
                  disabled = {!isCheckedJobRole}
@@ -456,14 +456,14 @@ const JobPosting = ({employeeId, staffToken, clientToken, companyId, role}) => {
                  onChange={()=>setIsCheckedSkill(!isCheckedSkill)}
                  />
                  <label className="form-check-label" htmlFor="flexSwitchCheckChecked">
-                   If the searched skill for the particular job role not in the list, please enable the checkbox & type manually...
+                   If the searched skill for the particular job role not in the list, please enable the checkbox & type
                  </label>
                  <input 
                  type='text' 
                  name='manualSkillInput' 
                  id='manualSkillInput' 
                  className='form-control my-2' 
-                 placeholder='Enter the skills...'
+                 placeholder='Enter the skills'
                  value={newSkill}
                  onChange={(e)=>setNewSkill(e.target.value)}
                  disabled={!isCheckedSkill}

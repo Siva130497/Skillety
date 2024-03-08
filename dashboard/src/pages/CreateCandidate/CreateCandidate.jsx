@@ -901,7 +901,7 @@ const CreateCandidate = () => {
                                                                 onChange={() => setIsCheckedDesignation(!isCheckedDesignation)}
                                                             />
                                                             <span className="job-post-form-checkmark"></span>
-                                                            If your searched job role not in the list, please enable the checkbox & type manually...
+                                                            If your searched job role not in the list, please enable the checkbox & type
                                                         </label>
                                                     </div>
 
@@ -911,7 +911,7 @@ const CreateCandidate = () => {
                                                             name='manualJobRoleInput'
                                                             id='manualJobRoleInput'
                                                             className='job-post-form-input mt-4'
-                                                            placeholder='Enter the designation manually...'
+                                                            placeholder='Enter the designation'
                                                             value={newDesignation}
                                                             onChange={(e) => setNewDesignation(e.target.value)}
                                                             disabled={!isCheckedDesignation}
@@ -1061,7 +1061,7 @@ const CreateCandidate = () => {
                                                                 onChange={() => setIsCheckedSkill(!isCheckedSkill)}
                                                             />
                                                             <span className="job-post-form-checkmark"></span>
-                                                            If your searched skill not in the list, please enable the checkbox & type manually...
+                                                            If your searched skill not in the list, please enable the checkbox & type
                                                         </label>
                                                     </div>
 
@@ -1071,7 +1071,7 @@ const CreateCandidate = () => {
                                                             name='manualSkillInput'
                                                             id='manualSkillInput'
                                                             className='job-post-form-input mt-4'
-                                                            placeholder='Enter the skill manually...'
+                                                            placeholder='Enter the skill'
                                                             value={newSkill}
                                                             onChange={(e) => setNewSkill(e.target.value)}
                                                             disabled={!isCheckedSkill}

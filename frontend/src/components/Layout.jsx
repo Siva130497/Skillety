@@ -261,14 +261,14 @@ const Layout = ({ newNavBarClientRegister, newNavBarClientLogin, newNavBarCandid
         <span>Back</span>
       </button> */}
 
-      {!(window.location.pathname === '/client-login' || window.location.pathname === '/client-register' || window.location.pathname === '/candidate-login' || window.location.pathname === '/forgot-password/Client') &&
+      {!(window.location.pathname === '/client-login' || window.location.pathname === '/client-register' || window.location.pathname === '/candidate-login' || window.location.pathname === '/forgot-password/Client' || window.location.pathname === '/forgot-password/Candidate') &&
         <button className="go-back-button-style-2" onClick={handleBackButtonClick}>
           <i className="bi bi-chevron-double-left"></i>
           <span>Back</span>
         </button>
       }
 
-      {!(window.location.pathname === '/client-login' || window.location.pathname === '/client-register' || window.location.pathname === '/candidate-login' || window.location.pathname === '/forgot-password/Client') &&
+      {!(window.location.pathname === '/client-login' || window.location.pathname === '/client-register' || window.location.pathname === '/candidate-login' || window.location.pathname === '/forgot-password/Client' || window.location.pathname === '/forgot-password/Candidate') &&
         <RandomChat />
       }
 

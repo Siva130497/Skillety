@@ -264,7 +264,7 @@
 .job--detail-card-desc-area {
     margin-top: 13px;
     max-height: 110px;
-    overflow-y: scroll;
+    overflow-y: hidden;
     padding-right: 10px;
 }
 

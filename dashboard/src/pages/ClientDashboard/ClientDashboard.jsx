@@ -10,8 +10,8 @@ import { Pagination, Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import { jwtDecode } from "jwt-decode";
-import Skeleton from 'react-loading-skeleton'
-import 'react-loading-skeleton/dist/skeleton.css'
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 import { io } from "socket.io-client";
 import notificationSound from "./media/notify-ring.mp3";
 
@@ -65,24 +65,24 @@ const ClientDashboard = () => {
         setFilter(event.target.value);
     };
 
-    useEffect(()=>{
-        if(loginClientDetail?.companyId){
+    useEffect(() => {
+        if (loginClientDetail?.companyId) {
             axios.get(`https://skillety-n6r1.onrender.com/company-dashboard-chart/${loginClientDetail?.companyId}?period=${filter}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     Accept: 'application/json'
                 }
             })
-            .then((res)=>{
-                console.log(res.data);
-                setChartData(res.data);
-            })
-            .catch(err=>{
-                console.log(err)
-                setChartData();
-            });
+                .then((res) => {
+                    console.log(res.data);
+                    setChartData(res.data);
+                })
+                .catch(err => {
+                    console.log(err)
+                    setChartData();
+                });
         }
-    },[filter, loginClientDetail])
+    }, [filter, loginClientDetail])
 
     ChartJS.register(
         CategoryScale,
@@ -115,20 +115,20 @@ const ClientDashboard = () => {
                 //     [12.5, 12.5, 2.5, 5, 0, 2.5, 2.5, 10],
                 //     [7.5, 8, 5, 7.5, 12.5, 5, 6, 7.5],
                 // ];
-                return chartData?.series.map(dataSeries=>dataSeries?.data)
+                return chartData?.series.map(dataSeries => dataSeries?.data)
             case 'monthly':
                 // return [
                 //     [20, 25, 30, 22, 18, 25, 28, 30, 20, 15, 10, 18],
                 //     [15, 18, 20, 22, 30, 25, 28, 30, 22, 18, 15, 20],
                 // ];
-                return chartData?.series.map(dataSeries=>dataSeries?.data)
-                    // return [chartData?.series[0].data, chartData?.series[1].data]
+                return chartData?.series.map(dataSeries => dataSeries?.data)
+            // return [chartData?.series[0].data, chartData?.series[1].data]
             case 'yearly':
                 // return [
                 //     [100, 120, 80, 90, 110, 130, 140, 160, 180, 200, 180, 150],
                 //     [80, 100, 70, 90, 120, 150, 160, 180, 200, 220, 200, 170],
                 // ];
-                return chartData?.series.map(dataSeries=>dataSeries?.data)
+                return chartData?.series.map(dataSeries => dataSeries?.data)
             default:
                 return [];
         }
@@ -139,14 +139,14 @@ const ClientDashboard = () => {
         datasets: [
             {
                 fill: true,
-                label:  chartData? (chartData?.series[0]?.name) : "no data",
+                label: chartData ? (chartData?.series[0]?.name) : "no data",
                 data: chartData && getData()[0],
                 borderColor: '#F9C833',
                 backgroundColor: '#714F36',
             },
             {
                 fill: true,
-                label: chartData? (chartData?.series[1]?.name) : "no data",
+                label: chartData ? (chartData?.series[1]?.name) : "no data",
                 data: chartData && getData()[1],
                 borderColor: '#714F36',
                 backgroundColor: '#C2B9B0',
@@ -188,7 +188,6 @@ const ClientDashboard = () => {
             }, 500);
         }
     }, []);
-
 
     useEffect(() => {
         try {
@@ -267,7 +266,6 @@ const ClientDashboard = () => {
         source.start(0);
     };
 
-
     useEffect(() => {
         if (token) {
             const fetchData = async () => {
@@ -324,7 +322,7 @@ const ClientDashboard = () => {
     useEffect(() => {
         if (employeeId) {
             getLoginClientDetail();
-            
+
         }
     }, [employeeId]);
 
@@ -351,7 +349,6 @@ const ClientDashboard = () => {
             setContentLoading(false);
         }
     };
-
 
     const getOwnPostedjobs = async () => {
         try {
@@ -495,11 +492,11 @@ const ClientDashboard = () => {
     }, [updatePostedJobs]);
 
     const displayNotification = ({ senderName, content, time, date, readStatus }) => {
-        
+
         return (
             <>
                 <td className='dash-table-sub-data data-nowrap'>{`${time} ${date}`}</td>
-                <td className='dash-table-sub-data'>{content} -------{readStatus?<b>Read</b>:<b>Un-Read</b>}</td>
+                <td className='dash-table-sub-data'>{content} -------{readStatus ? <b>Read</b> : <b>Un-Read</b>}</td>
                 {/* <td className='text-right dash-table-view-btn-area'>
                     <button className='dash-table-view-btn client'
                         data-toggle="modal">View</button>
@@ -508,29 +505,27 @@ const ClientDashboard = () => {
         )
     }
 
-
     return (
         <div>
             {/* {loading && <div id="preloader"></div>} */}
-            {employeeId && <div>
+            {employeeId &&
+                <div>
+                    <div class="main-wrapper main-wrapper-1">
+                        <div class="navbar-bg"></div>
+                        <ClientLayout notification={unReadNotifications} />
 
+                        <div class="main-content">
+                            <section class="section">
+                                <div className="dash-section candidate">
+                                    <div className="dash-main-area">
 
-                <div class="main-wrapper main-wrapper-1">
-                    <div class="navbar-bg"></div>
-                    <ClientLayout notification={unReadNotifications} />
+                                        <div className="top-nav-area">
+                                            <div className="current-page-name-area">
+                                                <h4 className='current-page-name'>Dashboard</h4>
+                                                {/* <p className='sub--head'>Welcome to Skillety !!!</p> */}
+                                            </div>
 
-                    <div class="main-content">
-                        <section class="section">
-                            <div className="dash-section candidate">
-                                <div className="dash-main-area">
-
-                                    <div className="top-nav-area">
-                                        <div className="current-page-name-area">
-                                            <h4 className='current-page-name'>Dashboard</h4>
-                                            {/* <p className='sub--head'>Welcome to Skillety !!!</p> */}
-                                        </div>
-
-                                        {/* <div className="admin-search-area">
+                                            {/* <div className="admin-search-area">
                                             <form action="">
                                                 <div className="admin-search-input-area">
                                                     <input type="text" placeholder='Search for Cvs/Resume'
@@ -542,70 +537,70 @@ const ClientDashboard = () => {
                                                 </div>
                                             </form>
                                         </div> */}
-                                    </div>
-
-                                    {contentloading ? (
-                                        <div className='dash-tile-skeleton'>
-                                            <div className="row">
-                                                <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
-                                                    <div className='m-b-30'>
-                                                        <Skeleton height={15} width={100} />
-                                                    </div>
-                                                    <Skeleton height={40} width={60} />
-                                                </div>
-                                                <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
-                                                    <div className='m-b-30'>
-                                                        <Skeleton height={15} width={100} />
-                                                    </div>
-                                                    <Skeleton height={40} width={60} />
-                                                </div>
-                                                <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
-                                                    <div className='m-b-30'>
-                                                        <Skeleton height={15} width={100} />
-                                                    </div>
-                                                    <Skeleton height={40} width={60} />
-                                                </div>
-                                                <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
-                                                    <div className='m-b-30'>
-                                                        <Skeleton height={15} width={100} />
-                                                    </div>
-                                                    <Skeleton height={40} width={60} />
-                                                </div>
-                                            </div>
                                         </div>
-                                    ) : (
-                                        <div className="dash-num-count-section">
-                                            <div className="row">
-                                                <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
-                                                    <div className="dash-num-count-area">
-                                                        <p className='dash-num-title'>Jobs Posted</p>
-                                                        <a href="/manage-job"><h4 className='dash-num-count'>{postedJobs?.length}</h4></a>
-                                                    </div>
-                                                </div>
 
-                                                <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
-                                                    <div className="dash-num-count-area">
-                                                        <p className='dash-num-title'>No. of Applications Received</p>
-                                                        <a href="/manage-job"><h4 className='dash-num-count'>{appliedOfPostedJobs?.length}</h4></a>
+                                        {contentloading ? (
+                                            <div className='dash-tile-skeleton'>
+                                                <div className="row">
+                                                    <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
+                                                        <div className='m-b-30'>
+                                                            <Skeleton height={15} width={100} />
+                                                        </div>
+                                                        <Skeleton height={40} width={60} />
                                                     </div>
-                                                </div>
-
-                                                <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
-                                                    <div className="dash-num-count-area">
-                                                        <p className='dash-num-title'>Upcoming Interviews</p>
-                                                        <h4 className='dash-num-count'>00</h4>
+                                                    <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
+                                                        <div className='m-b-30'>
+                                                            <Skeleton height={15} width={100} />
+                                                        </div>
+                                                        <Skeleton height={40} width={60} />
                                                     </div>
-                                                </div>
-
-                                                <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
-                                                    <div className="dash-num-count-area">
-                                                        <p className='dash-num-title'>New Notifications</p>
-                                                        <h4 className='dash-num-count'>{notifications.slice(0,10).length}</h4>
+                                                    <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
+                                                        <div className='m-b-30'>
+                                                            <Skeleton height={15} width={100} />
+                                                        </div>
+                                                        <Skeleton height={40} width={60} />
+                                                    </div>
+                                                    <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
+                                                        <div className='m-b-30'>
+                                                            <Skeleton height={15} width={100} />
+                                                        </div>
+                                                        <Skeleton height={40} width={60} />
                                                     </div>
                                                 </div>
                                             </div>
+                                        ) : (
+                                            <div className="dash-num-count-section">
+                                                <div className="row">
+                                                    <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
+                                                        <div className="dash-num-count-area">
+                                                            <p className='dash-num-title'>Jobs Posted</p>
+                                                            <a href="/manage-job"><h4 className='dash-num-count'>{postedJobs?.length}</h4></a>
+                                                        </div>
+                                                    </div>
 
-                                            {/* <button className="dash-num-count-more-btn" id="showHiddenRow">
+                                                    <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
+                                                        <div className="dash-num-count-area">
+                                                            <p className='dash-num-title'>No. of Applications Received</p>
+                                                            <a href="/manage-job"><h4 className='dash-num-count'>{appliedOfPostedJobs?.length}</h4></a>
+                                                        </div>
+                                                    </div>
+
+                                                    <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
+                                                        <div className="dash-num-count-area">
+                                                            <p className='dash-num-title'>Upcoming Interviews</p>
+                                                            <h4 className='dash-num-count'>00</h4>
+                                                        </div>
+                                                    </div>
+
+                                                    <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
+                                                        <div className="dash-num-count-area">
+                                                            <p className='dash-num-title'>New Notifications</p>
+                                                            <h4 className='dash-num-count'>{notifications.slice(0, 10).length}</h4>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                {/* <button className="dash-num-count-more-btn" id="showHiddenRow">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="30" height="8" viewBox="0 0 30 8" fill="none">
                                                 <circle cx="4" cy="4" r="4" fill="#714F36" />
                                                 <circle cx="15" cy="4" r="4" fill="#714F36" />
@@ -613,131 +608,184 @@ const ClientDashboard = () => {
                                             </svg>
                                         </button> */}
 
-                                            <div className='hidden-row'>
-                                                <div className="through-line"></div>
-                                                <div className="row">
-                                                    <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
-                                                        <div className="dash-num-count-area">
-                                                            <p className='dash-num-title'>Jobs Posted</p>
-                                                            <h4 className='dash-num-count'>14</h4>
+                                                <div className='hidden-row'>
+                                                    <div className="through-line"></div>
+                                                    <div className="row">
+                                                        <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
+                                                            <div className="dash-num-count-area">
+                                                                <p className='dash-num-title'>Jobs Posted</p>
+                                                                <h4 className='dash-num-count'>14</h4>
+                                                            </div>
                                                         </div>
-                                                    </div>
 
-                                                    <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
-                                                        <div className="dash-num-count-area">
-                                                            <p className='dash-num-title'>Unread Applications</p>
-                                                            <h4 className='dash-num-count'>04</h4>
+                                                        <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
+                                                            <div className="dash-num-count-area">
+                                                                <p className='dash-num-title'>Unread Applications</p>
+                                                                <h4 className='dash-num-count'>04</h4>
+                                                            </div>
                                                         </div>
-                                                    </div>
 
-                                                    <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
-                                                        <div className="dash-num-count-area">
-                                                            <p className='dash-num-title'>Upcoming Interviews</p>
-                                                            <h4 className='dash-num-count'>08</h4>
+                                                        <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
+                                                            <div className="dash-num-count-area">
+                                                                <p className='dash-num-title'>Upcoming Interviews</p>
+                                                                <h4 className='dash-num-count'>08</h4>
+                                                            </div>
                                                         </div>
-                                                    </div>
 
-                                                    <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
-                                                        <div className="dash-num-count-area">
-                                                            <p className='dash-num-title'>New Notifications</p>
-                                                            <h4 className='dash-num-count'>28</h4>
+                                                        <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
+                                                            <div className="dash-num-count-area">
+                                                                <p className='dash-num-title'>New Notifications</p>
+                                                                <h4 className='dash-num-count'>28</h4>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    )}
+                                        )}
 
-                                    <div className="dash-chart-section">
-                                        <div className="dash-chart-area">
-                                            <div className="dash-chart-top-area">
-                                                <div className="dash-chart-title">Overview</div>
-                                                <div className="dash-chart-filter-area">
-                                                    <form action="">
-                                                        <div className='dash-graph-selection'>
-                                                            <i class="bi bi-chevron-down toggle-icon"></i>
-                                                            <select className='dash-chart-filter-input'
-                                                                value={filter}
-                                                                onChange={handleFilterChange}>
-                                                                <option value="weekly" selected>Weekly</option>
-                                                                <option value="monthly">Monthly</option>
-                                                                <option value="yearly">Yearly</option>
-                                                            </select>
-                                                        </div>
-                                                    </form>
-                                                </div> 
-                                            </div>
-                                            {chartData ? <Line options={options} data={data} /> : <p>No Data</p>}
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-12 col-xl-6 pr-2">
-                                            <div className="dash-table-section">
-                                                <div className="dash-table-area">
-                                                    <div className="dash-table-top-area">
-                                                        <div className="dash-table-title">
-                                                            Recent Notifications
-                                                        </div>
-                                                        {/* <a href='#' className="dash-table-see-all-btn">See all</a> */}
+                                        <div className="dash-chart-section">
+                                            <div className="dash-chart-area">
+                                                <div className="dash-chart-top-area">
+                                                    <div className="dash-chart-title">Overview</div>
+                                                    <div className="dash-chart-filter-area">
+                                                        <form action="">
+                                                            <div className='dash-graph-selection'>
+                                                                <i class="bi bi-chevron-down toggle-icon"></i>
+                                                                <select className='dash-chart-filter-input'
+                                                                    value={filter}
+                                                                    onChange={handleFilterChange}>
+                                                                    <option value="weekly" selected>Weekly</option>
+                                                                    <option value="monthly">Monthly</option>
+                                                                    <option value="yearly">Yearly</option>
+                                                                </select>
+                                                            </div>
+                                                        </form>
                                                     </div>
-                                                    <div class="table-responsive dash-table-container client mt-4">
-                                                        <table class="table table-striped table-hover dash-table">
-                                                            {notifications?.length > 0 ? (
-                                                                notifications.slice(0, 10).map((notification) => (
-                                                                    <tr className='dash-table-row' key={notification.id}>{displayNotification(notification)}</tr>
-                                                                ))
+                                                </div>
+                                                {chartData ? <Line options={options} data={data} /> : <p>No Data</p>}
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-12 col-xl-6 pr-2">
+                                                <div className="dash-table-section">
+                                                    <div className="dash-table-area">
+                                                        <div className="dash-table-top-area">
+                                                            <div className="dash-table-title">
+                                                                Recent Notifications
+                                                            </div>
+                                                            {/* <a href='#' className="dash-table-see-all-btn">See all</a> */}
+                                                        </div>
+                                                        <div class="table-responsive dash-table-container client mt-4">
+                                                            {!contentloading ? (
+                                                                <table class="table table-striped table-hover dash-table">
+                                                                    {notifications?.length > 0 ? (
+                                                                        notifications.slice(0, 10).map((notification) => (
+                                                                            <tr className='dash-table-row' key={notification.id}>{displayNotification(notification)}</tr>
+                                                                        ))
+                                                                    ) : (
+                                                                        <tr>
+                                                                            <td colSpan={2} className='text-secondary text-center'>No new notifications..!</td>
+                                                                        </tr>
+                                                                    )}
+                                                                </table>
                                                             ) : (
-                                                                <tr>
-                                                                    <td colSpan={2} className='text-secondary text-center'>No new notifications..!</td>
-                                                                </tr>
-                                                            )}
-                                                        </table>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-12 col-xl-6 pl-2">
-                                            <div className="dash-table-section">
-                                                <div className="dash-table-area">
-                                                    <div className="dash-table-top-area">
-                                                        <div className="dash-table-title">
-                                                            New Candidates
-                                                        </div>
-                                                        <a href='/talent-profile-search' className="dash-table-see-all-btn">See all</a>
-                                                    </div>
-                                                    <div class="table-responsive dash-table-container client mt-4">
-
-                                                        <table class="table table-striped table-hover dash-table">
-                                                            {candidateDetail.slice(0, 10).map((cand) => {
-                                                                const matchingImg = candidateImg ? candidateImg.find(img => img.id === cand.id) : null;
-                                                                const imgSrc = matchingImg ?(matchingImg.image.startsWith('https') ? matchingImg.image : `data:image/jpeg;base64,${matchingImg.image}` ): "../assets/img/talents-images/avatar.jpg";
-                                                                return (
-                                                                    <tr className='dash-table-row' key={cand.id}>
-                                                                        <td>
-                                                                            <img src={imgSrc} className='dash-table-avatar-img' alt="" />
-                                                                        </td>
-                                                                        <td className='dash-table-sub client text-capitalized'>
-                                                                            {cand.firstName + ' ' + cand.lastName}<br />
-                                                                            <span className='dash-table-sub-data'>{cand.date}</span>
-                                                                        </td>
-                                                                        <td className='dash-table-sub-data'>{cand.profileHeadline}</td>
-                                                                        {/* <td className='text-right dash-table-view-btn-area'>
-                                                                    <button className='dash-table-view-btn client' data-toggle="modal">View CV</button>
-                                                                </td> */}
+                                                                <table class="table table-striped table-hover dash-table">
+                                                                    <tr className='dash-table-row'>
+                                                                        <td className='dash-table-sub-data data-nowrap w-100'><Skeleton height={10} /></td>
+                                                                        <td className='dash-table-sub-data data-nowrap'><Skeleton height={10} width={50} /></td>
                                                                     </tr>
-                                                                )
-                                                            })
+                                                                    <tr className='dash-table-row'>
+                                                                        <td className='dash-table-sub-data data-nowrap w-100'><Skeleton height={10} /></td>
+                                                                        <td className='dash-table-sub-data data-nowrap'><Skeleton height={10} width={50} /></td>
+                                                                    </tr>
+                                                                </table>
+                                                            )
                                                             }
-                                                        </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12 col-xl-6 pl-2">
+                                                <div className="dash-table-section">
+                                                    <div className="dash-table-area">
+                                                        <div className="dash-table-top-area">
+                                                            <div className="dash-table-title">
+                                                                New Candidates
+                                                            </div>
+                                                            <a href='/talent-profile-search' className="dash-table-see-all-btn">See all</a>
+                                                        </div>
+                                                        {!contentloading ? (
+                                                            <div class="table-responsive dash-table-container client mt-4">
+                                                                {candidateDetail?.length > 0 ? (
+                                                                    <table class="table table-striped table-hover dash-table">
+                                                                        {
+                                                                            candidateDetail.slice(0, 10).map((cand) => {
+                                                                                const matchingImg = candidateImg ? candidateImg.find(img => img.id === cand.id) : null;
+                                                                                const imgSrc = matchingImg ? (matchingImg.image.startsWith('https') ? matchingImg.image : `data:image/jpeg;base64,${matchingImg.image}`) : "../assets/img/talents-images/avatar.jpg";
+                                                                                return (
+                                                                                    <tr className='dash-table-row' key={cand.id}>
+                                                                                        <td>
+                                                                                            <img src={imgSrc} className='dash-table-avatar-img' alt="" />
+                                                                                        </td>
+                                                                                        <td className='dash-table-sub client text-capitalized'>
+                                                                                            {cand.firstName + ' ' + cand.lastName}<br />
+                                                                                            <span className='dash-table-sub-data'>{cand.date}</span>
+                                                                                        </td>
+                                                                                        <td className='dash-table-sub-data'>{cand.profileHeadline}</td>
+                                                                                        {/* <td className='text-right dash-table-view-btn-area'>
+                                                                                        <button className='dash-table-view-btn client' data-toggle="modal">View CV</button>
+                                                                                    </td> */}
+                                                                                    </tr>
+                                                                                )
+                                                                            })
+                                                                        }
+
+                                                                    </table>
+                                                                ) : (
+                                                                    <table class="table table-striped table-hover dash-table">
+                                                                        <tr className='dash-table-row text-center'>
+                                                                            <td colSpan={3} className='text-secondary'>No candidates found.</td>
+                                                                        </tr>
+                                                                    </table>
+                                                                )}
+                                                            </div>
+                                                        ) : (
+                                                            <div class="table-responsive dash-table-container client mt-4">
+                                                                <table class="table table-striped table-hover dash-table">
+                                                                    <tr className='dash-table-row'>
+                                                                        <td>
+                                                                            <Skeleton height={30} circle={true} width={30} />
+                                                                        </td>
+                                                                        <td className='dash-table-sub w-50'>
+                                                                            <Skeleton height={10} />
+                                                                        </td>
+                                                                        <td className='dash-table-sub w-25'>
+                                                                            <Skeleton height={10} />
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr className='dash-table-row'>
+                                                                        <td>
+                                                                            <Skeleton height={30} circle={true} width={30} />
+                                                                        </td>
+                                                                        <td className='dash-table-sub w-50'>
+                                                                            <Skeleton height={10} />
+                                                                        </td>
+                                                                        <td className='dash-table-sub w-25'>
+                                                                            <Skeleton height={10} />
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                            </div>
+                                                        )
+                                                        }
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
 
-                                    {/* <div class="row">
+                                        {/* <div class="row">
                                         <div class="col-12">
                                             <div className="dash-table-section">
                                                 <div className="dash-table-area">
@@ -807,55 +855,78 @@ const ClientDashboard = () => {
                                         </div>
                                     </div> */}
 
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <div className="dash-table-section">
-                                                <div className="dash-table-area">
-                                                    <div className="dash-table-top-area">
-                                                        <div className="dash-table-title">
-                                                            Latest Posted Jobs
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div className="dash-table-section">
+                                                    <div className="dash-table-area">
+                                                        <div className="dash-table-top-area">
+                                                            <div className="dash-table-title">
+                                                                Latest Posted Jobs
+                                                            </div>
+                                                            <a href='/manage-job' className="dash-table-see-all-btn">See all</a>
                                                         </div>
-                                                        <a href='/manage-job' className="dash-table-see-all-btn">See all</a>
-                                                    </div>
-                                                    <div class="table-responsive mt-4">
-                                                        <table className="table table-striped table-hover dash-table">
-                                                            {postedJobs.slice(0, 10).map((job) => {
-                                                                const numApplicants = appliedOfPostedJobs.filter(appliedOfPostedJob => appliedOfPostedJob.jobId === job.id).length;
-                                                                const staff = allStaff.find(obj => obj.id === (job.clientId || job.clientStaffId));
-                                                                return (
-                                                                    <tr className='dash-table-row' key={job.id}>
-                                                                        {/* <td>
+                                                        <div class="table-responsive mt-4">
+                                                            {!contentloading ? (
+                                                                <table className="table table-striped table-hover dash-table">
+                                                                    {postedJobs.slice(0, 10).map((job) => {
+                                                                        const numApplicants = appliedOfPostedJobs.filter(appliedOfPostedJob => appliedOfPostedJob.jobId === job.id).length;
+                                                                        const staff = allStaff.find(obj => obj.id === (job.clientId || job.clientStaffId));
+                                                                        return (
+                                                                            <tr className='dash-table-row' key={job.id}>
+                                                                                {/* <td>
                                                                     <img src="assets/img/home/javascript.png" className='dash-table-avatar-img client' alt="" />
                                                                 </td> */}
-                                                                        <td className='dash-table-data1 text-capitalized'>
-                                                                            {job.jobRole[0]}
+                                                                                <td className='dash-table-data1 text-capitalized'>
+                                                                                    {job.jobRole[0]}
+                                                                                </td>
+                                                                                <td className='dash-table-data1 text-center'>{`${new Date(job.createdAt).getDate().toString().padStart(2, '0')}/${(new Date(job.createdAt).getMonth() + 1).toString().padStart(2, '0')}/${new Date(job.createdAt).getFullYear() % 100}`}</td>
+                                                                                <td className='dash-table-data1 text-center'>
+                                                                                    {numApplicants} <br />
+                                                                                    No of Applications
+                                                                                </td>
+                                                                                <td className='dash-table-data1 text-center text-capitalized'>{staff ? staff.name : 'Unknown'}
+                                                                                </td>
+                                                                                <td className='dash-table-data1 text-center'>
+                                                                                    {job.minExperience + "-" + job.maxExperience} <br />
+                                                                                    Experience
+                                                                                </td>
+                                                                            </tr>
+                                                                        );
+                                                                    })}
+                                                                </table>
+                                                            ) : (
+                                                                <table className="table table-striped table-hover dash-table">
+                                                                    <tr className='dash-table-row'>
+                                                                        <td className='dash-table-data1'>
+                                                                            <Skeleton height={10} />
                                                                         </td>
-                                                                        <td className='dash-table-data1 text-center'>{`${new Date(job.createdAt).getDate().toString().padStart(2, '0')}/${(new Date(job.createdAt).getMonth() + 1).toString().padStart(2, '0')}/${new Date(job.createdAt).getFullYear() % 100}`}</td>
-                                                                        <td className='dash-table-data1 text-center'>
-                                                                            {numApplicants} <br />
-                                                                            No of Applications
+                                                                        <td className='dash-table-data1'>
+                                                                            <Skeleton height={10} />
                                                                         </td>
-                                                                        <td className='dash-table-data1 text-center text-capitalized'>{staff ? staff.name : 'Unknown'}
+                                                                        <td className='dash-table-data1'>
+                                                                            <Skeleton height={10} />
                                                                         </td>
-                                                                        <td className='dash-table-data1 text-center'>
-                                                                            {job.minExperience + "-" + job.maxExperience} <br />
-                                                                            Experience
+                                                                        <td className='dash-table-data1'>
+                                                                            <Skeleton height={10} />
+                                                                        </td>
+                                                                        <td className='dash-table-data1'>
+                                                                            <Skeleton height={10} />
                                                                         </td>
                                                                     </tr>
-                                                                );
-                                                            })}
-                                                        </table>
+                                                                </table>
+                                                            )
+                                                            }
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
+
+
                                     </div>
-
-
                                 </div>
-                            </div>
 
-                            {/* <div className="dash-right-panel">
+                                {/* <div className="dash-right-panel">
                                 <div className="dash-right-panel-content">
                                     <div className="dash-hire-slider-area">
     
@@ -909,14 +980,14 @@ const ClientDashboard = () => {
     
                                 </div>
                             </div> */}
-                        </section>
+                            </section>
+                        </div>
+                        <Footer />
                     </div>
-                    <Footer />
+
+                    {pageNotFound && <ErrorPage />}
                 </div>
-
-                {pageNotFound && <ErrorPage/>}
-            </div>}
-
+            }
         </div>
 
     )

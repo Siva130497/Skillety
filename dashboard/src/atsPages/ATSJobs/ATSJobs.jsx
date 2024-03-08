@@ -760,7 +760,7 @@ const AllJobs = () => {
                                                                         );
                                                                     }
                                                                 })}
-                                                                <th className='dash-table-head text-center'>View</th>
+                                                                <th className='dash-table-head text-left'>Action</th>
                                                             </tr>
 
                                                             {/* table data */}
@@ -874,7 +874,7 @@ const AllJobs = () => {
                                                                                             </svg>
                                                                                         </button>
                                                                                     </td>}
-                                                                                    <td className='text-center'>
+                                                                                    <td className='text-left'>
                                                                                         <div className="action-btn-area">
                                                                                             <button className='job-view-btn' data-toggle="modal" title='View Job Details...' data-target="#invoiceModal" onClick={() => handleViewJobDetail(Job.id)}>
                                                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
@@ -1023,7 +1023,7 @@ const AllJobs = () => {
                                                                                                     </svg>
                                                                                                 </button>
                                                                                             </td>}
-                                                                                            <td className='text-center'>
+                                                                                            <td className='text-left'>
                                                                                                 <div className="action-btn-area">
                                                                                                     <button className='job-view-btn' data-toggle="modal" title='View Candidate Details...' data-target="#invoiceModal" onClick={() => handleViewJobDetail(Job.id)}>
                                                                                                         <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
@@ -1167,7 +1167,7 @@ const AllJobs = () => {
                                                                                                         </svg>
                                                                                                     </button>
                                                                                                 </td>}
-                                                                                                <td className='text-center'>
+                                                                                                <td className='text-left'>
                                                                                                     <div className="action-btn-area">
                                                                                                         <button className='job-view-btn' data-toggle="modal" title='View Candidate Details...' data-target="#invoiceModal" onClick={() => handleViewJobDetail(Job.id)}>
                                                                                                             <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
