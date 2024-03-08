@@ -502,7 +502,7 @@ const CandidateProfile = () => {
 
     useEffect(() => {
         if (candidateImg) {
-            setCandidateImgUrl(candidateImg.image.startsWith('https') ? candidateImg.image : `https://skillety-n6r1.onrender.com/candidate_profile/${candidateImg.image}`)
+            setCandidateImgUrl(candidateImg.image.startsWith('https') ? candidateImg.image : `data:image/jpeg;base64,${candidateImg.image}`)
         }
 
     }, [candidateImg]);

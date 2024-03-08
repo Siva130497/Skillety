@@ -741,7 +741,7 @@ const AppliedCandidateATS = () => {
                             <div className="dash-talent--profile-card-section pt-0">
                                 {finalCand.map((candidate) => {
                                     const matchingImg = candidateImg ? candidateImg.find(img => img.id === candidate.id) : null;
-                                    const imgSrc = matchingImg ?( matchingImg.image.startsWith('https') ? matchingImg.image : `https://skillety-n6r1.onrender.com/candidate_profile/${matchingImg.image}` ): "../assets/img/talents-images/avatar.jpg";
+                                    const imgSrc = matchingImg ?( matchingImg.image.startsWith('https') ? matchingImg.image : `data:image/jpeg;base64,${matchingImg.image}` ): "../assets/img/talents-images/avatar.jpg";
 
                                     const calculateMatchPercentage = (skills1, skills2) => {
                                         const matchingSkills = skills2.filter(skill => skills1.includes(skill));

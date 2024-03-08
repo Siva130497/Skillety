@@ -2,6 +2,10 @@ const { Schema, model } = require("mongoose");
 
 const createNotificationSchema = new Schema(
   {
+    id: {
+      type: String,
+      required: true,
+    },
     senderId: {
       type: String,
       required: true,

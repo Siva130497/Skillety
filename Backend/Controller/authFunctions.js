@@ -4638,7 +4638,7 @@ const getNotificationForReceiverId = async (req, res) => {
 const readingNotifications = async (req, res) => {
   try {
     const { notificationIdArray } = req.body;
-console.log(notificationIdArray)
+
     if (!notificationIdArray || !Array.isArray(notificationIdArray)) {
       return res.status(400).json({ error: 'Invalid input data' });
     }
@@ -4647,7 +4647,7 @@ console.log(notificationIdArray)
 
     for (const notificationId of notificationIdArray) {
       try {
-        const existingNotification = await createNotification.findById(notificationId);
+        const existingNotification = await createNotification.findOne({id:notificationId});
 
         if (existingNotification) {
           if (!existingNotification.readStatus) {
@@ -4814,6 +4814,11 @@ const getDataForCandidateGraph = async (req, res) => {
   try {
     let filter;
     const { candidateId } = req.params;
+    const candidateDetail = await candidate.findOne({ candidateId });
+    const calculateMatchPercentage = (skills1, skills2) => {
+      const matchingSkills = skills2.filter(skill => skills1.includes(skill));
+      return (matchingSkills.length / skills1.length) * 100;
+    };
     const currentDate = new Date();
     
     const requestParam = req.query.period || "invalidParam";
@@ -4838,10 +4843,13 @@ const getDataForCandidateGraph = async (req, res) => {
       const categories = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
       
       if (filter && filter.$gte instanceof Date && filter.$lt instanceof Date) {
-        const thisWeekScreenedJobs = await applicationStatus.find({
-          status:"screened",
-          candidateId:candidateId,
-          createdAt:filter
+        
+        const jobDetails = await activeJob.find({createdAt:filter});
+
+        const thisWeekSkillMatchingJobs = jobDetails.filter(job => {
+          
+          const percentage = calculateMatchPercentage(job.skills, candidateDetail.skills);
+          return percentage > 0;
         });
         
         const thisWeekAppliedJobs = await appliedJob.find({
@@ -4850,21 +4858,21 @@ const getDataForCandidateGraph = async (req, res) => {
         });
         
         if (
-          thisWeekScreenedJobs.length >0 ||
+          thisWeekSkillMatchingJobs.length >0 ||
           thisWeekAppliedJobs.length >0 
         ) {
           
           const appliedJobCounts = Array(7).fill(0);
-          const screenedJobCounts = Array(7).fill(0);
+          const skillMatchedJobCounts = Array(7).fill(0);
 
           thisWeekAppliedJobs.forEach((job) => {
             const dayIndex = new Date(job.createdAt).getDay();
             appliedJobCounts[dayIndex]++;
           });
 
-          thisWeekScreenedJobs.forEach((job) => {
+          thisWeekSkillMatchingJobs.forEach((job) => {
             const dayIndex = new Date(job.createdAt).getDay();
-            screenedJobCounts[dayIndex]++;
+            skillMatchedJobCounts[dayIndex]++;
           });
 
           const response = {
@@ -4873,12 +4881,12 @@ const getDataForCandidateGraph = async (req, res) => {
             categories: categories,
             series: [
               {
-                name: "AppliedJobs",
-                data: appliedJobCounts,
+                name: "Skill Matched Jobs",
+                data: skillMatchedJobCounts,
               },
               {
-                name: "ScreenedJobs",
-                data: screenedJobCounts,
+                name: "Applied Jobs",
+                data: appliedJobCounts,
               },
             ],
           };
@@ -4911,29 +4919,31 @@ const getDataForCandidateGraph = async (req, res) => {
   
       const categories = months; // All months of the year
   
-      const thisYearScreenedJobs = await applicationStatus.find({
-          status: "screened",
-          candidateId: candidateId,
-          createdAt: filter
-      });
+      const jobDetails = await activeJob.find({createdAt:filter});
+
+      const thisYearSkillMatchingJobs = jobDetails.filter(job => {
+          
+          const percentage = calculateMatchPercentage(job.skills, candidateDetail.skills);
+          return percentage > 0;
+        });
   
       const thisYearAppliedJobs = await appliedJob.find({
           candidateId: candidateId,
           createdAt: filter
       });
   
-      if (thisYearScreenedJobs.length > 0 || thisYearAppliedJobs.length > 0) {
+      if (thisYearSkillMatchingJobs.length > 0 || thisYearAppliedJobs.length > 0) {
           const appliedJobCounts = Array(categories.length).fill(0);
-          const screenedJobCounts = Array(categories.length).fill(0);
+          const skillMatchedJobCounts = Array(categories.length).fill(0);
   
           thisYearAppliedJobs.forEach((job) => {
               const monthIndex = new Date(job.createdAt).getMonth();
               appliedJobCounts[monthIndex]++;
           });
   
-          thisYearScreenedJobs.forEach((job) => {
+          thisYearSkillMatchingJobs.forEach((job) => {
               const monthIndex = new Date(job.createdAt).getMonth();
-              screenedJobCounts[monthIndex]++;
+              skillMatchedJobCounts[monthIndex]++;
           });
   
           const response = {
@@ -4942,12 +4952,12 @@ const getDataForCandidateGraph = async (req, res) => {
               categories: categories,
               series: [
                   {
-                      name: "AppliedJobs",
-                      data: appliedJobCounts,
+                    name: "Skill Matched Jobs",
+                    data: skillMatchedJobCounts,
                   },
                   {
-                      name: "ScreenedJobs",
-                      data: screenedJobCounts,
+                    name: "Applied Jobs",
+                    data: appliedJobCounts,
                   },
               ],
           };
@@ -4967,20 +4977,22 @@ const getDataForCandidateGraph = async (req, res) => {
   
       const categories = Array.from({ length: 5 }, (_, i) => currentDate.getFullYear() - 4 + i);
   
-      const thisYearScreenedJobs = await applicationStatus.find({
-          status: "screened",
-          candidateId: candidateId,
-          createdAt: filter
-      });
+      const jobDetails = await activeJob.find({createdAt:filter});
+
+      const thisYearSkillMatchingJobs = jobDetails.filter(job => {
+          
+          const percentage = calculateMatchPercentage(job.skills, candidateDetail.skills);
+          return percentage > 0;
+        });
   
       const thisYearAppliedJobs = await appliedJob.find({
           candidateId: candidateId,
           createdAt: filter
       });
   
-      if (thisYearScreenedJobs.length > 0 || thisYearAppliedJobs.length > 0) {
+      if (thisYearSkillMatchingJobs.length > 0 || thisYearAppliedJobs.length > 0) {
           const appliedJobCounts = Array(categories.length).fill(0);
-          const screenedJobCounts = Array(categories.length).fill(0);
+          const skillMatchedJobCounts = Array(categories.length).fill(0);
   
           thisYearAppliedJobs.forEach((job) => {
               const jobYear = new Date(job.createdAt).getFullYear();
@@ -4988,9 +5000,9 @@ const getDataForCandidateGraph = async (req, res) => {
               appliedJobCounts[yearIndex]++;
           });
   
-          thisYearScreenedJobs.forEach((job) => {
+          thisYearSkillMatchingJobs.forEach((job) => {
               const dayIndex = new Date(job.createdAt).getDate() - 1;
-              screenedJobCounts[dayIndex]++;
+              skillMatchedJobCounts[dayIndex]++;
           });
   
           const response = {
@@ -4999,12 +5011,12 @@ const getDataForCandidateGraph = async (req, res) => {
               categories: categories,
               series: [
                   {
-                      name: "AppliedJobs",
-                      data: appliedJobCounts,
+                    name: "Skill Matched Jobs",
+                    data: skillMatchedJobCounts,
                   },
                   {
-                      name: "ScreenedJobs",
-                      data: screenedJobCounts,
+                    name: "Applied Jobs",
+                    data: appliedJobCounts,
                   },
               ],
           };

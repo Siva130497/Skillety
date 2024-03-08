@@ -14,6 +14,7 @@ import io from 'socket.io-client';
 import { useContext } from 'react';
 import AuthContext from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { v4 as uuidv4 } from "uuid";
 
 // const socket = io.connect('https://skillety-n6r1.onrender.com');
 
@@ -231,7 +232,8 @@ useEffect(()=>{
           content: `${userName} messaged you`,
           time: formattedTime,
           date: formattedDate,
-          redirect:'/candidate-chat-support'
+          redirect:'/candidate-chat-support',
+          id:uuidv4()
         }
 
         await socket.emit('send_message', messageData);
@@ -471,7 +473,7 @@ useEffect(()=>{
                             <>
                               {filteredCandidates.map((candidate) => {
                                 const matchingImg = candidateImg ? candidateImg.find(img => img.id === candidate.roomId) : null;
-                                const imgSrc = matchingImg ?( matchingImg.image.startsWith('https') ? matchingImg.image : `https://skillety-n6r1.onrender.com/candidate_profile/${matchingImg.image}` ): "../assets/img/talents-images/avatar.jpg";
+                                const imgSrc = matchingImg ?( matchingImg.image.startsWith('https') ? matchingImg.image : `data:image/jpeg;base64,${matchingImg.image}` ): "../assets/img/talents-images/avatar.jpg";
 
                                 return <a href='#chat_window' className={`recent-chat-area ${window.innerWidth <= 991 ? 'navigate-to-chat' : ''} ${candidate.roomId == roomId ? 'active' : ''}`}
                                   key={candidate.roomId}

@@ -12,6 +12,7 @@ import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
 
 const ClientRegister = () => {
+    const clientToken = JSON.parse(localStorage.getItem("clientToken"));
     const navigate = useNavigate();
     const [profile, setProfile] = useState([]);
     const [isAgreed, setIsAgreed] = useState(false);
@@ -74,6 +75,13 @@ const ClientRegister = () => {
             email: profile.email ? profile.email : "",
         }));
     }, [profile]);
+
+    useEffect(()=>{
+        if(clientToken){
+            navigate("/")
+        }
+    },[clientToken])
+
 
     const registerUser = async (userData) => {
         try {

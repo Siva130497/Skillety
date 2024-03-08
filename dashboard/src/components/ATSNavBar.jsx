@@ -79,8 +79,8 @@ const ATSNavBar = () => {
     //     source.start(0);
     //   };
 
-    const displayNotification = ({ senderName, content, time, date, redirect, _id }) => {
-        const notificationIdArray = [_id]
+    const displayNotification = ({ senderName, content, time, date, redirect, id }) => {
+        const notificationIdArray = [id]
         return (
           <div className="notification-dropdown-content"
           onClick={()=>{
@@ -115,7 +115,7 @@ const ATSNavBar = () => {
     
       const handleClearNotifications = () => {
         
-        const notificationIdArray = notifications.map(notific => notific._id)
+        const notificationIdArray = notifications.map(notific => notific.id)
         if(notifications?.length>0){
           axios.patch("https://skillety-n6r1.onrender.com/read-notification", notificationIdArray, {
             headers: {
