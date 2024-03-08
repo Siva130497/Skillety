@@ -805,7 +805,7 @@ const JobPostingATS = () => {
                                             className="toggleDisabledInput"
                                         />
                                         <span className="job-post-form-checkmark"></span>
-                                        If your searched job role not in the list, please enable the checkbox & type manually...
+                                        If your searched job role not in the list, please enable the checkbox & type
                                         </label>
                                     </div>
 
@@ -911,7 +911,7 @@ const JobPostingATS = () => {
                                             className="toggleDisabledInput"
                                         />
                                         <span className="job-post-form-checkmark"></span>
-                                        If the searched skill for the particular job role not in the list, please enable the checkbox & type manually...
+                                        If the searched skill for the particular job role not in the list, please enable the checkbox & type
                                         </label>
                                     </div>
 

@@ -10,7 +10,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
-import {jwtDecode} from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 
@@ -64,24 +64,24 @@ const ClientDashboard = () => {
     setFilter(event.target.value);
   };
 
-  useEffect(()=>{
-    if(candidateId){
-        axios.get(`https://skillety-n6r1.onrender.com/candidate-dashboard-chart/${candidateId}?period=${filter}`, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-                Accept: 'application/json'
-            }
+  useEffect(() => {
+    if (candidateId) {
+      axios.get(`https://skillety-n6r1.onrender.com/candidate-dashboard-chart/${candidateId}?period=${filter}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: 'application/json'
+        }
+      })
+        .then((res) => {
+          console.log(res.data);
+          setChartData(res.data);
         })
-        .then((res)=>{
-            console.log(res.data);
-            setChartData(res.data);
-        })
-        .catch(err=>{
+        .catch(err => {
           console.log(err)
           setChartData()
         });
     }
-},[filter, candidateId])
+  }, [filter, candidateId])
 
   ChartJS.register(
     CategoryScale,
@@ -96,55 +96,55 @@ const ClientDashboard = () => {
 
   const getLabels = () => {
     switch (filter) {
-        case 'weekly':
-            return chartData?.categories;
-        case 'monthly':
-            return chartData?.categories;
-        case 'yearly':
-            return chartData?.categories;
-        default:
-            return [];
+      case 'weekly':
+        return chartData?.categories;
+      case 'monthly':
+        return chartData?.categories;
+      case 'yearly':
+        return chartData?.categories;
+      default:
+        return [];
     }
-};
+  };
 
-const getData = () => {
+  const getData = () => {
     switch (filter) {
-        case 'weekly':
-            // return [
-            //     [12.5, 12.5, 2.5, 5, 0, 2.5, 2.5, 10],
-            //     [7.5, 8, 5, 7.5, 12.5, 5, 6, 7.5],
-            // ];
-            return chartData?.series.map(dataSeries=>dataSeries?.data)
-        case 'monthly':
-            // return [
-            //     [20, 25, 30, 22, 18, 25, 28, 30, 20, 15, 10, 18],
-            //     [15, 18, 20, 22, 30, 25, 28, 30, 22, 18, 15, 20],
-            // ];
-            return chartData?.series.map(dataSeries=>dataSeries?.data)
-        case 'yearly':
-            // return [
-            //     [100, 120, 80, 90, 110, 130, 140, 160, 180, 200, 180, 150],
-            //     [80, 100, 70, 90, 120, 150, 160, 180, 200, 220, 200, 170],
-            // ];
-            return chartData?.series.map(dataSeries=>dataSeries?.data)
-        default:
-            return [];
+      case 'weekly':
+        // return [
+        //     [12.5, 12.5, 2.5, 5, 0, 2.5, 2.5, 10],
+        //     [7.5, 8, 5, 7.5, 12.5, 5, 6, 7.5],
+        // ];
+        return chartData?.series.map(dataSeries => dataSeries?.data)
+      case 'monthly':
+        // return [
+        //     [20, 25, 30, 22, 18, 25, 28, 30, 20, 15, 10, 18],
+        //     [15, 18, 20, 22, 30, 25, 28, 30, 22, 18, 15, 20],
+        // ];
+        return chartData?.series.map(dataSeries => dataSeries?.data)
+      case 'yearly':
+        // return [
+        //     [100, 120, 80, 90, 110, 130, 140, 160, 180, 200, 180, 150],
+        //     [80, 100, 70, 90, 120, 150, 160, 180, 200, 220, 200, 170],
+        // ];
+        return chartData?.series.map(dataSeries => dataSeries?.data)
+      default:
+        return [];
     }
-};
+  };
 
   const data = {
     labels: getLabels(),
     datasets: [
       {
         fill: true,
-        label: chartData? (chartData?.series[0]?.name) : "Skill Matched Jobs",
+        label: chartData ? (chartData?.series[0]?.name) : "Skill Matched Jobs",
         data: chartData && getData()[0],
         borderColor: '#714F36',
         backgroundColor: '#F9C833',
       },
       {
         fill: true,
-        label: chartData? (chartData?.series[1]?.name) : "Applied Jobs",
+        label: chartData ? (chartData?.series[1]?.name) : "Applied Jobs",
         data: chartData && getData()[1],
         borderColor: '#F9C833',
         backgroundColor: '#FFEDB7',
@@ -239,31 +239,31 @@ const getData = () => {
   }, [socket]);
 
   const displayNotification = ({ senderName, content, time, date, readStatus }) => {
-        
+
     return (
-        <>
-            <td className='dash-table-sub-data data-nowrap'>{`${time} ${date}`}</td>
-            <td className='dash-table-sub-data'>{content} -------{readStatus?<b>Read</b>:<b>Un-Read</b>}</td>
-            {/* <td className='text-right dash-table-view-btn-area'>
+      <>
+        <td className='dash-table-sub-data data-nowrap'>{`${time} ${date}`}</td>
+        <td className='dash-table-sub-data'>{content} -------{readStatus ? <b>Read</b> : <b>Un-Read</b>}</td>
+        {/* <td className='text-right dash-table-view-btn-area'>
                 <button className='dash-table-view-btn client'
                     data-toggle="modal">View</button>
             </td> */}
-        </>
+      </>
     )
   }
 
   useEffect(() => {
     try {
-        if (token && typeof token === 'string' && token.split('.').length === 3 && !(token.startsWith("firebase"))) {
-            jwtDecode(token); // Decode the token
-            localStorage.setItem("candidateToken", JSON.stringify(token)); // Save the token in local storage
-        }
+      if (token && typeof token === 'string' && token.split('.').length === 3 && !(token.startsWith("firebase"))) {
+        jwtDecode(token); // Decode the token
+        localStorage.setItem("candidateToken", JSON.stringify(token)); // Save the token in local storage
+      }
     } catch (error) {
-        // If decoding fails or token is not a string, do nothing
-        console.log(error);
-        window.location.href = 'https://skillety-frontend-wcth.onrender.com/candidate-login'
+      // If decoding fails or token is not a string, do nothing
+      console.log(error);
+      window.location.href = 'https://skillety-frontend-wcth.onrender.com/candidate-login'
     }
-}, [token]);
+  }, [token]);
 
   useEffect(() => {
     $(document).ready(function () {
@@ -504,7 +504,7 @@ const getData = () => {
                       <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
                         <div className="dash-num-count-area">
                           <p className='dash-num-title'>New Notifications</p>
-                          <h4 className='dash-num-count'>{notifications.slice(0,10).length}</h4>
+                          <h4 className='dash-num-count'>{notifications.slice(0, 10).length}</h4>
                         </div>
                       </div>
                     </div>
@@ -571,7 +571,7 @@ const getData = () => {
                         </form>
                       </div>
                     </div>
-                   <Line options={options} data={data} /> 
+                    <Line options={options} data={data} />
                   </div>
                 </div>
 
@@ -674,17 +674,30 @@ const getData = () => {
                           <a href='#' className="dash-table-see-all-btn">See all</a>
                         </div>
                         <div class="table-responsive dash-table-container client mt-4">
-                          <table class="table table-striped table-hover dash-table">
-                            {notifications?.length > 0 ? (
-                              notifications.slice(0, 10).map((notification) => (
-                                <tr className='dash-table-row' key={notification.id}>{displayNotification(notification)}</tr>
-                              ))
-                            ) : (
-                              <tr>
-                                <td colSpan={2} className='text-secondary text-center'>No new notifications..!</td>
+                          {!contentloading ? (
+                            <table class="table table-striped table-hover dash-table">
+                              {notifications?.length > 0 ? (
+                                notifications.slice(0, 10).map((notification) => (
+                                  <tr className='dash-table-row' key={notification.id}>{displayNotification(notification)}</tr>
+                                ))
+                              ) : (
+                                <tr>
+                                  <td colSpan={2} className='text-secondary text-center'>No new notifications..!</td>
+                                </tr>
+                              )}
+                            </table>
+                          ) : (
+                            <table class="table table-striped table-hover dash-table">
+                              <tr className='dash-table-row'>
+                                <td className='dash-table-sub-data data-nowrap w-100'><Skeleton height={10} /></td>
+                                <td className='dash-table-sub-data data-nowrap'><Skeleton height={10} width={50} /></td>
                               </tr>
-                            )}
-                          </table>
+                              <tr className='dash-table-row'>
+                                <td className='dash-table-sub-data data-nowrap w-100'><Skeleton height={10} /></td>
+                                <td className='dash-table-sub-data data-nowrap'><Skeleton height={10} width={50} /></td>
+                              </tr>
+                            </table>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -702,34 +715,92 @@ const getData = () => {
                           <a href='/my-application' className="dash-table-see-all-btn">See all</a>
                         </div>
                         <div class="table-responsive mt-4">
-                          <table class="table table-striped table-hover dash-table">
-                            {appliedJobDetail.slice(0, 10).map((job) => {
-                              const matchingImg = clientImg ? clientImg.find(img => img.id === job.companyId) : null;
-                              const imgSrc = matchingImg ? `https://skillety-n6r1.onrender.com/client_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
-                              const client = allClient.find(obj => obj.companyId === job.companyId);
-                              return (
-                                <tr className='dash-table-row'>
-                                  <td>
-                                    <img src={imgSrc} className='dash-table-avatar-img' alt="" />
-                                  </td>
-                                  <td className='dash-table-data'>
-                                    {job.jobRole[0]} <br />
-                                    <span className='dash-table-sub'>{client?.companyName}</span>
-                                  </td>
-                                  <td className='dash-table-data1 text-center'>{job.industry}</td>
-                                  <td className='dash-table-data1 text-center'>{job.jobCategory}</td>
-                                  <td className='dash-table-data1 text-center'>Screening</td>
-                                  {/* <td className='text-center dash-table-view-btn-area'>
+                          {!contentloading ? (
+                            <table class="table table-striped table-hover dash-table">
+                              {appliedJobDetail.slice(0, 10).map((job) => {
+                                const matchingImg = clientImg ? clientImg.find(img => img.id === job.companyId) : null;
+                                const imgSrc = matchingImg ? `https://skillety-n6r1.onrender.com/client_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
+                                const client = allClient.find(obj => obj.companyId === job.companyId);
+                                return (
+                                  <tr className='dash-table-row'>
+                                    <td>
+                                      <img src={imgSrc} className='dash-table-avatar-img' alt="" />
+                                    </td>
+                                    <td className='dash-table-data'>
+                                      {job.jobRole[0]} <br />
+                                      <span className='dash-table-sub'>{client?.companyName}</span>
+                                    </td>
+                                    <td className='dash-table-data1 text-center'>{job.industry}</td>
+                                    <td className='dash-table-data1 text-center'>{job.jobCategory}</td>
+                                    <td className='dash-table-data1 text-center'>Screening</td>
+                                    {/* <td className='text-center dash-table-view-btn-area'>
                                 <button className='dash-table-eye-view-btn'
                                   data-toggle="modal" data-target="">
                                   <i class="bi bi-eye-fill"></i>
                                 </button>
                               </td> */}
-                                </tr>
-                              )
-                            })
-                            }
-                          </table>
+                                  </tr>
+                                )
+                              })
+                              }
+                            </table>
+                          ) : (
+                            <table className="table table-striped table-hover dash-table">
+                              <tr className='dash-table-row'>
+                                <td className='dash-table-data1'>
+                                  <Skeleton height={30} circle={true} width={30} />
+                                </td>
+                                <td className='dash-table-data1'>
+                                  <Skeleton height={10} />
+                                </td>
+                                <td className='dash-table-data1'>
+                                  <Skeleton height={10} />
+                                </td>
+                                <td className='dash-table-data1'>
+                                  <Skeleton height={10} />
+                                </td>
+                                <td className='dash-table-data1'>
+                                  <Skeleton height={10} />
+                                </td>
+                              </tr>
+
+                              <tr className='dash-table-row'>
+                                <td className='dash-table-data1'>
+                                  <Skeleton height={30} circle={true} width={30} />
+                                </td>
+                                <td className='dash-table-data1'>
+                                  <Skeleton height={10} />
+                                </td>
+                                <td className='dash-table-data1'>
+                                  <Skeleton height={10} />
+                                </td>
+                                <td className='dash-table-data1'>
+                                  <Skeleton height={10} />
+                                </td>
+                                <td className='dash-table-data1'>
+                                  <Skeleton height={10} />
+                                </td>
+                              </tr>
+
+                              <tr className='dash-table-row'>
+                                <td className='dash-table-data1'>
+                                  <Skeleton height={30} circle={true} width={30} />
+                                </td>
+                                <td className='dash-table-data1'>
+                                  <Skeleton height={10} />
+                                </td>
+                                <td className='dash-table-data1'>
+                                  <Skeleton height={10} />
+                                </td>
+                                <td className='dash-table-data1'>
+                                  <Skeleton height={10} />
+                                </td>
+                                <td className='dash-table-data1'>
+                                  <Skeleton height={10} />
+                                </td>
+                              </tr>
+                            </table>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -747,35 +818,93 @@ const getData = () => {
                           <a href='/search-jobs' className="dash-table-see-all-btn">See all</a>
                         </div>
                         <div class="table-responsive mt-4">
-                          <table class="table table-striped table-hover dash-table">
-                            {jobDetail.slice(0, 10).map(job => {
-                              const matchingImg = clientImg ? clientImg.find(img => img.id === job.companyId) : null;
-                              const imgSrc = matchingImg ? `https://skillety-n6r1.onrender.com/client_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
-                              const client = allClient.find(obj => obj.companyId === job.companyId);
+                          {!contentloading ? (
+                            <table class="table table-striped table-hover dash-table">
+                              {jobDetail.slice(0, 10).map(job => {
+                                const matchingImg = clientImg ? clientImg.find(img => img.id === job.companyId) : null;
+                                const imgSrc = matchingImg ? `https://skillety-n6r1.onrender.com/client_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
+                                const client = allClient.find(obj => obj.companyId === job.companyId);
 
-                              return (
-                                <tr className='dash-table-row'>
-                                  <td>
-                                    <img src={imgSrc} className='dash-table-avatar-img' alt="" />
-                                  </td>
-                                  <td className='dash-table-data'>
-                                    {job.jobRole} <br />
-                                    <span className='dash-table-sub'>{client?.companyName}</span>
-                                  </td>
-                                  <td className='dash-table-data1 text-center'>{job.industry}</td>
-                                  <td className='dash-table-data1 text-center'>{job.jobCategory}</td>
-                                  <td className='dash-table-data1 text-center'>{job.jobExperience}</td>
-                                  {/* <td className='text-center dash-table-view-btn-area'>
+                                return (
+                                  <tr className='dash-table-row'>
+                                    <td>
+                                      <img src={imgSrc} className='dash-table-avatar-img' alt="" />
+                                    </td>
+                                    <td className='dash-table-data'>
+                                      {job.jobRole} <br />
+                                      <span className='dash-table-sub'>{client?.companyName}</span>
+                                    </td>
+                                    <td className='dash-table-data1 text-center'>{job.industry}</td>
+                                    <td className='dash-table-data1 text-center'>{job.jobCategory}</td>
+                                    <td className='dash-table-data1 text-center'>{job.jobExperience}</td>
+                                    {/* <td className='text-center dash-table-view-btn-area'>
                                 <button className='dash-table-eye-view-btn'
                                   data-toggle="modal" data-target="">
                                   <i class="bi bi-eye-fill"></i>
                                 </button>
                               </td> */}
-                                </tr>
-                              )
-                            })
-                            }
-                          </table>
+                                  </tr>
+                                )
+                              })
+                              }
+                            </table>
+                          ) : (
+                            <table className="table table-striped table-hover dash-table">
+                              <tr className='dash-table-row'>
+                                <td className='dash-table-data1'>
+                                  <Skeleton height={30} circle={true} width={30} />
+                                </td>
+                                <td className='dash-table-data1'>
+                                  <Skeleton height={10} />
+                                </td>
+                                <td className='dash-table-data1'>
+                                  <Skeleton height={10} />
+                                </td>
+                                <td className='dash-table-data1'>
+                                  <Skeleton height={10} />
+                                </td>
+                                <td className='dash-table-data1'>
+                                  <Skeleton height={10} />
+                                </td>
+                              </tr>
+
+                              <tr className='dash-table-row'>
+                                <td className='dash-table-data1'>
+                                  <Skeleton height={30} circle={true} width={30} />
+                                </td>
+                                <td className='dash-table-data1'>
+                                  <Skeleton height={10} />
+                                </td>
+                                <td className='dash-table-data1'>
+                                  <Skeleton height={10} />
+                                </td>
+                                <td className='dash-table-data1'>
+                                  <Skeleton height={10} />
+                                </td>
+                                <td className='dash-table-data1'>
+                                  <Skeleton height={10} />
+                                </td>
+                              </tr>
+
+                              <tr className='dash-table-row'>
+                                <td className='dash-table-data1'>
+                                  <Skeleton height={30} circle={true} width={30} />
+                                </td>
+                                <td className='dash-table-data1'>
+                                  <Skeleton height={10} />
+                                </td>
+                                <td className='dash-table-data1'>
+                                  <Skeleton height={10} />
+                                </td>
+                                <td className='dash-table-data1'>
+                                  <Skeleton height={10} />
+                                </td>
+                                <td className='dash-table-data1'>
+                                  <Skeleton height={10} />
+                                </td>
+                              </tr>
+                            </table>
+                          )}
                         </div>
                       </div>
                     </div>

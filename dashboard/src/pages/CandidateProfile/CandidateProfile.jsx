@@ -1799,7 +1799,7 @@ const CandidateProfile = () => {
                                                                                     className="toggleDisabledInput"
                                                                                 />
                                                                                 <span className="job-post-form-checkmark"></span>
-                                                                                If your searched skill not in the list, please enable the checkbox & type manually...
+                                                                                If your searched skill not in the list, please enable the checkbox & type
                                                                             </label>
                                                                         </div>
 
@@ -1815,7 +1815,7 @@ const CandidateProfile = () => {
                                                                                         name='manualSkillInput'
                                                                                         id='manualSkillInput'
                                                                                         className='change-setting-input'
-                                                                                        placeholder='Enter your skill manually...'
+                                                                                        placeholder='Enter your skill'
                                                                                         value={newSkill}
                                                                                         onChange={(e) => setNewSkill(e.target.value)}
                                                                                         disabled={!isCheckedSkill}

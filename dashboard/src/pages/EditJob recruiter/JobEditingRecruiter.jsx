@@ -816,7 +816,7 @@ function showErrorMessage() {
                                 className="toggleDisabledInput"
                               />
                               <span className="job-post-form-checkmark"></span>
-                              If your searched job role not in the list, please enable the checkbox & type manually...
+                              If your searched job role not in the list, please enable the checkbox & type
                             </label>
                           </div>
 
@@ -826,7 +826,7 @@ function showErrorMessage() {
                               name='manualJobRoleInput'
                               id='manualJobRoleInput'
                               className='job-post-form-input mt-4'
-                              placeholder='Enter job role...'
+                              placeholder='Enter job role'
                               value={newJobRole}
                               onChange={(e) => setNewJobRole(e.target.value)}
                               disabled={!isCheckedJobRole}
@@ -919,7 +919,7 @@ function showErrorMessage() {
                                 className="toggleDisabledInput"
                               />
                               <span className="job-post-form-checkmark"></span>
-                              If the searched skill for the particular job role not in the list, please enable the checkbox & type manually...
+                              If the searched skill for the particular job role not in the list, please enable the checkbox & type
                             </label>
                           </div>
 
@@ -929,7 +929,7 @@ function showErrorMessage() {
                               name='manualSkillInput'
                               id='manualSkillInput'
                               className='job-post-form-input mt-4'
-                              placeholder='Enter the skills...'
+                              placeholder='Enter the skills'
                               value={newSkill}
                               onChange={(e) => setNewSkill(e.target.value)}
                               disabled={!isCheckedSkill}
