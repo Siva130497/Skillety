@@ -15,7 +15,7 @@ const PrivacyPolicyTalent = () => {
                         <div className="custom--container tal--pro-search">
                             <div className="breadcrumb--area-dark" data-aos="fade-down">
                                 <div className="breadcrumb--item-dark">
-                                    <a href="/">Home</a>
+                                    <a href="/candidate-home">Home</a>
                                 </div>
                                 <div className="breadcrumb--item-dark">
                                     <p>Privacy Policy</p>

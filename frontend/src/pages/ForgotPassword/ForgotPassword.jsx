@@ -174,9 +174,21 @@ const ForgotPassword = () => {
                 alert("confirm password doesn't match with your new password")
             }
         } else {
-            alert("password must be 8 characters long")
+            alert("Password must be 8 characters long")
         }
     }
+
+    
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+    const handleTogglePassword = () => {
+        setShowPassword(!showPassword);
+    };
+
+    const handleToggleConfirmPassword = () => {
+        setShowConfirmPassword(!showConfirmPassword);
+    };
 
     const renderStep = () => {
         switch (step) {
@@ -250,13 +262,19 @@ const ForgotPassword = () => {
 
                         <form action="" className='cli--signup-form' onSubmit={handleChangePassword}>
                             <div className='cli--signup-form-group' data-aos="fade-up">
-                                <input type="password" id='password' name="password"
+                                {credentials.password != "" &&
+                                    <i class="bi bi-eye-slash show-pwd-icon" id="togglePassword" onClick={handleTogglePassword}></i>
+                                }
+                                <input type={showPassword ? "text" : "password"} id='password' name="password"
                                     value={credentials.password}
                                     onChange={handleInputChange} placeholder="Enter New Password" className='cli--signup-form-input' required />
                                 <label htmlFor="email" className='cli--signup--form-label'>Enter New Password</label>
                             </div>
                             <div className='cli--signup-form-group' data-aos="fade-up">
-                                <input type="password" id='confirm_password' name="confirmPassword"
+                                {credentials.confirmPassword != "" &&
+                                    <i class="bi bi-eye-slash show-pwd-icon" id="toggleConfirmPassword" onClick={handleToggleConfirmPassword}></i>
+                                }
+                                <input type={showConfirmPassword ? "text" : "password"} id='confirm_password' name="confirmPassword"
                                     value={credentials.confirmPassword}
                                     onChange={handleInputChange} placeholder="Confirm Password" className='cli--signup-form-input' required />
                                 <label htmlFor="email" className='cli--signup--form-label'>Confirm Password</label>

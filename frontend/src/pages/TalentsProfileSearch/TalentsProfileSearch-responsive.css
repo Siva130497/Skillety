@@ -325,7 +325,7 @@
     }
 
     .cli-tal-pro-search-filter-area {
-        padding: 30px 0px;
+        padding: 10px 0px;
     }
 
     .custom-right-border-col {
@@ -444,5 +444,13 @@
     }
     .info-icon-button:hover+.tooltip{
         transform: translateY(-15px);
+    }
+
+    .tal-head-desc{
+        font-size: 16px;
+        line-height: normal;
+    }
+    .cli-tal-pro-search-container{
+        margin-bottom: 20px !important;
     }
 }

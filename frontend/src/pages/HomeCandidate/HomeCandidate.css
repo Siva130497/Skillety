@@ -290,6 +290,7 @@
     border: #ffffff 1px solid;
     border-radius: 10px;
     transition: ease-in-out 0.8s;
+    overflow: hidden;
 }
 
 .cand--job-card:hover .cand--job-card-logo-loc-area,
