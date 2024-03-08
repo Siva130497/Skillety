@@ -580,7 +580,7 @@
     .chatbot__button {
         bottom: 15px;
         right: 15px;
-        width: 45px;
+        /* width: 45px; */
         height: 45px;
     }
 
