@@ -1,4 +1,4 @@
-
+import { useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { AuthContextProvider } from './context/AuthContext';
 import ClientRegister from "./pages/ClientRegister/ClientRegister";
@@ -65,6 +65,17 @@ import RandomUserChatWeb from './components/RandomUserChatWeb';
 
 function App() {
 
+  const [clientToken, setClientToken] = useState("");
+  const [candidateToken, setcandidateToken] = useState("");
+
+  useEffect(() => {
+    setClientToken(JSON.parse(localStorage.getItem("clientToken")))
+  }, [clientToken]);
+
+  useEffect(() => {
+    setcandidateToken(JSON.parse(localStorage.getItem('candidateToken')))
+  }, [candidateToken]);
+
   return (
 
     <AuthContextProvider>
@@ -106,7 +117,9 @@ function App() {
             {/* <Route path='/pdf' element={<PDFViewer />} /> */}
             <Route path='/live-chat' element={<LiveChat />} />
             <Route path='/real-time-chat' element={<Chat />} />
+
             <Route path='/client-register' element={<ClientRegister />} />
+            
             <Route path='/client-signup' element={<ClientSignup />} />
             <Route path='/candidate-signup' element={<CandidateSignup />} />
             <Route path='/candiate-register' element={<CandidateRegister />} />
@@ -123,7 +136,7 @@ function App() {
             <Route path='/admin-dashboard' element={<AdminDashboard />} />
             <Route path='/recruiter-dashboard' element={<RecruiterDashboard />} />
             <Route path='/company-info/:id' element={<CompanyInformation />} />
-            <Route path='*' element={<ErrorPage />}/>
+            <Route path='*' element={<ErrorPage />} />
             <Route path='/post-job-web/:token' element={<JobPostingWeb />} />
             <Route path='/privacy-policy-talent' element={<PrivacyPolicyTalent />} />
             <Route path='/terms-and-conditions-talent' element={<TermsConditionsTalent />} />

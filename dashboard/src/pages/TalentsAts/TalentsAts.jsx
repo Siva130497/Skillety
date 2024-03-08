@@ -952,7 +952,7 @@ const TalentsAts = () => {
                                                                                                                     <th className='dash-table-head'>Job Title</th>
                                                                                                                     <th className='dash-table-head text-center'>Status</th>
                                                                                                                     <th className='dash-table-head text-center'>Dismiss</th>
-                                                                                                                    <th className='dash-table-head text-center'>View</th>
+                                                                                                                    <th className='dash-table-head text-left'>View</th>
                                                                                                                 </tr>
 
                                                                                                                 {/* table data */}
@@ -991,7 +991,7 @@ const TalentsAts = () => {
                                                                                                                                         Dismiss
                                                                                                                                     </button>
                                                                                                                                 </td>
-                                                                                                                                <td className='text-center'>
+                                                                                                                                <td className='text-left'>
                                                                                                                                     <div className="action-btn-area">
                                                                                                                                         <button className='job-view-btn' data-toggle="modal" title='View Job Details...' data-target="#jobViewModal"
                                                                                                                                             onClick={() => handleViewJobDetail(job.id)}>

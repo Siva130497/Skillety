@@ -300,7 +300,7 @@ const AllOfflineCandidates = () => {
                                                                 <th className='dash-table-head'>Mobile</th>
                                                                 {/* <th className='dash-table-head'>Send Email</th> */}
 
-                                                                <th className='dash-table-head text-center'>View</th>
+                                                                <th className='dash-table-head text-left'>Action</th>
                                                             </tr>
 
 
@@ -348,7 +348,7 @@ const AllOfflineCandidates = () => {
                                                                         </button>
                                                                     </td> */}
 
-                                                                    <td className='text-center'>
+                                                                    <td className='text-left'>
                                                                         <div className="action-btn-area">
                                                                             <button className='job-view-btn' data-toggle="modal" title='View Candidate Details...' 
                                                                             onClick={() => handleCard(cand?.candId)}

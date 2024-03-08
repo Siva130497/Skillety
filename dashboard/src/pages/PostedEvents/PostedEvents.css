@@ -27,7 +27,8 @@
 .action-btn-area {
     display: flex;
     gap: 5px;
-    justify-content: center;
+    justify-content: flex-start;
+    padding: 0 !important;
 }
 
 .job-view-btn {
@@ -232,4 +233,9 @@
     color: #dc0000 !important;
     background-color: #FFF !important;
     box-shadow: 0px 0px 15px #0000001b !important;
+}
+
+.btn-area-flex{
+    display: flex;
+    justify-content: center;
 }

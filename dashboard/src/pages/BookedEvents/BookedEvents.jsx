@@ -242,7 +242,7 @@ const BookedEvents = () => {
                                                                     <td className='dash-table-data1 text-capitalized'>
                                                                         {detail.eventDate}
                                                                     </td>
-                                                                    <td className='text-center'>
+                                                                    <td className='text-left'>
                                                                         <div className="action-btn-area">
                                                                             <button className='job-view-btn' title='View Event Booking Details...' data-toggle="modal" data-target="#eventBookingViewModal"
                                                                             onClick={() => handleViewMoreDetail(detail._id)}>

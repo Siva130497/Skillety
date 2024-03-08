@@ -305,7 +305,7 @@ const PostedEvents = () => {
                                                             <th className='dash-table-head'>No.</th>
                                                             <th className='dash-table-head'>Event Title</th>
                                                             <th className='dash-table-head'>Date</th>
-                                                            <th className='dash-table-head text-center'>Action</th>
+                                                            <th className='dash-table-head text-left'>Action</th>
                                                         </tr>
 
                                                         {/* table data */}
@@ -321,7 +321,7 @@ const PostedEvents = () => {
                                                                         {eve.date}
                                                                     </td>
 
-                                                                    <td className='text-center'>
+                                                                    <td className='text-left'>
                                                                         <div className="action-btn-area">
                                                                             <a href='' onClick={() => {
                                                                                 navigate(`/media-posting/${type}`, { state: { editingEventId } });
