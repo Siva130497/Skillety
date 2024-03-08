@@ -132,7 +132,7 @@ const Talents = () => {
 
     useEffect(() => {
         const matchingImg = candidateImg ? candidateImg.find(img => img.id === id) : null;
-        const imgSrc = matchingImg ? (matchingImg.image.startsWith('https') ? matchingImg.image : `https://skillety-n6r1.onrender.com/candidate_profile/${matchingImg.image}`) : "assets/img/talents-images/avatar.jpg";
+        const imgSrc = matchingImg ? (matchingImg.image.startsWith('https') ? matchingImg.image : `data:image/jpeg;base64,${matchingImg.image}`) : "assets/img/talents-images/avatar.jpg";
         setImg(imgSrc);
     }, [candidateDetail])
 

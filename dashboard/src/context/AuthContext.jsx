@@ -6,6 +6,7 @@ import 'sweetalert2/dist/sweetalert2.css';
 import { GoogleAuthProvider, signInWithPopup, onAuthStateChanged  } from 'firebase/auth';
 import { auth } from '../firebase/firebaseConfig';
 import {io} from "socket.io-client";
+import { v4 as uuidv4 } from "uuid";
 
 const AuthContext = createContext();
 
@@ -456,6 +457,7 @@ const sendNotification = async (senderData, receiverData, content, redirect, tok
       time: formattedTime,
       date: formattedDate,
       redirect: redirect,
+      id:uuidv4()
     };
 
   try {

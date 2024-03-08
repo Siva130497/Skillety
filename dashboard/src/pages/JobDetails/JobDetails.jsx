@@ -11,6 +11,7 @@ import AuthContext from '../../context/AuthContext';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
 import {io} from "socket.io-client";
+import { v4 as uuidv4 } from "uuid";
 
 const JobDetails = () => {
     const { id } = useParams();
@@ -162,7 +163,8 @@ const JobDetails = () => {
                     content:`${userName} applied for your posted job of ${job?.jobRole[0]}`,
                     time: formattedTime,
                     date: formattedDate,
-                    redirect:'/manage-job'
+                    redirect:'/manage-job',
+                    id:uuidv4()
                 }
 
                 await socket.emit("sendNotification", notificationData)

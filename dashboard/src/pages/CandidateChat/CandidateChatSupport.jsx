@@ -11,6 +11,7 @@ import ScrollToBottom from "react-scroll-to-bottom";
 import io from 'socket.io-client';
 import { useContext } from 'react';
 import AuthContext from '../../context/AuthContext';
+import { v4 as uuidv4 } from "uuid";
 
 // const socket = io.connect('https://skillety-n6r1.onrender.com');
 
@@ -77,7 +78,7 @@ const CandidateChatSupport = () => {
 
   useEffect(() => {
     if (candidateImg) {
-        setCandidateImgUrl(candidateImg.image.startsWith('https') ? candidateImg.image : `https://skillety-n6r1.onrender.com/candidate_profile/${candidateImg.image}`)
+        setCandidateImgUrl(candidateImg.image.startsWith('https') ? candidateImg.image : `data:image/jpeg;base64,${candidateImg.image}`)
     }
 
 }, [candidateImg]);
@@ -201,7 +202,8 @@ const CandidateChatSupport = () => {
           content: `${userName} messaged you`,
           time: formattedTime,
           date: formattedDate,
-          redirect:'/chat-candidate'
+          redirect:'/chat-candidate',
+          id:uuidv4()
         }
 
         await socket.emit('send_message', messageData);

@@ -11,6 +11,7 @@ import ScrollToBottom from "react-scroll-to-bottom";
 import io from 'socket.io-client';
 import { useContext } from 'react';
 import AuthContext from '../../context/AuthContext';
+import { v4 as uuidv4 } from "uuid";
 
 // const socket = io.connect('https://skillety-n6r1.onrender.com');
 
@@ -237,7 +238,8 @@ useEffect(() => {
           content: `${userName} messaged you`,
           time: formattedTime,
           date: formattedDate,
-          redirect:'/chat-client'
+          redirect:'/chat-client',
+          id:uuidv4()
         }
 
         await socket.emit('send_message', messageData);

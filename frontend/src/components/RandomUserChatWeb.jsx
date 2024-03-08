@@ -201,7 +201,8 @@ const RandomUserChatWeb = () => {
           content: inputMessage,
           time: formattedTime,
           date: formattedDate,
-          redirect:'/random-user-chat-ats'
+          redirect:'/random-user-chat-ats',
+          id:uuidv4()
         }
 
         await socket.emit("sendNotification", notificationData)

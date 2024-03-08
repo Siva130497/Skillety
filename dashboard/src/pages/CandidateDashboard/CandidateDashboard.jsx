@@ -57,7 +57,7 @@ const ClientDashboard = () => {
   const [audioContext, setAudioContext] = useState(null);
   const [audioBuffer, setAudioBuffer] = useState(null);
 
-  const [filter, setFilter] = useState('weekly');
+  const [filter, setFilter] = useState('monthly');
   const [chartData, setChartData] = useState();
 
   const handleFilterChange = (event) => {
@@ -137,14 +137,14 @@ const getData = () => {
     datasets: [
       {
         fill: true,
-        label: chartData? (chartData?.series[0]?.name) : "no data",
+        label: chartData? (chartData?.series[0]?.name) : "Skill Matched Jobs",
         data: chartData && getData()[0],
         borderColor: '#714F36',
         backgroundColor: '#F9C833',
       },
       {
         fill: true,
-        label: chartData? (chartData?.series[1]?.name) : "no data",
+        label: chartData? (chartData?.series[1]?.name) : "Applied Jobs",
         data: chartData && getData()[1],
         borderColor: '#F9C833',
         backgroundColor: '#FFEDB7',
@@ -152,7 +152,7 @@ const getData = () => {
     ],
   };
 
-  const yAxesTicks = [];
+  const yAxesTicks = [0];
 
   const options = {
     responsive: true,
@@ -238,12 +238,12 @@ const getData = () => {
 
   }, [socket]);
 
-  const displayNotification = ({ senderName, content, time, date }) => {
+  const displayNotification = ({ senderName, content, time, date, readStatus }) => {
         
     return (
         <>
             <td className='dash-table-sub-data data-nowrap'>{`${time} ${date}`}</td>
-            <td className='dash-table-sub-data'>{content}....................</td>
+            <td className='dash-table-sub-data'>{content} -------{readStatus?<b>Read</b>:<b>Un-Read</b>}</td>
             {/* <td className='text-right dash-table-view-btn-area'>
                 <button className='dash-table-view-btn client'
                     data-toggle="modal">View</button>
@@ -504,7 +504,7 @@ const getData = () => {
                       <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
                         <div className="dash-num-count-area">
                           <p className='dash-num-title'>New Notifications</p>
-                          <h4 className='dash-num-count'>00</h4>
+                          <h4 className='dash-num-count'>{notifications.slice(0,10).length}</h4>
                         </div>
                       </div>
                     </div>
@@ -571,7 +571,7 @@ const getData = () => {
                         </form>
                       </div>
                     </div>
-                    {chartData ? <Line options={options} data={data} /> : <p>No Data</p>}
+                   <Line options={options} data={data} /> 
                   </div>
                 </div>
 
@@ -676,7 +676,7 @@ const getData = () => {
                         <div class="table-responsive dash-table-container client mt-4">
                           <table class="table table-striped table-hover dash-table">
                             {notifications?.length > 0 ? (
-                              notifications.reverse().slice(0, 10).map((notification) => (
+                              notifications.slice(0, 10).map((notification) => (
                                 <tr className='dash-table-row' key={notification.id}>{displayNotification(notification)}</tr>
                               ))
                             ) : (
