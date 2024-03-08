@@ -366,12 +366,12 @@ const PackagePlans = () => {
                                       </h6>
                                     </div>
 
-                                    <div>
+                                    {/* <div>
                                       <h6 className="pl--package-title">
-                                        {/* <span className="with-bg">Total</span> */}
+                                        <span className="with-bg">Total</span>
                                         Real Price
                                       </h6>
-                                    </div>
+                                    </div> */}
 
                                     <div>
                                       <h6 className="pl--package-title">
@@ -379,7 +379,7 @@ const PackagePlans = () => {
                                       </h6>
                                     </div>
 
-                                    <div>
+                                    <div className="pt-4">
                                       <h6 className="pl--package-title">
                                         <span className="with-bg">GST</span>
                                       </h6>
@@ -445,20 +445,21 @@ const PackagePlans = () => {
                                       </h6>
                                     </div>
 
-                                    <div className="pl--package-mobile-flex">
+                                    {/* <div className="pl--package-mobile-flex">
                                       <h6 className="pl--package-mobile-title">
                                         Real Price
                                       </h6>
                                       <h6 className="pl--package-info line-through">
                                         INR 1,200
                                       </h6>
-                                    </div>
+                                    </div> */}
 
                                     <div className="pl--package-mobile-flex">
                                       <h6 className="pl--package-mobile-title">
                                         Inaugural Offer Price
                                       </h6>
                                       <h6 className="pl--package-info">
+                                        <span className="line-through">INR 1,200</span><br />
                                         INR 199
                                       </h6>
                                     </div>
@@ -573,20 +574,21 @@ const PackagePlans = () => {
                                       </h6>
                                     </div>
 
-                                    <div className="pl--package-mobile-flex">
+                                    {/* <div className="pl--package-mobile-flex">
                                       <h6 className="pl--package-mobile-title">
                                         Real Price
                                       </h6>
                                       <h6 className="pl--package-info line-through">
                                         INR 2,000
                                       </h6>
-                                    </div>
+                                    </div> */}
 
                                     <div className="pl--package-mobile-flex">
                                       <h6 className="pl--package-mobile-title">
                                         Inaugural Offer Price
                                       </h6>
                                       <h6 className="pl--package-info">
+                                        <span className="line-through">INR 2,000</span><br />
                                         INR 999
                                       </h6>
                                     </div>
@@ -701,20 +703,21 @@ const PackagePlans = () => {
                                       </h6>
                                     </div>
 
-                                    <div className="pl--package-mobile-flex">
+                                    {/* <div className="pl--package-mobile-flex">
                                       <h6 className="pl--package-mobile-title">
                                         Real Price
                                       </h6>
                                       <h6 className="pl--package-info line-through">
                                         INR 3,000
                                       </h6>
-                                    </div>
+                                    </div> */}
 
                                     <div className="pl--package-mobile-flex">
                                       <h6 className="pl--package-mobile-title">
                                         Inaugural Offer Price
                                       </h6>
                                       <h6 className="pl--package-info">
+                                        <span className="line-through">INR 3,000</span><br />
                                         INR 2,499
                                       </h6>
                                     </div>
@@ -829,20 +832,21 @@ const PackagePlans = () => {
                                       </h6>
                                     </div>
 
-                                    <div className="pl--package-mobile-flex">
+                                    {/* <div className="pl--package-mobile-flex">
                                       <h6 className="pl--package-mobile-title">
                                         Real Price
                                       </h6>
                                       <h6 className="pl--package-info line-through">
                                         INR 6,000
                                       </h6>
-                                    </div>
+                                    </div> */}
 
                                     <div className="pl--package-mobile-flex">
                                       <h6 className="pl--package-mobile-title">
                                         Inaugural Offer Price
                                       </h6>
                                       <h6 className="pl--package-info">
+                                        <span className="line-through">INR 6,000</span><br />
                                         INR 4,999
                                       </h6>
                                     </div>

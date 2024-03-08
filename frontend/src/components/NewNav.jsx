@@ -146,8 +146,8 @@ const NewNav = ({ homeActive, aboutUsActive, searchCVActive, serviceActive, RPOA
                                 {/* <li><a href="/rpo">RPO</a></li> */}
                             </ul>
                         </li>
-                        <li><a href="/about-us" className={aboutUsActive ? "nav-link scrollto active" : "nav-link scrollto"}>About Us</a></li>
                         <li><a href={clientToken ? "https://skillety-dashboard-tk2y.onrender.com/package-plans" : "/client-login"} target={clientToken ? '_blank' : ''} className={"nav-link scrollto"}>Pricing</a></li>
+                        <li><a href="/about-us" className={aboutUsActive ? "nav-link scrollto active" : "nav-link scrollto"}>About Us</a></li>
                         {/* <li><a className={RPOActive ? "nav-link scrollto active" : "nav-link scrollto"} href="/rpo">RPO</a></li> */}
                         <li><a className={contactActive ? "nav-link scrollto active" : "nav-link scrollto"} href="/contact-us">Contact Us</a></li>
                         {userName ?
