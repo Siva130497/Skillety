@@ -65,6 +65,7 @@ const AppliedCandidate = () => {
     }
 
     const getAllCandidateDetail = async () => {
+        
         try {
             const response = await axios.get('https://skillety-n6r1.onrender.com/candidate-Detail', {
                 headers: {
@@ -72,6 +73,7 @@ const AppliedCandidate = () => {
                 }
             });
             const result = response.data;
+            
             if (!result.error) {
                 const filteredCandidates = result.filter(candidate => cands.includes(candidate.id));
                 if (filteredCandidates.length > 0) {

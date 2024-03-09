@@ -118,8 +118,8 @@ io.on('connection', (socket) => {
     addNewUser(userName, socket.id);
   });
 
-  socket.on("sendNotification", ({ senderId, senderName, receiverId, receiverName, content, time, date, redirect }) => {
-    console.log({ senderId, senderName, receiverId, receiverName, content, time, date, redirect });
+  socket.on("sendNotification", ({ senderId, senderName, receiverId, receiverName, content, time, date, redirect, id }) => {
+    console.log({ senderId, senderName, receiverId, receiverName, content, time, date, redirect, id });
   
     if (Array.isArray(receiverName)) {
       // If receiverName is an array, iterate through each name
@@ -135,6 +135,7 @@ io.on('connection', (socket) => {
             time,
             date,
             redirect,
+            id
           });
         }
       });
@@ -144,11 +145,14 @@ io.on('connection', (socket) => {
       if (receiver) {
         io.to(receiver?.socketId).emit("getNotification", {
           senderId,
-          senderName,
-          content,
-          time,
-          date,
-          redirect,
+            senderName,
+            receiverId,
+            receiverName,
+            content,
+            time,
+            date,
+            redirect,
+            id
         });
       }
     }
@@ -424,14 +428,16 @@ app.patch('/update-image/:id', employeeAuth, uploadImg.single('image'), (req, re
 // })
 
 // const uploadCandidateImg = multer({storage: storageCandidateImg})
-app.post('/upload-candidate-profile-image', employeeAuth, uploadImgBase64.single('image'), async(req, res) => {
+const storageMemoryCand = multer.memoryStorage();
+const uploadImgBase64Cand = multer({ storage: storageMemoryCand });
+app.post('/upload-candidate-profile-image', employeeAuth, uploadImgBase64Cand.single('image'), async(req, res) => {
   try {
     if (!req.body.id) {
-      return res.status(400).json({ error: 'No resume id provided' });
+      return res.status(400).json({ error: 'No candidate id provided' });
     }
 
     if (!req.file) {
-      return res.status(400).json({ error: 'No resume provided' });
+      return res.status(400).json({ error: 'No candidate profile provided' });
     }
 
     // Convert image buffer to base64
@@ -487,7 +493,7 @@ app.get('/candidate-image/:id', async(req, res)=>{
   }
 });
 
-app.patch('/update-candidate-profile-image/:id', employeeAuth, uploadImgBase64.single('image'), async(req, res) => {
+app.patch('/update-candidate-profile-image/:id', employeeAuth, uploadImgBase64Cand.single('image'), async(req, res) => {
   try {
     const {id} = req.params;
 
@@ -517,28 +523,43 @@ app.patch('/update-candidate-profile-image/:id', employeeAuth, uploadImgBase64.s
 });
 
 //client company profile photohandling
-const storageClientImg = multer.diskStorage({
-  destination: function(req, file, cb) {
-    return cb(null, "./public/client_profile")
-  },
-  filename: function(req, file, cb) {
-    return cb(null, `${Date.now()}_${file.originalname}`)
+// const storageClientImg = multer.diskStorage({
+//   destination: function(req, file, cb) {
+//     return cb(null, "./public/client_profile")
+//   },
+//   filename: function(req, file, cb) {
+//     return cb(null, `${Date.now()}_${file.originalname}`)
+//   }
+// })
+
+// const uploadClientImg = multer({storage: storageClientImg})
+const storageMemoryClient = multer.memoryStorage();
+const uploadImgBase64Client = multer({ storage: storageMemoryClient });
+app.post('/upload-client-profile-image', employeeAuth, uploadImgBase64Client.single('image'), async(req, res) => {
+  try {
+    if (!req.body.id) {
+      return res.status(400).json({ error: 'No client  id provided' });
+    }
+
+    if (!req.file) {
+      return res.status(400).json({ error: 'No client profile provided' });
+    }
+
+    // Convert image buffer to base64
+    const base64Image = req.file.buffer.toString('base64');
+
+    // Save the image to the database
+    const newClientProfile = new clientProfile({
+      id: req.body.id,
+      image: base64Image
+    });
+    await newClientProfile.save();
+
+    res.status(200).json({ message: 'Profile Image uploaded successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
   }
-})
-
-const uploadClientImg = multer({storage: storageClientImg})
-app.post('/upload-client-profile-image', employeeAuth, uploadClientImg.single('image'), (req, res) => {
-  const uploadedId = req.body.id; 
-  console.log("Uploaded ID:", uploadedId);
-  console.log("Uploaded File:", req.file);
-
-  clientProfile.create({
-    image: req.file.filename,
-    id: uploadedId,
-  })
-  .then((result) => console.log(result))
-  .then(result => res.status(201).json({message:"Company Profile Upload Successfully!", result}))
-  .catch(err => console.log(err)) 
 })
 
 // /* base64 conversion */
@@ -569,43 +590,68 @@ app.post('/upload-client-profile-image', employeeAuth, uploadClientImg.single('i
 // });
 // /*  */
 
-app.get('/client-image', (req, res)=>{
-  clientProfile.find()
-  .then(clientImg=>res.json(clientImg))
-  .catch(err=>res.json(err))
-});
+app.get('/client-image', async(req, res)=>{
+  try {
+    // Fetch the resume from the database based on the provided ID
+    const existingResume = await clientProfile.find();
 
-app.get('/client-image/:id', (req, res)=>{
-  const {id} = req.params;
-  clientProfile.findOne({id})
-  .then(clientImg=>res.json(clientImg))
-  .catch(err=>res.json(err))
-});
-
-app.patch('/update-client-profile-image/:id', employeeAuth, uploadClientImg.single('image'), (req, res) => {
-  const uploadedId = req.params.id;
-  const newImageFilename = req.file.filename;
-
-  // Find the existing image by ID
-  clientProfile.findOneAndUpdate(
-    { id: uploadedId },
-    { $set: { image: newImageFilename } },
-    { new: true },
-    (err, updatedImage) => {
-      if (err) {
-        console.error(err);
-        return res.status(500).json({ error: 'Internal Server Error' });
-      }
-
-      if (!updatedImage) {
-        return res.status(404).json({ error: 'Image not found' });
-      }
-
-      console.log('Updated Image:', updatedImage);
-
-      res.json(updatedImage);
+    if (existingResume.length===0) {
+      return res.status(404).json({ error: 'Profile Images not found' });
     }
-  );
+
+    res.status(200).json(existingResume);
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+app.get('/client-image/:id', async(req, res)=>{
+  const {id} = req.params;
+  try {
+    // Fetch the resume from the database based on the provided ID
+    const existingResume = await clientProfile.findOne({ id });
+
+    if (!existingResume) {
+      return res.status(404).json({ error: 'Profile Image not found' });
+    }
+
+    res.status(200).json(existingResume);
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+app.patch('/update-client-profile-image/:id', employeeAuth, uploadImgBase64Client.single('image'), async(req, res) => {
+  try {
+    const {id} = req.params;
+
+    if (!req.file) {
+      return res.status(400).json({ error: 'No Profile Image provided' });
+    }
+
+    // Convert image buffer to base64
+    const base64Image = req.file.buffer.toString('base64');
+
+    // Update the existing content with new logo using findOneAndUpdate
+    const updatedResume = await clientProfile.findOneAndUpdate(
+      { id },
+      { image: base64Image },
+      { new: true }
+    );
+
+    if (!updatedResume) {
+      return res.status(404).json({ error: 'Profile Image not found' });
+    }
+
+    res.status(200).json({ message: 'Profile Image updated successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
 });
 
 //ATS.....................

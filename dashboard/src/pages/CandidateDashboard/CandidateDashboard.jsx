@@ -669,9 +669,9 @@ const ClientDashboard = () => {
                       <div className="dash-table-area">
                         <div className="dash-table-top-area">
                           <div className="dash-table-title">
-                            Read Notifications
+                            Recent Notifications
                           </div>
-                          <a href='#' className="dash-table-see-all-btn">See all</a>
+                          {/* <a href='#' className="dash-table-see-all-btn">See all</a> */}
                         </div>
                         <div class="table-responsive dash-table-container client mt-4">
                           {!contentloading ? (
@@ -719,7 +719,7 @@ const ClientDashboard = () => {
                             <table class="table table-striped table-hover dash-table">
                               {appliedJobDetail.slice(0, 10).map((job) => {
                                 const matchingImg = clientImg ? clientImg.find(img => img.id === job.companyId) : null;
-                                const imgSrc = matchingImg ? `https://skillety-n6r1.onrender.com/client_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
+                                const imgSrc = matchingImg ? `data:image/jpeg;base64,${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
                                 const client = allClient.find(obj => obj.companyId === job.companyId);
                                 return (
                                   <tr className='dash-table-row'>
@@ -822,7 +822,7 @@ const ClientDashboard = () => {
                             <table class="table table-striped table-hover dash-table">
                               {jobDetail.slice(0, 10).map(job => {
                                 const matchingImg = clientImg ? clientImg.find(img => img.id === job.companyId) : null;
-                                const imgSrc = matchingImg ? `https://skillety-n6r1.onrender.com/client_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
+                                const imgSrc = matchingImg ? `data:image/jpeg;base64,${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
                                 const client = allClient.find(obj => obj.companyId === job.companyId);
 
                                 return (

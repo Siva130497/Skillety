@@ -1241,24 +1241,27 @@ const TalentsProfileSearch = () => {
         setFilters({ ...filters, searchInput: inputValue });
 
         if (inputValue.length > 0) {
-            const skills = skillArray.filter((obj) => {
+            const skillsObj = skillArray.filter((obj) => {
                 return obj.skill.toLowerCase().includes(inputValue.toLowerCase());
             });
 
-            const jobRoles = jobRoleArray.filter((obj) => {
+            const jobRolesObj = jobRoleArray.filter((obj) => {
                 return obj.designation.toLowerCase().includes(inputValue.toLowerCase());
             });
 
-            const combinedResults = [...skills, ...jobRoles];
+            const skills = skillsObj.map(skill=>skill.skill);
+            const jobRoles = jobRolesObj.map(jobRole=>jobRole.designation);
 
-            const uniqueResults = combinedResults.filter((item, index, self) =>
-            index === self.findIndex((t) => (
-                t.id === item.id
-            ))
-        );
+            function combineArraysUnique(arr1, arr2) {
+                const combinedSet = new Set([...arr1, ...arr2]);
+                return Array.from(combinedSet);
+            }
+            
+            const combinedResults = combineArraysUnique(skills, jobRoles);
 
-            if (uniqueResults.length > 0) {
-                setFilteredList(uniqueResults);
+        
+            if (combinedResults.length > 0) {
+                setFilteredList(combinedResults);
             } else {
                 setFilteredList([]);
             }
@@ -1797,13 +1800,13 @@ const TalentsProfileSearch = () => {
                                                                 <i className="bi bi-search cli--tal-pro-filter-search-icon"></i>
                                                                 <div className='tal-pro-search-result-data-area'>
                                                                     {filteredList.length > 0 &&
-                                                                        filteredList.map((filterResult) => (
+                                                                        filteredList.map((filterResult, index) => (
                                                                             <div
                                                                                 className='tal-pro-search-result-data'
-                                                                                key={filterResult._id}
-                                                                                onClick={() => handleFilteredClick(filterResult.designation || filterResult.skill)}
+                                                                                key={index}
+                                                                                onClick={() => handleFilteredClick(filterResult)}
                                                                             >
-                                                                                {filterResult.designation ? filterResult.designation : filterResult.skill}
+                                                                                {filterResult}
                                                                             </div>
                                                                         ))}
                                                                 </div>

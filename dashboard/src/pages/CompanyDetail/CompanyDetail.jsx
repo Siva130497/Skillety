@@ -78,7 +78,7 @@ const CompanyDetail = () => {
 
     useEffect(() => {
         if (clientImg) {
-            setClientImgUrl(`https://skillety-n6r1.onrender.com/client_profile/${clientImg.image}`)
+            setClientImgUrl(`data:image/jpeg;base64,${clientImg.image}`)
         }
 
     }, [clientImg]);

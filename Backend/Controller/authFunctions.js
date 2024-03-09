@@ -793,38 +793,32 @@ const candidateRegAfterGoogleLogin = async(req, res) => {
 
 /* get all candidate details*/
 const getAllCandidateDetail = async (req, res) => {
+  
   try {
     const allCandidates = await candidate.find();
-    const allCandidatesResume = await resume.find();
-
-    const resumeDict = {}; 
-    allCandidatesResume.forEach(resume => {
-      resumeDict[resume.id] = resume._doc;
-    });
+    
+    // const allCandidatesResume = await resume.find();
+    
+    // const resumeDict = {}; 
+    // allCandidatesResume.forEach(resume => {
+    //   resumeDict[resume.id] = resume._doc;
+    // });
 
     const allCandidatesDetail = await Promise.all(allCandidates.map(async cand => {
-      const matchingResume = resumeDict[cand.id];
+      // const matchingResume = resumeDict[cand.id];
+      const matchingResume = await resume.findOne({id:cand.id});
 
       if (matchingResume) {
-        if(cand.selectedDate.length > 1){
-          // const selectedDateStr = cand.selectedDate;
-        // const selectedDay = parseInt(selectedDateStr.split("/")[0], 10);
-        // const dayDifference = currentDay - selectedDay;
-          const dayDifference = 10;
-          const candidateData = { ...cand._doc };
-          const resumeData = { ...matchingResume };
-
-          return { ...candidateData, ...resumeData, dayDifference };
-        }
-        else{
+        
           const candidateData = { ...cand._doc };
           const resumeData = { ...matchingResume };
 
           return { ...candidateData, ...resumeData};
-        }
+        
       } else {
         return { ...cand._doc };
       }
+      
     }));
 
     return res.status(200).json(allCandidatesDetail);
@@ -4204,7 +4198,7 @@ const getACandidateDetail = async (req, res) => {
       const finalResponse = {
         candidateId: candidateDetail.id,
         lastProfileUpdateDate: new Date(cand.updatedAt).toISOString().split('T')[0],
-        avatar: candidateDetail.image ?( candidateDetail.image.startsWith('https') ? candidateDetail.image : `https://skillety-n6r1.onrender.com/candidate_profile/${candidateDetail.image}` ): null,
+        avatar: candidateDetail.image ? candidateDetail.image : null,
         joinPeriod: candidateDetail.days,
         lastDayWorked: candidateDetail.selectedDate,
         fName: candidateDetail.firstName,
@@ -4212,7 +4206,7 @@ const getACandidateDetail = async (req, res) => {
         email: candidateDetail.email,
         phone: candidateDetail.phone,
         preferedLocations: candidateDetail.preferedlocations.join(", "),
-        cv: candidateDetail.file ? `https://skillety-n6r1.onrender.com/files/${candidateDetail.file}` : null,
+        cv: candidateDetail.file ? candidateDetail.file : null,
         currentDesignation: candidateDetail.designation[0],
         currentCompany: candidateDetail.companyName,
         currentLocation: candidateDetail.location,
@@ -4390,7 +4384,7 @@ const getCandidateResumeUrl = async (req, res) => {
     if(candidateResume){
       res.status(200).json({ 
         message:"candidate cv get successful",
-        cv:`https://skillety-n6r1.onrender.com/files/${candidateResume.file}`
+        cv:candidateResume.file
        });
     }else{
       res.status(404).json({ error: 'Cv not found' });
@@ -4413,7 +4407,7 @@ const getUpdatedCompanyDetailByCompanyId = async(req, res) => {
         message: "Company details fetch successfully!",
         companyDetails: {
           ...companyDetailForCompanyId._doc,
-          profile:companyProfile.image ? `https://skillety-n6r1.onrender.com/images/${companyProfile.image}` : null
+          profile:companyProfile.image ? companyProfile.image : null
         }
         })
     }else{
@@ -4480,7 +4474,7 @@ const getAllNewCandidateDetail = async (req, res) => {
         const finalResponse = {
           candidateId: candidateDetail.id,
           lastProfileUpdateDate: new Date(cand.updatedAt).toISOString().split('T')[0],
-          avatar: candidateDetail.image ?( candidateDetail.image.startsWith('https') ? candidateDetail.image : `https://skillety-n6r1.onrender.com/candidate_profile/${candidateDetail.image}` ): null,
+          avatar: candidateDetail.image ? candidateDetail.image : null,
           joinPeriod: candidateDetail.days,
           lastDayWorked: candidateDetail.selectedDate,
           fName: candidateDetail.firstName,
@@ -4488,7 +4482,7 @@ const getAllNewCandidateDetail = async (req, res) => {
           email: candidateDetail.email,
           phone: candidateDetail.phone,
           preferedLocations: candidateDetail.preferedlocations ? candidateDetail.preferedlocations.join(", ") : null,
-          cv: candidateDetail.file ? `https://skillety-n6r1.onrender.com/files/${candidateDetail.file}` : null,
+          cv: candidateDetail.file ? candidateDetail.file : null,
           currentDesignation: candidateDetail.designation ? candidateDetail.designation[0] : null,
           currentCompany: candidateDetail.companyName,
           currentLocation: candidateDetail.location,
@@ -4533,7 +4527,7 @@ const getUpdatedAppliedjobs = async (req, res) => {
               jobStatus: jobStatusActive ? "Active" : jobStatusInActive ? "In-Active" : null,
               applicationStatus: applicationStatusForAppliedJob ? applicationStatusForAppliedJob.status : null,
               companyName: companyDetailForJob ? companyDetailForJob.companyName : null,
-              companyProfile: companyProfileForJob ? `https://skillety-n6r1.onrender.com/images/${companyProfileForJob.image}` : null,
+              companyProfile: companyProfileForJob ? companyProfileForJob.image : null,
               totalApplicants: numOfApplicant
             };
           }else{
@@ -4651,8 +4645,8 @@ const readingNotifications = async (req, res) => {
 
         if (existingNotification) {
           if (!existingNotification.readStatus) {
-            await createNotification.findByIdAndUpdate(
-              notificationId,
+            await createNotification.findOneAndUpdate(
+              {id:notificationId},
               { $set: { readStatus: true } },
               { new: true }
             );
@@ -4705,7 +4699,7 @@ const getUpdatedActiveJobs = async (req, res) => {
             return {
               ...job.toObject(),
               companyName: (companyDetailForJob ? companyDetailForJob.companyName : null),
-              companyProfile: (companyProfileForJob ? `https://skillety-n6r1.onrender.com/images/${companyProfileForJob.image}` : null)
+              companyProfile: (companyProfileForJob ? companyProfileForJob.image : null)
             };
           }else{
             return {
@@ -4774,7 +4768,7 @@ const getUpdatedSkillMatchJobDetail = async (req, res) => {
           // Find client profile by companyId to get companyProfile
           const companyProfile = await clientProfile.findOne({ id: obj.companyId });
           if (companyProfile) {
-            result.companyProfile = `https://skillety-n6r1.onrender.com/images/${companyProfile.image}`;
+            result.companyProfile = companyProfile.image;
           }
         }
       }
@@ -5277,7 +5271,7 @@ const getUpdatedAppliedOfPostedJobs = async (req, res) => {
                   candidate: {
                     candidateId: job.candidateId,
                     lastProfileUpdateDate: new Date(appliedCand.updatedAt).toISOString().split('T')[0],
-                    avatar: profile && profile.image ?( profile.image.startsWith('https') ? profile.image : `https://skillety-n6r1.onrender.com/candidate_profile/${profile.image}` ): null,
+                    avatar:profile.image ? profile.image :  null,
                     joinPeriod: appliedCand.days,
                     lastDayWorked: appliedCand.selectedDate,
                     fName: appliedCand.firstName,
@@ -5285,7 +5279,7 @@ const getUpdatedAppliedOfPostedJobs = async (req, res) => {
                     email: appliedCand.email,
                     phone: appliedCand.phone,
                     preferedLocations: appliedCand.preferedlocations ? appliedCand.preferedlocations.join(", ") : '',
-                    cv: resumeData && resumeData.file ? `https://skillety-n6r1.onrender.com/files/${resumeData.file}` : null,
+                    cv: resumeData.file ?resumeData.file : null,
                     currentDesignation: appliedCand.designation ? appliedCand.designation[0] : '',
                     currentCompany: appliedCand.companyName,
                     currentLocation: appliedCand.location,
@@ -8125,6 +8119,123 @@ const deleteClientLogo = async (req, res) => {
   }
 };
 
+/* candidate detail bulk upload */
+const candidateDetailUpload = async(req, res) => {
+  try{
+    const {candidateDetailArray} = req.body;
+    const createBulkCandidates = candidateDetailArray.map(async(candidateDetail)=>{
+      const updatedDetail = {
+        firstName:candidateDetail.FullName ? (candidateDetail.FullName.includes(" ") ? candidateDetail.FullName.substring(0, candidateDetail.FullName.indexOf(" ")) : candidateDetail.FullName) : "not-specified",
+        lastName:candidateDetail.FullName ? (candidateDetail.FullName.includes(" ") ? candidateDetail.FullName.substring(candidateDetail.FullName.indexOf(" ") + 1) : "") : "not-specified",
+        phone:candidateDetail.MobileNo ? candidateDetail.MobileNo : "0",
+        email:candidateDetail.Email ? candidateDetail.Email : "not-specified",
+        location:candidateDetail.CityState ? candidateDetail.CityState : "not-specified",
+        education:candidateDetail.Qualification ? candidateDetail.Qualification.split(',') : ["not-specified"],
+        year:candidateDetail.Experience ? parseInt(candidateDetail.Experience) : 0,
+        month:0,
+        companyName:candidateDetail.CurrentEmployer ? candidateDetail.CurrentEmployer : "not-specified",
+        designation:candidateDetail.CurrentDesignation ? [candidateDetail.CurrentDesignation] : ["not-specified"],
+        skills:candidateDetail.Tags ? candidateDetail.Tags.split(', ') : ["not-specified"],
+        days:"not-specified",
+        password:"not-specified",
+        currencyType:"not-specified",
+        minSalary:"not-specified",
+        maxSalary:"not-specified",
+        preferedlocations:["not-specified"],
+        profileHeadline:"not-specified",
+        college:"not-specified",
+        id:uuidv4(),
+        role:"Candidate",
+        gender:"not-specified",
+        activeIn:new Date()
+      }
+
+      const newCand = new candidate(updatedDetail);
+      await newCand.save();
+    })
+
+    await Promise.all(createBulkCandidates);
+
+    res.status(200).json({ message: 'Candidates saved successfully' });
+    
+  }catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+}
+
+/* client detail upload */
+const clientDetailUpload = async (req, res) => {
+  try {
+    const { clientDetailArray } = req.body;
+
+    const createBulkClients = clientDetailArray.map(async (clientDetail) => {
+      const updatedDetail = {
+        name: clientDetail.ClientName ? clientDetail.ClientName : "not-specified",
+        email: clientDetail.ContactEmail ? clientDetail.ContactEmail : "not-specified",
+        industry: "not-specified",
+        count: 0,
+        companyName: clientDetail.CompanyName ? clientDetail.CompanyName : "not-specified",
+        text: "not-specified",
+        password: "not-specified",
+        id: uuidv4(),
+        companyId: uuidv4(),
+        role: "Client",
+        location: clientDetail.Location ? clientDetail.Location : "not-specified",
+        shortDescription: "not-specified",
+        longDescription: "not-specified",
+        mission: "not-specified",
+        vision: "not-specified",
+        benefits: ["not-specified"],
+        awards: ["not-specified"],
+        website: clientDetail.Website ? clientDetail.Website : "not-specified"
+      };
+
+      const newClient = new finalClient({
+        name:updatedDetail.name,
+        email:updatedDetail.email,
+        industry:updatedDetail.industry,
+        count:updatedDetail.count,
+        companyName:updatedDetail.companyName,
+        text:updatedDetail.text,
+        password:updatedDetail.password,
+        id:updatedDetail.id,
+        companyId:updatedDetail.companyId,
+        role:updatedDetail.role
+      });
+
+      await newClient.save();
+
+      const newCompany = new  companyDetail({
+        email:updatedDetail.email,
+        industry:updatedDetail.industry,
+        count:updatedDetail.count,
+        companyName:updatedDetail.companyName,
+        companyId:updatedDetail.companyId,
+        location:updatedDetail.location,
+        shortDescription:updatedDetail.shortDescription,
+        longDescription:updatedDetail.longDescription,
+        mission:updatedDetail.mission,
+        vision:updatedDetail.vision,
+        benefits:updatedDetail.benefits,
+        awards:updatedDetail.awards,
+        website:updatedDetail.website,
+
+      })
+
+      await newCompany.save();
+    });
+
+    await Promise.all(createBulkClients);
+
+    res.status(200).json({ message: 'Clients & Company Details saved successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error', error });
+  }
+};
+
+
 /**
  * @DESC To Login the user 
  */
@@ -8602,4 +8713,8 @@ module.exports = {
   getAllClientLogos,
   savingClientLogos,
   deleteClientLogo,
+
+
+  candidateDetailUpload,
+  clientDetailUpload,
 };

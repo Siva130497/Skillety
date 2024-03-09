@@ -3,8 +3,9 @@ import AuthContext from '../context/AuthContext';
 import axios from 'axios';
 import { auth } from '../firebase/firebaseConfig';
 import { useNavigate } from 'react-router-dom';
+import { io } from "socket.io-client";
 
-const NavBar = ({ notification, socket }) => {
+const NavBar = ({ notification }) => {
   const navigate = useNavigate()
   const [candToken, setCandToken] = useState("");
   const token = JSON.parse(localStorage.getItem('candidateToken'));
@@ -13,9 +14,24 @@ const NavBar = ({ notification, socket }) => {
   const [candidateImg, setCandidateImg] = useState();
   const [candidateImgUrl, setCandidateImgUrl] = useState("")
   const [loginCandidate, setLoginCandidate] = useState();
+  const [socket, setSocket] = useState(null);
 
   const [userName, setUserName] = useState('');
   const [notifications, setNotifications] = useState([]);
+
+  // useEffect(() => {
+  //   setSocket(io("https://skillety-n6r1.onrender.com"));
+  // }, []);
+
+  // useEffect(() => {
+
+  //   socket?.on("getNotification", data => {
+  //     console.log(data)
+  //     setNotifications(prev => [...prev, data]);
+      
+  //   })
+
+  // }, [socket]);
 
   useEffect(() => {
     if(notification?.length>0){
@@ -32,10 +48,15 @@ const NavBar = ({ notification, socket }) => {
         }
       }).then(res => {
         console.log(res.data);
-        navigate(redirect);
+        
+        if(window.location.pathname === redirect){
+          const unReadNotifications = notifications.filter(notific=>notific.id !== notificationIdArray[0]);
+          setNotifications(unReadNotifications);
+        }else{
+          navigate(redirect);
+        }
+        
       }).catch(err => console.log(err));
-    } else {
-      navigate(redirect);
     }
   };
 
@@ -68,8 +89,8 @@ const NavBar = ({ notification, socket }) => {
   const handleClearNotifications = () => {
     
     const notificationIdArray = notifications.map(notific => notific.id)
-    if(notifications?.length>0 && notificationIdArray){
-      axios.patch("https://skillety-n6r1.onrender.com/read-notification", notificationIdArray, {
+    if(notifications?.length>0 && notificationIdArray.length>0){
+      axios.patch("https://skillety-n6r1.onrender.com/read-notification", {notificationIdArray}, {
         headers: {
           Authorization: `Bearer ${token}`,
           Accept: 'application/json'
@@ -82,8 +103,6 @@ const NavBar = ({ notification, socket }) => {
       .catch(err=>{
         console.log(err)
       })
-    }else{
-      setNotifications([]);
     }
 
   }
@@ -260,9 +279,9 @@ const NavBar = ({ notification, socket }) => {
               )}
             </div>
 
-            {notifications?.length>0 && <div className="dropdown-footer notification-dropdown-footer text-center">
+            {notifications?.length>0 && <div className="dropdown-footer notification-dropdown-footer text-center"
+            onClick={handleClearNotifications}>
               <a className='drp-dwn-view-all-btn'
-                onClick={handleClearNotifications}
               >Mark All As Read.
                 <i class="bi bi-chevron-right ml-3"></i>
               </a>

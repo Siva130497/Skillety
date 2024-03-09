@@ -19,13 +19,14 @@ router.post("/designations", async (req, res) => {
   try {
       const savedDesignation = await Promise.all(designationArray.map(async (designationString) => {
         //   const lowercaseDesignationString = designationString.toLowerCase();
-          const existingDesignation = await designation.findOne({ designation: designationString });
+            
+          const existingDesignation = await designation.findOne({ designation: designationString.trim() });
 
           if (existingDesignation) {
               return existingDesignation;
           }
 
-          const postDesignation = new designation({ designation: designationString });
+          const postDesignation = new designation({ designation: designationString.trim() });
           return await postDesignation.save();
       }));
 

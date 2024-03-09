@@ -8,7 +8,6 @@ const finalClient = new Schema(
     },
     email: {
       type: String,
-      unique : true,
       required: true
     },
     industry: {
@@ -18,9 +17,7 @@ const finalClient = new Schema(
       }
     },
     phone: {
-      type: Number,
-      unique : true,
-      required: true
+      type: Number
     },
     count: {
         type: Number,

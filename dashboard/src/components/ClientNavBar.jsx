@@ -107,10 +107,15 @@ const ClientNavBar = ({ notification }) => {
         }
       }).then(res => {
         console.log(res.data);
-        navigate(redirect);
+        
+        if(window.location.pathname === redirect){
+          const unReadNotifications = notifications.filter(notific=>notific.id !== notificationIdArray[0]);
+          setNotifications(unReadNotifications);
+        }else{
+          navigate(redirect);
+        }
+        
       }).catch(err => console.log(err));
-    } else {
-      navigate(redirect);
     }
   };
 
@@ -144,7 +149,7 @@ const ClientNavBar = ({ notification }) => {
     
     const notificationIdArray = notifications.map(notific => notific.id)
     if(notifications?.length>0){
-      axios.patch("https://skillety-n6r1.onrender.com/read-notification", notificationIdArray, {
+      axios.patch("https://skillety-n6r1.onrender.com/read-notification", {notificationIdArray}, {
         headers: {
           Authorization: `Bearer ${token}`,
           Accept: 'application/json'
@@ -235,7 +240,7 @@ const ClientNavBar = ({ notification }) => {
 
   useEffect(() => {
     if (clientImg) {
-      setClientImgUrl(`https://skillety-n6r1.onrender.com/client_profile/${clientImg.image}`)
+      setClientImgUrl(`data:image/jpeg;base64,${clientImg.image}`)
     }
 
   }, [clientImg]);

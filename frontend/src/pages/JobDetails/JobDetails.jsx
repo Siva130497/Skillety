@@ -329,7 +329,7 @@ const JobDetails = () => {
                                 <img
                                   src={
                                     companyImg
-                                      ? `https://skillety-n6r1.onrender.com/client_profile/${companyImg.image}`
+                                      ? `data:image/jpeg;base64,${companyImg.image}`
                                       : "../assets/img/talents-images/avatar.jpg"
                                   }
                                   className="dash-job-det-card-img"

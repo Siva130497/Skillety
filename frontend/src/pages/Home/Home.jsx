@@ -257,24 +257,26 @@ const Home = () => {
     setSearchinput(inputValue);
 
     if (inputValue.length > 0) {
-      const skills = skillArray.filter((obj) => {
+      const skillsObj = skillArray.filter((obj) => {
         return obj.skill.toLowerCase().includes(inputValue.toLowerCase());
-      });
+    });
 
-      const jobRoles = jobRoleArray.filter((obj) => {
+    const jobRolesObj = jobRoleArray.filter((obj) => {
         return obj.designation.toLowerCase().includes(inputValue.toLowerCase());
-      });
+    });
 
-      const combinedResults = [...skills, ...jobRoles];
+    const skills = skillsObj.map(skill=>skill.skill);
+    const jobRoles = jobRolesObj.map(jobRole=>jobRole.designation);
 
-      const uniqueResults = combinedResults.filter((item, index, self) =>
-            index === self.findIndex((t) => (
-                t.id === item.id
-            ))
-        );
+    function combineArraysUnique(arr1, arr2) {
+        const combinedSet = new Set([...arr1, ...arr2]);
+        return Array.from(combinedSet);
+    }
+    
+    const combinedResults = combineArraysUnique(skills, jobRoles);
 
-            if (uniqueResults.length > 0) {
-                setFilteredList(uniqueResults);
+            if (combinedResults.length > 0) {
+                setFilteredList(combinedResults);
             } else {
                 setFilteredList([]);
             }
@@ -357,13 +359,13 @@ const Home = () => {
 
                   <div className='home-search-result-data-area client'>
                     {filteredList.length > 0 &&
-                      filteredList.map((filterResult) => (
+                      filteredList.map((filterResult, index) => (
                         <div
                           className='home-search-result-data client'
-                          key={filterResult._id}
-                          onClick={() => handleFilteredClick(filterResult.designation || filterResult.skill)}
+                          key={index}
+                          onClick={() => handleFilteredClick(filterResult)}
                         >
-                          {filterResult.designation ? filterResult.designation : filterResult.skill}
+                          {filterResult}
                         </div>
                       ))}
                   </div>
@@ -1022,7 +1024,7 @@ const Home = () => {
             }}
 
           >
-            {candidateDetail.map((candidate) => {
+            {candidateDetail.slice(0,10).map((candidate) => {
               const matchingImg = candidateImg ? candidateImg.find(img => img.id === candidate.id) : null;
               const imgSrc = matchingImg ? (matchingImg.image.startsWith('https') ? matchingImg.image : `data:image/jpeg;base64,${matchingImg.image}`) : "assets/img/talents-images/avatar.jpg";
               return (
@@ -1057,7 +1059,7 @@ const Home = () => {
                     </div>
                     <div className='candidate--skills'>
                       Skills&nbsp;:&nbsp;
-                      <span>Javascript</span>,
+                      <span>{candidate.skills.join(", ")}</span>
                     </div>
                     <div className="candidate--desc-area">
                       <p>{candidate.profileHeadline}</p>
@@ -1083,7 +1085,7 @@ const Home = () => {
                         </div>
                       </div>
                     </div> */}
-                    <a href={clientToken ? `/talents/${candidate.id}` : "/client-login"} className="candidate--arrow-icon">
+                    <a href="##" className="candidate--arrow-icon">
                       <img src="assets/img/home-images/arrow-dark.png" alt="" />
                     </a>
                     <div className="candidate-blob"></div>
