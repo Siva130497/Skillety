@@ -74,6 +74,15 @@ const PackagePlans = () => {
         }
       );
 
+      $(".test-btn-area").hover(
+        function () {
+          $(".test-info-area").addClass("hovered");
+        },
+        function () {
+          $(".test-info-area").removeClass("hovered");
+        }
+      );
+
       $(".professional-btn-area").hover(
         function () {
           $(".professional-info-area").addClass("hovered");
@@ -320,8 +329,8 @@ const PackagePlans = () => {
 
                         <div className="packages--area tab-content">
                           <div className="plan--detail-area tab" id="tab1">
-                            <div className="row">
-                              <div className="col-12 col-xl-3 col-lg-3 col-md-3 custom-width">
+                            <div className="row package-row">
+                              <div className="col-12 col-xl-2 col-lg-2 col-md-2 custom-width">
                                 <div className="pl--package-title-area">
                                   <div className="pl--package-head-area">
                                     <img
@@ -341,41 +350,36 @@ const PackagePlans = () => {
 
                                     <div>
                                       <h6 className="pl--package-title">
-                                        Job Postings
+                                        Login ID
                                       </h6>
                                     </div>
 
                                     <div>
                                       <h6 className="pl--package-title">
-                                        Mass Mailers
+                                        Active Jobs
                                       </h6>
                                     </div>
 
                                     <div>
                                       <h6 className="pl--package-title">
-                                        Login IDs
+                                        Validity in Days
                                       </h6>
                                     </div>
 
-                                    <div>
+                                    {/* <div>
                                       <h6 className="pl--package-title">
                                         <span className="with-bg">Total</span>
+                                        Real Price
                                       </h6>
-                                    </div>
+                                    </div> */}
 
                                     <div>
                                       <h6 className="pl--package-title">
-                                        Early Bird Discount
+                                        Inaugural Offer Price
                                       </h6>
                                     </div>
 
-                                    <div>
-                                      <h6 className="pl--package-title">
-                                        Discounted Price
-                                      </h6>
-                                    </div>
-
-                                    <div>
+                                    <div className="pt-4">
                                       <h6 className="pl--package-title">
                                         <span className="with-bg">GST</span>
                                       </h6>
@@ -383,43 +387,40 @@ const PackagePlans = () => {
 
                                     <div>
                                       <h6 className="pl--package-title">
-                                        Total Amount
+                                        <b>Total Amount</b>
                                       </h6>
                                     </div>
                                   </div>
                                 </div>
                               </div>
-                              <div className="col-12 col-xl-3 col-lg-3 col-md-3 custom-width1">
-                                <div className="pl--package-detail-area">
+
+                              <div className="col-12 col-xl-2 col-lg-2 col-md-2 custom-width1">
+                                <div className={packageType === "Micro" ? "pl--package-detail-area active" : "pl--package-detail-area"}>
                                   <div
-                                    className={
-                                      packageType === "Micro"
-                                        ? "pl--package-info-area active starter-info-area"
-                                        : "pl--package-info-area starter-info-area"
-                                    }
+                                    className={`pl--package-info-area test-info-area ${packageType === "Micro" ? "active" : ""}`}
                                   >
                                     <img
                                       src="../assets/img/packages/Starter.png"
                                       className="pl--package-img"
                                       alt=""
                                     />
-                                    <h5 className="pl--package-name">MICRO</h5>
+                                    <h5 className="pl--package-name">TEST</h5>
 
                                     <div className="pl--package-mobile-flex">
                                       <h6 className="pl--package-mobile-title">
                                         CV Views
                                       </h6>
                                       <h6 className="pl--package-info">
-                                        5,000
+                                        20
                                       </h6>
                                     </div>
 
                                     <div className="pl--package-mobile-flex">
                                       <h6 className="pl--package-mobile-title">
-                                        Job Postings
+                                        Login ID
                                       </h6>
                                       <h6 className="pl--package-info">
-                                        UNLIMITED
+                                        01
                                       </h6>
                                     </div>
 
@@ -430,35 +431,36 @@ const PackagePlans = () => {
 
                                     <div className="pl--package-mobile-flex">
                                       <h6 className="pl--package-mobile-title">
-                                        Login IDs
+                                        Active Jobs
                                       </h6>
                                       <h6 className="pl--package-info">01</h6>
                                     </div>
 
                                     <div className="pl--package-mobile-flex">
                                       <h6 className="pl--package-mobile-title">
-                                        Total
+                                        Validity in Days
                                       </h6>
                                       <h6 className="pl--package-info">
-                                        Rs. 27,800
+                                        01
                                       </h6>
                                     </div>
 
-                                    <div className="pl--package-mobile-flex">
+                                    {/* <div className="pl--package-mobile-flex">
                                       <h6 className="pl--package-mobile-title">
-                                        Early Bird Discount
+                                        Real Price
                                       </h6>
-                                      <h6 className="pl--package-info">
-                                        Rs. 0
+                                      <h6 className="pl--package-info line-through">
+                                        INR 1,200
                                       </h6>
-                                    </div>
+                                    </div> */}
 
                                     <div className="pl--package-mobile-flex">
                                       <h6 className="pl--package-mobile-title">
-                                        Discounted Price
+                                        Inaugural Offer Price
                                       </h6>
                                       <h6 className="pl--package-info">
-                                        Rs. 27,800
+                                        <span className="line-through">INR 1,200</span><br />
+                                        INR 199
                                       </h6>
                                     </div>
 
@@ -467,16 +469,145 @@ const PackagePlans = () => {
                                         GST
                                       </h6>
                                       <h6 className="pl--package-info">
-                                        Rs. 5,004
+                                        18%
                                       </h6>
                                     </div>
 
                                     <div className="pl--package-mobile-flex">
                                       <h6 className="pl--package-mobile-title">
-                                        Total Amount
+                                        <b>Total Amount</b>
                                       </h6>
                                       <h6 className="pl--package-info">
-                                        Rs. 32,804
+                                        <b>INR 234.82</b>
+                                      </h6>
+                                    </div>
+                                  </div>
+
+                                  {packageType !== "Micro" && (
+                                    <div className="pl--package-btn-area test-btn-area">
+                                      <button
+                                        className="pl--package-btn-sub buy-now"
+                                        onClick={handleBuyMicro}
+                                      >
+                                        <div className="pl--package-btn buy-now">
+                                          Buy Now
+                                        </div>
+                                        <div className="pl--package-arrow-area buy-now pkg">
+                                          <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            width="20"
+                                            height="20"
+                                            viewBox="0 0 27 27"
+                                            fill="none"
+                                          >
+                                            <path
+                                              d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832"
+                                              stroke="white"
+                                              stroke-width="2"
+                                            />
+                                            <path
+                                              d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162"
+                                              stroke="white"
+                                              stroke-width="2"
+                                            />
+                                            <path
+                                              d="M1 26L25.1667 1"
+                                              stroke="white"
+                                              stroke-width="2"
+                                            />
+                                          </svg>
+                                        </div>
+                                      </button>
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+
+                              <div className="col-12 col-xl-2 col-lg-2 col-md-2 custom-width1">
+                                <div className={packageType === "Micro" ? "pl--package-detail-area active" : "pl--package-detail-area"}>
+                                  <div
+                                    className={`pl--package-info-area starter-info-area ${packageType === "Micro" ? "active" : ""}`}
+                                  >
+                                    <img
+                                      src="../assets/img/packages/Starter.png"
+                                      className="pl--package-img"
+                                      alt=""
+                                    />
+                                    <h5 className="pl--package-name">START</h5>
+
+                                    <div className="pl--package-mobile-flex">
+                                      <h6 className="pl--package-mobile-title">
+                                        CV Views
+                                      </h6>
+                                      <h6 className="pl--package-info">
+                                        100
+                                      </h6>
+                                    </div>
+
+                                    <div className="pl--package-mobile-flex">
+                                      <h6 className="pl--package-mobile-title">
+                                        Login ID
+                                      </h6>
+                                      <h6 className="pl--package-info">
+                                        01
+                                      </h6>
+                                    </div>
+
+                                    {/* <div className='pl--package-mobile-flex'>
+                                                                        <h6 className='pl--package-mobile-title'>Mass Mailers</h6>
+                                                                        <h6 className='pl--package-info'>10,000</h6>
+                                                                    </div> */}
+
+                                    <div className="pl--package-mobile-flex">
+                                      <h6 className="pl--package-mobile-title">
+                                        Active Jobs
+                                      </h6>
+                                      <h6 className="pl--package-info">05</h6>
+                                    </div>
+
+                                    <div className="pl--package-mobile-flex">
+                                      <h6 className="pl--package-mobile-title">
+                                        Validity in Days
+                                      </h6>
+                                      <h6 className="pl--package-info">
+                                        07
+                                      </h6>
+                                    </div>
+
+                                    {/* <div className="pl--package-mobile-flex">
+                                      <h6 className="pl--package-mobile-title">
+                                        Real Price
+                                      </h6>
+                                      <h6 className="pl--package-info line-through">
+                                        INR 2,000
+                                      </h6>
+                                    </div> */}
+
+                                    <div className="pl--package-mobile-flex">
+                                      <h6 className="pl--package-mobile-title">
+                                        Inaugural Offer Price
+                                      </h6>
+                                      <h6 className="pl--package-info">
+                                        <span className="line-through">INR 2,000</span><br />
+                                        INR 999
+                                      </h6>
+                                    </div>
+
+                                    <div className="pl--package-mobile-flex">
+                                      <h6 className="pl--package-mobile-title">
+                                        GST
+                                      </h6>
+                                      <h6 className="pl--package-info">
+                                        18%
+                                      </h6>
+                                    </div>
+
+                                    <div className="pl--package-mobile-flex">
+                                      <h6 className="pl--package-mobile-title">
+                                        <b>Total Amount</b>
+                                      </h6>
+                                      <h6 className="pl--package-info">
+                                        <b>INR 1,178.82</b>
                                       </h6>
                                     </div>
                                   </div>
@@ -490,7 +621,7 @@ const PackagePlans = () => {
                                         <div className="pl--package-btn buy-now">
                                           Buy Now
                                         </div>
-                                        <div className="pl--package-arrow-area buy-now">
+                                        <div className="pl--package-arrow-area buy-now pkg">
                                           <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             width="20"
@@ -520,37 +651,34 @@ const PackagePlans = () => {
                                   )}
                                 </div>
                               </div>
-                              <div className="col-12 col-xl-3 col-lg-3 col-md-3 custom-width1">
-                                <div className="pl--package-detail-area">
+
+                              <div className="col-12 col-xl-2 col-lg-2 col-md-2 custom-width1">
+                                <div className={packageType === "Small" ? "pl--package-detail-area active" : "pl--package-detail-area"}>
                                   <div
-                                    className={
-                                      packageType === "Small"
-                                        ? "pl--package-info-area active starter-info-area"
-                                        : "pl--package-info-area starter-info-area"
-                                    }
+                                    className={`pl--package-info-area professional-info-area ${packageType === "Small" ? "active" : ""}`}
                                   >
                                     <img
                                       src="../assets/img/packages/Professional.png"
                                       className="pl--package-img"
                                       alt=""
                                     />
-                                    <h5 className="pl--package-name">SMALL</h5>
+                                    <h5 className="pl--package-name">SCALE</h5>
 
                                     <div className="pl--package-mobile-flex">
                                       <h6 className="pl--package-mobile-title">
                                         CV Views
                                       </h6>
                                       <h6 className="pl--package-info">
-                                        20,000
+                                        300
                                       </h6>
                                     </div>
 
                                     <div className="pl--package-mobile-flex">
                                       <h6 className="pl--package-mobile-title">
-                                        Job Postings
+                                        Login ID
                                       </h6>
                                       <h6 className="pl--package-info">
-                                        UNLIMITED
+                                        01
                                       </h6>
                                     </div>
 
@@ -561,35 +689,36 @@ const PackagePlans = () => {
 
                                     <div className="pl--package-mobile-flex">
                                       <h6 className="pl--package-mobile-title">
-                                        Login IDs
+                                        Active Jobs
                                       </h6>
-                                      <h6 className="pl--package-info">02</h6>
+                                      <h6 className="pl--package-info">10</h6>
                                     </div>
 
                                     <div className="pl--package-mobile-flex">
                                       <h6 className="pl--package-mobile-title">
-                                        Total
+                                        Validity in Days
                                       </h6>
                                       <h6 className="pl--package-info">
-                                        Rs. 97,000
+                                        15
                                       </h6>
                                     </div>
 
-                                    <div className="pl--package-mobile-flex">
+                                    {/* <div className="pl--package-mobile-flex">
                                       <h6 className="pl--package-mobile-title">
-                                        Early Bird Discount
+                                        Real Price
                                       </h6>
-                                      <h6 className="pl--package-info">
-                                        Rs. 19,400
+                                      <h6 className="pl--package-info line-through">
+                                        INR 3,000
                                       </h6>
-                                    </div>
+                                    </div> */}
 
                                     <div className="pl--package-mobile-flex">
                                       <h6 className="pl--package-mobile-title">
-                                        Discounted Price
+                                        Inaugural Offer Price
                                       </h6>
                                       <h6 className="pl--package-info">
-                                        Rs. 77,600
+                                        <span className="line-through">INR 3,000</span><br />
+                                        INR 2,499
                                       </h6>
                                     </div>
 
@@ -598,16 +727,16 @@ const PackagePlans = () => {
                                         GST
                                       </h6>
                                       <h6 className="pl--package-info">
-                                        Rs. 13,968
+                                        18%
                                       </h6>
                                     </div>
 
                                     <div className="pl--package-mobile-flex">
                                       <h6 className="pl--package-mobile-title">
-                                        Total Amount
+                                        <b>Total Amount</b>
                                       </h6>
                                       <h6 className="pl--package-info">
-                                        Rs. 91,568
+                                        <b>INR 2,948.82</b>
                                       </h6>
                                     </div>
                                   </div>
@@ -621,7 +750,7 @@ const PackagePlans = () => {
                                         <div className="pl--package-btn buy-now">
                                           Buy Now
                                         </div>
-                                        <div className="pl--package-arrow-area buy-now">
+                                        <div className="pl--package-arrow-area buy-now pkg">
                                           <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             width="20"
@@ -651,37 +780,34 @@ const PackagePlans = () => {
                                   )}
                                 </div>
                               </div>
-                              <div className="col-12 col-xl-3 col-lg-3 col-md-3 custom-width1">
-                                <div className="pl--package-detail-area">
+
+                              <div className="col-12 col-xl-2 col-lg-2 col-md-2 custom-width1">
+                                <div className={packageType === "Large" ? "pl--package-detail-area active" : "pl--package-detail-area"}>
                                   <div
-                                    className={
-                                      packageType === "Large"
-                                        ? "pl--package-info-area active starter-info-area"
-                                        : "pl--package-info-area starter-info-area"
-                                    }
+                                    className={`pl--package-info-area premium-info-area ${packageType === "Large" ? "active" : ""}`}
                                   >
                                     <img
                                       src="../assets/img/packages/premium.png"
                                       className="pl--package-img"
                                       alt=""
                                     />
-                                    <h5 className="pl--package-name">LARGE</h5>
+                                    <h5 className="pl--package-name">GROW</h5>
 
                                     <div className="pl--package-mobile-flex">
                                       <h6 className="pl--package-mobile-title">
                                         CV Views
                                       </h6>
                                       <h6 className="pl--package-info">
-                                        40,000
+                                        700
                                       </h6>
                                     </div>
 
                                     <div className="pl--package-mobile-flex">
                                       <h6 className="pl--package-mobile-title">
-                                        Job Postings
+                                        Login ID
                                       </h6>
                                       <h6 className="pl--package-info">
-                                        UNLIMITED
+                                        01
                                       </h6>
                                     </div>
 
@@ -692,35 +818,36 @@ const PackagePlans = () => {
 
                                     <div className="pl--package-mobile-flex">
                                       <h6 className="pl--package-mobile-title">
-                                        Login IDs
+                                        Active Jobs
                                       </h6>
-                                      <h6 className="pl--package-info">04</h6>
+                                      <h6 className="pl--package-info">15</h6>
                                     </div>
 
                                     <div className="pl--package-mobile-flex">
                                       <h6 className="pl--package-mobile-title">
-                                        Total
+                                        Validity in Days
                                       </h6>
                                       <h6 className="pl--package-info">
-                                        Rs. 195,500
+                                        30
                                       </h6>
                                     </div>
 
-                                    <div className="pl--package-mobile-flex">
+                                    {/* <div className="pl--package-mobile-flex">
                                       <h6 className="pl--package-mobile-title">
-                                        Early Bird Discount
+                                        Real Price
                                       </h6>
-                                      <h6 className="pl--package-info">
-                                        Rs. 58,650
+                                      <h6 className="pl--package-info line-through">
+                                        INR 6,000
                                       </h6>
-                                    </div>
+                                    </div> */}
 
                                     <div className="pl--package-mobile-flex">
                                       <h6 className="pl--package-mobile-title">
-                                        Discounted Price
+                                        Inaugural Offer Price
                                       </h6>
                                       <h6 className="pl--package-info">
-                                        Rs. 136,850
+                                        <span className="line-through">INR 6,000</span><br />
+                                        INR 4,999
                                       </h6>
                                     </div>
 
@@ -729,16 +856,16 @@ const PackagePlans = () => {
                                         GST
                                       </h6>
                                       <h6 className="pl--package-info">
-                                        Rs. 24,633
+                                        18%
                                       </h6>
                                     </div>
 
                                     <div className="pl--package-mobile-flex">
                                       <h6 className="pl--package-mobile-title">
-                                        Total Amount
+                                        <b>Total Amount</b>
                                       </h6>
                                       <h6 className="pl--package-info">
-                                        Rs. 161,483
+                                        <b>INR 5,898.82</b>
                                       </h6>
                                     </div>
                                   </div>
@@ -752,7 +879,7 @@ const PackagePlans = () => {
                                         <div className="pl--package-btn buy-now">
                                           Buy Now
                                         </div>
-                                        <div className="pl--package-arrow-area buy-now">
+                                        <div className="pl--package-arrow-area buy-now pkg">
                                           <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             width="20"
@@ -802,7 +929,7 @@ const PackagePlans = () => {
                                   <div className="col-6">
                                     <div className="pl-package-detail-view-area">
                                       <div className="pl-package-detail-title">
-                                        MICRO
+                                        TEST
                                       </div>
                                       <button
                                         type="button"
@@ -820,25 +947,12 @@ const PackagePlans = () => {
                                 <div className="row pl-package-row">
                                   <div className="col-6">
                                     <div className="pl-package-detail-title">
-                                      Total
+                                      Real Price
                                     </div>
                                   </div>
                                   <div className="col-6">
-                                    <div className="pl-package-detail-title">
-                                      Rs. 27,800
-                                    </div>
-                                  </div>
-                                </div>
-
-                                <div className="row pl-package-row">
-                                  <div className="col-6">
-                                    <div className="pl-package-detail-title">
-                                      Early Bird Discount
-                                    </div>
-                                  </div>
-                                  <div className="col-6">
-                                    <div className="pl-package-detail-title">
-                                      Rs. 0
+                                    <div className="pl-package-detail-title line-through">
+                                      INR 1,200
                                     </div>
                                   </div>
                                 </div>
@@ -846,12 +960,12 @@ const PackagePlans = () => {
                                 <div className="row pl-package-row">
                                   <div className="col-6">
                                     <div className="pl-package-detail-title">
-                                      Discounted Price
+                                      Inaugural Offer Price
                                     </div>
                                   </div>
                                   <div className="col-6">
                                     <div className="pl-package-detail-title">
-                                      Rs. 0
+                                      INR 199
                                     </div>
                                   </div>
                                 </div>
@@ -864,7 +978,7 @@ const PackagePlans = () => {
                                   </div>
                                   <div className="col-6">
                                     <div className="pl-package-detail-title">
-                                      Rs. 5,004
+                                      INR 35.82
                                     </div>
                                   </div>
                                 </div>
@@ -877,7 +991,7 @@ const PackagePlans = () => {
                                   </div>
                                   <div className="col-6">
                                     <div className="pl-package-detail-title">
-                                      Rs. 32,804
+                                      INR 234.82
                                     </div>
                                   </div>
                                 </div>
@@ -1023,7 +1137,7 @@ const PackagePlans = () => {
                               className="modal-title pl-pack-det-modal-head"
                               id="exampleModalLabel"
                             >
-                              Package : <span>MICRO</span>
+                              Package : <span>TEST</span>
                             </h5>
                             <a
                               href="#"
@@ -1045,39 +1159,39 @@ const PackagePlans = () => {
                                     <tr className="pl-pack-det-table-row-head">
                                       <th>Includes</th>
                                       <th className="text-center">Quantity</th>
-                                      <th className="text-right">
+                                      {/* <th className="text-right">
                                         Price (Rs.)
-                                      </th>
+                                      </th> */}
                                     </tr>
                                   </thead>
                                   <tbody>
                                     <tr className="pl-pack-det-table-row">
                                       <td>CV Views</td>
-                                      <td className="text-center">5,000</td>
-                                      <td className="text-right">20,000</td>
+                                      <td className="text-center">20</td>
+                                      {/* <td className="text-right">20,000</td> */}
                                     </tr>
                                     <tr className="pl-pack-det-table-row">
-                                      <td>Job Postings</td>
-                                      <td className="text-center">10</td>
-                                      <td className="text-right">300</td>
-                                    </tr>
-                                    <tr className="pl-pack-det-table-row">
-                                      <td>Mass Mailers</td>
-                                      <td className="text-center">10,000</td>
-                                      <td className="text-right">2,500</td>
-                                    </tr>
-                                    <tr className="pl-pack-det-table-row">
-                                      <td>Login IDs</td>
+                                      <td>Login ID</td>
                                       <td className="text-center">01</td>
-                                      <td className="text-right">5,000</td>
+                                      {/* <td className="text-right">300</td> */}
+                                    </tr>
+                                    <tr className="pl-pack-det-table-row">
+                                      <td>Active Jobs</td>
+                                      <td className="text-center">01</td>
+                                      {/* <td className="text-right">2,500</td> */}
+                                    </tr>
+                                    <tr className="pl-pack-det-table-row">
+                                      <td>Validity in Days</td>
+                                      <td className="text-center">01</td>
+                                      {/* <td className="text-right">5,000</td> */}
                                     </tr>
                                   </tbody>
-                                  <tfoot>
+                                  {/* <tfoot>
                                     <tr className="pl-pack-det-table-row-head">
                                       <th colSpan={2}>Total</th>
                                       <th className="text-right">27,800</th>
                                     </tr>
-                                  </tfoot>
+                                  </tfoot> */}
                                 </table>
                               </div>
                             </div>
@@ -1101,7 +1215,7 @@ const PackagePlans = () => {
                         <p className="term-con">
                           By clicking on the Buy Now you are agreeing to
                           the&nbsp;
-                          <a href="#">Terms & Conditions</a>
+                          <a href="/terms-and-conditions" target="_blank">Terms & Conditions</a>
                         </p>
 
                         <p className="term-con mt-4 font-14">
@@ -1112,9 +1226,9 @@ const PackagePlans = () => {
                           Sales guys, who would be happy to help.{" "}
                         </p>
                       </div>
-                      <div className="sol-price-area">
+                      <div className="sol-price-area mb-5">
                         <h5 className="sol-price-heading">
-                          SKILLETY SOLUTIONS PRICES
+                          SKILLETY SERVICES PRICES
                         </h5>
 
                         <div className="table-responsive">
@@ -1122,16 +1236,16 @@ const PackagePlans = () => {
                             <thead>
                               <tr className="sol-price-table-head-row">
                                 <th className="sol-price-table-head text-start">
-                                  Solutions
+                                  Services
                                 </th>
                                 <th className="sol-price-table-head text-center">
-                                  Unit Price (Rs.)
+                                  Quantity
                                 </th>
                                 <th className="sol-price-table-head text-center">
                                   Select Quantity
                                 </th>
                                 <th className="sol-price-table-head text-center">
-                                  Total Price (Rs.)
+                                  Total Price (INR)
                                 </th>
                                 <th className="sol-price-table-head text-center"></th>
                               </tr>
@@ -1140,10 +1254,10 @@ const PackagePlans = () => {
                             <tbody>
                               <tr className="sol-price-table-row">
                                 <td className="sol-price-table-data first-data text-start">
-                                  Screening calls by Bot
+                                  CV Views
                                 </td>
                                 <td className="sol-price-table-data text-center">
-                                  1.5
+                                  5000
                                 </td>
                                 <td className="sol-price-table-data text-center sol-price-table-qty-area">
                                   <button className="sol-price-table-qty-button decrement">
@@ -1198,10 +1312,10 @@ const PackagePlans = () => {
 
                               <tr className="sol-price-table-row">
                                 <td className="sol-price-table-data first-data text-start">
-                                  Assessments
+                                  Login IDs
                                 </td>
                                 <td className="sol-price-table-data text-center">
-                                  120
+                                  05
                                 </td>
                                 <td className="sol-price-table-data text-center sol-price-table-qty-area">
                                   <button className="sol-price-table-qty-button decrement">
@@ -1256,10 +1370,10 @@ const PackagePlans = () => {
 
                               <tr className="sol-price-table-row">
                                 <td className="sol-price-table-data first-data text-start">
-                                  Interviews (0-8 yrs)
+                                  Job Postings
                                 </td>
                                 <td className="sol-price-table-data text-center">
-                                  1500
+                                  0
                                 </td>
                                 <td className="sol-price-table-data text-center sol-price-table-qty-area">
                                   <button className="sol-price-table-qty-button decrement">
@@ -1313,10 +1427,217 @@ const PackagePlans = () => {
 
                               <tr className="sol-price-table-row">
                                 <td className="sol-price-table-data first-data text-start">
-                                  Interviews (8.1-15 yrs)
+                                  Validity (in months)
                                 </td>
                                 <td className="sol-price-table-data text-center">
-                                  2000
+                                  03
+                                </td>
+                                <td className="sol-price-table-data text-center sol-price-table-qty-area">
+                                  <button className="sol-price-table-qty-button decrement">
+                                    -
+                                  </button>
+                                  <input
+                                    type="number"
+                                    className="sol-price-table-qty-input"
+                                    min={0}
+                                  />
+                                  <button className="sol-price-table-qty-button increment">
+                                    +
+                                  </button>
+                                </td>
+                                <td className="sol-price-table-data price text-center">
+                                  0
+                                </td>
+                                <td className="text-center last-data sol-price-buy-now-btn-area">
+                                  <button className="sol-price-buy-now-btn">
+                                    <div className="sol-price-buy-now-btn-sub">
+                                      Buy Now
+                                    </div>
+                                    <div className="sol-price-buy-now-arrow-area">
+                                      <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="20"
+                                        height="20"
+                                        viewBox="0 0 27 27"
+                                        fill="none"
+                                      >
+                                        <path
+                                          d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832"
+                                          stroke="#714F36"
+                                          stroke-width="2"
+                                        />
+                                        <path
+                                          d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162"
+                                          stroke="#714F36"
+                                          stroke-width="2"
+                                        />
+                                        <path
+                                          d="M1 26L25.1667 1"
+                                          stroke="#714F36"
+                                          stroke-width="2"
+                                        />
+                                      </svg>
+                                    </div>
+                                  </button>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+
+                        {/* <h6 className="sol-price-information">
+                          Beyond this, please contact the Sales department.
+                        </h6> */}
+                      </div>
+
+                      <div className="sol-price-area">
+                        <h5 className="sol-price-heading">
+                          SKILLETY VALUE ADDED SERVICES PRICES
+                        </h5>
+
+                        <div className="table-responsive">
+                          <table className="table sol-price-table">
+                            <thead>
+                              <tr className="sol-price-table-head-row">
+                                <th className="sol-price-table-head text-start">
+                                  Value Added Services
+                                </th>
+                                <th className="sol-price-table-head text-center">
+                                  Quantity
+                                </th>
+                                <th className="sol-price-table-head text-center">
+                                  Select Quantity
+                                </th>
+                                <th className="sol-price-table-head text-center">
+                                  Total Price (INR)
+                                </th>
+                                <th className="sol-price-table-head text-center"></th>
+                              </tr>
+                            </thead>
+
+                            <tbody>
+                              <tr className="sol-price-table-row">
+                                <td className="sol-price-table-data first-data text-start">
+                                  Online Technical Assessment
+                                </td>
+                                <td className="sol-price-table-data text-center">
+                                  0
+                                </td>
+                                <td className="sol-price-table-data text-center sol-price-table-qty-area">
+                                  <button className="sol-price-table-qty-button decrement">
+                                    -
+                                  </button>
+                                  <input
+                                    type="number"
+                                    className="sol-price-table-qty-input"
+                                    min={0}
+                                    value={20}
+                                  />
+                                  <button className="sol-price-table-qty-button increment">
+                                    +
+                                  </button>
+                                </td>
+                                <td className="sol-price-table-data price text-center">
+                                  0
+                                </td>
+                                <td className="text-center last-data sol-price-buy-now-btn-area">
+                                  <button className="sol-price-buy-now-btn">
+                                    <div className="sol-price-buy-now-btn-sub">
+                                      Buy Now
+                                    </div>
+                                    <div className="sol-price-buy-now-arrow-area">
+                                      <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="20"
+                                        height="20"
+                                        viewBox="0 0 27 27"
+                                        fill="none"
+                                      >
+                                        <path
+                                          d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832"
+                                          stroke="#714F36"
+                                          stroke-width="2"
+                                        />
+                                        <path
+                                          d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162"
+                                          stroke="#714F36"
+                                          stroke-width="2"
+                                        />
+                                        <path
+                                          d="M1 26L25.1667 1"
+                                          stroke="#714F36"
+                                          stroke-width="2"
+                                        />
+                                      </svg>
+                                    </div>
+                                  </button>
+                                </td>
+                              </tr>
+
+                              <tr className="sol-price-table-row">
+                                <td className="sol-price-table-data first-data text-start">
+                                  L1 Interview (0-8 yrs)
+                                </td>
+                                <td className="sol-price-table-data text-center">
+                                  0
+                                </td>
+                                <td className="sol-price-table-data text-center sol-price-table-qty-area">
+                                  <button className="sol-price-table-qty-button decrement">
+                                    -
+                                  </button>
+                                  <input
+                                    type="number"
+                                    className="sol-price-table-qty-input"
+                                    min={0}
+                                    value={20}
+                                  />
+                                  <button className="sol-price-table-qty-button increment">
+                                    +
+                                  </button>
+                                </td>
+                                <td className="sol-price-table-data price text-center">
+                                  0
+                                </td>
+                                <td className="text-center last-data sol-price-buy-now-btn-area">
+                                  <button className="sol-price-buy-now-btn">
+                                    <div className="sol-price-buy-now-btn-sub">
+                                      Buy Now
+                                    </div>
+                                    <div className="sol-price-buy-now-arrow-area">
+                                      <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="20"
+                                        height="20"
+                                        viewBox="0 0 27 27"
+                                        fill="none"
+                                      >
+                                        <path
+                                          d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832"
+                                          stroke="#714F36"
+                                          stroke-width="2"
+                                        />
+                                        <path
+                                          d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162"
+                                          stroke="#714F36"
+                                          stroke-width="2"
+                                        />
+                                        <path
+                                          d="M1 26L25.1667 1"
+                                          stroke="#714F36"
+                                          stroke-width="2"
+                                        />
+                                      </svg>
+                                    </div>
+                                  </button>
+                                </td>
+                              </tr>
+
+                              <tr className="sol-price-table-row">
+                                <td className="sol-price-table-data first-data text-start">
+                                  L1 Interview (8-15 yrs)
+                                </td>
+                                <td className="sol-price-table-data text-center">
+                                  0
                                 </td>
                                 <td className="sol-price-table-data text-center sol-price-table-qty-area">
                                   <button className="sol-price-table-qty-button decrement">
@@ -1370,10 +1691,10 @@ const PackagePlans = () => {
 
                               <tr className="sol-price-table-row">
                                 <td className="sol-price-table-data first-data text-start">
-                                  Interviews (>15 yrs)
+                                  L1 Interview (>15 yrs)
                                 </td>
                                 <td className="sol-price-table-data text-center">
-                                  2500
+                                  0
                                 </td>
                                 <td className="sol-price-table-data text-center sol-price-table-qty-area">
                                   <button className="sol-price-table-qty-button decrement">
@@ -1427,67 +1748,10 @@ const PackagePlans = () => {
 
                               <tr className="sol-price-table-row">
                                 <td className="sol-price-table-data first-data text-start">
-                                  BGV Lite
+                                  BGV Comprehensive
                                 </td>
                                 <td className="sol-price-table-data text-center">
-                                  1250
-                                </td>
-                                <td className="sol-price-table-data text-center sol-price-table-qty-area">
-                                  <button className="sol-price-table-qty-button decrement">
-                                    -
-                                  </button>
-                                  <input
-                                    type="number"
-                                    className="sol-price-table-qty-input"
-                                    min={0}
-                                  />
-                                  <button className="sol-price-table-qty-button increment">
-                                    +
-                                  </button>
-                                </td>
-                                <td className="sol-price-table-data price text-center">
-                                  0
-                                </td>
-                                <td className="text-center last-data sol-price-buy-now-btn-area">
-                                  <button className="sol-price-buy-now-btn">
-                                    <div className="sol-price-buy-now-btn-sub">
-                                      Buy Now
-                                    </div>
-                                    <div className="sol-price-buy-now-arrow-area">
-                                      <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        width="20"
-                                        height="20"
-                                        viewBox="0 0 27 27"
-                                        fill="none"
-                                      >
-                                        <path
-                                          d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832"
-                                          stroke="#714F36"
-                                          stroke-width="2"
-                                        />
-                                        <path
-                                          d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162"
-                                          stroke="#714F36"
-                                          stroke-width="2"
-                                        />
-                                        <path
-                                          d="M1 26L25.1667 1"
-                                          stroke="#714F36"
-                                          stroke-width="2"
-                                        />
-                                      </svg>
-                                    </div>
-                                  </button>
-                                </td>
-                              </tr>
-
-                              <tr className="sol-price-table-row">
-                                <td className="sol-price-table-data first-data text-start">
-                                  BGV 360
-                                </td>
-                                <td className="sol-price-table-data text-center">
-                                  3000
+                                  1
                                 </td>
                                 <td className="sol-price-table-data text-center sol-price-table-qty-area">
                                   <button className="sol-price-table-qty-button decrement">
@@ -1549,6 +1813,7 @@ const PackagePlans = () => {
                     </div>
                   </div>
                 </div>
+
               </div>
             </section>
           </div>
