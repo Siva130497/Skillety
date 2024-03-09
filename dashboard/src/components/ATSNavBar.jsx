@@ -31,9 +31,9 @@ const ATSNavBar = () => {
             console.log(data);
             setNotifications((prev) => [...prev, data]);
 
-            if (!document.hasFocus()) {
-                playNotificationSound();
-            }
+            // if (!document.hasFocus()) {
+            //     playNotificationSound();
+            // }
         };
 
         socket?.on("getNotification", handleNotification);
@@ -84,14 +84,19 @@ const ATSNavBar = () => {
         return (
           <div className="notification-dropdown-content"
           onClick={()=>{
-            axios.patch("https://skillety-n6r1.onrender.com/read-notification", notificationIdArray, {
+            axios.patch("https://skillety-n6r1.onrender.com/read-notification", {notificationIdArray}, {
               headers: {
                 Authorization: `Bearer ${token}`,
                 Accept: 'application/json'
               }
             }).then(res=>{
               console.log(res.data)
-              navigate(redirect)
+              if(window.location.pathname === redirect){
+                const unReadNotifications = notifications.filter(notific=>notific.id !== notificationIdArray[0]);
+                setNotifications(unReadNotifications);
+              }else{
+                navigate(redirect);
+              }
             }).catch(err=>console.log(err))
           }}>
             <div className="notification-dropdown-content-left">
@@ -117,7 +122,7 @@ const ATSNavBar = () => {
         
         const notificationIdArray = notifications.map(notific => notific.id)
         if(notifications?.length>0){
-          axios.patch("https://skillety-n6r1.onrender.com/read-notification", notificationIdArray, {
+          axios.patch("https://skillety-n6r1.onrender.com/read-notification", {notificationIdArray}, {
             headers: {
               Authorization: `Bearer ${token}`,
               Accept: 'application/json'
@@ -228,7 +233,7 @@ const ATSNavBar = () => {
                         </div>
                         <div className="notification-dropdown-content-area">
                             {notifications?.length > 0 ? (
-                                notifications.reverse().slice(0, 10).map((notification) => (
+                                notifications.slice(0, 10).map((notification) => (
                                     <div key={notification.id}>{displayNotification(notification)}</div>
                                 ))
                             ) : (

@@ -542,24 +542,27 @@ const JobSearch = () => {
         setFilters({ ...filters, searchInput: inputValue });
 
         if (inputValue.length > 0) {
-            const skills = skillArray.filter((obj) => {
+            const skillsObj = skillArray.filter((obj) => {
                 return obj.skill.toLowerCase().includes(inputValue.toLowerCase());
             });
 
-            const jobRoles = jobRoleArray.filter((obj) => {
+            const jobRolesObj = jobRoleArray.filter((obj) => {
                 return obj.designation.toLowerCase().includes(inputValue.toLowerCase());
             });
 
-            const combinedResults = [...skills, ...jobRoles];
+            const skills = skillsObj.map(skill=>skill.skill);
+            const jobRoles = jobRolesObj.map(jobRole=>jobRole.designation);
 
-            const uniqueResults = combinedResults.filter((item, index, self) =>
-            index === self.findIndex((t) => (
-                t.id === item.id
-            ))
-        );
+            function combineArraysUnique(arr1, arr2) {
+                const combinedSet = new Set([...arr1, ...arr2]);
+                return Array.from(combinedSet);
+            }
+            
+            const combinedResults = combineArraysUnique(skills, jobRoles);
 
-            if (uniqueResults.length > 0) {
-                setFilteredList(uniqueResults);
+        
+            if (combinedResults.length > 0) {
+                setFilteredList(combinedResults);
             } else {
                 setFilteredList([]);
             }
@@ -1186,13 +1189,13 @@ const JobSearch = () => {
                                                                 <i className="bi bi-search cli--tal-pro-filter-search-icon"></i>
                                                                 <div className='tal-pro-search-result-data-area'>
                                                                     {filteredList.length > 0 &&
-                                                                        filteredList.map((filterResult) => (
+                                                                        filteredList.map((filterResult, index) => (
                                                                             <div
                                                                                 className='tal-pro-search-result-data candidate'
-                                                                                key={filterResult._id}
-                                                                                onClick={() => handleFilteredClick(filterResult.designation || filterResult.skill)}
+                                                                                key={index}
+                                                                                onClick={() => handleFilteredClick(filterResult)}
                                                                             >
-                                                                                {filterResult.designation ? filterResult.designation : filterResult.skill}
+                                                                                {filterResult}
                                                                             </div>
                                                                         ))}
                                                                 </div>
@@ -1606,7 +1609,7 @@ const JobSearch = () => {
                                                     filteredSearchResults.length > 0 ?
                                                         (filteredSearchResults.slice(x[0], x[1]).map((job) => {
                                                             const matchingImg = clientImg ? clientImg.find(img => img.id === job.companyId) : null;
-                                                            const imgSrc = matchingImg ? `https://skillety-n6r1.onrender.com/client_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
+                                                            const imgSrc = matchingImg ? `data:image/jpeg;base64,${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
                                                             const companyName = clients.find(cli => cli.companyId === job.companyId)?.companyName
 
                                                             const calculateMatchPercentage = (skills1, skills2) => {
@@ -1677,7 +1680,7 @@ const JobSearch = () => {
                                                         })) : matchJobs.length > 0 ?
                                                             (matchJobs.slice(x[0], x[1]).map((job) => {
                                                                 const matchingImg = clientImg ? clientImg.find(img => img.id === job.companyId) : null;
-                                                                const imgSrc = matchingImg ? `https://skillety-n6r1.onrender.com/client_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
+                                                                const imgSrc = matchingImg ? `data:image/jpeg;base64,${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
                                                                 const companyName = clients.find(cli => cli.companyId === job.companyId)?.companyName
                                                                 const isApplied = appliedJobDetail.find(appJob=>appJob.jobId === job.id);
                                                                 return (
@@ -1740,7 +1743,7 @@ const JobSearch = () => {
                                                                 )
                                                             })) : (latestJob.slice(x[0], x[1]).map((job) => {
                                                                 const matchingImg = clientImg ? clientImg.find(img => img.id === job.companyId) : null;
-                                                                const imgSrc = matchingImg ? `https://skillety-n6r1.onrender.com/client_profile/${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
+                                                                const imgSrc = matchingImg ? `data:image/jpeg;base64,${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
                                                                 const companyName = clients.find(cli => cli.companyId === job.companyId)?.companyName
                                                                 
                                                                 return (

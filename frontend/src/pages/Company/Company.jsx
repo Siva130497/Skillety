@@ -114,7 +114,7 @@ const Company = () => {
                                     .slice(0, 15)
                                     .map(company => {
                                         const matchingImg = clientImg ? clientImg.find(img => img.id === company.companyId) : null;
-                                        const imgSrc = matchingImg ? `https://skillety-n6r1.onrender.com/client_profile/${matchingImg.image}` : "../assets/img/talents-images/no-image1.png";
+                                        const imgSrc = matchingImg ? `data:image/jpeg;base64,${matchingImg.image}` : "../assets/img/talents-images/no-image1.png";
                                         const jobOpening = allJobs.filter(job => job.companyId === company.companyId).length;
 
                                         return (

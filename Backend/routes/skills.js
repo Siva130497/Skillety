@@ -19,13 +19,13 @@ router.post("/skills", async (req, res) => {
   try {
       const savedSkills = await Promise.all(skillArray.map(async (skillString) => {
         //   const lowercaseSkillString = skillString.toLowerCase();
-          const existingSkill = await skill.findOne({ skill: skillString });
+          const existingSkill = await skill.findOne({ skill: skillString.trim() });
 
           if (existingSkill) {
               return existingSkill;
           }
 
-          const postSkill = new skill({ skill: skillString });
+          const postSkill = new skill({ skill: skillString.trim() });
           return await postSkill.save();
       }));
     

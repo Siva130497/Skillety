@@ -235,6 +235,9 @@ const {
    getAllClientLogos,
    savingClientLogos,
    deleteClientLogo,
+
+   candidateDetailUpload,
+   clientDetailUpload,
 } = require("../Controller/authFunctions");
 const employeeAuth = require("../middleware/employeeAuth");
 const firebaseAuth = require("../middleware/firebaseAuth");
@@ -864,6 +867,12 @@ router.post("/client-logos", employeeAuth, uploadImgBase64.array('logo'), saving
 
 //delete particular client logo using mongoose id
 router.delete("/client-logo/:id", employeeAuth, deleteClientLogo);
+
+//bulk candidate detail save
+router.post("/bulk-candidate", candidateDetailUpload);
+
+//bulk client detail save
+router.post("/bulk-client", clientDetailUpload);
 
 // Client, Client-staff Login Route
 router.post("/login-Client", async (req, res) => {

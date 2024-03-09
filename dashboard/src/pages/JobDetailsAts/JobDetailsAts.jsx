@@ -174,7 +174,7 @@ const JobDetailsAts = () => {
                                                 </div>
                                                 <div className="dash-job-det-card-header-rgt">
                                                     <div className="dash-job-det-card-img-area">
-                                                        <img src={companyImg ? `https://skillety-n6r1.onrender.com/client_profile/${companyImg.image}` : "../assets/img/talents-images/avatar.jpg"} className='dash-job-det-card-img' alt="" />
+                                                        <img src={companyImg ? `data:image/jpeg;base64,${companyImg.image}` : "../assets/img/talents-images/avatar.jpg"} className='dash-job-det-card-img' alt="" />
                                                     </div>
                                                 </div>
                                             </div>

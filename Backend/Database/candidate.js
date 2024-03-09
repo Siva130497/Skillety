@@ -105,3 +105,4 @@ const candidateSchema = new Schema(
 );
 
 module.exports = model("Candidate", candidateSchema);
+// Schema.Types.Mixed
