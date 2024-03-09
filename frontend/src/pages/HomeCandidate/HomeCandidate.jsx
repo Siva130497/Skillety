@@ -1129,7 +1129,7 @@ const HomeCandidate = () => {
 
                 return lastTwoItems.map((item) => {
                   const matchingImg = eventImg ? eventImg.find((img) => img.id === item.id) : null;
-                  const imgSrc = matchingImg ? `https://skillety-n6r1.onrender.com/images/${matchingImg.image}` : "assets/img/events/event-img.jpg";
+                  const imgSrc = matchingImg ? `data:image/jpeg;base64,${matchingImg.image}` : "assets/img/events/event-img.jpg";
 
                   return (
                     <SwiperSlide key={item.id}>
