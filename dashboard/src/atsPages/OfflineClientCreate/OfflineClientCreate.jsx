@@ -89,7 +89,7 @@ const OfflineClientCreate = () => {
 
     useEffect(() => {
         if (editingLogo) {
-            setEditingLogoUrl(`https://skillety-n6r1.onrender.com/offline_client_logo/${editingLogo?.logo}`);
+            setEditingLogoUrl(`data:image/jpeg;base64,${editingLogo?.logo}`);
 
             setFileName(editingLogo?.logo);
         }

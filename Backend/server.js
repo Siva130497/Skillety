@@ -338,44 +338,83 @@ app.patch('/update-candidate-resume/:id', uploadImgBase64.single('resume'), asyn
 });
 /*  */
 
-const storageImg = multer.diskStorage({
-  destination: function(req, file, cb) {
-    return cb(null, "./public/images")
-  },
-  filename: function(req, file, cb) {
-    return cb(null, `${Date.now()}_${file.originalname}`)
+// const storageImg = multer.diskStorage({
+//   destination: function(req, file, cb) {
+//     return cb(null, "./public/images")
+//   },
+//   filename: function(req, file, cb) {
+//     return cb(null, `${Date.now()}_${file.originalname}`)
+//   }
+// })
+
+// const uploadImg = multer({storage: storageImg})
+
+const storageMemoryEvent = multer.memoryStorage();
+const uploadImgBase64Event = multer({ storage: storageMemoryEvent });
+
+app.post('/upload-image', employeeAuth, uploadImgBase64Event.single('image'), async(req, res) => {
+  try {
+    if (!req.body.id) {
+      return res.status(400).json({ error: 'No image id provided' });
+    }
+
+    if (!req.file) {
+      return res.status(400).json({ error: 'No image provided' });
+    }
+
+    // Convert image buffer to base64
+    const base64Image = req.file.buffer.toString('base64');
+
+    // Save the image to the database
+    const newImage = new image({
+      id: req.body.id,
+      image: base64Image
+    });
+    await newImage.save();
+
+    res.status(200).json({ message: 'Image uploaded successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
   }
 })
 
-const uploadImg = multer({storage: storageImg})
-app.post('/upload-image', employeeAuth, uploadImg.single('image'), (req, res) => {
-  const uploadedId = req.body.id; 
-  console.log("Uploaded ID:", uploadedId);
-  console.log("Uploaded File:", req.file);
+app.get('/event-image', async(req, res)=>{
+  try {
+    // Fetch the resume from the database based on the provided ID
+    const existingResume = await image.find();
 
-  image.create({
-    image: req.file.filename,
-    id: uploadedId,
-  })
-  .then((result) => console.log(result))
-  .then(result => res.json(result))
-  .catch(err => console.log(err)) 
-})
+    if (existingResume.length===0) {
+      return res.status(404).json({ error: 'Images not found' });
+    }
 
-app.get('/event-image', (req, res)=>{
-  image.find()
-  .then(eventImg=>res.json(eventImg))
-  .catch(err=>res.json(err))
+    res.status(200).json(existingResume);
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
 });
 
-app.get('/event-image/:id', (req, res)=>{
+app.get('/event-image/:id', async(req, res)=>{
   const {id} = req.params;
-  image.findOne({id})
-  .then(eventImg=>res.json(eventImg))
-  .catch(err=>res.json(err))
+  try {
+    // Fetch the resume from the database based on the provided ID
+    const existingResume = await image.findOne({ id });
+
+    if (!existingResume) {
+      return res.status(404).json({ error: 'Image not found' });
+    }
+
+    res.status(200).json(existingResume);
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
 });
 
-app.delete('/event-image-delete/:id', employeeAuth, (req, res) => {
+app.delete('/event-image-delete/:id', employeeAuth, async(req, res) => {
   const { id } = req.params;
 
   image.findOneAndDelete({ id }) 
@@ -390,30 +429,33 @@ app.delete('/event-image-delete/:id', employeeAuth, (req, res) => {
     });
 });
 
-app.patch('/update-image/:id', employeeAuth, uploadImg.single('image'), (req, res) => {
-  const uploadedId = req.params.id;
-  const newImageFilename = req.file.filename;
+app.patch('/update-image/:id', employeeAuth, uploadImgBase64Event.single('image'), async(req, res) => {
+  try {
+    const {id} = req.params;
 
-  // Find the existing image by ID
-  image.findOneAndUpdate(
-    { id: uploadedId },
-    { $set: { image: newImageFilename } },
-    { new: true },
-    (err, updatedImage) => {
-      if (err) {
-        console.error(err);
-        return res.status(500).json({ error: 'Internal Server Error' });
-      }
-
-      if (!updatedImage) {
-        return res.status(404).json({ error: 'Image not found' });
-      }
-
-      console.log('Updated Image:', updatedImage);
-
-      res.json(updatedImage);
+    if (!req.file) {
+      return res.status(400).json({ error: 'No image provided' });
     }
-  );
+
+    // Convert image buffer to base64
+    const base64Image = req.file.buffer.toString('base64');
+
+    // Update the existing content with new logo using findOneAndUpdate
+    const updatedResume = await image.findOneAndUpdate(
+      { id },
+      { image: base64Image },
+      { new: true }
+    );
+
+    if (!updatedResume) {
+      return res.status(404).json({ error: 'Image not found' });
+    }
+
+    res.status(200).json({ message: 'Image updated successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
 });
 
 
@@ -657,54 +699,74 @@ app.patch('/update-client-profile-image/:id', employeeAuth, uploadImgBase64Clien
 //ATS.....................
 
 //offlinet client doc save
-const offlineClientDocStorage = multer.diskStorage({
-  destination: function(req, file, cb) {
-    return cb(null, "./public/offline_client_doc")
-  },
-  filename: function(req, file, cb) {
-    return cb(null, `${Date.now()}_${file.originalname}`)
+// const offlineClientDocStorage = multer.diskStorage({
+//   destination: function(req, file, cb) {
+//     return cb(null, "./public/offline_client_doc")
+//   },
+//   filename: function(req, file, cb) {
+//     return cb(null, `${Date.now()}_${file.originalname}`)
+//   }
+// })
+
+// const offlineClientDocUpload = multer({storage:offlineClientDocStorage});
+
+const storageMemoryOffClient = multer.memoryStorage();
+const uploadImgBase64OffClient = multer({ storage: storageMemoryOffClient });
+app.post('/offline-client-doc/upload', employeeAuth, uploadImgBase64OffClient.single('doc'), async(req, res) => {
+  try {
+    if (!req.body.id) {
+      return res.status(400).json({ error: 'No doc  id provided' });
+    }
+
+    if (!req.file) {
+      return res.status(400).json({ error: 'No doc provided' });
+    }
+
+    // Convert image buffer to base64
+    const base64Image = req.file.buffer.toString('base64');
+
+    // Save the image to the database
+    const newOffClientDoc = new offlineClientDoc({
+      clientId: req.body.id,
+      doc: base64Image
+    });
+    await newOffClientDoc.save();
+
+    res.status(200).json({ message: 'Document uploaded successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
   }
-})
-
-const offlineClientDocUpload = multer({storage:offlineClientDocStorage});
-app.post('/offline-client-doc/upload', employeeAuth, offlineClientDocUpload.single('doc'), (req, res) => {
-  const uploadedId = req.body.clientId; 
-  console.log("Uploaded ID:", uploadedId);
-  console.log("Uploaded File:", req.file);
-
-  offlineClientDoc.create({
-    doc: req.file.filename,
-    clientId: uploadedId,
-  })
-  .then((result) => console.log(result))
-  .then(result => res.json(result))
-  .catch(err => console.log(err))
 });
 
 //update the exiesting offline client document
-app.patch('/update-exiesting-offline-client-doc/:id', employeeAuth, offlineClientDocUpload.single('doc'), (req, res) => {
-  const uploadedId = req.params.id;
-  const newDocumentFilename = req.file.filename;
+app.patch('/update-exiesting-offline-client-doc/:id', employeeAuth, uploadImgBase64OffClient.single('doc'), async(req, res) => {
+  try {
+    const {id} = req.params;
 
-  offlineClientDoc.findOneAndUpdate(
-    { clientId: uploadedId },
-    { $set: { doc: newDocumentFilename } },
-    { new: true },
-    (err, updatedDocument) => {
-      if (err) {
-        console.error(err);
-        return res.status(500).json({ error: 'Internal Server Error' });
-      }
-
-      if (!updatedDocument) {
-        return res.status(404).json({ error: 'Document not found' });
-      }
-
-      console.log('Updated Document:', updatedDocument);
-
-      res.json(updatedDocument);
+    if (!req.file) {
+      return res.status(400).json({ error: 'No Doc provided' });
     }
-  );
+
+    // Convert image buffer to base64
+    const base64Image = req.file.buffer.toString('base64');
+
+    // Update the existing content with new logo using findOneAndUpdate
+    const updatedResume = await offlineClientDoc.findOneAndUpdate(
+      { clientId:id },
+      { doc: base64Image },
+      { new: true }
+    );
+
+    if (!updatedResume) {
+      return res.status(404).json({ error: 'Doc not found' });
+    }
+
+    res.status(200).json({ message: 'Doc updated successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
 });
 
 //find an offline client document
@@ -716,28 +778,44 @@ app.get('/offline-client-doc/:id', employeeAuth, (req, res)=>{
 });
 
 //offline_client logo handling
-const offlineClientLogoStorage = multer.diskStorage({
-  destination: function(req, file, cb) {
-    return cb(null, "./public/offline_client_logo")
-  },
-  filename: function(req, file, cb) {
-    return cb(null, `${Date.now()}_${file.originalname}`)
+// const offlineClientLogoStorage = multer.diskStorage({
+//   destination: function(req, file, cb) {
+//     return cb(null, "./public/offline_client_logo")
+//   },
+//   filename: function(req, file, cb) {
+//     return cb(null, `${Date.now()}_${file.originalname}`)
+//   }
+// })
+
+// const offlineClientLogoUpload = multer({storage: offlineClientLogoStorage})
+
+const storageMemoryOffClientLogo = multer.memoryStorage();
+const uploadImgBase64OffClientLogo = multer({ storage: storageMemoryOffClientLogo });
+app.post('/offline-client-logo/upload', employeeAuth, uploadImgBase64OffClientLogo.single('logo'), async(req, res) => {
+  try {
+    if (!req.body.id) {
+      return res.status(400).json({ error: 'No logo  id provided' });
+    }
+
+    if (!req.file) {
+      return res.status(400).json({ error: 'No logo provided' });
+    }
+
+    // Convert image buffer to base64
+    const base64Image = req.file.buffer.toString('base64');
+
+    // Save the image to the database
+    const newOffClientLoc = new offlineClientLogo({
+      clientId: req.body.id,
+      logo: base64Image
+    });
+    await newOffClientLoc.save();
+
+    res.status(200).json({ message: 'Logo uploaded successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
   }
-})
-
-const offlineClientLogoUpload = multer({storage: offlineClientLogoStorage})
-app.post('/offline-client-logo/upload', employeeAuth, offlineClientLogoUpload.single('logo'), (req, res) => {
-  const uploadedId = req.body.clientId; 
-  console.log("Uploaded ID:", uploadedId);
-  console.log("Uploaded File:", req.file);
-
-  offlineClientLogo.create({
-    logo: req.file.filename,
-    clientId: uploadedId,
-  })
-  .then((result) => console.log(result))
-  .then(result => res.json(result))
-  .catch(err => console.log(err)) 
 })
 
 //find an offline client logo
@@ -749,29 +827,33 @@ app.get('/an-offline-client-logo/:id', employeeAuth, (req, res)=>{
 });
 
 //update an exiesting offline client logo
-app.patch('/update-exiesting-offline-client-logo/:id', employeeAuth, offlineClientLogoUpload.single('logo'), (req, res) => {
-  const uploadedId = req.params.id;
-  const newLogoFilename = req.file.filename;
+app.patch('/update-exiesting-offline-client-logo/:id', employeeAuth, uploadImgBase64OffClientLogo.single('logo'), async(req, res) => {
+  try {
+    const {id} = req.params;
 
-  offlineClientLogo.findOneAndUpdate(
-    { clientId: uploadedId },
-    { $set: { logo: newLogoFilename } },
-    { new: true },
-    (err, updatedLogo) => {
-      if (err) {
-        console.error(err);
-        return res.status(500).json({ error: 'Internal Server Error' });
-      }
-
-      if (!updatedLogo) {
-        return res.status(404).json({ error: 'Logo not found' });
-      }
-
-      console.log('Updated Logo:', updatedLogo);
-
-      res.json(updatedLogo);
+    if (!req.file) {
+      return res.status(400).json({ error: 'No Logo provided' });
     }
-  );
+
+    // Convert image buffer to base64
+    const base64Image = req.file.buffer.toString('base64');
+
+    // Update the existing content with new logo using findOneAndUpdate
+    const updatedResume = await offlineClientLogo.findOneAndUpdate(
+      { clientId:id },
+      { logo: base64Image },
+      { new: true }
+    );
+
+    if (!updatedResume) {
+      return res.status(404).json({ error: 'Logo not found' });
+    }
+
+    res.status(200).json({ message: 'Logo updated successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
 });
 
 //ATS.........................

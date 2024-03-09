@@ -108,7 +108,7 @@ const CandidateTestimonialDetail = () => {
 
         if (matchingImg) {
           setImage(
-            `https://skillety-n6r1.onrender.com/images/${matchingImg.image}`
+            `data:image/jpeg;base64,${matchingImg.image}`
           );
         } else {
           setImage("assets/img/events/event-img.jpg");

@@ -120,7 +120,7 @@ const EventPosting = () => {
 
     useEffect(() => {
         if (editingEventImg) {
-            setEventImgUrl(`https://skillety-n6r1.onrender.com/images/${editingEventImg.image}`)
+            setEventImgUrl(`data:image/jpeg;base64,${editingEventImg.image}`)
         }
 
     }, [editingEventImg]);

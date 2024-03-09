@@ -128,7 +128,7 @@ const PostedEvents = () => {
         const matchingImg = eventImg ? eventImg.find(img => img.id === id) : null;
 
         if (matchingImg) {
-            setImage(`https://skillety-n6r1.onrender.com/images/${matchingImg.image}`);
+            setImage(`data:image/jpeg;base64,${matchingImg.image}`);
         } else {
             setImage("assets/img/events/event-img.jpg");
         }
