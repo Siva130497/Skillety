@@ -907,6 +907,7 @@
     /* border: 1px solid #714F36; */
     display: none;
     box-shadow: 2px 5px 10px #07070738;
+    z-index: 2;
 }
 
 .select-options li {
