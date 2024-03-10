@@ -3757,7 +3757,7 @@ const TalentsProfileSearch = () => {
                                                                         </div>
                                                                         <div className="tal--pro-card-tags search">
                                                                             <h6 className='tal--pro-card-exp'>
-                                                                                Experience : {candidate.year + 'years' +  candidate.month + 'months'}
+                                                                                Experience : {candidate.year + ' years ' +  candidate.month + ' months'}
                                                                             </h6>
                                                                             <h6 className='tal--pro-card-exp'>
                                                                                 salary : {candidate.minSalary + '-' +  candidate.maxSalary }
@@ -3856,8 +3856,8 @@ const TalentsProfileSearch = () => {
                                                                                         <h2 className='tal--pro-card-percentage search'>{Math.round(percentage)}%</h2>
                                                                                     </div>}
                                                                                 <div className="tal--pro-card-ability-number-right search-result">
-                                                                                    <h6 className='tal--pro-card-can-join'>Can join in</h6>
-                                                                                    <h2 className='tal--pro-card-join-days'>{candidate.days}<span></span></h2>
+                                                                                    <h6 className='tal--pro-card-can-join'>Can join in : </h6>
+                                                                                    <h2 className='tal--pro-card-join-days text-capitalized'>{candidate.days}<span></span></h2>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
