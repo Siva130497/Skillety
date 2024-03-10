@@ -20,6 +20,7 @@ const contactDetail = require("../Database/contact");
 const contactCandidateDetail = require("../Database/contactCandidate");
 const clientPackage = require("../Database/clientPackage");
 const skilletyService = require("../Database/skilletyService");
+const skilletyValueAddedService = require("../Database/skilletyValueAddedService");
 const package = require("../Database/packages");
 const viewedCandidate = require("../Database/viewedCandidate");
 const enquiryFormDetail = require("../Database/enquiryFormDetail");
@@ -305,88 +306,118 @@ const getAllClientUrlWithEmail = async(req, res) => {
 
 /* client_staff create */
 const createClientStaff = async (req, res) => {
-  const {id} = req.params;
-  
+  const { id } = req.params;
+
   try {
-    const {email, name, phone} = req.body; 
-    const userAvailable = await finalClient.findOne(({ $or: [{email:{ $regex: new RegExp(email.toLowerCase(), "i") }}, {phone}] }));
-    const allUserAvailable = await allUsers.findOne({ $or: [{email:{ $regex: new RegExp(email.toLowerCase(), "i") }},  { phone }] });
+    const { email, name, phone } = req.body;
+    const userAvailable = await finalClient.findOne({
+      $or: [
+        { email: { $regex: new RegExp(email.toLowerCase(), "i") } },
+        { phone },
+      ],
+    });
+    const allUserAvailable = await allUsers.findOne({
+      $or: [
+        { email: { $regex: new RegExp(email.toLowerCase(), "i") } },
+        { phone },
+      ],
+    });
 
     if (userAvailable || allUserAvailable) {
       return res.status(404).json({ message: "User already registered" });
     }
 
-    const neededClient = await finalClient.findOne({id});
-    
-    if (neededClient){
+    const neededClient = await finalClient.findOne({ id });
 
-      const { companyName, companyId} = neededClient._doc;
-      const packageDetailForCompanyId = await clientPackage.findOne({id:companyId});
-      const createdAccounts = await finalClient.find({companyId});
-      
-      if(createdAccounts.length < packageDetailForCompanyId.logins){
-        const baseUrl = "https://skillety-frontend-wcth.onrender.com/verification/";
-        const token = uuidv4();
-        const tempUrl = baseUrl + token;
+    if (neededClient) {
+      const { companyName, companyId } = neededClient._doc;
+      const packageDetailForCompanyId = await clientPackage.findOne({
+        id: companyId,
+        status: true,
+      });
+      const loginAsServiceForCompanyId = await skilletyService.findOne({
+        id: companyId,
+        serviceName: "LoginIDs",
+        status: true,
+      });
 
-        // const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=[]{}|;:,.<>?';
-        // let password = '';
-            
-        // for (let i = 0; i < 12; i++) {
-        //     const randomIndex = Math.floor(Math.random() * charset.length);
-        //     password += charset[randomIndex];
-        // }
+      if (packageDetailForCompanyId) {
+        if (
+          packageDetailForCompanyId.loginsRemaining > 0 ||
+          loginAsServiceForCompanyId 
+        ) {
+          const baseUrl = "https://skillety-frontend-wcth.onrender.com/verification/";
+          const token = uuidv4();
+          const tempUrl = baseUrl + token;
 
-        console.log(tempUrl);
-        // console.log(password);
+          const newTempClient = new TempClient({
+            ...req.body,
+            companyName,
+            companyId,
+            id: token,
+            url: tempUrl,
+            role: "Client-staff",
+          });
 
-        // const hashPassword = await bcrypt.hash(password, 12);
+          await newTempClient.save();
 
-        const newTempClient = new TempClient({
-          ...req.body,
-          companyName,
-          companyId,
-          id: token, 
-          // tempPassword: hashPassword, 
-          url: tempUrl,
-          role:"Client-staff"
-        });
+          const transporter = nodemailer.createTransport({
+            service: "gmail",
+            auth: {
+              user: "demoemail1322@gmail.com",
+              pass: "znsdgrmwzskpatwz",
+            },
+          });
 
-        await newTempClient.save();
-        console.log(newTempClient);
-
-        const transporter = nodemailer.createTransport({
-          service: 'gmail',
-          auth: {
-            user: 'demoemail1322@gmail.com',
-            pass: 'znsdgrmwzskpatwz'
+          if(packageDetailForCompanyId.loginsRemaining > 0){
+            await clientPackage.findOneAndUpdate(
+              { id: companyId, status: true },
+              { $inc: { loginsRemaining: -1 } },
+              { new: true }
+            );
+          }else{
+            await skilletyService.findOneAndUpdate(
+              { id: companyId, serviceName: "LoginIDs", status: true },
+              { $inc: { remaining: -1 } },
+              { new: true }
+            );
+  
+            if (loginAsServiceForCompanyId.remaining === 1) {
+              loginAsServiceForCompanyId.status = false;
+              await loginAsServiceForCompanyId.save();
+            }
           }
-        });
+          
+          const mailOptions = {
+            from: "demoemail1322@gmail.com",
+            to: `${newTempClient.email}`,
+            subject: `Mail from ${companyName}!`,
+            text:
+              "These are your account details, use the temporary URL and temporary password to create your account",
+            html: `<p>Temporary URL: ${newTempClient.url}</p>
+                   <p>User Name: ${req.body.name}</p>
+                   <p>Phone No: ${req.body.phone}</p>`,
+          };
 
-        const mailOptions = {
-          from: 'demoemail1322@gmail.com',
-          to: `${newTempClient.email}`,
-          subject: `Mail from ${companyName}!`,
-          text: 'These are your account detail, use the temporary url and temporary password to create your account',
-          html: `<p>Temporary URL: ${newTempClient.url}</p>
-                <p>User Name: ${req.body.name}</p>
-                <p>Phone No: ${req.body.phone}</p>`
-        };
-
-        transporter.sendMail(mailOptions, function (error, info) {
-          if (error) {
-            console.log(error);
-            return res.status(500).json({ error: error.message, newTempClient });
-          } else {
-            console.log('Email sent: ' + info.response);
-            res.status(201).json({ newTempClient, emailSent: true });
-          }
-        });
-      }else{
-        return res.status(200).json({message:"you reached the limit of creating accounts"});
+          transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+              console.log(error);
+              return res.status(500).json({ error: error.message });
+            } else {
+              console.log("Email sent: " + info.response);
+              res.status(201).json({ newTempClient, emailSent: true });
+            }
+          });
+        } else {
+          return res
+            .status(200)
+            .json({ error: "You reached the limit of creating accounts" });
+        }
+      } else {
+        return res.status(400).json({ error: "No active package found!" });
       }
-    }else{
-      return res.status(404).json({message: "no client found with the matching id"});
+    } else {
+      return res.status(404).json({ error: "No client found with the matching id" });
     }
   } catch (err) {
     return res.status(500).json({ error: err.message });
@@ -540,6 +571,8 @@ const finalClientRegister = async (req, res) => {
     }
 
     await TempClient.deleteOne({ id });
+
+
 
     const transporter = nodemailer.createTransport({
       service: 'gmail',
@@ -2311,6 +2344,9 @@ const clientPackageSelection = async (req, res) => {
     const currentActivePackage = await clientPackage.findOne({ id: id, status: true });
 
     if (currentActivePackage) {
+      if(currentActivePackage.packageType === "Test" && req.body.packageType === "Test"){
+        return res.status.json({error:"You can buy Test package only once!"})
+      }
       // Calculate the days since the package was created
       const createdAtDate = new Date(currentActivePackage.createdAt);
       const currentDate = new Date();
@@ -2323,7 +2359,7 @@ const clientPackageSelection = async (req, res) => {
         // Create a new document with status as true
         const newClientPackage = new clientPackage({
           ...req.body,
-          loginsRemaining: req.body.logins,
+          loginsRemaining: req.body.logins - 1,
           cvViewsRemaining: req.body.cvViews,
           activeJobsRemaining: req.body.activeJobs,
           status: true // Set status to true for the new document
@@ -2339,7 +2375,7 @@ const clientPackageSelection = async (req, res) => {
       // If no active package found, create a new one
       const newClientPackage = new clientPackage({
         ...req.body,
-        loginsRemaining: req.body.logins,
+        loginsRemaining: req.body.logins - 1,
         cvViewsRemaining: req.body.cvViews,
         activeJobsRemaining: req.body.activeJobs,
         status: true // Set status to true for the new document
@@ -2363,13 +2399,36 @@ const clientServiceBuying = async (req, res) => {
       const newService = new skilletyService({
         ...req.body,
         remaining: req.body.quantity,
-        cvViewsRemaining: req.body.cvViews,
         status: true // Set status to true for the new document
       });
 
       await newService.save();
 
       return res.status(201).json(newService);
+    }else{
+      return res.status(400).json({ error: "No active package found!" });
+    }
+
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+};
+
+/* client service buying */
+const clientValueAddedServiceBuying = async (req, res) => {
+  const { id } = req.body;
+  try {
+    const clientCurrentPackageActive = await clientPackage.findOne({ id: id, status: true });
+    if(clientCurrentPackageActive){
+      const newValueAddedService = new skilletyValueAddedService({
+        ...req.body,
+        remaining: req.body.quantity,
+        status: true // Set status to true for the new document
+      });
+
+      await newValueAddedService.save();
+
+      return res.status(201).json(newValueAddedService);
     }else{
       return res.status(400).json({ error: "No active package found!" });
     }
@@ -8686,6 +8745,7 @@ module.exports = {
    getAllCandidateContactMessages,
    clientPackageSelection,
    clientServiceBuying,
+   clientValueAddedServiceBuying,
    createPackagePlan,
    getAllPackagePlans,
    getClientChoosenPlan,
@@ -8843,7 +8903,6 @@ module.exports = {
   getAllClientLogos,
   savingClientLogos,
   deleteClientLogo,
-
 
   candidateDetailUpload,
   clientDetailUpload,

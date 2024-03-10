@@ -79,6 +79,7 @@ const {
   getAllCandidateContactMessages,
   clientPackageSelection,
   clientServiceBuying,
+  clientValueAddedServiceBuying,
   createPackagePlan,
   getAllPackagePlans,
   getClientChoosenPlan,
@@ -239,7 +240,7 @@ const {
    getAllClientLogos,
    savingClientLogos,
    deleteClientLogo,
-
+   
    candidateDetailUpload,
    clientDetailUpload,
 } = require("../Controller/authFunctions");
@@ -264,7 +265,7 @@ router.delete("/del-recruiter-client/:id", deletingRecruiterClient)
 router.post("/tempPass-Client/:id", employeeAuth, createClient);
 
 //Client_staff create route
-router.post("/tempPass-Client-staff/:id", employeeAuth, createClientStaff);
+router.post("/tempPass-Client-staff/:id",  createClientStaff);
 
 // recruiter route for client detail
 router.get("/clientWithUrl-Detail/:id", getClient);
@@ -471,6 +472,9 @@ router.post("/client-package-plan", employeeAuth, clientPackageSelection);
 //client service buying
 router.post("/client-skillety-service", employeeAuth, clientServiceBuying);
 
+//client value added service buying
+router.post("/client-skillety-value-added-service",  employeeAuth, clientValueAddedServiceBuying);
+
 //find all package plans
 router.get("/all-packages", getAllPackagePlans);
 
@@ -481,7 +485,7 @@ router.post("/new-package", createPackagePlan);
 router.get("/client-package-plan/:id", employeeAuth, getClientChoosenPlan);
 
 //check the validity of the package
-router.get("/checking-package-validity/:id", checkTheValidityOfPackage);
+router.get("/checking-package-validity/:id", employeeAuth, checkTheValidityOfPackage);
 
 //client viewed candidate create end point
 router.post("/cv-views", employeeAuth, createViewedCandidate);
