@@ -33,7 +33,7 @@ const http = require('http');
 const employeeAuth = require('./middleware/employeeAuth');
 const {Server} = require('socket.io');
 const axios = require("axios");
-const sharp = require('sharp');
+
 
 //ATS.............
 
@@ -291,12 +291,9 @@ app.post('/upload', uploadImgBase64.single('file'), async (req, res) => {
     if (!req.file) {
       return res.status(400).json({ error: 'No resume provided' });
     }
-    const resizedImageBuffer = await sharp(req.file.buffer)
-      .resize({ width: 800 })
-      .toBuffer();
 
     // Convert image buffer to base64
-    const base64Image = resizedImageBuffer.toString('base64');
+    const base64Image = req.file.buffer.toString('base64');
 
     // Save the image to the database
     const newResume = new resume({
@@ -320,12 +317,8 @@ app.patch('/update-candidate-resume/:id', uploadImgBase64.single('resume'), asyn
       return res.status(400).json({ error: 'No resume provided' });
     }
 
-    const resizedImageBuffer = await sharp(req.file.buffer)
-      .resize({ width: 800 })
-      .toBuffer();
-
     // Convert image buffer to base64
-    const base64Image = resizedImageBuffer.toString('base64');
+    const base64Image = req.file.buffer.toString('base64');
 
     // Update the existing content with new logo using findOneAndUpdate
     const updatedResume = await resume.findOneAndUpdate(
@@ -370,12 +363,8 @@ app.post('/upload-image', employeeAuth, uploadImgBase64Event.single('image'), as
       return res.status(400).json({ error: 'No image provided' });
     }
 
-    const resizedImageBuffer = await sharp(req.file.buffer)
-      .resize({ width: 800 })
-      .toBuffer();
-
     // Convert image buffer to base64
-    const base64Image = resizedImageBuffer.toString('base64');
+    const base64Image = req.file.buffer.toString('base64');
 
     // Save the image to the database
     const newImage = new image({
@@ -449,12 +438,8 @@ app.patch('/update-image/:id', employeeAuth, uploadImgBase64Event.single('image'
       return res.status(400).json({ error: 'No image provided' });
     }
 
-    const resizedImageBuffer = await sharp(req.file.buffer)
-      .resize({ width: 800 })
-      .toBuffer();
-
     // Convert image buffer to base64
-    const base64Image = resizedImageBuffer.toString('base64');
+    const base64Image = req.file.buffer.toString('base64');
 
     // Update the existing content with new logo using findOneAndUpdate
     const updatedResume = await image.findOneAndUpdate(
@@ -498,12 +483,8 @@ app.post('/upload-candidate-profile-image', employeeAuth, uploadImgBase64Cand.si
       return res.status(400).json({ error: 'No candidate profile provided' });
     }
 
-    const resizedImageBuffer = await sharp(req.file.buffer)
-      .resize({ width: 800 })
-      .toBuffer();
-
     // Convert image buffer to base64
-    const base64Image = resizedImageBuffer.toString('base64');
+    const base64Image = req.file.buffer.toString('base64');
 
     // Save the image to the database
     const newCandidateProfile = new candidateProfile({
@@ -563,12 +544,8 @@ app.patch('/update-candidate-profile-image/:id', employeeAuth, uploadImgBase64Ca
       return res.status(400).json({ error: 'No Profile Image provided' });
     }
 
-    const resizedImageBuffer = await sharp(req.file.buffer)
-    .resize({ width: 800 })
-    .toBuffer();
-
-  // Convert image buffer to base64
-  const base64Image = resizedImageBuffer.toString('base64');
+    // Convert image buffer to base64
+    const base64Image = req.file.buffer.toString('base64');
 
     // Update the existing content with new logo using findOneAndUpdate
     const updatedResume = await candidateProfile.findOneAndUpdate(
@@ -611,12 +588,8 @@ app.post('/upload-client-profile-image', employeeAuth, uploadImgBase64Client.sin
       return res.status(400).json({ error: 'No client profile provided' });
     }
 
-    const resizedImageBuffer = await sharp(req.file.buffer)
-    .resize({ width: 800 })
-    .toBuffer();
-
-  // Convert image buffer to base64
-  const base64Image = resizedImageBuffer.toString('base64');
+    // Convert image buffer to base64
+    const base64Image = req.file.buffer.toString('base64');
 
     // Save the image to the database
     const newClientProfile = new clientProfile({
@@ -703,12 +676,8 @@ app.patch('/update-client-profile-image/:id', employeeAuth, uploadImgBase64Clien
       return res.status(400).json({ error: 'No Profile Image provided' });
     }
 
-    const resizedImageBuffer = await sharp(req.file.buffer)
-      .resize({ width: 800 })
-      .toBuffer();
-
     // Convert image buffer to base64
-    const base64Image = resizedImageBuffer.toString('base64');
+    const base64Image = req.file.buffer.toString('base64');
 
     // Update the existing content with new logo using findOneAndUpdate
     const updatedResume = await clientProfile.findOneAndUpdate(
@@ -754,12 +723,8 @@ app.post('/offline-client-doc/upload', employeeAuth, uploadImgBase64OffClient.si
       return res.status(400).json({ error: 'No doc provided' });
     }
 
-    const resizedImageBuffer = await sharp(req.file.buffer)
-      .resize({ width: 800 })
-      .toBuffer();
-
     // Convert image buffer to base64
-    const base64Image = resizedImageBuffer.toString('base64');
+    const base64Image = req.file.buffer.toString('base64');
 
     // Save the image to the database
     const newOffClientDoc = new offlineClientDoc({
@@ -784,12 +749,8 @@ app.patch('/update-exiesting-offline-client-doc/:id', employeeAuth, uploadImgBas
       return res.status(400).json({ error: 'No Doc provided' });
     }
 
-    const resizedImageBuffer = await sharp(req.file.buffer)
-      .resize({ width: 800 })
-      .toBuffer();
-
     // Convert image buffer to base64
-    const base64Image = resizedImageBuffer.toString('base64');
+    const base64Image = req.file.buffer.toString('base64');
 
     // Update the existing content with new logo using findOneAndUpdate
     const updatedResume = await offlineClientDoc.findOneAndUpdate(
@@ -841,12 +802,8 @@ app.post('/offline-client-logo/upload', employeeAuth, uploadImgBase64OffClientLo
       return res.status(400).json({ error: 'No logo provided' });
     }
 
-    const resizedImageBuffer = await sharp(req.file.buffer)
-      .resize({ width: 800 })
-      .toBuffer();
-
     // Convert image buffer to base64
-    const base64Image = resizedImageBuffer.toString('base64');
+    const base64Image = req.file.buffer.toString('base64');
 
     // Save the image to the database
     const newOffClientLoc = new offlineClientLogo({
@@ -879,12 +836,8 @@ app.patch('/update-exiesting-offline-client-logo/:id', employeeAuth, uploadImgBa
       return res.status(400).json({ error: 'No Logo provided' });
     }
 
-    const resizedImageBuffer = await sharp(req.file.buffer)
-      .resize({ width: 800 })
-      .toBuffer();
-
     // Convert image buffer to base64
-    const base64Image = resizedImageBuffer.toString('base64');
+    const base64Image = req.file.buffer.toString('base64');
 
     // Update the existing content with new logo using findOneAndUpdate
     const updatedResume = await offlineClientLogo.findOneAndUpdate(
