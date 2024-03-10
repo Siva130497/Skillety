@@ -47,7 +47,7 @@
 .cli-tal-pro-search-filter-head-area .cli-tal-pro-search-filter {
     color: #714F36;
     font-size: 20px;
-    font-weight: 600;
+    font-weight: 700;
     text-transform: capitalize;
 }
 
@@ -940,8 +940,8 @@
 
 .cli-tal-pro-recent-search-head {
     color: #714F36;
-    font-size: 32px;
-    font-weight: 600;
+    font-size: 25px;
+    font-weight: 700;
 }
 
 .cli-tal-pro-recent-search-area {

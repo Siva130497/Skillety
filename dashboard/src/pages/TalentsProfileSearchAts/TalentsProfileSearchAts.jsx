@@ -2742,7 +2742,7 @@ const TalentsProfileSearchAts = () => {
                                                                 <div className="cli-tal-pro-search-filter-toggle-area">
                                                                     <div class='info-icon-area'>
                                                                         <h6 className='cli--emploment-detail-head'>Notice period / Availability to join
-                                                                            <button class='info-icon-button'>
+                                                                            <button class='info-icon-button ml-2'>
                                                                                 <i class="bi bi-info-circle info-icon"></i>
                                                                             </button>
                                                                             <div class="tooltip">This is the information about the notice period & availability to join.</div>
