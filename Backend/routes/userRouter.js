@@ -78,6 +78,8 @@ const {
   contactMessageCandidate,
   getAllCandidateContactMessages,
   clientPackageSelection,
+  createPackagePlan,
+  getAllPackagePlans,
   getClientChoosenPlan,
   createViewedCandidate,
   getViewedCandidates,
@@ -463,6 +465,12 @@ router.delete('/candidate-contact-msg/:id', employeeAuth, deletingCandidateConta
 
 //client package selection endpoint
 router.post("/client-package-plan", clientPackageSelection);
+
+//find all package plans
+router.get("/all-packages", getAllPackagePlans);
+
+//create package
+router.post("/new-package", createPackagePlan);
 
 //find the client's package plan endpoint
 router.get("/client-package-plan/:id", getClientChoosenPlan);

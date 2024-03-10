@@ -19,6 +19,7 @@ const mediaDetail = require("../Database/mediaDetail");
 const contactDetail = require("../Database/contact");
 const contactCandidateDetail = require("../Database/contactCandidate");
 const clientPackage = require("../Database/clientPackage");
+const package = require("../Database/packages");
 const viewedCandidate = require("../Database/viewedCandidate");
 const enquiryFormDetail = require("../Database/enquiryFormDetail");
 const candidateChat = require("../Database/candidateChat");
@@ -69,6 +70,7 @@ const offlineCand = require("../Database/offlineCand");
 
 const webContent = require("../Database/webContent");
 const clientLogoWeb = require("../Database/clientLogoWeb");
+
 
 // const hash = async() => {
 //   const pass = 'newpassword'
@@ -2267,24 +2269,62 @@ const deletingClientContactMsg = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 }
-
-
-/* client_package choosing */
-const clientPackageSelection = async(req, res) => {
-  console.log(req.body);
-  const {id} = req.body;
+/* create package plans */
+const createPackagePlan = async(req, res) => {
+  
   try{
-    await clientPackage.deleteOne({id});
-    const newClientPackage = new clientPackage({
+    
+    const newPackage = new package({
       ...req.body,
     });
-    await newClientPackage.save();
-    console.log(newClientPackage);
-    return res.status(201).json(newClientPackage);
+    await newPackage.save();
+    
+    return res.status(201).json(newPackage);
   }catch(err){
     return res.status(500).json({ error: err.message });
   }
 }
+
+/* find all package plans */
+const getAllPackagePlans = async(req, res) => {
+  
+  try{
+    
+    const allPackages = await package.find();
+    if(allPackages.length === 0){
+      return res.status(404).json({error:"No package plans found!"})
+    }
+
+    res.status(200).json(allPackages);
+    
+  }catch(err){
+    return res.status(500).json({ error: err.message });
+  }
+}
+
+/* client_package choosing */
+const clientPackageSelection = async (req, res) => {
+    const {id} = req.body;
+  try {
+    // Update existing documents' status to false
+    await clientPackage.updateMany({id:id}, { $set: { status: false } });
+
+    // Create a new document with status as true
+    const newClientPackage = new clientPackage({
+      ...req.body,
+      loginsRemaining:req.body.logins,
+      cvViewsRemaining:req.body.cvViews,
+      activeJobsRemaining:req.body.activeJobs,
+      status: true // Set status to true for the new document
+    });
+
+    await newClientPackage.save();
+    
+    return res.status(201).json(newClientPackage);
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+};
 
 /* get client with their package plan */
 const getClientChoosenPlan = async(req, res) => {
@@ -8559,6 +8599,8 @@ module.exports = {
    contactMessageCandidate,
    getAllCandidateContactMessages,
    clientPackageSelection,
+   createPackagePlan,
+   getAllPackagePlans,
    getClientChoosenPlan,
    createViewedCandidate,
    getViewedCandidates,

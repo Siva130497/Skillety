@@ -1,6 +1,6 @@
 const { Schema, model } = require("mongoose");
 
-const clientPackageSchema = new Schema(
+const packageSchema = new Schema(
   {
     id: {
       type: String,
@@ -14,23 +14,11 @@ const clientPackageSchema = new Schema(
       type: Number,
       required: true
     },
-    loginsRemaining: {
-      type: Number,
-      required: true
-    },
     cvViews: {
         type: Number,
         required: true
       },
-    cvViewsRemaining: {
-        type: Number,
-        required: true
-      },
     activeJobs: {
-        type: Number,
-        required: true
-      },
-    activeJobsRemaining: {
         type: Number,
         required: true
       },
@@ -53,11 +41,7 @@ const clientPackageSchema = new Schema(
     GST: {
         type: String,
         required: true
-      },
-    GSTAmount: {
-        type: String,
-        required: true
-      },
+      },  
     status: {
       type: Boolean,
       required: true
@@ -66,4 +50,4 @@ const clientPackageSchema = new Schema(
   { timestamps: true }
 );
 
-module.exports = model("clientPackage", clientPackageSchema);
+module.exports = model("package", packageSchema);
