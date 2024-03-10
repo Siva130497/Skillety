@@ -19,6 +19,8 @@ const mediaDetail = require("../Database/mediaDetail");
 const contactDetail = require("../Database/contact");
 const contactCandidateDetail = require("../Database/contactCandidate");
 const clientPackage = require("../Database/clientPackage");
+const skilletyService = require("../Database/skilletyService");
+const package = require("../Database/packages");
 const viewedCandidate = require("../Database/viewedCandidate");
 const enquiryFormDetail = require("../Database/enquiryFormDetail");
 const candidateChat = require("../Database/candidateChat");
@@ -69,6 +71,7 @@ const offlineCand = require("../Database/offlineCand");
 
 const webContent = require("../Database/webContent");
 const clientLogoWeb = require("../Database/clientLogoWeb");
+
 
 // const hash = async() => {
 //   const pass = 'newpassword'
@@ -2267,30 +2270,121 @@ const deletingClientContactMsg = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 }
-
-
-/* client_package choosing */
-const clientPackageSelection = async(req, res) => {
-  console.log(req.body);
-  const {id} = req.body;
+/* create package plans */
+const createPackagePlan = async(req, res) => {
+  
   try{
-    await clientPackage.deleteOne({id});
-    const newClientPackage = new clientPackage({
+    
+    const newPackage = new package({
       ...req.body,
     });
-    await newClientPackage.save();
-    console.log(newClientPackage);
-    return res.status(201).json(newClientPackage);
+    await newPackage.save();
+    
+    return res.status(201).json(newPackage);
   }catch(err){
     return res.status(500).json({ error: err.message });
   }
 }
 
+/* find all package plans */
+const getAllPackagePlans = async(req, res) => {
+  
+  try{
+    
+    const allPackages = await package.find().sort({ createdAt: -1 });
+    if(allPackages.length === 0){
+      return res.status(404).json({error:"No package plans found!"})
+    }
+
+    res.status(200).json(allPackages);
+    
+  }catch(err){
+    return res.status(500).json({ error: err.message });
+  }
+}
+
+/* client_package choosing */
+const clientPackageSelection = async (req, res) => {
+  const { id } = req.body;
+  try {
+    // Find the current active package
+    const currentActivePackage = await clientPackage.findOne({ id: id, status: true });
+
+    if (currentActivePackage) {
+      // Calculate the days since the package was created
+      const createdAtDate = new Date(currentActivePackage.createdAt);
+      const currentDate = new Date();
+      const daysElapsed = (currentDate - createdAtDate) / (1000 * 60 * 60 * 24);
+      console.log(daysElapsed);
+      if (daysElapsed > currentActivePackage.validity) {
+        // Update existing documents' status to false
+        await clientPackage.updateMany({ id: id }, { $set: { status: false } });
+
+        // Create a new document with status as true
+        const newClientPackage = new clientPackage({
+          ...req.body,
+          loginsRemaining: req.body.logins,
+          cvViewsRemaining: req.body.cvViews,
+          activeJobsRemaining: req.body.activeJobs,
+          status: true // Set status to true for the new document
+        });
+
+        await newClientPackage.save();
+
+        return res.status(201).json(newClientPackage);
+      } else {
+        return res.status(400).json({ error: "You already have one active package!" });
+      }
+    } else {
+      // If no active package found, create a new one
+      const newClientPackage = new clientPackage({
+        ...req.body,
+        loginsRemaining: req.body.logins,
+        cvViewsRemaining: req.body.cvViews,
+        activeJobsRemaining: req.body.activeJobs,
+        status: true // Set status to true for the new document
+      });
+
+      await newClientPackage.save();
+
+      return res.status(201).json(newClientPackage);
+    }
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+};
+
+/* client service buying */
+const clientServiceBuying = async (req, res) => {
+  const { id } = req.body;
+  try {
+    const clientCurrentPackageActive = await clientPackage.findOne({ id: id, status: true });
+    if(clientCurrentPackageActive){
+      const newService = new skilletyService({
+        ...req.body,
+        remaining: req.body.quantity,
+        cvViewsRemaining: req.body.cvViews,
+        status: true // Set status to true for the new document
+      });
+
+      await newService.save();
+
+      return res.status(201).json(newService);
+    }else{
+      return res.status(400).json({ error: "No active package found!" });
+    }
+
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+};
+
+
 /* get client with their package plan */
 const getClientChoosenPlan = async(req, res) => {
   const {id} = req.params;
   try{
-    const clientWithPackagePlan = await clientPackage.findOne({id});
+    const clientWithPackagePlan = await clientPackage.findOne({ id: id, status: true });
     if(clientWithPackagePlan){
       console.log(clientWithPackagePlan);
       return res.status(200).json(clientWithPackagePlan);
@@ -2301,6 +2395,38 @@ const getClientChoosenPlan = async(req, res) => {
     return res.status(500).json({ error: err.message });
   }
 }
+
+/* get client with their package plan */
+const checkTheValidityOfPackage = async (req, res) => {
+  const { id } = req.params;
+  try {
+    // Find the current active package
+    const currentActivePackage = await clientPackage.findOne({ id: id, status: true });
+
+    if (currentActivePackage) {
+      // Calculate the days since the package was created
+      const createdAtDate = new Date(currentActivePackage.createdAt);
+      const currentDate = new Date();
+      const daysElapsed = (currentDate - createdAtDate) / (1000 * 60 * 60 * 24);
+
+      console.log(daysElapsed);
+
+      if (daysElapsed > currentActivePackage.validity) {
+        // Update the status of the package to false
+        await clientPackage.updateMany({ id: id }, { $set: { status: false } });
+
+        return res.status(200).json({ message: "Your package has expired!" });
+      } else {
+        return res.status(200).json({ message: "Your package validity period has not expired!" });
+      }
+    } else {
+      return res.status(400).json({ error: "No active package found!" });
+    }
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+};
+
 
 /* create client viewed candidate */
 const createViewedCandidate = async(req, res) => {
@@ -8559,7 +8685,11 @@ module.exports = {
    contactMessageCandidate,
    getAllCandidateContactMessages,
    clientPackageSelection,
+   clientServiceBuying,
+   createPackagePlan,
+   getAllPackagePlans,
    getClientChoosenPlan,
+   checkTheValidityOfPackage,
    createViewedCandidate,
    getViewedCandidates,
    postEnquiryFormDetail,

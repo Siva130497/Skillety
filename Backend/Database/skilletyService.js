@@ -1,52 +1,41 @@
 const { Schema, model } = require("mongoose");
 
-const clientPackageSchema = new Schema(
+const skilletyServiceSchema = new Schema(
   {
     id: {
       type: String,
       required: true
     },
-    packageType: {
+    serviceName: {
       type: String,
-      required: true
+      required: true,
+      enum: ["CVViews", "LoginIDs", "JobPostings"]
     },
-    logins: {
+    quantity: {
       type: Number,
       required: true
     },
-    loginsRemaining: {
+    remaining: {
       type: Number,
       required: true
     },
-    cvViews: {
-        type: Number,
-        required: true
-      },
-    cvViewsRemaining: {
-        type: Number,
-        required: true
-      },
-    activeJobs: {
-        type: Number,
-        required: true
-      },
-    activeJobsRemaining: {
-        type: Number,
-        required: true
-      },
     validity: {
         type: Number,
         required: true
       },
-    amount: {
+    servicePrice: {
         type: String,
         required: true
       },
-    realPrice: {
+    finalAmount: {
+        type: String,
+        required: true
+      },
+    discount: {
         type: String,
         required: true
       }, 
-    offerPrice: {
+    discountAmount: {
         type: String,
         required: true
       },
@@ -66,4 +55,4 @@ const clientPackageSchema = new Schema(
   { timestamps: true }
 );
 
-module.exports = model("clientPackage", clientPackageSchema);
+module.exports = model("skilletyService", skilletyServiceSchema);

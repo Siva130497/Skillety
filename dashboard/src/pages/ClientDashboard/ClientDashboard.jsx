@@ -31,7 +31,7 @@ import { Line } from 'react-chartjs-2';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import AuthContext from '../../context/AuthContext';
-import PackagePlans from '../PackagePlans/PackagePlans';
+import PackagePlans from '../PackagePlans/SkilletyPackagePlans';
 import ErrorPage from '../../404/404';
 
 const ClientDashboard = () => {
