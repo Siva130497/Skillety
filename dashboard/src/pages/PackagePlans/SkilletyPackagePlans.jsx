@@ -140,7 +140,7 @@ console.log(packageInfo)
 
   useEffect(()=>{
   
-    axios.get("http://localhost:5002/all-packages")
+    axios.get("https://skillety-n6r1.onrender.com/all-packages")
     .then(res=>{
       console.log(res.data);
       setAllPackages(res.data);
@@ -249,7 +249,7 @@ console.log(packageInfo)
 
   const handleBuy = () => {
     axios
-      .post("http://localhost:5002/client-package-plan", packageInfo, {
+      .post("https://skillety-n6r1.onrender.com/client-package-plan", packageInfo, {
         headers: {
           Authorization: `Bearer ${clientToken}`,
           Accept: "application/json",
