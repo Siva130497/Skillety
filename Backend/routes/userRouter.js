@@ -78,9 +78,11 @@ const {
   contactMessageCandidate,
   getAllCandidateContactMessages,
   clientPackageSelection,
+  clientServiceBuying,
   createPackagePlan,
   getAllPackagePlans,
   getClientChoosenPlan,
+  checkTheValidityOfPackage,
   createViewedCandidate,
   getViewedCandidates,
   postEnquiryFormDetail,
@@ -464,7 +466,10 @@ router.delete('/candidate-contact-msg/:id', employeeAuth, deletingCandidateConta
 
 
 //client package selection endpoint
-router.post("/client-package-plan", clientPackageSelection);
+router.post("/client-package-plan", employeeAuth, clientPackageSelection);
+
+//client service buying
+router.post("/client-skillety-service", employeeAuth, clientServiceBuying);
 
 //find all package plans
 router.get("/all-packages", getAllPackagePlans);
@@ -473,7 +478,10 @@ router.get("/all-packages", getAllPackagePlans);
 router.post("/new-package", createPackagePlan);
 
 //find the client's package plan endpoint
-router.get("/client-package-plan/:id", getClientChoosenPlan);
+router.get("/client-package-plan/:id", employeeAuth, getClientChoosenPlan);
+
+//check the validity of the package
+router.get("/checking-package-validity/:id", checkTheValidityOfPackage);
 
 //client viewed candidate create end point
 router.post("/cv-views", employeeAuth, createViewedCandidate);
