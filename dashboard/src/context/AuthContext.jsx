@@ -370,7 +370,7 @@ const candidateUpdate = async (userData) => {
 
   const getClientChoosenPlan = async (id) => {
     try {
-      const res = await axios.get(`http://localhost:5002/client-package-plan/${id}`
+      const res = await axios.get(`https://skillety-n6r1.onrender.com/client-package-plan/${id}`
       );
       const result = res.data;
       if (!result.message) {
