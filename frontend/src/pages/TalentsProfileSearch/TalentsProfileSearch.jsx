@@ -2976,7 +2976,7 @@ const TalentsProfileSearch = () => {
                                                     </div> */}
 
                                                     {/* Diversity and Additional Details */}
-                                                    {/* <div className="cli-tal-pro-search-filter-content-section">
+                                                    <div className="cli-tal-pro-search-filter-content-section">
                                                         <div className="cli-tal-pro-search-filter-toggle-area">
                                                             <h6 className='cli--emploment-detail-head'>Diversity and Additional Details</h6>
                                                             <svg xmlns="http://www.w3.org/2000/svg" className='' width="15" height="9" viewBox="0 0 15 9" fill="none">
@@ -3012,14 +3012,23 @@ const TalentsProfileSearch = () => {
                                                                                 value="female"
                                                                                 onChange={(e) => setFilters({ ...filters, gender: e.target.value })} />
                                                                             <div className="tal--search-tile">
-                                                                                <label for="female_cand" className="tal--search-tile-label">Female candidates</label>
+                                                                                <label for="female_cand" className="tal--search-tile-label">Female Candidates</label>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div className="tal--search-option-container">
+                                                                            <input id="other_cand" className="tal--search-radio" type="radio" name="gender"
+                                                                                value="other"
+                                                                                onChange={(e) => setFilters({ ...filters, gender: e.target.value })} />
+                                                                            <div className="tal--search-tile">
+                                                                                <label for="other_cand" className="tal--search-tile-label">Other Candidates</label>
                                                                             </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div> */}
+                                                    </div>
 
                                                     <div className="cli-tal-pro-search-page-btn-area">
                                                         <div className="cli-tal-pro-search-page-days-selection-area">
