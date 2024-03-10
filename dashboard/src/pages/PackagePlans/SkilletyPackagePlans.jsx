@@ -13,12 +13,13 @@ import axios from "axios";
 
 const SkilletyPackagePlans = () => {
   const [clientToken, setClientToken] = useState("");
-  const { getProtectedData } =useContext(AuthContext);
+  const { getProtectedData, getClientChoosenPlan, packageSelectionDetail } =useContext(AuthContext);
   const [employeeId, setEmployeeId] = useState("");
   const [loginClientDetail, setLoginClientDetail] = useState();
-  // const [packageType, setPackageType] = useState("");
+  const [currentPackage, setCurrentPackage] = useState();
 
   const [packageInfo, setPackageInfo] = useState();
+  const [serviceInfo, setServiceInfo] = useState();
 
   const [allPackages, setAllPackages] = useState([]);
 
@@ -134,13 +135,11 @@ const SkilletyPackagePlans = () => {
         $("html, body").animate({ scrollTop: 0 }, 800);
       });
     });
-  }, []);
-
-console.log(packageInfo)
+  }, [packageInfo]);
 
   useEffect(()=>{
   
-    axios.get("https://skillety-n6r1.onrender.com/all-packages")
+    axios.get("http://localhost:5002/all-packages")
     .then(res=>{
       console.log(res.data);
       setAllPackages(res.data);
@@ -219,17 +218,18 @@ console.log(packageInfo)
     }
   }, [employeeId]);
 
-  // useEffect(() => {
-  //   if (loginClientDetail?.companyId) {
-  //     getClientChoosenPlan(loginClientDetail?.companyId);
-  //   }
-  // }, [loginClientDetail?.companyId]);
+  useEffect(() => {
+    if (loginClientDetail?.companyId) {
+      getClientChoosenPlan(loginClientDetail?.companyId);
+    }
+  }, [loginClientDetail?.companyId]);
 
-  // useEffect(() => {
-  //   if (packageSelectionDetail) {
-  //     setPackageType(packageSelectionDetail?.packageType);
-  //   }
-  // }, [packageSelectionDetail]);
+  useEffect(() => {
+    if (packageSelectionDetail) {
+      console.log(packageSelectionDetail);
+      setCurrentPackage(packageSelectionDetail);
+    }
+  }, [packageSelectionDetail]);
 
   const handleBuying = (packageType, cvViews, logins, activeJobs, validity, amount, realPrice, offerPrice, GST, GSTAmount) => {
     setPackageInfo({
@@ -247,9 +247,24 @@ console.log(packageInfo)
     });
   };
 
+  const handleBuyingService = (serviceName, quantity, validity, servicePrice, finalAmount, discount, discountAmount, GST, GSTAmount) => {
+    setServiceInfo({
+      id: loginClientDetail?.companyId,
+      serviceName,
+      quantity,
+      validity,
+      servicePrice,
+      finalAmount,
+      discount,
+      discountAmount,
+      GST,
+      GSTAmount
+    });
+  };
+
   const handleBuy = () => {
     axios
-      .post("https://skillety-n6r1.onrender.com/client-package-plan", packageInfo, {
+      .post("http://localhost:5002/client-package-plan", packageInfo, {
         headers: {
           Authorization: `Bearer ${clientToken}`,
           Accept: "application/json",
@@ -259,6 +274,31 @@ console.log(packageInfo)
         console.log(res.data);
         showSuccessMessage(
           `Thank you for purchasing the ${packageInfo?.packageType} Package. Welcome onboard.`
+        );
+        
+        setTimeout(()=>{
+          window.location.reload();
+        },3000)
+        
+      })
+      .catch((err) => {
+        console.log(err);
+        showErrorMessage(err.response.data.error);
+      });
+  }; 
+
+  const handleBuyService = () => {
+    axios
+      .post("http://localhost:5002/client-skillety-service", serviceInfo, {
+        headers: {
+          Authorization: `Bearer ${clientToken}`,
+          Accept: "application/json",
+        },
+      })
+      .then((res) => {
+        console.log(res.data);
+        showSuccessMessage(
+          `Thank you for purchasing the ${packageInfo?.serviceName}. Welcome onboard.`
         );
         
         setTimeout(()=>{
@@ -328,7 +368,7 @@ console.log(packageInfo)
                         </div> 
 
                         <div className="packages--area tab-content">
-                          {<div className="plan--detail-area tab" id="tab1">
+                          <div className="plan--detail-area tab" id="tab1">
                             <div className="row package-row">
                               <div className="col-12 col-xl-2 col-lg-2 col-md-2 custom-width">
                                 <div className="pl--package-title-area">
@@ -356,7 +396,7 @@ console.log(packageInfo)
 
                                     <div>
                                       <h6 className="pl--package-title">
-                                        Active Jobs
+                                        Job Postings
                                       </h6>
                                     </div>
 
@@ -521,9 +561,9 @@ console.log(packageInfo)
                             </div>
 
                             {/* <p className='pl--package-desc part'>*Base unit prices of all inventory heads are fixed and same for all the companies registered in India.</p> */}
-                          </div>}
+                          </div>
 
-                          {<div className="pl--add-detail-area tab" id="tab2">
+                          <div className="pl--add-detail-area tab" id="tab2">
                             <div className="pl-package-detail-section">
                               <div className="pl-package-detail-head">
                                 Package Detail
@@ -673,7 +713,7 @@ console.log(packageInfo)
                                 </div>
                               </button>
                             </div>
-                          </div>}
+                          </div>
 
                           <div className="pl--pay-area tab" id="tab3">
                             <div className="pl--payment-section">
@@ -848,9 +888,9 @@ console.log(packageInfo)
                                 <th className="sol-price-table-head text-start">
                                   Services
                                 </th>
-                                <th className="sol-price-table-head text-center">
+                                {/* <th className="sol-price-table-head text-center">
                                   Quantity
-                                </th>
+                                </th> */}
                                 <th className="sol-price-table-head text-center">
                                   Select Quantity
                                 </th>
@@ -866,9 +906,9 @@ console.log(packageInfo)
                                 <td className="sol-price-table-data first-data text-start">
                                   CV Views
                                 </td>
-                                <td className="sol-price-table-data text-center">
+                                {/* <td className="sol-price-table-data text-center">
                                   5000
-                                </td>
+                                </td> */}
                                 <td className="sol-price-table-data text-center sol-price-table-qty-area">
                                   <button className="sol-price-table-qty-button decrement">
                                     -
@@ -924,9 +964,9 @@ console.log(packageInfo)
                                 <td className="sol-price-table-data first-data text-start">
                                   Login IDs
                                 </td>
-                                <td className="sol-price-table-data text-center">
+                                {/* <td className="sol-price-table-data text-center">
                                   05
-                                </td>
+                                </td> */}
                                 <td className="sol-price-table-data text-center sol-price-table-qty-area">
                                   <button className="sol-price-table-qty-button decrement">
                                     -
@@ -982,9 +1022,9 @@ console.log(packageInfo)
                                 <td className="sol-price-table-data first-data text-start">
                                   Job Postings
                                 </td>
-                                <td className="sol-price-table-data text-center">
+                                {/* <td className="sol-price-table-data text-center">
                                   0
-                                </td>
+                                </td> */}
                                 <td className="sol-price-table-data text-center sol-price-table-qty-area">
                                   <button className="sol-price-table-qty-button decrement">
                                     -
@@ -1039,9 +1079,9 @@ console.log(packageInfo)
                                 <td className="sol-price-table-data first-data text-start">
                                   Validity (in months)
                                 </td>
-                                <td className="sol-price-table-data text-center">
+                                {/* <td className="sol-price-table-data text-center">
                                   03
-                                </td>
+                                </td> */}
                                 <td className="sol-price-table-data text-center sol-price-table-qty-area">
                                   <button className="sol-price-table-qty-button decrement">
                                     -
