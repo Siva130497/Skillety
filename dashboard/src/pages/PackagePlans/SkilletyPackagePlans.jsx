@@ -1010,6 +1010,11 @@ const SkilletyPackagePlans = () => {
                                 <th className="sol-price-table-head text-center">
                                   Select Quantity
                                 </th>
+
+                                <th className="sol-price-table-head text-center">
+                                  Select Validity
+                                </th>
+
                                 <th className="sol-price-table-head text-center">
                                   Total Price (INR)
                                 </th>
@@ -1025,6 +1030,20 @@ const SkilletyPackagePlans = () => {
                                 {/* <td className="sol-price-table-data text-center">
                                   5000
                                 </td> */}
+                                <td className="sol-price-table-data text-center sol-price-table-qty-area">
+                                  <button className="sol-price-table-qty-button decrement">
+                                    -
+                                  </button>
+                                  <input
+                                    type="number"
+                                    className="sol-price-table-qty-input"
+                                    min={0}
+                                    value={20}
+                                  />
+                                  <button className="sol-price-table-qty-button increment">
+                                    +
+                                  </button>
+                                </td>
                                 <td className="sol-price-table-data text-center sol-price-table-qty-area">
                                   <button className="sol-price-table-qty-button decrement">
                                     -
@@ -1097,6 +1116,22 @@ const SkilletyPackagePlans = () => {
                                     +
                                   </button>
                                 </td>
+
+                                <td className="sol-price-table-data text-center sol-price-table-qty-area">
+                                  <button className="sol-price-table-qty-button decrement">
+                                    -
+                                  </button>
+                                  <input
+                                    type="number"
+                                    className="sol-price-table-qty-input"
+                                    min={0}
+                                    value={20}
+                                  />
+                                  <button className="sol-price-table-qty-button increment">
+                                    +
+                                  </button>
+                                </td>
+
                                 <td className="sol-price-table-data price text-center">
                                   0
                                 </td>
@@ -1154,50 +1189,7 @@ const SkilletyPackagePlans = () => {
                                     +
                                   </button>
                                 </td>
-                                <td className="sol-price-table-data price text-center">
-                                  0
-                                </td>
-                                <td className="text-center last-data sol-price-buy-now-btn-area">
-                                  <button className="sol-price-buy-now-btn" onClick={handleServiceBuyNowClick}>
-                                    <div className="sol-price-buy-now-btn-sub">
-                                      Buy Now
-                                    </div>
-                                    <div className="sol-price-buy-now-arrow-area">
-                                      <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        width="20"
-                                        height="20"
-                                        viewBox="0 0 27 27"
-                                        fill="none"
-                                      >
-                                        <path
-                                          d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832"
-                                          stroke="#714F36"
-                                          stroke-width="2"
-                                        />
-                                        <path
-                                          d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162"
-                                          stroke="#714F36"
-                                          stroke-width="2"
-                                        />
-                                        <path
-                                          d="M1 26L25.1667 1"
-                                          stroke="#714F36"
-                                          stroke-width="2"
-                                        />
-                                      </svg>
-                                    </div>
-                                  </button>
-                                </td>
-                              </tr>
 
-                              <tr className="sol-price-table-row">
-                                <td className="sol-price-table-data first-data text-start">
-                                  Validity (in months)
-                                </td>
-                                {/* <td className="sol-price-table-data text-center">
-                                  03
-                                </td> */}
                                 <td className="sol-price-table-data text-center sol-price-table-qty-area">
                                   <button className="sol-price-table-qty-button decrement">
                                     -
@@ -1211,6 +1203,7 @@ const SkilletyPackagePlans = () => {
                                     +
                                   </button>
                                 </td>
+
                                 <td className="sol-price-table-data price text-center">
                                   0
                                 </td>
@@ -1456,9 +1449,6 @@ const SkilletyPackagePlans = () => {
                                   Value Added Services
                                 </th>
                                 <th className="sol-price-table-head text-center">
-                                  Quantity
-                                </th>
-                                <th className="sol-price-table-head text-center">
                                   Select Quantity
                                 </th>
                                 <th className="sol-price-table-head text-center">
@@ -1472,9 +1462,6 @@ const SkilletyPackagePlans = () => {
                               <tr className="sol-price-table-row">
                                 <td className="sol-price-table-data first-data text-start">
                                   Online Technical Assessment
-                                </td>
-                                <td className="sol-price-table-data text-center">
-                                  0
                                 </td>
                                 <td className="sol-price-table-data text-center sol-price-table-qty-area">
                                   <button className="sol-price-table-qty-button decrement">
@@ -1531,9 +1518,6 @@ const SkilletyPackagePlans = () => {
                                 <td className="sol-price-table-data first-data text-start">
                                   L1 Interview (0-8 yrs)
                                 </td>
-                                <td className="sol-price-table-data text-center">
-                                  0
-                                </td>
                                 <td className="sol-price-table-data text-center sol-price-table-qty-area">
                                   <button className="sol-price-table-qty-button decrement">
                                     -
@@ -1589,9 +1573,6 @@ const SkilletyPackagePlans = () => {
                                 <td className="sol-price-table-data first-data text-start">
                                   L1 Interview (8-15 yrs)
                                 </td>
-                                <td className="sol-price-table-data text-center">
-                                  0
-                                </td>
                                 <td className="sol-price-table-data text-center sol-price-table-qty-area">
                                   <button className="sol-price-table-qty-button decrement">
                                     -
@@ -1646,9 +1627,6 @@ const SkilletyPackagePlans = () => {
                                 <td className="sol-price-table-data first-data text-start">
                                   L1 Interview (>15 yrs)
                                 </td>
-                                <td className="sol-price-table-data text-center">
-                                  0
-                                </td>
                                 <td className="sol-price-table-data text-center sol-price-table-qty-area">
                                   <button className="sol-price-table-qty-button decrement">
                                     -
@@ -1702,9 +1680,6 @@ const SkilletyPackagePlans = () => {
                               <tr className="sol-price-table-row">
                                 <td className="sol-price-table-data first-data text-start">
                                   BGV Comprehensive
-                                </td>
-                                <td className="sol-price-table-data text-center">
-                                  1
                                 </td>
                                 <td className="sol-price-table-data text-center sol-price-table-qty-area">
                                   <button className="sol-price-table-qty-button decrement">
