@@ -1607,7 +1607,7 @@ const TalentsProfileSearch = () => {
                                                         <div className="cli-tal-pro-search-filter-content">
                                                             <div class="cli-tal-pro-search-filter-title-area">
                                                                 <div class='info-icon-area'>
-                                                                    <h6 class='cli-tal-pro-search-filter-title'>Notice period / Availability to join</h6>
+                                                                    <h6 class='cli-tal-pro-search-filter-title'>Notice period / Availability to join&nbsp;</h6>
                                                                     <button class='info-icon-button'>
                                                                         <i class="ri-information-line info-icon"></i>
                                                                     </button>

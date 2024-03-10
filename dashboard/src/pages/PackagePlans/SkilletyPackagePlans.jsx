@@ -24,85 +24,85 @@ const SkilletyPackagePlans = () => {
   const [allPackages, setAllPackages] = useState([]);
 
   useEffect(() => {
-    $(document).ready(function () {
-      // Initial state
-      $(".tab").hide();
-      $("#tab1").addClass("active-tab"); // Show the first tab
-      $(".pl--track-circle").eq(0).addClass("active"); // Highlight the first circle
+    // $(document).ready(function () {
+      // // Initial state
+      // $(".tab").hide();
+      // $("#tab1").addClass("active-tab"); // Show the first tab
+      // $(".pl--track-circle").eq(0).addClass("active"); // Highlight the first circle
 
-      // Function to switch tabs and update the track area
-      function switchTab(
-        currentTab,
-        nextTab,
-        currentCircleIndex,
-        nextCircleIndex,
-        currentLineIndex,
-        nextLineIndex
-      ) {
-        $(currentTab).removeClass("active-tab");
-        $(nextTab).addClass("active-tab");
-        $(".pl--track-circle").eq(currentCircleIndex).removeClass("active");
-        $(".pl--track-circle").eq(nextCircleIndex).addClass("active");
-        $(".pl--track-line").eq(currentLineIndex).removeClass("active");
-        $(".pl--track-line").eq(nextLineIndex).addClass("active");
-      }
+      // // Function to switch tabs and update the track area
+      // function switchTab(
+      //   currentTab,
+      //   nextTab,
+      //   currentCircleIndex,
+      //   nextCircleIndex,
+      //   currentLineIndex,
+      //   nextLineIndex
+      // ) {
+      //   $(currentTab).removeClass("active-tab");
+      //   $(nextTab).addClass("active-tab");
+      //   $(".pl--track-circle").eq(currentCircleIndex).removeClass("active");
+      //   $(".pl--track-circle").eq(nextCircleIndex).addClass("active");
+      //   $(".pl--track-line").eq(currentLineIndex).removeClass("active");
+      //   $(".pl--track-line").eq(nextLineIndex).addClass("active");
+      // }
 
-      // Buy Now button click event
-      $(".buy-now").click(function () {
-        switchTab("#tab1", "#tab2", 1, 1, 1, 0);
-      });
+      // // Buy Now button click event
+      // $(".buy-now").click(function () {
+      //   switchTab("#tab1", "#tab2", 1, 1, 1, 0);
+      // });
 
-      // Next button click event
-      $(".next").click(function () {
-        if ($("#tab2").hasClass("active-tab")) {
-          switchTab("#tab2", "#tab3", 2, 2, 2, 1);
-        }
-      });
+      // // Next button click event
+      // $(".next").click(function () {
+      //   if ($("#tab2").hasClass("active-tab")) {
+      //     switchTab("#tab2", "#tab3", 2, 2, 2, 1);
+      //   }
+      // });
 
-      // Previous button click event
-      $(".previous").click(function () {
-        if ($("#tab2").hasClass("active-tab")) {
-          switchTab("#tab2", "#tab1", 1, 0, 0);
-        } else if ($("#tab3").hasClass("active-tab")) {
-          switchTab("#tab3", "#tab2", 2, 1, 1, 2);
-        }
-      });
+      // // Previous button click event
+      // $(".previous").click(function () {
+      //   if ($("#tab2").hasClass("active-tab")) {
+      //     switchTab("#tab2", "#tab1", 1, 0, 0);
+      //   } else if ($("#tab3").hasClass("active-tab")) {
+      //     switchTab("#tab3", "#tab2", 2, 1, 1, 2);
+      //   }
+      // });
 
-      $(".starter-btn-area").hover(
-        function () {
-          $(".starter-info-area").addClass("hovered");
-        },
-        function () {
-          $(".starter-info-area").removeClass("hovered");
-        }
-      );
+      // $(".starter-btn-area").hover(
+      //   function () {
+      //     $(".starter-info-area").addClass("hovered");
+      //   },
+      //   function () {
+      //     $(".starter-info-area").removeClass("hovered");
+      //   }
+      // );
 
-      $(".test-btn-area").hover(
-        function () {
-          $(".test-info-area").addClass("hovered");
-        },
-        function () {
-          $(".test-info-area").removeClass("hovered");
-        }
-      );
+      // $(".test-btn-area").hover(
+      //   function () {
+      //     $(".test-info-area").addClass("hovered");
+      //   },
+      //   function () {
+      //     $(".test-info-area").removeClass("hovered");
+      //   }
+      // );
 
-      $(".professional-btn-area").hover(
-        function () {
-          $(".professional-info-area").addClass("hovered");
-        },
-        function () {
-          $(".professional-info-area").removeClass("hovered");
-        }
-      );
+      // $(".professional-btn-area").hover(
+      //   function () {
+      //     $(".professional-info-area").addClass("hovered");
+      //   },
+      //   function () {
+      //     $(".professional-info-area").removeClass("hovered");
+      //   }
+      // );
 
-      $(".premium-btn-area").hover(
-        function () {
-          $(".premium-info-area").addClass("hovered");
-        },
-        function () {
-          $(".premium-info-area").removeClass("hovered");
-        }
-      );
+      // $(".premium-btn-area").hover(
+      //   function () {
+      //     $(".premium-info-area").addClass("hovered");
+      //   },
+      //   function () {
+      //     $(".premium-info-area").removeClass("hovered");
+      //   }
+      // );
 
       //for quantity input
       $(".sol-price-table-qty-input").val(0);
@@ -131,15 +131,120 @@ const SkilletyPackagePlans = () => {
         $input.val(currentValue + 1);
       });
 
-      $(".pl--package-btn-sub").click(function () {
-        $("html, body").animate({ scrollTop: 0 }, 800);
-      });
-    });
+      // $(".pl--package-btn-sub").click(function () {
+      //   $("html, body").animate({ scrollTop: 0 }, 800);
+      // });
+    // });
   }, [packageInfo]);
+
+  const [activeTab, setActiveTab] = useState(1);
+  const [activeServiceTab, setActiveServiceTab] = useState(1);
+  const [activeValServiceTab, setActiveValServiceTab] = useState(1);
+
+    const switchTab = (tabIndex) => {
+      setActiveTab(tabIndex);
+    };
+
+    const switchServiceTab = (tabIndex) => {
+      setActiveServiceTab(tabIndex);
+    };
+
+    const switchValServiceTab = (tabIndex) => {
+      setActiveValServiceTab(tabIndex);
+    };
+
+    const handleDoneclick = () => {
+      switchTab(1);
+
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+      });
+    };
+
+    ////for buy service
+    const handleServiceBuyNowClick = () => {
+      switchServiceTab(2);
+    };
+
+    const handleServicePreviousClick = () => {
+      if (activeServiceTab === 2) {
+        switchServiceTab(1);
+      } else if (activeServiceTab === 3) {
+        switchServiceTab(2);
+      }
+    };
+
+    const handleServicePayClick = () => {
+      if (activeServiceTab === 2) {
+        switchServiceTab(3);
+      }
+    };
+
+    const handleServiceDoneclick = () => {
+      switchServiceTab(1);
+    };
+    ///
+
+
+    ////for buy value service buy
+    const handleValServiceBuyNowClick = () => {
+      switchValServiceTab(2);
+    };
+
+    const handleValServicePreviousClick = () => {
+      if (activeValServiceTab === 2) {
+        switchValServiceTab(1);
+      } else if (activeValServiceTab === 3) {
+        switchValServiceTab(2);
+      }
+    };
+
+    const handleValServicePayClick = () => {
+      if (activeValServiceTab === 2) {
+        switchValServiceTab(3);
+      }
+    };
+
+    const handleValServiceDoneclick = () => {
+      switchValServiceTab(1);
+    };
+    ///
+
+    // const handleBuyNowClick = () => {
+    //   switchTab(2);
+    // };
+
+    // const handleNextClick = () => {
+    //   if (activeTab === 2) {
+    //     switchTab(3);
+    //   }
+    // };
+
+    const handlePreviousClick = () => {
+      if (activeTab === 2) {
+        switchTab(1);
+      } else if (activeTab === 3) {
+        switchTab(2);
+      }
+    
+      setPackageInfo();
+
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+      });
+    };
+
+  const [isTestInfoHovered, setIsTestInfoHovered] = useState(false);
+  const [isStarterInfoHovered, setIsStarterInfoHovered] = useState(false);
+  const [isScaleInfoHovered, setIsScaleInfoHovered] = useState(false);
+  const [isGrowInfoHovered, setIsGrowInfoHovered] = useState(false);
+
 
   useEffect(()=>{
   
-    axios.get("http://localhost:5002/all-packages")
+    axios.get("https://skillety-n6r1.onrender.com//all-packages")
     .then(res=>{
       console.log(res.data);
       setAllPackages(res.data);
@@ -245,6 +350,13 @@ const SkilletyPackagePlans = () => {
       GST,
       GSTAmount
     });
+
+    switchTab(2);
+
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
   };
 
   const handleBuyingService = (serviceName, quantity, validity, servicePrice, finalAmount, discount, discountAmount, GST, GSTAmount) => {
@@ -264,7 +376,7 @@ const SkilletyPackagePlans = () => {
 
   const handleBuy = () => {
     axios
-      .post("http://localhost:5002/client-package-plan", packageInfo, {
+      .post("https://skillety-n6r1.onrender.com//client-package-plan", packageInfo, {
         headers: {
           Authorization: `Bearer ${clientToken}`,
           Accept: "application/json",
@@ -285,11 +397,20 @@ const SkilletyPackagePlans = () => {
         console.log(err);
         showErrorMessage(err.response.data.error);
       });
+
+      if (activeTab === 2) {
+        switchTab(3);
+      }
+
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+      });
   }; 
 
   const handleBuyService = () => {
     axios
-      .post("http://localhost:5002/client-skillety-service", serviceInfo, {
+      .post("https://skillety-n6r1.onrender.com//client-skillety-service", serviceInfo, {
         headers: {
           Authorization: `Bearer ${clientToken}`,
           Accept: "application/json",
@@ -341,25 +462,25 @@ const SkilletyPackagePlans = () => {
 
                           <div className="plan--purchase-track-area">
                             <div className="pl--track-circle-area">
-                              <div className="pl--track-circle active">
+                              <div className={`pl--track-circle ${activeTab === 1 || activeTab === 2 || activeTab === 3 ? 'active' : ''}`}>
                                 <span>1</span>
                               </div>
                               <h6 className="pl--track-status">Pick Plan</h6>
                             </div>
 
-                            <div className="pl--track-line"></div>
+                            <div className={`pl--track-line  ${activeTab === 2 || activeTab === 3 ? 'active' : ''}`}></div>
 
                             <div className="pl--track-circle-area">
-                              <div className="pl--track-circle">
+                              <div className={`pl--track-circle ${activeTab === 2 || activeTab === 3 ? 'active' : ''}`}>
                                 <span>2</span>
                               </div>
                               <h6 className="pl--track-status">Add details</h6>
                             </div>
 
-                            <div className="pl--track-line"></div>
+                            <div className={`pl--track-line  ${activeTab === 3 ? 'active' : ''}`}></div>
 
                             <div className="pl--track-circle-area">
-                              <div className="pl--track-circle">
+                              <div className={`pl--track-circle ${activeTab === 3 ? 'active' : ''}`}>
                                 <span>3</span>
                               </div>
                               <h6 className="pl--track-status">Pay</h6>
@@ -368,7 +489,7 @@ const SkilletyPackagePlans = () => {
                         </div> 
 
                         <div className="packages--area tab-content">
-                          <div className="plan--detail-area tab" id="tab1">
+                          <div className={`plan--detail-area tab ${activeTab === 1 ? 'active-tab' : ''}`} id="tab1">
                             <div className="row package-row">
                               <div className="col-12 col-xl-2 col-lg-2 col-md-2 custom-width">
                                 <div className="pl--package-title-area">
@@ -440,7 +561,7 @@ const SkilletyPackagePlans = () => {
                                   key={pack.id}>
                                     <div className="pl--package-detail-area">
                                       <div
-                                        className="pl--package-info-area test-info-area"
+                                        className={`pl--package-info-area`}
                                       >
                                         <img
                                           src="../assets/img/packages/Starter.png"
@@ -467,8 +588,6 @@ const SkilletyPackagePlans = () => {
                                           </h6>
                                         </div>
 
-                                        
-
                                         <div className="pl--package-mobile-flex">
                                           <h6 className="pl--package-mobile-title">
                                             Active Jobs
@@ -484,8 +603,6 @@ const SkilletyPackagePlans = () => {
                                             {pack.validity}
                                           </h6>
                                         </div>
-
-                                        
 
                                         <div className="pl--package-mobile-flex">
                                           <h6 className="pl--package-mobile-title">
@@ -563,7 +680,7 @@ const SkilletyPackagePlans = () => {
                             {/* <p className='pl--package-desc part'>*Base unit prices of all inventory heads are fixed and same for all the companies registered in India.</p> */}
                           </div>
 
-                          <div className="pl--add-detail-area tab" id="tab2">
+                          <div className={`pl--add-detail-area tab ${activeTab === 2 ? 'active-tab' : ''}`} id="tab2">
                             <div className="pl-package-detail-section">
                               <div className="pl-package-detail-head">
                                 Package Detail
@@ -647,7 +764,7 @@ const SkilletyPackagePlans = () => {
                               </div>
                             </div>
                             <div className="pl--package-btn-area">
-                              <button className="pl--package-btn-sub previous">
+                              <button className="pl--package-btn-sub previous" onClick={handlePreviousClick}>
                                 <div className="pl--package-arrow-area buy-now prev custom-mobile-d-none">
                                   <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -673,8 +790,7 @@ const SkilletyPackagePlans = () => {
                                     />
                                   </svg>
                                 </div>
-                                <div className="pl--package-btn buy-now"
-                                onClick={()=>setPackageInfo()}>
+                                <div className="pl--package-btn buy-now">
                                   Previous
                                 </div>
                               </button>
@@ -715,7 +831,7 @@ const SkilletyPackagePlans = () => {
                             </div>
                           </div>
 
-                          <div className="pl--pay-area tab" id="tab3">
+                          <div className={`pl--pay-area tab ${activeTab === 3 ? 'active-tab' : ''}`} id="tab3">
                             <div className="pl--payment-section">
                               {/* if payment was success */}
                               <div className="pl-payment-area success">
@@ -729,22 +845,22 @@ const SkilletyPackagePlans = () => {
                                 </div>
                               </div>
 
-                              {/* if payment was success */}
-                              {/* <div className="pl-payment-area failed">
-                                                            <img src="assets/img/packages/payment-failed.png" className='pl-payment-img' alt="" />
-                                                            <div className="pl-payment-message failed">Payment Failed..!</div>
-                                                        </div> */}
+                              {/* if payment was failed */}
+                            {/* <div className="pl-payment-area failed">
+                                  <img src="assets/img/packages/payment-failed.png" className='pl-payment-img' alt="" />
+                                  <div className="pl-payment-message failed">Payment Failed..!</div>
+                              </div> */}
                               {/*  */}
                             </div>
                             <div className="pl--package-btn-area">
-                              <button className="pl--package-btn-sub">
+                              <button className="pl--package-btn-sub" onClick={handleDoneclick}>
                                 {/* <div className='pl--package-arrow-area prev custom-mobile-d-none'>
-                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 27 27" fill="none">
-                                                                        <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="white" stroke-width="2" />
-                                                                        <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="white" stroke-width="2" />
-                                                                        <path d="M1 26L25.1667 1" stroke="white" stroke-width="2" />
-                                                                        </svg>
-                                                                    </div> */}
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 27 27" fill="none">
+                                  <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="white" stroke-width="2" />
+                                  <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="white" stroke-width="2" />
+                                  <path d="M1 26L25.1667 1" stroke="white" stroke-width="2" />
+                                  </svg>
+                              </div> */}
                                 <div className="pl--package-btn buy-now">
                                   Done
                                 </div>
@@ -881,7 +997,7 @@ const SkilletyPackagePlans = () => {
                           SKILLETY SERVICES PRICES
                         </h5>
 
-                        <div className="table-responsive">
+                        <div className={`table-responsive tab ${activeServiceTab === 1 ? 'active-tab' : ''}`}>
                           <table className="table sol-price-table">
                             <thead>
                               <tr className="sol-price-table-head-row">
@@ -927,7 +1043,7 @@ const SkilletyPackagePlans = () => {
                                   0
                                 </td>
                                 <td className="text-center last-data sol-price-buy-now-btn-area">
-                                  <button className="sol-price-buy-now-btn">
+                                  <button className="sol-price-buy-now-btn" onClick={handleServiceBuyNowClick}>
                                     <div className="sol-price-buy-now-btn-sub">
                                       Buy Now
                                     </div>
@@ -985,7 +1101,7 @@ const SkilletyPackagePlans = () => {
                                   0
                                 </td>
                                 <td className="text-center last-data sol-price-buy-now-btn-area">
-                                  <button className="sol-price-buy-now-btn">
+                                  <button className="sol-price-buy-now-btn"  onClick={handleServiceBuyNowClick}>
                                     <div className="sol-price-buy-now-btn-sub">
                                       Buy Now
                                     </div>
@@ -1042,7 +1158,7 @@ const SkilletyPackagePlans = () => {
                                   0
                                 </td>
                                 <td className="text-center last-data sol-price-buy-now-btn-area">
-                                  <button className="sol-price-buy-now-btn">
+                                  <button className="sol-price-buy-now-btn" onClick={handleServiceBuyNowClick}>
                                     <div className="sol-price-buy-now-btn-sub">
                                       Buy Now
                                     </div>
@@ -1099,7 +1215,7 @@ const SkilletyPackagePlans = () => {
                                   0
                                 </td>
                                 <td className="text-center last-data sol-price-buy-now-btn-area">
-                                  <button className="sol-price-buy-now-btn">
+                                  <button className="sol-price-buy-now-btn" onClick={handleServiceBuyNowClick}>
                                     <div className="sol-price-buy-now-btn-sub">
                                       Buy Now
                                     </div>
@@ -1135,6 +1251,193 @@ const SkilletyPackagePlans = () => {
                           </table>
                         </div>
 
+                        <div className={`pl--add-detail-area mt-5 tab ${activeServiceTab === 2 ? 'active-tab' : ''}`}>
+                            <div className="pl-package-detail-section">
+                              <div className="pl-package-detail-head">
+                                Package Detail
+                              </div>
+                              <div className="pl-package-detail-area">
+                                <div className="row pl-package-row">
+                                  <div className="col-6">
+                                    <div className="pl-package-detail-title">
+                                      Service
+                                    </div>
+                                  </div>
+                                  <div className="col-6">
+                                    <div className="pl-package-detail-view-area">
+                                      <div className="pl-package-detail-title">
+                                        CV View
+                                      </div>
+                                      {/* <button
+                                        type="button"
+                                        className="pl-package-detail-view-btn"
+                                        title="View More Detail.."
+                                        data-toggle="modal"
+                                        data-target="#package_detail_modal"
+                                      >
+                                        <i class="bi bi-eye-fill"></i>
+                                      </button> */}
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div className="row pl-package-row">
+                                  <div className="col-6">
+                                    <div className="pl-package-detail-title">
+                                      Real Price
+                                    </div>
+                                  </div>
+                                  <div className="col-6">
+                                    <div className="pl-package-detail-title line-through">
+                                      INR 1500
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div className="row pl-package-row">
+                                  <div className="col-6">
+                                    <div className="pl-package-detail-title">
+                                      Inaugural Offer Price
+                                    </div>
+                                  </div>
+                                  <div className="col-6">
+                                    <div className="pl-package-detail-title">
+                                      INR 900
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div className="row pl-package-row no-border">
+                                  <div className="col-6">
+                                    <div className="pl-package-detail-title">
+                                      GST - 18%
+                                    </div>
+                                  </div>
+                                  <div className="col-6">
+                                    <div className="pl-package-detail-title">
+                                      INR 100
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div className="row pl-package-row bottom">
+                                  <div className="col-6">
+                                    <div className="pl-package-detail-title">
+                                      Total Amount
+                                    </div>
+                                  </div>
+                                  <div className="col-6">
+                                    <div className="pl-package-detail-title">
+                                    INR 1000
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div className="pl--package-btn-area">
+                              <button className="pl--package-btn-sub previous" onClick={handleServicePreviousClick}>
+                                <div className="pl--package-arrow-area buy-now prev custom-mobile-d-none">
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="20"
+                                    height="20"
+                                    viewBox="0 0 27 27"
+                                    fill="none"
+                                  >
+                                    <path
+                                      d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832"
+                                      stroke="white"
+                                      stroke-width="2"
+                                    />
+                                    <path
+                                      d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162"
+                                      stroke="white"
+                                      stroke-width="2"
+                                    />
+                                    <path
+                                      d="M1 26L25.1667 1"
+                                      stroke="white"
+                                      stroke-width="2"
+                                    />
+                                  </svg>
+                                </div>
+                                <div className="pl--package-btn buy-now">
+                                  Previous
+                                </div>
+                              </button>
+
+                              <button onClick={handleServicePayClick}
+                                className="pl--package-btn-sub next"
+                              >
+                                <div className="pl--package-btn buy-now">
+                                  Proceed to Pay
+                                </div>
+                                <div className="pl--package-arrow-area buy-now custom-mobile-d-none">
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="20"
+                                    height="20"
+                                    viewBox="0 0 27 27"
+                                    fill="none"
+                                  >
+                                    <path
+                                      d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832"
+                                      stroke="white"
+                                      stroke-width="2"
+                                    />
+                                    <path
+                                      d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162"
+                                      stroke="white"
+                                      stroke-width="2"
+                                    />
+                                    <path
+                                      d="M1 26L25.1667 1"
+                                      stroke="white"
+                                      stroke-width="2"
+                                    />
+                                  </svg>
+                                </div>
+                              </button>
+                            </div>
+                        </div>
+
+                        <div className={`pl--pay-area tab mt-5 ${activeServiceTab === 3 ? 'active-tab' : ''}`} id="tab3">
+                            <div className="pl--payment-section">
+                              {/* if payment was success */}
+                              <div className="pl-payment-area success">
+                                <img
+                                  src="assets/img/packages/payment-success.png"
+                                  className="pl-payment-img"
+                                  alt=""
+                                />
+                                <div className="pl-payment-message success">
+                                  Payment Success..!
+                                </div>
+                              </div>
+
+                              {/* if payment was failed */}
+                            {/* <div className="pl-payment-area failed">
+                                  <img src="assets/img/packages/payment-failed.png" className='pl-payment-img' alt="" />
+                                  <div className="pl-payment-message failed">Payment Failed..!</div>
+                              </div> */}
+                              {/*  */}
+                            </div>
+                            <div className="pl--package-btn-area">
+                              <button className="pl--package-btn-sub" onClick={handleServiceDoneclick}>
+                                {/* <div className='pl--package-arrow-area prev custom-mobile-d-none'>
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 27 27" fill="none">
+                                  <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="white" stroke-width="2" />
+                                  <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="white" stroke-width="2" />
+                                  <path d="M1 26L25.1667 1" stroke="white" stroke-width="2" />
+                                  </svg>
+                              </div> */}
+                                <div className="pl--package-btn buy-now">
+                                  Done
+                                </div>
+                              </button>
+                            </div>
+                          </div>
+
                         {/* <h6 className="sol-price-information">
                           Beyond this, please contact the Sales department.
                         </h6> */}
@@ -1145,7 +1448,7 @@ const SkilletyPackagePlans = () => {
                           SKILLETY VALUE ADDED SERVICES PRICES
                         </h5>
 
-                        <div className="table-responsive">
+                        <div  className={`table-responsive tab ${activeValServiceTab === 1 ? 'active-tab' : ''}`}>
                           <table className="table sol-price-table">
                             <thead>
                               <tr className="sol-price-table-head-row">
@@ -1191,7 +1494,7 @@ const SkilletyPackagePlans = () => {
                                   0
                                 </td>
                                 <td className="text-center last-data sol-price-buy-now-btn-area">
-                                  <button className="sol-price-buy-now-btn">
+                                  <button className="sol-price-buy-now-btn" onClick={handleValServiceBuyNowClick}>
                                     <div className="sol-price-buy-now-btn-sub">
                                       Buy Now
                                     </div>
@@ -1249,7 +1552,7 @@ const SkilletyPackagePlans = () => {
                                   0
                                 </td>
                                 <td className="text-center last-data sol-price-buy-now-btn-area">
-                                  <button className="sol-price-buy-now-btn">
+                                  <button className="sol-price-buy-now-btn" onClick={handleValServiceBuyNowClick}>
                                     <div className="sol-price-buy-now-btn-sub">
                                       Buy Now
                                     </div>
@@ -1306,7 +1609,7 @@ const SkilletyPackagePlans = () => {
                                   0
                                 </td>
                                 <td className="text-center last-data sol-price-buy-now-btn-area">
-                                  <button className="sol-price-buy-now-btn">
+                                  <button className="sol-price-buy-now-btn" onClick={handleValServiceBuyNowClick}>
                                     <div className="sol-price-buy-now-btn-sub">
                                       Buy Now
                                     </div>
@@ -1363,7 +1666,7 @@ const SkilletyPackagePlans = () => {
                                   0
                                 </td>
                                 <td className="text-center last-data sol-price-buy-now-btn-area">
-                                  <button className="sol-price-buy-now-btn">
+                                  <button className="sol-price-buy-now-btn" onClick={handleValServiceBuyNowClick}>
                                     <div className="sol-price-buy-now-btn-sub">
                                       Buy Now
                                     </div>
@@ -1420,7 +1723,7 @@ const SkilletyPackagePlans = () => {
                                   0
                                 </td>
                                 <td className="text-center last-data sol-price-buy-now-btn-area">
-                                  <button className="sol-price-buy-now-btn">
+                                  <button className="sol-price-buy-now-btn" onClick={handleValServiceBuyNowClick}>
                                     <div className="sol-price-buy-now-btn-sub">
                                       Buy Now
                                     </div>
@@ -1454,6 +1757,193 @@ const SkilletyPackagePlans = () => {
                               </tr>
                             </tbody>
                           </table>
+                        </div>
+
+                        <div className={`pl--add-detail-area mt-5 mb-5 tab ${activeValServiceTab === 2 ? 'active-tab' : ''}`}>
+                            <div className="pl-package-detail-section">
+                              <div className="pl-package-detail-head">
+                                Package Detail
+                              </div>
+                              <div className="pl-package-detail-area">
+                                <div className="row pl-package-row">
+                                  <div className="col-6">
+                                    <div className="pl-package-detail-title">
+                                      Service
+                                    </div>
+                                  </div>
+                                  <div className="col-6">
+                                    <div className="pl-package-detail-view-area">
+                                      <div className="pl-package-detail-title">
+                                        Online Technical Assessment
+                                      </div>
+                                      {/* <button
+                                        type="button"
+                                        className="pl-package-detail-view-btn"
+                                        title="View More Detail.."
+                                        data-toggle="modal"
+                                        data-target="#package_detail_modal"
+                                      >
+                                        <i class="bi bi-eye-fill"></i>
+                                      </button> */}
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div className="row pl-package-row">
+                                  <div className="col-6">
+                                    <div className="pl-package-detail-title">
+                                      Real Price
+                                    </div>
+                                  </div>
+                                  <div className="col-6">
+                                    <div className="pl-package-detail-title line-through">
+                                      INR 1500
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div className="row pl-package-row">
+                                  <div className="col-6">
+                                    <div className="pl-package-detail-title">
+                                      Inaugural Offer Price
+                                    </div>
+                                  </div>
+                                  <div className="col-6">
+                                    <div className="pl-package-detail-title">
+                                      INR 900
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div className="row pl-package-row no-border">
+                                  <div className="col-6">
+                                    <div className="pl-package-detail-title">
+                                      GST - 18%
+                                    </div>
+                                  </div>
+                                  <div className="col-6">
+                                    <div className="pl-package-detail-title">
+                                      INR 100
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div className="row pl-package-row bottom">
+                                  <div className="col-6">
+                                    <div className="pl-package-detail-title">
+                                      Total Amount
+                                    </div>
+                                  </div>
+                                  <div className="col-6">
+                                    <div className="pl-package-detail-title">
+                                    INR 1000
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div className="pl--package-btn-area">
+                              <button className="pl--package-btn-sub previous" onClick={handleValServicePreviousClick}>
+                                <div className="pl--package-arrow-area buy-now prev custom-mobile-d-none">
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="20"
+                                    height="20"
+                                    viewBox="0 0 27 27"
+                                    fill="none"
+                                  >
+                                    <path
+                                      d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832"
+                                      stroke="white"
+                                      stroke-width="2"
+                                    />
+                                    <path
+                                      d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162"
+                                      stroke="white"
+                                      stroke-width="2"
+                                    />
+                                    <path
+                                      d="M1 26L25.1667 1"
+                                      stroke="white"
+                                      stroke-width="2"
+                                    />
+                                  </svg>
+                                </div>
+                                <div className="pl--package-btn buy-now">
+                                  Previous
+                                </div>
+                              </button>
+
+                              <button onClick={handleValServicePayClick}
+                                className="pl--package-btn-sub next"
+                              >
+                                <div className="pl--package-btn buy-now">
+                                  Proceed to Pay
+                                </div>
+                                <div className="pl--package-arrow-area buy-now custom-mobile-d-none">
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="20"
+                                    height="20"
+                                    viewBox="0 0 27 27"
+                                    fill="none"
+                                  >
+                                    <path
+                                      d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832"
+                                      stroke="white"
+                                      stroke-width="2"
+                                    />
+                                    <path
+                                      d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162"
+                                      stroke="white"
+                                      stroke-width="2"
+                                    />
+                                    <path
+                                      d="M1 26L25.1667 1"
+                                      stroke="white"
+                                      stroke-width="2"
+                                    />
+                                  </svg>
+                                </div>
+                              </button>
+                            </div>
+                        </div>
+
+                        <div className={`pl--pay-area tab mt-5 mb-5 ${activeValServiceTab === 3 ? 'active-tab' : ''}`} id="tab3">
+                            <div className="pl--payment-section">
+                              {/* if payment was success */}
+                              <div className="pl-payment-area success">
+                                <img
+                                  src="assets/img/packages/payment-success.png"
+                                  className="pl-payment-img"
+                                  alt=""
+                                />
+                                <div className="pl-payment-message success">
+                                  Payment Success..!
+                                </div>
+                              </div>
+
+                              {/* if payment was failed */}
+                            {/* <div className="pl-payment-area failed">
+                                  <img src="assets/img/packages/payment-failed.png" className='pl-payment-img' alt="" />
+                                  <div className="pl-payment-message failed">Payment Failed..!</div>
+                              </div> */}
+                              {/*  */}
+                            </div>
+                            <div className="pl--package-btn-area">
+                              <button className="pl--package-btn-sub" onClick={handleValServiceDoneclick}>
+                                {/* <div className='pl--package-arrow-area prev custom-mobile-d-none'>
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 27 27" fill="none">
+                                  <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="white" stroke-width="2" />
+                                  <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="white" stroke-width="2" />
+                                  <path d="M1 26L25.1667 1" stroke="white" stroke-width="2" />
+                                  </svg>
+                              </div> */}
+                                <div className="pl--package-btn buy-now">
+                                  Done
+                                </div>
+                              </button>
+                            </div>
                         </div>
 
                         <h6 className="sol-price-information">
