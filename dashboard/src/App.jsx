@@ -17,7 +17,7 @@ import AppliedCandidate from './pages/AppliedCandidate/AppliedCandidate';
 import AssignedCandidate from './pages/AssignedCandidates/AssignedCandidate';
 import JobEditing from './pages/EditJob/JobEditing';
 import InvoicePayment from './pages/InvoicePayment/InvoicePayment';
-import PackagePlans from './pages/PackagePlans/PackagePlans';
+import PackagePlans from './pages/PackagePlans/SkilletyPackagePlans';
 
 import JobDetails from './pages/JobDetails/JobDetails';
 import ClientProfile from './pages/ClientProfile/ClientProfile';
