@@ -1,7 +1,14 @@
 .plans--section {
     margin-top: 150px;
+    margin-bottom: 100px;
     padding-top: 60px;
     overflow: hidden !important;
+}
+
+.plans--container {
+    border-radius: 16px;
+    background-color: #FFF;
+    padding: 40px 25px;
 }
 
 .plans--head-area {
@@ -14,24 +21,24 @@
 .plans--head-area .plans--heading {
     color: #714F36;
     text-align: center;
-    font-size: 45px;
+    font-size: 35px;
     font-weight: 500;
     line-height: normal;
     text-transform: uppercase;
-    margin-bottom: 30px;
+    margin-bottom: 40px;
 }
 
 .plans--head-area .plans--sub-head {
     color: #5C3B2E;
     text-align: center;
-    font-size: 20px;
+    font-size: 16px;
     font-weight: 400;
     line-height: normal;
     width: 87%;
 }
 
 .plan--purchase-track-area {
-    margin-top: 87px;
+    margin-top: 60px;
     margin-bottom: 20px;
     position: relative;
     display: flex;
@@ -42,8 +49,8 @@
 
 .plan--purchase-track-area .pl--track-circle {
     position: relative;
-    width: 71px;
-    height: 71px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
     flex-shrink: 0;
     border: 2px solid #714F36;
@@ -55,8 +62,8 @@
 .pl--track-circle span {
     color: #714F36;
     text-align: center;
-    font-size: 36px;
-    font-weight: 400;
+    font-size: 28px;
+    font-weight: 500;
     text-transform: uppercase;
     line-height: 0;
     z-index: 1;
@@ -75,11 +82,11 @@
     /* margin-top: 25px; */
     text-align: center;
     color: #5C3B2E;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 400;
     line-height: normal;
     position: absolute;
-    top: 95px;
+    top: 80px;
     z-index: 3;
     white-space: nowrap;
 
@@ -121,8 +128,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 50px;
-    height: 50px;
+    width: 45px;
+    height: 45px;
     position: absolute;
     background-color: #F9C833;
     border-radius: 50%;
@@ -131,8 +138,8 @@
 }
 
 .packages--area {
-    margin-top: 140px;
-    margin-bottom: 120px;
+    margin-top: 60px;
+    /* margin-bottom: 120px; */
 }
 
 .pl--package-title-area {
@@ -148,21 +155,21 @@
 }
 
 .pl--package-title-area .pl--package-name-hidden {
-    margin-top: 45px;
+    margin-top: 12px;
     padding-bottom: 30px;
     margin-bottom: 0;
     color: #714F36;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 600;
     line-height: normal;
 }
 
 .pl--package-title-area .pl--package-title {
     color: #714F36;
-    font-size: 20px;
+    font-size: 16px;
     font-weight: 500;
-    margin-top: 30px;
-    padding-bottom: 30px;
+    margin-top: 20px;
+    padding-bottom: 25px;
     margin-bottom: 0;
 }
 
@@ -185,8 +192,8 @@
 }
 
 .pl--package-detail-area .pl--package-img {
-    width: 80px;
-    height: 80px;
+    width: 60px;
+    height: 60px;
     object-fit: contain;
     text-align: center;
     transition: ease-in-out 0.5s;
@@ -194,29 +201,28 @@
 
 .pl--package-detail-area .pl--package-name {
     margin-top: 30px;
-    padding-bottom: 30px;
+    padding-bottom: 20px;
     margin-bottom: 0;
-    /* margin-top: 54px; */
     color: #714F36;
-    font-size: 30px;
+    font-size: 25px;
     font-weight: 600;
     line-height: normal;
     text-align: center;
 }
 
 .pl--package-detail-area .pl--package-info {
-    margin-top: 30px;
-    padding-bottom: 30px;
+    margin-top: 20px;
+    padding-bottom: 25px;
     margin-bottom: 0;
     color: #714F36;
-    font-size: 20px;
+    font-size: 16px;
     font-style: normal;
     font-weight: 500;
     border-bottom: 1px solid #714F36;
 }
 
 .pl--package-btn-area {
-    margin-top: 40px;
+    margin-top: 30px;
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -235,18 +241,18 @@
     white-space: nowrap;
 }
 
-.pl--package-btn {
-    border-radius: 48px;
-    background-color: #714F36;
-    padding: 13px 45px;
-    color: #FFF;
-    font-size: 20px;
-    font-weight: 500;
-    position: relative;
-    z-index: 1;
-    background-repeat: no-repeat;
+.pl--package-btn.buy-now {
+    border-radius: 48px !important;
+    background-color: #714F36 !important;
+    padding: 13px 45px !important;
+    color: #FFF !important;
+    font-size: 16px !important;
+    font-weight: 500 !important;
+    position: relative !important;
+    z-index: 1 !important;
+    background-repeat: no-repeat !important;
     overflow: hidden !important;
-    transition: ease-in-out 0.5s;
+    transition: ease-in-out 0.5s !important;
 }
 
 .pl--package-btn::after {
@@ -280,7 +286,7 @@
     transform: rotate(225deg);
 }
 
-.pl--package-arrow-area {
+.pl--package-arrow-area.buy-now {
     border-radius: 50%;
     background-color: #714F36;
     padding: 15px;
@@ -315,6 +321,22 @@
     line-height: normal;
 }
 
+.package-row .col-xl-2,
+.package-row .col-lg-2,
+.package-row .col-md-2 {
+    flex: 0 0 20%;
+    max-width: 20%;
+}
+
+.line-through {
+    text-decoration: line-through;
+    color: #a5a5a5 !important;
+}
+
+.package-row .offset-xl-1 {
+    margin-left: 0% !important;
+}
+
 .tab {
     overflow: hidden;
     transition: display 0.5s ease-in-out;
@@ -331,7 +353,7 @@
 
 .pl--package-info-area {
     padding: 40px 10px;
-    border-radius: 48px;
+    border-radius: 30px;
     transition: ease-in-out 0.5s;
 }
 
@@ -353,24 +375,23 @@
 
 
 .sol-price-container {
-    margin-top: 76px;
-    margin-bottom: 120px;
-    padding: 0 20px;
+    margin-top: 50px;
+    margin-bottom: 40px;
 }
 
 .sol-price-container .sol-price-area {
     border-radius: 16px;
-    background-color: #FFF6F0;
-    padding: 30px;
+    background-color: #ffffff;
+    padding: 40px 20px;
 }
 
 .sol-price-heading {
     color: #714F36;
     text-align: center;
-    font-size: 40px;
+    font-size: 30px;
     font-weight: 600;
     text-transform: uppercase;
-    margin-bottom: 0;
+    margin-bottom: 0px;
 }
 
 .sol-price-table {
@@ -380,16 +401,16 @@
 
 .sol-price-table .sol-price-table-head {
     color: #714F36 !important;
-    font-size: 20px !important;
+    font-size: 16px !important;
     font-weight: 700 !important;
-    padding: 50px 20px;
+    padding: 30px 20px !important;
     vertical-align: middle;
     white-space: nowrap;
 }
 
 .sol-price-table-data {
     color: #714F36 !important;
-    font-size: 20px !important;
+    font-size: 16px !important;
     font-weight: 500 !important;
     padding: 30px 20px !important;
     vertical-align: middle !important;
@@ -401,20 +422,33 @@
     padding: 25px 20px !important;
 }
 
+.sol-price-table-head-row th:first-child {
+    border-radius: 20px 0 0 20px;
+}
+
+.sol-price-table-head-row th:last-child {
+    border-radius: 0 20px 20px 0;
+}
+
 .sol-price-table-qty-button {
     transition: ease 0.3s !important;
     border-radius: 50%;
     outline: none;
     flex-shrink: 0;
     border: none;
-    font-size: 30px;
+    font-size: 20px;
     color: #714F36;
     font-weight: 600;
-    width: 45px;
-    height: 45px;
+    width: 35px;
+    height: 35px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
+}
+
+.sol-price-table-qty-button:focus,
+.sol-price-table-qty-button:active {
+    outline: none;
 }
 
 .sol-price-table-qty-button.decrement {
@@ -436,15 +470,15 @@
     width: 50px;
     text-align: center;
     color: #714F36;
-    font-size: 24px;
+    font-size: 16px;
     font-weight: 500;
 }
 
 .sol-price-table-qty-area {
-    display: flex;
-    gap: 20px;
-    align-items: center;
-    justify-content: center;
+    /* display: flex !important;
+    gap: 15px !important;
+    align-items: center !important;
+    justify-content: center !important; */
 }
 
 .sol-price-table-qty-area input[type="number"]::-webkit-inner-spin-button,
@@ -456,7 +490,7 @@
 
 .table>:not(caption)>*>* {
     padding: .5rem .5rem;
-    background-color: transparent !important;
+    /* background-color: transparent; */
     border-bottom-width: 0px;
     box-shadow: inset 0 0 0 9999px var(--bs-table-bg-state, var(--bs-table-bg-type, var(--bs-table-accent-bg)));
     border: none;
@@ -464,6 +498,7 @@
 
 .sol-price-table-row {
     transition: ease-in-out 0.5s !important;
+    vertical-align: middle !important;
 }
 
 .sol-price-table tr {
@@ -512,9 +547,9 @@
     border-radius: 48px;
     border: 3px solid #714F36;
     background-color: transparent;
-    padding: 13px 45px;
+    padding: 10px 30px;
     color: #714F36;
-    font-size: 20px;
+    font-size: 16px;
     font-weight: 500;
     white-space: nowrap;
     position: relative;
@@ -563,7 +598,7 @@
     border-radius: 50%;
     background-color: transparent;
     border: 3px solid #714F36;
-    padding: 15px;
+    padding: 12px 13px;
     transition: ease-in-out 0.8s;
     position: relative;
 }
@@ -604,10 +639,10 @@
 
 .sol-price-information {
     color: #5C3B2E;
-    font-size: 20px;
+    font-size: 16px;
     font-weight: 500;
     margin-bottom: 0;
-    padding: 30px 20px;
+    padding: 20px;
 }
 
 .sol-price-area .table-responsive::-webkit-scrollbar {
@@ -627,18 +662,18 @@
     margin-bottom: 0;
     padding: 0;
     color: #5C3B2E;
-    font-size: 20px;
+    font-size: 16px;
     font-weight: 400;
     line-height: normal;
 }
 
 .term-con-area {
-    padding: 0px 30px 70px 30px;
+    padding: 0px 0px 50px 0px;
 }
 
 .term-con a {
     color: #0F75C5;
-    font-size: 20px;
+    font-size: 16px;
     font-weight: 700;
     line-height: normal;
     text-decoration-line: underline;
@@ -663,13 +698,13 @@
 }
 
 .pl-package-detail-head {
-    font-size: 30px;
+    font-size: 25px;
     font-weight: 600;
     color: #714F36;
 }
 
 .pl-package-detail-title {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 600;
     color: #714F36;
 }
@@ -732,6 +767,19 @@
 
 .pl-pack-det-modal-header {
     background-color: #FFF6F0;
+    padding: 20px 25px;
+    border-radius: 10px 10px 0px 0px !important;
+}
+
+.pl-pack-det-modal-body {
+    padding: 25px !important;
+}
+
+.pl-pack-det-modal-footer {
+    background-color: #f5f5f5;
+    padding: 20px 25px;
+    border-radius: 0px 0px 10px 10px !important;
+    justify-content: flex-end;
 }
 
 .pl-pack-det-modal {
@@ -805,8 +853,8 @@
 }
 
 .swal2-confirm.swal2-styled.swal2-default-outline {
-    background-color: #714F36 !important;
-    border-color: #714F36 !important;
+    background-color: #00c060 !important;
+    border-color: #00c060 !important;
     box-shadow: none !important;
     padding: 10px 30px !important;
     border-radius: 8px !important;
@@ -851,7 +899,7 @@
 }
 
 .pl-payment-message {
-    font-size: 28px;
+    font-size: 20px;
     font-weight: 600;
 }
 
@@ -861,4 +909,9 @@
 
 .pl-payment-message.failed {
     color: #eb0000;
+}
+
+.pl--package-info-area.active {
+    border: 3px solid #F9C833;
+    border-bottom-width: 8px;
 }
