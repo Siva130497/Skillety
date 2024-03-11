@@ -1,12 +1,50 @@
+@media screen and (min-width: 992px) and (max-width: 1399px) {
+    .plans--section {
+        margin-bottom: 100px;
+    }
+
+    .pl--package-title-area .pl--package-name-hidden {
+        margin-top: 33px;
+    }
+
+    .plans--container {
+        padding: 20px 25px;
+    }
+
+    .pl--package-detail-area .pl--package-img {
+        width: 50px;
+        height: 50px;
+    }
+
+    .pl--package-detail-area .pl--package-name {
+        font-size: 20px;
+        font-weight: 700 !important;
+    }
+
+    .pl--package-arrow-area.buy-now.pkg {
+        display: none !important;
+    }
+
+    .pl--package-title-area .pl--package-img-hidden {
+        height: 43px !important;
+    }
+}
+
 @media (max-width:991.5px) {
     .packages--area {
-        margin-top: 120px;
+        margin-top: 50px;
+    }
+
+    .plans--container {
+        border-radius: 16px;
+        background-color: #FFF;
+        padding: 0px 0px;
     }
 
     .pl--package-detail-area .pl--package-img,
     .pl--package-title-area .pl--package-img-hidden {
-        width: 60px;
-        height: 60px;
+        width: 50px;
+        height: 50px;
     }
 
     .pl--package-detail-area .pl--package-name {
@@ -15,7 +53,7 @@
     }
 
     .pl--package-title-area .pl--package-name-hidden {
-        margin-top: 25px;
+        margin-top: 18px;
         font-size: 18px;
     }
 
@@ -62,22 +100,43 @@
     .pl-package-detail-area {
         width: 80%;
     }
+
+    .custom--container {
+        padding: 0;
+    }
+
+    .pl--package-btn.buy-now {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 }
 
 @media (max-width:500px) {
+
     .plans--section {
         margin-top: 100px;
+        margin-bottom: 30px;
+    }
+
+    .admin-component-name {
+        font-size: 25px;
+        padding-top: 20px;
+    }
+
+    .plans--container {
+        padding: 0px 20px 10px 20px;
     }
 
     .plans--head-area .plans--heading {
-        font-size: 30px;
-        font-weight: 500;
-        line-height: 1rem;
-        margin-bottom: 40px;
+        font-size: 25px;
+        font-weight: 600;
+        line-height: normal;
+        margin-bottom: 30px;
     }
 
     .plans--head-area .plans--sub-head {
-        font-size: 18px;
+        font-size: 16px;
     }
 
     .plan--purchase-track-area {
@@ -108,8 +167,8 @@
     }
 
     .packages--area {
-        margin-top: 40px;
-        margin-bottom: 60px;
+        margin-top: 60px;
+        margin-bottom: 0px;
     }
 
     .pl--track-circle span {
@@ -132,15 +191,21 @@
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        padding: 0 25px;
-        margin: 0 20px;
+        padding: 0px;
+        margin: 0 15px;
         border-bottom: #714F36 1px solid;
+    }
+
+    .pl--package-detail-area .pl--package-name {
+        margin-top: 30px;
+        font-size: 22px;
+        padding-bottom: 0;
     }
 
     .pl--package-mobile-flex .pl--package-mobile-title {
         display: block;
         color: #714F36;
-        font-size: 18px;
+        font-size: 16px;
         font-weight: 500;
         margin-top: 40px;
     }
@@ -151,12 +216,13 @@
     }
 
     .pl--package-btn-area {
-        margin-top: 40px;
+        margin-top: 30px;
+        margin-bottom: 40px;
     }
 
     .pl--package-detail-area {
-        margin-bottom: 60px;
-        padding: 40px 0;
+        margin-bottom: 40px;
+        padding: 40px 0 0 0;
         border: 2px solid #714F36;
         border-bottom: 5px solid #714F36;
         border-radius: 48px;
@@ -214,11 +280,11 @@
 
     .sol-price-container {
         padding: 0;
-        margin: 60px 0;
+        margin: 60px 0 0 0;
     }
 
     .sol-price-heading {
-        font-size: 30px;
+        font-size: 25px;
         font-weight: 600;
         border-bottom: 1px solid #714F36;
         padding-bottom: 30px;
@@ -270,7 +336,7 @@
     }
 
     .sol-price-buy-now-arrow-area {
-        padding: 8px 11px;
+        padding: 10px 11px;
     }
 
     .sol-price-table-qty-area {
@@ -278,7 +344,7 @@
     }
 
     .sol-price-information {
-        font-size: 15px;
+        font-size: 13px;
         padding: 40px 0px 20px 0px;
     }
 
@@ -301,8 +367,8 @@
     }
 
     .pl-payment-area {
-        padding: 30px;
-        width: 90%;
+        padding: 25px;
+        width: 100%;
     }
 
     .pl-payment-img {
@@ -311,16 +377,37 @@
     }
 
     .pl-payment-message {
-        font-size: 23px;
+        font-size: 20px;
     }
 
     .term-con-area {
-        padding: 0px 0px 70px 0px !important;
+        padding: 0px 0px 50px 0px !important;
         text-align: left !important;
     }
 
     .term-con-area .term-con,
     .term-con a {
         font-size: 14px !important;
+    }
+
+    .pl-package-detail-head {
+        font-size: 22px;
+    }
+
+    .pl-package-detail-view-area {
+        gap: 20px;
+    }
+
+    .pl--package-detail-area.active {
+        border-color: #F9C833 !important;
+    }
+
+    .pl--package-info-area.active {
+        border: none !important;
+    }
+
+    .package-row .col-12 {
+        flex: 0 0 100%;
+        max-width: 100%;
     }
 }
