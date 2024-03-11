@@ -20,6 +20,7 @@ const SkilletyPackagePlans = () => {
 
   const [packageInfo, setPackageInfo] = useState();
   const [serviceInfo, setServiceInfo] = useState();
+  const [valueAddedServiceInfo, setValueAddedServiceInfo] = useState();
 
   const [allPackages, setAllPackages] = useState([]);
 
@@ -141,6 +142,48 @@ const SkilletyPackagePlans = () => {
   const [activeServiceTab, setActiveServiceTab] = useState(1);
   const [activeValServiceTab, setActiveValServiceTab] = useState(1);
 
+  const [quantity, setQuantity] = useState(
+    {
+      cvViews:0,
+      logins:0,
+      activeJobs:0
+    }
+  );
+
+  const [quantitySVAS, setQuantitySVAS] = useState(
+    {
+      OnlineTechnicalAssessment:0,
+      L1Interview_0to8yrs:0,
+      L1Interview_8to15yrs:0,
+      L1Interview_above15yrs:0,
+      BGVComprehensive:0
+    }
+  );
+  const [validity, setValidity] = useState(
+    {
+      cvViews:1,
+      logins:0,
+      activeJobs:0
+    }
+  );
+
+  const [total, setTotal] = useState({
+    cvViews:0,
+      logins:0,
+      activeJobs:0
+  })
+
+  const [totalSVAS, setTotalSVAD] = useState({
+    OnlineTechnicalAssessment:0,
+      L1Interview_0to8yrs:0,
+      L1Interview_8to15yrs:0,
+      L1Interview_above15yrs:0,
+      BGVComprehensive:0
+  })
+
+  console.log(quantity);
+  console.log(validity);
+
     const switchTab = (tabIndex) => {
       setActiveTab(tabIndex);
     };
@@ -162,12 +205,143 @@ const SkilletyPackagePlans = () => {
       });
     };
 
+    useEffect(()=>{
+      if(quantity.cvViews, validity.cvViews){
+        const servicePrice = parseInt(quantity.cvViews)*5 
+        const discount = parseInt(validity.cvViews) <= 3 ? "0" : 3 < parseInt(validity.cvViews) <= 6 ? "5" : "10"
+        const discountAmount = parseInt(servicePrice)*parseInt(discount)/100
+        const GSTAmount = (parseInt(servicePrice) - discountAmount)*(allPackages[0]?.GST)/100
+
+        setTotal({...total, cvViews:servicePrice-discountAmount+GSTAmount ? servicePrice-discountAmount+GSTAmount : 0});
+      }else{
+        setTotal({...total, cvViews:0});
+      }
+      
+      
+    },[quantity.cvViews, validity.cvViews])
+
+    useEffect(()=>{
+      if(quantity.logins, validity.logins){
+        const servicePrice = parseInt(quantity.logins)*1000
+        const discount = parseInt(validity.logins) <= 3 ? "0" : 3 < parseInt(validity.logins) <= 6 ? "5" : "10"
+        const discountAmount = parseInt(servicePrice)*parseInt(discount)/100
+        const GSTAmount = (parseInt(servicePrice) - discountAmount)*(allPackages[0]?.GST)/100
+
+        setTotal({...total, logins:servicePrice-discountAmount+GSTAmount ? servicePrice-discountAmount+GSTAmount : 0});
+      }else{
+        setTotal({...total, logins:0});
+      }
+      
+      
+    },[quantity.logins, validity.logins])
+
+    useEffect(()=>{
+      if(quantity.activeJobs, validity.activeJobs){
+        const servicePrice = parseInt(quantity.activeJobs)*100
+        const discount = parseInt(validity.activeJobs) <= 3 ? "0" : 3 < parseInt(validity.activeJobs) <= 6 ? "5" : "10"
+        const discountAmount = parseInt(servicePrice)*parseInt(discount)/100
+        const GSTAmount = (parseInt(servicePrice) - discountAmount)*(allPackages[0]?.GST)/100
+
+        setTotal({...total, activeJobs:servicePrice-discountAmount+GSTAmount ? servicePrice-discountAmount+GSTAmount : 0});
+      }else{
+        setTotal({...total, activeJobs:0});
+      }
+      
+      
+    },[quantity.activeJobs, validity.activeJobs])
+
+    useEffect(()=>{
+      if(quantitySVAS.OnlineTechnicalAssessment){
+        const servicePrice = parseInt(quantitySVAS.OnlineTechnicalAssessment)*120
+        const GSTAmount = (parseInt(servicePrice))*(allPackages[0]?.GST)/100
+
+        setTotalSVAD({...totalSVAS, OnlineTechnicalAssessment:servicePrice+GSTAmount ? servicePrice+GSTAmount : 0});
+      }else{
+        setTotalSVAD({...totalSVAS, OnlineTechnicalAssessment:0});
+      }
+      
+      
+    },[quantitySVAS.OnlineTechnicalAssessment])
+
+    useEffect(()=>{
+      if(quantitySVAS.L1Interview_0to8yrs){
+        const servicePrice = parseInt(quantitySVAS.L1Interview_0to8yrs)*1500
+        const GSTAmount = (parseInt(servicePrice))*(allPackages[0]?.GST)/100
+
+        setTotalSVAD({...totalSVAS, L1Interview_0to8yrs:servicePrice+GSTAmount ? servicePrice+GSTAmount : 0});
+      }else{
+        setTotalSVAD({...totalSVAS, L1Interview_0to8yrs:0});
+      }
+      
+      
+    },[quantitySVAS.L1Interview_0to8yrs])
+
+    useEffect(()=>{
+      if(quantitySVAS.L1Interview_8to15yrs){
+        const servicePrice = parseInt(quantitySVAS.L1Interview_8to15yrs)*2000
+        const GSTAmount = (parseInt(servicePrice))*(allPackages[0]?.GST)/100
+
+        setTotalSVAD({...totalSVAS, L1Interview_8to15yrs:servicePrice+GSTAmount ? servicePrice+GSTAmount : 0});
+      }else{
+        setTotalSVAD({...totalSVAS, L1Interview_8to15yrs:0});
+      }
+      
+      
+    },[quantitySVAS.L1Interview_8to15yrs])
+
+    useEffect(()=>{
+      if(quantitySVAS.L1Interview_above15yrs){
+        const servicePrice = parseInt(quantitySVAS.L1Interview_above15yrs)*2500
+        const GSTAmount = (parseInt(servicePrice))*(allPackages[0]?.GST)/100
+
+        setTotalSVAD({...totalSVAS, L1Interview_above15yrs:servicePrice+GSTAmount ? servicePrice+GSTAmount : 0});
+      }else{
+        setTotalSVAD({...totalSVAS, L1Interview_above15yrs:0});
+      }
+      
+      
+    },[quantitySVAS.L1Interview_above15yrs])
+
+    useEffect(()=>{
+      if(quantitySVAS.BGVComprehensive){
+        const servicePrice = parseInt(quantitySVAS.BGVComprehensive)*3500
+        const GSTAmount = (parseInt(servicePrice))*(allPackages[0]?.GST)/100
+
+        setTotalSVAD({...totalSVAS, BGVComprehensive:servicePrice+GSTAmount ? servicePrice+GSTAmount : 0});
+      }else{
+        setTotalSVAD({...totalSVAS, BGVComprehensive:0});
+      }
+      
+      
+    },[quantitySVAS.BGVComprehensive])
+
     ////for buy service
-    const handleServiceBuyNowClick = () => {
-      switchServiceTab(2);
+    const handleServiceBuyNowClick = (serviceName, quantity, validity) => {
+      if(quantity && validity){
+        switchServiceTab(2);
+        const unitPrice = serviceName === "CVViews" ? 5 : serviceName === "LoginIDs" ? 1000 : 100;
+        const servicePrice = parseInt(quantity)*unitPrice 
+        const discount = parseInt(validity) <= 3 ? "0" : 3 < parseInt(validity) <= 6 ? "5" : "10"
+        const discountAmount = parseInt(servicePrice)*parseInt(discount)/100
+        const GSTAmount = (parseInt(servicePrice) - discountAmount)*(allPackages[0]?.GST)/100
+        setServiceInfo({
+          id: loginClientDetail?.companyId,
+          serviceName,
+          quantity:parseInt(quantity),
+          validity:parseInt(validity),
+          servicePrice:servicePrice.toString(),
+          finalAmount:(parseInt(servicePrice)-discountAmount+GSTAmount).toString(),
+          discount,
+          discountAmount:discountAmount.toString(),
+          GST:allPackages[0]?.GST.toString(),
+          GSTAmount:GSTAmount.toString()
+        });
+      }
+      
     };
 
     const handleServicePreviousClick = () => {
+      setServiceInfo()
       if (activeServiceTab === 2) {
         switchServiceTab(1);
       } else if (activeServiceTab === 3) {
@@ -177,7 +351,7 @@ const SkilletyPackagePlans = () => {
 
     const handleServicePayClick = () => {
       if (activeServiceTab === 2) {
-        switchServiceTab(3);
+        handleBuyService()
       }
     };
 
@@ -188,11 +362,29 @@ const SkilletyPackagePlans = () => {
 
 
     ////for buy value service buy
-    const handleValServiceBuyNowClick = () => {
-      switchValServiceTab(2);
+    const handleValServiceBuyNowClick = (serviceName, quantity) => {
+      
+      if(quantity ){
+        switchValServiceTab(2);
+        const unitPrice = serviceName === "OnlineTechnicalAssessment" ? 120 : serviceName === "L1Interview(0to8yrs)" ? 1500 : serviceName === "L1Interview(8to15yrs)" ? 2000 : serviceName === "L1Interview(>15yrs)" ? 2500 : 3500;
+        const servicePrice = parseInt(quantity)*unitPrice 
+        
+        const GSTAmount = (parseInt(servicePrice))*(allPackages[0]?.GST)/100
+        setValueAddedServiceInfo({
+          id: loginClientDetail?.companyId,
+          serviceName,
+          quantity:parseInt(quantity),
+          servicePrice:servicePrice.toString(),
+          finalAmount:(parseInt(servicePrice)+GSTAmount).toString(),
+          GST:allPackages[0]?.GST.toString(),
+          GSTAmount:GSTAmount.toString()
+        });
+
+      }
     };
 
     const handleValServicePreviousClick = () => {
+      setValueAddedServiceInfo()
       if (activeValServiceTab === 2) {
         switchValServiceTab(1);
       } else if (activeValServiceTab === 3) {
@@ -202,7 +394,8 @@ const SkilletyPackagePlans = () => {
 
     const handleValServicePayClick = () => {
       if (activeValServiceTab === 2) {
-        switchValServiceTab(3);
+        handleBuyValueAddedService()
+        
       }
     };
 
@@ -240,6 +433,29 @@ const SkilletyPackagePlans = () => {
   const [isStarterInfoHovered, setIsStarterInfoHovered] = useState(false);
   const [isScaleInfoHovered, setIsScaleInfoHovered] = useState(false);
   const [isGrowInfoHovered, setIsGrowInfoHovered] = useState(false);
+
+  // const handleChange = (e) => {
+  //   let inputValue = e.target.value;
+  //   // setQuantity({...quantity, cvViews:inputValue})
+  // //   if (isNaN(inputValue) || inputValue < 1000) {
+  // //     inputValue = 1000;
+  // // }
+  // setQuantity({...quantity, cvViews: inputValue})
+
+  // }
+
+  
+    // setInterval(()=>{
+    //   if(quantity.cvViews <= 1000 && 0 <= validity.cvViews <= 3){
+    //     setQuantity({...quantity, cvViews:1000})
+    //   }else if(quantity.cvViews <= 5000 && 4 <= validity.cvViews <= 7){
+    //     setQuantity({...quantity, cvViews:5000})
+    //   }else if(quantity.cvViews <= 10000 &&  validity.cvViews > 7 ){
+    //     setQuantity({...quantity, cvViews:10000})
+    //   }
+    // },2000)
+    
+ 
 
 
   useEffect(()=>{
@@ -325,7 +541,7 @@ const SkilletyPackagePlans = () => {
 
   useEffect(() => {
     if (loginClientDetail?.companyId) {
-      getClientChoosenPlan(loginClientDetail?.companyId);
+      getClientChoosenPlan(loginClientDetail?.companyId, clientToken);
     }
   }, [loginClientDetail?.companyId]);
 
@@ -359,20 +575,32 @@ const SkilletyPackagePlans = () => {
     });
   };
 
-  const handleBuyingService = (serviceName, quantity, validity, servicePrice, finalAmount, discount, discountAmount, GST, GSTAmount) => {
-    setServiceInfo({
-      id: loginClientDetail?.companyId,
-      serviceName,
-      quantity,
-      validity,
-      servicePrice,
-      finalAmount,
-      discount,
-      discountAmount,
-      GST,
-      GSTAmount
-    });
-  };
+  // const handleBuyingService = (serviceName, quantity, validity, servicePrice, finalAmount, discount, discountAmount, GST, GSTAmount) => {
+  //   setServiceInfo({
+  //     id: loginClientDetail?.companyId,
+  //     serviceName,
+  //     quantity,
+  //     validity,
+  //     servicePrice,
+  //     finalAmount,
+  //     discount,
+  //     discountAmount,
+  //     GST,
+  //     GSTAmount
+  //   });
+  // };
+
+  // const handleBuyingValueAddedService = (serviceName, quantity, validity, servicePrice, finalAmount, discount, discountAmount, GST, GSTAmount) => {
+  //   setValueAddedServiceInfo({
+  //     id: loginClientDetail?.companyId,
+  //     serviceName,
+  //     quantity,
+  //     servicePrice,
+  //     finalAmount,
+  //     GST,
+  //     GSTAmount
+  //   });
+  // };
 
   const handleBuy = () => {
     axios
@@ -387,6 +615,10 @@ const SkilletyPackagePlans = () => {
         showSuccessMessage(
           `Thank you for purchasing the ${packageInfo?.packageType} Package. Welcome onboard.`
         );
+
+        if (activeTab === 2) {
+          switchTab(3);
+        }
         
         setTimeout(()=>{
           window.location.reload();
@@ -398,9 +630,7 @@ const SkilletyPackagePlans = () => {
         showErrorMessage(err.response.data.error);
       });
 
-      if (activeTab === 2) {
-        switchTab(3);
-      }
+      
 
       window.scrollTo({
         top: 0,
@@ -410,7 +640,7 @@ const SkilletyPackagePlans = () => {
 
   const handleBuyService = () => {
     axios
-      .post("https://skillety-n6r1.onrender.com//client-skillety-service", serviceInfo, {
+      .post("https://skillety-n6r1.onrender.com/client-skillety-service", serviceInfo, {
         headers: {
           Authorization: `Bearer ${clientToken}`,
           Accept: "application/json",
@@ -419,11 +649,12 @@ const SkilletyPackagePlans = () => {
       .then((res) => {
         console.log(res.data);
         showSuccessMessage(
-          `Thank you for purchasing the ${packageInfo?.serviceName}. Welcome onboard.`
+          `Thank you for purchasing the ${serviceInfo?.serviceName}. Welcome onboard.`
         );
         
         setTimeout(()=>{
-          window.location.reload();
+          switchServiceTab(3);
+          // window.location.reload();
         },3000)
         
       })
@@ -432,6 +663,41 @@ const SkilletyPackagePlans = () => {
         showErrorMessage(err.response.data.error);
       });
   }; 
+
+  const handleBuyValueAddedService = () => {
+    axios
+      .post("https://skillety-n6r1.onrender.com/client-skillety-value-added-service", valueAddedServiceInfo, {
+        headers: {
+          Authorization: `Bearer ${clientToken}`,
+          Accept: "application/json",
+        },
+      })
+      .then((res) => {
+        console.log(res.data);
+        showSuccessMessage(
+          `Thank you for purchasing the ${valueAddedServiceInfo?.serviceName}. Welcome onboard.`
+        );
+        
+        setTimeout(()=>{
+          switchValServiceTab(3);
+          // window.location.reload();
+        },3000)
+        
+      })
+      .catch((err) => {
+        console.log(err);
+        showErrorMessage(err.response.data.error);
+      });
+  }; 
+
+  // const handleDecreaseCvViews = () => {
+    
+  //   setQuantity({...quantity, cvViews:quantity.cvViews-1})
+
+  // }
+
+
+
 
   return (
     <div>
@@ -559,12 +825,12 @@ const SkilletyPackagePlans = () => {
                                 return(
                                   <div className="col-12 col-xl-2 col-lg-2 col-md-2 custom-width1"
                                   key={pack.id}>
-                                    <div className="pl--package-detail-area">
+                                    <div className={(currentPackage?.packageType === pack.packageType) ? "pl--package-detail-area active" : "pl--package-detail-area"}>
                                       <div
-                                        className={`pl--package-info-area`}
+                                        className={(currentPackage?.packageType === pack.packageType) ? "pl--package-info-area active" : `pl--package-info-area`}
                                       >
                                         <img
-                                          src="../assets/img/packages/Starter.png"
+                                          src={pack.packageType === "Test" ? "../assets/img/packages/Starter.png" : pack.packageType === "Start" ? "../assets/img/packages/Starter.png" :  pack.packageType === "Scale" ? "../assets/img/packages/Professional.png" :  "../assets/img/packages/premium.png"}
                                           className="pl--package-img"
                                           alt=""
                                         />
@@ -790,7 +1056,8 @@ const SkilletyPackagePlans = () => {
                                     />
                                   </svg>
                                 </div>
-                                <div className="pl--package-btn buy-now">
+                                <div className="pl--package-btn buy-now"
+                                onClick={()=>setPackageInfo()}>
                                   Previous
                                 </div>
                               </button>
@@ -1031,38 +1298,59 @@ const SkilletyPackagePlans = () => {
                                   5000
                                 </td> */}
                                 <td className="sol-price-table-data text-center sol-price-table-qty-area">
-                                  <button className="sol-price-table-qty-button decrement">
+                                  {/* <button className="sol-price-table-qty-button decrement"
+                                  
+                                  >
                                     -
-                                  </button>
+                                  </button> */}
                                   <input
                                     type="number"
                                     className="sol-price-table-qty-input"
-                                    min={0}
-                                    value={20}
+                                    // min={1000}
+                                    // value={quantity.cvViews < 1000 ? 1000 : quantity.cvViews}
+                                    value={quantity.cvViews}
+        //                             onChange={(e)=>{
+        //                               const inputValue = parseInt(e.target.value);
+        // setQuantity({...quantity, cvViews: isNaN(inputValue) || inputValue < 1000 ? 1000:inputValue})
+        //                             }
+        //                             }
+                                  onChange={(e)=>setQuantity({...quantity, cvViews: e.target.value})}
                                   />
-                                  <button className="sol-price-table-qty-button increment">
+                                  {/* <button className="sol-price-table-qty-button increment"
+                                 
+                                  >
                                     +
-                                  </button>
+                                  </button> */}
                                 </td>
                                 <td className="sol-price-table-data text-center sol-price-table-qty-area">
-                                  <button className="sol-price-table-qty-button decrement">
+                                  <button className="sol-price-table-qty-button decrement"
+                                  onClick={()=>{
+                                   setValidity({...validity, cvViews:validity.cvViews-1})
+                                  }}
+                                  disabled={validity.cvViews === 1}
+                                  >
                                     -
                                   </button>
                                   <input
                                     type="number"
                                     className="sol-price-table-qty-input"
-                                    min={0}
-                                    value={20}
+                                    value={validity.cvViews}
                                   />
-                                  <button className="sol-price-table-qty-button increment">
+                                  <button className="sol-price-table-qty-button increment"
+                                 onClick={()=>{
+                                  setValidity({...validity, cvViews:validity.cvViews+1})
+                                 }}
+                                 disabled={validity.cvViews === 12}
+                                  >
                                     +
                                   </button>
                                 </td>
                                 <td className="sol-price-table-data price text-center">
-                                  0
+                                  {total.cvViews}
                                 </td>
                                 <td className="text-center last-data sol-price-buy-now-btn-area">
-                                  <button className="sol-price-buy-now-btn" onClick={handleServiceBuyNowClick}>
+                                  <button className="sol-price-buy-now-btn" onClick={()=>handleServiceBuyNowClick("CVViews", quantity.cvViews, validity.cvViews)}
+                                  >
                                     <div className="sol-price-buy-now-btn-sub">
                                       Buy Now
                                     </div>
@@ -1103,40 +1391,45 @@ const SkilletyPackagePlans = () => {
                                   05
                                 </td> */}
                                 <td className="sol-price-table-data text-center sol-price-table-qty-area">
-                                  <button className="sol-price-table-qty-button decrement">
+                                  {/* <button className="sol-price-table-qty-button decrement">
                                     -
-                                  </button>
+                                  </button> */}
                                   <input
                                     type="number"
                                     className="sol-price-table-qty-input"
-                                    min={0}
-                                    value={20}
+                                    // min={0}
+                                    // value={20}
+                                    value={quantity.logins}
+                                    onChange={(e)=>setQuantity({...quantity, logins: e.target.value})}
                                   />
-                                  <button className="sol-price-table-qty-button increment">
+                                  {/* <button className="sol-price-table-qty-button increment">
                                     +
-                                  </button>
+                                  </button> */}
                                 </td>
 
                                 <td className="sol-price-table-data text-center sol-price-table-qty-area">
-                                  <button className="sol-price-table-qty-button decrement">
+                                  {/* <button className="sol-price-table-qty-button decrement">
                                     -
-                                  </button>
+                                  </button> */}
                                   <input
                                     type="number"
                                     className="sol-price-table-qty-input"
-                                    min={0}
-                                    value={20}
+                                    // min={0}
+                                    // value={20}
+                                    value={validity.logins}
+                                    onChange={(e)=>setValidity({...validity, logins:e.target.value})}
                                   />
-                                  <button className="sol-price-table-qty-button increment">
+                                  {/* <button className="sol-price-table-qty-button increment">
                                     +
-                                  </button>
+                                  </button> */}
                                 </td>
 
                                 <td className="sol-price-table-data price text-center">
-                                  0
+                                  {total.logins}
                                 </td>
                                 <td className="text-center last-data sol-price-buy-now-btn-area">
-                                  <button className="sol-price-buy-now-btn"  onClick={handleServiceBuyNowClick}>
+                                  <button className="sol-price-buy-now-btn"  onClick={()=>handleServiceBuyNowClick("LoginIDs", quantity.logins, validity.logins)}
+                                  >
                                     <div className="sol-price-buy-now-btn-sub">
                                       Buy Now
                                     </div>
@@ -1177,38 +1470,42 @@ const SkilletyPackagePlans = () => {
                                   0
                                 </td> */}
                                 <td className="sol-price-table-data text-center sol-price-table-qty-area">
-                                  <button className="sol-price-table-qty-button decrement">
+                                  {/* <button className="sol-price-table-qty-button decrement">
                                     -
-                                  </button>
+                                  </button> */}
                                   <input
                                     type="number"
                                     className="sol-price-table-qty-input"
-                                    min={0}
+                                    // min={0}
+                                    value={quantity.activeJobs}
+                                    onChange={(e)=>setQuantity({...quantity, activeJobs: e.target.value})}
                                   />
-                                  <button className="sol-price-table-qty-button increment">
+                                  {/* <button className="sol-price-table-qty-button increment">
                                     +
-                                  </button>
+                                  </button> */}
                                 </td>
 
                                 <td className="sol-price-table-data text-center sol-price-table-qty-area">
-                                  <button className="sol-price-table-qty-button decrement">
+                                  {/* <button className="sol-price-table-qty-button decrement">
                                     -
-                                  </button>
+                                  </button> */}
                                   <input
                                     type="number"
                                     className="sol-price-table-qty-input"
-                                    min={0}
+                                    // min={0}
+                                    value={validity.activeJobs}
+                                    onChange={(e)=>setValidity({...validity, activeJobs:e.target.value})}
                                   />
-                                  <button className="sol-price-table-qty-button increment">
+                                  {/* <button className="sol-price-table-qty-button increment">
                                     +
-                                  </button>
+                                  </button> */}
                                 </td>
 
                                 <td className="sol-price-table-data price text-center">
-                                  0
+                                {total.activeJobs}
                                 </td>
                                 <td className="text-center last-data sol-price-buy-now-btn-area">
-                                  <button className="sol-price-buy-now-btn" onClick={handleServiceBuyNowClick}>
+                                  <button className="sol-price-buy-now-btn" onClick={()=>handleServiceBuyNowClick("JobPostings", quantity.activeJobs, validity.activeJobs)}>
                                     <div className="sol-price-buy-now-btn-sub">
                                       Buy Now
                                     </div>
@@ -1259,7 +1556,7 @@ const SkilletyPackagePlans = () => {
                                   <div className="col-6">
                                     <div className="pl-package-detail-view-area">
                                       <div className="pl-package-detail-title">
-                                        CV View
+                                        {serviceInfo?.serviceName}
                                       </div>
                                       {/* <button
                                         type="button"
@@ -1277,12 +1574,13 @@ const SkilletyPackagePlans = () => {
                                 <div className="row pl-package-row">
                                   <div className="col-6">
                                     <div className="pl-package-detail-title">
-                                      Real Price
+                                      Service Price
                                     </div>
                                   </div>
                                   <div className="col-6">
-                                    <div className="pl-package-detail-title line-through">
-                                      INR 1500
+                                    {/* <div className="pl-package-detail-title line-through"> */}
+                                    <div className="pl-package-detail-title">
+                                      INR {serviceInfo?.servicePrice}
                                     </div>
                                   </div>
                                 </div>
@@ -1290,12 +1588,12 @@ const SkilletyPackagePlans = () => {
                                 <div className="row pl-package-row">
                                   <div className="col-6">
                                     <div className="pl-package-detail-title">
-                                      Inaugural Offer Price
+                                      Discount
                                     </div>
                                   </div>
                                   <div className="col-6">
                                     <div className="pl-package-detail-title">
-                                      INR 900
+                                      INR {serviceInfo?.discountAmount}
                                     </div>
                                   </div>
                                 </div>
@@ -1303,12 +1601,25 @@ const SkilletyPackagePlans = () => {
                                 <div className="row pl-package-row no-border">
                                   <div className="col-6">
                                     <div className="pl-package-detail-title">
-                                      GST - 18%
+                                      Final Price 
                                     </div>
                                   </div>
                                   <div className="col-6">
                                     <div className="pl-package-detail-title">
-                                      INR 100
+                                      INR {parseInt(serviceInfo?.servicePrice) - parseInt(serviceInfo?.discountAmount)}
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div className="row pl-package-row no-border">
+                                  <div className="col-6">
+                                    <div className="pl-package-detail-title">
+                                      GST - {serviceInfo?.GST}%
+                                    </div>
+                                  </div>
+                                  <div className="col-6">
+                                    <div className="pl-package-detail-title">
+                                      INR {serviceInfo?.GSTAmount}
                                     </div>
                                   </div>
                                 </div>
@@ -1321,7 +1632,7 @@ const SkilletyPackagePlans = () => {
                                   </div>
                                   <div className="col-6">
                                     <div className="pl-package-detail-title">
-                                    INR 1000
+                                    INR {serviceInfo?.finalAmount}
                                     </div>
                                   </div>
                                 </div>
@@ -1464,24 +1775,24 @@ const SkilletyPackagePlans = () => {
                                   Online Technical Assessment
                                 </td>
                                 <td className="sol-price-table-data text-center sol-price-table-qty-area">
-                                  <button className="sol-price-table-qty-button decrement">
+                                  {/* <button className="sol-price-table-qty-button decrement">
                                     -
-                                  </button>
+                                  </button> */}
                                   <input
                                     type="number"
                                     className="sol-price-table-qty-input"
-                                    min={0}
-                                    value={20}
+                                    value={quantitySVAS.OnlineTechnicalAssessment}
+                                    onChange={(e)=>setQuantitySVAS({...quantitySVAS, OnlineTechnicalAssessment: e.target.value})}
                                   />
-                                  <button className="sol-price-table-qty-button increment">
+                                  {/* <button className="sol-price-table-qty-button increment">
                                     +
-                                  </button>
+                                  </button> */}
                                 </td>
                                 <td className="sol-price-table-data price text-center">
-                                  0
+                                {totalSVAS.OnlineTechnicalAssessment}
                                 </td>
                                 <td className="text-center last-data sol-price-buy-now-btn-area">
-                                  <button className="sol-price-buy-now-btn" onClick={handleValServiceBuyNowClick}>
+                                  <button className="sol-price-buy-now-btn" onClick={()=>handleValServiceBuyNowClick("OnlineTechnicalAssessment", quantitySVAS.OnlineTechnicalAssessment)}>
                                     <div className="sol-price-buy-now-btn-sub">
                                       Buy Now
                                     </div>
@@ -1519,24 +1830,24 @@ const SkilletyPackagePlans = () => {
                                   L1 Interview (0-8 yrs)
                                 </td>
                                 <td className="sol-price-table-data text-center sol-price-table-qty-area">
-                                  <button className="sol-price-table-qty-button decrement">
+                                  {/* <button className="sol-price-table-qty-button decrement">
                                     -
-                                  </button>
+                                  </button> */}
                                   <input
                                     type="number"
                                     className="sol-price-table-qty-input"
-                                    min={0}
-                                    value={20}
+                                    value={quantitySVAS.L1Interview_0to8yrs}
+                                    onChange={(e)=>setQuantitySVAS({...quantitySVAS, L1Interview_0to8yrs: e.target.value})}
                                   />
-                                  <button className="sol-price-table-qty-button increment">
+                                  {/* <button className="sol-price-table-qty-button increment">
                                     +
-                                  </button>
+                                  </button> */}
                                 </td>
                                 <td className="sol-price-table-data price text-center">
-                                  0
+                                {totalSVAS.L1Interview_0to8yrs}
                                 </td>
                                 <td className="text-center last-data sol-price-buy-now-btn-area">
-                                  <button className="sol-price-buy-now-btn" onClick={handleValServiceBuyNowClick}>
+                                  <button className="sol-price-buy-now-btn" onClick={()=>handleValServiceBuyNowClick("L1Interview(0to8yrs)", quantitySVAS.L1Interview_0to8yrs)}>
                                     <div className="sol-price-buy-now-btn-sub">
                                       Buy Now
                                     </div>
@@ -1574,23 +1885,24 @@ const SkilletyPackagePlans = () => {
                                   L1 Interview (8-15 yrs)
                                 </td>
                                 <td className="sol-price-table-data text-center sol-price-table-qty-area">
-                                  <button className="sol-price-table-qty-button decrement">
+                                  {/* <button className="sol-price-table-qty-button decrement">
                                     -
-                                  </button>
+                                  </button> */}
                                   <input
                                     type="number"
                                     className="sol-price-table-qty-input"
-                                    min={0}
+                                    value={quantitySVAS.L1Interview_8to15yrs}
+                                    onChange={(e)=>setQuantitySVAS({...quantitySVAS, L1Interview_8to15yrs: e.target.value})}
                                   />
-                                  <button className="sol-price-table-qty-button increment">
+                                  {/* <button className="sol-price-table-qty-button increment">
                                     +
-                                  </button>
+                                  </button> */}
                                 </td>
                                 <td className="sol-price-table-data price text-center">
-                                  0
+                                {totalSVAS.L1Interview_8to15yrs}
                                 </td>
                                 <td className="text-center last-data sol-price-buy-now-btn-area">
-                                  <button className="sol-price-buy-now-btn" onClick={handleValServiceBuyNowClick}>
+                                  <button className="sol-price-buy-now-btn" onClick={()=>handleValServiceBuyNowClick("L1Interview(8to15yrs)", quantitySVAS.L1Interview_8to15yrs)}>
                                     <div className="sol-price-buy-now-btn-sub">
                                       Buy Now
                                     </div>
@@ -1625,26 +1937,27 @@ const SkilletyPackagePlans = () => {
 
                               <tr className="sol-price-table-row">
                                 <td className="sol-price-table-data first-data text-start">
-                                  L1 Interview (>15 yrs)
+                                  L1 Interview (above 15 yrs)
                                 </td>
                                 <td className="sol-price-table-data text-center sol-price-table-qty-area">
-                                  <button className="sol-price-table-qty-button decrement">
+                                  {/* <button className="sol-price-table-qty-button decrement">
                                     -
-                                  </button>
+                                  </button> */}
                                   <input
                                     type="number"
                                     className="sol-price-table-qty-input"
-                                    min={0}
+                                    value={quantitySVAS.L1Interview_above15yrs}
+                                    onChange={(e)=>setQuantitySVAS({...quantitySVAS, L1Interview_above15yrs: e.target.value})}
                                   />
-                                  <button className="sol-price-table-qty-button increment">
+                                  {/* <button className="sol-price-table-qty-button increment">
                                     +
-                                  </button>
+                                  </button> */}
                                 </td>
                                 <td className="sol-price-table-data price text-center">
-                                  0
+                                {totalSVAS.L1Interview_above15yrs}
                                 </td>
                                 <td className="text-center last-data sol-price-buy-now-btn-area">
-                                  <button className="sol-price-buy-now-btn" onClick={handleValServiceBuyNowClick}>
+                                  <button className="sol-price-buy-now-btn" onClick={()=>handleValServiceBuyNowClick("L1Interview(>15yrs)", quantitySVAS.L1Interview_above15yrs)}>
                                     <div className="sol-price-buy-now-btn-sub">
                                       Buy Now
                                     </div>
@@ -1682,23 +1995,24 @@ const SkilletyPackagePlans = () => {
                                   BGV Comprehensive
                                 </td>
                                 <td className="sol-price-table-data text-center sol-price-table-qty-area">
-                                  <button className="sol-price-table-qty-button decrement">
+                                  {/* <button className="sol-price-table-qty-button decrement">
                                     -
-                                  </button>
+                                  </button> */}
                                   <input
                                     type="number"
                                     className="sol-price-table-qty-input"
-                                    min={0}
+                                    value={quantitySVAS.BGVComprehensive}
+                                    onChange={(e)=>setQuantitySVAS({...quantitySVAS, BGVComprehensive: e.target.value})}
                                   />
-                                  <button className="sol-price-table-qty-button increment">
+                                  {/* <button className="sol-price-table-qty-button increment">
                                     +
-                                  </button>
+                                  </button> */}
                                 </td>
                                 <td className="sol-price-table-data price text-center">
-                                  0
+                                {totalSVAS.BGVComprehensive}
                                 </td>
                                 <td className="text-center last-data sol-price-buy-now-btn-area">
-                                  <button className="sol-price-buy-now-btn" onClick={handleValServiceBuyNowClick}>
+                                  <button className="sol-price-buy-now-btn" onClick={()=>handleValServiceBuyNowClick("BGVComprehensive", quantitySVAS.BGVComprehensive)}>
                                     <div className="sol-price-buy-now-btn-sub">
                                       Buy Now
                                     </div>
@@ -1749,7 +2063,7 @@ const SkilletyPackagePlans = () => {
                                   <div className="col-6">
                                     <div className="pl-package-detail-view-area">
                                       <div className="pl-package-detail-title">
-                                        Online Technical Assessment
+                                      {valueAddedServiceInfo?.serviceName}
                                       </div>
                                       {/* <button
                                         type="button"
@@ -1767,38 +2081,38 @@ const SkilletyPackagePlans = () => {
                                 <div className="row pl-package-row">
                                   <div className="col-6">
                                     <div className="pl-package-detail-title">
-                                      Real Price
+                                    Service Price
                                     </div>
                                   </div>
                                   <div className="col-6">
-                                    <div className="pl-package-detail-title line-through">
-                                      INR 1500
+                                    <div className="pl-package-detail-title">
+                                      INR {valueAddedServiceInfo?.servicePrice}
                                     </div>
                                   </div>
                                 </div>
 
-                                <div className="row pl-package-row">
+                                {/* <div className="row pl-package-row">
                                   <div className="col-6">
                                     <div className="pl-package-detail-title">
-                                      Inaugural Offer Price
+                                    Final Price
                                     </div>
                                   </div>
                                   <div className="col-6">
                                     <div className="pl-package-detail-title">
-                                      INR 900
+                                      INR {parseInt(valueAddedServiceInfo?.servicePrice) - parseInt(serviceInfo?.discountAmount)}
                                     </div>
                                   </div>
-                                </div>
+                                </div> */}
 
                                 <div className="row pl-package-row no-border">
                                   <div className="col-6">
                                     <div className="pl-package-detail-title">
-                                      GST - 18%
+                                      GST - {valueAddedServiceInfo?.GST}%
                                     </div>
                                   </div>
                                   <div className="col-6">
                                     <div className="pl-package-detail-title">
-                                      INR 100
+                                      INR {valueAddedServiceInfo?.GSTAmount}
                                     </div>
                                   </div>
                                 </div>
@@ -1811,7 +2125,7 @@ const SkilletyPackagePlans = () => {
                                   </div>
                                   <div className="col-6">
                                     <div className="pl-package-detail-title">
-                                    INR 1000
+                                    INR {valueAddedServiceInfo?.finalAmount}
                                     </div>
                                   </div>
                                 </div>

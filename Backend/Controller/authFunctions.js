@@ -2455,6 +2455,21 @@ const getClientChoosenPlan = async(req, res) => {
   }
 }
 
+/* find all packages client bought */
+const getAllClientChoosenPlans = async(req, res) => {
+  const {id} = req.params;
+  try{
+    const clientWithPackagePlans = await clientPackage.find({ id: id });
+    if(clientWithPackagePlans.length>0){
+      
+      return res.status(200).json(clientWithPackagePlans);
+    }else{
+      return res.status(404).json({ message: 'no package bought' });
+    }
+  }catch(err){
+    return res.status(500).json({ error: err.message });
+  }
+}
 /* get client with their package plan */
 const checkTheValidityOfPackage = async (req, res) => {
   const { id } = req.params;
@@ -8749,6 +8764,7 @@ module.exports = {
    createPackagePlan,
    getAllPackagePlans,
    getClientChoosenPlan,
+   getAllClientChoosenPlans,
    checkTheValidityOfPackage,
    createViewedCandidate,
    getViewedCandidates,
