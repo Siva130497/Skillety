@@ -83,6 +83,7 @@ const {
   createPackagePlan,
   getAllPackagePlans,
   getClientChoosenPlan,
+  getAllClientChoosenPlans,
   checkTheValidityOfPackage,
   createViewedCandidate,
   getViewedCandidates,
@@ -483,6 +484,8 @@ router.post("/new-package", createPackagePlan);
 
 //find the client's package plan endpoint
 router.get("/client-package-plan/:id", employeeAuth, getClientChoosenPlan);
+
+router.get("/client-all-package-plans/:id", employeeAuth, getAllClientChoosenPlans);
 
 //check the validity of the package
 router.get("/checking-package-validity/:id", employeeAuth, checkTheValidityOfPackage);

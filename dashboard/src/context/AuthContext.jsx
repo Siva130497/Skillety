@@ -368,9 +368,14 @@ const candidateUpdate = async (userData) => {
       .catch(err => console.log(err))
   }
 
-  const getClientChoosenPlan = async (id) => {
+  const getClientChoosenPlan = async (id, token) => {
     try {
-      const res = await axios.get(`https://skillety-n6r1.onrender.com/client-package-plan/${id}`
+      const res = await axios.get(`https://skillety-n6r1.onrender.com/client-package-plan/${id}`,{
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: 'application/json'
+        }
+      }
       );
       const result = res.data;
       if (!result.message) {

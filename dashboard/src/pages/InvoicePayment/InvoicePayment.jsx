@@ -16,7 +16,7 @@ import 'jspdf-autotable';
 
 const InvoicePayment = () => {
     const [clientToken, setClientToken] = useState("");
-    const { getProtectedData, getClientChoosenPlan, packageSelectionDetail } = useContext(AuthContext);
+    const { getProtectedData } = useContext(AuthContext);
 
     const [employeeId, setEmployeeId] = useState("");
     const [loginClientDetail, setLoginClientDetail] = useState();
@@ -28,24 +28,32 @@ const InvoicePayment = () => {
 
     const [loading, setLoading] = useState(true);
 
+    const [allPackageBought, setAllPackageBought] = useState([]);
+    const [individualPackageDetail, setIndividualPackageDetail] = useState();
+
     useEffect(() => {
         const calculateInvoice = () => {
-            const cvViews = packageSelectionDetail?.cvViews;
-            const usedViews = viewedCandidate.length;
-            const balanceViews = cvViews - usedViews;
+            const cvViews = individualPackageDetail?.cvViews;
+            const usedViews = individualPackageDetail?.cvViews-individualPackageDetail?.cvViewsRemaining;
+            const balanceViews = individualPackageDetail?.cvViewsRemaining;
 
-            const loginIDs = packageSelectionDetail?.logins;
-            const usedLoginIDs = allStaff.length;
-            const balanceLoginIDs = loginIDs - usedLoginIDs;
+            const loginIDs = individualPackageDetail?.logins;
+            const usedLoginIDs = individualPackageDetail?.logins-individualPackageDetail?.loginsRemaining;
+            const balanceLoginIDs = individualPackageDetail?.loginsRemaining;
+
+            const jobPostings = individualPackageDetail?.activeJobs;
+            const usedJobPostings = individualPackageDetail?.activeJobs-individualPackageDetail?.activeJobsRemaining;
+            const balanceJobPostings = individualPackageDetail?.activeJobsRemaining;
 
             setInvoice([
                 ['Cv Views', usedViews, balanceViews],
-                ['Login IDs', usedLoginIDs, balanceLoginIDs]
+                ['Login IDs', usedLoginIDs, balanceLoginIDs],
+                ['Job Postings', usedJobPostings, balanceJobPostings]
             ]);
         };
 
         calculateInvoice();
-    }, [packageSelectionDetail, viewedCandidate, allStaff]);
+    }, [individualPackageDetail]);
 
     const generatePDF = () => {
         const doc = new jsPDF();
@@ -82,7 +90,7 @@ const InvoicePayment = () => {
 
     const getLoginClientDetail = async () => {
         try {
-            setLoading(true);
+           
             const res = await axios.get(`https://skillety-n6r1.onrender.com/client/${employeeId}`, {
                 headers: {
                     Authorization: `Bearer ${clientToken}`,
@@ -97,17 +105,17 @@ const InvoicePayment = () => {
                 console.log(result);
             }
 
-            setLoading(false);
+            
         } catch (err) {
             console.log(err);
 
-            setLoading(false);
+            
         }
     }
 
     const getViewedCandidates = async () => {
         try {
-            setLoading(true);
+         
             const res = await axios.get(`https://skillety-n6r1.onrender.com/cv-views/${loginClientDetail?.companyId}`, {
                 headers: {
                     Authorization: `Bearer ${clientToken}`,
@@ -122,11 +130,11 @@ const InvoicePayment = () => {
                 console.log(result);
             }
 
-            setLoading(false);
+          
         } catch (err) {
             console.log(err);
 
-            setLoading(false);
+            
         }
     }
 
@@ -152,7 +160,7 @@ const InvoicePayment = () => {
 
     const allStaffFromCompany = async () => {
         try {
-            setLoading(true);
+            
             const res = await axios.get(`https://skillety-n6r1.onrender.com/all-staff/${loginClientDetail?.companyId}`, {
                 headers: {
                     Authorization: `Bearer ${clientToken}`,
@@ -167,11 +175,11 @@ const InvoicePayment = () => {
                 console.log(result);
             }
 
-            setLoading(false);
+            
         } catch (err) {
             console.log(err);
 
-            setLoading(false);
+          
         }
     }
 
@@ -179,16 +187,16 @@ const InvoicePayment = () => {
         if (clientToken) {
             const fetchData = async () => {
                 try {
-                    setLoading(true);
+                   
                     const user = await getProtectedData(clientToken);
                     console.log(user);
                     setEmployeeId(user.id || user.uid);
 
-                    setLoading(false);
+                    
                 } catch (error) {
                     console.log(error);
                     window.location.href = 'https://skillety-frontend-wcth.onrender.com/client-login'
-                    setLoading(false);
+                   
                 }
             };
 
@@ -204,7 +212,19 @@ const InvoicePayment = () => {
 
     useEffect(() => {
         if (loginClientDetail?.companyId) {
-            getClientChoosenPlan(loginClientDetail?.companyId);
+            axios.get(`https://skillety-n6r1.onrender.com/client-all-package-plans/${loginClientDetail?.companyId}`,{
+                headers: {
+                    Authorization: `Bearer ${clientToken}`,
+                    Accept: 'application/json'
+                }
+            }).then(res=>{
+                console.log(res.data);
+                setAllPackageBought(res.data);
+                setLoading(false);
+            }).catch(err=>{
+                console.log(err)
+                setLoading(false);
+            })
             getViewedCandidates();
             // getOwnPostedjobs();
             allStaffFromCompany();
@@ -313,48 +333,53 @@ const InvoicePayment = () => {
                                                         Check your payment history here
                                                     </div>
                                                 </div>
-                                                {packageSelectionDetail ?
+                                                {allPackageBought.length>0 ?
                                                     <table className="table table-striped table-hover admin-lg-table">
                                                         <tr className='dash-table-row man-app'>
                                                             <th className='dash-table-head text-left'>Sr.no</th>
                                                             <th className='dash-table-head text-center'>Package Name</th>
                                                             <th className='dash-table-head text-center'>Date of Purchase</th>
-                                                            <th className='dash-table-head text-center'>Validity</th>
+                                                            <th className='dash-table-head text-center'>Validity </th>
                                                             <th className='dash-table-head text-center'>Invoice Amount</th>
                                                             <th className='text-left'>View</th>
                                                         </tr>
 
                                                         {/* table data */}
-                                                        <tr className='dash-table-row client'>
-                                                            <td className='dash-table-data1 text-left'>01.</td>
-                                                            <td className='dash-table-data1 text-center'>
-                                                                {packageSelectionDetail?.packageType}
-                                                            </td>
-                                                            <td className='dash-table-data1 text-center'>
-                                                                {`${new Date(packageSelectionDetail?.createdAt).getDate().toString().padStart(2, '0')}/${(new Date(packageSelectionDetail?.createdAt).getMonth() + 1).toString().padStart(2, '0')}/${new Date(packageSelectionDetail?.createdAt).getFullYear() % 100}`}
-                                                            </td>
+                                                        {allPackageBought.map((pack, index)=>{
+                                                            return (
+                                                                <tr className='dash-table-row client'
+                                                                key={pack._id}>
+                                                                    <td className='dash-table-data1 text-left'>{index+1}.</td>
+                                                                    <td className='dash-table-data1 text-center'>
+                                                                        {pack?.packageType}
+                                                                    </td>
+                                                                    <td className='dash-table-data1 text-center'>
+                                                                        {`${new Date(pack?.createdAt).getDate().toString().padStart(2, '0')}/${(new Date(pack?.createdAt).getMonth() + 1).toString().padStart(2, '0')}/${new Date(pack?.createdAt).getFullYear() % 100}`}
+                                                                    </td>
 
-                                                            <td className='dash-table-data1 text-center'>
-                                                                21-12-2023
-                                                            </td>
+                                                                    <td className='dash-table-data1 text-center'>
+                                                                        {pack.validity} days
+                                                                    </td>
 
-                                                            <td className='dash-table-data1 text-center'>
-                                                                Rs.&nbsp;<span>{packageSelectionDetail?.amount}/-</span>
-                                                            </td>
+                                                                    <td className='dash-table-data1 text-center'>
+                                                                        Rs.&nbsp;<span>{pack?.amount}/-</span>
+                                                                    </td>
 
-                                                            <td className='text-left'>
-                                                                <div className="action-btn-area">
-                                                                    <button className='job-view-btn' data-toggle="modal" data-target="#invoiceModal">
-                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
-                                                                            <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
-                                                                            <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"
-                                                                            />
-                                                                        </svg>
-                                                                    </button>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-
+                                                                    <td className='text-left'>
+                                                                        <div className="action-btn-area">
+                                                                            <button className='job-view-btn' data-toggle="modal" data-target="#invoiceModal"
+                                                                            onClick={()=>setIndividualPackageDetail(pack)}>
+                                                                                <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                                                                    <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
+                                                                                    <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"
+                                                                                    />
+                                                                                </svg>
+                                                                            </button>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            )
+                                                        })}
 
                                                     </table> :
                                                     <div className="no-data-created-area">
@@ -423,19 +448,19 @@ const InvoicePayment = () => {
                                                 <tbody>
                                                     <tr className='row-of-table-row'>
                                                         <th className='table--head'>CV Views</th>
-                                                        <td className='table--data text-center'>{viewedCandidate.length}</td>
-                                                        <td className='table--data text-center'>{packageSelectionDetail?.cvViews - viewedCandidate.length}</td>
+                                                        <td className='table--data text-center'>{individualPackageDetail?.cvViews}</td>
+                                                        <td className='table--data text-center'>{individualPackageDetail?.cvViewsRemaining}</td>
                                                     </tr>
                                                     <tr className='row-of-table-row'>
                                                         <th className='table--head'>Login IDs</th>
-                                                        <td className='table--data text-center'>{allStaff.length}</td>
-                                                        <td className='table--data text-center'>{packageSelectionDetail?.logins - allStaff.length}</td>
+                                                        <td className='table--data text-center'>{individualPackageDetail?.logins}</td>
+                                                        <td className='table--data text-center'>{individualPackageDetail?.loginsRemaining}</td>
                                                     </tr>
-                                                    {/* <tr className='row-of-table-row'>
+                                                    <tr className='row-of-table-row'>
                                                         <th className='table--head'>Number Of Jobs</th>
-                                                        <td className='table--data text-center'>{postedJobs.length}</td>
-                                                        <td className='table--data text-center'>{packageSelectionDetail?.jobPost-postedJobs.length}</td>
-                                                    </tr> */}
+                                                        <td className='table--data text-center'>{individualPackageDetail?.activeJobs}</td>
+                                                        <td className='table--data text-center'>{individualPackageDetail?.activeJobsRemaining}</td>
+                                                    </tr>
                                                 </tbody>
                                             </table>
                                         </div>
