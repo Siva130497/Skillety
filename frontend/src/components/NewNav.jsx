@@ -68,9 +68,10 @@ const NewNav = ({ homeActive, aboutUsActive, searchCVActive, serviceActive, RPOA
                         <div className='logo--subarea'>
                             <a href="/">
                                 <img className='nav--logo'
-                                    src=
-                                    {"data:image/jpeg;base64," + talentJobPostContent.find(content => content.id === "content_2")?.content ||
-                                        "../assets/img/logo/skillety-logo-sm.png"}
+                                    // src=
+                                    // {"data:image/jpeg;base64," + talentJobPostContent.find(content => content.id === "content_2")?.content ||
+                                    //     "../assets/img/logo/skillety-logo-sm.png"}
+                                    src="../assets/img/logo/skillety-logo-sm.png"
                                     alt=""
                                 />
                             </a>
