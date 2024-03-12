@@ -368,7 +368,7 @@ const BookedEvents = () => {
                                     <hr />
                                     <div className="row">
                                         <div className="col-12 col-sm-5">
-                                            <div className="view-det-head">Booking Person Phone Number</div>
+                                            <div className="view-det-head">Phone Number</div>
                                         </div>
                                         <div className="col-12 col-sm-7">
                                             <div className="view-det-sub-head">
@@ -382,7 +382,7 @@ const BookedEvents = () => {
                                     <hr />
                                     <div className="row">
                                         <div className="col-12 col-sm-5">
-                                            <div className="view-det-head">Booking Person Email ID</div>
+                                            <div className="view-det-head">Email ID</div>
                                         </div>
                                         <div className="col-12 col-sm-7">
                                             <div className="view-det-sub-head">
@@ -396,7 +396,7 @@ const BookedEvents = () => {
                                     <hr />                                    
                                     <div className="row">
                                         <div className="col-12 col-sm-5">
-                                            <div className="view-det-head">Booking Person's Msg</div>
+                                            <div className="view-det-head">Message</div>
                                         </div>
                                         <div className="col-12 col-sm-7">
                                             <div className="view-det-sub-head text-capitalized">{selectedViewDetail?.message}</div>

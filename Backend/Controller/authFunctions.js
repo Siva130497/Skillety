@@ -93,7 +93,7 @@ const clientRegister = async(req, res) => {
     const allUserAvailable = await allUsers.findOne({ $or: [{email:{ $regex: new RegExp(email.toLowerCase(), "i") }},  { phone }] });
 
     if (clientAvailable || allUserAvailable) {
-      return res.status(404).json({ error: "This email or phone number already registered" });
+      return res.status(404).json({ error: "The email address or phone number has already been registered" });
     }
     const id = uuidv4();
     const newClient = new client({
@@ -671,7 +671,7 @@ const candidateReg = async(req, res) => {
     const allUserAvailable = await allUsers.findOne({ $or: [{email:{ $regex: new RegExp(email.toLowerCase(), "i") }},  { phone }] });
 
     if (candidateAvailable || allUserAvailable) {
-      return res.status(404).json({ error: `This email or phone number already registered`});
+      return res.status(404).json({ error: `The email address or phone number has already been registered`});
     }
     
     const hashPassword = await bcrypt.hash(password, 12);

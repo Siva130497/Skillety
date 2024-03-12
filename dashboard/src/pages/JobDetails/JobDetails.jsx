@@ -197,7 +197,7 @@ const JobDetails = () => {
                 }
             });
             console.log(response);
-            showSuccessMessage("Job application successfully withdrawed..!")
+            showSuccessMessage("The job application has been successfully withdrawn.")
             getAppliedjobs();
 
             axios.get(`https://skillety-n6r1.onrender.com/applied-job/${id}`)
@@ -266,7 +266,7 @@ const JobDetails = () => {
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, Apply it!'
+                confirmButtonText: 'Apply now'
             }).then((result) => {
                 if (result.isConfirmed) {
                     

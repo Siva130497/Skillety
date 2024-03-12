@@ -253,7 +253,7 @@ const JobSearch = () => {
                 setFilteredSearchResultsMsg("No Jobs found")
             }
         } else {
-            showErrorMessage("select atleast one filter")
+            showErrorMessage("Choose one filter.")
         }
     };
 

@@ -152,7 +152,7 @@ export const AuthContextProvider = ({children}) => {
                 await new Promise(() => {
                     Swal.fire({
                         title: 'Congratulations!',
-                        text: 'Successfully registered.',
+                        text: 'Registration completed successfully.',
                         icon: 'success',
                         confirmButtonColor: '#3085d6',
                         confirmButtonText: 'OK',

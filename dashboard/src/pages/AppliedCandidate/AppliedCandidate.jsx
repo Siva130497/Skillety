@@ -239,6 +239,8 @@ const AppliedCandidate = () => {
         );
     };
 
+    const isVowel = letter => ['a', 'e', 'i', 'o', 'u'].includes(letter.toLowerCase());
+
     const handleChangeStatus = () => {
 
         console.log("Selected Candidates: ", selectedCandidates);
@@ -258,11 +260,11 @@ const AppliedCandidate = () => {
         })
             .then(res => {
                 console.log(res.data);
-                showSuccessMessage(`The Status of the selected candidate is Updated.`)
+                showSuccessMessage(`The Status of the selected candidate is updated.`)
 
                 const selectedCandidateName = reqCands.filter(cand => selectedCandidates.includes(cand.id)).map(candidate => candidate.firstName + " " + candidate.lastName)
 
-                sendNotification({ id: loginClientDetail.companyId, name: loginClientDetail.companyName }, { id: selectedCandidates, name: selectedCandidateName }, `Yor Applied Job of ${Job.jobRole[0]} Status has been Changed to ${selectedStatus}`, "/my-application", clientToken)
+                sendNotification({ id: loginClientDetail.companyId, name: loginClientDetail.companyName }, { id: selectedCandidates, name: selectedCandidateName }, `The status of your applied position as ${isVowel(Job.jobRole[0]) ? 'an' : 'a'} ${Job.jobRole[0]} has been updated to ${selectedStatus}`, "/my-application", clientToken)
 
             })
             .catch(err => {

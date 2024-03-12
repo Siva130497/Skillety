@@ -260,7 +260,7 @@ const NavBar = ({ notification }) => {
           <div className="dropdown-menu dropdown-list dropdown-menu-right pullDown notification-dropdown">
             <div className="notification-dropdown-header">
               <div className="notification-dropdown-head">
-                Unread Notifications&nbsp;<span>({notifications?.length})</span>
+                Unread Notifications&nbsp;<span>{notifications?.length}</span>
               </div>
               {/* <a href="#" className='notify-settings-btn'>
                 <i class="bi bi-gear-fill"></i>
@@ -274,7 +274,7 @@ const NavBar = ({ notification }) => {
               ) : (
                 <p className='no-notification'>
                   <i className='bi bi-exclamation-circle mr-2'></i>
-                  No unread notifications.
+                  No Notifications
                 </p>
               )}
             </div>
@@ -282,7 +282,7 @@ const NavBar = ({ notification }) => {
             {notifications?.length>0 && <div className="dropdown-footer notification-dropdown-footer text-center"
             onClick={handleClearNotifications}>
               <a className='drp-dwn-view-all-btn'
-              >Mark All As Read.
+              >Mark all as read
                 <i class="bi bi-chevron-right ml-3"></i>
               </a>
             </div>}

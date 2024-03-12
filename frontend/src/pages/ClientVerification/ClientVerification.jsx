@@ -123,8 +123,8 @@ const ClientVerification = () => {
                 console.log(result);
                 await new Promise(() => {
                     Swal.fire({
-                        title: 'User Registered',
-                        text: "You've been succesfully registered with Skillety.",
+                        title: 'Congratulations',
+                        text: "You have been registered with Skillety successfully.",
                         icon: 'success',
                         confirmButtonColor: '#3085d6',
                         confirmButtonText: 'OK',
