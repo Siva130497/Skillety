@@ -29,7 +29,8 @@ const ATSNavBar = () => {
     useEffect(() => {
         const handleNotification = (data) => {
             console.log(data);
-            setNotifications((prev) => [...prev, data]);
+            // setNotifications((prev) => [...prev, data]);
+            setNotifications([data]);
 
             // if (!document.hasFocus()) {
             //     playNotificationSound();
@@ -159,6 +160,12 @@ const ATSNavBar = () => {
 
             fetchData();
 
+            
+        }
+    }, [token]);
+
+    useEffect(()=>{
+        if(employeeId){
             axios.get(`https://skillety-n6r1.onrender.com/all-notification/${employeeId}?filter=unRead`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -173,7 +180,7 @@ const ATSNavBar = () => {
                     console.log(err)
                 })
         }
-    }, [token]);
+    },[employeeId])
 
     const extractLastName = () => {
         const nameParts = userName.split(' ');
@@ -233,7 +240,7 @@ const ATSNavBar = () => {
                         </div>
                         <div className="notification-dropdown-content-area">
                             {notifications?.length > 0 ? (
-                                notifications.slice(0, 10).map((notification) => (
+                                notifications.map((notification) => (
                                     <div key={notification.id}>{displayNotification(notification)}</div>
                                 ))
                             ) : (

@@ -4705,7 +4705,7 @@ const getAllNewCandidateDetail = async (req, res) => {
 
     const skip = (page - 1) * limit;
 
-    const cands = await candidate.find().sort({ updatedAt: -1 }).skip(skip).limit(parseInt(limit));
+    const cands = await candidate.find.sort({ updatedAt: -1 }).skip(skip).limit(parseInt(limit));
     
     if (cands.length === 0) {
       return res.status(404).json({ error: "Candidates not found" });
