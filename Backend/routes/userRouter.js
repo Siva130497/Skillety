@@ -715,7 +715,7 @@ router.get("/new-company-details/:id", employeeAuth, getUpdatedCompanyDetailByCo
 router.get("/active-posted-jobs-with-received-cv-count/:id", employeeAuth, getUpdatedOwnActivejobs);
 
 //get all candidates by paginations
-router.get("/all-candidate-details-pagination-with-limit",  getAllNewCandidateDetail);
+router.get("/all-candidate-details-pagination-with-limit", getAllNewCandidateDetail);
 
 //search client by name & company name
 router.post("/client-search", employeeAuth, searchClient);

@@ -3,14 +3,21 @@ const skill = require('../Database/skill');
 
 
 //get all skills from db
-router.get("/skills",  async(req, res)=>{
-    try{
-        const allSkills = await skill.find();
+router.get("/skills", async (req, res) => {
+    try {
+        const cursor = skill.find().lean().cursor();
+        const allSkills = [];
+
+        await cursor.eachAsync(doc => {
+            allSkills.push(doc);
+        });
+
         res.status(200).json(allSkills);
-    }catch(err){
-        res.status(500).json(err)
+    } catch (err) {
+        res.status(500).json(err);
     }
-})
+});
+
 
 //post new skills to db
 router.post("/skills", async (req, res) => {

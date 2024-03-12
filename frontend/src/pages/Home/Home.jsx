@@ -120,7 +120,7 @@ const Home = () => {
 
   const getAllCandidateDetail = async () => {
     try {
-      const response = await axios.get('https://skillety-n6r1.onrender.com/candidate-Detail', {
+      const response = await axios.get('https://skillety-n6r1.onrender.com/all-candidate-details-pagination-with-limit?page=1&limit=10&filter=cv', {
         headers: {
           Accept: 'application/json'
         }
@@ -128,7 +128,7 @@ const Home = () => {
       const result = response.data;
       if (!result.error) {
         console.log(result);
-        setCandidateDetail(result.reverse());
+        setCandidateDetail(result);
       } else {
         console.log(result);
       }
@@ -1025,7 +1025,7 @@ const Home = () => {
 
           >
             {candidateDetail.slice(0,10).map((candidate) => {
-              const matchingImg = candidateImg ? candidateImg.find(img => img.id === candidate.id) : null;
+              const matchingImg = candidateImg ? candidateImg.find(img => img.id === candidate.candidateId) : null;
               const imgSrc = matchingImg ? (matchingImg.image.startsWith('https') ? matchingImg.image : `data:image/jpeg;base64,${matchingImg.image}`) : "assets/img/talents-images/avatar.jpg";
               return (
                 <SwiperSlide>
@@ -1034,10 +1034,10 @@ const Home = () => {
                       <img src={imgSrc}
                         className='canidate--profile-img' alt="" />
                       <div className='candidate--name-area'>
-                        <h6 className='text-capitalized'>{candidate.firstName + ' ' + candidate.lastName}</h6>
+                        <h6 className='text-capitalized'>{candidate.fName + ' ' + candidate.lName}</h6>
                         <div className='candidate--role'>
                           <i class="bi bi-file-earmark-code-fill"></i>
-                          <span>{candidate.designation[0]}</span>
+                          <span>{candidate.currentDesignation}</span>
                         </div>
                       </div>
                     </div>
@@ -1047,12 +1047,12 @@ const Home = () => {
                           <i class="ri-star-fill"></i>
                           <span className='candidate--rating'>4.5</span>
                         </div> */}
-                        <h6 className='candidate--exp m-0'>Experience : {candidate.year > 0 ? candidate.year + 'years' : "" + candidate.month > 0 ? candidate.month + 'months' : ""}</h6>
+                        <h6 className='candidate--exp m-0'>Experience : {candidate.expYr > 0 ? candidate.expYr + 'years' : "" + candidate.expMonth > 0 ? candidate.expMonth + 'months' : ""}</h6>
                       </div>
                       <div className="candidate--top-right">
                         <div className="candidate--rate-area cand-location-area">
                           <i class='bx bxs-map map-icon'></i>
-                          <span className='candidate--rating'>{candidate.location}</span>
+                          <span className='candidate--rating'>{candidate.currentLocation}</span>
                         </div>
                         {/* <h6 className='candidate--exp'>Immediate Joiner</h6> */}
                       </div>

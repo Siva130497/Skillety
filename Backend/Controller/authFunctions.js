@@ -828,27 +828,18 @@ const candidateRegAfterGoogleLogin = async(req, res) => {
 }
 
 /* get all candidate details*/
+const JSONStream = require('JSONStream');
+
 const getAllCandidateDetail = async (req, res) => {
   try {
     const allCandidatesStream = candidate.find().cursor();
 
     res.setHeader('Content-Type', 'application/json');
-    res.write('[');
+    
+    const jsonStream = JSONStream.stringify();
+    jsonStream.pipe(res);
 
-    let isFirst = true;
-
-    allCandidatesStream.on('data', (cand) => {
-      if (!isFirst) {
-        res.write(',');
-      }
-      res.write(JSON.stringify(cand));
-      isFirst = false;
-    });
-
-    allCandidatesStream.on('end', () => {
-      res.write(']');
-      res.end();
-    });
+    allCandidatesStream.pipe(jsonStream);
 
     allCandidatesStream.on('error', (error) => {
       console.error("Error fetching candidate details:", error);
@@ -863,21 +854,36 @@ const getAllCandidateDetail = async (req, res) => {
 
 // const getAllCandidateDetail = async (req, res) => {
 //   try {
-//     const allCandidatesCursor = candidate.find().cursor();
-//     const allCandidatesDetailPromises = [];
+//     const allCandidatesStream = candidate.find().cursor();
 
-//     for await (const cand of allCandidatesCursor) {
-//       allCandidatesDetailPromises.push(cand.toObject());
-//     }
-//     const allCandidatesDetail = await Promise.all(allCandidatesDetailPromises);
+//     res.setHeader('Content-Type', 'application/json');
+//     res.write('[');
 
-//     res.json(allCandidatesDetail);
+//     let isFirst = true;
+
+//     allCandidatesStream.on('data', (cand) => {
+//       if (!isFirst) {
+//         res.write(',');
+//       }
+//       res.write(JSON.stringify(cand));
+//       isFirst = false;
+//     });
+
+//     allCandidatesStream.on('end', () => {
+//       res.write(']');
+//       res.end();
+//     });
+
+//     allCandidatesStream.on('error', (error) => {
+//       console.error("Error fetching candidate details:", error);
+//       res.status(500).json({ error: "Internal Server Error" });
+//     });
 //   } catch (error) {
-
 //     console.error("Error fetching candidate details:", error);
 //     res.status(500).json({ error: "Internal Server Error" });
 //   }
 // };
+
 
 
 // const getAllCandidateDetail = async (req, res) => {
@@ -4701,60 +4707,64 @@ const getUpdatedOwnActivejobs = async (req, res) => {
 //find all new applications
 const getAllNewCandidateDetail = async (req, res) => {
   try {
-    const { page, limit } = req.query; // Default to page 1 and limit 10 if not provided
+    const { page = 1, limit = 10, filter } = req.query;
 
     const skip = (page - 1) * limit;
 
-    const cands = await candidate.find.sort({ updatedAt: -1 }).skip(skip).limit(parseInt(limit));
-    
-    if (cands.length === 0) {
+    const cursor = candidate.find().sort({ updatedAt: -1 }).skip(skip).limit(parseInt(limit)).cursor();
+
+    const newCandidateDetails = [];
+
+    await cursor.eachAsync(async (cand) => {
+      const neededCv = await resume.findOne({ id: cand.id });
+      const neededProfile = await candidateProfile.findOne({ id: cand.id });
+
+      const candidateDetail = {
+        ...cand._doc,
+        ...(neededCv ? neededCv._doc : {}),
+        ...(neededProfile ? neededProfile._doc : {}),
+      };
+
+      const finalResponse = {
+        candidateId: candidateDetail.id,
+        lastProfileUpdateDate: new Date(cand.updatedAt).toISOString().split('T')[0],
+        avatar: candidateDetail.image ? candidateDetail.image : null,
+        joinPeriod: candidateDetail.days,
+        lastDayWorked: candidateDetail.selectedDate,
+        fName: candidateDetail.firstName,
+        lName: candidateDetail.lastName,
+        email: candidateDetail.email,
+        phone: candidateDetail.phone,
+        preferedLocations: candidateDetail.preferedlocations ? candidateDetail.preferedlocations.join(", ") : null,
+        currentDesignation: candidateDetail.designation ? candidateDetail.designation[0] : null,
+        currentCompany: candidateDetail.companyName,
+        currentLocation: candidateDetail.location,
+        expYr: candidateDetail.year,
+        expMonth: candidateDetail.month,
+        skills: candidateDetail.skills,
+        educations: candidateDetail.education,
+        profileHeadline: candidateDetail.profileHeadline,
+        gender: candidateDetail.gender
+      };
+
+      if (filter && filter.toLowerCase() === 'cv') {
+        delete finalResponse.cv;
+      }
+
+      newCandidateDetails.push(finalResponse);
+    });
+
+    if (newCandidateDetails.length === 0) {
       return res.status(404).json({ error: "Candidates not found" });
     }
-
-    const newCandidateDetails = await Promise.all(
-      cands.map(async (cand) => {
-       
-        const neededCv = await resume.findOne({ id: cand.id });
-        const neededProfile = await candidateProfile.findOne({ id: cand.id });
-
-        const candidateDetail = {
-          ...cand._doc,
-          ...(neededCv ? neededCv._doc : {}), 
-          ...(neededProfile ? neededProfile._doc : {}), 
-        };
-
-        const finalResponse = {
-          candidateId: candidateDetail.id,
-          lastProfileUpdateDate: new Date(cand.updatedAt).toISOString().split('T')[0],
-          avatar: candidateDetail.image ? candidateDetail.image : null,
-          joinPeriod: candidateDetail.days,
-          lastDayWorked: candidateDetail.selectedDate,
-          fName: candidateDetail.firstName,
-          lName: candidateDetail.lastName,
-          email: candidateDetail.email,
-          phone: candidateDetail.phone,
-          preferedLocations: candidateDetail.preferedlocations ? candidateDetail.preferedlocations.join(", ") : null,
-          cv: candidateDetail.file ? candidateDetail.file : null,
-          currentDesignation: candidateDetail.designation ? candidateDetail.designation[0] : null,
-          currentCompany: candidateDetail.companyName,
-          currentLocation: candidateDetail.location,
-          expYr: candidateDetail.year,
-          expMonth: candidateDetail.month,
-          skills: candidateDetail.skills,
-          educations: candidateDetail.education,
-          profileHeadline: candidateDetail.profileHeadline,
-          gender: candidateDetail.gender
-        };
-
-        return finalResponse;
-      })
-    );
 
     return res.status(200).json(newCandidateDetails);
   } catch (err) {
     return res.status(500).json({ error: err.message });
   }
 };
+
+
 
 /* get applied jobs */
 const getUpdatedAppliedjobs = async (req, res) => {
