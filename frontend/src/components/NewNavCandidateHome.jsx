@@ -73,9 +73,10 @@ export const NewNavCandidateHome = ({homeActive, aboutUsActive, searchJobActive,
                     <div className='logo--area me-auto'>
                         <div className='logo--subarea'>
                             <a href="/candidate-home">
-                            <img className='nav--logo candidate' src=
-                                        {"data:image/jpeg;base64,"+talentJobPostContent[0]?.content ||
-                                        "../assets/img/logo/skillety-logo-sm.png"} 
+                            <img className='nav--logo candidate' 
+                            // src={"data:image/jpeg;base64,"+talentJobPostContent[0]?.content ||
+                            //             "../assets/img/logo/skillety-logo-sm.png"} 
+                            src="../assets/img/logo/skillety-logo-sm.png"
                                         alt="" />
                             </a>
                         </div>
