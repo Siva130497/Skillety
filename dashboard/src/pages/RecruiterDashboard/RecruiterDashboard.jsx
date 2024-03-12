@@ -11,6 +11,7 @@ import 'swiper/css/pagination';
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import { jwtDecode } from "jwt-decode";
+import { io } from "socket.io-client";
 
 import {
     Chart as ChartJS,
@@ -37,6 +38,10 @@ const RecruiterDashboard = () => {
     const [clientDetail, setClientDetail] = useState([]);
     const [candidateDetail, setCandidateDetail] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [notifications, setNotifications] = useState([]);
+    const [socket, setSocket] = useState(null);
+    const [userName, setUserName] = useState("");
+    const [employeeId, setEmployeeId] = useState("");
 
     const [filter, setFilter] = useState('Weekly');
 
@@ -156,6 +161,27 @@ const RecruiterDashboard = () => {
     // }, [token])
 
     useEffect(() => {
+        setSocket(io("https://skillety-n6r1.onrender.com"));
+    }, []);
+
+    useEffect(() => {
+        socket?.emit("newUser", userName)
+        console.log(userName)
+    }, [socket, userName])
+
+    useEffect(() => {
+        socket?.on("getNotification", data => {
+            console.log(data)
+            setNotifications(prev => [...prev, data]);
+            
+            // if (!document.hasFocus()) {
+            //     const sound = new Audio(notificationSound);
+            //     sound.play();
+            // }
+        })
+    }, [socket]);
+
+    useEffect(() => {
         try {
             if (token && typeof token === 'string' && token.split('.').length === 3) {
                 const decodeToken =  jwtDecode(token); // Decode the token
@@ -178,6 +204,8 @@ const RecruiterDashboard = () => {
                    
                     const user = await getProtectedData(token);
                     console.log(user);
+                    setUserName(user.name);
+                    setEmployeeId(user.id);
                    
                 } catch (error) {
                     console.log(error);
@@ -248,6 +276,24 @@ const RecruiterDashboard = () => {
         }
 
     }, [token]);
+
+    useEffect(()=>{
+        if(employeeId){
+            axios.get(`https://skillety-n6r1.onrender.com/all-notification/${employeeId}?filter=all`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: 'application/json'
+        }
+      })
+        .then(res => {
+          console.log(res.data);
+          setNotifications(res.data)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+        }
+    },[employeeId])
 
 
     return (
@@ -343,8 +389,8 @@ const RecruiterDashboard = () => {
 
                                             <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
                                                 <div className="dash-num-count-area">
-                                                    <p className='dash-num-title'>New Notifications</p>
-                                                    <h4 className='dash-num-count'>00</h4>
+                                                    <p className='dash-num-title'>Recent Notifications</p>
+                                                    <h4 className='dash-num-count'>{notifications.length}</h4>
                                                 </div>
                                             </div>
                                         </div>

@@ -4707,7 +4707,7 @@ const getUpdatedOwnActivejobs = async (req, res) => {
 //find all new applications
 const getAllNewCandidateDetail = async (req, res) => {
   try {
-    const { page = 1, limit = 10, filter } = req.query;
+    const { page, limit, filter } = req.query;
 
     const skip = (page - 1) * limit;
 
