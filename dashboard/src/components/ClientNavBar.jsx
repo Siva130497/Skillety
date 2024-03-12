@@ -16,7 +16,7 @@ const ClientNavBar = ({ notification }) => {
 
   const [userName, setUserName] = useState('');
   const [companyName, setCompanyName] = useState("");
-  // const [socket, setSocket] = useState(null);
+  const [socket, setSocket] = useState(null);
   const [notifications, setNotifications] = useState([]);
 
   // const [audio] = useState(new Audio('../assets/media/notify-ring.mp3'));
@@ -25,11 +25,11 @@ const ClientNavBar = ({ notification }) => {
   // const [audioBuffer, setAudioBuffer] = useState(null);
   // const [playedNotificationIds, setPlayedNotificationIds] = useState([]);
 
-  useEffect(() => {
-    if(notification?.length>0){
-      setNotifications(notification);
-    }
-  }, [notification]);
+  // useEffect(() => {
+  //   if(notification?.length>0){
+  //     setNotifications(notification);
+  //   }
+  // }, [notification]);
 
   // const playSound = (context, buffer) => {
   //   const source = context.createBufferSource();
@@ -97,6 +97,24 @@ const ClientNavBar = ({ notification }) => {
 
 
   //   console.log(notifications)
+
+  useEffect(() => {
+    setSocket(io("https://skillety-n6r1.onrender.com"));
+  }, []);
+
+  useEffect(() => {
+    socket?.emit("newUser", userName)
+}, [socket, userName]);
+
+  useEffect(() => {
+
+    socket?.on("getNotification", data => {
+      console.log(data)
+      setNotifications([data]);
+      
+    })
+
+  }, [socket]);
 
   const handleClick = (notificationIdArray, redirect) => {
     if (notificationIdArray) {
@@ -302,9 +320,9 @@ const ClientNavBar = ({ notification }) => {
               </a> */}
             </div>
             <div className="notification-dropdown-content-area">
-              {notifications?.length > 0 ? (
-                notifications.map((notification, index) => (
-                  <div key={index}>{displayNotification(notification)}</div>
+            {notifications?.length > 0 ? (
+                notifications.map((notification) => (
+                  <div key={notification.id}>{displayNotification(notification)}</div>
                 ))
               ) : (
                 <p className='no-notification'>

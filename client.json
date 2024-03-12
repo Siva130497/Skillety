@@ -1,66 +1,625 @@
 [
     {
-     "ClientName": "Sagility - RPO-Lite",
-     "ContactName": "Manjunath Rajendran ",
-     "ContactEmail": "Manjunath.Rajendran@sagilityhealth.com"
-    },
-    {
-     "ClientName": "Brane Enterprises Private Limited",
-     "ContactName": "Nishita Zala",
-     "ContactEmail": "nishita.zala@braneenterprises.com",
-     "Location": "Hyderabad",
-     "Website": "https:\/\/www.braneenterprises.com"
-    },
-    {
-     "ClientName": "Bain Capability Centre India Pvt. Ltd",
-     "ContactName": "Aastha Uniyal",
-     "ContactEmail": "Aastha.Uniyal@bain.com",
-     "Location": "Gurgaon",
-     "Website": "http:\/\/www.bain.com"
-    },
-    {
-     "ClientName": "APEXON RPO-Lite",
-     "ContactName": "Dhiraj Mane",
-     "ContactEmail": "dhiraj.mane@apexon.com"
-    },
-    {
-     "ClientName": "Technosoft Engineering Projects Limited",
-     "ContactName": "Deepal Patel ",
-     "ContactEmail": "dpatel@technosofteng.com",
-     "Location": "Mumbai",
-     "Website": "https:\/\/technosofteng.com"
-    },
-    {
-     "ClientName": "Kindertouch Technologies Private Limited",
-     "ContactName": "Velumani Pillai",
-     "ContactEmail": "velumani@siminsights.com",
-     "Website": "https:\/\/siminsights.com\/kindertouch\/"
-    },
-    {
-     "ClientName": "Prodigit",
-     "ContactName": "Nishant Singh",
-     "ContactEmail": "nishantsingh26161@gmail.com",
-     "Location": "Hyderabad"
-    },
-    {
-     "ClientName": "The Tata Power Company Limited",
-     "ContactName": "Taniya Lakhwani  Hirni Pathak",
-     "ContactEmail": "taniya.lakhwani@tatapower.com  hirni.pathak@tatapower.com",
-     "Location": "Mumbai",
-     "Website": "http:\/\/www.tatapower.com"
-    },
-    {
-     "ClientName": "Sagility India Private Limited",
-     "ContactName": "Manjunath Rajendran",
-     "ContactEmail": "Manjunath.Rajendran@sagilityhealth.com",
-     "Location": "Bengaluru",
-     "Website": "https:\/\/sagilityhealth.com"
-    },
-    {
-     "ClientName": "Ankura Homes",
-     "ContactName": "Navaz Husssain Md",
-     "ContactEmail": "navaz@ankurahomes.com",
-     "Location": "Hyderabad",
-     "Website": "https:\/\/ankurahomes.com"
+        "ClientName": "Sonata Software Limited",
+        "ContactName": "Keerthi Rannore",
+        "ContactEmail": "Keerthi.R@sonata-software.com",
+        "Location": "Bangalore",
+        "Website": "https:\/\/www.sonata-software.com"
+       },
+       {
+        "ClientName": "Onusworks Software India Pvt Ltd",
+        "ContactName": "Satheesh Thalapalli",
+        "ContactEmail": "Satheesh@onusworks.com",
+        "Location": "Bangalore",
+        "Website": "www.onusworks.com"
+       },
+       {
+        "ClientName": "MIPL",
+        "Location": "Malleshwaram Bangalore",
+        "Website": "www.miplglobal.com"
+       },
+       {
+        "ClientName": "Zalaris Hr Services india Pvt Ltd",
+        "ContactName": "Karthikeyan Durai",
+        "ContactEmail": "Karthikeyan.durai@zalaris.com",
+        "Location": "Chennai",
+        "Website": "www.zalaris.com"
+       },
+       {
+        "ClientName": "BAJAJ FINANCE LIMITED",
+        "ContactName": "Deepak Giri",
+        "ContactEmail": "deepak.giri2@bajajfinserv.in",
+        "Location": "Pune",
+        "Website": "https:\/\/www.bajajfinserv.in\/"
+       },
+       {
+        "ClientName": "Harbinger Systems Pvt. Ltd.",
+        "ContactName": "Manjeet Walia",
+        "ContactEmail": "Manjeet.Walia@harbingergroup.com",
+        "Location": "Pune",
+        "Website": "www.harbingergroup.com"
+       },
+       {
+        "ClientName": "H&R Block (India) Pvt. Ltd.",
+        "ContactName": "Arya Sushama",
+        "ContactEmail": "arya.sushama@hrblock.com",
+        "Location": "Thiruvananthapuram, Kerala",
+        "Website": "www.hrblock.com"
+       },
+       {
+        "ClientName": "Sterlite Technologies Ltd",
+        "ContactName": "Abhishek Singh",
+        "ContactEmail": "abhishek.l.singh@stl.tech",
+        "Website": "www.stl.tech"
+       },
+       {
+        "ClientName": "Wiser Solutions",
+        "ContactName": "Suchit Patel  Atith Nayak",
+        "ContactEmail": "spatel@wiser.com  anayak@wiser.com",
+        "Location": "Vadodara",
+        "Website": "www.wiser.com"
+       },
+       {
+        "ClientName": "Ather Energy Private Limited",
+        "ContactName": "Mounika K",
+        "ContactEmail": "mounika.k@atherenergy.com",
+        "Location": "Bangalore",
+        "Website": "www.atherenergy.com"
+       },
+       {
+        "ClientName": "YAMAHA MOTOR SOLUTIONS (INDIA) PRIVATE LIMITED",
+        "ContactName": "Surender Singh",
+        "ContactEmail": "SurenderS@yamaha-motor-india.com",
+        "Location": "Noida",
+        "Website": "www.ymsl.in"
+       },
+       {
+        "ClientName": "Capricot Technologies Pvt. Ltd.",
+        "ContactName": "Shubha H V",
+        "ContactEmail": "shubha.hv@capricot.com",
+        "Location": "Bangalore",
+        "Website": "www.cpricot.com"
+       },
+       {
+        "ClientName": "PLANET EDU NETWORK PRIVATE LIMITED",
+        "ContactName": "Disha Gupta",
+        "ContactEmail": "disha.gupta@planetspark.in",
+        "Location": "Gurgaon",
+        "Website": "https:\/\/www.planetspark.in\/"
+       },
+       {
+        "ClientName": "Religare Finvest Limited",
+        "ContactName": "Deepika Nimesh",
+        "ContactEmail": "deepika.nimesh@religare.com",
+        "Location": "Delhi",
+        "Website": "www.religare.com"
+       },
+       {
+        "ClientName": "ITCRATS INFO SOLUTIONS PRIVATE LIMITED",
+        "ContactName": "Kartheek Yatindra",
+        "ContactEmail": "kartheek.yatindra@itcrats.com",
+        "Location": "Hyderabad",
+        "Website": "www.itcrats.com"
+       },
+       {
+        "ClientName": "EQUAL EXPERTS INDIA PRIVATE LIMITED,",
+        "ContactName": "Fatema Khedwala",
+        "ContactEmail": "fatema.khedwala@equalexperts.com",
+        "Location": "Pune",
+        "Website": "https:\/\/www.equalexperts.com"
+       },
+       {
+        "ClientName": "HOMECARE SOFTWARE SOLUTIONS HHAEXCHANGE PRIVATE LIMITED",
+        "ContactName": "Santosh Suvarna",
+        "ContactEmail": "ssuvarna@hhaexchange.com",
+        "Location": "Ahmedabad",
+        "Website": "https:\/\/hhaexchange.com\/"
+       },
+       {
+        "ClientName": "Sai Systems Technology, LLC",
+        "ContactName": "Arvind Menezes",
+        "ContactEmail": "amenezes@saisystems.com",
+        "Location": "Shelton, CT",
+        "Website": "https:\/\/saisystems.com\/"
+       },
+       {
+        "ClientName": "UGRO Capital Limited",
+        "ContactName": "Prashant Shahay",
+        "ContactEmail": "Prashant.sahay@ugrocapital.com",
+        "Location": "Mumbai",
+        "Website": "www.ugrocapital.com"
+       },
+       {
+        "ClientName": "Rentokil Pest Control Pvt Ltd",
+        "ContactName": "Pratik Pandya",
+        "ContactEmail": "pratik.pandya@rentokil-pci.com",
+        "Location": "Mumbai",
+        "Website": "http:\/\/www.rentokil-pestcontrolindia.com\/"
+       },
+       {
+        "ClientName": "FINOFY TECHNOLOGIES PRIVATE LIMITED ‍",
+        "ContactName": "Sumeet Nigli",
+        "ContactEmail": "sumeet.nigli@finofy.ai",
+        "Location": "Mumbai",
+        "Website": "https:\/\/www.finofy.ai"
+       },
+       {
+        "ClientName": "AXIOMIO IT SERVICES PRIVATE LIMITED",
+        "ContactName": "Sushma Sana",
+        "ContactEmail": "sushma.sana@axiomio.com",
+        "Location": "Newark",
+        "Website": "www.axiomio.com"
+       },
+       {
+        "ClientName": "De Dietrich Process Systems India Pvt. Ltd.",
+        "ContactName": "Reshma Sarkar",
+        "ContactEmail": "reshma.sarkar@dedietrich.co.in",
+        "Location": "Mumbai",
+        "Website": "http:\/\/in.dedietrich.com\/"
+       },
+       {
+        "ClientName": "QUALITAS GLOBAL SERVICES LLP",
+        "ContactName": "Anjali P  Neville Patel",
+        "ContactEmail": "anjali.pipraiya@qualitasglobal.com  neville.patel@qualitasglobal.com",
+        "Location": "Pune",
+        "Website": "www.qualitasglobal.com"
+       },
+       {
+        "ClientName": "ScaleDino Pvt. Ltd.",
+        "ContactName": "Mohammed Saifuddin",
+        "ContactEmail": "hr@scaledino.com",
+        "Location": "Hyderabad",
+        "Website": "www.scaledino.com"
+       },
+       {
+        "ClientName": "RR Donnelley India Outsource Pvt. Ltd.",
+        "ContactName": "Jaikrishnan TS  RAJITHA RAMACHANDRAN",
+        "ContactEmail": "jaikrishnan.ts@rrd.com  rajitha.ramachandran@rrd.com",
+        "Location": "Chennai",
+        "Website": "www.rrd.com"
+       },
+       {
+        "ClientName": "Topline Business Support Solutions Pvt. Ltd.",
+        "ContactName": "Sudhir K G",
+        "ContactEmail": "sudhir.kg@toplinebiz.com",
+        "Location": "Bangalore",
+        "Website": "http:\/\/www.toplinebiz.com\/"
+       },
+       {
+        "ClientName": "Inspirisys Solutions Limited",
+        "ContactName": "Ranjit Kumar",
+        "ContactEmail": "ranjit.kumar@inspirisys.com",
+        "Location": "Chennai",
+        "Website": "https:\/\/www.inspirisys.com\/"
+       },
+       {
+        "ClientName": "O9 SOLUTIONS MANAGEMENT INDIA PRIVATE LIMITED",
+        "ContactName": "Bhanu Pradeep Patnaik  Parthiban Umapathy",
+        "ContactEmail": "bhanu.patnaik@o9solutions.com  parthiban.umapathy@o9solutions.com",
+        "Location": "Bangalore",
+        "Website": "www.o9solutions.com"
+       },
+       {
+        "ClientName": "Accubits Technologies  Pvt Ltd",
+        "ContactName": "Sruthi P  Roystone Fernandez",
+        "ContactEmail": "sruthi@accubits.com  roystone@accubits.com",
+        "Location": "Kerala",
+        "Website": "www.accubits.com"
+       },
+       {
+        "ClientName": "Cynoteck Technology Solutions Pvt. Ltd.",
+        "ContactName": "Clifton Michael",
+        "ContactEmail": "clifton.michael@cynoteck.com",
+        "Location": "Dehradun",
+        "Website": "www.cynoteck.com"
+       },
+       {
+        "ClientName": "PROVIDENCE GLOBAL CENTER LLP",
+        "ContactName": "Prudhvi Kumar",
+        "ContactEmail": "prudhvikumar.pvk@providence.org",
+        "Location": "HYDERABAD",
+        "Website": "www.providence.com"
+       },
+       {
+        "ClientName": "PROMANTRA SYNERGY SOLUTIONS LTD",
+        "ContactName": "Chirag Patel",
+        "ContactEmail": "chiragb@promantra.us",
+        "Location": "Hyderabad",
+        "Website": "www.promantra.us"
+       },
+       {
+        "ClientName": "KNODTEC SOLUTIONS PRIVATE LIMITED",
+        "ContactName": "Rakshitha K",
+        "ContactEmail": "Rakshitha.k@knodtec.com",
+        "Location": "Bangalore",
+        "Website": "www.knodtec.com"
+       },
+       {
+        "ClientName": "Ignitarium Technology Solutions Pvt. Ltd",
+        "ContactName": "Sunil Kumar Raghunathan",
+        "ContactEmail": "sunil.raghunathan@ignitarium.com",
+        "Location": "Bangalore",
+        "Website": "www.ignitarium.com"
+       },
+       {
+        "ClientName": "EVRY India Private Limited",
+        "ContactName": "Shahwar Banu",
+        "ContactEmail": "Shahwar.Banu@tietoevry.com",
+        "Location": "Bangalore",
+        "Website": "www.tietoevry.com"
+       },
+       {
+        "ClientName": "SnapWork Technologies Pvt. Ltd.",
+        "ContactName": "Pearl D'Silva",
+        "ContactEmail": "pearld@snapwork.com",
+        "Location": "Mumbai",
+        "Website": "www.snapwork.com"
+       },
+       {
+        "ClientName": "SHARP I-TECH SOLUTIONS Pvt. Ltd.",
+        "ContactName": "Sandeep Kala  Meghan Dere",
+        "ContactEmail": "sandeep.kala@sarjak.com  Meghan.Dere@sarjak.com",
+        "Location": "Mumbai",
+        "Website": "www.sarjak.com"
+       },
+       {
+        "ClientName": "Impelsys Pvt. Ltd.",
+        "ContactName": "Praveen Joseph  Kunal Acharyaa",
+        "ContactEmail": "praveen.joseph@impelsys.com  kunal.acharyaa@impelsys.com",
+        "Location": "Bangalore",
+        "Website": "www.impelsys.com"
+       },
+       {
+        "ClientName": "IT Convergence Professional Services Pvt. Ltd.",
+        "ContactName": "Praveen Sunkari  Chander Sehgal  Shalini Tayal",
+        "ContactEmail": "psunkari@itconvergence.com  csehgal@itconvergence.com  stayal@itconvergence.com",
+        "Location": "Hyderabad",
+        "Website": "www.itconvergence.com"
+       },
+       {
+        "ClientName": "INTECH Creative Services Pvt.Ltd.",
+        "ContactName": "Deep Patel",
+        "ContactEmail": "deep.patel@ics-global.in",
+        "Location": "Gandhinagar, Gujarat",
+        "Website": "www.theintechgroup.com"
+       },
+       {
+        "ClientName": "Matellio India Pvt. Ltd.",
+        "ContactName": "Mohit Gupta",
+        "ContactEmail": "mohit.gupta@matellio.com",
+        "Location": "Jodhpur",
+        "Website": "www.matellio.com"
+       },
+       {
+        "ClientName": "IZMO Limited",
+        "ContactName": "Biplob Das  Jyoti Kanaujiya",
+        "ContactEmail": "biplob.das@izmoltd.com  jyoti.kanaujiya@izmoltd.com",
+        "Location": "Bangalore",
+        "Website": "www.izmoltd.com"
+       },
+       {
+        "ClientName": "Tetrasoft India Pvt. Ltd.",
+        "ContactName": "Surendranath Kande  Sravanti Vemavarapu",
+        "ContactEmail": "skande@tetrasoft.us  kvemavarapu@tetrasoft.us",
+        "Location": "Hyderabad",
+        "Website": "www.tetrasoft.us"
+       },
+       {
+        "ClientName": "ProcessMap India Pvt. Ltd.",
+        "ContactName": "Madhu Sasmal  Lavanya Ponnurangam",
+        "ContactEmail": "msasmal@processmap.com  plavanya@processmap.com",
+        "Location": "Hyderabad, Bhubaneswar",
+        "Website": "www.processmap.com"
+       },
+       {
+        "ClientName": "Vimeo Technologies Pvt. Ltd.",
+        "ContactName": "Ruban Naveen  Jaya Bhardwaj",
+        "ContactEmail": "ruban.naveen@vimeo.com  jaya.bhardwaj@vimeo.com",
+        "Location": "Bangalore",
+        "Website": "www.vimeo.com"
+       },
+       {
+        "ClientName": "Interactions Virtual Assistant India LLP",
+        "ContactName": "Hemant Chakravorty  Swetha Mamidi",
+        "ContactEmail": "hchakravorty@interactions.com  smamidi@interactions.com",
+        "Location": "Bangalore",
+        "Website": "www.interactions.com"
+       },
+       {
+        "ClientName": "Technosoft Global Solutions LLP. (APEXON)",
+        "ContactName": "Arun Kumar Brahma  Govindraj Panagadan  Rajesh Chandrasekar  Pranava Panchaksharappa",
+        "ContactEmail": "arunkumar.brahma@apexon.com  Govindraj.Panagadan@apexon.com  rajesh.chandrasekar@apexon.com  pranava.panchaksharappa@apexon.com",
+        "Location": "Chennai",
+        "Website": "www.apexon.com"
+       },
+       {
+        "ClientName": "Sigma Infosolutions Ltd.",
+        "ContactName": "Narasimman N  Nidhi Vyas",
+        "ContactEmail": "narasimman.n@sigmainfo.net  nidhi.vyas@sigmainfo.net",
+        "Location": "Bangalore",
+        "Website": "www.sigmainfo.net"
+       },
+       {
+        "ClientName": "Cambay Consulting India Pvt. Ltd.",
+        "ContactName": "Vankat Sanam  Rahul Shrivastava  Shalini Gupta",
+        "ContactEmail": "venkat@cambaycs.com  rahul.s@cambaycs.com  shalini@cambaycs.com",
+        "Location": "Hyderabad",
+        "Website": "www.cambaycs.com"
+       },
+       {
+        "ClientName": "EOX Vantage Pvt. Ltd.",
+        "ContactName": "Govind Raj",
+        "ContactEmail": "govind@eoxvantage.com",
+        "Location": "Bangalore",
+        "Website": "www.eoxvantage.com"
+       },
+       {
+        "ClientName": "ENERGY EXEMPLAR INDIA PRIVATE LIMITED",
+        "ContactName": "Komal Choudhari",
+        "ContactEmail": "komal.choudhari@energyexemplar.com",
+        "Location": "Pune",
+        "Website": "www.energyexemplar.com"
+       },
+       {
+        "ClientName": "MEDGENOME LABS LIMITED",
+        "ContactName": "Pratishtha Sawhney  Vachana Jayaram",
+        "ContactEmail": "pratishtha.sawhney@medgenome.com  vachana.jayaram@medgenome.com",
+        "Location": "Bangalore",
+        "Website": "www.medgenome.com"
+       },
+       {
+        "ClientName": "Baldor Technologies Private Limited (IDfy)",
+        "ContactName": "Stuti Srivastava",
+        "ContactEmail": "stuti.srivastava@idfy.com",
+        "Location": "Mumbai",
+        "Website": "www.idfy.com"
+       },
+       {
+        "ClientName": "SmartShift Logistics Solutions Pvt. Ltd. (PORTER)",
+        "ContactName": "Satyajit Kumar Mittra",
+        "ContactEmail": "satyajit.mittra@theporter.in",
+        "Location": "Bangalore",
+        "Website": "www.porter.in"
+       },
+       {
+        "ClientName": "Chargeback Gurus Fintech Private Limited",
+        "ContactName": "Satheesh Thalapalli",
+        "ContactEmail": "satheesh.thalapalli@chargebackgurus.com",
+        "Location": "Chennai",
+        "Website": "www.chargebackgurus.com"
+       },
+       {
+        "ClientName": "Planview India Pvt Ltd",
+        "ContactName": "Naveen Dominic  Varsha Shinde",
+        "ContactEmail": "naveen.dominic@planview.com  vsindhe@planview.com",
+        "Location": "Bangalore",
+        "Website": "www.planview.com"
+       },
+       {
+        "ClientName": "Replicon Software (India) Pvt Ltd",
+        "ContactName": "Narahari PC  Shwetha V",
+        "ContactEmail": "narahari.pc@replicon.com  shwetha.v@replicon.com",
+        "Location": "Bangalore",
+        "Website": "www.replicon.com"
+       },
+       {
+        "ClientName": "Integra Software Services Pvt Ltd",
+        "ContactName": "Vijayaraghavan Subramanian",
+        "ContactEmail": "vijayaraghavan.subramanian@integra.co.in",
+        "Location": "Pondicherry",
+        "Website": "www.integranxt.com"
+       },
+       {
+        "ClientName": "Incandescent Technologies Private Limited (ITI Data)",
+        "ContactName": "Ankita Sharma  Abhishek Chatterjee  Santhosh Kumar",
+        "ContactEmail": "  achatterjee@itidata.com  ",
+        "Location": "Chennai, Pune",
+        "Website": "www.itidata.com"
+       },
+       {
+        "ClientName": "T Systems Information And Communication Technology India Pvt Ltd",
+        "ContactName": "Mahesh Gosavi",
+        "ContactEmail": "mahesh.gosavi@t-systems.com",
+        "Location": "Pune",
+        "Website": "https:\/\/www.t-systems.com\/in\/en"
+       },
+       {
+        "ClientName": "TECHIGAI PRIVATE LIMITED",
+        "ContactName": "Ravinder Konyala",
+        "ContactEmail": "ravinder.konyala@techigai.io",
+        "Location": "Hyderabad",
+        "Website": "www.techigai.io"
+       },
+       {
+        "ClientName": "Xoriant Solutions Pvt Ltd",
+        "ContactName": "Chirag Trivedi  Paul Jose",
+        "ContactEmail": "chirag.trivedi@xoriant.com  paul.jose@xoriant.com",
+        "Location": "Mumbai",
+        "Website": "www.xoriant.com"
+       },
+       {
+        "ClientName": "ZeTechno Products and Services Pvt Ltd",
+        "ContactName": "Savithri Ghadiyaram  Sandeep Varanasi",
+        "ContactEmail": "savithri.ghadiyaram@zetechno.com  vsandeep@zetechno.com",
+        "Location": "Hyderabad",
+        "Website": "www.zetechno.com"
+       },
+       {
+        "ClientName": "Silvermine Software India Pvt Ltd",
+        "ContactName": "Vineet N Harithas  Franklin Maria  Shubhangi Kamthane",
+        "ContactEmail": "vineet@silverminegroup.com  franklin@silverminegroup.com  shubhangi@silverminegroup.com",
+        "Location": "Bangalore",
+        "Website": "http:\/\/www.silverminegroup.com\/"
+       },
+       {
+        "ClientName": "Bitace Technologies Pvt Ltd",
+        "ContactName": "Shubhank Jain",
+        "ContactEmail": "shubhank@bitace.in",
+        "Location": "Jaipur",
+        "Website": "www.bitace.in"
+       },
+       {
+        "ClientName": "Expian Technologies Private Limited",
+        "ContactName": "Divya Gunashekar",
+        "ContactEmail": "divya@thescalers.com",
+        "Location": "Bangalore",
+        "Website": "www.thescalers.com"
+       },
+       {
+        "ClientName": "HARMAN Connected Services Corporation India Pvt Ltd",
+        "ContactName": "Subhajit Ghosh",
+        "ContactEmail": "Subhajit.Ghosh@harman.com",
+        "Location": "Bangalore",
+        "Website": "www.harman.com"
+       },
+       {
+        "ClientName": "Synoptek India Private Limited",
+        "ContactName": "Hema Rana Choubey",
+        "ContactEmail": "hchoubey@synoptek.com",
+        "Location": "Ahmedabad, Pune",
+        "Website": "www.synoptek.com"
+       },
+       {
+        "ClientName": "Intelliswift Software India Pvt Ltd",
+        "ContactName": "Mohammed Ishaq",
+        "ContactEmail": "mohammed.ishaq@intelliswift.com",
+        "Location": "Pune",
+        "Website": "www.intelliswift.com"
+       },
+       {
+        "ClientName": "Thomas Wordsworth HR Systems Pvt Ltd",
+        "ContactName": "Jerson James",
+        "ContactEmail": "jerson@actuatemicrolearning.com",
+        "Location": "Mumbai",
+        "Website": "https:\/\/actuatemicrolearning.com\/"
+       },
+       {
+        "ClientName": "Analyticsfox Softwares Private Limited",
+        "ContactName": "Surekha Kotian  Harshal Patni",
+        "ContactEmail": "skotian@analyticsfoxsoftwares.com  hpatni@analyticsfoxsoftwares.com",
+        "Location": "Mumbai",
+        "Website": "www.analyticsfoxsoftwares.com"
+       },
+       {
+        "ClientName": "Servion Global Solutions Ltd",
+        "ContactName": "Mastanrao Gatram",
+        "ContactEmail": "mastanrao.g@servion.com",
+        "Location": "Bangalore",
+        "Website": "www.servion.com"
+       },
+       {
+        "ClientName": "Aseuro Technologies Pvt Ltd",
+        "ContactName": "Srikanth Iyer",
+        "ContactEmail": "srikanth.iyer@aseuro.in",
+        "Location": "Bangalore",
+        "Website": "www.aseuro.in"
+       },
+       {
+        "ClientName": "LaundroKart.com",
+        "ContactName": "Vineet Patil",
+        "ContactEmail": "vineet@laundrokart.com",
+        "Location": "Bangalore",
+        "Website": "www.laundrokart.com"
+       },
+       {
+        "ClientName": "ChandraX IT Solutions Pvt. Ltd.",
+        "ContactName": "Sravan Kumar Naragoni ",
+        "ContactEmail": "operations@chandraxit.com",
+        "Location": "Hyderabad",
+        "Website": "www.chandraxit.com"
+       },
+       {
+        "ClientName": "SKAKTECH",
+        "ContactName": "Sanju ",
+        "ContactEmail": "contact@skaktech.con",
+        "Location": "Calicut, Kerala",
+        "Website": "www.skaktech.com"
+       },
+       {
+        "ClientName": "Dream Mithra Pvt Ltd",
+        "ContactName": "Mr RAJA ",
+        "ContactEmail": "raja-dreammithra@hotmail.com",
+        "Location": "Bangalore",
+        "Website": "www.dreammithra.in"
+       },
+       {
+        "ClientName": "QUANTUMSPARK",
+        "ContactName": "Prakash Reddy",
+        "ContactEmail": "prakash.kadira@quantumspark.ai",
+        "Location": "Hyderabad",
+        "Website": "www.quantumspark.ai"
+       },
+       {
+        "ClientName": "Visheesha Catering",
+        "ContactName": "Ramesh ",
+        "ContactEmail": "dwanda69@litermssb.com",
+        "Location": "Hyderabad"
+       },
+       {
+        "ClientName": "Zeptoh Solutions Pvt Ltd",
+        "ContactName": "Ramanan ",
+        "ContactEmail": "ramanan@zeptoh.com",
+        "Location": "Chennai",
+        "Website": "www.zeptoh.com"
+       },
+       {
+        "ClientName": "3KITS - Test",
+        "ContactName": "Sai "
+       },
+       {
+        "ClientName": "Huawei Technologies India Pvt. Ltd.",
+        "ContactName": "Faiz Ahmad Khan  Himani Kalra",
+        "ContactEmail": "faiz.ahmad.khan@huawei.com  himani.kalra@huawei.com",
+        "Location": "Bangalore",
+        "Website": "www.huawei.com"
+       },
+       {
+        "ClientName": "ValueMomentum Software Services Pvt. Ltd.",
+        "ContactName": "Uma Gogineni",
+        "ContactEmail": "Uma.Gogineni@valuemomentum.com",
+        "Location": "Hyderabad",
+        "Website": "https:\/\/www.valuemomentum.com\/"
+       },
+       {
+        "ClientName": "Happiest Minds Technologies Ltd",
+        "ContactName": "Shashidhar Kadappanavar  Manjunath N",
+        "ContactEmail": "shashidhar.k@happiestminds.com  manjunath.n2@happiestminds.com",
+        "Location": "Bangalore",
+        "Website": "www.happiestminds.com"
+       },
+       {
+        "ClientName": "Iris Software Inc.",
+        "ContactName": "Anamika Singh  Pooja Giri",
+        "ContactEmail": "anamika.singh@irissoftware.com  pooja.giri@irissoftware.com",
+        "Location": "Noida",
+        "Website": "www.irissoftware.com"
+       },
+       {
+        "ClientName": "Financial Software and Systems Pvt Ltd",
+        "ContactName": "Sushil Kumar",
+        "ContactEmail": "sushilkumarm@fss.co.in",
+        "Location": "Chennai",
+        "Website": "www.fsstech.com"
+       },
+       {
+        "ClientName": "Apisero India Pvt Ltd",
+        "ContactName": "Nishit Mishra",
+        "ContactEmail": "nishit.mishra@apisero.com",
+        "Location": "Pune",
+        "Website": "www.apisero.com"
+       },
+       {
+        "ClientName": "Arcesium India Private Limited",
+        "ContactName": "Pradeep Anthony Irwin",
+        "ContactEmail": "Pradeep.Irwin@arcesium.com",
+        "Location": "Hyderabad",
+        "Website": "www.arcesium.com"
+       },
+       {
+        "ClientName": "Hughes Systique India Pvt Ltd",
+        "ContactName": "Binson Baby",
+        "ContactEmail": "Binson.Baby@hsc.com",
+        "Location": "Bangalore",
+        "Website": "www.hsc.com"
     }
    ]
