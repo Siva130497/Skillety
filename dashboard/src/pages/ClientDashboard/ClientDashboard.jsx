@@ -496,7 +496,7 @@ const ClientDashboard = () => {
         return (
             <>
                 <td className='dash-table-sub-data data-nowrap'>{`${time} ${date}`}</td>
-                <td className='dash-table-sub-data'>{content} -------{readStatus ? <b>Read</b> : <b>Un-Read</b>}</td>
+                <td className='dash-table-sub-data'>{content}</td>
                 {/* <td className='text-right dash-table-view-btn-area'>
                     <button className='dash-table-view-btn client'
                         data-toggle="modal">View</button>
@@ -594,7 +594,7 @@ const ClientDashboard = () => {
 
                                                     <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
                                                         <div className="dash-num-count-area">
-                                                            <p className='dash-num-title'>New Notifications</p>
+                                                            <p className='dash-num-title'>Recent Notifications</p>
                                                             <h4 className='dash-num-count'>{notifications.length}</h4>
                                                         </div>
                                                     </div>

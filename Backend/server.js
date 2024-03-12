@@ -150,35 +150,32 @@ io.on('connection', (socket) => {
     }
   });
 
-  socket.on("sendWebChatNotification", ({ senderId, senderName, receiverId, receiverName, content, time, date }) => {
+  socket.on("sendWebChatNotification", ({ senderId, senderName, receiverId, receiverName, content, time, date}) => {
     console.log({ senderId, senderName, receiverId, receiverName, content, time, date });
   
     if (Array.isArray(receiverName)) {
       // If receiverName is an array, iterate through each name
       receiverName.forEach((name) => {
-        const receiver = getUser(name);
-        if (receiver) {
-          io.to(receiver?.socketId).emit("getWebChatNotification", {
-            senderId,
-            senderName,
-            content,
-            time,
-            date,
-          });
+        const receivers = getUser(name);
+        if (receivers.length>0) {
+          receivers.forEach((receiver)=>{
+            io.to(receiver?.socketId).emit("getWebChatNotification", {
+              senderId,
+              senderName,
+              receiverId,
+              receiverName,
+              content,
+              time,
+              date
+            });
+          })
+        }else{
+          console.log(`Your Notification receiver(${name}) not be in online`)
         }
       });
     } else {
-      // If receiverName is not an array, handle it as a single user
-      const receiver = getUser(receiverName);
-      if (receiver) {
-        io.to(receiver?.socketId).emit("getWebChatNotification", {
-          senderId,
-          senderName,
-          content,
-          time,
-          date,
-        });
-      }
+      // If receiverName is not an array
+      console.log("Receiver name not an array")
     }
   });
 
