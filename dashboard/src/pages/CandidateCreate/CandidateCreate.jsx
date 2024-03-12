@@ -991,7 +991,7 @@ const CandidateCreate = () => {
                                 <div className="col-12">
                                     <div className='cand--reg-form-group cand--reg-custom-padding'>
                                         <div className="cand--reg-form-flex-grp">
-                                            <label htmlFor="education" className='cand--reg-form-label-custom'>Highest Education&nbsp;<span className='is-required'>*</span></label>
+                                            <label htmlFor="education" className='cand--reg-form-label-custom'>Higher Education&nbsp;<span className='is-required'>*</span></label>
                                             {/* <input type="text" id='education' name='education' className='cand--reg-flex-input' /> */}
                                             {/* <select
                                                 className="cand--reg-select-input"

@@ -682,7 +682,7 @@ const ClientDashboard = () => {
                                 ))
                               ) : (
                                 <tr>
-                                  <td colSpan={2} className='text-secondary text-center'>No new notifications..!</td>
+                                  <td colSpan={2} className='text-secondary text-center'>No new notifications!</td>
                                 </tr>
                               )}
                             </table>

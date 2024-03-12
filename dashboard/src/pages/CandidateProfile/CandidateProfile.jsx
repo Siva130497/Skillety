@@ -600,7 +600,7 @@ const CandidateProfile = () => {
             .then(res => {
                 console.log(res.data)
                 if (!res.data.error) {
-                    showSuccessMessage("Location updated!")
+                    showSuccessMessage("Location has been updated")
                     setSelectedLocations([])
 
                     axios.get(`https://skillety-n6r1.onrender.com/candidate/${id}`)
@@ -631,7 +631,7 @@ const CandidateProfile = () => {
             .then(res => {
                 console.log(res.data)
                 if (!res.data.error) {
-                    showSuccessMessage("Prefered Location updated!")
+                    showSuccessMessage("Prefered location has been updated!")
                     setSelectedPreferedLocations([])
 
                     axios.get(`https://skillety-n6r1.onrender.com/candidate/${id}`)
@@ -753,7 +753,7 @@ const CandidateProfile = () => {
             .then(res => {
                 console.log(res.data)
                 if (!res.data.error) {
-                    showSuccessMessage("Profile headline updated!")
+                    showSuccessMessage("Profile headline has been updated")
                     setUserInfo(prevUserInfo => ({ ...prevUserInfo, profileHeadline: "" }))
 
                     axios.get(`https://skillety-n6r1.onrender.com/candidate/${id}`)
@@ -889,7 +889,7 @@ const CandidateProfile = () => {
             .then(res => {
                 console.log(res.data)
                 if (!res.data.error) {
-                    showSuccessMessage("Education updated!")
+                    showSuccessMessage("Education has been updated")
                     setSelectedEducation([])
 
                     axios.get(`https://skillety-n6r1.onrender.com/candidate/${id}`)

@@ -631,7 +631,7 @@ const AppliedCandidateATS = () => {
         })
             .then(res => {
                 console.log(res.data);
-                showSuccessMessage(`The Status of the selected candidate is Updated.`)
+                showSuccessMessage(`The Status of the selected candidate is updated.`)
 
                 axios.get(`https://skillety-n6r1.onrender.com/application-status/${id}`, {
                     headers: {

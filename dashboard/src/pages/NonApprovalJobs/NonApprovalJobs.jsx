@@ -257,7 +257,7 @@ const NonApprovalJobs = () => {
                         .then(res => {
                             console.log(res.data)
                             const companyName = (res.data.find(cli => cli.companyId === companyId))?.companyName
-                            sendNotification({id:employeeId, name:userName}, {id:[companyId], name:[companyName]}, `Your Job ${jobRole[0]} has been Approved!, Activate the job to shown on job portal`, "/manage-job", staffToken)
+                            sendNotification({id:employeeId, name:userName}, {id:[companyId], name:[companyName]}, `Your ${jobRole[0]} position has been approved!, Please activate the job to appear on the job portal`, "/manage-job", staffToken)
                         })
                         .catch(err => console.log(err))
                         

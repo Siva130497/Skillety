@@ -209,8 +209,8 @@ const CandidateLogin = () => {
                                     <form action="" className='cli--signup-form' onSubmit={handleSubmit}>
 
                                         <div className='cli--signup-form-group'>
-                                            <input type="text" id='user_id' name="userId" placeholder="Enter your User ID" className='cli--signup-form-input' value={credentials.userId} onChange={handleInputChange} required />
-                                            <label htmlFor="user_id" className='cli--signup--form-label'>User Id</label>
+                                            <input type="text" id='user_id' name="userId" placeholder="Enter your Email" className='cli--signup-form-input' value={credentials.userId} onChange={handleInputChange} required />
+                                            <label htmlFor="user_id" className='cli--signup--form-label'>Email</label>
                                         </div>
 
                                         <div className='cli--signup-form-group'>
@@ -229,7 +229,7 @@ const CandidateLogin = () => {
                                                 <label className="cli--login-remember-checkbox">
                                                     <input type="checkbox" />
                                                     <span className="cli--login-remember-checkmark"></span>
-                                                    Remember Details
+                                                    Remember me
                                                 </label>
                                             </div>
                                             <div className="cli--login-forgot-area">

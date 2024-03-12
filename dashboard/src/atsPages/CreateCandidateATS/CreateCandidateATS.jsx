@@ -1092,7 +1092,7 @@ const CreateCandidateATS = () => {
                                                 <div className="job-post-form-group">
 
                                                     <div className='job-post-form-label-with-badge'>
-                                                        <label htmlFor="education" className='job-post-form-label'>Highest Education<span className='form-required'>*</span></label>
+                                                        <label htmlFor="education" className='job-post-form-label'>Higher Education<span className='form-required'>*</span></label>
                                                         {/* <i class="bi bi-chevron-down"></i> */}
                                                         {selectedEducation.map(selectEducation => (
                                                             <span className="job-post-form-badge"

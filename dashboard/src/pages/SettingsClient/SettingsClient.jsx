@@ -269,7 +269,7 @@ const SettingsClient = () => {
             .then(res => {
                 console.log(res.data)
                 if (!res.data.error) {
-                    showSuccessMessage("email updated")
+                    showSuccessMessage("Email has been successfully updated.")
                     setUserInfo(prevUserInfo => ({ ...prevUserInfo, email: "" }));
                     getLoginClientDetail();
                 }
@@ -294,7 +294,7 @@ const SettingsClient = () => {
             .then(res => {
                 console.log(res.data)
                 if (!res.data.error) {
-                    showSuccessMessage("Phone number updated.")
+                    showSuccessMessage("Phone number has been successfully updated.")
                     setUserInfo(prevUserInfo => ({ ...prevUserInfo, phone: "" }));
                     getLoginClientDetail();
                 }
@@ -320,7 +320,7 @@ const SettingsClient = () => {
             .then(res => {
                 console.log(res.data)
                 if (!res.data.error) {
-                    showSuccessMessage("Password Updated.")
+                    showSuccessMessage("Password has been successfully updated.")
                     setUserInfo(prevUserInfo => ({ ...prevUserInfo, currentPassword: "", newPassword: "", confirmPassword: "" }));
                     getLoginClientDetail();
                 }
@@ -344,7 +344,7 @@ const SettingsClient = () => {
             })
                 .then(res => {
                     console.log(res);
-                    showSuccessMessage("profile photo updated")
+                    showSuccessMessage("Profile photo has been successfully updated.")
                     setImage(null);
                     window.location.reload()
                 })
@@ -364,7 +364,7 @@ const SettingsClient = () => {
             })
                 .then(res => {
                     console.log(res);
-                    showSuccessMessage("profile photo updated")
+                    showSuccessMessage("Profile photo has been successfully updated.")
                     setImage(null);
                     window.location.reload()
                 })

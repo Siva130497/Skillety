@@ -58,7 +58,7 @@ const ContactCandidate = () => {
 
             if (!result.error) {
                 console.log(result);
-                showSuccessMessage("your message sent to company")
+                showSuccessMessage("Your message is recieved. One of our agent will contact you shorty")
                 setCredentials(initialCredentials);
             } else {
                 console.log(result);

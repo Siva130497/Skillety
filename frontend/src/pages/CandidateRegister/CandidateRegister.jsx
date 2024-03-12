@@ -1176,7 +1176,7 @@ const CandidateRegister = () => {
                                                     value={searchEducationInput}
                                                     onChange={handleEducationSearch}
                                                     className='cand--reg-flex-input'
-                                                    placeholder='Enter some clear & specific educations details to get better responses' />
+                                                    placeholder='Enter higher education' />
                                                 <div className='search-result-data-area'>
                                                     {filteredEducation.length > 0 &&
                                                         filteredEducation.map((filterEducation) => {

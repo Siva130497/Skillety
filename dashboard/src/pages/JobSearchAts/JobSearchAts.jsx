@@ -368,7 +368,7 @@ const JobSearchAts = () => {
                 setFilteredSearchResultsMsg("No Jobs found")
             }
         } else {
-            alert("select atleast one filter")
+            alert("Choose one filter.")
         }
     };
 

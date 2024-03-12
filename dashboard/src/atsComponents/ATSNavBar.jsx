@@ -204,7 +204,7 @@ const ATSNavBar = () => {
                             ) : (
                                 <p className='no-notification'>
                                     <i className='bi bi-exclamation-circle mr-2'></i>
-                                    No unread notifications.
+                                    No Notifications
                                 </p>
                             )}
                         </div>
@@ -212,7 +212,7 @@ const ATSNavBar = () => {
                         <div className="dropdown-footer notification-dropdown-footer text-center">
                             <a className='drp-dwn-view-all-btn'
                                 onClick={() => setNotifications([])}
-                            >Mark All As Read.
+                            >Mark all as read
                                 <i class="bi bi-chevron-right ml-3"></i>
                             </a>
                         </div>
