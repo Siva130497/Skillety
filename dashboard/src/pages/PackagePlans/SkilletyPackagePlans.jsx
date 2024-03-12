@@ -613,7 +613,7 @@ const SkilletyPackagePlans = () => {
       .then((res) => {
         console.log(res.data);
         showSuccessMessage(
-          `Thank you for purchasing the ${packageInfo?.packageType} Package. Welcome onboard.`
+          `Thank you for choosing the ${packageInfo?.packageType} Package. Welcome aboard!`
         );
 
         if (activeTab === 2) {
@@ -649,7 +649,7 @@ const SkilletyPackagePlans = () => {
       .then((res) => {
         console.log(res.data);
         showSuccessMessage(
-          `Thank you for purchasing the ${serviceInfo?.serviceName}. Welcome onboard.`
+          `Thank you for choosing the ${serviceInfo?.serviceName}. Welcome aboard!`
         );
         
         setTimeout(()=>{
@@ -675,7 +675,7 @@ const SkilletyPackagePlans = () => {
       .then((res) => {
         console.log(res.data);
         showSuccessMessage(
-          `Thank you for purchasing the ${valueAddedServiceInfo?.serviceName}. Welcome onboard.`
+          `Thank you for choosing the ${valueAddedServiceInfo?.serviceName}. Welcome aboard!`
         );
         
         setTimeout(()=>{

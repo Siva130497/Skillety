@@ -163,7 +163,7 @@ const Company = () => {
                                         </p>
                                     </div>
                                     <div className="company-demo-card-bottom-area">
-                                        <h3 className='company-demo-card-title' data-aos="fade-down">LET’S GET STARTED <br />
+                                        <h3 className='company-demo-card-title' data-aos="fade-down">LET'S GET YOU STARTED <br />
                                             WITH US, RIGHT NOW.</h3>
 
                                         <div className="company-demo-card-btn-area">

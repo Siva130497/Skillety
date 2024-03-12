@@ -232,7 +232,7 @@ const ATSNavBar = () => {
                     <div className="dropdown-menu dropdown-list dropdown-menu-right pullDown notification-dropdown">
                         <div className="notification-dropdown-header">
                             <div className="notification-dropdown-head">
-                                Unread Notifications&nbsp;<span>({notifications?.length})</span>
+                                Unread Notifications&nbsp;<span>{notifications?.length}</span>
                             </div>
                             {/* <a href="#" className='notify-settings-btn client'>
                                 <i class="bi bi-gear-fill"></i>
@@ -246,7 +246,7 @@ const ATSNavBar = () => {
                             ) : (
                                 <p className='no-notification'>
                                     <i className='bi bi-exclamation-circle mr-2'></i>
-                                    No unread notifications.
+                                    No Notifications
                                 </p>
                             )}
                         </div>
@@ -254,7 +254,7 @@ const ATSNavBar = () => {
                         {notifications.length>0 && <div className="dropdown-footer notification-dropdown-footer text-center">
                             <a className='drp-dwn-view-all-btn'
                                 onClick={handleClearNotifications}
-                            >Mark All As Read.
+                            >Mark all as read
                                 <i class="bi bi-chevron-right ml-3"></i>
                             </a>
                         </div>}

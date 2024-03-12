@@ -182,7 +182,7 @@ const ClientProfile = () => {
             .then(res => {
                 console.log(res.data)
                 if (!res.data.error) {
-                    showSuccessMessage("Industry Updated")
+                    showSuccessMessage("Industry has been updated")
                     setCompanyInfo(prevInfo => ({ ...prevInfo, industry: "" }));
 
                     axios.get(`https://skillety-n6r1.onrender.com/company-detail/${id}`, {

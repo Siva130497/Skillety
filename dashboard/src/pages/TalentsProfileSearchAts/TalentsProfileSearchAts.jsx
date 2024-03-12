@@ -1090,7 +1090,7 @@ const TalentsProfileSearchAts = () => {
                 setFilteredSearchResultsMsg("No candidates found");
             }
         } else {
-            showErrorMessage("select atleast one filter")
+            showErrorMessage("Choose one filter.")
         }
     };
 

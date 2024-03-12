@@ -431,7 +431,7 @@ const ManageJobs = () => {
                         if (res.data.message === "Job alerts sent successfully!") {
                             Swal.fire({
                                 title: 'Job has been activated!',
-                                text: 'It will be displayed on the job portal from now on. Job alerts have also been sent to skill-matched candidates.',
+                                text: 'It will be displayed on the job portal from now',
                                 icon: 'success',
                                 showCancelButton: true,
                                 confirmButtonColor: '#3085d6',
@@ -445,7 +445,7 @@ const ManageJobs = () => {
                         } else if (res.data.message === "No candidates with matching skill percentage found.") {
                             Swal.fire({
                                 title: 'Job has been activated!',
-                                text: 'It will be displayed on the job portal from now on, but no matching candidates were found.',
+                                text: 'From now on, it will appear on the job portal.',
                                 icon: 'success',
                                 showCancelButton: true,
                                 confirmButtonColor: '#3085d6',

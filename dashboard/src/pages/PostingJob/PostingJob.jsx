@@ -73,7 +73,7 @@ const PostingJob = () => {
     function showSuccessMessage(message) {
         Swal.fire({
             title: 'Congratulations!',
-            text: 'Job Posted Successfully',
+            text: 'Job has been posted successfully',
             icon: 'success',
             confirmButtonColor: '#3085d6',
             confirmButtonText: 'OK',
