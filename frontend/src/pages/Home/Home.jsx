@@ -120,7 +120,7 @@ const Home = () => {
 
   const getAllCandidateDetail = async () => {
     try {
-      const response = await axios.get('https://skillety-n6r1.onrender.com/candidate-Detail', {
+      const response = await axios.get('https://skillety-n6r1.onrender.com/all-candidate-details-pagination-with-limit?page=1&limit=10', {
         headers: {
           Accept: 'application/json'
         }
@@ -128,7 +128,7 @@ const Home = () => {
       const result = response.data;
       if (!result.error) {
         console.log(result);
-        setCandidateDetail(result.reverse());
+        setCandidateDetail(result);
       } else {
         console.log(result);
       }
