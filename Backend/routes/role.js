@@ -3,14 +3,21 @@ const role = require('../Database/role');
 
 
 //get all designations from db
-router.get("/roles", async(req, res)=>{
-    try{
-        const allRole = await role.find();
-        res.status(200).json(allRole);
-    }catch(err){
-        res.status(500).json(err)
-    }
-})
+router.get("/roles", async (req, res) => {
+  try {
+      const cursor = role.find().lean().cursor();
+      const allRoles = [];
+
+      await cursor.eachAsync(doc => {
+          allRoles.push(doc);
+      });
+
+      res.status(200).json(allRoles);
+  } catch (err) {
+      res.status(500).json(err);
+  }
+});
+
 
 //post new designations to db
 router.post("/roles", async(req, res)=>{

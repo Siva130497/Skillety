@@ -3,14 +3,21 @@ const location = require('../Database/location');
 
 
 //get all designations from db
-router.get("/locations", async(req, res)=>{
-    try{
-        const allLocation = await location.find();
-        res.status(200).json(allLocation);
-    }catch(err){
-        res.status(500).json(err)
-    }
-})
+router.get("/locations", async (req, res) => {
+  try {
+      const cursor = location.find().lean().cursor();
+      const allLocations = [];
+
+      await cursor.eachAsync(doc => {
+          allLocations.push(doc);
+      });
+
+      res.status(200).json(allLocations);
+  } catch (err) {
+      res.status(500).json(err);
+  }
+});
+
 
 //post new designations to db
 router.post("/locations", async(req, res)=>{
