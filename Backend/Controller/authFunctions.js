@@ -829,39 +829,91 @@ const candidateRegAfterGoogleLogin = async(req, res) => {
 
 /* get all candidate details*/
 const getAllCandidateDetail = async (req, res) => {
-  
   try {
-    const allCandidates = await candidate.find();
-    
-    // const allCandidatesResume = await resume.find();
-    
-    // const resumeDict = {}; 
-    // allCandidatesResume.forEach(resume => {
-    //   resumeDict[resume.id] = resume._doc;
-    // });
+    const allCandidatesStream = candidate.find().cursor();
 
-    const allCandidatesDetail = await Promise.all(allCandidates.map(async cand => {
-      // const matchingResume = resumeDict[cand.id];
-      const matchingResume = await resume.findOne({id:cand.id});
+    res.setHeader('Content-Type', 'application/json');
+    res.write('[');
 
-      if (matchingResume) {
-        
-          const candidateData = { ...cand._doc };
-          const resumeData = { ...matchingResume };
+    let isFirst = true;
 
-          return { ...candidateData, ...resumeData};
-        
-      } else {
-        return { ...cand._doc };
+    allCandidatesStream.on('data', (cand) => {
+      if (!isFirst) {
+        res.write(',');
       }
-      
-    }));
+      res.write(JSON.stringify(cand));
+      isFirst = false;
+    });
 
-    return res.status(200).json(allCandidatesDetail);
-  } catch (err) {
-    return res.status(500).json({ error: err.message });
+    allCandidatesStream.on('end', () => {
+      res.write(']');
+      res.end();
+    });
+
+    allCandidatesStream.on('error', (error) => {
+      console.error("Error fetching candidate details:", error);
+      res.status(500).json({ error: "Internal Server Error" });
+    });
+  } catch (error) {
+    console.error("Error fetching candidate details:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
-}
+};
+
+
+// const getAllCandidateDetail = async (req, res) => {
+//   try {
+//     const allCandidatesCursor = candidate.find().cursor();
+//     const allCandidatesDetailPromises = [];
+
+//     for await (const cand of allCandidatesCursor) {
+//       allCandidatesDetailPromises.push(cand.toObject());
+//     }
+//     const allCandidatesDetail = await Promise.all(allCandidatesDetailPromises);
+
+//     res.json(allCandidatesDetail);
+//   } catch (error) {
+
+//     console.error("Error fetching candidate details:", error);
+//     res.status(500).json({ error: "Internal Server Error" });
+//   }
+// };
+
+
+// const getAllCandidateDetail = async (req, res) => {
+  
+//   try {
+//     const allCandidates = await candidate.find();
+    
+//     // const allCandidatesResume = await resume.find();
+    
+//     // const resumeDict = {}; 
+//     // allCandidatesResume.forEach(resume => {
+//     //   resumeDict[resume.id] = resume._doc;
+//     // });
+
+//     const allCandidatesDetail = await Promise.all(allCandidates.map(async cand => {
+//       // const matchingResume = resumeDict[cand.id];
+//       const matchingResume = await resume.findOne({id:cand.id});
+
+//       if (matchingResume) {
+        
+//           const candidateData = { ...cand._doc };
+//           const resumeData = { ...matchingResume };
+
+//           return { ...candidateData, ...resumeData};
+        
+//       } else {
+//         return { ...cand._doc };
+//       }
+      
+//     }));
+
+//     return res.status(200).json(allCandidatesDetail);
+//   } catch (err) {
+//     return res.status(500).json({ error: err.message });
+//   }
+// }
 
 // const getAllRecruiterCandidateDetail = async (req, res) => {
 //   const {id} = req.params;
