@@ -504,7 +504,7 @@ const ClientDashboard = () => {
                       <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
                         <div className="dash-num-count-area">
                           <p className='dash-num-title'>New Notifications</p>
-                          <h4 className='dash-num-count'>{notifications.slice(0, 10).length}</h4>
+                          <h4 className='dash-num-count'>{notifications.length}</h4>
                         </div>
                       </div>
                     </div>
@@ -677,7 +677,7 @@ const ClientDashboard = () => {
                           {!contentloading ? (
                             <table class="table table-striped table-hover dash-table">
                               {notifications?.length > 0 ? (
-                                notifications.slice(0, 10).map((notification) => (
+                                notifications.map((notification) => (
                                   <tr className='dash-table-row' key={notification.id}>{displayNotification(notification)}</tr>
                                 ))
                               ) : (

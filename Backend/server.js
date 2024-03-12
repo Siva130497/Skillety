@@ -71,7 +71,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: ['https://skillety-dashboard-tk2y.onrender.com', 'https://skillety-frontend-wcth.onrender.com'],
+    origin: ['http://localhost:3000', 'http://localhost:3001', 'https://skillety-dashboard-tk2y.onrender.com', 'https://skillety-frontend-wcth.onrender.com'],
     methods: ["GET", "POST"],
   },
 });
@@ -98,7 +98,7 @@ mongoose.connect(process.env.DB_CONNECT)
 let onlineUsers = [];
 
 const addNewUser = (userName, socketId) => {
-  !onlineUsers.some((user)=>user.userName === userName) && 
+  // !onlineUsers.some((user)=>user.userName === userName) && 
     onlineUsers.push({userName, socketId});
 };
 
@@ -107,7 +107,7 @@ const removeUser = (socketId) => {
 };
 
 const getUser = (userName) => {
-  return onlineUsers.find((user)=>user.userName === userName);
+  return onlineUsers.filter((user)=>user.userName === userName);
 };
 
 io.on('connection', (socket) => {
@@ -125,37 +125,28 @@ io.on('connection', (socket) => {
     if (Array.isArray(receiverName)) {
       // If receiverName is an array, iterate through each name
       receiverName.forEach((name) => {
-        const receiver = getUser(name);
-        if (receiver) {
-          io.to(receiver?.socketId).emit("getNotification", {
-            senderId,
-            senderName,
-            receiverId,
-            receiverName,
-            content,
-            time,
-            date,
-            redirect,
-            id
-          });
+        const receivers = getUser(name);
+        if (receivers.length>0) {
+          receivers.forEach((receiver)=>{
+            io.to(receiver?.socketId).emit("getNotification", {
+              senderId,
+              senderName,
+              receiverId,
+              receiverName,
+              content,
+              time,
+              date,
+              redirect,
+              id
+            });
+          })
+        }else{
+          console.log(`Your Notification receiver(${name}) not be in online`)
         }
       });
     } else {
-      // If receiverName is not an array, handle it as a single user
-      const receiver = getUser(receiverName);
-      if (receiver) {
-        io.to(receiver?.socketId).emit("getNotification", {
-          senderId,
-            senderName,
-            receiverId,
-            receiverName,
-            content,
-            time,
-            date,
-            redirect,
-            id
-        });
-      }
+      // If receiverName is not an array
+      console.log("Receiver name not an array")
     }
   });
 

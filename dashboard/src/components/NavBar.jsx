@@ -19,25 +19,29 @@ const NavBar = ({ notification }) => {
   const [userName, setUserName] = useState('');
   const [notifications, setNotifications] = useState([]);
 
-  // useEffect(() => {
-  //   setSocket(io("https://skillety-n6r1.onrender.com"));
-  // }, []);
-
-  // useEffect(() => {
-
-  //   socket?.on("getNotification", data => {
-  //     console.log(data)
-  //     setNotifications(prev => [...prev, data]);
-      
-  //   })
-
-  // }, [socket]);
+  useEffect(() => {
+    setSocket(io("https://skillety-n6r1.onrender.com"));
+  }, []);
 
   useEffect(() => {
-    if(notification?.length>0){
-      setNotifications(notification);
-    }
-  }, [notification]);
+    socket?.emit("newUser", userName)
+}, [socket, userName]);
+
+  useEffect(() => {
+
+    socket?.on("getNotification", data => {
+      console.log(data)
+      setNotifications([data]);
+      
+    })
+
+  }, [socket]);
+
+  // useEffect(() => {
+  //   if(notification?.length>0){
+  //     setNotifications(notification);
+  //   }
+  // }, [notification]);
 
   const handleClick = (notificationIdArray, redirect) => {
     if (notificationIdArray) {
@@ -268,7 +272,7 @@ const NavBar = ({ notification }) => {
             </div>
             <div className="notification-dropdown-content-area">
               {notifications?.length > 0 ? (
-                notifications.reverse().slice(0, 10).map((notification) => (
+                notifications.map((notification) => (
                   <div key={notification.id}>{displayNotification(notification)}</div>
                 ))
               ) : (

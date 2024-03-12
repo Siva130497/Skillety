@@ -828,27 +828,18 @@ const candidateRegAfterGoogleLogin = async(req, res) => {
 }
 
 /* get all candidate details*/
+const JSONStream = require('JSONStream');
+
 const getAllCandidateDetail = async (req, res) => {
   try {
     const allCandidatesStream = candidate.find().cursor();
 
     res.setHeader('Content-Type', 'application/json');
-    res.write('[');
+    
+    const jsonStream = JSONStream.stringify();
+    jsonStream.pipe(res);
 
-    let isFirst = true;
-
-    allCandidatesStream.on('data', (cand) => {
-      if (!isFirst) {
-        res.write(',');
-      }
-      res.write(JSON.stringify(cand));
-      isFirst = false;
-    });
-
-    allCandidatesStream.on('end', () => {
-      res.write(']');
-      res.end();
-    });
+    allCandidatesStream.pipe(jsonStream);
 
     allCandidatesStream.on('error', (error) => {
       console.error("Error fetching candidate details:", error);
@@ -863,21 +854,36 @@ const getAllCandidateDetail = async (req, res) => {
 
 // const getAllCandidateDetail = async (req, res) => {
 //   try {
-//     const allCandidatesCursor = candidate.find().cursor();
-//     const allCandidatesDetailPromises = [];
+//     const allCandidatesStream = candidate.find().cursor();
 
-//     for await (const cand of allCandidatesCursor) {
-//       allCandidatesDetailPromises.push(cand.toObject());
-//     }
-//     const allCandidatesDetail = await Promise.all(allCandidatesDetailPromises);
+//     res.setHeader('Content-Type', 'application/json');
+//     res.write('[');
 
-//     res.json(allCandidatesDetail);
+//     let isFirst = true;
+
+//     allCandidatesStream.on('data', (cand) => {
+//       if (!isFirst) {
+//         res.write(',');
+//       }
+//       res.write(JSON.stringify(cand));
+//       isFirst = false;
+//     });
+
+//     allCandidatesStream.on('end', () => {
+//       res.write(']');
+//       res.end();
+//     });
+
+//     allCandidatesStream.on('error', (error) => {
+//       console.error("Error fetching candidate details:", error);
+//       res.status(500).json({ error: "Internal Server Error" });
+//     });
 //   } catch (error) {
-
 //     console.error("Error fetching candidate details:", error);
 //     res.status(500).json({ error: "Internal Server Error" });
 //   }
 // };
+
 
 
 // const getAllCandidateDetail = async (req, res) => {
@@ -4701,7 +4707,7 @@ const getUpdatedOwnActivejobs = async (req, res) => {
 //find all new applications
 const getAllNewCandidateDetail = async (req, res) => {
   try {
-    const { page = 1, limit = 10 } = req.query;
+    const { page = 1, limit = 10, filter } = req.query;
 
     const skip = (page - 1) * limit;
 
@@ -4730,7 +4736,6 @@ const getAllNewCandidateDetail = async (req, res) => {
         email: candidateDetail.email,
         phone: candidateDetail.phone,
         preferedLocations: candidateDetail.preferedlocations ? candidateDetail.preferedlocations.join(", ") : null,
-        cv: candidateDetail.file ? candidateDetail.file : null,
         currentDesignation: candidateDetail.designation ? candidateDetail.designation[0] : null,
         currentCompany: candidateDetail.companyName,
         currentLocation: candidateDetail.location,
@@ -4741,6 +4746,10 @@ const getAllNewCandidateDetail = async (req, res) => {
         profileHeadline: candidateDetail.profileHeadline,
         gender: candidateDetail.gender
       };
+
+      if (filter && filter.toLowerCase() === 'cv') {
+        delete finalResponse.cv;
+      }
 
       newCandidateDetails.push(finalResponse);
     });
@@ -4754,6 +4763,7 @@ const getAllNewCandidateDetail = async (req, res) => {
     return res.status(500).json({ error: err.message });
   }
 };
+
 
 
 /* get applied jobs */
