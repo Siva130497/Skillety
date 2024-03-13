@@ -391,7 +391,7 @@
 .cand--reg-form-flex-grp {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: baseline;
     gap: 30px;
 }
 
@@ -403,12 +403,14 @@
     outline: none;
     font-weight: 400;
     width: -webkit-fill-available;
-    padding-bottom: 5px;
+    padding: 10px 0;
     position: relative;
 }
 
 .cand--reg-flex-input::placeholder {
-    font-size: 16px;
+    font-size: 18px;
+    font-weight: 400;
+    color: #919191 !important;
 }
 
 .cand--reg-select-input {
@@ -800,4 +802,11 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 .custom-bottom{
     bottom: -25px;
+}
+
+.cand--reg-flex-input:disabled, .cand--reg-flex-input[disabled] {
+    background-color: #fff;
+    border-color: #a5a5a5;
+    cursor: not-allowed;
+    color: #7e7e7e;
 }

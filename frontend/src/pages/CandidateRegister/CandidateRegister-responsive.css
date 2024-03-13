@@ -134,6 +134,11 @@
     .custom-padding-right.custom{
         padding-right: 0.75rem; 
     }
+
+    .cand--reg-exp-input-flex-area{
+        flex-direction: column;
+        align-items: flex-start;
+    }
 }
 
 @media (max-width:500px) {
@@ -147,10 +152,15 @@
 
     .cand--reg-radio-input-group {
         justify-content: center;
+        margin-top: 20px;
+    }
+
+    .imediate-switch-label{
+        font-size: 16px;
     }
 
     .cand--reg-form-label-custom {
-        font-size: 18px;
+        font-size: 16px;
         white-space: inherit;
     }
 
@@ -165,10 +175,11 @@
 
     .cand--reg-input-group .react-datepicker-wrapper .react-datepicker__input-container input {
         text-align: left;
+        font-size: 16px;
     }
 
     .cand--reg-input-group .react-datepicker-wrapper .react-datepicker__input-container input::placeholder {
-        font-size: 18px;
+        font-size: 16px;
     }
 
     .cand--reg-form-group.can--reg-date {
@@ -188,7 +199,7 @@
     }
 
     .cand--reg-form-group {
-        margin-bottom: 60px;
+        margin-bottom: 50px;
     }
 
     .cand--reg-custom-padding {
@@ -197,7 +208,7 @@
 
     .cand--reg-form-area .cand--reg-form-input,
     .cand--reg-form-area .cand--reg-form-label {
-        font-size: 18px !important;
+        font-size: 16px !important;
     }
 
     .cand--reg-file-upload-label i {
@@ -206,13 +217,29 @@
     }
 
     .cand--reg-file-upload-label {
-        font-size: 16px;
+        font-size: 15px;
         padding: 12px 20px;
     }
 
     .cand--reg-file-upload-area .file--upload-text {
-        margin-top: 15px;
-        font-size: 15px;
+        margin-top: 10px;
+        font-size: 14px;
+    }
+
+    .cand--reg-form-area .cand--reg-form-input::placeholder{
+        font-size: 16px;
+    }
+    .form-error-message{
+        bottom: auto;
+        font-size: 12px;
+    }
+    .multi-form-add-btn{
+        font-size: 16px;
+        padding: 0 10px;
+    }
+
+    .can-reg-form-check-input{
+        font-size: 14px;
     }
 
     #file-chosen {
@@ -246,12 +273,22 @@
         flex-wrap: wrap;
     }
 
-    .cand--reg-flex-input {
+    .cand--reg-flex-input,
+    .cand--reg-flex-input::placeholder{
         font-size: 16px;
     }
 
     .cand--reg-skills-text {
-        font-size: 15px;
+        font-size: 14px;
+        margin-top: 10px;
+    }
+
+    .width-mobile-100{
+        width: 100%;
+    }
+
+    .error-msg{
+        font-size: 12px;
     }
 
     .cand--reg-lg-input {

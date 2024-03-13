@@ -88,11 +88,11 @@
 
 .home--search-area .home--search-btn:disabled,
 .home--search-area .home--search-btn [disabled] {
-    background-color: #ddd !important;
+    /* background-color: #ddd !important;
     color: #000 !important;
     box-shadow: 0px 2px 10px #00000021;
     cursor: not-allowed !important;
-    border: none;
+    border: none; */
 }
 
 .home--search-area .home--search-btn:hover {
