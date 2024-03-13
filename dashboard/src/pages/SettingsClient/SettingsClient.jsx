@@ -276,7 +276,7 @@ const SettingsClient = () => {
             })
             .catch(err => {
                 console.log(err)
-                showErrorMessage();
+                showErrorMessage(err.response.data.error);
             })
     }
 
@@ -301,7 +301,7 @@ const SettingsClient = () => {
             })
             .catch(err => {
                 console.log(err)
-                showErrorMessage();
+                showErrorMessage(err.response.data.error);
             })
     }
 
@@ -327,7 +327,7 @@ const SettingsClient = () => {
             })
             .catch(err => {
                 console.log(err)
-                showErrorMessage();
+                showErrorMessage(err.response.data.error);
             })
     }
 
@@ -350,7 +350,7 @@ const SettingsClient = () => {
                 })
                 .catch(err => {
                     console.log(err)
-                    showErrorMessage()
+                    showErrorMessage(err.response.data.error)
                 });
         } else {
             const formData = new FormData()
@@ -370,7 +370,7 @@ const SettingsClient = () => {
                 })
                 .catch(err => {
                     console.log(err)
-                    showErrorMessage()
+                    showErrorMessage(err.response.data.error)
                 });
         }
 
