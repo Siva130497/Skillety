@@ -3608,7 +3608,7 @@ const updatingCandidatePassword = async (req, res) => {
     }
     const passwordMatch = await bcrypt.compare(currentPassword, user.password);
     if (!passwordMatch) {
-      return res.status(401).json({ error: 'Password does not match' });
+      return res.status(401).json({ error: 'Current password does not match' });
     }
     const hashPassword = await bcrypt.hash(newPassword, 12);
     const allUsersDoc = await allUsers.findOneAndUpdate(
@@ -4707,62 +4707,86 @@ const getUpdatedOwnActivejobs = async (req, res) => {
 //find all new applications
 const getAllNewCandidateDetail = async (req, res) => {
   try {
-    const { page, limit, filter } = req.query;
+    const { ids, page, limit, filter } = req.query;
 
-    const skip = (page - 1) * limit;
+    const filterProperties = filter.split(',');
 
-    const cursor = candidate.find().sort({ updatedAt: -1 }).skip(skip).limit(parseInt(limit)).cursor();
+    if (!ids || !page || !limit || isNaN(page) || isNaN(limit)) {
+      const candidateCount = await candidate.countDocuments();
+      return res.status(200).json({ count: candidateCount });
+    }
+
+    const skip = (parseInt(page) - 1) * parseInt(limit);
+
+    let cursor;
+
+    if (ids === 'all') {
+        cursor = candidate.find().sort({ updatedAt: -1 }).skip(skip).limit(parseInt(limit)).lean().cursor();
+    } else if (ids) {
+        const idArray = ids.split(',').map(id => id.trim());
+        cursor = candidate.find({ id: { $in: idArray } }).sort({ updatedAt: -1 }).skip(skip).limit(parseInt(limit)).lean().cursor();
+    }
 
     const newCandidateDetails = [];
 
     await cursor.eachAsync(async (cand) => {
-      const neededCv = await resume.findOne({ id: cand.id });
-      const neededProfile = await candidateProfile.findOne({ id: cand.id });
+      try {
+        const neededCv = filterProperties.includes("cv") ? null : await resume.findOne({ id: cand.id }).lean();
+        const neededProfile = filterProperties.includes("avatar") ? null : await candidateProfile.findOne({ id: cand.id }).lean();
 
-      const candidateDetail = {
-        ...cand._doc,
-        ...(neededCv ? neededCv._doc : {}),
-        ...(neededProfile ? neededProfile._doc : {}),
-      };
+        const candidateDetail = {
+          ...cand,
+          ...(neededCv || {}),
+          ...(neededProfile || {}),
+        };
 
-      const finalResponse = {
-        candidateId: candidateDetail.id,
-        lastProfileUpdateDate: new Date(cand.updatedAt).toISOString().split('T')[0],
-        avatar: candidateDetail.image ? candidateDetail.image : null,
-        joinPeriod: candidateDetail.days,
-        lastDayWorked: candidateDetail.selectedDate,
-        fName: candidateDetail.firstName,
-        lName: candidateDetail.lastName,
-        email: candidateDetail.email,
-        phone: candidateDetail.phone,
-        preferedLocations: candidateDetail.preferedlocations ? candidateDetail.preferedlocations.join(", ") : null,
-        currentDesignation: candidateDetail.designation ? candidateDetail.designation[0] : null,
-        currentCompany: candidateDetail.companyName,
-        currentLocation: candidateDetail.location,
-        expYr: candidateDetail.year,
-        expMonth: candidateDetail.month,
-        skills: candidateDetail.skills,
-        educations: candidateDetail.education,
-        profileHeadline: candidateDetail.profileHeadline,
-        gender: candidateDetail.gender
-      };
+        const finalResponse = {
+          candidateId: candidateDetail.id,
+          lastProfileUpdateDate: new Date(candidateDetail.updatedAt).toISOString().split('T')[0],
+          avatar: candidateDetail.image || null,
+          cv: candidateDetail.file || null,
+          joinPeriod: candidateDetail.days,
+          lastDayWorked: candidateDetail.selectedDate,
+          fName: candidateDetail.firstName,
+          lName: candidateDetail.lastName,
+          email: candidateDetail.email,
+          phone: candidateDetail.phone,
+          preferedLocations: candidateDetail.preferedlocations,
+          currentDesignation: candidateDetail.designation ? candidateDetail.designation[0] : null,
+          currentCompany: candidateDetail.companyName,
+          currentLocation: candidateDetail.location,
+          expYr: candidateDetail.year,
+          expMonth: candidateDetail.month,
+          skills: candidateDetail.skills,
+          educations: candidateDetail.education,
+          profileHeadline: candidateDetail.profileHeadline,
+          gender: candidateDetail.gender,
+          expectedMinSalary: candidateDetail.minSalary !== "not specified" ? `${candidateDetail.currencyType}${candidateDetail.minSalary}` : "not specified",
+          expectedMaxSalary: candidateDetail.maxSalary !== "not specified" ? `${candidateDetail.currencyType}${candidateDetail.maxSalary}` : "not specified",
+          college: candidateDetail.college,
+          isImmediateJoiner: candidateDetail.checkbox,
+          lastActive: candidateDetail.activeIn
+        };
 
-      if (filter && filter.toLowerCase() === 'cv') {
-        delete finalResponse.cv;
+        // if (filter) {
+        //   const filterProperties = filter.split(',');
+        //   filterProperties.forEach(prop => {
+        //     delete finalResponse[prop];
+        //   });
+        // }
+
+        newCandidateDetails.push(finalResponse);
+      } catch (err) {
+        console.error("Error processing candidate:", err.message);
       }
-
-      newCandidateDetails.push(finalResponse);
     });
-
-    if (newCandidateDetails.length === 0) {
-      return res.status(404).json({ error: "Candidates not found" });
-    }
 
     return res.status(200).json(newCandidateDetails);
   } catch (err) {
     return res.status(500).json({ error: err.message });
   }
 };
+
 
 
 

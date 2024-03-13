@@ -32,11 +32,13 @@ const Packages = ({ companyId }) => {
 
   const handleBuy = () => {
     if (clientToken) {
-      window.open(`https://skillety-dashboard-tk2y.onrender.com/package-plans`, '_blank');
+      const url = `http://localhost:3000/package-plans?token=${encodeURIComponent(clientToken)}`;
+      window.open(url, '_blank');
     } else {
-      navigate('/client-login')
+      navigate('/client-login');
     }
   };
+  
 
   return (
     <>
