@@ -12,7 +12,7 @@ import axios from "axios";
 
 
 const SkilletyPackagePlans = () => {
-  const [clientToken, setClientToken] = useState("");
+  const token = new URLSearchParams(window.location.search).get('token') || JSON.parse(localStorage.getItem('clientToken'));
   const { getProtectedData, getClientChoosenPlan, packageSelectionDetail } =useContext(AuthContext);
   const [employeeId, setEmployeeId] = useState("");
   const [loginClientDetail, setLoginClientDetail] = useState();
@@ -465,7 +465,7 @@ const SkilletyPackagePlans = () => {
       console.log(res.data);
       setAllPackages(res.data);
     }).catch(err=>console.log(err));
-  },[clientToken])  
+  },[token])  
 
   //for show success message for payment
   function showSuccessMessage(message) {
@@ -489,15 +489,24 @@ const SkilletyPackagePlans = () => {
     });
   }
 
-  useEffect(() => {
-    setClientToken(JSON.parse(localStorage.getItem("clientToken")));
-  }, [clientToken]);
+  // useEffect(() => {
+    
+  //   settoken(JSON.parse(localStorage.getItem("token")));
+
+  // }, [token]);
+
+  useEffect(()=>{
+    if(token){
+      localStorage.setItem("clientToken", JSON.stringify(token));
+    }
+    
+  },[token])
 
   useEffect(() => {
-    if (clientToken) {
+    if (token) {
       const fetchData = async () => {
         try {
-          const user = await getProtectedData(clientToken);
+          const user = await getProtectedData(token);
           console.log(user);
           setEmployeeId(user.id);
         } catch (error) {
@@ -508,7 +517,7 @@ const SkilletyPackagePlans = () => {
 
       fetchData();
     }
-  }, [clientToken]);
+  }, [token]);
 
   const getLoginClientDetail = async () => {
     try {
@@ -516,7 +525,7 @@ const SkilletyPackagePlans = () => {
         `https://skillety-n6r1.onrender.com/client/${employeeId}`,
         {
           headers: {
-            Authorization: `Bearer ${clientToken}`,
+            Authorization: `Bearer ${token}`,
             Accept: "application/json",
           },
         }
@@ -541,7 +550,7 @@ const SkilletyPackagePlans = () => {
 
   useEffect(() => {
     if (loginClientDetail?.companyId) {
-      getClientChoosenPlan(loginClientDetail?.companyId, clientToken);
+      getClientChoosenPlan(loginClientDetail?.companyId, token);
     }
   }, [loginClientDetail?.companyId]);
 
@@ -606,7 +615,7 @@ const SkilletyPackagePlans = () => {
     axios
       .post("https://skillety-n6r1.onrender.com//client-package-plan", packageInfo, {
         headers: {
-          Authorization: `Bearer ${clientToken}`,
+          Authorization: `Bearer ${token}`,
           Accept: "application/json",
         },
       })
@@ -642,7 +651,7 @@ const SkilletyPackagePlans = () => {
     axios
       .post("https://skillety-n6r1.onrender.com/client-skillety-service", serviceInfo, {
         headers: {
-          Authorization: `Bearer ${clientToken}`,
+          Authorization: `Bearer ${token}`,
           Accept: "application/json",
         },
       })
@@ -668,7 +677,7 @@ const SkilletyPackagePlans = () => {
     axios
       .post("https://skillety-n6r1.onrender.com/client-skillety-value-added-service", valueAddedServiceInfo, {
         headers: {
-          Authorization: `Bearer ${clientToken}`,
+          Authorization: `Bearer ${token}`,
           Accept: "application/json",
         },
       })

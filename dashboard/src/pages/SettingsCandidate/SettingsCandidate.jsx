@@ -196,7 +196,7 @@ const SettingsCandidate = () => {
             })
             .catch(err => {
                 console.log(err)
-                showErrorMessage()
+                showErrorMessage(err.response.data.error)
             })
     }
 
@@ -221,7 +221,7 @@ const SettingsCandidate = () => {
             })
             .catch(err => {
                 console.log(err)
-                showErrorMessage()
+                showErrorMessage(err.response.data.error)
             })
     }
 
@@ -248,7 +248,7 @@ const SettingsCandidate = () => {
             })
             .catch(err => {
                 console.log(err)
-                showErrorMessage()
+                showErrorMessage(err.response.data.error)
             })
     }
 
@@ -270,7 +270,7 @@ const SettingsCandidate = () => {
                 })
                 .catch(err => {
                     console.log(err)
-                    showErrorMessage()
+                    showErrorMessage(err.response.data.error)
                 });
         } else {
             const formData = new FormData()
@@ -290,7 +290,7 @@ const SettingsCandidate = () => {
                 })
                 .catch(err => {
                     console.log(err)
-                    showErrorMessage()
+                    showErrorMessage(err.response.data.error)
                 });
         }
 

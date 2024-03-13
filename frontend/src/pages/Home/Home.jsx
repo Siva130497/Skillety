@@ -120,7 +120,7 @@ const Home = () => {
 
   const getAllCandidateDetail = async () => {
     try {
-      const response = await axios.get('https://skillety-n6r1.onrender.com/all-candidate-details-pagination-with-limit?page=1&limit=10&filter=cv', {
+      const response = await axios.get('https://skillety-n6r1.onrender.com/all-candidate-details-pagination-with-limit?ids=all&page=1&limit=10&filter=cv', {
         headers: {
           Accept: 'application/json'
         }
@@ -135,7 +135,7 @@ const Home = () => {
     } catch (error) {
       console.log(error);
     }
-  };
+  };  
 
   const getAllSkills = async () => {
     try {
@@ -1024,7 +1024,7 @@ const Home = () => {
             }}
 
           >
-            {candidateDetail.slice(0,10).map((candidate) => {
+            {candidateDetail.map((candidate) => {
               const matchingImg = candidateImg ? candidateImg.find(img => img.id === candidate.candidateId) : null;
               const imgSrc = matchingImg ? (matchingImg.image.startsWith('https') ? matchingImg.image : `data:image/jpeg;base64,${matchingImg.image}`) : "assets/img/talents-images/avatar.jpg";
               return (
