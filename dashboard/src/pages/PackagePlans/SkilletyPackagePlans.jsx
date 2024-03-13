@@ -815,7 +815,7 @@ const SkilletyPackagePlans = () => {
                                       </h6>
                                     </div>
 
-                                    <div className="pt-4">
+                                    {/* <div className="pt-4">
                                       <h6 className="pl--package-title">
                                         <span className="with-bg">GST</span>
                                       </h6>
@@ -825,7 +825,7 @@ const SkilletyPackagePlans = () => {
                                       <h6 className="pl--package-title">
                                         <b>Total Amount</b>
                                       </h6>
-                                    </div>
+                                    </div> */}
                                   </div>
                                 </div>
                               </div>
@@ -889,7 +889,7 @@ const SkilletyPackagePlans = () => {
                                           </h6>
                                         </div>
 
-                                        <div className="pl--package-mobile-flex">
+                                        {/* <div className="pl--package-mobile-flex">
                                           <h6 className="pl--package-mobile-title">
                                             GST
                                           </h6>
@@ -905,7 +905,7 @@ const SkilletyPackagePlans = () => {
                                           <h6 className="pl--package-info">
                                             <b>{pack.amount}</b>
                                           </h6>
-                                        </div>
+                                        </div> */}
                                       </div>
 
 
