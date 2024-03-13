@@ -107,12 +107,14 @@
     }
 
     .cli--reg-heading-area .cli--reg-heading {
-        font-size: 25px;
+        font-size: 20px;
+        display: flex;
+        flex-direction: column;
     }
 
     .cli--reg-heading span {
-        font-size: 60px;
-        line-height: 2rem;
+        font-size: 50px;
+        line-height: 2.5rem;
     }
 
     .cli--reg-heading-area {
