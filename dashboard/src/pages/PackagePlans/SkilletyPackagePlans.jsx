@@ -839,7 +839,7 @@ const SkilletyPackagePlans = () => {
                                         className={(currentPackage?.packageType === pack.packageType) ? "pl--package-info-area active" : `pl--package-info-area`}
                                       >
                                         <img
-                                          src={pack.packageType === "Test" ? "../assets/img/packages/Starter.png" : pack.packageType === "Start" ? "../assets/img/packages/Starter.png" :  pack.packageType === "Scale" ? "../assets/img/packages/Professional.png" :  "../assets/img/packages/premium.png"}
+                                          src={pack.packageType === "Test" ? "../assets/img/packages/test.png" : pack.packageType === "Start" ? "../assets/img/packages/Starter.png" :  pack.packageType === "Scale" ? "../assets/img/packages/Professional.png" :  "../assets/img/packages/premium.png"}
                                           className="pl--package-img"
                                           alt=""
                                         />
