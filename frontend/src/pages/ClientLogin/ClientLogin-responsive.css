@@ -29,16 +29,16 @@
     }
 
     .cli--login-remember-checkmark {
-        width: 23px;
-        height: 23px;
+        width: 20px;
+        height: 20px;
         margin-right: 10px;
     }
 
     .cli--login-remember-checkbox input[type="checkbox"]:checked~.cli--login-remember-checkmark:after {
         top: 3.2px;
-        left: 7.5px;
+        left: 5.5px;
         width: 6px;
-        height: 12px;
+        height: 10px;
     }
 
     .cli--login-remember-checkbox,
@@ -52,10 +52,10 @@
         font-size: 16px;
     }
     .cli--login-remember-area.terms-condition .cli--login-remember-checkbox{
-        font-size: 16px !important;
+        font-size: 15px !important;
     }
     .cli--login-remember-area.terms-condition .cli--login-remember-checkbox a{
-        font-size: 16px !important;
+        font-size: 15px !important;
     }
     .cli--login-with-google-btn-area{
         margin-top: 15px !important;

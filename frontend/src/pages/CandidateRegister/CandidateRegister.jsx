@@ -692,7 +692,7 @@ const CandidateRegister = () => {
                                             </div>
                                         </div>
 
-                                        {require && <small className='text-danger text-capitalized'>{credentials.days === "" && "required"}</small>}
+                                        {require && <small className='text-danger error-msg text-capitalized'>{credentials.days === "" && "required"}</small>}
 
                                         <div className="form-check form-switch imediate-switch">
                                             <input
@@ -773,8 +773,8 @@ const CandidateRegister = () => {
                                         </div>
 
                                         <div className=' form-error-message'>
-                                            {require && <small className='text-danger text-capitalized'>{credentials.email === "" && "required"}</small>}&nbsp;
-                                            {require && <small className='text-danger '>{!(emailRegex.test(credentials.email)) && "Enter valid email address"}</small>}
+                                            {require && <small className='text-danger error-msg text-capitalized'>{credentials.email === "" && "required"}</small>}&nbsp;
+                                            {require && <small className='text-danger error-msg'>{!(emailRegex.test(credentials.email)) && "Enter valid email address"}</small>}
                                         </div>
                                     </div>
                                 </div>
@@ -795,7 +795,7 @@ const CandidateRegister = () => {
                                                 </i>
                                             }
                                         </div>
-                                        {passwordErrorMsg && <small className='text-danger  form-error-message'>Password must be  8 characters long</small>}
+                                        {passwordErrorMsg && <small className='text-danger form-error-message'>Password must be  8 characters long</small>}
                                         {require && <small className='text-danger text-capitalized form-error-message'>{credentials.password === "" && "required"}</small>}
                                     </div>
                                 </div>
@@ -816,7 +816,7 @@ const CandidateRegister = () => {
                                                 </i>
                                             }
                                         </div>
-                                        {confirmPasswordErrorMsg && <small className='text-danger  form-error-message'>Password and confirm password should be same</small>}
+                                        {confirmPasswordErrorMsg && <small className='text-danger form-error-message'>Password and confirm password should be same</small>}
                                         {require && <small className='text-danger text-capitalized form-error-message'>{credentials.confirmPassword === "" && "required"}</small>}
                                     </div>
                                 </div>
@@ -835,7 +835,7 @@ const CandidateRegister = () => {
                                                 {resume ? resume.name : "Upload your Resume/CV here"}&nbsp;<span className='is-required'>*</span></label>
                                             {/* <span id="file-chosen">{resume ? resume.name : 'No file chosen'}</span> */}
                                             <div className='file--upload-text'>Either in .doc/ docx/.pdf format only</div>
-                                            {require && <small className='text-danger text-capitalized'>{!resume && "required"}</small>}
+                                            {require && <small className='text-danger error-msg text-capitalized'>{!resume && "required"}</small>}
                                         </div>
                                     </div>
                                 </div>
@@ -898,8 +898,8 @@ const CandidateRegister = () => {
                                             ))}
                                         </div>
 
-                                        {requireStep2 && <small className='text-danger text-capitalized'>{selectedDesignations.length === 0 && "required"}</small>}
-                                        <small className='text-danger'>{designationAlert}</small>
+                                        {requireStep2 && <small className='text-danger error-msg text-capitalized'>{selectedDesignations.length === 0 && "required"}</small>}
+                                        <small className='text-danger error-msg'>{designationAlert}</small>
 
                                     </div>
                                 </div>
@@ -1024,14 +1024,14 @@ const CandidateRegister = () => {
                                                         value={credentials.year}
                                                         onChange={handleInputChange} className='cand--reg-exp-input' min="0" />
                                                     <label htmlFor="years" className='cand--reg-form-label-custom'>Years&nbsp;<span className='is-required'>*</span></label>
-                                                    {requireStep2 && <small className='text-danger text-capitalized'>{credentials.year === "" && "required"}</small>}
+                                                    {requireStep2 && <small className='text-danger error-msg text-capitalized'>{credentials.year === "" && "required"}</small>}
                                                 </div>
                                                 <div className="cand--reg-exp-input-area">
                                                     <input type="number" id='months' name="month"
                                                         value={credentials.month}
                                                         onChange={handleInputChange} className='cand--reg-exp-input' min="0" />
                                                     <label htmlFor="months" className='cand--reg-form-label-custom'>Months&nbsp;<span className='is-required'>*</span></label>
-                                                    {requireStep2 && <small className='text-danger text-capitalized'>{credentials.month === "" && "required"}</small>}
+                                                    {requireStep2 && <small className='text-danger error-msg text-capitalized'>{credentials.month === "" && "required"}</small>}
                                                 </div>
                                             </div>
                                         </div>
@@ -1056,7 +1056,7 @@ const CandidateRegister = () => {
                                                         })
                                                     }
                                                 </div>
-                                                <small className='text-danger'>{skillAlert}</small>
+                                                <small className='text-danger error-msg'>{skillAlert}</small>
                                                 <div className='cand-reg-form-badge-area'>
                                                     {selectedSkills.map(selectSkill => (
                                                         <span className="cand-reg-form-badge"
@@ -1065,9 +1065,9 @@ const CandidateRegister = () => {
                                                         >{selectSkill}</span>
                                                     ))}
                                                 </div>
-                                                {requireStep2 && <small className='text-danger text-capitalized'>{selectedSkills.length === 0 && "required"}</small>}
-                                                <br />
-                                                {skillError && <small className='text-danger text-capitalized'>{skillError}</small>}
+                                                {requireStep2 && <small className='text-danger error-msg text-capitalized'>{selectedSkills.length === 0 && "required"}</small>}
+                                                <br className='break-tag' />
+                                                {skillError && <small className='text-danger error-msg text-capitalized'>{skillError}</small>}
                                             </div>
                                         </div>
 
@@ -1093,8 +1093,26 @@ const CandidateRegister = () => {
 
                                 <div className="col-12 col-xl-6 custom-padding-left2">
                                     <div className='cand--reg-form-group cand--reg-custom-padding custom mb-5'>
-                                        <div className='cand--reg-multi-input-form-group'>
-                                            <input
+                                        <div className='cand--reg-form-flex-grp'>
+                                            <div className='cand--reg-multi-input-form-group'>
+                                                <input type="text" 
+                                                    name='manualSkillInput'
+                                                    id='manualSkillInput'
+                                                    value={newSkill}
+                                                    onChange={(e) => setNewSkill(e.target.value)}
+                                                    disabled={!isCheckedSkill}
+                                                    className='cand--reg-flex-input'
+                                                    placeholder='Enter your skill' />
+
+                                                    <button
+                                                type="button"
+                                                className="multi-form-add-btn"
+                                                onClick={handleManualSkill}
+                                                disabled={!isCheckedSkill}
+                                            >Add</button>
+                                            </div>
+
+                                            {/* <input
                                                 type='text'
                                                 name='manualSkillInput'
                                                 id='manualSkillInput'
@@ -1110,7 +1128,7 @@ const CandidateRegister = () => {
                                                 className="multi-form-add-btn"
                                                 onClick={handleManualSkill}
                                                 disabled={!isCheckedSkill}
-                                            >Add</button>
+                                            >Add</button> */}
                                         </div>
                                         <div className="can-reg-form-chechbox-area custom pt-2 ps-2" >
                                             <label className="can-reg-form-check-input">
@@ -1195,7 +1213,7 @@ const CandidateRegister = () => {
                                                         </span>
                                                     ))}
                                                 </div>
-                                                {requireStep2 && <small className='text-danger text-capitalized'>{selectedEducation.length === 0 && "required"}</small>}
+                                                {requireStep2 && <small className='text-danger error-msg text-capitalized'>{selectedEducation.length === 0 && "required"}</small>}
                                             </div>
                                         </div>
                                     </div>
@@ -1210,7 +1228,7 @@ const CandidateRegister = () => {
                                                     placeholder='Enter the name of the college'
                                                     value={credentials.college}
                                                     onChange={handleInputChange} className='cand--reg-flex-input' />
-                                                {requireStep2 && <small className='text-danger text-capitalized'>{credentials.college === "" && "required"}</small>}
+                                                {requireStep2 && <small className='text-danger error-msg text-capitalized'>{credentials.college === "" && "required"}</small>}
                                             </div>
                                         </div>
                                     </div>
@@ -1234,7 +1252,7 @@ const CandidateRegister = () => {
                                             value={credentials.profileHeadline}
                                             onChange={handleInputChange} id="headline" placeholder='(Example: I am a Best Employee Award winning embedded engineer with over 5 years  of experience in the software development domain, proficient in tools/skills like NXPT1020, C, RS422, VxWORKS, ST-True Studio, STM32F103C8, Embedded C, EEPROM, WIFI.)' className='cand--reg-lg-input'>
                                         </textarea>
-                                        {requireStep3 && <small className='text-danger text-capitalized'>{credentials.profileHeadline === "" && "required"}</small>}
+                                        {requireStep3 && <small className='text-danger error-msg text-capitalized'>{credentials.profileHeadline === "" && "required"}</small>}
                                     </div>
                                 </div>
                             </div>
@@ -1310,7 +1328,7 @@ const CandidateRegister = () => {
                                         </button>
                                     )}
                                     {step === 3 && (
-                                        <div>
+                                        <div className='width-mobile-100'>
                                             <button type='submit' className='reg--form-btn-sub candidate register' disabled={!isAgreed} data-aos="fade-down" >
                                                 <div className='reg--form-btn candidate' >
                                                     {spinStatus && <svg aria-hidden="true" role="status" class="inline w-4 h-4 mr-3 text-white animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
