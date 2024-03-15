@@ -514,11 +514,11 @@ const AppliedCandidate = () => {
                                                 >
                                                     <option value="" disabled selected>-- Select application status --</option>
                                                     <option value="screened">Screened</option>
-                                                    <option value="interviews">Interviews in Process</option>
+                                                    <option value="interviews">Interview in process</option>
                                                     <option value="offered">Offered</option>
                                                     <option value="rejected">Rejected</option>
                                                     <option value="joined">Joined</option>
-                                                    <option value="absconded">Absconded</option>
+                                                    {/* <option value="absconded">Absconded</option> */}
                                                 </select>
                                             </div>
                                             <button className="setting-update-btn more-det" disabled={selectedCandidates.length === 0}

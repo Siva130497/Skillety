@@ -1814,7 +1814,7 @@ const TalentsProfileSearch = () => {
                                                                             </div>
                                                                             ))}
                                                                         </div> */}
-                                                                            <select name="" className='cli-tal-pro-exp-input text-center numeric-input select' id=""
+                                                                            <select name="" className='cli-tal-pro-exp-input text-center numeric-input select w-100' id=""
                                                                                 value={filters.minExperienceYr}
                                                                                 onChange={(e) => setFilters({ ...filters, minExperienceYr: e.target.value })}
                                                                             >
@@ -2742,7 +2742,7 @@ const TalentsProfileSearch = () => {
                                                                 </div>
 
                                                                 <button className="cli-tal-pro-search-page-btn" onClick={handleSkillSearch}>
-                                                                    Search Candidates
+                                                                    Search Talent
                                                                 </button>
                                                             </div>
                                                         </div>
@@ -3945,7 +3945,7 @@ const TalentsProfileSearch = () => {
 
 
                                                         <div className="tal--pro-paginate-btn-area" >
-                                                            <h6 className='tal--pro-total-result-text'>Total Items : <span>{filteredSearchResultsMsg ? "0" : filteredSearchResults.length}</span></h6>
+                                                            <h6 className='tal--pro-total-result-text'>No of applicants : <span>{filteredSearchResultsMsg ? "0" : filteredSearchResults.length}</span></h6>
                                                             <div className='tal--pro-slider-btn-sub'>
                                                                 {x[0] > 0 && <button className="tal--pro-slider-btn" onClick={() => setX([x[0] - 4, x[1] - 4])}>
                                                                     <svg className='arrow-left' xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 27 27" fill="none">

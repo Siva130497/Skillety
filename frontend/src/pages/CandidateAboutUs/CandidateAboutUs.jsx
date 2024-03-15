@@ -53,7 +53,7 @@ const CandidateAboutUs = () => {
                                                 You're just One Click away from the best opportunities.
                                                 </p>
                                             </div>
-                                            <a href='' className="arrow--icon-btn candidate">
+                                            <a href='/candidate-login' className="arrow--icon-btn candidate">
                                                 <img src="assets/img/home-images/arrow-dark.png" className='arrow--icon' alt="" />
                                             </a>
                                         </div>

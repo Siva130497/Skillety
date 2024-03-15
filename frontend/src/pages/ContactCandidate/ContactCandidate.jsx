@@ -58,7 +58,7 @@ const ContactCandidate = () => {
 
             if (!result.error) {
                 console.log(result);
-                showSuccessMessage("Your message is recieved. One of our agent will contact you shorty")
+                showSuccessMessage("Your message is recieved.One of our agent will contact you shortly")
                 setCredentials(initialCredentials);
             } else {
                 console.log(result);
@@ -80,6 +80,10 @@ const ContactCandidate = () => {
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
+
+        if (name === "phoneNo" && value.length === 13) {
+            return;
+        }
         setCredentials({ ...credentials, [name]: value });
     }
 
@@ -144,7 +148,7 @@ const ContactCandidate = () => {
                                                 You're just One Click away from the best opportunities.
                                                 </p>
                                             </div>
-                                            <a href='' className="arrow--icon-btn candidate">
+                                            <a href='/candidate-login' className="arrow--icon-btn candidate">
                                                 <img src="assets/img/home-images/arrow-dark.png" className='arrow--icon' alt="" />
                                             </a>
                                         </div>

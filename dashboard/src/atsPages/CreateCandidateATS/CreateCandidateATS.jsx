@@ -1081,7 +1081,7 @@ const CreateCandidateATS = () => {
                                                             className="manually-add-btn"
                                                             onClick={handleManualSkill}
                                                             disabled={!isCheckedSkill}
-                                                        >Add manually entered skill</button>
+                                                        >Add</button>
                                                     </div>
                                                 </div>
                                             </div>

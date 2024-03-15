@@ -378,7 +378,7 @@ const SettingsCandidate = () => {
                                         <div className="tab-pane fade show active" id="Account" role="tabpanel" aria-labelledby="account-tab">
                                             <div className="setting-content">
                                                 <div className='setting-title'>Account Settings</div>
-                                                <div className='setting-sub'>Change your profile photo, email, mobile number or password</div>
+                                                <div className='setting-sub'>Please update your Profile Picture, Email address, Mobile number and Password.</div>
                                             </div>
 
                                             <div className="setting-content">
